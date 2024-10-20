@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { IKeirinRaceDataHtmlGateway } from '../../gateway/interface/iKeirinRaceDataHtmlGateway';
 import {
@@ -11,6 +10,8 @@ import {
     KeirinRaceStage,
 } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
+import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
+import { KeirinRaceInfoEntity } from '../entity/keirinRaceInfoEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -22,7 +23,7 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
  */
 @injectable()
 export class KeirinRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<KeirinRaceData, KeirinPlaceData>
+    implements IRaceRepository<KeirinRaceInfoEntity, KeirinPlaceEntity>
 {
     constructor(
         @inject('KeirinRaceDataHtmlGateway')
@@ -35,9 +36,9 @@ export class KeirinRaceRepositoryFromHtmlImpl
      */
     @Logger
     async fetchRaceList(
-        request: FetchRaceListRequest<KeirinPlaceData>,
-    ): Promise<FetchRaceListResponse<KeirinRaceData>> {
-        const keirinRaceDataList: KeirinRaceData[] = [];
+        request: FetchRaceListRequest<KeirinPlaceEntity>,
+    ): Promise<FetchRaceListResponse<KeirinRaceInfoEntity>> {
+        const keirinRaceDataList: KeirinRaceInfoEntity[] = [];
         const placeList = request.placeDataList;
         console.log('placeList: ', placeList);
         if (placeList) {
@@ -55,24 +56,24 @@ export class KeirinRaceRepositoryFromHtmlImpl
 
     @Logger
     async fetchRaceListFromHtmlWithKeirinPlace(
-        placeData: KeirinPlaceData,
-    ): Promise<KeirinRaceData[]> {
+        placeEntity: KeirinPlaceEntity,
+    ): Promise<KeirinRaceInfoEntity[]> {
         try {
             const [year, month, day] = [
-                placeData.dateTime.getFullYear(),
-                placeData.dateTime.getMonth() + 1,
-                placeData.dateTime.getDate(),
+                placeEntity.placeData.dateTime.getFullYear(),
+                placeEntity.placeData.dateTime.getMonth() + 1,
+                placeEntity.placeData.dateTime.getDate(),
             ];
             const htmlText =
                 await this.keirinRaceDataHtmlGateway.getRaceDataHtml(
-                    placeData.dateTime,
-                    placeData.location,
+                    placeEntity.placeData.dateTime,
+                    placeEntity.placeData.location,
                 );
 
             if (typeof htmlText !== 'string') {
                 throw new Error('Expected htmlText to be a string');
             }
-            const keirinRaceDataList: KeirinRaceData[] = [];
+            const keirinRaceDataList: KeirinRaceInfoEntity[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
@@ -82,11 +83,11 @@ export class KeirinRaceRepositoryFromHtmlImpl
                     .text()
                     .split('\n')
                     .filter((name) => name)[1] ??
-                `${placeData.location}${placeData.grade}`;
+                `${placeEntity.placeData.location}${placeEntity.placeData.grade}`;
             // class="section1"を取得
             const section1 = content.find('.section1');
             console.log(
-                `raceInfo: ${year}/${month}/${day} ${placeData.location} ${placeData.grade} ${raceName}`,
+                `raceInfo: ${year}/${month}/${day} ${placeEntity.placeData.location} ${placeEntity.placeData.grade} ${raceName}`,
             );
             section1.each((index, element) => {
                 // class="w480px"を取得
@@ -110,26 +111,21 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         );
                         const raceGrade = this.extractRaceGrade(
                             raceName,
-                            placeData.grade,
+                            placeEntity.placeData.grade,
                             raceStage ?? '',
                             new Date(year, month - 1, day),
                         );
                         if (raceStage) {
+                            const raceData = new KeirinRaceData(
+                                raceName,
+                                raceStage,
+                                new Date(year, month - 1, day, hour, minute),
+                                placeEntity.placeData.location,
+                                raceGrade,
+                                Number(raceNumber),
+                            );
                             keirinRaceDataList.push(
-                                new KeirinRaceData(
-                                    raceName,
-                                    raceStage,
-                                    new Date(
-                                        year,
-                                        month - 1,
-                                        day,
-                                        hour,
-                                        minute,
-                                    ),
-                                    placeData.location,
-                                    raceGrade,
-                                    Number(raceNumber),
-                                ),
+                                new KeirinRaceInfoEntity(null, raceData),
                             );
                         }
                     });
@@ -367,7 +363,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
      */
     @Logger
     registerRaceList(
-        request: RegisterRaceListRequest<KeirinRaceData>,
+        request: RegisterRaceListRequest<KeirinRaceInfoEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
         throw new Error('HTMLにはデータを登録しません');

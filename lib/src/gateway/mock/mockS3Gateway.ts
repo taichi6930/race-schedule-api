@@ -3,7 +3,7 @@ import { injectable } from 'tsyringe';
 import { IS3Gateway } from '../interface/iS3Gateway';
 import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
-import { mock } from 'node:test';
+import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 
 /**
  * MockS3Gateway
@@ -60,25 +60,19 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         }
         // 2024年のデータ12ヶ月分を作成
         for (let i = 1; i <= 12; i++) {
-            const date = new Date('2024-01-01');
-            date.setDate(date.getMonth() + i);
+            const date = new Date(2024, i - 1, 1);
             const fileName = `nar/place/${format(date, 'yyyyMM')}.csv`;
+            const mockData = ['dateTime,location\n', ,];
             // 1ヶ月分のデータ（28~31日）を作成
             for (let j = 1; j <= 31; j++) {
-                const _date = date;
-                _date.setDate(j);
+                const date = new Date(2024, i - 1, j);
                 // もし_dateの月とdateの月が違う場合はbreak
-                if (date.getMonth() !== _date.getMonth()) {
+                if (date.getMonth() !== date.getMonth()) {
                     break;
                 }
-                this.mockStorage.set(
-                    fileName,
-                    [
-                        'dateTime,location\n',
-                        `${format(_date, 'yyyy-MM-dd')},高知`,
-                    ].join(''),
-                );
+                mockData.push(`${format(date, 'yyyy-MM-dd')},高知\n`);
             }
+            this.mockStorage.set(fileName, mockData.join(''));
         }
         // 2024年のデータ366日分を作成
         for (let i = 0; i < 366; i++) {
@@ -97,25 +91,19 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         }
         // 2024年のデータ12ヶ月分を作成
         for (let i = 1; i <= 12; i++) {
-            const date = new Date('2024-01-01');
-            date.setDate(date.getMonth() + i);
+            const date = new Date(2024, i - 1, 1);
             const fileName = `jra/place/${format(date, 'yyyyMM')}.csv`;
+            const mockData = ['dateTime,location\n', ,];
             // 1ヶ月分のデータ（28~31日）を作成
             for (let j = 1; j <= 31; j++) {
-                const _date = date;
-                _date.setDate(j);
+                const date = new Date(2024, i - 1, j);
                 // もし_dateの月とdateの月が違う場合はbreak
-                if (date.getMonth() !== _date.getMonth()) {
+                if (date.getMonth() !== date.getMonth()) {
                     break;
                 }
-                this.mockStorage.set(
-                    fileName,
-                    [
-                        'dateTime,location\n',
-                        `${format(_date, 'yyyy-MM-dd')},東京`,
-                    ].join(''),
-                );
+                mockData.push(`${format(date, 'yyyy-MM-dd')},東京\n`);
             }
+            this.mockStorage.set(fileName, mockData.join(''));
         }
         // 2024年のデータ366日分を作成
         for (let i = 0; i < 366; i++) {
@@ -134,25 +122,21 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         }
         // 2024年のデータ12ヶ月分を作成
         for (let i = 1; i <= 12; i++) {
-            const date = new Date('2024-01-01');
-            date.setDate(date.getMonth() + i);
+            const date = new Date(2024, i - 1, 1);
             const fileName = `keirin/place/${format(date, 'yyyyMM')}.csv`;
+            const mockData = ['id,dateTime,location,stage\n'];
             // 1ヶ月分のデータ（28~31日）を作成
             for (let j = 1; j <= 31; j++) {
-                const _date = date;
-                _date.setDate(j);
+                const date = new Date(2024, i - 1, j);
                 // もし_dateの月とdateの月が違う場合はbreak
-                if (date.getMonth() !== _date.getMonth()) {
+                if (date.getMonth() !== date.getMonth()) {
                     break;
                 }
-                this.mockStorage.set(
-                    fileName,
-                    [
-                        'dateTime,location,stage\n',
-                        `${format(_date, 'yyyy-MM-dd')},川崎,GP`,
-                    ].join(''),
+                mockData.push(
+                    `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['川崎']},${format(date, 'yyyy-MM-dd')},川崎,GP\n`,
                 );
             }
+            this.mockStorage.set(fileName, mockData.join(''));
         }
     }
 
@@ -208,6 +192,6 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
             .map((item) => keys.map((key) => (item as any)[key]).join(','))
             .join('\n');
 
-        return csvHeader + csvRows;
+        return `${csvHeader}${csvRows}`;
     }
 }

@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import {
@@ -12,6 +11,8 @@ import {
     KeirinRaceStage,
 } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
+import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
+import { KeirinRaceInfoEntity } from '../entity/keirinRaceInfoEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -23,11 +24,11 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
  */
 @injectable()
 export class KeirinRaceRepositoryFromStorageImpl
-    implements IRaceRepository<KeirinRaceData, KeirinPlaceData>
+    implements IRaceRepository<KeirinRaceInfoEntity, KeirinPlaceEntity>
 {
     constructor(
         @inject('KeirinRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<KeirinRaceData>,
+        private readonly s3Gateway: IS3Gateway<KeirinRaceInfoEntity>,
     ) {}
     /**
      * 競輪場開催データを取得する
@@ -36,8 +37,8 @@ export class KeirinRaceRepositoryFromStorageImpl
      */
     @Logger
     async fetchRaceList(
-        request: FetchRaceListRequest<KeirinPlaceData>,
-    ): Promise<FetchRaceListResponse<KeirinRaceData>> {
+        request: FetchRaceListRequest<KeirinPlaceEntity>,
+    ): Promise<FetchRaceListResponse<KeirinRaceInfoEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
         const fileNames: string[] = this.generateFilenameList(
             request.startDate,
@@ -47,39 +48,54 @@ export class KeirinRaceRepositoryFromStorageImpl
         // ファイル名リストから競輪場開催データを取得する
         const raceDataList = (
             await Promise.all(
-                fileNames.map(async (fileName) =>
+                fileNames.map(async (fileName) => {
                     // S3からデータを取得する
-                    this.s3Gateway.fetchDataFromS3(fileName).then((csv) => {
-                        // csvをパースしてKeirinRaceDataのリストを生成する
-                        return csv
-                            .split('\n')
-                            .map((line: string) => {
-                                const [
-                                    raceName,
-                                    raceStage,
-                                    raceDate,
-                                    place,
-                                    grade,
-                                    raceNum,
-                                ] = line.split(',');
-                                if (!raceName || isNaN(parseInt(raceNum))) {
-                                    return undefined;
-                                }
-                                return new KeirinRaceData(
-                                    raceName,
-                                    raceStage as KeirinRaceStage,
-                                    new Date(raceDate),
-                                    place as KeirinRaceCourse,
-                                    grade as KeirinGradeType,
-                                    parseInt(raceNum),
-                                );
-                            })
-                            .filter(
-                                (raceData): raceData is KeirinRaceData =>
-                                    raceData !== undefined,
+                    const csv = await this.s3Gateway.fetchDataFromS3(fileName);
+                    // CSVを行ごとに分割
+                    const lines = csv.split('\n');
+                    // ヘッダー行を解析
+                    const headers = lines[0].split(',');
+                    // ヘッダーに基づいてインデックスを取得
+                    const idIndex = headers.indexOf('id');
+                    const raceNameIndex = headers.indexOf('name');
+                    const raceStageIndex = headers.indexOf('stage');
+                    const raceDateIndex = headers.indexOf('dateTime');
+                    const placeIndex = headers.indexOf('location');
+                    const gradeIndex = headers.indexOf('grade');
+                    const raceNumIndex = headers.indexOf('number');
+
+                    // S3からデータを取得する
+                    // データ行を解析してKeirinRaceDataのリストを生成
+                    return lines
+                        .slice(1)
+                        .map((line: string) => {
+                            const columns = line.split(',');
+
+                            // 必要なフィールドが存在しない場合はundefinedを返す
+                            if (
+                                !columns[raceNameIndex] ||
+                                isNaN(parseInt(columns[raceNumIndex]))
+                            ) {
+                                return undefined;
+                            }
+
+                            return new KeirinRaceInfoEntity(
+                                columns[idIndex],
+                                new KeirinRaceData(
+                                    columns[raceNameIndex],
+                                    columns[raceStageIndex] as KeirinRaceStage,
+                                    new Date(columns[raceDateIndex]),
+                                    columns[placeIndex] as KeirinRaceCourse,
+                                    columns[gradeIndex] as KeirinGradeType,
+                                    parseInt(columns[raceNumIndex]),
+                                ),
                             );
-                    }),
-                ),
+                        })
+                        .filter(
+                            (raceData): raceData is KeirinRaceInfoEntity =>
+                                raceData !== undefined,
+                        );
+                }),
             )
         ).flat();
         return new FetchRaceListResponse(raceDataList);
@@ -108,21 +124,21 @@ export class KeirinRaceRepositoryFromStorageImpl
      */
     @Logger
     async registerRaceList(
-        request: RegisterRaceListRequest<KeirinRaceData>,
+        request: RegisterRaceListRequest<KeirinRaceInfoEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceDataList: KeirinRaceData[] = request.raceDataList;
+        const raceEntityList: KeirinRaceInfoEntity[] = request.raceDataList;
         // レースデータを日付ごとに分割する
-        const raceDataDict: Record<string, KeirinRaceData[]> = {};
-        raceDataList.forEach((raceData) => {
-            const key = `${format(raceData.dateTime, 'yyyyMMdd')}.csv`;
-            if (!raceDataDict[key]) {
-                raceDataDict[key] = [];
+        const raceEntityDict: Record<string, KeirinRaceInfoEntity[]> = {};
+        raceEntityList.forEach((raceEntity) => {
+            const key = `${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}.csv`;
+            if (!raceEntityDict[key]) {
+                raceEntityDict[key] = [];
             }
-            raceDataDict[key].push(raceData);
+            raceEntityDict[key].push(raceEntity);
         });
 
         // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, raceData] of Object.entries(raceDataDict)) {
+        for (const [fileName, raceData] of Object.entries(raceEntityDict)) {
             await this.s3Gateway.uploadDataToS3(raceData, fileName);
         }
         return new RegisterRaceListResponse(200);

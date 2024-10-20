@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
+import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../repository/request/registerPlaceListRequest';
@@ -14,9 +15,9 @@ export class KeirinPlaceDataUseCase
 {
     constructor(
         @inject('KeirinPlaceRepositoryFromStorage')
-        private readonly keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceData>,
+        private readonly keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceEntity>,
         @inject('KeirinPlaceRepositoryFromHtml')
-        private readonly keirinPlaceRepositoryFromHtml: IPlaceRepository<KeirinPlaceData>,
+        private readonly keirinPlaceRepositoryFromHtml: IPlaceRepository<KeirinPlaceEntity>,
     ) {}
     /**
      * レース開催データを取得する
@@ -34,9 +35,15 @@ export class KeirinPlaceDataUseCase
             startDate,
             finishDate,
         );
-        const response: FetchPlaceListResponse<KeirinPlaceData> =
+        const response: FetchPlaceListResponse<KeirinPlaceEntity> =
             await this.keirinPlaceRepositoryFromStorage.fetchPlaceList(request);
-        return response.placeDataList;
+        // placeEntityListをplaceDataListに変換する
+        const placeDataList: KeirinPlaceData[] = response.placeDataList.map(
+            (placeEntity) => {
+                return placeEntity.placeData;
+            },
+        );
+        return placeDataList;
     }
 
     /**
@@ -65,13 +72,13 @@ export class KeirinPlaceDataUseCase
         // HTMLからデータを取得する
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(modifyStartDate, modifyFinishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<KeirinPlaceData> =
+        const fetchPlaceListResponse: FetchPlaceListResponse<KeirinPlaceEntity> =
             await this.keirinPlaceRepositoryFromHtml.fetchPlaceList(
                 fetchPlaceListRequest,
             );
         // S3にデータを保存する
         const registerPlaceListRequest =
-            new RegisterPlaceListRequest<KeirinPlaceData>(
+            new RegisterPlaceListRequest<KeirinPlaceEntity>(
                 fetchPlaceListResponse.placeDataList,
             );
         await this.keirinPlaceRepositoryFromStorage.registerPlaceList(

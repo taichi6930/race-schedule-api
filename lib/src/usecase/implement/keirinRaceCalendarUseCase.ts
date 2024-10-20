@@ -3,8 +3,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
+import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
+import { KeirinRaceInfoEntity } from '../../repository/entity/keirinRaceInfoEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
@@ -19,8 +20,8 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
         private readonly calendarService: ICalendarService<KeirinRaceData>,
         @inject('KeirinRaceRepositoryFromStorage')
         private readonly keirinRaceRepositoryFromStorage: IRaceRepository<
-            KeirinRaceData,
-            KeirinPlaceData
+            KeirinRaceInfoEntity,
+            KeirinPlaceEntity
         >,
     ) {}
 
@@ -60,7 +61,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
         try {
             // startDateからfinishDateまでレース情報を取得
             const fetchRaceDataListRequest =
-                new FetchRaceListRequest<KeirinPlaceData>(
+                new FetchRaceListRequest<KeirinPlaceEntity>(
                     startDate,
                     finishDate,
                 );
@@ -68,7 +69,10 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                 await this.keirinRaceRepositoryFromStorage.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
-            const { raceDataList } = fetchRaceDataListResponse;
+            const raceEntityList = fetchRaceDataListResponse.raceDataList;
+            const raceDataList = raceEntityList.map((raceEntity) => {
+                return raceEntity.raceData;
+            });
 
             // displayGradeListに含まれるレース情報のみを抽出
             const filteredRaceDataList: KeirinRaceData[] = raceDataList
