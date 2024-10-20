@@ -53,14 +53,7 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
                 'storage',
             )
         ).map((raceEntity) => {
-            return new KeirinRaceData(
-                raceEntity.name,
-                raceEntity.stage,
-                raceEntity.dateTime,
-                raceEntity.location,
-                raceEntity.grade,
-                raceEntity.number,
-            );
+            return raceEntity.raceData;
         });
     }
 
@@ -112,7 +105,6 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
             await this.keirinPlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
-        // KeirinPlaceEntityをKeirinPlaceDataに変換する
         return fetchPlaceListResponse.placeDataList;
     }
 

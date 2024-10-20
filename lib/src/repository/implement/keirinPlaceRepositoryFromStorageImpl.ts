@@ -4,6 +4,7 @@ import '../../utility/format';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import {
     KeirinGradeType,
@@ -50,8 +51,10 @@ export class KeirinPlaceRepositoryFromStorageImpl
                 (childPlaceEntityList) =>
                     childPlaceEntityList.filter(
                         (placeEntity) =>
-                            placeEntity.dateTime >= request.startDate &&
-                            placeEntity.dateTime <= request.finishDate,
+                            placeEntity.placeData.dateTime >=
+                                request.startDate &&
+                            placeEntity.placeData.dateTime <=
+                                request.finishDate,
                     ),
             ),
         );
@@ -114,9 +117,11 @@ export class KeirinPlaceRepositoryFromStorageImpl
                 const [id, raceDate, place, grade] = line.split(',');
                 return new KeirinPlaceEntity(
                     id,
-                    new Date(raceDate),
-                    place as KeirinRaceCourse,
-                    grade as KeirinGradeType,
+                    new KeirinPlaceData(
+                        new Date(raceDate),
+                        place as KeirinRaceCourse,
+                        grade as KeirinGradeType,
+                    ),
                 );
             })
             .filter((placeEntity) => placeEntity !== undefined);
@@ -130,12 +135,12 @@ export class KeirinPlaceRepositoryFromStorageImpl
         const placeEntityList: KeirinPlaceEntity[] = request.placeDataList;
         // 得られたplaceを月毎に分ける
         const placeDataDict: Record<string, KeirinPlaceEntity[]> = {};
-        placeEntityList.forEach((placeData) => {
-            const key = `${format(placeData.dateTime, 'yyyyMM')}.csv`;
+        placeEntityList.forEach((placeEntity) => {
+            const key = `${format(placeEntity.placeData.dateTime, 'yyyyMM')}.csv`;
             if (!placeDataDict[key]) {
                 placeDataDict[key] = [];
             }
-            placeDataDict[key].push(placeData);
+            placeDataDict[key].push(placeEntity);
         });
 
         // 月毎に分けられたplaceをS3にアップロードする

@@ -71,14 +71,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                 );
             const raceEntityList = fetchRaceDataListResponse.raceDataList;
             const raceDataList = raceEntityList.map((raceEntity) => {
-                return new KeirinRaceData(
-                    raceEntity.name,
-                    raceEntity.stage,
-                    raceEntity.dateTime,
-                    raceEntity.location,
-                    raceEntity.grade,
-                    raceEntity.number,
-                );
+                return raceEntity.raceData;
             });
 
             // displayGradeListに含まれるレース情報のみを抽出

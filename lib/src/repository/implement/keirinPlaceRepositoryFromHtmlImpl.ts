@@ -4,6 +4,7 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IKeirinPlaceDataHtmlGateway } from '../../gateway/interface/iKeirinPlaceDataHtmlGateway';
 import {
     KeirinGradeType,
@@ -50,8 +51,8 @@ export class KeirinPlaceRepositoryFromHtmlImpl
             this.fetchMonthPlaceEntityList(month).then((childPlaceEntityList) =>
                 childPlaceEntityList.filter(
                     (PlaceEntity) =>
-                        PlaceEntity.dateTime >= request.startDate &&
-                        PlaceEntity.dateTime <= request.finishDate,
+                        PlaceEntity.placeData.dateTime >= request.startDate &&
+                        PlaceEntity.placeData.dateTime <= request.finishDate,
                 ),
             ),
         );
@@ -152,17 +153,17 @@ export class KeirinPlaceRepositoryFromHtmlImpl
 
                     // alt属性を出力
                     if (grade) {
-                        keirinPlaceEntityList.push(
-                            new KeirinPlaceEntity(
-                                null,
-                                new Date(
-                                    date.getFullYear(),
-                                    date.getMonth(),
-                                    index + 1,
-                                ),
-                                place,
-                                grade,
+                        const placeData = new KeirinPlaceData(
+                            new Date(
+                                date.getFullYear(),
+                                date.getMonth(),
+                                index + 1,
                             ),
+                            place,
+                            grade,
+                        );
+                        keirinPlaceEntityList.push(
+                            new KeirinPlaceEntity(null, placeData),
                         );
                     }
                 });

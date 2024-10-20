@@ -1,10 +1,8 @@
 import { format } from 'date-fns';
 
+import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
-import type {
-    KeirinGradeType,
-    KeirinRaceCourse,
-} from '../../utility/data/raceSpecific';
+import type { KeirinRaceCourse } from '../../utility/data/raceSpecific';
 
 /**
  * Repository層のEntity 競輪のレース開催場所データ
@@ -20,18 +18,14 @@ export class KeirinPlaceEntity {
      *
      * @remarks
      * 競輪のレース開催場所データを生成する
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - 競輪のグレード
+     * @param id - ID
+     * @param placeData - 開催場所データ
      */
     constructor(
         id: string | null,
-        public readonly dateTime: Date,
-        public readonly location: KeirinRaceCourse,
-        public readonly grade: KeirinGradeType,
+        public readonly placeData: KeirinPlaceData,
     ) {
-        this.id = id ?? this.generateId(dateTime, location);
-        this.grade = grade;
+        this.id = id ?? this.generateId(placeData.dateTime, placeData.location);
     }
 
     /**

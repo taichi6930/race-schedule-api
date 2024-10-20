@@ -40,11 +40,7 @@ export class KeirinPlaceDataUseCase
         // placeEntityListをplaceDataListに変換する
         const placeDataList: KeirinPlaceData[] = response.placeDataList.map(
             (placeEntity) => {
-                return new KeirinPlaceData(
-                    placeEntity.dateTime,
-                    placeEntity.location,
-                    placeEntity.grade,
-                );
+                return placeEntity.placeData;
             },
         );
         return placeDataList;

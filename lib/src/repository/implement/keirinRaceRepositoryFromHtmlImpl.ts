@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { IKeirinRaceDataHtmlGateway } from '../../gateway/interface/iKeirinRaceDataHtmlGateway';
 import {
     KeirinGradeType,
@@ -55,18 +56,18 @@ export class KeirinRaceRepositoryFromHtmlImpl
 
     @Logger
     async fetchRaceListFromHtmlWithKeirinPlace(
-        placeData: KeirinPlaceEntity,
+        placeEntity: KeirinPlaceEntity,
     ): Promise<KeirinRaceEntity[]> {
         try {
             const [year, month, day] = [
-                placeData.dateTime.getFullYear(),
-                placeData.dateTime.getMonth() + 1,
-                placeData.dateTime.getDate(),
+                placeEntity.placeData.dateTime.getFullYear(),
+                placeEntity.placeData.dateTime.getMonth() + 1,
+                placeEntity.placeData.dateTime.getDate(),
             ];
             const htmlText =
                 await this.keirinRaceDataHtmlGateway.getRaceDataHtml(
-                    placeData.dateTime,
-                    placeData.location,
+                    placeEntity.placeData.dateTime,
+                    placeEntity.placeData.location,
                 );
 
             if (typeof htmlText !== 'string') {
@@ -82,11 +83,11 @@ export class KeirinRaceRepositoryFromHtmlImpl
                     .text()
                     .split('\n')
                     .filter((name) => name)[1] ??
-                `${placeData.location}${placeData.grade}`;
+                `${placeEntity.placeData.location}${placeEntity.placeData.grade}`;
             // class="section1"を取得
             const section1 = content.find('.section1');
             console.log(
-                `raceInfo: ${year}/${month}/${day} ${placeData.location} ${placeData.grade} ${raceName}`,
+                `raceInfo: ${year}/${month}/${day} ${placeEntity.placeData.location} ${placeEntity.placeData.grade} ${raceName}`,
             );
             section1.each((index, element) => {
                 // class="w480px"を取得
@@ -110,27 +111,21 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         );
                         const raceGrade = this.extractRaceGrade(
                             raceName,
-                            placeData.grade,
+                            placeEntity.placeData.grade,
                             raceStage ?? '',
                             new Date(year, month - 1, day),
                         );
                         if (raceStage) {
+                            const raceData = new KeirinRaceData(
+                                raceName,
+                                raceStage,
+                                new Date(year, month - 1, day, hour, minute),
+                                placeEntity.placeData.location,
+                                raceGrade,
+                                Number(raceNumber),
+                            );
                             keirinRaceDataList.push(
-                                new KeirinRaceEntity(
-                                    null,
-                                    raceName,
-                                    raceStage,
-                                    new Date(
-                                        year,
-                                        month - 1,
-                                        day,
-                                        hour,
-                                        minute,
-                                    ),
-                                    placeData.location,
-                                    raceGrade,
-                                    Number(raceNumber),
-                                ),
+                                new KeirinRaceEntity(null, raceData),
                             );
                         }
                     });
