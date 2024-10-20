@@ -56,9 +56,9 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                 ),
             ),
         );
-        const PlaceEntityLists = await Promise.all(promises);
-        const PlaceEntityList = PlaceEntityLists.flat();
-        return new FetchPlaceListResponse(PlaceEntityList);
+        const placeEntityLists = await Promise.all(promises);
+        const placeEntityList = placeEntityLists.flat();
+        return new FetchPlaceListResponse(placeEntityList);
     }
 
     /**
