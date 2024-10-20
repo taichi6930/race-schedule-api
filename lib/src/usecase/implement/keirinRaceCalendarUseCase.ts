@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
-import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import { KeirinRaceInfoEntity } from '../../repository/entity/keirinRaceInfoEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
@@ -20,7 +20,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
         private readonly calendarService: ICalendarService<KeirinRaceData>,
         @inject('KeirinRaceRepositoryFromStorage')
         private readonly keirinRaceRepositoryFromStorage: IRaceRepository<
-            KeirinRaceEntity,
+            KeirinRaceInfoEntity,
             KeirinPlaceEntity
         >,
     ) {}

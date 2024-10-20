@@ -12,7 +12,7 @@ import {
 } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
-import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import { KeirinRaceInfoEntity } from '../entity/keirinRaceInfoEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -24,11 +24,11 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
  */
 @injectable()
 export class KeirinRaceRepositoryFromStorageImpl
-    implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
+    implements IRaceRepository<KeirinRaceInfoEntity, KeirinPlaceEntity>
 {
     constructor(
         @inject('KeirinRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<KeirinRaceEntity>,
+        private readonly s3Gateway: IS3Gateway<KeirinRaceInfoEntity>,
     ) {}
     /**
      * 競輪場開催データを取得する
@@ -38,7 +38,7 @@ export class KeirinRaceRepositoryFromStorageImpl
     @Logger
     async fetchRaceList(
         request: FetchRaceListRequest<KeirinPlaceEntity>,
-    ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
+    ): Promise<FetchRaceListResponse<KeirinRaceInfoEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
         const fileNames: string[] = this.generateFilenameList(
             request.startDate,
@@ -79,7 +79,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                                 return undefined;
                             }
 
-                            return new KeirinRaceEntity(
+                            return new KeirinRaceInfoEntity(
                                 columns[idIndex],
                                 new KeirinRaceData(
                                     columns[raceNameIndex],
@@ -92,7 +92,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                             );
                         })
                         .filter(
-                            (raceData): raceData is KeirinRaceEntity =>
+                            (raceData): raceData is KeirinRaceInfoEntity =>
                                 raceData !== undefined,
                         );
                 }),
@@ -124,11 +124,11 @@ export class KeirinRaceRepositoryFromStorageImpl
      */
     @Logger
     async registerRaceList(
-        request: RegisterRaceListRequest<KeirinRaceEntity>,
+        request: RegisterRaceListRequest<KeirinRaceInfoEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntityList: KeirinRaceEntity[] = request.raceDataList;
+        const raceEntityList: KeirinRaceInfoEntity[] = request.raceDataList;
         // レースデータを日付ごとに分割する
-        const raceEntityDict: Record<string, KeirinRaceEntity[]> = {};
+        const raceEntityDict: Record<string, KeirinRaceInfoEntity[]> = {};
         raceEntityList.forEach((raceEntity) => {
             const key = `${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}.csv`;
             if (!raceEntityDict[key]) {

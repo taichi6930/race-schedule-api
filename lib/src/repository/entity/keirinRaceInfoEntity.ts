@@ -5,9 +5,9 @@ import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import type { KeirinRaceCourse } from '../../utility/data/raceSpecific';
 
 /**
- * 競輪のレース開催データ
+ * 競輪のレース開催情報データ
  */
-export class KeirinRaceEntity {
+export class KeirinRaceInfoEntity {
     /**
      * ID
      */
