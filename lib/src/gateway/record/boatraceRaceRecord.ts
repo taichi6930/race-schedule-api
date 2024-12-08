@@ -1,5 +1,7 @@
 import '../../utility/format';
 
+import { BoatraceRaceData } from '../../domain/boatraceRaceData';
+import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import type {
     BoatraceGradeType,
     BoatraceRaceCourse,
@@ -49,6 +51,25 @@ export class BoatraceRaceRecord {
             partial.location ?? this.location,
             partial.grade ?? this.grade,
             partial.number ?? this.number,
+        );
+    }
+
+    /**
+     * BoatraceRaceEntityに変換する
+     * @returns
+     */
+    toEntity(): BoatraceRaceEntity {
+        return new BoatraceRaceEntity(
+            this.id,
+            new BoatraceRaceData(
+                this.name,
+                this.stage,
+                this.dateTime,
+                this.location,
+                this.grade,
+                this.number,
+            ),
+            [],
         );
     }
 }

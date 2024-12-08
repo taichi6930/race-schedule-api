@@ -8,6 +8,7 @@ import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
 import { IBoatraceRaceDataHtmlGateway } from '../../gateway/interface/iBoatraceRaceDataHtmlGateway';
 import {
+    BOATRACE_STAGE_MAP,
     BoatraceGradeType,
     BoatraceRaceStage,
 } from '../../utility/data/boatrace';
@@ -132,10 +133,10 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     private extractRaceStage(
         raceSummaryInfoChild: string,
     ): BoatraceRaceStage | null {
-        // TODO: 後でステージは直す
-        console.log('extractRaceStage:', raceSummaryInfoChild);
-        if (raceSummaryInfoChild.includes('優勝戦')) {
-            return '優勝戦';
+        for (const [pattern, stage] of Object.entries(BOATRACE_STAGE_MAP)) {
+            if (new RegExp(pattern).exec(raceSummaryInfoChild)) {
+                return stage;
+            }
         }
         return null;
     }

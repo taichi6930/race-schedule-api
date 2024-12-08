@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import type { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import type { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
+import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
 import type { BoatraceRaceId } from '../../utility/raceId';
 import { generateBoatraceRaceId } from '../../utility/raceId';
 
@@ -48,6 +49,22 @@ export class BoatraceRaceEntity {
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.racePlayerDataList ?? this.racePlayerDataList,
+        );
+    }
+
+    /**
+     * BoatraceRaceRecordに変換する
+     * @returns
+     */
+    toRecord(): BoatraceRaceRecord {
+        return new BoatraceRaceRecord(
+            this.id,
+            this.raceData.name,
+            this.raceData.stage,
+            this.raceData.dateTime,
+            this.raceData.location,
+            this.raceData.grade,
+            this.raceData.number,
         );
     }
 }
