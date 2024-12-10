@@ -59,14 +59,14 @@ container.register<IS3Gateway<KeirinPlaceRecord>>('KeirinPlaceS3Gateway', {
             case 'PRODUCTION':
                 return new S3Gateway<KeirinPlaceRecord>(
                     'race-schedule-bucket',
-                    'keirin/place/',
+                    'keirin/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
                 return new MockS3Gateway<KeirinPlaceRecord>(
                     'race-schedule-bucket',
-                    'keirin/place/',
+                    'keirin/',
                 );
         }
     },
@@ -78,14 +78,14 @@ container.register<IS3Gateway<KeirinRaceRecord>>('KeirinRaceS3Gateway', {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<KeirinRaceRecord>(
                     'race-schedule-bucket',
-                    'keirin/race/',
+                    'keirin/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
                 return new MockS3Gateway<KeirinRaceRecord>(
                     'race-schedule-bucket',
-                    'keirin/race/',
+                    'keirin/',
                 );
         }
     },
@@ -99,14 +99,14 @@ container.register<IS3Gateway<KeirinRacePlayerRecord>>(
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<KeirinRacePlayerRecord>(
                         'race-schedule-bucket',
-                        'keirin/raceplayer/',
+                        'keirin/',
                     );
                 case 'ITa':
                 case 'LOCAL':
                 default:
                     return new MockS3Gateway<KeirinRacePlayerRecord>(
                         'race-schedule-bucket',
-                        'keirin/raceplayer/',
+                        'keirin/',
                     );
             }
         },
@@ -158,14 +158,14 @@ container.register<IS3Gateway<NarPlaceRecord>>('NarPlaceS3Gateway', {
             case 'PRODUCTION':
                 return new S3Gateway<NarPlaceRecord>(
                     'race-schedule-bucket',
-                    'nar/place/',
+                    'nar/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
                 return new MockS3Gateway<NarPlaceRecord>(
                     'race-schedule-bucket',
-                    'nar/place/',
+                    'nar/',
                 );
         }
     },
@@ -220,14 +220,14 @@ container.register<IS3Gateway<JraPlaceRecord>>('JraPlaceS3Gateway', {
             case 'PRODUCTION':
                 return new S3Gateway<JraPlaceRecord>(
                     'race-schedule-bucket',
-                    'jra/place/',
+                    'jra/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
                 return new MockS3Gateway<JraPlaceRecord>(
                     'race-schedule-bucket',
-                    'jra/place/',
+                    'jra/',
                 );
         }
     },
@@ -296,14 +296,14 @@ container.register<IS3Gateway<AutoraceRaceRecord>>('AutoraceRaceS3Gateway', {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<AutoraceRaceRecord>(
                     'race-schedule-bucket',
-                    'autorace/race/',
+                    'autorace/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
                 return new MockS3Gateway<AutoraceRaceRecord>(
                     'race-schedule-bucket',
-                    'autorace/race/',
+                    'autorace/',
                 );
         }
     },
@@ -335,14 +335,14 @@ container.register<IS3Gateway<AutoraceRacePlayerRecord>>(
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<AutoraceRacePlayerRecord>(
                         'race-schedule-bucket',
-                        'autorace/raceplayer/',
+                        'autorace/',
                     );
                 case 'ITa':
                 case 'LOCAL':
                 default:
                     return new MockS3Gateway<AutoraceRacePlayerRecord>(
                         'race-schedule-bucket',
-                        'autorace/raceplayer/',
+                        'autorace/',
                     );
             }
         },
@@ -425,14 +425,14 @@ container.register<IS3Gateway<BoatraceRacePlayerRecord>>(
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<BoatraceRacePlayerRecord>(
                         'race-schedule-bucket',
-                        'boatrace/raceplayer/',
+                        'boatrace/',
                     );
                 case 'ITa':
                 case 'LOCAL':
                 default:
                     return new MockS3Gateway<BoatraceRacePlayerRecord>(
                         'race-schedule-bucket',
-                        'boatrace/raceplayer/',
+                        'boatrace/',
                     );
             }
         },

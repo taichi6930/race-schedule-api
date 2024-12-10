@@ -7,6 +7,7 @@ import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/ke
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
+import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { KeirinRaceDataUseCase } from '../../../../lib/src/usecase/implement/keirinRaceDataUseCase';
 import type {
@@ -15,6 +16,7 @@ import type {
     KeirinRaceStage,
 } from '../../../../lib/src/utility/data/keirin';
 import {
+    baseKeirinPlaceEntity,
     baseKeirinRaceDataList,
     baseKeirinRaceEntity,
     baseKeirinRaceEntityList,
@@ -179,17 +181,102 @@ describe('KeirinRaceDataUseCase', () => {
 
     describe('updateRaceDataList', () => {
         it('正常にレースデータが更新されること', async () => {
+            const mockPlaceEntity: KeirinPlaceEntity[] = [
+                baseKeirinPlaceEntity,
+            ];
             const mockRaceEntity: KeirinRaceEntity[] = [baseRaceEntity];
 
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
+            const searchList = {
+                gradeList: ['GP' as KeirinGradeType],
+                locationList: ['平塚' as KeirinRaceCourse],
+            };
 
             // モックの戻り値を設定
             keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<KeirinRaceEntity>(mockRaceEntity),
             );
+            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+                new FetchPlaceListResponse<KeirinPlaceEntity>(mockPlaceEntity),
+            );
 
-            await useCase.updateRaceEntityList(startDate, finishDate);
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                searchList,
+            );
+
+            expect(
+                keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                keirinRaceRepositoryFromHtmlImpl.fetchRaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                keirinRaceRepositoryFromStorageImpl.registerRaceEntityList,
+            ).toHaveBeenCalled();
+        });
+
+        it('競輪場がない時、正常にレースデータが更新されないこと', async () => {
+            const mockPlaceEntity: KeirinPlaceEntity[] = [];
+            const mockRaceEntity: KeirinRaceEntity[] = [baseRaceEntity];
+
+            const startDate = new Date('2025-12-01');
+            const finishDate = new Date('2025-12-31');
+            const searchList = {
+                gradeList: ['GP' as KeirinGradeType],
+                locationList: ['平塚' as KeirinRaceCourse],
+            };
+
+            // モックの戻り値を設定
+            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                new FetchRaceListResponse<KeirinRaceEntity>(mockRaceEntity),
+            );
+            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+                new FetchPlaceListResponse<KeirinPlaceEntity>(mockPlaceEntity),
+            );
+
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                searchList,
+            );
+
+            expect(
+                keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                keirinRaceRepositoryFromHtmlImpl.fetchRaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(
+                keirinRaceRepositoryFromStorageImpl.registerRaceEntityList,
+            ).not.toHaveBeenCalled();
+        });
+
+        it('検索条件がなく、正常にレースデータが更新されること', async () => {
+            const mockPlaceEntity: KeirinPlaceEntity[] = [
+                baseKeirinPlaceEntity,
+            ];
+            const mockRaceEntity: KeirinRaceEntity[] = [baseRaceEntity];
+
+            const startDate = new Date('2025-12-01');
+            const finishDate = new Date('2025-12-31');
+            const searchList = {};
+
+            // モックの戻り値を設定
+            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                new FetchRaceListResponse<KeirinRaceEntity>(mockRaceEntity),
+            );
+            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+                new FetchPlaceListResponse<KeirinPlaceEntity>(mockPlaceEntity),
+            );
+
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                searchList,
+            );
 
             expect(
                 keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList,

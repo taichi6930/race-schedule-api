@@ -69,7 +69,7 @@ export class NarRaceDataUseCase
         );
 
         // フィルタリング処理
-        const filteredRaceDataList: NarRaceData[] = raceDataList
+        const filteredRaceDataList: NarRaceData[] = (raceDataList ?? [])
             // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.gradeList) {

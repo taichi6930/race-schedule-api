@@ -27,7 +27,12 @@ export interface IRaceDataUseCase<
      * @param startDate
      * @param finishDate
      */
-    updateRaceEntityList: (startDate: Date, finishDate: Date) => Promise<void>;
+    updateRaceEntityList: (
+        startDate: Date,
+        finishDate: Date,
+        // Optional parameters
+        searchList?: { gradeList?: G[]; locationList?: C[] },
+    ) => Promise<void>;
 
     /**
      * レースデータのリストを更新する

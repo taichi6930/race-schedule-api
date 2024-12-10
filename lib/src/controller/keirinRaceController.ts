@@ -481,7 +481,7 @@ export class KeirinRaceController {
         res: Response,
     ): Promise<void> {
         try {
-            const { startDate, finishDate } = req.body;
+            const { startDate, finishDate, gradeList } = req.body;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
@@ -492,11 +492,18 @@ export class KeirinRaceController {
                 return;
             }
 
-            console.log('test: updateRaceDataList');
             // レース情報を取得する
             await this.keirinRaceDataUseCase.updateRaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
+                {
+                    gradeList:
+                        gradeList === undefined
+                            ? undefined
+                            : gradeList.map(
+                                  (g: string) => g as KeirinGradeType,
+                              ),
+                },
             );
             res.status(200).send();
         } catch (error) {

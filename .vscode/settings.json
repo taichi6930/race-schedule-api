@@ -14,5 +14,9 @@
         "source.fixAll.stylelint": "always"
     },
     "spellright.language": ["en", "ja"],
-    "spellright.documentTypes": ["markdown", "latex", "plaintext"]
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ]
 }

@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 
-import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { KeirinRaceData } from '../../domain/keirinRaceData';
@@ -14,11 +13,7 @@ import {
     KeirinRaceStage,
 } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
-import {
-    generateKeirinRacePlayerId,
-    KeirinRaceId,
-    KeirinRacePlayerId,
-} from '../../utility/raceId';
+import { KeirinRaceId, KeirinRacePlayerId } from '../../utility/raceId';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -34,6 +29,9 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 export class KeirinRaceRepositoryFromStorageImpl
     implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
 {
+    private readonly raceListFileName = 'raceList.csv';
+    private readonly racePlayerListFileName = 'racePlayerList.csv';
+
     constructor(
         @inject('KeirinRaceS3Gateway')
         private readonly raceS3Gateway: IS3Gateway<KeirinRaceRecord>,
@@ -49,160 +47,55 @@ export class KeirinRaceRepositoryFromStorageImpl
     async fetchRaceEntityList(
         request: FetchRaceListRequest<KeirinPlaceEntity>,
     ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
-        // startDateからfinishDateまでの日ごとのファイル名リストを生成する
-        const fileNameList: string[] = this.generateFilenameList(
-            request.startDate,
-            request.finishDate,
+        // ファイル名リストから競輪選手データを取得する
+        const racePlayerRecordList: KeirinRacePlayerRecord[] =
+            await this.getRacePlayerRecordListFromS3();
+
+        // 競輪データを取得する
+        const raceRaceRecordList: KeirinRaceRecord[] =
+            await this.getRaceRecordListFromS3();
+
+        // 競輪データをKeirinRaceEntityに変換
+        const raceEntityList: KeirinRaceEntity[] = raceRaceRecordList.map(
+            (raceRecord) => {
+                // raceIdに対応したracePlayerRecordListを取得
+                const filteredRacePlayerRecordList: KeirinRacePlayerRecord[] =
+                    racePlayerRecordList.filter((racePlayerRecord) => {
+                        return racePlayerRecord.raceId === raceRecord.id;
+                    });
+                // KeirinRacePlayerDataのリストを生成
+                const racePlayerDataList: KeirinRacePlayerData[] =
+                    filteredRacePlayerRecordList.map((racePlayerRecord) => {
+                        return new KeirinRacePlayerData(
+                            racePlayerRecord.positionNumber,
+                            racePlayerRecord.playerNumber,
+                        );
+                    });
+                // KeirinRaceDataを生成
+                const raceData = new KeirinRaceData(
+                    raceRecord.name,
+                    raceRecord.stage,
+                    raceRecord.dateTime,
+                    raceRecord.location,
+                    raceRecord.grade,
+                    raceRecord.number,
+                );
+                return new KeirinRaceEntity(
+                    raceRecord.id,
+                    raceData,
+                    racePlayerDataList,
+                );
+            },
         );
+        // フィルタリング処理（日付の範囲指定）
+        const filteredRaceEntityList: KeirinRaceEntity[] =
+            raceEntityList.filter(
+                (raceEntity) =>
+                    raceEntity.raceData.dateTime >= request.startDate &&
+                    raceEntity.raceData.dateTime <= request.finishDate,
+            );
 
-        // ファイル名リストから競輪レース選手データを取得する
-        const racePlayerRecordList: KeirinRacePlayerRecord[] = (
-            await Promise.all(
-                fileNameList.map(async (fileName) => {
-                    // S3からデータを取得する
-                    const csv =
-                        await this.racePlayerS3Gateway.fetchDataFromS3(
-                            fileName,
-                        );
-
-                    // CSVを行ごとに分割
-                    const lines = csv.split('\n');
-
-                    // ヘッダー行を解析
-                    const headers = lines[0].split(',');
-
-                    //      * @param id - ID
-                    //  * @param raceId - レースID
-                    //                     * @param positionNumber - 枠番
-                    //                         * @param playerNumber - 選手番号
-                    // ヘッダーに基づいてインデックスを取得
-                    const idIndex = headers.indexOf('id');
-                    const raceIdIndex = headers.indexOf('raceId');
-                    const positionNumberIndex =
-                        headers.indexOf('positionNumber');
-                    const playerNumberIndex = headers.indexOf('playerNumber');
-
-                    // データ行を解析してKeirinRaceDataのリストを生成
-                    return lines
-                        .slice(1)
-                        .map((line: string) => {
-                            const columns = line.split(',');
-
-                            // 必要なフィールドが存在しない場合はundefinedを返す
-                            if (
-                                !columns[raceIdIndex] ||
-                                isNaN(parseInt(columns[positionNumberIndex])) ||
-                                isNaN(parseInt(columns[playerNumberIndex]))
-                            ) {
-                                return undefined;
-                            }
-
-                            return new KeirinRacePlayerRecord(
-                                columns[idIndex] as KeirinRacePlayerId,
-                                columns[raceIdIndex] as KeirinRaceId,
-                                parseInt(columns[positionNumberIndex]),
-                                parseInt(columns[playerNumberIndex]),
-                            );
-                        })
-                        .filter(
-                            (
-                                racePlayerRecord,
-                            ): racePlayerRecord is KeirinRacePlayerRecord =>
-                                racePlayerRecord !== undefined,
-                        );
-                }),
-            )
-        ).flat();
-
-        // ファイル名リストから競輪レースデータを取得する
-        const raceEntityList = (
-            await Promise.all(
-                fileNameList.map(async (fileName) => {
-                    // S3からデータを取得する
-                    const csv =
-                        await this.raceS3Gateway.fetchDataFromS3(fileName);
-
-                    // CSVを行ごとに分割
-                    const lines = csv.split('\n');
-
-                    // ヘッダー行を解析
-                    const headers = lines[0].split(',');
-
-                    // ヘッダーに基づいてインデックスを取得
-                    const idIndex = headers.indexOf('id');
-                    const raceNameIndex = headers.indexOf('name');
-                    const raceStageIndex = headers.indexOf('stage');
-                    const raceDateIndex = headers.indexOf('dateTime');
-                    const placeIndex = headers.indexOf('location');
-                    const gradeIndex = headers.indexOf('grade');
-                    const raceNumIndex = headers.indexOf('number');
-
-                    // データ行を解析してKeirinRaceDataのリストを生成
-                    return lines
-                        .slice(1)
-                        .map((line: string) => {
-                            const columns = line.split(',');
-
-                            // 必要なフィールドが存在しない場合はundefinedを返す
-                            if (
-                                !columns[raceNameIndex] ||
-                                isNaN(parseInt(columns[raceNumIndex]))
-                            ) {
-                                return undefined;
-                            }
-
-                            return new KeirinRaceEntity(
-                                columns[idIndex] as KeirinRaceId,
-                                new KeirinRaceData(
-                                    columns[raceNameIndex],
-                                    columns[raceStageIndex] as KeirinRaceStage,
-                                    new Date(columns[raceDateIndex]),
-                                    columns[placeIndex] as KeirinRaceCourse,
-                                    columns[gradeIndex] as KeirinGradeType,
-                                    parseInt(columns[raceNumIndex]),
-                                ),
-                                // racePlayerRecordList のraceIdが columns[idIndex] と一致するものを取得
-                                racePlayerRecordList
-                                    .filter((racePlayerRecord) => {
-                                        return (
-                                            racePlayerRecord.raceId ===
-                                            columns[idIndex]
-                                        );
-                                    })
-                                    .map((racePlayerRecord) => {
-                                        return new KeirinRacePlayerData(
-                                            racePlayerRecord.positionNumber,
-                                            racePlayerRecord.playerNumber,
-                                        );
-                                    }),
-                            );
-                        })
-                        .filter(
-                            (raceData): raceData is KeirinRaceEntity =>
-                                raceData !== undefined,
-                        );
-                }),
-            )
-        ).flat();
-
-        return new FetchRaceListResponse(raceEntityList);
-    }
-
-    /**
-     * startDateからfinishDateまでの日付ごとのファイル名リストを生成する
-     * @param startDate
-     * @param finishDate
-     * @returns
-     */
-    private generateFilenameList(startDate: Date, finishDate: Date): string[] {
-        const fileNameList: string[] = [];
-        const currentDate = new Date(startDate);
-        while (currentDate <= finishDate) {
-            const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
-            fileNameList.push(fileName);
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-        return fileNameList;
+        return new FetchRaceListResponse(filteredRaceEntityList);
     }
 
     /**
@@ -213,66 +106,193 @@ export class KeirinRaceRepositoryFromStorageImpl
     async registerRaceEntityList(
         request: RegisterRaceListRequest<KeirinRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntityList: KeirinRaceEntity[] = request.raceEntityList;
-        // レースデータを日付ごとに分割する
-        const raceRecordDict: Record<string, KeirinRaceRecord[]> = {};
-        raceEntityList.forEach((raceEntity) => {
-            const raceRecord = new KeirinRaceRecord(
-                raceEntity.id,
-                raceEntity.raceData.name,
-                raceEntity.raceData.stage,
-                raceEntity.raceData.dateTime,
-                raceEntity.raceData.location,
-                raceEntity.raceData.grade,
-                raceEntity.raceData.number,
+        // 既に登録されているデータを取得する
+        const existFetchRaceRecordList: KeirinRaceRecord[] =
+            await this.getRaceRecordListFromS3();
+
+        const existFetchRacePlayerRecordList: KeirinRacePlayerRecord[] =
+            await this.getRacePlayerRecordListFromS3();
+
+        // RaceEntityをRaceRecordに変換する
+        const raceRecordList: KeirinRaceRecord[] = request.raceEntityList.map(
+            (raceEntity) => raceEntity.toRaceRecord(),
+        );
+
+        // RaceEntityをRacePlayerRecordに変換する
+        const racePlayerRecordList = request.raceEntityList
+            .map((raceEntity) => raceEntity.toPlayerRecordList())
+            .flat();
+
+        // raceデータでidが重複しているデータは上書きをし、新規のデータは追加する
+        raceRecordList.forEach((raceRecord) => {
+            // 既に登録されているデータがある場合は上書きする
+            const index = existFetchRaceRecordList.findIndex(
+                (record) => record.id === raceRecord.id,
             );
-            const key = `${format(raceRecord.dateTime, 'yyyyMMdd')}.csv`;
-            if (!(key in raceRecordDict)) {
-                raceRecordDict[key] = [];
+            if (index !== -1) {
+                existFetchRaceRecordList[index] = raceRecord;
+            } else {
+                existFetchRaceRecordList.push(raceRecord);
             }
-            raceRecordDict[key].push(raceRecord);
         });
 
-        // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, raceRecord] of Object.entries(raceRecordDict)) {
-            await this.raceS3Gateway.uploadDataToS3(raceRecord, fileName);
-        }
-
-        const racePlayerRecordDict: Record<string, KeirinRacePlayerRecord[]> =
-            {};
-        raceEntityList.forEach((raceEntity) => {
-            const racePlayerRecordList = raceEntity.racePlayerDataList.map(
-                (racePlayerData) => {
-                    return new KeirinRacePlayerRecord(
-                        generateKeirinRacePlayerId(
-                            raceEntity.raceData.dateTime,
-                            raceEntity.raceData.location,
-                            raceEntity.raceData.number,
-                            racePlayerData.positionNumber,
-                        ),
-                        raceEntity.id,
-                        racePlayerData.positionNumber,
-                        racePlayerData.playerNumber,
-                    );
-                },
+        // racePlayerデータでidが重複しているデータは上書きをし、新規のデータは追加する
+        racePlayerRecordList.forEach((racePlayerRecord) => {
+            // 既に登録されているデータがある場合は上書きする
+            const index = existFetchRacePlayerRecordList.findIndex(
+                (record) => record.id === racePlayerRecord.id,
             );
-            const key = `${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}.csv`;
-            if (!(key in racePlayerRecordDict)) {
-                racePlayerRecordDict[key] = [];
+            if (index !== -1) {
+                existFetchRacePlayerRecordList[index] = racePlayerRecord;
+            } else {
+                existFetchRacePlayerRecordList.push(racePlayerRecord);
             }
-            racePlayerRecordList.forEach((racePlayerRecord) => {
-                racePlayerRecordDict[key].push(racePlayerRecord);
-            });
         });
-        // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, racePlayerRecord] of Object.entries(
-            racePlayerRecordDict,
-        )) {
-            await this.racePlayerS3Gateway.uploadDataToS3(
-                racePlayerRecord,
-                fileName,
-            );
-        }
+
+        // 日付の最新順にソート
+        existFetchRaceRecordList.sort(
+            (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
+        );
+
+        // raceDataをS3にアップロードする
+        await this.raceS3Gateway.uploadDataToS3(
+            existFetchRaceRecordList,
+            this.raceListFileName,
+        );
+        await this.racePlayerS3Gateway.uploadDataToS3(
+            existFetchRacePlayerRecordList,
+            this.racePlayerListFileName,
+        );
         return new RegisterRaceListResponse(200);
+    }
+
+    /**
+     * レースデータをS3から取得する
+     * @param request
+     */
+    @Logger
+    private async getRaceRecordListFromS3(): Promise<KeirinRaceRecord[]> {
+        // S3からデータを取得する
+        const csv = await this.raceS3Gateway.fetchDataFromS3(
+            this.raceListFileName,
+        );
+
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
+
+        // CSVを行ごとに分割
+        const lines = csv.split('\n');
+
+        // ヘッダー行を解析
+        const headers = lines[0].split(',');
+
+        // ヘッダーに基づいてインデックスを取得
+        const indices = {
+            id: headers.indexOf('id'),
+            name: headers.indexOf('name'),
+            stage: headers.indexOf('stage'),
+            dateTime: headers.indexOf('dateTime'),
+            location: headers.indexOf('location'),
+            grade: headers.indexOf('grade'),
+            number: headers.indexOf('number'),
+        };
+
+        // データ行を解析してRaceDataのリストを生成
+        return lines
+            .slice(1)
+            .map((line: string) => {
+                const columns = line.split(',');
+
+                // 必要なフィールドが存在しない場合はundefinedを返す
+                if (
+                    !columns[indices.name] ||
+                    isNaN(parseInt(columns[indices.number]))
+                ) {
+                    return undefined;
+                }
+
+                return new KeirinRaceRecord(
+                    columns[indices.id] as KeirinRaceId,
+                    columns[indices.name],
+                    columns[indices.stage] as KeirinRaceStage,
+                    new Date(columns[indices.dateTime]),
+                    columns[indices.location] as KeirinRaceCourse,
+                    columns[indices.grade] as KeirinGradeType,
+                    parseInt(columns[indices.number]),
+                );
+            })
+            .filter(
+                (raceData): raceData is KeirinRaceRecord =>
+                    raceData !== undefined,
+            )
+            .filter(
+                (raceData, index, self): raceData is KeirinRaceRecord =>
+                    self.findIndex((data) => data.id === raceData.id) === index,
+            );
+    }
+
+    /**
+     * レースプレイヤーデータをS3から取得する
+     * @param request
+     */
+    @Logger
+    private async getRacePlayerRecordListFromS3(): Promise<
+        KeirinRacePlayerRecord[]
+    > {
+        // S3からデータを取得する
+        const csv = await this.racePlayerS3Gateway.fetchDataFromS3(
+            this.racePlayerListFileName,
+        );
+
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
+
+        // CSVを行ごとに分割
+        const lines = csv.split('\n');
+
+        // ヘッダー行を解析
+        const headers = lines[0].split(',');
+
+        const indices = {
+            id: headers.indexOf('id'),
+            raceId: headers.indexOf('raceId'),
+            positionNumber: headers.indexOf('positionNumber'),
+            playerNumber: headers.indexOf('playerNumber'),
+        };
+
+        // データ行を解析してKeirinRaceDataのリストを生成
+        const keirinRacePlayerRecordList: KeirinRacePlayerRecord[] = lines
+            .slice(1)
+            .map((line: string) => {
+                const columns = line.split(',');
+
+                // 必要なフィールドが存在しない場合はundefinedを返す
+                if (
+                    !columns[indices.id] ||
+                    !columns[indices.raceId] ||
+                    isNaN(parseInt(columns[indices.positionNumber])) ||
+                    isNaN(parseInt(columns[indices.playerNumber]))
+                ) {
+                    return undefined;
+                }
+
+                return new KeirinRacePlayerRecord(
+                    columns[indices.id] as KeirinRacePlayerId,
+                    columns[indices.raceId] as KeirinRaceId,
+                    parseInt(columns[indices.positionNumber]),
+                    parseInt(columns[indices.playerNumber]),
+                );
+            })
+            .filter(
+                (
+                    racePlayerRecord,
+                ): racePlayerRecord is KeirinRacePlayerRecord =>
+                    racePlayerRecord !== undefined,
+            );
+        return keirinRacePlayerRecordList;
     }
 }

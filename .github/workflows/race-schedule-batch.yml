@@ -54,6 +54,7 @@ jobs:
           # GITHUB_OUTPUTを使って出力設定
           echo "start-date=$startDate" >> $GITHUB_OUTPUT
           echo "finish-date=$finishDate" >> $GITHUB_OUTPUT
+          echo "start-date-for-keirin=$startDateForKeirin" >> $GITHUB_OUTPUT
           echo "finish-date-for-keirin=$finishDateForKeirin" >> $GITHUB_OUTPUT
           echo "finish-date-for-autorace=$finishDateForAutorace" >> $GITHUB_OUTPUT
           echo "finish-date-for-boatrace=$finishDateForBoatrace" >> $GITHUB_OUTPUT
@@ -302,7 +303,7 @@ jobs:
             exit 1
           fi
 
-  update-keirin-race-data:
+  update-keirin-race-data-g:
     needs: [set-dates, health-check]
     runs-on: ubuntu-latest
     steps:
@@ -326,7 +327,8 @@ jobs:
               -H "Content-Type: application/json" \
               -d "{
                     \"startDate\": \"$currentDate\",
-                    \"finishDate\": \"$currentDate\"
+                    \"finishDate\": \"$currentDate\",
+                    \"gradeList\": [\"GP\", \"GⅠ\", \"GⅡ\", \"GⅢ\"]
                   }")
 
             # レスポンスチェック
@@ -338,8 +340,46 @@ jobs:
             currentDate=$(date -I -d "$currentDate + 1 day")
           done
 
-  update-keirin-race-calendar:
-    needs: [set-dates, update-keirin-race-data]
+
+  update-keirin-race-data-f:
+    needs: [set-dates, health-check]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Send curl request to API
+        run: |
+          # 日付はset-datesで設定済み
+          startDate="${{ needs.set-dates.outputs.start-date-for-keirin }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date-for-keirin }}"
+
+          currentDate="$startDate"
+          while [ "$currentDate" != "$(date -I -d "$finishDate + 1 day")" ]; do
+            echo "Processing date: $currentDate"
+
+            # カレンダーの更新
+            update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+              "${API_PRODUCTION_URL}/api/races/keirin/race" \
+              -H "accept: */*" \
+              -H "Content-Type: application/json" \
+              -d "{
+                    \"startDate\": \"$currentDate\",
+                    \"finishDate\": \"$currentDate\",
+                    \"gradeList\": [\"FⅠ\", \"FⅡ\"]
+                  }")
+
+            # レスポンスチェック
+            if [[ "$update_race_calendar_response" != "200" ]]; then
+              echo "❌ POST request failed with status code $update_race_calendar_response"
+              exit 1
+            fi
+
+            currentDate=$(date -I -d "$currentDate + 1 day")
+          done
+
+  update-keirin-race-calendar-g:
+    needs: [set-dates, update-keirin-race-data-g, update-keirin-race-data-f]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository

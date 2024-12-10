@@ -113,11 +113,24 @@ export class KeirinRaceDataUseCase
     async updateRaceEntityList(
         startDate: Date,
         finishDate: Date,
+        searchList?: {
+            gradeList?: KeirinGradeType[];
+            locationList?: KeirinRaceCourse[];
+        },
     ): Promise<void> {
         try {
             // 競輪場データを取得する
             const placeEntityList: KeirinPlaceEntity[] =
-                await this.getPlaceEntityList(startDate, finishDate);
+                await this.getPlaceEntityList(
+                    startDate,
+                    finishDate,
+                    searchList,
+                );
+
+            // placeEntityListが空の場合は処理を終了する
+            if (placeEntityList.length === 0) {
+                return;
+            }
 
             // レースデータを取得する
             const raceEntityList: KeirinRaceEntity[] =
@@ -164,6 +177,10 @@ export class KeirinRaceDataUseCase
     private async getPlaceEntityList(
         startDate: Date,
         finishDate: Date,
+        searchList?: {
+            gradeList?: KeirinGradeType[];
+            locationList?: KeirinRaceCourse[];
+        },
     ): Promise<KeirinPlaceEntity[]> {
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
@@ -171,7 +188,28 @@ export class KeirinRaceDataUseCase
             await this.keirinPlaceRepositoryFromStorage.fetchPlaceEntityList(
                 fetchPlaceListRequest,
             );
-        return fetchPlaceListResponse.placeEntityList;
+
+        const placeEntityList = fetchPlaceListResponse.placeEntityList;
+
+        // フィルタリング処理
+        const filteredPlaceEntityList: KeirinPlaceEntity[] = placeEntityList
+            ?.filter((placeEntity) => {
+                if (searchList?.gradeList) {
+                    return searchList.gradeList.includes(
+                        placeEntity.placeData.grade,
+                    );
+                }
+                return true;
+            })
+            ?.filter((placeEntity) => {
+                if (searchList?.locationList) {
+                    return searchList.locationList.includes(
+                        placeEntity.placeData.location,
+                    );
+                }
+                return true;
+            });
+        return filteredPlaceEntityList;
     }
 
     /**

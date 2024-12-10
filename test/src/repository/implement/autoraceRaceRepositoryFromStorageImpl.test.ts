@@ -46,11 +46,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
             raceS3Gateway.fetchDataFromS3.mockImplementation(
                 async (filename: string) => {
                     // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse(
-                        filename.slice(0, 8),
-                        'yyyyMMdd',
-                        new Date(),
-                    );
+                    const date = parse('20240101', 'yyyyMMdd', new Date());
                     date.setHours(16);
                     const csvHeaderDataText: string = [
                         'name',
@@ -62,13 +58,13 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         'id',
                     ].join(',');
                     const csvDataText: string = [
-                        `raceName${filename.slice(0, 8)}`,
+                        `raceName20240101`,
                         `決勝`,
                         date.toISOString(),
                         '平塚',
                         'GⅠ',
                         '1',
-                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}01`,
+                        `autorace20240101${AUTORACE_PLACE_CODE['平塚']}01`,
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
@@ -77,7 +73,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         '平塚',
                         'GⅠ',
                         '1',
-                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}01`,
+                        `autorace20240101${AUTORACE_PLACE_CODE['平塚']}01`,
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
@@ -86,7 +82,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         '平塚',
                         'GⅠ',
                         undefined,
-                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}01`,
+                        `autorace20240101${AUTORACE_PLACE_CODE['平塚']}01`,
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,
@@ -113,20 +109,20 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         'playerNumber',
                     ].join(',');
                     const csvDataText: string = [
-                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}0101`,
-                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}01`,
+                        `autorace20240101${AUTORACE_PLACE_CODE['平塚']}0101`,
+                        `autorace20240101${AUTORACE_PLACE_CODE['平塚']}01`,
                         '1',
                         '1',
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
-                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}01`,
+                        `autorace20240101${AUTORACE_PLACE_CODE['平塚']}01`,
                         '1',
                         '1',
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
-                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}0101`,
-                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}01`,
+                        `autorace20240101${AUTORACE_PLACE_CODE['平塚']}0101`,
+                        `autorace20240101${AUTORACE_PLACE_CODE['平塚']}01`,
                         null,
                         '1',
                     ].join(',');
@@ -148,7 +144,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
             const response = await repository.fetchRaceEntityList(request);
 
             // レスポンスの検証
-            expect(response.raceEntityList).toHaveLength(32);
+            expect(response.raceEntityList).toHaveLength(1);
         });
     });
 
@@ -170,7 +166,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                                     `優勝戦`,
                                     date,
                                     '飯塚',
-                                    'SG',
+                                    'GⅠ',
                                     j + 1,
                                 ),
                                 baseAutoraceRacePlayerDataList,
@@ -186,8 +182,8 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
             // テスト実行
             await repository.registerRaceEntityList(request);
 
-            // uploadDataToS3が366回呼ばれることを検証
-            expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(366);
+            // uploadDataToS3が1回呼ばれることを検証
+            expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
 });

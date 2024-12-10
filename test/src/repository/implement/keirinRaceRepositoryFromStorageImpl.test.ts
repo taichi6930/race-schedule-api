@@ -46,11 +46,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
             raceS3Gateway.fetchDataFromS3.mockImplementation(
                 async (filename: string) => {
                     // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse(
-                        filename.slice(0, 8),
-                        'yyyyMMdd',
-                        new Date(),
-                    );
+                    const date = parse('20240101', 'yyyyMMdd', new Date());
                     date.setHours(16);
                     const csvHeaderDataText: string = [
                         'name',
@@ -62,13 +58,13 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         'id',
                     ].join(',');
                     const csvDataText: string = [
-                        `raceName${filename.slice(0, 8)}`,
+                        `raceName20240101`,
                         `決勝`,
                         date.toISOString(),
                         '平塚',
                         'GⅠ',
                         '1',
-                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}01`,
+                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
@@ -77,7 +73,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         '平塚',
                         'GⅠ',
                         '1',
-                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}01`,
+                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
@@ -86,7 +82,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         '平塚',
                         'GⅠ',
                         undefined,
-                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}01`,
+                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,
@@ -113,20 +109,20 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         'playerNumber',
                     ].join(',');
                     const csvDataText: string = [
-                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}0101`,
-                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}01`,
+                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}0101`,
+                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
                         '1',
                         '1',
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
-                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}01`,
+                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
                         '1',
                         '1',
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
-                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}0101`,
-                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}01`,
+                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}0101`,
+                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
                         null,
                         '1',
                     ].join(',');
@@ -148,7 +144,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
             const response = await repository.fetchRaceEntityList(request);
 
             // レスポンスの検証
-            expect(response.raceEntityList).toHaveLength(32);
+            expect(response.raceEntityList).toHaveLength(1);
         });
     });
 
@@ -186,8 +182,8 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
             // テスト実行
             await repository.registerRaceEntityList(request);
 
-            // uploadDataToS3が366回呼ばれることを検証
-            expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(366);
+            // uploadDataToS3が1回呼ばれることを検証
+            expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
 });
