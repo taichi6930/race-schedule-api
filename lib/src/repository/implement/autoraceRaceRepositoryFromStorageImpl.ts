@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 
-import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
@@ -97,23 +96,6 @@ export class AutoraceRaceRepositoryFromStorageImpl
             );
 
         return new FetchRaceListResponse(filteredRaceEntityList);
-    }
-
-    /**
-     * startDateからfinishDateまでの日付ごとのファイル名リストを生成する
-     * @param startDate
-     * @param finishDate
-     * @returns
-     */
-    private generateFilenameList(startDate: Date, finishDate: Date): string[] {
-        const fileNameList: string[] = [];
-        const currentDate = new Date(startDate);
-        while (currentDate <= finishDate) {
-            const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
-            fileNameList.push(fileName);
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-        return fileNameList;
     }
 
     /**
