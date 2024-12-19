@@ -12,6 +12,7 @@ import {
     AutoraceRaceCourse,
     AutoraceRaceStage,
 } from '../../utility/data/autorace';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoraceRaceId, AutoraceRacePlayerId } from '../../utility/raceId';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
@@ -23,7 +24,7 @@ import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
- * ボートレース場開催データリポジトリの実装
+ * オートレース場開催データリポジトリの実装
  */
 @injectable()
 export class AutoraceRaceRepositoryFromStorageImpl
@@ -39,7 +40,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
         private readonly racePlayerS3Gateway: IS3Gateway<AutoraceRacePlayerRecord>,
     ) {}
     /**
-     * ボートレース場開催データを取得する
+     * オートレース場開催データを取得する
      * @param request
      * @returns
      */
@@ -47,15 +48,15 @@ export class AutoraceRaceRepositoryFromStorageImpl
     async fetchRaceEntityList(
         request: FetchRaceListRequest<AutoracePlaceEntity>,
     ): Promise<FetchRaceListResponse<AutoraceRaceEntity>> {
-        // ファイル名リストからボートレース選手データを取得する
+        // ファイル名リストからオートレース選手データを取得する
         const racePlayerRecordList: AutoraceRacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
-        // ボートレースデータを取得する
+        // オートレースデータを取得する
         const raceRaceRecordList: AutoraceRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
-        // ボートレースデータをAutoraceRaceEntityに変換
+        // オートレースデータをAutoraceRaceEntityに変換
         const raceEntityList: AutoraceRaceEntity[] = raceRaceRecordList.map(
             (raceRecord) => {
                 // raceIdに対応したracePlayerRecordListを取得
@@ -84,6 +85,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     raceRecord.id,
                     raceData,
                     racePlayerDataList,
+                    raceRecord.updateDate,
                 );
             },
         );
@@ -197,6 +199,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
             location: headers.indexOf('location'),
             grade: headers.indexOf('grade'),
             number: headers.indexOf('number'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してRaceDataのリストを生成
@@ -213,6 +216,11 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                // updateDateが存在しない場合は現在時刻を設定
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new AutoraceRaceRecord(
                     columns[indices.id] as AutoraceRaceId,
                     columns[indices.name],
@@ -221,6 +229,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     columns[indices.location] as AutoraceRaceCourse,
                     columns[indices.grade] as AutoraceGradeType,
                     parseInt(columns[indices.number]),
+                    updateDate,
                 );
             })
             .filter(
@@ -258,6 +267,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
             raceId: headers.indexOf('raceId'),
             positionNumber: headers.indexOf('positionNumber'),
             playerNumber: headers.indexOf('playerNumber'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してAutoraceRaceDataのリストを生成
@@ -276,11 +286,17 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                // updateDateが存在しない場合は現在時刻を設定
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new AutoraceRacePlayerRecord(
                     columns[indices.id] as AutoraceRacePlayerId,
                     columns[indices.raceId] as AutoraceRaceId,
                     parseInt(columns[indices.positionNumber]),
                     parseInt(columns[indices.playerNumber]),
+                    updateDate,
                 );
             })
             .filter(

@@ -15,6 +15,7 @@ import {
     AutoraceRaceCourse,
     AutoraceRaceStage,
 } from '../../utility/data/autorace';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -146,7 +147,13 @@ export class AutoraceRaceDataUseCase
         try {
             // AutoraceRaceDataをAutoraceRaceEntityに変換する
             const raceEntityList: AutoraceRaceEntity[] = raceDataList.map(
-                (raceData) => new AutoraceRaceEntity(null, raceData, []),
+                (raceData) =>
+                    new AutoraceRaceEntity(
+                        null,
+                        raceData,
+                        [],
+                        getJSTDate(new Date()),
+                    ),
             );
             // S3にデータを保存する
             await this.registerRaceEntityList(raceEntityList);

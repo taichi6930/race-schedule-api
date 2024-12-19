@@ -19,12 +19,14 @@ export class AutoracePlaceRecord {
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param grade - オートレースのグレード
+     * @param updateDate - 更新日時
      */
     constructor(
         public readonly id: AutoracePlaceId,
         public readonly dateTime: Date,
         public readonly location: AutoraceRaceCourse,
         public readonly grade: AutoraceGradeType,
+        public readonly updateDate: Date,
     ) {}
 
     /**
@@ -38,6 +40,7 @@ export class AutoracePlaceRecord {
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
             partial.grade ?? this.grade,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -49,6 +52,7 @@ export class AutoracePlaceRecord {
         return new AutoracePlaceEntity(
             this.id,
             new AutoracePlaceData(this.dateTime, this.location, this.grade),
+            this.updateDate,
         );
     }
 }

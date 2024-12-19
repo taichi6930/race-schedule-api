@@ -1,4 +1,5 @@
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
@@ -40,6 +41,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
                                 i,
                             ),
                             [],
+                            getJSTDate(new Date()),
                         ),
                     );
                 }

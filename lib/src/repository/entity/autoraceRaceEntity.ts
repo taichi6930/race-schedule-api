@@ -27,12 +27,14 @@ export class AutoraceRaceEntity {
      * @param id - ID
      * @param raceData - レースデータ
      * @param racePlayerDataList - レースの選手データ
+     * @param updateDate - 更新日時
      *
      */
     constructor(
         id: AutoraceRaceId | null,
         public readonly raceData: AutoraceRaceData,
         public readonly racePlayerDataList: AutoraceRacePlayerData[],
+        public readonly updateDate: Date,
     ) {
         this.id =
             id ??
@@ -53,6 +55,7 @@ export class AutoraceRaceEntity {
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.racePlayerDataList ?? this.racePlayerDataList,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -69,6 +72,7 @@ export class AutoraceRaceEntity {
             this.raceData.location,
             this.raceData.grade,
             this.raceData.number,
+            this.updateDate,
         );
     }
 
@@ -89,6 +93,7 @@ export class AutoraceRaceEntity {
                     this.id,
                     playerData.positionNumber,
                     playerData.playerNumber,
+                    this.updateDate,
                 ),
         );
     }
