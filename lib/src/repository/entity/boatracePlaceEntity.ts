@@ -20,10 +20,12 @@ export class BoatracePlaceEntity {
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param grade - ボートレースのグレード
+     * @param updateDate - 更新日時
      */
     constructor(
         id: BoatracePlaceId | null,
         public readonly placeData: BoatracePlaceData,
+        public readonly updateDate: Date,
     ) {
         this.id =
             id ??
@@ -39,6 +41,7 @@ export class BoatracePlaceEntity {
         return new BoatracePlaceEntity(
             partial.id ?? null,
             partial.placeData ?? this.placeData,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -52,6 +55,7 @@ export class BoatracePlaceEntity {
             this.placeData.dateTime,
             this.placeData.location,
             this.placeData.grade,
+            this.updateDate,
         );
     }
 }

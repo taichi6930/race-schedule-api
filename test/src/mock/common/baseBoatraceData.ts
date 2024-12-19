@@ -12,6 +12,7 @@ import type {
     BoatraceRaceCourse,
     BoatraceRaceStage,
 } from '../../../../lib/src/utility/data/boatrace';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
     generateBoatracePlaceId,
     generateBoatraceRaceId,
@@ -26,6 +27,7 @@ const baseBoatraceRaceName = 'グランプリ';
 const baseBoatraceRaceDateTime = new Date('2024-12-31 16:30');
 const baseBoatraceRaceNumber = 11;
 const baseBoatraceRaceStage: BoatraceRaceStage = '優勝戦';
+const baseBoatraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
 export const baseBoatracePlaceData = new BoatracePlaceData(
     baseBoatracePlaceDateTime,
@@ -47,6 +49,7 @@ export const baseBoatracePlaceRecord = new BoatracePlaceRecord(
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,
     baseBoatracePlaceGrade,
+    baseBoatraceRaceUpdateDate,
 );
 
 export const baseBoatraceRaceRecord = new BoatraceRaceRecord(
@@ -61,11 +64,13 @@ export const baseBoatraceRaceRecord = new BoatraceRaceRecord(
     baseBoatracePlaceCourse,
     baseBoatracePlaceGrade,
     baseBoatraceRaceNumber,
+    baseBoatraceRaceUpdateDate,
 );
 
 export const baseBoatracePlaceEntity = new BoatracePlaceEntity(
     null,
     baseBoatracePlaceData,
+    baseBoatraceRaceUpdateDate,
 );
 
 export const baseBoatraceRacePlayerData = new BoatraceRacePlayerData(1, 10000);
@@ -81,6 +86,7 @@ export const baseBoatraceRaceEntity = new BoatraceRaceEntity(
     null,
     baseBoatraceRaceData,
     baseBoatraceRacePlayerDataList,
+    baseBoatraceRaceUpdateDate,
 );
 
 export const baseBoatraceRacePlayerRecord = new BoatraceRacePlayerRecord(
@@ -97,6 +103,7 @@ export const baseBoatraceRacePlayerRecord = new BoatraceRacePlayerRecord(
     ),
     1,
     10000,
+    baseBoatraceRaceUpdateDate,
 );
 
 export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
@@ -132,7 +139,12 @@ export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
         const racePlayerDataList = Array.from({ length: 6 }, (_, i) => {
             return new BoatraceRacePlayerData(i + 1, i + 1);
         });
-        return new BoatraceRaceEntity(null, raceData, racePlayerDataList);
+        return new BoatraceRaceEntity(
+            null,
+            raceData,
+            racePlayerDataList,
+            baseBoatraceRaceUpdateDate,
+        );
     });
 });
 

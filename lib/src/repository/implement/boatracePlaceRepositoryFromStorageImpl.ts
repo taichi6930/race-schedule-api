@@ -9,6 +9,7 @@ import {
     BoatraceGradeType,
     BoatraceRaceCourse,
 } from '../../utility/data/boatrace';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceId } from '../../utility/raceId';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
@@ -131,6 +132,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
             dateTime: headers.indexOf('dateTime'),
             location: headers.indexOf('location'),
             grade: headers.indexOf('grade'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してPlaceDataのリストを生成
@@ -148,11 +150,17 @@ export class BoatracePlaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                // updateDateが存在しない場合は現在時刻を設定
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new BoatracePlaceRecord(
                     columns[indices.id] as BoatracePlaceId,
                     new Date(columns[indices.dateTime]),
                     columns[indices.location] as BoatraceRaceCourse,
                     columns[indices.grade] as BoatraceGradeType,
+                    updateDate,
                 );
             })
             .filter(

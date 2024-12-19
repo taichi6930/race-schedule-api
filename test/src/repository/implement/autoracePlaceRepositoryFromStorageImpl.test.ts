@@ -11,6 +11,7 @@ import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autor
 import { AutoracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/autoracePlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForAutoracePlace } from '../../mock/gateway/s3GatewayMock';
 
 describe('AutoracePlaceRepositoryFromStorageImpl', () => {
@@ -95,6 +96,7 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
                             new AutoracePlaceEntity(
                                 null,
                                 new AutoracePlaceData(date, '飯塚', 'SG'),
+                                getJSTDate(new Date()),
                             ),
                     );
                 },

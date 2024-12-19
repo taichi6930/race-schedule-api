@@ -23,6 +23,7 @@ export class AutoraceRaceRecord {
      * @param location - 開催場所
      * @param grade - グレード
      * @param number - レース番号
+     * @param updateDate - 更新日時
      *
      */
     constructor(
@@ -33,6 +34,7 @@ export class AutoraceRaceRecord {
         public readonly location: AutoraceRaceCourse, // オートレース場名
         public readonly grade: AutoraceGradeType, // グレード
         public readonly number: number, // レース番号
+        public readonly updateDate: Date, // 更新日時
     ) {}
 
     /**
@@ -49,6 +51,7 @@ export class AutoraceRaceRecord {
             partial.location ?? this.location,
             partial.grade ?? this.grade,
             partial.number ?? this.number,
+            partial.updateDate ?? this.updateDate,
         );
     }
 }

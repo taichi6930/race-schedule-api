@@ -21,10 +21,12 @@ export class WorldRaceEntity {
      * 海外競馬のレース開催データを生成する
      * @param id - ID
      * @param raceData - レースデータ
+     * @param updateDate - 更新日時
      */
     constructor(
         id: WorldRaceId | null,
         public readonly raceData: WorldRaceData,
+        public readonly updateDate: Date,
     ) {
         this.id =
             id ??
@@ -44,6 +46,7 @@ export class WorldRaceEntity {
         return new WorldRaceEntity(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -61,6 +64,7 @@ export class WorldRaceEntity {
             this.raceData.distance,
             this.raceData.grade,
             this.raceData.number,
+            this.updateDate,
         );
     }
 }

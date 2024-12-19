@@ -4,7 +4,7 @@ import type { AutoracePlaceId } from '../../utility/raceId';
 import { generateAutoracePlaceId } from '../../utility/raceId';
 
 /**
- * Repository層のEntity オートレース場のレース開催場所データ
+ * Repository層のEntity オートレースのレース開催場所データ
  */
 export class AutoracePlaceEntity {
     /**
@@ -16,13 +16,16 @@ export class AutoracePlaceEntity {
      * コンストラクタ
      *
      * @remarks
-     * オートレース場のレース開催場所データを生成する
-     * @param id - ID
-     * @param placeData - レース開催場所データ
+     * オートレースのレース開催場所データを生成する
+     * @param dateTime - 開催日時
+     * @param location - 開催場所
+     * @param grade - オートレースのグレード
+     * @param updateDate - 更新日時
      */
     constructor(
         id: AutoracePlaceId | null,
         public readonly placeData: AutoracePlaceData,
+        public readonly updateDate: Date,
     ) {
         this.id =
             id ??
@@ -38,6 +41,7 @@ export class AutoracePlaceEntity {
         return new AutoracePlaceEntity(
             partial.id ?? null,
             partial.placeData ?? this.placeData,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -51,6 +55,7 @@ export class AutoracePlaceEntity {
             this.placeData.dateTime,
             this.placeData.location,
             this.placeData.grade,
+            this.updateDate,
         );
     }
 }

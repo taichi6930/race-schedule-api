@@ -1,4 +1,5 @@
 import { WorldRaceData } from '../../domain/worldRaceData';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
@@ -36,6 +37,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
                         'GⅠ',
                         12,
                     ),
+                    getJSTDate(new Date()),
                 ),
             );
         }

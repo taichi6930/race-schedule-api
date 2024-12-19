@@ -13,6 +13,7 @@ import { AutoraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repos
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { AUTORACE_PLACE_CODE } from '../../../../lib/src/utility/data/autorace';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseAutoraceRacePlayerDataList } from '../../mock/common/baseAutoraceData';
 import {
     mockS3GatewayForAutoraceRace,
@@ -170,6 +171,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                                     j + 1,
                                 ),
                                 baseAutoraceRacePlayerDataList,
+                                getJSTDate(new Date()),
                             ),
                     );
                 },

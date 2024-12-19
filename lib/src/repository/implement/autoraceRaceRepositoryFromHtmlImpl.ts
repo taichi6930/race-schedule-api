@@ -8,6 +8,7 @@ import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { IAutoraceRaceDataHtmlGateway } from '../../gateway/interface/iAutoraceRaceDataHtmlGateway';
 import { AUTORACE_STAGE_MAP } from '../../utility/data/autorace';
 import { AutoraceRaceStage } from '../../utility/data/autorace';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
@@ -135,6 +136,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                                         Number(raceNumber),
                                     ),
                                     [],
+                                    getJSTDate(new Date()),
                                 ),
                             );
                         }

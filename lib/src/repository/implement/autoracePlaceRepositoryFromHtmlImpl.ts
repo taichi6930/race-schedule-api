@@ -10,6 +10,7 @@ import {
     AutoraceGradeType,
     AutoraceRaceCourse,
 } from '../../utility/data/autorace';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -185,6 +186,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                                     place,
                                     grade,
                                 ),
+                                getJSTDate(new Date()),
                             ),
                         );
                     }

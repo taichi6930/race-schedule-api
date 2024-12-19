@@ -12,6 +12,7 @@ import { WorldRaceRepositoryFromStorageImpl } from '../../../../lib/src/reposito
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { WORLD_PLACE_CODE } from '../../../../lib/src/utility/data/world';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForWorldRace } from '../../mock/gateway/s3GatewayMock';
 
 describe('WorldRaceRepositoryFromStorageImpl', () => {
@@ -119,6 +120,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                                     'GⅠ',
                                     j + 1,
                                 ),
+                                getJSTDate(new Date()),
                             ),
                     );
                 },

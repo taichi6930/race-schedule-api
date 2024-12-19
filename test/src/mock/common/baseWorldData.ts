@@ -8,6 +8,7 @@ import type {
     WorldGradeType,
     WorldRaceCourse,
 } from '../../../../lib/src/utility/data/world';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { generateWorldRaceId } from '../../../../lib/src/utility/raceId';
 
 const baseWorldPlaceCourse: WorldRaceCourse = 'パリロンシャン';
@@ -19,6 +20,7 @@ const baseWorldRaceNumber = 11;
 const baseWorldRaceSurfaceType = '芝';
 const baseWorldRaceDistance = 2400;
 const baseWorldRaceGrade: WorldGradeType = 'GⅠ';
+const baseWorldRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
 export const baseWorldPlaceData = new WorldPlaceData(
     baseWorldPlaceDateTime,
@@ -48,6 +50,7 @@ export const baseWorldRaceRecord = new WorldRaceRecord(
     baseWorldRaceDistance,
     baseWorldRaceGrade,
     baseWorldRaceNumber,
+    baseWorldRaceUpdateDate,
 );
 
 export const baseWorldPlaceEntity = new WorldPlaceEntity(
@@ -55,7 +58,11 @@ export const baseWorldPlaceEntity = new WorldPlaceEntity(
     baseWorldPlaceData,
 );
 
-export const baseWorldRaceEntity = new WorldRaceEntity(null, baseWorldRaceData);
+export const baseWorldRaceEntity = new WorldRaceEntity(
+    null,
+    baseWorldRaceData,
+    baseWorldRaceUpdateDate,
+);
 
 export const baseWorldRaceEntityList: WorldRaceEntity[] = [
     'パリロンシャン',
@@ -86,6 +93,7 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
                 grade as WorldGradeType,
                 index + 1,
             ),
+            getJSTDate(baseWorldRaceUpdateDate),
         );
     });
 });

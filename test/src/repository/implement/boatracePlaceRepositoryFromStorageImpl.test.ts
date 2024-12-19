@@ -11,6 +11,7 @@ import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatr
 import { BoatracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForBoatracePlace } from '../../mock/gateway/s3GatewayMock';
 
 describe('BoatracePlaceRepositoryFromStorageImpl', () => {
@@ -95,6 +96,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
                             new BoatracePlaceEntity(
                                 null,
                                 new BoatracePlaceData(date, '平和島', 'SG'),
+                                getJSTDate(new Date()),
                             ),
                     );
                 },

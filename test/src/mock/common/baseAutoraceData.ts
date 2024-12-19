@@ -12,6 +12,7 @@ import type {
     AutoraceRaceCourse,
     AutoraceRaceStage,
 } from '../../../../lib/src/utility/data/autorace';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
     generateAutoracePlaceId,
     generateAutoraceRaceId,
@@ -26,6 +27,7 @@ const baseAutoraceRaceName = 'スーパースター王座決定戦';
 const baseAutoraceRaceDateTime = new Date('2024-12-31 16:30');
 const baseAutoraceRaceNumber = 11;
 const baseAutoraceRaceStage: AutoraceRaceStage = '優勝戦';
+const baseAutoraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
 export const baseAutoracePlaceData = new AutoracePlaceData(
     baseAutoracePlaceDateTime,
@@ -47,6 +49,7 @@ export const baseAutoracePlaceRecord = new AutoracePlaceRecord(
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
+    baseAutoraceRaceUpdateDate,
 );
 
 export const baseAutoraceRaceRecord = new AutoraceRaceRecord(
@@ -61,11 +64,13 @@ export const baseAutoraceRaceRecord = new AutoraceRaceRecord(
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
     baseAutoraceRaceNumber,
+    baseAutoraceRaceUpdateDate,
 );
 
 export const baseAutoracePlaceEntity = new AutoracePlaceEntity(
     null,
     baseAutoracePlaceData,
+    baseAutoraceRaceUpdateDate,
 );
 
 export const baseAutoraceRacePlayerDataList = Array.from(
@@ -79,6 +84,7 @@ export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
     null,
     baseAutoraceRaceData,
     baseAutoraceRacePlayerDataList,
+    baseAutoraceRaceUpdateDate,
 );
 
 export const baseAutoraceRacePlayerRecord = new AutoraceRacePlayerRecord(
@@ -95,6 +101,7 @@ export const baseAutoraceRacePlayerRecord = new AutoraceRacePlayerRecord(
     ),
     1,
     10000,
+    baseAutoraceRaceUpdateDate,
 );
 
 export const baseAutoraceRacePlayerData = new AutoraceRacePlayerData(1, 10000);
@@ -132,6 +139,7 @@ export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
                 index + 1,
             ),
             [],
+            baseAutoraceRaceUpdateDate,
         );
     });
 });

@@ -12,6 +12,7 @@ import {
     BoatraceGradeType,
     BoatraceRaceStage,
 } from '../../utility/data/boatrace';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
@@ -122,6 +123,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                         raceNumber,
                     ),
                     racePlayerDataList,
+                    getJSTDate(new Date()),
                 ),
             );
             return boatraceRaceEntityList;

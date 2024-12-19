@@ -9,6 +9,7 @@ import {
     AutoraceGradeType,
     AutoraceRaceCourse,
 } from '../../utility/data/autorace';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceId } from '../../utility/raceId';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
@@ -131,6 +132,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
             dateTime: headers.indexOf('dateTime'),
             location: headers.indexOf('location'),
             grade: headers.indexOf('grade'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してPlaceDataのリストを生成
@@ -148,11 +150,17 @@ export class AutoracePlaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                // updateDateが存在しない場合は現在時刻を設定
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new AutoracePlaceRecord(
                     columns[indices.id] as AutoracePlaceId,
                     new Date(columns[indices.dateTime]),
                     columns[indices.location] as AutoraceRaceCourse,
                     columns[indices.grade] as AutoraceGradeType,
+                    updateDate,
                 );
             })
             .filter(
