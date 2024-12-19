@@ -19,12 +19,14 @@ export class BoatracePlaceRecord {
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param grade - ボートレースのグレード
+     * @param updateDate - 更新日時
      */
     constructor(
         public readonly id: BoatracePlaceId,
         public readonly dateTime: Date,
         public readonly location: BoatraceRaceCourse,
         public readonly grade: BoatraceGradeType,
+        public readonly updateDate: Date,
     ) {}
 
     /**
@@ -38,6 +40,7 @@ export class BoatracePlaceRecord {
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
             partial.grade ?? this.grade,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -49,6 +52,7 @@ export class BoatracePlaceRecord {
         return new BoatracePlaceEntity(
             this.id,
             new BoatracePlaceData(this.dateTime, this.location, this.grade),
+            this.updateDate,
         );
     }
 }

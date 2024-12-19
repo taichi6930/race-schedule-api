@@ -15,6 +15,7 @@ export class BoatraceRacePlayerRecord {
      * @param raceId - レースID
      * @param positionNumber - 枠番
      * @param playerNumber - 選手番号
+     * @param updateDate - 更新日時
      *
      *
      */
@@ -23,6 +24,7 @@ export class BoatraceRacePlayerRecord {
         public readonly raceId: BoatraceRaceId,
         public readonly positionNumber: number,
         public readonly playerNumber: number,
+        public readonly updateDate: Date,
     ) {}
 
     /**
@@ -38,6 +40,7 @@ export class BoatraceRacePlayerRecord {
             partial.raceId ?? this.raceId,
             partial.positionNumber ?? this.positionNumber,
             partial.playerNumber ?? this.playerNumber,
+            partial.updateDate ?? this.updateDate,
         );
     }
 }

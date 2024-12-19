@@ -1,6 +1,7 @@
 import { baseBoatraceRacePlayerDataList } from '../../../../test/src/mock/common/baseBoatraceData';
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
@@ -43,6 +44,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
                                 i,
                             ),
                             baseBoatraceRacePlayerDataList,
+                            getJSTDate(new Date()),
                         ),
                     );
                 }

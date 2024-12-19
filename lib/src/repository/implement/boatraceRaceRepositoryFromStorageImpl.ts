@@ -12,6 +12,7 @@ import {
     BoatraceRaceCourse,
     BoatraceRaceStage,
 } from '../../utility/data/boatrace';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatraceRaceId, BoatraceRacePlayerId } from '../../utility/raceId';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
@@ -84,6 +85,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
                     raceRecord.id,
                     raceData,
                     racePlayerDataList,
+                    raceRecord.updateDate,
                 );
             },
         );
@@ -197,6 +199,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
             location: headers.indexOf('location'),
             grade: headers.indexOf('grade'),
             number: headers.indexOf('number'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してRaceDataのリストを生成
@@ -213,6 +216,11 @@ export class BoatraceRaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                // updateDateが存在しない場合は現在時刻を設定
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new BoatraceRaceRecord(
                     columns[indices.id] as BoatraceRaceId,
                     columns[indices.name],
@@ -221,6 +229,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
                     columns[indices.location] as BoatraceRaceCourse,
                     columns[indices.grade] as BoatraceGradeType,
                     parseInt(columns[indices.number]),
+                    updateDate,
                 );
             })
             .filter(
@@ -258,6 +267,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
             raceId: headers.indexOf('raceId'),
             positionNumber: headers.indexOf('positionNumber'),
             playerNumber: headers.indexOf('playerNumber'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してBoatraceRaceDataのリストを生成
@@ -276,11 +286,17 @@ export class BoatraceRaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                // updateDateが存在しない場合は現在時刻を設定
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new BoatraceRacePlayerRecord(
                     columns[indices.id] as BoatraceRacePlayerId,
                     columns[indices.raceId] as BoatraceRaceId,
                     parseInt(columns[indices.positionNumber]),
                     parseInt(columns[indices.playerNumber]),
+                    updateDate,
                 );
             })
             .filter(

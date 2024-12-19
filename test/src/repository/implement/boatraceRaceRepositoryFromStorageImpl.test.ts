@@ -13,6 +13,7 @@ import { BoatraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repos
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { BOATRACE_PLACE_CODE } from '../../../../lib/src/utility/data/boatrace';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseBoatraceRacePlayerDataList } from '../../mock/common/baseBoatraceData';
 import {
     mockS3GatewayForBoatraceRace,
@@ -170,6 +171,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                                     j + 1,
                                 ),
                                 baseBoatraceRacePlayerDataList,
+                                getJSTDate(new Date()),
                             ),
                     );
                 },

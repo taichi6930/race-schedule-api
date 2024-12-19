@@ -15,6 +15,7 @@ import {
     BoatraceRaceCourse,
     BoatraceRaceStage,
 } from '../../utility/data/boatrace';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -146,7 +147,13 @@ export class BoatraceRaceDataUseCase
         try {
             // BoatraceRaceDataをBoatraceRaceEntityに変換する
             const raceEntityList: BoatraceRaceEntity[] = raceDataList.map(
-                (raceData) => new BoatraceRaceEntity(null, raceData, []),
+                (raceData) =>
+                    new BoatraceRaceEntity(
+                        null,
+                        raceData,
+                        [],
+                        getJSTDate(new Date()),
+                    ),
             );
             // S3にデータを保存する
             await this.registerRaceEntityList(raceEntityList);

@@ -10,6 +10,7 @@ import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/b
 import { BoatraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== 'GITHUB_ACTIONS_CI') {
@@ -45,6 +46,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                                     '下関',
                                     'SG',
                                 ),
+                                getJSTDate(new Date()),
                             ),
                         ],
                     ),

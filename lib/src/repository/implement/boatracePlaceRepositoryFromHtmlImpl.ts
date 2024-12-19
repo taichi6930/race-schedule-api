@@ -12,6 +12,7 @@ import {
     BoatraceGradeType,
     BoatraceRaceCourse,
 } from '../../utility/data/boatrace';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -211,6 +212,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                         place as BoatraceRaceCourse,
                         grade as BoatraceGradeType,
                     ),
+                    getJSTDate(new Date()),
                 );
                 boatracePlaceEntityList.push(boatracePlaceEntity);
             }

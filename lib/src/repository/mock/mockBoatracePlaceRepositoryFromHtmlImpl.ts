@@ -1,4 +1,5 @@
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -28,6 +29,7 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
             const boatracePlaceEntity = new BoatracePlaceEntity(
                 null,
                 new BoatracePlaceData(new Date(currentDate), '平和島', 'SG'),
+                getJSTDate(new Date()),
             );
             fetchPlaceEntityList.push(boatracePlaceEntity);
             // 日付を1日進める
