@@ -26,6 +26,7 @@ export class WorldRaceRecord {
      * @param distance - 距離
      * @param grade - グレード
      * @param number - レース番号
+     * @param updateDate - 更新日時
      *
      */
     constructor(
@@ -37,6 +38,7 @@ export class WorldRaceRecord {
         public readonly distance: number,
         public readonly grade: WorldGradeType,
         public readonly number: number,
+        public readonly updateDate: Date,
     ) {}
 
     /**
@@ -54,6 +56,7 @@ export class WorldRaceRecord {
             partial.distance ?? this.distance,
             partial.grade ?? this.grade,
             partial.number ?? this.number,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -73,6 +76,7 @@ export class WorldRaceRecord {
                 this.grade,
                 this.number,
             ),
+            this.updateDate,
         );
     }
 }

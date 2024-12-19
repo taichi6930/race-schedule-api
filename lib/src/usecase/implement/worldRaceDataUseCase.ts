@@ -8,6 +8,7 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
 import { WorldGradeType, WorldRaceCourse } from '../../utility/data/world';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -114,7 +115,8 @@ export class WorldRaceDataUseCase
         try {
             // worldRaceDataをworldRaceEntityに変換する
             const raceEntityList: WorldRaceEntity[] = raceDataList.map(
-                (raceData) => new WorldRaceEntity(null, raceData),
+                (raceData) =>
+                    new WorldRaceEntity(null, raceData, getJSTDate(new Date())),
             );
             // S3にデータを保存する
             await this.registerRaceDataList(raceEntityList);

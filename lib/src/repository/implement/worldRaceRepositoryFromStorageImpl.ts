@@ -11,6 +11,7 @@ import {
     WorldRaceCourse,
     WorldRaceCourseType,
 } from '../../utility/data/world';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { WorldRaceId } from '../../utility/raceId';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -133,6 +134,7 @@ export class WorldRaceRepositoryFromStorageImpl
             distance: headers.indexOf('distance'),
             grade: headers.indexOf('grade'),
             number: headers.indexOf('number'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してRaceDataのリストを生成
@@ -149,6 +151,11 @@ export class WorldRaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                // updateDateが存在しない場合は現在時刻を設定
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new WorldRaceRecord(
                     columns[indices.id] as WorldRaceId,
                     columns[indices.name],
@@ -158,6 +165,7 @@ export class WorldRaceRepositoryFromStorageImpl
                     parseInt(columns[indices.distance]),
                     columns[indices.grade] as WorldGradeType,
                     parseInt(columns[indices.number]),
+                    updateDate,
                 );
             })
             .filter(

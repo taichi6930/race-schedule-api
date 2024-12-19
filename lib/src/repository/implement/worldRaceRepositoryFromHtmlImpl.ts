@@ -12,6 +12,7 @@ import {
     WorldRaceCourseType,
 } from '../../utility/data/world';
 import { WORLD_PLACE_CODE } from '../../utility/data/world';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processWorldRaceName } from '../../utility/raceName';
 import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
@@ -253,6 +254,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                                     grade,
                                     number,
                                 ),
+                                getJSTDate(new Date()),
                             ),
                         );
                     });
