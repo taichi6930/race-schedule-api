@@ -46,6 +46,10 @@ export class KeirinRacePlayerData {
         if (this.positionNumber < 1 || this.positionNumber > 9) {
             errorMessageList.push('枠番は1以上9以下である必要があります');
         }
+        // 選手番号が1以上であるか
+        if (this.playerNumber < 1) {
+            errorMessageList.push('選手番号は1以上である必要があります');
+        }
         return [errorMessageList.length === 0, errorMessageList];
     }
 }

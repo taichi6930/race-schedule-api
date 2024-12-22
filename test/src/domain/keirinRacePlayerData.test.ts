@@ -25,4 +25,10 @@ describe('KeirinRacePlayerDataクラスのテスト', () => {
             baseRacePlayerData.copy({ positionNumber: 13 });
         }).toThrow('枠番は1以上9以下である必要があります');
     });
+
+    it('選手番号が範囲外の場合にエラーがスローされることを確認', () => {
+        expect(() => {
+            baseRacePlayerData.copy({ playerNumber: 0 });
+        }).toThrow('選手番号は1以上である必要があります');
+    });
 });

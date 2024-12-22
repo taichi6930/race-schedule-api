@@ -9,6 +9,7 @@
         "build": "tsc",
         "watch": "tsc -w",
         "test": "TZ=jst jest --coverage --maxWorkers=49%",
+        "test:watch": "TZ=jst jest --watchAll",
         "cdk-deploy": "npm install -g aws-cdk & cdk deploy",
         "start": "ts-node lib/src/index.ts",
         "start:ita": "TZ=jst ENV=ITa ts-node lib/src/index.ts",
