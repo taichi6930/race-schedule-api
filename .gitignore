@@ -16,3 +16,6 @@ coverage
 
 # mock
 lib/src/gateway/mockData/*
+
+# typedoc
+docs

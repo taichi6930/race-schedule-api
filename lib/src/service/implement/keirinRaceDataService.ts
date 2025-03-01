@@ -5,6 +5,9 @@ import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { BaseRaceDataService } from './baseRaceDataService';
 
+/**
+ * Keirinレースデータサービス
+ */
 @injectable()
 export class KeirinRaceDataService extends BaseRaceDataService<
     KeirinRaceEntity,

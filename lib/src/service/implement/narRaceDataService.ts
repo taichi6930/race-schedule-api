@@ -5,6 +5,9 @@ import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { BaseRaceDataService } from './baseRaceDataService';
 
+/**
+ * Narレースデータサービス
+ */
 @injectable()
 export class NarRaceDataService extends BaseRaceDataService<
     NarRaceEntity,

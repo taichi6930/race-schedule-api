@@ -7,6 +7,9 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { BaseCalendarService } from './baseCalendarService';
 
+/**
+ * Jraカレンダーサービス
+ */
 @injectable()
 export class JraCalendarService extends BaseCalendarService<JraRaceEntity> {
     constructor(

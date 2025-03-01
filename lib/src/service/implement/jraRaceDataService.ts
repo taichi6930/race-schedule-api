@@ -5,6 +5,9 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { BaseRaceDataService } from './baseRaceDataService';
 
+/**
+ * Jraレースデータサービス
+ */
 @injectable()
 export class JraRaceDataService extends BaseRaceDataService<
     JraRaceEntity,

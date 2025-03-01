@@ -5,6 +5,9 @@ import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { BaseRaceDataService } from './baseRaceDataService';
 
+/**
+ * Autoraceレースデータサービス
+ */
 @injectable()
 export class AutoraceRaceDataService extends BaseRaceDataService<
     AutoraceRaceEntity,

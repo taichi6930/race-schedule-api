@@ -4,6 +4,9 @@ import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { BasePlaceDataService } from './basePlaceDataService';
 
+/**
+ * Boatrace開催場データサービス
+ */
 @injectable()
 export class BoatracePlaceDataService extends BasePlaceDataService<BoatracePlaceEntity> {
     constructor(

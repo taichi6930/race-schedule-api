@@ -5,6 +5,9 @@ import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { BaseRaceDataService } from './baseRaceDataService';
 
+/**
+ * Worldレースデータサービス
+ */
 @injectable()
 export class WorldRaceDataService extends BaseRaceDataService<
     WorldRaceEntity,

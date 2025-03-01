@@ -7,6 +7,9 @@ import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { BaseCalendarService } from './baseCalendarService';
 
+/**
+ * Boatraceカレンダーサービス
+ */
 @injectable()
 export class BoatraceCalendarService extends BaseCalendarService<BoatraceRaceEntity> {
     constructor(

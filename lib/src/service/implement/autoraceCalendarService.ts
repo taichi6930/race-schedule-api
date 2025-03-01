@@ -7,6 +7,9 @@ import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { BaseCalendarService } from './baseCalendarService';
 
+/**
+ * Autoraceカレンダーサービス
+ */
 @injectable()
 export class AutoraceCalendarService extends BaseCalendarService<AutoraceRaceEntity> {
     constructor(
