@@ -16,5 +16,3 @@ coverage
 
 # mock
 lib/src/gateway/mockData/*
-
-docs

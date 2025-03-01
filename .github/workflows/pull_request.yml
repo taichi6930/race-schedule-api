@@ -3,10 +3,6 @@ name: Pull Request CI
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths:
-      - 'lib/**'
-      - 'test/**'
-      - '.github/**'
 
 jobs:
   # Prettierのチェック

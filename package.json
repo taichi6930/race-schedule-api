@@ -25,7 +25,8 @@
         "lint:check": "eslint --quiet '**/*.{ts,tsx}'",
         "prepare": "husky install",
         "type-check": "tsc --noEmit",
-        "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check"
+        "typedoc": "npx typedoc --out ./docs ./lib/src",
+        "pre-commit": "prpm run typedoc && pnpm run type-check && pnpm run lint:check && pnpm run format:check"
     },
     "lint-staged": {
         "*.{ts,tsx}": [
