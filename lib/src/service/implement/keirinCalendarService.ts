@@ -7,6 +7,9 @@ import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { BaseCalendarService } from './baseCalendarService';
 
+/**
+ * Keirinカレンダーサービス
+ */
 @injectable()
 export class KeirinCalendarService extends BaseCalendarService<KeirinRaceEntity> {
     constructor(

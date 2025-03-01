@@ -4,6 +4,9 @@ import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { BasePlaceDataService } from './basePlaceDataService';
 
+/**
+ * Nar開催場データサービス
+ */
 @injectable()
 export class NarPlaceDataService extends BasePlaceDataService<NarPlaceEntity> {
     constructor(

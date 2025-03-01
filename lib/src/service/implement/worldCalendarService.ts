@@ -7,6 +7,9 @@ import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { BaseCalendarService } from './baseCalendarService';
 
+/**
+ * Worldレースカレンダーサービス
+ */
 @injectable()
 export class WorldCalendarService extends BaseCalendarService<WorldRaceEntity> {
     constructor(

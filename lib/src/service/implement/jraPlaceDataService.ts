@@ -4,6 +4,9 @@ import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { BasePlaceDataService } from './basePlaceDataService';
 
+/**
+ * Jra開催場データサービス
+ */
 @injectable()
 export class JraPlaceDataService extends BasePlaceDataService<JraPlaceEntity> {
     constructor(

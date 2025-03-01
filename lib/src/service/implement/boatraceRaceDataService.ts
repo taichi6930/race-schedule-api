@@ -5,6 +5,9 @@ import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { BaseRaceDataService } from './baseRaceDataService';
 
+/**
+ * Boatraceレースデータサービス
+ */
 @injectable()
 export class BoatraceRaceDataService extends BaseRaceDataService<
     BoatraceRaceEntity,

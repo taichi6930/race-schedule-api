@@ -4,6 +4,9 @@ import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { BasePlaceDataService } from './basePlaceDataService';
 
+/**
+ * Autorace開催場データサービス
+ */
 @injectable()
 export class AutoracePlaceDataService extends BasePlaceDataService<AutoracePlaceEntity> {
     constructor(

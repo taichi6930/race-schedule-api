@@ -7,6 +7,9 @@ import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { BaseCalendarService } from './baseCalendarService';
 
+/**
+ * Narレースカレンダーサービス
+ */
 @injectable()
 export class NarCalendarService extends BaseCalendarService<NarRaceEntity> {
     constructor(
