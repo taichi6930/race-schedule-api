@@ -19,6 +19,11 @@ export class NarGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepositor
         super();
     }
 
+    /**
+     * Googleカレンダーのデータをカレンダーデータに変換する
+     * @param event
+     * @returns
+     */
     protected fromGoogleCalendarDataToCalendarData(
         event: object,
     ): CalendarData {

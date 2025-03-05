@@ -83,6 +83,11 @@ export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposit
             .replace(/-/g, '');
     }
 
+    /**
+     * Googleカレンダーのデータをカレンダーデータに変換する
+     * @param event
+     * @returns
+     */
     protected fromGoogleCalendarDataToCalendarData(
         event: object,
     ): CalendarData {
