@@ -16,6 +16,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
         @inject('JraPlaceDataService')
         private readonly placeDataService: IPlaceDataService<JraPlaceEntity>,
     ) {}
+
     /**
      * 開催場データを取得する
      * @param startDate

@@ -25,7 +25,6 @@ import type { IRecord } from './iRecord';
 export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催場所データを生成する
      * @param id - ID

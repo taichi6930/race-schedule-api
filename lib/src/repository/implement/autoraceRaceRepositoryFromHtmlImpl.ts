@@ -26,6 +26,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
         @inject('AutoraceRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IAutoraceRaceDataHtmlGateway,
     ) {}
+
     /**
      * 開催データを取得する
      * @param searchFilter

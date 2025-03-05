@@ -12,7 +12,6 @@ import { IKeirinRaceDataHtmlGateway } from '../interface/iKeirinRaceDataHtmlGate
 export class KeirinRaceDataHtmlGateway implements IKeirinRaceDataHtmlGateway {
     /**
      * レースデータのHTMLを取得する
-     *
      * @param date - 取得する年月
      * @returns Promise<string> - レースデータのHTML
      */

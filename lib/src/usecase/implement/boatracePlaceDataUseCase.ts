@@ -18,6 +18,7 @@ export class BoatracePlaceDataUseCase
         @inject('BoatracePlaceDataService')
         private readonly placeDataService: IPlaceDataService<BoatracePlaceEntity>,
     ) {}
+
     /**
      * 開催場データを取得する
      * @param startDate

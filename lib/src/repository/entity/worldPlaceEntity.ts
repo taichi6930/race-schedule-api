@@ -14,7 +14,6 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
 
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催場所データを生成する
      * @param placeData - レース開催場所データ

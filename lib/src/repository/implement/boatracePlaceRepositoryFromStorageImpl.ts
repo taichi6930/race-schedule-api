@@ -25,11 +25,10 @@ export class BoatracePlaceRepositoryFromStorageImpl
         @inject('BoatracePlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<BoatracePlaceRecord>,
     ) {}
+
     /**
      * 開催データを取得する
-     *
      * このメソッドで日付の範囲を指定して開催データを取得する
-     *
      * @param searchFilter
      */
     @Logger

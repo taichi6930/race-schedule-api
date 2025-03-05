@@ -31,10 +31,12 @@ export class WorldRaceDataUseCase
             WorldPlaceEntity
         >,
     ) {}
+
     /**
      * レース開催データを取得する
      * @param startDate
      * @param finishDate
+     * @param searchList
      */
     async fetchRaceDataList(
         startDate: Date,
@@ -77,9 +79,9 @@ export class WorldRaceDataUseCase
 
     /**
      * レース開催データを更新する
-     *
      * @param startDate
      * @param finishDate
+     * @param searchList
      */
     @Logger
     async updateRaceEntityList(

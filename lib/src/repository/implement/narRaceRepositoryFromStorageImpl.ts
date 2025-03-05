@@ -21,6 +21,7 @@ export class NarRaceRepositoryFromStorageImpl
         @inject('NarRaceS3Gateway')
         private s3Gateway: IS3Gateway<NarRaceRecord>,
     ) {}
+
     /**
      * 開催データを取得する
      * @param searchFilter

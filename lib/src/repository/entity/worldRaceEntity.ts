@@ -20,7 +20,6 @@ import type { IRaceEntity } from './iRaceEntity';
 export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param id - ID
@@ -53,7 +52,6 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
 
     /**
      * idがない場合でのcreate
-     *
      * @param raceData
      * @param updateDate
      */

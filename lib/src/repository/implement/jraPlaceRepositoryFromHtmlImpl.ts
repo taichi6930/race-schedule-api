@@ -22,9 +22,7 @@ export class JraPlaceRepositoryFromHtmlImpl
 
     /**
      * 開催データを取得する
-     *
      * このメソッドで日付の範囲を指定して開催データを取得する
-     *
      * @param searchFilter
      */
     @Logger
@@ -62,9 +60,7 @@ export class JraPlaceRepositoryFromHtmlImpl
 
     /**
      * ターゲットの年リストを生成する
-     *
-     * startDateからfinishDateまでの年のリストを生成する
-     *
+     *startDateからfinishDateまでの年のリストを生成する
      * @param startDate
      * @param finishDate
      */
@@ -89,10 +85,8 @@ export class JraPlaceRepositoryFromHtmlImpl
 
     /**
      * S3から開催データを取得する
-     *
      * ファイル名を利用してS3から開催データを取得する
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
-     *
      * @param date
      */
     @Logger

@@ -14,7 +14,6 @@ import type { IPlaceEntity } from './iPlaceEntity';
 export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催場所データを生成する
      * @param id - ID
@@ -47,7 +46,6 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
 
     /**
      * idがない場合でのcreate
-     *
      * @param placeData
      * @param updateDate
      */

@@ -14,7 +14,6 @@ export interface IRaceRepository<
     /**
      * 開催データを取得する
      * @param searchFilter
-     *
      * @returns レースデータ
      */
     fetchRaceEntityList: (

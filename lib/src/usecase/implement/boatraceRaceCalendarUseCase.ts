@@ -93,7 +93,8 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
      * 表示対象のレースデータのみに絞り込む
      * - 6以上の優先度を持つレースデータを表示対象とする
      * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
-     * @param raceEntity[]
+     * @param raceEntityList
+     * @param displayGradeList
      */
     private filterRaceEntity(
         raceEntityList: BoatraceRaceEntity[],

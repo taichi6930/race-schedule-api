@@ -24,6 +24,7 @@ export class WorldRaceRepositoryFromStorageImpl
         @inject('WorldRaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<WorldRaceRecord>,
     ) {}
+
     /**
      * 開催データを取得する
      * @param searchFilter

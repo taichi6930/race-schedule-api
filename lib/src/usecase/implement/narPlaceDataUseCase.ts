@@ -16,6 +16,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
         @inject('NarPlaceDataService')
         private readonly placeDataService: IPlaceDataService<NarPlaceEntity>,
     ) {}
+
     /**
      * 開催場データを取得する
      * @param startDate

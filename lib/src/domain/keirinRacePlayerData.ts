@@ -13,20 +13,17 @@ import {
 export class KeirinRacePlayerData {
     /**
      * 枠番
-     *
      * @type {KeirinPositionNumber}
      */
     public readonly positionNumber: KeirinPositionNumber;
     /**
      * 選手番号
-     *
      * @type {KeirinPlayerNumber}
      */
     public readonly playerNumber: KeirinPlayerNumber;
 
     /**
      * コンストラクタ
-     *
      * @remarks
      * レースの選手データを生成する
      * @param positionNumber - 枠番

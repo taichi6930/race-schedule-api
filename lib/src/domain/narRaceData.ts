@@ -34,50 +34,42 @@ import type { IPlaceData } from './iPlaceData';
 export class NarRaceData implements IPlaceData<NarRaceData> {
     /**
      * レース名
-     *
      * @type {NarRaceName}
      */
     public readonly name: NarRaceName;
     /**
      * 開催日時
-     *
      * @type {NarRaceDateTime}
      */
     public readonly dateTime: NarRaceDateTime;
     /**
      * 開催場所
-     *
      * @type {NarRaceCourse}
      */
     public readonly location: NarRaceCourse;
     /**
      * 馬場種別
-     *
      * @type {NarRaceCourseType}
      */
     public readonly surfaceType: NarRaceCourseType;
     /**
      * 距離
-     *
      * @type {NarRaceDistance}
      */
     public readonly distance: NarRaceDistance;
     /**
      * グレード
-     *
      * @type {NarGradeType}
      */
     public readonly grade: NarGradeType;
     /**
      * レース番号
-     *
      * @type {NarRaceNumber}
      */
     public readonly number: NarRaceNumber;
 
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param name - レース名

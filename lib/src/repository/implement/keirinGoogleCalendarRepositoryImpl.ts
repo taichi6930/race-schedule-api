@@ -18,6 +18,7 @@ export class KeirinGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposi
     ) {
         super();
     }
+
     protected fromGoogleCalendarDataToCalendarData(
         event: object,
     ): CalendarData {

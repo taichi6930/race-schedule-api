@@ -8,6 +8,7 @@
         "preinstall": "npx only-allow pnpm",
         "build": "tsc",
         "watch": "tsc -w",
+        "s3-data-update": "aws s3 cp s3://race-schedule-bucket/ ./lib/src/gateway/mockData/csv --recursive",
         "test": "TZ=jst jest --coverage --maxWorkers=5",
         "test:watch": "TZ=jst jest --coverage --maxWorkers=5 --watchAll",
         "cdk-deploy": "npm install -g aws-cdk & cdk deploy",

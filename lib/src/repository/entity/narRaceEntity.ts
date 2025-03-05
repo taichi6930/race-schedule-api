@@ -30,7 +30,6 @@ import { validateUpdateDate } from '../../utility/updateDate';
 export class NarRaceEntity {
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param id - ID
@@ -63,7 +62,6 @@ export class NarRaceEntity {
 
     /**
      * idがない場合でのcreate
-     *
      * @param raceData
      * @param updateDate
      */

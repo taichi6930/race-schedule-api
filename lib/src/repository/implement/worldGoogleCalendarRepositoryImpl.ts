@@ -82,6 +82,7 @@ export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposit
             .replace(/z/g, 's')
             .replace(/-/g, '');
     }
+
     protected fromGoogleCalendarDataToCalendarData(
         event: object,
     ): CalendarData {

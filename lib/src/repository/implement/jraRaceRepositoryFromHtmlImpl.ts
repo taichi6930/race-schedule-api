@@ -25,6 +25,7 @@ export class JraRaceRepositoryFromHtmlImpl
         @inject('JraRaceDataHtmlGateway')
         private raceDataHtmlGateway: IJraRaceDataHtmlGateway,
     ) {}
+
     /**
      * 開催データを取得する
      * @param searchFilter
@@ -184,7 +185,6 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * 開催競馬場を取得
-     *
      * @param theadElementMatch
      */
     private extractRaceCourse = (
@@ -198,7 +198,6 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * 開催回数を取得
-     *
      * @param theadElementMatch
      */
     private extractRaceHeld = (
@@ -214,7 +213,6 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * 開催日数を取得
-     *
      * @param theadElementMatch
      */
     private extractRaceHeldDay = (
@@ -230,7 +228,6 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * レース番号を取得
-     *
      * @param element
      */
     private extractRaceNumber = (element: cheerio.Cheerio): number => {
@@ -242,7 +239,6 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * レース距離を取得
-     *
      * @param element
      */
     private extractRaceDistance = (element: cheerio.Cheerio): number | null => {
@@ -258,7 +254,6 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * レース時間を取得
-     *
      * @param element
      */
     private extractRaceTime = (element: cheerio.Cheerio, date: Date): Date => {

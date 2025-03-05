@@ -18,6 +18,7 @@ export class JraGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepositor
     ) {
         super();
     }
+
     protected fromGoogleCalendarDataToCalendarData(
         event: object,
     ): CalendarData {

@@ -12,13 +12,11 @@ import type { IPlaceData } from './iPlaceData';
 export class WorldPlaceData implements IPlaceData<WorldPlaceData> {
     /**
      * 開催日
-     *
      * @type {WorldRaceDateTime}
      */
     public readonly dateTime: WorldRaceDateTime;
     /**
      * 開催場所
-     *
      * @type {WorldRaceCourse}
      */
     public readonly location: WorldRaceCourse;

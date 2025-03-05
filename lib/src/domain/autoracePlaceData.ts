@@ -14,26 +14,22 @@ import type { IPlaceData } from './iPlaceData';
 export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
     /**
      * 開催日時
-     *
      * @type {AutoraceRaceDateTime}
      */
     public readonly dateTime: AutoraceRaceDateTime;
     /**
      * 開催場所
-     *
      * @type {AutoraceRaceCourse}
      */
     public readonly location: AutoraceRaceCourse;
     /**
      * グレード
-     *
      * @type {AutoraceGradeType}
      */
     public readonly grade: AutoraceGradeType;
 
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催場所データを生成する
      * @param dateTime - 開催日時
@@ -68,6 +64,7 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
             validateAutoraceGradeType(grade),
         );
     }
+
     /**
      * データのコピー
      * @param partial - 上書きする部分データ

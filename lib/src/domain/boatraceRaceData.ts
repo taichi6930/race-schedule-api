@@ -30,44 +30,37 @@ import type { IPlaceData } from './iPlaceData';
 export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
     /**
      * レース名
-     *
      * @type {BoatraceRaceName}
      */
     public readonly name: BoatraceRaceName;
     /**
      * 開催ステージ
-     *
      * @type {BoatraceRaceStage}
      */
     public readonly stage: BoatraceRaceStage;
     /**
      * 開催日時
-     *
      * @type {BoatraceRaceDateTime}
      */
     public readonly dateTime: BoatraceRaceDateTime;
     /**
      * 開催場所
-     *
      * @type {BoatraceRaceCourse}
      */
     public readonly location: BoatraceRaceCourse;
     /**
      * グレード
-     *
      * @type {BoatraceGradeType}
      */
     public readonly grade: BoatraceGradeType;
     /**
      * レース番号
-     *
      * @type {BoatraceRaceNumber}
      */
     public readonly number: BoatraceRaceNumber;
 
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param name - レース名

@@ -14,7 +14,6 @@ import type { IPlaceEntity } from './iPlaceEntity';
 export class BoatracePlaceEntity implements IPlaceEntity<BoatracePlaceEntity> {
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催場所データを生成する
      * @param id - ID

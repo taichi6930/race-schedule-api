@@ -37,7 +37,6 @@ import type { IRecord } from './iRecord';
 export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param id - ID

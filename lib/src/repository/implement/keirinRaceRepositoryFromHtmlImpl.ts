@@ -30,6 +30,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         @inject('KeirinRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IKeirinRaceDataHtmlGateway,
     ) {}
+
     /**
      * 開催データを取得する
      * @param searchFilter
@@ -288,6 +289,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         }
         return raceGrade;
     }
+
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない

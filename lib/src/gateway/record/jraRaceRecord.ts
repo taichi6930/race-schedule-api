@@ -51,7 +51,6 @@ import type { IRecord } from './iRecord';
 export class JraRaceRecord implements IRecord<JraRaceRecord> {
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param id - ID

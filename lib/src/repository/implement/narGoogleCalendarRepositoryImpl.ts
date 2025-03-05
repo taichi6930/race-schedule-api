@@ -18,6 +18,7 @@ export class NarGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepositor
     ) {
         super();
     }
+
     protected fromGoogleCalendarDataToCalendarData(
         event: object,
     ): CalendarData {

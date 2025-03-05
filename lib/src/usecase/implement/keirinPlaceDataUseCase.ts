@@ -18,6 +18,7 @@ export class KeirinPlaceDataUseCase
         @inject('KeirinPlaceDataService')
         private readonly placeDataService: IPlaceDataService<KeirinPlaceEntity>,
     ) {}
+
     /**
      * 開催場データを取得する
      * @param startDate

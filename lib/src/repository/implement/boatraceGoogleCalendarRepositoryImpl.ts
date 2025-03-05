@@ -18,6 +18,7 @@ export class BoatraceGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepo
     ) {
         super();
     }
+
     protected fromGoogleCalendarDataToCalendarData(
         event: object,
     ): CalendarData {

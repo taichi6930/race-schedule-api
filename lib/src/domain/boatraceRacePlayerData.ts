@@ -13,20 +13,17 @@ import {
 export class BoatraceRacePlayerData {
     /**
      * 枠番
-     *
      * @type {BoatracePositionNumber}
      */
     public readonly positionNumber: BoatracePositionNumber;
     /**
      * 選手番号
-     *
      * @type {BoatracePlayerNumber}
      */
     public readonly playerNumber: BoatracePlayerNumber;
 
     /**
      * コンストラクタ
-     *
      * @remarks
      * レースの選手データを生成する
      * @param positionNumber - 枠番

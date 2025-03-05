@@ -14,6 +14,7 @@ export interface IRaceDataUseCase<
      * レース開催データを取得する
      * @param startDate
      * @param finishDate
+     * @param searchList
      */
     fetchRaceDataList: (
         startDate: Date,
@@ -26,6 +27,7 @@ export interface IRaceDataUseCase<
      * レース開催データを更新する
      * @param startDate
      * @param finishDate
+     * @param searchList
      */
     updateRaceEntityList: (
         startDate: Date,
