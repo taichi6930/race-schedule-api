@@ -22,7 +22,6 @@ export class KeirinGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposi
     /**
      * Googleカレンダーのデータをカレンダーデータに変換する
      * @param event
-     * @returns
      */
     protected fromGoogleCalendarDataToCalendarData(
         event: object,

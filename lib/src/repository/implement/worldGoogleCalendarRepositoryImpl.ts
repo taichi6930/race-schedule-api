@@ -86,7 +86,6 @@ export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposit
     /**
      * Googleカレンダーのデータをカレンダーデータに変換する
      * @param event
-     * @returns
      */
     protected fromGoogleCalendarDataToCalendarData(
         event: object,

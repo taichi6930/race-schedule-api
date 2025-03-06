@@ -20,7 +20,6 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
     /**
      * カレンダーのイベントの取得を行う
      * @param searchFilter
-     * @returns
      */
     async getEvents(
         searchFilter: SearchPlaceFilterEntity,
