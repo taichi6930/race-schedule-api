@@ -32,50 +32,42 @@ import type { IPlaceData } from './iPlaceData';
 export class WorldRaceData implements IPlaceData<WorldRaceData> {
     /**
      * レース名
-     *
      * @type {WorldRaceName}
      */
     public readonly name: WorldRaceName;
     /**
      * 開催日時
-     *
      * @type {WorldRaceDateTime}
      */
     public readonly dateTime: WorldRaceDateTime;
     /**
      * 開催場所
-     *
      * @type {WorldRaceCourse}
      */
     public readonly location: WorldRaceCourse;
     /**
      * 馬場種別
-     *
      * @type {WorldRaceCourseType}
      */
     public readonly surfaceType: WorldRaceCourseType;
     /**
      * 距離
-     *
      * @type {WorldRaceDistance}
      */
     public readonly distance: WorldRaceDistance;
     /**
      * グレード
-     *
      * @type {WorldGradeType}
      */
     public readonly grade: WorldGradeType;
     /**
      * レース番号
-     *
      * @type {WorldRaceNumber}
      */
     public readonly number: WorldRaceNumber;
 
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param name - レース名

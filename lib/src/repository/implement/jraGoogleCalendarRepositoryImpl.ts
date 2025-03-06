@@ -18,6 +18,11 @@ export class JraGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepositor
     ) {
         super();
     }
+
+    /**
+     * Googleカレンダーのデータをカレンダーデータに変換する
+     * @param event
+     */
     protected fromGoogleCalendarDataToCalendarData(
         event: object,
     ): CalendarData {

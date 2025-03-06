@@ -32,6 +32,7 @@ export class WorldRaceRepositoryFromHtmlImpl
         @inject('WorldRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IWorldRaceDataHtmlGateway,
     ) {}
+
     /**
      * 開催データを取得する
      * @param searchFilter
@@ -58,9 +59,7 @@ export class WorldRaceRepositoryFromHtmlImpl
 
     /**
      * ターゲットの月リストを生成する
-     *
-     * startDateからfinishDateまでの月のリストを生成する
-     *
+     *startDateからfinishDateまでの月のリストを生成する
      * @param startDate
      * @param finishDate
      */
@@ -247,6 +246,7 @@ export class WorldRaceRepositoryFromHtmlImpl
             return [];
         }
     }
+
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない

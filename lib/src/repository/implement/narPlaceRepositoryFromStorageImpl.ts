@@ -21,11 +21,10 @@ export class NarPlaceRepositoryFromStorageImpl
         @inject('NarPlaceS3Gateway')
         private s3Gateway: IS3Gateway<NarPlaceRecord>,
     ) {}
+
     /**
      * 開催データを取得する
-     *
      * このメソッドで日付の範囲を指定して開催データを取得する
-     *
      * @param searchFilter
      */
     @Logger

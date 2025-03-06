@@ -30,6 +30,7 @@ export class KeirinRaceRepositoryFromStorageImpl
         @inject('KeirinRacePlayerS3Gateway')
         private readonly racePlayerS3Gateway: IS3Gateway<KeirinRacePlayerRecord>,
     ) {}
+
     /**
      * 開催データを取得する
      * @param searchFilter

@@ -23,7 +23,6 @@ export class AutoraceRacePlayerRecord
 {
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param id - ID

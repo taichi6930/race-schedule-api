@@ -29,7 +29,6 @@ import type { IRaceEntity } from './iRaceEntity';
 export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param id - ID
@@ -67,7 +66,6 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
 
     /**
      * idがない場合でのcreate
-     *
      * @param raceData
      * @param racePlayerDataList
      * @param updateDate

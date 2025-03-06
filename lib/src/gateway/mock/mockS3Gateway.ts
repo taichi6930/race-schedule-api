@@ -30,7 +30,6 @@ export class MockS3Gateway<T extends IRecord<T>>
 {
     /**
      * モックデータを保存するためのマップ
-     *
      * @private
      * @type {Map<string, string>}
      */
@@ -45,14 +44,12 @@ export class MockS3Gateway<T extends IRecord<T>>
 
     /**
      * バケット名 S3の中にあるデータの保存場所
-     *
      * @private
      * @type {string}
      */
     private bucketName: string;
     /**
      * フォルダのパス
-     *
      * @private
      * @type {string}
      */
@@ -87,7 +84,6 @@ export class MockS3Gateway<T extends IRecord<T>>
 
     /**
      * モックのデータをS3にアップロードする
-     *
      * @param data
      * @param fileName
      */
@@ -105,7 +101,6 @@ export class MockS3Gateway<T extends IRecord<T>>
 
     /**
      * モックのデータをS3から取得する
-     *
      * @param fileName
      */
     @Logger
@@ -122,7 +117,6 @@ export class MockS3Gateway<T extends IRecord<T>>
 
     /**
      * オブジェクトデータをCSV形式に変換する
-     *
      * @private
      * @param {T[]} data
      * @returns {string}

@@ -11,7 +11,6 @@ export class MockBoatracePlaceDataHtmlGateway
 {
     /**
      * ボートレース開催データのHTMLを取得する
-     *
      * @param quarter - 取得するクォーター
      * @returns Promise<string> - 開催データのHTML
      */

@@ -18,6 +18,11 @@ export class KeirinGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposi
     ) {
         super();
     }
+
+    /**
+     * Googleカレンダーのデータをカレンダーデータに変換する
+     * @param event
+     */
     protected fromGoogleCalendarDataToCalendarData(
         event: object,
     ): CalendarData {

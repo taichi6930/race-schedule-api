@@ -30,6 +30,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         @inject('BoatraceRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IBoatraceRaceDataHtmlGateway,
     ) {}
+
     /**
      * 開催データを取得する
      * @param searchFilter
@@ -173,6 +174,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         }
         return raceGrade;
     }
+
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない

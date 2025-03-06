@@ -19,21 +19,18 @@ import { IRecord } from '../record/iRecord';
 export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     /**
      * AWS SDKのS3Client
-     *
      * @private
      * @type {S3Client}
      */
     private readonly s3Client: S3Client;
     /**
      * バケット名 S3の中にあるデータの保存場所
-     *
      * @private
      * @type {string}
      */
     private readonly bucketName: string;
     /**
      * フォルダのパス
-     *
      * @private
      * @type {string}
      */
@@ -53,7 +50,6 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     /**
      * データをS3にアップロードする
-     *
      * @param data
      * @param fileName
      */
@@ -87,7 +83,6 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     /**
      * データをS3から取得する
-     *
      * @param fileName
      */
     @Logger

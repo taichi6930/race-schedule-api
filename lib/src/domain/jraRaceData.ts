@@ -42,62 +42,52 @@ import type { IPlaceData } from './iPlaceData';
 export class JraRaceData implements IPlaceData<JraRaceData> {
     /**
      * レース名
-     *
      * @type {JraRaceName}
      */
     public readonly name: JraRaceName;
     /**
      * 開催日時
-     *
      * @type {JraRaceDateTime}
      */
     public readonly dateTime: JraRaceDateTime;
     /**
      * 開催場所
-     *
      * @type {JraRaceCourse}
      */
     public readonly location: JraRaceCourse;
     /**
      * 馬場種別
-     *
      * @type {JraRaceCourseType}
      */
     public readonly surfaceType: JraRaceCourseType;
     /**
      * 距離
-     *
      * @type {JraRaceDistance}
      */
     public readonly distance: JraRaceDistance;
     /**
      * グレード
-     *
      * @type {JraGradeType}
      */
     public readonly grade: JraGradeType;
     /**
      * レース番号
-     *
      * @type {JraRaceNumber}
      */
     public readonly number: JraRaceNumber;
     /**
      * 開催回数
-     *
      * @type {JraHeldTimes}
      */
     public readonly heldTimes: JraHeldTimes;
     /**
      * 開催日数
-     *
      * @type {JraHeldDayTimes}
      */
     public readonly heldDayTimes: JraHeldDayTimes;
 
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param name - レース名

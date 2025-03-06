@@ -4,7 +4,6 @@
 export class CalendarData {
     /**
      * コンストラクタ
-     *
      * @remarks
      * カレンダーのデータを生成する
      * @param id - イベントID

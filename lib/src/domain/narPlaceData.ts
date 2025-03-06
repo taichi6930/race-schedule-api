@@ -10,20 +10,17 @@ import type { IPlaceData } from './iPlaceData';
 export class NarPlaceData implements IPlaceData<NarPlaceData> {
     /**
      * 開催日
-     *
      * @type {NarRaceDateTime}
      */
     public readonly dateTime: NarRaceDateTime;
     /**
      * 開催場所
-     *
      * @type {NarRaceCourse}
      */
     public readonly location: NarRaceCourse;
 
     /**
      * コンストラクタ
-     *
      * @param dateTime - 開催日時
      * @param location - 開催場所
      */
@@ -44,6 +41,7 @@ export class NarPlaceData implements IPlaceData<NarPlaceData> {
             validateNarRaceCourse(location),
         );
     }
+
     /**
      * データのコピー
      * @param partial - 上書きする部分データ

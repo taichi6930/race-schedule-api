@@ -30,44 +30,37 @@ import type { IPlaceData } from './iPlaceData';
 export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
     /**
      * レース名
-     *
      * @type {AutoraceRaceName}
      */
     public readonly name: AutoraceRaceName;
     /**
      * 開催ステージ
-     *
      * @type {AutoraceRaceStage}
      */
     public readonly stage: AutoraceRaceStage;
     /**
      * 開催日時
-     *
      * @type {AutoraceRaceDateTime}
      */
     public readonly dateTime: AutoraceRaceDateTime;
     /**
      * 開催場所
-     *
      * @type {AutoraceRaceCourse}
      */
     public readonly location: AutoraceRaceCourse;
     /**
      * グレード
-     *
      * @type {AutoraceGradeType}
      */
     public readonly grade: AutoraceGradeType;
     /**
      * レース番号
-     *
      * @type {AutoraceRaceNumber}
      */
     public readonly number: AutoraceRaceNumber;
 
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param name - レース名

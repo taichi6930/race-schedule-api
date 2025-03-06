@@ -13,20 +13,17 @@ import {
 export class AutoraceRacePlayerData {
     /**
      * 枠番
-     *
      * @type {AutoracePositionNumber}
      */
     public readonly positionNumber: AutoracePositionNumber;
     /**
      * 選手番号
-     *
      * @type {AutoracePlayerNumber}
      */
     public readonly playerNumber: AutoracePlayerNumber;
 
     /**
      * コンストラクタ
-     *
      * @remarks
      * オートレースのレースの選手データを生成する
      * @param positionNumber - 枠番

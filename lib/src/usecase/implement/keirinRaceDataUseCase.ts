@@ -35,10 +35,12 @@ export class KeirinRaceDataUseCase
             KeirinPlaceEntity
         >,
     ) {}
+
     /**
      * レース開催データを取得する
      * @param startDate
      * @param finishDate
+     * @param searchList
      */
     async fetchRaceDataList(
         startDate: Date,
@@ -97,9 +99,9 @@ export class KeirinRaceDataUseCase
 
     /**
      * レース開催データを更新する
-     *
      * @param startDate
      * @param finishDate
+     * @param searchList
      */
     @Logger
     async updateRaceEntityList(

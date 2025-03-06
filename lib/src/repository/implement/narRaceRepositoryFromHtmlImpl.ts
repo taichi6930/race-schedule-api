@@ -27,6 +27,7 @@ export class NarRaceRepositoryFromHtmlImpl
         @inject('NarRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: INarRaceDataHtmlGateway,
     ) {}
+
     /**
      * 開催データを取得する
      * @param searchFilter

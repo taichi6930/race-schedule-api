@@ -14,7 +14,6 @@ import type { IPlaceEntity } from './iPlaceEntity';
 export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催場所データを生成する
      * @param id - ID
@@ -47,7 +46,6 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
 
     /**
      * idがない場合でのcreate
-     *
      * @param placeData
      * @param updateDate
      */

@@ -25,11 +25,10 @@ export class AutoracePlaceRepositoryFromStorageImpl
         @inject('AutoracePlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<AutoracePlaceRecord>,
     ) {}
+
     /**
      * 開催データを取得する
-     *
      * このメソッドで日付の範囲を指定して開催データを取得する
-     *
      * @param searchFilter - 開催データ取得リクエスト
      * @returns Promise<AutoracePlaceEntity[]> - 開催データ取得レスポンス
      */

@@ -30,6 +30,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
         @inject('AutoraceRacePlayerS3Gateway')
         private readonly racePlayerS3Gateway: IS3Gateway<AutoraceRacePlayerRecord>,
     ) {}
+
     /**
      * 開催データを取得する
      * @param searchFilter

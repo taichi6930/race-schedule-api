@@ -6,7 +6,6 @@ import { IWorldRaceDataHtmlGateway } from '../interface/iWorldRaceDataHtmlGatewa
 export class WorldRaceDataHtmlGateway implements IWorldRaceDataHtmlGateway {
     /**
      * レースデータのHTMLを取得する
-     *
      * @param date - 取得する年月
      * @returns Promise<string> - レースデータのHTML
      */

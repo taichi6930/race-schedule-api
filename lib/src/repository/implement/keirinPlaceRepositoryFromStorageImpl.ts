@@ -25,11 +25,10 @@ export class KeirinPlaceRepositoryFromStorageImpl
         @inject('KeirinPlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<KeirinPlaceRecord>,
     ) {}
+
     /**
      * 開催データを取得する
-     *
      * このメソッドで日付の範囲を指定して開催データを取得する
-     *
      * @param searchFilter
      */
     @Logger

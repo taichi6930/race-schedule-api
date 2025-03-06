@@ -18,6 +18,10 @@ export class AutoraceGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepo
         super();
     }
 
+    /**
+     * Googleカレンダーのデータをカレンダーデータに変換する
+     * @param event
+     */
     protected fromGoogleCalendarDataToCalendarData(
         event: object,
     ): CalendarData {

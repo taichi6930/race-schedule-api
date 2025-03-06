@@ -26,7 +26,6 @@ import type { IRecord } from './iRecord';
 export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催場所データを生成する
      * @param id - ID

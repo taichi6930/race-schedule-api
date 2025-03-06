@@ -12,7 +12,6 @@ import { INarRaceDataHtmlGateway } from '../interface/iNarRaceDataHtmlGateway';
 export class NarRaceDataHtmlGateway implements INarRaceDataHtmlGateway {
     /**
      * レースデータのHTMLを取得する
-     *
      * @param date - 取得する年月
      * @returns Promise<string> - レースデータのHTML
      */

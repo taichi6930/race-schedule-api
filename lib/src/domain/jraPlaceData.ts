@@ -20,32 +20,27 @@ import type { IPlaceData } from './iPlaceData';
 export class JraPlaceData implements IPlaceData<JraPlaceData> {
     /**
      * 開催日時
-     *
      * @type {JraRaceDateTime}
      */
     public readonly dateTime: JraRaceDateTime;
     /**
      * 開催場所
-     *
      * @type {JraRaceCourse}
      */
     public readonly location: JraRaceCourse;
     /**
      * 開催回数
-     *
      * @type {JraHeldTimes}
      */
     public readonly heldTimes: JraHeldTimes;
     /**
      * 開催日数
-     *
      * @type {JraHeldDayTimes}
      */
     public readonly heldDayTimes: JraHeldDayTimes;
 
     /**
      * コンストラクタ
-     *
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param heldTimes - 開催回数
@@ -84,6 +79,7 @@ export class JraPlaceData implements IPlaceData<JraPlaceData> {
             validateJraHeldDayTimes(heldDayTimes),
         );
     }
+
     /**
      * データのコピー
      * @param partial - 上書きする部分データ

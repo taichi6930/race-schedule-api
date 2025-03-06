@@ -12,26 +12,22 @@ import type { IPlaceData } from './iPlaceData';
 export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
     /**
      * 開催日時
-     *
      * @type {BoatraceRaceDateTime}
      */
     public readonly dateTime: BoatraceRaceDateTime;
     /**
      * 開催場所
-     *
      * @type {BoatraceRaceCourse}
      */
     public readonly location: BoatraceRaceCourse;
     /**
      * グレード
-     *
      * @type {BoatraceGradeType}
      */
     public readonly grade: BoatraceGradeType;
 
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催場所データを生成する
      * @param dateTime - 開催日時
@@ -66,6 +62,7 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
             validateBoatraceGradeType(grade),
         );
     }
+
     /**
      * データのコピー
      * @param partial - 上書きする部分データ

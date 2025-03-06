@@ -26,9 +26,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
 
     /**
      * 開催データを取得する
-     *
      * このメソッドで日付の範囲を指定して開催データを取得する
-     *
      * @param searchFilter - 開催データ取得フィルタ
      */
     @Logger
@@ -62,9 +60,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
 
     /**
      * ターゲットの月リストを生成する
-     *
-     * startDateからfinishDateまでの月のリストを生成する
-     *
+     *startDateからfinishDateまでの月のリストを生成する
      * @param startDate
      * @param finishDate
      */
@@ -101,10 +97,8 @@ export class BoatracePlaceRepositoryFromHtmlImpl
 
     /**
      * S3から開催データを取得する
-     *
      * ファイル名を利用してS3から開催データを取得する
      * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
-     *
      * @param quarterString
      * @param date
      */

@@ -18,6 +18,7 @@ export class AutoracePlaceDataUseCase
         @inject('AutoracePlaceDataService')
         private readonly placeDataService: IPlaceDataService<AutoracePlaceEntity>,
     ) {}
+
     /**
      * 開催場データを取得する
      * @param startDate

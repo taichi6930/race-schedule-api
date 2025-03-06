@@ -38,7 +38,6 @@ import type { IRecord } from './iRecord';
 export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param id - ID

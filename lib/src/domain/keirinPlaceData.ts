@@ -12,19 +12,16 @@ import type { IPlaceData } from './iPlaceData';
 export class KeirinPlaceData implements IPlaceData<KeirinPlaceData> {
     /**
      * 開催日
-     *
      * @type {KeirinRaceDateTime}
      */
     public readonly dateTime: KeirinRaceDateTime;
     /**
      * 開催場所
-     *
      * @type {KeirinRaceCourse}
      */
     public readonly location: KeirinRaceCourse;
     /**
      * グレード
-     *
      * @type {KeirinGradeType}
      */
     public readonly grade: KeirinGradeType;
@@ -63,6 +60,7 @@ export class KeirinPlaceData implements IPlaceData<KeirinPlaceData> {
             validateKeirinGradeType(grade),
         );
     }
+
     /**
      * データのコピー
      * @param partial - 上書きする部分データ

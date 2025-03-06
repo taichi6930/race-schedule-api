@@ -21,11 +21,10 @@ export class JraPlaceRepositoryFromStorageImpl
         @inject('JraPlaceS3Gateway')
         private s3Gateway: IS3Gateway<JraPlaceRecord>,
     ) {}
+
     /**
      * 開催データを取得する
-     *
      * このメソッドで日付の範囲を指定して開催データを取得する
-     *
      * @param searchFilter
      */
     @Logger

@@ -28,44 +28,37 @@ import type { IPlaceData } from './iPlaceData';
 export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
     /**
      * レース名
-     *
      * @type {KeirinRaceName}
      */
     public readonly name: KeirinRaceName;
     /**
      * 開催ステージ
-     *
      * @type {KeirinRaceStage}
      */
     public readonly stage: KeirinRaceStage;
     /**
      * 開催日時
-     *
      * @type {KeirinRaceDateTime}
      */
     public readonly dateTime: KeirinRaceDateTime;
     /**
      * 開催場所
-     *
      * @type {KeirinRaceCourse}
      */
     public readonly location: KeirinRaceCourse;
     /**
      * グレード
-     *
      * @type {KeirinGradeType}
      */
     public readonly grade: KeirinGradeType;
     /**
      * レース番号
-     *
      * @type {KeirinRaceNumber}
      */
     public readonly number: KeirinRaceNumber;
 
     /**
      * コンストラクタ
-     *
      * @remarks
      * レース開催データを生成する
      * @param name - レース名
