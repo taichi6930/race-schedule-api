@@ -17,5 +17,5 @@ jobs:
       - name: Auto merge Dependabot PR
         uses: peter-evans/enable-pull-request-automerge@v2
         with:
-          token: ${{ secrets.GH_APP_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
           pull-request-number: ${{ github.event.workflow_run.pull_requests[0].number }}
