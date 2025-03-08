@@ -170,8 +170,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                                       .text()
                                       .replace('G1', 'GⅠ')
                                       .replace('G2', 'GⅡ')
-                                      .replace('G3', 'GⅢ')
-                                      .replace('Listed', 'Listed');
+                                      .replace('G3', 'GⅢ');
                             const grade: WorldGradeType =
                                 gradeText === '' ? '格付けなし' : gradeText;
 
