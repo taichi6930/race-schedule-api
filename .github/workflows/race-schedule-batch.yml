@@ -16,6 +16,10 @@ on:
 env:
   API_PRODUCTION_URL: "${{ secrets.API_PRODUCTION_URL }}"
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   set-dates:
     runs-on: ubuntu-latest
