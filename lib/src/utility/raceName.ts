@@ -343,7 +343,7 @@ export const processWorldRaceName = (
     raceInfo: WorldRaceDataForRaceName,
 ): string => {
     return raceInfo.name
-        .replace(/[Ａ-Ｚａ-ｚ０-９！-～]/g, function (s) {
+        .replace(/[Ａ-Ｚａ-ｚ０-９！-＃＄％＆（）＊＋，－．／：；＜＝＞？＠［＼］＾＿｀｛｜｝～]/g, function (s) {
             return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
         })
         .replace(/ステークス/, 'S')
