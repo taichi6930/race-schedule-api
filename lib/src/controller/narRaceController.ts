@@ -264,7 +264,7 @@ export class NarRaceController {
                                 race.name,
                                 new Date(race.dateTime),
                                 race.location,
-                                race.surfaceTypeType,
+                                race.surfaceType,
                                 Number(race.distance),
                                 race.grade,
                                 Number(race.number),
