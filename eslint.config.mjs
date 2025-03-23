@@ -90,6 +90,7 @@ export default [
             "unicorn/prefer-regexp-test": "off",
             "unicorn/explicit-length-check": "off",
             "unicorn/prefer-native-coercion-functions": "off",
+            "unicorn/prefer-code-point": "off",
         },
     },
     // YAMLファイルを除外する設定
