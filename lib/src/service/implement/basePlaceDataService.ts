@@ -65,10 +65,12 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
      */
     private getPlaceRepository(type: DataLocationType): IPlaceRepository<P> {
         switch (type) {
-            case DataLocation.Storage:
+            case DataLocation.Storage: {
                 return this.placeRepositoryFromStorage;
-            case DataLocation.Web:
+            }
+            case DataLocation.Web: {
                 return this.placeRepositoryFromHtml;
+            }
         }
     }
 }

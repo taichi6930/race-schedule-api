@@ -8,20 +8,24 @@ import { allowedEnvs, ENV } from '../../src/utility/env';
 container.register<ICalendarGateway>('JraGoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new GoogleCalendarGateway(
                     process.env.JRA_CALENDAR_ID ?? '',
                 );
-            case allowedEnvs.test:
+            }
+            case allowedEnvs.test: {
                 return new GoogleCalendarGateway(
                     process.env.TEST_CALENDAR_ID ?? '',
                 );
+            }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
-            case allowedEnvs.local:
+            case allowedEnvs.local: {
                 return new MockGoogleCalendarGateway('jra');
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });
@@ -29,20 +33,24 @@ container.register<ICalendarGateway>('JraGoogleCalendarGateway', {
 container.register<ICalendarGateway>('NarGoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new GoogleCalendarGateway(
                     process.env.NAR_CALENDAR_ID ?? '',
                 );
-            case allowedEnvs.test:
+            }
+            case allowedEnvs.test: {
                 return new GoogleCalendarGateway(
                     process.env.TEST_CALENDAR_ID ?? '',
                 );
+            }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
-            case allowedEnvs.local:
+            case allowedEnvs.local: {
                 return new MockGoogleCalendarGateway('nar');
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });
@@ -51,20 +59,24 @@ container.register<ICalendarGateway>('NarGoogleCalendarGateway', {
 container.register<ICalendarGateway>('KeirinGoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new GoogleCalendarGateway(
                     process.env.KEIRIN_CALENDAR_ID ?? '',
                 );
-            case allowedEnvs.test:
+            }
+            case allowedEnvs.test: {
                 return new GoogleCalendarGateway(
                     process.env.TEST_CALENDAR_ID ?? '',
                 );
+            }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
-            case allowedEnvs.local:
+            case allowedEnvs.local: {
                 return new MockGoogleCalendarGateway('keirin');
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });
@@ -72,20 +84,24 @@ container.register<ICalendarGateway>('KeirinGoogleCalendarGateway', {
 container.register<ICalendarGateway>('BoatraceGoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new GoogleCalendarGateway(
                     process.env.BOATRACE_CALENDAR_ID ?? '',
                 );
-            case allowedEnvs.test:
+            }
+            case allowedEnvs.test: {
                 return new GoogleCalendarGateway(
                     process.env.TEST_CALENDAR_ID ?? '',
                 );
+            }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
-            case allowedEnvs.local:
+            case allowedEnvs.local: {
                 return new MockGoogleCalendarGateway('boatrace');
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });
@@ -93,20 +109,24 @@ container.register<ICalendarGateway>('BoatraceGoogleCalendarGateway', {
 container.register<ICalendarGateway>('AutoraceGoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new GoogleCalendarGateway(
                     process.env.AUTORACE_CALENDAR_ID ?? '',
                 );
-            case allowedEnvs.test:
+            }
+            case allowedEnvs.test: {
                 return new GoogleCalendarGateway(
                     process.env.TEST_CALENDAR_ID ?? '',
                 );
+            }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
-            case allowedEnvs.local:
+            case allowedEnvs.local: {
                 return new MockGoogleCalendarGateway('autorace');
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });
@@ -114,20 +134,24 @@ container.register<ICalendarGateway>('AutoraceGoogleCalendarGateway', {
 container.register<ICalendarGateway>('WorldGoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new GoogleCalendarGateway(
                     process.env.WORLD_CALENDAR_ID ?? '',
                 );
-            case allowedEnvs.test:
+            }
+            case allowedEnvs.test: {
                 return new GoogleCalendarGateway(
                     process.env.TEST_CALENDAR_ID ?? '',
                 );
+            }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
-            case allowedEnvs.local:
+            case allowedEnvs.local: {
                 return new MockGoogleCalendarGateway('world');
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });

@@ -135,18 +135,22 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                     let grade: AutoraceGradeType | undefined;
                     // divのclassを取得
                     switch (div.attr('class')) {
-                        case 'ico-kaisai':
+                        case 'ico-kaisai': {
                             grade = '開催';
                             break;
-                        case 'ico-sg':
+                        }
+                        case 'ico-sg': {
                             grade = 'SG';
                             break;
-                        case 'ico-g1':
+                        }
+                        case 'ico-g1': {
                             grade = 'GⅠ';
                             break;
-                        case 'ico-g2':
+                        }
+                        case 'ico-g2': {
                             grade = 'GⅡ';
                             break;
+                        }
                     }
                     const datetime = new Date(
                         date.getFullYear(),

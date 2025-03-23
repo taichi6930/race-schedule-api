@@ -40,24 +40,30 @@ import { allowedEnvs, ENV } from '../../src/utility/env';
 container.register<IKeirinPlaceDataHtmlGateway>('KeirinPlaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new KeirinPlaceDataHtmlGateway();
-            case allowedEnvs.local:
+            }
+            case allowedEnvs.local: {
                 return new MockKeirinPlaceDataHtmlGateway();
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });
 container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new KeirinRaceDataHtmlGateway();
-            case allowedEnvs.local:
+            }
+            case allowedEnvs.local: {
                 return new MockKeirinRaceDataHtmlGateway();
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });
@@ -65,56 +71,68 @@ container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
 container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new NarRaceDataHtmlGateway();
+            }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.localInitMadeData: {
                 return new MockNarRaceDataHtmlGateway();
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });
 container.register<INarPlaceDataHtmlGateway>('NarPlaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new NarPlaceDataHtmlGateway();
+            }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.localInitMadeData: {
                 return new MockNarPlaceDataHtmlGateway();
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });
 container.register<IJraRaceDataHtmlGateway>('JraRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new JraRaceDataHtmlGateway();
+            }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.localInitMadeData: {
                 return new MockJraRaceDataHtmlGateway();
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });
 container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new JraPlaceDataHtmlGateway();
+            }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.localInitMadeData: {
                 return new MockJraPlaceDataHtmlGateway();
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });
@@ -122,14 +140,17 @@ container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
 container.register<IWorldRaceDataHtmlGateway>('WorldRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production:
+            case allowedEnvs.production: {
                 return new WorldRaceDataHtmlGateway();
+            }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.localInitMadeData: {
                 return new MockWorldRaceDataHtmlGateway();
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     },
 });
@@ -139,14 +160,17 @@ container.register<IAutoracePlaceDataHtmlGateway>(
     {
         useFactory: () => {
             switch (ENV) {
-                case allowedEnvs.production:
+                case allowedEnvs.production: {
                     return new AutoracePlaceDataHtmlGateway();
+                }
                 case allowedEnvs.local:
                 case allowedEnvs.localNoInitData:
-                case allowedEnvs.localInitMadeData:
+                case allowedEnvs.localInitMadeData: {
                     return new MockAutoracePlaceDataHtmlGateway();
-                default:
+                }
+                default: {
                     throw new Error('Invalid ENV value');
+                }
             }
         },
     },
@@ -156,14 +180,17 @@ container.register<IAutoraceRaceDataHtmlGateway>(
     {
         useFactory: () => {
             switch (ENV) {
-                case allowedEnvs.production:
+                case allowedEnvs.production: {
                     return new AutoraceRaceDataHtmlGateway();
+                }
                 case allowedEnvs.local:
                 case allowedEnvs.localNoInitData:
-                case allowedEnvs.localInitMadeData:
+                case allowedEnvs.localInitMadeData: {
                     return new MockAutoraceRaceDataHtmlGateway();
-                default:
+                }
+                default: {
                     throw new Error('Invalid ENV value');
+                }
             }
         },
     },
@@ -174,12 +201,15 @@ container.register<IBoatracePlaceDataHtmlGateway>(
     {
         useFactory: () => {
             switch (ENV) {
-                case allowedEnvs.production:
+                case allowedEnvs.production: {
                     return new BoatracePlaceDataHtmlGateway();
-                case allowedEnvs.local:
+                }
+                case allowedEnvs.local: {
                     return new MockBoatracePlaceDataHtmlGateway();
-                default:
+                }
+                default: {
                     throw new Error('Invalid ENV value');
+                }
             }
         },
     },
@@ -189,12 +219,15 @@ container.register<IBoatraceRaceDataHtmlGateway>(
     {
         useFactory: () => {
             switch (ENV) {
-                case allowedEnvs.production:
+                case allowedEnvs.production: {
                     return new BoatraceRaceDataHtmlGateway();
-                case allowedEnvs.local:
+                }
+                case allowedEnvs.local: {
                     return new MockBoatraceRaceDataHtmlGateway();
-                default:
+                }
+                default: {
                     throw new Error('Invalid ENV value');
+                }
             }
         },
     },

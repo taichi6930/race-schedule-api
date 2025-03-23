@@ -73,7 +73,6 @@ export default [
             'unicorn/numeric-separators-style': 'off',
             'unicorn/no-null': 'off',
             'unicorn/prefer-global-this': 'off',
-            'unicorn/switch-case-braces': 'off',
             'unicorn/prefer-number-properties': 'off',
             'unicorn/no-useless-promise-resolve-reject': 'off',
             'unicorn/prefer-string-replace-all': 'off',
