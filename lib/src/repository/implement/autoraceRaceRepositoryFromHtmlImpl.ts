@@ -111,11 +111,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                         }
 
                         const raceGrade = placeEntity.placeData.grade;
-                        if (
-                            raceStage !== null &&
-                            raceStage !== undefined &&
-                            raceStage.trim() !== ''
-                        ) {
+                        if (raceStage !== null && raceStage.trim() !== '') {
                             autoraceRaceDataList.push(
                                 AutoraceRaceEntity.createWithoutId(
                                     AutoraceRaceData.create(

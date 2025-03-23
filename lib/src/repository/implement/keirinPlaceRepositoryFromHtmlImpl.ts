@@ -135,11 +135,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         let grade: KeirinGradeType | undefined;
                         imgs.each((_, img) => {
                             const alt = $(img).attr('alt');
-                            if (
-                                alt !== null &&
-                                alt !== undefined &&
-                                alt.trim() !== ''
-                            ) {
+                            if (alt !== undefined && alt.trim() !== '') {
                                 grade = alt
                                     .replace('1', 'Ⅰ')
                                     .replace('2', 'Ⅱ')

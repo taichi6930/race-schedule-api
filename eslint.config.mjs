@@ -29,7 +29,6 @@ export default [
             'simple-import-sort': simpleImportSort,
         },
         rules: {
-            '@typescript-eslint/no-unnecessary-condition': 'off',
             '@typescript-eslint/no-empty-function': 'off',
             '@typescript-eslint/no-unsafe-member-access': 'off',
             '@typescript-eslint/no-unsafe-assignment': 'off',
