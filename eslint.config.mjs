@@ -66,12 +66,11 @@ export default [
             'unicorn/prefer-spread': 'off', // ✅ スプレッド演算子の使用を許可
             'unicorn/prefer-module': 'off', // ✅ ECMAScriptモジュールの使用を許可（後で対応したい）
             'unicorn/no-useless-undefined': 'off', // ✅ 不要なundefinedの使用を許可
-            'unicorn/numeric-separators-style': 'off',
+            'unicorn/numeric-separators-style': 'off', // ✅ 数値リテラルの区切り文字のスタイルを許可
             'unicorn/no-null': 'off',
-            'unicorn/prefer-global-this': 'off',
             'unicorn/prefer-number-properties': 'off',
             'unicorn/no-useless-promise-resolve-reject': 'off',
-            'unicorn/prefer-string-replace-all': 'off',
+            'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
             'unicorn/no-abusive-eslint-disable': 'off',
             'unicorn/prefer-set-has': 'off',
             'unicorn/better-regex': 'off',

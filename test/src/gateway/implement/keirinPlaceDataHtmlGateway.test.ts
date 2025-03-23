@@ -11,7 +11,7 @@ describe('KeirinPlaceDataHtmlGateway', () => {
 
         // fetch をモックし、型定義を追加
         fetchMock = jest.fn();
-        global.fetch = fetchMock;
+        globalThis.fetch = fetchMock;
     });
 
     afterEach(() => {
