@@ -91,11 +91,7 @@ export class JraRaceRepositoryFromHtmlImpl
                 const raceHeldDay: number | null =
                     this.extractRaceHeldDay(theadElementMatch);
                 // 競馬場、開催回数、開催日数が取得できない場合はreturn
-                if (
-                    raceCourse === null ||
-                    raceHeld === null ||
-                    raceHeldDay === null
-                ) {
+                if (raceHeld === null || raceHeldDay === null) {
                     return;
                 }
 

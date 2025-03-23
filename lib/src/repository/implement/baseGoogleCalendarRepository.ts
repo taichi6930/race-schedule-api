@@ -59,8 +59,8 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
                             .fetchCalendarData(raceEntity.id)
                             .then((calendarData) => {
                                 console.debug('calendarData', calendarData);
-                                isExist = true;
                             });
+                        isExist = true;
                     } catch (error) {
                         console.error(
                             'Google Calendar APIからのイベント取得に失敗しました',

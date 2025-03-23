@@ -120,7 +120,7 @@ export class BoatraceRaceDataUseCase
                 DataLocation.Storage,
             )
         )
-            ?.filter((placeEntity) => {
+            .filter((placeEntity) => {
                 if (searchList?.gradeList) {
                     return searchList.gradeList.includes(
                         placeEntity.placeData.grade,
@@ -128,7 +128,7 @@ export class BoatraceRaceDataUseCase
                 }
                 return true;
             })
-            ?.filter((placeEntity) => {
+            .filter((placeEntity) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(
                         placeEntity.placeData.location,

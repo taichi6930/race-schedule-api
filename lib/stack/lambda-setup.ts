@@ -3,7 +3,7 @@ import type { Role } from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import type { Construct } from 'constructs';
 
-import { allowedEnvs, ENV } from '../src/utility/env';
+import { ENV } from '../src/utility/env';
 
 export function createLambdaFunction(
     scope: Construct,
@@ -18,7 +18,7 @@ export function createLambdaFunction(
             entry: 'lib/src/index.ts',
             role: role,
             environment: {
-                ENV: ENV ?? allowedEnvs.local,
+                ENV: ENV,
                 JRA_CALENDAR_ID: process.env.JRA_CALENDAR_ID ?? '',
                 NAR_CALENDAR_ID: process.env.NAR_CALENDAR_ID ?? '',
                 KEIRIN_CALENDAR_ID: process.env.KEIRIN_CALENDAR_ID ?? '',

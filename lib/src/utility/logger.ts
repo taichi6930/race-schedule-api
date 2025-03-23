@@ -31,5 +31,7 @@ export function Logger(
 
 // cdkで保存したENVがproductionの場合、console.errorをオーバーライドする
 if (process.env.IS_DEBUG === 'false') {
-    console.debug = (): void => {};
+    console.debug = (): void => {
+        // Debugging is disabled in production
+    };
 }
