@@ -40,7 +40,7 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
                 __dirname,
                 '../../mock/repository/csv/nar/placeList.csv',
             );
-            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+            const csvData = fs.readFileSync(csvFilePath, 'utf8');
 
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 

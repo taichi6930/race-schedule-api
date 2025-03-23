@@ -42,7 +42,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                 __dirname,
                 '../../mock/repository/csv/jra/raceList.csv',
             );
-            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+            const csvData = fs.readFileSync(csvFilePath, 'utf8');
 
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
@@ -75,7 +75,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                 __dirname,
                 '../../mock/repository/csv/jra/raceList.csv',
             );
-            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+            const csvData = fs.readFileSync(csvFilePath, 'utf8');
 
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 

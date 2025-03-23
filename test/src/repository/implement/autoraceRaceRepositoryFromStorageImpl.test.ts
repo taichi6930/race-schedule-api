@@ -50,7 +50,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                 __dirname,
                 '../../mock/repository/csv/autorace/raceList.csv',
             );
-            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+            const csvData = fs.readFileSync(csvFilePath, 'utf8');
 
             raceS3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
@@ -61,7 +61,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         __dirname,
                         '../../mock/repository/csv/autorace/racePlayerList.csv',
                     ),
-                    'utf-8',
+                    'utf8',
                 ),
             );
 
@@ -142,7 +142,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
             __dirname,
             '../../mock/repository/csv/autorace/raceList.csv',
         );
-        const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+        const csvData = fs.readFileSync(csvFilePath, 'utf8');
 
         raceS3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
@@ -153,7 +153,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                     __dirname,
                     '../../mock/repository/csv/autorace/racePlayerList.csv',
                 ),
-                'utf-8',
+                'utf8',
             ),
         );
 

@@ -40,7 +40,7 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
                 __dirname,
                 '../../mock/repository/csv/keirin/placeList.csv',
             );
-            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+            const csvData = fs.readFileSync(csvFilePath, 'utf8');
 
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 

@@ -64,7 +64,6 @@ export default [
             ],
             'unicorn/prevent-abbreviations': 'off', // ✅ 省略形の使用を許可
             'unicorn/prefer-spread': 'off', // ✅ スプレッド演算子の使用を許可
-            'unicorn/text-encoding-identifier-case': 'off',
             'unicorn/prefer-module': 'off',
             'unicorn/import-style': 'off',
             'unicorn/no-negated-condition': 'off',
