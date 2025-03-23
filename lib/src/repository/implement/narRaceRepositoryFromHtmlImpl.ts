@@ -101,9 +101,9 @@ export class NarRaceRepositoryFromHtmlImpl
                         name: raceName,
                         place: placeEntity.placeData.location,
                         date: raceDate,
-                        surfaceType: surfaceType,
-                        distance: distance,
-                        grade: grade,
+                        surfaceType,
+                        distance,
+                        grade,
                     });
                     narRaceDataList.push(
                         NarRaceEntity.createWithoutId(

@@ -78,7 +78,6 @@ export default [
             'no-useless-return': 'off', // ✅ 不要なreturnの使用を許可
             'require-unicode-regexp': 'off', // ✅ 正規表現リテラルのuフラグを許可
             'camelcase': 'off', // ✅ キャメルケースの使用を許可
-            'object-shorthand': 'off', // ✅ オブジェクトリテラルの省略形の使用を許可
             'func-style': 'off', // ✅ 関数のスタイルを許可
             'func-names': 'off', // ✅ 関数名の使用を許可
             'prefer-template': 'off', // ✅ テンプレートリテラルの使用を許可

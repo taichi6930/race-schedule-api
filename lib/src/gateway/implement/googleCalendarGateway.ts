@@ -72,7 +72,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             }
             await this.calendar.events.update({
                 calendarId: this.calendarId,
-                eventId: eventId,
+                eventId,
                 requestBody: calendarData,
             });
         } catch (error) {
