@@ -112,9 +112,9 @@ export class AutoraceRaceRepositoryFromStorageImpl
         );
 
         // RaceEntityをRacePlayerRecordに変換する
-        const racePlayerRecordList = raceEntityList
-            .map((raceEntity) => raceEntity.toPlayerRecordList())
-            .flat();
+        const racePlayerRecordList = raceEntityList.flatMap((raceEntity) =>
+            raceEntity.toPlayerRecordList(),
+        );
 
         // raceデータでidが重複しているデータは上書きをし、新規のデータは追加する
         for (const raceRecord of raceRecordList) {

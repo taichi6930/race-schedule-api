@@ -76,7 +76,6 @@ export default [
             'unicorn/no-await-expression-member': 'off',
             'unicorn/no-array-reduce': 'off',
             'unicorn/prefer-ternary': 'off',
-            'unicorn/prefer-array-flat-map': 'off',
         },
     },
     // YAMLファイルを除外する設定
