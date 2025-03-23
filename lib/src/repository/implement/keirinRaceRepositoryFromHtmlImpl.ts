@@ -75,11 +75,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
             // id="content"を取得
             const content = $('#content');
             const seriesRaceName = (
-                content
-                    .find('h2')
-                    .text()
-                    .split('\n')
-                    .filter((name) => name)[1] ??
+                content.find('h2').text().split('\n').filter(Boolean)[1] ??
                 `${placeData.location}${placeData.grade}`
             )
                 .replace(/[！-～]/g, (s: string) =>

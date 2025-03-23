@@ -85,7 +85,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                         const [hour, minute] = raceTime
                             .replace('発走時間', '')
                             .split(':')
-                            .map((time) => Number(time));
+                            .map(Number);
 
                         const raceDate = new Date(
                             year,
