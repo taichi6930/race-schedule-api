@@ -158,7 +158,7 @@ export class NarRaceRepositoryFromStorageImpl
         }
 
         // Mapからリストに変換し、日付の最新順にソート
-        const updatedRaceRecordList = Array.from(raceRecordMap.values()).sort(
+        const updatedRaceRecordList = [...raceRecordMap.values()].sort(
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
 

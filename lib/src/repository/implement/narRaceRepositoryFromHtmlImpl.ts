@@ -64,36 +64,26 @@ export class NarRaceRepositoryFromHtmlImpl
             const raceTable = $('section.raceTable');
             const trs = raceTable.find('tr.data');
 
-            for (const tr of Array.from(trs)) {
+            for (const tr of trs) {
                 try {
                     const tds = $(tr).find('td');
                     const distance = this.extractDistance(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
+                        [...tds].map((td: cheerio.Element) => $(td).text()),
                     );
                     if (distance <= 0) {
                         continue;
                     }
                     const raceName = this.extractRaceName(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
+                        [...tds].map((td: cheerio.Element) => $(td).text()),
                     );
                     const grade = this.extractGrade(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
+                        [...tds].map((td: cheerio.Element) => $(td).text()),
                     );
                     const surfaceType = this.extractSurfaceType(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
+                        [...tds].map((td: cheerio.Element) => $(td).text()),
                     );
                     const raceNumber = this.extractRaceNumber(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
+                        [...tds].map((td: cheerio.Element) => $(td).text()),
                     );
                     // 0時0分の日付を取得
                     const raceDate = new Date(
@@ -104,9 +94,7 @@ export class NarRaceRepositoryFromHtmlImpl
                         0,
                     );
                     const raceDateTime = this.extractRaceDateTime(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
+                        [...tds].map((td: cheerio.Element) => $(td).text()),
                         placeEntity.placeData.dateTime,
                     );
                     const processedRaceName = processNarRaceName({
