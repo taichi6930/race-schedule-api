@@ -4,7 +4,7 @@ import { z } from 'zod';
  * JraGradeTypeのzod型定義
  */
 export const JraGradeTypeSchema = z.string().refine((value) => {
-    return JraGradeTypeList.includes(value);
+    return JraGradeTypeList.has(value);
 }, 'JRAのグレードではありません');
 
 /**
@@ -15,7 +15,7 @@ export type JraGradeType = z.infer<typeof JraGradeTypeSchema>;
 /**
  * JRAのグレード リスト
  */
-const JraGradeTypeList: string[] = [
+const JraGradeTypeList = new Set<string>([
     'GⅠ',
     'GⅡ',
     'GⅢ',
@@ -40,7 +40,7 @@ const JraGradeTypeList: string[] = [
     '未勝利',
     '未出走',
     '新馬',
-];
+]);
 
 /**
  * JRAの指定グレードリスト

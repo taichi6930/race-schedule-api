@@ -6,7 +6,7 @@ import type { BoatraceGradeType } from './boatraceGradeType';
  * BoatraceRaceStageのzod型定義
  */
 export const BoatraceRaceStageSchema = z.string().refine((value) => {
-    return BoatraceRaceStageList.includes(value);
+    return BoatraceRaceStageList.has(value);
 }, 'ボートレースのステージではありません');
 
 /**
@@ -17,7 +17,7 @@ export type BoatraceRaceStage = z.infer<typeof BoatraceRaceStageSchema>;
 /**
  * ボートレースのステージ リスト
  */
-const BoatraceRaceStageList: string[] = ['優勝戦', '準優勝戦', '一般戦', ''];
+const BoatraceRaceStageList = new Set(['優勝戦', '準優勝戦', '一般戦', '']);
 
 /**
  * HTMLのステージ名を正式名称に変換するためのマップ

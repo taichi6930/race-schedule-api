@@ -4,7 +4,7 @@ import { z } from 'zod';
  * BoatraceGradeTypeのzod型定義
  */
 export const BoatraceGradeTypeSchema = z.string().refine((value) => {
-    return BoatraceGradeTypeList.includes(value);
+    return BoatraceGradeTypeList.has(value);
 }, 'ボートレースのグレードではありません');
 
 /**
@@ -15,7 +15,7 @@ export type BoatraceGradeType = z.infer<typeof BoatraceGradeTypeSchema>;
 /**
  * ボートレースのグレード リスト
  */
-const BoatraceGradeTypeList: string[] = ['SG', 'GⅠ', 'GⅡ', 'GⅢ', '一般'];
+const BoatraceGradeTypeList = new Set<string>(['SG', 'GⅠ', 'GⅡ', 'GⅢ', '一般']);
 
 /**
  * ボートレースのグレードのバリデーション

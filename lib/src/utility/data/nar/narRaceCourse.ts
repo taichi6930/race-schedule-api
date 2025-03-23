@@ -4,7 +4,7 @@ import { z } from 'zod';
  * NarRaceCourseのzod型定義
  */
 export const NarRaceCourseSchema = z.string().refine((value) => {
-    return NarRaceCourseList.includes(value);
+    return NarRaceCourseList.has(value);
 }, '地方の競馬場ではありません');
 
 /**
@@ -15,7 +15,7 @@ export type NarRaceCourse = z.infer<typeof NarRaceCourseSchema>;
 /**
  * 地方の競馬場 リスト
  */
-const NarRaceCourseList: string[] = [
+const NarRaceCourseList = new Set([
     '北見ば',
     '岩見ば',
     '帯広ば',
@@ -47,7 +47,7 @@ const NarRaceCourseList: string[] = [
     '佐賀',
     '荒尾',
     '中津',
-];
+]);
 
 /**
  * 地方競馬のレース場名とコードの対応表

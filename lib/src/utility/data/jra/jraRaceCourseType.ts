@@ -4,7 +4,7 @@ import { z } from 'zod';
  * JraRaceCourseTypeのzod型定義
  */
 const JraRaceCourseTypeSchema = z.string().refine((value) => {
-    return JraRaceCourseTypeList.includes(value);
+    return JraRaceCourseTypeList.has(value);
 }, '中央競馬の馬場種別ではありません');
 
 /**
@@ -15,7 +15,7 @@ export type JraRaceCourseType = z.infer<typeof JraRaceCourseTypeSchema>;
 /**
  * JRAの競馬の馬場種別 リスト
  */
-const JraRaceCourseTypeList: string[] = ['芝', 'ダート', '障害'];
+const JraRaceCourseTypeList = new Set(['芝', 'ダート', '障害']);
 
 /**
  * 中央競馬の馬場種別のバリデーション

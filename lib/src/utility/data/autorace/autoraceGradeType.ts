@@ -4,7 +4,7 @@ import { z } from 'zod';
  * AutoraceGradeTypeのzod型定義
  */
 export const AutoraceGradeTypeSchema = z.string().refine((value) => {
-    return AutoraceGradeTypeList.includes(value);
+    return AutoraceGradeTypeList.has(value);
 }, 'オートレースのグレードではありません');
 
 /**
@@ -15,7 +15,13 @@ export type AutoraceGradeType = z.infer<typeof AutoraceGradeTypeSchema>;
 /**
  * ボートレースのグレード リスト
  */
-const AutoraceGradeTypeList: string[] = ['SG', '特GⅠ', 'GⅠ', 'GⅡ', '開催'];
+const AutoraceGradeTypeList = new Set<string>([
+    'SG',
+    '特GⅠ',
+    'GⅠ',
+    'GⅡ',
+    '開催',
+]);
 
 /**
  * オートレースのグレードのバリデーション

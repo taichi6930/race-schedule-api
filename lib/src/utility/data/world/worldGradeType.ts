@@ -4,7 +4,7 @@ import { z } from 'zod';
  * WorldGradeTypeのzod型定義
  */
 export const WorldGradeTypeSchema = z.string().refine((value) => {
-    return WorldGradeTypeList.includes(value);
+    return WorldGradeTypeList.has(value);
 }, '海外競馬のグレードではありません');
 
 /**
@@ -15,7 +15,13 @@ export type WorldGradeType = z.infer<typeof WorldGradeTypeSchema>;
 /**
  * 海外競馬のグレード リスト
  */
-const WorldGradeTypeList: string[] = ['GⅠ', 'GⅡ', 'GⅢ', 'Listed', '格付けなし'];
+const WorldGradeTypeList = new Set<string>([
+    'GⅠ',
+    'GⅡ',
+    'GⅢ',
+    'Listed',
+    '格付けなし',
+]);
 
 /**
  * 海外競馬の指定グレードリスト

@@ -4,7 +4,7 @@ import { z } from 'zod';
  * KeirinGradeTypeのzod型定義
  */
 export const KeirinGradeTypeSchema = z.string().refine((value) => {
-    return KeirinGradeTypeList.includes(value);
+    return KeirinGradeTypeList.has(value);
 }, '競輪のグレードではありません');
 
 /**
@@ -15,7 +15,14 @@ export type KeirinGradeType = z.infer<typeof KeirinGradeTypeSchema>;
 /**
  * 競輪のグレード リスト
  */
-const KeirinGradeTypeList: string[] = ['GP', 'GⅠ', 'GⅡ', 'GⅢ', 'FⅠ', 'FⅡ'];
+const KeirinGradeTypeList = new Set<string>([
+    'GP',
+    'GⅠ',
+    'GⅡ',
+    'GⅢ',
+    'FⅠ',
+    'FⅡ',
+]);
 
 /**
  * 競輪の指定グレードリスト
