@@ -145,7 +145,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                         // aタグの中の数字を取得、spanタグの中の文字はいらない
                         const heldTimesInitial = $(element).text();
                         // 数字のみを取得（3東の形になっているので、placeInitialの分を削除）
-                        const heldTimes: number = parseInt(
+                        const heldTimes: number = Number.parseInt(
                             heldTimesInitial.replace(placeInitial, ''),
                         );
                         // placeCountDictに競馬場が存在しない場合は初期化

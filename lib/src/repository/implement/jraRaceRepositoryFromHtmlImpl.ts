@@ -200,10 +200,10 @@ export class JraRaceRepositoryFromHtmlImpl
         theadElementMatch: RegExpExecArray,
     ): number | null => {
         // 開催回数を取得 数字でない場合はreturn
-        if (isNaN(parseInt(theadElementMatch[1]))) {
+        if (isNaN(Number.parseInt(theadElementMatch[1]))) {
             return null;
         }
-        const raceHeld: number = parseInt(theadElementMatch[1]);
+        const raceHeld: number = Number.parseInt(theadElementMatch[1]);
         return raceHeld;
     };
 
@@ -215,10 +215,10 @@ export class JraRaceRepositoryFromHtmlImpl
         theadElementMatch: RegExpExecArray,
     ): number | null => {
         // 開催日程を取得 数字でない場合はreturn
-        if (isNaN(parseInt(theadElementMatch[3]))) {
+        if (isNaN(Number.parseInt(theadElementMatch[3]))) {
             return null;
         }
-        const raceHeldDay: number = parseInt(theadElementMatch[3]);
+        const raceHeldDay: number = Number.parseInt(theadElementMatch[3]);
         return raceHeldDay;
     };
 
@@ -229,7 +229,7 @@ export class JraRaceRepositoryFromHtmlImpl
     private extractRaceNumber = (element: cheerio.Cheerio): number => {
         const raceNumAndTime = element.find('td').eq(0).text().split(' ')[0];
         // tdの最初の要素からレース番号を取得 raceNumAndTimeのxRとなっているxを取得
-        const raceNum: number = parseInt(raceNumAndTime.split('R')[0]);
+        const raceNum: number = Number.parseInt(raceNumAndTime.split('R')[0]);
         return raceNum;
     };
 
@@ -243,7 +243,7 @@ export class JraRaceRepositoryFromHtmlImpl
             element.find('td').eq(1).find('span').eq(1).text(),
         );
         const distance: number | null = distanceMatch
-            ? parseInt(distanceMatch[0].replace('m', ''))
+            ? Number.parseInt(distanceMatch[0].replace('m', ''))
             : null;
         return distance;
     };
@@ -262,7 +262,7 @@ export class JraRaceRepositoryFromHtmlImpl
         // hh:mmの形式からhhとmmを取得
         const [hour, minute] = raceTime
             .split(':')
-            .map((time: string) => parseInt(time));
+            .map((time: string) => Number.parseInt(time));
         return new Date(
             date.getFullYear(),
             date.getMonth(),

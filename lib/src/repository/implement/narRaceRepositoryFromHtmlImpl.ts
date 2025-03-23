@@ -147,7 +147,7 @@ export class NarRaceRepositoryFromHtmlImpl
             race
                 .map((item) => {
                     const match = /(\d+)[Rr]/.exec(item);
-                    return match ? parseInt(match[1]) : 0;
+                    return match ? Number.parseInt(match[1]) : 0;
                 })
                 .find((item) => item !== 0) ?? 0
         );
@@ -158,7 +158,7 @@ export class NarRaceRepositoryFromHtmlImpl
             race
                 .map((item) => {
                     const match = /(\d+)m/.exec(item);
-                    return match ? parseInt(match[1]) : 0;
+                    return match ? Number.parseInt(match[1]) : 0;
                 })
                 .find((item) => item !== 0) ?? 0
         );

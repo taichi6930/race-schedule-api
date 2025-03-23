@@ -101,11 +101,11 @@ export class JraRaceRepositoryFromStorageImpl
                         new Date(columns[indices.dateTime]),
                         columns[indices.location],
                         columns[indices.surfaceType],
-                        parseInt(columns[indices.distance]),
+                        Number.parseInt(columns[indices.distance]),
                         columns[indices.grade],
-                        parseInt(columns[indices.number]),
-                        parseInt(columns[indices.heldTimes]),
-                        parseInt(columns[indices.heldDayTimes]),
+                        Number.parseInt(columns[indices.number]),
+                        Number.parseInt(columns[indices.heldTimes]),
+                        Number.parseInt(columns[indices.heldDayTimes]),
                         updateDate,
                     );
                 } catch (error) {

@@ -101,8 +101,8 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             const raceTime = raceSummaryInfoChildTd.eq(raceNumber).text();
 
             const [hourString, minuteString] = raceTime.split(':');
-            const hour = parseInt(hourString);
-            const minute = parseInt(minuteString);
+            const hour = Number.parseInt(hourString);
+            const minute = Number.parseInt(minuteString);
 
             // TODO: 選手情報を取得する
             const racePlayerDataList: BoatraceRacePlayerData[] = [];

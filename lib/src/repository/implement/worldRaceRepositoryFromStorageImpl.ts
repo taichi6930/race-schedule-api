@@ -144,9 +144,9 @@ export class WorldRaceRepositoryFromStorageImpl
                         new Date(columns[indices.dateTime]),
                         columns[indices.location],
                         columns[indices.surfaceType],
-                        parseInt(columns[indices.distance]),
+                        Number.parseInt(columns[indices.distance]),
                         columns[indices.grade],
-                        parseInt(columns[indices.number]),
+                        Number.parseInt(columns[indices.number]),
                         updateDate,
                     );
                 } catch (error) {

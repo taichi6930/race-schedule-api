@@ -17,7 +17,7 @@ const AutoraceRacePlayerIdSchema = z
     }, 'AutoraceRacePlayerIdの形式ではありません')
     // レース番号は1~12の範囲
     .refine((value) => {
-        const raceNumber = parseInt(value.slice(-4, -2));
+        const raceNumber = Number.parseInt(value.slice(-4, -2));
         try {
             validateAutoraceRaceNumber(raceNumber);
             return true;
@@ -27,7 +27,7 @@ const AutoraceRacePlayerIdSchema = z
     }, 'レース番号は1~12の範囲である必要があります')
     // 枠番は1~8の範囲
     .refine((value) => {
-        const positionNumber = parseInt(value.slice(-2));
+        const positionNumber = Number.parseInt(value.slice(-2));
         try {
             validateAutoracePositionNumber(positionNumber);
             return true;

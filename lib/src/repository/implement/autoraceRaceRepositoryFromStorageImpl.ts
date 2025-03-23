@@ -209,7 +209,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                         new Date(columns[indices.dateTime]),
                         columns[indices.location],
                         columns[indices.grade],
-                        parseInt(columns[indices.number]),
+                        Number.parseInt(columns[indices.number]),
                         updateDate,
                     );
                 } catch (error) {
@@ -268,8 +268,8 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     return AutoraceRacePlayerRecord.create(
                         columns[indices.id],
                         columns[indices.raceId],
-                        parseInt(columns[indices.positionNumber]),
-                        parseInt(columns[indices.playerNumber]),
+                        Number.parseInt(columns[indices.positionNumber]),
+                        Number.parseInt(columns[indices.playerNumber]),
                         updateDate,
                     );
                 } catch (error) {

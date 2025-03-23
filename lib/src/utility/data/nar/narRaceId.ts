@@ -17,7 +17,7 @@ const NarRaceIdSchema = z
     }, 'NarRaceIdの形式ではありません')
     // レース番号は1~12の範囲
     .refine((value) => {
-        const raceNumber = parseInt(value.slice(-2));
+        const raceNumber = Number.parseInt(value.slice(-2));
         try {
             validateNarRaceNumber(raceNumber);
             return true;

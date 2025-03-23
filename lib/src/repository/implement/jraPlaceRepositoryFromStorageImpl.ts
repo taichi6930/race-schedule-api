@@ -129,8 +129,8 @@ export class JraPlaceRepositoryFromStorageImpl
                         columns[indices.id],
                         new Date(columns[indices.dateTime]),
                         columns[indices.location],
-                        parseInt(columns[indices.heldTimes]),
-                        parseInt(columns[indices.heldDayTimes]),
+                        Number.parseInt(columns[indices.heldTimes]),
+                        Number.parseInt(columns[indices.heldDayTimes]),
                         updateDate,
                     );
                 } catch (error) {
