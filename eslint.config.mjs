@@ -4,6 +4,7 @@ import eslintPluginPrettier from 'eslint-plugin-prettier';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unusedImports from 'eslint-plugin-unused-imports';
 import tseslint from 'typescript-eslint';
+import eslintPluginPromise from 'eslint-plugin-promise'; // Import promise plugin
 
 export default [
     // lint対象ファイル
@@ -27,6 +28,7 @@ export default [
             'unused-imports': unusedImports,
             'prettier': eslintPluginPrettier, // Prettierのプラグインを追加
             'simple-import-sort': simpleImportSort,
+            'promise': eslintPluginPromise, // Correctly reference the 'promise' plugin as an object
         },
         rules: {
             '@typescript-eslint/no-unsafe-member-access': 'off',
