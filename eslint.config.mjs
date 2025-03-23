@@ -36,7 +36,6 @@ export default [
             '@typescript-eslint/no-misused-promises': 'off',
             '@typescript-eslint/explicit-module-boundary-types': 'error',
             '@typescript-eslint/prefer-enum-initializers': 'error',
-            '@typescript-eslint/strict-boolean-expressions': 'off',
             '@typescript-eslint/consistent-type-imports': 'error',
             // 不要なインポートの削除を有効化
             'unused-imports/no-unused-imports': 'error',
