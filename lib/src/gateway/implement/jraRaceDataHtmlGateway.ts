@@ -21,8 +21,8 @@ export class JraRaceDataHtmlGateway implements IJraRaceDataHtmlGateway {
             const html = await fetch(url);
             const htmlText = await html.text();
             return htmlText;
-        } catch (e) {
-            console.error(e, 'htmlを取得できませんでした');
+        } catch (error) {
+            console.error(error, 'htmlを取得できませんでした');
             throw new Error('htmlを取得できませんでした');
         }
     }

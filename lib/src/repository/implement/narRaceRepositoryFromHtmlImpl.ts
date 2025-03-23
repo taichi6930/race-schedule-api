@@ -131,13 +131,13 @@ export class NarRaceRepositoryFromHtmlImpl
                             getJSTDate(new Date()),
                         ),
                     );
-                } catch (e) {
-                    console.error('レースデータの取得に失敗しました', e);
+                } catch (error) {
+                    console.error('レースデータの取得に失敗しました', error);
                 }
             });
             return narRaceDataList;
-        } catch (e) {
-            console.error('htmlを取得できませんでした', e);
+        } catch (error) {
+            console.error('htmlを取得できませんでした', error);
             return [];
         }
     }

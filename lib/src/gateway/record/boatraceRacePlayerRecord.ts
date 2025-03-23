@@ -62,9 +62,9 @@ export class BoatraceRacePlayerRecord
                 validateBoatracePlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),
             );
-        } catch (e) {
+        } catch (error) {
             throw new Error(
-                `BoatraceRacePlayerRecord: ${(e as Error).message}`,
+                `BoatraceRacePlayerRecord: ${(error as Error).message}`,
             );
         }
     }

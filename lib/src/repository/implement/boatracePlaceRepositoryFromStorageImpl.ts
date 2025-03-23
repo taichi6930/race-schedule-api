@@ -137,8 +137,8 @@ export class BoatracePlaceRepositoryFromStorageImpl
                         columns[indices.grade],
                         updateDate,
                     );
-                } catch (e) {
-                    console.error(e);
+                } catch (error) {
+                    console.error(error);
                     return undefined;
                 }
             })

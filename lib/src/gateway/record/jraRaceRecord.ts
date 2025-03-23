@@ -120,9 +120,9 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
                 validateJraHeldDayTimes(heldDayTimes),
                 validateUpdateDate(updateDate),
             );
-        } catch (e) {
+        } catch (error) {
             throw new Error(
-                `JraRaceRecordの生成に失敗しました: ${(e as Error).message}`,
+                `JraRaceRecordの生成に失敗しました: ${(error as Error).message}`,
             );
         }
     }

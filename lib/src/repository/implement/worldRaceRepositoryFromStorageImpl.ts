@@ -149,8 +149,8 @@ export class WorldRaceRepositoryFromStorageImpl
                         parseInt(columns[indices.number]),
                         updateDate,
                     );
-                } catch (e) {
-                    console.error(e);
+                } catch (error) {
+                    console.error(error);
                     return undefined;
                 }
             })

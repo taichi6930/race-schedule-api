@@ -103,9 +103,9 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
                 validateNarRaceNumber(number),
                 validateUpdateDate(updateDate),
             );
-        } catch (e) {
-            console.error(e);
-            throw e;
+        } catch (error) {
+            console.error(error);
+            throw error;
         }
     }
 

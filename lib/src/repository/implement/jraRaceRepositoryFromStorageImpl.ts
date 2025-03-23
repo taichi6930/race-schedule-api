@@ -108,8 +108,8 @@ export class JraRaceRepositoryFromStorageImpl
                         parseInt(columns[indices.heldDayTimes]),
                         updateDate,
                     );
-                } catch (e) {
-                    console.error(e);
+                } catch (error) {
+                    console.error(error);
                     return undefined;
                 }
             })

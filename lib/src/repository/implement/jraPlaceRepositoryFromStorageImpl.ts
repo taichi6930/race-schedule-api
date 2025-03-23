@@ -133,8 +133,8 @@ export class JraPlaceRepositoryFromStorageImpl
                         parseInt(columns[indices.heldDayTimes]),
                         updateDate,
                     );
-                } catch (e) {
-                    console.error(e);
+                } catch (error) {
+                    console.error(error);
                     return undefined;
                 }
             })

@@ -184,8 +184,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
                     });
             });
             return keirinRaceEntityList;
-        } catch (e) {
-            console.error('htmlを取得できませんでした', e);
+        } catch (error) {
+            console.error('htmlを取得できませんでした', error);
             return [];
         }
     }

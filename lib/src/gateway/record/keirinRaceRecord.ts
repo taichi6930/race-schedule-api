@@ -92,9 +92,9 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
                 validateKeirinRaceNumber(number),
                 validateUpdateDate(updateDate),
             );
-        } catch (e) {
+        } catch (error) {
             throw new Error(
-                `Failed to create KeirinRaceRecord: ${(e as Error).message}`,
+                `Failed to create KeirinRaceRecord: ${(error as Error).message}`,
             );
         }
     }

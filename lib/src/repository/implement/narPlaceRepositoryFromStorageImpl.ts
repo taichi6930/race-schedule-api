@@ -131,8 +131,8 @@ export class NarPlaceRepositoryFromStorageImpl
                         columns[indices.location],
                         updateDate,
                     );
-                } catch (e) {
-                    console.error(e);
+                } catch (error) {
+                    console.error(error);
                     return undefined;
                 }
             })

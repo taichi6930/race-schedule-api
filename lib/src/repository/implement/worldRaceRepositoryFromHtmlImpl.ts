@@ -231,17 +231,17 @@ export class WorldRaceRepositoryFromHtmlImpl
                                     getJSTDate(new Date()),
                                 ),
                             );
-                        } catch (e) {
+                        } catch (error) {
                             console.error(
                                 'レースデータ加工中にエラーが発生しました',
-                                e,
+                                error,
                             );
                         }
                     });
             });
             return worldRaceDataList;
-        } catch (e) {
-            console.error('htmlを取得できませんでした', e);
+        } catch (error) {
+            console.error('htmlを取得できませんでした', error);
             return [];
         }
     }
