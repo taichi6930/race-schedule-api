@@ -62,7 +62,6 @@ export default [
                 },
             ], // ✅ ファイル名のケースをcamelCaseにする
             'unicorn/prevent-abbreviations': 'off', // ✅ 省略形の使用を許可
-            'unicorn/prefer-spread': 'off', // ✅ スプレッド演算子の使用を許可
             'unicorn/prefer-module': 'off', // ✅ ECMAScriptモジュールの使用を許可（後で対応したい）
             'unicorn/no-useless-undefined': 'off', // ✅ 不要なundefinedの使用を許可
             'unicorn/numeric-separators-style': 'off', // ✅ 数値リテラルの区切り文字のスタイルを許可

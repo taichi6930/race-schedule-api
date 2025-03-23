@@ -77,14 +77,13 @@ describe('BoatraceRaceCalendarUseCase', () => {
                         id: `boatrace2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
-            const mockRaceEntityList: BoatraceRaceEntity[] = Array.from(
-                { length: 5 },
-                (_, i: number) =>
+            const mockRaceEntityList: BoatraceRaceEntity[] = [
+                ...Array.from({ length: 5 }, (_, i: number) =>
                     baseBoatraceRaceEntity.copy({
                         id: `boatrace2024122920${(i + 1).toXDigits(2)}`,
                     }),
-            ).concat(
-                Array.from({ length: 3 }, (_, i: number) =>
+                ),
+                ...Array.from({ length: 3 }, (_, i: number) =>
                     baseBoatraceRaceEntity.copy({
                         id: `boatrace2024122920${(i + 6).toXDigits(2)}`,
                         raceData: baseBoatraceRaceEntity.raceData.copy({
@@ -92,7 +91,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
                         }),
                     }),
                 ),
-            );
+            ];
 
             const expectCalendarDataList: CalendarData[] = Array.from(
                 { length: 3 },
