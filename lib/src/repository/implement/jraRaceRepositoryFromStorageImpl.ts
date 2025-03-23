@@ -141,10 +141,10 @@ export class JraRaceRepositoryFromStorageImpl
             const index = existFetchRaceRecordList.findIndex(
                 (record) => record.id === raceRecord.id,
             );
-            if (index !== -1) {
-                existFetchRaceRecordList[index] = raceRecord;
-            } else {
+            if (index === -1) {
                 existFetchRaceRecordList.push(raceRecord);
+            } else {
+                existFetchRaceRecordList[index] = raceRecord;
             }
         }
 

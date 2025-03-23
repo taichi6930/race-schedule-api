@@ -122,10 +122,10 @@ export class BoatraceRaceRepositoryFromStorageImpl
             const index = existFetchRaceRecordList.findIndex(
                 (record) => record.id === raceRecord.id,
             );
-            if (index !== -1) {
-                existFetchRaceRecordList[index] = raceRecord;
-            } else {
+            if (index === -1) {
                 existFetchRaceRecordList.push(raceRecord);
+            } else {
+                existFetchRaceRecordList[index] = raceRecord;
             }
         }
 
@@ -135,10 +135,10 @@ export class BoatraceRaceRepositoryFromStorageImpl
             const index = existFetchRacePlayerRecordList.findIndex(
                 (record) => record.id === racePlayerRecord.id,
             );
-            if (index !== -1) {
-                existFetchRacePlayerRecordList[index] = racePlayerRecord;
-            } else {
+            if (index === -1) {
                 existFetchRacePlayerRecordList.push(racePlayerRecord);
+            } else {
+                existFetchRacePlayerRecordList[index] = racePlayerRecord;
             }
         }
 

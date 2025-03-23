@@ -153,8 +153,9 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                 }
                             });
                         const keirinRaceData =
-                            raceStage !== null
-                                ? KeirinRaceData.create(
+                            raceStage === null
+                                ? null
+                                : KeirinRaceData.create(
                                       raceName,
                                       raceStage,
                                       new Date(
@@ -167,8 +168,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                       placeData.location,
                                       raceGrade,
                                       Number(raceNumber),
-                                  )
-                                : null;
+                                  );
                         if (
                             keirinRaceData != null &&
                             racePlayerDataList.length !== 0

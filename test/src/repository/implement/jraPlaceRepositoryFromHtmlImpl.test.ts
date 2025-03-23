@@ -8,7 +8,13 @@ import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/s
 import { JraPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== allowedEnvs.githubActionsCi) {
+if (ENV === allowedEnvs.githubActionsCi) {
+    describe('JraPlaceRepositoryFromHtmlImpl', () => {
+        test('CI環境でテストをスキップ', () => {
+            expect(true).toBe(true);
+        });
+    });
+} else {
     describe('JraPlaceRepositoryFromHtmlImpl', () => {
         let placeDataHtmlgateway: IJraPlaceDataHtmlGateway;
         let repository: JraPlaceRepositoryFromHtmlImpl;
@@ -50,12 +56,6 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                     repository.registerPlaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
-        });
-    });
-} else {
-    describe('JraPlaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
         });
     });
 }

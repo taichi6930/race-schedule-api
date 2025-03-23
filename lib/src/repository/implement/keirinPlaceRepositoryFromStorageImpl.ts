@@ -74,10 +74,10 @@ export class KeirinPlaceRepositoryFromStorageImpl
             const index = existFetchPlaceRecordList.findIndex(
                 (record) => record.id === placeRecord.id,
             );
-            if (index !== -1) {
-                existFetchPlaceRecordList[index] = placeRecord;
-            } else {
+            if (index === -1) {
                 existFetchPlaceRecordList.push(placeRecord);
+            } else {
+                existFetchPlaceRecordList[index] = placeRecord;
             }
         }
 

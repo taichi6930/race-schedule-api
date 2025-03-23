@@ -8,7 +8,13 @@ import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/s
 import { NarPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromHtmlImpl';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== allowedEnvs.githubActionsCi) {
+if (ENV === allowedEnvs.githubActionsCi) {
+    describe('NarPlaceRepositoryFromHtmlImpl', () => {
+        test('CI環境でテストをスキップ', () => {
+            expect(true).toBe(true);
+        });
+    });
+} else {
     describe('NarPlaceRepositoryFromHtmlImpl', () => {
         let placeDataHtmlgateway: INarPlaceDataHtmlGateway;
         let repository: NarPlaceRepositoryFromHtmlImpl;
@@ -50,12 +56,6 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                     repository.registerPlaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
-        });
-    });
-} else {
-    describe('NarPlaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
         });
     });
 }

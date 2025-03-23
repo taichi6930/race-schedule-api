@@ -8,7 +8,13 @@ import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/s
 import { KeirinPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== allowedEnvs.githubActionsCi) {
+if (ENV === allowedEnvs.githubActionsCi) {
+    describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
+        test('CI環境でテストをスキップ', () => {
+            expect(true).toBe(true);
+        });
+    });
+} else {
     describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
         let placeDataHtmlgateway: IKeirinPlaceDataHtmlGateway;
         let repository: KeirinPlaceRepositoryFromHtmlImpl;
@@ -50,12 +56,6 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                     repository.registerPlaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
-        });
-    });
-} else {
-    describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
         });
     });
 }
