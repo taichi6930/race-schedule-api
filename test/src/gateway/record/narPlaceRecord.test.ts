@@ -11,19 +11,19 @@ describe('NarPlaceRecordクラスのテスト', () => {
 
     it('日付を変更したNarPlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseNarPlaceRecord;
-        const newPlaceRecord = placeRecord.copy({
+        const copiedPlaceRecord = placeRecord.copy({
             location: '川崎',
         });
 
-        expect(newPlaceRecord.id).toEqual('nar2024122944');
-        expect(newPlaceRecord.dateTime).toEqual(new Date('2024-12-29'));
-        expect(newPlaceRecord.location).toBe('川崎');
+        expect(copiedPlaceRecord.id).toEqual('nar2024122944');
+        expect(copiedPlaceRecord.dateTime).toEqual(new Date('2024-12-29'));
+        expect(copiedPlaceRecord.location).toBe('川崎');
     });
 
     it('何も変更せずNarPlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseNarPlaceRecord;
-        const newPlaceRecord = placeRecord.copy();
+        const copiedPlaceRecord = placeRecord.copy();
 
-        expect(newPlaceRecord).toEqual(placeRecord);
+        expect(copiedPlaceRecord).toEqual(placeRecord);
     });
 });

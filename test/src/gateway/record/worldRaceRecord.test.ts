@@ -18,25 +18,25 @@ describe('WorldRaceRecordクラスのテスト', () => {
 
     it('日付を変更したWorldRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseWorldRaceRecord;
-        const newRaceRecord = raceRecord.copy({
+        const copiedRaceRecord = raceRecord.copy({
             location: 'シャティン',
         });
 
-        expect(newRaceRecord.id).toEqual('world20241001longchamp11');
-        expect(newRaceRecord.name).toBe('凱旋門賞');
-        expect(newRaceRecord.dateTime).toEqual(new Date('2024-10-01 16:30'));
-        expect(newRaceRecord.location).toBe('シャティン');
-        expect(newRaceRecord.surfaceType).toBe('芝');
-        expect(newRaceRecord.distance).toBe(2400);
-        expect(newRaceRecord.grade).toBe('GⅠ');
-        expect(newRaceRecord.number).toBe(11);
+        expect(copiedRaceRecord.id).toEqual('world20241001longchamp11');
+        expect(copiedRaceRecord.name).toBe('凱旋門賞');
+        expect(copiedRaceRecord.dateTime).toEqual(new Date('2024-10-01 16:30'));
+        expect(copiedRaceRecord.location).toBe('シャティン');
+        expect(copiedRaceRecord.surfaceType).toBe('芝');
+        expect(copiedRaceRecord.distance).toBe(2400);
+        expect(copiedRaceRecord.grade).toBe('GⅠ');
+        expect(copiedRaceRecord.number).toBe(11);
     });
 
     it('何も変更せずWorldRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseWorldRaceRecord;
-        const newRaceRecord = raceRecord.copy();
+        const copiedRaceRecord = raceRecord.copy();
 
-        expect(newRaceRecord).toEqual(raceRecord);
+        expect(copiedRaceRecord).toEqual(raceRecord);
     });
 
     it('WorldRaceEntityに変換できることを確認', () => {

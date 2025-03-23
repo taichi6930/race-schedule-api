@@ -12,10 +12,10 @@ describe('JraPlaceEntityクラスのテスト', () => {
 
     it('何も変更せずJraPlaceEntityのインスタンスを作成できることを確認', () => {
         const placeEntity = baseJraPlaceEntity;
-        const newPlaceEntity = placeEntity.copy();
+        const copiedPlaceEntity = placeEntity.copy();
 
-        expect(newPlaceEntity.id).toEqual(placeEntity.id);
-        expect(newPlaceEntity.placeData).toBe(placeEntity.placeData);
+        expect(copiedPlaceEntity.id).toEqual(placeEntity.id);
+        expect(copiedPlaceEntity.placeData).toBe(placeEntity.placeData);
     });
 
     it('何も変更せずJraPlaceDataのインスタンスを作成できることを確認', () => {

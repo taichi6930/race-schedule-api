@@ -23,8 +23,8 @@ export class JraPlaceDataHtmlGateway implements IJraPlaceDataHtmlGateway {
             const htmlText = await html.text();
             console.debug('htmlを取得できました');
             return htmlText;
-        } catch (e) {
-            console.error(e, 'htmlを取得できませんでした');
+        } catch (error) {
+            console.error(error, 'htmlを取得できませんでした');
             throw new Error('htmlを取得できませんでした');
         }
     }

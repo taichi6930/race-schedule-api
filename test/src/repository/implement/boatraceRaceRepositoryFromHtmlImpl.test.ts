@@ -11,7 +11,13 @@ import { BoatraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/reposito
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== allowedEnvs.githubActionsCi) {
+if (ENV === allowedEnvs.githubActionsCi) {
+    describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
+        test('CI環境でテストをスキップ', () => {
+            expect(true).toBe(true);
+        });
+    });
+} else {
     describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
         let raceDataHtmlGateway: IBoatraceRaceDataHtmlGateway;
         let repository: BoatraceRaceRepositoryFromHtmlImpl;
@@ -63,12 +69,6 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                     repository.registerRaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
-        });
-    });
-} else {
-    describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
         });
     });
 }

@@ -1,11 +1,12 @@
+import * as fs from 'node:fs';
+import { Readable } from 'node:stream';
+
 import {
     GetObjectCommand,
     PutObjectCommand,
     S3Client,
 } from '@aws-sdk/client-s3';
 import { createObjectCsvWriter as createCsvWriter } from 'csv-writer';
-import * as fs from 'fs';
-import { Readable } from 'stream';
 import { injectable } from 'tsyringe';
 
 import { Logger } from '../../utility/logger';

@@ -137,7 +137,7 @@ export class NarPlaceRepositoryFromHtmlImpl
 
         const narPlaceDataList: NarPlaceEntity[] = [];
         for (const [place, raceDays] of Object.entries(narPlaceDataDict)) {
-            raceDays.forEach((raceDay) => {
+            for (const raceDay of raceDays) {
                 narPlaceDataList.push(
                     NarPlaceEntity.createWithoutId(
                         NarPlaceData.create(
@@ -151,7 +151,7 @@ export class NarPlaceRepositoryFromHtmlImpl
                         getJSTDate(new Date()),
                     ),
                 );
-            });
+            }
         }
         return narPlaceDataList;
     }

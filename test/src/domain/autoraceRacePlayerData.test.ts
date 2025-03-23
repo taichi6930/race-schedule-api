@@ -15,8 +15,8 @@ describe('AutoraceRacePlayerDataクラスのテスト', () => {
 
     it('何も変更せずAutoraceRacePlayerDataのインスタンスを作成できることを確認', () => {
         const racePlayerData = baseRacePlayerData;
-        const newRacePlayerData = racePlayerData.copy();
+        const copiedRacePlayerData = racePlayerData.copy();
         // インスタンスが変更されていないか確認
-        expect(newRacePlayerData).toEqual(racePlayerData);
+        expect(copiedRacePlayerData).toEqual(racePlayerData);
     });
 });

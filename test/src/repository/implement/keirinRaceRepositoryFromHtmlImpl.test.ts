@@ -11,7 +11,13 @@ import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== allowedEnvs.githubActionsCi) {
+if (ENV === allowedEnvs.githubActionsCi) {
+    describe('KeirinRaceRepositoryFromHtmlImpl', () => {
+        test('CI環境でテストをスキップ', () => {
+            expect(true).toBe(true);
+        });
+    });
+} else {
     describe('KeirinRaceRepositoryFromHtmlImpl', () => {
         let raceDataHtmlGateway: IKeirinRaceDataHtmlGateway;
         let repository: KeirinRaceRepositoryFromHtmlImpl;
@@ -63,12 +69,6 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                     repository.registerRaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
-        });
-    });
-} else {
-    describe('KeirinRaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
         });
     });
 }

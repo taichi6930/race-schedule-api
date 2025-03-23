@@ -15,12 +15,12 @@ describe('KeirinPlaceDataクラスのテスト', () => {
             '平塚',
             'GⅠ',
         );
-        const newPlaceData = placeData.copy({
+        const copiedPlaceData = placeData.copy({
             dateTime: new Date('2022-12-30'),
         });
 
-        expect(newPlaceData.dateTime).toEqual(new Date('2022-12-30'));
-        expect(newPlaceData.location).toBe('平塚');
+        expect(copiedPlaceData.dateTime).toEqual(new Date('2022-12-30'));
+        expect(copiedPlaceData.location).toBe('平塚');
     });
 
     it('何も変更せずKeirinPlaceDataのインスタンスを作成できることを確認', () => {
@@ -29,8 +29,8 @@ describe('KeirinPlaceDataクラスのテスト', () => {
             '平塚',
             'GⅠ',
         );
-        const newPlaceData = placeData.copy();
+        const copiedPlaceData = placeData.copy();
 
-        expect(newPlaceData).toEqual(placeData);
+        expect(copiedPlaceData).toEqual(placeData);
     });
 });

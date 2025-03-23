@@ -10,7 +10,7 @@ const KeirinPlaceIdSchema = z
         return value.startsWith('keirin');
     }, 'keirinから始まる必要があります')
     .refine((value) => {
-        return /^keirin\d{8}\d{2}$/.test(value);
+        return /^keirin\d{10}$/.test(value);
     }, 'KeirinPlaceIdの形式ではありません');
 
 /**

@@ -10,18 +10,18 @@ describe('JraPlaceDataクラスのテスト', () => {
 
     it('日付を変更したJraPlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = baseJraPlaceData;
-        const newPlaceData = placeData.copy({
+        const copiedPlaceData = placeData.copy({
             dateTime: new Date('2024-06-04'),
         });
 
-        expect(newPlaceData.dateTime).toEqual(new Date('2024-06-04'));
-        expect(newPlaceData.location).toBe('中山');
+        expect(copiedPlaceData.dateTime).toEqual(new Date('2024-06-04'));
+        expect(copiedPlaceData.location).toBe('中山');
     });
 
     it('何も変更せずJraPlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = baseJraPlaceData;
-        const newPlaceData = placeData.copy();
+        const copiedPlaceData = placeData.copy();
 
-        expect(newPlaceData).toEqual(placeData);
+        expect(copiedPlaceData).toEqual(placeData);
     });
 });

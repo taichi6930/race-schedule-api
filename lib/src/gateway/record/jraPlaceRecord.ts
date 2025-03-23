@@ -70,9 +70,9 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
                 validateJraHeldDayTimes(heldDayTimes),
                 validateUpdateDate(updateDate),
             );
-        } catch (e) {
+        } catch (error) {
             throw new Error(
-                `JraPlaceRecord create error: ${(e as Error).message}`,
+                `JraPlaceRecord create error: ${(error as Error).message}`,
             );
         }
     }

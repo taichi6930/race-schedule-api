@@ -6,7 +6,7 @@ import type { KeirinGradeType } from './keirinGradeType';
  * KeirinRaceStageのzod型定義
  */
 export const KeirinRaceStageSchema = z.string().refine((value) => {
-    return KeirinRaceStageList.includes(value);
+    return KeirinRaceStageList.has(value);
 }, '競輪のステージではありません');
 
 /**
@@ -17,7 +17,7 @@ export type KeirinRaceStage = z.infer<typeof KeirinRaceStageSchema>;
 /**
  * ボートレースのステージ リスト
  */
-const KeirinRaceStageList: string[] = [
+const KeirinRaceStageList = new Set([
     'S級グランプリ',
     'L級ガールズグランプリ',
     'SA混合ヤンググランプリ',
@@ -71,7 +71,7 @@ const KeirinRaceStageList: string[] = [
     'S級ワンダーステージ',
     'S級スーパープロピストレーサー賞',
     '',
-];
+]);
 
 /**
  * 競輪の指定グレード・ステージリスト

@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 
+import * as fs from 'node:fs';
+import path from 'node:path';
+
 import { format } from 'date-fns';
-import * as fs from 'fs';
-import * as path from 'path';
 import { container } from 'tsyringe';
 
 import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
@@ -49,7 +50,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                 __dirname,
                 '../../mock/repository/csv/boatrace/raceList.csv',
             );
-            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+            const csvData = fs.readFileSync(csvFilePath, 'utf8');
 
             raceS3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
@@ -60,7 +61,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         __dirname,
                         '../../mock/repository/csv/boatrace/racePlayerList.csv',
                     ),
-                    'utf-8',
+                    'utf8',
                 ),
             );
 
@@ -141,7 +142,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
             __dirname,
             '../../mock/repository/csv/boatrace/raceList.csv',
         );
-        const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+        const csvData = fs.readFileSync(csvFilePath, 'utf8');
 
         raceS3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
@@ -152,7 +153,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                     __dirname,
                     '../../mock/repository/csv/boatrace/racePlayerList.csv',
                 ),
-                'utf-8',
+                'utf8',
             ),
         );
 

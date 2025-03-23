@@ -12,20 +12,20 @@ describe('BoatraceRacePlayerRecordクラスのテスト', () => {
 
     it('日付を変更したBoatraceRacePlayerRecordのインスタンスを作成できることを確認', () => {
         const racePlayerRecord = baseBoatraceRacePlayerRecord;
-        const newRacePlayerRecord = racePlayerRecord.copy({
+        const copiedRacePlayerRecord = racePlayerRecord.copy({
             positionNumber: 2,
             playerNumber: 10001,
         });
         expect(racePlayerRecord.id).toBe(`boatrace20241231041101`);
         expect(racePlayerRecord.raceId).toBe(`boatrace202412310411`);
-        expect(newRacePlayerRecord.positionNumber).toBe(2);
-        expect(newRacePlayerRecord.playerNumber).toBe(10001);
+        expect(copiedRacePlayerRecord.positionNumber).toBe(2);
+        expect(copiedRacePlayerRecord.playerNumber).toBe(10001);
     });
 
     it('何も変更せずBoatraceRacePlayerRecordのインスタンスを作成できることを確認', () => {
         const racePlayerRecord = baseBoatraceRacePlayerRecord;
-        const newRacePlayerRecord = racePlayerRecord.copy();
+        const copiedRacePlayerRecord = racePlayerRecord.copy();
 
-        expect(newRacePlayerRecord).toEqual(racePlayerRecord);
+        expect(copiedRacePlayerRecord).toEqual(racePlayerRecord);
     });
 });

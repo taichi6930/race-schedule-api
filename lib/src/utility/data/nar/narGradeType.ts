@@ -4,7 +4,7 @@ import { z } from 'zod';
  * NarGradeTypeのzod型定義
  */
 export const NarGradeTypeSchema = z.string().refine((value) => {
-    return NarGradeTypeList.includes(value);
+    return NarGradeTypeList.has(value);
 }, '地方競馬のグレードではありません');
 
 /**
@@ -15,7 +15,7 @@ export type NarGradeType = z.infer<typeof NarGradeTypeSchema>;
 /**
  * 海外競馬のグレード リスト
  */
-const NarGradeTypeList: string[] = [
+const NarGradeTypeList = new Set<string>([
     'GⅠ',
     'GⅡ',
     'GⅢ',
@@ -31,7 +31,7 @@ const NarGradeTypeList: string[] = [
     'オープン',
     '未格付',
     '一般',
-];
+]);
 
 /**
  * 地方競馬の指定グレードリスト

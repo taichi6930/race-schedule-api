@@ -101,16 +101,16 @@ export class JraRaceRepositoryFromStorageImpl
                         new Date(columns[indices.dateTime]),
                         columns[indices.location],
                         columns[indices.surfaceType],
-                        parseInt(columns[indices.distance]),
+                        Number.parseInt(columns[indices.distance]),
                         columns[indices.grade],
-                        parseInt(columns[indices.number]),
-                        parseInt(columns[indices.heldTimes]),
-                        parseInt(columns[indices.heldDayTimes]),
+                        Number.parseInt(columns[indices.number]),
+                        Number.parseInt(columns[indices.heldTimes]),
+                        Number.parseInt(columns[indices.heldDayTimes]),
                         updateDate,
                     );
-                } catch (e) {
-                    console.error(e);
-                    return undefined;
+                } catch (error) {
+                    console.error(error);
+                    return;
                 }
             })
             .filter(
@@ -136,17 +136,17 @@ export class JraRaceRepositoryFromStorageImpl
         );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
-        raceRecordList.forEach((raceRecord) => {
+        for (const raceRecord of raceRecordList) {
             // 既に登録されているデータがある場合は上書きする
             const index = existFetchRaceRecordList.findIndex(
                 (record) => record.id === raceRecord.id,
             );
-            if (index !== -1) {
-                existFetchRaceRecordList[index] = raceRecord;
-            } else {
+            if (index === -1) {
                 existFetchRaceRecordList.push(raceRecord);
+            } else {
+                existFetchRaceRecordList[index] = raceRecord;
             }
-        });
+        }
 
         // 日付の最新順にソート
         existFetchRaceRecordList.sort(

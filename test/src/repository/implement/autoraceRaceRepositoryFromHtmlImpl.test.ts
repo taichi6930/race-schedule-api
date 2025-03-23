@@ -11,7 +11,13 @@ import { AutoraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/reposito
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== allowedEnvs.githubActionsCi) {
+if (ENV === allowedEnvs.githubActionsCi) {
+    describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
+        test('CI環境でテストをスキップ', () => {
+            expect(true).toBe(true);
+        });
+    });
+} else {
     describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
         let raceDataHtmlGateway: IAutoraceRaceDataHtmlGateway;
         let repository: AutoraceRaceRepositoryFromHtmlImpl;
@@ -63,12 +69,6 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                     repository.registerRaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
-        });
-    });
-} else {
-    describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
         });
     });
 }

@@ -77,14 +77,13 @@ describe('AutoraceRaceCalendarUseCase', () => {
                         id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
-            const mockRaceEntityList: AutoraceRaceEntity[] = Array.from(
-                { length: 5 },
-                (_, i: number) =>
+            const mockRaceEntityList: AutoraceRaceEntity[] = [
+                ...Array.from({ length: 5 }, (_, i: number) =>
                     baseAutoraceRaceEntity.copy({
                         id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                     }),
-            ).concat(
-                Array.from({ length: 3 }, (_, i: number) =>
+                ),
+                ...Array.from({ length: 3 }, (_, i: number) =>
                     baseAutoraceRaceEntity.copy({
                         id: `autorace2024122920${(i + 6).toXDigits(2)}`,
                         raceData: baseAutoraceRaceEntity.raceData.copy({
@@ -92,7 +91,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
                         }),
                     }),
                 ),
-            );
+            ];
 
             const expectCalendarDataList: CalendarData[] = Array.from(
                 { length: 3 },

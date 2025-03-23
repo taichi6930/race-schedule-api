@@ -4,7 +4,7 @@ import z from 'zod';
  * WorldRaceCourseTypeのzod型定義
  */
 const WorldRaceCourseTypeSchema = z.string().refine((value) => {
-    return WorldRaceCourseTypeList.includes(value);
+    return WorldRaceCourseTypeList.has(value);
 }, '海外競馬の馬場種別ではありません');
 
 /**
@@ -15,7 +15,7 @@ export type WorldRaceCourseType = z.infer<typeof WorldRaceCourseTypeSchema>;
 /**
  * 海外競馬の馬場種別 リスト
  */
-const WorldRaceCourseTypeList: string[] = ['芝', 'ダート', '障害', 'AW'];
+const WorldRaceCourseTypeList = new Set<string>(['芝', 'ダート', '障害', 'AW']);
 
 /**
  * 海外競馬の馬場種別のバリデーション

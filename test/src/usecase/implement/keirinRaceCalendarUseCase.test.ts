@@ -77,14 +77,13 @@ describe('KeirinRaceCalendarUseCase', () => {
                         id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
-            const mockRaceEntityList: KeirinRaceEntity[] = Array.from(
-                { length: 5 },
-                (_, i: number) =>
+            const mockRaceEntityList: KeirinRaceEntity[] = [
+                ...Array.from({ length: 5 }, (_, i: number) =>
                     baseKeirinRaceEntity.copy({
                         id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
-            ).concat(
-                Array.from({ length: 3 }, (_, i: number) =>
+                ),
+                ...Array.from({ length: 3 }, (_, i: number) =>
                     baseKeirinRaceEntity.copy({
                         id: `keirin2024122920${(i + 6).toXDigits(2)}`,
                         raceData: baseKeirinRaceEntity.raceData.copy({
@@ -92,7 +91,7 @@ describe('KeirinRaceCalendarUseCase', () => {
                         }),
                     }),
                 ),
-            );
+            ];
 
             const expectCalendarDataList: CalendarData[] = Array.from(
                 { length: 3 },

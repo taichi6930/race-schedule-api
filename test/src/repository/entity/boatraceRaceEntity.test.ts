@@ -11,10 +11,10 @@ describe('BoatraceRaceEntityクラスのテスト', () => {
     });
 
     it('何も変更せずBoatraceRaceEntityのインスタンスを作成できることを確認', () => {
-        const newRaceEntity = baseBoatraceRaceEntity.copy();
+        const copiedRaceEntity = baseBoatraceRaceEntity.copy();
         // インスタンスが変更されていないか確認
-        expect(newRaceEntity.id).toEqual(baseBoatraceRaceEntity.id);
-        expect(newRaceEntity.raceData).toBe(baseBoatraceRaceData);
+        expect(copiedRaceEntity.id).toEqual(baseBoatraceRaceEntity.id);
+        expect(copiedRaceEntity.raceData).toBe(baseBoatraceRaceData);
     });
 
     it('何も変更せずBoatraceRaceDataのインスタンスを作成できることを確認', () => {

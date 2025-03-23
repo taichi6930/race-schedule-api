@@ -61,8 +61,10 @@ export class KeirinRacePlayerRecord implements IRecord<KeirinRacePlayerRecord> {
                 validateKeirinPlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),
             );
-        } catch (e) {
-            throw new Error(`KeirinRacePlayerRecord: ${(e as Error).message}`);
+        } catch (error) {
+            throw new Error(
+                `KeirinRacePlayerRecord: ${(error as Error).message}`,
+            );
         }
     }
 

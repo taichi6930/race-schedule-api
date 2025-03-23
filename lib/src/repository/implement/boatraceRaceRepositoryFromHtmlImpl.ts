@@ -101,8 +101,8 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             const raceTime = raceSummaryInfoChildTd.eq(raceNumber).text();
 
             const [hourString, minuteString] = raceTime.split(':');
-            const hour = parseInt(hourString);
-            const minute = parseInt(minuteString);
+            const hour = Number.parseInt(hourString);
+            const minute = Number.parseInt(minuteString);
 
             // TODO: 選手情報を取得する
             const racePlayerDataList: BoatraceRacePlayerData[] = [];
@@ -122,8 +122,8 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                 ),
             );
             return boatraceRaceEntityList;
-        } catch (e) {
-            console.error('htmlを取得できませんでした', e);
+        } catch (error) {
+            console.error('htmlを取得できませんでした', error);
             return [];
         }
     }
@@ -131,7 +131,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         raceSummaryInfoChild: string,
     ): BoatraceRaceStage | null {
         for (const [pattern, stage] of Object.entries(BoatraceStageMap)) {
-            if (new RegExp(pattern).exec(raceSummaryInfoChild)) {
+            if (new RegExp(pattern).test(raceSummaryInfoChild)) {
                 return stage;
             }
         }

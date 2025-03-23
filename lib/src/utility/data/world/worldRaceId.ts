@@ -11,7 +11,7 @@ const WorldRaceIdSchema = z
     }, 'worldから始まる必要があります')
     // worldの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
     .refine((value) => {
-        return /^world\d{8}\d{2}\d{2}$/.test(value);
+        return /^world\d{12}$/.test(value);
     }, 'WorldRaceIdの形式ではありません');
 
 /**

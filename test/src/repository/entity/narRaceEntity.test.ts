@@ -21,10 +21,10 @@ describe('NarRaceEntityクラスのテスト', () => {
 
     it('何も変更せずNarRaceEntityのインスタンスを作成できることを確認', () => {
         const raceEntity = baseRaceEntity;
-        const newRaceEntity = raceEntity.copy();
+        const copiedRaceEntity = raceEntity.copy();
         // インスタンスが変更されていないか確認
-        expect(newRaceEntity.id).toEqual(raceEntity.id);
-        expect(newRaceEntity.raceData).toBe(raceEntity.raceData);
+        expect(copiedRaceEntity.id).toEqual(raceEntity.id);
+        expect(copiedRaceEntity.raceData).toBe(raceEntity.raceData);
     });
 
     it('何も変更せずNarRaceDataのインスタンスを作成できることを確認', () => {
@@ -55,12 +55,12 @@ describe('NarRaceEntityクラスのテスト', () => {
         const googleCalendarData = raceEntity.toGoogleCalendarData(
             new Date('2025-01-01T12:00:00.000Z'),
         );
-        const newRaceEntity =
+        const copiedRaceEntity =
             NarRaceEntity.fromGoogleCalendarDataToRaceEntity(
                 googleCalendarData,
             );
         // インスタンスが正しいか確認
-        expect(newRaceEntity).toEqual(raceEntity);
+        expect(copiedRaceEntity).toEqual(raceEntity);
     });
 
     it('GoogleカレンダーのイベントからCalendarDataのインスタンスを作成できることを確認', () => {

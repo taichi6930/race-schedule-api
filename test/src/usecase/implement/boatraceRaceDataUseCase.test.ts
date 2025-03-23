@@ -46,7 +46,7 @@ describe('BoatraceRaceDataUseCase', () => {
     });
 
     describe('fetchRaceDataList', () => {
-        [
+        for (const { searchConditions, descriptions, expectedLength } of [
             {
                 searchConditions: { gradeList: ['SG'] },
                 descriptions: 'gradeを検索条件に入れて',
@@ -112,7 +112,7 @@ describe('BoatraceRaceDataUseCase', () => {
                 descriptions: '検索条件なし',
                 expectedLength: 60,
             },
-        ].forEach(({ searchConditions, descriptions, expectedLength }) => {
+        ]) {
             it(`正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                 const mockRaceEntity: BoatraceRaceEntity[] =
                     baseBoatraceRaceEntityList;
@@ -133,7 +133,7 @@ describe('BoatraceRaceDataUseCase', () => {
 
                 expect(result.length).toBe(expectedLength);
             });
-        });
+        }
     });
 
     describe('updateRaceDataList', () => {

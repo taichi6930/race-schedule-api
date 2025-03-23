@@ -6,7 +6,7 @@ import type { AutoraceGradeType } from './autoraceGradeType';
  * AutoraceRaceStageのzod型定義
  */
 export const AutoraceRaceStageSchema = z.string().refine((value) => {
-    return AutoraceRaceStageList.includes(value);
+    return AutoraceRaceStageList.has(value);
 }, 'オートレースのステージではありません');
 
 /**
@@ -25,7 +25,7 @@ export const validateAutoraceRaceStage = (stage: string): AutoraceRaceStage =>
 /**
  * ボートレースのステージ リスト
  */
-const AutoraceRaceStageList: string[] = [
+const AutoraceRaceStageList = new Set([
     '優勝戦',
     '準決勝戦',
     '特別選抜戦',
@@ -36,7 +36,7 @@ const AutoraceRaceStageList: string[] = [
     '最終予選',
     'オーバル特別',
     '選抜戦',
-];
+]);
 
 /**
  * オートレースの指定グレード・ステージリスト

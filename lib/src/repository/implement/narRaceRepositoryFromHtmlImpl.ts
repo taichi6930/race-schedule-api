@@ -64,36 +64,26 @@ export class NarRaceRepositoryFromHtmlImpl
             const raceTable = $('section.raceTable');
             const trs = raceTable.find('tr.data');
 
-            Array.from(trs).forEach((tr: cheerio.Element) => {
+            for (const tr of trs) {
                 try {
                     const tds = $(tr).find('td');
                     const distance = this.extractDistance(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
+                        [...tds].map((td: cheerio.Element) => $(td).text()),
                     );
                     if (distance <= 0) {
-                        return;
+                        continue;
                     }
                     const raceName = this.extractRaceName(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
+                        [...tds].map((td: cheerio.Element) => $(td).text()),
                     );
                     const grade = this.extractGrade(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
+                        [...tds].map((td: cheerio.Element) => $(td).text()),
                     );
                     const surfaceType = this.extractSurfaceType(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
+                        [...tds].map((td: cheerio.Element) => $(td).text()),
                     );
                     const raceNumber = this.extractRaceNumber(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
+                        [...tds].map((td: cheerio.Element) => $(td).text()),
                     );
                     // 0時0分の日付を取得
                     const raceDate = new Date(
@@ -104,12 +94,10 @@ export class NarRaceRepositoryFromHtmlImpl
                         0,
                     );
                     const raceDateTime = this.extractRaceDateTime(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
+                        [...tds].map((td: cheerio.Element) => $(td).text()),
                         placeEntity.placeData.dateTime,
                     );
-                    const newRaceName = processNarRaceName({
+                    const processedRaceName = processNarRaceName({
                         name: raceName,
                         place: placeEntity.placeData.location,
                         date: raceDate,
@@ -120,7 +108,7 @@ export class NarRaceRepositoryFromHtmlImpl
                     narRaceDataList.push(
                         NarRaceEntity.createWithoutId(
                             NarRaceData.create(
-                                newRaceName,
+                                processedRaceName,
                                 raceDateTime,
                                 placeEntity.placeData.location,
                                 surfaceType,
@@ -131,13 +119,13 @@ export class NarRaceRepositoryFromHtmlImpl
                             getJSTDate(new Date()),
                         ),
                     );
-                } catch (e) {
-                    console.error('レースデータの取得に失敗しました', e);
+                } catch (error) {
+                    console.error('レースデータの取得に失敗しました', error);
                 }
-            });
+            }
             return narRaceDataList;
-        } catch (e) {
-            console.error('htmlを取得できませんでした', e);
+        } catch (error) {
+            console.error('htmlを取得できませんでした', error);
             return [];
         }
     }
@@ -147,7 +135,7 @@ export class NarRaceRepositoryFromHtmlImpl
             race
                 .map((item) => {
                     const match = /(\d+)[Rr]/.exec(item);
-                    return match ? parseInt(match[1]) : 0;
+                    return match ? Number.parseInt(match[1]) : 0;
                 })
                 .find((item) => item !== 0) ?? 0
         );
@@ -158,7 +146,7 @@ export class NarRaceRepositoryFromHtmlImpl
             race
                 .map((item) => {
                     const match = /(\d+)m/.exec(item);
-                    return match ? parseInt(match[1]) : 0;
+                    return match ? Number.parseInt(match[1]) : 0;
                 })
                 .find((item) => item !== 0) ?? 0
         );
@@ -178,7 +166,7 @@ export class NarRaceRepositoryFromHtmlImpl
     }
 
     private extractSurfaceType(race: string[]): NarRaceCourseType {
-        const regex = /(芝)[左右直]+[0-9]+m/;
+        const regex = /(芝)[右左直]+\d+m/;
         const trackType = race.find((item) => regex.test(item));
         if (!trackType) {
             return 'ダート';

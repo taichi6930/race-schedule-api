@@ -12,20 +12,20 @@ describe('KeirinRacePlayerRecordクラスのテスト', () => {
 
     it('日付を変更したKeirinRacePlayerRecordのインスタンスを作成できることを確認', () => {
         const racePlayerRecord = baseKeirinRacePlayerRecord;
-        const newRacePlayerRecord = racePlayerRecord.copy({
+        const copiedRacePlayerRecord = racePlayerRecord.copy({
             positionNumber: 2,
             playerNumber: 10001,
         });
         expect(racePlayerRecord.id).toBe('keirin20251230351101');
         expect(racePlayerRecord.raceId).toBe('keirin202512303511');
-        expect(newRacePlayerRecord.positionNumber).toBe(2);
-        expect(newRacePlayerRecord.playerNumber).toBe(10001);
+        expect(copiedRacePlayerRecord.positionNumber).toBe(2);
+        expect(copiedRacePlayerRecord.playerNumber).toBe(10001);
     });
 
     it('何も変更せずKeirinRacePlayerRecordのインスタンスを作成できることを確認', () => {
         const racePlayerRecord = baseKeirinRacePlayerRecord;
-        const newRacePlayerRecord = racePlayerRecord.copy();
+        const copiedRacePlayerRecord = racePlayerRecord.copy();
 
-        expect(newRacePlayerRecord).toEqual(racePlayerRecord);
+        expect(copiedRacePlayerRecord).toEqual(racePlayerRecord);
     });
 });

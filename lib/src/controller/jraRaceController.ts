@@ -68,8 +68,8 @@ export class JraRaceController {
 
             // startDateとfinishDateが指定されていないかつ、日付形式でない場合はエラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
             ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
@@ -110,8 +110,8 @@ export class JraRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
             ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
@@ -168,8 +168,8 @@ export class JraRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
             ) {
                 res.status(400).json({
                     error: 'startDate、finishDateは必須です',
@@ -234,8 +234,8 @@ export class JraRaceController {
 
                 // 日付が無効な場合はエラーを返す
                 if (
-                    isNaN(parsedStartDate.getTime()) ||
-                    isNaN(parsedFinishDate.getTime())
+                    Number.isNaN(parsedStartDate.getTime()) ||
+                    Number.isNaN(parsedFinishDate.getTime())
                 ) {
                     res.status(400).send(
                         'startDate、finishDateは有効な日付である必要があります',
@@ -317,8 +317,8 @@ export class JraRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
             ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
@@ -355,8 +355,8 @@ export class JraRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
             ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;

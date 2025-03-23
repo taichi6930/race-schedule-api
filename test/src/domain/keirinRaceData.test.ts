@@ -17,8 +17,8 @@ describe('KeirinRaceDataクラスのテスト', () => {
 
     it('何も変更せずKeirinRaceDataのインスタンスを作成できることを確認', () => {
         const raceData = baseKeirinRaceData;
-        const newRaceData = raceData.copy();
+        const copiedRaceData = raceData.copy();
         // インスタンスが変更されていないか確認
-        expect(newRaceData).toEqual(raceData);
+        expect(copiedRaceData).toEqual(raceData);
     });
 });

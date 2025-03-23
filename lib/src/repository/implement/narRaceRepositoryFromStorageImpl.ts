@@ -110,14 +110,14 @@ export class NarRaceRepositoryFromStorageImpl
                                 new Date(columns[indices.dateTime]),
                                 columns[indices.location],
                                 columns[indices.surfaceType],
-                                parseInt(columns[indices.distance]),
+                                Number.parseInt(columns[indices.distance]),
                                 columns[indices.grade],
-                                parseInt(columns[indices.number]),
+                                Number.parseInt(columns[indices.number]),
                                 updateDate,
                             );
-                        } catch (e) {
-                            console.error(e);
-                            return undefined;
+                        } catch (error) {
+                            console.error(error);
+                            return;
                         }
                     })
                     .filter(
@@ -153,12 +153,12 @@ export class NarRaceRepositoryFromStorageImpl
             existFetchRaceRecordList.map((record) => [record.id, record]),
         );
 
-        raceRecordList.forEach((raceRecord) => {
+        for (const raceRecord of raceRecordList) {
             raceRecordMap.set(raceRecord.id, raceRecord);
-        });
+        }
 
         // Mapからリストに変換し、日付の最新順にソート
-        const updatedRaceRecordList = Array.from(raceRecordMap.values()).sort(
+        const updatedRaceRecordList = [...raceRecordMap.values()].sort(
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
 

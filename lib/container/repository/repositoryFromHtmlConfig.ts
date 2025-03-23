@@ -42,7 +42,7 @@ import { allowedEnvs, ENV } from '../../src/utility/env';
 // 環境ごとの設定
 switch (ENV) {
     case allowedEnvs.production:
-    case allowedEnvs.local:
+    case allowedEnvs.local: {
         container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromHtml',
             { useClass: NarRaceRepositoryFromHtmlImpl },
@@ -96,9 +96,10 @@ switch (ENV) {
             useClass: BoatraceRaceRepositoryFromHtmlImpl,
         });
         break;
+    }
     case allowedEnvs.test:
     case allowedEnvs.localNoInitData:
-    case allowedEnvs.localInitMadeData:
+    case allowedEnvs.localInitMadeData: {
         container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromHtml',
             { useClass: MockNarRaceRepositoryFromHtmlImpl },
@@ -147,6 +148,8 @@ switch (ENV) {
             useClass: MockBoatraceRaceRepositoryFromHtmlImpl,
         });
         break;
-    default:
+    }
+    default: {
         throw new Error('Invalid ENV value');
+    }
 }

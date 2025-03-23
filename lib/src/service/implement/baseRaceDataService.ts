@@ -71,10 +71,12 @@ export abstract class BaseRaceDataService<
      */
     private getRaceRepository(type: DataLocationType): IRaceRepository<R, P> {
         switch (type) {
-            case DataLocation.Storage:
+            case DataLocation.Storage: {
                 return this.raceRepositoryFromStorage;
-            case DataLocation.Web:
+            }
+            case DataLocation.Web: {
                 return this.raceRepositoryFromHtml;
+            }
         }
     }
 }

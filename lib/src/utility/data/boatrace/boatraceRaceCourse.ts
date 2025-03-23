@@ -27,7 +27,7 @@ export const BoatracePlaceCodeMap: Record<string, string> = {
     大村: '24',
 };
 
-const BoatraceRaceCourseList: string[] = [
+const BoatraceRaceCourseList = new Set([
     '桐生',
     '戸田',
     '江戸川',
@@ -52,13 +52,13 @@ const BoatraceRaceCourseList: string[] = [
     '福岡',
     '唐津',
     '大村',
-];
+]);
 
 /**
  * BoatraceRaceCourseのzod型定義
  */
 export const BoatraceRaceCourseSchema = z.string().refine((value) => {
-    return BoatraceRaceCourseList.includes(value);
+    return BoatraceRaceCourseList.has(value);
 }, 'ボートレース場ではありません');
 
 /**

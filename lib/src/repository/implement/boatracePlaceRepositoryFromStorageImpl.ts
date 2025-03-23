@@ -67,17 +67,17 @@ export class BoatracePlaceRepositoryFromStorageImpl
         );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
-        placeRecordList.forEach((placeRecord) => {
+        for (const placeRecord of placeRecordList) {
             // 既に登録されているデータがある場合は上書きする
             const index = existFetchPlaceRecordList.findIndex(
                 (record) => record.id === placeRecord.id,
             );
-            if (index !== -1) {
-                existFetchPlaceRecordList[index] = placeRecord;
-            } else {
+            if (index === -1) {
                 existFetchPlaceRecordList.push(placeRecord);
+            } else {
+                existFetchPlaceRecordList[index] = placeRecord;
             }
-        });
+        }
 
         // 日付の最新順にソート
         existFetchPlaceRecordList.sort(
@@ -137,9 +137,9 @@ export class BoatracePlaceRepositoryFromStorageImpl
                         columns[indices.grade],
                         updateDate,
                     );
-                } catch (e) {
-                    console.error(e);
-                    return undefined;
+                } catch (error) {
+                    console.error(error);
+                    return;
                 }
             })
             .filter(

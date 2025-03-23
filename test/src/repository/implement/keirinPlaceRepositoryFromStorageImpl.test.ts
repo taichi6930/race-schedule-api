@@ -1,7 +1,8 @@
 import 'reflect-metadata';
 
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import path from 'node:path';
+
 import { container } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
@@ -39,7 +40,7 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
                 __dirname,
                 '../../mock/repository/csv/keirin/placeList.csv',
             );
-            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+            const csvData = fs.readFileSync(csvFilePath, 'utf8');
 
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 

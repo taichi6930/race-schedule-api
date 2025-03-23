@@ -10,18 +10,18 @@ describe('WorldPlaceDataクラスのテスト', () => {
 
     it('日付を変更したWorldPlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = baseWorldPlaceData;
-        const newPlaceData = placeData.copy({
+        const copiedPlaceData = placeData.copy({
             dateTime: new Date('2022-12-30'),
         });
 
-        expect(newPlaceData.dateTime).toEqual(new Date('2022-12-30'));
-        expect(newPlaceData.location).toBe('パリロンシャン');
+        expect(copiedPlaceData.dateTime).toEqual(new Date('2022-12-30'));
+        expect(copiedPlaceData.location).toBe('パリロンシャン');
     });
 
     it('何も変更せずWorldPlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = baseWorldPlaceData;
-        const newPlaceData = placeData.copy();
+        const copiedPlaceData = placeData.copy();
 
-        expect(newPlaceData).toEqual(placeData);
+        expect(copiedPlaceData).toEqual(placeData);
     });
 });

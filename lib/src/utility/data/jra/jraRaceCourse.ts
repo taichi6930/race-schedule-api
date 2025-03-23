@@ -4,7 +4,7 @@ import { z } from 'zod';
  * JraRaceCourseのzod型定義
  */
 export const JraRaceCourseSchema = z.string().refine((value) => {
-    return JraRaceCourseList.includes(value);
+    return JraRaceCourseList.has(value);
 }, '中央の競馬場ではありません');
 
 /**
@@ -15,7 +15,7 @@ export type JraRaceCourse = z.infer<typeof JraRaceCourseSchema>;
 /**
  * JRAの競馬場 リスト
  */
-const JraRaceCourseList: string[] = [
+const JraRaceCourseList = new Set([
     '札幌',
     '函館',
     '福島',
@@ -26,7 +26,7 @@ const JraRaceCourseList: string[] = [
     '京都',
     '阪神',
     '小倉',
-];
+]);
 
 /**
  * 開催中央競馬場のバリデーション

@@ -12,24 +12,24 @@ describe('AutoracePlaceEntityクラスのテスト', () => {
 
     it('日付を変更したNarPlaceEntityのインスタンスを作成できることを確認', () => {
         const placeEntity = baseAutoracePlaceEntity;
-        const newPlaceEntity = placeEntity.copy({
+        const copiedPlaceEntity = placeEntity.copy({
             placeData: baseAutoracePlaceData.copy({
                 dateTime: new Date('2022-12-30'),
             }),
         });
 
-        expect(newPlaceEntity.placeData.dateTime).toEqual(
+        expect(copiedPlaceEntity.placeData.dateTime).toEqual(
             new Date('2022-12-30'),
         );
-        expect(newPlaceEntity.placeData.location).toBe('飯塚');
+        expect(copiedPlaceEntity.placeData.location).toBe('飯塚');
     });
 
     it('何も変更せずAutoracePlaceEntityのインスタンスを作成できることを確認', () => {
         const placeEntity = baseAutoracePlaceEntity;
-        const newPlaceEntity = placeEntity.copy();
+        const copiedPlaceEntity = placeEntity.copy();
 
-        expect(newPlaceEntity.id).toEqual(placeEntity.id);
-        expect(newPlaceEntity.placeData).toBe(placeEntity.placeData);
+        expect(copiedPlaceEntity.id).toEqual(placeEntity.id);
+        expect(copiedPlaceEntity.placeData).toBe(placeEntity.placeData);
     });
 
     it('何も変更せずAutoracePlaceDataのインスタンスを作成できることを確認', () => {

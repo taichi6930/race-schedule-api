@@ -43,7 +43,7 @@ describe('JraRaceDataUseCase', () => {
     });
 
     describe('fetchRaceDataList', () => {
-        [
+        for (const { searchConditions, descriptions, expectedLength } of [
             {
                 searchConditions: { gradeList: ['GⅠ'] },
                 descriptions: 'gradeを検索条件に入れて',
@@ -77,7 +77,7 @@ describe('JraRaceDataUseCase', () => {
                 descriptions: '検索条件なし',
                 expectedLength: 24,
             },
-        ].forEach(({ searchConditions, descriptions, expectedLength }) => {
+        ]) {
             it(`正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                 // モックの戻り値を設定
                 raceDataService.fetchRaceEntityList.mockResolvedValue(
@@ -95,7 +95,7 @@ describe('JraRaceDataUseCase', () => {
 
                 expect(result.length).toBe(expectedLength);
             });
-        });
+        }
     });
 
     describe('updateRaceDataList', () => {

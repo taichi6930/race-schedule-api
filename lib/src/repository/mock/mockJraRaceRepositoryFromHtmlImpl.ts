@@ -17,7 +17,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
         const placeEntityList = searchFilter.placeEntityList;
         const raceEntityList: JraRaceEntity[] = [];
         if (placeEntityList) {
-            placeEntityList.forEach((placeEntity) => {
+            for (const placeEntity of placeEntityList) {
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
                     raceEntityList.push(
@@ -42,7 +42,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
                         ),
                     );
                 }
-            });
+            }
         }
         return Promise.resolve(raceEntityList);
     }

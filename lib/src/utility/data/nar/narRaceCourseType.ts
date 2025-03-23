@@ -4,7 +4,7 @@ import { z } from 'zod';
  * NarRaceCourseTypeのzod型定義
  */
 const NarRaceCourseTypeSchema = z.string().refine((value) => {
-    return NarRaceCourseTypeList.includes(value);
+    return NarRaceCourseTypeList.has(value);
 }, '地方競馬の馬場種別ではありません');
 
 /**
@@ -15,7 +15,7 @@ export type NarRaceCourseType = z.infer<typeof NarRaceCourseTypeSchema>;
 /**
  * 地方競馬の競馬の馬場種別 リスト
  */
-const NarRaceCourseTypeList: string[] = ['芝', 'ダート'];
+const NarRaceCourseTypeList = new Set(['芝', 'ダート']);
 
 /**
  * 地方競馬の馬場種別のバリデーション

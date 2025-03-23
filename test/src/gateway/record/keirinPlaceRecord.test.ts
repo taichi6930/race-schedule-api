@@ -12,20 +12,20 @@ describe('KeirinPlaceRecordクラスのテスト', () => {
 
     it('日付を変更したKeirinPlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseKeirinPlaceRecord;
-        const newPlaceRecord = placeRecord.copy({
+        const copiedPlaceRecord = placeRecord.copy({
             dateTime: new Date('2022-12-30'),
         });
 
-        expect(newPlaceRecord.id).toEqual('keirin2025123035');
-        expect(newPlaceRecord.dateTime).toEqual(new Date('2022-12-30'));
-        expect(newPlaceRecord.location).toBe('平塚');
-        expect(newPlaceRecord.grade).toBe('GP');
+        expect(copiedPlaceRecord.id).toEqual('keirin2025123035');
+        expect(copiedPlaceRecord.dateTime).toEqual(new Date('2022-12-30'));
+        expect(copiedPlaceRecord.location).toBe('平塚');
+        expect(copiedPlaceRecord.grade).toBe('GP');
     });
 
     it('何も変更せずKeirinPlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseKeirinPlaceRecord;
-        const newPlaceRecord = placeRecord.copy();
+        const copiedPlaceRecord = placeRecord.copy();
 
-        expect(newPlaceRecord).toEqual(placeRecord);
+        expect(copiedPlaceRecord).toEqual(placeRecord);
     });
 });

@@ -10,7 +10,7 @@ const AutoracePlaceIdSchema = z
         return value.startsWith('autorace');
     }, 'autoraceから始まる必要があります')
     .refine((value) => {
-        return /^autorace\d{8}\d{2}$/.test(value);
+        return /^autorace\d{10}$/.test(value);
     }, 'AutoracePlaceIdの形式ではありません');
 
 /**

@@ -64,9 +64,9 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
                 validateBoatraceGradeType(grade),
                 validateUpdateDate(updateDate),
             );
-        } catch (e) {
+        } catch (error) {
             throw new Error(
-                `Failed to create BoatracePlaceRecord: ${(e as Error).message}`,
+                `Failed to create BoatracePlaceRecord: ${(error as Error).message}`,
             );
         }
     }

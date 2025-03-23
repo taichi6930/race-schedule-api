@@ -53,9 +53,9 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
                 validateNarRaceCourse(location),
                 validateUpdateDate(updateDate),
             );
-        } catch (e) {
+        } catch (error) {
             throw new Error(
-                `NarPlaceRecord create error: ${(e as Error).message}`,
+                `NarPlaceRecord create error: ${(error as Error).message}`,
             );
         }
     }

@@ -112,35 +112,35 @@ export class AutoraceRaceRepositoryFromStorageImpl
         );
 
         // RaceEntityをRacePlayerRecordに変換する
-        const racePlayerRecordList = raceEntityList
-            .map((raceEntity) => raceEntity.toPlayerRecordList())
-            .flat();
+        const racePlayerRecordList = raceEntityList.flatMap((raceEntity) =>
+            raceEntity.toPlayerRecordList(),
+        );
 
         // raceデータでidが重複しているデータは上書きをし、新規のデータは追加する
-        raceRecordList.forEach((raceRecord) => {
+        for (const raceRecord of raceRecordList) {
             // 既に登録されているデータがある場合は上書きする
             const index = existFetchRaceRecordList.findIndex(
                 (record) => record.id === raceRecord.id,
             );
-            if (index !== -1) {
-                existFetchRaceRecordList[index] = raceRecord;
-            } else {
+            if (index === -1) {
                 existFetchRaceRecordList.push(raceRecord);
+            } else {
+                existFetchRaceRecordList[index] = raceRecord;
             }
-        });
+        }
 
         // racePlayerデータでidが重複しているデータは上書きをし、新規のデータは追加する
-        racePlayerRecordList.forEach((racePlayerRecord) => {
+        for (const racePlayerRecord of racePlayerRecordList) {
             // 既に登録されているデータがある場合は上書きする
             const index = existFetchRacePlayerRecordList.findIndex(
                 (record) => record.id === racePlayerRecord.id,
             );
-            if (index !== -1) {
-                existFetchRacePlayerRecordList[index] = racePlayerRecord;
-            } else {
+            if (index === -1) {
                 existFetchRacePlayerRecordList.push(racePlayerRecord);
+            } else {
+                existFetchRacePlayerRecordList[index] = racePlayerRecord;
             }
-        });
+        }
 
         // 日付の最新順にソート
         existFetchRaceRecordList.sort(
@@ -209,12 +209,12 @@ export class AutoraceRaceRepositoryFromStorageImpl
                         new Date(columns[indices.dateTime]),
                         columns[indices.location],
                         columns[indices.grade],
-                        parseInt(columns[indices.number]),
+                        Number.parseInt(columns[indices.number]),
                         updateDate,
                     );
                 } catch (error) {
                     console.error('AutoraceRaceRecord create error', error);
-                    return undefined;
+                    return;
                 }
             })
             .filter(
@@ -268,8 +268,8 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     return AutoraceRacePlayerRecord.create(
                         columns[indices.id],
                         columns[indices.raceId],
-                        parseInt(columns[indices.positionNumber]),
-                        parseInt(columns[indices.playerNumber]),
+                        Number.parseInt(columns[indices.positionNumber]),
+                        Number.parseInt(columns[indices.playerNumber]),
                         updateDate,
                     );
                 } catch (error) {
@@ -277,7 +277,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                         'AutoraceRacePlayerRecord create error',
                         error,
                     );
-                    return undefined;
+                    return;
                 }
             })
             .filter(

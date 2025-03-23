@@ -11,7 +11,13 @@ import { NarRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/im
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== allowedEnvs.githubActionsCi) {
+if (ENV === allowedEnvs.githubActionsCi) {
+    describe('NarRaceRepositoryFromHtmlImpl', () => {
+        test('CI環境でテストをスキップ', () => {
+            expect(true).toBe(true);
+        });
+    });
+} else {
     describe('NarRaceRepositoryFromHtmlImpl', () => {
         let raceDataHtmlGateway: INarRaceDataHtmlGateway;
         let repository: NarRaceRepositoryFromHtmlImpl;
@@ -118,12 +124,6 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                     repository.registerRaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
-        });
-    });
-} else {
-    describe('NarRaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
         });
     });
 }

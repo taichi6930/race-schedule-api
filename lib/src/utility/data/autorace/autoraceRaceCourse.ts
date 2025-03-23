@@ -4,7 +4,7 @@ import { z } from 'zod';
  * AutoraceRaceCourseのzod型定義
  */
 export const AutoraceRaceCourseSchema = z.string().refine((value) => {
-    return AutoraceRaceCourseList.includes(value);
+    return AutoraceRaceCourseList.has(value);
 }, 'オートレース場ではありません');
 
 /**
@@ -15,14 +15,14 @@ export type AutoraceRaceCourse = z.infer<typeof AutoraceRaceCourseSchema>;
 /**
  * オートレース場リスト
  */
-const AutoraceRaceCourseList: string[] = [
+const AutoraceRaceCourseList = new Set([
     '船橋',
     '川口',
     '伊勢崎',
     '浜松',
     '飯塚',
     '山陽',
-];
+]);
 
 /**
  * 開催オートレース場のバリデーション

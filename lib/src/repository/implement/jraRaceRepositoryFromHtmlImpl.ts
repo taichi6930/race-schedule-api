@@ -128,10 +128,14 @@ export class JraRaceRepositoryFromHtmlImpl
                             .find('a')
                             .text()
                             .replace(/[！-～]/g, (s: string) =>
-                                String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+                                String.fromCodePoint(
+                                    (s.codePointAt(0) ?? 0) - 0xfee0,
+                                ),
                             )
-                            .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s: string) =>
-                                String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+                            .replace(/[０-９Ａ-Ｚａ-ｚ]/g, (s: string) =>
+                                String.fromCodePoint(
+                                    (s.codePointAt(0) ?? 0) - 0xfee0,
+                                ),
                             )
                             .replace(/ステークス/, 'S')
                             .replace(/カップ/, 'C')
@@ -173,8 +177,8 @@ export class JraRaceRepositoryFromHtmlImpl
                     });
             });
             return jraRaceDataList;
-        } catch (e) {
-            console.error('htmlを取得できませんでした', e);
+        } catch (error) {
+            console.error('htmlを取得できませんでした', error);
             return [];
         }
     }
@@ -200,10 +204,10 @@ export class JraRaceRepositoryFromHtmlImpl
         theadElementMatch: RegExpExecArray,
     ): number | null => {
         // 開催回数を取得 数字でない場合はreturn
-        if (isNaN(parseInt(theadElementMatch[1]))) {
+        if (Number.isNaN(Number.parseInt(theadElementMatch[1]))) {
             return null;
         }
-        const raceHeld: number = parseInt(theadElementMatch[1]);
+        const raceHeld: number = Number.parseInt(theadElementMatch[1]);
         return raceHeld;
     };
 
@@ -215,10 +219,10 @@ export class JraRaceRepositoryFromHtmlImpl
         theadElementMatch: RegExpExecArray,
     ): number | null => {
         // 開催日程を取得 数字でない場合はreturn
-        if (isNaN(parseInt(theadElementMatch[3]))) {
+        if (Number.isNaN(Number.parseInt(theadElementMatch[3]))) {
             return null;
         }
-        const raceHeldDay: number = parseInt(theadElementMatch[3]);
+        const raceHeldDay: number = Number.parseInt(theadElementMatch[3]);
         return raceHeldDay;
     };
 
@@ -229,7 +233,7 @@ export class JraRaceRepositoryFromHtmlImpl
     private extractRaceNumber = (element: cheerio.Cheerio): number => {
         const raceNumAndTime = element.find('td').eq(0).text().split(' ')[0];
         // tdの最初の要素からレース番号を取得 raceNumAndTimeのxRとなっているxを取得
-        const raceNum: number = parseInt(raceNumAndTime.split('R')[0]);
+        const raceNum: number = Number.parseInt(raceNumAndTime.split('R')[0]);
         return raceNum;
     };
 
@@ -243,7 +247,7 @@ export class JraRaceRepositoryFromHtmlImpl
             element.find('td').eq(1).find('span').eq(1).text(),
         );
         const distance: number | null = distanceMatch
-            ? parseInt(distanceMatch[0].replace('m', ''))
+            ? Number.parseInt(distanceMatch[0].replace('m', ''))
             : null;
         return distance;
     };
@@ -262,7 +266,7 @@ export class JraRaceRepositoryFromHtmlImpl
         // hh:mmの形式からhhとmmを取得
         const [hour, minute] = raceTime
             .split(':')
-            .map((time: string) => parseInt(time));
+            .map((time: string) => Number.parseInt(time));
         return new Date(
             date.getFullYear(),
             date.getMonth(),
@@ -276,7 +280,7 @@ export class JraRaceRepositoryFromHtmlImpl
     private extractSurfaceType = (
         element: cheerio.Cheerio,
     ): JraRaceCourseType | null => {
-        const surfaceTypeMatch = /[芝ダ障]{1,2}/.exec(
+        const surfaceTypeMatch = /[ダ芝障]{1,2}/.exec(
             element.find('td').eq(1).find('span').eq(1).text(),
         );
         // ダ である場合には ダート に、障 である場合には 障害 に変換する

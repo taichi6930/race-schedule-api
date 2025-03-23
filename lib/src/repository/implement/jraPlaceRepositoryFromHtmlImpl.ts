@@ -128,9 +128,9 @@ export class JraPlaceRepositoryFromHtmlImpl
         // cheerioでHTMLを解析
         const $ = cheerio.load(htmlText);
 
-        Array.from({ length: 12 }, (_, k) => k + 1).forEach((month) => {
+        for (const month of Array.from({ length: 12 }, (_, k) => k + 1)) {
             const monthData = $(`#mon_${month.toString()}`);
-            Array.from({ length: 31 }, (_, k) => k + 1).forEach((day) => {
+            for (const day of Array.from({ length: 31 }, (_, k) => k + 1)) {
                 monthData
                     .find(`.d${day.toString()}`)
                     .each((index: number, element: cheerio.Element) => {
@@ -145,7 +145,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                         // aタグの中の数字を取得、spanタグの中の文字はいらない
                         const heldTimesInitial = $(element).text();
                         // 数字のみを取得（3東の形になっているので、placeInitialの分を削除）
-                        const heldTimes: number = parseInt(
+                        const heldTimes: number = Number.parseInt(
                             heldTimesInitial.replace(placeInitial, ''),
                         );
                         // placeCountDictに競馬場が存在しない場合は初期化
@@ -182,8 +182,8 @@ export class JraPlaceRepositoryFromHtmlImpl
                             ),
                         );
                     });
-            });
-        });
+            }
+        }
         return jraPlaceRecordList;
     }
 

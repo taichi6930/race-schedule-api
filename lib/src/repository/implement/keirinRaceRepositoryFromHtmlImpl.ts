@@ -75,18 +75,14 @@ export class KeirinRaceRepositoryFromHtmlImpl
             // id="content"を取得
             const content = $('#content');
             const seriesRaceName = (
-                content
-                    .find('h2')
-                    .text()
-                    .split('\n')
-                    .filter((name) => name)[1] ??
+                content.find('h2').text().split('\n').filter(Boolean)[1] ??
                 `${placeData.location}${placeData.grade}`
             )
                 .replace(/[！-～]/g, (s: string) =>
-                    String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+                    String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
                 )
-                .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s: string) =>
-                    String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+                .replace(/[０-９Ａ-Ｚａ-ｚ]/g, (s: string) =>
+                    String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
                 );
             // class="section1"を取得
             const section1 = content.find('.section1');
@@ -126,9 +122,9 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         // class="bg-1-pl", "bg-2-pl"..."bg-9-pl"を取得
                         Array.from({ length: 9 }, (_, i) => i + 1) // 1から9までの配列を作成
                             .map((i) => {
-                                const className = `bg-${i.toString()}-pl`;
+                                const bgClassName = `bg-${i.toString()}-pl`;
                                 // class="bg-1-pl"を取得
-                                const tableRow = table.find(`.${className}`);
+                                const tableRow = table.find(`.${bgClassName}`);
                                 // class="bg-1-pl"の中にあるtdを取得
                                 // <td class="no1">1</td>のような形なので、"no${i}"の中のテキストを取得、枠番になる
                                 const positionNumber = tableRow
@@ -153,8 +149,9 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                 }
                             });
                         const keirinRaceData =
-                            raceStage !== null
-                                ? KeirinRaceData.create(
+                            raceStage === null
+                                ? null
+                                : KeirinRaceData.create(
                                       raceName,
                                       raceStage,
                                       new Date(
@@ -167,11 +164,10 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                       placeData.location,
                                       raceGrade,
                                       Number(raceNumber),
-                                  )
-                                : null;
+                                  );
                         if (
                             keirinRaceData != null &&
-                            racePlayerDataList.length !== 0
+                            racePlayerDataList.length > 0
                         ) {
                             keirinRaceEntityList.push(
                                 KeirinRaceEntity.createWithoutId(
@@ -184,8 +180,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
                     });
             });
             return keirinRaceEntityList;
-        } catch (e) {
-            console.error('htmlを取得できませんでした', e);
+        } catch (error) {
+            console.error('htmlを取得できませんでした', error);
             return [];
         }
     }
@@ -197,15 +193,18 @@ export class KeirinRaceRepositoryFromHtmlImpl
         // raceNameに競輪祭が含まれている場合かつ
         // raceStageにガールズが含まれている場合、
         // raceNameを「競輪祭女子王座戦」にする
-        if (/競輪祭/.exec(raceSummaryInfoChild) && /ガールズ/.exec(raceStage)) {
+        if (
+            raceSummaryInfoChild.includes('競輪祭') &&
+            raceStage.includes('ガールズ')
+        ) {
             return '競輪祭女子王座戦';
         }
         // raceNameに高松宮記念杯が含まれているかつ
         // raceStageがガールズが含まれている場合、
         // raceNameを「パールカップ」にする
         if (
-            /高松宮記念杯/.exec(raceSummaryInfoChild) &&
-            /ガールズ/.exec(raceStage)
+            raceSummaryInfoChild.includes('高松宮記念杯') &&
+            raceStage.includes('ガールズ')
         ) {
             return 'パールカップ';
         }
@@ -213,8 +212,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
         // raceStageにガールズが含まれている場合、
         // raceNameを「女子オールスター競輪」にする
         if (
-            /オールスター競輪/.exec(raceSummaryInfoChild) &&
-            /ガールズ/.exec(raceStage)
+            raceSummaryInfoChild.includes('オールスター競輪') &&
+            raceStage.includes('ガールズ')
         ) {
             return '女子オールスター競輪';
         }
@@ -222,8 +221,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
         // raceStageに「ガールズ」が含まれている場合、
         // raceNameを「ガールズケイリンフェスティバル」にする
         if (
-            /サマーナイトフェスティバル/.exec(raceSummaryInfoChild) &&
-            /ガールズ/.exec(raceStage)
+            raceSummaryInfoChild.includes('サマーナイトフェスティバル') &&
+            raceStage.includes('ガールズ')
         ) {
             return 'ガールズケイリンフェスティバル';
         }
@@ -231,8 +230,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
         // raceStageに「グランプリ」が含まれていなかったら、
         // raceNameを「寺内大吉記念杯競輪」にする
         if (
-            /KEIRINグランプリ/.exec(raceSummaryInfoChild) &&
-            !/グランプリ/.exec(raceStage)
+            raceSummaryInfoChild.includes('KEIRINグランプリ') &&
+            !raceStage.includes('グランプリ')
         ) {
             return '寺内大吉記念杯競輪';
         }
@@ -243,7 +242,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         raceSummaryInfoChild: string,
     ): KeirinRaceStage | null {
         for (const [pattern, stage] of Object.entries(KeirinStageMap)) {
-            if (new RegExp(pattern).exec(raceSummaryInfoChild)) {
+            if (new RegExp(pattern).test(raceSummaryInfoChild)) {
                 return stage;
             }
         }
@@ -262,29 +261,29 @@ export class KeirinRaceRepositoryFromHtmlImpl
         }
         // raceNameに女子オールスター競輪が入っている場合、2024年であればFⅡ、2025年以降であればGⅠを返す
         if (
-            /女子オールスター競輪/.exec(raceName) &&
+            raceName.includes('女子オールスター競輪') &&
             raceDate.getFullYear() >= 2025
         ) {
             return 'GⅠ';
         }
         if (
-            /女子オールスター競輪/.exec(raceName) &&
+            raceName.includes('女子オールスター競輪') &&
             raceDate.getFullYear() === 2024
         ) {
             return 'FⅡ';
         }
         // raceNameにサマーナイトフェスティバルが入っている場合、raceStageが「ガールズ」が含まれている場合、FⅡを返す
         if (
-            /サマーナイトフェスティバル/.exec(raceName) &&
-            /ガールズ/.exec(raceStage)
+            raceName.includes('サマーナイトフェスティバル') &&
+            raceStage.includes('ガールズ')
         ) {
             return 'FⅡ';
         }
-        if (/ガールズケイリンフェスティバル/.exec(raceName)) {
+        if (raceName.includes('ガールズケイリンフェスティバル')) {
             return 'FⅡ';
         }
         // raceNameに寺内大吉記念杯競輪が入っている場合、FⅠを返す
-        if (/寺内大吉記念杯競輪/.exec(raceName)) {
+        if (raceName.includes('寺内大吉記念杯競輪')) {
             return 'FⅠ';
         }
         return raceGrade;

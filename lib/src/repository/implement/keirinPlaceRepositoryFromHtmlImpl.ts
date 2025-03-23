@@ -161,8 +161,8 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                             );
                         }
                     });
-                } catch (e) {
-                    console.error(e);
+                } catch (error) {
+                    console.error(error);
                 }
             });
         });

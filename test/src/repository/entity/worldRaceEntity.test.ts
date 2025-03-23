@@ -18,10 +18,10 @@ describe('WorldRaceEntityクラスのテスト', () => {
 
     it('何も変更せずWorldRaceEntityのインスタンスを作成できることを確認', () => {
         const raceEntity = baseRaceEntity;
-        const newRaceEntity = raceEntity.copy();
+        const copiedRaceEntity = raceEntity.copy();
         // インスタンスが変更されていないか確認
-        expect(newRaceEntity.id).toEqual(raceEntity.id);
-        expect(newRaceEntity.raceData).toBe(raceEntity.raceData);
+        expect(copiedRaceEntity.id).toEqual(raceEntity.id);
+        expect(copiedRaceEntity.raceData).toBe(raceEntity.raceData);
     });
 
     it('何も変更せずWorldRaceDataのインスタンスを作成できることを確認', () => {

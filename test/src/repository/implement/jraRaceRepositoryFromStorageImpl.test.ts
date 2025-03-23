@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 
+import * as fs from 'node:fs';
+import path from 'node:path';
+
 import { format } from 'date-fns';
-import * as fs from 'fs';
-import * as path from 'path';
 import { container } from 'tsyringe';
 
 import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
@@ -41,7 +42,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                 __dirname,
                 '../../mock/repository/csv/jra/raceList.csv',
             );
-            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+            const csvData = fs.readFileSync(csvFilePath, 'utf8');
 
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
@@ -74,7 +75,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                 __dirname,
                 '../../mock/repository/csv/jra/raceList.csv',
             );
-            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+            const csvData = fs.readFileSync(csvFilePath, 'utf8');
 
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 

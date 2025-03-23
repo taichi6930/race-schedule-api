@@ -12,23 +12,23 @@ describe('BoatracePlaceEntityクラスのテスト', () => {
 
     it('日付を変更したNarPlaceEntityのインスタンスを作成できることを確認', () => {
         const placeEntity = baseBoatracePlaceEntity;
-        const newPlaceEntity = placeEntity.copy({
+        const copiedPlaceEntity = placeEntity.copy({
             placeData: baseBoatracePlaceData.copy({
                 dateTime: new Date('2022-12-30'),
             }),
         });
 
-        expect(newPlaceEntity.placeData.dateTime).toEqual(
+        expect(copiedPlaceEntity.placeData.dateTime).toEqual(
             new Date('2022-12-30'),
         );
-        expect(newPlaceEntity.placeData.location).toBe('平和島');
+        expect(copiedPlaceEntity.placeData.location).toBe('平和島');
     });
 
     it('何も変更せずBoatracePlaceEntityのインスタンスを作成できることを確認', () => {
         const placeEntity = baseBoatracePlaceEntity;
-        const newPlaceEntity = placeEntity.copy();
+        const copiedPlaceEntity = placeEntity.copy();
 
-        expect(newPlaceEntity).toEqual(placeEntity);
+        expect(copiedPlaceEntity).toEqual(placeEntity);
     });
 
     it('何も変更せずBoatracePlaceDataのインスタンスを作成できることを確認', () => {

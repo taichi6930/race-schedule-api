@@ -18,25 +18,25 @@ describe('JraRaceRecordクラスのテスト', () => {
 
     it('日付を変更したJraRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseJraRaceRecord;
-        const newRaceRecord = raceRecord.copy({
+        const copiedRaceRecord = raceRecord.copy({
             location: '東京',
         });
-        expect(newRaceRecord.id).toEqual('jra202412220611');
-        expect(newRaceRecord.name).toBe('有馬記念');
-        expect(newRaceRecord.dateTime).toEqual(new Date('2024-12-22 15:40'));
-        expect(newRaceRecord.location).toBe('東京');
-        expect(newRaceRecord.surfaceType).toBe('芝');
-        expect(newRaceRecord.distance).toBe(2500);
-        expect(newRaceRecord.grade).toBe('GⅠ');
-        expect(newRaceRecord.number).toBe(11);
-        expect(newRaceRecord.heldTimes).toBe(5);
-        expect(newRaceRecord.heldDayTimes).toBe(8);
+        expect(copiedRaceRecord.id).toEqual('jra202412220611');
+        expect(copiedRaceRecord.name).toBe('有馬記念');
+        expect(copiedRaceRecord.dateTime).toEqual(new Date('2024-12-22 15:40'));
+        expect(copiedRaceRecord.location).toBe('東京');
+        expect(copiedRaceRecord.surfaceType).toBe('芝');
+        expect(copiedRaceRecord.distance).toBe(2500);
+        expect(copiedRaceRecord.grade).toBe('GⅠ');
+        expect(copiedRaceRecord.number).toBe(11);
+        expect(copiedRaceRecord.heldTimes).toBe(5);
+        expect(copiedRaceRecord.heldDayTimes).toBe(8);
     });
 
     it('何も変更せずJraRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseJraRaceRecord;
-        const newRaceRecord = raceRecord.copy();
+        const copiedRaceRecord = raceRecord.copy();
 
-        expect(newRaceRecord).toEqual(raceRecord);
+        expect(copiedRaceRecord).toEqual(raceRecord);
     });
 });

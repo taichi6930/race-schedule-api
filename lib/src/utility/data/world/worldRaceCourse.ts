@@ -4,7 +4,7 @@ import { z } from 'zod';
  * WorldRaceCourseのzod型定義
  */
 export const WorldRaceCourseSchema = z.string().refine((value) => {
-    return WorldRaceCourseList.includes(value);
+    return WorldRaceCourseList.has(value);
 }, '海外競馬場ではありません');
 
 /**
@@ -15,7 +15,7 @@ export type WorldRaceCourse = z.infer<typeof WorldRaceCourseSchema>;
 /**
  * 海外競馬場 リスト
  */
-const WorldRaceCourseList: string[] = [
+const WorldRaceCourseList = new Set([
     'ロンシャン',
     'パリロンシャン',
     'シャンティイ',
@@ -57,7 +57,7 @@ const WorldRaceCourseList: string[] = [
     'メルボルン',
     'ムーニーバレー',
     'ローズヒルガーデンズ',
-];
+]);
 
 /**
  * 海外の競馬場のレース場名とコードの対応表

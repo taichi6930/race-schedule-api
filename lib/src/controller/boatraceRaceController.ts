@@ -71,8 +71,8 @@ export class BoatraceRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
             ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
@@ -113,8 +113,8 @@ export class BoatraceRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
             ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
@@ -180,8 +180,8 @@ export class BoatraceRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
             ) {
                 res.status(400).json({
                     error: 'startDate、finishDateは必須です',
@@ -225,8 +225,8 @@ export class BoatraceRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
             ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
@@ -260,8 +260,8 @@ export class BoatraceRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
             ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
@@ -302,8 +302,8 @@ export class BoatraceRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
             ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;

@@ -19,7 +19,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
         const placeEntityList = searchFilter.placeEntityList;
         const raceEntityList: KeirinRaceEntity[] = [];
         if (placeEntityList) {
-            placeEntityList.forEach((placeEntity) => {
+            for (const placeEntity of placeEntityList) {
                 const placeData: KeirinPlaceData = placeEntity.placeData;
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
@@ -44,7 +44,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
                         ),
                     );
                 }
-            });
+            }
         }
         return Promise.resolve(raceEntityList);
     }

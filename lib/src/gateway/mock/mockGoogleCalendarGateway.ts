@@ -38,9 +38,11 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
             case allowedEnvs.production: // ENV が production の場合、GoogleCalendarGateway を使用
             case allowedEnvs.test:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.local:
+            case allowedEnvs.local: {
                 break;
-            case allowedEnvs.localInitMadeData: // ENV が LOCAL_INIT_MADE_DATA の場合、データを後で設定したいので何もしない
+            }
+            case allowedEnvs.localInitMadeData: {
+                // ENV が LOCAL_INIT_MADE_DATA の場合、データを後で設定したいので何もしない
                 {
                     // 2024年のデータ366日分を作成
                     const startDate = new Date('2024-01-01');
@@ -54,12 +56,14 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                             let raceId = '';
 
                             switch (this.raceType) {
-                                case 'world':
+                                case 'world': {
                                     location = 'パリロンシャン';
                                     raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${WorldPlaceCodeMap[location]}${(i + 1).toXDigits(2)}`;
                                     break;
-                                default:
+                                }
+                                default: {
                                     break;
+                                }
                             }
                             const calendarData: calendar_v3.Schema$Event = {
                                 id: raceId,
@@ -101,8 +105,10 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                     }
                 }
                 break;
-            default:
+            }
+            default: {
                 throw new Error('Invalid ENV value');
+            }
         }
     }
 

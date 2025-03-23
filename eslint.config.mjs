@@ -20,7 +20,7 @@ export default [
             },
         },
     },
-    eslintPluginUnicorn.configs.all, // ✅ unicornプラグインの推奨設定を適用
+    eslintPluginUnicorn.configs.all, // ✅ unicornプラグインの全ルールを適用
     eslint.configs.recommended, // ESLintの推奨ルールを適用
     ...tseslint.configs.strictTypeChecked, // TypeScriptの厳格な型チェックを適用
     ...tseslint.configs.stylisticTypeChecked, // TypeScriptのスタイルチェックを適用
@@ -33,16 +33,15 @@ export default [
             'promise': eslintPluginPromise,
         },
         rules: {
-            '@typescript-eslint/no-unsafe-member-access': 'off',
-            '@typescript-eslint/no-unsafe-assignment': 'off',
-            '@typescript-eslint/no-unsafe-call': 'off',
-            '@typescript-eslint/no-unsafe-argument': 'off',
-            '@typescript-eslint/no-misused-promises': 'off',
-            '@typescript-eslint/explicit-module-boundary-types': 'error',
-            '@typescript-eslint/prefer-enum-initializers': 'error',
-            '@typescript-eslint/consistent-type-imports': 'error',
-            // 不要なインポートの削除を有効化
-            'unused-imports/no-unused-imports': 'error',
+            '@typescript-eslint/no-unsafe-member-access': 'off', // ✅ any型のプロパティアクセスを許可
+            '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
+            '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
+            '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
+            '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
+            '@typescript-eslint/explicit-module-boundary-types': 'error', // ✅ 関数の戻り値の型を必ず指定
+            '@typescript-eslint/prefer-enum-initializers': 'error', // ✅ enumの初期化を必ず指定
+            '@typescript-eslint/consistent-type-imports': 'error', // ✅ 型のインポートを一貫性を持たせる
+            'unused-imports/no-unused-imports': 'error', // ✅ 未使用のimport文をエラーにする
             'unused-imports/no-unused-vars': [
                 'warn',
                 {
@@ -51,46 +50,27 @@ export default [
                     args: 'after-used',
                     argsIgnorePattern: '^_',
                 },
-            ],
+            ], // ✅ 未使用の変数を警告にする
             // 他のルールを追加
-            'prettier/prettier': ['error', {}, { usePrettierrc: true }],
-            'simple-import-sort/imports': 'error',
-            'simple-import-sort/exports': 'error',
-            "unicorn/filename-case": [
-                "off",
+            'prettier/prettier': ['error', {}, { usePrettierrc: true }], // ✅ prettierのルールを適用
+            'simple-import-sort/imports': 'error', // ✅ import文のソートを強制
+            'simple-import-sort/exports': 'error', // ✅ export文のソートを強制
+            'unicorn/filename-case': [
+                'off',
                 {
-                    "case": "camelCase"
-                }
-            ],
-            "unicorn/no-array-for-each": "off",
-            "unicorn/prevent-abbreviations": "off",
-            "unicorn/prefer-spread": "off",
-            "unicorn/text-encoding-identifier-case": "off",
-            "unicorn/prefer-module": "off",
-            "unicorn/import-style": "off",
-            "unicorn/prefer-node-protocol": "off",
-            "unicorn/no-negated-condition": "off",
-            "unicorn/no-keyword-prefix": "off",
-            "unicorn/no-useless-undefined": "off",
-            "unicorn/numeric-separators-style": "off",
-            "unicorn/no-null": "off",
-            "unicorn/prefer-global-this": "off",
-            "unicorn/switch-case-braces": "off",
-            "unicorn/prefer-number-properties": "off",
-            "unicorn/no-useless-promise-resolve-reject": "off",
-            "unicorn/prefer-string-replace-all": "off",
-            "unicorn/no-abusive-eslint-disable": "off",
-            "unicorn/prefer-set-has": "off",
-            "unicorn/better-regex": "off",
-            "unicorn/no-await-expression-member": "off",
-            "unicorn/no-array-reduce": "off",
-            "unicorn/catch-error-name": "off",
-            "unicorn/prefer-ternary": "off",
-            "unicorn/prefer-array-flat-map": "off",
-            "unicorn/prefer-regexp-test": "off",
-            "unicorn/explicit-length-check": "off",
-            "unicorn/prefer-native-coercion-functions": "off",
-            "unicorn/prefer-code-point": "off",
+                    case: 'camelCase',
+                },
+            ], // ✅ ファイル名のケースをcamelCaseにする
+            'unicorn/prevent-abbreviations': 'off', // ✅ 省略形の使用を許可
+            'unicorn/prefer-module': 'off', // ✅ ECMAScriptモジュールの使用を許可（後で対応したい）
+            'unicorn/no-useless-undefined': 'off', // ✅ 不要なundefinedの使用を許可
+            'unicorn/numeric-separators-style': 'off', // ✅ 数値リテラルの区切り文字のスタイルを許可
+            'unicorn/no-null': 'off', // ✅ nullの使用を許可
+            'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
+            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+            'unicorn/no-await-expression-member': 'off', // ✅ メンバー式のawaitの使用を許可
+            'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
+            'unicorn/prefer-ternary': 'off', // ✅ 三項演算子の使用を許可
         },
     },
     // YAMLファイルを除外する設定

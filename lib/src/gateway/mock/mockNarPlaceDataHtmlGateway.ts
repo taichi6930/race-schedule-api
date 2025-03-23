@@ -1,6 +1,7 @@
+import * as fs from 'node:fs';
+import path from 'node:path';
+
 import { format } from 'date-fns';
-import * as fs from 'fs';
-import * as path from 'path';
 
 import { Logger } from '../../utility/logger';
 import { INarPlaceDataHtmlGateway } from '../interface/iNarPlaceDataHtmlGateway';

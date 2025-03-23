@@ -53,7 +53,7 @@ export const KeirinPlaceCodeMap: Record<string, string> = {
  * KeirinRaceCourseのzod型定義
  */
 export const KeirinRaceCourseSchema = z.string().refine((value) => {
-    return KeirinRaceCourseList.includes(value);
+    return KeirinRaceCourseList.has(value);
 }, '競輪場ではありません');
 
 /**
@@ -61,7 +61,7 @@ export const KeirinRaceCourseSchema = z.string().refine((value) => {
  */
 export type KeirinRaceCourse = z.infer<typeof KeirinRaceCourseSchema>;
 
-const KeirinRaceCourseList: string[] = [
+const KeirinRaceCourseList = new Set([
     '函館',
     '青森',
     'いわき平',
@@ -105,7 +105,7 @@ const KeirinRaceCourseList: string[] = [
     '佐世保',
     '別府',
     '熊本',
-];
+]);
 
 /**
  * 開催競輪場のバリデーション

@@ -63,9 +63,9 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
                 validateAutoraceGradeType(grade),
                 validateUpdateDate(updateDate),
             );
-        } catch (e) {
+        } catch (error) {
             throw new Error(
-                `Failed to create AutoracePlaceRecord: ${(e as Error).message}`,
+                `Failed to create AutoracePlaceRecord: ${(error as Error).message}`,
             );
         }
     }
