@@ -139,7 +139,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
         raceSummaryInfoChild: string,
     ): AutoraceRaceStage | null {
         for (const [pattern, stage] of Object.entries(AutoraceStageMap)) {
-            if (new RegExp(pattern).exec(raceSummaryInfoChild)) {
+            if (new RegExp(pattern).test(raceSummaryInfoChild)) {
                 return stage;
             }
         }

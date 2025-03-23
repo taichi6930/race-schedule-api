@@ -193,15 +193,18 @@ export class KeirinRaceRepositoryFromHtmlImpl
         // raceNameに競輪祭が含まれている場合かつ
         // raceStageにガールズが含まれている場合、
         // raceNameを「競輪祭女子王座戦」にする
-        if (/競輪祭/.exec(raceSummaryInfoChild) && /ガールズ/.exec(raceStage)) {
+        if (
+            raceSummaryInfoChild.includes('競輪祭') &&
+            raceStage.includes('ガールズ')
+        ) {
             return '競輪祭女子王座戦';
         }
         // raceNameに高松宮記念杯が含まれているかつ
         // raceStageがガールズが含まれている場合、
         // raceNameを「パールカップ」にする
         if (
-            /高松宮記念杯/.exec(raceSummaryInfoChild) &&
-            /ガールズ/.exec(raceStage)
+            raceSummaryInfoChild.includes('高松宮記念杯') &&
+            raceStage.includes('ガールズ')
         ) {
             return 'パールカップ';
         }
@@ -209,8 +212,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
         // raceStageにガールズが含まれている場合、
         // raceNameを「女子オールスター競輪」にする
         if (
-            /オールスター競輪/.exec(raceSummaryInfoChild) &&
-            /ガールズ/.exec(raceStage)
+            raceSummaryInfoChild.includes('オールスター競輪') &&
+            raceStage.includes('ガールズ')
         ) {
             return '女子オールスター競輪';
         }
@@ -218,8 +221,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
         // raceStageに「ガールズ」が含まれている場合、
         // raceNameを「ガールズケイリンフェスティバル」にする
         if (
-            /サマーナイトフェスティバル/.exec(raceSummaryInfoChild) &&
-            /ガールズ/.exec(raceStage)
+            raceSummaryInfoChild.includes('サマーナイトフェスティバル') &&
+            raceStage.includes('ガールズ')
         ) {
             return 'ガールズケイリンフェスティバル';
         }
@@ -227,8 +230,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
         // raceStageに「グランプリ」が含まれていなかったら、
         // raceNameを「寺内大吉記念杯競輪」にする
         if (
-            /KEIRINグランプリ/.exec(raceSummaryInfoChild) &&
-            !/グランプリ/.exec(raceStage)
+            raceSummaryInfoChild.includes('KEIRINグランプリ') &&
+            !raceStage.includes('グランプリ')
         ) {
             return '寺内大吉記念杯競輪';
         }
@@ -239,7 +242,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         raceSummaryInfoChild: string,
     ): KeirinRaceStage | null {
         for (const [pattern, stage] of Object.entries(KeirinStageMap)) {
-            if (new RegExp(pattern).exec(raceSummaryInfoChild)) {
+            if (new RegExp(pattern).test(raceSummaryInfoChild)) {
                 return stage;
             }
         }
@@ -258,29 +261,29 @@ export class KeirinRaceRepositoryFromHtmlImpl
         }
         // raceNameに女子オールスター競輪が入っている場合、2024年であればFⅡ、2025年以降であればGⅠを返す
         if (
-            /女子オールスター競輪/.exec(raceName) &&
+            raceName.includes('女子オールスター競輪') &&
             raceDate.getFullYear() >= 2025
         ) {
             return 'GⅠ';
         }
         if (
-            /女子オールスター競輪/.exec(raceName) &&
+            raceName.includes('女子オールスター競輪') &&
             raceDate.getFullYear() === 2024
         ) {
             return 'FⅡ';
         }
         // raceNameにサマーナイトフェスティバルが入っている場合、raceStageが「ガールズ」が含まれている場合、FⅡを返す
         if (
-            /サマーナイトフェスティバル/.exec(raceName) &&
-            /ガールズ/.exec(raceStage)
+            raceName.includes('サマーナイトフェスティバル') &&
+            raceStage.includes('ガールズ')
         ) {
             return 'FⅡ';
         }
-        if (/ガールズケイリンフェスティバル/.exec(raceName)) {
+        if (raceName.includes('ガールズケイリンフェスティバル')) {
             return 'FⅡ';
         }
         // raceNameに寺内大吉記念杯競輪が入っている場合、FⅠを返す
-        if (/寺内大吉記念杯競輪/.exec(raceName)) {
+        if (raceName.includes('寺内大吉記念杯競輪')) {
             return 'FⅠ';
         }
         return raceGrade;

@@ -131,7 +131,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         raceSummaryInfoChild: string,
     ): BoatraceRaceStage | null {
         for (const [pattern, stage] of Object.entries(BoatraceStageMap)) {
-            if (new RegExp(pattern).exec(raceSummaryInfoChild)) {
+            if (new RegExp(pattern).test(raceSummaryInfoChild)) {
                 return stage;
             }
         }
