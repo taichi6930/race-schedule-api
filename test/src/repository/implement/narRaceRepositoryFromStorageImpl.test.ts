@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+
 import { format } from 'date-fns';
-import * as fs from 'fs';
-import * as path from 'path';
 import { container } from 'tsyringe';
 
 import { NarRaceData } from '../../../../lib/src/domain/narRaceData';

@@ -68,7 +68,6 @@ export default [
             'unicorn/text-encoding-identifier-case': 'off',
             'unicorn/prefer-module': 'off',
             'unicorn/import-style': 'off',
-            'unicorn/prefer-node-protocol': 'off',
             'unicorn/no-negated-condition': 'off',
             'unicorn/no-useless-undefined': 'off',
             'unicorn/numeric-separators-style': 'off',
