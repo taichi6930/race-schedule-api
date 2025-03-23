@@ -128,10 +128,14 @@ export class JraRaceRepositoryFromHtmlImpl
                             .find('a')
                             .text()
                             .replace(/[！-～]/g, (s: string) =>
-                                String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+                                String.fromCodePoint(
+                                    (s.codePointAt(0) ?? 0) - 0xfee0,
+                                ),
                             )
                             .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s: string) =>
-                                String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+                                String.fromCodePoint(
+                                    (s.codePointAt(0) ?? 0) - 0xfee0,
+                                ),
                             )
                             .replace(/ステークス/, 'S')
                             .replace(/カップ/, 'C')

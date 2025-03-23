@@ -83,10 +83,10 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 `${placeData.location}${placeData.grade}`
             )
                 .replace(/[！-～]/g, (s: string) =>
-                    String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+                    String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
                 )
                 .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s: string) =>
-                    String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+                    String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
                 );
             // class="section1"を取得
             const section1 = content.find('.section1');
