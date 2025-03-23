@@ -9,7 +9,7 @@ const WorldPlaceIdSchema = z
         return value.startsWith('world');
     }, 'worldから始まる必要があります')
     .refine((value) => {
-        return /^world\d{8}\d{2}$/.test(value);
+        return /^world\d{10}$/.test(value);
     }, 'WorldPlaceIdの形式ではありません');
 
 /**

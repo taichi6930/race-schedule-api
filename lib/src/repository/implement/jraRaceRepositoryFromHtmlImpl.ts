@@ -132,7 +132,7 @@ export class JraRaceRepositoryFromHtmlImpl
                                     (s.codePointAt(0) ?? 0) - 0xfee0,
                                 ),
                             )
-                            .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s: string) =>
+                            .replace(/[０-９Ａ-Ｚａ-ｚ]/g, (s: string) =>
                                 String.fromCodePoint(
                                     (s.codePointAt(0) ?? 0) - 0xfee0,
                                 ),
@@ -280,7 +280,7 @@ export class JraRaceRepositoryFromHtmlImpl
     private extractSurfaceType = (
         element: cheerio.Cheerio,
     ): JraRaceCourseType | null => {
-        const surfaceTypeMatch = /[芝ダ障]{1,2}/.exec(
+        const surfaceTypeMatch = /[ダ芝障]{1,2}/.exec(
             element.find('td').eq(1).find('span').eq(1).text(),
         );
         // ダ である場合には ダート に、障 である場合には 障害 に変換する

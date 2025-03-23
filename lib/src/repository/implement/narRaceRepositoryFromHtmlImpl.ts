@@ -166,7 +166,7 @@ export class NarRaceRepositoryFromHtmlImpl
     }
 
     private extractSurfaceType(race: string[]): NarRaceCourseType {
-        const regex = /(芝)[左右直]+[0-9]+m/;
+        const regex = /(芝)[右左直]+\d+m/;
         const trackType = race.find((item) => regex.test(item));
         if (!trackType) {
             return 'ダート';

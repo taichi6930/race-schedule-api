@@ -153,8 +153,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 .eq(2)
                 .text()
                 .trim()
-                // eslint-disable-next-line no-irregular-whitespace
-                .replace(/[\s　]+/g, '');
+                .replace(/\s+/g, '');
 
             // startDateからfinishDateまでfor文で回す
             // finishDateの1日後まで回す

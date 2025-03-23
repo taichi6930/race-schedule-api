@@ -10,7 +10,7 @@ const BoatracePlaceIdSchema = z
         return value.startsWith('boatrace');
     }, 'boatraceから始まる必要があります')
     .refine((value) => {
-        return /^boatrace\d{8}\d{2}$/.test(value);
+        return /^boatrace\d{10}$/.test(value);
     }, 'BoatracePlaceIdの形式ではありません');
 
 /**

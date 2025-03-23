@@ -13,7 +13,7 @@ const JraRaceIdSchema = z
     }, 'jraから始まる必要があります')
     // jraの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
     .refine((value) => {
-        return /^jra\d{8}\d{2}\d{2}$/.test(value);
+        return /^jra\d{12}$/.test(value);
     }, 'JraRaceIdの形式ではありません')
     // レース番号は1~12の範囲
     .refine((value) => {

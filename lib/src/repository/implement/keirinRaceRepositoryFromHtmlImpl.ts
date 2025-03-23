@@ -81,7 +81,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 .replace(/[！-～]/g, (s: string) =>
                     String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
                 )
-                .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s: string) =>
+                .replace(/[０-９Ａ-Ｚａ-ｚ]/g, (s: string) =>
                     String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
                 );
             // class="section1"を取得

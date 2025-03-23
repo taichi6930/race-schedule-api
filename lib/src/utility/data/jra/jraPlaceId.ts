@@ -10,7 +10,7 @@ const JraPlaceIdSchema = z
         return value.startsWith('jra');
     }, 'jraから始まる必要があります')
     .refine((value) => {
-        return /^jra\d{8}\d{2}$/.test(value);
+        return /^jra\d{10}$/.test(value);
     }, 'JraPlaceIdの形式ではありません');
 
 /**

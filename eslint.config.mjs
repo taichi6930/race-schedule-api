@@ -72,10 +72,9 @@ export default [
             'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
             'unicorn/no-abusive-eslint-disable': 'off',
             'unicorn/prefer-set-has': 'off',
-            'unicorn/better-regex': 'off',
-            'unicorn/no-await-expression-member': 'off',
-            'unicorn/no-array-reduce': 'off',
-            'unicorn/prefer-ternary': 'off',
+            'unicorn/no-await-expression-member': 'off', // ✅ メンバー式のawaitの使用を許可
+            'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
+            'unicorn/prefer-ternary': 'off', // ✅ 三項演算子の使用を許可
         },
     },
     // YAMLファイルを除外する設定

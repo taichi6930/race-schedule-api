@@ -10,7 +10,7 @@ const NarPlaceIdSchema = z
         return value.startsWith('nar');
     }, 'narから始まる必要があります')
     .refine((value) => {
-        return /^nar\d{8}\d{2}$/.test(value);
+        return /^nar\d{10}$/.test(value);
     }, 'NarPlaceIdの形式ではありません');
 
 /**
