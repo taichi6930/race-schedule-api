@@ -4,7 +4,8 @@ import eslintPluginPrettier from 'eslint-plugin-prettier';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unusedImports from 'eslint-plugin-unused-imports';
 import tseslint from 'typescript-eslint';
-import eslintPluginPromise from 'eslint-plugin-promise'; // Import promise plugin
+import eslintPluginPromise from 'eslint-plugin-promise';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 
 export default [
     // lint対象ファイル
@@ -19,6 +20,7 @@ export default [
             },
         },
     },
+    eslintPluginUnicorn.configs.all, // ✅ unicornプラグインの推奨設定を適用
     eslint.configs.recommended, // ESLintの推奨ルールを適用
     ...tseslint.configs.strictTypeChecked, // TypeScriptの厳格な型チェックを適用
     ...tseslint.configs.stylisticTypeChecked, // TypeScriptのスタイルチェックを適用
@@ -26,9 +28,9 @@ export default [
     {
         plugins: {
             'unused-imports': unusedImports,
-            'prettier': eslintPluginPrettier, // Prettierのプラグインを追加
+            'prettier': eslintPluginPrettier,
             'simple-import-sort': simpleImportSort,
-            'promise': eslintPluginPromise, // Correctly reference the 'promise' plugin as an object
+            'promise': eslintPluginPromise,
         },
         rules: {
             '@typescript-eslint/no-unsafe-member-access': 'off',
