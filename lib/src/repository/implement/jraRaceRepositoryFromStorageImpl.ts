@@ -110,7 +110,7 @@ export class JraRaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error(error);
-                    return undefined;
+                    return;
                 }
             })
             .filter(

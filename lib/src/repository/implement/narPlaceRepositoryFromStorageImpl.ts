@@ -133,7 +133,7 @@ export class NarPlaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error(error);
-                    return undefined;
+                    return;
                 }
             })
             .filter(

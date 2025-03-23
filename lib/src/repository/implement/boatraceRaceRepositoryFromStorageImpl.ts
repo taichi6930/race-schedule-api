@@ -214,7 +214,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error('BoatraceRaceRecord create error', error);
-                    return undefined;
+                    return;
                 }
             })
             .filter(
@@ -277,7 +277,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
                         'BoatraceRacePlayerRecord create error',
                         error,
                     );
-                    return undefined;
+                    return;
                 }
             })
             .filter(

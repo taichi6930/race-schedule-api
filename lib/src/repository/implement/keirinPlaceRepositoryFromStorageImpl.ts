@@ -140,7 +140,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error(error);
-                    return undefined;
+                    return;
                 }
             })
             .filter(

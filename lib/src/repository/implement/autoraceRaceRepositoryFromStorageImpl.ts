@@ -214,7 +214,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error('AutoraceRaceRecord create error', error);
-                    return undefined;
+                    return;
                 }
             })
             .filter(
@@ -277,7 +277,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                         'AutoraceRacePlayerRecord create error',
                         error,
                     );
-                    return undefined;
+                    return;
                 }
             })
             .filter(
