@@ -1,4 +1,4 @@
-import * as fs from 'node:fs';
+import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
 import { format } from 'date-fns';
@@ -30,7 +30,7 @@ export class MockKeirinRaceDataHtmlGateway
         // lib/src/gateway/mockData/html/keirin/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
-        const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
-        return Promise.resolve(htmlContent);
+        const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
+        return htmlContent;
     }
 }

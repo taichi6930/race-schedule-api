@@ -68,10 +68,9 @@ export default [
             'unicorn/numeric-separators-style': 'off', // ✅ 数値リテラルの区切り文字のスタイルを許可
             'unicorn/no-null': 'off',
             'unicorn/prefer-number-properties': 'off',
-            'unicorn/no-useless-promise-resolve-reject': 'off',
             'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
-            'unicorn/no-abusive-eslint-disable': 'off',
-            'unicorn/prefer-set-has': 'off',
+            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+            'unicorn/prefer-set-has': 'off', // ✅ Set.prototype.has()の使用を許可
             'unicorn/no-await-expression-member': 'off', // ✅ メンバー式のawaitの使用を許可
             'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
             'unicorn/prefer-ternary': 'off', // ✅ 三項演算子の使用を許可

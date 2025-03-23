@@ -22,7 +22,7 @@ export class MockWorldRaceDataHtmlGateway implements IWorldRaceDataHtmlGateway {
         // lib/src/gateway/mockData/html/world/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
-        const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
-        return Promise.resolve(htmlContent);
+        const htmlContent = await fs.promises.readFile(htmlFilePath, 'utf8');
+        return htmlContent;
     }
 }
