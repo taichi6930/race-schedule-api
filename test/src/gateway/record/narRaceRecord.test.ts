@@ -16,24 +16,24 @@ describe('NarRaceRecordクラスのテスト', () => {
 
     it('日付を変更したNarRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseNarRaceRecord;
-        const newRaceRecord = raceRecord.copy({
+        const copiedRaceRecord = raceRecord.copy({
             location: '川崎',
         });
 
-        expect(newRaceRecord.id).toEqual('nar202412294411');
-        expect(newRaceRecord.name).toBe('東京大賞典');
-        expect(newRaceRecord.dateTime).toEqual(new Date('2024-12-29 15:40'));
-        expect(newRaceRecord.location).toBe('川崎');
-        expect(newRaceRecord.surfaceType).toBe('ダート');
-        expect(newRaceRecord.distance).toBe(2000);
-        expect(newRaceRecord.grade).toBe('GⅠ');
-        expect(newRaceRecord.number).toBe(11);
+        expect(copiedRaceRecord.id).toEqual('nar202412294411');
+        expect(copiedRaceRecord.name).toBe('東京大賞典');
+        expect(copiedRaceRecord.dateTime).toEqual(new Date('2024-12-29 15:40'));
+        expect(copiedRaceRecord.location).toBe('川崎');
+        expect(copiedRaceRecord.surfaceType).toBe('ダート');
+        expect(copiedRaceRecord.distance).toBe(2000);
+        expect(copiedRaceRecord.grade).toBe('GⅠ');
+        expect(copiedRaceRecord.number).toBe(11);
     });
 
     it('何も変更せずNarRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseNarRaceRecord;
-        const newRaceRecord = raceRecord.copy();
+        const copiedRaceRecord = raceRecord.copy();
 
-        expect(newRaceRecord).toEqual(raceRecord);
+        expect(copiedRaceRecord).toEqual(raceRecord);
     });
 });

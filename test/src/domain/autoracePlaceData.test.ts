@@ -10,18 +10,18 @@ describe('AutoracePlaceDataクラスのテスト', () => {
 
     it('日付を変更したAutoracePlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = baseAutoracePlaceData;
-        const newPlaceData = placeData.copy({
+        const copiedPlaceData = placeData.copy({
             dateTime: new Date('2022-12-30'),
         });
 
-        expect(newPlaceData.dateTime).toEqual(new Date('2022-12-30'));
-        expect(newPlaceData.location).toBe('飯塚');
+        expect(copiedPlaceData.dateTime).toEqual(new Date('2022-12-30'));
+        expect(copiedPlaceData.location).toBe('飯塚');
     });
 
     it('何も変更せずAutoracePlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = baseAutoracePlaceData;
-        const newPlaceData = placeData.copy();
+        const copiedPlaceData = placeData.copy();
 
-        expect(newPlaceData).toEqual(placeData);
+        expect(copiedPlaceData).toEqual(placeData);
     });
 });

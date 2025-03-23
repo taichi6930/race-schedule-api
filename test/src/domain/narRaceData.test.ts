@@ -16,8 +16,8 @@ describe('NarRaceDataクラスのテスト', () => {
 
     it('何も変更せずNarRaceDataのインスタンスを作成できることを確認', () => {
         const raceData = baseRaceData;
-        const newRaceData = raceData.copy();
+        const copiedRaceData = raceData.copy();
         // インスタンスが変更されていないか確認
-        expect(newRaceData).toEqual(raceData);
+        expect(copiedRaceData).toEqual(raceData);
     });
 });

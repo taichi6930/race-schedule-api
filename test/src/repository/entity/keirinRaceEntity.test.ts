@@ -11,10 +11,10 @@ describe('KeirinRaceEntityクラスのテスト', () => {
     });
 
     it('何も変更せずKeirinRaceEntityのインスタンスを作成できることを確認', () => {
-        const newRaceEntity = baseKeirinRaceEntity.copy();
+        const copiedRaceEntity = baseKeirinRaceEntity.copy();
         // インスタンスが変更されていないか確認
-        expect(newRaceEntity.id).toEqual(baseKeirinRaceEntity.id);
-        expect(newRaceEntity.raceData).toBe(baseKeirinRaceData);
+        expect(copiedRaceEntity.id).toEqual(baseKeirinRaceEntity.id);
+        expect(copiedRaceEntity.raceData).toBe(baseKeirinRaceData);
     });
 
     it('何も変更せずKeirinRaceDataのインスタンスを作成できることを確認', () => {

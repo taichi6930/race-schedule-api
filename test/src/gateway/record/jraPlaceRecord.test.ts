@@ -13,21 +13,21 @@ describe('JraPlaceRecordクラスのテスト', () => {
 
     it('日付を変更したJraPlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseJraPlaceRecord;
-        const newPlaceRecord = placeRecord.copy({
+        const copiedPlaceRecord = placeRecord.copy({
             location: '東京',
         });
 
-        expect(newPlaceRecord.id).toEqual('jra2024122206');
-        expect(newPlaceRecord.dateTime).toEqual(new Date('2024-12-22'));
-        expect(newPlaceRecord.location).toBe('東京');
-        expect(newPlaceRecord.heldTimes).toBe(5);
-        expect(newPlaceRecord.heldDayTimes).toBe(8);
+        expect(copiedPlaceRecord.id).toEqual('jra2024122206');
+        expect(copiedPlaceRecord.dateTime).toEqual(new Date('2024-12-22'));
+        expect(copiedPlaceRecord.location).toBe('東京');
+        expect(copiedPlaceRecord.heldTimes).toBe(5);
+        expect(copiedPlaceRecord.heldDayTimes).toBe(8);
     });
 
     it('何も変更せずJraPlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseJraPlaceRecord;
-        const newPlaceRecord = placeRecord.copy();
+        const copiedPlaceRecord = placeRecord.copy();
 
-        expect(newPlaceRecord).toEqual(placeRecord);
+        expect(copiedPlaceRecord).toEqual(placeRecord);
     });
 });

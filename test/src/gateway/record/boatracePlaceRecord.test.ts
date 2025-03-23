@@ -10,18 +10,18 @@ describe('BoatracePlaceRecordクラスのテスト', () => {
 
     it('日付を変更したNarPlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseBoatracePlaceRecord;
-        const newPlaceRecord = placeRecord.copy({
+        const copiedPlaceRecord = placeRecord.copy({
             dateTime: new Date('2022-12-30'),
         });
 
-        expect(newPlaceRecord.dateTime).toEqual(new Date('2022-12-30'));
-        expect(newPlaceRecord.location).toBe('平和島');
+        expect(copiedPlaceRecord.dateTime).toEqual(new Date('2022-12-30'));
+        expect(copiedPlaceRecord.location).toBe('平和島');
     });
 
     it('何も変更せずBoatracePlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseBoatracePlaceRecord;
-        const newPlaceRecord = placeRecord.copy();
+        const copiedPlaceRecord = placeRecord.copy();
 
-        expect(newPlaceRecord).toEqual(placeRecord);
+        expect(copiedPlaceRecord).toEqual(placeRecord);
     });
 });

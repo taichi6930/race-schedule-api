@@ -70,7 +70,6 @@ export default [
             'unicorn/import-style': 'off',
             'unicorn/prefer-node-protocol': 'off',
             'unicorn/no-negated-condition': 'off',
-            'unicorn/no-keyword-prefix': 'off',
             'unicorn/no-useless-undefined': 'off',
             'unicorn/numeric-separators-style': 'off',
             'unicorn/no-null': 'off',

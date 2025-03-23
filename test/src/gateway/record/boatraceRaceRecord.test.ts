@@ -15,22 +15,22 @@ describe('BoatraceRaceRecordクラスのテスト', () => {
 
     it('日付を変更したBoatraceRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseBoatraceRaceRecord;
-        const newRaceRecord = raceRecord.copy({
+        const copiedRaceRecord = raceRecord.copy({
             location: '大村',
         });
-        expect(newRaceRecord.id).toEqual('boatrace202412310411');
-        expect(newRaceRecord.name).toBe('グランプリ');
-        expect(newRaceRecord.dateTime).toEqual(new Date('2024-12-31 16:30'));
-        expect(newRaceRecord.stage).toBe('優勝戦');
-        expect(newRaceRecord.location).toBe('大村');
-        expect(newRaceRecord.grade).toBe('SG');
-        expect(newRaceRecord.number).toBe(11);
+        expect(copiedRaceRecord.id).toEqual('boatrace202412310411');
+        expect(copiedRaceRecord.name).toBe('グランプリ');
+        expect(copiedRaceRecord.dateTime).toEqual(new Date('2024-12-31 16:30'));
+        expect(copiedRaceRecord.stage).toBe('優勝戦');
+        expect(copiedRaceRecord.location).toBe('大村');
+        expect(copiedRaceRecord.grade).toBe('SG');
+        expect(copiedRaceRecord.number).toBe(11);
     });
 
     it('何も変更せずBoatraceRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseBoatraceRaceRecord;
-        const newRaceRecord = raceRecord.copy();
+        const copiedRaceRecord = raceRecord.copy();
 
-        expect(newRaceRecord).toEqual(raceRecord);
+        expect(copiedRaceRecord).toEqual(raceRecord);
     });
 });

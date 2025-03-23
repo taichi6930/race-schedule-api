@@ -109,7 +109,7 @@ export class NarRaceRepositoryFromHtmlImpl
                         ),
                         placeEntity.placeData.dateTime,
                     );
-                    const newRaceName = processNarRaceName({
+                    const processedRaceName = processNarRaceName({
                         name: raceName,
                         place: placeEntity.placeData.location,
                         date: raceDate,
@@ -120,7 +120,7 @@ export class NarRaceRepositoryFromHtmlImpl
                     narRaceDataList.push(
                         NarRaceEntity.createWithoutId(
                             NarRaceData.create(
-                                newRaceName,
+                                processedRaceName,
                                 raceDateTime,
                                 placeEntity.placeData.location,
                                 surfaceType,

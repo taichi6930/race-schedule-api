@@ -12,20 +12,20 @@ describe('AutoracePlaceRecordクラスのテスト', () => {
 
     it('日付を変更したAutoracePlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseAutoracePlaceRecord;
-        const newPlaceRecord = placeRecord.copy({
+        const copiedPlaceRecord = placeRecord.copy({
             dateTime: new Date('2022-12-30'),
         });
 
-        expect(newPlaceRecord.id).toEqual('autorace2024123105');
-        expect(newPlaceRecord.dateTime).toEqual(new Date('2022-12-30'));
-        expect(newPlaceRecord.location).toBe('飯塚');
-        expect(newPlaceRecord.grade).toBe('SG');
+        expect(copiedPlaceRecord.id).toEqual('autorace2024123105');
+        expect(copiedPlaceRecord.dateTime).toEqual(new Date('2022-12-30'));
+        expect(copiedPlaceRecord.location).toBe('飯塚');
+        expect(copiedPlaceRecord.grade).toBe('SG');
     });
 
     it('何も変更せずAutoracePlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseAutoracePlaceRecord;
-        const newPlaceRecord = placeRecord.copy();
+        const copiedPlaceRecord = placeRecord.copy();
 
-        expect(newPlaceRecord).toEqual(placeRecord);
+        expect(copiedPlaceRecord).toEqual(placeRecord);
     });
 });

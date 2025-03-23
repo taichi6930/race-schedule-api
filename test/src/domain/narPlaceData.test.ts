@@ -11,18 +11,18 @@ describe('NarPlaceDataクラスのテスト', () => {
 
     it('日付を変更したNarPlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = baseNarPlaceData;
-        const newPlaceData = placeData.copy({
+        const copiedPlaceData = placeData.copy({
             dateTime: new Date('2024-06-04'),
         });
 
-        expect(newPlaceData.dateTime).toEqual(new Date('2024-06-04'));
-        expect(newPlaceData.location).toBe('大井');
+        expect(copiedPlaceData.dateTime).toEqual(new Date('2024-06-04'));
+        expect(copiedPlaceData.location).toBe('大井');
     });
 
     it('何も変更せずNarPlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = NarPlaceData.create(new Date('2024-06-03'), '大井');
-        const newPlaceData = placeData.copy();
+        const copiedPlaceData = placeData.copy();
 
-        expect(newPlaceData).toEqual(placeData);
+        expect(copiedPlaceData).toEqual(placeData);
     });
 });

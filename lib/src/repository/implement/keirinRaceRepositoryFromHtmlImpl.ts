@@ -126,9 +126,9 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         // class="bg-1-pl", "bg-2-pl"..."bg-9-pl"を取得
                         Array.from({ length: 9 }, (_, i) => i + 1) // 1から9までの配列を作成
                             .map((i) => {
-                                const className = `bg-${i.toString()}-pl`;
+                                const bgClassName = `bg-${i.toString()}-pl`;
                                 // class="bg-1-pl"を取得
-                                const tableRow = table.find(`.${className}`);
+                                const tableRow = table.find(`.${bgClassName}`);
                                 // class="bg-1-pl"の中にあるtdを取得
                                 // <td class="no1">1</td>のような形なので、"no${i}"の中のテキストを取得、枠番になる
                                 const positionNumber = tableRow
