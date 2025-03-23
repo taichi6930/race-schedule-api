@@ -97,11 +97,15 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
             const response = await this.s3Client.send(command);
 
             const bodyStream = response.Body as Readable;
-            let data = '';
+            const chunks: Buffer[] = [];
+
             for await (const chunk of bodyStream) {
-                data += chunk;
+                chunks.push(
+                    Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk),
+                );
             }
-            return data;
+
+            return Buffer.concat(chunks).toString(); // 最後に文字列化
         } catch (error) {
             console.debug(error);
             console.warn('ファイルが存在しません');
