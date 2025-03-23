@@ -167,7 +167,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                   );
                         if (
                             keirinRaceData != null &&
-                            racePlayerDataList.length !== 0
+                            racePlayerDataList.length > 0
                         ) {
                             keirinRaceEntityList.push(
                                 KeirinRaceEntity.createWithoutId(

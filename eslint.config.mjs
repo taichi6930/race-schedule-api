@@ -78,7 +78,6 @@ export default [
             'unicorn/prefer-ternary': 'off',
             'unicorn/prefer-array-flat-map': 'off',
             'unicorn/prefer-regexp-test': 'off',
-            'unicorn/explicit-length-check': 'off',
         },
     },
     // YAMLファイルを除外する設定
