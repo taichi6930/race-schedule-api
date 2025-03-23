@@ -13,8 +13,8 @@ import {
     baseBoatraceRaceDataList,
     baseBoatraceRaceEntityList,
 } from '../../mock/common/baseBoatraceData';
-import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('BoatraceRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<
@@ -24,7 +24,7 @@ describe('BoatraceRaceDataUseCase', () => {
     let useCase: BoatraceRaceDataUseCase;
 
     beforeEach(() => {
-        raceDataService = RaceDataServiceMock<
+        raceDataService = raceDataServiceMock<
             BoatraceRaceEntity,
             BoatracePlaceEntity
         >();
@@ -32,7 +32,7 @@ describe('BoatraceRaceDataUseCase', () => {
             IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
         >('BoatraceRaceDataService', raceDataService);
 
-        placeDataService = PlaceDataServiceMock<BoatracePlaceEntity>();
+        placeDataService = placeDataServiceMock<BoatracePlaceEntity>();
         container.registerInstance<IPlaceDataService<BoatracePlaceEntity>>(
             'BoatracePlaceDataService',
             placeDataService,

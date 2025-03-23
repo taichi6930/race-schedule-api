@@ -10,14 +10,14 @@ import {
     baseBoatracePlaceData,
     baseBoatracePlaceEntity,
 } from '../../mock/common/baseBoatraceData';
-import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('BoatracePlaceDataUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService<BoatracePlaceEntity>>;
     let useCase: BoatracePlaceDataUseCase;
 
     beforeEach(() => {
-        placeDataService = PlaceDataServiceMock<BoatracePlaceEntity>();
+        placeDataService = placeDataServiceMock<BoatracePlaceEntity>();
         container.registerInstance<IPlaceDataService<BoatracePlaceEntity>>(
             'BoatracePlaceDataService',
             placeDataService,

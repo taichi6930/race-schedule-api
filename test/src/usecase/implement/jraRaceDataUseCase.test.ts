@@ -13,8 +13,8 @@ import {
     baseJraRaceEntity,
     baseJraRaceEntityList,
 } from '../../mock/common/baseJraData';
-import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('JraRaceDataUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService<JraPlaceEntity>>;
@@ -24,13 +24,13 @@ describe('JraRaceDataUseCase', () => {
     let useCase: JraRaceDataUseCase;
 
     beforeEach(() => {
-        placeDataService = PlaceDataServiceMock<JraPlaceEntity>();
+        placeDataService = placeDataServiceMock<JraPlaceEntity>();
         container.registerInstance<IPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
             placeDataService,
         );
 
-        raceDataService = RaceDataServiceMock<JraRaceEntity, JraPlaceEntity>();
+        raceDataService = raceDataServiceMock<JraRaceEntity, JraPlaceEntity>();
         container.registerInstance<
             IRaceDataService<JraRaceEntity, JraPlaceEntity>
         >('JraRaceDataService', raceDataService);

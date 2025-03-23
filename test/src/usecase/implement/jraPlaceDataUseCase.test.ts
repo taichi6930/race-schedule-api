@@ -10,14 +10,14 @@ import {
     baseJraPlaceData,
     baseJraPlaceEntity,
 } from '../../mock/common/baseJraData';
-import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('JraPlaceDataUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService<JraPlaceEntity>>;
     let useCase: JraPlaceDataUseCase;
 
     beforeEach(() => {
-        placeDataService = PlaceDataServiceMock<JraPlaceEntity>();
+        placeDataService = placeDataServiceMock<JraPlaceEntity>();
         container.registerInstance<IPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
             placeDataService,

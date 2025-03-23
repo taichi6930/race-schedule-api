@@ -1,11 +1,11 @@
 import eslint from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
+import eslintPluginPromise from 'eslint-plugin-promise';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import unusedImports from 'eslint-plugin-unused-imports';
 import tseslint from 'typescript-eslint';
-import eslintPluginPromise from 'eslint-plugin-promise';
-import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 
 export default [
     // lint対象ファイル
@@ -95,7 +95,6 @@ export default [
             'no-ternary': 'off', // ✅ 三項演算子の使用を許可
             'no-new': 'off', // ✅ new演算子の使用を許可
             'no-nested-ternary': 'off', // ✅ 入れ子の三項演算子の使用を許可
-            'no-useless-rename': 'off', // ✅ 不要な変数名の変更を許可
             'no-warning-comments': 'off', // ✅ 警告コメントの使用を許可
             'complexity': 'off', // ✅ 複雑度の制限を許可
             'no-unmodified-loop-condition': 'off', // ✅ 変更されないループ条件の使用を許可
@@ -104,7 +103,6 @@ export default [
             'no-underscore-dangle': 'off', // ✅ アンダースコアの使用を許可
             'prefer-named-capture-group': 'off', // ✅ 名前付きキャプチャグループの使用を許可
             'no-shadow': 'off', // ✅ 変数の隠蔽を許可
-            'no-await-in-loop': 'off', // ✅ ループ内のawaitの使用を許可
             'no-promise-executor-return': 'off', // ✅ Promiseコンストラクタのreturnを許可
             'array-callback-return': 'off', // ✅ 配列メソッドのコールバックのreturnを許可
             'unicorn/filename-case': [

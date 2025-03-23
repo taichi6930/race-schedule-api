@@ -13,8 +13,8 @@ import {
     baseAutoraceRaceDataList,
     baseAutoraceRaceEntityList,
 } from '../../mock/common/baseAutoraceData';
-import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('AutoraceRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<
@@ -24,7 +24,7 @@ describe('AutoraceRaceDataUseCase', () => {
     let useCase: AutoraceRaceDataUseCase;
 
     beforeEach(() => {
-        raceDataService = RaceDataServiceMock<
+        raceDataService = raceDataServiceMock<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >();
@@ -32,7 +32,7 @@ describe('AutoraceRaceDataUseCase', () => {
             IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
         >('AutoraceRaceDataService', raceDataService);
 
-        placeDataService = PlaceDataServiceMock<AutoracePlaceEntity>();
+        placeDataService = placeDataServiceMock<AutoracePlaceEntity>();
         container.registerInstance<IPlaceDataService<AutoracePlaceEntity>>(
             'AutoracePlaceDataService',
             placeDataService,

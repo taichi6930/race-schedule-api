@@ -13,8 +13,8 @@ import {
     baseAutoraceCalendarData,
     baseAutoraceRaceEntity,
 } from '../../mock/common/baseAutoraceData';
-import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('AutoraceRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService<AutoraceRaceEntity>>;
@@ -24,13 +24,13 @@ describe('AutoraceRaceCalendarUseCase', () => {
     let useCase: AutoraceRaceCalendarUseCase;
 
     beforeEach(() => {
-        calendarService = CalendarServiceMock<AutoraceRaceEntity>();
+        calendarService = calendarServiceMock<AutoraceRaceEntity>();
         container.registerInstance<ICalendarService<AutoraceRaceEntity>>(
             'AutoraceCalendarService',
             calendarService,
         );
 
-        raceDataService = RaceDataServiceMock<
+        raceDataService = raceDataServiceMock<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >();

@@ -13,8 +13,8 @@ import {
     baseKeirinRaceDataList,
     baseKeirinRaceEntityList,
 } from '../../mock/common/baseKeirinData';
-import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<
@@ -24,7 +24,7 @@ describe('KeirinRaceDataUseCase', () => {
     let useCase: KeirinRaceDataUseCase;
 
     beforeEach(() => {
-        raceDataService = RaceDataServiceMock<
+        raceDataService = raceDataServiceMock<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
@@ -32,7 +32,7 @@ describe('KeirinRaceDataUseCase', () => {
             IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceDataService', raceDataService);
 
-        placeDataService = PlaceDataServiceMock<KeirinPlaceEntity>();
+        placeDataService = placeDataServiceMock<KeirinPlaceEntity>();
         container.registerInstance<IPlaceDataService<KeirinPlaceEntity>>(
             'KeirinPlaceDataService',
             placeDataService,
