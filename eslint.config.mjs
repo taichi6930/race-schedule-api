@@ -66,8 +66,7 @@ export default [
             'unicorn/prefer-module': 'off', // ✅ ECMAScriptモジュールの使用を許可（後で対応したい）
             'unicorn/no-useless-undefined': 'off', // ✅ 不要なundefinedの使用を許可
             'unicorn/numeric-separators-style': 'off', // ✅ 数値リテラルの区切り文字のスタイルを許可
-            'unicorn/no-null': 'off',
-            'unicorn/prefer-number-properties': 'off',
+            'unicorn/no-null': 'off', // ✅ nullの使用を許可
             'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
             'unicorn/prefer-set-has': 'off', // ✅ Set.prototype.has()の使用を許可

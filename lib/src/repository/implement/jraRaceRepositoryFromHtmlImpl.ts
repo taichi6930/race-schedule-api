@@ -204,7 +204,7 @@ export class JraRaceRepositoryFromHtmlImpl
         theadElementMatch: RegExpExecArray,
     ): number | null => {
         // 開催回数を取得 数字でない場合はreturn
-        if (isNaN(Number.parseInt(theadElementMatch[1]))) {
+        if (Number.isNaN(Number.parseInt(theadElementMatch[1]))) {
             return null;
         }
         const raceHeld: number = Number.parseInt(theadElementMatch[1]);
@@ -219,7 +219,7 @@ export class JraRaceRepositoryFromHtmlImpl
         theadElementMatch: RegExpExecArray,
     ): number | null => {
         // 開催日程を取得 数字でない場合はreturn
-        if (isNaN(Number.parseInt(theadElementMatch[3]))) {
+        if (Number.isNaN(Number.parseInt(theadElementMatch[3]))) {
             return null;
         }
         const raceHeldDay: number = Number.parseInt(theadElementMatch[3]);
