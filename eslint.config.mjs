@@ -64,8 +64,7 @@ export default [
             ],
             'unicorn/prevent-abbreviations': 'off', // ✅ 省略形の使用を許可
             'unicorn/prefer-spread': 'off', // ✅ スプレッド演算子の使用を許可
-            'unicorn/prefer-module': 'off',
-            'unicorn/import-style': 'off',
+            'unicorn/prefer-module': 'off', // ✅ ECMAScriptモジュールの使用を許可（後で対応したい）
             'unicorn/no-negated-condition': 'off',
             'unicorn/no-useless-undefined': 'off',
             'unicorn/numeric-separators-style': 'off',
