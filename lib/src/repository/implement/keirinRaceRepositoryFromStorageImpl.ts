@@ -117,7 +117,7 @@ export class KeirinRaceRepositoryFromStorageImpl
             .flat();
 
         // raceデータでidが重複しているデータは上書きをし、新規のデータは追加する
-        raceRecordList.forEach((raceRecord) => {
+        for (const raceRecord of raceRecordList) {
             // 既に登録されているデータがある場合は上書きする
             const index = existFetchRaceRecordList.findIndex(
                 (record) => record.id === raceRecord.id,
@@ -127,10 +127,10 @@ export class KeirinRaceRepositoryFromStorageImpl
             } else {
                 existFetchRaceRecordList.push(raceRecord);
             }
-        });
+        }
 
         // racePlayerデータでidが重複しているデータは上書きをし、新規のデータは追加する
-        racePlayerRecordList.forEach((racePlayerRecord) => {
+        for (const racePlayerRecord of racePlayerRecordList) {
             // 既に登録されているデータがある場合は上書きする
             const index = existFetchRacePlayerRecordList.findIndex(
                 (record) => record.id === racePlayerRecord.id,
@@ -140,7 +140,7 @@ export class KeirinRaceRepositoryFromStorageImpl
             } else {
                 existFetchRacePlayerRecordList.push(racePlayerRecord);
             }
-        });
+        }
 
         // 日付の最新順にソート
         existFetchRaceRecordList.sort(

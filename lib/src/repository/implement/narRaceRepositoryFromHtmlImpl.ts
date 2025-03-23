@@ -64,7 +64,7 @@ export class NarRaceRepositoryFromHtmlImpl
             const raceTable = $('section.raceTable');
             const trs = raceTable.find('tr.data');
 
-            Array.from(trs).forEach((tr: cheerio.Element) => {
+            for (const tr of Array.from(trs)) {
                 try {
                     const tds = $(tr).find('td');
                     const distance = this.extractDistance(
@@ -73,7 +73,7 @@ export class NarRaceRepositoryFromHtmlImpl
                         ),
                     );
                     if (distance <= 0) {
-                        return;
+                        continue;
                     }
                     const raceName = this.extractRaceName(
                         Array.from(tds).map((td: cheerio.Element) =>
@@ -134,7 +134,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 } catch (error) {
                     console.error('レースデータの取得に失敗しました', error);
                 }
-            });
+            }
             return narRaceDataList;
         } catch (error) {
             console.error('htmlを取得できませんでした', error);

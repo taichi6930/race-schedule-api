@@ -69,7 +69,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
         );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
-        placeRecordList.forEach((placeRecord) => {
+        for (const placeRecord of placeRecordList) {
             // 既に登録されているデータがある場合は上書きする
             const index = existFetchPlaceRecordList.findIndex(
                 (record) => record.id === placeRecord.id,
@@ -79,7 +79,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
             } else {
                 existFetchPlaceRecordList.push(placeRecord);
             }
-        });
+        }
 
         // 日付の最新順にソート
         existFetchPlaceRecordList.sort(

@@ -153,9 +153,9 @@ export class NarRaceRepositoryFromStorageImpl
             existFetchRaceRecordList.map((record) => [record.id, record]),
         );
 
-        raceRecordList.forEach((raceRecord) => {
+        for (const raceRecord of raceRecordList) {
             raceRecordMap.set(raceRecord.id, raceRecord);
-        });
+        }
 
         // Mapからリストに変換し、日付の最新順にソート
         const updatedRaceRecordList = Array.from(raceRecordMap.values()).sort(

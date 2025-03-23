@@ -27,9 +27,9 @@ describe('JraPlaceIdSchema', () => {
             ['jra202108010', 'JraPlaceIdの形式ではありません'],
             ['nar2021080101', 'jraから始まる必要があります'],
         ];
-        invalidJraPlaceIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [invalidId, message] of invalidJraPlaceIdAndMessage) {
             expect(() => validateJraPlaceId(invalidId)).toThrow(message);
-        });
+        }
     });
 });
 
@@ -47,9 +47,9 @@ describe('JraRaceIdSchema', () => {
             ['nar202108010101', 'jraから始まる必要があります'],
             ['jra202108010113', 'レース番号は1~12の範囲である必要があります'],
         ];
-        invalidJraRaceIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [invalidId, message] of invalidJraRaceIdAndMessage) {
             expect(() => validateJraRaceId(invalidId)).toThrow(message);
-        });
+        }
     });
 });
 
@@ -66,9 +66,9 @@ describe('NarPlaceIdSchema', () => {
             ['nar202108010', 'NarPlaceIdの形式ではありません'],
             ['jra2021080101', 'narから始まる必要があります'],
         ];
-        invalidNarPlaceIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [invalidId, message] of invalidNarPlaceIdAndMessage) {
             expect(() => validateNarPlaceId(invalidId)).toThrow(message);
-        });
+        }
     });
 });
 
@@ -86,9 +86,9 @@ describe('NarRaceIdSchema', () => {
             ['jra202108010101', 'narから始まる必要があります'],
             ['nar202108010113', 'レース番号は1~12の範囲である必要があります'],
         ];
-        invalidNarRaceIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [invalidId, message] of invalidNarRaceIdAndMessage) {
             expect(() => validateNarRaceId(invalidId)).toThrow(message);
-        });
+        }
     });
 });
 
@@ -105,9 +105,9 @@ describe('WorldPlaceIdSchema', () => {
             ['world202108010', 'WorldPlaceIdの形式ではありません'],
             ['jra2021080101', 'worldから始まる必要があります'],
         ];
-        invalidWorldPlaceIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [invalidId, message] of invalidWorldPlaceIdAndMessage) {
             expect(() => validateWorldPlaceId(invalidId)).toThrow(message);
-        });
+        }
     });
 });
 
@@ -124,9 +124,9 @@ describe('WorldRaceIdSchema', () => {
             ['world202108010', 'WorldRaceIdの形式ではありません'],
             ['jra202108010101', 'worldから始まる必要があります'],
         ];
-        invalidWorldRaceIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [invalidId, message] of invalidWorldRaceIdAndMessage) {
             expect(() => validateWorldRaceId(invalidId)).toThrow(message);
-        });
+        }
     });
 });
 
@@ -145,9 +145,9 @@ describe('KeirinPlaceIdSchema', () => {
             ['keirin202108010', 'KeirinPlaceIdの形式ではありません'],
             ['jra2021080101', 'keirinから始まる必要があります'],
         ];
-        invalidKeirinPlaceIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [invalidId, message] of invalidKeirinPlaceIdAndMessage) {
             expect(() => validateKeirinPlaceId(invalidId)).toThrow(message);
-        });
+        }
     });
 });
 
@@ -168,9 +168,9 @@ describe('KeirinRaceIdSchema', () => {
                 'レース番号は1~12の範囲である必要があります',
             ],
         ];
-        invalidKeirinRaceIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [invalidId, message] of invalidKeirinRaceIdAndMessage) {
             expect(() => validateKeirinRaceId(invalidId)).toThrow(message);
-        });
+        }
     });
 });
 
@@ -193,11 +193,14 @@ describe('KeirinRacePlayerIdSchema', () => {
             ['jra20210801010101', 'keirinから始まる必要があります'],
             ['keirin20210801010113', '枠番は1~9の範囲である必要があります'],
         ];
-        invalidKeirinRacePlayerIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [
+            invalidId,
+            message,
+        ] of invalidKeirinRacePlayerIdAndMessage) {
             expect(() => validateKeirinRacePlayerId(invalidId)).toThrow(
                 message,
             );
-        });
+        }
     });
 });
 
@@ -216,9 +219,9 @@ describe('BoatracePlaceIdSchema', () => {
             ['boatrace202108010', 'BoatracePlaceIdの形式ではありません'],
             ['jra2021080101', 'boatraceから始まる必要があります'],
         ];
-        invalidBoatracePlaceIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [invalidId, message] of invalidBoatracePlaceIdAndMessage) {
             expect(() => validateBoatracePlaceId(invalidId)).toThrow(message);
-        });
+        }
     });
 });
 
@@ -244,9 +247,9 @@ describe('BoatraceRaceIdSchema', () => {
                 'レース番号は1~12の範囲である必要があります',
             ],
         ];
-        invalidBoatraceRaceIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [invalidId, message] of invalidBoatraceRaceIdAndMessage) {
             expect(() => validateBoatraceRaceId(invalidId)).toThrow(message);
-        });
+        }
     });
 });
 
@@ -275,13 +278,14 @@ describe('BoatraceRacePlayerIdSchema', () => {
             ['jra20210801010101', 'boatraceから始まる必要があります'],
             ['boatrace20210801010113', '枠番は1~6の範囲である必要があります'],
         ];
-        invalidBoatraceRacePlayerIdAndMessage.forEach(
-            ([invalidId, message]) => {
-                expect(() => validateBoatraceRacePlayerId(invalidId)).toThrow(
-                    message,
-                );
-            },
-        );
+        for (const [
+            invalidId,
+            message,
+        ] of invalidBoatraceRacePlayerIdAndMessage) {
+            expect(() => validateBoatraceRacePlayerId(invalidId)).toThrow(
+                message,
+            );
+        }
     });
 });
 
@@ -300,9 +304,9 @@ describe('AutoracePlaceIdSchema', () => {
             ['autorace202108010', 'AutoracePlaceIdの形式ではありません'],
             ['jra2021080101', 'autoraceから始まる必要があります'],
         ];
-        invalidAutoracePlaceIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [invalidId, message] of invalidAutoracePlaceIdAndMessage) {
             expect(() => validateAutoracePlaceId(invalidId)).toThrow(message);
-        });
+        }
     });
 });
 
@@ -328,9 +332,9 @@ describe('AutoraceRaceIdSchema', () => {
                 'レース番号は1~12の範囲である必要があります',
             ],
         ];
-        invalidAutoraceRaceIdAndMessage.forEach(([invalidId, message]) => {
+        for (const [invalidId, message] of invalidAutoraceRaceIdAndMessage) {
             expect(() => validateAutoraceRaceId(invalidId)).toThrow(message);
-        });
+        }
     });
 });
 
@@ -359,12 +363,13 @@ describe('AutoraceRacePlayerIdSchema', () => {
             ['jra20210801010101', 'autoraceから始まる必要があります'],
             ['autorace20210801010113', '枠番は1~8の範囲である必要があります'],
         ];
-        invalidAutoraceRacePlayerIdAndMessage.forEach(
-            ([invalidId, message]) => {
-                expect(() => validateAutoraceRacePlayerId(invalidId)).toThrow(
-                    message,
-                );
-            },
-        );
+        for (const [
+            invalidId,
+            message,
+        ] of invalidAutoraceRacePlayerIdAndMessage) {
+            expect(() => validateAutoraceRacePlayerId(invalidId)).toThrow(
+                message,
+            );
+        }
     });
 });

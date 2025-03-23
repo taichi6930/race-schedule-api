@@ -62,7 +62,6 @@ export default [
                     case: 'camelCase',
                 },
             ],
-            'unicorn/no-array-for-each': 'off',
             'unicorn/prevent-abbreviations': 'off',
             'unicorn/prefer-spread': 'off',
             'unicorn/text-encoding-identifier-case': 'off',

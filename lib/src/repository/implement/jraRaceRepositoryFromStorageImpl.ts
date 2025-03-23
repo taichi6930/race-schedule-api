@@ -136,7 +136,7 @@ export class JraRaceRepositoryFromStorageImpl
         );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
-        raceRecordList.forEach((raceRecord) => {
+        for (const raceRecord of raceRecordList) {
             // 既に登録されているデータがある場合は上書きする
             const index = existFetchRaceRecordList.findIndex(
                 (record) => record.id === raceRecord.id,
@@ -146,7 +146,7 @@ export class JraRaceRepositoryFromStorageImpl
             } else {
                 existFetchRaceRecordList.push(raceRecord);
             }
-        });
+        }
 
         // 日付の最新順にソート
         existFetchRaceRecordList.sort(

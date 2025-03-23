@@ -46,7 +46,7 @@ describe('KeirinRaceDataUseCase', () => {
     });
 
     describe('fetchRaceDataList', () => {
-        [
+        for (const { searchConditions, descriptions, expectedLength } of [
             {
                 searchConditions: { gradeList: ['GP'] },
                 descriptions: 'gradeを検索条件に入れて',
@@ -112,7 +112,7 @@ describe('KeirinRaceDataUseCase', () => {
                 descriptions: '検索条件なし',
                 expectedLength: 72,
             },
-        ].forEach(({ searchConditions, descriptions, expectedLength }) => {
+        ]) {
             it(`正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                 // モックの戻り値を設定
                 raceDataService.fetchRaceEntityList.mockResolvedValue(
@@ -130,7 +130,7 @@ describe('KeirinRaceDataUseCase', () => {
 
                 expect(result.length).toBe(expectedLength);
             });
-        });
+        }
     });
 
     describe('updateRaceDataList', () => {

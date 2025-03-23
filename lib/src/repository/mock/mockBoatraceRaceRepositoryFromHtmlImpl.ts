@@ -19,7 +19,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
         const placeEntityList = searchFilter.placeEntityList;
         const raceEntityList: BoatraceRaceEntity[] = [];
         if (placeEntityList) {
-            placeEntityList.forEach((placeEntity) => {
+            for (const placeEntity of placeEntityList) {
                 const placeData: BoatracePlaceData = placeEntity.placeData;
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
@@ -44,7 +44,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
                         ),
                     );
                 }
-            });
+            }
         }
         return Promise.resolve(raceEntityList);
     }

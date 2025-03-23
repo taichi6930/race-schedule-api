@@ -128,9 +128,9 @@ export class JraPlaceRepositoryFromHtmlImpl
         // cheerioでHTMLを解析
         const $ = cheerio.load(htmlText);
 
-        Array.from({ length: 12 }, (_, k) => k + 1).forEach((month) => {
+        for (const month of Array.from({ length: 12 }, (_, k) => k + 1)) {
             const monthData = $(`#mon_${month.toString()}`);
-            Array.from({ length: 31 }, (_, k) => k + 1).forEach((day) => {
+            for (const day of Array.from({ length: 31 }, (_, k) => k + 1)) {
                 monthData
                     .find(`.d${day.toString()}`)
                     .each((index: number, element: cheerio.Element) => {
@@ -182,8 +182,8 @@ export class JraPlaceRepositoryFromHtmlImpl
                             ),
                         );
                     });
-            });
-        });
+            }
+        }
         return jraPlaceRecordList;
     }
 
