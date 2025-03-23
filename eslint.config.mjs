@@ -20,7 +20,7 @@ export default [
             },
         },
     },
-    eslintPluginUnicorn.configs.all, // ✅ unicornプラグインの推奨設定を適用
+    eslintPluginUnicorn.configs.all, // ✅ unicornプラグインの全ルールを適用
     eslint.configs.recommended, // ESLintの推奨ルールを適用
     ...tseslint.configs.strictTypeChecked, // TypeScriptの厳格な型チェックを適用
     ...tseslint.configs.stylisticTypeChecked, // TypeScriptのスタイルチェックを適用
