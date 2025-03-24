@@ -68,7 +68,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                             const calendarData: calendar_v3.Schema$Event = {
                                 id: raceId,
                                 summary: `テストレース${raceId}`,
-                                location: location,
+                                location,
                                 start: {
                                     dateTime: formatDate(
                                         new Date(

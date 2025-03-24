@@ -212,10 +212,10 @@ export class WorldRaceRepositoryFromHtmlImpl
                             const raceName = processWorldRaceName({
                                 name: rowRaceName,
                                 place: location,
-                                grade: grade,
-                                date: date,
-                                surfaceType: surfaceType,
-                                distance: distance,
+                                grade,
+                                date,
+                                surfaceType,
+                                distance,
                             });
                             worldRaceDataList.push(
                                 WorldRaceEntity.createWithoutId(

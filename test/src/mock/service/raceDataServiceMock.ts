@@ -6,7 +6,7 @@ import type { IRaceDataService } from '../../../../lib/src/service/interface/IRa
  * RaceDataServiceのモックを作成する
  * @returns
  */
-export const RaceDataServiceMock = <
+export const raceDataServiceMock = <
     R extends IRaceEntity<R>,
     P extends IPlaceEntity<P>,
 >(): jest.Mocked<IRaceDataService<R, P>> => {

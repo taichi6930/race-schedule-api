@@ -13,8 +13,8 @@ import {
     baseKeirinCalendarData,
     baseKeirinRaceEntity,
 } from '../../mock/common/baseKeirinData';
-import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService<KeirinRaceEntity>>;
@@ -24,13 +24,13 @@ describe('KeirinRaceCalendarUseCase', () => {
     let useCase: KeirinRaceCalendarUseCase;
 
     beforeEach(() => {
-        calendarService = CalendarServiceMock<KeirinRaceEntity>();
+        calendarService = calendarServiceMock<KeirinRaceEntity>();
         container.registerInstance<ICalendarService<KeirinRaceEntity>>(
             'KeirinCalendarService',
             calendarService,
         );
 
-        raceDataService = RaceDataServiceMock<
+        raceDataService = raceDataServiceMock<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();

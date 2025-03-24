@@ -1,11 +1,11 @@
 import eslint from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
+import eslintPluginPromise from 'eslint-plugin-promise';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import unusedImports from 'eslint-plugin-unused-imports';
 import tseslint from 'typescript-eslint';
-import eslintPluginPromise from 'eslint-plugin-promise';
-import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 
 export default [
     // lint対象ファイル
@@ -68,9 +68,7 @@ export default [
             'unicorn/no-null': 'off', // ✅ nullの使用を許可
             'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
-            'unicorn/no-await-expression-member': 'off', // ✅ メンバー式のawaitの使用を許可
             'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
-            'unicorn/prefer-ternary': 'off', // ✅ 三項演算子の使用を許可
         },
     },
     // YAMLファイルを除外する設定

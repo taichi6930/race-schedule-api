@@ -113,13 +113,13 @@ export class KeirinRaceDataUseCase
         },
     ): Promise<void> {
         // フィルタリング処理
-        const placeEntityList: KeirinPlaceEntity[] = (
+        const fetchedPlaceEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
-            )
-        )
+            );
+        const placeEntityList: KeirinPlaceEntity[] = fetchedPlaceEntityList
             .filter((placeEntity) => {
                 if (searchList?.gradeList) {
                     return searchList.gradeList.includes(

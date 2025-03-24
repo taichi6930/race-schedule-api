@@ -42,13 +42,13 @@ export class KeirinPlaceRepositoryFromHtmlImpl
             searchFilter.startDate,
             searchFilter.finishDate,
         );
-        const placeEntityList: KeirinPlaceEntity[] = (
-            await Promise.all(
-                monthList.map(async (month) =>
-                    this.fetchMonthPlaceEntityList(month),
-                ),
-            )
-        ).flat();
+        const monthPlaceEntityLists = await Promise.all(
+            monthList.map(async (month) =>
+                this.fetchMonthPlaceEntityList(month),
+            ),
+        );
+        const placeEntityList: KeirinPlaceEntity[] =
+            monthPlaceEntityLists.flat();
 
         // startDateからfinishDateまでの中でのデータを取得
         const filteredPlaceEntityList: KeirinPlaceEntity[] =

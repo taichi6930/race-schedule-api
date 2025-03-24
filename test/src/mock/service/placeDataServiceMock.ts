@@ -5,7 +5,7 @@ import type { IPlaceDataService } from '../../../../lib/src/service/interface/IP
  * PlaceDataServiceのモックを作成する
  * @returns
  */
-export const PlaceDataServiceMock = <P extends IPlaceEntity<P>>(): jest.Mocked<
+export const placeDataServiceMock = <P extends IPlaceEntity<P>>(): jest.Mocked<
     IPlaceDataService<P>
 > => {
     return {

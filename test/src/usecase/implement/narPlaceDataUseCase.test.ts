@@ -10,14 +10,14 @@ import {
     baseNarPlaceData,
     baseNarPlaceEntity,
 } from '../../mock/common/baseNarData';
-import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('NarPlaceDataUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService<NarPlaceEntity>>;
     let useCase: NarPlaceDataUseCase;
 
     beforeEach(() => {
-        placeDataService = PlaceDataServiceMock<NarPlaceEntity>();
+        placeDataService = placeDataServiceMock<NarPlaceEntity>();
         container.registerInstance<IPlaceDataService<NarPlaceEntity>>(
             'NarPlaceDataService',
             placeDataService,

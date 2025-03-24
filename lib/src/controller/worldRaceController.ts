@@ -176,8 +176,8 @@ export class WorldRaceController {
                 new Date(startDate as string),
                 new Date(finishDate as string),
                 {
-                    gradeList: gradeList,
-                    locationList: locationList,
+                    gradeList,
+                    locationList,
                 },
             );
             res.json(races);

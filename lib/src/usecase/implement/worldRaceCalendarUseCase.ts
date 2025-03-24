@@ -52,14 +52,14 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
         displayGradeList: string[],
     ): Promise<void> {
         // displayGradeListに含まれるレース情報のみを抽出
-        const filteredRaceEntityList: WorldRaceEntity[] = (
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Storage,
-            )
-        ).filter((raceEntity) =>
-            displayGradeList.includes(raceEntity.raceData.grade),
+        const raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            DataLocation.Storage,
+        );
+        const filteredRaceEntityList: WorldRaceEntity[] = raceEntityList.filter(
+            (raceEntity) =>
+                displayGradeList.includes(raceEntity.raceData.grade),
         );
 
         // カレンダーの取得を行う

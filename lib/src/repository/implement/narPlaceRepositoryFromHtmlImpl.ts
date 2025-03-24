@@ -37,13 +37,12 @@ export class NarPlaceRepositoryFromHtmlImpl
             searchFilter.startDate,
             searchFilter.finishDate,
         );
-        const placeEntityList: NarPlaceEntity[] = (
-            await Promise.all(
-                monthList.map(async (month) =>
-                    this.fetchMonthPlaceEntityList(month),
-                ),
-            )
-        ).flat();
+        const monthPlaceEntityLists = await Promise.all(
+            monthList.map(async (month) =>
+                this.fetchMonthPlaceEntityList(month),
+            ),
+        );
+        const placeEntityList: NarPlaceEntity[] = monthPlaceEntityLists.flat();
 
         // startDateからfinishDateまでの中でのデータを取得
         const filteredPlaceEntityList: NarPlaceEntity[] =

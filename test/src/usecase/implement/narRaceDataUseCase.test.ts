@@ -13,8 +13,8 @@ import {
     baseNarRaceEntity,
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
-import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceDataUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService<NarPlaceEntity>>;
@@ -24,13 +24,13 @@ describe('NarRaceDataUseCase', () => {
     let useCase: NarRaceDataUseCase;
 
     beforeEach(() => {
-        placeDataService = PlaceDataServiceMock<NarPlaceEntity>();
+        placeDataService = placeDataServiceMock<NarPlaceEntity>();
         container.registerInstance<IPlaceDataService<NarPlaceEntity>>(
             'NarPlaceDataService',
             placeDataService,
         );
 
-        raceDataService = RaceDataServiceMock<NarRaceEntity, NarPlaceEntity>();
+        raceDataService = raceDataServiceMock<NarRaceEntity, NarPlaceEntity>();
         container.registerInstance<
             IRaceDataService<NarRaceEntity, NarPlaceEntity>
         >('NarRaceDataService', raceDataService);

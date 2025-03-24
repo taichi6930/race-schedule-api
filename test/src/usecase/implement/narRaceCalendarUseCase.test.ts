@@ -13,8 +13,8 @@ import {
     baseNarCalendarData,
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
-import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService<NarRaceEntity>>;
@@ -24,13 +24,13 @@ describe('NarRaceCalendarUseCase', () => {
     let useCase: NarRaceCalendarUseCase;
 
     beforeEach(() => {
-        calendarService = CalendarServiceMock<NarRaceEntity>();
+        calendarService = calendarServiceMock<NarRaceEntity>();
         container.registerInstance<ICalendarService<NarRaceEntity>>(
             'NarCalendarService',
             calendarService,
         );
 
-        raceDataService = RaceDataServiceMock<NarRaceEntity, NarPlaceEntity>();
+        raceDataService = raceDataServiceMock<NarRaceEntity, NarPlaceEntity>();
         container.registerInstance<
             IRaceDataService<NarRaceEntity, NarPlaceEntity>
         >('NarRaceDataService', raceDataService);

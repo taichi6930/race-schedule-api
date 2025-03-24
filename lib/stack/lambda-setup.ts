@@ -16,9 +16,9 @@ export function createLambdaFunction(
             architecture: lambda.Architecture.ARM_64,
             runtime: lambda.Runtime.NODEJS_20_X,
             entry: 'lib/src/index.ts',
-            role: role,
+            role,
             environment: {
-                ENV: ENV,
+                ENV,
                 JRA_CALENDAR_ID: process.env.JRA_CALENDAR_ID ?? '',
                 NAR_CALENDAR_ID: process.env.NAR_CALENDAR_ID ?? '',
                 KEIRIN_CALENDAR_ID: process.env.KEIRIN_CALENDAR_ID ?? '',

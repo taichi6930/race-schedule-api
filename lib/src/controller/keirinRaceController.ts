@@ -195,9 +195,9 @@ export class KeirinRaceController {
                 new Date(startDate as string),
                 new Date(finishDate as string),
                 {
-                    gradeList: gradeList,
-                    locationList: locationList,
-                    stageList: stageList,
+                    gradeList,
+                    locationList,
+                    stageList,
                 },
             );
             res.json(races);

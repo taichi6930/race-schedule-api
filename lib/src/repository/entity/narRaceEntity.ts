@@ -19,7 +19,7 @@ import {
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
-import { getNarGoogleCalendarColorId as getNarGoogleCalendarColorId } from '../../utility/googleCalendar';
+import { getNarGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateNarRaceId } from '../../utility/raceId';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
