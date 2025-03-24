@@ -70,7 +70,6 @@ export default [
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
             'unicorn/no-await-expression-member': 'off', // ✅ メンバー式のawaitの使用を許可
             'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
-            'unicorn/prefer-ternary': 'off', // ✅ 三項演算子の使用を許可
         },
     },
     // YAMLファイルを除外する設定

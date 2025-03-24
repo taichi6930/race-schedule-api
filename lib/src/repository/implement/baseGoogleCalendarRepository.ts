@@ -67,17 +67,14 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
                             error,
                         );
                     }
-                    if (isExist) {
-                        // 既に登録されている場合は更新
-                        await this.googleCalendarGateway.updateCalendarData(
-                            raceEntity.toGoogleCalendarData(),
-                        );
-                    } else {
-                        // 新規登録
-                        await this.googleCalendarGateway.insertCalendarData(
-                            raceEntity.toGoogleCalendarData(),
-                        );
-                    }
+                    // 既存のデータがあれば更新、なければ新規登録
+                    await (isExist
+                        ? this.googleCalendarGateway.updateCalendarData(
+                              raceEntity.toGoogleCalendarData(),
+                          )
+                        : this.googleCalendarGateway.insertCalendarData(
+                              raceEntity.toGoogleCalendarData(),
+                          ));
                 } catch (error) {
                     console.error(
                         'Google Calendar APIへのイベント登録に失敗しました',
