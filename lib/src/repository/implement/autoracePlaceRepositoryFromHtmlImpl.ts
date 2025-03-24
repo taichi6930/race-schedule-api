@@ -39,13 +39,14 @@ export class AutoracePlaceRepositoryFromHtmlImpl
             searchFilter.startDate,
             searchFilter.finishDate,
         );
-        const placeEntityList: AutoracePlaceEntity[] = (
-            await Promise.all(
-                monthList.map(async (month) =>
-                    this.fetchMonthPlaceEntityList(month),
-                ),
-            )
-        ).flat();
+        const monthPlaceEntityLists = await Promise.all(
+            monthList.map(async (month) =>
+                this.fetchMonthPlaceEntityList(month),
+            ),
+        );
+
+        const placeEntityList: AutoracePlaceEntity[] =
+            monthPlaceEntityLists.flat();
 
         // startDateからfinishDateまでの中でのデータを取得
         const filteredPlaceEntityList: AutoracePlaceEntity[] =

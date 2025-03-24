@@ -68,7 +68,6 @@ export default [
             'unicorn/no-null': 'off', // ✅ nullの使用を許可
             'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
-            'unicorn/no-await-expression-member': 'off', // ✅ メンバー式のawaitの使用を許可
             'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
         },
     },

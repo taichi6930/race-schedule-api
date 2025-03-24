@@ -39,13 +39,12 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         );
 
         // quartersの月リストを取得
-        const placeEntityList: BoatracePlaceEntity[] = (
-            await Promise.all(
-                Object.entries(quarters).map(async ([quarter, quarterDate]) =>
-                    this.fetchMonthPlaceEntityList(quarter, quarterDate),
-                ),
-            )
-        ).flat();
+        const placeEntityArray = await Promise.all(
+            Object.entries(quarters).map(async ([quarter, quarterDate]) =>
+                this.fetchMonthPlaceEntityList(quarter, quarterDate),
+            ),
+        );
+        const placeEntityList: BoatracePlaceEntity[] = placeEntityArray.flat();
 
         // startDateからfinishDateまでの中でのデータを取得
         const filteredPlaceEntityList: BoatracePlaceEntity[] =

@@ -36,11 +36,11 @@ export class JraPlaceRepositoryFromHtmlImpl
         );
 
         // 年ごとの開催データを取得
-        const placeRecordList: JraPlaceRecord[] = (
-            await Promise.all(
-                yearList.map((year) => this.fetchYearPlaceRecordList(year)),
-            )
-        ).flat();
+        const placeRecordPromises = yearList.map((year) =>
+            this.fetchYearPlaceRecordList(year),
+        );
+        const placeRecordResults = await Promise.all(placeRecordPromises);
+        const placeRecordList: JraPlaceRecord[] = placeRecordResults.flat();
 
         // Entityに変換
         const placeEntityList: JraPlaceEntity[] = placeRecordList.map(

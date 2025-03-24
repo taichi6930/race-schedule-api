@@ -113,13 +113,13 @@ export class AutoraceRaceDataUseCase
         },
     ): Promise<void> {
         // フィルタリング処理
-        const placeEntityList: AutoracePlaceEntity[] = (
+        const fetchedPlaceEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
-            )
-        )
+            );
+        const placeEntityList: AutoracePlaceEntity[] = fetchedPlaceEntityList
             .filter((placeEntity) => {
                 if (searchList?.gradeList) {
                     return searchList.gradeList.includes(
