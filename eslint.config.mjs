@@ -58,7 +58,7 @@ export default [
             '@typescript-eslint/init-declarations': 'off', // 変数宣言時に初期化を強制
             '@typescript-eslint/max-params': 'off', // 関数の最大パラメータ数を制限
             '@typescript-eslint/member-ordering': 'off', // クラスメンバーの順序を統一
-            '@typescript-eslint/method-signature-style': 'off', // メソッドシグネチャのスタイルを統一
+            '@typescript-eslint/method-signature-style': 'error', // メソッドシグネチャのスタイルを統一
             '@typescript-eslint/naming-convention': 'off', // 命名規則を強制
             '@typescript-eslint/no-confusing-non-null-assertion': 'error', // `!` による非nullアサーションの誤解を招く使用を防ぐ
             '@typescript-eslint/no-dupe-class-members': 'error', // クラスメンバーの重複を禁止

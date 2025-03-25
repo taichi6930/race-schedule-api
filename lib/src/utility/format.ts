@@ -21,10 +21,10 @@ export const createAnchorTag = (text: string, url: string): string =>
  */
 declare global {
     interface Date {
-        getXDigitMonth(digit: number): string;
-        getXDigitDays(digit: number): string;
-        getXDigitHours(digit: number): string;
-        getXDigitMinutes(digit: number): string;
+        getXDigitMonth: (digit: number) => string;
+        getXDigitDays: (digit: number) => string;
+        getXDigitHours: (digit: number) => string;
+        getXDigitMinutes: (digit: number) => string;
     }
 }
 
@@ -58,7 +58,7 @@ Date.prototype.getXDigitMinutes = function (digit: number): string {
 
 declare global {
     interface Number {
-        toXDigits(digit: number): string;
+        toXDigits: (digit: number) => string;
     }
 }
 
