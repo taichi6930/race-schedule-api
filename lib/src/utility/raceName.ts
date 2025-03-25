@@ -1,32 +1,30 @@
-/* eslint-disable */
+import type { JraGradeType } from './data/jra/jraGradeType';
+import type { JraRaceCourse } from './data/jra/jraRaceCourse';
+import type { JraRaceCourseType } from './data/jra/jraRaceCourseType';
+import type { JraRaceDateTime } from './data/jra/jraRaceDateTime';
+import type { JraRaceDistance } from './data/jra/jraRaceDistance';
+import type { JraRaceName } from './data/jra/jraRaceName';
+import type { NarGradeType } from './data/nar/narGradeType';
+import type { NarRaceCourse } from './data/nar/narRaceCourse';
+import type { NarRaceCourseType } from './data/nar/narRaceCourseType';
+import type { NarRaceDateTime } from './data/nar/narRaceDateTime';
+import type { NarRaceDistance } from './data/nar/narRaceDistance';
+import type { NarRaceName } from './data/nar/narRaceName';
+import type { WorldGradeType } from './data/world/worldGradeType';
+import type { WorldRaceCourse } from './data/world/worldRaceCourse';
+import type { WorldRaceCourseType } from './data/world/worldRaceCourseType';
+import type { WorldRaceDateTime } from './data/world/worldRaceDateTime';
+import type { WorldRaceDistance } from './data/world/worldRaceDistance';
+import type { WorldRaceName } from './data/world/worldRaceName';
 
-import { JraGradeType } from './data/jra/jraGradeType';
-import { JraRaceCourse } from './data/jra/jraRaceCourse';
-import { JraRaceCourseType } from './data/jra/jraRaceCourseType';
-import { JraRaceDateTime } from './data/jra/jraRaceDateTime';
-import { JraRaceDistance } from './data/jra/jraRaceDistance';
-import { JraRaceName } from './data/jra/jraRaceName';
-import { NarGradeType } from './data/nar/narGradeType';
-import { NarRaceCourse } from './data/nar/narRaceCourse';
-import { NarRaceCourseType } from './data/nar/narRaceCourseType';
-import { NarRaceDateTime } from './data/nar/narRaceDateTime';
-import { NarRaceDistance } from './data/nar/narRaceDistance';
-import { NarRaceName } from './data/nar/narRaceName';
-import { WorldGradeType } from './data/world/worldGradeType';
-import { WorldRaceCourse } from './data/world/worldRaceCourse';
-import { WorldRaceCourseType } from './data/world/worldRaceCourseType';
-import { WorldRaceDateTime } from './data/world/worldRaceDateTime';
-import { WorldRaceDistance } from './data/world/worldRaceDistance';
-import { WorldRaceName } from './data/world/worldRaceName';
-
-type JraRaceDataForRaceName = {
+interface JraRaceDataForRaceName {
     name: JraRaceName;
     place: JraRaceCourse;
     grade: JraGradeType;
     date: JraRaceDateTime;
     surfaceType: JraRaceCourseType;
     distance: JraRaceDistance;
-};
+}
 
 export const processJraRaceName = (
     raceInfo: JraRaceDataForRaceName,
@@ -183,34 +181,34 @@ const isLumiereAutumnDash = (raceInfo: JraRaceDataForRaceName): boolean =>
     raceInfo.name.includes('ルミエール') &&
     raceInfo.distance === 1000;
 
-type NarRaceDataForRaceName = {
+interface NarRaceDataForRaceName {
     name: NarRaceName;
     place: NarRaceCourse;
     grade: NarGradeType;
     date: NarRaceDateTime;
     surfaceType: NarRaceCourseType;
     distance: NarRaceDistance;
-};
+}
 export const processNarRaceName = (
     raceInfo: NarRaceDataForRaceName,
 ): string => {
     // 共通系
-    let newRaceName = raceInfo.name
-        .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) =>
-            String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+    let tempRaceName = raceInfo.name
+        .replace(/[０-９Ａ-Ｚａ-ｚ]/g, (s) =>
+            String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
         )
         .replace(/[！-～]/g, (s) =>
-            String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+            String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
         )
         .replace(/ステークス/, 'S')
         .replace(/カップ/, 'C')
-        .replace(/J(認|交|指) /g, '')
-        .replace(/　/g, ' ');
+        .replace(/J([交指認]) /g, '')
+        .replace(/\u3000/g, ' ');
     // 帯広競馬
     if (['帯広ば'].includes(raceInfo.place)) {
-        newRaceName = newRaceName
+        tempRaceName = tempRaceName
             .replace(
-                /(?:[2-5])?(?:・)?(?:[3-5])?(?:歳)?(?:以上)?(?:牡馬|牝馬)?(オープ(?:ン)?|選抜).*/,
+                /[2-5]?・?[3-5]?歳?(?:以上)?(?:牡馬|牝馬)?(オープン?|選抜).*/,
                 '',
             )
             .replace(
@@ -220,11 +218,8 @@ export const processNarRaceName = (
     }
     // 門別競馬
     if (['門別'].includes(raceInfo.place)) {
-        newRaceName = newRaceName
-            .replace(
-                /(?:[2-4])?(?:歳)?(?:一般)?(?:牝馬)?(オー(?:プ(?:ン)?)?)$/,
-                '',
-            )
+        tempRaceName = tempRaceName
+            .replace(/[2-4]?歳?(?:一般)?(?:牝馬)?(オー(?:プン?)?)$/, '')
             .replace(
                 /.*ブリーダーズゴールドジュニア.*/,
                 'ブリーダーズゴールドジュニアC',
@@ -233,120 +228,114 @@ export const processNarRaceName = (
     }
     // 岩手競馬
     if (['水沢', '盛岡'].includes(raceInfo.place)) {
-        if (newRaceName == '2歳') {
+        if (tempRaceName == '2歳') {
             return `2歳`;
         }
-        newRaceName = newRaceName
-            .replace(/(オープン|([2-3])歳)(?:牝馬)?.*/, '')
+        tempRaceName = tempRaceName
+            .replace(/(オープン|([23])歳)(?:牝馬)?.*/, '')
             .replace(/.*岩手県知事杯ORO.*/, '岩手県知事杯OROカップ')
             .replace(/.*南部杯.*/, 'MCS南部杯')
             .replace(/.*スプリング.*/, 'スプリングC（岩手）');
     }
     // 浦和、船橋競馬
     if (['浦和', '船橋'].includes(raceInfo.place)) {
-        newRaceName = newRaceName
+        tempRaceName = tempRaceName
             .replace(/3歳未格選抜馬/, '')
-            .replace(/([2-4])(?:歳|上)?(?:牝馬)?(オープン).*/, '')
+            .replace(/([2-4])[上歳]?(?:牝馬)?(オープン).*/, '')
             .replace(/(A2|B1).*/, '')
             .replace(/オープン4上$/, 'オープン');
     }
     // 川崎競馬
     if (['川崎'].includes(raceInfo.place)) {
-        newRaceName = newRaceName
+        tempRaceName = tempRaceName
             .replace(/【地方交流3歳/, '')
-            .replace(/([2-4])(?:歳|上)?(?:牝馬)?(?:1)?(オープン).*/, '')
-            .replace(/\【(国際|指定|地方|JRA・地方)交(?:流\】).*/g, '')
+            .replace(/([2-4])[上歳]?(?:牝馬)?1?(オープン).*/, '')
+            .replace(/【(国際|指定|地方|JRA・地方)交流】.*/g, '')
             .replace(/ホクト.*/g, '')
             .replace(/(A2|2歳1).*/, '')
             .replace(/4歳上*/g, '');
     }
     // 大井競馬
     if (['大井'].includes(raceInfo.place)) {
-        newRaceName = newRaceName
-            .replace(
-                /(?:[2-4])?(?:歳|上)?(選定馬|(?:牝馬)?(オー(?:プ(?:ン)?)?)).*/,
-                '',
-            )
+        tempRaceName = tempRaceName
+            .replace(/[2-4]?[上歳]?(選定馬|(?:牝馬)?(オー(?:プン?)?)).*/, '')
             .replace(/.*ゴールドジュニア.*/, 'ゴールドジュニア（大井）')
             .replace(/メイカA2B1/, 'メイC');
     }
     // 金沢競馬
     if (['金沢'].includes(raceInfo.place)) {
-        newRaceName = newRaceName
+        tempRaceName = tempRaceName
             .replace(
                 '/(移転50周年記念金沢ファ).*/',
                 '移転50周年記念金沢ファンセレクトC',
             )
-            .replace(
-                /(\【|((?:[2-4])?歳(?:以上)?(?:牝馬)?(?:オープン)?)).*/,
-                '',
-            )
+            .replace(/(【|([2-4]?歳(?:以上)?(?:牝馬)?(?:オープン)?)).*/, '')
             .replace(/((A|B1)級|A1二A2)$/, '');
     }
     // 名古屋競馬
     if (['名古屋'].includes(raceInfo.place)) {
-        newRaceName = newRaceName
-            .replace(/(?:[2-3])?(?:歳)?(?:牝馬)?(オープン).*/, '')
+        tempRaceName = tempRaceName
+            .replace(/[23]?歳?(?:牝馬)?(オープン).*/, '')
             .replace(/.*スプリング.*/, 'スプリングC（名古屋）')
             .replace(/.*尾張名古屋杯.*/, '尾張名古屋杯')
             .replace(/.*あすなろ杯.*/, 'あすなろ杯')
             .replace(/.*ネクストスター.*/, 'ネクストスター名古屋')
-            .replace(/(B(?:C)?)$/, '');
+            .replace(/(BC?)$/, '');
     }
     // 笠松競馬
     if (['笠松'].includes(raceInfo.place)) {
-        if (newRaceName.includes('ゴールドジュニア')) {
-            newRaceName = 'ゴールドジュニア（笠松）';
+        if (tempRaceName.includes('ゴールドジュニア')) {
+            tempRaceName = 'ゴールドジュニア（笠松）';
         }
-        if (newRaceName.includes('東海ゴールド')) {
-            newRaceName = '東海ゴールドC';
+        if (tempRaceName.includes('東海ゴールド')) {
+            tempRaceName = '東海ゴールドC';
         }
         // それ以外の場合は不要な部分を削除
-        newRaceName = newRaceName.replace(
-            /(オープン|([2-4])歳)(?:以上)?(?:牡馬|牝馬|牡牝)?(?:・)?(オープン).*/,
+        tempRaceName = tempRaceName.replace(
+            /(オープン|([2-4])歳)(?:以上)?(?:牡馬|牝馬|牡牝)?・?(オープン).*/,
             '',
         );
     }
     // 園田、姫路競馬
     if (['園田', '姫路'].includes(raceInfo.place)) {
-        newRaceName = newRaceName.replace(/([2-4])歳(?:以上)?(?:牝馬)?.*/, '');
+        tempRaceName = tempRaceName.replace(
+            /([2-4])歳(?:以上)?(?:牝馬)?.*/,
+            '',
+        );
     }
     // 高知競馬
     if (['高知'].includes(raceInfo.place)) {
-        newRaceName = newRaceName
-            .replace(/([2-4])(?:歳)?(?:以上)?(?:牝馬)?.*/, '')
+        tempRaceName = tempRaceName
+            .replace(/([2-4])歳?(?:以上)?(?:牝馬)?.*/, '')
             .replace(/((B|C)級以下)$/, '');
     }
     // 佐賀競馬
     if (['佐賀'].includes(raceInfo.place)) {
-        newRaceName = newRaceName
-            .replace(
-                /(?:[2-4])?(?:歳)?(?:牝馬)?(九州産|オー(?:プ(?:ン)?)?)$/,
-                '',
-            )
+        tempRaceName = tempRaceName
+            .replace(/[2-4]?歳?(?:牝馬)?(九州産|オー(?:プン?)?)$/, '')
             .replace(/(A1・B)$/, '')
             .replace(/(A1(?:・A2)?|B|3歳|2歳)$/, '');
     }
-    return newRaceName;
+    return tempRaceName;
 };
 
-type WorldRaceDataForRaceName = {
+interface WorldRaceDataForRaceName {
     name: WorldRaceName;
     place: WorldRaceCourse;
     grade: WorldGradeType;
     date: WorldRaceDateTime;
     surfaceType: WorldRaceCourseType;
     distance: WorldRaceDistance;
-};
+}
 
 export const processWorldRaceName = (
     raceInfo: WorldRaceDataForRaceName,
 ): string => {
     return raceInfo.name
         .replace(
-            /[Ａ-Ｚａ-ｚ０-９！-＃＄％＆（）＊＋，－．／：；＜＝＞？＠［＼］＾＿｀｛｜｝～]/g,
+            /[！-＃＄％＆（）＊＋，－．／０-９：；＜＝＞？＠Ａ-Ｚ［＼］＾＿｀ａ-ｚ｛｜｝～]/g,
             function (s) {
-                return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+                return String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0);
             },
         )
         .replace(/ステークス/, 'S')
