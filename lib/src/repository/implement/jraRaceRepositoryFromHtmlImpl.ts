@@ -23,7 +23,7 @@ export class JraRaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('JraRaceDataHtmlGateway')
-        private raceDataHtmlGateway: IJraRaceDataHtmlGateway,
+        private readonly raceDataHtmlGateway: IJraRaceDataHtmlGateway,
     ) {}
 
     /**
@@ -187,7 +187,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * 開催競馬場を取得
      * @param theadElementMatch
      */
-    private extractRaceCourse = (
+    private readonly extractRaceCourse = (
         theadElementMatch: RegExpExecArray,
     ): JraRaceCourse => {
         const placeString: string = theadElementMatch[2];
@@ -200,7 +200,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * 開催回数を取得
      * @param theadElementMatch
      */
-    private extractRaceHeld = (
+    private readonly extractRaceHeld = (
         theadElementMatch: RegExpExecArray,
     ): number | null => {
         // 開催回数を取得 数字でない場合はreturn
@@ -215,7 +215,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * 開催日数を取得
      * @param theadElementMatch
      */
-    private extractRaceHeldDay = (
+    private readonly extractRaceHeldDay = (
         theadElementMatch: RegExpExecArray,
     ): number | null => {
         // 開催日程を取得 数字でない場合はreturn
@@ -230,7 +230,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * レース番号を取得
      * @param element
      */
-    private extractRaceNumber = (element: cheerio.Cheerio): number => {
+    private readonly extractRaceNumber = (element: cheerio.Cheerio): number => {
         const raceNumAndTime = element.find('td').eq(0).text().split(' ')[0];
         // tdの最初の要素からレース番号を取得 raceNumAndTimeのxRとなっているxを取得
         const raceNum: number = Number.parseInt(raceNumAndTime.split('R')[0]);
@@ -241,7 +241,9 @@ export class JraRaceRepositoryFromHtmlImpl
      * レース距離を取得
      * @param element
      */
-    private extractRaceDistance = (element: cheerio.Cheerio): number | null => {
+    private readonly extractRaceDistance = (
+        element: cheerio.Cheerio,
+    ): number | null => {
         // tdの2つ目の要素からレース距離を取得
         const distanceMatch = /\d+m/.exec(
             element.find('td').eq(1).find('span').eq(1).text(),
@@ -256,7 +258,10 @@ export class JraRaceRepositoryFromHtmlImpl
      * レース時間を取得
      * @param element
      */
-    private extractRaceTime = (element: cheerio.Cheerio, date: Date): Date => {
+    private readonly extractRaceTime = (
+        element: cheerio.Cheerio,
+        date: Date,
+    ): Date => {
         // tdが3つある
         // 1つ目はレース番号とレース開始時間
         // hh:mmの形式で取得
@@ -277,7 +282,7 @@ export class JraRaceRepositoryFromHtmlImpl
     };
 
     /** surfaceType */
-    private extractSurfaceType = (
+    private readonly extractSurfaceType = (
         element: cheerio.Cheerio,
     ): JraRaceCourseType | null => {
         const surfaceTypeMatch = /[ダ芝障]{1,2}/.exec(
@@ -303,7 +308,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param raceSurfaceType
      * @param rowRaceName
      */
-    private extractRaceGradeAndRaceName = (
+    private readonly extractRaceGradeAndRaceName = (
         element: cheerio.Cheerio,
         raceSurfaceType: JraRaceCourseType,
         rowRaceName: string,

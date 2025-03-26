@@ -19,7 +19,7 @@ export class JraRaceRepositoryFromStorageImpl
 
     constructor(
         @inject('JraRaceS3Gateway')
-        private s3Gateway: IS3Gateway<JraRaceRecord>,
+        private readonly s3Gateway: IS3Gateway<JraRaceRecord>,
     ) {}
 
     /**

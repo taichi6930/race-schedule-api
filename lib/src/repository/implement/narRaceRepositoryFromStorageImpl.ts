@@ -19,7 +19,7 @@ export class NarRaceRepositoryFromStorageImpl
 
     constructor(
         @inject('NarRaceS3Gateway')
-        private s3Gateway: IS3Gateway<NarRaceRecord>,
+        private readonly s3Gateway: IS3Gateway<NarRaceRecord>,
     ) {}
 
     /**

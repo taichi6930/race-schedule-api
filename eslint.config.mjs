@@ -91,8 +91,8 @@ export default [
             '@typescript-eslint/prefer-includes': 'error', // `includes()` の使用を推奨
             '@typescript-eslint/prefer-nullish-coalescing': 'error', // `??` を推奨
             '@typescript-eslint/prefer-optional-chain': 'error', // `?.` の使用を推奨
-            '@typescript-eslint/prefer-readonly': 'off', // `readonly` を推奨
-            '@typescript-eslint/prefer-readonly-parameter-types': 'off', // 引数の `readonly` 指定を推奨
+            '@typescript-eslint/prefer-readonly': 'error', // `readonly` を推奨
+            '@typescript-eslint/prefer-readonly-parameter-types': 'off', // 引数の `readonly` を推奨
             '@typescript-eslint/prefer-regexp-exec': 'error', // `RegExp#exec()` の使用を推奨
             '@typescript-eslint/prefer-string-starts-ends-with': 'error', // `startsWith()` / `endsWith()` の使用を推奨
             '@typescript-eslint/prefer-ts-expect-error': 'error', // `@ts-expect-error` を推奨

@@ -17,7 +17,7 @@ export class JraPlaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('JraPlaceDataHtmlGateway')
-        private placeDataHtmlGateway: IJraPlaceDataHtmlGateway,
+        private readonly placeDataHtmlGateway: IJraPlaceDataHtmlGateway,
     ) {}
 
     /**

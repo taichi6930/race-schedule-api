@@ -15,7 +15,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
     constructor(private readonly raceType: RaceType) {
         this.setCalendarData();
     }
-    private static mockCalendarData: Record<
+    private static readonly mockCalendarData: Record<
         string,
         calendar_v3.Schema$Event[]
     > = {
