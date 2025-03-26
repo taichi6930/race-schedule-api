@@ -152,6 +152,9 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                             grade = 'GⅡ';
                             break;
                         }
+                        case undefined: {
+                            break;
+                        }
                     }
                     const datetime = new Date(
                         date.getFullYear(),

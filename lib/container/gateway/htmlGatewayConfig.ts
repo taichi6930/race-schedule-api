@@ -43,7 +43,11 @@ container.register<IKeirinPlaceDataHtmlGateway>('KeirinPlaceDataHtmlGateway', {
             case allowedEnvs.production: {
                 return new KeirinPlaceDataHtmlGateway();
             }
-            case allowedEnvs.local: {
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.test:
+            case allowedEnvs.githubActionsCi: {
                 return new MockKeirinPlaceDataHtmlGateway();
             }
             default: {
@@ -58,7 +62,11 @@ container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
             case allowedEnvs.production: {
                 return new KeirinRaceDataHtmlGateway();
             }
-            case allowedEnvs.local: {
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.test:
+            case allowedEnvs.githubActionsCi: {
                 return new MockKeirinRaceDataHtmlGateway();
             }
             default: {
@@ -76,7 +84,9 @@ container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.test:
+            case allowedEnvs.githubActionsCi: {
                 return new MockNarRaceDataHtmlGateway();
             }
             default: {
@@ -93,7 +103,9 @@ container.register<INarPlaceDataHtmlGateway>('NarPlaceDataHtmlGateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.test:
+            case allowedEnvs.githubActionsCi: {
                 return new MockNarPlaceDataHtmlGateway();
             }
             default: {
@@ -110,7 +122,9 @@ container.register<IJraRaceDataHtmlGateway>('JraRaceDataHtmlGateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.test:
+            case allowedEnvs.githubActionsCi: {
                 return new MockJraRaceDataHtmlGateway();
             }
             default: {
@@ -127,7 +141,9 @@ container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.test:
+            case allowedEnvs.githubActionsCi: {
                 return new MockJraPlaceDataHtmlGateway();
             }
             default: {
@@ -145,7 +161,9 @@ container.register<IWorldRaceDataHtmlGateway>('WorldRaceDataHtmlGateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.test:
+            case allowedEnvs.githubActionsCi: {
                 return new MockWorldRaceDataHtmlGateway();
             }
             default: {
@@ -165,7 +183,9 @@ container.register<IAutoracePlaceDataHtmlGateway>(
                 }
                 case allowedEnvs.local:
                 case allowedEnvs.localNoInitData:
-                case allowedEnvs.localInitMadeData: {
+                case allowedEnvs.localInitMadeData:
+                case allowedEnvs.test:
+                case allowedEnvs.githubActionsCi: {
                     return new MockAutoracePlaceDataHtmlGateway();
                 }
                 default: {
@@ -185,7 +205,9 @@ container.register<IAutoraceRaceDataHtmlGateway>(
                 }
                 case allowedEnvs.local:
                 case allowedEnvs.localNoInitData:
-                case allowedEnvs.localInitMadeData: {
+                case allowedEnvs.localInitMadeData:
+                case allowedEnvs.test:
+                case allowedEnvs.githubActionsCi: {
                     return new MockAutoraceRaceDataHtmlGateway();
                 }
                 default: {
@@ -204,7 +226,11 @@ container.register<IBoatracePlaceDataHtmlGateway>(
                 case allowedEnvs.production: {
                     return new BoatracePlaceDataHtmlGateway();
                 }
-                case allowedEnvs.local: {
+                case allowedEnvs.local:
+                case allowedEnvs.localNoInitData:
+                case allowedEnvs.localInitMadeData:
+                case allowedEnvs.test:
+                case allowedEnvs.githubActionsCi: {
                     return new MockBoatracePlaceDataHtmlGateway();
                 }
                 default: {
@@ -222,7 +248,11 @@ container.register<IBoatraceRaceDataHtmlGateway>(
                 case allowedEnvs.production: {
                     return new BoatraceRaceDataHtmlGateway();
                 }
-                case allowedEnvs.local: {
+                case allowedEnvs.local:
+                case allowedEnvs.localNoInitData:
+                case allowedEnvs.localInitMadeData:
+                case allowedEnvs.test:
+                case allowedEnvs.githubActionsCi: {
                     return new MockBoatraceRaceDataHtmlGateway();
                 }
                 default: {

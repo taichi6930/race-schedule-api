@@ -37,7 +37,8 @@ container.register<IS3Gateway<KeirinPlaceRecord>>('KeirinPlaceS3Gateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<KeirinPlaceRecord>(
                     'race-schedule-bucket',
                     'keirin/',
@@ -66,7 +67,8 @@ container.register<IS3Gateway<KeirinRaceRecord>>('KeirinRaceS3Gateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<KeirinRaceRecord>(
                     'race-schedule-bucket',
                     'keirin/',
@@ -98,7 +100,8 @@ container.register<IS3Gateway<KeirinRacePlayerRecord>>(
                 }
                 case allowedEnvs.local:
                 case allowedEnvs.localNoInitData:
-                case allowedEnvs.localInitMadeData: {
+                case allowedEnvs.localInitMadeData:
+                case allowedEnvs.githubActionsCi: {
                     return new MockS3Gateway<KeirinRacePlayerRecord>(
                         'race-schedule-bucket',
                         'keirin/',
@@ -131,7 +134,8 @@ container.register<IS3Gateway<NarRaceRecord>>('NarRaceS3Gateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<NarRaceRecord>(
                     'race-schedule-bucket',
                     'nar/',
@@ -160,7 +164,8 @@ container.register<IS3Gateway<NarPlaceRecord>>('NarPlaceS3Gateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<NarPlaceRecord>(
                     'race-schedule-bucket',
                     'nar/',
@@ -191,7 +196,8 @@ container.register<IS3Gateway<JraRaceRecord>>('JraRaceS3Gateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<JraRaceRecord>(
                     'race-schedule-bucket',
                     'jra/',
@@ -221,7 +227,8 @@ container.register<IS3Gateway<JraPlaceRecord>>('JraPlaceS3Gateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<JraPlaceRecord>(
                     'race-schedule-bucket',
                     'jra/',
@@ -252,7 +259,8 @@ container.register<IS3Gateway<WorldRaceRecord>>('WorldRaceS3Gateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<WorldRaceRecord>(
                     'race-schedule-bucket',
                     'world/',
@@ -284,7 +292,8 @@ container.register<IS3Gateway<AutoraceRaceRecord>>('AutoraceRaceS3Gateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<AutoraceRaceRecord>(
                     'race-schedule-bucket',
                     'autorace/',
@@ -313,7 +322,8 @@ container.register<IS3Gateway<AutoracePlaceRecord>>('AutoracePlaceS3Gateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<AutoracePlaceRecord>(
                     'race-schedule-bucket',
                     'autorace/',
@@ -346,7 +356,8 @@ container.register<IS3Gateway<AutoraceRacePlayerRecord>>(
                 }
                 case allowedEnvs.local:
                 case allowedEnvs.localNoInitData:
-                case allowedEnvs.localInitMadeData: {
+                case allowedEnvs.localInitMadeData:
+                case allowedEnvs.githubActionsCi: {
                     return new MockS3Gateway<AutoraceRacePlayerRecord>(
                         'race-schedule-bucket',
                         'autorace/',
@@ -376,7 +387,8 @@ container.register<IS3Gateway<BoatracePlaceRecord>>('BoatracePlaceS3Gateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<BoatracePlaceRecord>(
                     'race-schedule-bucket',
                     'boatrace/',
@@ -407,7 +419,8 @@ container.register<IS3Gateway<BoatraceRaceRecord>>('BoatraceRaceS3Gateway', {
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData: {
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<BoatraceRaceRecord>(
                     'race-schedule-bucket',
                     'boatrace/',
@@ -440,7 +453,8 @@ container.register<IS3Gateway<BoatraceRacePlayerRecord>>(
                 }
                 case allowedEnvs.local:
                 case allowedEnvs.localNoInitData:
-                case allowedEnvs.localInitMadeData: {
+                case allowedEnvs.localInitMadeData:
+                case allowedEnvs.githubActionsCi: {
                     return new MockS3Gateway<BoatraceRacePlayerRecord>(
                         'race-schedule-bucket',
                         'boatrace/',

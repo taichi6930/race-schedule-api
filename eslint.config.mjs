@@ -100,7 +100,7 @@ export default [
             '@typescript-eslint/require-array-sort-compare': 'error', // `Array#sort()` に比較関数を要求
             '@typescript-eslint/sort-type-constituents': 'error', // 型のユニオン/インターセクションをアルファベット順に
             '@typescript-eslint/strict-boolean-expressions': 'off', // 厳格なブール型の評価を強制
-            '@typescript-eslint/switch-exhaustiveness-check': 'off', // `switch` 文の網羅性をチェック
+            '@typescript-eslint/switch-exhaustiveness-check': 'error', // `switch` 文の網羅性をチェック
             '@typescript-eslint/typedef': 'error', // `typedef` を要求
             '@typescript-eslint/unbound-method': 'error', // `this` を持たないクラスメソッドの使用を禁止
             '@typescript-eslint/unified-signatures': 'error', // `function` のオーバーロード定義を統一

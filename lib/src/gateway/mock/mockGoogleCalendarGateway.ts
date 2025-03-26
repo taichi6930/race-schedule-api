@@ -38,6 +38,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
             case allowedEnvs.production: // ENV が production の場合、GoogleCalendarGateway を使用
             case allowedEnvs.test:
             case allowedEnvs.localNoInitData:
+            case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
                 break;
             }
@@ -59,6 +60,13 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                                 case 'world': {
                                     location = 'パリロンシャン';
                                     raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${WorldPlaceCodeMap[location]}${(i + 1).toXDigits(2)}`;
+                                    break;
+                                }
+                                case 'jra':
+                                case 'nar':
+                                case 'keirin':
+                                case 'autorace':
+                                case 'boatrace': {
                                     break;
                                 }
                                 default: {
