@@ -27,9 +27,7 @@ import { IRecord } from '../record/iRecord';
  * MockS3Gateway
  */
 @injectable()
-export class MockS3Gateway<T extends IRecord<T>>
-    implements IS3Gateway<IRecord<T>>
-{
+export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     /**
      * モックデータを保存するためのマップ
      * @private
