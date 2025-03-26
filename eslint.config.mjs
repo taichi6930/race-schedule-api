@@ -98,7 +98,7 @@ export default [
             '@typescript-eslint/prefer-ts-expect-error': 'error', // `@ts-expect-error` を推奨
             '@typescript-eslint/promise-function-async': 'off', // `Promise` を返す関数に `async` を付与
             '@typescript-eslint/require-array-sort-compare': 'error', // `Array#sort()` に比較関数を要求
-            '@typescript-eslint/sort-type-constituents': 'off', // 型のユニオン/インターセクションをアルファベット順に
+            '@typescript-eslint/sort-type-constituents': 'error', // 型のユニオン/インターセクションをアルファベット順に
             '@typescript-eslint/strict-boolean-expressions': 'off', // 厳格なブール型の評価を強制
             '@typescript-eslint/switch-exhaustiveness-check': 'off', // `switch` 文の網羅性をチェック
             '@typescript-eslint/typedef': 'error', // `typedef` を要求
