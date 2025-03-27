@@ -96,7 +96,7 @@ export default [
             '@typescript-eslint/prefer-regexp-exec': 'error', // `RegExp#exec()` の使用を推奨
             '@typescript-eslint/prefer-string-starts-ends-with': 'error', // `startsWith()` / `endsWith()` の使用を推奨
             '@typescript-eslint/prefer-ts-expect-error': 'error', // `@ts-expect-error` を推奨
-            '@typescript-eslint/promise-function-async': 'off', // `Promise` を返す関数に `async` を付与
+            '@typescript-eslint/promise-function-async': 'error', // `Promise` を返す関数に `async` を付与
             '@typescript-eslint/require-array-sort-compare': 'error', // `Array#sort()` に比較関数を要求
             '@typescript-eslint/sort-type-constituents': 'error', // 型のユニオン/インターセクションをアルファベット順に
             '@typescript-eslint/strict-boolean-expressions': 'off', // 厳格なブール型の評価を強制

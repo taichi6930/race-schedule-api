@@ -181,10 +181,11 @@ export class BoatraceRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    registerRaceEntityList(
+    async registerRaceEntityList(
         raceEntityList: BoatraceRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

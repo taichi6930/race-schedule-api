@@ -33,7 +33,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
-        const quarters: Record<string, Date> = await this.generateQuarterList(
+        const quarters: Record<string, Date> = this.generateQuarterList(
             searchFilter.startDate,
             searchFilter.finishDate,
         );
@@ -67,7 +67,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     private generateQuarterList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<Record<string, Date>> {
+    ): Record<string, Date> {
         const quarterList: Record<string, Date> = {};
 
         const qStartDate = new Date(
@@ -91,7 +91,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             quarterList[quarter] = new Date(currentDate);
         }
 
-        return Promise.resolve(quarterList);
+        return quarterList;
     }
 
     /**
@@ -181,10 +181,11 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    registerPlaceEntityList(
+    async registerPlaceEntityList(
         placeEntityList: BoatracePlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

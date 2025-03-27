@@ -30,13 +30,13 @@ export class JraPlaceRepositoryFromHtmlImpl
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // startDateからfinishDateまでの年のリストを生成する
-        const yearList: Date[] = await this.generateYearList(
+        const yearList: Date[] = this.generateYearList(
             searchFilter.startDate,
             searchFilter.finishDate,
         );
 
         // 年ごとの開催データを取得
-        const placeRecordPromises = yearList.map((year) =>
+        const placeRecordPromises = yearList.map(async (year) =>
             this.fetchYearPlaceRecordList(year),
         );
         const placeRecordResults = await Promise.all(placeRecordPromises);
@@ -65,10 +65,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @param finishDate
      */
     @Logger
-    private generateYearList(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<Date[]> {
+    private generateYearList(startDate: Date, finishDate: Date): Date[] {
         const yearList: Date[] = [];
         const currentDate = new Date(startDate);
 
@@ -80,7 +77,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         console.debug(
             `年リストを生成しました: ${yearList.map((year) => year.toISOString().split('T')[0]).join(', ')}`,
         );
-        return Promise.resolve(yearList);
+        return yearList;
     }
 
     /**
@@ -193,8 +190,11 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    registerPlaceEntityList(placeEntityList: JraPlaceEntity[]): Promise<void> {
+    async registerPlaceEntityList(
+        placeEntityList: JraPlaceEntity[],
+    ): Promise<void> {
         console.debug(placeEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

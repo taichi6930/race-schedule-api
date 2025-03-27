@@ -11,7 +11,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
     implements IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
 {
     @Logger
-    fetchRaceEntityList(
+    async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
     ): Promise<AutoraceRaceEntity[]> {
         const placeEntityList = searchFilter.placeEntityList;
@@ -43,14 +43,15 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
                 }
             }
         }
-        return Promise.resolve(raceEntityList);
+        return await Promise.resolve(raceEntityList);
     }
 
     @Logger
-    registerRaceEntityList(
+    async registerRaceEntityList(
         raceEntityList: AutoraceRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

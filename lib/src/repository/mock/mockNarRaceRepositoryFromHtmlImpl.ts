@@ -11,7 +11,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
     implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
     @Logger
-    fetchRaceEntityList(
+    async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
     ): Promise<NarRaceEntity[]> {
         const placeEntityList = searchFilter.placeEntityList;
@@ -42,12 +42,15 @@ export class MockNarRaceRepositoryFromHtmlImpl
                 }
             }
         }
-        return Promise.resolve(raceEntityList);
+        return await Promise.resolve(raceEntityList);
     }
 
     @Logger
-    registerRaceEntityList(raceEntityList: NarRaceEntity[]): Promise<void> {
+    async registerRaceEntityList(
+        raceEntityList: NarRaceEntity[],
+    ): Promise<void> {
         console.debug(raceEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

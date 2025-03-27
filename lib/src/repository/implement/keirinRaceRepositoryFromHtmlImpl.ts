@@ -295,8 +295,11 @@ export class KeirinRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    registerRaceEntityList(raceEntityList: KeirinRaceEntity[]): Promise<void> {
+    async registerRaceEntityList(
+        raceEntityList: KeirinRaceEntity[],
+    ): Promise<void> {
         console.debug(raceEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

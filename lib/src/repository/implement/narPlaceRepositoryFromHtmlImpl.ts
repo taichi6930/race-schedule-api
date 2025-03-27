@@ -33,7 +33,7 @@ export class NarPlaceRepositoryFromHtmlImpl
     async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<NarPlaceEntity[]> {
-        const monthList: Date[] = await this.generateMonthList(
+        const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,
             searchFilter.finishDate,
         );
@@ -62,10 +62,7 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @param finishDate
      */
     @Logger
-    private generateMonthList(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<Date[]> {
+    private generateMonthList(startDate: Date, finishDate: Date): Date[] {
         const monthList: Date[] = [];
         const currentDate = new Date(startDate);
 
@@ -79,7 +76,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         console.debug(
             `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
         );
-        return Promise.resolve(monthList);
+        return monthList;
     }
 
     /**
@@ -161,8 +158,11 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    registerPlaceEntityList(placeEntityList: NarPlaceEntity[]): Promise<void> {
+    async registerPlaceEntityList(
+        placeEntityList: NarPlaceEntity[],
+    ): Promise<void> {
         console.debug(placeEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

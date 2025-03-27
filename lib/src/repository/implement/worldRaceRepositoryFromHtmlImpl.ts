@@ -41,7 +41,7 @@ export class WorldRaceRepositoryFromHtmlImpl
     async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
     ): Promise<WorldRaceEntity[]> {
-        const monthList: Date[] = await this.generateMonthList(
+        const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,
             searchFilter.finishDate,
         );
@@ -64,10 +64,7 @@ export class WorldRaceRepositoryFromHtmlImpl
      * @param finishDate
      */
     @Logger
-    private generateMonthList(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<Date[]> {
+    private generateMonthList(startDate: Date, finishDate: Date): Date[] {
         const monthList: Date[] = [];
         const currentDate = new Date(startDate);
 
@@ -81,7 +78,7 @@ export class WorldRaceRepositoryFromHtmlImpl
         console.debug(
             `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
         );
-        return Promise.resolve(monthList);
+        return monthList;
     }
 
     @Logger
@@ -252,8 +249,11 @@ export class WorldRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    registerRaceEntityList(raceEntityList: WorldRaceEntity[]): Promise<void> {
+    async registerRaceEntityList(
+        raceEntityList: WorldRaceEntity[],
+    ): Promise<void> {
         console.debug(raceEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

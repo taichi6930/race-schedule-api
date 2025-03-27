@@ -223,8 +223,11 @@ export class NarRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    registerRaceEntityList(raceEntityList: NarRaceEntity[]): Promise<void> {
+    async registerRaceEntityList(
+        raceEntityList: NarRaceEntity[],
+    ): Promise<void> {
         console.debug(raceEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

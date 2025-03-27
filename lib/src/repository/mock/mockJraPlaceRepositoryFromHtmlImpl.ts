@@ -14,11 +14,11 @@ export class MockJraPlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    fetchPlaceEntityList(
+    async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの中央競馬場データを取得する
-        const fetchPlaceEntityList = [];
+        const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
@@ -27,12 +27,12 @@ export class MockJraPlaceRepositoryFromHtmlImpl
                 JraPlaceData.create(new Date(currentDate), '東京', 1, 1),
                 getJSTDate(new Date()),
             );
-            fetchPlaceEntityList.push(jraPlaceEntity);
+            placeEntityList.push(jraPlaceEntity);
             // 日付を1日進める
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        return Promise.resolve(fetchPlaceEntityList);
+        return await Promise.resolve(placeEntityList);
     }
 
     /**
@@ -41,8 +41,11 @@ export class MockJraPlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    registerPlaceEntityList(placeEntityList: JraPlaceEntity[]): Promise<void> {
+    async registerPlaceEntityList(
+        placeEntityList: JraPlaceEntity[],
+    ): Promise<void> {
         console.debug(placeEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

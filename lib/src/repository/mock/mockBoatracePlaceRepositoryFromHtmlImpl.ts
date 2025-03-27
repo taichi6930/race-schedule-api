@@ -14,11 +14,11 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    fetchPlaceEntityList(
+    async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
         // request.startDateからrequest.finishDateまでのボートレース場データを取得する
-        const fetchPlaceEntityList = [];
+        const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
@@ -27,12 +27,12 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
                 BoatracePlaceData.create(new Date(currentDate), '平和島', 'SG'),
                 getJSTDate(new Date()),
             );
-            fetchPlaceEntityList.push(boatracePlaceEntity);
+            placeEntityList.push(boatracePlaceEntity);
             // 日付を1日進める
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        return Promise.resolve(fetchPlaceEntityList);
+        return await Promise.resolve(placeEntityList);
     }
 
     /**
@@ -41,10 +41,11 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    registerPlaceEntityList(
+    async registerPlaceEntityList(
         placeEntityList: BoatracePlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

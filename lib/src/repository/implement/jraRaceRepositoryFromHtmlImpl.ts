@@ -421,8 +421,11 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    registerRaceEntityList(raceEntityList: JraRaceEntity[]): Promise<void> {
+    async registerRaceEntityList(
+        raceEntityList: JraRaceEntity[],
+    ): Promise<void> {
         console.debug(raceEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

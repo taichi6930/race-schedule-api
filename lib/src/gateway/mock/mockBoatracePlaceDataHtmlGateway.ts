@@ -15,13 +15,13 @@ export class MockBoatracePlaceDataHtmlGateway
      * @returns Promise<string> - 開催データのHTML
      */
     @Logger
-    getPlaceDataHtml(quarter: string): Promise<string> {
+    async getPlaceDataHtml(quarter: string): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
         const testHtmlUrl = `../mockData/html/boatrace/place/${quarter}.html`;
         // lib/src/gateway/mockData/html/boatrace/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
-        const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
-        return Promise.resolve(htmlContent);
+        const htmlContent = await fs.promises.readFile(htmlFilePath, 'utf8');
+        return htmlContent;
     }
 }

@@ -14,11 +14,11 @@ export class MockNarPlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    fetchPlaceEntityList(
+    async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<NarPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの地方競馬場データを取得する
-        const fetchPlaceEntityList = [];
+        const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
@@ -27,12 +27,12 @@ export class MockNarPlaceRepositoryFromHtmlImpl
                 NarPlaceData.create(new Date(currentDate), '大井'),
                 getJSTDate(new Date()),
             );
-            fetchPlaceEntityList.push(narPlaceEntity);
+            placeEntityList.push(narPlaceEntity);
             // 日付を1日進める
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        return Promise.resolve(fetchPlaceEntityList);
+        return await Promise.resolve(placeEntityList);
     }
 
     /**
@@ -41,8 +41,11 @@ export class MockNarPlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    registerPlaceEntityList(placeEntityList: NarPlaceEntity[]): Promise<void> {
+    async registerPlaceEntityList(
+        placeEntityList: NarPlaceEntity[],
+    ): Promise<void> {
         console.debug(placeEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

@@ -13,7 +13,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
     implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
 {
     @Logger
-    fetchRaceEntityList(
+    async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
         const placeEntityList = searchFilter.placeEntityList;
@@ -46,12 +46,15 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
                 }
             }
         }
-        return Promise.resolve(raceEntityList);
+        return await Promise.resolve(raceEntityList);
     }
 
     @Logger
-    registerRaceEntityList(raceEntityList: KeirinRaceEntity[]): Promise<void> {
+    async registerRaceEntityList(
+        raceEntityList: KeirinRaceEntity[],
+    ): Promise<void> {
         console.debug(raceEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }
