@@ -44,7 +44,6 @@ export default [
             '@typescript-eslint/max-params': 'off', // 関数の最大パラメータ数を制限
             '@typescript-eslint/member-ordering': 'off', // クラスメンバーの順序を統一
             '@typescript-eslint/naming-convention': 'off', // 命名規則を強制
-            '@typescript-eslint/no-import-type-side-effects': 'off', // 型専用のインポートに `import type` を強制
             '@typescript-eslint/no-loop-func': 'off', // ループ内の関数定義を禁止
             '@typescript-eslint/no-magic-numbers': 'off', // マジックナンバーを禁止
             '@typescript-eslint/no-shadow': 'off', // 変数のシャドウイングを禁止

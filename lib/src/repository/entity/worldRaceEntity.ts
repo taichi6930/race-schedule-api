@@ -6,7 +6,7 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../../domain/calendarData';
 import type { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
-import { type WorldRaceId } from '../../utility/data/world/worldRaceId';
+import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getWorldGoogleCalendarColorId } from '../../utility/googleCalendar';

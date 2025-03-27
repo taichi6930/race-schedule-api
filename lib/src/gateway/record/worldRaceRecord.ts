@@ -22,7 +22,7 @@ import {
     validateWorldRaceDistance,
     type WorldRaceDistance,
 } from '../../utility/data/world/worldRaceDistance';
-import { type WorldRaceId } from '../../utility/data/world/worldRaceId';
+import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import {
     validateWorldRaceName,
     type WorldRaceName,
