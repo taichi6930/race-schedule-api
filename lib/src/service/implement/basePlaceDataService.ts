@@ -71,6 +71,9 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
             case DataLocation.Web: {
                 return this.placeRepositoryFromHtml;
             }
+            default: {
+                throw new Error('不正なデータ取得先です');
+            }
         }
     }
 }

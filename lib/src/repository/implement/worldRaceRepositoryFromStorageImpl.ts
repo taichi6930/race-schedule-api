@@ -151,7 +151,7 @@ export class WorldRaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error(error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(

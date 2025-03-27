@@ -141,7 +141,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error(error);
-                    return;
+                    return undefined; // Ensure a value is returned in all code paths
                 }
             })
             .filter(

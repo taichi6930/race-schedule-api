@@ -77,6 +77,9 @@ export abstract class BaseRaceDataService<
             case DataLocation.Web: {
                 return this.raceRepositoryFromHtml;
             }
+            default: {
+                throw new Error(`Unsupported DataLocationType: ${type}`);
+            }
         }
     }
 }

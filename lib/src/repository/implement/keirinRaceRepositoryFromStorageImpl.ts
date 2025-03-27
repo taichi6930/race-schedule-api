@@ -214,7 +214,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error('KeirinRaceRecord create error', error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(
@@ -274,7 +274,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error('KeirinRacePlayerRecord create error', error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(

@@ -135,7 +135,7 @@ export class JraPlaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error(error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(

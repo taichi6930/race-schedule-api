@@ -139,7 +139,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error(error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(

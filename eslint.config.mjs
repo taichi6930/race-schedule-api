@@ -38,7 +38,6 @@ export default [
             '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
             '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
             '@typescript-eslint/class-methods-use-this': 'off', // ✅ クラスメソッド内でthisを使う
-            '@typescript-eslint/consistent-return': 'off', // 関数の `return` ルールを統一
             '@typescript-eslint/explicit-member-accessibility': 'off', // クラスメンバーのアクセシビリティを明示
             '@typescript-eslint/init-declarations': 'off', // 変数宣言時に初期化を強制
             '@typescript-eslint/max-params': 'off', // 関数の最大パラメータ数を制限

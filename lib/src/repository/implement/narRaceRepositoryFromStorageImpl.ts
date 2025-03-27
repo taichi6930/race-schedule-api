@@ -117,7 +117,7 @@ export class NarRaceRepositoryFromStorageImpl
                             );
                         } catch (error) {
                             console.error(error);
-                            return;
+                            return undefined;
                         }
                     })
                     .filter(
