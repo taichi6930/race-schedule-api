@@ -43,13 +43,13 @@ export default [
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可
             '@typescript-eslint/naming-convention': 'off', // 命名規則を強制
             '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内の関数定義を許可
-            '@typescript-eslint/no-magic-numbers': 'off', // マジックナンバーを禁止
-            '@typescript-eslint/no-shadow': 'off', // 変数のシャドウイングを禁止
+            '@typescript-eslint/no-magic-numbers': 'off', // ✅ マジックナンバーを禁止
+            '@typescript-eslint/no-shadow': 'off', // ✅ 変数のシャドウイングを禁止
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
-            '@typescript-eslint/no-use-before-define': 'off', // 変数や関数の使用前定義を禁止
+            '@typescript-eslint/no-use-before-define': 'off', // ✅ 変数や関数の使用前定義を禁止
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
-            '@typescript-eslint/strict-boolean-expressions': 'off', // 厳格なブール型の評価を強制
+            '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
             '@typescript-eslint/restrict-template-expressions': 'off', // ✅ テンプレートリテラルの使用を許可
             '@typescript-eslint/return-await': 'off', // ✅ return awaitの使用を許可
             'unused-imports/no-unused-vars': [
