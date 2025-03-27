@@ -20,7 +20,7 @@ describe('JraPlaceEntityクラスのテスト', () => {
 
     it('何も変更せずJraPlaceDataのインスタンスを作成できることを確認', () => {
         const placeEntity = baseJraPlaceEntity;
-        const placeData = placeEntity.placeData;
+        const { placeData } = placeEntity;
 
         expect(placeData).toEqual(baseJraPlaceData);
     });

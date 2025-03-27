@@ -130,7 +130,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 .trim();
             // 最初の日と最後の日を取得
             const startDateString: string = dateText.split('～')[0];
-            const finishDateString = dateText.split('～')[1];
+            const [, finishDateString] = dateText.split('～');
             const startDate = new Date(
                 date.getFullYear(),
                 Number.parseInt(startDateString.split('/')[0]) - 1,

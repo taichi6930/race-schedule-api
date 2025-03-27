@@ -36,7 +36,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
         searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
     ): Promise<AutoraceRaceEntity[]> {
         const autoraceRaceDataList: AutoraceRaceEntity[] = [];
-        const placeEntityList = searchFilter.placeEntityList;
+        const { placeEntityList } = searchFilter;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 autoraceRaceDataList.push(

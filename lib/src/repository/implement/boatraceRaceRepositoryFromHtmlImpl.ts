@@ -40,7 +40,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         searchFilter: SearchRaceFilterEntity<BoatracePlaceEntity>,
     ): Promise<BoatraceRaceEntity[]> {
         const boatraceRaceDataList: BoatraceRaceEntity[] = [];
-        const placeEntityList = searchFilter.placeEntityList;
+        const { placeEntityList } = searchFilter;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 boatraceRaceDataList.push(

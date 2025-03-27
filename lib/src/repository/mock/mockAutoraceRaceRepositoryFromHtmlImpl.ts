@@ -14,7 +14,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
     ): Promise<AutoraceRaceEntity[]> {
-        const placeEntityList = searchFilter.placeEntityList;
+        const { placeEntityList } = searchFilter;
         const raceEntityList: AutoraceRaceEntity[] = [];
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {

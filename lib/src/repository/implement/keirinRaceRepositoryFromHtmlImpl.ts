@@ -40,7 +40,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
         const keirinRaceDataList: KeirinRaceEntity[] = [];
-        const placeEntityList = searchFilter.placeEntityList;
+        const { placeEntityList } = searchFilter;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 keirinRaceDataList.push(

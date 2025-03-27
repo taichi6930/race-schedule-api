@@ -37,7 +37,7 @@ export class NarRaceRepositoryFromHtmlImpl
         searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
     ): Promise<NarRaceEntity[]> {
         const narRaceDataList: NarRaceEntity[] = [];
-        const placeEntityList = searchFilter.placeEntityList;
+        const { placeEntityList } = searchFilter;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 narRaceDataList.push(

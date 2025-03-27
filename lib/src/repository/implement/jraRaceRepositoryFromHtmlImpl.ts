@@ -35,7 +35,7 @@ export class JraRaceRepositoryFromHtmlImpl
         searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
         const jraRaceEntityList: JraRaceEntity[] = [];
-        const placeEntityList = searchFilter.placeEntityList;
+        const { placeEntityList } = searchFilter;
         // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
         const dateList = placeEntityList
             ?.map((place) => place.placeData.dateTime)
@@ -231,7 +231,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param element
      */
     private readonly extractRaceNumber = (element: cheerio.Cheerio): number => {
-        const raceNumAndTime = element.find('td').eq(0).text().split(' ')[0];
+        const [raceNumAndTime] = element.find('td').eq(0).text().split(' ');
         // tdの最初の要素からレース番号を取得 raceNumAndTimeのxRとなっているxを取得
         const raceNum: number = Number.parseInt(raceNumAndTime.split('R')[0]);
         return raceNum;
@@ -265,9 +265,9 @@ export class JraRaceRepositoryFromHtmlImpl
         // tdが3つある
         // 1つ目はレース番号とレース開始時間
         // hh:mmの形式で取得
-        const raceNumAndTime = element.find('td').eq(0).text().split(' ')[0];
+        const [raceNumAndTime] = element.find('td').eq(0).text().split(' ');
         // tdの最初の要素からレース開始時間を取得 raceNumAndTimeのhh:mmを取得
-        const raceTime = raceNumAndTime.split('R')[1];
+        const [, raceTime] = raceNumAndTime.split('R');
         // hh:mmの形式からhhとmmを取得
         const [hour, minute] = raceTime
             .split(':')

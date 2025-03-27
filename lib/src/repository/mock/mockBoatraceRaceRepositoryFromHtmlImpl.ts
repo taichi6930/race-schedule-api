@@ -16,7 +16,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<BoatracePlaceEntity>,
     ): Promise<BoatraceRaceEntity[]> {
-        const placeEntityList = searchFilter.placeEntityList;
+        const { placeEntityList } = searchFilter;
         const raceEntityList: BoatraceRaceEntity[] = [];
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {

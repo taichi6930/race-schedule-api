@@ -16,7 +16,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
-        const placeEntityList = searchFilter.placeEntityList;
+        const { placeEntityList } = searchFilter;
         const raceEntityList: KeirinRaceEntity[] = [];
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {

@@ -14,7 +14,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
-        const placeEntityList = searchFilter.placeEntityList;
+        const { placeEntityList } = searchFilter;
         const raceEntityList: JraRaceEntity[] = [];
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
