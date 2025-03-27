@@ -14,7 +14,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
         // request.startDateからrequest.finishDateまでのオートレース場データを取得する
@@ -43,7 +43,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: AutoracePlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);

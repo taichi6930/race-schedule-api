@@ -32,7 +32,7 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         placeData: AutoracePlaceData,
         updateDate: Date,
@@ -49,7 +49,7 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
      * @param placeData
      * @param updateDate
      */
-    static createWithoutId(
+    public static createWithoutId(
         placeData: AutoracePlaceData,
         updateDate: Date,
     ): AutoracePlaceEntity {
@@ -64,7 +64,9 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<AutoracePlaceEntity> = {}): AutoracePlaceEntity {
+    public copy(
+        partial: Partial<AutoracePlaceEntity> = {},
+    ): AutoracePlaceEntity {
         return AutoracePlaceEntity.create(
             partial.id ?? this.id,
             partial.placeData ?? this.placeData,
@@ -75,7 +77,7 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
     /**
      * AutoracePlaceRecordに変換する
      */
-    toRecord(): AutoracePlaceRecord {
+    public toRecord(): AutoracePlaceRecord {
         return AutoracePlaceRecord.create(
             this.id,
             this.placeData.dateTime,

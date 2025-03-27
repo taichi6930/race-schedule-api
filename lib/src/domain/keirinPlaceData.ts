@@ -49,7 +49,7 @@ export class KeirinPlaceData implements IPlaceData<KeirinPlaceData> {
      * @param location - 開催場所
      * @param grade - グレード
      */
-    static create(
+    public static create(
         dateTime: Date,
         location: string,
         grade: string,
@@ -66,7 +66,7 @@ export class KeirinPlaceData implements IPlaceData<KeirinPlaceData> {
      * @param partial - 上書きする部分データ
      * @returns 新しいKeirinPlaceDataインスタンス
      */
-    copy(partial: Partial<KeirinPlaceData> = {}): KeirinPlaceData {
+    public copy(partial: Partial<KeirinPlaceData> = {}): KeirinPlaceData {
         return new KeirinPlaceData(
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

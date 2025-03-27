@@ -26,7 +26,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class BoatraceRaceRepositoryFromHtmlImpl
     implements IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('BoatraceRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IBoatraceRaceDataHtmlGateway,
     ) {}
@@ -36,7 +36,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<BoatracePlaceEntity>,
     ): Promise<BoatraceRaceEntity[]> {
         const boatraceRaceDataList: BoatraceRaceEntity[] = [];
@@ -57,7 +57,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    async fetchRaceListFromHtmlWithBoatracePlace(
+    public async fetchRaceListFromHtmlWithBoatracePlace(
         placeData: BoatracePlaceData,
     ): Promise<BoatraceRaceEntity[]> {
         try {
@@ -181,7 +181,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: BoatraceRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

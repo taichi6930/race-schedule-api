@@ -50,7 +50,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      * @param racePlayerDataList - レースの選手データ
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         raceData: KeirinRaceData,
         racePlayerDataList: KeirinRacePlayerData[],
@@ -70,7 +70,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      * @param racePlayerDataList
      * @param updateDate
      */
-    static createWithoutId(
+    public static createWithoutId(
         raceData: KeirinRaceData,
         racePlayerDataList: KeirinRacePlayerData[],
         updateDate: Date,
@@ -91,7 +91,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<KeirinRaceEntity> = {}): KeirinRaceEntity {
+    public copy(partial: Partial<KeirinRaceEntity> = {}): KeirinRaceEntity {
         return KeirinRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
@@ -103,7 +103,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     /**
      * KeirinRaceRecordに変換する
      */
-    toRaceRecord(): KeirinRaceRecord {
+    public toRaceRecord(): KeirinRaceRecord {
         return KeirinRaceRecord.create(
             this.id,
             this.raceData.name,
@@ -120,7 +120,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      * レースデータをGoogleカレンダーのイベントに変換する
      * @param updateDate - 更新日時
      */
-    toGoogleCalendarData(
+    public toGoogleCalendarData(
         updateDate: Date = new Date(),
     ): calendar_v3.Schema$Event {
         return {
@@ -163,7 +163,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
         };
     }
 
-    static fromGoogleCalendarDataToCalendarData(
+    public static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
         return CalendarData.create(
@@ -179,7 +179,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     /**
      * KeirinRacePlayerRecordに変換する
      */
-    toPlayerRecordList(): KeirinRacePlayerRecord[] {
+    public toPlayerRecordList(): KeirinRacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
             KeirinRacePlayerRecord.create(
                 generateKeirinRacePlayerId(

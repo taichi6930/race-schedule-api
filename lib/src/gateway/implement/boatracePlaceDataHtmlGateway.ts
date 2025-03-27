@@ -12,7 +12,7 @@ export class BoatracePlaceDataHtmlGateway
      * @returns Promise<string> - 開催データのHTML
      */
     @Logger
-    async getPlaceDataHtml(quarter: string): Promise<string> {
+    public async getPlaceDataHtml(quarter: string): Promise<string> {
         try {
             // oddsparkのURLからHTMLを取得する
             const url = `https://sports.yahoo.co.jp/boatrace/schedule/?quarter=${quarter}`;

@@ -1,5 +1,5 @@
 export class SearchPlaceFilterEntity {
-    constructor(
+    public constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,
     ) {}

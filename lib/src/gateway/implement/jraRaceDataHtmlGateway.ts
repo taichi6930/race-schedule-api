@@ -4,7 +4,7 @@ import { Logger } from '../../utility/logger';
 import { IJraRaceDataHtmlGateway } from '../interface/iJraRaceDataHtmlGateway';
 
 export class JraRaceDataHtmlGateway implements IJraRaceDataHtmlGateway {
-    constructor() {
+    public constructor() {
         console.debug('JraRaceDataHtmlGatewayが呼ばれました');
     }
 
@@ -13,7 +13,7 @@ export class JraRaceDataHtmlGateway implements IJraRaceDataHtmlGateway {
      * @param date
      */
     @Logger
-    async getRaceDataHtml(date: Date): Promise<string> {
+    public async getRaceDataHtml(date: Date): Promise<string> {
         const raceId = format(date, 'yyyyMMdd');
         // keibalabのURLからHTMLを取得する
         try {

@@ -31,7 +31,7 @@ export class CalendarData {
      * @param location
      * @param description
      */
-    static create(
+    public static create(
         id: string | null | undefined,
         title: string | null | undefined,
         startTime: string | null | undefined,
@@ -53,7 +53,7 @@ export class CalendarData {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<CalendarData> = {}): CalendarData {
+    public copy(partial: Partial<CalendarData> = {}): CalendarData {
         return new CalendarData(
             partial.id ?? this.id,
             partial.title ?? this.title,

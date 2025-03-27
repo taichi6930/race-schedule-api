@@ -21,7 +21,7 @@ export class MockKeirinRaceDataHtmlGateway
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger
-    async getRaceDataHtml(
+    public async getRaceDataHtml(
         date: Date,
         place: KeirinRaceCourse,
     ): Promise<string> {

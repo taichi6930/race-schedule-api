@@ -19,7 +19,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class BoatracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<BoatracePlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('BoatracePlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IBoatracePlaceDataHtmlGateway,
     ) {}
@@ -30,7 +30,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * @param searchFilter - 開催データ取得フィルタ
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
         const quarters: Record<string, Date> = this.generateQuarterList(
@@ -181,7 +181,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: BoatracePlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);

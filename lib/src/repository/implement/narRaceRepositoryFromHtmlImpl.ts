@@ -23,7 +23,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class NarRaceRepositoryFromHtmlImpl
     implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('NarRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: INarRaceDataHtmlGateway,
     ) {}
@@ -33,7 +33,7 @@ export class NarRaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
     ): Promise<NarRaceEntity[]> {
         const narRaceDataList: NarRaceEntity[] = [];
@@ -51,7 +51,7 @@ export class NarRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    async fetchRaceListFromHtmlWithNarPlace(
+    public async fetchRaceListFromHtmlWithNarPlace(
         placeEntity: NarPlaceEntity,
     ): Promise<NarRaceEntity[]> {
         try {
@@ -223,7 +223,7 @@ export class NarRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: NarRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

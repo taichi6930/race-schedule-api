@@ -21,7 +21,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
-    constructor(
+    public constructor(
         @inject('KeirinPlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<KeirinPlaceRecord>,
     ) {}
@@ -32,7 +32,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
      * @param searchFilter
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<KeirinPlaceEntity[]> {
         // ファイル名リストから開催データを取得する
@@ -56,7 +56,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: KeirinPlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する

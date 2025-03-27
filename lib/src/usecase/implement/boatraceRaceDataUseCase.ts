@@ -26,7 +26,7 @@ export class BoatraceRaceDataUseCase
             BoatraceRaceStage
         >
 {
-    constructor(
+    public constructor(
         @inject('BoatracePlaceDataService')
         private readonly placeDataService: IPlaceDataService<BoatracePlaceEntity>,
         @inject('BoatraceRaceDataService')
@@ -42,7 +42,7 @@ export class BoatraceRaceDataUseCase
      * @param finishDate
      * @param searchList
      */
-    async fetchRaceDataList(
+    public async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
         searchList?: {
@@ -104,7 +104,7 @@ export class BoatraceRaceDataUseCase
      * @param searchList
      */
     @Logger
-    async updateRaceEntityList(
+    public async updateRaceEntityList(
         startDate: Date,
         finishDate: Date,
         searchList?: {
@@ -158,7 +158,9 @@ export class BoatraceRaceDataUseCase
      * @param raceDataList
      */
     @Logger
-    async upsertRaceDataList(raceDataList: BoatraceRaceData[]): Promise<void> {
+    public async upsertRaceDataList(
+        raceDataList: BoatraceRaceData[],
+    ): Promise<void> {
         const raceEntityList: BoatraceRaceEntity[] = raceDataList.map(
             (raceData) =>
                 BoatraceRaceEntity.createWithoutId(

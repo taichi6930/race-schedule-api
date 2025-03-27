@@ -21,7 +21,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class AutoracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<AutoracePlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('AutoracePlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IAutoracePlaceDataHtmlGateway,
     ) {}
@@ -32,7 +32,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * @param searchFilter - 開催データ取得フィルタ
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
@@ -183,7 +183,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: AutoracePlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);

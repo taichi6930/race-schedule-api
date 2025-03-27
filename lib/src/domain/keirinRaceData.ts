@@ -94,7 +94,7 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
      * @param grade - グレード
      * @param number - レース番号
      */
-    static create(
+    public static create(
         name: string,
         stage: string,
         dateTime: Date,
@@ -116,7 +116,7 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<KeirinRaceData> = {}): KeirinRaceData {
+    public copy(partial: Partial<KeirinRaceData> = {}): KeirinRaceData {
         return KeirinRaceData.create(
             partial.name ?? this.name,
             partial.stage ?? this.stage,

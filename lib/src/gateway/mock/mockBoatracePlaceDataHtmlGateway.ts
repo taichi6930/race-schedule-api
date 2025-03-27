@@ -15,7 +15,7 @@ export class MockBoatracePlaceDataHtmlGateway
      * @returns Promise<string> - 開催データのHTML
      */
     @Logger
-    async getPlaceDataHtml(quarter: string): Promise<string> {
+    public async getPlaceDataHtml(quarter: string): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
         const testHtmlUrl = `../mockData/html/boatrace/place/${quarter}.html`;
         // lib/src/gateway/mockData/html/boatrace/placeの中にあるhtmlを取得

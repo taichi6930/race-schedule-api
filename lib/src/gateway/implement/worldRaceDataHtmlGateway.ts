@@ -10,7 +10,7 @@ export class WorldRaceDataHtmlGateway implements IWorldRaceDataHtmlGateway {
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger
-    async getRaceDataHtml(date: Date): Promise<string> {
+    public async getRaceDataHtml(date: Date): Promise<string> {
         const url = `https://world.jra-van.jp/schedule/?year=${date.getFullYear().toString()}&month=${(date.getMonth() + 1).toString()}`;
 
         // gokeibaのURLからHTMLを取得する

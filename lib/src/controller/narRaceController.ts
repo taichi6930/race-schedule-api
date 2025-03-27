@@ -20,7 +20,7 @@ import { Logger } from '../utility/logger';
 export class NarRaceController {
     public router: Router;
 
-    constructor(
+    public constructor(
         @inject('NarRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('NarRaceDataUseCase')

@@ -32,7 +32,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         placeData: JraPlaceData,
         updateDate: Date,
@@ -49,7 +49,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
      * @param placeData
      * @param updateDate
      */
-    static createWithoutId(
+    public static createWithoutId(
         placeData: JraPlaceData,
         updateDate: Date,
     ): JraPlaceEntity {
@@ -64,7 +64,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<JraPlaceEntity> = {}): JraPlaceEntity {
+    public copy(partial: Partial<JraPlaceEntity> = {}): JraPlaceEntity {
         return JraPlaceEntity.create(
             partial.id ?? this.id,
             partial.placeData ?? this.placeData,
@@ -75,7 +75,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
     /**
      * JraPlaceRecordに変換する
      */
-    toRecord(): JraPlaceRecord {
+    public toRecord(): JraPlaceRecord {
         return JraPlaceRecord.create(
             this.id,
             this.placeData.dateTime,

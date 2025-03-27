@@ -96,7 +96,7 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
      * @param grade - グレード
      * @param number - レース番号
      */
-    static create(
+    public static create(
         name: string,
         stage: string,
         dateTime: Date,
@@ -118,7 +118,7 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<BoatraceRaceData> = {}): BoatraceRaceData {
+    public copy(partial: Partial<BoatraceRaceData> = {}): BoatraceRaceData {
         return BoatraceRaceData.create(
             partial.name ?? this.name,
             partial.stage ?? this.stage,

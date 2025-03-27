@@ -48,7 +48,7 @@ export class NarRaceEntity {
      * @param raceData - レースデータ
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         raceData: NarRaceData,
         updateDate: Date,
@@ -65,7 +65,7 @@ export class NarRaceEntity {
      * @param raceData
      * @param updateDate
      */
-    static createWithoutId(
+    public static createWithoutId(
         raceData: NarRaceData,
         updateDate: Date,
     ): NarRaceEntity {
@@ -84,7 +84,7 @@ export class NarRaceEntity {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<NarRaceEntity> = {}): NarRaceEntity {
+    public copy(partial: Partial<NarRaceEntity> = {}): NarRaceEntity {
         return NarRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
@@ -95,7 +95,7 @@ export class NarRaceEntity {
     /**
      * NarRaceRecordに変換する
      */
-    toRaceRecord(): NarRaceRecord {
+    public toRaceRecord(): NarRaceRecord {
         return NarRaceRecord.create(
             this.id,
             this.raceData.name,
@@ -113,7 +113,7 @@ export class NarRaceEntity {
      * レースデータをGoogleカレンダーのイベントに変換する
      * @param updateDate - 更新日時
      */
-    toGoogleCalendarData(
+    public toGoogleCalendarData(
         updateDate: Date = new Date(),
     ): calendar_v3.Schema$Event {
         return {
@@ -161,7 +161,7 @@ export class NarRaceEntity {
         };
     }
 
-    static fromGoogleCalendarDataToCalendarData(
+    public static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
         return CalendarData.create(
@@ -174,7 +174,7 @@ export class NarRaceEntity {
         );
     }
 
-    static fromGoogleCalendarDataToRaceEntity(
+    public static fromGoogleCalendarDataToRaceEntity(
         event: calendar_v3.Schema$Event,
     ): NarRaceEntity {
         return NarRaceEntity.create(

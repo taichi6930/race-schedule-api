@@ -12,7 +12,7 @@ import { BaseGoogleCalendarRepository } from './baseGoogleCalendarRepository';
  */
 @injectable()
 export class NarGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepository<NarRaceEntity> {
-    constructor(
+    public constructor(
         @inject('NarGoogleCalendarGateway')
         protected readonly googleCalendarGateway: ICalendarGateway,
     ) {

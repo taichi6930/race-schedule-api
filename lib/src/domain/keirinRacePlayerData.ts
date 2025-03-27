@@ -42,7 +42,7 @@ export class KeirinRacePlayerData {
      * @param positionNumber - 枠番
      * @param playerNumber - 選手番号
      */
-    static create(
+    public static create(
         positionNumber: number,
         playerNumber: number,
     ): KeirinRacePlayerData {
@@ -56,7 +56,9 @@ export class KeirinRacePlayerData {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<KeirinRacePlayerData> = {}): KeirinRacePlayerData {
+    public copy(
+        partial: Partial<KeirinRacePlayerData> = {},
+    ): KeirinRacePlayerData {
         return new KeirinRacePlayerData(
             partial.positionNumber ?? this.positionNumber,
             partial.playerNumber ?? this.playerNumber,

@@ -11,7 +11,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
     implements IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
 {
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
     ): Promise<AutoraceRaceEntity[]> {
         const placeEntityList = searchFilter.placeEntityList;
@@ -47,7 +47,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: AutoraceRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

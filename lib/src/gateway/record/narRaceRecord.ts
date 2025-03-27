@@ -80,7 +80,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
      * @param number - レース番号
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         name: string,
         dateTime: Date,
@@ -113,7 +113,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<NarRaceRecord> = {}): NarRaceRecord {
+    public copy(partial: Partial<NarRaceRecord> = {}): NarRaceRecord {
         return NarRaceRecord.create(
             partial.id ?? this.id,
             partial.name ?? this.name,
@@ -130,7 +130,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
     /**
      * NarRaceEntityに変換する
      */
-    toEntity(): NarRaceEntity {
+    public toEntity(): NarRaceEntity {
         return NarRaceEntity.create(
             this.id,
             NarRaceData.create(

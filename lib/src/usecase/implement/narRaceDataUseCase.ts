@@ -20,7 +20,7 @@ export class NarRaceDataUseCase
     implements
         IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse, undefined>
 {
-    constructor(
+    public constructor(
         @inject('NarPlaceDataService')
         private readonly placeDataService: IPlaceDataService<NarPlaceEntity>,
         @inject('NarRaceDataService')
@@ -36,7 +36,7 @@ export class NarRaceDataUseCase
      * @param finishDate
      * @param searchList
      */
-    async fetchRaceDataList(
+    public async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
         searchList?: {
@@ -90,7 +90,7 @@ export class NarRaceDataUseCase
      * @param searchList
      */
     @Logger
-    async updateRaceEntityList(
+    public async updateRaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
@@ -117,7 +117,9 @@ export class NarRaceDataUseCase
      * @param raceDataList
      */
     @Logger
-    async upsertRaceDataList(raceDataList: NarRaceData[]): Promise<void> {
+    public async upsertRaceDataList(
+        raceDataList: NarRaceData[],
+    ): Promise<void> {
         const raceEntityList: NarRaceEntity[] = raceDataList.map((raceData) =>
             NarRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );

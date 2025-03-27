@@ -22,7 +22,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class AutoraceRaceRepositoryFromHtmlImpl
     implements IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('AutoraceRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IAutoraceRaceDataHtmlGateway,
     ) {}
@@ -32,7 +32,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
     ): Promise<AutoraceRaceEntity[]> {
         const autoraceRaceDataList: AutoraceRaceEntity[] = [];
@@ -53,7 +53,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    async fetchRaceListFromHtmlWithAutoracePlace(
+    public async fetchRaceListFromHtmlWithAutoracePlace(
         placeEntity: AutoracePlaceEntity,
     ): Promise<AutoraceRaceEntity[]> {
         try {
@@ -201,7 +201,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: AutoraceRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

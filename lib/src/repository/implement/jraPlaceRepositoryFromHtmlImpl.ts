@@ -15,7 +15,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class JraPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('JraPlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IJraPlaceDataHtmlGateway,
     ) {}
@@ -26,7 +26,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // startDateからfinishDateまでの年のリストを生成する
@@ -190,7 +190,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: JraPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);

@@ -53,7 +53,7 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
      * @param location - 開催場所
      * @param grade - グレード
      */
-    static create(
+    public static create(
         dateTime: Date,
         location: string,
         grade: string,
@@ -69,7 +69,7 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
      * データのコピー
      * @param partial - 上書きする部分データ
      */
-    copy(partial: Partial<AutoracePlaceData> = {}): AutoracePlaceData {
+    public copy(partial: Partial<AutoracePlaceData> = {}): AutoracePlaceData {
         return AutoracePlaceData.create(
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

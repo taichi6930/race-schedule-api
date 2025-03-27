@@ -28,7 +28,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class WorldRaceRepositoryFromHtmlImpl
     implements IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('WorldRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IWorldRaceDataHtmlGateway,
     ) {}
@@ -38,7 +38,7 @@ export class WorldRaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
     ): Promise<WorldRaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
@@ -82,7 +82,7 @@ export class WorldRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    async fetchRaceListFromHtml(date: Date): Promise<WorldRaceEntity[]> {
+    public async fetchRaceListFromHtml(date: Date): Promise<WorldRaceEntity[]> {
         try {
             const htmlText =
                 await this.raceDataHtmlGateway.getRaceDataHtml(date);
@@ -249,7 +249,7 @@ export class WorldRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: WorldRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

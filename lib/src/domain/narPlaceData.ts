@@ -35,7 +35,7 @@ export class NarPlaceData implements IPlaceData<NarPlaceData> {
      * @param dateTime - 開催日時
      * @param location - 開催場所
      */
-    static create(dateTime: Date, location: string): NarPlaceData {
+    public static create(dateTime: Date, location: string): NarPlaceData {
         return new NarPlaceData(
             validateNarRaceDateTime(dateTime),
             validateNarRaceCourse(location),
@@ -47,7 +47,7 @@ export class NarPlaceData implements IPlaceData<NarPlaceData> {
      * @param partial - 上書きする部分データ
      * @returns 新しいNarPlaceDataインスタンス
      */
-    copy(partial: Partial<NarPlaceData> = {}): NarPlaceData {
+    public copy(partial: Partial<NarPlaceData> = {}): NarPlaceData {
         return NarPlaceData.create(
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

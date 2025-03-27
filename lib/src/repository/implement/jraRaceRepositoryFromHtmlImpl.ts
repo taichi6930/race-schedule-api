@@ -21,7 +21,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class JraRaceRepositoryFromHtmlImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('JraRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IJraRaceDataHtmlGateway,
     ) {}
@@ -31,7 +31,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
         const jraRaceEntityList: JraRaceEntity[] = [];
@@ -51,7 +51,7 @@ export class JraRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    async fetchRaceListFromHtmlWithJraPlace(
+    public async fetchRaceListFromHtmlWithJraPlace(
         raceDate: Date,
     ): Promise<JraRaceEntity[]> {
         try {
@@ -421,7 +421,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: JraRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

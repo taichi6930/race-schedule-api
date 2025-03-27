@@ -19,7 +19,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class NarPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<NarPlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('NarPlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: INarPlaceDataHtmlGateway,
     ) {}
@@ -30,7 +30,7 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<NarPlaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
@@ -158,7 +158,7 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: NarPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);

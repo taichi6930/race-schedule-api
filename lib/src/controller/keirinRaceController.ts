@@ -21,7 +21,7 @@ import { Logger } from '../utility/logger';
 export class KeirinRaceController {
     public router: Router;
 
-    constructor(
+    public constructor(
         @inject('KeirinRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('KeirinRaceDataUseCase')

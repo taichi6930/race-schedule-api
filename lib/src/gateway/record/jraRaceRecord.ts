@@ -93,7 +93,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
      * @param heldDayTimes - 開催日数
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         name: string,
         dateTime: Date,
@@ -131,7 +131,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<JraRaceRecord> = {}): JraRaceRecord {
+    public copy(partial: Partial<JraRaceRecord> = {}): JraRaceRecord {
         return JraRaceRecord.create(
             partial.id ?? this.id,
             partial.name ?? this.name,
@@ -150,7 +150,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
     /**
      * JraRaceEntityに変換する
      */
-    toEntity(): JraRaceEntity {
+    public toEntity(): JraRaceEntity {
         return JraRaceEntity.create(
             this.id,
             JraRaceData.create(

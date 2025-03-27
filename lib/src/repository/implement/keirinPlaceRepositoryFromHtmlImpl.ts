@@ -24,7 +24,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class KeirinPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<KeirinPlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('KeirinPlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IKeirinPlaceDataHtmlGateway,
     ) {}
@@ -35,7 +35,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<KeirinPlaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
@@ -172,7 +172,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: KeirinPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);

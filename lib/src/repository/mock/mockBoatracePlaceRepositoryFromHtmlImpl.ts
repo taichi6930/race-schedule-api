@@ -14,7 +14,7 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
         // request.startDateからrequest.finishDateまでのボートレース場データを取得する
@@ -41,7 +41,7 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: BoatracePlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);

@@ -22,7 +22,7 @@ export class MockBoatraceRaceDataHtmlGateway
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger
-    async getRaceDataHtml(
+    public async getRaceDataHtml(
         date: Date,
         place: BoatraceRaceCourse,
         number: BoatraceRaceNumber,

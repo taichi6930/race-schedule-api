@@ -14,7 +14,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<KeirinPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの競輪場データを取得する
@@ -41,7 +41,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: KeirinPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);

@@ -19,7 +19,7 @@ export class MockAutoraceRaceDataHtmlGateway
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger
-    async getRaceDataHtml(
+    public async getRaceDataHtml(
         date: Date,
         place: AutoraceRaceCourse,
     ): Promise<string> {

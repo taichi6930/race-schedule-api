@@ -22,7 +22,7 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
      * @param finishDate
      */
     @Logger
-    async getEvents(
+    public async getEvents(
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {
@@ -38,7 +38,7 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
      * @param raceEntityList
      */
     @Logger
-    async upsertEvents(raceEntityList: R[]): Promise<void> {
+    public async upsertEvents(raceEntityList: R[]): Promise<void> {
         if (raceEntityList.length === 0) {
             console.debug('更新対象のイベントが見つかりませんでした。');
             return;
@@ -51,7 +51,7 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
      * @param calendarDataList
      */
     @Logger
-    async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
+    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
         if (calendarDataList.length === 0) {
             console.debug('指定された期間にイベントが見つかりませんでした。');
             return;

@@ -16,7 +16,10 @@ export class NarRaceDataHtmlGateway implements INarRaceDataHtmlGateway {
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger
-    async getRaceDataHtml(date: Date, place: NarRaceCourse): Promise<string> {
+    public async getRaceDataHtml(
+        date: Date,
+        place: NarRaceCourse,
+    ): Promise<string> {
         const raceDate = `${date.getFullYear().toString()}%2f${date.getXDigitMonth(2)}%2f${date.getXDigitDays(2)}`;
         const babacode = NarBabacodeMap[place];
         const url = `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/RaceList?k_raceDate=${raceDate}&k_babaCode=${babacode}`;

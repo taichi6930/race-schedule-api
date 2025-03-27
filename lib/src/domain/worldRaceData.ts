@@ -107,7 +107,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
      * @param grade - グレード
      * @param number - レース番号
      */
-    static create(
+    public static create(
         name: string,
         dateTime: Date,
         location: string,
@@ -131,7 +131,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<WorldRaceData> = {}): WorldRaceData {
+    public copy(partial: Partial<WorldRaceData> = {}): WorldRaceData {
         return WorldRaceData.create(
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,

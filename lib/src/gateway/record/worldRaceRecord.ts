@@ -76,7 +76,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
      * @param number - レース番号
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: WorldRaceId,
         name: WorldRaceName,
         dateTime: WorldRaceDateTime,
@@ -104,7 +104,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<WorldRaceRecord> = {}): WorldRaceRecord {
+    public copy(partial: Partial<WorldRaceRecord> = {}): WorldRaceRecord {
         return WorldRaceRecord.create(
             partial.id ?? this.id,
             partial.name ?? this.name,
@@ -121,7 +121,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     /**
      * Entityに変換する
      */
-    toEntity(): WorldRaceEntity {
+    public toEntity(): WorldRaceEntity {
         return WorldRaceEntity.create(
             this.id,
             WorldRaceData.create(

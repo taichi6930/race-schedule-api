@@ -9,7 +9,7 @@ import { BasePlaceDataService } from './basePlaceDataService';
  */
 @injectable()
 export class BoatracePlaceDataService extends BasePlaceDataService<BoatracePlaceEntity> {
-    constructor(
+    public constructor(
         @inject('BoatracePlaceRepositoryFromStorage')
         protected placeRepositoryFromStorage: IPlaceRepository<BoatracePlaceEntity>,
         @inject('BoatracePlaceRepositoryFromHtml')

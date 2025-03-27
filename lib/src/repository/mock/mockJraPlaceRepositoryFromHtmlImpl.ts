@@ -14,7 +14,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの中央競馬場データを取得する
@@ -41,7 +41,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: JraPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);

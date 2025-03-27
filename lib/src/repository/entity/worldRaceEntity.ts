@@ -38,7 +38,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      * @param raceData - レースデータ
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         raceData: WorldRaceData,
         updateDate: Date,
@@ -55,7 +55,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      * @param raceData
      * @param updateDate
      */
-    static createWithoutId(
+    public static createWithoutId(
         raceData: WorldRaceData,
         updateDate: Date,
     ): WorldRaceEntity {
@@ -74,7 +74,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<WorldRaceEntity> = {}): WorldRaceEntity {
+    public copy(partial: Partial<WorldRaceEntity> = {}): WorldRaceEntity {
         return new WorldRaceEntity(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
@@ -85,7 +85,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     /**
      * WorldRaceRecordに変換する
      */
-    toRaceRecord(): WorldRaceRecord {
+    public toRaceRecord(): WorldRaceRecord {
         return WorldRaceRecord.create(
             this.id,
             this.raceData.name,
@@ -103,7 +103,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      * レースデータをGoogleカレンダーのイベントに変換する
      * @param updateDate - 更新日時
      */
-    toGoogleCalendarData(
+    public toGoogleCalendarData(
         updateDate: Date = new Date(),
     ): calendar_v3.Schema$Event {
         return {
@@ -155,7 +155,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
         };
     }
 
-    static fromGoogleCalendarDataToCalendarData(
+    public static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
         return CalendarData.create(

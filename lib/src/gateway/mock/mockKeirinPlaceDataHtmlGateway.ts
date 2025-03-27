@@ -17,7 +17,7 @@ export class MockKeirinPlaceDataHtmlGateway
      * @returns Promise<string> - 開催データのHTML
      */
     @Logger
-    async getPlaceDataHtml(date: Date): Promise<string> {
+    public async getPlaceDataHtml(date: Date): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
         const testHtmlUrl = `../mockData/html/keirin/place/${format(date, 'yyyyMM')}.html`;
         // lib/src/gateway/mockData/html/keirin/placeの中にあるhtmlを取得

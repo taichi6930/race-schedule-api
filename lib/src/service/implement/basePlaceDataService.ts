@@ -21,7 +21,7 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
      * @param type
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         startDate: Date,
         finishDate: Date,
         type: DataLocationType,
@@ -47,7 +47,7 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
      * @param placeEntityList
      */
     @Logger
-    async updatePlaceEntityList(placeEntityList: P[]): Promise<void> {
+    public async updatePlaceEntityList(placeEntityList: P[]): Promise<void> {
         try {
             if (placeEntityList.length === 0) return;
 

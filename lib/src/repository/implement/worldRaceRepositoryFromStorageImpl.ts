@@ -20,7 +20,7 @@ export class WorldRaceRepositoryFromStorageImpl
 {
     private readonly fileName = 'raceList.csv';
 
-    constructor(
+    public constructor(
         @inject('WorldRaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<WorldRaceRecord>,
     ) {}
@@ -30,7 +30,7 @@ export class WorldRaceRepositoryFromStorageImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
     ): Promise<WorldRaceEntity[]> {
         // ファイル名リストから開催データを取得する
@@ -57,7 +57,7 @@ export class WorldRaceRepositoryFromStorageImpl
      * @param raceEntityList
      */
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: WorldRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する

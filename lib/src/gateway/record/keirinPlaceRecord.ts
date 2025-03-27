@@ -49,7 +49,7 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
      * @param grade - グレード
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         dateTime: Date,
         location: string,
@@ -75,7 +75,7 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<KeirinPlaceRecord> = {}): KeirinPlaceRecord {
+    public copy(partial: Partial<KeirinPlaceRecord> = {}): KeirinPlaceRecord {
         return KeirinPlaceRecord.create(
             partial.id ?? this.id,
             partial.dateTime ?? this.dateTime,
@@ -88,7 +88,7 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
     /**
      * Entityに変換する
      */
-    toEntity(): KeirinPlaceEntity {
+    public toEntity(): KeirinPlaceEntity {
         return KeirinPlaceEntity.create(
             this.id,
             KeirinPlaceData.create(this.dateTime, this.location, this.grade),

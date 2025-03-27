@@ -14,7 +14,7 @@ import { BaseGoogleCalendarRepository } from './baseGoogleCalendarRepository';
  */
 @injectable()
 export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepository<WorldRaceEntity> {
-    constructor(
+    public constructor(
         @inject('WorldGoogleCalendarGateway')
         protected readonly googleCalendarGateway: ICalendarGateway,
     ) {
@@ -22,7 +22,9 @@ export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposit
     }
 
     @Logger
-    async upsertEvents(raceEntityList: WorldRaceEntity[]): Promise<void> {
+    public async upsertEvents(
+        raceEntityList: WorldRaceEntity[],
+    ): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(
             raceEntityList.map(async (raceEntity) => {

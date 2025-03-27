@@ -14,7 +14,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<NarPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの地方競馬場データを取得する
@@ -41,7 +41,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: NarPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);

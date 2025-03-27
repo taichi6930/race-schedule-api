@@ -70,7 +70,7 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
      * @param number - レース番号
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         name: string,
         stage: string,
@@ -100,7 +100,7 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<AutoraceRaceRecord> = {}): AutoraceRaceRecord {
+    public copy(partial: Partial<AutoraceRaceRecord> = {}): AutoraceRaceRecord {
         return AutoraceRaceRecord.create(
             partial.id ?? this.id,
             partial.name ?? this.name,

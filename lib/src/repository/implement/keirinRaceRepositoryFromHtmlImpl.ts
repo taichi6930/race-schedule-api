@@ -26,7 +26,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class KeirinRaceRepositoryFromHtmlImpl
     implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('KeirinRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IKeirinRaceDataHtmlGateway,
     ) {}
@@ -36,7 +36,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
         const keirinRaceDataList: KeirinRaceEntity[] = [];
@@ -57,7 +57,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    async fetchRaceListFromHtmlWithKeirinPlace(
+    public async fetchRaceListFromHtmlWithKeirinPlace(
         placeData: KeirinPlaceData,
     ): Promise<KeirinRaceEntity[]> {
         try {
@@ -295,7 +295,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: KeirinRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

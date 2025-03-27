@@ -24,7 +24,7 @@ export class WorldRaceDataUseCase
             undefined
         >
 {
-    constructor(
+    public constructor(
         @inject('WorldRaceDataService')
         private readonly raceDataService: IRaceDataService<
             WorldRaceEntity,
@@ -38,7 +38,7 @@ export class WorldRaceDataUseCase
      * @param finishDate
      * @param searchList
      */
-    async fetchRaceDataList(
+    public async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
         searchList?: {
@@ -84,7 +84,7 @@ export class WorldRaceDataUseCase
      * @param searchList
      */
     @Logger
-    async updateRaceEntityList(
+    public async updateRaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
@@ -102,7 +102,9 @@ export class WorldRaceDataUseCase
      * @param raceDataList
      */
     @Logger
-    async upsertRaceDataList(raceDataList: WorldRaceData[]): Promise<void> {
+    public async upsertRaceDataList(
+        raceDataList: WorldRaceData[],
+    ): Promise<void> {
         const raceEntityList: WorldRaceEntity[] = raceDataList.map((raceData) =>
             WorldRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );

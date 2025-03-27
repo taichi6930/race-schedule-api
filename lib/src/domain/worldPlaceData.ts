@@ -40,7 +40,7 @@ export class WorldPlaceData implements IPlaceData<WorldPlaceData> {
      * @param dateTime - 開催日時
      * @param location - 開催場所
      */
-    static create(dateTime: Date, location: string): WorldPlaceData {
+    public static create(dateTime: Date, location: string): WorldPlaceData {
         return new WorldPlaceData(
             validateWorldRaceDateTime(dateTime),
             validateWorldRaceCourse(location),
@@ -52,7 +52,7 @@ export class WorldPlaceData implements IPlaceData<WorldPlaceData> {
      * @param partial - 上書きする部分データ
      * @returns 新しいWorldPlaceDataインスタンス
      */
-    copy(partial: Partial<WorldPlaceData> = {}): WorldPlaceData {
+    public copy(partial: Partial<WorldPlaceData> = {}): WorldPlaceData {
         return WorldPlaceData.create(
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

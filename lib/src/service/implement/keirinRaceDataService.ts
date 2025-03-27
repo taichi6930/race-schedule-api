@@ -13,7 +13,7 @@ export class KeirinRaceDataService extends BaseRaceDataService<
     KeirinRaceEntity,
     KeirinPlaceEntity
 > {
-    constructor(
+    public constructor(
         @inject('KeirinRaceRepositoryFromStorage')
         protected readonly raceRepositoryFromStorage: IRaceRepository<
             KeirinRaceEntity,

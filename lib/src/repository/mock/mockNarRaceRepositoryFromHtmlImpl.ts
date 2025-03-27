@@ -11,7 +11,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
     implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
     ): Promise<NarRaceEntity[]> {
         const placeEntityList = searchFilter.placeEntityList;
@@ -46,7 +46,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: NarRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

@@ -13,7 +13,7 @@ export class WorldRaceDataService extends BaseRaceDataService<
     WorldRaceEntity,
     WorldPlaceEntity
 > {
-    constructor(
+    public constructor(
         @inject('WorldRaceRepositoryFromStorage')
         protected readonly raceRepositoryFromStorage: IRaceRepository<
             WorldRaceEntity,

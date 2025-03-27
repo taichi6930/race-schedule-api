@@ -11,7 +11,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
     implements IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
 {
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
     ): Promise<WorldRaceEntity[]> {
         const raceEntityList: WorldRaceEntity[] = [];
@@ -45,7 +45,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: WorldRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

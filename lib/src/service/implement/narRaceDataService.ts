@@ -13,7 +13,7 @@ export class NarRaceDataService extends BaseRaceDataService<
     NarRaceEntity,
     NarPlaceEntity
 > {
-    constructor(
+    public constructor(
         @inject('NarRaceRepositoryFromStorage')
         protected readonly raceRepositoryFromStorage: IRaceRepository<
             NarRaceEntity,

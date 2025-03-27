@@ -21,7 +21,7 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
      * カレンダーのイベントの取得を行う
      * @param searchFilter
      */
-    async getEvents(
+    public async getEvents(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<CalendarData[]> {
         // GoogleカレンダーAPIからイベントを取得
@@ -47,7 +47,7 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
      * カレンダーのイベントの更新を行う
      * @param raceEntityList
      */
-    async upsertEvents(raceEntityList: R[]): Promise<void> {
+    public async upsertEvents(raceEntityList: R[]): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(
             raceEntityList.map(async (raceEntity) => {
@@ -89,7 +89,7 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
      * カレンダーのイベントの削除を行う
      * @param calendarDataList
      */
-    async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
+    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
         await Promise.all(
             calendarDataList.map(async (calendarData) => {
                 try {
