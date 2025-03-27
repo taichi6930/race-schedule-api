@@ -40,7 +40,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
      * @param location - 開催場所
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         dateTime: Date,
         location: string,
@@ -64,7 +64,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<NarPlaceRecord> = {}): NarPlaceRecord {
+    public copy(partial: Partial<NarPlaceRecord> = {}): NarPlaceRecord {
         return NarPlaceRecord.create(
             partial.id ?? this.id,
             partial.dateTime ?? this.dateTime,
@@ -76,7 +76,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
     /**
      * Entityに変換する
      */
-    toEntity(): NarPlaceEntity {
+    public toEntity(): NarPlaceEntity {
         return NarPlaceEntity.create(
             this.id,
             NarPlaceData.create(this.dateTime, this.location),

@@ -20,6 +20,7 @@ container.register<ICalendarGateway>('JraGoogleCalendarGateway', {
             }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
                 return new MockGoogleCalendarGateway('jra');
             }
@@ -45,6 +46,7 @@ container.register<ICalendarGateway>('NarGoogleCalendarGateway', {
             }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
                 return new MockGoogleCalendarGateway('nar');
             }
@@ -71,6 +73,7 @@ container.register<ICalendarGateway>('KeirinGoogleCalendarGateway', {
             }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
                 return new MockGoogleCalendarGateway('keirin');
             }
@@ -96,6 +99,7 @@ container.register<ICalendarGateway>('BoatraceGoogleCalendarGateway', {
             }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
                 return new MockGoogleCalendarGateway('boatrace');
             }
@@ -121,6 +125,7 @@ container.register<ICalendarGateway>('AutoraceGoogleCalendarGateway', {
             }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
                 return new MockGoogleCalendarGateway('autorace');
             }
@@ -146,6 +151,7 @@ container.register<ICalendarGateway>('WorldGoogleCalendarGateway', {
             }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
                 return new MockGoogleCalendarGateway('world');
             }

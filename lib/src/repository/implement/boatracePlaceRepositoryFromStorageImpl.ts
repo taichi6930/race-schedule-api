@@ -21,7 +21,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
-    constructor(
+    public constructor(
         @inject('BoatracePlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<BoatracePlaceRecord>,
     ) {}
@@ -32,7 +32,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
      * @param searchFilter
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
         // ファイル名リストから開催データを取得する
@@ -55,7 +55,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: BoatracePlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
@@ -139,7 +139,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error(error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(

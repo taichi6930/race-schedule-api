@@ -99,7 +99,8 @@ switch (ENV) {
     }
     case allowedEnvs.test:
     case allowedEnvs.localNoInitData:
-    case allowedEnvs.localInitMadeData: {
+    case allowedEnvs.localInitMadeData:
+    case allowedEnvs.githubActionsCi: {
         container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromHtml',
             { useClass: MockNarRaceRepositoryFromHtmlImpl },

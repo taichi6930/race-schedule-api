@@ -19,7 +19,10 @@ export class MockNarRaceDataHtmlGateway implements INarRaceDataHtmlGateway {
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger
-    async getRaceDataHtml(date: Date, place: NarRaceCourse): Promise<string> {
+    public async getRaceDataHtml(
+        date: Date,
+        place: NarRaceCourse,
+    ): Promise<string> {
         try {
             // mockDataフォルダにあるhtmlを取得
             const testHtmlUrl = `../mockData/html/nar/race/${format(date, 'yyyyMMdd')}${NarBabacodeMap[place]}.html`;

@@ -14,7 +14,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 export class KeirinPlaceDataUseCase
     implements IPlaceDataUseCase<KeirinPlaceData>
 {
-    constructor(
+    public constructor(
         @inject('KeirinPlaceDataService')
         private readonly placeDataService: IPlaceDataService<KeirinPlaceEntity>,
     ) {}
@@ -25,7 +25,7 @@ export class KeirinPlaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async fetchPlaceDataList(
+    public async fetchPlaceDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<KeirinPlaceData[]> {
@@ -44,7 +44,7 @@ export class KeirinPlaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async updatePlaceDataList(
+    public async updatePlaceDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {

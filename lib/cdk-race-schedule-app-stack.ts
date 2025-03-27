@@ -15,7 +15,7 @@ import { createLambdaFunction } from './stack/lambda-setup';
 dotenv.config({ path: './.env' });
 
 export class CdkRaceScheduleAppStack extends Stack {
-    constructor(scope: Construct, id: string, props?: StackProps) {
+    public constructor(scope: Construct, id: string, props?: StackProps) {
         super(scope, id, props);
 
         // S3バケットの参照

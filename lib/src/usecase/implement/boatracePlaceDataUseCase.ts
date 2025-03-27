@@ -14,7 +14,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 export class BoatracePlaceDataUseCase
     implements IPlaceDataUseCase<BoatracePlaceData>
 {
-    constructor(
+    public constructor(
         @inject('BoatracePlaceDataService')
         private readonly placeDataService: IPlaceDataService<BoatracePlaceEntity>,
     ) {}
@@ -25,7 +25,7 @@ export class BoatracePlaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async fetchPlaceDataList(
+    public async fetchPlaceDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<BoatracePlaceData[]> {
@@ -44,7 +44,7 @@ export class BoatracePlaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async updatePlaceDataList(
+    public async updatePlaceDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {

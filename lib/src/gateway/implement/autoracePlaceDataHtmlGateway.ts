@@ -15,7 +15,7 @@ export class AutoracePlaceDataHtmlGateway
      * @returns Promise<string> - 開催データのHTML
      */
     @Logger
-    async getPlaceDataHtml(date: AutoraceRaceDateTime): Promise<string> {
+    public async getPlaceDataHtml(date: AutoraceRaceDateTime): Promise<string> {
         try {
             // oddsparkのURLからHTMLを取得する
             const url = `https://www.oddspark.com/autorace/KaisaiCalendar.do?target=${format(date, 'yyyyMM')}`;

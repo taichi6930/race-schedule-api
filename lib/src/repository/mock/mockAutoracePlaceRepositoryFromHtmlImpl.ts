@@ -14,11 +14,11 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
         // request.startDateからrequest.finishDateまでのオートレース場データを取得する
-        const fetchPlaceEntityList = [];
+        const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
@@ -29,12 +29,12 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
                 AutoracePlaceData.create(datetime, place, 'SG'),
                 getJSTDate(new Date()),
             );
-            fetchPlaceEntityList.push(autoracePlaceEntity);
+            placeEntityList.push(autoracePlaceEntity);
             // 日付を1日進める
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        return Promise.resolve(fetchPlaceEntityList);
+        return await Promise.resolve(placeEntityList);
     }
 
     /**
@@ -43,10 +43,11 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: AutoracePlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

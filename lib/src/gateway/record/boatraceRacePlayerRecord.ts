@@ -47,7 +47,7 @@ export class BoatraceRacePlayerRecord
      * @param playerNumber - 選手番号
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         raceId: string,
         positionNumber: number,
@@ -73,7 +73,7 @@ export class BoatraceRacePlayerRecord
      * データのコピー
      * @param partial
      */
-    copy(
+    public copy(
         partial: Partial<BoatraceRacePlayerRecord> = {},
     ): BoatraceRacePlayerRecord {
         return BoatraceRacePlayerRecord.create(

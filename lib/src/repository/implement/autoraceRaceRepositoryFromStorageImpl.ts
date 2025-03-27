@@ -24,7 +24,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
     private readonly raceListFileName = 'raceList.csv';
     private readonly racePlayerListFileName = 'racePlayerList.csv';
 
-    constructor(
+    public constructor(
         @inject('AutoraceRaceS3Gateway')
         private readonly raceS3Gateway: IS3Gateway<AutoraceRaceRecord>,
         @inject('AutoraceRacePlayerS3Gateway')
@@ -36,7 +36,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
     ): Promise<AutoraceRaceEntity[]> {
         // ファイル名リストからオートレース選手データを取得する
@@ -96,7 +96,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
      * @param raceEntityList
      */
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: AutoraceRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
@@ -214,7 +214,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error('AutoraceRaceRecord create error', error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(
@@ -277,7 +277,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                         'AutoraceRacePlayerRecord create error',
                         error,
                     );
-                    return;
+                    return undefined;
                 }
             })
             .filter(

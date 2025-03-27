@@ -18,7 +18,7 @@ describe('BoatraceRaceEntityクラスのテスト', () => {
     });
 
     it('何も変更せずBoatraceRaceDataのインスタンスを作成できることを確認', () => {
-        const raceData = baseBoatraceRaceEntity.raceData;
+        const { raceData } = baseBoatraceRaceEntity;
         // インスタンスが変更されていないか確認
         expect(raceData).toEqual(baseBoatraceRaceData);
     });

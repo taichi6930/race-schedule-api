@@ -66,7 +66,7 @@ export class JraPlaceData implements IPlaceData<JraPlaceData> {
      * @param heldTimes - 開催回数
      * @param heldDayTimes - 開催日数
      */
-    static create(
+    public static create(
         dateTime: Date,
         location: string,
         heldTimes: number,
@@ -85,7 +85,7 @@ export class JraPlaceData implements IPlaceData<JraPlaceData> {
      * @param partial - 上書きする部分データ
      * @returns 新しいJraPlaceDataインスタンス
      */
-    copy(partial: Partial<JraPlaceData> = {}): JraPlaceData {
+    public copy(partial: Partial<JraPlaceData> = {}): JraPlaceData {
         return JraPlaceData.create(
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

@@ -19,7 +19,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class BoatracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<BoatracePlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('BoatracePlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IBoatracePlaceDataHtmlGateway,
     ) {}
@@ -30,10 +30,10 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * @param searchFilter - 開催データ取得フィルタ
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
-        const quarters: Record<string, Date> = await this.generateQuarterList(
+        const quarters: Record<string, Date> = this.generateQuarterList(
             searchFilter.startDate,
             searchFilter.finishDate,
         );
@@ -67,7 +67,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     private generateQuarterList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<Record<string, Date>> {
+    ): Record<string, Date> {
         const quarterList: Record<string, Date> = {};
 
         const qStartDate = new Date(
@@ -91,7 +91,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             quarterList[quarter] = new Date(currentDate);
         }
 
-        return Promise.resolve(quarterList);
+        return quarterList;
     }
 
     /**
@@ -130,7 +130,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 .trim();
             // 最初の日と最後の日を取得
             const startDateString: string = dateText.split('～')[0];
-            const finishDateString = dateText.split('～')[1];
+            const [, finishDateString] = dateText.split('～');
             const startDate = new Date(
                 date.getFullYear(),
                 Number.parseInt(startDateString.split('/')[0]) - 1,
@@ -181,10 +181,11 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: BoatracePlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

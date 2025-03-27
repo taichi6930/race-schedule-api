@@ -14,7 +14,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 export class AutoracePlaceDataUseCase
     implements IPlaceDataUseCase<AutoracePlaceData>
 {
-    constructor(
+    public constructor(
         @inject('AutoracePlaceDataService')
         private readonly placeDataService: IPlaceDataService<AutoracePlaceEntity>,
     ) {}
@@ -25,7 +25,7 @@ export class AutoracePlaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async fetchPlaceDataList(
+    public async fetchPlaceDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<AutoracePlaceData[]> {
@@ -44,7 +44,7 @@ export class AutoracePlaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async updatePlaceDataList(
+    public async updatePlaceDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {

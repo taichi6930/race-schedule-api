@@ -12,7 +12,7 @@ export class NarPlaceDataHtmlGateway implements INarPlaceDataHtmlGateway {
      * @returns Promise<string> - 開催データのHTML
      */
     @Logger
-    async getPlaceDataHtml(date: Date): Promise<string> {
+    public async getPlaceDataHtml(date: Date): Promise<string> {
         try {
             // keibalabのURLからHTMLを取得する
             const url = `https://www.keiba.go.jp/KeibaWeb/MonthlyConveneInfo/MonthlyConveneInfoTop?k_year=${date.getFullYear().toString()}&k_month=${date.getXDigitMonth(2)}`;

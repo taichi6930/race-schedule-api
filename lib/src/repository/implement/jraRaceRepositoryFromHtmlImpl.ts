@@ -21,9 +21,9 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class JraRaceRepositoryFromHtmlImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('JraRaceDataHtmlGateway')
-        private raceDataHtmlGateway: IJraRaceDataHtmlGateway,
+        private readonly raceDataHtmlGateway: IJraRaceDataHtmlGateway,
     ) {}
 
     /**
@@ -31,11 +31,11 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
         const jraRaceEntityList: JraRaceEntity[] = [];
-        const placeEntityList = searchFilter.placeEntityList;
+        const { placeEntityList } = searchFilter;
         // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
         const dateList = placeEntityList
             ?.map((place) => place.placeData.dateTime)
@@ -51,7 +51,7 @@ export class JraRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    async fetchRaceListFromHtmlWithJraPlace(
+    public async fetchRaceListFromHtmlWithJraPlace(
         raceDate: Date,
     ): Promise<JraRaceEntity[]> {
         try {
@@ -187,7 +187,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * 開催競馬場を取得
      * @param theadElementMatch
      */
-    private extractRaceCourse = (
+    private readonly extractRaceCourse = (
         theadElementMatch: RegExpExecArray,
     ): JraRaceCourse => {
         const placeString: string = theadElementMatch[2];
@@ -200,7 +200,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * 開催回数を取得
      * @param theadElementMatch
      */
-    private extractRaceHeld = (
+    private readonly extractRaceHeld = (
         theadElementMatch: RegExpExecArray,
     ): number | null => {
         // 開催回数を取得 数字でない場合はreturn
@@ -215,7 +215,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * 開催日数を取得
      * @param theadElementMatch
      */
-    private extractRaceHeldDay = (
+    private readonly extractRaceHeldDay = (
         theadElementMatch: RegExpExecArray,
     ): number | null => {
         // 開催日程を取得 数字でない場合はreturn
@@ -230,8 +230,8 @@ export class JraRaceRepositoryFromHtmlImpl
      * レース番号を取得
      * @param element
      */
-    private extractRaceNumber = (element: cheerio.Cheerio): number => {
-        const raceNumAndTime = element.find('td').eq(0).text().split(' ')[0];
+    private readonly extractRaceNumber = (element: cheerio.Cheerio): number => {
+        const [raceNumAndTime] = element.find('td').eq(0).text().split(' ');
         // tdの最初の要素からレース番号を取得 raceNumAndTimeのxRとなっているxを取得
         const raceNum: number = Number.parseInt(raceNumAndTime.split('R')[0]);
         return raceNum;
@@ -241,7 +241,9 @@ export class JraRaceRepositoryFromHtmlImpl
      * レース距離を取得
      * @param element
      */
-    private extractRaceDistance = (element: cheerio.Cheerio): number | null => {
+    private readonly extractRaceDistance = (
+        element: cheerio.Cheerio,
+    ): number | null => {
         // tdの2つ目の要素からレース距離を取得
         const distanceMatch = /\d+m/.exec(
             element.find('td').eq(1).find('span').eq(1).text(),
@@ -256,13 +258,16 @@ export class JraRaceRepositoryFromHtmlImpl
      * レース時間を取得
      * @param element
      */
-    private extractRaceTime = (element: cheerio.Cheerio, date: Date): Date => {
+    private readonly extractRaceTime = (
+        element: cheerio.Cheerio,
+        date: Date,
+    ): Date => {
         // tdが3つある
         // 1つ目はレース番号とレース開始時間
         // hh:mmの形式で取得
-        const raceNumAndTime = element.find('td').eq(0).text().split(' ')[0];
+        const [raceNumAndTime] = element.find('td').eq(0).text().split(' ');
         // tdの最初の要素からレース開始時間を取得 raceNumAndTimeのhh:mmを取得
-        const raceTime = raceNumAndTime.split('R')[1];
+        const [, raceTime] = raceNumAndTime.split('R');
         // hh:mmの形式からhhとmmを取得
         const [hour, minute] = raceTime
             .split(':')
@@ -277,7 +282,7 @@ export class JraRaceRepositoryFromHtmlImpl
     };
 
     /** surfaceType */
-    private extractSurfaceType = (
+    private readonly extractSurfaceType = (
         element: cheerio.Cheerio,
     ): JraRaceCourseType | null => {
         const surfaceTypeMatch = /[ダ芝障]{1,2}/.exec(
@@ -303,7 +308,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param raceSurfaceType
      * @param rowRaceName
      */
-    private extractRaceGradeAndRaceName = (
+    private readonly extractRaceGradeAndRaceName = (
         element: cheerio.Cheerio,
         raceSurfaceType: JraRaceCourseType,
         rowRaceName: string,
@@ -416,8 +421,11 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    registerRaceEntityList(raceEntityList: JraRaceEntity[]): Promise<void> {
+    public async registerRaceEntityList(
+        raceEntityList: JraRaceEntity[],
+    ): Promise<void> {
         console.debug(raceEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

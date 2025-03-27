@@ -20,7 +20,7 @@ export class JraRaceDataUseCase
     implements
         IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse, undefined>
 {
-    constructor(
+    public constructor(
         @inject('JraPlaceDataService')
         private readonly placeDataService: IPlaceDataService<JraPlaceEntity>,
         @inject('JraRaceDataService')
@@ -36,7 +36,7 @@ export class JraRaceDataUseCase
      * @param finishDate
      * @param searchList
      */
-    async fetchRaceDataList(
+    public async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
         searchList?: {
@@ -90,7 +90,7 @@ export class JraRaceDataUseCase
      * @param searchList
      */
     @Logger
-    async updateRaceEntityList(
+    public async updateRaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
@@ -117,7 +117,9 @@ export class JraRaceDataUseCase
      * @param raceDataList
      */
     @Logger
-    async upsertRaceDataList(raceDataList: JraRaceData[]): Promise<void> {
+    public async upsertRaceDataList(
+        raceDataList: JraRaceData[],
+    ): Promise<void> {
         const raceEntityList: JraRaceEntity[] = raceDataList.map((raceData) =>
             JraRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );

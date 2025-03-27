@@ -19,7 +19,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
  */
 @injectable()
 export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
-    constructor(
+    public constructor(
         @inject('KeirinCalendarService')
         private readonly calendarService: ICalendarService<KeirinRaceEntity>,
         @inject('KeirinRaceDataService')
@@ -35,7 +35,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param finishDate
      */
     @Logger
-    async getRacesFromCalendar(
+    public async getRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {
@@ -49,7 +49,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param displayGradeList
      */
     @Logger
-    async updateRacesToCalendar(
+    public async updateRacesToCalendar(
         startDate: Date,
         finishDate: Date,
         displayGradeList: KeirinGradeType[],

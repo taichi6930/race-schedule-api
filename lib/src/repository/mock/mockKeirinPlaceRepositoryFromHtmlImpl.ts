@@ -14,11 +14,11 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<KeirinPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの競輪場データを取得する
-        const fetchPlaceEntityList = [];
+        const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
@@ -27,12 +27,12 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
                 KeirinPlaceData.create(new Date(currentDate), '川崎', 'GⅠ'),
                 getJSTDate(new Date()),
             );
-            fetchPlaceEntityList.push(keirinPlaceEntity);
+            placeEntityList.push(keirinPlaceEntity);
             // 日付を1日進める
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        return Promise.resolve(fetchPlaceEntityList);
+        return await Promise.resolve(placeEntityList);
     }
 
     /**
@@ -41,10 +41,11 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: KeirinPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

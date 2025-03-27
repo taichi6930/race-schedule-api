@@ -53,7 +53,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
      * @param heldDayTimes - 開催日数
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         dateTime: Date,
         location: string,
@@ -81,7 +81,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<JraPlaceRecord> = {}): JraPlaceRecord {
+    public copy(partial: Partial<JraPlaceRecord> = {}): JraPlaceRecord {
         return JraPlaceRecord.create(
             partial.id ?? this.id,
             partial.dateTime ?? this.dateTime,
@@ -95,7 +95,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     /**
      * Entityに変換する
      */
-    toEntity(): JraPlaceEntity {
+    public toEntity(): JraPlaceEntity {
         return JraPlaceEntity.create(
             this.id,
             JraPlaceData.create(

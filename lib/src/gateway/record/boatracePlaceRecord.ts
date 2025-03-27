@@ -49,7 +49,7 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
      * @param grade - グレード
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         dateTime: Date,
         location: string,
@@ -75,7 +75,9 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<BoatracePlaceRecord> = {}): BoatracePlaceRecord {
+    public copy(
+        partial: Partial<BoatracePlaceRecord> = {},
+    ): BoatracePlaceRecord {
         return BoatracePlaceRecord.create(
             partial.id ?? this.id,
             partial.dateTime ?? this.dateTime,
@@ -88,7 +90,7 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
     /**
      * BoatracePlaceEntityに変換する
      */
-    toEntity(): BoatracePlaceEntity {
+    public toEntity(): BoatracePlaceEntity {
         return BoatracePlaceEntity.create(
             this.id,
             BoatracePlaceData.create(this.dateTime, this.location, this.grade),

@@ -13,7 +13,7 @@ export class JraRaceDataService extends BaseRaceDataService<
     JraRaceEntity,
     JraPlaceEntity
 > {
-    constructor(
+    public constructor(
         @inject('JraRaceRepositoryFromStorage')
         protected readonly raceRepositoryFromStorage: IRaceRepository<
             JraRaceEntity,

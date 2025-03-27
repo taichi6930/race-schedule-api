@@ -24,7 +24,7 @@ export class KeirinRaceRepositoryFromStorageImpl
     private readonly raceListFileName = 'raceList.csv';
     private readonly racePlayerListFileName = 'racePlayerList.csv';
 
-    constructor(
+    public constructor(
         @inject('KeirinRaceS3Gateway')
         private readonly raceS3Gateway: IS3Gateway<KeirinRaceRecord>,
         @inject('KeirinRacePlayerS3Gateway')
@@ -36,7 +36,7 @@ export class KeirinRaceRepositoryFromStorageImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
         // ファイル名リストから選手データを取得する
@@ -96,7 +96,7 @@ export class KeirinRaceRepositoryFromStorageImpl
      * @param raceEntityList
      */
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: KeirinRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
@@ -214,7 +214,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error('KeirinRaceRecord create error', error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(
@@ -274,7 +274,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error('KeirinRacePlayerRecord create error', error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(

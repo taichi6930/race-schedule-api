@@ -17,9 +17,9 @@ export class JraRaceRepositoryFromStorageImpl
 {
     private readonly fileName = 'raceList.csv';
 
-    constructor(
+    public constructor(
         @inject('JraRaceS3Gateway')
-        private s3Gateway: IS3Gateway<JraRaceRecord>,
+        private readonly s3Gateway: IS3Gateway<JraRaceRecord>,
     ) {}
 
     /**
@@ -27,7 +27,7 @@ export class JraRaceRepositoryFromStorageImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
         // ファイル名リストから開催データを取得する
@@ -110,7 +110,7 @@ export class JraRaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error(error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(
@@ -123,7 +123,7 @@ export class JraRaceRepositoryFromStorageImpl
      * @param raceEntityList
      */
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: JraRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する

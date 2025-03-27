@@ -42,7 +42,7 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * @param {string} bucketName
      * @param {string} folderPath
      */
-    constructor(bucketName: string, folderPath: string) {
+    public constructor(bucketName: string, folderPath: string) {
         // S3Clientの初期化 東京リージョン
         this.s3Client = new S3Client({ region: 'ap-northeast-1' });
         this.bucketName = bucketName;
@@ -55,7 +55,7 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * @param fileName
      */
     @Logger
-    async uploadDataToS3(data: T[], fileName: string): Promise<void> {
+    public async uploadDataToS3(data: T[], fileName: string): Promise<void> {
         try {
             const csvWriter = createCsvWriter({
                 path: `/tmp/${fileName}`,
@@ -87,7 +87,7 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * @param fileName
      */
     @Logger
-    async fetchDataFromS3(fileName: string): Promise<string> {
+    public async fetchDataFromS3(fileName: string): Promise<string> {
         const params = {
             Bucket: this.bucketName,
             Key: `${this.folderPath}${fileName}`,

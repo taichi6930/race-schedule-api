@@ -21,7 +21,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
-    constructor(
+    public constructor(
         @inject('AutoracePlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<AutoracePlaceRecord>,
     ) {}
@@ -33,7 +33,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
      * @returns Promise<AutoracePlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
         // ファイル名リストから開催データを取得する
@@ -56,7 +56,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: AutoracePlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
@@ -141,7 +141,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error(error);
-                    return;
+                    return undefined; // Ensure a value is returned in all code paths
                 }
             })
             .filter(

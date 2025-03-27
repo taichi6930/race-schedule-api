@@ -15,13 +15,13 @@ export class MockJraPlaceDataHtmlGateway implements IJraPlaceDataHtmlGateway {
      * @returns Promise<string> - 開催データのHTML
      */
     @Logger
-    getPlaceDataHtml(date: Date): Promise<string> {
+    public async getPlaceDataHtml(date: Date): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
         const testHtmlUrl = `../mockData/html/jra/place/${format(date, 'yyyy')}.html`;
         // lib/src/gateway/mockData/html/jra/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
         const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
-        return Promise.resolve(htmlContent);
+        return await Promise.resolve(htmlContent);
     }
 }

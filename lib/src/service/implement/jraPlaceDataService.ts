@@ -9,7 +9,7 @@ import { BasePlaceDataService } from './basePlaceDataService';
  */
 @injectable()
 export class JraPlaceDataService extends BasePlaceDataService<JraPlaceEntity> {
-    constructor(
+    public constructor(
         @inject('JraPlaceRepositoryFromStorage')
         protected placeRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
         @inject('JraPlaceRepositoryFromHtml')

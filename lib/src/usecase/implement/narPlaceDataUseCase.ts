@@ -12,7 +12,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
  */
 @injectable()
 export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
-    constructor(
+    public constructor(
         @inject('NarPlaceDataService')
         private readonly placeDataService: IPlaceDataService<NarPlaceEntity>,
     ) {}
@@ -23,7 +23,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
      * @param finishDate
      */
     @Logger
-    async fetchPlaceDataList(
+    public async fetchPlaceDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<NarPlaceData[]> {
@@ -42,7 +42,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
      * @param finishDate
      */
     @Logger
-    async updatePlaceDataList(
+    public async updatePlaceDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {

@@ -15,7 +15,7 @@ export type UpdateDate = z.infer<typeof UpdateDateSchema>;
  * @param dateTime - 更新日時
  */
 export const validateUpdateDate = (
-    dateTime: string | Date | undefined,
+    dateTime: Date | string | undefined,
 ): UpdateDate => {
     if (dateTime === undefined) {
         throw new Error('dateTime is undefined');

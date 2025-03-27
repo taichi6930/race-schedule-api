@@ -10,7 +10,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
     private readonly calendar: calendar_v3.Calendar;
     private readonly calendarId: string;
 
-    constructor(calendarId: string) {
+    public constructor(calendarId: string) {
         this.credentials = new google.auth.JWT(
             // client_emailは環境変数から取得
             process.env.GOOGLE_CLIENT_EMAIL,
@@ -27,7 +27,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
     }
 
     @Logger
-    async fetchCalendarDataList(
+    public async fetchCalendarDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
@@ -47,7 +47,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
     }
 
     @Logger
-    async fetchCalendarData(
+    public async fetchCalendarData(
         eventId: string,
     ): Promise<calendar_v3.Schema$Event> {
         try {
@@ -62,7 +62,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
     }
 
     @Logger
-    async updateCalendarData(
+    public async updateCalendarData(
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
         try {
@@ -81,7 +81,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
     }
 
     @Logger
-    async insertCalendarData(
+    public async insertCalendarData(
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
         try {
@@ -95,7 +95,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
     }
 
     @Logger
-    async deleteCalendarData(eventId: string): Promise<void> {
+    public async deleteCalendarData(eventId: string): Promise<void> {
         try {
             await this.calendar.events.delete({
                 calendarId: this.calendarId,

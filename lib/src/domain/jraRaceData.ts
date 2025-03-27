@@ -135,7 +135,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
      * @param heldTimes - 開催回数
      * @param heldDayTimes - 開催日数
      */
-    static create(
+    public static create(
         name: string,
         dateTime: Date,
         location: string,
@@ -163,7 +163,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<JraRaceData> = {}): JraRaceData {
+    public copy(partial: Partial<JraRaceData> = {}): JraRaceData {
         return JraRaceData.create(
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,

@@ -18,7 +18,7 @@ describe('AutoraceRaceEntityクラスのテスト', () => {
     });
 
     it('何も変更せずAutoraceRaceDataのインスタンスを作成できることを確認', () => {
-        const raceData = baseAutoraceRaceEntity.raceData;
+        const { raceData } = baseAutoraceRaceEntity;
         // インスタンスが変更されていないか確認
         expect(raceData).toEqual(baseAutoraceRaceData);
     });

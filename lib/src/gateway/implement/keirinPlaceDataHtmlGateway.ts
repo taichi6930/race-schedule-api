@@ -12,7 +12,7 @@ export class KeirinPlaceDataHtmlGateway implements IKeirinPlaceDataHtmlGateway {
      * @returns Promise<string> - 開催データのHTML
      */
     @Logger
-    async getPlaceDataHtml(date: Date): Promise<string> {
+    public async getPlaceDataHtml(date: Date): Promise<string> {
         try {
             // oddsparkのURLからHTMLを取得する
             const url = `https://www.oddspark.com/keirin/KaisaiCalendar.do?target=${format(date, 'yyyyMM')}`;

@@ -1,5 +1,5 @@
 export class SearchCalendarFilterEntity {
-    constructor(
+    public constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,
     ) {}

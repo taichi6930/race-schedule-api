@@ -42,7 +42,7 @@ export class AutoraceRacePlayerData {
      * @param positionNumber - 枠番
      * @param playerNumber - 選手番号
      */
-    static create(
+    public static create(
         positionNumber: number,
         playerNumber: number,
     ): AutoraceRacePlayerData {
@@ -56,7 +56,7 @@ export class AutoraceRacePlayerData {
      * データのコピー
      * @param partial
      */
-    copy(
+    public copy(
         partial: Partial<AutoraceRacePlayerData> = {},
     ): AutoraceRacePlayerData {
         return new AutoraceRacePlayerData(

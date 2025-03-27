@@ -71,7 +71,7 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
      * @param number - レース番号
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         name: string,
         stage: string,
@@ -101,7 +101,7 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<BoatraceRaceRecord> = {}): BoatraceRaceRecord {
+    public copy(partial: Partial<BoatraceRaceRecord> = {}): BoatraceRaceRecord {
         return BoatraceRaceRecord.create(
             partial.id ?? this.id,
             partial.name ?? this.name,

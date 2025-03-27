@@ -12,7 +12,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
  */
 @injectable()
 export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
-    constructor(
+    public constructor(
         @inject('JraPlaceDataService')
         private readonly placeDataService: IPlaceDataService<JraPlaceEntity>,
     ) {}
@@ -23,7 +23,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
      * @param finishDate
      */
     @Logger
-    async fetchPlaceDataList(
+    public async fetchPlaceDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<JraPlaceData[]> {
@@ -42,7 +42,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
      * @param finishDate
      */
     @Logger
-    async updatePlaceDataList(
+    public async updatePlaceDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {

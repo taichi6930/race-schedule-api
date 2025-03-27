@@ -17,9 +17,9 @@ export class NarPlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
-    constructor(
+    public constructor(
         @inject('NarPlaceS3Gateway')
-        private s3Gateway: IS3Gateway<NarPlaceRecord>,
+        private readonly s3Gateway: IS3Gateway<NarPlaceRecord>,
     ) {}
 
     /**
@@ -28,7 +28,7 @@ export class NarPlaceRepositoryFromStorageImpl
      * @param searchFilter
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<NarPlaceEntity[]> {
         // 年ごとの開催データを取得
@@ -51,7 +51,7 @@ export class NarPlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: NarPlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
@@ -133,7 +133,7 @@ export class NarPlaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error(error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(

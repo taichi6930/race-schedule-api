@@ -19,7 +19,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
  */
 @injectable()
 export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
-    constructor(
+    public constructor(
         @inject('BoatraceCalendarService')
         private readonly calendarService: ICalendarService<BoatraceRaceEntity>,
         @inject('BoatraceRaceDataService')
@@ -35,7 +35,7 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param finishDate
      */
     @Logger
-    async getRacesFromCalendar(
+    public async getRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {
@@ -49,7 +49,7 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param displayGradeList
      */
     @Logger
-    async updateRacesToCalendar(
+    public async updateRacesToCalendar(
         startDate: Date,
         finishDate: Date,
         displayGradeList: BoatraceGradeType[],

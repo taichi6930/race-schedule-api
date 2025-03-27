@@ -5,7 +5,7 @@ import { IJraPlaceDataHtmlGateway } from '../interface/iJraPlaceDataHtmlGateway'
  * JRAの競馬場データのHTMLを取得するGatewayの実装
  */
 export class JraPlaceDataHtmlGateway implements IJraPlaceDataHtmlGateway {
-    constructor() {
+    public constructor() {
         console.debug('JraPlaceDataHtmlGatewayが呼ばれました');
     }
 
@@ -14,7 +14,7 @@ export class JraPlaceDataHtmlGateway implements IJraPlaceDataHtmlGateway {
      * @param date - 取得する年月
      */
     @Logger
-    async getPlaceDataHtml(date: Date): Promise<string> {
+    public async getPlaceDataHtml(date: Date): Promise<string> {
         // keibalabのURLからHTMLを取得する
         try {
             const url = `https://prc.jp/jraracingviewer/contents/seiseki/${date.getFullYear().toString()}/`;

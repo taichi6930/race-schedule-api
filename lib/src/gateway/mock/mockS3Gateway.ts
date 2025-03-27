@@ -65,7 +65,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * @param {string} bucketName
      * @param {string} folderPath
      */
-    constructor(bucketName: string, folderPath: string) {
+    public constructor(bucketName: string, folderPath: string) {
         (async () => {
             this.bucketName = bucketName;
             this.folderPath = folderPath;
@@ -88,7 +88,10 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * @param fileName
      */
     @Logger
-    async uploadDataToS3(data: IRecord<T>[], fileName: string): Promise<void> {
+    public async uploadDataToS3(
+        data: IRecord<T>[],
+        fileName: string,
+    ): Promise<void> {
         try {
             const csvContent = this.convertToCsv(data);
             const key = `${this.folderPath}${fileName}`;
@@ -104,7 +107,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * @param fileName
      */
     @Logger
-    async fetchDataFromS3(fileName: string): Promise<string> {
+    public async fetchDataFromS3(fileName: string): Promise<string> {
         const key = `${this.folderPath}${fileName}`;
         const data = MockS3Gateway.mockStorage.get(key);
         if (!data) {

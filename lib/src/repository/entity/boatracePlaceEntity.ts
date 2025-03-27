@@ -32,7 +32,7 @@ export class BoatracePlaceEntity implements IPlaceEntity<BoatracePlaceEntity> {
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         placeData: BoatracePlaceData,
         updateDate: Date,
@@ -49,7 +49,7 @@ export class BoatracePlaceEntity implements IPlaceEntity<BoatracePlaceEntity> {
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
-    static createWithoutId(
+    public static createWithoutId(
         placeData: BoatracePlaceData,
         updateDate: Date,
     ): BoatracePlaceEntity {
@@ -64,7 +64,9 @@ export class BoatracePlaceEntity implements IPlaceEntity<BoatracePlaceEntity> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<BoatracePlaceEntity> = {}): BoatracePlaceEntity {
+    public copy(
+        partial: Partial<BoatracePlaceEntity> = {},
+    ): BoatracePlaceEntity {
         return BoatracePlaceEntity.create(
             partial.id ?? this.id,
             partial.placeData ?? this.placeData,
@@ -75,7 +77,7 @@ export class BoatracePlaceEntity implements IPlaceEntity<BoatracePlaceEntity> {
     /**
      * BoatracePlaceRecordに変換する
      */
-    toRecord(): BoatracePlaceRecord {
+    public toRecord(): BoatracePlaceRecord {
         return BoatracePlaceRecord.create(
             this.id,
             this.placeData.dateTime,

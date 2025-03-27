@@ -26,7 +26,7 @@ export class KeirinRaceDataUseCase
             KeirinRaceStage
         >
 {
-    constructor(
+    public constructor(
         @inject('KeirinPlaceDataService')
         private readonly placeDataService: IPlaceDataService<KeirinPlaceEntity>,
         @inject('KeirinRaceDataService')
@@ -42,7 +42,7 @@ export class KeirinRaceDataUseCase
      * @param finishDate
      * @param searchList
      */
-    async fetchRaceDataList(
+    public async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
         searchList?: {
@@ -104,7 +104,7 @@ export class KeirinRaceDataUseCase
      * @param searchList
      */
     @Logger
-    async updateRaceEntityList(
+    public async updateRaceEntityList(
         startDate: Date,
         finishDate: Date,
         searchList?: {
@@ -158,7 +158,9 @@ export class KeirinRaceDataUseCase
      * @param raceDataList
      */
     @Logger
-    async upsertRaceDataList(raceDataList: KeirinRaceData[]): Promise<void> {
+    public async upsertRaceDataList(
+        raceDataList: KeirinRaceData[],
+    ): Promise<void> {
         const raceEntityList: KeirinRaceEntity[] = raceDataList.map(
             (raceData) =>
                 KeirinRaceEntity.createWithoutId(

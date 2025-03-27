@@ -51,7 +51,7 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
      * @param location - 開催場所
      * @param grade - グレード
      */
-    static create(
+    public static create(
         dateTime: Date,
         location: string,
         grade: string,
@@ -67,7 +67,7 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
      * データのコピー
      * @param partial - 上書きする部分データ
      */
-    copy(partial: Partial<BoatracePlaceData> = {}): BoatracePlaceData {
+    public copy(partial: Partial<BoatracePlaceData> = {}): BoatracePlaceData {
         return new BoatracePlaceData(
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

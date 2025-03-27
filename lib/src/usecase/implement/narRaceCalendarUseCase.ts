@@ -17,7 +17,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
  */
 @injectable()
 export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
-    constructor(
+    public constructor(
         @inject('NarCalendarService')
         private readonly calendarService: ICalendarService<NarRaceEntity>,
         @inject('NarRaceDataService')
@@ -33,7 +33,7 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param finishDate
      */
     @Logger
-    async getRacesFromCalendar(
+    public async getRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {
@@ -47,7 +47,7 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param displayGradeList
      */
     @Logger
-    async updateRacesToCalendar(
+    public async updateRacesToCalendar(
         startDate: Date,
         finishDate: Date,
         displayGradeList: NarGradeType[],

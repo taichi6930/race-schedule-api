@@ -32,7 +32,7 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         placeData: NarPlaceData,
         updateDate: Date,
@@ -49,7 +49,7 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
      * @param placeData
      * @param updateDate
      */
-    static createWithoutId(
+    public static createWithoutId(
         placeData: NarPlaceData,
         updateDate: Date,
     ): NarPlaceEntity {
@@ -64,7 +64,7 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<NarPlaceEntity> = {}): NarPlaceEntity {
+    public copy(partial: Partial<NarPlaceEntity> = {}): NarPlaceEntity {
         return NarPlaceEntity.create(
             partial.id ?? this.id,
             partial.placeData ?? this.placeData,
@@ -75,7 +75,7 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
     /**
      * NarPlaceRecordに変換する
      */
-    toRecord(): NarPlaceRecord {
+    public toRecord(): NarPlaceRecord {
         return NarPlaceRecord.create(
             this.id,
             this.placeData.dateTime,

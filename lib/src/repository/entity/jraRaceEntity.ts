@@ -43,7 +43,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      * @param raceData - レースデータ
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         raceData: JraRaceData,
         updateDate: Date,
@@ -60,7 +60,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      * @param raceData
      * @param updateDate
      */
-    static createWithoutId(
+    public static createWithoutId(
         raceData: JraRaceData,
         updateDate: Date,
     ): JraRaceEntity {
@@ -79,7 +79,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<JraRaceEntity> = {}): JraRaceEntity {
+    public copy(partial: Partial<JraRaceEntity> = {}): JraRaceEntity {
         return new JraRaceEntity(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
@@ -90,7 +90,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     /**
      * JraRaceRecordに変換する
      */
-    toRaceRecord(): JraRaceRecord {
+    public toRaceRecord(): JraRaceRecord {
         return JraRaceRecord.create(
             this.id,
             this.raceData.name,
@@ -110,7 +110,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      * レースデータをGoogleカレンダーのイベントに変換する
      * @param updateDate - 更新日時
      */
-    toGoogleCalendarData(
+    public toGoogleCalendarData(
         updateDate: Date = new Date(),
     ): calendar_v3.Schema$Event {
         return {
@@ -157,7 +157,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         };
     }
 
-    static fromGoogleCalendarDataToCalendarData(
+    public static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
         return CalendarData.create(
@@ -170,7 +170,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         );
     }
 
-    static fromGoogleCalendarDataToRaceEntity(
+    public static fromGoogleCalendarDataToRaceEntity(
         event: calendar_v3.Schema$Event,
     ): JraRaceEntity {
         return new JraRaceEntity(

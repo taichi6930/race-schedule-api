@@ -32,7 +32,7 @@ export class KeirinPlaceEntity implements IPlaceEntity<KeirinPlaceEntity> {
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         placeData: KeirinPlaceData,
         updateDate: Date,
@@ -48,7 +48,7 @@ export class KeirinPlaceEntity implements IPlaceEntity<KeirinPlaceEntity> {
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
-    static createWithoutId(
+    public static createWithoutId(
         placeData: KeirinPlaceData,
         updateDate: Date,
     ): KeirinPlaceEntity {
@@ -63,7 +63,7 @@ export class KeirinPlaceEntity implements IPlaceEntity<KeirinPlaceEntity> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<KeirinPlaceEntity> = {}): KeirinPlaceEntity {
+    public copy(partial: Partial<KeirinPlaceEntity> = {}): KeirinPlaceEntity {
         return KeirinPlaceEntity.create(
             partial.id ?? this.id,
             partial.placeData ?? this.placeData,
@@ -74,7 +74,7 @@ export class KeirinPlaceEntity implements IPlaceEntity<KeirinPlaceEntity> {
     /**
      * KeirinPlaceRecordに変換する
      */
-    toRecord(): KeirinPlaceRecord {
+    public toRecord(): KeirinPlaceRecord {
         return KeirinPlaceRecord.create(
             this.id,
             this.placeData.dateTime,

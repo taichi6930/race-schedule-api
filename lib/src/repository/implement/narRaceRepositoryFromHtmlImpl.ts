@@ -23,7 +23,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class NarRaceRepositoryFromHtmlImpl
     implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('NarRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: INarRaceDataHtmlGateway,
     ) {}
@@ -33,11 +33,11 @@ export class NarRaceRepositoryFromHtmlImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
     ): Promise<NarRaceEntity[]> {
         const narRaceDataList: NarRaceEntity[] = [];
-        const placeEntityList = searchFilter.placeEntityList;
+        const { placeEntityList } = searchFilter;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 narRaceDataList.push(
@@ -51,7 +51,7 @@ export class NarRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    async fetchRaceListFromHtmlWithNarPlace(
+    public async fetchRaceListFromHtmlWithNarPlace(
         placeEntity: NarPlaceEntity,
     ): Promise<NarRaceEntity[]> {
         try {
@@ -223,8 +223,11 @@ export class NarRaceRepositoryFromHtmlImpl
      * @param raceEntityList
      */
     @Logger
-    registerRaceEntityList(raceEntityList: NarRaceEntity[]): Promise<void> {
+    public async registerRaceEntityList(
+        raceEntityList: NarRaceEntity[],
+    ): Promise<void> {
         console.debug(raceEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

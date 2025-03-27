@@ -17,9 +17,9 @@ export class NarRaceRepositoryFromStorageImpl
 {
     private readonly fileName = 'raceList.csv';
 
-    constructor(
+    public constructor(
         @inject('NarRaceS3Gateway')
-        private s3Gateway: IS3Gateway<NarRaceRecord>,
+        private readonly s3Gateway: IS3Gateway<NarRaceRecord>,
     ) {}
 
     /**
@@ -27,7 +27,7 @@ export class NarRaceRepositoryFromStorageImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
     ): Promise<NarRaceEntity[]> {
         // ファイル名リストから開催データを取得する
@@ -117,7 +117,7 @@ export class NarRaceRepositoryFromStorageImpl
                             );
                         } catch (error) {
                             console.error(error);
-                            return;
+                            return undefined;
                         }
                     })
                     .filter(
@@ -136,7 +136,7 @@ export class NarRaceRepositoryFromStorageImpl
      * @param raceEntityList
      */
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: NarRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する

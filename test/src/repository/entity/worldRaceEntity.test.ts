@@ -26,7 +26,7 @@ describe('WorldRaceEntityクラスのテスト', () => {
 
     it('何も変更せずWorldRaceDataのインスタンスを作成できることを確認', () => {
         const raceEntity = baseRaceEntity;
-        const raceData = raceEntity.raceData;
+        const { raceData } = raceEntity;
         // インスタンスが変更されていないか確認
         expect(raceData).toEqual(baseWorldRaceData);
     });

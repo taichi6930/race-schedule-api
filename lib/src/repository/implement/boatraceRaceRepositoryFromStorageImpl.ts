@@ -1,5 +1,7 @@
 import 'reflect-metadata';
 
+import { error } from 'node:console';
+
 import { inject, injectable } from 'tsyringe';
 
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
@@ -24,7 +26,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
     private readonly raceListFileName = 'raceList.csv';
     private readonly racePlayerListFileName = 'racePlayerList.csv';
 
-    constructor(
+    public constructor(
         @inject('BoatraceRaceS3Gateway')
         private readonly raceS3Gateway: IS3Gateway<BoatraceRaceRecord>,
         @inject('BoatraceRacePlayerS3Gateway')
@@ -36,7 +38,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
      * @param searchFilter
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<BoatracePlaceEntity>,
     ): Promise<BoatraceRaceEntity[]> {
         // ファイル名リストからボートレース選手データを取得する
@@ -96,7 +98,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
      * @param raceEntityList
      */
     @Logger
-    async registerRaceEntityList(
+    public async registerRaceEntityList(
         raceEntityList: BoatraceRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
@@ -212,9 +214,9 @@ export class BoatraceRaceRepositoryFromStorageImpl
                         Number.parseInt(columns[indices.number]),
                         updateDate,
                     );
-                } catch (error) {
+                } catch {
                     console.error('BoatraceRaceRecord create error', error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(
@@ -277,7 +279,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
                         'BoatraceRacePlayerRecord create error',
                         error,
                     );
-                    return;
+                    return undefined;
                 }
             })
             .filter(

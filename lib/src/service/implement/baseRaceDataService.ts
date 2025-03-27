@@ -25,7 +25,7 @@ export abstract class BaseRaceDataService<
      * @param placeEntityList
      */
     @Logger
-    async fetchRaceEntityList(
+    public async fetchRaceEntityList(
         startDate: Date,
         finishDate: Date,
         type: DataLocationType,
@@ -54,7 +54,7 @@ export abstract class BaseRaceDataService<
      * @param raceEntityList
      */
     @Logger
-    async updateRaceEntityList(raceEntityList: R[]): Promise<void> {
+    public async updateRaceEntityList(raceEntityList: R[]): Promise<void> {
         try {
             if (raceEntityList.length === 0) return;
             await this.raceRepositoryFromStorage.registerRaceEntityList(
@@ -76,6 +76,9 @@ export abstract class BaseRaceDataService<
             }
             case DataLocation.Web: {
                 return this.raceRepositoryFromHtml;
+            }
+            default: {
+                throw new Error(`Unsupported DataLocationType: ${type}`);
             }
         }
     }

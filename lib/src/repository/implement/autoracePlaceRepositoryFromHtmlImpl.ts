@@ -21,7 +21,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class AutoracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<AutoracePlaceEntity>
 {
-    constructor(
+    public constructor(
         @inject('AutoracePlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IAutoracePlaceDataHtmlGateway,
     ) {}
@@ -32,10 +32,10 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * @param searchFilter - 開催データ取得フィルタ
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
-        const monthList: Date[] = await this.generateMonthList(
+        const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,
             searchFilter.finishDate,
         );
@@ -65,10 +65,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * @param finishDate
      */
     @Logger
-    private generateMonthList(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<Date[]> {
+    private generateMonthList(startDate: Date, finishDate: Date): Date[] {
         const monthList: Date[] = [];
         const currentDate = new Date(startDate);
 
@@ -82,7 +79,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         console.log(
             `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
         );
-        return Promise.resolve(monthList);
+        return monthList;
     }
 
     /**
@@ -152,6 +149,9 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                             grade = 'GⅡ';
                             break;
                         }
+                        case undefined: {
+                            break;
+                        }
                     }
                     const datetime = new Date(
                         date.getFullYear(),
@@ -183,10 +183,11 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * @param placeEntityList
      */
     @Logger
-    registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: AutoracePlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

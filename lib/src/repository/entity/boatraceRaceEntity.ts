@@ -49,7 +49,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
      * @param racePlayerDataList - レースの選手データ
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         raceData: BoatraceRaceData,
         racePlayerDataList: BoatraceRacePlayerData[],
@@ -69,7 +69,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
      * @param racePlayerDataList
      * @param updateDate
      */
-    static createWithoutId(
+    public static createWithoutId(
         raceData: BoatraceRaceData,
         racePlayerDataList: BoatraceRacePlayerData[],
         updateDate: Date,
@@ -90,7 +90,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<BoatraceRaceEntity> = {}): BoatraceRaceEntity {
+    public copy(partial: Partial<BoatraceRaceEntity> = {}): BoatraceRaceEntity {
         return BoatraceRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
@@ -102,7 +102,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     /**
      * BoatraceRaceRecordに変換する
      */
-    toRaceRecord(): BoatraceRaceRecord {
+    public toRaceRecord(): BoatraceRaceRecord {
         return BoatraceRaceRecord.create(
             this.id,
             this.raceData.name,
@@ -119,7 +119,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
      * レースデータをGoogleカレンダーのイベントに変換する
      * @param updateDate - 更新日時
      */
-    toGoogleCalendarData(
+    public toGoogleCalendarData(
         updateDate: Date = new Date(),
     ): calendar_v3.Schema$Event {
         return {
@@ -149,7 +149,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
         };
     }
 
-    static fromGoogleCalendarDataToCalendarData(
+    public static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
         return CalendarData.create(
@@ -165,7 +165,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     /**
      * BoatraceRacePlayerRecordに変換する
      */
-    toPlayerRecordList(): BoatraceRacePlayerRecord[] {
+    public toPlayerRecordList(): BoatraceRacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
             BoatraceRacePlayerRecord.create(
                 generateBoatraceRacePlayerId(

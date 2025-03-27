@@ -12,7 +12,7 @@ import { BaseCalendarService } from './baseCalendarService';
  */
 @injectable()
 export class WorldCalendarService extends BaseCalendarService<WorldRaceEntity> {
-    constructor(
+    public constructor(
         @inject('WorldCalendarRepository')
         protected readonly calendarRepository: ICalendarRepository<WorldRaceEntity>,
     ) {

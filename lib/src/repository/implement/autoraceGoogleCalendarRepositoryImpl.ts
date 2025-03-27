@@ -11,7 +11,7 @@ import { BaseGoogleCalendarRepository } from './baseGoogleCalendarRepository';
  */
 @injectable()
 export class AutoraceGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepository<AutoraceRaceEntity> {
-    constructor(
+    public constructor(
         @inject('AutoraceGoogleCalendarGateway')
         protected readonly googleCalendarGateway: ICalendarGateway,
     ) {

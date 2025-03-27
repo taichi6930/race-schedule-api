@@ -48,7 +48,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
      * @param grade - グレード
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: AutoracePlaceId,
         dateTime: Date,
         location: string,
@@ -74,7 +74,9 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<AutoracePlaceRecord> = {}): AutoracePlaceRecord {
+    public copy(
+        partial: Partial<AutoracePlaceRecord> = {},
+    ): AutoracePlaceRecord {
         return AutoracePlaceRecord.create(
             partial.id ?? this.id,
             partial.dateTime ?? this.dateTime,
@@ -87,7 +89,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
     /**
      * AutoracePlaceEntityに変換する
      */
-    toEntity(): AutoracePlaceEntity {
+    public toEntity(): AutoracePlaceEntity {
         return AutoracePlaceEntity.create(
             this.id,
             AutoracePlaceData.create(this.dateTime, this.location, this.grade),

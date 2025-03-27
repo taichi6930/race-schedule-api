@@ -26,7 +26,7 @@ export class AutoraceRaceDataUseCase
             AutoraceRaceStage
         >
 {
-    constructor(
+    public constructor(
         @inject('AutoracePlaceDataService')
         private readonly placeDataService: IPlaceDataService<AutoracePlaceEntity>,
         @inject('AutoraceRaceDataService')
@@ -42,7 +42,7 @@ export class AutoraceRaceDataUseCase
      * @param finishDate
      * @param searchList
      */
-    async fetchRaceDataList(
+    public async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
         searchList?: {
@@ -104,7 +104,7 @@ export class AutoraceRaceDataUseCase
      * @param searchList
      */
     @Logger
-    async updateRaceEntityList(
+    public async updateRaceEntityList(
         startDate: Date,
         finishDate: Date,
         searchList?: {
@@ -158,7 +158,9 @@ export class AutoraceRaceDataUseCase
      * @param raceDataList
      */
     @Logger
-    async upsertRaceDataList(raceDataList: AutoraceRaceData[]): Promise<void> {
+    public async upsertRaceDataList(
+        raceDataList: AutoraceRaceData[],
+    ): Promise<void> {
         const raceEntityList: AutoraceRaceEntity[] = raceDataList.map(
             (raceData) =>
                 AutoraceRaceEntity.createWithoutId(

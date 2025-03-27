@@ -17,9 +17,9 @@ export class JraPlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
-    constructor(
+    public constructor(
         @inject('JraPlaceS3Gateway')
-        private s3Gateway: IS3Gateway<JraPlaceRecord>,
+        private readonly s3Gateway: IS3Gateway<JraPlaceRecord>,
     ) {}
 
     /**
@@ -28,7 +28,7 @@ export class JraPlaceRepositoryFromStorageImpl
      * @param searchFilter
      */
     @Logger
-    async fetchPlaceEntityList(
+    public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // 開催データを取得
@@ -50,7 +50,7 @@ export class JraPlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    async registerPlaceEntityList(
+    public async registerPlaceEntityList(
         placeEntityList: JraPlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
@@ -135,7 +135,7 @@ export class JraPlaceRepositoryFromStorageImpl
                     );
                 } catch (error) {
                     console.error(error);
-                    return;
+                    return undefined;
                 }
             })
             .filter(

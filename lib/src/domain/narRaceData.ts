@@ -109,7 +109,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * @param grade - グレード
      * @param number - レース番号
      */
-    static create(
+    public static create(
         name: string,
         dateTime: Date,
         location: string,
@@ -133,7 +133,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<NarRaceData> = {}): NarRaceData {
+    public copy(partial: Partial<NarRaceData> = {}): NarRaceData {
         return NarRaceData.create(
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,

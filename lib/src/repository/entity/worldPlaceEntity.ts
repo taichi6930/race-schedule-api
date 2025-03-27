@@ -18,7 +18,7 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
      * レース開催場所データを生成する
      * @param placeData - レース開催場所データ
      */
-    constructor(
+    public constructor(
         id: WorldPlaceId | null,
         public readonly placeData: WorldPlaceData,
     ) {
@@ -30,7 +30,7 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<WorldPlaceEntity> = {}): WorldPlaceEntity {
+    public copy(partial: Partial<WorldPlaceEntity> = {}): WorldPlaceEntity {
         return new WorldPlaceEntity(
             partial.id ?? null,
             partial.placeData ?? this.placeData,

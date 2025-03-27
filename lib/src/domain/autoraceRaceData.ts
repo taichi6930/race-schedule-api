@@ -96,7 +96,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
      * @param grade - グレード
      * @param number - レース番号
      */
-    static create(
+    public static create(
         name: string,
         stage: string,
         dateTime: Date,
@@ -118,7 +118,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
      * データのコピー
      * @param partial
      */
-    copy(partial: Partial<AutoraceRaceData> = {}): AutoraceRaceData {
+    public copy(partial: Partial<AutoraceRaceData> = {}): AutoraceRaceData {
         return AutoraceRaceData.create(
             partial.name ?? this.name,
             partial.stage ?? this.stage,

@@ -33,7 +33,7 @@ describe('BoatracePlaceEntityクラスのテスト', () => {
 
     it('何も変更せずBoatracePlaceDataのインスタンスを作成できることを確認', () => {
         const placeEntity = baseBoatracePlaceEntity;
-        const placeData = placeEntity.placeData;
+        const { placeData } = placeEntity;
 
         expect(placeData).toEqual(baseBoatracePlaceData);
     });

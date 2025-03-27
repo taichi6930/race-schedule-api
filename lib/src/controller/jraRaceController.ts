@@ -20,7 +20,7 @@ import { Logger } from '../utility/logger';
 export class JraRaceController {
     public router: Router;
 
-    constructor(
+    public constructor(
         @inject('JraRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('JraRaceDataUseCase')

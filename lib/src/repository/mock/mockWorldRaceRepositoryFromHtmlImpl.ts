@@ -11,7 +11,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
     implements IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
 {
     @Logger
-    fetchRaceEntityList(
+    public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
     ): Promise<WorldRaceEntity[]> {
         const raceEntityList: WorldRaceEntity[] = [];
@@ -41,12 +41,15 @@ export class MockWorldRaceRepositoryFromHtmlImpl
             }
             currentDate.setDate(currentDate.getDate() + 1);
         }
-        return Promise.resolve(raceEntityList);
+        return await Promise.resolve(raceEntityList);
     }
 
     @Logger
-    registerRaceEntityList(raceEntityList: WorldRaceEntity[]): Promise<void> {
+    public async registerRaceEntityList(
+        raceEntityList: WorldRaceEntity[],
+    ): Promise<void> {
         console.debug(raceEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

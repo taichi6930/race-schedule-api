@@ -46,7 +46,7 @@ export class KeirinRacePlayerRecord implements IRecord<KeirinRacePlayerRecord> {
      * @param playerNumber - 選手番号
      * @param updateDate - 更新日時
      */
-    static create(
+    public static create(
         id: string,
         raceId: string,
         positionNumber: number,
@@ -72,7 +72,7 @@ export class KeirinRacePlayerRecord implements IRecord<KeirinRacePlayerRecord> {
      * データのコピー
      * @param partial
      */
-    copy(
+    public copy(
         partial: Partial<KeirinRacePlayerRecord> = {},
     ): KeirinRacePlayerRecord {
         return KeirinRacePlayerRecord.create(

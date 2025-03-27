@@ -20,7 +20,7 @@ describe('NarPlaceEntityクラスのテスト', () => {
 
     it('何も変更せずNarPlaceDataのインスタンスを作成できることを確認', () => {
         const placeEntity = baseNarPlaceEntity;
-        const placeData = placeEntity.placeData;
+        const { placeData } = placeEntity;
 
         expect(placeData).toEqual(baseNarPlaceData);
     });
