@@ -61,7 +61,6 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @param startDate
      * @param finishDate
      */
-    @Logger
     private generateMonthList(startDate: Date, finishDate: Date): Date[] {
         const monthList: Date[] = [];
         const currentDate = new Date(startDate);

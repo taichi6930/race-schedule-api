@@ -35,51 +35,81 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
-        const monthList: Date[] = this.generateMonthList(
-            searchFilter.startDate,
-            searchFilter.finishDate,
-        );
-        const monthPlaceEntityLists = await Promise.all(
-            monthList.map(async (month) =>
-                this.fetchMonthPlaceEntityList(month),
-            ),
-        );
+        try {
+            // 月リストを生成
+            const monthList = [
+                ...this.generateMonthList(
+                    searchFilter.startDate,
+                    searchFilter.finishDate,
+                ),
+            ];
 
-        const placeEntityList: AutoracePlaceEntity[] =
-            monthPlaceEntityLists.flat();
+            if (!Array.isArray(monthList)) {
+                throw new TypeError('月リストが配列ではありません');
+            }
 
-        // startDateからfinishDateまでの中でのデータを取得
-        const filteredPlaceEntityList: AutoracePlaceEntity[] =
-            placeEntityList.filter(
+            console.log(
+                '月リスト:',
+                monthList.map((d) => d.toISOString()),
+            );
+
+            // 各月のデータを取得して結合
+            const monthPlaceEntityLists = await Promise.all(
+                monthList.map(async (month) =>
+                    this.fetchMonthPlaceEntityList(month),
+                ),
+            );
+
+            const placeEntityList = monthPlaceEntityLists.flat();
+
+            // 日付でフィルタリング
+            return placeEntityList.filter(
                 (placeEntity) =>
                     placeEntity.placeData.dateTime >= searchFilter.startDate &&
                     placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
-        return filteredPlaceEntityList;
+        } catch (error) {
+            console.error('開催データの取得に失敗しました:', error);
+            throw error;
+        }
     }
 
     /**
      * ターゲットの月リストを生成する
-     *startDateからfinishDateまでの月のリストを生成する
+     * startDateからfinishDateまでの月のリストを生成する
      * @param startDate
      * @param finishDate
+     * @returns 月初日の配列
      */
-    @Logger
     private generateMonthList(startDate: Date, finishDate: Date): Date[] {
-        const monthList: Date[] = [];
-        const currentDate = new Date(startDate);
+        try {
+            const monthList: Date[] = [];
+            const currentDate = new Date(startDate);
 
-        while (currentDate <= finishDate) {
-            monthList.push(
-                new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
+            while (currentDate <= finishDate) {
+                monthList.push(
+                    new Date(
+                        currentDate.getFullYear(),
+                        currentDate.getMonth(),
+                        1,
+                    ),
+                );
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            }
+
+            console.log(
+                `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
             );
-            currentDate.setMonth(currentDate.getMonth() + 1);
-        }
 
-        console.log(
-            `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
-        );
-        return monthList;
+            if (monthList.length === 0) {
+                throw new Error('月リストが空です');
+            }
+
+            return monthList;
+        } catch (error) {
+            console.error('月リストの生成に失敗しました:', error);
+            throw error;
+        }
     }
 
     /**
