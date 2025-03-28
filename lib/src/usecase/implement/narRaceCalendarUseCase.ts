@@ -37,7 +37,7 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {
-        return await this.calendarService.getEvents(startDate, finishDate);
+        return this.calendarService.getEvents(startDate, finishDate);
     }
 
     /**
