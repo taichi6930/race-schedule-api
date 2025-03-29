@@ -44,10 +44,6 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                 ),
             ];
 
-            if (!Array.isArray(monthList)) {
-                throw new TypeError('月リストが配列ではありません');
-            }
-
             console.log(
                 '月リスト:',
                 monthList.map((d) => d.toISOString()),
