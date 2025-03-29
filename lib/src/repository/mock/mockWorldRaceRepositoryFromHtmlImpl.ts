@@ -41,7 +41,8 @@ export class MockWorldRaceRepositoryFromHtmlImpl
             }
             currentDate.setDate(currentDate.getDate() + 1);
         }
-        return await Promise.resolve(raceEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        return raceEntityList;
     }
 
     @Logger

@@ -30,7 +30,7 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
             startDate,
             finishDate,
         );
-        return await this.calendarRepository.getEvents(searchFilter);
+        return this.calendarRepository.getEvents(searchFilter);
     }
 
     /**

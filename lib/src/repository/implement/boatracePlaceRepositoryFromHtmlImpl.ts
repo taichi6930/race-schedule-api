@@ -63,7 +63,6 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * @param startDate
      * @param finishDate
      */
-    @Logger
     private generateQuarterList(
         startDate: Date,
         finishDate: Date,
