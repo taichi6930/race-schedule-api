@@ -102,18 +102,16 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
     ): AutoraceRaceEntity[] {
         const filteredRaceEntityList: AutoraceRaceEntity[] =
             raceEntityList.filter((raceEntity) => {
-                const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
-                    (maxPriority, playerData) => {
-                        const playerPriority =
-                            AutoracePlayerList.find(
-                                (autoracePlayer) =>
-                                    playerData.playerNumber ===
-                                    Number(autoracePlayer.playerNumber),
-                            )?.priority ?? 0;
-                        return Math.max(maxPriority, playerPriority);
-                    },
-                    0,
-                );
+                const playerPriorityList = [];
+                for (const playerData of raceEntity.racePlayerDataList) {
+                    const playerPriority =
+                        AutoracePlayerList.find(
+                            (autoracePlayer) =>
+                                playerData.playerNumber ===
+                                Number(autoracePlayer.playerNumber),
+                        )?.priority ?? 0;
+                    playerPriorityList.push(playerPriority);
+                }
 
                 const racePriority: number =
                     AutoraceSpecifiedGradeAndStageList.find((raceGradeList) => {
@@ -126,7 +124,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                         );
                     })?.priority ?? 0;
 
-                return racePriority + maxPlayerPriority >= 6;
+                return racePriority + Math.max(...playerPriorityList) >= 6;
             });
         return filteredRaceEntityList;
     }

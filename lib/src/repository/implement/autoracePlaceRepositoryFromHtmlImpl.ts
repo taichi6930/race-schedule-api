@@ -96,11 +96,6 @@ export class AutoracePlaceRepositoryFromHtmlImpl
             console.log(
                 `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
             );
-
-            if (monthList.length === 0) {
-                throw new Error('月リストが空です');
-            }
-
             return monthList;
         } catch (error) {
             console.error('月リストの生成に失敗しました:', error);
