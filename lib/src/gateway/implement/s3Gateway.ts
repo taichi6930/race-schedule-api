@@ -102,7 +102,9 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
             for await (const chunk of bodyStream) {
                 chunks.push(
-                    Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk),
+                    Buffer.isBuffer(chunk)
+                        ? chunk
+                        : Buffer.from(chunk as ArrayBuffer),
                 );
             }
 
