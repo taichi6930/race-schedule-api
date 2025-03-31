@@ -102,16 +102,18 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
     ): BoatraceRaceEntity[] {
         const filteredRaceEntityList: BoatraceRaceEntity[] =
             raceEntityList.filter((raceEntity) => {
-                const playerPriorityList = [];
-                for (const playerData of raceEntity.racePlayerDataList) {
-                    const playerPriority =
-                        BoatracePlayerList.find(
-                            (autoracePlayer) =>
-                                playerData.playerNumber ===
-                                Number(autoracePlayer.playerNumber),
-                        )?.priority ?? 0;
-                    playerPriorityList.push(playerPriority);
-                }
+                const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
+                    (maxPriority, playerData) => {
+                        const playerPriority =
+                            BoatracePlayerList.find(
+                                (boatracePlayer) =>
+                                    playerData.playerNumber ===
+                                    Number(boatracePlayer.playerNumber),
+                            )?.priority ?? 0;
+                        return Math.max(maxPriority, playerPriority);
+                    },
+                    0,
+                );
 
                 const racePriority: number =
                     BoatraceSpecifiedGradeAndStageList.find((raceGradeList) => {
@@ -124,7 +126,7 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                         );
                     })?.priority ?? 0;
 
-                return racePriority + Math.max(...playerPriorityList) >= 6;
+                return racePriority + maxPlayerPriority >= 6;
             });
         return filteredRaceEntityList;
     }

@@ -102,16 +102,18 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
     ): KeirinRaceEntity[] {
         const filteredRaceEntityList: KeirinRaceEntity[] =
             raceEntityList.filter((raceEntity) => {
-                const playerPriorityList = [];
-                for (const playerData of raceEntity.racePlayerDataList) {
-                    const playerPriority =
-                        KeirinPlayerList.find(
-                            (autoracePlayer) =>
-                                playerData.playerNumber ===
-                                Number(autoracePlayer.playerNumber),
-                        )?.priority ?? 0;
-                    playerPriorityList.push(playerPriority);
-                }
+                const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
+                    (maxPriority, playerData) => {
+                        const playerPriority =
+                            KeirinPlayerList.find(
+                                (keirinPlayer) =>
+                                    playerData.playerNumber ===
+                                    Number(keirinPlayer.playerNumber),
+                            )?.priority ?? 0;
+                        return Math.max(maxPriority, playerPriority);
+                    },
+                    0,
+                );
 
                 const racePriority: number =
                     KeirinSpecifiedGradeAndStageList.find((raceGradeList) => {
@@ -124,7 +126,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                         );
                     })?.priority ?? 0;
 
-                return racePriority + Math.max(...playerPriorityList) >= 6;
+                return racePriority + maxPlayerPriority >= 6;
             });
         return filteredRaceEntityList;
     }
