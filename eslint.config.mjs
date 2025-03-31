@@ -42,7 +42,6 @@ export default [
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
             '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
-            // '@typescript-eslint/restrict-template-expressions': 'off', // ✅ テンプレートリテラルの使用を許可
             'unused-imports/no-unused-vars': [
                 'error',
                 {
@@ -68,7 +67,6 @@ export default [
             'unicorn/numeric-separators-style': 'off', // ✅ 数値リテラルの区切り文字のスタイルを許可
             'unicorn/no-null': 'off', // ✅ nullの使用を許可
             'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
-            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
             'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
         },
     },
@@ -86,6 +84,7 @@ export default [
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
             '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
             '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
+            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
         },
     },
     {
@@ -105,6 +104,13 @@ export default [
         files: ['**/src/index.ts'],
         rules: {
             '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
+        },
+    },
+    // lib/src/gateway/mock/mockS3Gateway.tsを除外する設定
+    {
+        files: ['**/lib/src/gateway/mock/mockS3Gateway.ts'],
+        rules: {
+            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
         },
     },
 ];
