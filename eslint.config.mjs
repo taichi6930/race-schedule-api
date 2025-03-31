@@ -116,11 +116,7 @@ export default [
         files: [
             '**/lib/src/domain/calendarData.ts',
             '**/lib/src/gateway/implement/googleCalendarGateway.ts',
-            '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl.ts',
-            '**/lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl.ts',
-            '**/lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl.ts',
-            '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl.ts',
-            '**/lib/src/repository/implement/narRaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/*PlaceRepositoryFromHtmlImpl.ts',
         ],
         rules: {
             '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
