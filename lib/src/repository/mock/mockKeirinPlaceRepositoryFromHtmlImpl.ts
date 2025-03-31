@@ -31,8 +31,8 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
             // 日付を1日進める
             currentDate.setDate(currentDate.getDate() + 1);
         }
-
-        return await Promise.resolve(placeEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        return placeEntityList;
     }
 
     /**

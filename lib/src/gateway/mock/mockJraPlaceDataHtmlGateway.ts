@@ -21,7 +21,7 @@ export class MockJraPlaceDataHtmlGateway implements IJraPlaceDataHtmlGateway {
         // lib/src/gateway/mockData/html/jra/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
-        const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
-        return await Promise.resolve(htmlContent);
+        const htmlContent = await fs.promises.readFile(htmlFilePath, 'utf8');
+        return htmlContent;
     }
 }

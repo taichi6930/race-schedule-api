@@ -64,7 +64,6 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @param startDate
      * @param finishDate
      */
-    @Logger
     private generateYearList(startDate: Date, finishDate: Date): Date[] {
         const yearList: Date[] = [];
         const currentDate = new Date(startDate);
