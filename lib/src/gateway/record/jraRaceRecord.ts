@@ -122,7 +122,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `JraRaceRecordの生成に失敗しました: ${(error as Error).message}`,
+                `JraRaceRecordの生成に失敗しました: ${error instanceof Error ? error.message : 'Unknown error'}`,
             );
         }
     }

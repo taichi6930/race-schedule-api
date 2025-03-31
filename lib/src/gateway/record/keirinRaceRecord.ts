@@ -94,7 +94,7 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `Failed to create KeirinRaceRecord: ${(error as Error).message}`,
+                `Failed to create KeirinRaceRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
             );
         }
     }

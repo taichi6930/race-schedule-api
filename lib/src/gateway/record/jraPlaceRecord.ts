@@ -72,7 +72,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `JraPlaceRecord create error: ${(error as Error).message}`,
+                `JraPlaceRecord create error: ${error instanceof Error ? error.message : 'Unknown error'}`,
             );
         }
     }

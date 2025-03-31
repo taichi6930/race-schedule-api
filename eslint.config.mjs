@@ -38,7 +38,6 @@ export default [
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可
             '@typescript-eslint/naming-convention': 'off', // 命名規則を強制
             '@typescript-eslint/no-magic-numbers': 'off', // ✅ マジックナンバーを禁止
-            '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
             'unused-imports/no-unused-vars': [
@@ -84,6 +83,7 @@ export default [
             '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
             '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+            '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
         },
     },
     {
@@ -116,10 +116,25 @@ export default [
         files: [
             '**/lib/src/domain/calendarData.ts',
             '**/lib/src/gateway/implement/googleCalendarGateway.ts',
-            '**/lib/src/repository/implement/*PlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/narRaceRepositoryFromHtmlImpl.ts',
         ],
         rules: {
             '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
+        },
+    },
+
+    // lib/src/utility/env.tsを除外する設定
+    {
+        files: [
+            '**/lib/src/utility/env.ts',
+            '**/lib/src/gateway/implement/s3Gateway.ts',
+        ],
+        rules: {
+            '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
         },
     },
 ];

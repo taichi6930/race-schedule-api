@@ -55,7 +55,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `NarPlaceRecord create error: ${(error as Error).message}`,
+                `NarPlaceRecord create error: ${error instanceof Error ? error.message : 'Unknown error'}`,
             );
         }
     }

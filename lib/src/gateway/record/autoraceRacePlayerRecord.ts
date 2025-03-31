@@ -64,7 +64,7 @@ export class AutoraceRacePlayerRecord
             );
         } catch (error) {
             throw new Error(
-                `Failed to create AutoraceRacePlayerRecord: ${(error as Error).message}`,
+                `Failed to create AutoraceRacePlayerRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
             );
         }
     }

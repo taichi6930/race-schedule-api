@@ -5,7 +5,7 @@ export const mockPlaceRepository = <P extends IPlaceEntity<P>>(): jest.Mocked<
     IPlaceRepository<P>
 > => {
     return {
-        fetchPlaceEntityList: jest.fn().mockResolvedValue([] as P[]),
-        registerPlaceEntityList: jest.fn().mockResolvedValue({} as P),
+        fetchPlaceEntityList: jest.fn().mockResolvedValue(Promise.resolve([])),
+        registerPlaceEntityList: jest.fn().mockResolvedValue(Promise.resolve()),
     };
 };
