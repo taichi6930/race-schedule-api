@@ -41,7 +41,6 @@ export default [
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
-            '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
             'unused-imports/no-unused-vars': [
                 'error',
                 {
@@ -111,6 +110,20 @@ export default [
         files: ['**/lib/src/gateway/mock/mockS3Gateway.ts'],
         rules: {
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+        },
+    },
+    {
+        files: [
+            '**/lib/src/domain/calendarData.ts',
+            '**/lib/src/gateway/implement/googleCalendarGateway.ts',
+            '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/narRaceRepositoryFromHtmlImpl.ts',
+        ],
+        rules: {
+            '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
         },
     },
 ];
