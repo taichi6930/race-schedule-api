@@ -37,7 +37,6 @@ export default [
             '@typescript-eslint/max-params': 'off', // ✅ 関数のパラメータ数の最大値を許可
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可
             '@typescript-eslint/naming-convention': 'off', // 命名規則を強制
-            '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内の関数定義を許可
             '@typescript-eslint/no-magic-numbers': 'off', // ✅ マジックナンバーを禁止
             '@typescript-eslint/no-shadow': 'off', // ✅ 変数のシャドウイングを禁止
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
@@ -100,11 +99,11 @@ export default [
         files: ['**/*.test.ts', '**/utility/**/*.ts'],
         rules: {
             '@typescript-eslint/no-use-before-define': 'off', // ✅ 変数や関数の使用前定義を禁止
+            '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内での関数定義を禁止
         },
     },
-    // src/index.tsを除外する設定
     {
-        files: ['src/index.ts'],
+        files: ['**/src/index.ts'],
         rules: {
             '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
         },
