@@ -77,10 +77,10 @@ export class AutoraceRaceRepositoryFromHtmlImpl
             // <div div class="section clearfix">を取得
             const section = content.find('.section');
 
-            section.each((index, element) => {
-                $(element)
+            section.each((_, sectionElement) => {
+                $(sectionElement)
                     .find('.w480px')
-                    .each((index, element) => {
+                    .each((__, element) => {
                         const raceTime = $(element).find('.start-time').text();
                         const [hour, minute] = raceTime
                             .replace('発走時間', '')

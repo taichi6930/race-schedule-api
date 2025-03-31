@@ -131,14 +131,14 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         // tableタグが複数あるので、全て取得
         const tables = chartWrapprer.find('table');
 
-        tables.each((index: number, element: cheerio.Element) => {
+        tables.each((_: number, element: cheerio.Element) => {
             // その中のtbodyを取得
             const tbody = $(element).find('tbody');
             // tr class="ref_sche"を取得
             const trs = tbody.find('tr');
-            trs.each((index: number, element: cheerio.Element) => {
+            trs.each((__: number, trElement: cheerio.Element) => {
                 // thを取得
-                const th = $(element).find('th');
+                const th = $(trElement).find('th');
 
                 // thのテキストが AutoraceRaceCourseに含まれているか
                 if (!th.text()) {
@@ -149,13 +149,13 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                 // TODO: どこかのタイミングで処理をリファクタリングする
                 const place: AutoraceRaceCourse = th.text().replace('２', '');
 
-                const tds = $(element).find('td');
+                const tds = $(trElement).find('td');
                 // <td valign="top" class="bg-4-lt">
                 //   <img src="/ud_shared/pc/autorace/autorace/shared/images/ico-night3.gif?20221013111450" width = "10" height = "10" alt = "ico" class="time_ref" >
                 //   <div class="ico-kaisai">開催</div>
                 // </td>
-                tds.each((index: number, element: cheerio.Element) => {
-                    const div = $(element).find('div');
+                tds.each((index: number, tdElement: cheerio.Element) => {
+                    const div = $(tdElement).find('div');
                     let grade: AutoraceGradeType | undefined;
                     // divのclassを取得
                     switch (div.attr('class')) {

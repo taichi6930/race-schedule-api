@@ -38,7 +38,7 @@ export default [
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可
             '@typescript-eslint/naming-convention': 'off', // 命名規則を強制
             '@typescript-eslint/no-magic-numbers': 'off', // ✅ マジックナンバーを禁止
-            '@typescript-eslint/no-shadow': 'off', // ✅ 変数のシャドウイングを禁止
+            // '@typescript-eslint/no-shadow': 'off', // ✅ 変数のシャドウイングを禁止
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨

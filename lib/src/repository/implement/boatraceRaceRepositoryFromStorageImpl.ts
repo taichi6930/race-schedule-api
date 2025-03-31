@@ -1,7 +1,5 @@
 import 'reflect-metadata';
 
-import { error } from 'node:console';
-
 import { inject, injectable } from 'tsyringe';
 
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
@@ -214,7 +212,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
                         Number.parseInt(columns[indices.number]),
                         updateDate,
                     );
-                } catch {
+                } catch (error) {
                     console.error('BoatraceRaceRecord create error', error);
                     return undefined;
                 }
