@@ -32,7 +32,6 @@ export default [
             'promise': eslintPluginPromise,
         },
         rules: {
-            '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
             '@typescript-eslint/class-methods-use-this': 'off', // ✅ クラスメソッド内でthisを使う
             '@typescript-eslint/init-declarations': 'off', // ✅ 変数宣言時に初期化を強制
             '@typescript-eslint/max-params': 'off', // ✅ 関数のパラメータ数の最大値を許可
@@ -101,6 +100,13 @@ export default [
         files: ['**/*.test.ts', '**/utility/**/*.ts'],
         rules: {
             '@typescript-eslint/no-use-before-define': 'off', // ✅ 変数や関数の使用前定義を禁止
+        },
+    },
+    // src/index.tsを除外する設定
+    {
+        files: ['src/index.ts'],
+        rules: {
+            '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
         },
     },
 ];
