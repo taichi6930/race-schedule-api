@@ -78,7 +78,10 @@ export abstract class BaseRaceDataService<
                 return this.raceRepositoryFromHtml;
             }
             default: {
-                throw new Error(`Unsupported DataLocationType: ${type}`);
+                const exhaustiveCheck: never = type;
+                throw new Error(
+                    `Unsupported DataLocationType: ${String(exhaustiveCheck)}`,
+                );
             }
         }
     }

@@ -42,7 +42,7 @@ export default [
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
             '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
-            '@typescript-eslint/restrict-template-expressions': 'off', // ✅ テンプレートリテラルの使用を許可
+            // '@typescript-eslint/restrict-template-expressions': 'off', // ✅ テンプレートリテラルの使用を許可
             'unused-imports/no-unused-vars': [
                 'error',
                 {
