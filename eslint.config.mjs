@@ -42,7 +42,6 @@ export default [
             '@typescript-eslint/no-magic-numbers': 'off', // ✅ マジックナンバーを禁止
             '@typescript-eslint/no-shadow': 'off', // ✅ 変数のシャドウイングを禁止
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
-            '@typescript-eslint/no-use-before-define': 'off', // ✅ 変数や関数の使用前定義を禁止
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
             '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
@@ -96,6 +95,12 @@ export default [
         files: ['**/eslint.config.mjs'],
         rules: {
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
+        },
+    },
+    {
+        files: ['**/*.test.ts', '**/utility/**/*.ts'],
+        rules: {
+            '@typescript-eslint/no-use-before-define': 'off', // ✅ 変数や関数の使用前定義を禁止
         },
     },
 ];
