@@ -32,7 +32,6 @@ export default [
             'promise': eslintPluginPromise,
         },
         rules: {
-            '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
             '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
             '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
             '@typescript-eslint/class-methods-use-this': 'off', // ✅ クラスメソッド内でthisを使う
@@ -90,6 +89,7 @@ export default [
         rules: {
             '@typescript-eslint/no-unsafe-member-access': 'off', // ✅ any型のプロパティアクセスを許可
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
+            '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
         },
     },
     {
