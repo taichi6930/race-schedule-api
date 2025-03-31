@@ -197,7 +197,7 @@ export class WorldRaceRepositoryFromHtmlImpl
 
                             recordNumber++;
                             const number = recordNumber;
-                            const date = new Date(
+                            const raceDate = new Date(
                                 year,
                                 month - 1,
                                 day + recordDay,
@@ -209,7 +209,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                                 name: rowRaceName,
                                 place: location,
                                 grade,
-                                date,
+                                date: raceDate,
                                 surfaceType,
                                 distance,
                             });

@@ -113,19 +113,19 @@ export class NarPlaceRepositoryFromHtmlImpl
             }
             const tds = $(element).find('td');
             const place = $(tds[0]).text();
-            tds.each((index: number, element: cheerio.Element) => {
-                if (index === 0) {
+            tds.each((tdIndex: number, tdElement: cheerio.Element) => {
+                if (tdIndex === 0) {
                     if (!(place in narPlaceDataDict)) {
                         narPlaceDataDict[place] = [];
                     }
                     return;
                 }
                 if (
-                    $(element).text().includes('●') ||
-                    $(element).text().includes('☆') ||
-                    $(element).text().includes('Ｄ')
+                    $(tdElement).text().includes('●') ||
+                    $(tdElement).text().includes('☆') ||
+                    $(tdElement).text().includes('Ｄ')
                 ) {
-                    narPlaceDataDict[place].push(index);
+                    narPlaceDataDict[place].push(tdIndex);
                 }
             });
         });

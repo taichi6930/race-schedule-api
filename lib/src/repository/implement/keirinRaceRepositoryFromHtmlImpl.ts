@@ -86,11 +86,11 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 );
             // class="section1"を取得
             const section1 = content.find('.section1');
-            section1.each((index, element) => {
+            section1.each((_, section1Element) => {
                 // class="w480px"を取得
-                $(element)
+                $(section1Element)
                     .find('.w480px')
-                    .each((index, element) => {
+                    .each((__, element) => {
                         // 発走時間の取得 10: 50
                         const raceTime = $(element)
                             .find('.tx_blue')
@@ -120,7 +120,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         // tableを取得
                         const table = $(element).find('table');
                         // class="bg-1-pl", "bg-2-pl"..."bg-9-pl"を取得
-                        Array.from({ length: 9 }, (_, i) => i + 1) // 1から9までの配列を作成
+                        Array.from({ length: 9 }, (___, i) => i + 1) // 1から9までの配列を作成
                             .map((i) => {
                                 const bgClassName = `bg-${i.toString()}-pl`;
                                 // class="bg-1-pl"を取得

@@ -32,25 +32,15 @@ export default [
             'promise': eslintPluginPromise,
         },
         rules: {
-            '@typescript-eslint/no-unsafe-member-access': 'off', // ✅ any型のプロパティアクセスを許可
-            '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
-            '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
-            '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
-            '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
             '@typescript-eslint/class-methods-use-this': 'off', // ✅ クラスメソッド内でthisを使う
             '@typescript-eslint/init-declarations': 'off', // ✅ 変数宣言時に初期化を強制
             '@typescript-eslint/max-params': 'off', // ✅ 関数のパラメータ数の最大値を許可
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可
             '@typescript-eslint/naming-convention': 'off', // 命名規則を強制
-            '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内の関数定義を許可
             '@typescript-eslint/no-magic-numbers': 'off', // ✅ マジックナンバーを禁止
-            '@typescript-eslint/no-shadow': 'off', // ✅ 変数のシャドウイングを禁止
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
-            '@typescript-eslint/no-use-before-define': 'off', // ✅ 変数や関数の使用前定義を禁止
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
-            '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
-            '@typescript-eslint/restrict-template-expressions': 'off', // ✅ テンプレートリテラルの使用を許可
             'unused-imports/no-unused-vars': [
                 'error',
                 {
@@ -76,7 +66,6 @@ export default [
             'unicorn/numeric-separators-style': 'off', // ✅ 数値リテラルの区切り文字のスタイルを許可
             'unicorn/no-null': 'off', // ✅ nullの使用を許可
             'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
-            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
             'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
         },
     },
@@ -85,6 +74,56 @@ export default [
         files: ['**/*.yaml', '**/*.yml'],
         rules: {
             'prettier/prettier': 'off',
+        },
+    },
+    {
+        files: ['**/*Controller.ts', '**/logger.ts'],
+        rules: {
+            '@typescript-eslint/no-unsafe-member-access': 'off', // ✅ any型のプロパティアクセスを許可
+            '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
+            '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
+            '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
+            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+        },
+    },
+    {
+        files: ['**/eslint.config.mjs'],
+        rules: {
+            '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
+        },
+    },
+    {
+        files: ['**/*.test.ts', '**/utility/**/*.ts'],
+        rules: {
+            '@typescript-eslint/no-use-before-define': 'off', // ✅ 変数や関数の使用前定義を禁止
+            '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内での関数定義を禁止
+        },
+    },
+    {
+        files: ['**/src/index.ts'],
+        rules: {
+            '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
+        },
+    },
+    // lib/src/gateway/mock/mockS3Gateway.tsを除外する設定
+    {
+        files: ['**/lib/src/gateway/mock/mockS3Gateway.ts'],
+        rules: {
+            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+        },
+    },
+    {
+        files: [
+            '**/lib/src/domain/calendarData.ts',
+            '**/lib/src/gateway/implement/googleCalendarGateway.ts',
+            '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/narRaceRepositoryFromHtmlImpl.ts',
+        ],
+        rules: {
+            '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
         },
     },
 ];

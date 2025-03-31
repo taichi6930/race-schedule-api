@@ -107,15 +107,15 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         // tableタグが複数あるので、全て取得
         const tables = chartWrapprer.find('table');
 
-        tables.each((index: number, element: cheerio.Element) => {
+        tables.each((_: number, element: cheerio.Element) => {
             // その中のtbodyを取得
             const tbody = $(element).find('tbody');
             // tr class="ref_sche"を取得
             const trs = tbody.find('tr');
-            trs.each((index: number, element: cheerio.Element) => {
+            trs.each((__: number, trElement: cheerio.Element) => {
                 try {
                     // thを取得
-                    const th = $(element).find('th');
+                    const th = $(trElement).find('th');
 
                     // thのテキストが KeirinRaceCourseに含まれているか
                     if (!th.text()) {
@@ -125,11 +125,11 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         th.text(),
                     );
 
-                    const tds = $(element).find('td');
-                    tds.each((index: number, element: cheerio.Element) => {
-                        const imgs = $(element).find('img');
+                    const tds = $(trElement).find('td');
+                    tds.each((index: number, tdElement: cheerio.Element) => {
+                        const imgs = $(tdElement).find('img');
                         let grade: KeirinGradeType | undefined;
-                        imgs.each((_, img) => {
+                        imgs.each((___, img) => {
                             const alt = $(img).attr('alt');
                             if (alt !== undefined && alt.trim() !== '') {
                                 grade = alt
