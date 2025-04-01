@@ -33,7 +33,6 @@ export default [
         },
         rules: {
             '@typescript-eslint/class-methods-use-this': 'off', // ✅ クラスメソッド内でthisを使う
-            '@typescript-eslint/init-declarations': 'off', // ✅ 変数宣言時に初期化を強制
             '@typescript-eslint/max-params': 'off', // ✅ 関数のパラメータ数の最大値を許可
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可
             '@typescript-eslint/naming-convention': 'off', // 命名規則を強制
@@ -105,9 +104,14 @@ export default [
             '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
         },
     },
-    // lib/src/gateway/mock/mockS3Gateway.tsを除外する設定
     {
         files: ['**/lib/src/gateway/mock/mockS3Gateway.ts'],
+        rules: {
+            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+        },
+    },
+    {
+        files: ['**/jest.config.js'],
         rules: {
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
         },
@@ -126,8 +130,6 @@ export default [
             '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
         },
     },
-
-    // lib/src/utility/env.tsを除外する設定
     {
         files: [
             '**/lib/src/utility/env.ts',
@@ -135,6 +137,16 @@ export default [
         ],
         rules: {
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
+        },
+    },
+    {
+        files: [
+            '**/test/**/*.ts',
+            '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl.ts',
+        ],
+        rules: {
+            '@typescript-eslint/init-declarations': 'off', // ✅ 変数宣言時に初期化を強制
         },
     },
 ];
