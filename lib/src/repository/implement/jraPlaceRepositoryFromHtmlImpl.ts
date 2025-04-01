@@ -129,7 +129,7 @@ export class JraPlaceRepositoryFromHtmlImpl
             for (const day of Array.from({ length: 31 }, (_, k) => k + 1)) {
                 monthData
                     .find(`.d${day.toString()}`)
-                    .each((index: number, element: cheerio.Element) => {
+                    .each((_: number, element: cheerio.Element) => {
                         // 開催競馬場のイニシャルを取得
                         const placeInitial: string = $(element)
                             .find('span')

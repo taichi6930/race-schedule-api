@@ -36,7 +36,7 @@ app.use('/api/races/autorace', autoraceRaceController.router);
 app.use('/api/races/boatrace', boatraceController.router);
 
 // health check
-app.get('/health', (req, res) => {
+app.get('/health', (_, res) => {
     res.send('ok health check');
 });
 
