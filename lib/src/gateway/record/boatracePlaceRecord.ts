@@ -66,7 +66,7 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `Failed to create BoatracePlaceRecord: ${(error as Error).message}`,
+                `Failed to create BoatracePlaceRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
             );
         }
     }

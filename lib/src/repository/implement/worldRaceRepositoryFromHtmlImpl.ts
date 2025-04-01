@@ -89,7 +89,7 @@ export class WorldRaceRepositoryFromHtmlImpl
             const $ = cheerio.load(htmlText);
             const content = $('.racelist');
             // class="racelist__day"が複数あるのでeachで回す
-            content.find('.racelist__day').each((index, element) => {
+            content.find('.racelist__day').each((__, element) => {
                 // class="un-trigger"があればskipする
                 if ($(element).find('.un-trigger').length > 0) {
                     return;

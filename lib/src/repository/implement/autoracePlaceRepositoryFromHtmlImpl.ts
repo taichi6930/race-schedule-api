@@ -156,7 +156,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                 // </td>
                 tds.each((index: number, tdElement: cheerio.Element) => {
                     const div = $(tdElement).find('div');
-                    let grade: AutoraceGradeType | undefined;
+                    let grade: AutoraceGradeType | undefined = undefined;
                     // divのclassを取得
                     switch (div.attr('class')) {
                         case 'ico-kaisai': {

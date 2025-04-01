@@ -65,7 +65,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `Failed to create AutoracePlaceRecord: ${(error as Error).message}`,
+                `Failed to create AutoracePlaceRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
             );
         }
     }

@@ -63,7 +63,7 @@ export class KeirinRacePlayerRecord implements IRecord<KeirinRacePlayerRecord> {
             );
         } catch (error) {
             throw new Error(
-                `KeirinRacePlayerRecord: ${(error as Error).message}`,
+                `KeirinRacePlayerRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
             );
         }
     }

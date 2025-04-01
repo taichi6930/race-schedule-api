@@ -66,7 +66,7 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `KeirinPlaceRecord create error: ${(error as Error).message}`,
+                `KeirinPlaceRecord create error: ${error instanceof Error ? error.message : 'Unknown error'}`,
             );
         }
     }

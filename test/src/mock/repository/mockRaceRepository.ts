@@ -7,7 +7,7 @@ export const mockRaceRepository = <
     P extends IPlaceEntity<P>,
 >(): jest.Mocked<IRaceRepository<R, P>> => {
     return {
-        fetchRaceEntityList: jest.fn().mockResolvedValue([] as R[]),
-        registerRaceEntityList: jest.fn().mockResolvedValue({} as R),
+        fetchRaceEntityList: jest.fn().mockResolvedValue(Promise.resolve([])),
+        registerRaceEntityList: jest.fn().mockResolvedValue(Promise.resolve()),
     };
 };

@@ -93,7 +93,9 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
-            throw new Error(`BoatraceRaceRecord: ${(error as Error).message}`);
+            throw new Error(
+                `BoatraceRaceRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            );
         }
     }
 

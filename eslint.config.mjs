@@ -33,12 +33,10 @@ export default [
         },
         rules: {
             '@typescript-eslint/class-methods-use-this': 'off', // ✅ クラスメソッド内でthisを使う
-            '@typescript-eslint/init-declarations': 'off', // ✅ 変数宣言時に初期化を強制
             '@typescript-eslint/max-params': 'off', // ✅ 関数のパラメータ数の最大値を許可
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可
             '@typescript-eslint/naming-convention': 'off', // 命名規則を強制
             '@typescript-eslint/no-magic-numbers': 'off', // ✅ マジックナンバーを禁止
-            '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
             'unused-imports/no-unused-vars': [
@@ -84,6 +82,7 @@ export default [
             '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
             '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+            '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
         },
     },
     {
@@ -105,9 +104,14 @@ export default [
             '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
         },
     },
-    // lib/src/gateway/mock/mockS3Gateway.tsを除外する設定
     {
         files: ['**/lib/src/gateway/mock/mockS3Gateway.ts'],
+        rules: {
+            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+        },
+    },
+    {
+        files: ['**/jest.config.js'],
         rules: {
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
         },
@@ -124,6 +128,25 @@ export default [
         ],
         rules: {
             '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
+        },
+    },
+    {
+        files: [
+            '**/lib/src/utility/env.ts',
+            '**/lib/src/gateway/implement/s3Gateway.ts',
+        ],
+        rules: {
+            '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
+        },
+    },
+    {
+        files: [
+            '**/test/**/*.ts',
+            '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl.ts',
+        ],
+        rules: {
+            '@typescript-eslint/init-declarations': 'off', // ✅ 変数宣言時に初期化を強制
         },
     },
 ];

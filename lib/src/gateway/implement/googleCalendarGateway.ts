@@ -42,7 +42,9 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             });
             return response.data.items ?? [];
         } catch (error) {
-            throw new Error((error as Error).message);
+            throw new Error(
+                error instanceof Error ? error.message : 'Unknown error',
+            );
         }
     }
 
@@ -57,7 +59,9 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             });
             return response.data;
         } catch (error) {
-            throw new Error((error as Error).message);
+            throw new Error(
+                error instanceof Error ? error.message : 'Unknown error',
+            );
         }
     }
 
@@ -76,7 +80,9 @@ export class GoogleCalendarGateway implements ICalendarGateway {
                 requestBody: calendarData,
             });
         } catch (error) {
-            throw new Error((error as Error).message);
+            throw new Error(
+                error instanceof Error ? error.message : 'Unknown error',
+            );
         }
     }
 
@@ -90,7 +96,9 @@ export class GoogleCalendarGateway implements ICalendarGateway {
                 requestBody: calendarData,
             });
         } catch (error) {
-            throw new Error((error as Error).message);
+            throw new Error(
+                error instanceof Error ? error.message : 'Unknown error',
+            );
         }
     }
 
@@ -102,7 +110,9 @@ export class GoogleCalendarGateway implements ICalendarGateway {
                 eventId,
             });
         } catch (error) {
-            throw new Error((error as Error).message);
+            throw new Error(
+                error instanceof Error ? error.message : 'Unknown error',
+            );
         }
     }
 }

@@ -64,7 +64,7 @@ export class BoatraceRacePlayerRecord
             );
         } catch (error) {
             throw new Error(
-                `BoatraceRacePlayerRecord: ${(error as Error).message}`,
+                `BoatraceRacePlayerRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
             );
         }
     }

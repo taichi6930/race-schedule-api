@@ -43,17 +43,11 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     private static isInitialized = false;
 
     /**
-     * バケット名 S3の中にあるデータの保存場所
-     * @private
-     * @type {string}
-     */
-    private bucketName: string;
-    /**
      * フォルダのパス
      * @private
      * @type {string}
      */
-    private folderPath: string;
+    private folderPath: string = '';
 
     // スタートの年数
     private startDate = new Date('2001-01-01');
@@ -65,11 +59,9 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * @param {string} bucketName
      * @param {string} folderPath
      */
-    public constructor(bucketName: string, folderPath: string) {
+    public constructor(_: string, folderPath: string) {
+        this.folderPath = folderPath;
         (async () => {
-            this.bucketName = bucketName;
-            this.folderPath = folderPath;
-
             // 既にmockStorageに値が入っている場合は何もしない
             if (MockS3Gateway.isInitialized) {
                 return;
@@ -327,43 +319,6 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
             currentDate.setDate(currentDate.getDate() + 1);
         }
         MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
-    }
-
-    @Logger
-    private async setOldNarRaceMockData() {
-        // 2024年のデータ366日分を作成
-        const currentDate = new Date(this.startDate);
-        // whileで回していって、最初の日付の年数と異なったら終了
-        while (currentDate.getFullYear() !== this.finishDate.getFullYear()) {
-            const fileName = `nar/race/${format(currentDate, 'yyyyMMdd')}.csv`;
-            const mockDataHeader = [
-                'name',
-                'dateTime',
-                'location',
-                'surfaceType',
-                'distance',
-                'grade',
-                'number',
-                'id',
-            ].join(',');
-            const mockData = [mockDataHeader];
-            for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
-                mockData.push(
-                    [
-                        `川崎記念`,
-                        `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
-                        '川崎',
-                        'ダート',
-                        '2100',
-                        'JpnⅠ',
-                        raceNumber,
-                        generateNarRaceId(currentDate, '川崎', raceNumber),
-                    ].join(','),
-                );
-            }
-            MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
     }
 
     @Logger

@@ -92,7 +92,9 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
-            throw new Error(`AutoraceRaceRecord: ${(error as Error).message}`);
+            throw new Error(
+                `AutoraceRaceRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            );
         }
     }
 
