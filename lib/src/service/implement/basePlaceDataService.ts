@@ -72,7 +72,10 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
                 return this.placeRepositoryFromHtml;
             }
             default: {
-                throw new Error('不正なデータ取得先です');
+                const exhaustiveCheck: never = type;
+                throw new Error(
+                    `Unsupported DataLocationType: ${String(exhaustiveCheck)}`,
+                );
             }
         }
     }
