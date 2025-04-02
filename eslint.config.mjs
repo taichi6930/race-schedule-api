@@ -64,7 +64,6 @@ export default [
             'unicorn/numeric-separators-style': 'off', // ✅ 数値リテラルの区切り文字のスタイルを許可
             'unicorn/no-null': 'off', // ✅ nullの使用を許可
             'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
-            'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
         },
     },
     // YAMLファイルを除外する設定
@@ -147,6 +146,12 @@ export default [
         ],
         rules: {
             '@typescript-eslint/init-declarations': 'off', // ✅ 変数宣言時に初期化を強制
+        },
+    },
+    {
+        files: ['**/lib/src/usecase/implement/**RaceCalendarUseCase.ts'],
+        rules: {
+            'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
         },
     },
 ];
