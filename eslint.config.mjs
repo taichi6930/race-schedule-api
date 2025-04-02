@@ -60,7 +60,10 @@ export default [
             ], // ✅ ファイル名のケースをcamelCaseにする
             'unicorn/prevent-abbreviations': 'off', // ✅ 省略形の使用を許可
             'unicorn/prefer-module': 'off', // ✅ ECMAScriptモジュールの使用を許可（後で対応したい）
-            'unicorn/numeric-separators-style': 'off', // ✅ 数値リテラルの区切り文字のスタイルを許可
+
+            // 数字のセパレーターのスタイルは一長一短なので一旦オフ
+            'unicorn/numeric-separators-style': 'off',
+
             'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
         },
     },
