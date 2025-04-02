@@ -257,33 +257,30 @@ export class JraRaceController {
                 // raceListをJraRaceDataに変換する
                 const jraRaceDataList: JraRaceData[] = raceList
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    .map((race: any) => {
+                    .flatMap((race: any) => {
                         try {
                             console.info(race);
-                            return JraRaceData.create(
-                                race.name,
-                                new Date(race.dateTime),
-                                race.location,
-                                race.surfaceType,
-                                Number(race.distance),
-                                race.grade,
-                                Number(race.number),
-                                Number(race.heldTimes),
-                                Number(race.heldDayTimes),
-                            );
+                            return [
+                                JraRaceData.create(
+                                    race.name,
+                                    new Date(race.dateTime),
+                                    race.location,
+                                    race.surfaceType,
+                                    Number(race.distance),
+                                    race.grade,
+                                    Number(race.number),
+                                    Number(race.heldTimes),
+                                    Number(race.heldDayTimes),
+                                ),
+                            ];
                         } catch (error) {
                             console.error(
                                 'レース情報の変換中にエラーが発生しました:',
                                 error,
                             );
-                            return null;
+                            return [];
                         }
-                    }) // nullを除外する
-                    .filter(
-                        (
-                            raceData: JraRaceData | null,
-                        ): raceData is JraRaceData => raceData !== null,
-                    );
+                    });
 
                 console.info(jraRaceDataList);
 
