@@ -118,34 +118,30 @@ export class BoatracePlaceRepositoryFromStorageImpl
             updateDate: headers.indexOf('updateDate'),
         };
 
-        // データ行を解析してPlaceDataのリストを生成
         const placeRecordList: BoatracePlaceRecord[] = lines
             .slice(1)
-            .map((line: string) => {
+            .flatMap((line: string): BoatracePlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
-                    // updateDateが存在しない場合は現在時刻を設定
                     const updateDate = columns[indices.updateDate]
                         ? new Date(columns[indices.updateDate])
                         : getJSTDate(new Date());
 
-                    return BoatracePlaceRecord.create(
-                        columns[indices.id],
-                        new Date(columns[indices.dateTime]),
-                        columns[indices.location],
-                        columns[indices.grade],
-                        updateDate,
-                    );
+                    return [
+                        BoatracePlaceRecord.create(
+                            columns[indices.id],
+                            new Date(columns[indices.dateTime]),
+                            columns[indices.location],
+                            columns[indices.grade],
+                            updateDate,
+                        ),
+                    ];
                 } catch (error) {
                     console.error(error);
-                    return undefined;
+                    return [];
                 }
-            })
-            .filter(
-                (placeData): placeData is BoatracePlaceRecord =>
-                    placeData !== undefined,
-            );
+            });
 
         return placeRecordList;
     }

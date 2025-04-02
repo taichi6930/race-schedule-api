@@ -13,6 +13,10 @@ import {
     type KeirinRaceId,
     validateKeirinRaceId,
 } from '../../utility/data/keirin/keirinRaceId';
+import {
+    getYoutubeLiveUrl,
+    KeirinYoutubeUserIdMap,
+} from '../../utility/data/movie';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getKeirinGoogleCalendarColorId } from '../../utility/googleCalendar';
@@ -146,6 +150,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
             description:
                 `発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
                 ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(this.raceData.dateTime, 'yyyyMMdd')}${KeirinPlaceCodeMap[this.raceData.location]}${this.raceData.number.toXDigits(2)}`)}
+                ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(KeirinYoutubeUserIdMap[this.raceData.location]))}
                 更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}
             `.replace(/\n\s+/g, '\n'),
             extendedProperties: {
