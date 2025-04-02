@@ -120,10 +120,9 @@ export class KeirinPlaceRepositoryFromStorageImpl
             updateDate: headers.indexOf('updateDate'),
         };
 
-        // データ行を解析してPlaceDataのリストを生成
         const placeRecordList: KeirinPlaceRecord[] = lines
             .slice(1)
-            .map((line: string) => {
+            .flatMap((line: string): KeirinPlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -131,22 +130,20 @@ export class KeirinPlaceRepositoryFromStorageImpl
                         ? new Date(columns[indices.updateDate])
                         : getJSTDate(new Date());
 
-                    return KeirinPlaceRecord.create(
-                        columns[indices.id],
-                        new Date(columns[indices.dateTime]),
-                        columns[indices.location],
-                        columns[indices.grade],
-                        updateDate,
-                    );
+                    return [
+                        KeirinPlaceRecord.create(
+                            columns[indices.id],
+                            new Date(columns[indices.dateTime]),
+                            columns[indices.location],
+                            columns[indices.grade],
+                            updateDate,
+                        ),
+                    ];
                 } catch (error) {
                     console.error(error);
-                    return undefined;
+                    return [];
                 }
-            })
-            .filter(
-                (placeData): placeData is KeirinPlaceRecord =>
-                    placeData !== undefined,
-            );
+            });
 
         return placeRecordList;
     }

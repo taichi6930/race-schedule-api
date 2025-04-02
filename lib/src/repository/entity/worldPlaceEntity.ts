@@ -27,12 +27,25 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
     }
 
     /**
+     * インスタンス生成メソッド（Idなし）
+     * @remarks
+     * レース開催場所データを生成する
+     * @param placeData - レース開催場所データ
+     */
+    public static createWithoutId(placeData: WorldPlaceData): WorldPlaceEntity {
+        return new WorldPlaceEntity(
+            generateWorldPlaceId(placeData.dateTime, placeData.location),
+            placeData,
+        );
+    }
+
+    /**
      * データのコピー
      * @param partial
      */
     public copy(partial: Partial<WorldPlaceEntity> = {}): WorldPlaceEntity {
         return new WorldPlaceEntity(
-            partial.id ?? null,
+            partial.id ?? this.id,
             partial.placeData ?? this.placeData,
         );
     }

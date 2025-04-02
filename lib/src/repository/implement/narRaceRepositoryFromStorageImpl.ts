@@ -92,19 +92,16 @@ export class NarRaceRepositoryFromStorageImpl
         // 並列で処理を実行
         const results = await Promise.all(
             chunks.map((chunk) =>
-                chunk
-                    .map((line: string) => {
-                        try {
-                            const columns = line
-                                .split('\r')
-                                .join('')
-                                .split(',');
+                chunk.flatMap((line: string): NarRaceRecord[] => {
+                    try {
+                        const columns = line.split('\r').join('').split(',');
 
-                            const updateDate = columns[indices.updateDate]
-                                ? new Date(columns[indices.updateDate])
-                                : getJSTDate(new Date());
+                        const updateDate = columns[indices.updateDate]
+                            ? new Date(columns[indices.updateDate])
+                            : getJSTDate(new Date());
 
-                            return NarRaceRecord.create(
+                        return [
+                            NarRaceRecord.create(
                                 columns[indices.id],
                                 columns[indices.name],
                                 new Date(columns[indices.dateTime]),
@@ -114,16 +111,13 @@ export class NarRaceRepositoryFromStorageImpl
                                 columns[indices.grade],
                                 Number.parseInt(columns[indices.number]),
                                 updateDate,
-                            );
-                        } catch (error) {
-                            console.error(error);
-                            return undefined;
-                        }
-                    })
-                    .filter(
-                        (raceData): raceData is NarRaceRecord =>
-                            raceData !== undefined,
-                    ),
+                            ),
+                        ];
+                    } catch (error) {
+                        console.error(error);
+                        return [];
+                    }
+                }),
             ),
         );
         // 結果を1つにまとめ、重複を排除

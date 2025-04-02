@@ -51,10 +51,8 @@ export const baseWorldRaceRecord = WorldRaceRecord.create(
     baseWorldRaceUpdateDate,
 );
 
-export const baseWorldPlaceEntity = new WorldPlaceEntity(
-    null,
-    baseWorldPlaceData,
-);
+export const baseWorldPlaceEntity =
+    WorldPlaceEntity.createWithoutId(baseWorldPlaceData);
 
 export const baseWorldRaceEntity = WorldRaceEntity.createWithoutId(
     baseWorldRaceData,

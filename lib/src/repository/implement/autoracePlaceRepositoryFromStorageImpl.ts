@@ -120,34 +120,30 @@ export class AutoracePlaceRepositoryFromStorageImpl
             updateDate: headers.indexOf('updateDate'),
         };
 
-        // データ行を解析してPlaceDataのリストを生成
         const placeRecordList: AutoracePlaceRecord[] = lines
             .slice(1)
-            .map((line: string) => {
+            .flatMap((line: string): AutoracePlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
-                    // updateDateが存在しない場合は現在時刻を設定
                     const updateDate = columns[indices.updateDate]
                         ? new Date(columns[indices.updateDate])
                         : getJSTDate(new Date());
 
-                    return AutoracePlaceRecord.create(
-                        columns[indices.id],
-                        new Date(columns[indices.dateTime]),
-                        columns[indices.location],
-                        columns[indices.grade],
-                        updateDate,
-                    );
+                    return [
+                        AutoracePlaceRecord.create(
+                            columns[indices.id],
+                            new Date(columns[indices.dateTime]),
+                            columns[indices.location],
+                            columns[indices.grade],
+                            updateDate,
+                        ),
+                    ];
                 } catch (error) {
                     console.error(error);
-                    return undefined; // Ensure a value is returned in all code paths
+                    return [];
                 }
-            })
-            .filter(
-                (placeData): placeData is AutoracePlaceRecord =>
-                    placeData !== undefined,
-            );
+            });
 
         return placeRecordList;
     }

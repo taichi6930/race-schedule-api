@@ -114,10 +114,10 @@ export class JraPlaceRepositoryFromStorageImpl
             updateDate: headers.indexOf('updateDate'),
         };
 
-        // データ行を解析してPlaceDataのリストを生成
+        // データ行を解析して PlaceData のリストを生成
         const placeRecordList: JraPlaceRecord[] = lines
             .slice(1)
-            .map((line: string) => {
+            .flatMap((line: string): JraPlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -125,24 +125,21 @@ export class JraPlaceRepositoryFromStorageImpl
                         ? new Date(columns[indices.updateDate])
                         : getJSTDate(new Date());
 
-                    return JraPlaceRecord.create(
-                        columns[indices.id],
-                        new Date(columns[indices.dateTime]),
-                        columns[indices.location],
-                        Number.parseInt(columns[indices.heldTimes]),
-                        Number.parseInt(columns[indices.heldDayTimes]),
-                        updateDate,
-                    );
+                    return [
+                        JraPlaceRecord.create(
+                            columns[indices.id],
+                            new Date(columns[indices.dateTime]),
+                            columns[indices.location],
+                            Number.parseInt(columns[indices.heldTimes], 10),
+                            Number.parseInt(columns[indices.heldDayTimes], 10),
+                            updateDate,
+                        ),
+                    ];
                 } catch (error) {
                     console.error(error);
-                    return undefined;
+                    return [];
                 }
-            })
-            .filter(
-                (placeData): placeData is JraPlaceRecord =>
-                    placeData !== undefined,
-            );
-
+            });
         return placeRecordList;
     }
 }
