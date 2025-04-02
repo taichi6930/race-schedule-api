@@ -30,16 +30,6 @@ runs:
         restore-keys: |
           ${{ runner.os }}-pnpm-store-
 
-    - name: Setup test response cache
-      uses: actions/cache@v4
-      with:
-        path: |
-          .ita-cache
-          test/responses
-        key: ${{ runner.os }}-ita-nar-${{ hashFiles('test/src/mock/gateway/**/*') }}
-        restore-keys: |
-          ${{ runner.os }}-ita-nar-
-
     - name: Install dependencies
       run: pnpm install
       shell: bash
@@ -80,7 +70,7 @@ runs:
       id: nar-place-test
       run: |
         cache_file=".ita-cache/nar-place-response.json"
-
+        
         # Initial GET request
         response=$(curl -s -X 'GET' \
           'http://localhost:3000/api/races/nar/place?startDate=2024-10-01&finishDate=2024-10-31' \
@@ -91,30 +81,30 @@ runs:
           exit 1
         fi
 
-        if [ -f "$cache_file" ]; then
-          echo "Using cached response for POST request"
-          post_response="200"
-        else
-          post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
-            'http://localhost:3000/api/races/nar/place' \
-            -H 'accept: */*' \
-            -H 'Content-Type: application/json' \
-            -d '{
-                  "startDate": "2024-10-01",
-                  "finishDate": "2024-10-31"
-                }')
-        fi
+        # POST request (always execute to set up server state)
+        post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
+          'http://localhost:3000/api/races/nar/place' \
+          -H 'accept: */*' \
+          -H 'Content-Type: application/json' \
+          -d '{
+                "startDate": "2024-10-01",
+                "finishDate": "2024-10-31"
+              }')
 
         if [[ "$post_response" != "200" ]]; then
           echo "❌ POST request failed with status code $post_response"
           exit 1
         fi
 
+        # Updated GET request
         response=$(curl -s -X 'GET' \
           'http://localhost:3000/api/races/nar/place?startDate=2024-10-01&finishDate=2024-10-31' \
           -H 'accept: application/json')
 
-        echo "$response" > "$cache_file"
+        # Cache the successful response
+        if [[ $(echo "$response" | jq '. | length') -eq 31 ]]; then
+          echo "$response" > "$cache_file"
+        fi
 
         item_count=$(echo "$response" | jq '. | length')
         if [[ "$item_count" -ne 31 ]]; then
@@ -129,7 +119,8 @@ runs:
       id: nar-race-test
       run: |
         cache_file=".ita-cache/nar-race-response.json"
-
+        
+        # Initial GET request
         response=$(curl -s -X 'GET' \
           'http://localhost:3000/api/races/nar/race?startDate=2024-10-01&finishDate=2024-11-01' \
           -H 'accept: application/json')
@@ -139,30 +130,30 @@ runs:
           exit 1
         fi
 
-        if [ -f "$cache_file" ]; then
-          echo "Using cached response for POST request"
-          post_response="200"
-        else
-          post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
-            'http://localhost:3000/api/races/nar/race' \
-            -H 'accept: */*' \
-            -H 'Content-Type: application/json' \
-            -d '{
-                  "startDate": "2024-10-01",
-                  "finishDate": "2024-11-01"
-                }')
-        fi
+        # POST request (always execute to set up server state)
+        post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
+          'http://localhost:3000/api/races/nar/race' \
+          -H 'accept: */*' \
+          -H 'Content-Type: application/json' \
+          -d '{
+                "startDate": "2024-10-01",
+                "finishDate": "2024-11-01"
+              }')
 
         if [[ "$post_response" != "200" ]]; then
           echo "❌ POST request failed with status code $post_response"
           exit 1
         fi
 
+        # Updated GET request
         response=$(curl -s -X 'GET' \
           'http://localhost:3000/api/races/nar/race?startDate=2024-10-01&finishDate=2024-11-01' \
           -H 'accept: application/json')
 
-        echo "$response" > "$cache_file"
+        # Cache the successful response
+        if [[ $(echo "$response" | jq '. | length') -eq 372 ]]; then
+          echo "$response" > "$cache_file"
+        fi
 
         item_count=$(echo "$response" | jq '. | length')
         if [[ "$item_count" -ne 372 ]]; then
@@ -177,7 +168,8 @@ runs:
       id: nar-calendar-test
       run: |
         cache_file=".ita-cache/nar-calendar-response.json"
-
+        
+        # Initial GET request
         response=$(curl -s -X 'GET' \
           'http://localhost:3000/api/races/nar/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
           -H 'accept: application/json')
@@ -187,30 +179,30 @@ runs:
           exit 1
         fi
 
-        if [ -f "$cache_file" ]; then
-          echo "Using cached response for POST request"
-          post_response="200"
-        else
-          post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
-            'http://localhost:3000/api/races/nar/calendar' \
-            -H 'accept: */*' \
-            -H 'Content-Type: application/json' \
-            -d '{
-                  "startDate": "2024-10-01",
-                  "finishDate": "2024-11-01"
-                }')
-        fi
+        # POST request (always execute to set up server state)
+        post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
+          'http://localhost:3000/api/races/nar/calendar' \
+          -H 'accept: */*' \
+          -H 'Content-Type: application/json' \
+          -d '{
+                "startDate": "2024-10-01",
+                "finishDate": "2024-11-01"
+              }')
 
         if [[ "$post_response" != "200" ]]; then
           echo "❌ POST request failed with status code $post_response"
           exit 1
         fi
 
+        # Updated GET request
         response=$(curl -s -X 'GET' \
           'http://localhost:3000/api/races/nar/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
           -H 'accept: application/json')
 
-        echo "$response" > "$cache_file"
+        # Cache the successful response
+        if [[ $(echo "$response" | jq '. | length') -eq 372 ]]; then
+          echo "$response" > "$cache_file"
+        fi
 
         item_count=$(echo "$response" | jq '. | length')
         if [[ "$item_count" -ne 372 ]]; then
