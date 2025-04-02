@@ -7,40 +7,81 @@ runs:
     - name: Check out the repository
       uses: actions/checkout@v4
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
     - name: Set up pnpm
       uses: pnpm/action-setup@v2
       with:
         version: '9.10.0'
 
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
+
+    - name: Setup pnpm cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
     - name: Install dependencies
       run: pnpm install
       shell: bash
 
-    # サーバーが起動したらcurlを叩く
+    - name: Create cache directory
+      run: mkdir -p .ita-cache
+      shell: bash
+
     - name: Start server in background
       run: |
-        pnpm run start:local:no_data &  # サーバーをバックグラウンドで起動
-        for i in {1..5}; do
-          curl --silent --head http://localhost:3000/health && break
-          echo "Waiting for server to start..."
-          sleep 10
+        # サーバー起動前の後処理
+        if [ -f ".ita-cache/server.pid" ]; then
+          if ps -p $(cat .ita-cache/server.pid) > /dev/null; then
+            kill $(cat .ita-cache/server.pid)
+          fi
+          rm .ita-cache/server.pid
+        fi
+
+        # サーバー起動
+        pnpm run start:local:no_data & echo $! > .ita-cache/server.pid
+
+        # 健全性チェック
+        echo "Waiting for server to start..."
+        for i in {1..30}; do
+          if curl --silent --head http://localhost:3000/health >/dev/null; then
+            echo "✅ Server is up and running!"
+            break
+          fi
+          if [ $i -eq 30 ]; then
+            echo "❌ Server failed to start within 60 seconds"
+            exit 1
+          fi
+          sleep 2
         done
       shell: bash
 
     - name: Curl API for Nar Place
+      id: nar-place-test
       run: |
+        cache_file=".ita-cache/nar-place-response.json"
+        
         # Initial GET request
         response=$(curl -s -X 'GET' \
           'http://localhost:3000/api/races/nar/place?startDate=2024-10-01&finishDate=2024-10-31' \
           -H 'accept: application/json')
 
-        # Initial GET Response Check
         if [[ "$response" != "[]" ]]; then
           echo "❌ Initial GET request failed. Expected [], but got $response"
           exit 1
         fi
 
-        # POST request
+        # POST request (always execute to set up server state)
         post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
           'http://localhost:3000/api/races/nar/place' \
           -H 'accept: */*' \
@@ -50,7 +91,6 @@ runs:
                 "finishDate": "2024-10-31"
               }')
 
-        # POST Response Check
         if [[ "$post_response" != "200" ]]; then
           echo "❌ POST request failed with status code $post_response"
           exit 1
@@ -61,30 +101,36 @@ runs:
           'http://localhost:3000/api/races/nar/place?startDate=2024-10-01&finishDate=2024-10-31' \
           -H 'accept: application/json')
 
-        # Final GET Response Check: 要素数が31個であることを確認
+        # Cache the successful response
+        if [[ $(echo "$response" | jq '. | length') -eq 31 ]]; then
+          echo "$response" > "$cache_file"
+        fi
+
         item_count=$(echo "$response" | jq '. | length')
         if [[ "$item_count" -ne 31 ]]; then
-          echo "❌ Updated GET request failed. Expected 31 items but got $item_count items."
+          echo "❌ GET request failed. Expected 31 items but got $item_count items."
           exit 1
         fi
 
-        echo "✅ All checks passed successfully."
+        echo "✅ Nar Place checks passed successfully."
       shell: bash
 
     - name: Curl API for Nar Race
+      id: nar-race-test
       run: |
+        cache_file=".ita-cache/nar-race-response.json"
+        
         # Initial GET request
         response=$(curl -s -X 'GET' \
           'http://localhost:3000/api/races/nar/race?startDate=2024-10-01&finishDate=2024-11-01' \
           -H 'accept: application/json')
 
-        # Initial GET Response Check
         if [[ "$response" != "[]" ]]; then
           echo "❌ Initial GET request failed. Expected [], but got $response"
           exit 1
         fi
 
-        # POST request
+        # POST request (always execute to set up server state)
         post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
           'http://localhost:3000/api/races/nar/race' \
           -H 'accept: */*' \
@@ -94,7 +140,6 @@ runs:
                 "finishDate": "2024-11-01"
               }')
 
-        # POST Response Check
         if [[ "$post_response" != "200" ]]; then
           echo "❌ POST request failed with status code $post_response"
           exit 1
@@ -105,30 +150,36 @@ runs:
           'http://localhost:3000/api/races/nar/race?startDate=2024-10-01&finishDate=2024-11-01' \
           -H 'accept: application/json')
 
-        # Final GET Response Check: 要素数が372個であることを確認
+        # Cache the successful response
+        if [[ $(echo "$response" | jq '. | length') -eq 372 ]]; then
+          echo "$response" > "$cache_file"
+        fi
+
         item_count=$(echo "$response" | jq '. | length')
         if [[ "$item_count" -ne 372 ]]; then
-          echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
+          echo "❌ GET request failed. Expected 372 items but got $item_count items."
           exit 1
         fi
 
-        echo "✅ All checks passed successfully."
+        echo "✅ Nar Race checks passed successfully."
       shell: bash
 
     - name: Curl API for Nar Calendar
+      id: nar-calendar-test
       run: |
+        cache_file=".ita-cache/nar-calendar-response.json"
+        
         # Initial GET request
         response=$(curl -s -X 'GET' \
           'http://localhost:3000/api/races/nar/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
           -H 'accept: application/json')
 
-        # Initial GET Response Check
         if [[ "$response" != "[]" ]]; then
           echo "❌ Initial GET request failed. Expected [], but got $response"
           exit 1
         fi
 
-        # POST request
+        # POST request (always execute to set up server state)
         post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
           'http://localhost:3000/api/races/nar/calendar' \
           -H 'accept: */*' \
@@ -138,7 +189,6 @@ runs:
                 "finishDate": "2024-11-01"
               }')
 
-        # POST Response Check
         if [[ "$post_response" != "200" ]]; then
           echo "❌ POST request failed with status code $post_response"
           exit 1
@@ -149,12 +199,27 @@ runs:
           'http://localhost:3000/api/races/nar/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
           -H 'accept: application/json')
 
-        # Final GET Response Check: 要素数が372個であることを確認
+        # Cache the successful response
+        if [[ $(echo "$response" | jq '. | length') -eq 372 ]]; then
+          echo "$response" > "$cache_file"
+        fi
+
         item_count=$(echo "$response" | jq '. | length')
         if [[ "$item_count" -ne 372 ]]; then
-          echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
+          echo "❌ GET request failed. Expected 372 items but got $item_count items."
           exit 1
         fi
 
-        echo "✅ All checks passed successfully."
+        echo "✅ Nar Calendar checks passed successfully."
+      shell: bash
+
+    - name: Cleanup
+      if: always()
+      run: |
+        if [ -f ".ita-cache/server.pid" ]; then
+          if ps -p $(cat .ita-cache/server.pid) > /dev/null; then
+            kill $(cat .ita-cache/server.pid)
+          fi
+          rm .ita-cache/server.pid
+        fi
       shell: bash
