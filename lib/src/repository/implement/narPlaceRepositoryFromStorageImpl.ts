@@ -117,7 +117,7 @@ export class NarPlaceRepositoryFromStorageImpl
         // データ行を解析してPlaceDataのリストを生成
         const placeRecordList: NarPlaceRecord[] = lines
             .slice(1)
-            .map((line: string) => {
+            .flatMap((line: string): NarPlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -125,22 +125,19 @@ export class NarPlaceRepositoryFromStorageImpl
                         ? new Date(columns[indices.updateDate])
                         : getJSTDate(new Date());
 
-                    return NarPlaceRecord.create(
-                        columns[indices.id],
-                        new Date(columns[indices.dateTime]),
-                        columns[indices.location],
-                        updateDate,
-                    );
+                    return [
+                        NarPlaceRecord.create(
+                            columns[indices.id],
+                            new Date(columns[indices.dateTime]),
+                            columns[indices.location],
+                            updateDate,
+                        ),
+                    ];
                 } catch (error) {
                     console.error(error);
-                    return undefined;
+                    return [];
                 }
-            })
-            .filter(
-                (placeData): placeData is NarPlaceRecord =>
-                    placeData !== undefined,
-            );
-
+            });
         return placeRecordList;
     }
 }

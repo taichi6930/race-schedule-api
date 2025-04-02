@@ -13,7 +13,7 @@ export const allowedEnvs = {
 type EnvType = (typeof allowedEnvs)[keyof typeof allowedEnvs];
 
 const getEnv = (env: string | undefined): EnvType => {
-    if (env == null || !Object.values(allowedEnvs).includes(env as EnvType)) {
+    if (!Object.values(allowedEnvs).includes(env as EnvType)) {
         throw new Error(
             `Invalid ENV value: ${env ?? 'undefined'}. Allowed values are: ${Object.values(allowedEnvs).join(', ')}`,
         );

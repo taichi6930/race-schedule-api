@@ -268,29 +268,26 @@ export class AutoraceRaceController {
                 // raceListをAutoraceRaceDataに変換する
                 const autoraceRaceDataList: AutoraceRaceData[] = raceList
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    .map((race: any) => {
+                    .flatMap((race: any): AutoraceRaceData[] => {
                         try {
-                            return AutoraceRaceData.create(
-                                race.name,
-                                race.stage,
-                                new Date(race.dateTime),
-                                race.location,
-                                race.grade,
-                                Number(race.number),
-                            );
+                            return [
+                                AutoraceRaceData.create(
+                                    race.name,
+                                    race.stage,
+                                    new Date(race.dateTime),
+                                    race.location,
+                                    race.grade,
+                                    Number(race.number),
+                                ),
+                            ];
                         } catch (error) {
                             console.error(
                                 'レース情報の変換中にエラーが発生しました:',
                                 error,
                             );
-                            return null;
+                            return [];
                         }
-                    }) // nullを除外する
-                    .filter(
-                        (
-                            raceData: AutoraceRaceData | null,
-                        ): raceData is AutoraceRaceData => raceData !== null,
-                    );
+                    });
 
                 // レース情報を更新する
                 await this.autoraceRaceDataUseCase.upsertRaceDataList(

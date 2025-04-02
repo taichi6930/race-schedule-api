@@ -85,17 +85,16 @@ export class JraRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してRaceDataのリストを生成
-        return lines
-            .slice(1)
-            .map((line: string) => {
-                try {
-                    const columns = line.split('\r').join('').split(',');
+        return lines.slice(1).flatMap((line: string): JraRaceRecord[] => {
+            try {
+                const columns = line.split('\r').join('').split(',');
 
-                    const updateDate = columns[indices.updateDate]
-                        ? new Date(columns[indices.updateDate])
-                        : getJSTDate(new Date());
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
 
-                    return JraRaceRecord.create(
+                return [
+                    JraRaceRecord.create(
                         columns[indices.id],
                         columns[indices.name],
                         new Date(columns[indices.dateTime]),
@@ -107,15 +106,13 @@ export class JraRaceRepositoryFromStorageImpl
                         Number.parseInt(columns[indices.heldTimes]),
                         Number.parseInt(columns[indices.heldDayTimes]),
                         updateDate,
-                    );
-                } catch (error) {
-                    console.error(error);
-                    return undefined;
-                }
-            })
-            .filter(
-                (raceData): raceData is JraRaceRecord => raceData !== undefined,
-            );
+                    ),
+                ];
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
+        });
     }
 
     /**

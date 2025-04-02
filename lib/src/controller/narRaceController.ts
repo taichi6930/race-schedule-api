@@ -257,31 +257,27 @@ export class NarRaceController {
                 // raceListをNarRaceDataに変換する
                 const narRaceDataList: NarRaceData[] = raceList
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    .map((race: any) => {
+                    .flatMap((race: any) => {
                         try {
-                            console.info(race);
-                            return NarRaceData.create(
-                                race.name,
-                                new Date(race.dateTime),
-                                race.location,
-                                race.surfaceType,
-                                Number(race.distance),
-                                race.grade,
-                                Number(race.number),
-                            );
+                            return [
+                                NarRaceData.create(
+                                    race.name,
+                                    new Date(race.dateTime),
+                                    race.location,
+                                    race.surfaceType,
+                                    Number(race.distance),
+                                    race.grade,
+                                    Number(race.number),
+                                ),
+                            ];
                         } catch (error) {
                             console.error(
                                 'レース情報の変換中にエラーが発生しました:',
                                 error,
                             );
-                            return null;
+                            return [];
                         }
-                    }) // nullを除外する
-                    .filter(
-                        (
-                            raceData: NarRaceData | null,
-                        ): raceData is NarRaceData => raceData !== null,
-                    );
+                    });
 
                 console.info(narRaceDataList);
 

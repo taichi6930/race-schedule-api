@@ -192,17 +192,16 @@ export class KeirinRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してRaceDataのリストを生成
-        return lines
-            .slice(1)
-            .map((line: string) => {
-                try {
-                    const columns = line.split(',');
+        return lines.slice(1).flatMap((line: string): KeirinRaceRecord[] => {
+            try {
+                const columns = line.split(',');
 
-                    const updateDate = columns[indices.updateDate]
-                        ? new Date(columns[indices.updateDate])
-                        : getJSTDate(new Date());
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
 
-                    return KeirinRaceRecord.create(
+                return [
+                    KeirinRaceRecord.create(
                         columns[indices.id],
                         columns[indices.name],
                         columns[indices.stage],
@@ -211,16 +210,13 @@ export class KeirinRaceRepositoryFromStorageImpl
                         columns[indices.grade],
                         Number.parseInt(columns[indices.number]),
                         updateDate,
-                    );
-                } catch (error) {
-                    console.error('KeirinRaceRecord create error', error);
-                    return undefined;
-                }
-            })
-            .filter(
-                (raceData): raceData is KeirinRaceRecord =>
-                    raceData !== undefined,
-            );
+                    ),
+                ];
+            } catch (error) {
+                console.error('KeirinRaceRecord create error', error);
+                return [];
+            }
+        });
     }
 
     /**
@@ -257,7 +253,7 @@ export class KeirinRaceRepositoryFromStorageImpl
         // データ行を解析してKeirinRaceDataのリストを生成
         const keirinRacePlayerRecordList: KeirinRacePlayerRecord[] = lines
             .slice(1)
-            .map((line: string) => {
+            .flatMap((line: string): KeirinRacePlayerRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -265,24 +261,20 @@ export class KeirinRaceRepositoryFromStorageImpl
                         ? new Date(columns[indices.updateDate])
                         : getJSTDate(new Date());
 
-                    return KeirinRacePlayerRecord.create(
-                        columns[indices.id],
-                        columns[indices.raceId],
-                        Number.parseInt(columns[indices.positionNumber]),
-                        Number.parseInt(columns[indices.playerNumber]),
-                        updateDate,
-                    );
+                    return [
+                        KeirinRacePlayerRecord.create(
+                            columns[indices.id],
+                            columns[indices.raceId],
+                            Number.parseInt(columns[indices.positionNumber]),
+                            Number.parseInt(columns[indices.playerNumber]),
+                            updateDate,
+                        ),
+                    ];
                 } catch (error) {
                     console.error('KeirinRacePlayerRecord create error', error);
-                    return undefined;
+                    return [];
                 }
-            })
-            .filter(
-                (
-                    racePlayerRecord,
-                ): racePlayerRecord is KeirinRacePlayerRecord =>
-                    racePlayerRecord !== undefined,
-            );
+            });
         return keirinRacePlayerRecordList;
     }
 }
