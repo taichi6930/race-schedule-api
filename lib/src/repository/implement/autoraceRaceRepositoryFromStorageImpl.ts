@@ -192,17 +192,16 @@ export class AutoraceRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してRaceDataのリストを生成
-        return lines
-            .slice(1)
-            .map((line: string) => {
-                try {
-                    const columns = line.split(',');
+        return lines.slice(1).flatMap((line: string): AutoraceRaceRecord[] => {
+            try {
+                const columns = line.split(',');
 
-                    const updateDate = columns[indices.updateDate]
-                        ? new Date(columns[indices.updateDate])
-                        : getJSTDate(new Date());
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
 
-                    return AutoraceRaceRecord.create(
+                return [
+                    AutoraceRaceRecord.create(
                         columns[indices.id],
                         columns[indices.name],
                         columns[indices.stage],
@@ -211,16 +210,13 @@ export class AutoraceRaceRepositoryFromStorageImpl
                         columns[indices.grade],
                         Number.parseInt(columns[indices.number]),
                         updateDate,
-                    );
-                } catch (error) {
-                    console.error('AutoraceRaceRecord create error', error);
-                    return undefined;
-                }
-            })
-            .filter(
-                (raceData): raceData is AutoraceRaceRecord =>
-                    raceData !== undefined,
-            );
+                    ),
+                ];
+            } catch (error) {
+                console.error('AutoraceRaceRecord create error', error);
+                return [];
+            }
+        });
     }
 
     /**
@@ -257,7 +253,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
         // データ行を解析してAutoraceRaceDataのリストを生成
         const autoraceRacePlayerRecordList: AutoraceRacePlayerRecord[] = lines
             .slice(1)
-            .map((line: string) => {
+            .flatMap((line: string): AutoraceRacePlayerRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -265,27 +261,23 @@ export class AutoraceRaceRepositoryFromStorageImpl
                         ? new Date(columns[indices.updateDate])
                         : getJSTDate(new Date());
 
-                    return AutoraceRacePlayerRecord.create(
-                        columns[indices.id],
-                        columns[indices.raceId],
-                        Number.parseInt(columns[indices.positionNumber]),
-                        Number.parseInt(columns[indices.playerNumber]),
-                        updateDate,
-                    );
+                    return [
+                        AutoraceRacePlayerRecord.create(
+                            columns[indices.id],
+                            columns[indices.raceId],
+                            Number.parseInt(columns[indices.positionNumber]),
+                            Number.parseInt(columns[indices.playerNumber]),
+                            updateDate,
+                        ),
+                    ];
                 } catch (error) {
                     console.error(
                         'AutoraceRacePlayerRecord create error',
                         error,
                     );
-                    return undefined;
+                    return [];
                 }
-            })
-            .filter(
-                (
-                    racePlayerRecord,
-                ): racePlayerRecord is AutoraceRacePlayerRecord =>
-                    racePlayerRecord !== undefined,
-            );
+            });
         return autoraceRacePlayerRecordList;
     }
 }

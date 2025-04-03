@@ -127,18 +127,17 @@ export class WorldRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してRaceDataのリストを生成
-        return lines
-            .slice(1)
-            .map((line: string) => {
-                try {
-                    const columns = line.split(',');
+        return lines.slice(1).flatMap((line: string): WorldRaceRecord[] => {
+            try {
+                const columns = line.split(',');
 
-                    // updateDateが存在しない場合は現在時刻を設定
-                    const updateDate = columns[indices.updateDate]
-                        ? new Date(columns[indices.updateDate])
-                        : getJSTDate(new Date());
+                // updateDateが存在しない場合は現在時刻を設定
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
 
-                    return WorldRaceRecord.create(
+                return [
+                    WorldRaceRecord.create(
                         columns[indices.id],
                         columns[indices.name],
                         new Date(columns[indices.dateTime]),
@@ -148,15 +147,12 @@ export class WorldRaceRepositoryFromStorageImpl
                         columns[indices.grade],
                         Number.parseInt(columns[indices.number]),
                         updateDate,
-                    );
-                } catch (error) {
-                    console.error(error);
-                    return undefined;
-                }
-            })
-            .filter(
-                (raceData): raceData is WorldRaceRecord =>
-                    raceData !== undefined,
-            );
+                    ),
+                ];
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
+        });
     }
 }
