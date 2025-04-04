@@ -1,43 +1,50 @@
 import 'reflect-metadata';
 
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+
 import type { Database } from 'better-sqlite3';
 
 import { withDatabase } from '../src/utility/sqlite';
+
+interface ScheduleData {
+    id: string;
+    location: string;
+    type: string;
+    date_time: string;
+}
 
 /**
  * データベースの初期化
  */
 const initDatabase = async (): Promise<void> => {
+    console.log('データベースの初期化を開始します...');
+
+    // CSVファイルからデータを読み込む
+    const csvContent = await fs.readFile(
+        path.join(__dirname, '../src/gateway/mockData/csv/nar/placeList.csv'),
+        'utf8',
+    );
+
+    // CSVを解析してデータに変換
+    const lines = csvContent.split('\n');
+    const scheduleData: ScheduleData[] = lines
+        .slice(1) // ヘッダー行をスキップ
+        .filter((line: string) => line.trim() !== '') // 空行を除外
+        .map((line: string) => {
+            const [id, dateTime, location] = line.split(',');
+            return {
+                id: id.trim(),
+                location: location.trim(),
+                type: 'nar',
+                date_time: new Date(dateTime.trim()).toISOString(),
+            };
+        });
+
     return new Promise<void>((resolve) => {
-        console.log('データベースの初期化を開始します...');
-
-        // サンプルのスケジュールデータ
-        const schedulesSampleData = [
-            {
-                id: 'nar2025040427',
-                location: '園田',
-                type: 'nar',
-                date_time: '2025-04-04T00:00:00.000Z',
-            },
-            {
-                id: 'nar2025040528',
-                location: '姫路',
-                type: 'nar',
-                date_time: '2025-04-05T00:00:00.000Z',
-            },
-            {
-                id: 'nar2025040631',
-                location: '高知',
-                type: 'nar',
-                date_time: '2025-04-06T00:00:00.000Z',
-            },
-        ];
-
         withDatabase((db: Database) => {
             // 古いテーブルの削除
-            db.exec(`
-                DROP TABLE IF EXISTS place_schedules;
-            `);
+            db.exec('DROP TABLE IF EXISTS place_schedules;');
 
             // テーブルの作成
             db.exec(`
@@ -57,10 +64,9 @@ const initDatabase = async (): Promise<void> => {
             const now = new Date().toISOString();
 
             // スケジュールデータの登録
-            for (const schedule of schedulesSampleData) {
+            for (const schedule of scheduleData) {
                 db.prepare(
-                    `INSERT INTO place_schedules (id, location, type, date_time, created_at, updated_at)
-                    VALUES (?, ?, ?, ?, ?, ?)`,
+                    'INSERT INTO place_schedules (id, location, type, date_time, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)',
                 ).run(
                     schedule.id,
                     schedule.location,
