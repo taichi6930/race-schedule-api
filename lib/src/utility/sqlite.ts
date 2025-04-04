@@ -1,6 +1,9 @@
+import fs from 'node:fs';
 import path from 'node:path';
 
 import BetterSQLite3 from 'better-sqlite3';
+
+import { allowedEnvs, ENV } from './env';
 
 type DB = BetterSQLite3.Database;
 
@@ -15,7 +18,21 @@ export class SQLiteManager {
     private readonly dbPath: string;
 
     private constructor() {
-        this.dbPath = path.join('/mnt/sqlite', 'race_schedule.db');
+        // 環境に応じてDBのパスを変更
+        this.dbPath =
+            ENV === allowedEnvs.local
+                ? path.join(process.cwd(), 'data', 'race_schedule.db')
+                : path.join('/mnt/sqlite', 'race_schedule.db');
+
+        // ローカル環境の場合、データディレクトリを作成
+        if (ENV === allowedEnvs.local) {
+            const dataDir = path.join(process.cwd(), 'data');
+            if (!fs.existsSync(dataDir)) {
+                fs.mkdirSync(dataDir, { recursive: true });
+                console.log(`データディレクトリを作成しました: ${dataDir}`);
+            }
+            console.log(`SQLiteデータベースパス: ${this.dbPath}`);
+        }
     }
 
     public static getInstance(): SQLiteManager {
@@ -66,10 +83,9 @@ export class SQLiteManager {
             db.exec(`
                 CREATE TABLE IF NOT EXISTS places (
                     id TEXT PRIMARY KEY,
-                    name TEXT NOT NULL,
+                    dateTime TEXT NOT NULL,
+                    location TEXT NOT NULL,
                     type TEXT NOT NULL,
-                    address TEXT,
-                    created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
                 )
             `);

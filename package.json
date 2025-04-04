@@ -27,14 +27,9 @@
         "prepare": "husky install",
         "type-check": "tsc --noEmit",
         "typedoc": "npx typedoc --out ./docs ./lib/src",
-        "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check"
-    },
-    "lint-staged": {
-        "*.{ts,tsx}": [
-            "tsc --noEmit",
-            "eslint --fix",
-            "prettier --write"
-        ]
+        "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check",
+        "sqlite:init": "ts-node lib/scripts/init-sqlite.ts",
+        "sqlite:query": "ts-node lib/scripts/query-sqlite.ts"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.782.0",
