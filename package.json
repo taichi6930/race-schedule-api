@@ -39,7 +39,7 @@
         "@types/express": "^5.0.1",
         "aws-cdk-lib": "2.187.0",
         "aws-lambda": "^1.0.7",
-        "better-sqlite3": "^9.6.0",
+        "better-sqlite3": "^11.9.1",
         "cheerio": "^1.0.0",
         "constructs": "^10.4.2",
         "csv-writer": "^1.6.0",
@@ -88,5 +88,10 @@
         "ts-node": "^10.9.2",
         "typescript": "~5.8.2",
         "typescript-eslint": "^8.29.0"
+    },
+    "pnpm": {
+        "ignoredBuiltDependencies": [
+            "better-sqlite3"
+        ]
     }
 }

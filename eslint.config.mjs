@@ -167,4 +167,10 @@ export default [
             'unicorn/no-useless-undefined': 'off', // ✅ 不要なundefinedの使用を許可
         },
     },
+    {
+        files: ['**/lib/scripts/check-tables.ts'],
+        rules: {
+            '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
+        },
+    },
 ];
