@@ -1,29 +1,23 @@
 import '../../utility/format';
 
 import type { Database } from 'better-sqlite3';
-import { injectable } from 'tsyringe';
-import { z } from 'zod';
+import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../../domain/narPlaceData';
+import { NarPlaceMapper } from '../../mapper/narPlaceMapper';
 import { Logger } from '../../utility/logger';
 import { withDatabase } from '../../utility/sqlite';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
-// Zodスキーマの定義
-const NarPlaceRecordSchema = z.object({
-    id: z.string(),
-    dateTime: z.string(),
-    location: z.string(),
-    created_at: z.string(),
-    updated_at: z.string(),
-});
-
 @injectable()
 export class NarPlaceRepositoryFromSqliteImpl
     implements IPlaceRepository<NarPlaceEntity>
 {
+    public constructor(
+        @inject(NarPlaceMapper) private readonly mapper: NarPlaceMapper,
+    ) {}
+
     /**
      * 開催データを取得する
      * このメソッドで日付の範囲を指定して開催データを取得する
@@ -35,32 +29,16 @@ export class NarPlaceRepositoryFromSqliteImpl
     ): Promise<NarPlaceEntity[]> {
         const result = await Promise.resolve(
             withDatabase((db: Database) => {
-                const sql = `
-                    SELECT id, dateTime, location, created_at, updated_at
-                    FROM places 
-                    WHERE dateTime BETWEEN ? AND ?
-                `;
+                const { fetchStmt } = this.mapper.prepareStatements(db);
+                const params = {
+                    startDate: searchFilter.startDate.toISOString(),
+                    endDate: searchFilter.finishDate.toISOString(),
+                };
 
-                const stmt = db.prepare(sql);
-                const rows = stmt.all({
-                    1: searchFilter.startDate.toISOString(),
-                    2: searchFilter.finishDate.toISOString(),
-                });
-
-                // 型安全な変換
-                const validRows = z.array(NarPlaceRecordSchema).parse(rows);
-
-                return validRows.map((row) => {
-                    const placeData = NarPlaceData.create(
-                        new Date(row.dateTime),
-                        row.location,
-                    );
-                    return NarPlaceEntity.create(
-                        row.id,
-                        placeData,
-                        new Date(row.updated_at),
-                    );
-                });
+                const rows = fetchStmt.all(params);
+                return (Array.isArray(rows) ? rows : []).map((row) =>
+                    this.mapper.toEntity(row),
+                );
             }),
         );
 
@@ -75,43 +53,21 @@ export class NarPlaceRepositoryFromSqliteImpl
     public async registerPlaceEntityList(
         placeEntityList: NarPlaceEntity[],
     ): Promise<void> {
-        const dbOperation = (db: Database): void => {
-            const insertSql = `
-                INSERT OR REPLACE INTO places (
-                    id,
-                    dateTime,
-                    location,
-                    updated_at
-                ) VALUES (
-                    @id,
-                    @dateTime,
-                    @location,
-                    @updated_at
-                )
-            `;
+        // データベース操作をPromiseで包む
+        const dbOperation = new Promise<void>((resolve) => {
+            withDatabase((db: Database) => {
+                const { upsertStmt } = this.mapper.prepareStatements(db);
 
-            const stmt = db.prepare(insertSql);
+                db.transaction((entities: NarPlaceEntity[]) => {
+                    for (const entity of entities) {
+                        upsertStmt.run(this.mapper.toParams(entity));
+                    }
+                })(placeEntityList);
 
-            const insertPlace = db.transaction((entities: NarPlaceEntity[]) => {
-                for (const entity of entities) {
-                    const params = {
-                        id: entity.id,
-                        dateTime: entity.placeData.dateTime.toISOString(),
-                        location: entity.placeData.location,
-                        updated_at: entity.updateDate.toISOString(),
-                    };
-                    stmt.run(params);
-                }
-            });
-
-            insertPlace(placeEntityList);
-        };
-
-        await new Promise<void>((resolve) => {
-            withDatabase((db) => {
-                dbOperation(db);
                 resolve();
             });
         });
+
+        await dbOperation;
     }
 }

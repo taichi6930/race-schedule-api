@@ -1,15 +1,19 @@
 import 'reflect-metadata';
+import '../container/repository';
 
 import { container } from 'tsyringe';
 
 import { SearchPlaceFilterEntity } from '../src/repository/entity/searchPlaceFilterEntity';
-import { NarPlaceRepositoryFromSqliteImpl } from '../src/repository/implement/narPlaceRepositoryFromSqliteImpl';
+import type { NarPlaceRepositoryFromSqliteImpl } from '../src/repository/implement/narPlaceRepositoryFromSqliteImpl';
 
 /**
  * データベースのクエリ実行
  */
 const queryDatabase = async (): Promise<void> => {
-    const repository = container.resolve(NarPlaceRepositoryFromSqliteImpl);
+    const repository =
+        container.resolve<NarPlaceRepositoryFromSqliteImpl>(
+            'NarPlaceRepository',
+        );
 
     const searchFilter = new SearchPlaceFilterEntity(
         new Date('2025-04-01'),

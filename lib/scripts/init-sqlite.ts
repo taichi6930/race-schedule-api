@@ -1,11 +1,12 @@
 import 'reflect-metadata';
+import '../container/repository';
 
 import type { Database } from 'better-sqlite3';
 import { container } from 'tsyringe';
 
 import { NarPlaceData } from '../src/domain/narPlaceData';
 import { NarPlaceEntity } from '../src/repository/entity/narPlaceEntity';
-import { NarPlaceRepositoryFromSqliteImpl } from '../src/repository/implement/narPlaceRepositoryFromSqliteImpl';
+import type { NarPlaceRepositoryFromSqliteImpl } from '../src/repository/implement/narPlaceRepositoryFromSqliteImpl';
 import { withDatabase } from '../src/utility/sqlite';
 
 /**
@@ -31,7 +32,10 @@ const initDatabase = async (): Promise<void> => {
     });
 
     // サンプルデータの投入
-    const repository = container.resolve(NarPlaceRepositoryFromSqliteImpl);
+    const repository =
+        container.resolve<NarPlaceRepositoryFromSqliteImpl>(
+            'NarPlaceRepository',
+        );
     const sampleData = [
         {
             dateTime: new Date('2025-04-04T10:00:00.000Z'),
