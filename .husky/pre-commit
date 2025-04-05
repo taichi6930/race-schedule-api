@@ -1,13 +1,7 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/sh
 
 # node_modulesのbinディレクトリをPATHに追加
 export PATH="./node_modules/.bin:$PATH"
 
-# lint-stagedの実行
-if command -v npx >/dev/null 2>&1; then
-  npx lint-staged
-else
-  echo "Warning: npx not found in PATH. Trying with node_modules directly..."
-  ./node_modules/.bin/lint-staged
-fi
+# lint-stagedを直接実行
+node_modules/.bin/lint-staged
