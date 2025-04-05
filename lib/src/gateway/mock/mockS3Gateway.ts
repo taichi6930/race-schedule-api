@@ -60,6 +60,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * @param {string} folderPath
      */
     public constructor(_: string, folderPath: string) {
+        new Error('MockS3Gatewayはモックのため、実際のS3には接続しません');
         this.folderPath = folderPath;
         (async () => {
             // 既にmockStorageに値が入っている場合は何もしない

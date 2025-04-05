@@ -9,6 +9,7 @@ import {
 import { createObjectCsvWriter as createCsvWriter } from 'csv-writer';
 import { injectable } from 'tsyringe';
 
+import { allowedEnvs, ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import { IS3Gateway } from '../interface/iS3Gateway';
 import { IRecord } from '../record/iRecord';
@@ -43,8 +44,25 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * @param {string} folderPath
      */
     public constructor(bucketName: string, folderPath: string) {
-        // S3Clientの初期化 東京リージョン
-        this.s3Client = new S3Client({ region: 'ap-northeast-1' });
+        const isLocal =
+            ENV === allowedEnvs.local ||
+            ENV === allowedEnvs.localNoInitData ||
+            ENV === allowedEnvs.localInitMadeData;
+
+        // ローカル環境の場合はLocalStackのエンドポイントを使用
+        const clientConfig = {
+            region: 'ap-northeast-1',
+            ...(isLocal && {
+                endpoint: 'http://localhost:4566',
+                credentials: {
+                    accessKeyId: 'test',
+                    secretAccessKey: 'test',
+                },
+                forcePathStyle: true,
+            }),
+        };
+
+        this.s3Client = new S3Client(clientConfig);
         this.bucketName = bucketName;
         this.folderPath = folderPath;
     }
