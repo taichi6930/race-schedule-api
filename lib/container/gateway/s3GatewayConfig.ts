@@ -28,15 +28,13 @@ const getS3Config = <T extends IRecord<T>>(
         case allowedEnvs.production: {
             return new S3Gateway<T>(bucketName, folderPath);
         }
-        case allowedEnvs.test: {
-            return new S3Gateway<T>(`test-${bucketName}`, folderPath);
-        }
         case allowedEnvs.local:
-        case allowedEnvs.localNoInitData: {
+        case allowedEnvs.localInitMadeData: {
             return new S3Gateway<T>(bucketName, folderPath);
         }
-        case allowedEnvs.localInitMadeData:
-        case allowedEnvs.githubActionsCi: {
+        case allowedEnvs.test:
+        case allowedEnvs.githubActionsCi:
+        case allowedEnvs.localNoInitData: {
             return new MockS3Gateway<T>(bucketName, folderPath);
         }
         default: {
@@ -45,7 +43,6 @@ const getS3Config = <T extends IRecord<T>>(
     }
 };
 
-// s3Gatewayの実装クラスをDIコンテナに登錄する
 container.register<IS3Gateway<KeirinPlaceRecord>>('KeirinPlaceS3Gateway', {
     useFactory: () =>
         getS3Config<KeirinPlaceRecord>('race-schedule-bucket', 'keirin/'),
