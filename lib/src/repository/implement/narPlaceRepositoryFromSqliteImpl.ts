@@ -15,7 +15,7 @@ export class NarPlaceRepositoryFromSqliteImpl
     implements IPlaceRepository<NarPlaceEntity>
 {
     public constructor(
-        @inject(NarPlaceMapper) private readonly mapper: NarPlaceMapper,
+        @inject('NarPlaceMapper') private readonly mapper: NarPlaceMapper,
     ) {}
 
     /**
