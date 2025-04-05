@@ -21,14 +21,19 @@ const initDatabase = async (): Promise<void> => {
     console.log('データベースの初期化を開始します...');
 
     // CSVファイルからデータを読み込む
-    const csvContent = await fs.readFile(
+    const narCsvContent = await fs.readFile(
         path.join(__dirname, '../src/gateway/mockData/csv/nar/placeList.csv'),
         'utf8',
     );
 
+    const jraCsvContent = await fs.readFile(
+        path.join(__dirname, '../src/gateway/mockData/csv/jra/placeList.csv'),
+        'utf8',
+    );
+
     // CSVを解析してデータに変換
-    const lines = csvContent.split('\n');
-    const scheduleData: ScheduleData[] = lines
+    const narLines = narCsvContent.split('\n');
+    const narScheduleData: ScheduleData[] = narLines
         .slice(1) // ヘッダー行をスキップ
         .filter((line: string) => line.trim() !== '') // 空行を除外
         .map((line: string) => {
@@ -40,6 +45,25 @@ const initDatabase = async (): Promise<void> => {
                 date_time: new Date(dateTime.trim()).toISOString(),
             };
         });
+
+    const jraLines = jraCsvContent.split('\n');
+    const jraScheduleData: ScheduleData[] = jraLines
+        .slice(1) // ヘッダー行をスキップ
+        .filter((line: string) => line.trim() !== '') // 空行を除外
+        .map((line: string) => {
+            const [id, dateTime, location] = line.split(',');
+            return {
+                id: id.trim(),
+                location: location.trim(),
+                type: 'jra',
+                date_time: new Date(dateTime.trim()).toISOString(),
+            };
+        });
+    // データを結合
+    const scheduleData: ScheduleData[] = [
+        ...narScheduleData,
+        ...jraScheduleData,
+    ];
 
     return new Promise<void>((resolve) => {
         withDatabase((db: Database) => {

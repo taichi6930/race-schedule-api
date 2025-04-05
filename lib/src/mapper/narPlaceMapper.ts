@@ -20,7 +20,7 @@ const PlaceRecordSchema = z.object({
  */
 @injectable()
 export class NarPlaceMapper {
-    private readonly TABLE_NAME = 'places';
+    private readonly TABLE_NAME = 'place_schedules';
     private readonly TYPE = 'nar';
 
     /**
@@ -28,10 +28,10 @@ export class NarPlaceMapper {
      */
     public createFetchQuery(): string {
         return `
-            SELECT id, dateTime, location, updated_at
+            SELECT id, date_time as dateTime, location, updated_at
             FROM ${this.TABLE_NAME}
             WHERE type = '${this.TYPE}'
-            AND dateTime BETWEEN @startDate AND @endDate
+            AND date_time BETWEEN @startDate AND @endDate
         `;
     }
 
@@ -42,15 +42,17 @@ export class NarPlaceMapper {
         return `
             INSERT OR REPLACE INTO ${this.TABLE_NAME} (
                 id,
-                dateTime,
+                date_time,
                 location,
                 type,
+                created_at,
                 updated_at
             ) VALUES (
                 @id,
                 @dateTime,
                 @location,
                 @type,
+                @updated_at,
                 @updated_at
             )
         `;
