@@ -32,10 +32,10 @@ const getS3Config = <T extends IRecord<T>>(
             return new S3Gateway<T>(`test-${bucketName}`, folderPath);
         }
         case allowedEnvs.local:
-        case allowedEnvs.localNoInitData:
-        case allowedEnvs.localInitMadeData: {
+        case allowedEnvs.localNoInitData: {
             return new S3Gateway<T>(bucketName, folderPath);
         }
+        case allowedEnvs.localInitMadeData:
         case allowedEnvs.githubActionsCi: {
             return new MockS3Gateway<T>(bucketName, folderPath);
         }
