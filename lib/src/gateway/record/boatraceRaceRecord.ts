@@ -28,6 +28,7 @@ import {
     type BoatraceRaceStage,
     validateBoatraceRaceStage,
 } from '../../utility/data/boatrace/boatraceRaceStage';
+import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -93,9 +94,7 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
-            throw new Error(
-                `BoatraceRaceRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
-            );
+            throw new Error(createErrorMessage('BoatraceRaceRecord', error));
         }
     }
 

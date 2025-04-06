@@ -28,6 +28,7 @@ import {
     type AutoraceRaceStage,
     validateAutoraceRaceStage,
 } from '../../utility/data/autorace/autoraceRaceStage';
+import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -92,9 +93,7 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
-            throw new Error(
-                `AutoraceRaceRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
-            );
+            throw new Error(createErrorMessage('AutoraceRaceRecord', error));
         }
     }
 

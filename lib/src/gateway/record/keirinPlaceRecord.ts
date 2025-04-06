@@ -16,6 +16,7 @@ import {
     type KeirinRaceDateTime,
     validateKeirinRaceDateTime,
 } from '../../utility/data/keirin/keirinRaceDateTime';
+import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -66,7 +67,7 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `KeirinPlaceRecord create error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                createErrorMessage('KeirinPlaceRecord create error', error),
             );
         }
     }

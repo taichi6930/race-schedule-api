@@ -28,6 +28,7 @@ import {
     type KeirinRaceStage,
     validateKeirinRaceStage,
 } from '../../utility/data/keirin/keirinRaceStage';
+import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -94,7 +95,7 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `Failed to create KeirinRaceRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                createErrorMessage('Failed to create KeirinRaceRecord', error),
             );
         }
     }
