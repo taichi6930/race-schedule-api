@@ -24,14 +24,13 @@
         "lint": "eslint '**/*.{ts,tsx}'",
         "lint:fix": "eslint --fix '**/*.{ts,tsx}' && prettier --write .",
         "lint:check": "eslint --quiet '**/*.{ts,tsx}'",
-        "prepare": "husky install",
+        "prepare": "husky",
         "type-check": "tsc --noEmit",
         "typedoc": "npx typedoc --out ./docs ./lib/src",
         "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check"
     },
     "lint-staged": {
         "*.{ts,tsx}": [
-            "tsc --noEmit",
             "eslint --fix",
             "prettier --write"
         ]

@@ -9,39 +9,36 @@ import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinP
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
+import { allowedEnvs } from '../../../../lib/src/utility/env';
+import { SkipEnv } from '../../../utility/testDecorators';
 
-if (ENV === allowedEnvs.githubActionsCi) {
-    describe('KeirinRaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
-        });
+describe('KeirinRaceRepositoryFromHtmlImpl', () => {
+    let raceDataHtmlGateway: IKeirinRaceDataHtmlGateway;
+    let repository: KeirinRaceRepositoryFromHtmlImpl;
+
+    beforeEach(() => {
+        // gatwayのモックを作成
+        raceDataHtmlGateway = new MockKeirinRaceDataHtmlGateway();
+
+        // DIコンテナにモックを登録
+        container.registerInstance(
+            'KeirinRaceDataHtmlGateway',
+            raceDataHtmlGateway,
+        );
+
+        // テスト対象のリポジトリを生成
+        repository = container.resolve(KeirinRaceRepositoryFromHtmlImpl);
     });
-} else {
-    describe('KeirinRaceRepositoryFromHtmlImpl', () => {
-        let raceDataHtmlGateway: IKeirinRaceDataHtmlGateway;
-        let repository: KeirinRaceRepositoryFromHtmlImpl;
 
-        beforeEach(() => {
-            // gatwayのモックを作成
-            raceDataHtmlGateway = new MockKeirinRaceDataHtmlGateway();
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
 
-            // DIコンテナにモックを登録
-            container.registerInstance(
-                'KeirinRaceDataHtmlGateway',
-                raceDataHtmlGateway,
-            );
-
-            // テスト対象のリポジトリを生成
-            repository = container.resolve(KeirinRaceRepositoryFromHtmlImpl);
-        });
-
-        afterEach(() => {
-            jest.clearAllMocks();
-        });
-
-        describe('fetchRaceList', () => {
-            test('正しいレース開催データを取得できる', async () => {
+    describe('fetchRaceList', () => {
+        SkipEnv(
+            '正しいレース開催データを取得できる',
+            [allowedEnvs.githubActionsCi],
+            async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
                     new SearchRaceFilterEntity<KeirinPlaceEntity>(
                         new Date('2024-10-20'),
@@ -59,16 +56,20 @@ if (ENV === allowedEnvs.githubActionsCi) {
                     ),
                 );
                 expect(raceEntityList).toHaveLength(12);
-            });
-        });
+            },
+        );
+    });
 
-        describe('registerRaceList', () => {
-            test('htmlなので登録できない', async () => {
+    describe('registerRaceList', () => {
+        SkipEnv(
+            'htmlなので登録できない',
+            [allowedEnvs.githubActionsCi],
+            async () => {
                 // テスト実行
                 await expect(
                     repository.registerRaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            });
-        });
+            },
+        );
     });
-}
+});

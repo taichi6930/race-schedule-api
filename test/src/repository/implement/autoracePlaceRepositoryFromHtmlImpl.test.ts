@@ -6,39 +6,36 @@ import type { IAutoracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/
 import { MockAutoracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockAutoracePlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { AutoracePlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
-import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
+import { allowedEnvs } from '../../../../lib/src/utility/env';
+import { SkipEnv } from '../../../utility/testDecorators';
 
-if (ENV === allowedEnvs.githubActionsCi) {
-    describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
-        });
+describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
+    let placeDataHtmlgateway: IAutoracePlaceDataHtmlGateway;
+    let repository: AutoracePlaceRepositoryFromHtmlImpl;
+
+    beforeEach(() => {
+        // gatwayのモックを作成
+        placeDataHtmlgateway = new MockAutoracePlaceDataHtmlGateway();
+
+        // DIコンテナにモックを登録
+        container.registerInstance(
+            'AutoracePlaceDataHtmlGateway',
+            placeDataHtmlgateway,
+        );
+
+        // テスト対象のリポジトリを生成
+        repository = container.resolve(AutoracePlaceRepositoryFromHtmlImpl);
     });
-} else {
-    describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
-        let placeDataHtmlgateway: IAutoracePlaceDataHtmlGateway;
-        let repository: AutoracePlaceRepositoryFromHtmlImpl;
 
-        beforeEach(() => {
-            // gatwayのモックを作成
-            placeDataHtmlgateway = new MockAutoracePlaceDataHtmlGateway();
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
 
-            // DIコンテナにモックを登録
-            container.registerInstance(
-                'AutoracePlaceDataHtmlGateway',
-                placeDataHtmlgateway,
-            );
-
-            // テスト対象のリポジトリを生成
-            repository = container.resolve(AutoracePlaceRepositoryFromHtmlImpl);
-        });
-
-        afterEach(() => {
-            jest.clearAllMocks();
-        });
-
-        describe('fetchPlaceList', () => {
-            test('正しい開催場データを取得できる', async () => {
+    describe('fetchPlaceList', () => {
+        SkipEnv(
+            '正しい開催場データを取得できる',
+            [allowedEnvs.githubActionsCi],
+            async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
                         new Date('2024-11-01'),
@@ -46,16 +43,20 @@ if (ENV === allowedEnvs.githubActionsCi) {
                     ),
                 );
                 expect(placeEntityList).toHaveLength(60);
-            });
-        });
+            },
+        );
+    });
 
-        describe('registerPlaceList', () => {
-            test('htmlなので登録できない', async () => {
+    describe('registerPlaceList', () => {
+        SkipEnv(
+            'htmlなので登録できない',
+            [allowedEnvs.githubActionsCi],
+            async () => {
                 // テスト実行
                 await expect(
                     repository.registerPlaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            });
-        });
+            },
+        );
     });
-}
+});

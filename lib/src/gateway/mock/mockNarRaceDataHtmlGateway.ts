@@ -1,4 +1,4 @@
-import * as fs from 'node:fs';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 
 import { format } from 'date-fns';
@@ -28,8 +28,8 @@ export class MockNarRaceDataHtmlGateway implements INarRaceDataHtmlGateway {
             const testHtmlUrl = `../mockData/html/nar/race/${format(date, 'yyyyMMdd')}${NarBabacodeMap[place]}.html`;
             // lib/src/gateway/mockData/html/nar/placeの中にあるhtmlを取得
             const htmlFilePath = path.join(__dirname, testHtmlUrl);
-            const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
-            return await Promise.resolve(htmlContent);
+            const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
+            return htmlContent;
         } catch (error) {
             console.debug('htmlを取得できませんでした', error);
             throw new Error('htmlを取得できませんでした');

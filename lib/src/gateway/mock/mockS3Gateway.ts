@@ -1,5 +1,5 @@
 /* eslint-disable */
-import fs from 'node:fs';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 
 import { format } from 'date-fns';
@@ -165,7 +165,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                             __dirname,
                             `../mockData/csv/${csvPath}`,
                         );
-                        const data = fs.readFileSync(_csvPath, 'utf8');
+                        const data = await fs.readFile(_csvPath, 'utf8');
                         MockS3Gateway.mockStorage.set(csvPath, data);
                         console.log(
                             `MockS3Gateway: ${csvPath}のデータを読み込みました`,
@@ -223,7 +223,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                             __dirname,
                             `../mockData/csv/${csvPath}`,
                         );
-                        const data = fs.readFileSync(_csvPath, 'utf8');
+                        const data = await fs.readFile(_csvPath, 'utf8');
                         MockS3Gateway.mockStorage.set(csvPath, data);
                     } catch (error) {
                         console.error(

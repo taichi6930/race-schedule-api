@@ -6,39 +6,35 @@ import type { IJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/inter
 import { MockJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockJraPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
-import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
+import { allowedEnvs, SkipEnv } from '../../../utility/testDecorators';
 
-if (ENV === allowedEnvs.githubActionsCi) {
-    describe('JraPlaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
-        });
+describe('JraPlaceRepositoryFromHtmlImpl', () => {
+    let placeDataHtmlgateway: IJraPlaceDataHtmlGateway;
+    let repository: JraPlaceRepositoryFromHtmlImpl;
+
+    beforeEach(() => {
+        // gatwayのモックを作成
+        placeDataHtmlgateway = new MockJraPlaceDataHtmlGateway();
+
+        // DIコンテナにモックを登録
+        container.registerInstance(
+            'JraPlaceDataHtmlGateway',
+            placeDataHtmlgateway,
+        );
+
+        // テスト対象のリポジトリを生成
+        repository = container.resolve(JraPlaceRepositoryFromHtmlImpl);
     });
-} else {
-    describe('JraPlaceRepositoryFromHtmlImpl', () => {
-        let placeDataHtmlgateway: IJraPlaceDataHtmlGateway;
-        let repository: JraPlaceRepositoryFromHtmlImpl;
 
-        beforeEach(() => {
-            // gatwayのモックを作成
-            placeDataHtmlgateway = new MockJraPlaceDataHtmlGateway();
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
 
-            // DIコンテナにモックを登録
-            container.registerInstance(
-                'JraPlaceDataHtmlGateway',
-                placeDataHtmlgateway,
-            );
-
-            // テスト対象のリポジトリを生成
-            repository = container.resolve(JraPlaceRepositoryFromHtmlImpl);
-        });
-
-        afterEach(() => {
-            jest.clearAllMocks();
-        });
-
-        describe('fetchPlaceList', () => {
-            test('正しい開催場データを取得できる', async () => {
+    describe('fetchPlaceList', () => {
+        SkipEnv(
+            '正しい開催場データを取得できる',
+            [allowedEnvs.githubActionsCi],
+            async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
                         new Date('2024-01-01'),
@@ -46,16 +42,20 @@ if (ENV === allowedEnvs.githubActionsCi) {
                     ),
                 );
                 expect(placeEntityList).toHaveLength(288);
-            });
-        });
+            },
+        );
+    });
 
-        describe('registerPlaceList', () => {
-            test('htmlなので登録できない', async () => {
+    describe('registerPlaceList', () => {
+        SkipEnv(
+            'htmlなので登録できない',
+            [allowedEnvs.githubActionsCi],
+            async () => {
                 // テスト実行
                 await expect(
                     repository.registerPlaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            });
-        });
+            },
+        );
     });
-}
+});

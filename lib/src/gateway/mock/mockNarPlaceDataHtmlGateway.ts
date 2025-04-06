@@ -1,4 +1,4 @@
-import * as fs from 'node:fs';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 
 import { format } from 'date-fns';
@@ -21,7 +21,7 @@ export class MockNarPlaceDataHtmlGateway implements INarPlaceDataHtmlGateway {
         // lib/src/gateway/mockData/html/nar/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
-        const htmlContent = await fs.promises.readFile(htmlFilePath, 'utf8');
+        const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
         return htmlContent;
     }
 }
