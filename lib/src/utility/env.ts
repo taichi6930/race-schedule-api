@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 export const allowedEnvs = {
@@ -10,7 +10,7 @@ export const allowedEnvs = {
     githubActionsCi: 'GITHUB_ACTIONS_CI', // GitHub Actions CI環境 HTML取得のテストをスキップするため
 } as const;
 
-type EnvType = (typeof allowedEnvs)[keyof typeof allowedEnvs];
+export type EnvType = (typeof allowedEnvs)[keyof typeof allowedEnvs];
 
 const getEnv = (env: string | undefined): EnvType => {
     if (!Object.values(allowedEnvs).includes(env as EnvType)) {
