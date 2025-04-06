@@ -6,7 +6,7 @@ import type { IJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/inter
 import { MockJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockJraPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
-import { SkipGitHubActionsCI } from '../../../utility/testDecorators';
+import { allowedEnvs, SkipEnv } from '../../../utility/testDecorators';
 
 describe('JraPlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: IJraPlaceDataHtmlGateway;
@@ -31,23 +31,31 @@ describe('JraPlaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('fetchPlaceList', () => {
-        SkipGitHubActionsCI('正しい開催場データを取得できる', async () => {
-            const placeEntityList = await repository.fetchPlaceEntityList(
-                new SearchPlaceFilterEntity(
-                    new Date('2024-01-01'),
-                    new Date('2024-12-31'),
-                ),
-            );
-            expect(placeEntityList).toHaveLength(288);
-        });
+        SkipEnv(
+            '正しい開催場データを取得できる',
+            [allowedEnvs.githubActionsCi],
+            async () => {
+                const placeEntityList = await repository.fetchPlaceEntityList(
+                    new SearchPlaceFilterEntity(
+                        new Date('2024-01-01'),
+                        new Date('2024-12-31'),
+                    ),
+                );
+                expect(placeEntityList).toHaveLength(288);
+            },
+        );
     });
 
     describe('registerPlaceList', () => {
-        SkipGitHubActionsCI('htmlなので登録できない', async () => {
-            // テスト実行
-            await expect(
-                repository.registerPlaceEntityList([]),
-            ).rejects.toThrow('HTMLにはデータを登録出来ません');
-        });
+        SkipEnv(
+            'htmlなので登録できない',
+            [allowedEnvs.githubActionsCi],
+            async () => {
+                // テスト実行
+                await expect(
+                    repository.registerPlaceEntityList([]),
+                ).rejects.toThrow('HTMLにはデータを登録出来ません');
+            },
+        );
     });
 });

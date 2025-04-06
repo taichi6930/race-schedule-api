@@ -9,7 +9,8 @@ import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autor
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { SkipGitHubActionsCI } from '../../../utility/testDecorators';
+import { allowedEnvs } from '../../../../lib/src/utility/env';
+import { SkipEnv } from '../../../utility/testDecorators';
 
 describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IAutoraceRaceDataHtmlGateway;
@@ -34,33 +35,41 @@ describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('fetchRaceList', () => {
-        SkipGitHubActionsCI('レース開催データを正常に取得できる', async () => {
-            const raceEntityList = await repository.fetchRaceEntityList(
-                new SearchRaceFilterEntity<AutoracePlaceEntity>(
-                    new Date('2024-11-01'),
-                    new Date('2024-11-30'),
-                    [
-                        AutoracePlaceEntity.createWithoutId(
-                            AutoracePlaceData.create(
-                                new Date('2024-11-04'),
-                                '川口',
-                                'SG',
+        SkipEnv(
+            'レース開催データを正常に取得できる',
+            [allowedEnvs.githubActionsCi],
+            async () => {
+                const raceEntityList = await repository.fetchRaceEntityList(
+                    new SearchRaceFilterEntity<AutoracePlaceEntity>(
+                        new Date('2024-11-01'),
+                        new Date('2024-11-30'),
+                        [
+                            AutoracePlaceEntity.createWithoutId(
+                                AutoracePlaceData.create(
+                                    new Date('2024-11-04'),
+                                    '川口',
+                                    'SG',
+                                ),
+                                getJSTDate(new Date()),
                             ),
-                            getJSTDate(new Date()),
-                        ),
-                    ],
-                ),
-            );
-            expect(raceEntityList).toHaveLength(12);
-        });
+                        ],
+                    ),
+                );
+                expect(raceEntityList).toHaveLength(12);
+            },
+        );
     });
 
     describe('registerRaceList', () => {
-        SkipGitHubActionsCI('htmlなので登録できない', async () => {
-            // テスト実行
-            await expect(repository.registerRaceEntityList([])).rejects.toThrow(
-                'HTMLにはデータを登録出来ません',
-            );
-        });
+        SkipEnv(
+            'htmlなので登録できない',
+            [allowedEnvs.githubActionsCi],
+            async () => {
+                // テスト実行
+                await expect(
+                    repository.registerRaceEntityList([]),
+                ).rejects.toThrow('HTMLにはデータを登録出来ません');
+            },
+        );
     });
 });

@@ -1,5 +1,8 @@
 import type { EnvType } from '../../lib/src/utility/env';
-import { allowedEnvs, ENV } from '../../lib/src/utility/env';
+import { ENV } from '../../lib/src/utility/env';
+
+// 環境変数の定義をexport
+export { allowedEnvs } from '../../lib/src/utility/env';
 
 /**
  * すべての環境でテストを実行するデコレータ関数
@@ -42,14 +45,4 @@ export function SkipEnv(
     } else {
         it(name, fn);
     }
-}
-
-/**
- * GitHub Actions CI環境以外でテストを実行するデコレータ関数
- */
-export function SkipGitHubActionsCI(
-    name: string,
-    fn: jest.ProvidesCallback,
-): void {
-    SkipEnv(name, [allowedEnvs.githubActionsCi], fn);
 }

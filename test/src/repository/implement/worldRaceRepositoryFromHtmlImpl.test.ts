@@ -7,7 +7,8 @@ import { MockWorldRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/m
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl';
-import { SkipGitHubActionsCI } from '../../../utility/testDecorators';
+import { allowedEnvs } from '../../../../lib/src/utility/env';
+import { SkipEnv } from '../../../utility/testDecorators';
 
 describe('WorldRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IWorldRaceDataHtmlGateway;
@@ -32,19 +33,24 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('fetchRaceList', () => {
-        SkipGitHubActionsCI('正しいレース開催データを取得できる', async () => {
-            const raceEntityList = await repository.fetchRaceEntityList(
-                new SearchRaceFilterEntity<WorldPlaceEntity>(
-                    new Date('2024-11-01'),
-                    new Date('2024-12-31'),
-                    [],
-                ),
-            );
-            expect(raceEntityList).toHaveLength(20);
-        });
+        SkipEnv(
+            '正しいレース開催データを取得できる',
+            [allowedEnvs.githubActionsCi],
+            async () => {
+                const raceEntityList = await repository.fetchRaceEntityList(
+                    new SearchRaceFilterEntity<WorldPlaceEntity>(
+                        new Date('2024-11-01'),
+                        new Date('2024-12-31'),
+                        [],
+                    ),
+                );
+                expect(raceEntityList).toHaveLength(20);
+            },
+        );
 
-        SkipGitHubActionsCI(
+        SkipEnv(
             '正しいレース開催データを取得できる（データが足りてないこともある）',
+            [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
                     new SearchRaceFilterEntity<WorldPlaceEntity>(
@@ -59,11 +65,15 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('registerRaceList', () => {
-        SkipGitHubActionsCI('htmlなので登録できない', async () => {
-            // テスト実行
-            await expect(repository.registerRaceEntityList([])).rejects.toThrow(
-                'HTMLにはデータを登録出来ません',
-            );
-        });
+        SkipEnv(
+            'htmlなので登録できない',
+            [allowedEnvs.githubActionsCi],
+            async () => {
+                // テスト実行
+                await expect(
+                    repository.registerRaceEntityList([]),
+                ).rejects.toThrow('HTMLにはデータを登録出来ません');
+            },
+        );
     });
 });

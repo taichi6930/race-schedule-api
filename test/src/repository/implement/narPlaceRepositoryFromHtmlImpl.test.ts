@@ -6,7 +6,8 @@ import type { INarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/inter
 import { MockNarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockNarPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { NarPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromHtmlImpl';
-import { SkipGitHubActionsCI } from '../../../utility/testDecorators';
+import { allowedEnvs } from '../../../../lib/src/utility/env';
+import { SkipEnv } from '../../../utility/testDecorators';
 
 describe('NarPlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: INarPlaceDataHtmlGateway;
@@ -31,23 +32,31 @@ describe('NarPlaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('fetchPlaceList', () => {
-        SkipGitHubActionsCI('正しい開催場データを取得できる', async () => {
-            const placeEntityList = await repository.fetchPlaceEntityList(
-                new SearchPlaceFilterEntity(
-                    new Date('2024-10-01'),
-                    new Date('2024-10-31'),
-                ),
-            );
-            expect(placeEntityList).toHaveLength(120);
-        });
+        SkipEnv(
+            '正しい開催場データを取得できる',
+            [allowedEnvs.githubActionsCi],
+            async () => {
+                const placeEntityList = await repository.fetchPlaceEntityList(
+                    new SearchPlaceFilterEntity(
+                        new Date('2024-10-01'),
+                        new Date('2024-10-31'),
+                    ),
+                );
+                expect(placeEntityList).toHaveLength(120);
+            },
+        );
     });
 
     describe('registerPlaceList', () => {
-        SkipGitHubActionsCI('htmlなので登録できない', async () => {
-            // テスト実行
-            await expect(
-                repository.registerPlaceEntityList([]),
-            ).rejects.toThrow('HTMLにはデータを登録出来ません');
-        });
+        SkipEnv(
+            'htmlなので登録できない',
+            [allowedEnvs.githubActionsCi],
+            async () => {
+                // テスト実行
+                await expect(
+                    repository.registerPlaceEntityList([]),
+                ).rejects.toThrow('HTMLにはデータを登録出来ません');
+            },
+        );
     });
 });

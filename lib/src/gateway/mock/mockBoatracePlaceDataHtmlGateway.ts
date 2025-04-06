@@ -1,4 +1,4 @@
-import * as fs from 'node:fs';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 
 import { Logger } from '../../utility/logger';
@@ -21,7 +21,7 @@ export class MockBoatracePlaceDataHtmlGateway
         // lib/src/gateway/mockData/html/boatrace/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
-        const htmlContent = await fs.promises.readFile(htmlFilePath, 'utf8');
+        const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
         return htmlContent;
     }
 }
