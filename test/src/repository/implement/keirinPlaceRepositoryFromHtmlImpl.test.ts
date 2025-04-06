@@ -6,56 +6,48 @@ import type { IKeirinPlaceDataHtmlGateway } from '../../../../lib/src/gateway/in
 import { MockKeirinPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockKeirinPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { KeirinPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
-import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
+import { SkipGitHubActionsCI } from '../../../utility/testDecorators';
 
-if (ENV === allowedEnvs.githubActionsCi) {
-    describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
-        });
+describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
+    let placeDataHtmlgateway: IKeirinPlaceDataHtmlGateway;
+    let repository: KeirinPlaceRepositoryFromHtmlImpl;
+
+    beforeEach(() => {
+        // gatwayのモックを作成
+        placeDataHtmlgateway = new MockKeirinPlaceDataHtmlGateway();
+
+        // DIコンテナにモックを登録
+        container.registerInstance(
+            'KeirinPlaceDataHtmlGateway',
+            placeDataHtmlgateway,
+        );
+
+        // テスト対象のリポジトリを生成
+        repository = container.resolve(KeirinPlaceRepositoryFromHtmlImpl);
     });
-} else {
-    describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
-        let placeDataHtmlgateway: IKeirinPlaceDataHtmlGateway;
-        let repository: KeirinPlaceRepositoryFromHtmlImpl;
 
-        beforeEach(() => {
-            // gatwayのモックを作成
-            placeDataHtmlgateway = new MockKeirinPlaceDataHtmlGateway();
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
 
-            // DIコンテナにモックを登録
-            container.registerInstance(
-                'KeirinPlaceDataHtmlGateway',
-                placeDataHtmlgateway,
+    describe('fetchPlaceList', () => {
+        SkipGitHubActionsCI('正しい開催場データを取得できる', async () => {
+            const placeEntityList = await repository.fetchPlaceEntityList(
+                new SearchPlaceFilterEntity(
+                    new Date('2024-10-01'),
+                    new Date('2024-10-31'),
+                ),
             );
-
-            // テスト対象のリポジトリを生成
-            repository = container.resolve(KeirinPlaceRepositoryFromHtmlImpl);
-        });
-
-        afterEach(() => {
-            jest.clearAllMocks();
-        });
-
-        describe('fetchPlaceList', () => {
-            test('正しい開催場データを取得できる', async () => {
-                const placeEntityList = await repository.fetchPlaceEntityList(
-                    new SearchPlaceFilterEntity(
-                        new Date('2024-10-01'),
-                        new Date('2024-10-31'),
-                    ),
-                );
-                expect(placeEntityList).toHaveLength(233);
-            });
-        });
-
-        describe('registerPlaceList', () => {
-            test('htmlなので登録できない', async () => {
-                // テスト実行
-                await expect(
-                    repository.registerPlaceEntityList([]),
-                ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            });
+            expect(placeEntityList).toHaveLength(233);
         });
     });
-}
+
+    describe('registerPlaceList', () => {
+        SkipGitHubActionsCI('htmlなので登録できない', async () => {
+            // テスト実行
+            await expect(
+                repository.registerPlaceEntityList([]),
+            ).rejects.toThrow('HTMLにはデータを登録出来ません');
+        });
+    });
+});
