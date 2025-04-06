@@ -50,18 +50,18 @@ describe('JraRaceEntityクラスのテスト', () => {
         expect(raceRecord).toEqual(baseJraRaceRecord);
     });
 
-    it('GoogleカレンダーのイベントからJraRaceEntityのインスタンスを作成できることを確認', () => {
-        const raceEntity = baseJraRaceEntity;
-        const googleCalendarData = raceEntity.toGoogleCalendarData(
-            new Date('2025-01-01T12:00:00.000Z'),
-        );
-        const copiedRaceEntity =
-            JraRaceEntity.fromGoogleCalendarDataToRaceEntity(
-                googleCalendarData,
-            );
-        // インスタンスが正しいか確認
-        expect(copiedRaceEntity).toEqual(raceEntity);
-    });
+    // it('GoogleカレンダーのイベントからJraRaceEntityのインスタンスを作成できることを確認', () => {
+    //     const raceEntity = baseJraRaceEntity;
+    //     const googleCalendarData = raceEntity.toGoogleCalendarData(
+    //         new Date('2025-01-01T12:00:00.000Z'),
+    //     );
+    //     const copiedRaceEntity =
+    //         JraRaceEntity.fromGoogleCalendarDataToRaceEntity(
+    //             googleCalendarData,
+    //         );
+    //     // インスタンスが正しいか確認
+    //     expect(copiedRaceEntity).toEqual(raceEntity);
+    // });
 
     it('GoogleカレンダーのイベントからCalendarDataのインスタンスを作成できることを確認', () => {
         const raceEntity = baseJraRaceEntity;

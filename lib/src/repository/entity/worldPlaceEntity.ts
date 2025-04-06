@@ -8,23 +8,16 @@ import type { IPlaceEntity } from './iPlaceEntity';
  */
 export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
     /**
-     * ID
-     */
-    public readonly id: WorldPlaceId;
-
-    /**
      * コンストラクタ
      * @remarks
      * レース開催場所データを生成する
+     * @param id - ID
      * @param placeData - レース開催場所データ
      */
     public constructor(
-        id: WorldPlaceId | null,
+        public readonly id: WorldPlaceId,
         public readonly placeData: WorldPlaceData,
-    ) {
-        this.id =
-            id ?? generateWorldPlaceId(placeData.dateTime, placeData.location);
-    }
+    ) {}
 
     /**
      * インスタンス生成メソッド（Idなし）
