@@ -12,6 +12,7 @@ import type { AutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId'
 import { validateAutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
 import type { AutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
 import { validateAutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
+import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -64,7 +65,10 @@ export class AutoraceRacePlayerRecord
             );
         } catch (error) {
             throw new Error(
-                `Failed to create AutoraceRacePlayerRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                createErrorMessage(
+                    'Failed to create AutoraceRacePlayerRecord',
+                    error,
+                ),
             );
         }
     }
