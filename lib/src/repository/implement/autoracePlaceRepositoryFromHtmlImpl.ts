@@ -35,39 +35,34 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
-        try {
-            // 月リストを生成
-            const monthList = [
-                ...this.generateMonthList(
-                    searchFilter.startDate,
-                    searchFilter.finishDate,
-                ),
-            ];
+        // 月リストを生成
+        const monthList = [
+            ...this.generateMonthList(
+                searchFilter.startDate,
+                searchFilter.finishDate,
+            ),
+        ];
 
-            console.log(
-                '月リスト:',
-                monthList.map((d) => d.toISOString()),
-            );
+        console.log(
+            '月リスト:',
+            monthList.map((d) => d.toISOString()),
+        );
 
-            // 各月のデータを取得して結合
-            const monthPlaceEntityLists = await Promise.all(
-                monthList.map(async (month) =>
-                    this.fetchMonthPlaceEntityList(month),
-                ),
-            );
+        // 各月のデータを取得して結合
+        const monthPlaceEntityLists = await Promise.all(
+            monthList.map(async (month) =>
+                this.fetchMonthPlaceEntityList(month),
+            ),
+        );
 
-            const placeEntityList = monthPlaceEntityLists.flat();
+        const placeEntityList = monthPlaceEntityLists.flat();
 
-            // 日付でフィルタリング
-            return placeEntityList.filter(
-                (placeEntity) =>
-                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
-            );
-        } catch (error) {
-            console.error('開催データの取得に失敗しました:', error);
-            throw error;
-        }
+        // 日付でフィルタリング
+        return placeEntityList.filter(
+            (placeEntity) =>
+                placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                placeEntity.placeData.dateTime <= searchFilter.finishDate,
+        );
     }
 
     /**
@@ -78,34 +73,21 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * @returns 月初日の配列
      */
     private generateMonthList(startDate: Date, finishDate: Date): Date[] {
-        try {
-            const monthList: Date[] = [];
-            const currentDate = new Date(startDate);
+        const monthList: Date[] = [];
+        const currentDate = new Date(startDate);
 
-            while (currentDate <= finishDate) {
-                monthList.push(
-                    new Date(
-                        currentDate.getFullYear(),
-                        currentDate.getMonth(),
-                        1,
-                    ),
-                );
-                currentDate.setMonth(currentDate.getMonth() + 1);
-            }
-
-            console.log(
-                `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
+        while (currentDate <= finishDate) {
+            monthList.push(
+                new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
             );
-
-            if (monthList.length === 0) {
-                throw new Error('月リストが空です');
-            }
-
-            return monthList;
-        } catch (error) {
-            console.error('月リストの生成に失敗しました:', error);
-            throw error;
+            currentDate.setMonth(currentDate.getMonth() + 1);
         }
+
+        console.log(
+            `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
+        );
+
+        return monthList;
     }
 
     /**
