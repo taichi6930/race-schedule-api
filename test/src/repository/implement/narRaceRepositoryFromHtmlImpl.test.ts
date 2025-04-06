@@ -9,57 +9,49 @@ import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEn
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { NarRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromHtmlImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
+import { SkipGitHubActionsCI } from '../../../utility/testDecorators';
 
-if (ENV === allowedEnvs.githubActionsCi) {
-    describe('NarRaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
-        });
+describe('NarRaceRepositoryFromHtmlImpl', () => {
+    let raceDataHtmlGateway: INarRaceDataHtmlGateway;
+    let repository: NarRaceRepositoryFromHtmlImpl;
+
+    beforeEach(() => {
+        // gatwayのモックを作成
+        raceDataHtmlGateway = new MockNarRaceDataHtmlGateway();
+
+        // DIコンテナにモックを登録
+        container.registerInstance(
+            'NarRaceDataHtmlGateway',
+            raceDataHtmlGateway,
+        );
+
+        // テスト対象のリポジトリを生成
+        repository = container.resolve(NarRaceRepositoryFromHtmlImpl);
     });
-} else {
-    describe('NarRaceRepositoryFromHtmlImpl', () => {
-        let raceDataHtmlGateway: INarRaceDataHtmlGateway;
-        let repository: NarRaceRepositoryFromHtmlImpl;
 
-        beforeEach(() => {
-            // gatwayのモックを作成
-            raceDataHtmlGateway = new MockNarRaceDataHtmlGateway();
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
 
-            // DIコンテナにモックを登録
-            container.registerInstance(
-                'NarRaceDataHtmlGateway',
-                raceDataHtmlGateway,
+    describe('fetchRaceList', () => {
+        SkipGitHubActionsCI('正しいレース開催データを取得できる', async () => {
+            const raceEntityList = await repository.fetchRaceEntityList(
+                new SearchRaceFilterEntity<NarPlaceEntity>(
+                    new Date('2024-10-02'),
+                    new Date('2024-10-02'),
+                    [
+                        NarPlaceEntity.createWithoutId(
+                            NarPlaceData.create(new Date('2024-10-02'), '大井'),
+                            getJSTDate(new Date()),
+                        ),
+                    ],
+                ),
             );
-
-            // テスト対象のリポジトリを生成
-            repository = container.resolve(NarRaceRepositoryFromHtmlImpl);
+            expect(raceEntityList).toHaveLength(12);
         });
-
-        afterEach(() => {
-            jest.clearAllMocks();
-        });
-
-        describe('fetchRaceList', () => {
-            test('正しいレース開催データを取得できる', async () => {
-                const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<NarPlaceEntity>(
-                        new Date('2024-10-02'),
-                        new Date('2024-10-02'),
-                        [
-                            NarPlaceEntity.createWithoutId(
-                                NarPlaceData.create(
-                                    new Date('2024-10-02'),
-                                    '大井',
-                                ),
-                                getJSTDate(new Date()),
-                            ),
-                        ],
-                    ),
-                );
-                expect(raceEntityList).toHaveLength(12);
-            });
-            test('正しいレース開催データを取得できる（データが足りてないこともある）', async () => {
+        SkipGitHubActionsCI(
+            '正しいレース開催データを取得できる（データが足りてないこともある）',
+            async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
                     new SearchRaceFilterEntity<NarPlaceEntity>(
                         new Date('2023-10-08'),
@@ -76,54 +68,48 @@ if (ENV === allowedEnvs.githubActionsCi) {
                     ),
                 );
                 expect(raceEntityList).toHaveLength(12);
-            });
-            test('正しいレース開催データを取得できる', async () => {
-                const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<NarPlaceEntity>(
-                        new Date('2024-10-02'),
-                        new Date('2024-10-02'),
-                        [
-                            NarPlaceEntity.createWithoutId(
-                                NarPlaceData.create(
-                                    new Date('2024-10-02'),
-                                    '大井',
-                                ),
-                                getJSTDate(new Date()),
-                            ),
-                        ],
-                    ),
-                );
-                expect(raceEntityList).toHaveLength(12);
-            });
-            test('データがない場合は空のリストを返す', async () => {
-                const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<NarPlaceEntity>(
-                        new Date('2024-09-01'),
-                        new Date('2024-09-02'),
-                        [
-                            NarPlaceEntity.createWithoutId(
-                                NarPlaceData.create(
-                                    new Date('2024-09-02'),
-                                    '大井',
-                                ),
-                                getJSTDate(new Date()),
-                            ),
-                        ],
-                    ),
-                );
-
-                // データがない場合は空のリストを返す
-                expect(raceEntityList).toHaveLength(0);
-            });
+            },
+        );
+        SkipGitHubActionsCI('正しいレース開催データを取得できる', async () => {
+            const raceEntityList = await repository.fetchRaceEntityList(
+                new SearchRaceFilterEntity<NarPlaceEntity>(
+                    new Date('2024-10-02'),
+                    new Date('2024-10-02'),
+                    [
+                        NarPlaceEntity.createWithoutId(
+                            NarPlaceData.create(new Date('2024-10-02'), '大井'),
+                            getJSTDate(new Date()),
+                        ),
+                    ],
+                ),
+            );
+            expect(raceEntityList).toHaveLength(12);
         });
+        SkipGitHubActionsCI('データがない場合は空のリストを返す', async () => {
+            const raceEntityList = await repository.fetchRaceEntityList(
+                new SearchRaceFilterEntity<NarPlaceEntity>(
+                    new Date('2024-09-01'),
+                    new Date('2024-09-02'),
+                    [
+                        NarPlaceEntity.createWithoutId(
+                            NarPlaceData.create(new Date('2024-09-02'), '大井'),
+                            getJSTDate(new Date()),
+                        ),
+                    ],
+                ),
+            );
 
-        describe('registerRaceList', () => {
-            test('htmlなので登録できない', async () => {
-                // テスト実行
-                await expect(
-                    repository.registerRaceEntityList([]),
-                ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            });
+            // データがない場合は空のリストを返す
+            expect(raceEntityList).toHaveLength(0);
         });
     });
-}
+
+    describe('registerRaceList', () => {
+        SkipGitHubActionsCI('htmlなので登録できない', async () => {
+            // テスト実行
+            await expect(repository.registerRaceEntityList([])).rejects.toThrow(
+                'HTMLにはデータを登録出来ません',
+            );
+        });
+    });
+});

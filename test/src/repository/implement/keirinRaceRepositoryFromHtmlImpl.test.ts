@@ -9,66 +9,58 @@ import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinP
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
+import { SkipGitHubActionsCI } from '../../../utility/testDecorators';
 
-if (ENV === allowedEnvs.githubActionsCi) {
-    describe('KeirinRaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
-        });
+describe('KeirinRaceRepositoryFromHtmlImpl', () => {
+    let raceDataHtmlGateway: IKeirinRaceDataHtmlGateway;
+    let repository: KeirinRaceRepositoryFromHtmlImpl;
+
+    beforeEach(() => {
+        // gatwayのモックを作成
+        raceDataHtmlGateway = new MockKeirinRaceDataHtmlGateway();
+
+        // DIコンテナにモックを登録
+        container.registerInstance(
+            'KeirinRaceDataHtmlGateway',
+            raceDataHtmlGateway,
+        );
+
+        // テスト対象のリポジトリを生成
+        repository = container.resolve(KeirinRaceRepositoryFromHtmlImpl);
     });
-} else {
-    describe('KeirinRaceRepositoryFromHtmlImpl', () => {
-        let raceDataHtmlGateway: IKeirinRaceDataHtmlGateway;
-        let repository: KeirinRaceRepositoryFromHtmlImpl;
 
-        beforeEach(() => {
-            // gatwayのモックを作成
-            raceDataHtmlGateway = new MockKeirinRaceDataHtmlGateway();
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
 
-            // DIコンテナにモックを登録
-            container.registerInstance(
-                'KeirinRaceDataHtmlGateway',
-                raceDataHtmlGateway,
-            );
-
-            // テスト対象のリポジトリを生成
-            repository = container.resolve(KeirinRaceRepositoryFromHtmlImpl);
-        });
-
-        afterEach(() => {
-            jest.clearAllMocks();
-        });
-
-        describe('fetchRaceList', () => {
-            test('正しいレース開催データを取得できる', async () => {
-                const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<KeirinPlaceEntity>(
-                        new Date('2024-10-20'),
-                        new Date('2024-10-20'),
-                        [
-                            KeirinPlaceEntity.createWithoutId(
-                                KeirinPlaceData.create(
-                                    new Date('2024-10-20'),
-                                    '弥彦',
-                                    'GⅠ',
-                                ),
-                                getJSTDate(new Date()),
+    describe('fetchRaceList', () => {
+        SkipGitHubActionsCI('正しいレース開催データを取得できる', async () => {
+            const raceEntityList = await repository.fetchRaceEntityList(
+                new SearchRaceFilterEntity<KeirinPlaceEntity>(
+                    new Date('2024-10-20'),
+                    new Date('2024-10-20'),
+                    [
+                        KeirinPlaceEntity.createWithoutId(
+                            KeirinPlaceData.create(
+                                new Date('2024-10-20'),
+                                '弥彦',
+                                'GⅠ',
                             ),
-                        ],
-                    ),
-                );
-                expect(raceEntityList).toHaveLength(12);
-            });
-        });
-
-        describe('registerRaceList', () => {
-            test('htmlなので登録できない', async () => {
-                // テスト実行
-                await expect(
-                    repository.registerRaceEntityList([]),
-                ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            });
+                            getJSTDate(new Date()),
+                        ),
+                    ],
+                ),
+            );
+            expect(raceEntityList).toHaveLength(12);
         });
     });
-}
+
+    describe('registerRaceList', () => {
+        SkipGitHubActionsCI('htmlなので登録できない', async () => {
+            // テスト実行
+            await expect(repository.registerRaceEntityList([])).rejects.toThrow(
+                'HTMLにはデータを登録出来ません',
+            );
+        });
+    });
+});
