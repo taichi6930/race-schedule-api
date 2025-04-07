@@ -41,7 +41,7 @@
         "@types/aws-lambda": "^8.10.148",
         "@types/cheerio": "^0.22.35",
         "@types/express": "^5.0.1",
-        "aws-cdk-lib": "2.187.0",
+        "aws-cdk-lib": "2.188.0",
         "aws-lambda": "^1.0.7",
         "cheerio": "^1.0.0",
         "constructs": "^10.4.2",
@@ -70,7 +70,7 @@
         "zod": "^3.24.2"
     },
     "devDependencies": {
-        "@eslint/js": "^9.23.0",
+        "@eslint/js": "^9.24.0",
         "@swc/core": "^1.11.16",
         "@swc/jest": "^0.2.37",
         "@types/jest": "^29.5.14",
@@ -78,7 +78,7 @@
         "@types/swagger-jsdoc": "^6.0.4",
         "@types/swagger-ui-express": "^4.1.8",
         "aws-cdk": "2.1007.0",
-        "eslint": "^9.23.0",
+        "eslint": "^9.24.0",
         "eslint-plugin-promise": "^7.2.1",
         "eslint-plugin-unicorn": "^58.0.0",
         "eslint-plugin-unused-imports": "^4.1.4",
@@ -88,7 +88,7 @@
         "lint-staged": "^15.5.0",
         "nodemon": "^3.1.9",
         "ts-node": "^10.9.2",
-        "typescript": "~5.8.2",
+        "typescript": "~5.8.3",
         "typescript-eslint": "^8.29.0"
     }
 }
