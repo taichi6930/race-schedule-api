@@ -79,5 +79,19 @@ export function createLambdaExecutionRole(
         }),
     );
 
+    // Lambda が EFS にアクセスできるようにするポリシーステートメントを追加
+    role.addToPolicy(
+        new PolicyStatement({
+            actions: [
+                'elasticfilesystem:ClientMount',
+                'elasticfilesystem:ClientWrite',
+                'elasticfilesystem:ClientRootAccess',
+                'elasticfilesystem:DescribeMountTargets',
+            ],
+            effect: Effect.ALLOW,
+            resources: ['*'],
+        }),
+    );
+
     return role;
 }
