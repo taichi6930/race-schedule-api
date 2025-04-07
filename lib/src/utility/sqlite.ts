@@ -92,9 +92,17 @@ export class SQLiteManager {
      * データベースファイルのパスを取得
      */
     private getDatabasePath(): string {
-        // ローカル環境では./volume/db配下に保存
-        const baseDir = path.join(process.cwd(), 'volume', 'db');
-        return path.join(baseDir, 'race-schedule.db');
+        // 環境に応じてデータベースのパスを切り替え
+        const isLocal = process.env.NODE_ENV === 'development';
+
+        if (isLocal) {
+            // ローカル環境では./volume/db配下に保存
+            const baseDir = path.join(process.cwd(), 'volume', 'db');
+            return path.join(baseDir, 'race-schedule.db');
+        } else {
+            // プロダクション環境（Lambda）ではEFSマウントポイントを使用
+            return '/mnt/sqlite/race-schedule.db';
+        }
     }
 
     /**
