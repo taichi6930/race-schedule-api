@@ -200,14 +200,13 @@ function checkDatabase(): void {
         `);
         try {
             for (const data of racesData) {
-                // 必須フィールドの型チェック
+                //         // 必須フィールドの型チェック
                 const isValid =
                     typeof data.dateTime === 'string' &&
                     typeof data.name === 'string' &&
                     typeof data.id === 'string' &&
                     typeof data.number === 'number' &&
                     data.number > 0;
-
                 if (!isValid) {
                     console.warn('不正なデータをスキップします:', data);
                     continue;
@@ -224,18 +223,18 @@ function checkDatabase(): void {
         const placeResults = db
             .prepare('SELECT * FROM places ORDER BY dateTime')
             .all();
-        console.log('取得したデータ:');
-        for (const row of placeResults) {
-            console.log(row);
-        }
+        console.log('取得した開催場データ件数:', placeResults.length);
+        // for (const row of placeResults) {
+        //     console.log(row);
+        // }
 
         const raceResults = db
             .prepare('SELECT * FROM races ORDER BY dateTime')
             .all();
-        console.log('取得したデータ:');
-        for (const row of raceResults) {
-            console.log(row);
-        }
+        console.log('取得したレースデータ件数:', raceResults.length);
+        // for (const row of raceResults) {
+        //     console.log(row);
+        // }
 
         console.log('データベーステストが正常に完了しました。');
         sqliteManager.close();
