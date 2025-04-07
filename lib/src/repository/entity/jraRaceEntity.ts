@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
-import { JraRaceData } from '../../domain/jraRaceData';
+import type { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
 import {
     type JraRaceId,
@@ -170,23 +170,23 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         );
     }
 
-    public static fromGoogleCalendarDataToRaceEntity(
-        event: calendar_v3.Schema$Event,
-    ): JraRaceEntity {
-        return new JraRaceEntity(
-            validateJraRaceId(event.extendedProperties?.private?.raceId ?? ''),
-            JraRaceData.create(
-                event.extendedProperties?.private?.name ?? '',
-                new Date(event.extendedProperties?.private?.dateTime ?? ''),
-                event.extendedProperties?.private?.location ?? '',
-                event.extendedProperties?.private?.surfaceType ?? '',
-                Number(event.extendedProperties?.private?.distance),
-                event.extendedProperties?.private?.grade ?? '',
-                Number(event.extendedProperties?.private?.number),
-                Number(event.extendedProperties?.private?.heldTimes),
-                Number(event.extendedProperties?.private?.heldDayTimes),
-            ),
-            validateUpdateDate(event.extendedProperties?.private?.updateDate),
-        );
-    }
+    // public static fromGoogleCalendarDataToRaceEntity(
+    //     event: calendar_v3.Schema$Event,
+    // ): JraRaceEntity {
+    //     return new JraRaceEntity(
+    //         validateJraRaceId(event.extendedProperties?.private?.raceId ?? ''),
+    //         JraRaceData.create(
+    //             event.extendedProperties?.private?.name ?? '',
+    //             new Date(event.extendedProperties?.private?.dateTime ?? ''),
+    //             event.extendedProperties?.private?.location ?? '',
+    //             event.extendedProperties?.private?.surfaceType ?? '',
+    //             Number(event.extendedProperties?.private?.distance),
+    //             event.extendedProperties?.private?.grade ?? '',
+    //             Number(event.extendedProperties?.private?.number),
+    //             Number(event.extendedProperties?.private?.heldTimes),
+    //             Number(event.extendedProperties?.private?.heldDayTimes),
+    //         ),
+    //         validateUpdateDate(event.extendedProperties?.private?.updateDate),
+    //     );
+    // }
 }

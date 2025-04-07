@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
-import { NarRaceData } from '../../domain/narRaceData';
+import type { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
 import {
     CHIHO_KEIBA_LIVE_URL,
@@ -174,21 +174,21 @@ export class NarRaceEntity {
         );
     }
 
-    public static fromGoogleCalendarDataToRaceEntity(
-        event: calendar_v3.Schema$Event,
-    ): NarRaceEntity {
-        return NarRaceEntity.create(
-            event.extendedProperties?.private?.raceId ?? '',
-            NarRaceData.create(
-                event.extendedProperties?.private?.name ?? '',
-                new Date(event.extendedProperties?.private?.dateTime ?? ''),
-                event.extendedProperties?.private?.location ?? '',
-                event.extendedProperties?.private?.surfaceType ?? '',
-                Number(event.extendedProperties?.private?.distance),
-                event.extendedProperties?.private?.grade ?? '',
-                Number(event.extendedProperties?.private?.number),
-            ),
-            validateUpdateDate(event.extendedProperties?.private?.updateDate),
-        );
-    }
+    // public static fromGoogleCalendarDataToRaceEntity(
+    //     event: calendar_v3.Schema$Event,
+    // ): NarRaceEntity {
+    //     return NarRaceEntity.create(
+    //         event.extendedProperties?.private?.raceId ?? '',
+    //         NarRaceData.create(
+    //             event.extendedProperties?.private?.name ?? '',
+    //             new Date(event.extendedProperties?.private?.dateTime ?? ''),
+    //             event.extendedProperties?.private?.location ?? '',
+    //             event.extendedProperties?.private?.surfaceType ?? '',
+    //             Number(event.extendedProperties?.private?.distance),
+    //             event.extendedProperties?.private?.grade ?? '',
+    //             Number(event.extendedProperties?.private?.number),
+    //         ),
+    //         validateUpdateDate(event.extendedProperties?.private?.updateDate),
+    //     );
+    // }
 }

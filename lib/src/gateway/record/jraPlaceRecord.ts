@@ -18,6 +18,7 @@ import {
 } from '../../utility/data/jra/jraRaceCourse';
 import type { JraRaceDateTime } from '../../utility/data/jra/jraRaceDateTime';
 import { validateJraRaceDateTime } from '../../utility/data/jra/jraRaceDateTime';
+import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 /**
@@ -72,7 +73,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `JraPlaceRecord create error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                createErrorMessage('JraPlaceRecord create error', error),
             );
         }
     }

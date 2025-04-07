@@ -12,6 +12,7 @@ import type { KeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
 import { validateKeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
 import type { KeirinRacePlayerId } from '../../utility/data/keirin/keirinRacePlayerId';
 import { validateKeirinRacePlayerId } from '../../utility/data/keirin/keirinRacePlayerId';
+import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -63,7 +64,7 @@ export class KeirinRacePlayerRecord implements IRecord<KeirinRacePlayerRecord> {
             );
         } catch (error) {
             throw new Error(
-                `KeirinRacePlayerRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                createErrorMessage('KeirinRacePlayerRecord', error),
             );
         }
     }

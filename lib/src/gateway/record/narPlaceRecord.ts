@@ -10,6 +10,7 @@ import {
     type NarRaceDateTime,
     validateNarRaceDateTime,
 } from '../../utility/data/nar/narRaceDateTime';
+import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -55,7 +56,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `NarPlaceRecord create error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                createErrorMessage('NarPlaceRecord create error', error),
             );
         }
     }

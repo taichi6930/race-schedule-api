@@ -71,12 +71,6 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
             case DataLocation.Web: {
                 return this.placeRepositoryFromHtml;
             }
-            default: {
-                const exhaustiveCheck: never = type;
-                throw new Error(
-                    `Unsupported DataLocationType: ${String(exhaustiveCheck)}`,
-                );
-            }
         }
     }
 }

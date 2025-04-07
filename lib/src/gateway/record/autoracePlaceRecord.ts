@@ -14,6 +14,7 @@ import {
     type AutoraceRaceDateTime,
     validateAutoraceRaceDateTime,
 } from '../../utility/data/autorace/autoraceRaceDateTime';
+import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -65,7 +66,10 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `Failed to create AutoracePlaceRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                createErrorMessage(
+                    'Failed to create AutoracePlaceRecord',
+                    error,
+                ),
             );
         }
     }

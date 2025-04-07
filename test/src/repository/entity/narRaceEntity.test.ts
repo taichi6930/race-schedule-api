@@ -50,18 +50,18 @@ describe('NarRaceEntityクラスのテスト', () => {
         expect(raceRecord).toEqual(baseNarRaceRecord);
     });
 
-    it('GoogleカレンダーのイベントからNarRaceEntityのインスタンスを作成できることを確認', () => {
-        const raceEntity = baseNarRaceEntity;
-        const googleCalendarData = raceEntity.toGoogleCalendarData(
-            new Date('2025-01-01T12:00:00.000Z'),
-        );
-        const copiedRaceEntity =
-            NarRaceEntity.fromGoogleCalendarDataToRaceEntity(
-                googleCalendarData,
-            );
-        // インスタンスが正しいか確認
-        expect(copiedRaceEntity).toEqual(raceEntity);
-    });
+    // it('GoogleカレンダーのイベントからNarRaceEntityのインスタンスを作成できることを確認', () => {
+    //     const raceEntity = baseNarRaceEntity;
+    //     const googleCalendarData = raceEntity.toGoogleCalendarData(
+    //         new Date('2025-01-01T12:00:00.000Z'),
+    //     );
+    //     const copiedRaceEntity =
+    //         NarRaceEntity.fromGoogleCalendarDataToRaceEntity(
+    //             googleCalendarData,
+    //         );
+    //     // インスタンスが正しいか確認
+    //     expect(copiedRaceEntity).toEqual(raceEntity);
+    // });
 
     it('GoogleカレンダーのイベントからCalendarDataのインスタンスを作成できることを確認', () => {
         const raceEntity = baseNarRaceEntity;

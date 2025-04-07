@@ -1,3 +1,5 @@
+import './format';
+
 import type { JraGradeType } from './data/jra/jraGradeType';
 import type { JraRaceCourse } from './data/jra/jraRaceCourse';
 import type { JraRaceCourseType } from './data/jra/jraRaceCourseType';
@@ -194,12 +196,8 @@ export const processNarRaceName = (
 ): string => {
     // 共通系
     let tempRaceName = raceInfo.name
-        .replace(/[０-９Ａ-Ｚａ-ｚ]/g, (s) =>
-            String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
-        )
-        .replace(/[！-～]/g, (s) =>
-            String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
-        )
+        .replaceFromCodePoint(/[０-９Ａ-Ｚａ-ｚ]/g)
+        .replaceFromCodePoint(/[！-～]/g)
         .replace(/ステークス/, 'S')
         .replace(/カップ/, 'C')
         .replace(/J([交指認]) /g, '')
@@ -332,11 +330,8 @@ export const processWorldRaceName = (
     raceInfo: WorldRaceDataForRaceName,
 ): string => {
     return raceInfo.name
-        .replace(
+        .replaceFromCodePoint(
             /[！-＃＄％＆（）＊＋，－．／０-９：；＜＝＞？＠Ａ-Ｚ［＼］＾＿｀ａ-ｚ｛｜｝～]/g,
-            function (s) {
-                return String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0);
-            },
         )
         .replace(/ステークス/, 'S')
         .replace(/カップ/, 'C')

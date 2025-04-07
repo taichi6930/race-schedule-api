@@ -2,6 +2,7 @@ import type { JWT } from 'google-auth-library';
 import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
 
+import { createErrorMessage } from '../../utility/error';
 import { Logger } from '../../utility/logger';
 import type { ICalendarGateway } from '../interface/iCalendarGateway';
 
@@ -43,7 +44,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             return response.data.items ?? [];
         } catch (error) {
             throw new Error(
-                error instanceof Error ? error.message : 'Unknown error',
+                createErrorMessage('Failed to get calendar list', error),
             );
         }
     }
@@ -60,7 +61,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             return response.data;
         } catch (error) {
             throw new Error(
-                error instanceof Error ? error.message : 'Unknown error',
+                createErrorMessage('Failed to get calendar', error),
             );
         }
     }
@@ -81,7 +82,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             });
         } catch (error) {
             throw new Error(
-                error instanceof Error ? error.message : 'Unknown error',
+                createErrorMessage('Failed to get calendar events', error),
             );
         }
     }
@@ -97,7 +98,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             });
         } catch (error) {
             throw new Error(
-                error instanceof Error ? error.message : 'Unknown error',
+                createErrorMessage('Failed to create calendar event', error),
             );
         }
     }
@@ -111,7 +112,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             });
         } catch (error) {
             throw new Error(
-                error instanceof Error ? error.message : 'Unknown error',
+                createErrorMessage('Failed to delete calendar event', error),
             );
         }
     }

@@ -77,12 +77,6 @@ export abstract class BaseRaceDataService<
             case DataLocation.Web: {
                 return this.raceRepositoryFromHtml;
             }
-            default: {
-                const exhaustiveCheck: never = type;
-                throw new Error(
-                    `Unsupported DataLocationType: ${String(exhaustiveCheck)}`,
-                );
-            }
         }
     }
 }

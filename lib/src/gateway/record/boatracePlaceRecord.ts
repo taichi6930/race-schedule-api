@@ -16,6 +16,7 @@ import {
     type BoatraceRaceDateTime,
     validateBoatraceRaceDateTime,
 } from '../../utility/data/boatrace/boatraceRaceDateTime';
+import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -66,7 +67,10 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `Failed to create BoatracePlaceRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                createErrorMessage(
+                    'Failed to create BoatracePlaceRecord',
+                    error,
+                ),
             );
         }
     }

@@ -42,6 +42,7 @@ import {
     type JraRaceNumber,
     validateJraRaceNumber,
 } from '../../utility/data/jra/jraRaceNumber';
+import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -122,7 +123,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
             );
         } catch (error) {
             throw new Error(
-                `JraRaceRecordの生成に失敗しました: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                createErrorMessage('JraRaceRecordの生成に失敗しました', error),
             );
         }
     }

@@ -12,6 +12,7 @@ import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId'
 import { validateBoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
 import type { BoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
 import { validateBoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
+import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -64,7 +65,7 @@ export class BoatraceRacePlayerRecord
             );
         } catch (error) {
             throw new Error(
-                `BoatraceRacePlayerRecord: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                createErrorMessage('BoatraceRacePlayerRecord', error),
             );
         }
     }
