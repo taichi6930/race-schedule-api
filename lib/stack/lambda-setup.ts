@@ -1,13 +1,22 @@
+import type { aws_efs } from 'aws-cdk-lib';
 import { aws_lambda_nodejs, Duration } from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import type { Role } from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import type { Construct } from 'constructs';
 
 import { ENV } from '../src/utility/env';
 
+interface LambdaConfig {
+    vpc: ec2.Vpc;
+    filesystem: aws_efs.FileSystem;
+    accessPoint: aws_efs.AccessPoint;
+}
+
 export function createLambdaFunction(
     scope: Construct,
     role: Role,
+    config: LambdaConfig,
 ): aws_lambda_nodejs.NodejsFunction {
     return new aws_lambda_nodejs.NodejsFunction(
         scope,
@@ -33,6 +42,14 @@ export function createLambdaFunction(
             },
             timeout: Duration.seconds(90),
             memorySize: 1024,
+            vpc: config.vpc,
+            vpcSubnets: {
+                subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+            },
+            filesystem: lambda.FileSystem.fromEfsAccessPoint(
+                config.accessPoint,
+                '/mnt/sqlite',
+            ),
         },
     );
 }

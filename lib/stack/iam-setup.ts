@@ -1,4 +1,4 @@
-import type { aws_s3tables } from 'aws-cdk-lib';
+import type { aws_efs, aws_s3tables } from 'aws-cdk-lib';
 import {
     Effect,
     PolicyStatement,
@@ -12,6 +12,7 @@ export function createLambdaExecutionRole(
     scope: Construct,
     bucket: aws_s3.IBucket,
     s3TableBucket: aws_s3tables.CfnTableBucket,
+    fileSystem: aws_efs.FileSystem,
 ): Role {
     // Lambda 実行に必要な IAM ロールを作成
     const role = new Role(scope, 'LambdaExecutionRole', {
@@ -76,6 +77,19 @@ export function createLambdaExecutionRole(
             actions: ['ec2:DeleteNetworkInterface'],
             effect: Effect.ALLOW,
             resources: ['*'], // リソースを特定のネットワークインターフェースに制限する場合は、適切なリソース ARN を指定します
+        }),
+    );
+
+    // EFSアクセス用のポリシーを追加
+    role.addToPolicy(
+        new PolicyStatement({
+            actions: [
+                'elasticfilesystem:ClientMount',
+                'elasticfilesystem:ClientWrite',
+                'elasticfilesystem:ClientRootAccess',
+            ],
+            effect: Effect.ALLOW,
+            resources: [fileSystem.fileSystemArn],
         }),
     );
 

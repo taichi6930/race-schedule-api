@@ -9,8 +9,10 @@ import type { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
 
 import { createApiGateway } from './stack/api-setup';
+import { EfsSetup } from './stack/efs-setup';
 import { createLambdaExecutionRole } from './stack/iam-setup';
 import { createLambdaFunction } from './stack/lambda-setup';
+import { VpcSetup } from './stack/vpc-setup';
 
 dotenv.config({ path: './.env' });
 
@@ -40,15 +42,26 @@ export class CdkRaceScheduleAppStack extends Stack {
             },
         );
 
+        // VPCの作成
+        const vpcSetup = new VpcSetup(this, 'VpcSetup');
+
+        // EFSの作成
+        const efsSetup = new EfsSetup(this, 'EfsSetup', vpcSetup.vpc);
+
         // Lambda実行に必要なIAMロールを作成
         const lambdaRole = createLambdaExecutionRole(
             this,
             bucket,
             s3TableBucket,
+            efsSetup.fileSystem,
         );
 
         // Lambda関数を作成
-        const lambdaFunction = createLambdaFunction(this, lambdaRole);
+        const lambdaFunction = createLambdaFunction(this, lambdaRole, {
+            vpc: vpcSetup.vpc,
+            filesystem: efsSetup.fileSystem,
+            accessPoint: efsSetup.accessPoint,
+        });
 
         // API Gatewayの設定
         const api = createApiGateway(this, lambdaFunction);
