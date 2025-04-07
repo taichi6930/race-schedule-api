@@ -14,7 +14,7 @@ import { NarPlaceRepositoryFromStorageImpl } from '../../src/repository/implemen
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
-if (ENV === allowedEnvs.local) {
+if (ENV === allowedEnvs.local || ENV === allowedEnvs.production) {
     container.register<IPlaceRepository<NarPlaceEntity>>(
         'NarPlaceRepositoryFromStorage',
         { useClass: NarPlaceRepositoryFromSqliteImpl },

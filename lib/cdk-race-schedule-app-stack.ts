@@ -45,7 +45,7 @@ export class CdkRaceScheduleAppStack extends Stack {
         // VPCの作成
         const vpcSetup = new VpcSetup(this, 'VpcSetup');
 
-        // EFSの作成
+        // EFSの作成とセットアップ
         const efsSetup = new EfsSetup(this, 'EfsSetup', vpcSetup.vpc);
 
         // Lambda実行に必要なIAMロールを作成

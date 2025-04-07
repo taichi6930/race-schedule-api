@@ -28,6 +28,7 @@ export function createLambdaFunction(
             role,
             environment: {
                 ENV,
+                NODE_ENV: 'production', // 本番環境では'production'を設定
                 JRA_CALENDAR_ID: process.env.JRA_CALENDAR_ID ?? '',
                 NAR_CALENDAR_ID: process.env.NAR_CALENDAR_ID ?? '',
                 KEIRIN_CALENDAR_ID: process.env.KEIRIN_CALENDAR_ID ?? '',
@@ -40,8 +41,8 @@ export function createLambdaFunction(
                     process.env.GOOGLE_PRIVATE_KEY ?? ''
                 ).replace(/\\n/g, '\n'),
             },
-            timeout: Duration.seconds(90),
-            memorySize: 1024,
+            timeout: Duration.seconds(300), // SQLiteの処理に十分な時間を確保
+            memorySize: 2048, // SQLite操作のためにメモリを増やす
             vpc: config.vpc,
             vpcSubnets: {
                 subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,

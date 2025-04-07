@@ -10,6 +10,20 @@ export class EfsSetup extends Construct {
     public constructor(scope: Construct, id: string, vpc: ec2.Vpc) {
         super(scope, id);
 
+        // EFS用のセキュリティグループを作成
+        const securityGroup = new ec2.SecurityGroup(this, 'EfsSecurityGroup', {
+            vpc,
+            description: 'Security group for EFS',
+            allowAllOutbound: true,
+        });
+
+        // NFS (2049) ポートへのアクセスを許可
+        securityGroup.addIngressRule(
+            ec2.Peer.ipv4(vpc.vpcCidrBlock),
+            ec2.Port.tcp(2049),
+            'Allow NFS access from within VPC',
+        );
+
         // EFSファイルシステムの作成
         this.fileSystem = new efs.FileSystem(this, 'RaceScheduleEfs', {
             vpc,
@@ -17,25 +31,21 @@ export class EfsSetup extends Construct {
             performanceMode: efs.PerformanceMode.GENERAL_PURPOSE,
             throughputMode: efs.ThroughputMode.BURSTING,
             removalPolicy: cdk.RemovalPolicy.RETAIN,
-            // セキュリティグループの設定
-            securityGroup: new ec2.SecurityGroup(this, 'EfsSecurityGroup', {
-                vpc,
-                description: 'Security group for EFS',
-                allowAllOutbound: true,
-            }),
+            securityGroup,
         });
 
         // アクセスポイントの作成（SQLite用）
         this.accessPoint = this.fileSystem.addAccessPoint('SqliteAccessPoint', {
             path: '/sqlite',
             createAcl: {
-                ownerGid: '1000',
-                ownerUid: '1000',
-                permissions: '755',
+                ownerGid: '1001', // Lambdaプロセスのgid
+                ownerUid: '1001', // Lambdaプロセスのuid
+                permissions: '775', // グループメンバーにも書き込み権限を付与
             },
             posixUser: {
-                gid: '1000',
-                uid: '1000',
+                gid: '1001', // Lambdaプロセスのgid
+                uid: '1001', // Lambdaプロセスのuid
+                secondaryGids: [], // 必要に応じて追加のグループIDを設定
             },
         });
 
