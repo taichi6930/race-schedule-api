@@ -90,12 +90,12 @@ export class NarPlaceRepositoryFromSqliteImpl
         placeEntityList: NarPlaceEntity[],
     ): Promise<void> {
         const insertOrUpdate = this.db.prepare(`
-            INSERT INTO places (id, dateTime, location, type)
-            VALUES (@id, @dateTime, @location, @type)
+            INSERT INTO places (id, dateTime, location, type, updated_at)
+            VALUES (@id, @dateTime, @location, @type, CURRENT_TIMESTAMP)
             ON CONFLICT(id) DO UPDATE SET
-                dateTime = @dateTime,
-                location = @location,
-                updated_at = CURRENT_TIMESTAMP
+            dateTime = excluded.dateTime,
+            location = excluded.location,
+            updated_at = CURRENT_TIMESTAMP
         `);
 
         await new Promise<void>((resolve) => {
