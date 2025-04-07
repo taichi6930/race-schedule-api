@@ -38,7 +38,7 @@ export class NarPlaceRepositoryFromSqliteImpl
     ): Promise<NarPlaceEntity[]> {
         const query = this.db.prepare(`
             SELECT id, dateTime, location
-            FROM races
+            FROM places
             WHERE type = @type AND dateTime BETWEEN @startDate AND @endDate
             ORDER BY dateTime DESC
         `);
@@ -90,7 +90,7 @@ export class NarPlaceRepositoryFromSqliteImpl
         placeEntityList: NarPlaceEntity[],
     ): Promise<void> {
         const insertOrUpdate = this.db.prepare(`
-            INSERT INTO races (id, dateTime, location, type)
+            INSERT INTO places (id, dateTime, location, type)
             VALUES (@id, @dateTime, @location, @type)
             ON CONFLICT(id) DO UPDATE SET
                 dateTime = @dateTime,

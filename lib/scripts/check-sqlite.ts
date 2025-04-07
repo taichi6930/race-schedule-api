@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+
 import { RaceType, SQLiteManager } from '../src/utility/sqlite';
 
 /**
@@ -14,8 +16,21 @@ function checkDatabase(): void {
         // クリーンアップ
         console.log('\nテストデータを削除中...');
         db.exec(
-            `DELETE FROM races WHERE id LIKE 'jra%' OR id LIKE 'nar%' OR id LIKE 'keirin%' OR id LIKE 'world%'`,
+            `DELETE FROM places WHERE id LIKE 'jra%' OR id LIKE 'nar%' OR id LIKE 'keirin%' OR id LIKE 'world%'`,
         );
+
+        // lib/src/gateway/mockData/csv/nar/placeList.csvのデータを取得
+        const narCsvFilePath = 'lib/src/gateway/mockData/csv/nar/placeList.csv';
+        const csvData = fs.readFileSync(narCsvFilePath, 'utf8');
+        const csvRows = csvData.split('\n').map((row) => row.split(','));
+        const [header, ...dataRows] = csvRows;
+        const narCsvDataObjects = dataRows.map((row) => {
+            const obj: Record<string, string> = {};
+            for (const [index, field] of header.entries()) {
+                obj[field.trim()] = row[index]?.trim() ?? '';
+            }
+            return obj;
+        });
 
         // テストデータの準備
         const testData = [
@@ -24,12 +39,6 @@ function checkDatabase(): void {
                 dateTime: '2025-04-07T00:00:00',
                 location: '東京',
                 type: RaceType.JRA,
-            },
-            {
-                id: 'nar2025040819',
-                dateTime: '2025-04-08T00:00:00',
-                location: '船橋',
-                type: RaceType.NAR,
             },
             {
                 id: 'keirin2025040928',
@@ -45,22 +54,86 @@ function checkDatabase(): void {
             },
         ];
 
+        // CSVデータをテストデータに変換
+        for (const row of narCsvDataObjects) {
+            try {
+                // 日付文字列をISO形式に変換
+                const rawDateTime = row.dateTime;
+                if (!rawDateTime) {
+                    console.warn(
+                        `日付がない行をスキップします: ${JSON.stringify(row)}`,
+                    );
+                    continue;
+                }
+
+                const parsedDate = new Date(rawDateTime);
+                if (Number.isNaN(parsedDate.getTime())) {
+                    console.warn(
+                        `不正な日付形式をスキップします: ${rawDateTime}`,
+                    );
+                    continue;
+                }
+
+                const dateTime = parsedDate.toISOString();
+                const location = row.location.trim();
+                const id = row.id.trim();
+
+                if (!location || !id) {
+                    console.warn(
+                        `必要なデータが不足している行をスキップします: ${JSON.stringify(row)}`,
+                    );
+                    continue;
+                }
+
+                testData.push({
+                    id,
+                    dateTime,
+                    location,
+                    type: RaceType.NAR,
+                });
+            } catch (error) {
+                console.warn(
+                    `データの変換でエラーが発生した行をスキップします:`,
+                    row,
+                    error,
+                );
+                continue;
+            }
+        }
+
+        console.log(`${testData.length}件のデータを登録します...`);
+
         // テストデータの挿入
         console.log('テストデータを挿入中...');
         const insert = db.prepare(`
-            INSERT INTO races (id, dateTime, location, type)
+            INSERT INTO places (id, dateTime, location, type)
             VALUES (@id, @dateTime, @location, @type)
             ON CONFLICT(id) DO NOTHING
         `);
+        try {
+            for (const data of testData) {
+                // 必須フィールドの型チェック
+                const isValid =
+                    typeof data.dateTime === 'string' &&
+                    typeof data.location === 'string' &&
+                    typeof data.id === 'string' &&
+                    Object.values(RaceType).includes(data.type);
 
-        for (const data of testData) {
-            insert.run(data);
+                if (!isValid) {
+                    console.warn('不正なデータをスキップします:', data);
+                    continue;
+                }
+                insert.run(data);
+            }
+        } catch (error) {
+            console.error('データの挿入中にエラーが発生しました:', error);
+            throw error;
         }
 
         // データの取得テスト
         console.log('挿入したデータを確認中...');
         const results = db
-            .prepare('SELECT * FROM races ORDER BY dateTime')
+            .prepare('SELECT * FROM places ORDER BY dateTime')
             .all();
         console.log('取得したデータ:');
         for (const row of results) {

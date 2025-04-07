@@ -50,7 +50,7 @@ export class SQLiteManager {
     private initialize(): void {
         // レースデータテーブルの作成
         this.db.exec(`
-            CREATE TABLE IF NOT EXISTS races (
+            CREATE TABLE IF NOT EXISTS places (
                 id TEXT PRIMARY KEY,
                 dateTime TEXT NOT NULL,
                 location TEXT NOT NULL,
