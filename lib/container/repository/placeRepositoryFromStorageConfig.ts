@@ -9,13 +9,21 @@ import { AutoracePlaceRepositoryFromStorageImpl } from '../../src/repository/imp
 import { BoatracePlaceRepositoryFromStorageImpl } from '../../src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
 import { JraPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { KeirinPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
+import { NarPlaceRepositoryFromSqliteImpl } from '../../src/repository/implement/narPlaceRepositoryFromSqliteImpl';
 import { NarPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/narPlaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 
-container.register<IPlaceRepository<NarPlaceEntity>>(
-    'NarPlaceRepositoryFromStorage',
-    { useClass: NarPlaceRepositoryFromStorageImpl },
-);
+if (process.env.NODE_ENV === 'local') {
+    container.register<IPlaceRepository<NarPlaceEntity>>(
+        'NarPlaceRepositoryFromStorage',
+        { useClass: NarPlaceRepositoryFromSqliteImpl },
+    );
+} else {
+    container.register<IPlaceRepository<NarPlaceEntity>>(
+        'NarPlaceRepositoryFromStorage',
+        { useClass: NarPlaceRepositoryFromStorageImpl },
+    );
+}
 container.register<IPlaceRepository<JraPlaceEntity>>(
     'JraPlaceRepositoryFromStorage',
     { useClass: JraPlaceRepositoryFromStorageImpl },
