@@ -43,6 +43,8 @@ export class NarPlaceRepositoryFromSqliteImpl
             ORDER BY dateTime DESC
         `);
 
+        console.log(query);
+
         const params = {
             type: RaceType.NAR,
             startDate: searchFilter.startDate.toISOString(),

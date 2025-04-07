@@ -9,12 +9,12 @@ import { AutoracePlaceRepositoryFromStorageImpl } from '../../src/repository/imp
 import { BoatracePlaceRepositoryFromStorageImpl } from '../../src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
 import { JraPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { KeirinPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
-import { NarPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/narPlaceRepositoryFromStorageImpl';
+import { NarPlaceRepositoryFromSqliteImpl } from '../../src/repository/implement/narPlaceRepositoryFromSqliteImpl';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 
 container.register<IPlaceRepository<NarPlaceEntity>>(
     'NarPlaceRepositoryFromStorage',
-    { useClass: NarPlaceRepositoryFromStorageImpl },
+    { useClass: NarPlaceRepositoryFromSqliteImpl },
 );
 container.register<IPlaceRepository<JraPlaceEntity>>(
     'JraPlaceRepositoryFromStorage',

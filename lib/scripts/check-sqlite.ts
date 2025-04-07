@@ -11,29 +11,35 @@ function checkDatabase(): void {
         const sqliteManager = SQLiteManager.getInstance();
         const db = sqliteManager.getDatabase();
 
+        // クリーンアップ
+        console.log('\nテストデータを削除中...');
+        db.exec(
+            `DELETE FROM races WHERE id LIKE 'jra%' OR id LIKE 'nar%' OR id LIKE 'keirin%' OR id LIKE 'world%'`,
+        );
+
         // テストデータの準備
         const testData = [
             {
-                id: 'jra-20250407-tokyo-1',
-                dateTime: '2025-04-07T00:00:00+09:00',
+                id: 'jra2025040705',
+                dateTime: '2025-04-07T00:00:00',
                 location: '東京',
                 type: RaceType.JRA,
             },
             {
-                id: 'nar-20250408-funabashi-1',
-                dateTime: '2025-04-08T00:00:00+09:00',
+                id: 'nar2025040819',
+                dateTime: '2025-04-08T00:00:00',
                 location: '船橋',
                 type: RaceType.NAR,
             },
             {
-                id: 'keirin-20250409-tachikawa-1',
-                dateTime: '2025-04-09T00:00:00+09:00',
+                id: 'keirin2025040928',
+                dateTime: '2025-04-09T00:00:00',
                 location: '立川',
                 type: RaceType.KEIRIN,
             },
             {
-                id: 'world-20250410-longchamp-1',
-                dateTime: '2025-04-10T00:00:00+09:00',
+                id: 'world20250410longchamp',
+                dateTime: '2025-04-10T00:00:00',
                 location: 'ロンシャン',
                 type: RaceType.WORLD,
             },
@@ -60,12 +66,6 @@ function checkDatabase(): void {
         for (const row of results) {
             console.log(row);
         }
-
-        // クリーンアップ
-        console.log('\nテストデータを削除中...');
-        db.exec(
-            `DELETE FROM races WHERE id LIKE 'jra-%' OR id LIKE 'nar-%' OR id LIKE 'keirin-%' OR id LIKE 'world-%'`,
-        );
 
         console.log('データベーステストが正常に完了しました。');
         sqliteManager.close();
