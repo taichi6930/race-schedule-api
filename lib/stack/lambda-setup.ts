@@ -1,5 +1,6 @@
 import { aws_lambda_nodejs, Duration } from 'aws-cdk-lib';
 import type { IVpc } from 'aws-cdk-lib/aws-ec2';
+import type * as ec2 from 'aws-cdk-lib/aws-ec2';
 import type { AccessPoint, FileSystem } from 'aws-cdk-lib/aws-efs';
 import type { Role } from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
@@ -10,6 +11,7 @@ import { ENV } from '../src/utility/env';
 export interface LambdaFunctionProps {
     role: Role;
     vpc: IVpc;
+    securityGroup: ec2.SecurityGroup;
     filesystem: {
         efs: FileSystem;
         accessPoint: AccessPoint;
@@ -29,6 +31,7 @@ export function createLambdaFunction(
             runtime: lambda.Runtime.NODEJS_20_X,
             entry: 'lib/src/index.ts',
             vpc: props.vpc,
+            securityGroups: [props.securityGroup],
             role: props.role,
             filesystem: lambda.FileSystem.fromEfsAccessPoint(
                 props.filesystem.accessPoint,

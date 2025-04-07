@@ -46,7 +46,9 @@ export class CdkRaceScheduleAppStack extends Stack {
         const vpc = createVpc(this);
 
         // EFSを作成
-        const { fileSystem, accessPoint } = createEfsFileSystem(this, { vpc });
+        const { fileSystem, accessPoint, lambdaSecurityGroup } =
+            createEfsFileSystem(this, { vpc });
+        createEfsFileSystem(this, { vpc });
 
         // Lambda実行に必要なIAMロールを作成
         const lambdaRole = createLambdaExecutionRole(
@@ -59,6 +61,7 @@ export class CdkRaceScheduleAppStack extends Stack {
         const lambdaFunction = createLambdaFunction(this, {
             role: lambdaRole,
             vpc,
+            securityGroup: lambdaSecurityGroup,
             filesystem: {
                 efs: fileSystem,
                 accessPoint: accessPoint,

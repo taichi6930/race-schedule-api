@@ -20,18 +20,20 @@ switch (ENV) {
     case allowedEnvs.localNoInitData:
     case allowedEnvs.localInitMadeData:
     case allowedEnvs.githubActionsCi:
-    case allowedEnvs.test: {
+    case allowedEnvs.test:
+    case allowedEnvs.production: {
         container.register<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromStorage',
             { useClass: NarPlaceRepositoryFromSqliteImpl },
         );
         break;
     }
-    case allowedEnvs.production: {
+    default: {
         container.register<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromStorage',
             { useClass: NarPlaceRepositoryFromStorageImpl },
         );
+        break;
     }
 }
 container.register<IPlaceRepository<JraPlaceEntity>>(

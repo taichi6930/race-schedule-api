@@ -2,7 +2,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import type { Construct } from 'constructs';
 
 export function createVpc(scope: Construct): ec2.Vpc {
-    return new ec2.Vpc(scope, 'RaceScheduleVpc', {
+    const vpc = new ec2.Vpc(scope, 'RaceScheduleVpc', {
         maxAzs: 2,
         natGateways: 1,
         subnetConfiguration: [
@@ -23,4 +23,19 @@ export function createVpc(scope: Construct): ec2.Vpc {
             },
         ],
     });
+
+    // Lambda関数がVPC内から各種AWSサービスにアクセスするためのエンドポイントを追加
+    vpc.addInterfaceEndpoint('CloudWatchLogsEndpoint', {
+        service: ec2.InterfaceVpcEndpointAwsService.CLOUDWATCH_LOGS,
+    });
+
+    vpc.addInterfaceEndpoint('SecretsManagerEndpoint', {
+        service: ec2.InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
+    });
+
+    vpc.addInterfaceEndpoint('SsmEndpoint', {
+        service: ec2.InterfaceVpcEndpointAwsService.SSM,
+    });
+
+    return vpc;
 }

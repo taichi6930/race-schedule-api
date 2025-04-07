@@ -7,10 +7,34 @@ export interface EfsSetupProps {
     vpc: ec2.IVpc;
 }
 
+export interface EfsSetupResult {
+    fileSystem: efs.FileSystem;
+    accessPoint: efs.AccessPoint;
+    lambdaSecurityGroup: ec2.SecurityGroup;
+}
+
 export function createEfsFileSystem(
     scope: Construct,
     props: EfsSetupProps,
-): { fileSystem: efs.FileSystem; accessPoint: efs.AccessPoint } {
+): EfsSetupResult {
+    // Lambda用のセキュリティグループを作成
+    const lambdaSecurityGroup = new ec2.SecurityGroup(
+        scope,
+        'LambdaSecurityGroup',
+        {
+            vpc: props.vpc,
+            description: 'Security group for Lambda',
+            allowAllOutbound: true,
+        },
+    );
+
+    // EFS用のセキュリティグループを作成
+    const efsSecurityGroup = new ec2.SecurityGroup(scope, 'EfsSecurityGroup', {
+        vpc: props.vpc,
+        description: 'Security group for EFS',
+        allowAllOutbound: true,
+    });
+
     // EFSファイルシステムを作成
     const fileSystem = new efs.FileSystem(scope, 'RaceScheduleEfs', {
         vpc: props.vpc,
@@ -18,12 +42,15 @@ export function createEfsFileSystem(
         performanceMode: efs.PerformanceMode.GENERAL_PURPOSE,
         throughputMode: efs.ThroughputMode.BURSTING,
         removalPolicy: RemovalPolicy.RETAIN, // プロダクション環境では削除保護を有効化
-        securityGroup: new ec2.SecurityGroup(scope, 'EfsSecurityGroup', {
-            vpc: props.vpc,
-            description: 'Security group for EFS',
-            allowAllOutbound: true,
-        }),
+        securityGroup: efsSecurityGroup,
     });
+
+    // EFSセキュリティグループにLambdaからのアクセスを許可
+    efsSecurityGroup.addIngressRule(
+        lambdaSecurityGroup,
+        ec2.Port.tcp(2049),
+        'Allow NFS access from Lambda',
+    );
 
     // EFSアクセスポイントを作成 (SQLite用)
     const accessPoint = fileSystem.addAccessPoint('SqliteAccessPoint', {
@@ -39,5 +66,5 @@ export function createEfsFileSystem(
         },
     });
 
-    return { fileSystem, accessPoint };
+    return { fileSystem, accessPoint, lambdaSecurityGroup };
 }
