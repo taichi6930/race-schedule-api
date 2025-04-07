@@ -60,8 +60,20 @@ declare global {
     interface Number {
         toXDigits: (digit: number) => string;
     }
+
+    interface String {
+        replaceFromCodePoint: (searchValue: string | RegExp) => string;
+    }
 }
 
 Number.prototype.toXDigits = function (this: number, digit: number): string {
     return this.toString().padStart(digit, '0');
+};
+
+String.prototype.replaceFromCodePoint = function (
+    searchValue: string | RegExp,
+): string {
+    return this.replace(searchValue, (s) =>
+        String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
+    );
 };
