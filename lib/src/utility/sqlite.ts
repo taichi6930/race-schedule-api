@@ -1,7 +1,10 @@
-import { existsSync, mkdir } from 'node:fs';
+import { existsSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
 
 import Database from 'better-sqlite3';
+
+import { allowedEnvs } from '../../../test/utility/testDecorators';
+import { ENV } from './env';
 
 /**
  * レースタイプの列挙型
@@ -92,9 +95,24 @@ export class SQLiteManager {
      * データベースファイルのパスを取得
      */
     private getDatabasePath(): string {
-        // ローカル環境では./volume/db配下に保存
-        const baseDir = path.join(process.cwd(), 'volume', 'db');
-        return path.join(baseDir, 'race-schedule.db');
+        // 本番環境では/mnt/efs/db配下に保存
+        switch (ENV) {
+            case allowedEnvs.production:
+            case allowedEnvs.test: {
+                const baseDir = path.join('/mnt/efs', 'db');
+                return path.join(baseDir, 'race-schedule.db');
+            }
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi:
+            case allowedEnvs.local: {
+                const baseDir = path.join(process.cwd(), 'volume', 'db');
+                return path.join(baseDir, 'race-schedule.db');
+            }
+            default: {
+                throw new Error('Invalid ENV value');
+            }
+        }
     }
 
     /**
@@ -102,11 +120,7 @@ export class SQLiteManager {
      */
     private ensureDirectoryExists(dirPath: string): void {
         if (!existsSync(dirPath)) {
-            mkdir(dirPath, { recursive: true }, (error) => {
-                if (error) {
-                    throw error;
-                }
-            });
+            mkdirSync(dirPath, { recursive: true });
         }
     }
 
