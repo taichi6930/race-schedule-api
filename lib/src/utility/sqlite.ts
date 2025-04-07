@@ -48,15 +48,42 @@ export class SQLiteManager {
      * データベースを初期化
      */
     private initialize(): void {
-        // レースデータテーブルの作成
+        // 開催場データテーブルの作成
         this.db.exec(`
             CREATE TABLE IF NOT EXISTS places (
                 id TEXT PRIMARY KEY,
-                dateTime TEXT NOT NULL,
+                dateTime DATETIME NOT NULL,
                 location TEXT NOT NULL,
                 type TEXT CHECK(type IN ('${Object.values(RaceType).join("','")}')) NOT NULL,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            );
+        `);
+
+        // レースデータテーブルの作成
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS races (
+                id TEXT NOT NULL,
+                number INTEGER NOT NULL,
+                dateTime DATETIME NOT NULL,
+                name TEXT NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id, number)
+            );
+        `);
+
+        // 競馬情報テーブルの作成
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS horse_race_info (
+                id TEXT NOT NULL,
+                number INTEGER NOT NULL,
+                surfaceType TEXT NOT NULL,
+                distance INTEGER NOT NULL,
+                grade TEXT NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id, number)
             );
         `);
     }
