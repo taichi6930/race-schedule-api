@@ -1,4 +1,3 @@
-import type { aws_s3tables } from 'aws-cdk-lib';
 import {
     Effect,
     PolicyStatement,
@@ -11,10 +10,11 @@ import type { Construct } from 'constructs';
 export function createLambdaExecutionRole(
     scope: Construct,
     bucket: aws_s3.IBucket,
-    s3TableBucket: aws_s3tables.CfnTableBucket,
+    tableBucket: aws_s3.IBucket,
+    suffix: string,
 ): Role {
     // Lambda 実行に必要な IAM ロールを作成
-    const role = new Role(scope, 'LambdaExecutionRole', {
+    const role = new Role(scope, `LambdaExecutionRole${suffix}`, {
         assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
     });
 
@@ -35,7 +35,7 @@ export function createLambdaExecutionRole(
                 's3:ListBucket',
                 's3:DeleteObject',
             ],
-            resources: [s3TableBucket.attrTableBucketArn + '/*'],
+            resources: [tableBucket.bucketArn + '/*'],
         }),
     );
 

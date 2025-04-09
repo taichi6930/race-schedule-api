@@ -6,8 +6,9 @@ import type { Construct } from 'constructs';
 export function createApiGateway(
     scope: Construct,
     lambdaFunction: NodejsFunction,
+    suffix: string,
 ): apigateway.LambdaRestApi {
-    return new apigateway.LambdaRestApi(scope, 'RaceScheduleAppApi', {
+    return new apigateway.LambdaRestApi(scope, `RaceScheduleAppApi${suffix}`, {
         handler: lambdaFunction,
         defaultCorsPreflightOptions: {
             // すべてのオリジンを許可
