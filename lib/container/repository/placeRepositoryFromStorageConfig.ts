@@ -12,8 +12,9 @@ import { KeirinPlaceRepositoryFromStorageImpl } from '../../src/repository/imple
 import { NarPlaceRepositoryFromSqliteImpl } from '../../src/repository/implement/narPlaceRepositoryFromSqliteImpl';
 import { NarPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/narPlaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
+import { allowedEnvs, ENV } from '../../src/utility/env';
 
-if (process.env.NODE_ENV === 'local') {
+if (ENV === allowedEnvs.test) {
     container.register<IPlaceRepository<NarPlaceEntity>>(
         'NarPlaceRepositoryFromStorage',
         { useClass: NarPlaceRepositoryFromSqliteImpl },

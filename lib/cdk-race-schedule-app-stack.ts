@@ -1,43 +1,35 @@
-import {
-    aws_s3,
-    aws_s3tables,
-    CfnOutput,
-    Stack,
-    type StackProps,
-} from 'aws-cdk-lib';
+import { aws_s3, CfnOutput, Stack, type StackProps } from 'aws-cdk-lib';
 import type { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
 
+import { allowedEnvs, type EnvType } from './src/utility/env';
 import { createApiGateway } from './stack/api-setup';
 import { createLambdaExecutionRole } from './stack/iam-setup';
 import { createLambdaFunction } from './stack/lambda-setup';
 
 dotenv.config({ path: './.env' });
 
-export class CdkRaceScheduleAppStack extends Stack {
-    public constructor(scope: Construct, id: string, props?: StackProps) {
+export abstract class CdkRaceScheduleAppStack extends Stack {
+    protected constructor(
+        scope: Construct,
+        id: string,
+        protected readonly suffix: string,
+        funcEnv: EnvType,
+        props?: StackProps,
+    ) {
         super(scope, id, props);
 
         // S3バケットの参照
         const bucket = aws_s3.Bucket.fromBucketName(
             this,
-            'RaceScheduleBucket',
-            'race-schedule-bucket',
+            `RaceScheduleBucket${this.suffix}`,
+            `race-schedule-bucket${this.suffix}`,
         );
 
-        const s3TableBucket = new aws_s3tables.CfnTableBucket(
+        const s3TableBucket = aws_s3.Bucket.fromBucketName(
             this,
-            'RaceScheduleTableBucket',
-            {
-                tableBucketName: 'race-schedule-table-bucket',
-
-                // オプション: 参照されなくなったファイルの自動削除設定
-                unreferencedFileRemoval: {
-                    noncurrentDays: 90, // 旧バージョンのファイルを90日後に削除
-                    status: 'Enabled', // 削除を有効化
-                    unreferencedDays: 90, // 参照されなくなったファイルを90日後に削除
-                },
-            },
+            `RaceScheduleTableBucket${this.suffix}`,
+            `race-schedule-table-bucket${this.suffix}`,
         );
 
         // Lambda実行に必要なIAMロールを作成
@@ -45,17 +37,35 @@ export class CdkRaceScheduleAppStack extends Stack {
             this,
             bucket,
             s3TableBucket,
+            this.suffix,
         );
 
         // Lambda関数を作成
-        const lambdaFunction = createLambdaFunction(this, lambdaRole);
+        const lambdaFunction = createLambdaFunction(
+            this,
+            lambdaRole,
+            this.suffix,
+            funcEnv,
+        );
 
         // API Gatewayの設定
-        const api = createApiGateway(this, lambdaFunction);
+        const api = createApiGateway(this, lambdaFunction, this.suffix);
 
         // API Gateway エンドポイントの出力
-        new CfnOutput(this, 'RaceScheduleAppApiGatewayEndpoint', {
+        new CfnOutput(this, `RaceScheduleAppApiGatewayEndpoint${this.suffix}`, {
             value: api.deploymentStage.urlForPath(),
         });
+    }
+}
+
+export class ProductionRaceScheduleAppStack extends CdkRaceScheduleAppStack {
+    public constructor(scope: Construct, id: string, props?: StackProps) {
+        super(scope, id, '', allowedEnvs.production, props);
+    }
+}
+
+export class TestRaceScheduleAppStack extends CdkRaceScheduleAppStack {
+    public constructor(scope: Construct, id: string, props?: StackProps) {
+        super(scope, id, '-test', allowedEnvs.test, props);
     }
 }
