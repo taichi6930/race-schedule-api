@@ -51,32 +51,52 @@ jobs:
             const { owner, repo } = context.repo;
             const prNumber = pullRequest.number;
 
-            // Approve the PR
-            await github.rest.pulls.createReview({
-              owner,
-              repo,
-              pull_number: prNumber,
-              event: 'APPROVE'
-            });
-            console.log('Approved PR #' + prNumber);
+            try {
+              // Get PR details including node_id
+              const { data: prData } = await github.rest.pulls.get({
+                owner,
+                repo,
+                pull_number: prNumber
+              });
+              console.log('Retrieved PR details');
 
-            // Enable auto-merge using GraphQL
-            await github.graphql(`
-              mutation EnableAutoMerge($pullRequestId: ID!) {
-                enablePullRequestAutoMerge(input: {
-                  pullRequestId: $pullRequestId,
-                  mergeMethod: MERGE
-                }) {
-                  pullRequest {
-                    number
-                    autoMergeRequest {
-                      enabledAt
-                      mergeMethod
+              // Approve the PR
+              await github.rest.pulls.createReview({
+                owner,
+                repo,
+                pull_number: prNumber,
+                event: 'APPROVE'
+              });
+              console.log('Approved PR #' + prNumber);
+
+              // Enable auto-merge using GraphQL
+              try {
+                await github.graphql(`
+                  mutation EnableAutoMerge($pullRequestId: ID!) {
+                    enablePullRequestAutoMerge(input: {
+                      pullRequestId: $pullRequestId,
+                      mergeMethod: MERGE
+                    }) {
+                      pullRequest {
+                        number
+                        autoMergeRequest {
+                          enabledAt
+                          mergeMethod
+                        }
+                      }
                     }
                   }
-                }
+                `, {
+                  pullRequestId: prData.node_id
+                });
+                console.log('Enabled auto-merge for PR #' + prNumber);
+              } catch (graphqlError) {
+                console.error('GraphQL error:', graphqlError);
+                core.setFailed('Failed to enable auto-merge: ' + graphqlError.message);
+                throw graphqlError;
               }
-            `, {
-              pullRequestId: pullRequest.node_id
-            });
-            console.log('Enabled auto-merge for PR #' + prNumber);
+            } catch (error) {
+              console.error('Error:', error);
+              core.setFailed('Failed to process PR: ' + error.message);
+              throw error;
+            }
