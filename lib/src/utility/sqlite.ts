@@ -92,8 +92,10 @@ export class SQLiteManager {
      * データベースファイルのパスを取得
      */
     private getDatabasePath(): string {
-        // ローカル環境では./volume/db配下に保存
-        const baseDir = path.join(process.cwd(), 'volume', 'db');
+        // Lambda環境ではEFSマウントパスを使用、ローカル環境ではvolume/db配下に保存
+        const baseDir =
+            process.env.EFS_MOUNT_PATH ??
+            path.join(process.cwd(), 'volume', 'db');
         return path.join(baseDir, 'race-schedule.db');
     }
 

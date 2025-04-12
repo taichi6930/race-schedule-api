@@ -5,7 +5,11 @@ import * as dotenv from 'dotenv';
 import { allowedEnvs, type EnvType } from './src/utility/env';
 import { createApiGateway } from './stack/api-setup';
 import { createLambdaExecutionRole } from './stack/iam-setup';
-import { createLambdaFunction } from './stack/lambda-setup';
+import {
+    createEfsResources,
+    createLambdaFunction,
+    createVpcResources,
+} from './stack/lambda-setup';
 
 dotenv.config({ path: './.env' });
 
@@ -32,6 +36,12 @@ export abstract class CdkRaceScheduleAppStack extends Stack {
             `race-schedule-table-bucket${this.suffix}`,
         );
 
+        // VPCリソースの作成
+        const { vpc, lambdaSg, efsSg } = createVpcResources(this);
+
+        // EFSリソースの作成
+        const { accessPoint } = createEfsResources(this, vpc, efsSg);
+
         // Lambda実行に必要なIAMロールを作成
         const lambdaRole = createLambdaExecutionRole(
             this,
@@ -46,6 +56,9 @@ export abstract class CdkRaceScheduleAppStack extends Stack {
             lambdaRole,
             this.suffix,
             funcEnv,
+            vpc,
+            lambdaSg,
+            accessPoint,
         );
 
         // API Gatewayの設定
