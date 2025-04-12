@@ -34,7 +34,7 @@ jobs:
         with:
           github-token: "${{ steps.app-token.outputs.token }}"
 
-      - name: Verify and merge
+      - name: Auto approve and merge
         if: |
           steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
           steps.metadata.outputs.update-type == 'version-update:semver-minor'
@@ -69,6 +69,16 @@ jobs:
               }
 
               console.log('All checks passed successfully');
+
+              // PRを承認
+              await github.rest.pulls.createReview({
+                owner,
+                repo,
+                pull_number: prNumber,
+                event: 'APPROVE'
+              });
+
+              console.log('PR approved successfully');
 
               // マージを実行
               await github.rest.pulls.merge({
