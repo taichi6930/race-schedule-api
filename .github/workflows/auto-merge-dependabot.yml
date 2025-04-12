@@ -34,7 +34,7 @@ jobs:
         with:
           github-token: "${{ steps.app-token.outputs.token }}"
 
-      - name: Auto approve and merge
+      - name: Approve and enable auto-merge
         if: |
           steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
           steps.metadata.outputs.update-type == 'version-update:semver-minor'
@@ -51,45 +51,32 @@ jobs:
             const { owner, repo } = context.repo;
             const prNumber = pullRequest.number;
 
-            try {
-              // CIチェックの結果を確認
-              const { data: checks } = await github.rest.checks.listForRef({
-                owner,
-                repo,
-                ref: pullRequest.head.sha
-              });
+            // Approve the PR
+            await github.rest.pulls.createReview({
+              owner,
+              repo,
+              pull_number: prNumber,
+              event: 'APPROVE'
+            });
+            console.log('Approved PR #' + prNumber);
 
-              const failedChecks = checks.check_runs.filter(check =>
-                check.conclusion !== 'success' && check.conclusion !== 'skipped'
-              );
-
-              if (failedChecks.length > 0) {
-                core.setFailed(`Found ${failedChecks.length} failed checks`);
-                return;
+            // Enable auto-merge using GraphQL
+            await github.graphql(`
+              mutation EnableAutoMerge($pullRequestId: ID!) {
+                enablePullRequestAutoMerge(input: {
+                  pullRequestId: $pullRequestId,
+                  mergeMethod: MERGE
+                }) {
+                  pullRequest {
+                    number
+                    autoMergeRequest {
+                      enabledAt
+                      mergeMethod
+                    }
+                  }
+                }
               }
-
-              console.log('All checks passed successfully');
-
-              // PRを承認
-              await github.rest.pulls.createReview({
-                owner,
-                repo,
-                pull_number: prNumber,
-                event: 'APPROVE'
-              });
-
-              console.log('PR approved successfully');
-
-              // マージを実行
-              await github.rest.pulls.merge({
-                owner,
-                repo,
-                pull_number: prNumber,
-                merge_method: 'merge'
-              });
-
-              console.log('PR merged successfully');
-            } catch (error) {
-              core.setFailed(`Failed to process PR: ${error.message}`);
-              throw error;
-            }
+            `, {
+              pullRequestId: pullRequest.node_id
+            });
+            console.log('Enabled auto-merge for PR #' + prNumber);
