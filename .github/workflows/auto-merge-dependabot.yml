@@ -34,36 +34,6 @@ jobs:
         with:
           github-token: "${{ steps.app-token.outputs.token }}"
 
-      - name: Verify CI checks
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ steps.app-token.outputs.token }}
-          script: |
-            const pullRequest = context.payload.workflow_run.pull_requests[0];
-            if (!pullRequest) {
-              core.setFailed('No pull request found');
-              return;
-            }
-
-            const { owner, repo } = context.repo;
-            const prNumber = pullRequest.number;
-
-            // CIチェックの結果を確認
-            const { data: checks } = await github.rest.checks.listForRef({
-              owner,
-              repo,
-              ref: pullRequest.head.sha
-            });
-
-            const failedChecks = checks.check_runs.filter(check =>
-              check.conclusion !== 'success' && check.conclusion !== 'skipped'
-            );
-
-            if (failedChecks.length > 0) {
-              core.setFailed(`Found ${failedChecks.length} failed checks`);
-              return;
-            }
-
       - name: Auto approve and merge
         if: |
           steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
@@ -82,7 +52,25 @@ jobs:
             const prNumber = pullRequest.number;
 
             try {
-              // Approve the pull request
+              // CIチェックの結果を確認
+              const { data: checks } = await github.rest.checks.listForRef({
+                owner,
+                repo,
+                ref: pullRequest.head.sha
+              });
+
+              const failedChecks = checks.check_runs.filter(check =>
+                check.conclusion !== 'success' && check.conclusion !== 'skipped'
+              );
+
+              if (failedChecks.length > 0) {
+                core.setFailed(`Found ${failedChecks.length} failed checks`);
+                return;
+              }
+
+              console.log('All checks passed successfully');
+
+              // PRを承認
               await github.rest.pulls.createReview({
                 owner,
                 repo,
@@ -92,16 +80,7 @@ jobs:
 
               console.log('PR approved successfully');
 
-              // Update branch to ensure it's up to date
-              await github.rest.pulls.updateBranch({
-                owner,
-                repo,
-                pull_number: prNumber
-              });
-
-              console.log('Branch updated successfully');
-
-              // Enable auto-merge with merge method
+              // マージを実行
               await github.rest.pulls.merge({
                 owner,
                 repo,
