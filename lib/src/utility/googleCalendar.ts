@@ -6,7 +6,25 @@ import type { NarGradeType } from './data/nar/narGradeType';
 import type { WorldGradeType } from './data/world/worldGradeType';
 
 /**
- * Google Calendar APIの色ID
+ * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール
+ *
+ * このモジュールは、各種レース競技のイベントを視覚的に区別するための
+ * 色分け機能を提供します。主な機能：
+ * - レースのグレードに応じた色の割り当て
+ * - 競技種目ごとの一貫した色使い
+ * - 重要度に基づく視認性の調整
+ */
+
+/**
+ * Googleカレンダーで使用可能な色IDの定義
+ *
+ * 各色はカレンダーイベントの視認性と重要度を表現するために
+ * 慎重に選択されています：
+ *
+ * 基本的な色使いの方針：
+ * - 高グレード（GI/GP等）: 濃い青系（視認性重視）
+ * - 中グレード（GⅡ等）: 赤系（重要イベント）
+ * - 低グレード：緑系や灰色（通常イベント）
  */
 const GoogleCalendarColorId = {
     LAVENDER: '1', // #7986CB
@@ -29,7 +47,9 @@ type GoogleCalendarColorIdType =
     (typeof GoogleCalendarColorId)[keyof typeof GoogleCalendarColorId];
 
 /**
- * 中央競馬のGoogleカレンダーの色ID
+ * 中央競馬（JRA）のグレードごとの色設定
+ *
+ * 中央競馬の特徴的なグレード体系に対応
  */
 const JraGoogleCalendarColorIdMap: Record<
     JraGradeType,
@@ -51,9 +71,18 @@ const JraGoogleCalendarColorIdMap: Record<
 };
 
 /**
- * 中央競馬のGoogleカレンダーの色IDを取得する
- * @param raceGrade
- * @returns
+ * 中央競馬（JRA）のレースグレードに応じた表示色を取得します
+ *
+ * このメソッドは、JRAのレースグレードに基づいて適切な
+ * カレンダー表示色を決定します
+ *
+ * @param raceGrade - JRAのレースグレード
+ * @returns カレンダーイベントの色ID
+ * @example
+ * ```typescript
+ * const colorId = getJraGoogleCalendarColorId('GⅠ');
+ * // returns '9' (青色)
+ * ```
  */
 export const getJraGoogleCalendarColorId = (
     raceGrade: JraGradeType,
@@ -64,7 +93,9 @@ export const getJraGoogleCalendarColorId = (
 };
 
 /**
- * 地方競馬のGoogleカレンダーの色ID
+ * 地方競馬（NAR）のグレードごとの色設定
+ *
+ * 地方競馬特有の格付けに対応
  */
 const NarGoogleCalendarColorIdMap: Record<
     NarGradeType,
@@ -84,9 +115,18 @@ const NarGoogleCalendarColorIdMap: Record<
 };
 
 /**
- * 地方競馬Googleカレンダーの色IDを取得する
- * @param raceGrade
- * @returns
+ * 地方競馬（NAR）のレースグレードに応じた表示色を取得します
+ *
+ * このメソッドは、NARのレースグレードに基づいて適切な
+ * カレンダー表示色を決定します：
+ *
+ * @param raceGrade - NARのレースグレード
+ * @returns カレンダーイベントの色ID
+ * @example
+ * ```typescript
+ * const colorId = getNarGoogleCalendarColorId('JpnⅠ');
+ * // returns '1' (薄紫色)
+ * ```
  */
 export const getNarGoogleCalendarColorId = (
     raceGrade: NarGradeType,
@@ -97,7 +137,14 @@ export const getNarGoogleCalendarColorId = (
 };
 
 /**
- * 海外競馬のGoogleカレンダーの色ID
+ * 海外競馬のグレードごとの色設定
+ *
+ * 国際競馬の格付けに対応：
+ * - GⅠ: 青色
+ * - GⅡ: 赤色
+ * - GⅢ: 緑色
+ * - Listed: 黄色
+ * - 格付けなし: グレー
  */
 const WorldGoogleCalendarColorIdMap: Record<
     WorldGradeType,
@@ -111,9 +158,19 @@ const WorldGoogleCalendarColorIdMap: Record<
 };
 
 /**
- * 海外競馬のGoogleカレンダーの色IDを取得する
- * @param raceGrade
- * @returns
+ * 海外競馬のレースグレードに応じた表示色を取得します
+ *
+ * このメソッドは、国際格付けに基づいて適切な
+ * カレンダー表示色を決定します：
+
+ *
+ * @param raceGrade - 国際グレード
+ * @returns カレンダーイベントの色ID
+ * @example
+ * ```typescript
+ * const colorId = getWorldGoogleCalendarColorId('GⅠ');
+ * // returns '9' (青色)
+ * ```
  */
 export const getWorldGoogleCalendarColorId = (
     raceGrade: WorldGradeType,
@@ -122,7 +179,13 @@ export const getWorldGoogleCalendarColorId = (
 };
 
 /**
- * 競輪のGoogleカレンダーの色ID
+ * 競輪のグレードごとの色設定
+ *
+ * 競輪特有のグレード体系に対応：
+ * - GP/GⅠ: 青色
+ * - GⅡ: 赤色
+ * - GⅢ: 緑色
+ * - FⅠ/FⅡ: グレー
  */
 const KeirinGoogleCalendarColorIdMap: Record<
     KeirinGradeType,
@@ -137,9 +200,22 @@ const KeirinGoogleCalendarColorIdMap: Record<
 };
 
 /**
- * 競輪のGoogleカレンダーの色IDを取得する
- * @param raceGrade
- * @returns
+ * 競輪のレースグレードに応じた表示色を取得します
+ *
+ * このメソッドは、競輪のグレードに基づいて適切な
+ * カレンダー表示色を決定します：
+ * - GP/GⅠ: 青色
+ * - GⅡ: 赤色
+ * - GⅢ: 緑色
+ * - FⅠ/FⅡ: グレー
+ *
+ * @param raceGrade - 競輪のグレード
+ * @returns カレンダーイベントの色ID
+ * @example
+ * ```typescript
+ * const colorId = getKeirinGoogleCalendarColorId('GP');
+ * // returns '9' (青色)
+ * ```
  */
 export const getKeirinGoogleCalendarColorId = (
     raceGrade: KeirinGradeType,
@@ -148,7 +224,14 @@ export const getKeirinGoogleCalendarColorId = (
 };
 
 /**
- * 競艇のGoogleカレンダーの色ID
+ * 競艇（ボートレース）のグレードごとの色設定
+ *
+ * 競艇特有のグレード体系に対応：
+ * - SG: 青色
+ * - GⅠ：青色
+ * - GⅡ: 赤色
+ * - GⅢ: 緑色
+ * - 一般戦: グレー
  */
 const BoatraceGoogleCalendarColorIdMap: Record<
     BoatraceGradeType,
@@ -162,9 +245,22 @@ const BoatraceGoogleCalendarColorIdMap: Record<
 };
 
 /**
- * 競艇のGoogleカレンダーの色IDを取得する
- * @param raceGrade
- * @returns
+ * 競艇（ボートレース）のレースグレードに応じた表示色を取得します
+ *
+ * このメソッドは、競艇のグレードに基づいて適切な
+ * カレンダー表示色を決定します：
+ * - SG/GⅠ: 青色
+ * - GⅡ：赤色
+ * - GⅢ: 緑色
+ * - 一般: グレー
+ *
+ * @param raceGrade - 競艇のグレード
+ * @returns カレンダーイベントの色ID
+ * @example
+ * ```typescript
+ * const colorId = getBoatraceGoogleCalendarColorId('SG');
+ * // returns '9' (青色)
+ * ```
  */
 export const getBoatraceGoogleCalendarColorId = (
     raceGrade: BoatraceGradeType,
@@ -173,7 +269,12 @@ export const getBoatraceGoogleCalendarColorId = (
 };
 
 /**
- * オートレースのGoogleカレンダーの色ID
+ * オートレースのグレードごとの色設定
+ *
+ * オートレース特有のグレード体系に対応：
+ * - SG/特GI: 青色
+ * - GⅠ/GⅡ: 赤色
+ * - 一般開催: グレー
  */
 const AutoraceGoogleCalendarColorIdMap: Record<
     AutoraceGradeType,
@@ -187,9 +288,21 @@ const AutoraceGoogleCalendarColorIdMap: Record<
 };
 
 /**
- * オートレースのGoogleカレンダーの色IDを取得する
- * @param raceGrade
- * @returns
+ * オートレースのレースグレードに応じた表示色を取得します
+ *
+ * このメソッドは、オートレースのグレードに基づいて適切な
+ * カレンダー表示色を決定します：
+ * - SG/特GI/GⅠ: 青色
+ * - GⅡ: 赤色
+ * - 開催: グレー
+ *
+ * @param raceGrade - オートレースのグレード
+ * @returns カレンダーイベントの色ID
+ * @example
+ * ```typescript
+ * const colorId = getAutoraceGoogleCalendarColorId('SG');
+ * // returns '9' (青色)
+ * ```
  */
 export const getAutoraceGoogleCalendarColorId = (
     raceGrade: AutoraceGradeType,
