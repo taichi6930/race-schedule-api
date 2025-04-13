@@ -81,7 +81,6 @@ export class WorldRaceDataUseCase
      * レース開催データを更新する
      * @param startDate
      * @param finishDate
-     * @param searchList
      */
     @Logger
     public async updateRaceEntityList(

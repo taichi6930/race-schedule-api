@@ -56,7 +56,6 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     /**
      * MockS3Gatewayのコンストラクタ
-     * @param {string} bucketName
      * @param {string} folderPath
      */
     public constructor(_: string, folderPath: string) {
