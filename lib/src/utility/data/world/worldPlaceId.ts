@@ -1,7 +1,8 @@
 import { z } from 'zod';
+
 /**
  * WorldPlaceIdのzod型定義
- * world + 8桁の数字（開催日） + 2桁の数字（開催場所）
+ * @private
  */
 const WorldPlaceIdSchema = z
     .string()
@@ -14,6 +15,14 @@ const WorldPlaceIdSchema = z
 
 /**
  * WorldPlaceIdの型定義
+ *
+ * 以下の形式の文字列:
+ * - "world" で始まる
+ * - その後に10桁の数字が続く
+ *   - 最初の8桁: 開催日（YYYYMMDD形式）
+ *   - 最後の2桁: 開催場所を表す番号
+ *
+ * 例: "world2024010101" （2024年1月1日の01番の開催場所）
  */
 export type WorldPlaceId = z.infer<typeof WorldPlaceIdSchema>;
 
