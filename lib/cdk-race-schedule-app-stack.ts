@@ -1,7 +1,6 @@
 import {
     aws_ec2,
     aws_s3,
-    aws_s3tables,
     CfnOutput,
     Stack,
     type StackProps,
@@ -62,27 +61,8 @@ export class CdkRaceScheduleAppStack extends Stack {
             'race-schedule-bucket',
         );
 
-        const s3TableBucket = new aws_s3tables.CfnTableBucket(
-            this,
-            'RaceScheduleTableBucket',
-            {
-                tableBucketName: 'race-schedule-table-bucket',
-
-                // オプション: 参照されなくなったファイルの自動削除設定
-                unreferencedFileRemoval: {
-                    noncurrentDays: 90, // 旧バージョンのファイルを90日後に削除
-                    status: 'Enabled', // 削除を有効化
-                    unreferencedDays: 90, // 参照されなくなったファイルを90日後に削除
-                },
-            },
-        );
-
         // Lambda実行に必要なIAMロールを作成
-        const lambdaRole = createLambdaExecutionRole(
-            this,
-            bucket,
-            s3TableBucket,
-        );
+        const lambdaRole = createLambdaExecutionRole(this, bucket);
 
         // Lambda関数を作成（VPCとEFSの設定を追加）
         const lambdaFunction = createLambdaFunction(
