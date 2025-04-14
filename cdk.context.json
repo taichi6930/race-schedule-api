@@ -1,0 +1,33 @@
+{
+    "vpc-provider:account=485169041965:filter.tag:Name=raceScheduleVpc:filter.vpc-id=vpc-0e7f7d6bcfd84b23c:region=ap-northeast-1:returnAsymmetricSubnets=true": {
+        "vpcId": "vpc-0e7f7d6bcfd84b23c",
+        "vpcCidrBlock": "192.168.0.0/24",
+        "ownerAccountId": "485169041965",
+        "availabilityZones": [],
+        "subnetGroups": [
+            {
+                "name": "efs",
+                "type": "Isolated",
+                "subnets": [
+                    {
+                        "subnetId": "subnet-022ebf60b6ad2f95f",
+                        "cidr": "192.168.0.0/26",
+                        "availabilityZone": "ap-northeast-1a",
+                        "routeTableId": "rtb-0ae96bed2e171ff15"
+                    },
+                    {
+                        "subnetId": "subnet-002379dfd6ba2b5cf",
+                        "cidr": "192.168.0.64/26",
+                        "availabilityZone": "ap-northeast-1c",
+                        "routeTableId": "rtb-0ae96bed2e171ff15"
+                    }
+                ]
+            }
+        ]
+    },
+    "availability-zones:account=485169041965:region=ap-northeast-1": [
+        "ap-northeast-1a",
+        "ap-northeast-1c",
+        "ap-northeast-1d"
+    ]
+}
