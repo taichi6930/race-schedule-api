@@ -1,15 +1,16 @@
 name: Dependabot auto-label
-on: pull_request
+on: pull_request_target
 
 permissions:
   pull-requests: write
   issues: write
   repository-projects: write
+  id-token: write
 
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'owner/my_repo'
+    if: github.actor == 'dependabot[bot]'
     steps:
       - name: Dependabot metadata
         id: metadata
@@ -21,3 +22,4 @@ jobs:
         run: gh pr edit "$PR_URL" --add-label "production"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}

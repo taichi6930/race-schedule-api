@@ -1,15 +1,16 @@
 name: Dependabot fetch metadata
-on: pull_request
+on: pull_request_target
 
 permissions:
   pull-requests: write
   issues: write
   repository-projects: write
+  id-token: write
 
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'owner/my_repo'
+    if: github.actor == 'dependabot[bot]'
     steps:
       - name: Dependabot metadata
         id: metadata
