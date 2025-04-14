@@ -42,5 +42,31 @@ export function createLambdaExecutionRole(
         }),
     );
 
+    // EFSへのアクセス権限を追加
+    role.addToPolicy(
+        new PolicyStatement({
+            actions: [
+                'elasticfilesystem:ClientMount',
+                'elasticfilesystem:ClientWrite',
+                'elasticfilesystem:ClientRootAccess',
+            ],
+            effect: Effect.ALLOW,
+            resources: ['*'],
+        }),
+    );
+
+    // 必要最小限のEC2権限を追加（ENI操作用）
+    role.addToPolicy(
+        new PolicyStatement({
+            actions: [
+                'ec2:CreateNetworkInterface',
+                'ec2:DeleteNetworkInterface',
+                'ec2:DescribeNetworkInterfaces',
+            ],
+            effect: Effect.ALLOW,
+            resources: ['*'],
+        }),
+    );
+
     return role;
 }

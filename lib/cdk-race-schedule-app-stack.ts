@@ -52,7 +52,7 @@ export class CdkRaceScheduleAppStack extends Stack {
         });
 
         // EFSの設定
-        const _efs = new EfsSetup(this, 'RaceScheduleEfsSetup', vpc);
+        const efs = new EfsSetup(this, 'RaceScheduleEfsSetup', vpc);
 
         // S3バケットの参照
         const bucket = aws_s3.Bucket.fromBucketName(
@@ -69,7 +69,7 @@ export class CdkRaceScheduleAppStack extends Stack {
             this,
             lambdaRole,
             vpc,
-            _efs.accessPoint,
+            efs.accessPoint,
         );
 
         // API Gatewayの設定

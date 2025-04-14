@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import type * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as efs from 'aws-cdk-lib/aws-efs';
 import { Construct } from 'constructs';
 
@@ -11,31 +11,30 @@ export class EfsSetup extends Construct {
         super(scope, id);
 
         // EFSファイルシステムの作成
-        this.fileSystem = new efs.FileSystem(this, 'RaceScheduleEfs', {
+        this.fileSystem = new efs.FileSystem(this, 'FileSystem', {
             vpc,
-            removalPolicy: cdk.RemovalPolicy.DESTROY, // テスト環境用
+            lifecyclePolicy: efs.LifecyclePolicy.AFTER_7_DAYS, // 7日間アクセスのないファイルはIA（低コスト）ストレージに移動
             performanceMode: efs.PerformanceMode.GENERAL_PURPOSE,
-            encrypted: true,
-            lifecyclePolicy: efs.LifecyclePolicy.AFTER_14_DAYS, // 14日間アクセスのないファイルを IA に移動
-            outOfInfrequentAccessPolicy:
-                efs.OutOfInfrequentAccessPolicy.AFTER_1_ACCESS, // 1回のアクセスで IA から戻す
+            removalPolicy: cdk.RemovalPolicy.DESTROY,
+            securityGroup: new ec2.SecurityGroup(this, 'EfsSecurityGroup', {
+                vpc,
+                description: 'Allow EFS access',
+                allowAllOutbound: true,
+            }),
         });
 
         // アクセスポイントの作成
-        this.accessPoint = this.fileSystem.addAccessPoint(
-            'RaceScheduleEfsAccessPoint',
-            {
-                path: '/sqlite',
-                createAcl: {
-                    ownerGid: '1001',
-                    ownerUid: '1001',
-                    permissions: '755',
-                },
-                posixUser: {
-                    gid: '1001',
-                    uid: '1001',
-                },
+        this.accessPoint = this.fileSystem.addAccessPoint('LambdaAccessPoint', {
+            path: '/lambda',
+            createAcl: {
+                ownerGid: '1001',
+                ownerUid: '1001',
+                permissions: '750',
             },
-        );
+            posixUser: {
+                gid: '1001',
+                uid: '1001',
+            },
+        });
     }
 }
