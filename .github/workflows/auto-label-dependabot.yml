@@ -18,8 +18,8 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
       - name: Add a label for all production dependencies
-        if: steps.metadata.outputs.dependency-type == 'direct:production'
-        run: gh pr edit "$PR_URL" --add-label "production"
+        if: steps.metadata.outputs.dependency-type == 'direct:dependabot'
+        run: gh pr edit "$PR_URL" --add-label "dependabot"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
