@@ -1,0 +1,128 @@
+name: Dependabot Workflow
+
+on:
+  pull_request_target:
+    branches: [ main ]
+
+# 必要最小限の権限設定
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  repository-projects: write
+  id-token: write
+  checks: read    # CI状態の確認用
+
+jobs:
+  dependabot:
+    name: Dependabot Auto Merge
+    runs-on: ubuntu-latest
+    # Dependabotからのプルリクエストのみを処理
+    if: github.actor == 'dependabot[bot]'
+    timeout-minutes: 10  # タイムアウト設定
+
+    steps:
+      # GitHubアプリトークンの生成
+      - name: Generate App Token
+        id: generate-token
+        uses: actions/create-github-app-token@v1.6.2
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      # Dependabotメタデータの取得
+      - name: Fetch Dependabot Metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ steps.generate-token.outputs.token }}
+
+      # 更新タイプの検証
+      - name: Validate Update Type
+        id: validate
+        run: |
+          UPDATE_TYPE="${{ steps.metadata.outputs.update-type }}"
+          if [[ $UPDATE_TYPE == "version-update:semver-patch" || $UPDATE_TYPE == "version-update:semver-minor" ]]; then
+            echo "is_allowed=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_allowed=false" >> $GITHUB_OUTPUT
+            echo "Skipping auto-merge for major version change or non-semver update"
+          fi
+
+      # ラベル付け
+      - name: Apply Labels
+        if: success()
+        run: |
+          UPDATE_TYPE="${{ steps.metadata.outputs.update-type }}"
+          DEP_TYPE="${{ steps.metadata.outputs.dependency-type }}"
+          PACKAGE="${{ steps.metadata.outputs.package-name }}"
+          
+          # 基本ラベル
+          LABELS=("dependabot" "$UPDATE_TYPE" "$DEP_TYPE")
+          
+          # パッケージタイプ別のラベル
+          if [[ $PACKAGE == "@types/"* ]]; then
+            LABELS+=("types")
+          fi
+          
+          # ラベル適用
+          for LABEL in "${LABELS[@]}"; do
+            gh pr edit "$PR_URL" --add-label "$LABEL" || true
+          done
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+
+      # CIチェックの待機
+      - name: Wait for CI
+        if: steps.validate.outputs.is_allowed == 'true'
+        uses: lewagon/wait-on-check-action@v1.3.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          check-name: 'Pull Request CI'
+          repo-token: ${{ steps.generate-token.outputs.token }}
+          wait-interval: 20
+          allowed-conclusions: success
+
+      # PRの承認
+      - name: Approve Pull Request
+        if: steps.validate.outputs.is_allowed == 'true'
+        run: |
+          gh pr review "$PR_URL" --approve -b "自動承認: パッチまたはマイナーバージョンアップデート"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+
+      # 自動マージの設定
+      - name: Enable Auto-merge
+        if: steps.validate.outputs.is_allowed == 'true'
+        run: |
+          # マージ設定
+          gh pr merge "$PR_URL" --auto --squash --delete-branch \
+            -t "chore(deps): ${PR_TITLE}" \
+            -b "自動マージ by Dependabot workflow"
+            
+          echo "Auto-merge enabled for PR #${{ github.event.pull_request.number }}"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+
+      # 結果の通知
+      - name: Notify Result
+        if: always()
+        run: |
+          STATUS="${{ job.status }}"
+          PR_NUM="${{ github.event.pull_request.number }}"
+          
+          if [[ $STATUS == "success" ]]; then
+            MESSAGE="✅ Dependabotワークフローが正常に完了しました"
+          else
+            MESSAGE="❌ Dependabotワークフローが失敗しました"
+          fi
+          
+          gh pr comment "$PR_URL" --body "$MESSAGE"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
