@@ -43,7 +43,7 @@
         "@types/better-sqlite3": "^7.6.13",
         "@types/cheerio": "^0.22.35",
         "@types/express": "^5.0.1",
-        "aws-cdk-lib": "2.189.0",
+        "aws-cdk-lib": "2.189.1",
         "aws-lambda": "^1.0.7",
         "better-sqlite3": "^11.9.1",
         "cheerio": "^1.0.0",
@@ -74,7 +74,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.24.0",
-        "@swc/core": "^1.11.20",
+        "@swc/core": "^1.11.21",
         "@swc/jest": "^0.2.37",
         "@types/jest": "^29.5.14",
         "@types/node": "22.14.1",
@@ -92,6 +92,6 @@
         "nodemon": "^3.1.9",
         "ts-node": "^10.9.2",
         "typescript": "~5.8.3",
-        "typescript-eslint": "^8.29.1"
+        "typescript-eslint": "^8.30.1"
     }
 }
