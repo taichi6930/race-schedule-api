@@ -32,8 +32,9 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.3.1
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          check-name: 'Pull Request CI'
           repo-token: ${{ steps.app-token.outputs.token }}
+          check-regexp: '.*'
+          allowed-conclusions: success
           wait-interval: 20
 
       - name: Enable auto-merge for Dependabot PRs
