@@ -40,7 +40,7 @@ export default [
         rules: {
             // JSDoc関連のルール
             'jsdoc/check-access': 'error', // アクセス修飾子のチェック
-            'jsdoc/check-alignment': 'off', // 整列のチェック
+            'jsdoc/check-alignment': 'error', // 整列のチェック
             'jsdoc/check-examples': 'off', // ESLint 8+との互換性の問題により無効化
             'jsdoc/check-indentation': 'off', // インデントのチェック
             'jsdoc/check-line-alignment': 'off', // 行の整列チェック
