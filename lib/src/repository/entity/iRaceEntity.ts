@@ -42,7 +42,6 @@ export interface IRaceEntity<T extends IRaceEntity<T>> {
      *
      * @param partial - 更新したいフィールドを含むオブジェクト
      * @returns 更新された新しいエンティティインスタンス
-     *
      * @example
      * ```typescript
      * const newEntity = entity.copy({ raceName: "新しいレース名" });

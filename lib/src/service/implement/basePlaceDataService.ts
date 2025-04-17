@@ -23,7 +23,6 @@ import { IPlaceDataService } from '../interface/IPlaceDataService';
  *
  * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
  *               例：JraPlaceEntity, NarPlaceEntity など
- *
  * @example
  * ```typescript
  * class MyPlaceDataService extends BasePlaceDataService<MyPlaceEntity> {
@@ -52,7 +51,6 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
      * @param finishDate - 取得終了日（この日を含む）
      * @param type - データ取得元の指定（storage/web）
      * @returns 開催場所エンティティの配列。エラー時は空配列
-     *
      * @throws エラーはキャッチされログ出力されます
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
@@ -116,9 +114,9 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
      * - Storage: S3またはローカルストレージからの取得
      * - Web: 公式サイトからのスクレイピング
      *
+     * @internal このメソッドはクラス内部でのみ使用されます
      * @param type - データソースの種類（storage/web）
      * @returns 指定されたデータソースに対応するリポジトリインスタンス
-     * @internal このメソッドはクラス内部でのみ使用されます
      */
     private getPlaceRepository(type: DataLocationType): IPlaceRepository<P> {
         switch (type) {

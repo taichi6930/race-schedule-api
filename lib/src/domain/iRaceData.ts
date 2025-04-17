@@ -40,7 +40,6 @@ export interface IRaceData<T extends IRaceData<T>> {
      * @param partial - 更新したいフィールドを含むオブジェクト。
      *                Partial型により、一部のフィールドのみの指定が可能です。
      * @returns 更新された新しいレース情報インスタンス
-     *
      * @example
      * ```typescript
      * class MyRaceData implements IRaceData<MyRaceData> {

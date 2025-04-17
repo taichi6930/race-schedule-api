@@ -22,27 +22,22 @@ dotenv.config();
  *                       - HTML: 本番Webサイトに接続
  *                       - S3: 本番バケットに接続
  *                       - 完全な機能セット
- *
  * @property test - テスト環境
  *                 - HTML: モックリポジトリを使用
  *                 - S3: テスト用バケットに接続
  *                 - テスト実行用の設定
- *
  * @property local - ローカル開発環境
  *                  - HTML: ローカルファイルを使用
  *                  - S3: モックストレージを使用
  *                  - 実際のデータで初期化
- *
  * @property localNoInitData - 初期データなしの開発環境
  *                            - HTML: モックリポジトリを使用
  *                            - S3: 空のモックストレージ
  *                            - クリーンな状態でのテスト用
- *
  * @property localInitMadeData - テストデータ付き開発環境
  *                              - HTML: モックリポジトリを使用
  *                              - S3: サンプルデータで初期化
  *                              - 機能開発とテスト用
- *
  * @property githubActionsCi - CI/CD環境
  *                           - 自動テスト用に最適化
  *                           - HTMLスクレイピングをスキップ
@@ -70,7 +65,6 @@ export type EnvType = (typeof allowedEnvs)[keyof typeof allowedEnvs];
  * @param env - 環境変数から取得した環境文字列
  * @returns 検証済みの環境タイプ
  * @throws Error 無効な環境値が指定された場合
- *
  * @example
  * ```typescript
  * // 有効な環境値の場合

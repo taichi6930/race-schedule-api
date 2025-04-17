@@ -52,8 +52,6 @@ import type { IRecord } from './iRecord';
 export class JraRaceRecord implements IRecord<JraRaceRecord> {
     /**
      * コンストラクタ
-     * @remarks
-     * レース開催データを生成する
      * @param id - ID
      * @param name - レース名
      * @param dateTime - 開催日時
@@ -65,6 +63,8 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
      * @param heldTimes - 開催回数
      * @param heldDayTimes - 開催日数
      * @param updateDate - 更新日時
+     * @remarks
+     * レース開催データを生成する
      */
     private constructor(
         public readonly id: JraRaceId,

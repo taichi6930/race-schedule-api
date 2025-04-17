@@ -14,11 +14,11 @@ import type { IPlaceEntity } from './iPlaceEntity';
 export class KeirinPlaceEntity implements IPlaceEntity<KeirinPlaceEntity> {
     /**
      * コンストラクタ
-     * @remarks
-     * レース開催場所データを生成する
      * @param id - ID
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
+     * @remarks
+     * レース開催場所データを生成する
      */
     private constructor(
         public readonly id: KeirinPlaceId,

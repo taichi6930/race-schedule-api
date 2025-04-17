@@ -26,7 +26,6 @@ import { format } from 'date-fns';
  * @param _target - デコレータのターゲットオブジェクト
  * @param propertyKey - 対象メソッド名
  * @param descriptor - メソッドのプロパティディスクリプタ
- *
  * @example
  * ```typescript
  * class ExampleService {

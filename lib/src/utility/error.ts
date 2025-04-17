@@ -25,7 +25,6 @@
  * @param error - 発生したエラーオブジェクト。unknownとして受け取り、
  *               型に応じて適切に処理
  * @returns プレフィックスとエラーメッセージを組み合わせた文字列
- *
  * @example
  * ```typescript
  * try {

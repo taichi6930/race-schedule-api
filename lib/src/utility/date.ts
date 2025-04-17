@@ -16,7 +16,6 @@
  *
  * @param date - 変換対象のDate型オブジェクト
  * @returns 日本時間に変換されたDate型オブジェクト
- *
  * @example
  * ```typescript
  * // UTC時刻を日本時間に変換

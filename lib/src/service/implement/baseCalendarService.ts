@@ -26,7 +26,6 @@ import { ICalendarService } from '../interface/ICalendarService';
  *
  * @typeParam R - レースエンティティの型。IRaceEntityを実装している必要があります。
  *               このエンティティの情報がカレンダーイベントに変換されます。
- *
  * @example
  * ```typescript
  * class MyCalendarService extends BaseCalendarService<MyRaceEntity> {

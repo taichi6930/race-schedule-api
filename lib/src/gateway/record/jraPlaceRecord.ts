@@ -27,14 +27,14 @@ import type { IRecord } from './iRecord';
 export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     /**
      * コンストラクタ
-     * @remarks
-     * レース開催場所データを生成する
      * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param heldTimes - 開催回数
      * @param heldDayTimes - 開催日数
      * @param updateDate - 更新日時
+     * @remarks
+     * レース開催場所データを生成する
      */
     private constructor(
         public readonly id: JraPlaceId,

@@ -24,7 +24,6 @@ import type { IRaceDataService } from '../interface/IRaceDataService';
  *
  * @typeParam R - レースエンティティの型。IRaceEntityを実装している必要があります。
  * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
- *
  * @example
  * ```typescript
  * class MyRaceDataService extends BaseRaceDataService<MyRaceEntity, MyPlaceEntity> {
@@ -54,7 +53,6 @@ export abstract class BaseRaceDataService<
      * @param placeEntityList - 関連する開催場所エンティティのリスト。
      *                        主にWeb取得時に使用され、場所情報の補完に利用。
      * @returns レース開催エンティティの配列。エラー時は空配列
-     *
      * @throws エラーはキャッチされログ出力されます
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
@@ -113,9 +111,9 @@ export abstract class BaseRaceDataService<
      * 適切なリポジトリ実装を返します。Strategy パターンの実装として
      * 機能します。
      *
+     * @internal このメソッドはクラス内部でのみ使用されます
      * @param type - データソースの種類（storage/web）
      * @returns 指定されたデータソースに対応するリポジトリインスタンス
-     * @internal このメソッドはクラス内部でのみ使用されます
      */
     private getRaceRepository(type: DataLocationType): IRaceRepository<R, P> {
         switch (type) {

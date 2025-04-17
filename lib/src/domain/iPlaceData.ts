@@ -33,7 +33,6 @@ export interface IPlaceData<T extends IPlaceData<T>> {
      * @param partial - 更新したいフィールドを含むオブジェクト。
      *                Partial型により、一部のフィールドのみの指定が可能です。
      * @returns 更新された新しいドメインモデルインスタンス
-     *
      * @example
      * ```typescript
      * class MyPlaceData implements IPlaceData<MyPlaceData> {

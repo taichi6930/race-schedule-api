@@ -24,13 +24,13 @@ export class BoatraceRacePlayerRecord
 {
     /**
      * コンストラクタ
-     * @remarks
-     * レース開催データを生成する
      * @param id - ID
      * @param raceId - レースID
      * @param positionNumber - 枠番
      * @param playerNumber - 選手番号
      * @param updateDate - 更新日時
+     * @remarks
+     * レース開催データを生成する
      */
     private constructor(
         public readonly id: BoatraceRacePlayerId,

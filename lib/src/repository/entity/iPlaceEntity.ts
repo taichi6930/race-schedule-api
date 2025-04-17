@@ -28,7 +28,6 @@ export interface IPlaceEntity<T extends IPlaceEntity<T>> {
      * @param partial - 更新したいフィールドを含むオブジェクト。
      *                Partial型により、一部のフィールドのみの指定が可能です。
      * @returns 更新された新しいエンティティインスタンス
-     *
      * @example
      * ```typescript
      * const newEntity = entity.copy({ date: newDate });

@@ -61,14 +61,14 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
 
     /**
      * コンストラクタ
-     * @remarks
-     * レース開催データを生成する
      * @param name - レース名
      * @param stage - 開催ステージ
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param grade - グレード
      * @param number - レース番号
+     * @remarks
+     * レース開催データを生成する
      */
     private constructor(
         name: AutoraceRaceName,

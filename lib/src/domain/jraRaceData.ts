@@ -88,8 +88,6 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
 
     /**
      * コンストラクタ
-     * @remarks
-     * レース開催データを生成する
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -99,6 +97,8 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
      * @param number - レース番号
      * @param heldTimes - 開催回数
      * @param heldDayTimes - 開催日数
+     * @remarks
+     * レース開催データを生成する
      */
     private constructor(
         name: JraRaceName,
