@@ -142,7 +142,7 @@ export default [
             'jsdoc/require-yields-check': 'off', // yields句のチェック
             'jsdoc/sort-tags': 'error', // タグのソート
             'jsdoc/tag-lines': 'error', // タグの行数チェック
-            'jsdoc/valid-types': 'off', // 有効な型のチェック
+            'jsdoc/valid-types': 'error', // 有効な型のチェック
             '@typescript-eslint/class-methods-use-this': 'off', // ✅ クラスメソッド内でthisを使う
             '@typescript-eslint/max-params': 'off', // ✅ 関数のパラメータ数の最大値を許可
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可

@@ -110,7 +110,6 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
      * デフォルトでは以下のリポジトリを使用：
      * - Storage: S3またはローカルストレージからの取得
      * - Web: 公式サイトからのスクレイピング
-     * @internal このメソッドはクラス内部でのみ使用されます
      * @param type - データソースの種類（storage/web）
      * @returns 指定されたデータソースに対応するリポジトリインスタンス
      */

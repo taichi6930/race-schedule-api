@@ -107,7 +107,6 @@ export abstract class BaseRaceDataService<
      * このメソッドは、指定されたデータソースタイプに基づいて、
      * 適切なリポジトリ実装を返します。Strategy パターンの実装として
      * 機能します。
-     * @internal このメソッドはクラス内部でのみ使用されます
      * @param type - データソースの種類（storage/web）
      * @returns 指定されたデータソースに対応するリポジトリインスタンス
      */
