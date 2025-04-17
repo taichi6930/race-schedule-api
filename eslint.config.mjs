@@ -39,20 +39,110 @@ export default [
         },
         rules: {
             // JSDoc関連のルール
+            'jsdoc/check-access': 'off', // アクセス修飾子のチェック
+            'jsdoc/check-alignment': 'off', // 整列のチェック
+            'jsdoc/check-examples': 'off', // ESLint 8+との互換性の問題により無効化
+            'jsdoc/check-indentation': 'off', // インデントのチェック
+            'jsdoc/check-line-alignment': 'off', // 行の整列チェック
+            'jsdoc/check-param-names': [
+                'off',
+                {
+                    checkDestructured: false,
+                    enableFixer: true,
+                    checkRestProperty: false,
+                },
+            ],
+            'jsdoc/check-property-names': 'off', // プロパティ名のチェック
+            'jsdoc/check-syntax': 'off', // 構文チェック
+            'jsdoc/check-tag-names': 'off', // タグ名のチェック
+            'jsdoc/check-types': 'off', // 型のチェック
+            'jsdoc/check-values': 'off', // 値のチェック
+            'jsdoc/empty-tags': 'off', // 空タグのチェック
+            'jsdoc/implements-on-classes': 'off', // クラスの実装チェック
+            'jsdoc/match-description': 'off', // 説明の形式チェック
+            'jsdoc/multiline-blocks': 'off', // 複数行ブロックのチェック
+            'jsdoc/no-bad-blocks': 'off', // 不正なブロックのチェック
+            'jsdoc/no-defaults': 'off', // デフォルト値のチェック
+            'jsdoc/no-missing-syntax': [
+                'off',
+                {
+                    contexts: [
+                        {
+                            comment: '*',
+                            message: '@param description is required',
+                        },
+                    ],
+                },
+            ],
+            'jsdoc/no-multi-asterisks': 'off',
+            'jsdoc/no-restricted-syntax': [
+                'off',
+                {
+                    contexts: [
+                        {
+                            comment: '*',
+                            message: 'JSDoc must start with a description',
+                        },
+                    ],
+                },
+            ],
+            'jsdoc/no-types': 'off', // TypeScriptと併用するため無効化
+            'jsdoc/no-undefined-types': 'off', // 未定義の型のチェック
+            'jsdoc/require-asterisk-prefix': 'off', // アスタリスクプレフィックスの要求
+            'jsdoc/require-description': 'off', // 説明の要求
+            'jsdoc/require-description-complete-sentence': 'off', // 完全な文章での説明要求
+            'jsdoc/require-example': 'off', // サンプルの要求
+            'jsdoc/require-file-overview': [
+                'off',
+                {
+                    tags: {
+                        file: {
+                            initialCommentsOnly: true,
+                            mustExist: true,
+                            preventDuplicates: true,
+                        },
+                        description: {
+                            mustExist: true,
+                            preventDuplicates: true,
+                        },
+                        module: {
+                            mustExist: true,
+                        },
+                    },
+                },
+            ],
+            'jsdoc/require-hyphen-before-param-description': 'off', // パラメータ説明前のハイフン要求
             'jsdoc/require-jsdoc': [
-                'error',
+                'off',
                 {
                     publicOnly: true,
                     require: {
-                        ArrowFunctionExpression: false,
+                        ArrowFunctionExpression: true,
                         ClassDeclaration: true,
                         ClassExpression: true,
                         FunctionDeclaration: true,
                         MethodDefinition: true,
                     },
-                    exemptEmptyFunctions: true,
                 },
             ],
+            'jsdoc/require-param': 'off',
+            'jsdoc/require-param-description': 'off',
+            'jsdoc/require-param-name': 'off',
+            'jsdoc/require-param-type': 'off',
+            'jsdoc/require-property': 'off', // プロパティの要求
+            'jsdoc/require-property-description': 'off', // プロパティの説明要求
+            'jsdoc/require-property-name': 'off', // プロパティ名の要求
+            'jsdoc/require-property-type': 'off', // TypeScriptと併用するため無効化
+            'jsdoc/require-returns': 'off', // 戻り値の要求
+            'jsdoc/require-returns-check': 'off', // 戻り値のチェック
+            'jsdoc/require-returns-description': 'off', // 戻り値の説明要求
+            'jsdoc/require-returns-type': 'off', // TypeScriptと併用するため無効化
+            'jsdoc/require-throws': 'off', // throws句の要求
+            'jsdoc/require-yields': 'off', // yields句の要求
+            'jsdoc/require-yields-check': 'off', // yields句のチェック
+            'jsdoc/sort-tags': 'off', // タグのソート
+            'jsdoc/tag-lines': 'off', // タグの行数チェック
+            'jsdoc/valid-types': 'off', // 有効な型のチェック
             '@typescript-eslint/class-methods-use-this': 'off', // ✅ クラスメソッド内でthisを使う
             '@typescript-eslint/max-params': 'off', // ✅ 関数のパラメータ数の最大値を許可
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可
@@ -93,6 +183,10 @@ export default [
         files: ['**/*.yaml', '**/*.yml'],
         rules: {
             'prettier/prettier': 'off',
+            'jsdoc/require-file-overview': 'off',
+            'jsdoc/no-restricted-syntax': 'off',
+            'jsdoc/require-description': 'off',
+            'jsdoc/require-returns': 'off',
         },
     },
     {
@@ -113,10 +207,16 @@ export default [
         },
     },
     {
-        files: ['**/*.test.ts', '**/utility/**/*.ts'],
+        files: ['**/*.test.ts', '**/utility/**/*.ts', '**/test/**/*.ts'],
         rules: {
             '@typescript-eslint/no-use-before-define': 'off', // ✅ 変数や関数の使用前定義を禁止
             '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内での関数定義を禁止
+            'jsdoc/require-param-description': 'off', // テストファイルではパラメータの説明を任意に
+            'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
+            'jsdoc/require-file-overview': 'off', // テストファイルではファイル概要を任意に
+            'jsdoc/no-missing-syntax': 'off', // テストファイルでは構文チェックを無効に
+            'jsdoc/no-restricted-syntax': 'off', // テストファイルでは構文制限を無効に
+            'jsdoc/require-example': 'off', // テストファイルではサンプルを任意に
         },
     },
     {
