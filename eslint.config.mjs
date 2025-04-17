@@ -131,7 +131,7 @@ export default [
             'jsdoc/require-param-type': 'off', // TypeScriptと併用するため無効化
             'jsdoc/require-property': 'error', // プロパティの要求
             'jsdoc/require-property-description': 'off', // プロパティの説明要求
-            'jsdoc/require-property-name': 'off', // プロパティ名の要求
+            'jsdoc/require-property-name': 'error', // プロパティ名の要求
             'jsdoc/require-property-type': 'off', // TypeScriptと併用するため無効化
             'jsdoc/require-returns': 'off', // 戻り値の要求
             'jsdoc/require-returns-check': 'off', // 戻り値のチェック
