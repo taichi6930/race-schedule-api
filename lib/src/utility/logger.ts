@@ -22,7 +22,6 @@ import { format } from 'date-fns';
  *
  * ログのフォーマット：
  * `[timestamp] [ClassName.methodName] 状態`
- *
  * @param _target - デコレータのターゲットオブジェクト
  * @param propertyKey - 対象メソッド名
  * @param descriptor - メソッドのプロパティディスクリプタ

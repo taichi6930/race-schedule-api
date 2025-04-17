@@ -17,7 +17,6 @@ dotenv.config();
  * アプリケーションがサポートする環境の定義
  *
  * 各環境は以下の特徴を持ちます：
- *
  * @property production - 本番環境
  *                       - HTML: 本番Webサイトに接続
  *                       - S3: 本番バケットに接続
@@ -61,7 +60,6 @@ export type EnvType = (typeof allowedEnvs)[keyof typeof allowedEnvs];
 
 /**
  * 環境変数から実行環境を取得し、検証します
- *
  * @param env - 環境変数から取得した環境文字列
  * @returns 検証済みの環境タイプ
  * @throws Error 無効な環境値が指定された場合

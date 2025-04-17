@@ -30,7 +30,6 @@ export interface IJraRaceDataHtmlGateway {
      * - その日に開催される全レースの一覧
      * - 各レースの基本情報（レース名、時刻、場所など）
      * - レースの詳細情報へのリンク
-     *
      * @param date - 取得対象の日付
      * @returns レース情報ページのHTML文字列
      * @throws Error 以下の場合にエラーが発生：

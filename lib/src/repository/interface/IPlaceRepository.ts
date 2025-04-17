@@ -18,7 +18,6 @@ import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity'
  * - ストレージ（S3, ローカルファイルなど）
  * - データベース（SQLite, RDBMSなど）
  * - 外部API（HTMLスクレイピングなど）
- *
  * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
  *               例：JraPlaceEntity, NarPlaceEntity など
  */
@@ -30,7 +29,6 @@ export interface IPlaceRepository<P extends IPlaceEntity<P>> {
      * 1. 検索フィルターに基づいてクエリを構築
      * 2. データストアに対してクエリを実行
      * 3. 取得したデータをエンティティに変換
-     *
      * @param searchFilter - 検索条件を指定するフィルターエンティティ
      *                      - 開始日・終了日による期間指定
      *                      - 場所IDによる絞り込み
@@ -49,7 +47,6 @@ export interface IPlaceRepository<P extends IPlaceEntity<P>> {
      * 1. 既存データの有無を確認
      * 2. データの整合性をチェック
      * 3. 一括でデータを保存/更新
-     *
      * @param placeEntityList - 登録/更新する開催場所エンティティの配列
      * @throws Error 以下の場合にエラーが発生：
      *               - データの整合性チェックに失敗

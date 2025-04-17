@@ -16,7 +16,6 @@ import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity'
  * - イベントの重複チェックと衝突回避
  * - カレンダー固有のフォーマット変換
  * - APIレート制限への対応
- *
  * @typeParam R - レース開催エンティティの型。IRaceEntityを実装している必要があります。
  *               このエンティティの情報がカレンダーイベントに変換されます。
  */
@@ -28,7 +27,6 @@ export interface ICalendarRepository<R extends IRaceEntity<R>> {
      * 1. 検索フィルターに基づいてクエリを構築
      * 2. 外部カレンダーサービスにクエリを実行
      * 3. 取得したイベントをCalendarData形式に変換
-     *
      * @param searchFilter - 検索条件を指定するフィルターエンティティ
      *                      - 開始日・終了日による期間指定
      *                      - 開催場所による絞り込み
@@ -50,7 +48,6 @@ export interface ICalendarRepository<R extends IRaceEntity<R>> {
      * 1. レースエンティティをカレンダーイベント形式に変換
      * 2. 既存イベントとの重複チェック
      * 3. バッチ処理による一括登録/更新
-     *
      * @param raceEntityList - 登録/更新するレース開催エンティティの配列
      * @throws Error 以下の場合にエラーが発生：
      *               - イベントの重複が検出
@@ -67,7 +64,6 @@ export interface ICalendarRepository<R extends IRaceEntity<R>> {
      * - レースが中止になった場合
      * - イベント情報が誤っていた場合
      * - カレンダーの同期をリセットする場合
-     *
      * @param calendarDataList - 削除するカレンダーイベントの配列
      * @throws Error 以下の場合にエラーが発生：
      *               - 削除対象のイベントが存在しない

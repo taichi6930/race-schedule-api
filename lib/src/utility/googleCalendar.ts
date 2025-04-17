@@ -75,7 +75,6 @@ const JraGoogleCalendarColorIdMap: Record<
  *
  * このメソッドは、JRAのレースグレードに基づいて適切な
  * カレンダー表示色を決定します
- *
  * @param raceGrade - JRAのレースグレード
  * @returns カレンダーイベントの色ID
  * @example
@@ -119,7 +118,6 @@ const NarGoogleCalendarColorIdMap: Record<
  *
  * このメソッドは、NARのレースグレードに基づいて適切な
  * カレンダー表示色を決定します：
- *
  * @param raceGrade - NARのレースグレード
  * @returns カレンダーイベントの色ID
  * @example
@@ -162,8 +160,6 @@ const WorldGoogleCalendarColorIdMap: Record<
  *
  * このメソッドは、国際格付けに基づいて適切な
  * カレンダー表示色を決定します：
-
- *
  * @param raceGrade - 国際グレード
  * @returns カレンダーイベントの色ID
  * @example
@@ -208,7 +204,6 @@ const KeirinGoogleCalendarColorIdMap: Record<
  * - GⅡ: 赤色
  * - GⅢ: 緑色
  * - FⅠ/FⅡ: グレー
- *
  * @param raceGrade - 競輪のグレード
  * @returns カレンダーイベントの色ID
  * @example
@@ -253,7 +248,6 @@ const BoatraceGoogleCalendarColorIdMap: Record<
  * - GⅡ：赤色
  * - GⅢ: 緑色
  * - 一般: グレー
- *
  * @param raceGrade - 競艇のグレード
  * @returns カレンダーイベントの色ID
  * @example
@@ -295,7 +289,6 @@ const AutoraceGoogleCalendarColorIdMap: Record<
  * - SG/特GI/GⅠ: 青色
  * - GⅡ: 赤色
  * - 開催: グレー
- *
  * @param raceGrade - オートレースのグレード
  * @returns カレンダーイベントの色ID
  * @example

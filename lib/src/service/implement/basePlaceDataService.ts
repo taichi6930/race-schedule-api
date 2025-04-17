@@ -20,7 +20,6 @@ import { IPlaceDataService } from '../interface/IPlaceDataService';
  * - 柔軟なデータソース切り替え
  * - 統一的なエラー処理
  * - ロギング機能の統合
- *
  * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
  *               例：JraPlaceEntity, NarPlaceEntity など
  * @example
@@ -46,7 +45,6 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
      *
      * レースデータ取得の前提として使用され、開催場所の基本情報を
      * 提供する重要な役割を持ちます。
-     *
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（この日を含む）
      * @param type - データ取得元の指定（storage/web）
@@ -85,7 +83,6 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
      *
      * 更新されたデータは、その後のレースデータ取得・更新処理で
      * 参照情報として使用されます。
-     *
      * @param placeEntityList - 保存/更新する開催場所エンティティの配列
      * @throws エラーはキャッチされログ出力されます
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
@@ -113,7 +110,6 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
      * デフォルトでは以下のリポジトリを使用：
      * - Storage: S3またはローカルストレージからの取得
      * - Web: 公式サイトからのスクレイピング
-     *
      * @internal このメソッドはクラス内部でのみ使用されます
      * @param type - データソースの種類（storage/web）
      * @returns 指定されたデータソースに対応するリポジトリインスタンス

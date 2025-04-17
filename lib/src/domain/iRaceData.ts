@@ -21,7 +21,6 @@
  * - 開催場所
  * - 距離
  * - その他のレース固有情報
- *
  * @typeParam T - 実装クラス自身の型。自己参照型として使用され、
  *               型安全な継承を可能にします。
  *               例：class JraRaceData implements IRaceData<JraRaceData>
@@ -36,7 +35,6 @@ export interface IRaceData<T extends IRaceData<T>> {
      * - 開催日時の範囲チェック
      * - グレードと条件の整合性
      * - 開催場所との関連性
-     *
      * @param partial - 更新したいフィールドを含むオブジェクト。
      *                Partial型により、一部のフィールドのみの指定が可能です。
      * @returns 更新された新しいレース情報インスタンス

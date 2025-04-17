@@ -9,7 +9,6 @@
  * データの取得元を示す定数オブジェクト
  *
  * アプリケーション内でのデータ取得元を以下の2種類に分類します：
- *
  * @property Storage - 永続化されたストレージからのデータ取得
  *                    - S3やローカルファイルシステムなど
  *                    - 高速なアクセスが可能
@@ -29,7 +28,6 @@ export const DataLocation = {
  *
  * この型は、DataLocationオブジェクトから自動的に生成され、
  * 有効なデータ取得元のみを受け入れる型安全性を提供します。
- *
  * @example
  * ```typescript
  * function fetchData(source: DataLocationType) {
