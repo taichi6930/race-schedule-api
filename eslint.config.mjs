@@ -52,7 +52,7 @@ export default [
                     checkRestProperty: false,
                 },
             ],
-            'jsdoc/check-property-names': 'off', // プロパティ名のチェック
+            'jsdoc/check-property-names': 'error', // プロパティ名のチェック
             'jsdoc/check-syntax': 'off', // 構文チェック
             'jsdoc/check-tag-names': 'off', // タグ名のチェック
             'jsdoc/check-types': 'off', // 型のチェック
