@@ -39,7 +39,7 @@ export default [
         },
         rules: {
             // JSDoc関連のルール
-            'jsdoc/check-access': 'off', // アクセス修飾子のチェック
+            'jsdoc/check-access': 'error', // アクセス修飾子のチェック
             'jsdoc/check-alignment': 'off', // 整列のチェック
             'jsdoc/check-examples': 'off', // ESLint 8+との互換性の問題により無効化
             'jsdoc/check-indentation': 'off', // インデントのチェック
