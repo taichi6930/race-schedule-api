@@ -58,7 +58,7 @@ export default [
             'jsdoc/check-types': 'off', // 型のチェック
             'jsdoc/check-values': 'off', // 値のチェック
             'jsdoc/empty-tags': 'error', // 空タグのチェック
-            'jsdoc/implements-on-classes': 'off', // クラスの実装チェック
+            'jsdoc/implements-on-classes': 'error', // クラスの実装チェック
             'jsdoc/match-description': 'off', // 説明の形式チェック
             'jsdoc/multiline-blocks': 'off', // 複数行ブロックのチェック
             'jsdoc/no-bad-blocks': 'off', // 不正なブロックのチェック
