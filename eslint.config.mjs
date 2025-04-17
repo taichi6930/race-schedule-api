@@ -1,5 +1,6 @@
 import eslint from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import eslintPluginJsdoc from 'eslint-plugin-jsdoc';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import eslintPluginPromise from 'eslint-plugin-promise';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
@@ -30,8 +31,24 @@ export default [
             'prettier': eslintPluginPrettier,
             'simple-import-sort': simpleImportSort,
             'promise': eslintPluginPromise,
+            'jsdoc': eslintPluginJsdoc,
         },
         rules: {
+            // JSDoc関連のルール
+            'jsdoc/require-jsdoc': [
+                'error',
+                {
+                    publicOnly: true,
+                    require: {
+                        ArrowFunctionExpression: false,
+                        ClassDeclaration: true,
+                        ClassExpression: true,
+                        FunctionDeclaration: true,
+                        MethodDefinition: true,
+                    },
+                    exemptEmptyFunctions: true,
+                },
+            ],
             '@typescript-eslint/class-methods-use-this': 'off', // ✅ クラスメソッド内でthisを使う
             '@typescript-eslint/max-params': 'off', // ✅ 関数のパラメータ数の最大値を許可
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可
