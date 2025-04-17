@@ -87,7 +87,7 @@ export default [
                 },
             ],
             'jsdoc/no-types': 'off', // TypeScriptと併用するため無効化
-            'jsdoc/no-undefined-types': 'off', // 未定義の型のチェック
+            'jsdoc/no-undefined-types': 'error', // 未定義の型のチェック
             'jsdoc/require-asterisk-prefix': 'off', // アスタリスクプレフィックスの要求
             'jsdoc/require-description': 'off', // 説明の要求
             'jsdoc/require-description-complete-sentence': 'off', // 完全な文章での説明要求
