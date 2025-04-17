@@ -12,14 +12,18 @@ export default [
     // lint対象ファイル
     {
         files: ['**/*.{js,mjs,cjs,ts}'],
+        ignores: ['**/cdk.out/**', '**/node_modules/**'],
     },
     {
         languageOptions: {
             parserOptions: {
-                project: true,
+                project: ['./tsconfig.json'],
+                tsconfigRootDir: process.cwd(),
                 sourceType: 'module',
             },
         },
+        files: ['lib/**/*.ts', 'test/**/*.ts'],
+        ignores: ['**/cdk.out/**', '**/node_modules/**', 'dist/**'],
     },
     eslintPluginUnicorn.configs.all, // ✅ unicornプラグインの全ルールを適用
     eslint.configs.recommended, // ESLintの推奨ルールを適用
