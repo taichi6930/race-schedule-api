@@ -129,7 +129,7 @@ export default [
             'jsdoc/require-param-description': 'off', // パラメータ説明の要求
             'jsdoc/require-param-name': 'error', // パラメータ名の要求
             'jsdoc/require-param-type': 'off', // TypeScriptと併用するため無効化
-            'jsdoc/require-property': 'off', // プロパティの要求
+            'jsdoc/require-property': 'error', // プロパティの要求
             'jsdoc/require-property-description': 'off', // プロパティの説明要求
             'jsdoc/require-property-name': 'off', // プロパティ名の要求
             'jsdoc/require-property-type': 'off', // TypeScriptと併用するため無効化
