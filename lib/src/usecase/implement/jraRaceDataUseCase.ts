@@ -25,7 +25,7 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  * - Web: JRA公式サイトから直接取得（最新）
  *
  * フィルタリング機能：
- * - グレード（G1、G2、G3など）による絞り込み
+ * - グレード（GⅠ、GⅡ、GⅢなど）による絞り込み
  * - 競馬場（東京、中山、阪神など）による絞り込み
  */
 @injectable()
@@ -50,7 +50,7 @@ export class JraRaceDataUseCase
      * 1. 開催場所データの取得（Storage）
      * 2. レースデータの取得（Storage）
      * 3. 指定された条件でのフィルタリング
-     *    - グレードによる絞り込み（G1、G2、G3など）
+     *    - グレードによる絞り込み（GⅠ、GⅡ、GⅢなど）
      *    - 競馬場による絞り込み（東京、中山、阪神など）
      *
      * @param startDate - 取得開始日

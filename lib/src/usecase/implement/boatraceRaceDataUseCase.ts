@@ -26,7 +26,7 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  * - Web: ボートレース公式サイトから直接取得（最新）
  *
  * フィルタリング機能：
- * - グレード（SG、G1、G2、G3など）による絞り込み
+ * - グレード（SG、GⅠ、GⅡ、GⅢなど）による絞り込み
  * - 競走場（住之江、平和島、多摩川など）による絞り込み
  * - レースステージ（予選、準優勝、優勝戦など）による絞り込み
  */
@@ -64,7 +64,7 @@ export class BoatraceRaceDataUseCase
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（この日を含む）
      * @param searchList - フィルタリング条件
-     * @param searchList.gradeList - 取得対象のグレードリスト（SG、G1など）
+     * @param searchList.gradeList - 取得対象のグレードリスト（SG、GⅠなど）
      * @param searchList.locationList - 取得対象の競走場リスト
      * @param searchList.stageList - 取得対象のレースステージリスト
      * @returns フィルタリング済みのボートレース開催データの配列
@@ -129,7 +129,7 @@ export class BoatraceRaceDataUseCase
      *
      * このメソッドは以下の処理を行います：
      * 1. 開催場所データの取得と絞り込み
-     *    - グレードによる絞り込み（SG、G1など）
+     *    - グレードによる絞り込み（SG、GⅠなど）
      *    - 競走場による絞り込み
      * 2. ボートレース公式サイトから最新のレースデータを取得
      * 3. 取得したデータでStorageを更新

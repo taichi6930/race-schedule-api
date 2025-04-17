@@ -24,7 +24,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
  * - 既存のカレンダーイベントと同期（不要なイベントの削除）
  *
  * フィルタリング条件：
- * - 指定されたグレード（G1、G2、G3など）に該当するレース
+ * - 指定されたグレード（GⅠ、GⅡ、GⅢなど）に該当するレース
  * - 競馬場（東京、中山、阪神など）は自動的に情報に含まれる
  */
 @injectable()
@@ -69,7 +69,7 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
      *
      * @param startDate - 更新対象期間の開始日
      * @param finishDate - 更新対象期間の終了日（この日を含む）
-     * @param displayGradeList - 表示対象のグレードリスト（G1、G2、G3など）
+     * @param displayGradeList - 表示対象のグレードリスト（GⅠ、GⅡ、GⅢなど）
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     @Logger

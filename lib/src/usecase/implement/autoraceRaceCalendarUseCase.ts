@@ -29,7 +29,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
  *
  * フィルタリング条件：
  * - レースの優先度とレース出場選手の優先度の合計が6以上
- * - 指定されたグレード（SG、G1など）に該当するレース
+ * - 指定されたグレード（SG、GⅠなど）に該当するレース
  */
 @injectable()
 export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
@@ -73,7 +73,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
      *
      * @param startDate - 更新対象期間の開始日
      * @param finishDate - 更新対象期間の終了日（この日を含む）
-     * @param displayGradeList - 表示対象のグレードリスト（SG、G1など）
+     * @param displayGradeList - 表示対象のグレードリスト（SG、GⅠなど）
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     @Logger

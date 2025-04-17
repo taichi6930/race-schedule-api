@@ -29,7 +29,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
  *
  * フィルタリング条件：
  * - レースの優先度とレース出場選手の優先度の合計が6以上
- * - 指定されたグレード（GI、GII、GIIIなど）に該当するレース
+ * - 指定されたグレード（GⅠ、GⅡ、GⅢなど）に該当するレース
  * - レースステージ（予選、準決勝、決勝など）の重要度を考慮
  */
 @injectable()
@@ -74,7 +74,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
      *
      * @param startDate - 更新対象期間の開始日
      * @param finishDate - 更新対象期間の終了日（この日を含む）
-     * @param displayGradeList - 表示対象のグレードリスト（GI、GII、GIIIなど）
+     * @param displayGradeList - 表示対象のグレードリスト（GⅠ、GⅡ、GⅢなど）
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     @Logger
@@ -123,7 +123,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
      *
      * このメソッドは以下の条件でフィルタリングを行います：
      * 1. レースの優先度判定
-     *    - 指定されたグレードに該当するか（GI、GII、GIIIなど）
+     *    - 指定されたグレードに該当するか（GⅠ、GⅡ、GⅢなど）
      *    - レースステージ（予選、準決勝、決勝など）の重要度
      * 2. 選手の優先度判定
      *    - 出場選手の中で最も高い優先度を使用

@@ -23,7 +23,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
  * - 既存のカレンダーイベントと同期（不要なイベントの削除）
  *
  * フィルタリング条件：
- * - 指定されたグレード（国際G1など）に該当するレース
+ * - 指定されたグレード（国際GⅠなど）に該当するレース
  * - 開催地（ドバイ、香港、フランスなど）は自動的に情報に含まれる
  *
  * 対象レース例：
@@ -74,7 +74,7 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
      *
      * @param startDate - 更新対象期間の開始日
      * @param finishDate - 更新対象期間の終了日（この日を含む）
-     * @param displayGradeList - 表示対象のグレードリスト（国際G1など）
+     * @param displayGradeList - 表示対象のグレードリスト（国際GⅠなど）
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     @Logger
