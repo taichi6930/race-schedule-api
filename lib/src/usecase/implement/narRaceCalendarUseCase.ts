@@ -13,7 +13,19 @@ import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
 /**
- * Narレースカレンダーユースケース
+ * 地方競馬（NAR）のレース開催情報をGoogleカレンダーで管理するユースケース
+ *
+ * このクラスは以下の機能を提供します：
+ * - カレンダーからレース開催情報の取得
+ * - カレンダー情報の更新（重要なレースのみを表示）
+ *
+ * カレンダー管理の特徴：
+ * - 保存済みのレースデータからカレンダーイベントを生成
+ * - 既存のカレンダーイベントと同期（不要なイベントの削除）
+ *
+ * フィルタリング条件：
+ * - 指定されたグレード（重賞、特別など）に該当するレース
+ * - 競馬場（大井、門別、笠松など）は自動的に情報に含まれる
  */
 @injectable()
 export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
@@ -28,9 +40,15 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
     ) {}
 
     /**
-     * カレンダーからレース情報の取得を行う
-     * @param startDate
-     * @param finishDate
+     * 指定された期間のレース情報をカレンダーから取得します
+     *
+     * このメソッドは、GoogleカレンダーAPIを使用して
+     * 登録済みの地方競馬開催情報を取得します。
+     *
+     * @param startDate - 取得開始日
+     * @param finishDate - 取得終了日（この日を含む）
+     * @returns カレンダーに登録されているレース開催情報の配列
+     * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     @Logger
     public async getRacesFromCalendar(
@@ -41,10 +59,18 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
     }
 
     /**
-     * カレンダーの更新を行う
-     * @param startDate
-     * @param finishDate
-     * @param displayGradeList
+     * カレンダーのレース情報を最新の状態に更新します
+     *
+     * このメソッドは以下の処理を行います：
+     * 1. 指定された期間のレースデータを取得
+     * 2. 表示条件（グレード）に基づくフィルタリング
+     * 3. 既存のカレンダーイベントと比較
+     * 4. 不要なイベントの削除と新規/更新イベントの登録
+     *
+     * @param startDate - 更新対象期間の開始日
+     * @param finishDate - 更新対象期間の終了日（この日を含む）
+     * @param displayGradeList - 表示対象のグレードリスト（重賞、特別など）
+     * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     @Logger
     public async updateRacesToCalendar(
