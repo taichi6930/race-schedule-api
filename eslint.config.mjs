@@ -61,7 +61,7 @@ export default [
             'jsdoc/implements-on-classes': 'error', // クラスの実装チェック
             'jsdoc/match-description': 'off', // 説明の形式チェック
             'jsdoc/multiline-blocks': 'error', // 複数行ブロックのチェック
-            'jsdoc/no-bad-blocks': 'off', // 不正なブロックのチェック
+            'jsdoc/no-bad-blocks': 'error', // 不正なブロックのチェック
             'jsdoc/no-defaults': 'off', // デフォルト値のチェック
             'jsdoc/no-missing-syntax': [
                 'off',
