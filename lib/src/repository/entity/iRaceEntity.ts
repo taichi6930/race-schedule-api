@@ -31,7 +31,7 @@ export interface IRaceEntity<T extends IRaceEntity<T>> {
      * - 開催日（YYYYMMDD形式）
      * - 開催場所コード
      * - レース番号
-     * @readonly イミュータブルな設計を保証するため、読み取り専用
+     * @readonly
      */
     readonly id: string;
 
