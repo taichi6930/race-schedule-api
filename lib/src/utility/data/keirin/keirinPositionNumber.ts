@@ -21,6 +21,7 @@ export type KeirinPositionNumber = z.infer<typeof KeirinPositionNumberSchema>;
 
 /**
  * 競輪の枠番のバリデーション
+ * @param positionNumber
  */
 export const validateKeirinPositionNumber = (
     positionNumber: number,

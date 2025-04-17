@@ -90,8 +90,8 @@ export class WorldRaceController {
 
     /**
      * カレンダーにレース情報を更新する
-     * @param req
-     * @param res
+     * @param req リクエスト
+     * @param res レスポンス
      */
     @Logger
     private async updateRacesToCalendar(
@@ -132,8 +132,8 @@ export class WorldRaceController {
 
     /**
      * レース情報を取得する
-     * @param req
-     * @param res
+     * @param req リクエスト
+     * @param res レスポンス
      */
     @Logger
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
@@ -194,8 +194,8 @@ export class WorldRaceController {
 
     /**
      * レース情報を更新する
-     * @param req
-     * @param res
+     * @param req リクエスト
+     * @param res レスポンス
      */
     @Logger
     private async updateRaceDataList(

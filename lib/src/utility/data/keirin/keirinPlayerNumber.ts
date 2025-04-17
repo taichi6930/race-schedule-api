@@ -143,6 +143,7 @@ export type KeirinPlayerNumber = z.infer<typeof KeirinPlayerNumberSchema>;
 
 /**
  * 競輪の選手番号のバリデーション
+ * @param playerNumber
  */
 export const validateKeirinPlayerNumber = (
     playerNumber: number,

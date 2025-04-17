@@ -19,6 +19,7 @@ export type AutoracePositionNumber = z.infer<
 
 /**
  * オートレースの枠番のバリデーション
+ * @param positionNumber
  */
 export const validateAutoracePositionNumber = (
     positionNumber: number,

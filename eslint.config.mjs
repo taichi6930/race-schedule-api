@@ -125,10 +125,10 @@ export default [
                     },
                 },
             ],
-            'jsdoc/require-param': 'off',
             'jsdoc/require-param-description': 'off',
             'jsdoc/require-param-name': 'off',
             'jsdoc/require-param-type': 'off',
+            'jsdoc/require-param': 'error', // パラメータの要求
             'jsdoc/require-property': 'off', // プロパティの要求
             'jsdoc/require-property-description': 'off', // プロパティの説明要求
             'jsdoc/require-property-name': 'off', // プロパティ名の要求

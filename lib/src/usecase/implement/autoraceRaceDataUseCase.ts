@@ -41,6 +41,9 @@ export class AutoraceRaceDataUseCase
      * @param startDate
      * @param finishDate
      * @param searchList
+     * @param searchList.gradeList
+     * @param searchList.locationList
+     * @param searchList.stageList
      */
     public async fetchRaceDataList(
         startDate: Date,
@@ -102,6 +105,8 @@ export class AutoraceRaceDataUseCase
      * @param startDate
      * @param finishDate
      * @param searchList
+     * @param searchList.gradeList
+     * @param searchList.locationList
      */
     @Logger
     public async updateRaceEntityList(

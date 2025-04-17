@@ -30,6 +30,7 @@ const JraRaceCourseList = new Set([
 
 /**
  * 開催中央競馬場のバリデーション
+ * @param course
  */
 export const validateJraRaceCourse = (course: string): JraRaceCourse =>
     JraRaceCourseSchema.parse(course);

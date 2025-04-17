@@ -99,6 +99,7 @@ export class SQLiteManager {
 
     /**
      * ディレクトリが存在しない場合は作成
+     * @param dirPath
      */
     private ensureDirectoryExists(dirPath: string): void {
         if (!existsSync(dirPath)) {

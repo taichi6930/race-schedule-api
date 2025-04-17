@@ -68,6 +68,7 @@ export type BoatraceRaceCourse = z.infer<typeof BoatraceRaceCourseSchema>;
 
 /**
  * 開催ボートレース場のバリデーション
+ * @param course
  */
 export const validateBoatraceRaceCourse = (
     course: string,

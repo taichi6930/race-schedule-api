@@ -88,6 +88,7 @@ export const NarBabacodeMap: Record<string, string> = {
 
 /**
  * 開催地方競馬場のバリデーション
+ * @param course
  */
 export const validateNarRaceCourse = (course: string): NarRaceCourse =>
     NarRaceCourseSchema.parse(course);

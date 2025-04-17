@@ -100,8 +100,8 @@ export class AutoraceRaceController {
 
     /**
      * カレンダーにレース情報を更新する
-     * @param req
-     * @param res
+     * @param req リクエスト
+     * @param res レスポンス
      */
     @Logger
     private async updateRacesToCalendar(
@@ -142,8 +142,8 @@ export class AutoraceRaceController {
 
     /**
      * レース情報を取得する
-     * @param req
-     * @param res
+     * @param req リクエスト
+     * @param res レスポンス
      */
     @Logger
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
@@ -214,6 +214,8 @@ export class AutoraceRaceController {
 
     /**
      * レース情報を更新する
+     * @param req リクエスト
+     * @param res レスポンス
      */
     @Logger
     private async updateRaceDataList(
@@ -309,8 +311,8 @@ export class AutoraceRaceController {
 
     /**
      * オートレース場情報を取得する
-     * @param req
-     * @param res
+     * @param req リクエスト
+     * @param res レスポンス
      */
     @Logger
     private async getPlaceDataList(req: Request, res: Response): Promise<void> {
@@ -348,8 +350,8 @@ export class AutoraceRaceController {
 
     /**
      * オートレース場情報を更新する
-     * @param req
-     * @param res
+     * @param req リクエスト
+     * @param res レスポンス
      */
     @Logger
     private async updatePlaceDataList(
