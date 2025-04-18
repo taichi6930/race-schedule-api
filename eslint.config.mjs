@@ -54,9 +54,9 @@ export default [
             ],
             'jsdoc/check-property-names': 'error', // プロパティ名のチェック
             'jsdoc/check-syntax': 'off', // 構文チェック
-            'jsdoc/check-tag-names': 'off', // タグ名のチェック
-            'jsdoc/check-types': 'off', // 型のチェック
-            'jsdoc/check-values': 'off', // 値のチェック
+            'jsdoc/check-tag-names': 'off', // Typescriptと併用するため無効化
+            'jsdoc/check-types': 'error', // 型のチェック
+            'jsdoc/check-values': 'error', // 値のチェック
             'jsdoc/empty-tags': 'error', // 空タグのチェック
             'jsdoc/implements-on-classes': 'error', // クラスの実装チェック
             'jsdoc/match-description': 'off', // 説明の形式チェック
@@ -74,7 +74,7 @@ export default [
                     ],
                 },
             ],
-            'jsdoc/no-multi-asterisks': 'off',
+            'jsdoc/no-multi-asterisks': 'error', // 複数のアスタリスクのチェック
             'jsdoc/no-restricted-syntax': [
                 'off',
                 {
@@ -111,7 +111,7 @@ export default [
                     },
                 },
             ],
-            'jsdoc/require-hyphen-before-param-description': 'off', // パラメータ説明前のハイフン要求
+            'jsdoc/require-hyphen-before-param-description': 'error', // パラメータ説明前のハイフン要求
             'jsdoc/require-jsdoc': [
                 'off',
                 {

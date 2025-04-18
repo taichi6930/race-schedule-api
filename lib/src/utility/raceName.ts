@@ -63,7 +63,7 @@ export const processJraRaceName = (
 
 /**
  * レース情報から、このレースは阪神JFかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
+ * @param JraWebRaceInfoEntity - raceInfo
  * @param raceInfo
  * @returns {boolean}
  */
@@ -76,7 +76,7 @@ const isHanshinJuvenileFillies = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報このレース朝日杯FSかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
+ * @param JraWebRaceInfoEntity - raceInfo
  * @param raceInfo
  * @returns {boolean}
  */
@@ -89,7 +89,7 @@ const isAsahiHaiFuturityStakes = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースはマイルCSかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
+ * @param JraWebRaceInfoEntity - raceInfo
  * @param raceInfo
  * @returns {boolean}
  */
@@ -102,7 +102,7 @@ const isMileChampionship = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースはAJCCかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
+ * @param JraWebRaceInfoEntity - raceInfo
  * @param raceInfo
  * @returns {boolean}
  */
@@ -117,7 +117,7 @@ const isAmericanJockeyClubCup = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースは府中牝馬Sかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
+ * @param JraWebRaceInfoEntity - raceInfo
  * @param raceInfo
  * @returns {boolean}
  */
@@ -130,7 +130,7 @@ const isFuchuHimbaStakes = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースはアイビスサマーDかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
+ * @param JraWebRaceInfoEntity - raceInfo
  * @param raceInfo
  * @returns {boolean}
  */
@@ -143,7 +143,7 @@ const isIbisSummerDash = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースは京成杯オータムHかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
+ * @param JraWebRaceInfoEntity - raceInfo
  * @param raceInfo
  * @returns {boolean}
  */
@@ -157,7 +157,7 @@ const isKeiseiHaiAutumnHandicap = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースはサウジアラビアRCかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
+ * @param JraWebRaceInfoEntity - raceInfo
  * @param raceInfo
  * @returns {boolean}
  */
@@ -171,7 +171,7 @@ const isSaudiArabiaRoyalCup = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースはルミエールオータムDかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
+ * @param JraWebRaceInfoEntity - raceInfo
  * @param raceInfo
  * @returns {boolean}
  */

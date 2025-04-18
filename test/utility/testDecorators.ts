@@ -15,9 +15,9 @@ export function AllTest(name: string, fn: jest.ProvidesCallback): void {
 
 /**
  * 特定の環境でのみテストを実行するデコレータ関数
- * @param name テスト名
- * @param envList 実行する環境のリスト
- * @param fn テスト関数
+ * @param name - テスト名
+ * @param envList - 実行する環境のリスト
+ * @param fn - テスト関数
  */
 export function OnlyEnv(
     name: string,
@@ -33,9 +33,9 @@ export function OnlyEnv(
 
 /**
  * 特定の環境でのみテストをSkipするデコレータ関数
- * @param name テスト名
- * @param envList スキップする環境のリスト
- * @param fn テスト関数
+ * @param name - テスト名
+ * @param envList - スキップする環境のリスト
+ * @param fn - テスト関数
  */
 export function SkipEnv(
     name: string,

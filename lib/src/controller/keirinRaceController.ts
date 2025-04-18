@@ -58,8 +58,8 @@ export class KeirinRaceController {
 
     /**
      * 競輪カレンダーからレース情報を取得する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async getRacesFromCalendar(
@@ -100,8 +100,8 @@ export class KeirinRaceController {
 
     /**
      * カレンダーにレース情報を更新する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async updateRacesToCalendar(
@@ -142,8 +142,8 @@ export class KeirinRaceController {
 
     /**
      * レース情報を取得する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
@@ -214,8 +214,8 @@ export class KeirinRaceController {
 
     /**
      * レース情報を更新する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async updateRaceDataList(
@@ -258,8 +258,8 @@ export class KeirinRaceController {
 
     /**
      * 競輪場情報を取得する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async getPlaceDataList(req: Request, res: Response): Promise<void> {
@@ -294,8 +294,8 @@ export class KeirinRaceController {
 
     /**
      * 競輪場情報を更新する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async updatePlaceDataList(

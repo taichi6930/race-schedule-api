@@ -7,9 +7,9 @@ import type { BoatraceRaceNumber } from '../../utility/data/boatrace/boatraceRac
 export interface IBoatraceRaceDataHtmlGateway {
     /**
      * レースデータのHTMLを取得する
-     * @param date 日付
-     * @param place ボートレース場
-     * @param number レース番号
+     * @param date - 日付
+     * @param place - ボートレース場
+     * @param number - レース番号
      * @returns レースデータのHTML
      */
     getRaceDataHtml: (
