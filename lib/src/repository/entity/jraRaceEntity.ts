@@ -25,11 +25,11 @@ import type { IRaceEntity } from './iRaceEntity';
 export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     /**
      * コンストラクタ
-     * @remarks
-     * レース開催データを生成する
      * @param id - ID
      * @param raceData - レースデータ
      * @param updateDate - 更新日時
+     * @remarks
+     * レース開催データを生成する
      */
     private constructor(
         public readonly id: JraRaceId,

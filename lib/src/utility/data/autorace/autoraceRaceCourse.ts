@@ -26,6 +26,7 @@ const AutoraceRaceCourseList = new Set([
 
 /**
  * 開催オートレース場のバリデーション
+ * @param course
  */
 export const validateAutoraceRaceCourse = (
     course: string,

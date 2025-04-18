@@ -15,7 +15,6 @@ import type { IRaceEntity } from '../../repository/entity/iRaceEntity';
  * - 開催日時
  * - 開催場所
  * - レースの詳細情報（グレード、距離など）
- *
  * @typeParam R - レース開催エンティティの型。IRaceEntityを実装している必要があります。
  *               このエンティティの情報がカレンダーイベントに変換されます。
  */
@@ -25,7 +24,6 @@ export interface ICalendarService<R extends IRaceEntity<R>> {
      *
      * 外部カレンダーサービスから、指定された期間に登録されている
      * レース関連のイベントをすべて取得します。
-     *
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（この日を含む）
      * @returns カレンダーイベントの配列。イベントが存在しない場合は空配列
@@ -38,7 +36,6 @@ export interface ICalendarService<R extends IRaceEntity<R>> {
      * 提供されたレースエンティティの情報を基に、カレンダーイベントを作成または更新します。
      * - 同じ日時・場所のイベントが存在しない場合は新規作成
      * - 既存のイベントが存在する場合は内容を更新
-     *
      * @param raceEntityList - 登録/更新するレース開催エンティティの配列
      * @throws Error イベントの登録/更新に失敗した場合
      */
@@ -50,7 +47,6 @@ export interface ICalendarService<R extends IRaceEntity<R>> {
      * - レースが中止になった場合
      * - イベント情報が誤っていた場合
      * - 重複したイベントを整理する場合
-     *
      * @param calendarDataList - 削除するカレンダーイベントの配列
      * @throws Error イベントの削除に失敗した場合
      */

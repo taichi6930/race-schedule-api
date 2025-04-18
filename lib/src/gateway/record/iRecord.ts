@@ -12,7 +12,6 @@
  * - データの読み取り
  * - 新しいインスタンスとしての更新
  * - シリアライズ可能なデータ構造
- *
  * @typeParam T - 実装クラス自身の型。自己参照型として使用され、
  *               型安全な継承を可能にします。
  *               例：class JraRaceRecord implements IRecord<JraRaceRecord>
@@ -25,11 +24,9 @@ export interface IRecord<T extends IRecord<T>> {
      * フィールドを更新するために使用されます。元のインスタンスは
      * 変更されず、更新されたフィールドを持つ新しいインスタンスが
      * 返されます。
-     *
      * @param partial - 更新したいフィールドを含むオブジェクト。
      *                Partial型により、一部のフィールドのみの指定が可能です。
      * @returns 更新された新しいレコードインスタンス
-     *
      * @example
      * ```typescript
      * class MyRecord implements IRecord<MyRecord> {

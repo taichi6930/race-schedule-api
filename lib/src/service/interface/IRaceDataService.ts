@@ -11,7 +11,6 @@ import type { DataLocationType } from '../../utility/dataType';
  *
  * レースデータは開催場所データと密接に関連しており、多くの場合開催場所の
  * 情報を参照して処理を行います。
- *
  * @typeParam R - レース開催エンティティの型。IRaceEntityを実装している必要があります。
  *               例：JraRaceEntity, NarRaceEntity など
  * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
@@ -23,7 +22,6 @@ export interface IRaceDataService<
 > {
     /**
      * 指定された期間のレース開催データを取得します
-     *
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（この日を含む）
      * @param type - データの取得元を指定
@@ -47,7 +45,6 @@ export interface IRaceDataService<
      *
      * 既存のデータが存在する場合は上書き、存在しない場合は新規作成します。
      * このメソッドは一般的にWebから取得した最新データを保存する際に使用されます。
-     *
      * @param raceEntityList - 保存/更新するレース開催エンティティの配列
      * @throws Error データの保存/更新に失敗した場合
      */

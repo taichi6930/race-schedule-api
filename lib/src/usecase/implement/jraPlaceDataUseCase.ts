@@ -30,7 +30,6 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
      *
      * このメソッドはStorageから保存済みのデータを取得します。
      * データが存在しない場合は空の配列を返します。
-     *
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（この日を含む）
      * @returns JRA開催場所データの配列。開催がない場合は空の配列を返します。
@@ -55,11 +54,10 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
      *
      * このメソッドは以下の処理を行います：
      * 1. 指定された期間を年単位に拡張（より効率的なデータ取得のため）
-     *    - 開始日は年初（1月1日）に設定
-     *    - 終了日は年末（12月31日）に設定
+     * - 開始日は年初（1月1日）に設定
+     * - 終了日は年末（12月31日）に設定
      * 2. JRAのWebサイトから最新データを取得
      * 3. 取得したデータでStorageを更新
-     *
      * @param startDate - 更新対象期間の開始日
      * @param finishDate - 更新対象期間の終了日（この日を含む）
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます

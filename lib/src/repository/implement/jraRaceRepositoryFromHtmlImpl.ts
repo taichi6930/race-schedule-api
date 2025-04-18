@@ -257,6 +257,7 @@ export class JraRaceRepositoryFromHtmlImpl
     /**
      * レース時間を取得
      * @param element
+     * @param date
      */
     private readonly extractRaceTime = (
         element: cheerio.Cheerio,
@@ -281,7 +282,10 @@ export class JraRaceRepositoryFromHtmlImpl
         );
     };
 
-    /** surfaceType */
+    /**
+     * surfaceType
+     * @param element
+     */
     private readonly extractSurfaceType = (
         element: cheerio.Cheerio,
     ): JraRaceCourseType | null => {

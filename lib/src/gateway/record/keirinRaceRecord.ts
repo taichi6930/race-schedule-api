@@ -39,8 +39,6 @@ import type { IRecord } from './iRecord';
 export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
     /**
      * コンストラクタ
-     * @remarks
-     * レース開催データを生成する
      * @param id - ID
      * @param name - レース名
      * @param stage - 開催ステージ
@@ -49,6 +47,8 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
      * @param grade - グレード
      * @param number - レース番号
      * @param updateDate - 更新日時
+     * @remarks
+     * レース開催データを生成する
      */
     private constructor(
         public readonly id: KeirinRaceId,

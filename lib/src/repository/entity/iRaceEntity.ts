@@ -19,7 +19,6 @@ import type { calendar_v3 } from 'googleapis';
  * - グレード
  * - 距離
  * など
- *
  * @typeParam T - 実装クラス自身の型。自己参照型として使用され、
  *               型安全な継承を可能にします。
  *               例：class JraRaceEntity implements IRaceEntity<JraRaceEntity>
@@ -32,17 +31,14 @@ export interface IRaceEntity<T extends IRaceEntity<T>> {
      * - 開催日（YYYYMMDD形式）
      * - 開催場所コード
      * - レース番号
-     *
-     * @readonly イミュータブルな設計を保証するため、読み取り専用
+     * @readonly
      */
     readonly id: string;
 
     /**
      * エンティティの部分的な更新を行い、新しいインスタンスを返します
-     *
      * @param partial - 更新したいフィールドを含むオブジェクト
      * @returns 更新された新しいエンティティインスタンス
-     *
      * @example
      * ```typescript
      * const newEntity = entity.copy({ raceName: "新しいレース名" });
@@ -55,7 +51,6 @@ export interface IRaceEntity<T extends IRaceEntity<T>> {
      *
      * このメソッドは、エンティティをデータベースやファイルに
      * 保存する際のフォーマットに変換します。
-     *
      * @returns ストレージ用のプレーンオブジェクト
      */
     toRaceRecord: () => object;
@@ -69,7 +64,6 @@ export interface IRaceEntity<T extends IRaceEntity<T>> {
      * - 開催日時
      * - 場所
      * - 説明（レースの詳細情報）
-     *
      * @returns Googleカレンダーのイベントデータ
      */
     toGoogleCalendarData: () => calendar_v3.Schema$Event;

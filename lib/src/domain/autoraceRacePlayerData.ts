@@ -24,10 +24,10 @@ export class AutoraceRacePlayerData {
 
     /**
      * コンストラクタ
-     * @remarks
-     * オートレースのレースの選手データを生成する
      * @param positionNumber - 枠番
      * @param playerNumber - 選手番号
+     * @remarks
+     * オートレースのレースの選手データを生成する
      */
     private constructor(
         positionNumber: AutoracePositionNumber,

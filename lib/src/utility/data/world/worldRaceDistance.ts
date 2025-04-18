@@ -14,6 +14,7 @@ export type WorldRaceDistance = z.infer<typeof WorldRaceDistanceSchema>;
 
 /**
  * 海外競馬の距離をバリデーションする
+ * @param distance
  */
 export const validateWorldRaceDistance = (
     distance: number,

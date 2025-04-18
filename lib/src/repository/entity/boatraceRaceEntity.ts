@@ -28,12 +28,12 @@ import type { IRaceEntity } from './iRaceEntity';
 export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     /**
      * コンストラクタ
-     * @remarks
-     * レース開催データを生成する
      * @param id - ID
      * @param raceData - レースデータ
      * @param racePlayerDataList - レースの選手データ
      * @param updateDate - 更新日時
+     * @remarks
+     * レース開催データを生成する
      */
     private constructor(
         public readonly id: BoatraceRaceId,

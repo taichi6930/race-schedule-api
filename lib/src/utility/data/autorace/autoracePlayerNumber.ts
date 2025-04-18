@@ -31,6 +31,7 @@ export type AutoracePlayerNumber = z.infer<typeof AutoracePlayerNumberSchema>;
 
 /**
  * オートレースの選手番号のバリデーション
+ * @param playerNumber
  */
 export const validateAutoracePlayerNumber = (
     playerNumber: number,

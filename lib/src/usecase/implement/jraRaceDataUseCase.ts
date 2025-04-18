@@ -35,6 +35,8 @@ export class JraRaceDataUseCase
      * @param startDate
      * @param finishDate
      * @param searchList
+     * @param searchList.gradeList
+     * @param searchList.locationList
      */
     public async fetchRaceDataList(
         startDate: Date,

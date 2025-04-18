@@ -18,7 +18,6 @@ import type { IRecord } from '../record/iRecord';
  * - ファイル名は一意である必要があります
  * - データは必ずCSV形式で保存されます
  * - 大規模なデータの場合はストリーミング処理を考慮
- *
  * @typeParam T - 保存/取得するデータの型。IRecordを実装している必要があります。
  *               これにより、データの一貫性とシリアライズ可能性を保証します。
  */
@@ -30,7 +29,6 @@ export interface IS3Gateway<T extends IRecord<T>> {
      * 1. データをCSV形式にシリアライズ
      * 2. 指定されたファイル名でS3にアップロード
      * 3. 既存のファイルが存在する場合は上書き
-     *
      * @param data - アップロードするデータの配列。各要素はIRecordを実装
      * @param fileName - 保存先のファイル名（例: "jra/raceList.csv"）
      * @throws Error 以下の場合にエラーが発生：
@@ -46,7 +44,6 @@ export interface IS3Gateway<T extends IRecord<T>> {
      * このメソッドは以下の処理を行います：
      * 1. 指定されたファイルをS3から取得
      * 2. データを文字列として読み込み
-     *
      * @param fileName - 取得するファイルの名前（例: "jra/raceList.csv"）
      * @returns ファイルの内容を文字列として返します。
      *          CSVファイルの場合、各行が改行で区切られた文字列となります。

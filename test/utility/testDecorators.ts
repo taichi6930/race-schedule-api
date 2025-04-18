@@ -6,6 +6,8 @@ export { allowedEnvs } from '../../lib/src/utility/env';
 
 /**
  * すべての環境でテストを実行するデコレータ関数
+ * @param name
+ * @param fn
  */
 export function AllTest(name: string, fn: jest.ProvidesCallback): void {
     it(name, fn);

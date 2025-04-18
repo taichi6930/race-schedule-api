@@ -70,8 +70,6 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
 
     /**
      * コンストラクタ
-     * @remarks
-     * レース開催データを生成する
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -79,6 +77,8 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * @param distance - 距離
      * @param grade - グレード
      * @param number - レース番号
+     * @remarks
+     * レース開催データを生成する
      */
     private constructor(
         name: NarRaceName,

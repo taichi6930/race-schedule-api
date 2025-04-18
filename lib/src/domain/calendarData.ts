@@ -4,14 +4,14 @@
 export class CalendarData {
     /**
      * コンストラクタ
-     * @remarks
-     * カレンダーのデータを生成する
      * @param id - イベントID
      * @param title - イベントタイトル
      * @param startTime - イベント開始時間
      * @param endTime - イベント終了時間
      * @param location - イベント場所
      * @param description - イベント説明
+     * @remarks
+     * カレンダーのデータを生成する
      */
     private constructor(
         public readonly id: string,

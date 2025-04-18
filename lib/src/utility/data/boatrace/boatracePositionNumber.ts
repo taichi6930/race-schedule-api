@@ -19,6 +19,7 @@ export type BoatracePositionNumber = z.infer<
 
 /**
  * ボートレースの枠番のバリデーション
+ * @param positionNumber
  */
 export const validateBoatracePositionNumber = (
     positionNumber: number,

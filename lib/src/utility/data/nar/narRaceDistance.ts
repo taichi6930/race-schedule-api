@@ -14,6 +14,7 @@ export type NarRaceDistance = z.infer<typeof NarRaceDistanceSchema>;
 
 /**
  * 地方競馬の距離をバリデーションする
+ * @param distance
  */
 export const validateNarRaceDistance = (distance: number): NarRaceDistance =>
     NarRaceDistanceSchema.parse(distance);

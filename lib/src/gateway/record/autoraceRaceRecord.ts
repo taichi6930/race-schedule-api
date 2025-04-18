@@ -38,8 +38,6 @@ import type { IRecord } from './iRecord';
 export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
     /**
      * コンストラクタ
-     * @remarks
-     * レース開催データを生成する
      * @param id - ID
      * @param name - レース名
      * @param stage - 開催ステージ
@@ -48,6 +46,8 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
      * @param grade - グレード
      * @param number - レース番号
      * @param updateDate - 更新日時
+     * @remarks
+     * レース開催データを生成する
      */
     private constructor(
         public readonly id: AutoraceRaceId,

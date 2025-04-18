@@ -19,13 +19,11 @@
  * - プレフィックスは処理の種類や場所を示す（例: "JRA Data Fetch"）
  * - プレフィックスとエラー内容はコロンで区切る
  * - 不明なエラーの場合は "Unknown error" を使用
- *
  * @param prefix - エラーの発生箇所や種類を示すプレフィックス
  *                例: "Database Connection", "API Request"
  * @param error - 発生したエラーオブジェクト。unknownとして受け取り、
  *               型に応じて適切に処理
  * @returns プレフィックスとエラーメッセージを組み合わせた文字列
- *
  * @example
  * ```typescript
  * try {

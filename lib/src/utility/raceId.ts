@@ -66,12 +66,11 @@ export const generateJraPlaceId = (
 
 /**
  * 地方競馬のraceIdを作成する
- *
- * @private
  * @param dateTime - 開催日時
  * @param location - 開催場所
  * @param number - レース番号
  * @returns 生成されたID
+ * @private
  */
 export const generateNarRaceId = (
     dateTime: Date,
@@ -84,11 +83,10 @@ export const generateNarRaceId = (
 
 /**
  * 地方競馬のplaceIdを作成する
- *
- * @private
  * @param dateTime - 開催日時
  * @param location - 開催場所
  * @returns 生成されたID
+ * @private
  */
 export const generateNarPlaceId = (
     dateTime: Date,

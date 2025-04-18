@@ -108,6 +108,7 @@ export const WorldPlaceCodeMap: Record<string, string> = {
 
 /**
  * 開催海外競馬場のバリデーション
+ * @param course
  */
 export const validateWorldRaceCourse = (course: string): WorldRaceCourse =>
     WorldRaceCourseSchema.parse(course);

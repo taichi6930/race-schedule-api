@@ -23,10 +23,8 @@ import { ICalendarService } from '../interface/ICalendarService';
  * - カレンダーイベントのライフサイクル管理
  * - バッチ処理による効率的な操作
  * - 詳細なロギング機能
- *
  * @typeParam R - レースエンティティの型。IRaceEntityを実装している必要があります。
  *               このエンティティの情報がカレンダーイベントに変換されます。
- *
  * @example
  * ```typescript
  * class MyCalendarService extends BaseCalendarService<MyRaceEntity> {
@@ -45,7 +43,6 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
      * このメソッドは、Googleカレンダーから指定された期間の
      * レース関連イベントを取得します。取得されたイベントは
      * アプリケーション固有のCalendarData形式に変換されます。
-     *
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（この日を含む）
      * @returns カレンダーイベントの配列
@@ -73,7 +70,6 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
      *
      * 空の配列が渡された場合は早期リターンし、不要な
      * API呼び出しを防止します。
-     *
      * @param raceEntityList - 登録・更新するレースエンティティの配列
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
@@ -96,7 +92,6 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
      *
      * 空の配列が渡された場合は早期リターンし、不要な
      * API呼び出しを防止します。
-     *
      * @param calendarDataList - 削除するカレンダーイベントの配列
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます

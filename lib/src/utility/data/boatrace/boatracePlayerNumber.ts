@@ -31,6 +31,7 @@ export type BoatracePlayerNumber = z.infer<typeof BoatracePlayerNumberSchema>;
 
 /**
  * ボートレースの選手番号のバリデーション
+ * @param playerNumber
  */
 export const validateBoatracePlayerNumber = (
     playerNumber: number,

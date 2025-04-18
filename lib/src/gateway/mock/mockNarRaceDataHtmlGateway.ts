@@ -16,6 +16,7 @@ export class MockNarRaceDataHtmlGateway implements INarRaceDataHtmlGateway {
     /**
      * レースデータのHTMLを取得する
      * @param date - 取得する年月
+     * @param place - 開催場
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger

@@ -14,6 +14,7 @@ export type JraRaceDistance = z.infer<typeof JraRaceDistanceSchema>;
 
 /**
  * 中央競馬の距離をバリデーションする
+ * @param distance
  */
 export const validateJraRaceDistance = (distance: number): JraRaceDistance =>
     JraRaceDistanceSchema.parse(distance);

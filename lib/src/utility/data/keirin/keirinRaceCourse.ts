@@ -109,6 +109,7 @@ const KeirinRaceCourseList = new Set([
 
 /**
  * 開催競輪場のバリデーション
+ * @param course
  */
 export const validateKeirinRaceCourse = (course: string): KeirinRaceCourse =>
     KeirinRaceCourseSchema.parse(course);

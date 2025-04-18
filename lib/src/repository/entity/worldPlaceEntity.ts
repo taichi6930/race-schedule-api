@@ -9,10 +9,10 @@ import type { IPlaceEntity } from './iPlaceEntity';
 export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
     /**
      * コンストラクタ
-     * @remarks
-     * レース開催場所データを生成する
      * @param id - ID
      * @param placeData - レース開催場所データ
+     * @remarks
+     * レース開催場所データを生成する
      */
     public constructor(
         public readonly id: WorldPlaceId,
@@ -21,9 +21,9 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
 
     /**
      * インスタンス生成メソッド（Idなし）
+     * @param placeData - レース開催場所データ
      * @remarks
      * レース開催場所データを生成する
-     * @param placeData - レース開催場所データ
      */
     public static createWithoutId(placeData: WorldPlaceData): WorldPlaceEntity {
         return new WorldPlaceEntity(
