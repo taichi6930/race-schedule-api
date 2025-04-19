@@ -1,14 +1,9 @@
 import type { KeirinRaceCourse } from './keirin/keirinRaceCourse';
 
 /**
- * 地方競馬ライブのURL
- */
-export const CHIHO_KEIBA_LIVE_URL = 'http://keiba-lv-st.jp/';
-
-/**
  * YoutubeのライブURLを取得する
- * @param userId
- * @returns
+ * @param userId - YoutubeのユーザーアカウントのユーザーID
+ * @returns 指定したYoutubeユーザーのライブ配信URL
  */
 export const getYoutubeLiveUrl = (userId: string): string =>
     `https://www.youtube.com/@${userId}/stream`;
@@ -37,7 +32,7 @@ export const ChihoKeibaYoutubeUserIdMap: Record<string, string> = {
 /**
  * 競輪のYoutubeのユーザーIDを取得する
  * @param placeName
- * @returns
+ * @returns YoutubeのライブURL
  */
 export const KeirinYoutubeUserIdMap: Record<KeirinRaceCourse, string> = {
     函館: 'rinrin-hakodate-Keirin',
