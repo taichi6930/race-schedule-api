@@ -13,6 +13,11 @@ export class NarRaceDataService extends BaseRaceDataService<
     NarRaceEntity,
     NarPlaceEntity
 > {
+    /**
+     *
+     * @param raceRepositoryFromStorage
+     * @param raceRepositoryFromHtml
+     */
     public constructor(
         @inject('NarRaceRepositoryFromStorage')
         protected readonly raceRepositoryFromStorage: IRaceRepository<

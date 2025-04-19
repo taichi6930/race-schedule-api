@@ -13,6 +13,8 @@ export type UpdateDate = z.infer<typeof UpdateDateSchema>;
 /**
  * 更新日時のバリデーション
  * @param dateTime - 更新日時
+ * @throws {Error} - バリデーションエラー
+ * @returns {UpdateDate} - バリデーション済みの更新日時
  */
 export const validateUpdateDate = (
     dateTime: Date | string | undefined,

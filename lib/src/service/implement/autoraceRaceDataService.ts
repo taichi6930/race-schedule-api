@@ -13,6 +13,11 @@ export class AutoraceRaceDataService extends BaseRaceDataService<
     AutoraceRaceEntity,
     AutoracePlaceEntity
 > {
+    /**
+     *
+     * @param raceRepositoryFromStorage
+     * @param raceRepositoryFromHtml
+     */
     public constructor(
         @inject('AutoraceRaceRepositoryFromStorage')
         protected readonly raceRepositoryFromStorage: IRaceRepository<

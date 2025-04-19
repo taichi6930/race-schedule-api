@@ -10,6 +10,9 @@ import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
+/**
+ *
+ */
 @injectable()
 export class JraPlaceRepositoryFromStorageImpl
     implements IPlaceRepository<JraPlaceEntity>
@@ -17,6 +20,10 @@ export class JraPlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
+    /**
+     *
+     * @param s3Gateway
+     */
     public constructor(
         @inject('JraPlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<JraPlaceRecord>,
@@ -49,6 +56,10 @@ export class JraPlaceRepositoryFromStorageImpl
         return filteredPlaceEntityList;
     }
 
+    /**
+     *
+     * @param placeEntityList
+     */
     @Logger
     public async registerPlaceEntityList(
         placeEntityList: JraPlaceEntity[],

@@ -12,6 +12,10 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
  */
 @injectable()
 export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
+    /**
+     *
+     * @param placeDataService
+     */
     public constructor(
         @inject('NarPlaceDataService')
         private readonly placeDataService: IPlaceDataService<NarPlaceEntity>,

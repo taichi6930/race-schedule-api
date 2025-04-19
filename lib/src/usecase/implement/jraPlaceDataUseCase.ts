@@ -20,6 +20,10 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
  */
 @injectable()
 export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
+    /**
+     *
+     * @param placeDataService
+     */
     public constructor(
         @inject('JraPlaceDataService')
         private readonly placeDataService: IPlaceDataService<JraPlaceEntity>,

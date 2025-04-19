@@ -24,6 +24,10 @@ export class WorldRaceDataUseCase
             undefined
         >
 {
+    /**
+     *
+     * @param raceDataService
+     */
     public constructor(
         @inject('WorldRaceDataService')
         private readonly raceDataService: IRaceDataService<

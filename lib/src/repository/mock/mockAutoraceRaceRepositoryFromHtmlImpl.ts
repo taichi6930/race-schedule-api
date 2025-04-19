@@ -7,9 +7,16 @@ import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // AutoraceRaceRepositoryFromHtmlImplのモックを作成
+/**
+ *
+ */
 export class MockAutoraceRaceRepositoryFromHtmlImpl
     implements IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
 {
+    /**
+     *
+     * @param searchFilter
+     */
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
@@ -47,6 +54,10 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
         return raceEntityList;
     }
 
+    /**
+     *
+     * @param raceEntityList
+     */
     @Logger
     public async registerRaceEntityList(
         raceEntityList: AutoraceRaceEntity[],

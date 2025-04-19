@@ -9,6 +9,11 @@ import { BasePlaceDataService } from './basePlaceDataService';
  */
 @injectable()
 export class NarPlaceDataService extends BasePlaceDataService<NarPlaceEntity> {
+    /**
+     *
+     * @param placeRepositoryFromStorage
+     * @param placeRepositoryFromHtml
+     */
     public constructor(
         @inject('NarPlaceRepositoryFromStorage')
         protected placeRepositoryFromStorage: IPlaceRepository<NarPlaceEntity>,

@@ -5,6 +5,9 @@ import { IJraPlaceDataHtmlGateway } from '../interface/iJraPlaceDataHtmlGateway'
  * JRAの競馬場データのHTMLを取得するGatewayの実装
  */
 export class JraPlaceDataHtmlGateway implements IJraPlaceDataHtmlGateway {
+    /**
+     *
+     */
     public constructor() {
         console.debug('JraPlaceDataHtmlGatewayが呼ばれました');
     }

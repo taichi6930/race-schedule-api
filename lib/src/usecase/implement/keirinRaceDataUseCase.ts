@@ -26,6 +26,11 @@ export class KeirinRaceDataUseCase
             KeirinRaceStage
         >
 {
+    /**
+     *
+     * @param placeDataService
+     * @param raceDataService
+     */
     public constructor(
         @inject('KeirinPlaceDataService')
         private readonly placeDataService: IPlaceDataService<KeirinPlaceEntity>,

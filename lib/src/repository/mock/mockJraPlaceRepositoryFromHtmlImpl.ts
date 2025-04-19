@@ -6,6 +6,9 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
+/**
+ *
+ */
 export class MockJraPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<JraPlaceEntity>
 {

@@ -23,6 +23,10 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class NarRaceRepositoryFromHtmlImpl
     implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
+    /**
+     *
+     * @param raceDataHtmlGateway
+     */
     public constructor(
         @inject('NarRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: INarRaceDataHtmlGateway,
@@ -50,6 +54,10 @@ export class NarRaceRepositoryFromHtmlImpl
         return narRaceDataList;
     }
 
+    /**
+     *
+     * @param placeEntity
+     */
     @Logger
     public async fetchRaceListFromHtmlWithNarPlace(
         placeEntity: NarPlaceEntity,
@@ -130,6 +138,10 @@ export class NarRaceRepositoryFromHtmlImpl
         }
     }
 
+    /**
+     *
+     * @param race
+     */
     private extractRaceNumber(race: string[]): number {
         return (
             race
@@ -141,6 +153,10 @@ export class NarRaceRepositoryFromHtmlImpl
         );
     }
 
+    /**
+     *
+     * @param race
+     */
     private extractDistance(race: string[]): number {
         return (
             race
@@ -152,6 +168,11 @@ export class NarRaceRepositoryFromHtmlImpl
         );
     }
 
+    /**
+     *
+     * @param race
+     * @param date
+     */
     private extractRaceDateTime(race: string[], date: Date): Date {
         const timeString =
             race.find((item) => /(\d+):(\d+)/.test(item)) ?? '0:0';
@@ -165,6 +186,10 @@ export class NarRaceRepositoryFromHtmlImpl
         );
     }
 
+    /**
+     *
+     * @param race
+     */
     private extractSurfaceType(race: string[]): NarRaceCourseType {
         const regex = /(芝)[右左直]+\d+m/;
         const trackType = race.find((item) => regex.test(item));
@@ -174,6 +199,10 @@ export class NarRaceRepositoryFromHtmlImpl
         return '芝';
     }
 
+    /**
+     *
+     * @param race
+     */
     private extractGrade(race: string[]): NarGradeType {
         let grade: NarGradeType = '一般';
         if (race.includes('準重賞')) {
@@ -199,6 +228,10 @@ export class NarRaceRepositoryFromHtmlImpl
         return validateNarGradeType(grade);
     }
 
+    /**
+     *
+     * @param race
+     */
     private extractRaceName(race: string[]): string {
         // 重賞の取得
         const regexList = ['JpnIII', 'JpnII', 'JpnI', 'JpnＩ', 'ＧＩ'];

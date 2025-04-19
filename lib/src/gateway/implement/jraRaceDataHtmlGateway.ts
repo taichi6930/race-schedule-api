@@ -3,7 +3,13 @@ import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
 import { IJraRaceDataHtmlGateway } from '../interface/iJraRaceDataHtmlGateway';
 
+/**
+ *
+ */
 export class JraRaceDataHtmlGateway implements IJraRaceDataHtmlGateway {
+    /**
+     *
+     */
     public constructor() {
         console.debug('JraRaceDataHtmlGatewayが呼ばれました');
     }

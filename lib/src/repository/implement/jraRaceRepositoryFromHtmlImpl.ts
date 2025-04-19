@@ -17,10 +17,17 @@ import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
+/**
+ *
+ */
 @injectable()
 export class JraRaceRepositoryFromHtmlImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
+    /**
+     *
+     * @param raceDataHtmlGateway
+     */
     public constructor(
         @inject('JraRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IJraRaceDataHtmlGateway,
@@ -50,6 +57,10 @@ export class JraRaceRepositoryFromHtmlImpl
         return jraRaceEntityList;
     }
 
+    /**
+     *
+     * @param raceDate
+     */
     @Logger
     public async fetchRaceListFromHtmlWithJraPlace(
         raceDate: Date,

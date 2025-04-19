@@ -30,92 +30,15 @@ export default [
     ...tseslint.configs.all, // ✅ TypeScript用のルールを適用
     eslintConfigPrettier, // Prettierとの競合を防ぐ設定
     {
+        files: ['lib/src/utility/*.ts'],
         plugins: {
-            'unused-imports': unusedImports,
-            'prettier': eslintPluginPrettier,
-            'simple-import-sort': simpleImportSort,
-            'promise': eslintPluginPromise,
-            'jsdoc': eslintPluginJsdoc,
+            jsdoc: eslintPluginJsdoc,
         },
         rules: {
-            // JSDoc関連のルール
-            'jsdoc/check-access': 'error', // アクセス修飾子のチェック
-            'jsdoc/check-alignment': 'error', // 整列のチェック
-            'jsdoc/check-examples': 'off', // ESLint 8+との互換性の問題により無効化
-            'jsdoc/check-indentation': 'off', // インデントのチェック
-            'jsdoc/check-line-alignment': 'off', // 行の整列チェック
-            'jsdoc/check-param-names': [
-                'off',
-                {
-                    checkDestructured: false,
-                    enableFixer: true,
-                    checkRestProperty: false,
-                },
-            ],
-            'jsdoc/check-property-names': 'error', // プロパティ名のチェック
-            'jsdoc/check-syntax': 'off', // 構文チェック
-            'jsdoc/check-tag-names': 'off', // タグ名のチェック
-            'jsdoc/check-types': 'off', // 型のチェック
-            'jsdoc/check-values': 'off', // 値のチェック
-            'jsdoc/empty-tags': 'error', // 空タグのチェック
-            'jsdoc/implements-on-classes': 'error', // クラスの実装チェック
-            'jsdoc/match-description': 'off', // 説明の形式チェック
-            'jsdoc/multiline-blocks': 'error', // 複数行ブロックのチェック
-            'jsdoc/no-bad-blocks': 'error', // 不正なブロックのチェック
-            'jsdoc/no-defaults': 'error', // デフォルト値のチェック
-            'jsdoc/no-missing-syntax': [
-                'off',
-                {
-                    contexts: [
-                        {
-                            comment: '*',
-                            message: '@param description is required',
-                        },
-                    ],
-                },
-            ],
-            'jsdoc/no-multi-asterisks': 'off',
-            'jsdoc/no-restricted-syntax': [
-                'off',
-                {
-                    contexts: [
-                        {
-                            comment: '*',
-                            message: 'JSDoc must start with a description',
-                        },
-                    ],
-                },
-            ],
-            'jsdoc/no-types': 'off', // TypeScriptと併用するため無効化
-            'jsdoc/no-undefined-types': 'error', // 未定義の型のチェック
-            'jsdoc/require-asterisk-prefix': 'off', // アスタリスクプレフィックスの要求
-            'jsdoc/require-description': 'off', // 説明の要求
-            'jsdoc/require-description-complete-sentence': 'off', // 完全な文章での説明要求
-            'jsdoc/require-example': 'off', // サンプルの要求
-            'jsdoc/require-file-overview': [
-                'off',
-                {
-                    tags: {
-                        file: {
-                            initialCommentsOnly: true,
-                            mustExist: true,
-                            preventDuplicates: true,
-                        },
-                        description: {
-                            mustExist: true,
-                            preventDuplicates: true,
-                        },
-                        module: {
-                            mustExist: true,
-                        },
-                    },
-                },
-            ],
-            'jsdoc/require-hyphen-before-param-description': 'off', // パラメータ説明前のハイフン要求
+            // JSDoc関連の基本ルール（段階的に導入）
             'jsdoc/require-jsdoc': [
-                'off',
+                'error',
                 {
-                    publicOnly: true,
                     require: {
                         ArrowFunctionExpression: true,
                         ClassDeclaration: true,
@@ -125,24 +48,20 @@ export default [
                     },
                 },
             ],
-            'jsdoc/require-param': 'error', // パラメータの要求
-            'jsdoc/require-param-description': 'off', // パラメータ説明の要求
-            'jsdoc/require-param-name': 'error', // パラメータ名の要求
-            'jsdoc/require-param-type': 'off', // TypeScriptと併用するため無効化
-            'jsdoc/require-property': 'error', // プロパティの要求
-            'jsdoc/require-property-description': 'off', // プロパティの説明要求
-            'jsdoc/require-property-name': 'error', // プロパティ名の要求
-            'jsdoc/require-property-type': 'off', // TypeScriptと併用するため無効化
-            'jsdoc/require-returns': 'off', // 戻り値の要求
-            'jsdoc/require-returns-check': 'off', // 戻り値のチェック
-            'jsdoc/require-returns-description': 'off', // 戻り値の説明要求
-            'jsdoc/require-returns-type': 'off', // TypeScriptと併用するため無効化
-            'jsdoc/require-throws': 'off', // throws句の要求
-            'jsdoc/require-yields': 'off', // yields句の要求
-            'jsdoc/require-yields-check': 'off', // yields句のチェック
-            'jsdoc/sort-tags': 'error', // タグのソート
-            'jsdoc/tag-lines': 'error', // タグの行数チェック
-            'jsdoc/valid-types': 'error', // 有効な型のチェック
+            'jsdoc/require-description': 'error',
+            'jsdoc/require-param': 'error',
+            'jsdoc/require-returns': 'error', // 一時的に無効化
+        },
+    },
+    {
+        plugins: {
+            'unused-imports': unusedImports,
+            'prettier': eslintPluginPrettier,
+            'simple-import-sort': simpleImportSort,
+            'promise': eslintPluginPromise,
+            'jsdoc': eslintPluginJsdoc,
+        },
+        rules: {
             '@typescript-eslint/class-methods-use-this': 'off', // ✅ クラスメソッド内でthisを使う
             '@typescript-eslint/max-params': 'off', // ✅ 関数のパラメータ数の最大値を許可
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可

@@ -21,6 +21,10 @@ export class AutoracePlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
+    /**
+     *
+     * @param s3Gateway
+     */
     public constructor(
         @inject('AutoracePlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<AutoracePlaceRecord>,
@@ -55,6 +59,10 @@ export class AutoracePlaceRepositoryFromStorageImpl
         return filteredPlaceEntityList;
     }
 
+    /**
+     *
+     * @param placeEntityList
+     */
     @Logger
     public async registerPlaceEntityList(
         placeEntityList: AutoracePlaceEntity[],

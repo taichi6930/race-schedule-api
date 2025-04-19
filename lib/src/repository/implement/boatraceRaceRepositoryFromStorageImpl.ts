@@ -24,6 +24,11 @@ export class BoatraceRaceRepositoryFromStorageImpl
     private readonly raceListFileName = 'raceList.csv';
     private readonly racePlayerListFileName = 'racePlayerList.csv';
 
+    /**
+     *
+     * @param raceS3Gateway
+     * @param racePlayerS3Gateway
+     */
     public constructor(
         @inject('BoatraceRaceS3Gateway')
         private readonly raceS3Gateway: IS3Gateway<BoatraceRaceRecord>,

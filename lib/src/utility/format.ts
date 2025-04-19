@@ -31,6 +31,7 @@ declare global {
 /**
  * 月をX桁に変換する
  * @param digit
+ * @returns 桁数分の0埋めされた月
  */
 Date.prototype.getXDigitMonth = function (digit: number): string {
     return (this.getMonth() + 1).toString().padStart(digit, '0');
@@ -39,6 +40,7 @@ Date.prototype.getXDigitMonth = function (digit: number): string {
 /**
  * 日をX桁に変換する
  * @param digit
+ * @returns 桁数分の0埋めされた日
  */
 Date.prototype.getXDigitDays = function (digit: number): string {
     return this.getDate().toString().padStart(digit, '0');
@@ -47,6 +49,7 @@ Date.prototype.getXDigitDays = function (digit: number): string {
 /**
  * 時をX桁に変換する
  * @param digit
+ * @returns 桁数分の0埋めされた時
  */
 Date.prototype.getXDigitHours = function (digit: number): string {
     return this.getHours().toString().padStart(digit, '0');
@@ -55,6 +58,7 @@ Date.prototype.getXDigitHours = function (digit: number): string {
 /**
  * 分をX桁に変換する
  * @param digit
+ * @returns 桁数分の0埋めされた分
  */
 Date.prototype.getXDigitMinutes = function (digit: number): string {
     return this.getMinutes().toString().padStart(digit, '0');

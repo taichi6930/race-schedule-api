@@ -19,6 +19,10 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class NarPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<NarPlaceEntity>
 {
+    /**
+     *
+     * @param placeDataHtmlGateway
+     */
     public constructor(
         @inject('NarPlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: INarPlaceDataHtmlGateway,

@@ -20,6 +20,11 @@ export class NarRaceDataUseCase
     implements
         IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse, undefined>
 {
+    /**
+     *
+     * @param placeDataService
+     * @param raceDataService
+     */
     public constructor(
         @inject('NarPlaceDataService')
         private readonly placeDataService: IPlaceDataService<NarPlaceEntity>,

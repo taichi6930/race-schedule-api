@@ -22,6 +22,9 @@ export class SQLiteManager {
     private static instance: SQLiteManager | undefined;
     private readonly db: Database.Database;
 
+    /**
+     * シングルトンインスタンスを生成
+     */
     private constructor() {
         const dbPath = this.getDatabasePath();
         this.ensureDirectoryExists(path.dirname(dbPath));
@@ -31,6 +34,7 @@ export class SQLiteManager {
 
     /**
      * シングルトンインスタンスを取得
+     * @returns {SQLiteManager} SQLiteManagerのインスタンス
      */
     public static getInstance(): SQLiteManager {
         SQLiteManager.instance ??= new SQLiteManager();
@@ -39,6 +43,7 @@ export class SQLiteManager {
 
     /**
      * データベースインスタンスを取得
+     * @returns {Database.Database} データベースインスタンス
      */
     public getDatabase(): Database.Database {
         return this.db;
@@ -90,6 +95,7 @@ export class SQLiteManager {
 
     /**
      * データベースファイルのパスを取得
+     * @returns {string} データベースファイルのパス
      */
     private getDatabasePath(): string {
         // ローカル環境では./volume/db配下に保存

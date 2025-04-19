@@ -12,6 +12,10 @@ type RaceType = 'autorace' | 'boatrace' | 'jra' | 'keirin' | 'nar' | 'world';
  * Googleカレンダーのモックサービス
  */
 export class MockGoogleCalendarGateway implements ICalendarGateway {
+    /**
+     *
+     * @param raceType
+     */
     public constructor(private readonly raceType: RaceType) {
         this.setCalendarData();
     }
@@ -29,6 +33,9 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
 
     private static isInitialized = false;
 
+    /**
+     *
+     */
     private setCalendarData(): void {
         if (MockGoogleCalendarGateway.isInitialized) {
             return;
@@ -120,6 +127,11 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         }
     }
 
+    /**
+     *
+     * @param startDate
+     * @param finishDate
+     */
     @Logger
     public async fetchCalendarDataList(
         startDate: Date,
@@ -146,6 +158,10 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         return raceData;
     }
 
+    /**
+     *
+     * @param eventId
+     */
     public async fetchCalendarData(
         eventId: string,
     ): Promise<calendar_v3.Schema$Event> {
@@ -159,6 +175,10 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         return raceData;
     }
 
+    /**
+     *
+     * @param calendarData
+     */
     @Logger
     public async updateCalendarData(
         calendarData: calendar_v3.Schema$Event,
@@ -183,6 +203,10 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         await Promise.resolve();
     }
 
+    /**
+     *
+     * @param calendarData
+     */
     public async insertCalendarData(
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
@@ -207,6 +231,10 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         await Promise.resolve();
     }
 
+    /**
+     *
+     * @param eventId
+     */
     public async deleteCalendarData(eventId: string): Promise<void> {
         try {
             // mockCalendarDataに存在するかどうかの判定

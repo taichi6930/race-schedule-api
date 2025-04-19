@@ -10,6 +10,9 @@ import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
+/**
+ *
+ */
 @injectable()
 export class NarPlaceRepositoryFromStorageImpl
     implements IPlaceRepository<NarPlaceEntity>
@@ -17,6 +20,10 @@ export class NarPlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
+    /**
+     *
+     * @param s3Gateway
+     */
     public constructor(
         @inject('NarPlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<NarPlaceRecord>,
@@ -50,6 +57,10 @@ export class NarPlaceRepositoryFromStorageImpl
         return filteredPlaceEntityList;
     }
 
+    /**
+     *
+     * @param placeEntityList
+     */
     @Logger
     public async registerPlaceEntityList(
         placeEntityList: NarPlaceEntity[],

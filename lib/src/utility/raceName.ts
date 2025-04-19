@@ -28,6 +28,11 @@ interface JraRaceDataForRaceName {
     distance: JraRaceDistance;
 }
 
+/**
+ * 中央競馬のレース名を処理する
+ * @param raceInfo
+ * @returns 加工されたレース名
+ */
 export const processJraRaceName = (
     raceInfo: JraRaceDataForRaceName,
 ): string => {
@@ -191,6 +196,11 @@ interface NarRaceDataForRaceName {
     surfaceType: NarRaceCourseType;
     distance: NarRaceDistance;
 }
+/**
+ * 地方競馬のレース名を処理する
+ * @param raceInfo
+ * @returns 加工されたレース名
+ */
 export const processNarRaceName = (
     raceInfo: NarRaceDataForRaceName,
 ): string => {
@@ -326,6 +336,11 @@ interface WorldRaceDataForRaceName {
     distance: WorldRaceDistance;
 }
 
+/**
+ * 世界競馬のレース名を処理する
+ * @param raceInfo
+ * @returns 加工されたレース名
+ */
 export const processWorldRaceName = (
     raceInfo: WorldRaceDataForRaceName,
 ): string => {

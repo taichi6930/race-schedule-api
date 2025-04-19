@@ -14,6 +14,10 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 export class KeirinPlaceDataUseCase
     implements IPlaceDataUseCase<KeirinPlaceData>
 {
+    /**
+     *
+     * @param placeDataService
+     */
     public constructor(
         @inject('KeirinPlaceDataService')
         private readonly placeDataService: IPlaceDataService<KeirinPlaceEntity>,

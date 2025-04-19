@@ -13,6 +13,11 @@ export class BoatraceRaceDataService extends BaseRaceDataService<
     BoatraceRaceEntity,
     BoatracePlaceEntity
 > {
+    /**
+     *
+     * @param raceRepositoryFromStorage
+     * @param raceRepositoryFromHtml
+     */
     public constructor(
         @inject('BoatraceRaceRepositoryFromStorage')
         protected readonly raceRepositoryFromStorage: IRaceRepository<

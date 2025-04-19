@@ -12,6 +12,10 @@ import { BaseGoogleCalendarRepository } from './baseGoogleCalendarRepository';
  */
 @injectable()
 export class KeirinGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepository<KeirinRaceEntity> {
+    /**
+     *
+     * @param googleCalendarGateway
+     */
     public constructor(
         @inject('KeirinGoogleCalendarGateway')
         protected readonly googleCalendarGateway: ICalendarGateway,

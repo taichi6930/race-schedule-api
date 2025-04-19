@@ -6,6 +6,9 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
+/**
+ *
+ */
 export class MockNarPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<NarPlaceEntity>
 {

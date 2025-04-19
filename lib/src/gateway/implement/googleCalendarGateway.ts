@@ -6,11 +6,18 @@ import { createErrorMessage } from '../../utility/error';
 import { Logger } from '../../utility/logger';
 import type { ICalendarGateway } from '../interface/iCalendarGateway';
 
+/**
+ *
+ */
 export class GoogleCalendarGateway implements ICalendarGateway {
     private readonly credentials: JWT;
     private readonly calendar: calendar_v3.Calendar;
     private readonly calendarId: string;
 
+    /**
+     *
+     * @param calendarId
+     */
     public constructor(calendarId: string) {
         this.credentials = new google.auth.JWT(
             // client_emailは環境変数から取得
@@ -27,6 +34,11 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         this.calendarId = calendarId;
     }
 
+    /**
+     *
+     * @param startDate
+     * @param finishDate
+     */
     @Logger
     public async fetchCalendarDataList(
         startDate: Date,
@@ -49,6 +61,10 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         }
     }
 
+    /**
+     *
+     * @param eventId
+     */
     @Logger
     public async fetchCalendarData(
         eventId: string,
@@ -66,6 +82,10 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         }
     }
 
+    /**
+     *
+     * @param calendarData
+     */
     @Logger
     public async updateCalendarData(
         calendarData: calendar_v3.Schema$Event,
@@ -87,6 +107,10 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         }
     }
 
+    /**
+     *
+     * @param calendarData
+     */
     @Logger
     public async insertCalendarData(
         calendarData: calendar_v3.Schema$Event,
@@ -103,6 +127,10 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         }
     }
 
+    /**
+     *
+     * @param eventId
+     */
     @Logger
     public async deleteCalendarData(eventId: string): Promise<void> {
         try {

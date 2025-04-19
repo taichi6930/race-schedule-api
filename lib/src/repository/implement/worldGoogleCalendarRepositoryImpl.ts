@@ -14,6 +14,10 @@ import { BaseGoogleCalendarRepository } from './baseGoogleCalendarRepository';
  */
 @injectable()
 export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepository<WorldRaceEntity> {
+    /**
+     *
+     * @param googleCalendarGateway
+     */
     public constructor(
         @inject('WorldGoogleCalendarGateway')
         protected readonly googleCalendarGateway: ICalendarGateway,
@@ -21,6 +25,10 @@ export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposit
         super();
     }
 
+    /**
+     *
+     * @param raceEntityList
+     */
     @Logger
     public async upsertEvents(
         raceEntityList: WorldRaceEntity[],

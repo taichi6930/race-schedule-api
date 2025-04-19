@@ -12,6 +12,10 @@ import { BaseCalendarService } from './baseCalendarService';
  */
 @injectable()
 export class KeirinCalendarService extends BaseCalendarService<KeirinRaceEntity> {
+    /**
+     *
+     * @param calendarRepository
+     */
     public constructor(
         @inject('KeirinCalendarRepository')
         protected readonly calendarRepository: ICalendarRepository<KeirinRaceEntity>,

@@ -26,6 +26,10 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class KeirinRaceRepositoryFromHtmlImpl
     implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
 {
+    /**
+     *
+     * @param raceDataHtmlGateway
+     */
     public constructor(
         @inject('KeirinRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IKeirinRaceDataHtmlGateway,
@@ -56,6 +60,10 @@ export class KeirinRaceRepositoryFromHtmlImpl
         return keirinRaceDataList;
     }
 
+    /**
+     *
+     * @param placeData
+     */
     @Logger
     public async fetchRaceListFromHtmlWithKeirinPlace(
         placeData: KeirinPlaceData,
@@ -186,6 +194,11 @@ export class KeirinRaceRepositoryFromHtmlImpl
         }
     }
 
+    /**
+     *
+     * @param raceSummaryInfoChild
+     * @param raceStage
+     */
     private extractRaceName(
         raceSummaryInfoChild: string,
         raceStage: string,
@@ -238,6 +251,10 @@ export class KeirinRaceRepositoryFromHtmlImpl
         return raceSummaryInfoChild;
     }
 
+    /**
+     *
+     * @param raceSummaryInfoChild
+     */
     private extractRaceStage(
         raceSummaryInfoChild: string,
     ): KeirinRaceStage | null {
@@ -249,6 +266,13 @@ export class KeirinRaceRepositoryFromHtmlImpl
         return null;
     }
 
+    /**
+     *
+     * @param raceName
+     * @param raceGrade
+     * @param raceStage
+     * @param raceDate
+     */
     private extractRaceGrade(
         raceName: string,
         raceGrade: KeirinGradeType,

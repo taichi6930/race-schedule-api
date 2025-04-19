@@ -157,6 +157,10 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         };
     }
 
+    /**
+     *
+     * @param event
+     */
     public static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {

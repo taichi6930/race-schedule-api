@@ -24,6 +24,10 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class KeirinPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<KeirinPlaceEntity>
 {
+    /**
+     *
+     * @param placeDataHtmlGateway
+     */
     public constructor(
         @inject('KeirinPlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IKeirinPlaceDataHtmlGateway,

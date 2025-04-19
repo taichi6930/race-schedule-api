@@ -11,10 +11,17 @@ import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
+/**
+ *
+ */
 @injectable()
 export class JraPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
+    /**
+     *
+     * @param placeDataHtmlGateway
+     */
     public constructor(
         @inject('JraPlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IJraPlaceDataHtmlGateway,
@@ -111,6 +118,10 @@ export class JraPlaceRepositoryFromHtmlImpl
         };
 
         // 競馬場名を取得する関数
+        /**
+         *
+         * @param placeInitial
+         */
         const getPlaceName = (placeInitial: string): JraRaceCourse =>
             placeMap[placeInitial];
 

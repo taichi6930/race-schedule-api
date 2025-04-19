@@ -6,6 +6,9 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
+/**
+ *
+ */
 export class MockKeirinPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<KeirinPlaceEntity>
 {

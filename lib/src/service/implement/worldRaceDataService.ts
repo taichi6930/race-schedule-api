@@ -13,6 +13,11 @@ export class WorldRaceDataService extends BaseRaceDataService<
     WorldRaceEntity,
     WorldPlaceEntity
 > {
+    /**
+     *
+     * @param raceRepositoryFromStorage
+     * @param raceRepositoryFromHtml
+     */
     public constructor(
         @inject('WorldRaceRepositoryFromStorage')
         protected readonly raceRepositoryFromStorage: IRaceRepository<

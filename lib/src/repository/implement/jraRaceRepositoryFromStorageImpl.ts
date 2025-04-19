@@ -11,12 +11,19 @@ import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
+/**
+ *
+ */
 @injectable()
 export class JraRaceRepositoryFromStorageImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
     private readonly fileName = 'raceList.csv';
 
+    /**
+     *
+     * @param s3Gateway
+     */
     public constructor(
         @inject('JraRaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<JraRaceRecord>,

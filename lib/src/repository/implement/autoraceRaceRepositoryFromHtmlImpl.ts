@@ -22,6 +22,10 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class AutoraceRaceRepositoryFromHtmlImpl
     implements IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
 {
+    /**
+     *
+     * @param raceDataHtmlGateway
+     */
     public constructor(
         @inject('AutoraceRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IAutoraceRaceDataHtmlGateway,
@@ -52,6 +56,10 @@ export class AutoraceRaceRepositoryFromHtmlImpl
         return autoraceRaceDataList;
     }
 
+    /**
+     *
+     * @param placeEntity
+     */
     @Logger
     public async fetchRaceListFromHtmlWithAutoracePlace(
         placeEntity: AutoracePlaceEntity,
@@ -135,6 +143,10 @@ export class AutoraceRaceRepositoryFromHtmlImpl
             return [];
         }
     }
+    /**
+     *
+     * @param raceSummaryInfoChild
+     */
     private extractRaceStage(
         raceSummaryInfoChild: string,
     ): AutoraceRaceStage | null {
@@ -146,6 +158,11 @@ export class AutoraceRaceRepositoryFromHtmlImpl
         return null;
     }
 
+    /**
+     *
+     * @param raceSummaryInfoChild
+     * @param placeData
+     */
     private extractRaceName(
         raceSummaryInfoChild: string,
         placeData: AutoracePlaceData,

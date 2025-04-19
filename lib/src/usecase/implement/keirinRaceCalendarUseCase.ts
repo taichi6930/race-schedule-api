@@ -19,6 +19,11 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
  */
 @injectable()
 export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
+    /**
+     *
+     * @param calendarService
+     * @param raceDataService
+     */
     public constructor(
         @inject('KeirinCalendarService')
         private readonly calendarService: ICalendarService<KeirinRaceEntity>,

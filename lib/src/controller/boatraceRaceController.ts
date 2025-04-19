@@ -21,6 +21,12 @@ import { Logger } from '../utility/logger';
 export class BoatraceRaceController {
     public router: Router;
 
+    /**
+     *
+     * @param raceCalendarUseCase
+     * @param boatraceRaceDataUseCase
+     * @param boatracePlaceDataUseCase
+     */
     public constructor(
         @inject('BoatraceRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,

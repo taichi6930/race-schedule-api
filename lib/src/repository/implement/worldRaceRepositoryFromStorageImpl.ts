@@ -20,6 +20,10 @@ export class WorldRaceRepositoryFromStorageImpl
 {
     private readonly fileName = 'raceList.csv';
 
+    /**
+     *
+     * @param s3Gateway
+     */
     public constructor(
         @inject('WorldRaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<WorldRaceRecord>,

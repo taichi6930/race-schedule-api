@@ -26,6 +26,11 @@ export class AutoraceRaceDataUseCase
             AutoraceRaceStage
         >
 {
+    /**
+     *
+     * @param placeDataService
+     * @param raceDataService
+     */
     public constructor(
         @inject('AutoracePlaceDataService')
         private readonly placeDataService: IPlaceDataService<AutoracePlaceEntity>,

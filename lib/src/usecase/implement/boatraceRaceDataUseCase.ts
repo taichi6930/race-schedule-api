@@ -26,6 +26,11 @@ export class BoatraceRaceDataUseCase
             BoatraceRaceStage
         >
 {
+    /**
+     *
+     * @param placeDataService
+     * @param raceDataService
+     */
     public constructor(
         @inject('BoatracePlaceDataService')
         private readonly placeDataService: IPlaceDataService<BoatracePlaceEntity>,

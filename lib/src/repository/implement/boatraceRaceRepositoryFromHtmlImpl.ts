@@ -26,6 +26,10 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class BoatraceRaceRepositoryFromHtmlImpl
     implements IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
 {
+    /**
+     *
+     * @param raceDataHtmlGateway
+     */
     public constructor(
         @inject('BoatraceRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IBoatraceRaceDataHtmlGateway,
@@ -56,6 +60,10 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         return boatraceRaceDataList;
     }
 
+    /**
+     *
+     * @param placeData
+     */
     @Logger
     public async fetchRaceListFromHtmlWithBoatracePlace(
         placeData: BoatracePlaceData,
@@ -127,6 +135,10 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             return [];
         }
     }
+    /**
+     *
+     * @param raceSummaryInfoChild
+     */
     private extractRaceStage(
         raceSummaryInfoChild: string,
     ): BoatraceRaceStage | null {
@@ -138,6 +150,12 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         return null;
     }
 
+    /**
+     *
+     * @param raceName
+     * @param raceStage
+     * @param raceNumber
+     */
     private extractRaceName(
         raceName: string,
         raceStage: BoatraceRaceStage,
@@ -164,6 +182,11 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         return raceName;
     }
 
+    /**
+     *
+     * @param raceName
+     * @param raceGrade
+     */
     private extractRaceGrade(
         raceName: string,
         raceGrade: BoatraceGradeType,

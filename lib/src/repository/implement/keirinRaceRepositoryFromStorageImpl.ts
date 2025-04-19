@@ -24,6 +24,11 @@ export class KeirinRaceRepositoryFromStorageImpl
     private readonly raceListFileName = 'raceList.csv';
     private readonly racePlayerListFileName = 'racePlayerList.csv';
 
+    /**
+     *
+     * @param raceS3Gateway
+     * @param racePlayerS3Gateway
+     */
     public constructor(
         @inject('KeirinRaceS3Gateway')
         private readonly raceS3Gateway: IS3Gateway<KeirinRaceRecord>,

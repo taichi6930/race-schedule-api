@@ -14,6 +14,10 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 export class AutoracePlaceDataUseCase
     implements IPlaceDataUseCase<AutoracePlaceData>
 {
+    /**
+     *
+     * @param placeDataService
+     */
     public constructor(
         @inject('AutoracePlaceDataService')
         private readonly placeDataService: IPlaceDataService<AutoracePlaceEntity>,

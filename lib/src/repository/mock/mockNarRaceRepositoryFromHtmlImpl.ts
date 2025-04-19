@@ -7,9 +7,16 @@ import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
+/**
+ *
+ */
 export class MockNarRaceRepositoryFromHtmlImpl
     implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
+    /**
+     *
+     * @param searchFilter
+     */
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
@@ -46,6 +53,10 @@ export class MockNarRaceRepositoryFromHtmlImpl
         return raceEntityList;
     }
 
+    /**
+     *
+     * @param raceEntityList
+     */
     @Logger
     public async registerRaceEntityList(
         raceEntityList: NarRaceEntity[],

@@ -40,6 +40,7 @@ import type { WorldRaceNumber } from './data/world/worldRaceNumber';
  * @param dateTime - 開催日時
  * @param location - 開催場所
  * @param number - レース番号
+ * @returns 生成されたID
  */
 export const generateJraRaceId = (
     dateTime: Date,
@@ -54,6 +55,7 @@ export const generateJraRaceId = (
  * 中央競馬のplaceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
+ * @returns 生成されたID
  */
 export const generateJraPlaceId = (
     dateTime: Date,
@@ -102,6 +104,7 @@ export const generateNarPlaceId = (
  * @param dateTime - 開催日時
  * @param location - 開催場所
  * @param number - レース番号
+ * @returns 生成されたID
  */
 export const generateWorldRaceId = (
     dateTime: WorldRaceDateTime,
@@ -116,6 +119,7 @@ export const generateWorldRaceId = (
  * 海外競馬のplaceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
+ * @returns 生成されたID
  */
 export const generateWorldPlaceId = (
     dateTime: Date,
@@ -132,6 +136,7 @@ export const generateWorldPlaceId = (
  * @param location - 開催場所
  * @param number - レース番号
  * @param positionNumber - 枠番
+ * @returns 生成されたID
  */
 export const generateKeirinRacePlayerId = (
     dateTime: Date,
@@ -148,6 +153,7 @@ export const generateKeirinRacePlayerId = (
  * @param dateTime - 開催日時
  * @param location - 開催場所
  * @param number - レース番号
+ * @returns 生成されたID
  */
 export const generateKeirinRaceId = (
     dateTime: Date,
@@ -162,6 +168,7 @@ export const generateKeirinRaceId = (
  * 競輪のplaceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
+ * @returns 生成されたID
  */
 export const generateKeirinPlaceId = (
     dateTime: Date,
@@ -178,6 +185,7 @@ export const generateKeirinPlaceId = (
  * @param location - 開催場所
  * @param number - レース番号
  * @param positionNumber - 枠番
+ * @returns 生成されたID
  */
 export const generateBoatraceRacePlayerId = (
     dateTime: Date,
@@ -194,6 +202,7 @@ export const generateBoatraceRacePlayerId = (
  * @param dateTime - 開催日時
  * @param location - 開催場所
  * @param number - レース番号
+ * @returns 生成されたID
  */
 export const generateBoatraceRaceId = (
     dateTime: Date,
@@ -208,6 +217,7 @@ export const generateBoatraceRaceId = (
  * ボートレースのplaceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
+ * @returns 生成されたID
  */
 export const generateBoatracePlaceId = (
     dateTime: Date,
@@ -224,6 +234,7 @@ export const generateBoatracePlaceId = (
  * @param location - 開催場所
  * @param number - レース番号
  * @param positionNumber - 枠番
+ * @returns 生成されたID
  */
 export const generateAutoraceRacePlayerId = (
     dateTime: Date,
@@ -240,6 +251,7 @@ export const generateAutoraceRacePlayerId = (
  * @param dateTime - 開催日時
  * @param location - 開催場所
  * @param number - レース番号
+ * @returns 生成されたID
  */
 export const generateAutoraceRaceId = (
     dateTime: Date,
@@ -254,6 +266,7 @@ export const generateAutoraceRaceId = (
  * オートレースのplaceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
+ * @returns 生成されたID
  */
 export const generateAutoracePlaceId = (
     dateTime: Date,

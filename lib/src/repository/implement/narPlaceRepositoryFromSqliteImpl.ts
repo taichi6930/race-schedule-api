@@ -17,12 +17,18 @@ interface RaceRow {
     location: string;
 }
 
+/**
+ *
+ */
 @injectable()
 export class NarPlaceRepositoryFromSqliteImpl
     implements IPlaceRepository<NarPlaceEntity>
 {
     private readonly db: Database.Database;
 
+    /**
+     *
+     */
     public constructor() {
         this.db = SQLiteManager.getInstance().getDatabase();
     }
@@ -85,6 +91,10 @@ export class NarPlaceRepositoryFromSqliteImpl
         return Promise.all(entities);
     }
 
+    /**
+     *
+     * @param placeEntityList
+     */
     @Logger
     public async registerPlaceEntityList(
         placeEntityList: NarPlaceEntity[],

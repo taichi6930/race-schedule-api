@@ -20,6 +20,11 @@ export class JraRaceDataUseCase
     implements
         IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse, undefined>
 {
+    /**
+     *
+     * @param placeDataService
+     * @param raceDataService
+     */
     public constructor(
         @inject('JraPlaceDataService')
         private readonly placeDataService: IPlaceDataService<JraPlaceEntity>,

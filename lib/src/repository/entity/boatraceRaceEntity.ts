@@ -149,6 +149,10 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
         };
     }
 
+    /**
+     *
+     * @param event
+     */
     public static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {

@@ -21,6 +21,10 @@ export class BoatracePlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
+    /**
+     *
+     * @param s3Gateway
+     */
     public constructor(
         @inject('BoatracePlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<BoatracePlaceRecord>,
@@ -54,6 +58,10 @@ export class BoatracePlaceRepositoryFromStorageImpl
         return filteredPlaceEntityList;
     }
 
+    /**
+     *
+     * @param placeEntityList
+     */
     @Logger
     public async registerPlaceEntityList(
         placeEntityList: BoatracePlaceEntity[],

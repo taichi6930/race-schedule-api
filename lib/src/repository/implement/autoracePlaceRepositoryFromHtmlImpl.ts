@@ -21,6 +21,10 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class AutoracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<AutoracePlaceEntity>
 {
+    /**
+     *
+     * @param placeDataHtmlGateway
+     */
     public constructor(
         @inject('AutoracePlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IAutoracePlaceDataHtmlGateway,

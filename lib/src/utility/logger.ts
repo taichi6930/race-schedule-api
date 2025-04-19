@@ -81,6 +81,9 @@ export function Logger(
  * パフォーマンスとログの可読性を向上させます。
  */
 if (process.env.IS_DEBUG === 'false') {
+    /**
+     * console.debugを無効化
+     */
     console.debug = (): void => {
         // Debugging is disabled in production
     };

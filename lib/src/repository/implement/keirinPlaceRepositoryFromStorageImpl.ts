@@ -21,6 +21,10 @@ export class KeirinPlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
+    /**
+     *
+     * @param s3Gateway
+     */
     public constructor(
         @inject('KeirinPlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<KeirinPlaceRecord>,
@@ -55,6 +59,10 @@ export class KeirinPlaceRepositoryFromStorageImpl
         return filteredPlaceEntityList;
     }
 
+    /**
+     *
+     * @param placeEntityList
+     */
     @Logger
     public async registerPlaceEntityList(
         placeEntityList: KeirinPlaceEntity[],

@@ -18,6 +18,11 @@ import { Logger } from '../utility/logger';
 export class WorldRaceController {
     public router: Router;
 
+    /**
+     *
+     * @param raceCalendarUseCase
+     * @param worldRaceDataUseCase
+     */
     public constructor(
         @inject('WorldRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,

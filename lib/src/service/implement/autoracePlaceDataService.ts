@@ -9,6 +9,11 @@ import { BasePlaceDataService } from './basePlaceDataService';
  */
 @injectable()
 export class AutoracePlaceDataService extends BasePlaceDataService<AutoracePlaceEntity> {
+    /**
+     *
+     * @param placeRepositoryFromStorage
+     * @param placeRepositoryFromHtml
+     */
     public constructor(
         @inject('AutoracePlaceRepositoryFromStorage')
         protected placeRepositoryFromStorage: IPlaceRepository<AutoracePlaceEntity>,

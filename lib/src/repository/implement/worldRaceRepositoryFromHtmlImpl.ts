@@ -28,6 +28,10 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class WorldRaceRepositoryFromHtmlImpl
     implements IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
 {
+    /**
+     *
+     * @param raceDataHtmlGateway
+     */
     public constructor(
         @inject('WorldRaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IWorldRaceDataHtmlGateway,
@@ -80,6 +84,10 @@ export class WorldRaceRepositoryFromHtmlImpl
         return monthList;
     }
 
+    /**
+     *
+     * @param date
+     */
     @Logger
     public async fetchRaceListFromHtml(date: Date): Promise<WorldRaceEntity[]> {
         try {
