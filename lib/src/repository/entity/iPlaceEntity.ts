@@ -24,7 +24,7 @@ export interface IPlaceEntity<T extends IPlaceEntity<T>> {
      * このメソッドは、イミュータブルな方法でエンティティの
      * フィールドを更新するために使用されます。
      * @param partial - 更新したいフィールドを含むオブジェクト。
-     *                Partial型により、一部のフィールドのみの指定が可能です。
+     * Partial型により、一部のフィールドのみの指定が可能です。
      * @returns 更新された新しいエンティティインスタンス
      * @example
      * ```typescript

@@ -32,7 +32,7 @@ export interface IJraPlaceDataHtmlGateway {
      * - GIレースなどの重要な開催情報
      * - 特別な開催に関する注記
      * @param date - 取得対象の年月を表すDate型
-     *               日付部分は無視され、年月のみが使用されます
+     * 日付部分は無視され、年月のみが使用されます
      * @returns 競馬場開催情報のHTML文字列
      * @throws Error 以下の場合にエラーが発生：
      *               - ネットワーク接続エラー

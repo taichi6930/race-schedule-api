@@ -67,7 +67,7 @@ export interface ICalendarGateway {
      * - 場所情報
      * - イベントの説明
      * @param calendarData - 更新するイベントの完全なデータ
-     *                     eventIdを含む必要があります
+     * eventIdを含む必要があります
      * @throws Error 以下の場合にエラーが発生：
      *               - 指定されたイベントが存在しない
      *               - データの形式が不正
@@ -91,7 +91,7 @@ export interface ICalendarGateway {
      * - 場所情報（推奨）
      * - イベントの説明（推奨）
      * @param calendarData - 作成するイベントのデータ
-     *                     eventIdは指定しないでください
+     * eventIdは指定しないでください
      * @throws Error 以下の場合にエラーが発生：
      *               - 必須項目が不足
      *               - データの形式が不正

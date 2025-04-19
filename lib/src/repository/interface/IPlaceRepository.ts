@@ -30,9 +30,9 @@ export interface IPlaceRepository<P extends IPlaceEntity<P>> {
      * 2. データストアに対してクエリを実行
      * 3. 取得したデータをエンティティに変換
      * @param searchFilter - 検索条件を指定するフィルターエンティティ
-     *                      - 開始日・終了日による期間指定
-     *                      - 場所IDによる絞り込み
-     *                      - その他の検索条件
+     * - 開始日・終了日による期間指定
+     * - 場所IDによる絞り込み
+     * - その他の検索条件
      * @returns 開催場所エンティティの配列。該当データがない場合は空配列
      * @throws Error データの取得に失敗した場合
      */

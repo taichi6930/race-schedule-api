@@ -49,7 +49,7 @@ export abstract class BaseRaceDataService<
      * @param finishDate - 取得終了日（この日を含む）
      * @param type - データ取得元の指定（storage/web）
      * @param placeEntityList - 関連する開催場所エンティティのリスト。
-     *                        主にWeb取得時に使用され、場所情報の補完に利用。
+     * 主にWeb取得時に使用され、場所情報の補完に利用。
      * @returns レース開催エンティティの配列。エラー時は空配列
      * @throws エラーはキャッチされログ出力されます
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます

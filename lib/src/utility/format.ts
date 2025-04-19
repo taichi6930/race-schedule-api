@@ -1,7 +1,7 @@
 /**
  * 日付をフォーマットする
- * @param date
- * @returns
+ * @param date - フォーマットする日付
+ * @returns ISOフォーマットかつ日本時間（+09:00）の日付文字列
  */
 export const formatDate = (date: Date): string => {
     return date.toISOString().replace('Z', '+09:00');
@@ -9,9 +9,9 @@ export const formatDate = (date: Date): string => {
 
 /**
  * リンクタグを作成する
- * @param text
- * @param url
- * @returns
+ * @param text - リンクのテキスト
+ * @param url - リンク先のURL
+ * @returns HTMLのアンカータグ文字列
  */
 export const createAnchorTag = (text: string, url: string): string =>
     `<a href="${url}">${text}</a>`;

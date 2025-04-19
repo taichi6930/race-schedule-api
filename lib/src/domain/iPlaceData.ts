@@ -17,9 +17,7 @@
  * - 開催日程
  * - 開催場所名
  * - その他の付随情報
- * @typeParam T - 実装クラス自身の型。自己参照型として使用され、
- *               型安全な継承を可能にします。
- *               例：class JraPlaceData implements IPlaceData<JraPlaceData>
+ * @typeParam T - 実装クラス自身の型。自己参照型として使用され、型安全な継承を可能にします。例：class JraPlaceData implements IPlaceData<JraPlaceData>
  */
 export interface IPlaceData<T extends IPlaceData<T>> {
     /**
@@ -28,8 +26,7 @@ export interface IPlaceData<T extends IPlaceData<T>> {
      * このメソッドは、イミュータブルな方法でドメインモデルを
      * 更新するために使用されます。更新時にはドメインのビジネス
      * ルールが適用され、データの整合性が保証されます。
-     * @param partial - 更新したいフィールドを含むオブジェクト。
-     *                Partial型により、一部のフィールドのみの指定が可能です。
+     * @param partial - 更新したいフィールドを含むオブジェクト。Partial型により、一部のフィールドのみの指定が可能です。
      * @returns 更新された新しいドメインモデルインスタンス
      * @example
      * ```typescript

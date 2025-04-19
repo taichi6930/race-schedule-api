@@ -4,7 +4,7 @@ import type { ICalendarService } from '../../../../lib/src/service/interface/ICa
 
 /**
  * CalendarServiceのモックを作成する
- * @returns
+ * @returns モック化されたICalendarServiceインターフェースのインスタンス
  */
 export const calendarServiceMock = <R extends IRaceEntity<R>>(): jest.Mocked<
     ICalendarService<R>

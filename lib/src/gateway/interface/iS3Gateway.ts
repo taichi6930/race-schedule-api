@@ -46,7 +46,7 @@ export interface IS3Gateway<T extends IRecord<T>> {
      * 2. データを文字列として読み込み
      * @param fileName - 取得するファイルの名前（例: "jra/raceList.csv"）
      * @returns ファイルの内容を文字列として返します。
-     *          CSVファイルの場合、各行が改行で区切られた文字列となります。
+     * CSVファイルの場合、各行が改行で区切られた文字列となります。
      * @throws Error 以下の場合にエラーが発生：
      *               - S3への接続に失敗
      *               - 指定されたファイルが存在しない
