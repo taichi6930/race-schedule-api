@@ -30,9 +30,7 @@ export const ChihoKeibaYoutubeUserIdMap: Record<string, string> = {
 };
 
 /**
- * 競輪のYoutubeのユーザーIDを取得する
- * @param placeName
- * @returns YoutubeのライブURL
+ * 競輪のYoutubeのユーザーID
  */
 export const KeirinYoutubeUserIdMap: Record<KeirinRaceCourse, string> = {
     函館: 'rinrin-hakodate-Keirin',
