@@ -42,10 +42,10 @@ export default [
             'jsdoc/check-access': 'error', // アクセス修飾子のチェック
             'jsdoc/check-alignment': 'error', // 整列のチェック
             'jsdoc/check-examples': 'off', // ESLint 8+との互換性の問題により無効化
-            'jsdoc/check-indentation': 'off', // インデントのチェック
-            'jsdoc/check-line-alignment': 'off', // 行の整列チェック
+            'jsdoc/check-indentation': 'off', // TypeScriptのデフォルトのインデントスタイルを許可
+            'jsdoc/check-line-alignment': 'error', // 行の整列チェック
             'jsdoc/check-param-names': [
-                'off',
+                'error',
                 {
                     checkDestructured: false,
                     enableFixer: true,
@@ -53,13 +53,19 @@ export default [
                 },
             ],
             'jsdoc/check-property-names': 'error', // プロパティ名のチェック
-            'jsdoc/check-syntax': 'off', // 構文チェック
-            'jsdoc/check-tag-names': 'off', // タグ名のチェック
-            'jsdoc/check-types': 'off', // 型のチェック
-            'jsdoc/check-values': 'off', // 値のチェック
+            'jsdoc/check-syntax': 'error', // 構文チェック
+            'jsdoc/check-tag-names': 'off', // Typescriptと併用するため無効化
+            'jsdoc/check-types': 'error', // 型のチェック
+            'jsdoc/check-values': 'error', // 値のチェック
             'jsdoc/empty-tags': 'error', // 空タグのチェック
             'jsdoc/implements-on-classes': 'error', // クラスの実装チェック
-            'jsdoc/match-description': 'off', // 説明の形式チェック
+            'jsdoc/match-description': [
+                'error',
+                {
+                    matchDescription:
+                        '[A-Z一-龠ぁ-んァ-ヶ][A-Za-z0-9一-龠ぁ-んァ-ヶ\\s\\-_、。]*',
+                },
+            ], // 説明文は大文字またはひらがな・カタカナ・漢字で始まる
             'jsdoc/multiline-blocks': 'error', // 複数行ブロックのチェック
             'jsdoc/no-bad-blocks': 'error', // 不正なブロックのチェック
             'jsdoc/no-defaults': 'error', // デフォルト値のチェック
@@ -74,7 +80,7 @@ export default [
                     ],
                 },
             ],
-            'jsdoc/no-multi-asterisks': 'off',
+            'jsdoc/no-multi-asterisks': 'error', // 複数のアスタリスクのチェック
             'jsdoc/no-restricted-syntax': [
                 'off',
                 {
@@ -88,7 +94,7 @@ export default [
             ],
             'jsdoc/no-types': 'off', // TypeScriptと併用するため無効化
             'jsdoc/no-undefined-types': 'error', // 未定義の型のチェック
-            'jsdoc/require-asterisk-prefix': 'off', // アスタリスクプレフィックスの要求
+            'jsdoc/require-asterisk-prefix': 'error', // アスタリスクプレフィックスの要求
             'jsdoc/require-description': 'off', // 説明の要求
             'jsdoc/require-description-complete-sentence': 'off', // 完全な文章での説明要求
             'jsdoc/require-example': 'off', // サンプルの要求
@@ -111,7 +117,7 @@ export default [
                     },
                 },
             ],
-            'jsdoc/require-hyphen-before-param-description': 'off', // パラメータ説明前のハイフン要求
+            'jsdoc/require-hyphen-before-param-description': 'error', // パラメータ説明前のハイフン要求
             'jsdoc/require-jsdoc': [
                 'off',
                 {
@@ -126,16 +132,16 @@ export default [
                 },
             ],
             'jsdoc/require-param': 'error', // パラメータの要求
-            'jsdoc/require-param-description': 'off', // パラメータ説明の要求
+            'jsdoc/require-param-description': 'off', // TODO: パラメータの説明を後で必須にする
             'jsdoc/require-param-name': 'error', // パラメータ名の要求
             'jsdoc/require-param-type': 'off', // TypeScriptと併用するため無効化
             'jsdoc/require-property': 'error', // プロパティの要求
-            'jsdoc/require-property-description': 'off', // プロパティの説明要求
+            'jsdoc/require-property-description': 'error', // プロパティの説明を必須にする
             'jsdoc/require-property-name': 'error', // プロパティ名の要求
             'jsdoc/require-property-type': 'off', // TypeScriptと併用するため無効化
             'jsdoc/require-returns': 'off', // 戻り値の要求
-            'jsdoc/require-returns-check': 'off', // 戻り値のチェック
-            'jsdoc/require-returns-description': 'off', // 戻り値の説明要求
+            'jsdoc/require-returns-check': 'error', // 戻り値のチェック
+            'jsdoc/require-returns-description': 'error', // 戻り値の説明を必須にする
             'jsdoc/require-returns-type': 'off', // TypeScriptと併用するため無効化
             'jsdoc/require-throws': 'off', // throws句の要求
             'jsdoc/require-yields': 'off', // yields句の要求

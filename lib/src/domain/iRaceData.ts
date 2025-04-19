@@ -36,7 +36,7 @@ export interface IRaceData<T extends IRaceData<T>> {
      * - グレードと条件の整合性
      * - 開催場所との関連性
      * @param partial - 更新したいフィールドを含むオブジェクト。
-     *                Partial型により、一部のフィールドのみの指定が可能です。
+     * Partial型により、一部のフィールドのみの指定が可能です。
      * @returns 更新された新しいレース情報インスタンス
      * @example
      * ```typescript

@@ -58,8 +58,8 @@ export class BoatraceRaceController {
 
     /**
      * ボートレースカレンダーからレース情報を取得する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async getRacesFromCalendar(
@@ -100,8 +100,8 @@ export class BoatraceRaceController {
 
     /**
      * カレンダーにレース情報を更新する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async updateRacesToCalendar(
@@ -142,8 +142,8 @@ export class BoatraceRaceController {
 
     /**
      * レース情報を取得する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
@@ -214,8 +214,8 @@ export class BoatraceRaceController {
 
     /**
      * レース情報を更新する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async updateRaceDataList(
@@ -252,8 +252,8 @@ export class BoatraceRaceController {
 
     /**
      * ボートレース場情報を取得する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async getPlaceDataList(req: Request, res: Response): Promise<void> {
@@ -291,8 +291,8 @@ export class BoatraceRaceController {
 
     /**
      * ボートレース場情報を更新する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async updatePlaceDataList(

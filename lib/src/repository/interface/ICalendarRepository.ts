@@ -28,9 +28,9 @@ export interface ICalendarRepository<R extends IRaceEntity<R>> {
      * 2. 外部カレンダーサービスにクエリを実行
      * 3. 取得したイベントをCalendarData形式に変換
      * @param searchFilter - 検索条件を指定するフィルターエンティティ
-     *                      - 開始日・終了日による期間指定
-     *                      - 開催場所による絞り込み
-     *                      - その他の検索条件
+     * - 開始日・終了日による期間指定
+     * - 開催場所による絞り込み
+     * - その他の検索条件
      * @returns カレンダーイベントの配列。イベントが存在しない場合は空配列
      * @throws Error 以下の場合にエラーが発生：
      *               - 外部サービスとの通信に失敗

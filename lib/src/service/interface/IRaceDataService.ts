@@ -25,11 +25,11 @@ export interface IRaceDataService<
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（この日を含む）
      * @param type - データの取得元を指定
-     *              - Storage: 保存済みのデータから取得（高速）
-     *              - Web: 外部Webサイトから直接取得（最新）
+     * - Storage: 保存済みのデータから取得（高速）
+     * - Web: 外部Webサイトから直接取得（最新）
      * @param placeEntityList - 関連する開催場所エンティティのリスト
-     *                         主にWeb取得時に使用され、場所情報の補完に利用
-     *                         省略時は場所情報なしでデータを取得
+     * 主にWeb取得時に使用され、場所情報の補完に利用
+     * 省略時は場所情報なしでデータを取得
      * @returns レース開催エンティティの配列。該当データがない場合は空配列
      * @throws Error データの取得に失敗した場合
      */

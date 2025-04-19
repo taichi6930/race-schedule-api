@@ -55,8 +55,8 @@ export class NarRaceController {
 
     /**
      * NARカレンダーからレース情報を取得する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async getRacesFromCalendar(
@@ -97,8 +97,8 @@ export class NarRaceController {
 
     /**
      * カレンダーにレース情報を更新する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async updateRacesToCalendar(
@@ -139,8 +139,8 @@ export class NarRaceController {
 
     /**
      * レース情報を取得する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
@@ -201,8 +201,8 @@ export class NarRaceController {
 
     /**
      * レース情報を更新する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async updateRaceDataList(
@@ -301,8 +301,8 @@ export class NarRaceController {
 
     /**
      * 競馬場情報を取得する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async getPlaceDataList(req: Request, res: Response): Promise<void> {
@@ -336,8 +336,8 @@ export class NarRaceController {
 
     /**
      * 競馬場情報を更新する
-     * @param req リクエスト
-     * @param res レスポンス
+     * @param req - リクエスト
+     * @param res - レスポンス
      */
     @Logger
     private async updatePlaceDataList(

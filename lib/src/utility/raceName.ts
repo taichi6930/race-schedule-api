@@ -63,9 +63,9 @@ export const processJraRaceName = (
 
 /**
  * レース情報から、このレースは阪神JFかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
- * @param raceInfo
- * @returns {boolean}
+ * @param JraWebRaceInfoEntity - raceInfo
+ * @param raceInfo - レース情報
+ * @returns {boolean} このレースが阪神JFである場合はtrue、そうでない場合はfalse
  */
 const isHanshinJuvenileFillies = (raceInfo: JraRaceDataForRaceName): boolean =>
     raceInfo.place === '阪神' &&
@@ -75,10 +75,10 @@ const isHanshinJuvenileFillies = (raceInfo: JraRaceDataForRaceName): boolean =>
     raceInfo.name.includes('ジュベナイル');
 
 /**
- * レース情報このレース朝日杯FSかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
- * @param raceInfo
- * @returns {boolean}
+ * レース情報から、このレース朝日杯FSかどうかを判定する
+ * @param JraWebRaceInfoEntity - raceInfo
+ * @param raceInfo - レース情報
+ * @returns {boolean} このレースが朝日杯FSである場合はtrue、そうでない場合はfalse
  */
 const isAsahiHaiFuturityStakes = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['中山', '阪神'].includes(raceInfo.place) &&
@@ -89,9 +89,9 @@ const isAsahiHaiFuturityStakes = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースはマイルCSかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
- * @param raceInfo
- * @returns {boolean}
+ * @param JraWebRaceInfoEntity - raceInfo
+ * @param raceInfo - レース情報
+ * @returns {boolean} このレースがマイルCSである場合はtrue、そうでない場合はfalse
  */
 const isMileChampionship = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['阪神', '京都'].includes(raceInfo.place) &&
@@ -102,9 +102,9 @@ const isMileChampionship = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースはAJCCかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
- * @param raceInfo
- * @returns {boolean}
+ * @param JraWebRaceInfoEntity - raceInfo
+ * @param raceInfo - レース情報
+ * @returns {boolean} このレースがAJCCである場合はtrue、そうでない場合はfalse
  */
 const isAmericanJockeyClubCup = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['中山', '東京'].includes(raceInfo.place) &&
@@ -117,9 +117,9 @@ const isAmericanJockeyClubCup = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースは府中牝馬Sかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
- * @param raceInfo
- * @returns {boolean}
+ * @param JraWebRaceInfoEntity - raceInfo
+ * @param raceInfo - レース情報
+ * @returns {boolean} このレースが府中牝馬Sである場合はtrue、そうでない場合はfalse
  */
 const isFuchuHimbaStakes = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['中山', '東京'].includes(raceInfo.place) &&
@@ -130,9 +130,9 @@ const isFuchuHimbaStakes = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースはアイビスサマーDかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
- * @param raceInfo
- * @returns {boolean}
+ * @param JraWebRaceInfoEntity - raceInfo
+ * @param raceInfo - レース情報
+ * @returns {boolean} このレースがアイビスサマーDである場合はtrue、そうでない場合はfalse
  */
 const isIbisSummerDash = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['新潟'].includes(raceInfo.place) &&
@@ -143,9 +143,9 @@ const isIbisSummerDash = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースは京成杯オータムHかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
- * @param raceInfo
- * @returns {boolean}
+ * @param JraWebRaceInfoEntity - raceInfo
+ * @param raceInfo - レース情報
+ * @returns {boolean} このレースが京成杯オータムHである場合はtrue、そうでない場合はfalse
  */
 const isKeiseiHaiAutumnHandicap = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['中山'].includes(raceInfo.place) &&
@@ -157,9 +157,9 @@ const isKeiseiHaiAutumnHandicap = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースはサウジアラビアRCかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
- * @param raceInfo
- * @returns {boolean}
+ * @param JraWebRaceInfoEntity - raceInfo
+ * @param raceInfo - レース情報
+ * @returns {boolean} このレースがサウジアラビアRCである場合はtrue、そうでない場合はfalse
  */
 const isSaudiArabiaRoyalCup = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['東京'].includes(raceInfo.place) &&
@@ -171,9 +171,9 @@ const isSaudiArabiaRoyalCup = (raceInfo: JraRaceDataForRaceName): boolean =>
 
 /**
  * レース情報から、このレースはルミエールオータムDかどうかを判定する
- * @param JraWebRaceInfoEntity raceInfo
- * @param raceInfo
- * @returns {boolean}
+ * @param JraWebRaceInfoEntity - raceInfo
+ * @param raceInfo - レース情報
+ * @returns {boolean} このレースがルミエールオータムDである場合はtrue、そうでない場合はfalse
  */
 const isLumiereAutumnDash = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['新潟'].includes(raceInfo.place) &&

@@ -4,7 +4,7 @@ import type { IRaceDataService } from '../../../../lib/src/service/interface/IRa
 
 /**
  * RaceDataServiceのモックを作成する
- * @returns
+ * @returns モック化されたIRaceDataServiceインターフェースのインスタンス
  */
 export const raceDataServiceMock = <
     R extends IRaceEntity<R>,

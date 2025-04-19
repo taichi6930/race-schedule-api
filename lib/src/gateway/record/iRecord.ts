@@ -25,7 +25,7 @@ export interface IRecord<T extends IRecord<T>> {
      * 変更されず、更新されたフィールドを持つ新しいインスタンスが
      * 返されます。
      * @param partial - 更新したいフィールドを含むオブジェクト。
-     *                Partial型により、一部のフィールドのみの指定が可能です。
+     * Partial型により、一部のフィールドのみの指定が可能です。
      * @returns 更新された新しいレコードインスタンス
      * @example
      * ```typescript
