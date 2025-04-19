@@ -1,11 +1,6 @@
 import type { KeirinRaceCourse } from './keirin/keirinRaceCourse';
 
 /**
- * 地方競馬ライブのURL
- */
-export const CHIHO_KEIBA_LIVE_URL = 'http://keiba-lv-st.jp/';
-
-/**
  * YoutubeのライブURLを取得する
  * @param userId - YoutubeのユーザーアカウントのユーザーID
  * @returns 指定したYoutubeユーザーのライブ配信URL
