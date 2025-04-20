@@ -14,7 +14,7 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
      * @remarks
      * レース開催場所データを生成する
      */
-    public constructor(
+    private constructor(
         public readonly id: WorldPlaceId,
         public readonly placeData: WorldPlaceData,
     ) {}
