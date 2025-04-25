@@ -1,11 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "Running type check..."
-pnpm run type-check || exit 1
-
-echo "Running lint check..."
-pnpm run lint:check || exit 1
-
-echo "Running format check..."
-pnpm run format:check || exit 1
+pnpm run pre-commit
