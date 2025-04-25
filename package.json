@@ -11,7 +11,7 @@
         "s3-data-update": "aws s3 cp s3://race-schedule-bucket/ ./lib/src/gateway/mockData/csv --recursive",
         "test": "TZ=jst jest --coverage --maxWorkers=5",
         "test:watch": "TZ=jst jest --coverage --maxWorkers=5 --watchAll",
-        "cdk-deploy": "npm install -g aws-cdk & cdk deploy",
+        "cdk-deploy": "npm install -g aws-cdk && cdk deploy",
         "start": "ts-node lib/src/index.ts",
         "start:local:no_data": "TZ=jst ENV=LOCAL_NO_INIT_DATA ts-node lib/src/index.ts",
         "dev": "TZ=jst nodemon lib/src/index.ts",
@@ -68,6 +68,7 @@
         "swagger-jsdoc": "^6.2.8",
         "swagger-ui-express": "^5.0.1",
         "ts-jest": "^29.3.2",
+        "ts-node": "^10.9.2",
         "tsyringe": "^4.10.0",
         "typedoc": "^0.28.3",
         "zod": "^3.24.3"
@@ -91,7 +92,6 @@
         "jest": "^29.7.0",
         "lint-staged": "^15.5.1",
         "nodemon": "^3.1.10",
-        "ts-node": "^10.9.2",
         "typescript": "~5.8.3",
         "typescript-eslint": "^8.31.0"
     }
