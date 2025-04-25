@@ -102,10 +102,10 @@ export class KeirinPlaceRepositoryFromHtmlImpl
 
         const $ = cheerio.load(htmlText);
 
-        const chartWrapprer = $('#content');
+        const chartWrapper = $('#content');
 
         // tableタグが複数あるので、全て取得
-        const tables = chartWrapprer.find('table');
+        const tables = chartWrapper.find('table');
 
         tables.each((_: number, element: cheerio.Element) => {
             // その中のtbodyを取得

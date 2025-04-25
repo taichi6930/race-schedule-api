@@ -1,24 +1,19 @@
-import {
-    Effect,
-    PolicyStatement,
-    Role,
-    ServicePrincipal,
-} from 'aws-cdk-lib/aws-iam';
-import type * as aws_s3 from 'aws-cdk-lib/aws-s3';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import type * as s3 from 'aws-cdk-lib/aws-s3';
 import type { Construct } from 'constructs';
 
 export function createLambdaExecutionRole(
     scope: Construct,
-    bucket: aws_s3.IBucket,
-): Role {
+    bucket: s3.IBucket,
+): iam.Role {
     // Lambda 実行に必要な IAM ロールを作成
-    const role = new Role(scope, 'LambdaExecutionRole', {
-        assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+    const role = new iam.Role(scope, 'LambdaExecutionRole', {
+        assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
     });
 
     // Lambda が S3 バケットにアクセスできるようにするポリシーステートメントを追加
     role.addToPolicy(
-        new PolicyStatement({
+        new iam.PolicyStatement({
             actions: [
                 's3:GetObject',
                 's3:PutObject',
@@ -31,13 +26,13 @@ export function createLambdaExecutionRole(
 
     // Lambdaのログ出力権限を追加
     role.addToPolicy(
-        new PolicyStatement({
+        new iam.PolicyStatement({
             actions: [
                 'logs:CreateLogGroup',
                 'logs:CreateLogStream',
                 'logs:PutLogEvents',
             ],
-            effect: Effect.ALLOW,
+            effect: iam.Effect.ALLOW,
             resources: ['*'],
         }),
     );

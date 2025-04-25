@@ -159,7 +159,7 @@ export class JraRaceRepositoryFromHtmlImpl
                             grade: raceGrade,
                         });
 
-                        const jradata = JraRaceEntity.createWithoutId(
+                        const jraRaceData = JraRaceEntity.createWithoutId(
                             JraRaceData.create(
                                 raceName,
                                 raceDateTime,
@@ -173,7 +173,7 @@ export class JraRaceRepositoryFromHtmlImpl
                             ),
                             getJSTDate(new Date()),
                         );
-                        jraRaceDataList.push(jradata);
+                        jraRaceDataList.push(jraRaceData);
                     });
             });
             return jraRaceDataList;

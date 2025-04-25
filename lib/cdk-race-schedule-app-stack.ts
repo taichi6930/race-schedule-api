@@ -1,4 +1,5 @@
-import { aws_s3, CfnOutput, Stack, type StackProps } from 'aws-cdk-lib';
+import * as cdk from 'aws-cdk-lib';
+import * as s3 from 'aws-cdk-lib/aws-s3';
 import type { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
 
@@ -8,12 +9,12 @@ import { createLambdaFunction } from './stack/lambda-setup';
 
 dotenv.config({ path: './.env' });
 
-export class CdkRaceScheduleAppStack extends Stack {
-    public constructor(scope: Construct, id: string, props?: StackProps) {
+export class CdkRaceScheduleAppStack extends cdk.Stack {
+    public constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
         // S3バケットの参照
-        const bucket = aws_s3.Bucket.fromBucketName(
+        const bucket = s3.Bucket.fromBucketName(
             this,
             'RaceScheduleBucket',
             'race-schedule-bucket',
@@ -29,7 +30,7 @@ export class CdkRaceScheduleAppStack extends Stack {
         const api = createApiGateway(this, lambdaFunction);
 
         // API Gateway エンドポイントの出力
-        new CfnOutput(this, 'RaceScheduleAppApiGatewayEndpoint', {
+        new cdk.CfnOutput(this, 'RaceScheduleAppApiGatewayEndpoint', {
             value: api.deploymentStage.urlForPath(),
         });
     }
