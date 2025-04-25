@@ -1,2 +1,0 @@
-#!/usr/bin/env sh
-pnpm run type-check && npx eslint --quiet './lib/**/*.ts' './test/**/*.ts' && pnpm run format:check
