@@ -212,17 +212,15 @@ curl -X POST "http://localhost:3000/api/races/jra/place" \
 AWS CDKを使用してデプロイを行います：
 
 ```bash
-pnpm run cdk deploy
+pnpm run cdk-deploy
 ```
 
 ## テスト
 
 ```bash
 # ユニットテストの実行
-pnpm test
+pnpm run test
 
-# テストカバレッジの確認
-pnpm test:coverage
 ```
 
 ## ライセンス

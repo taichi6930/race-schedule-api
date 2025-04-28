@@ -217,7 +217,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                                 WorldRaceEntity.createWithoutId(
                                     WorldRaceData.create(
                                         raceName,
-                                        date,
+                                        raceDate,
                                         location,
                                         surfaceType,
                                         distance,
