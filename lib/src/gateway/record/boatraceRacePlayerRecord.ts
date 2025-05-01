@@ -1,9 +1,8 @@
 import '../../utility/format';
 
-import {
-    type BoatracePlayerNumber,
-    validateBoatracePlayerNumber,
-} from '../../utility/data/boatrace/boatracePlayerNumber';
+import type { PlayerNumber } from 'lib/src/utility/data/playerNumber';
+import { validatePlayerNumber } from 'lib/src/utility/data/playerNumber';
+
 import {
     type BoatracePositionNumber,
     validateBoatracePositionNumber,
@@ -36,7 +35,7 @@ export class BoatraceRacePlayerRecord
         public readonly id: BoatraceRacePlayerId,
         public readonly raceId: BoatraceRaceId,
         public readonly positionNumber: BoatracePositionNumber,
-        public readonly playerNumber: BoatracePlayerNumber,
+        public readonly playerNumber: PlayerNumber,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -60,7 +59,7 @@ export class BoatraceRacePlayerRecord
                 validateBoatraceRacePlayerId(id),
                 validateBoatraceRaceId(raceId),
                 validateBoatracePositionNumber(positionNumber),
-                validateBoatracePlayerNumber(playerNumber),
+                validatePlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {

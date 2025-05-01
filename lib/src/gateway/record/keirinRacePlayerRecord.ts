@@ -1,9 +1,8 @@
 import '../../utility/format';
 
-import {
-    type KeirinPlayerNumber,
-    validateKeirinPlayerNumber,
-} from '../../utility/data/keirin/keirinPlayerNumber';
+import type { PlayerNumber } from 'lib/src/utility/data/playerNumber';
+import { validatePlayerNumber } from 'lib/src/utility/data/playerNumber';
+
 import {
     type KeirinPositionNumber,
     validateKeirinPositionNumber,
@@ -35,7 +34,7 @@ export class KeirinRacePlayerRecord implements IRecord<KeirinRacePlayerRecord> {
         public readonly id: KeirinRacePlayerId,
         public readonly raceId: KeirinRaceId,
         public readonly positionNumber: KeirinPositionNumber,
-        public readonly playerNumber: KeirinPlayerNumber,
+        public readonly playerNumber: PlayerNumber,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -59,7 +58,7 @@ export class KeirinRacePlayerRecord implements IRecord<KeirinRacePlayerRecord> {
                 validateKeirinRacePlayerId(id),
                 validateKeirinRaceId(raceId),
                 validateKeirinPositionNumber(positionNumber),
-                validateKeirinPlayerNumber(playerNumber),
+                validatePlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {

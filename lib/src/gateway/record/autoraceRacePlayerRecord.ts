@@ -1,9 +1,8 @@
 import '../../utility/format';
 
-import {
-    type AutoracePlayerNumber,
-    validateAutoracePlayerNumber,
-} from '../../utility/data/autorace/autoracePlayerNumber';
+import type { PlayerNumber } from 'lib/src/utility/data/playerNumber';
+import { validatePlayerNumber } from 'lib/src/utility/data/playerNumber';
+
 import {
     type AutoracePositionNumber,
     validateAutoracePositionNumber,
@@ -36,7 +35,7 @@ export class AutoraceRacePlayerRecord
         public readonly id: AutoraceRacePlayerId,
         public readonly raceId: AutoraceRaceId,
         public readonly positionNumber: AutoracePositionNumber,
-        public readonly playerNumber: AutoracePlayerNumber,
+        public readonly playerNumber: PlayerNumber,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -60,7 +59,7 @@ export class AutoraceRacePlayerRecord
                 validateAutoraceRacePlayerId(id),
                 validateAutoraceRaceId(raceId),
                 validateAutoracePositionNumber(positionNumber),
-                validateAutoracePlayerNumber(playerNumber),
+                validatePlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {

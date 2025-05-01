@@ -1,5 +1,3 @@
-import { z } from 'zod';
-
 /**
  * 競輪の選手リスト
  */
@@ -90,7 +88,11 @@ export const KeirinPlayerList = [
         name: '久米詩',
         priority: 4,
     },
-    { playerNumber: '015306', name: '佐藤水菜', priority: 4 },
+    {
+        playerNumber: '015306',
+        name: '佐藤水菜',
+        priority: 4,
+    },
     {
         playerNumber: '015219',
         name: '梅川風子',
@@ -127,24 +129,3 @@ export const KeirinPlayerList = [
         priority: 3,
     },
 ];
-
-/**
- * KeirinPlayerNumberのzod型定義
- */
-const KeirinPlayerNumberSchema = z
-    .number()
-    .int()
-    .min(1, '選手番号は1以上である必要があります');
-
-/**
- * KeirinPlayerNumberの型定義
- */
-export type KeirinPlayerNumber = z.infer<typeof KeirinPlayerNumberSchema>;
-
-/**
- * 競輪の選手番号のバリデーション
- * @param playerNumber
- */
-export const validateKeirinPlayerNumber = (
-    playerNumber: number,
-): KeirinPlayerNumber => KeirinPlayerNumberSchema.parse(playerNumber);
