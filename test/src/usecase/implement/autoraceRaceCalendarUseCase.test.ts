@@ -6,6 +6,7 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { AutoraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/autoraceRaceCalendarUseCase';
 import { AutoraceSpecifiedGradeList } from '../../../../lib/src/utility/data/autorace/autoraceGradeType';
@@ -14,6 +15,7 @@ import {
     baseAutoraceRaceEntity,
 } from '../../mock/common/baseAutoraceData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('AutoraceRaceCalendarUseCase', () => {
@@ -21,6 +23,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
     let raceDataService: jest.Mocked<
         IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
     >;
+    let playerDataService: jest.Mocked<IPlayerDataService>;
     let useCase: AutoraceRaceCalendarUseCase;
 
     beforeEach(() => {
@@ -37,6 +40,12 @@ describe('AutoraceRaceCalendarUseCase', () => {
         container.registerInstance<
             IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
         >('AutoraceRaceDataService', raceDataService);
+
+        playerDataService = playerDataServiceMock();
+        container.registerInstance<IPlayerDataService>(
+            'playerDataService',
+            playerDataService,
+        );
 
         useCase = container.resolve(AutoraceRaceCalendarUseCase);
     });
