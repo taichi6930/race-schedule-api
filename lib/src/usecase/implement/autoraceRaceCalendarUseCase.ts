@@ -101,19 +101,19 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
      * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
      * @param raceEntityList
      * @param displayGradeList
-     * @param playerList
+     * @param playerDataList
      */
     private filterRaceEntity(
         raceEntityList: AutoraceRaceEntity[],
         displayGradeList: AutoraceGradeType[],
-        playerList: PlayerData[],
+        playerDataList: PlayerData[],
     ): AutoraceRaceEntity[] {
         const filteredRaceEntityList: AutoraceRaceEntity[] =
             raceEntityList.filter((raceEntity) => {
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {
                         const playerPriority =
-                            playerList.find(
+                            playerDataList.find(
                                 (autoracePlayer) =>
                                     playerData.playerNumber ===
                                     Number(autoracePlayer.playerNumber),
