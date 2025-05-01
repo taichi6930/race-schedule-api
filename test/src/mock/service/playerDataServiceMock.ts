@@ -1,8 +1,8 @@
 import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
 
 /**
- * RaceDataServiceのモックを作成する
- * @returns モック化されたIRaceDataServiceインターフェースのインスタンス
+ * PlayerDataServiceのモックを作成する
+ * @returns モック化されたIPlayerDataServiceインターフェースのインスタンス
  */
 export const playerDataServiceMock = (): jest.Mocked<IPlayerDataService> => {
     return {
