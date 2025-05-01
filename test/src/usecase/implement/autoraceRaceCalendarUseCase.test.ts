@@ -43,7 +43,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
 
         playerDataService = playerDataServiceMock();
         container.registerInstance<IPlayerDataService>(
-            'playerDataService',
+            'PlayerDataService',
             playerDataService,
         );
 

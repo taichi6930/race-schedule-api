@@ -28,7 +28,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
             KeirinRaceEntity,
             KeirinPlaceEntity
         >,
-        @inject('playerDataService')
+        @inject('PlayerDataService')
         private readonly playerDataService: IPlayerDataService,
     ) {}
 

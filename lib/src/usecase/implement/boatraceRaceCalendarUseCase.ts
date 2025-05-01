@@ -28,7 +28,7 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
             BoatraceRaceEntity,
             BoatracePlaceEntity
         >,
-        @inject('playerDataService')
+        @inject('PlayerDataService')
         private readonly playerDataService: IPlayerDataService,
     ) {}
 

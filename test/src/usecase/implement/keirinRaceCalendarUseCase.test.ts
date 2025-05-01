@@ -43,7 +43,7 @@ describe('KeirinRaceCalendarUseCase', () => {
 
         playerDataService = playerDataServiceMock();
         container.registerInstance<IPlayerDataService>(
-            'playerDataService',
+            'PlayerDataService',
             playerDataService,
         );
         useCase = container.resolve(KeirinRaceCalendarUseCase);
