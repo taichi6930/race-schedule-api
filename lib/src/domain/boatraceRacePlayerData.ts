@@ -1,11 +1,11 @@
 import {
-    type BoatracePlayerNumber,
-    validateBoatracePlayerNumber,
-} from '../utility/data/boatrace/boatracePlayerNumber';
-import {
     type BoatracePositionNumber,
     validateBoatracePositionNumber,
 } from '../utility/data/boatrace/boatracePositionNumber';
+import {
+    type PlayerNumber,
+    validatePlayerNumber,
+} from '../utility/data/playerNumber';
 
 /**
  * ボートレースのレースの選手データ
@@ -18,9 +18,9 @@ export class BoatraceRacePlayerData {
     public readonly positionNumber: BoatracePositionNumber;
     /**
      * 選手番号
-     * @type {BoatracePlayerNumber}
+     * @type {PlayerNumber}
      */
-    public readonly playerNumber: BoatracePlayerNumber;
+    public readonly playerNumber: PlayerNumber;
 
     /**
      * コンストラクタ
@@ -31,7 +31,7 @@ export class BoatraceRacePlayerData {
      */
     private constructor(
         positionNumber: BoatracePositionNumber,
-        playerNumber: BoatracePlayerNumber,
+        playerNumber: PlayerNumber,
     ) {
         this.positionNumber = positionNumber;
         this.playerNumber = playerNumber;
@@ -48,7 +48,7 @@ export class BoatraceRacePlayerData {
     ): BoatraceRacePlayerData {
         return new BoatraceRacePlayerData(
             validateBoatracePositionNumber(positionNumber),
-            validateBoatracePlayerNumber(playerNumber),
+            validatePlayerNumber(playerNumber),
         );
     }
 
