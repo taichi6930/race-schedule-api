@@ -3,12 +3,13 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
+import { PlayerData } from '../../domain/playerData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
-import { AutoracePlayerList } from '../../utility/data/autorace/autoracePlayerNumber';
 import { AutoraceSpecifiedGradeAndStageList } from '../../utility/data/autorace/autoraceRaceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -27,6 +28,8 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >,
+        @inject('playerDataService')
+        private readonly playerDataService: IPlayerDataService,
     ) {}
 
     /**
@@ -61,8 +64,11 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                 DataLocation.Storage,
             );
 
+        const playerList =
+            this.playerDataService.fetchPlayerDataList('autorace');
+
         const filteredRaceEntityList: AutoraceRaceEntity[] =
-            this.filterRaceEntity(raceEntityList, displayGradeList);
+            this.filterRaceEntity(raceEntityList, displayGradeList, playerList);
 
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
@@ -95,17 +101,19 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
      * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
      * @param raceEntityList
      * @param displayGradeList
+     * @param playerList
      */
     private filterRaceEntity(
         raceEntityList: AutoraceRaceEntity[],
         displayGradeList: AutoraceGradeType[],
+        playerList: PlayerData[],
     ): AutoraceRaceEntity[] {
         const filteredRaceEntityList: AutoraceRaceEntity[] =
             raceEntityList.filter((raceEntity) => {
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {
                         const playerPriority =
-                            AutoracePlayerList.find(
+                            playerList.find(
                                 (autoracePlayer) =>
                                     playerData.playerNumber ===
                                     Number(autoracePlayer.playerNumber),
