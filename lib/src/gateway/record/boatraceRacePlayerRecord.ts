@@ -1,8 +1,5 @@
 import '../../utility/format';
 
-import type { PlayerNumber } from 'lib/src/utility/data/playerNumber';
-import { validatePlayerNumber } from 'lib/src/utility/data/playerNumber';
-
 import {
     type BoatracePositionNumber,
     validateBoatracePositionNumber,
@@ -11,6 +8,8 @@ import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId'
 import { validateBoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
 import type { BoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
 import { validateBoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
+import type { PlayerNumber } from '../../utility/data/playerNumber';
+import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';

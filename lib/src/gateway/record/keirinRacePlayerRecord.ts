@@ -1,8 +1,5 @@
 import '../../utility/format';
 
-import type { PlayerNumber } from 'lib/src/utility/data/playerNumber';
-import { validatePlayerNumber } from 'lib/src/utility/data/playerNumber';
-
 import {
     type KeirinPositionNumber,
     validateKeirinPositionNumber,
@@ -11,6 +8,8 @@ import type { KeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
 import { validateKeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
 import type { KeirinRacePlayerId } from '../../utility/data/keirin/keirinRacePlayerId';
 import { validateKeirinRacePlayerId } from '../../utility/data/keirin/keirinRacePlayerId';
+import type { PlayerNumber } from '../../utility/data/playerNumber';
+import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';

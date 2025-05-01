@@ -1,8 +1,5 @@
 import '../../utility/format';
 
-import type { PlayerNumber } from 'lib/src/utility/data/playerNumber';
-import { validatePlayerNumber } from 'lib/src/utility/data/playerNumber';
-
 import {
     type AutoracePositionNumber,
     validateAutoracePositionNumber,
@@ -11,6 +8,8 @@ import type { AutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId'
 import { validateAutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
 import type { AutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
 import { validateAutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
+import type { PlayerNumber } from '../../utility/data/playerNumber';
+import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
