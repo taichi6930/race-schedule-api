@@ -1,4 +1,5 @@
 import { validatePlayerNumber } from '../utility/data/playerNumber';
+import type { RaceType } from '../utility/sqlite';
 
 /**
  * 選手情報
@@ -12,7 +13,7 @@ export class PlayerData {
      * @param priority - 優先度
      */
     private constructor(
-        public readonly raceType: string,
+        public readonly raceType: RaceType,
         public readonly playerNumber: number,
         public readonly name: string,
         public readonly priority: number,
@@ -27,7 +28,7 @@ export class PlayerData {
      * @param priority - 優先度
      */
     public static create(
-        raceType: string,
+        raceType: RaceType,
         playerNumber: number,
         name: string,
         priority: number,
