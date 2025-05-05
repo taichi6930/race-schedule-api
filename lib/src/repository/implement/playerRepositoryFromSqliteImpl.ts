@@ -8,9 +8,10 @@ import { Logger } from '../../utility/logger';
 import { SQLiteManager } from '../../utility/sqlite';
 import { PlayerEntity } from '../entity/playerEntity';
 import { SearchPlayerFilterEntity } from '../entity/searchPlayerFilterEntity';
+import { IPlayerRepository } from '../interface/IPlayerRepository';
 
 @injectable()
-export class PlayerRepositoryFromSqliteImpl {
+export class PlayerRepositoryFromSqliteImpl implements IPlayerRepository {
     private readonly db: Database.Database;
 
     public constructor() {
