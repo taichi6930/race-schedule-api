@@ -13,6 +13,7 @@ import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { KeirinSpecifiedGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/sqlite';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
 /**
@@ -64,8 +65,9 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                 DataLocation.Storage,
             );
 
-        const keirinPlayerList =
-            this.playerDataService.fetchPlayerDataList('keirin');
+        const keirinPlayerList = this.playerDataService.fetchPlayerDataList(
+            RaceType.KEIRIN,
+        );
 
         const filteredRaceEntityList: KeirinRaceEntity[] =
             this.filterRaceEntity(

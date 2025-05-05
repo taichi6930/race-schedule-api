@@ -1,4 +1,5 @@
 import { PlayerData } from '../../domain/playerData';
+import { RaceType } from '../../utility/sqlite';
 import type { IPlayerDataService } from '../interface/IPlayerDataService';
 
 /**
@@ -173,28 +174,31 @@ export class PlayerDataService implements IPlayerDataService {
      * Storageから取得します。データが存在しない場合は空の配列を返します。
      * @param type
      */
-    public fetchPlayerDataList(type: string): PlayerData[] {
-        if (type === 'keirin') {
+    public fetchPlayerDataList(type: RaceType): PlayerData[] {
+        if (type === RaceType.KEIRIN) {
             return KeirinPlayerList.map((player) =>
                 PlayerData.create(
+                    type,
                     Number.parseInt(player.playerNumber),
                     player.name,
                     player.priority,
                 ),
             );
         }
-        if (type === 'autorace') {
+        if (type === RaceType.AUTORACE) {
             return AutoracePlayerList.map((player) =>
                 PlayerData.create(
+                    type,
                     Number.parseInt(player.playerNumber),
                     player.name,
                     player.priority,
                 ),
             );
         }
-        if (type === 'boatrace') {
+        if (type === RaceType.BOATRACE) {
             return BoatracePlayerList.map((player) =>
                 PlayerData.create(
+                    type,
                     Number.parseInt(player.playerNumber),
                     player.name,
                     player.priority,

@@ -13,6 +13,7 @@ import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType
 import { AutoraceSpecifiedGradeAndStageList } from '../../utility/data/autorace/autoraceRaceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/sqlite';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
 /**
@@ -64,8 +65,9 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                 DataLocation.Storage,
             );
 
-        const playerList =
-            this.playerDataService.fetchPlayerDataList('autorace');
+        const playerList = this.playerDataService.fetchPlayerDataList(
+            RaceType.AUTORACE,
+        );
 
         const filteredRaceEntityList: AutoraceRaceEntity[] =
             this.filterRaceEntity(raceEntityList, displayGradeList, playerList);

@@ -6,11 +6,13 @@ import { validatePlayerNumber } from '../utility/data/playerNumber';
 export class PlayerData {
     /**
      * コンストラクタ
+     * @param raceType - レースタイプ（競輪・競艇・オートレース）
      * @param playerNumber - 選手番号
      * @param name - 選手名
      * @param priority - 優先度
      */
     private constructor(
+        public readonly raceType: string,
         public readonly playerNumber: number,
         public readonly name: string,
         public readonly priority: number,
@@ -19,16 +21,19 @@ export class PlayerData {
     /**
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
+     * @param raceType - レースタイプ（競輪・競艇・オートレース）
      * @param playerNumber - 選手番号
      * @param name - 選手名
      * @param priority - 優先度
      */
     public static create(
+        raceType: string,
         playerNumber: number,
         name: string,
         priority: number,
     ): PlayerData {
         return new PlayerData(
+            raceType,
             validatePlayerNumber(playerNumber),
             name,
             priority,
@@ -42,6 +47,7 @@ export class PlayerData {
      */
     public copy(partial: Partial<PlayerData> = {}): PlayerData {
         return PlayerData.create(
+            partial.raceType ?? this.raceType,
             partial.playerNumber ?? this.playerNumber,
             partial.name ?? this.name,
             partial.priority ?? this.priority,
