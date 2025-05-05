@@ -6,6 +6,7 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { KeirinRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/keirinRaceCalendarUseCase';
 import { KeirinSpecifiedGradeList } from '../../../../lib/src/utility/data/keirin/keirinGradeType';
@@ -14,6 +15,7 @@ import {
     baseKeirinRaceEntity,
 } from '../../mock/common/baseKeirinData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceCalendarUseCase', () => {
@@ -21,6 +23,7 @@ describe('KeirinRaceCalendarUseCase', () => {
     let raceDataService: jest.Mocked<
         IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
     >;
+    let playerDataService: jest.Mocked<IPlayerDataService>;
     let useCase: KeirinRaceCalendarUseCase;
 
     beforeEach(() => {
@@ -38,6 +41,11 @@ describe('KeirinRaceCalendarUseCase', () => {
             IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceDataService', raceDataService);
 
+        playerDataService = playerDataServiceMock();
+        container.registerInstance<IPlayerDataService>(
+            'PlayerDataService',
+            playerDataService,
+        );
         useCase = container.resolve(KeirinRaceCalendarUseCase);
     });
 

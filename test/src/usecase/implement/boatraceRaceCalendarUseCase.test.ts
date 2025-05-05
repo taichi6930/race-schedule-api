@@ -6,6 +6,7 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { BoatraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceCalendarUseCase';
 import { BoatraceSpecifiedGradeList } from '../../../../lib/src/utility/data/boatrace/boatraceGradeType';
@@ -14,6 +15,7 @@ import {
     baseBoatraceRaceEntity,
 } from '../../mock/common/baseBoatraceData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('BoatraceRaceCalendarUseCase', () => {
@@ -21,6 +23,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
     let raceDataService: jest.Mocked<
         IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
     >;
+    let playerDataService: jest.Mocked<IPlayerDataService>;
     let useCase: BoatraceRaceCalendarUseCase;
 
     beforeEach(() => {
@@ -37,6 +40,12 @@ describe('BoatraceRaceCalendarUseCase', () => {
         container.registerInstance<
             IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
         >('BoatraceRaceDataService', raceDataService);
+
+        playerDataService = playerDataServiceMock();
+        container.registerInstance<IPlayerDataService>(
+            'PlayerDataService',
+            playerDataService,
+        );
 
         useCase = container.resolve(BoatraceRaceCalendarUseCase);
     });

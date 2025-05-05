@@ -1,11 +1,11 @@
 import {
-    type KeirinPlayerNumber,
-    validateKeirinPlayerNumber,
-} from '../utility/data/keirin/keirinPlayerNumber';
-import {
     type KeirinPositionNumber,
     validateKeirinPositionNumber,
 } from '../utility/data/keirin/keirinPositionNumber';
+import {
+    type PlayerNumber,
+    validatePlayerNumber,
+} from '../utility/data/playerNumber';
 
 /**
  * 競輪のレースの選手データ
@@ -18,9 +18,9 @@ export class KeirinRacePlayerData {
     public readonly positionNumber: KeirinPositionNumber;
     /**
      * 選手番号
-     * @type {KeirinPlayerNumber}
+     * @type {PlayerNumber}
      */
-    public readonly playerNumber: KeirinPlayerNumber;
+    public readonly playerNumber: PlayerNumber;
 
     /**
      * コンストラクタ
@@ -31,7 +31,7 @@ export class KeirinRacePlayerData {
      */
     private constructor(
         positionNumber: KeirinPositionNumber,
-        playerNumber: KeirinPlayerNumber,
+        playerNumber: PlayerNumber,
     ) {
         this.positionNumber = positionNumber;
         this.playerNumber = playerNumber;
@@ -48,7 +48,7 @@ export class KeirinRacePlayerData {
     ): KeirinRacePlayerData {
         return new KeirinRacePlayerData(
             validateKeirinPositionNumber(positionNumber),
-            validateKeirinPlayerNumber(playerNumber),
+            validatePlayerNumber(playerNumber),
         );
     }
 

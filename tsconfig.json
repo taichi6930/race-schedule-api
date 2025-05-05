@@ -21,11 +21,6 @@
         "esModuleInterop": true,
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "baseUrl": ".",
-        "paths": {
-            "aws-cdk-lib": ["node_modules/aws-cdk-lib"],
-            "aws-cdk-lib/*": ["node_modules/aws-cdk-lib/*"]
-        },
         "typeRoots": ["./node_modules/@types"]
     },
     "exclude": ["node_modules", "cdk.out"]

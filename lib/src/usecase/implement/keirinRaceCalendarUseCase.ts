@@ -3,15 +3,17 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
+import { PlayerData } from '../../domain/playerData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
-import { KeirinPlayerList } from '../../utility/data/keirin/keirinPlayerNumber';
 import { KeirinSpecifiedGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/sqlite';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
 /**
@@ -27,6 +29,8 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
             KeirinRaceEntity,
             KeirinPlaceEntity
         >,
+        @inject('PlayerDataService')
+        private readonly playerDataService: IPlayerDataService,
     ) {}
 
     /**
@@ -61,8 +65,16 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                 DataLocation.Storage,
             );
 
+        const keirinPlayerList = this.playerDataService.fetchPlayerDataList(
+            RaceType.KEIRIN,
+        );
+
         const filteredRaceEntityList: KeirinRaceEntity[] =
-            this.filterRaceEntity(raceEntityList, displayGradeList);
+            this.filterRaceEntity(
+                raceEntityList,
+                displayGradeList,
+                keirinPlayerList,
+            );
 
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
@@ -95,17 +107,19 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
      * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
      * @param raceEntityList
      * @param displayGradeList
+     * @param playerDataList
      */
     private filterRaceEntity(
         raceEntityList: KeirinRaceEntity[],
         displayGradeList: KeirinGradeType[],
+        playerDataList: PlayerData[],
     ): KeirinRaceEntity[] {
         const filteredRaceEntityList: KeirinRaceEntity[] =
             raceEntityList.filter((raceEntity) => {
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {
                         const playerPriority =
-                            KeirinPlayerList.find(
+                            playerDataList.find(
                                 (keirinPlayer) =>
                                     playerData.playerNumber ===
                                     Number(keirinPlayer.playerNumber),

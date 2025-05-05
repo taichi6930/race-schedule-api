@@ -1,11 +1,11 @@
 import {
-    type AutoracePlayerNumber,
-    validateAutoracePlayerNumber,
-} from '../utility/data/autorace/autoracePlayerNumber';
-import {
     type AutoracePositionNumber,
     validateAutoracePositionNumber,
 } from '../utility/data/autorace/autoracePositionNumber';
+import {
+    type PlayerNumber,
+    validatePlayerNumber,
+} from '../utility/data/playerNumber';
 
 /**
  * オートレースのレースの選手データ
@@ -18,9 +18,9 @@ export class AutoraceRacePlayerData {
     public readonly positionNumber: AutoracePositionNumber;
     /**
      * 選手番号
-     * @type {AutoracePlayerNumber}
+     * @type {PlayerNumber}
      */
-    public readonly playerNumber: AutoracePlayerNumber;
+    public readonly playerNumber: PlayerNumber;
 
     /**
      * コンストラクタ
@@ -31,7 +31,7 @@ export class AutoraceRacePlayerData {
      */
     private constructor(
         positionNumber: AutoracePositionNumber,
-        playerNumber: AutoracePlayerNumber,
+        playerNumber: PlayerNumber,
     ) {
         this.positionNumber = positionNumber;
         this.playerNumber = playerNumber;
@@ -48,7 +48,7 @@ export class AutoraceRacePlayerData {
     ): AutoraceRacePlayerData {
         return new AutoraceRacePlayerData(
             validateAutoracePositionNumber(positionNumber),
-            validateAutoracePlayerNumber(playerNumber),
+            validatePlayerNumber(playerNumber),
         );
     }
 

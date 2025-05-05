@@ -1,10 +1,6 @@
 import '../../utility/format';
 
 import {
-    type BoatracePlayerNumber,
-    validateBoatracePlayerNumber,
-} from '../../utility/data/boatrace/boatracePlayerNumber';
-import {
     type BoatracePositionNumber,
     validateBoatracePositionNumber,
 } from '../../utility/data/boatrace/boatracePositionNumber';
@@ -12,6 +8,8 @@ import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId'
 import { validateBoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
 import type { BoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
 import { validateBoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
+import type { PlayerNumber } from '../../utility/data/playerNumber';
+import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -36,7 +34,7 @@ export class BoatraceRacePlayerRecord
         public readonly id: BoatraceRacePlayerId,
         public readonly raceId: BoatraceRaceId,
         public readonly positionNumber: BoatracePositionNumber,
-        public readonly playerNumber: BoatracePlayerNumber,
+        public readonly playerNumber: PlayerNumber,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -60,7 +58,7 @@ export class BoatraceRacePlayerRecord
                 validateBoatraceRacePlayerId(id),
                 validateBoatraceRaceId(raceId),
                 validateBoatracePositionNumber(positionNumber),
-                validateBoatracePlayerNumber(playerNumber),
+                validatePlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {

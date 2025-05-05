@@ -1,10 +1,6 @@
 import '../../utility/format';
 
 import {
-    type AutoracePlayerNumber,
-    validateAutoracePlayerNumber,
-} from '../../utility/data/autorace/autoracePlayerNumber';
-import {
     type AutoracePositionNumber,
     validateAutoracePositionNumber,
 } from '../../utility/data/autorace/autoracePositionNumber';
@@ -12,6 +8,8 @@ import type { AutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId'
 import { validateAutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
 import type { AutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
 import { validateAutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
+import type { PlayerNumber } from '../../utility/data/playerNumber';
+import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -36,7 +34,7 @@ export class AutoraceRacePlayerRecord
         public readonly id: AutoraceRacePlayerId,
         public readonly raceId: AutoraceRaceId,
         public readonly positionNumber: AutoracePositionNumber,
-        public readonly playerNumber: AutoracePlayerNumber,
+        public readonly playerNumber: PlayerNumber,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -60,7 +58,7 @@ export class AutoraceRacePlayerRecord
                 validateAutoraceRacePlayerId(id),
                 validateAutoraceRaceId(raceId),
                 validateAutoracePositionNumber(positionNumber),
-                validateAutoracePlayerNumber(playerNumber),
+                validatePlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {

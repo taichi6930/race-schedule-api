@@ -3,15 +3,17 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
+import { PlayerData } from '../../domain/playerData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
-import { BoatracePlayerList } from '../../utility/data/boatrace/boatracePlayerNumber';
 import { BoatraceSpecifiedGradeAndStageList } from '../../utility/data/boatrace/boatraceRaceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/sqlite';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
 /**
@@ -27,6 +29,8 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
             BoatraceRaceEntity,
             BoatracePlaceEntity
         >,
+        @inject('PlayerDataService')
+        private readonly playerDataService: IPlayerDataService,
     ) {}
 
     /**
@@ -61,8 +65,12 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                 DataLocation.Storage,
             );
 
+        const playerList = this.playerDataService.fetchPlayerDataList(
+            RaceType.BOATRACE,
+        );
+
         const filteredRaceEntityList: BoatraceRaceEntity[] =
-            this.filterRaceEntity(raceEntityList, displayGradeList);
+            this.filterRaceEntity(raceEntityList, displayGradeList, playerList);
 
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
@@ -95,17 +103,19 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
      * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
      * @param raceEntityList
      * @param displayGradeList
+     * @param playerDataList
      */
     private filterRaceEntity(
         raceEntityList: BoatraceRaceEntity[],
         displayGradeList: BoatraceGradeType[],
+        playerDataList: PlayerData[],
     ): BoatraceRaceEntity[] {
         const filteredRaceEntityList: BoatraceRaceEntity[] =
             raceEntityList.filter((raceEntity) => {
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {
                         const playerPriority =
-                            BoatracePlayerList.find(
+                            playerDataList.find(
                                 (boatracePlayer) =>
                                     playerData.playerNumber ===
                                     Number(boatracePlayer.playerNumber),
