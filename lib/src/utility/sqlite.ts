@@ -15,6 +15,15 @@ export enum RaceType {
     BOATRACE = 'BOATRACE',
 }
 
+export const RaceTypeList = [
+    RaceType.JRA,
+    RaceType.NAR,
+    RaceType.KEIRIN,
+    RaceType.WORLD,
+    RaceType.AUTORACE,
+    RaceType.BOATRACE,
+];
+
 /**
  * SQLiteデータベースマネージャークラス
  */
