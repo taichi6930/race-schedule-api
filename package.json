@@ -6,6 +6,7 @@
     },
     "scripts": {
         "preinstall": "npx only-allow pnpm",
+        "rebuild:sqlite": "cd node_modules/better-sqlite3 && node-gyp rebuild",
         "build": "tsc",
         "watch": "tsc -w",
         "s3-data-update": "aws s3 cp s3://race-schedule-bucket/ ./lib/src/gateway/mockData/csv --recursive",
@@ -38,7 +39,7 @@
         "@types/express": "^5.0.1",
         "aws-cdk-lib": "2.194.0",
         "aws-lambda": "^1.0.7",
-        "better-sqlite3": "^11.9.1",
+        "better-sqlite3": "^11.10.0",
         "cheerio": "^1.0.0",
         "constructs": "^10.4.2",
         "csv-writer": "^1.6.0",
