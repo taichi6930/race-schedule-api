@@ -1,7 +1,6 @@
 import type Database from 'better-sqlite3';
-import fs from 'node:fs';
 
-import { RaceType, SQLiteManager } from '../src/utility/sqlite';
+import { SQLiteManager } from '../src/utility/sqlite';
 import { TestPlayerList } from './testData/playerTestData';
 
 interface PlayerDetail {
@@ -47,7 +46,7 @@ function initializeDatabase(db: Database.Database): void {
     `);
 }
 
-async function insertPlayerData(db: Database.Database): Promise<void> {
+function insertPlayerData(db: Database.Database): void {
     console.log('\nplayerテーブルにデータを投入します...');
     const playerInsert = db.prepare(`
         INSERT INTO player (raceType, playerNumber, name, priority)
@@ -79,7 +78,7 @@ async function insertPlayerData(db: Database.Database): Promise<void> {
     }
 }
 
-async function checkPlayerData(db: Database.Database): Promise<void> {
+function checkPlayerData(db: Database.Database): void {
     console.log('\nplayerテーブルの確認中...');
 
     console.log('\n種目別の選手数:');
@@ -155,7 +154,7 @@ async function checkPlayerData(db: Database.Database): Promise<void> {
     }
 }
 
-async function checkDatabase(): Promise<void> {
+function checkDatabase(): void {
     try {
         console.log('SQLiteデータベースの接続テストを開始します...');
 
@@ -166,10 +165,10 @@ async function checkDatabase(): Promise<void> {
         initializeDatabase(db);
 
         // データの投入
-        await insertPlayerData(db);
+        insertPlayerData(db);
 
         // データの確認
-        await checkPlayerData(db);
+        checkPlayerData(db);
 
         console.log('データベーステストが正常に完了しました。');
         sqliteManager.close();
@@ -180,14 +179,4 @@ async function checkDatabase(): Promise<void> {
 }
 
 // メイン処理の実行
-checkDatabase()
-    .then(() => {
-        process.exitCode = 0;
-    })
-    .catch((error: unknown) => {
-        console.error(
-            'エラーが発生しました:',
-            error instanceof Error ? error.message : String(error),
-        );
-        process.exitCode = 1;
-    });
+checkDatabase();
