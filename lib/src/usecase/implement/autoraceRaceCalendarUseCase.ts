@@ -65,7 +65,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                 DataLocation.Storage,
             );
 
-        const playerList = this.playerDataService.fetchPlayerDataList(
+        const playerList = await this.playerDataService.fetchPlayerDataList(
             RaceType.AUTORACE,
         );
 

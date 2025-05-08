@@ -65,16 +65,12 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                 DataLocation.Storage,
             );
 
-        const keirinPlayerList = this.playerDataService.fetchPlayerDataList(
+        const playerList = await this.playerDataService.fetchPlayerDataList(
             RaceType.KEIRIN,
         );
 
         const filteredRaceEntityList: KeirinRaceEntity[] =
-            this.filterRaceEntity(
-                raceEntityList,
-                displayGradeList,
-                keirinPlayerList,
-            );
+            this.filterRaceEntity(raceEntityList, displayGradeList, playerList);
 
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
