@@ -101,8 +101,12 @@ export class SQLiteManager {
      * データベースファイルのパスを取得
      */
     private getDatabasePath(): string {
-        // ローカル環境では./volume/db配下に保存
-        const baseDir = path.join(process.cwd(), 'volume', 'db');
+        // EFSがマウントされている場合はEFSのパスを使用、それ以外はローカルのパスを使用
+        const efsPath = process.env.EFS_MOUNT_PATH ?? '';
+        const baseDir =
+            efsPath.length > 0
+                ? path.join(efsPath)
+                : path.join(process.cwd(), 'volume', 'db');
         return path.join(baseDir, 'race-schedule.db');
     }
 
