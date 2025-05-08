@@ -1,4 +1,4 @@
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 import { PlayerData } from '../../domain/playerData';
 import { SearchPlayerFilterEntity } from '../../repository/entity/searchPlayerFilterEntity';
@@ -8,7 +8,10 @@ import type { IPlayerDataService } from '../interface/IPlayerDataService';
 
 @injectable()
 export class PlayerDataService implements IPlayerDataService {
-    public constructor(private readonly playerRepository: IPlayerRepository) {}
+    public constructor(
+        @inject('PlayerRepositoryFromSqlite')
+        private readonly playerRepository: IPlayerRepository,
+    ) {}
 
     /**
      * プレイヤーデータをRepositoryから取得します
