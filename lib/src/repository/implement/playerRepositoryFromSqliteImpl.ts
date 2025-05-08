@@ -1,5 +1,5 @@
 import type Database from 'better-sqlite3';
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 import { SQLiteManager } from '../../utility/sqlite';
 import { PlayerEntity } from '../entity/playerEntity';
@@ -14,7 +14,9 @@ export class PlayerRepositoryFromSqliteImpl implements IPlayerRepository {
     private readonly db: Database.Database;
 
     public constructor(
+        @inject('IPlayerQueryBuilder')
         private readonly queryBuilder: IPlayerQueryBuilder,
+        @inject(PlayerDataMapper)
         private readonly mapper: PlayerDataMapper,
     ) {
         this.db = SQLiteManager.getInstance().getDatabase();

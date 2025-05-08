@@ -170,7 +170,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
             ].findIndex((data) => data.id === calendarData.id);
             // 存在しない場合は新規追加
             if (index === -1) {
-                throw new Error('Event already exists');
+                throw new Error('Not found');
             }
             MockGoogleCalendarGateway.mockCalendarData[this.raceType][index] =
                 calendarData;
