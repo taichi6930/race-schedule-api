@@ -122,7 +122,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                             playerDataList.find(
                                 (keirinPlayer) =>
                                     playerData.playerNumber ===
-                                    Number(keirinPlayer.playerNumber),
+                                    keirinPlayer.playerNumber,
                             )?.priority ?? 0;
                         return Math.max(maxPriority, playerPriority);
                     },
