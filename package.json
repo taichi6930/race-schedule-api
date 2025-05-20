@@ -6,6 +6,7 @@
     },
     "scripts": {
         "preinstall": "npx only-allow pnpm",
+        "rebuild:sqlite": "cd node_modules/better-sqlite3 && node-gyp rebuild",
         "build": "tsc",
         "watch": "tsc -w",
         "s3-data-update": "aws s3 cp s3://race-schedule-bucket/ ./lib/src/gateway/mockData/csv --recursive",
@@ -16,7 +17,7 @@
         "start:local:no_data": "TZ=jst ENV=LOCAL_NO_INIT_DATA ts-node lib/src/index.ts",
         "dev": "TZ=jst nodemon lib/src/index.ts",
         "dev:test": "TZ=jst ENV=TEST nodemon lib/src/index.ts",
-        "dev:local": "TZ=jst ENV=LOCAL nodemon lib/src/index.ts",
+        "dev:local": " pnpm run check:sqlite && TZ=jst ENV=LOCAL nodemon lib/src/index.ts",
         "dev:local:no_data": "TZ=jst ENV=LOCAL_NO_INIT_DATA nodemon lib/src/index.ts",
         "dev:local:made_data": "TZ=jst ENV=LOCAL_INIT_MADE_DATA nodemon lib/src/index.ts",
         "format": "prettier --write .",
