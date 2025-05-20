@@ -109,7 +109,7 @@ export const generateWorldRaceId = (
     number: WorldRaceNumber,
 ): WorldRaceId => {
     const numberCode = number.toXDigits(2);
-    return `${generateWorldPlaceId(dateTime, location)}${numberCode.toString()}`;
+    return `${generateWorldPlaceId(dateTime, location)}${numberCode}`;
 };
 
 /**
