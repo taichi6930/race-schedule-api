@@ -30,7 +30,7 @@
         "check:sqlite": "TZ=jst ENV=LOCAL ts-node lib/scripts/check-sqlite.ts"
     },
     "dependencies": {
-        "@aws-sdk/client-s3": "^3.820.0",
+        "@aws-sdk/client-s3": "^3.821.0",
         "@codegenie/serverless-express": "^4.16.0",
         "@types/aws-lambda": "^8.10.149",
         "@types/better-sqlite3": "^7.6.13",
@@ -72,10 +72,10 @@
         "@swc/core": "^1.11.29",
         "@swc/jest": "^0.2.38",
         "@types/jest": "^29.5.14",
-        "@types/node": "22.15.26",
+        "@types/node": "22.15.29",
         "@types/swagger-jsdoc": "^6.0.4",
         "@types/swagger-ui-express": "^4.1.8",
-        "aws-cdk": "2.1017.0",
+        "aws-cdk": "2.1017.1",
         "eslint": "^9.27.0",
         "eslint-plugin-jsdoc": "^50.6.17",
         "eslint-plugin-promise": "^7.2.1",
