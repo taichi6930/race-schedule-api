@@ -30,13 +30,13 @@
         "check:sqlite": "TZ=jst ENV=LOCAL ts-node lib/scripts/check-sqlite.ts"
     },
     "dependencies": {
-        "@aws-sdk/client-s3": "^3.821.0",
+        "@aws-sdk/client-s3": "^3.823.0",
         "@codegenie/serverless-express": "^4.16.0",
         "@types/aws-lambda": "^8.10.149",
         "@types/better-sqlite3": "^7.6.13",
         "@types/cheerio": "^0.22.35",
         "@types/express": "^5.0.2",
-        "aws-cdk-lib": "2.200.0",
+        "aws-cdk-lib": "2.200.1",
         "aws-lambda": "^1.0.7",
         "better-sqlite3": "^11.10.0",
         "cheerio": "^1.0.0",
@@ -65,7 +65,7 @@
         "ts-node": "^10.9.2",
         "tsyringe": "^4.10.0",
         "typedoc": "^0.28.5",
-        "zod": "^3.25.49"
+        "zod": "^3.25.50"
     },
     "devDependencies": {
         "@eslint/js": "^9.27.0",
