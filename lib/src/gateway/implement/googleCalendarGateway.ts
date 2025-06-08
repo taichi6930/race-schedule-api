@@ -1,4 +1,3 @@
-import type { JWT } from 'google-auth-library';
 import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
 
@@ -6,23 +5,22 @@ import { createErrorMessage } from '../../utility/error';
 import { Logger } from '../../utility/logger';
 import type { ICalendarGateway } from '../interface/iCalendarGateway';
 
+/**
+ * Google Calendar Gateway - Googleカレンダーとの連携を行うゲートウェイ
+ * google-auth-libraryとgoogleapisのバージョン互換性を考慮した実装
+ */
 export class GoogleCalendarGateway implements ICalendarGateway {
-    private readonly credentials: JWT;
     private readonly calendar: calendar_v3.Calendar;
     private readonly calendarId: string;
 
     public constructor(calendarId: string) {
-        this.credentials = new google.auth.JWT(
-            // client_emailは環境変数から取得
-            process.env.GOOGLE_CLIENT_EMAIL,
-            undefined,
-            // private_keyは環境変数から取得
-            process.env.GOOGLE_PRIVATE_KEY,
-            ['https://www.googleapis.com/auth/calendar'],
-        );
+        // GoogleAPIキーを使用して認証
+        const apiKey = process.env.GOOGLE_API_KEY ?? '';
+
+        // カレンダーAPIの初期化（googleapis v150.0.1に対応）
         this.calendar = google.calendar({
             version: 'v3',
-            auth: this.credentials,
+            auth: apiKey,
         });
         this.calendarId = calendarId;
     }
@@ -82,7 +80,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             });
         } catch (error) {
             throw new Error(
-                createErrorMessage('Failed to get calendar events', error),
+                createErrorMessage('Failed to update calendar event', error),
             );
         }
     }
