@@ -6,9 +6,5 @@ updates:
       interval: "daily"
       time: "10:00"
       timezone: "Asia/Tokyo"
-    groups:
-      all-dependencies:
-        patterns:
-          - "*" # すべての依存関係を1つのPRにまとめる
     labels:
       - "dependencies" # PR に付けるラベル（管理しやすくなる）
