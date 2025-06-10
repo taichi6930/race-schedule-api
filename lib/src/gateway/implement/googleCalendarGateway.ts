@@ -1,4 +1,3 @@
-import type { JWT } from 'google-auth-library';
 import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
 
@@ -7,22 +6,22 @@ import { Logger } from '../../utility/logger';
 import type { ICalendarGateway } from '../interface/iCalendarGateway';
 
 export class GoogleCalendarGateway implements ICalendarGateway {
-    private readonly credentials: JWT;
     private readonly calendar: calendar_v3.Calendar;
     private readonly calendarId: string;
 
     public constructor(calendarId: string) {
-        this.credentials = new google.auth.JWT(
-            // client_emailは環境変数から取得
-            process.env.GOOGLE_CLIENT_EMAIL,
-            undefined,
-            // private_keyは環境変数から取得
-            process.env.GOOGLE_PRIVATE_KEY,
-            ['https://www.googleapis.com/auth/calendar'],
-        );
+        // googleapis v150.0.1 に対応するためにGoogleAuth -> authを使用
+        const auth = new google.auth.GoogleAuth({
+            credentials: {
+                client_email: process.env.GOOGLE_CLIENT_EMAIL,
+                private_key: process.env.GOOGLE_PRIVATE_KEY,
+            },
+            scopes: ['https://www.googleapis.com/auth/calendar'],
+        });
+
         this.calendar = google.calendar({
             version: 'v3',
-            auth: this.credentials,
+            auth,
         });
         this.calendarId = calendarId;
     }
