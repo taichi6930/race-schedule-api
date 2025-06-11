@@ -48,7 +48,6 @@
         "eslint-plugin-prettier": "^5.4.1",
         "eslint-plugin-simple-import-sort": "^12.1.1",
         "express": "^5.1.0",
-        "gaxios": "^6.7.1",
         "google-auth-library": "^9.15.1",
         "googleapis": "^150.0.1",
         "jest-html-reporters": "^3.1.7",
