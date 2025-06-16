@@ -1,5 +1,5 @@
+import type { RaceType } from '../repository/entity/searchPlayerFilterEntity';
 import { validatePlayerNumber } from '../utility/data/playerNumber';
-import type { RaceType } from '../utility/sqlite';
 
 /**
  * 選手情報
