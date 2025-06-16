@@ -1,384 +1,242 @@
-import * as child_process from 'node:child_process';
 import * as fs from 'node:fs';
 import path from 'node:path';
 
-// データベースファイルのパスを設定
+import Database from 'better-sqlite3';
+
+// 定数定義
+export const NAR_PLACE_CSV_PATH = path.join(
+    process.cwd(),
+    'volume/data/nar-place.csv',
+);
 const DB_PATH = path.join(process.cwd(), 'volume/data/race-schedule.db');
 const DB_FOLDER = path.dirname(DB_PATH);
 
-// CSVファイルのパスを設定
-const NAR_PLACE_CSV_PATH = path.join(
-    process.cwd(),
-    'lib/src/gateway/mockData/csv/nar/placeList.csv',
-);
+// シングルトンインスタンス
+let database: Database.Database | undefined;
 
-// JavaScriptのDate文字列を解析する関数
-function parseJSDateString(dateStr: string): Date | undefined {
+interface NarPlaceData {
+    id: string;
+    datetime: string;
+    location: string;
+}
+
+/**
+ * nar_place_data テーブルのセットアップ
+ * @param db
+ */
+const setupNarPlaceDataTable = (db: Database.Database): void => {
     try {
-        // "Fri Jun 20 2025 10:00:00 GMT+0900 (Japan Standard Time)" 形式を解析
-        const date = new Date(dateStr);
+        db.exec(`
+            CREATE TABLE IF NOT EXISTS nar_place_data (
+                id TEXT PRIMARY KEY,
+                datetime TEXT NOT NULL,
+                location TEXT NOT NULL,
+                updated_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')),
+                created_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime'))
+            );
 
-        // 無効な日付でないことを確認
-        if (Number.isNaN(date.getTime())) {
-            return undefined;
-        }
-
-        return date;
+            CREATE TRIGGER IF NOT EXISTS update_nar_place_timestamp
+            AFTER UPDATE ON nar_place_data
+            BEGIN
+                UPDATE nar_place_data
+                SET updated_at = DATETIME('now', 'localtime')
+                WHERE id = NEW.id;
+            END;
+        `);
     } catch (error) {
-        console.error('日付解析エラー:', error);
-        return undefined;
+        console.error('テーブル作成エラー:', error);
+        throw error;
     }
+};
+
+// テーブルのセットアップ
+function setupTables(db: Database.Database): void {
+    setupNarPlaceDataTable(db);
 }
 
-// CSV行をパースする関数 (簡易的なCSVパーサー)
-function parseCSVLine(line: string): string[] {
-    const result: string[] = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (const char of line) {
-        if (char === '"') {
-            inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-            result.push(current);
-            current = '';
-        } else {
-            current += char;
-        }
-    }
-
-    // 最後のフィールドを追加
-    result.push(current);
-    return result;
-}
-
-// SQLiteデータベースファイルを作成または確認
-function setupDatabase(): boolean {
-    // フォルダが存在しない場合は作成
-    if (!fs.existsSync(DB_FOLDER)) {
-        fs.mkdirSync(DB_FOLDER, { recursive: true });
-        console.log(`ディレクトリを作成しました: ${DB_FOLDER}`);
-    }
-
-    // データベースファイルが存在するか確認
-    if (fs.existsSync(DB_PATH)) {
-        console.log(`既存のデータベースファイルを使用します: ${DB_PATH}`);
-        return true;
-    } else {
-        console.log(`データベースファイルが存在しません: ${DB_PATH}`);
-        console.log('新しいデータベースファイルを作成します...');
-
-        try {
-            // 空のファイルを作成
-            fs.writeFileSync(DB_PATH, '', 'utf8');
-            console.log(`データベースファイルを作成しました: ${DB_PATH}`);
-            return true;
-        } catch (error) {
-            console.error('データベースファイル作成エラー:', error);
-            return false;
-        }
-    }
-}
-
-// システムにsqliteコマンドがあるか確認
-function checkSqliteCommand(): boolean {
+// データベースの初期化
+function initializeDatabase(): Database.Database {
     try {
-        const result = child_process.execSync('which sqlite3', {
-            encoding: 'utf8',
-        });
-        console.log(`SQLiteコマンドが見つかりました: ${result.trim()}`);
+        if (!fs.existsSync(DB_FOLDER)) {
+            fs.mkdirSync(DB_FOLDER, { recursive: true });
+            console.log(`ディレクトリを作成しました: ${DB_FOLDER}`);
+        }
+
+        const db = new Database(DB_PATH, { verbose: console.log });
+        db.pragma('journal_mode = WAL');
+        db.pragma('foreign_keys = ON');
+        setupTables(db);
+        return db;
+    } catch (error) {
+        console.error('データベース初期化エラー:', error);
+        throw error;
+    }
+}
+
+// CSVの行をパースする関数
+function parseCSVLine(line: string): string[] {
+    return line.split(',').map((field) => field.trim());
+}
+
+// 日付文字列をパースする関数
+function parseJSDateString(dateStr: string): Date | undefined {
+    const date = new Date(dateStr);
+    return Number.isNaN(date.getTime()) ? undefined : date;
+}
+
+// データベースのセットアップ
+export function setupDatabase(): boolean {
+    try {
+        database ??= initializeDatabase();
         return true;
-    } catch {
-        console.log('システムにSQLiteコマンドがインストールされていません。');
-        console.log(
-            'brew install sqlite3 または apt-get install sqlite3 などでインストールできます。',
-        );
+    } catch (error) {
+        console.error('データベースセットアップエラー:', error);
+        return false;
+    }
+}
+
+// SQLiteコマンドの確認
+export function checkSqliteCommand(): boolean {
+    try {
+        database ??= initializeDatabase();
+        return true;
+    } catch (error) {
+        console.error('SQLiteコマンド確認エラー:', error);
         return false;
     }
 }
 
 // SQLiteコマンドを実行
-export function runSqliteCommand(command: string): string | undefined {
+export function runSqliteCommand(
+    query: string,
+    params: unknown[] = [],
+): string | undefined {
     try {
-        // コマンドが空でないことを確認
-        if (!command || command.trim() === '') {
-            console.warn('空のSQLiteコマンドが実行されました');
-            return undefined;
+        database ??= initializeDatabase();
+        const statement = database.prepare(query);
+
+        const result = database.transaction(() => {
+            return statement.all(params);
+        })();
+
+        if (Array.isArray(result)) {
+            return result
+                .map((row) => {
+                    if (
+                        row !== null &&
+                        typeof row === 'object' &&
+                        Object.keys(row).length > 0
+                    ) {
+                        return Object.values(row).join('|');
+                    }
+                    return '';
+                })
+                .filter(Boolean)
+                .join('\n');
         }
-
-        // 実行するコマンドをログに出力（オプション）
-        // console.debug(`SQLiteコマンド実行: ${command.substring(0, 50)}${command.length > 50 ? '...' : ''}`);
-
-        const result = child_process.execSync(
-            `sqlite3 "${DB_PATH}" "${command}"`,
-            { encoding: 'utf8' },
-        );
-        return result.trim();
+        return undefined;
     } catch (error) {
-        // エラーの詳細を出力
-        if (error instanceof Error) {
-            console.error(`SQLiteコマンド実行エラー: ${error.message}`);
-        } else {
-            console.error('SQLiteコマンド実行エラー:', error);
-        }
+        console.error('SQLiteコマンド実行エラー:', error);
         return undefined;
     }
 }
 
-// サンプルテーブルとデータを作成
-function createSampleData(): boolean {
-    console.log('サンプルテーブルを作成します...');
-
-    // NARの場所データ用テーブル作成
-    let createTableResult = runSqliteCommand(`
-        CREATE TABLE IF NOT EXISTS nar_place_data (
-            id TEXT PRIMARY KEY,
-            datetime TEXT NOT NULL,
-            location TEXT NOT NULL,
-            created_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')),
-            updated_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime'))
-        );
-    `);
-
-    // updated_atを自動更新するトリガーを作成
-    createTableResult = runSqliteCommand(`
-        DROP TRIGGER IF EXISTS update_nar_place_timestamp;
-        CREATE TRIGGER update_nar_place_timestamp AFTER UPDATE ON nar_place_data
-        BEGIN
-            UPDATE nar_place_data SET updated_at = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid;
-        END;
-    `);
-
-    if (createTableResult !== undefined) {
-        console.log('テーブルとトリガーを作成しました');
-
-        // NARの場所データチェック
-        const countResult = runSqliteCommand(
-            'SELECT COUNT(*) FROM nar_place_data;',
-        );
-        const count = Number.parseInt(countResult ?? '0', 10);
-        console.log(`NAR場所データの件数: ${count}`);
-
-        return true;
-    }
-
-    return false;
-}
-
-// データベースファイルの情報を表示
-function showDatabaseInfo(): void {
-    console.log('\nデータベース情報:');
-
-    // ファイルサイズを取得
-    const stats = fs.statSync(DB_PATH);
-    console.log(`ファイルサイズ: ${stats.size} バイト`);
-
-    // テーブル一覧を取得
-    console.log('\nテーブル一覧:');
-    const tables = runSqliteCommand(
-        "SELECT name FROM sqlite_master WHERE type='table';",
-    );
-    console.log(tables ?? 'テーブルがありません');
-
-    // 各テーブルのスキーマを表示
-    if (tables !== undefined && tables.trim() !== '') {
-        console.log('\n各テーブルのスキーマ:');
-        const tableNames = tables.split('\n');
-        for (const tableName of tableNames) {
-            if (tableName.trim()) {
-                console.log(`\nテーブル: ${tableName}`);
-                const schema = runSqliteCommand(
-                    `PRAGMA table_info(${tableName});`,
-                );
-                console.log(schema ?? 'スキーマ情報がありません');
-            }
-        }
-    }
-}
-
-// CSVファイルを読み込み、SQLiteデータベースに登録する
-function importCsvToDatabase(csvPath?: string): boolean {
-    const targetCsvPath = csvPath ?? NAR_PLACE_CSV_PATH;
-    console.log(`CSVファイル ${targetCsvPath} からデータを読み込みます...`);
-
-    // CSVファイルが存在するか確認
-    if (!fs.existsSync(targetCsvPath)) {
-        console.error(`CSVファイル ${targetCsvPath} が見つかりません。`);
-        return false;
-    }
-
+/**
+ * 地方競馬開催場所のCSVファイルをインポートしてデータベースに登録
+ */
+export const createNarPlaceData = (): boolean => {
     try {
-        // CSVファイルを読み込む
-        const fileContent = fs.readFileSync(targetCsvPath, 'utf8');
-        const lines = fileContent.split('\n');
-
-        // ヘッダー行をスキップするために、最初の行を取得してヘッダー情報を解析
-        if (lines.length < 2) {
-            console.error('CSVファイルにデータがありません。');
+        if (!fs.existsSync(NAR_PLACE_CSV_PATH)) {
+            console.error('CSVファイルが見つかりません:', NAR_PLACE_CSV_PATH);
             return false;
         }
 
-        const headerLine = lines[0].trim();
+        database ??= initializeDatabase();
+
+        const fileContent = fs.readFileSync(NAR_PLACE_CSV_PATH, 'utf8');
+        const lines = fileContent.split('\n');
+
+        if (lines.length < 2) {
+            console.error('CSVファイルが空か、ヘッダーのみです。');
+            return false;
+        }
+
+        const [headerLine, ...dataLines] = lines;
         const headers = parseCSVLine(headerLine);
-        console.log('CSVヘッダー:', headers);
 
-        // NARの場所データ用テーブルは既に存在することを確認
-        runSqliteCommand(`
-            CREATE TABLE IF NOT EXISTS nar_place_data (
-                id TEXT PRIMARY KEY,
-                datetime TEXT NOT NULL,
-                location TEXT NOT NULL,
-                created_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')),
-                updated_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime'))
-            );
-        `);
+        if (headers.length < 4) {
+            console.error('CSVヘッダーが不正です。');
+            return false;
+        }
 
-        // updated_atを自動更新するトリガーを作成
-        runSqliteCommand(`
-            DROP TRIGGER IF EXISTS update_nar_place_timestamp;
-            CREATE TRIGGER update_nar_place_timestamp AFTER UPDATE ON nar_place_data
-            BEGIN
-                UPDATE nar_place_data SET updated_at = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid;
-            END;
-        `);
+        const insert = database.prepare(`
+        INSERT OR REPLACE INTO nar_place_data (id, datetime, location)
+        VALUES (@id, @datetime, @location)
+    `);
 
-        console.log('テーブルとトリガーを作成しました');
+        const insertMany = database.transaction((items: NarPlaceData[]) => {
+            for (const item of items) {
+                insert.run(item);
+            }
+        });
 
-        // 既存のデータを削除（オプションで指定可能）
-        runSqliteCommand(`DELETE FROM nar_place_data;`);
-        console.log('既存のデータを削除しました');
+        const validData: NarPlaceData[] = [];
 
-        // SQLiteの制約上、トランザクションは正常に機能しない場合があるため、
-        // 自動コミットモードを利用してデータを挿入します
-        console.log('データ挿入を開始します...');
-
-        // データの挿入
-        let insertCount = 0;
-        let errorCount = 0;
-        for (let i = 1; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (!line) continue; // 空行をスキップ
-
-            try {
-                // CSVの各フィールドを取得
+        for (const line of dataLines) {
+            if (line.trim()) {
                 const fields = parseCSVLine(line);
-                if (fields.length < 4) {
-                    console.warn(
-                        `行 ${i + 1}: 不正なフィールド数です。スキップします。`,
-                    );
-                    continue; // 不正な行をスキップ
+                if (fields.length >= 4) {
+                    const [id, dateTime, location] = fields;
+                    const parsedDateTime = parseJSDateString(dateTime);
+
+                    if (parsedDateTime) {
+                        validData.push({
+                            id,
+                            datetime: parsedDateTime.toISOString(),
+                            location: location.replace(/'/g, "''"),
+                        });
+                    }
                 }
-
-                const [id, dateTime, location, updateDate] = fields;
-
-                // 日付時刻を処理（JavaScriptのDate文字列からISO形式に変換）
-                const parsedDateTime = parseJSDateString(dateTime);
-                const parsedUpdateDate = parseJSDateString(updateDate);
-
-                if (!parsedDateTime || !parsedUpdateDate) {
-                    console.warn(
-                        `行 ${i + 1}: 日付の解析に失敗しました。スキップします。`,
-                    );
-                    errorCount++;
-                    continue;
-                }
-
-                // SQLインジェクション対策としてエスケープ処理
-                const escapedLocation = location.replace(/'/g, "''");
-
-                // データを挿入
-                const insertResult = runSqliteCommand(`
-                    INSERT INTO nar_place_data (
-                        id, 
-                        datetime, 
-                        location
-                    )
-                    VALUES (
-                        '${id}', 
-                        '${parsedDateTime.toISOString()}', 
-                        '${escapedLocation}'
-                    );
-                `);
-
-                if (insertResult === undefined) {
-                    errorCount++;
-                } else {
-                    insertCount++;
-                }
-            } catch (error) {
-                console.error(
-                    `行 ${i + 1} の処理中にエラーが発生しました:`,
-                    error,
-                );
-                errorCount++;
-                // 個別の行のエラーはトランザクション全体を失敗させないように処理を続行
             }
         }
 
-        console.log(
-            `CSVファイルから ${insertCount} 件のデータを登録しました。`,
-        );
-        if (errorCount > 0) {
-            console.warn(`${errorCount} 件のエラーが発生しました。`);
+        if (validData.length > 0) {
+            insertMany(validData);
+            return true;
         }
 
-        // 登録したデータを表示（サンプルとして先頭10件だけ）
-        console.log('\nCSVから登録したNAR場所データ（先頭10件）:');
-        const importedData = runSqliteCommand(
-            'SELECT * FROM nar_place_data LIMIT 10;',
-        );
-        console.log(importedData ?? 'データがありません');
-
-        // 登録したデータの件数を表示
-        const totalCount = runSqliteCommand(
-            'SELECT COUNT(*) FROM nar_place_data;',
-        );
-        console.log(`\n登録データの総件数: ${totalCount ?? 0}`);
-
-        return true;
+        console.error('有効なデータが見つかりません。');
+        return false;
     } catch (error) {
-        console.error('CSVファイルの読み込みエラー:', error);
+        console.error('地方競馬開催場所データの作成エラー:', error);
         return false;
     }
+};
+
+// サンプルデータの作成
+export function createSampleData(): boolean {
+    return createNarPlaceData();
 }
 
-// メイン処理
-function main(): void {
-    console.log('SQLiteサンドボックスを開始します...');
+// メイン関数
+export function main(): void {
+    console.log('データベースのセットアップを開始します...');
+    try {
+        if (!setupDatabase()) {
+            throw new Error('データベースのセットアップに失敗しました。');
+        }
 
-    // データベースファイルのセットアップ
-    if (!setupDatabase()) {
-        console.error('データベースのセットアップに失敗しました。');
-        return;
-    }
-
-    // SQLiteコマンドの確認
-    if (checkSqliteCommand()) {
-        // コマンドライン引数で動作を指定
-        const args = new Set(process.argv.slice(2));
-
-        if (args.has('--import-csv') || args.has('-i')) {
-            // CSVデータのインポート
-            if (importCsvToDatabase()) {
-                console.log('CSVデータのインポートが完了しました。');
+        if (checkSqliteCommand()) {
+            console.log('SQLiteコマンドの確認に成功しました。');
+            if (createSampleData()) {
+                console.log('サンプルデータの作成に成功しました。');
             } else {
-                console.error('CSVデータのインポートに失敗しました。');
+                console.error('サンプルデータの作成に失敗しました。');
             }
         } else {
-            // 通常のサンプルデータ処理
-            if (createSampleData()) {
-                // データベース情報の表示
-                showDatabaseInfo();
-            }
+            console.error('SQLiteコマンドの確認に失敗しました。');
         }
-    } else {
-        console.log(
-            'データベースファイルは作成されましたが、SQLiteコマンドがないため操作できません。',
-        );
+    } catch (error) {
+        console.error('メイン処理でエラーが発生しました:', error);
     }
-
-    console.log('\nSQLiteサンドボックスが完了しました。');
 }
-
-// スクリプトを実行
-main();
