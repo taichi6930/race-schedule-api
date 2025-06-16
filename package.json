@@ -28,7 +28,8 @@
         "typedoc": "npx typedoc --out ./docs ./lib/src",
         "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check",
         "check:sqlite": "TZ=jst ENV=LOCAL ts-node lib/scripts/check-sqlite.ts",
-        "sqlite:sandbox": "TZ=jst npx tsx lib/scripts/sqliteSandbox.ts"
+        "sqlite:set": "TZ=jst npx tsx lib/scripts/sqliteSetting.ts",
+        "sqlite:import-csv": "TZ=jst npx tsx lib/scripts/sqliteSetting.ts --import-csv"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.828.0",
