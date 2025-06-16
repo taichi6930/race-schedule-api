@@ -116,49 +116,7 @@ function createSampleData(): boolean {
         // NARの場所データチェック
         const countResult = runSqliteCommand('SELECT COUNT(*) FROM nar_place_data;');
         const count = Number.parseInt(countResult ?? '0', 10);
-
-        if (count > 0) {
-            console.log(
-                `既存のNAR場所データが${count}件見つかりました。データの挿入をスキップします。`,
-            );
-        } else {
-            // NARの場所データを挿入
-            console.log('NAR場所データを挿入します...');
-            runSqliteCommand(`
-                BEGIN TRANSACTION;
-                INSERT INTO nar_place_data (id, date_time, location) 
-                VALUES ('nar_place_001', '2025-06-20T10:00:00+09:00', '大井');
-                
-                INSERT INTO nar_place_data (id, date_time, location) 
-                VALUES ('nar_place_002', '2025-06-21T11:30:00+09:00', '船橋');
-                
-                INSERT INTO nar_place_data (id, date_time, location) 
-                VALUES ('nar_place_003', '2025-06-22T13:00:00+09:00', '川崎');
-                
-                INSERT INTO nar_place_data (id, date_time, location) 
-                VALUES ('nar_place_004', '2025-06-23T12:15:00+09:00', '浦和');
-                COMMIT;
-            `);
-            console.log('NAR場所データを挿入しました');
-        }
-
-        // NARの場所データを表示
-        console.log('\nNAR場所データ:');
-        const narPlaceData = runSqliteCommand('SELECT * FROM nar_place_data;');
-        console.log(narPlaceData ?? 'データがありません');
-
-        // トリガーのテストのために1つのレコードを更新
-        console.log('\n更新テスト: nar_place_001 のlocationを "東京大井" に変更します');
-        runSqliteCommand(`
-            UPDATE nar_place_data 
-            SET location = '東京大井' 
-            WHERE id = 'nar_place_001';
-        `);
-        
-        // 更新後のデータを表示
-        console.log('\n更新後のNAR場所データ:');
-        const updatedData = runSqliteCommand('SELECT * FROM nar_place_data;');
-        console.log(updatedData ?? 'データがありません');
+        console.log(`NAR場所データの件数: ${count}`);
 
         return true;
     }
