@@ -27,7 +27,8 @@
         "type-check": "tsc --noEmit",
         "typedoc": "npx typedoc --out ./docs ./lib/src",
         "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check",
-        "check:sqlite": "TZ=jst ENV=LOCAL ts-node lib/scripts/check-sqlite.ts"
+        "check:sqlite": "TZ=jst ENV=LOCAL ts-node lib/scripts/check-sqlite.ts",
+        "sqlite:sandbox": "TZ=jst npx tsx lib/scripts/sqliteSandbox.ts"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.828.0",
@@ -36,6 +37,7 @@
         "@types/better-sqlite3": "^7.6.13",
         "@types/cheerio": "^0.22.35",
         "@types/express": "^5.0.3",
+        "@types/sqlite3": "^5.1.0",
         "aws-cdk-lib": "2.201.0",
         "aws-lambda": "^1.0.7",
         "better-sqlite3": "^11.10.0",
@@ -57,6 +59,8 @@
         "puppeteer": "^24.10.1",
         "reflect-metadata": "^0.2.2",
         "source-map-support": "^0.5.21",
+        "sqlite": "^5.1.1",
+        "sqlite3": "^5.1.7",
         "swagger-autogen": "^2.23.7",
         "swagger-jsdoc": "^6.2.8",
         "swagger-ui-express": "^5.0.1",
