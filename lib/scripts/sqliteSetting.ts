@@ -12,6 +12,46 @@ const NAR_PLACE_CSV_PATH = path.join(
     'lib/src/gateway/mockData/csv/nar/placeList.csv',
 );
 
+// JavaScriptのDate文字列を解析する関数
+function parseJSDateString(dateStr: string): Date | undefined {
+    try {
+        // "Fri Jun 20 2025 10:00:00 GMT+0900 (Japan Standard Time)" 形式を解析
+        const date = new Date(dateStr);
+
+        // 無効な日付でないことを確認
+        if (Number.isNaN(date.getTime())) {
+            return undefined;
+        }
+
+        return date;
+    } catch (error) {
+        console.error('日付解析エラー:', error);
+        return undefined;
+    }
+}
+
+// CSV行をパースする関数 (簡易的なCSVパーサー)
+function parseCSVLine(line: string): string[] {
+    const result: string[] = [];
+    let current = '';
+    let inQuotes = false;
+
+    for (const char of line) {
+        if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            result.push(current);
+            current = '';
+        } else {
+            current += char;
+        }
+    }
+
+    // 最後のフィールドを追加
+    result.push(current);
+    return result;
+}
+
 // SQLiteデータベースファイルを作成または確認
 function setupDatabase(): boolean {
     // フォルダが存在しない場合は作成
@@ -58,7 +98,7 @@ function checkSqliteCommand(): boolean {
 }
 
 // SQLiteコマンドを実行
-function runSqliteCommand(command: string): string | undefined {
+export function runSqliteCommand(command: string): string | undefined {
     try {
         // コマンドが空でないことを確認
         if (!command || command.trim() === '') {
@@ -93,7 +133,7 @@ function createSampleData(): boolean {
     let createTableResult = runSqliteCommand(`
         CREATE TABLE IF NOT EXISTS nar_place_data (
             id TEXT PRIMARY KEY,
-            date_time TEXT NOT NULL,
+            datetime TEXT NOT NULL,
             location TEXT NOT NULL,
             created_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')),
             updated_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime'))
@@ -141,7 +181,7 @@ function showDatabaseInfo(): void {
     console.log(tables ?? 'テーブルがありません');
 
     // 各テーブルのスキーマを表示
-    if (tables) {
+    if (tables !== undefined && tables.trim() !== '') {
         console.log('\n各テーブルのスキーマ:');
         const tableNames = tables.split('\n');
         for (const tableName of tableNames) {
@@ -158,7 +198,7 @@ function showDatabaseInfo(): void {
 
 // CSVファイルを読み込み、SQLiteデータベースに登録する
 function importCsvToDatabase(csvPath?: string): boolean {
-    const targetCsvPath = csvPath || NAR_PLACE_CSV_PATH;
+    const targetCsvPath = csvPath ?? NAR_PLACE_CSV_PATH;
     console.log(`CSVファイル ${targetCsvPath} からデータを読み込みます...`);
 
     // CSVファイルが存在するか確認
@@ -183,10 +223,10 @@ function importCsvToDatabase(csvPath?: string): boolean {
         console.log('CSVヘッダー:', headers);
 
         // NARの場所データ用テーブルは既に存在することを確認
-        let result = runSqliteCommand(`
+        runSqliteCommand(`
             CREATE TABLE IF NOT EXISTS nar_place_data (
                 id TEXT PRIMARY KEY,
-                date_time TEXT NOT NULL,
+                datetime TEXT NOT NULL,
                 location TEXT NOT NULL,
                 created_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')),
                 updated_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime'))
@@ -194,7 +234,7 @@ function importCsvToDatabase(csvPath?: string): boolean {
         `);
 
         // updated_atを自動更新するトリガーを作成
-        result = runSqliteCommand(`
+        runSqliteCommand(`
             DROP TRIGGER IF EXISTS update_nar_place_timestamp;
             CREATE TRIGGER update_nar_place_timestamp AFTER UPDATE ON nar_place_data
             BEGIN
@@ -205,11 +245,8 @@ function importCsvToDatabase(csvPath?: string): boolean {
         console.log('テーブルとトリガーを作成しました');
 
         // 既存のデータを削除（オプションで指定可能）
-        const shouldDeleteExisting = true; // コマンドラインオプションで制御可能にする
-        if (shouldDeleteExisting) {
-            runSqliteCommand(`DELETE FROM nar_place_data;`);
-            console.log('既存のデータを削除しました');
-        }
+        runSqliteCommand(`DELETE FROM nar_place_data;`);
+        console.log('既存のデータを削除しました');
 
         // SQLiteの制約上、トランザクションは正常に機能しない場合があるため、
         // 自動コミットモードを利用してデータを挿入します
@@ -253,7 +290,7 @@ function importCsvToDatabase(csvPath?: string): boolean {
                 const insertResult = runSqliteCommand(`
                     INSERT INTO nar_place_data (
                         id, 
-                        date_time, 
+                        datetime, 
                         location
                     )
                     VALUES (
@@ -303,46 +340,6 @@ function importCsvToDatabase(csvPath?: string): boolean {
         console.error('CSVファイルの読み込みエラー:', error);
         return false;
     }
-}
-
-// JavaScriptのDate文字列を解析する関数
-function parseJSDateString(dateStr: string): Date | null {
-    try {
-        // "Fri Jun 20 2025 10:00:00 GMT+0900 (Japan Standard Time)" 形式を解析
-        const date = new Date(dateStr);
-
-        // 無効な日付でないことを確認
-        if (isNaN(date.getTime())) {
-            return null;
-        }
-
-        return date;
-    } catch (error) {
-        console.error('日付解析エラー:', error);
-        return null;
-    }
-}
-
-// CSV行をパースする関数 (簡易的なCSVパーサー)
-function parseCSVLine(line: string): string[] {
-    const result: string[] = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (const char of line) {
-        if (char === '"') {
-            inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-            result.push(current);
-            current = '';
-        } else {
-            current += char;
-        }
-    }
-
-    // 最後のフィールドを追加
-    result.push(current);
-    return result;
 }
 
 // メイン処理
