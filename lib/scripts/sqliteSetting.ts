@@ -1,7 +1,6 @@
 import * as child_process from 'node:child_process';
 import * as fs from 'node:fs';
-import * as path from 'node:path';
-import * as readline from 'node:readline';
+import path from 'node:path';
 
 // データベースファイルのパスを設定
 const DB_PATH = path.join(process.cwd(), 'volume/data/race-schedule.db');
@@ -10,7 +9,7 @@ const DB_FOLDER = path.dirname(DB_PATH);
 // CSVファイルのパスを設定
 const NAR_PLACE_CSV_PATH = path.join(
     process.cwd(),
-    'lib/src/gateway/mockData/csv/nar/placeList_new.csv',
+    'lib/src/gateway/mockData/csv/nar/placeList.csv',
 );
 
 // SQLiteデータベースファイルを作成または確認
@@ -69,10 +68,10 @@ function runSqliteCommand(command: string): string | undefined {
 
         // 実行するコマンドをログに出力（オプション）
         // console.debug(`SQLiteコマンド実行: ${command.substring(0, 50)}${command.length > 50 ? '...' : ''}`);
-        
+
         const result = child_process.execSync(
             `sqlite3 "${DB_PATH}" "${command}"`,
-            { encoding: 'utf8' }
+            { encoding: 'utf8' },
         );
         return result.trim();
     } catch (error) {
@@ -114,7 +113,9 @@ function createSampleData(): boolean {
         console.log('テーブルとトリガーを作成しました');
 
         // NARの場所データチェック
-        const countResult = runSqliteCommand('SELECT COUNT(*) FROM nar_place_data;');
+        const countResult = runSqliteCommand(
+            'SELECT COUNT(*) FROM nar_place_data;',
+        );
         const count = Number.parseInt(countResult ?? '0', 10);
         console.log(`NAR場所データの件数: ${count}`);
 
@@ -138,7 +139,7 @@ function showDatabaseInfo(): void {
         "SELECT name FROM sqlite_master WHERE type='table';",
     );
     console.log(tables ?? 'テーブルがありません');
-    
+
     // 各テーブルのスキーマを表示
     if (tables) {
         console.log('\n各テーブルのスキーマ:');
@@ -146,7 +147,9 @@ function showDatabaseInfo(): void {
         for (const tableName of tableNames) {
             if (tableName.trim()) {
                 console.log(`\nテーブル: ${tableName}`);
-                const schema = runSqliteCommand(`PRAGMA table_info(${tableName});`);
+                const schema = runSqliteCommand(
+                    `PRAGMA table_info(${tableName});`,
+                );
                 console.log(schema ?? 'スキーマ情報がありません');
             }
         }
@@ -168,7 +171,7 @@ function importCsvToDatabase(csvPath?: string): boolean {
         // CSVファイルを読み込む
         const fileContent = fs.readFileSync(targetCsvPath, 'utf8');
         const lines = fileContent.split('\n');
-        
+
         // ヘッダー行をスキップするために、最初の行を取得してヘッダー情報を解析
         if (lines.length < 2) {
             console.error('CSVファイルにデータがありません。');
@@ -211,7 +214,7 @@ function importCsvToDatabase(csvPath?: string): boolean {
         // SQLiteの制約上、トランザクションは正常に機能しない場合があるため、
         // 自動コミットモードを利用してデータを挿入します
         console.log('データ挿入を開始します...');
-        
+
         // データの挿入
         let insertCount = 0;
         let errorCount = 0;
@@ -223,7 +226,9 @@ function importCsvToDatabase(csvPath?: string): boolean {
                 // CSVの各フィールドを取得
                 const fields = parseCSVLine(line);
                 if (fields.length < 4) {
-                    console.warn(`行 ${i + 1}: 不正なフィールド数です。スキップします。`);
+                    console.warn(
+                        `行 ${i + 1}: 不正なフィールド数です。スキップします。`,
+                    );
                     continue; // 不正な行をスキップ
                 }
 
@@ -234,7 +239,9 @@ function importCsvToDatabase(csvPath?: string): boolean {
                 const parsedUpdateDate = parseJSDateString(updateDate);
 
                 if (!parsedDateTime || !parsedUpdateDate) {
-                    console.warn(`行 ${i + 1}: 日付の解析に失敗しました。スキップします。`);
+                    console.warn(
+                        `行 ${i + 1}: 日付の解析に失敗しました。スキップします。`,
+                    );
                     errorCount++;
                     continue;
                 }
@@ -256,30 +263,39 @@ function importCsvToDatabase(csvPath?: string): boolean {
                     );
                 `);
 
-                if (insertResult !== undefined) {
-                    insertCount++;
-                } else {
+                if (insertResult === undefined) {
                     errorCount++;
+                } else {
+                    insertCount++;
                 }
-            } catch (err) {
-                console.error(`行 ${i + 1} の処理中にエラーが発生しました:`, err);
+            } catch (error) {
+                console.error(
+                    `行 ${i + 1} の処理中にエラーが発生しました:`,
+                    error,
+                );
                 errorCount++;
                 // 個別の行のエラーはトランザクション全体を失敗させないように処理を続行
             }
         }
 
-        console.log(`CSVファイルから ${insertCount} 件のデータを登録しました。`);
+        console.log(
+            `CSVファイルから ${insertCount} 件のデータを登録しました。`,
+        );
         if (errorCount > 0) {
             console.warn(`${errorCount} 件のエラーが発生しました。`);
         }
 
         // 登録したデータを表示（サンプルとして先頭10件だけ）
         console.log('\nCSVから登録したNAR場所データ（先頭10件）:');
-        const importedData = runSqliteCommand('SELECT * FROM nar_place_data LIMIT 10;');
+        const importedData = runSqliteCommand(
+            'SELECT * FROM nar_place_data LIMIT 10;',
+        );
         console.log(importedData ?? 'データがありません');
 
         // 登録したデータの件数を表示
-        const totalCount = runSqliteCommand('SELECT COUNT(*) FROM nar_place_data;');
+        const totalCount = runSqliteCommand(
+            'SELECT COUNT(*) FROM nar_place_data;',
+        );
         console.log(`\n登録データの総件数: ${totalCount ?? 0}`);
 
         return true;
@@ -294,12 +310,12 @@ function parseJSDateString(dateStr: string): Date | null {
     try {
         // "Fri Jun 20 2025 10:00:00 GMT+0900 (Japan Standard Time)" 形式を解析
         const date = new Date(dateStr);
-        
+
         // 無効な日付でないことを確認
         if (isNaN(date.getTime())) {
             return null;
         }
-        
+
         return date;
     } catch (error) {
         console.error('日付解析エラー:', error);
@@ -313,9 +329,7 @@ function parseCSVLine(line: string): string[] {
     let current = '';
     let inQuotes = false;
 
-    for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-
+    for (const char of line) {
         if (char === '"') {
             inQuotes = !inQuotes;
         } else if (char === ',' && !inQuotes) {
@@ -344,9 +358,9 @@ function main(): void {
     // SQLiteコマンドの確認
     if (checkSqliteCommand()) {
         // コマンドライン引数で動作を指定
-        const args = process.argv.slice(2);
-        
-        if (args.includes('--import-csv') || args.includes('-i')) {
+        const args = new Set(process.argv.slice(2));
+
+        if (args.has('--import-csv') || args.has('-i')) {
             // CSVデータのインポート
             if (importCsvToDatabase()) {
                 console.log('CSVデータのインポートが完了しました。');
