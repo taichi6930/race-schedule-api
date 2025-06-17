@@ -131,8 +131,9 @@ function createSampleData(): boolean {
 
     // NARの場所データ用テーブル作成
     let createTableResult = runSqliteCommand(`
-        CREATE TABLE IF NOT EXISTS nar_place_data (
+        CREATE TABLE IF NOT EXISTS place_data (
             id TEXT PRIMARY KEY,
+            race_type TEXT NOT NULL,
             datetime TEXT NOT NULL,
             location TEXT NOT NULL,
             created_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')),
@@ -142,10 +143,10 @@ function createSampleData(): boolean {
 
     // updated_atを自動更新するトリガーを作成
     createTableResult = runSqliteCommand(`
-        DROP TRIGGER IF EXISTS update_nar_place_timestamp;
-        CREATE TRIGGER update_nar_place_timestamp AFTER UPDATE ON nar_place_data
+        DROP TRIGGER IF EXISTS update_place_timestamp;
+        CREATE TRIGGER update_place_timestamp AFTER UPDATE ON place_data
         BEGIN
-            UPDATE nar_place_data SET updated_at = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid;
+            UPDATE place_data SET updated_at = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid;
         END;
     `);
 
@@ -154,7 +155,7 @@ function createSampleData(): boolean {
 
         // NARの場所データチェック
         const countResult = runSqliteCommand(
-            'SELECT COUNT(*) FROM nar_place_data;',
+            'SELECT COUNT(*) FROM place_data;',
         );
         const count = Number.parseInt(countResult ?? '0', 10);
         console.log(`NAR場所データの件数: ${count}`);
@@ -224,8 +225,9 @@ function importCsvToDatabase(csvPath?: string): boolean {
 
         // NARの場所データ用テーブルは既に存在することを確認
         runSqliteCommand(`
-            CREATE TABLE IF NOT EXISTS nar_place_data (
+            CREATE TABLE IF NOT EXISTS place_data (
                 id TEXT PRIMARY KEY,
+                race_type TEXT NOT NULL,
                 datetime TEXT NOT NULL,
                 location TEXT NOT NULL,
                 created_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')),
@@ -235,17 +237,17 @@ function importCsvToDatabase(csvPath?: string): boolean {
 
         // updated_atを自動更新するトリガーを作成
         runSqliteCommand(`
-            DROP TRIGGER IF EXISTS update_nar_place_timestamp;
-            CREATE TRIGGER update_nar_place_timestamp AFTER UPDATE ON nar_place_data
+            DROP TRIGGER IF EXISTS update_place_timestamp;
+            CREATE TRIGGER update_place_timestamp AFTER UPDATE ON place_data
             BEGIN
-                UPDATE nar_place_data SET updated_at = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid;
+                UPDATE place_data SET updated_at = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid;
             END;
         `);
 
         console.log('テーブルとトリガーを作成しました');
 
         // 既存のデータを削除（オプションで指定可能）
-        runSqliteCommand(`DELETE FROM nar_place_data;`);
+        runSqliteCommand(`DELETE FROM place_data;`);
         console.log('既存のデータを削除しました');
 
         // SQLiteの制約上、トランザクションは正常に機能しない場合があるため、
@@ -288,13 +290,15 @@ function importCsvToDatabase(csvPath?: string): boolean {
 
                 // データを挿入
                 const insertResult = runSqliteCommand(`
-                    INSERT INTO nar_place_data (
+                    INSERT INTO place_data (
                         id, 
+                        race_type,
                         datetime, 
                         location
                     )
                     VALUES (
                         '${id}', 
+                        'nar',
                         '${parsedDateTime.toISOString()}', 
                         '${escapedLocation}'
                     );
@@ -325,14 +329,12 @@ function importCsvToDatabase(csvPath?: string): boolean {
         // 登録したデータを表示（サンプルとして先頭10件だけ）
         console.log('\nCSVから登録したNAR場所データ（先頭10件）:');
         const importedData = runSqliteCommand(
-            'SELECT * FROM nar_place_data LIMIT 10;',
+            'SELECT * FROM place_data LIMIT 10;',
         );
         console.log(importedData ?? 'データがありません');
 
         // 登録したデータの件数を表示
-        const totalCount = runSqliteCommand(
-            'SELECT COUNT(*) FROM nar_place_data;',
-        );
+        const totalCount = runSqliteCommand('SELECT COUNT(*) FROM place_data;');
         console.log(`\n登録データの総件数: ${totalCount ?? 0}`);
 
         return true;

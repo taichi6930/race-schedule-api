@@ -9,6 +9,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 interface NarPlaceRow {
     id: string;
+    raceType: string;
     datetime: string;
     location: string;
     updatedAt: string;
@@ -28,10 +29,11 @@ export class NarPlaceRepositoryFromSqliteImpl
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<NarPlaceEntity[]> {
         const query = `
-            SELECT id, datetime, location, updated_at
-            FROM nar_place_data
+            SELECT id, race_type, datetime, location, updated_at
+            FROM place_data
             WHERE datetime >= '${searchFilter.startDate.toISOString()}'
                 AND datetime <= '${searchFilter.finishDate.toISOString()}'
+                AND race_type = 'nar'
             ORDER BY datetime, location;
         `;
 
@@ -44,10 +46,16 @@ export class NarPlaceRepositoryFromSqliteImpl
             .split('\n')
             .filter((line) => line.trim().length > 0)
             .map((line) => {
-                const [id, datetime, location, updatedAt] = line
+                const [id, raceType, datetime, location, updatedAt] = line
                     .split('|')
                     .map((s) => s.trim());
-                return { id, datetime, location, updatedAt } as NarPlaceRow;
+                return {
+                    id,
+                    raceType,
+                    datetime,
+                    location,
+                    updatedAt,
+                } as NarPlaceRow;
             });
 
         return rows.map((row) =>
@@ -70,9 +78,10 @@ export class NarPlaceRepositoryFromSqliteImpl
         const transaction = placeEntityList
             .map((place) => {
                 const query = `
-                INSERT INTO nar_place_data (id, datetime, location, updated_at)
+                INSERT INTO place_data (id, race_type, datetime, location, updated_at)
                 VALUES (
                     '${place.id}',
+                    'nar',
                     '${place.placeData.dateTime.toISOString()}',
                     '${place.placeData.location}',
                     '${place.updateDate.toISOString()}'
