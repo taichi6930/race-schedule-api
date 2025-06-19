@@ -7,6 +7,7 @@ import type { KeirinPlaceEntity } from '../../src/repository/entity/keirinPlaceE
 import type { NarPlaceEntity } from '../../src/repository/entity/narPlaceEntity';
 import { AutoracePlaceRepositoryFromStorageImpl } from '../../src/repository/implement/autoracePlaceRepositoryFromStorageImpl';
 import { BoatracePlaceRepositoryFromStorageImpl } from '../../src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
+import { JraPlaceRepositoryFromSqliteImpl } from '../../src/repository/implement/jraPlaceRepositoryFromSqliteImpl';
 import { JraPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { KeirinPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
 import { NarPlaceRepositoryFromSqliteImpl } from '../../src/repository/implement/narPlaceRepositoryFromSqliteImpl';
@@ -25,10 +26,17 @@ if (ENV === allowedEnvs.local) {
         { useClass: NarPlaceRepositoryFromStorageImpl },
     );
 }
-container.register<IPlaceRepository<JraPlaceEntity>>(
-    'JraPlaceRepositoryFromStorage',
-    { useClass: JraPlaceRepositoryFromStorageImpl },
-);
+if (ENV === allowedEnvs.local) {
+    container.register<IPlaceRepository<JraPlaceEntity>>(
+        'JraPlaceRepositoryFromStorage',
+        { useClass: JraPlaceRepositoryFromSqliteImpl },
+    );
+} else {
+    container.register<IPlaceRepository<JraPlaceEntity>>(
+        'JraPlaceRepositoryFromStorage',
+        { useClass: JraPlaceRepositoryFromStorageImpl },
+    );
+}
 container.register<IPlaceRepository<KeirinPlaceEntity>>(
     'KeirinPlaceRepositoryFromStorage',
     { useClass: KeirinPlaceRepositoryFromStorageImpl },
