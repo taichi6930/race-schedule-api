@@ -1,20 +1,20 @@
-import '../../utility/format';
-
 import Database from 'better-sqlite3';
 import { injectable } from 'tsyringe';
 
 import { NarPlaceData } from '../../domain/narPlaceData';
-import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { RaceType, SQLiteManager } from '../../utility/sqlite';
+import { SQLiteManager } from '../../utility/sqlite';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
-interface RaceRow {
+interface NarPlaceRow {
     id: string;
-    dateTime: string;
+    race_type: string;
+    datetime: string;
     location: string;
+    created_at: string;
+    updated_at: string;
 }
 
 @injectable()
@@ -30,90 +30,107 @@ export class NarPlaceRepositoryFromSqliteImpl
     /**
      * 開催データを取得する
      * このメソッドで日付の範囲を指定して開催データを取得する
-     * @param searchFilter
+     * @param searchFilter - 検索条件を指定するフィルターエンティティ
      */
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<NarPlaceEntity[]> {
-        const query = this.db.prepare(`
-            SELECT id, dateTime, location
-            FROM places
-            WHERE type = @type AND dateTime BETWEEN @startDate AND @endDate
-            ORDER BY dateTime DESC
-        `);
+        try {
+            const stmt = this.db.prepare(`
+                SELECT id, race_type, datetime, location, created_at, updated_at
+                FROM place_data
+                WHERE datetime >= @startDate
+                    AND datetime <= @finishDate
+                    AND race_type = 'nar'
+                ORDER BY datetime, location;
+            `);
 
-        console.log(query);
+            const rows = stmt.all({
+                startDate: searchFilter.startDate.toISOString(),
+                finishDate: searchFilter.finishDate.toISOString(),
+            });
 
-        const params = {
-            type: RaceType.NAR,
-            startDate: searchFilter.startDate.toISOString(),
-            endDate: searchFilter.finishDate.toISOString(),
-        };
-
-        const results = await new Promise<unknown[]>((resolve) => {
-            resolve(query.all(params));
-        });
-        const raceRows = results.filter((row): row is RaceRow => {
-            if (typeof row !== 'object' || row === null) {
-                return false;
+            // 型ガードを使用して安全に型を確認
+            if (!Array.isArray(rows)) {
+                throw new TypeError('Unexpected result format from database');
             }
-            const hasRequiredProperties =
-                'id' in row && 'dateTime' in row && 'location' in row;
-            if (!hasRequiredProperties) {
-                return false;
+
+            // 各行のデータ構造を検証する関数
+            const isNarPlaceRow = (row: unknown): row is NarPlaceRow => {
+                return (
+                    typeof row === 'object' &&
+                    row !== null &&
+                    'id' in row &&
+                    'race_type' in row &&
+                    'datetime' in row &&
+                    'location' in row &&
+                    'created_at' in row &&
+                    'updated_at' in row
+                );
+            };
+
+            // 各行を検証してから変換
+            const validatedRows: NarPlaceRow[] = [];
+            for (const row of rows) {
+                if (isNarPlaceRow(row)) {
+                    validatedRows.push(row);
+                } else {
+                    console.warn('Invalid row structure detected:', row);
+                }
             }
-            return (
-                typeof (row as { id: unknown }).id === 'string' &&
-                typeof (row as { dateTime: unknown }).dateTime === 'string' &&
-                typeof (row as { location: unknown }).location === 'string'
-            );
-        });
 
-        const entities = raceRows.map((row) => {
-            const placeData = NarPlaceData.create(
-                new Date(row.dateTime),
-                row.location,
+            const entities = validatedRows.map((row) =>
+                NarPlaceEntity.create(
+                    row.id,
+                    NarPlaceData.create(new Date(row.datetime), row.location),
+                    new Date(row.updated_at),
+                ),
             );
-            return NarPlaceEntity.create(
-                row.id,
-                placeData,
-                getJSTDate(new Date()),
-            );
-        });
 
-        return Promise.all(entities);
+            return await Promise.resolve(entities);
+        } catch (error) {
+            console.error('Error fetching place entity list:', error);
+            throw error;
+        }
     }
 
+    /**
+     * 開催場所データを一括で登録/更新します
+     * @param placeEntityList - 登録/更新する開催場所エンティティの配列
+     */
     @Logger
     public async registerPlaceEntityList(
         placeEntityList: NarPlaceEntity[],
     ): Promise<void> {
-        const insertOrUpdate = this.db.prepare(`
-            INSERT INTO places (id, dateTime, location, type)
-            VALUES (@id, @dateTime, @location, @type)
-            ON CONFLICT(id) DO UPDATE SET
-                dateTime = @dateTime,
-                location = @location,
-                updated_at = CURRENT_TIMESTAMP
-        `);
+        try {
+            const stmt = this.db.prepare(`
+                INSERT INTO place_data (id, race_type, datetime, location, updated_at)
+                VALUES (@id, 'nar', @dateTime, @location, @updateDate)
+                ON CONFLICT(id) DO UPDATE SET
+                    datetime = excluded.datetime,
+                    location = excluded.location,
+                    updated_at = excluded.updated_at;
+            `);
 
-        await new Promise<void>((resolve) => {
             const transaction = this.db.transaction(
                 (places: NarPlaceEntity[]) => {
                     for (const place of places) {
-                        insertOrUpdate.run({
+                        stmt.run({
                             id: place.id,
                             dateTime: place.placeData.dateTime.toISOString(),
                             location: place.placeData.location,
-                            type: RaceType.NAR,
+                            updateDate: place.updateDate.toISOString(),
                         });
                     }
                 },
             );
 
             transaction(placeEntityList);
-            resolve();
-        });
+            await Promise.resolve();
+        } catch (error) {
+            console.error('Error registering place entity list:', error);
+            throw error;
+        }
     }
 }

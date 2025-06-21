@@ -50,41 +50,40 @@ export class SQLiteManager {
     private initialize(): void {
         // 開催場データテーブルの作成
         this.db.exec(`
-            CREATE TABLE IF NOT EXISTS places (
+            CREATE TABLE IF NOT EXISTS place_data (
                 id TEXT PRIMARY KEY,
-                dateTime DATETIME NOT NULL,
+                race_type TEXT NOT NULL,
+                datetime TEXT NOT NULL,
                 location TEXT NOT NULL,
-                type TEXT CHECK(type IN ('${Object.values(RaceType).join("','")}')) NOT NULL,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                created_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')),
+                updated_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime'))
             );
+
+            -- updated_atを自動更新するトリガーを作成
+            DROP TRIGGER IF EXISTS update_place_timestamp;
+            CREATE TRIGGER update_place_timestamp AFTER UPDATE ON place_data
+            BEGIN
+                UPDATE place_data SET updated_at = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid;
+            END;
         `);
 
-        // レースデータテーブルの作成
+        // レース開催回数データテーブルの作成
         this.db.exec(`
-            CREATE TABLE IF NOT EXISTS races (
-                id TEXT NOT NULL,
-                number INTEGER NOT NULL,
-                dateTime DATETIME NOT NULL,
-                name TEXT NOT NULL,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                PRIMARY KEY (id, number)
+            CREATE TABLE IF NOT EXISTS place_held_data (
+                id TEXT PRIMARY KEY,
+                race_type TEXT NOT NULL,
+                held_times INTEGER NOT NULL,
+                held_day_times INTEGER NOT NULL,
+                created_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')),
+                updated_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime'))
             );
-        `);
 
-        // 競馬情報テーブルの作成
-        this.db.exec(`
-            CREATE TABLE IF NOT EXISTS horse_race_info (
-                id TEXT NOT NULL,
-                number INTEGER NOT NULL,
-                surfaceType TEXT NOT NULL,
-                distance INTEGER NOT NULL,
-                grade TEXT NOT NULL,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                PRIMARY KEY (id, number)
-            );
+            -- updated_atを自動更新するトリガーを作成
+            DROP TRIGGER IF EXISTS update_place_held_timestamp;
+            CREATE TRIGGER update_place_held_timestamp AFTER UPDATE ON place_held_data
+            BEGIN
+                UPDATE place_held_data SET updated_at = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid;
+            END;
         `);
     }
 
@@ -92,8 +91,8 @@ export class SQLiteManager {
      * データベースファイルのパスを取得
      */
     private getDatabasePath(): string {
-        // ローカル環境では./volume/db配下に保存
-        const baseDir = path.join(process.cwd(), 'volume', 'db');
+        // ローカル環境では./volume/data配下に保存
+        const baseDir = path.join(process.cwd(), 'volume', 'data');
         return path.join(baseDir, 'race-schedule.db');
     }
 

@@ -20,4 +20,5 @@ lib/src/gateway/mockData/*
 # typedoc
 docs
 
-*.db
+# volume配下のファイル
+volume/*
