@@ -91,7 +91,7 @@ export class SQLiteManager {
      * データベースファイルのパスを取得
      */
     private getDatabasePath(): string {
-        // ローカル環境では./volume/db配下に保存
+        // ローカル環境では./volume/data配下に保存
         const baseDir = path.join(process.cwd(), 'volume', 'data');
         return path.join(baseDir, 'race-schedule.db');
     }

@@ -1,5 +1,5 @@
 import { PlayerData } from '../../domain/playerData';
-import { RaceType } from '../../repository/entity/searchPlayerFilterEntity';
+import { RaceType } from '../../utility/sqlite';
 import type { IPlayerDataService } from '../interface/IPlayerDataService';
 
 /**
