@@ -1,6 +1,6 @@
 import type { Database } from 'better-sqlite3';
 
-import { SCHEMA_QUERIES } from './schema';
+import { SCHEMA_QUERIES } from './schema/index';
 
 interface TableResult {
     name: string | undefined;

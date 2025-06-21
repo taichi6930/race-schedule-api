@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import Database from 'better-sqlite3';
 
-import { SCHEMA_QUERIES } from './sqlite/schema';
+import { SCHEMA_QUERIES } from './sqlite/schema/index';
 
 /**
  * レースタイプの列挙型
