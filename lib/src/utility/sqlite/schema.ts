@@ -1,3 +1,5 @@
+import { CREATE_PLACE_HELD_DATA_TABLE } from './schema/placeHeldData';
+
 /**
  * Places テーブルの作成クエリ
  */
@@ -32,4 +34,8 @@ CREATE TABLE IF NOT EXISTS place_media (
 /**
  * テーブル作成クエリの配列
  */
-export const SCHEMA_QUERIES = [CREATE_PLACES_TABLE, CREATE_PLACE_MEDIA_TABLE];
+export const SCHEMA_QUERIES = [
+    CREATE_PLACES_TABLE,
+    CREATE_PLACE_MEDIA_TABLE,
+    CREATE_PLACE_HELD_DATA_TABLE,
+];
