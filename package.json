@@ -9,6 +9,7 @@
         "build": "tsc",
         "watch": "tsc -w",
         "s3-data-update": "aws s3 cp s3://race-schedule-bucket/ ./lib/src/gateway/mockData/csv --recursive",
+        "db:import": "TZ=jst ts-node lib/scripts/importCsvData.ts",
         "test": "TZ=jst jest --coverage --maxWorkers=5",
         "test:watch": "TZ=jst jest --coverage --maxWorkers=5 --watchAll",
         "cdk-deploy": "npm install -g aws-cdk && cdk deploy",
@@ -28,14 +29,14 @@
         "typedoc": "npx typedoc --out ./docs ./lib/src",
         "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check",
         "check:sqlite": "TZ=jst ENV=LOCAL ts-node lib/scripts/check-sqlite.ts",
-        "sqlite:set": "TZ=jst npx tsx lib/scripts/sqliteSetting.ts",
-        "sqlite:import-csv": "TZ=jst npx tsx lib/scripts/sqliteSetting.ts --import-csv"
+        "sqliteInit": "TZ=jst npx tsx --tsconfig tsconfig.json lib/scripts/sqliteInit.ts",
+        "db:init": "TZ=jst ts-node lib/scripts/sqliteInit.ts",
+        "db:setup": "TZ=jst ts-node lib/scripts/sqliteSetting.ts"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.832.0",
         "@codegenie/serverless-express": "^4.16.0",
         "@types/aws-lambda": "^8.10.150",
-        "@types/better-sqlite3": "^7.6.13",
         "@types/cheerio": "^0.22.35",
         "@types/express": "^5.0.3",
         "aws-cdk-lib": "2.202.0",
@@ -72,6 +73,7 @@
         "@eslint/js": "^9.29.0",
         "@swc/core": "^1.12.5",
         "@swc/jest": "^0.2.38",
+        "@types/better-sqlite3": "^7.6.13",
         "@types/jest": "^30.0.0",
         "@types/node": "24.0.3",
         "@types/swagger-jsdoc": "^6.0.4",
