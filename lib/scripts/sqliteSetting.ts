@@ -1,13 +1,11 @@
 import * as child_process from 'node:child_process';
 import * as fs from 'node:fs';
 
-import { setupDatabase } from '../src/utility/sqlite/settings/dbConfig';
-import { MigrationRunner } from '../src/utility/sqlite/migrations/index';
 import {
-    DB_PATH,
     DB_FOLDER,
-    NAR_PLACE_CSV_PATH,
+    DB_PATH,
     JRA_PLACE_CSV_PATH,
+    NAR_PLACE_CSV_PATH,
 } from '../src/utility/sqlite/settings/constants';
 
 /**
@@ -63,15 +61,17 @@ class DatabaseConfigManager {
         try {
             this.ensureDatabaseFolder();
             const dbExists = fs.existsSync(DB_PATH);
-            
+
             if (dbExists) {
-                console.log(`既存のデータベースファイルを使用します: ${DB_PATH}`);
+                console.log(
+                    `既存のデータベースファイルを使用します: ${DB_PATH}`,
+                );
             } else {
                 console.log('新しいデータベースファイルを作成します...');
                 fs.writeFileSync(DB_PATH, '', 'utf8');
                 console.log(`データベースファイルを作成しました: ${DB_PATH}`);
             }
-            
+
             return true;
         } catch (error) {
             console.error('データベースファイル作成エラー:', error);
@@ -101,15 +101,19 @@ class DatabaseConfigManager {
             console.log(`SQLiteコマンドが見つかりました: ${result.trim()}`);
             return true;
         } catch {
-            console.log('システムにSQLiteコマンドがインストールされていません。');
-            console.log('brew install sqlite3 または apt-get install sqlite3 などでインストールできます。');
+            console.log(
+                'システムにSQLiteコマンドがインストールされていません。',
+            );
+            console.log(
+                'brew install sqlite3 または apt-get install sqlite3 などでインストールできます。',
+            );
             return false;
         }
     }
 }
 
 /**
- * SQLiteコマンド実行サービス  
+ * SQLiteコマンド実行サービス
  * Clean Architecture: Infrastructure層の責務
  */
 class SqliteCommandService {
@@ -151,10 +155,10 @@ class SqliteCommandService {
 
 /**
  * データベース情報表示サービス
- * Clean Architecture: Use Case層の責務  
+ * Clean Architecture: Use Case層の責務
  */
 class DatabaseInfoService {
-    constructor(private readonly sqliteService: SqliteCommandService) {}
+    public constructor(private readonly sqliteService: SqliteCommandService) {}
 
     /**
      * データベースファイルの情報を表示
@@ -181,8 +185,8 @@ class DatabaseInfoService {
         const tables = this.sqliteService.execute(
             "SELECT name FROM sqlite_master WHERE type='table';",
         );
-        
-        if (!tables || tables.trim() === '') {
+
+        if (tables === undefined || tables.trim() === '') {
             console.log('テーブルがありません');
             return;
         }
@@ -198,7 +202,7 @@ class DatabaseInfoService {
     private showTableSchemas(tables: string): void {
         console.log('\n各テーブルのスキーマ:');
         const tableNames = tables.split('\n');
-        
+
         for (const tableName of tableNames) {
             if (tableName.trim()) {
                 console.log(`\nテーブル: ${tableName}`);
@@ -225,7 +229,7 @@ interface CsvImportResult {
  * Clean Architecture: Use Case層の責務
  */
 class CsvImportService {
-    constructor(private readonly sqliteService: SqliteCommandService) {}
+    public constructor(private readonly sqliteService: SqliteCommandService) {}
 
     /**
      * NARの場所データCSVをインポート
@@ -378,7 +382,9 @@ class CsvImportService {
             try {
                 const fields = parseCSVLine(line);
                 if (fields.length < 4) {
-                    console.warn(`行 ${i + 1}: 不正なフィールド数です。スキップします。`);
+                    console.warn(
+                        `行 ${i + 1}: 不正なフィールド数です。スキップします。`,
+                    );
                     continue;
                 }
 
@@ -386,7 +392,9 @@ class CsvImportService {
                 const parsedDateTime = parseJSDateString(dateTime);
 
                 if (!parsedDateTime) {
-                    console.warn(`行 ${i + 1}: 日付の解析に失敗しました。スキップします。`);
+                    console.warn(
+                        `行 ${i + 1}: 日付の解析に失敗しました。スキップします。`,
+                    );
                     errorCount++;
                     continue;
                 }
@@ -403,7 +411,10 @@ class CsvImportService {
                     insertCount++;
                 }
             } catch (error) {
-                console.error(`行 ${i + 1} の処理中にエラーが発生しました:`, error);
+                console.error(
+                    `行 ${i + 1} の処理中にエラーが発生しました:`,
+                    error,
+                );
                 errorCount++;
             }
         }
@@ -432,21 +443,26 @@ class CsvImportService {
             try {
                 const fields = parseCSVLine(line);
                 if (fields.length < 6) {
-                    console.warn(`行 ${i + 1}: 不正なフィールド数です。スキップします。`);
+                    console.warn(
+                        `行 ${i + 1}: 不正なフィールド数です。スキップします。`,
+                    );
                     continue;
                 }
 
-                const [id, dateTime, location, heldTimes, heldDayTimes] = fields;
+                const [id, dateTime, location, heldTimes, heldDayTimes] =
+                    fields;
                 const parsedDateTime = parseJSDateString(dateTime);
 
                 if (!parsedDateTime) {
-                    console.warn(`行 ${i + 1}: 日付の解析に失敗しました。スキップします。`);
+                    console.warn(
+                        `行 ${i + 1}: 日付の解析に失敗しました。スキップします。`,
+                    );
                     errorCount++;
                     continue;
                 }
 
                 const escapedLocation = location.replace(/'/g, "''");
-                
+
                 // place_dataテーブルに挿入
                 const insertResult1 = this.sqliteService.execute(`
                     INSERT INTO place_data (id, race_type, datetime, location)
@@ -459,13 +475,19 @@ class CsvImportService {
                     VALUES ('${id}', 'jra', ${Number.parseInt(heldTimes, 10)}, ${Number.parseInt(heldDayTimes, 10)});
                 `);
 
-                if (insertResult1 === undefined && insertResult2 === undefined) {
+                if (
+                    insertResult1 === undefined &&
+                    insertResult2 === undefined
+                ) {
                     errorCount++;
                 } else {
                     insertCount++;
                 }
             } catch (error) {
-                console.error(`行 ${i + 1} の処理中にエラーが発生しました:`, error);
+                console.error(
+                    `行 ${i + 1} の処理中にエラーが発生しました:`,
+                    error,
+                );
                 errorCount++;
             }
         }
@@ -480,17 +502,27 @@ class CsvImportService {
      * @param insertCount - 挿入件数
      * @param errorCount - エラー件数
      */
-    private showImportResults(dataType: string, insertCount: number, errorCount: number): void {
-        console.log(`CSVファイルから ${insertCount} 件の${dataType}データを登録しました。`);
+    private showImportResults(
+        dataType: string,
+        insertCount: number,
+        errorCount: number,
+    ): void {
+        console.log(
+            `CSVファイルから ${insertCount} 件の${dataType}データを登録しました。`,
+        );
         if (errorCount > 0) {
             console.warn(`${errorCount} 件のエラーが発生しました。`);
         }
 
         console.log(`\nCSVから登録した${dataType}場所データ（先頭10件）:`);
-        const importedData = this.sqliteService.execute('SELECT * FROM place_data LIMIT 10;');
+        const importedData = this.sqliteService.execute(
+            'SELECT * FROM place_data LIMIT 10;',
+        );
         console.log(importedData ?? 'データがありません');
 
-        const totalCount = this.sqliteService.execute('SELECT COUNT(*) FROM place_data;');
+        const totalCount = this.sqliteService.execute(
+            'SELECT COUNT(*) FROM place_data;',
+        );
         console.log(`\n登録データの総件数: ${totalCount ?? 0}`);
     }
 }
@@ -500,7 +532,7 @@ class CsvImportService {
  * Clean Architecture: Use Case層の責務
  */
 class SampleDataService {
-    constructor(private readonly sqliteService: SqliteCommandService) {}
+    public constructor(private readonly sqliteService: SqliteCommandService) {}
 
     /**
      * サンプルテーブルとデータを作成
@@ -551,7 +583,7 @@ class SampleDataService {
                 UPDATE place_data SET updated_at = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid;
             END;
         `);
-        
+
         if (result !== undefined) {
             console.log('テーブルとトリガーを作成しました');
             return true;
@@ -563,7 +595,9 @@ class SampleDataService {
      * データ件数を表示
      */
     private showDataCount(): void {
-        const countResult = this.sqliteService.execute('SELECT COUNT(*) FROM place_data;');
+        const countResult = this.sqliteService.execute(
+            'SELECT COUNT(*) FROM place_data;',
+        );
         const count = Number.parseInt(countResult ?? '0', 10);
         console.log(`NAR場所データの件数: ${count}`);
     }
@@ -574,7 +608,7 @@ class SampleDataService {
  * Clean Architecture: Interface Adapter層の責務
  */
 class CommandLineProcessor {
-    constructor(
+    public constructor(
         private readonly csvImportService: CsvImportService,
         private readonly sampleDataService: SampleDataService,
         private readonly dbInfoService: DatabaseInfoService,
@@ -634,7 +668,7 @@ class DatabaseSetupApplication {
     private readonly dbInfoService: DatabaseInfoService;
     private readonly commandProcessor: CommandLineProcessor;
 
-    constructor() {
+    public constructor() {
         // 依存関係の注入（手動DI）
         this.dbConfigManager = new DatabaseConfigManager();
         this.sqliteService = new SqliteCommandService();
