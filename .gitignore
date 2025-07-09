@@ -22,3 +22,17 @@ docs
 
 # volume配下のファイル
 volume/*
+
+# Test reports (should not be committed)
+jest_html_reporters.html
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# SQLite databases
+*.db
+storage.db
