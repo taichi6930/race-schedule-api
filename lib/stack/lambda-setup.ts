@@ -13,10 +13,15 @@ export function createLambdaFunction(
         scope,
         'RaceScheduleAppLambda',
         {
-            architecture: lambda.Architecture.ARM_64,
+            architecture: lambda.Architecture.X86_64, // Changed to x86_64 to avoid Docker platform issues
             runtime: lambda.Runtime.NODEJS_20_X,
             entry: 'lib/src/index.ts',
             role,
+            vpc: undefined, // Explicitly ensure no VPC is used
+            bundling: {
+                // Use esbuild instead of Docker to avoid platform issues
+                forceDockerBundling: false,
+            },
             environment: {
                 ENV,
                 JRA_CALENDAR_ID: process.env.JRA_CALENDAR_ID ?? '',
