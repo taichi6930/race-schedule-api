@@ -302,17 +302,6 @@ export class KeirinRaceRepositoryFromHtmlImpl
     public async registerRaceEntityList(
         raceEntityList: KeirinRaceEntity[],
     ): Promise<void> {
-        console.debug(
-            'KeirinRaceEntity list:',
-            raceEntityList.map((entity) => ({
-                id: entity.id,
-                raceData: entity.raceData.toString(),
-                playerCount: entity.racePlayerDataList.length,
-                players: entity.racePlayerDataList.map((player) =>
-                    player.toString(),
-                ),
-            })),
-        );
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }

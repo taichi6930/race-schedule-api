@@ -48,12 +48,6 @@ export class KeirinPlaceDataUseCase
             }
         }
 
-        if (placeDataList.length !== uniquePlaceDataList.length) {
-            console.debug(
-                `Removed ${placeDataList.length - uniquePlaceDataList.length} duplicate place data entries`,
-            );
-        }
-
         return uniquePlaceDataList;
     }
 

@@ -44,13 +44,6 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
     public async registerPlaceEntityList(
         placeEntityList: KeirinPlaceEntity[],
     ): Promise<void> {
-        console.debug(
-            'Mock KeirinPlaceEntity list:',
-            placeEntityList.map((entity) => ({
-                id: entity.id,
-                placeData: entity.placeData.toString(),
-            })),
-        );
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }

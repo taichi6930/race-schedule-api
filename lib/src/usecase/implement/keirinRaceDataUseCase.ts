@@ -177,10 +177,6 @@ export class KeirinRaceDataUseCase
             }
         }
 
-        console.debug(
-            `Removed ${raceDataList.length - uniqueRaceDataList.length} duplicate race data entries`,
-        );
-
         const raceEntityList: KeirinRaceEntity[] = uniqueRaceDataList.map(
             (raceData) =>
                 KeirinRaceEntity.createWithoutId(

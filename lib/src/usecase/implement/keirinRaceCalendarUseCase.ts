@@ -143,13 +143,6 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                 const totalPriority = racePriority + maxPlayerPriority;
                 const isIncluded = totalPriority >= 6;
 
-                // デバッグ用ログ: フィルタリング条件の詳細を出力
-                if (process.env.NODE_ENV === 'development') {
-                    console.debug(
-                        `Race filtering: ${raceEntity.raceData.toString()}, racePriority: ${racePriority}, maxPlayerPriority: ${maxPlayerPriority}, totalPriority: ${totalPriority}, included: ${isIncluded}`,
-                    );
-                }
-
                 return isIncluded;
             });
         return filteredRaceEntityList;
