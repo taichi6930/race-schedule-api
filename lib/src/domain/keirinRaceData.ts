@@ -23,7 +23,11 @@ import {
 import type { IPlaceData } from './iPlaceData';
 
 /**
- * 競輪のレース開催データ
+ * 競輪のレース開催データ (Value Object)
+ *
+ * このクラスは値オブジェクトとして実装されており、
+ * 同じデータを持つインスタンスは等価として扱われます。
+ * 一度作成されると変更できない不変オブジェクトです。
  */
 export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
     /**
@@ -114,7 +118,8 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
+     * @returns 新しいKeirinRaceDataインスタンス
      */
     public copy(partial: Partial<KeirinRaceData> = {}): KeirinRaceData {
         return KeirinRaceData.create(
@@ -125,5 +130,33 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
             partial.grade ?? this.grade,
             partial.number ?? this.number,
         );
+    }
+
+    /**
+     * 値の等価性を比較する (Value Object の特徴)
+     * @param other - 比較対象のKeirinRaceData
+     * @returns 全ての値が等しい場合はtrue
+     */
+    public equals(other: KeirinRaceData): boolean {
+        if (!(other instanceof KeirinRaceData)) {
+            return false;
+        }
+
+        return (
+            this.name === other.name &&
+            this.stage === other.stage &&
+            this.dateTime.getTime() === other.dateTime.getTime() &&
+            this.location === other.location &&
+            this.grade === other.grade &&
+            this.number === other.number
+        );
+    }
+
+    /**
+     * デバッグ用の文字列表現
+     * @returns オブジェクトの文字列表現
+     */
+    public toString(): string {
+        return `KeirinRaceData(name: ${this.name}, stage: ${this.stage}, dateTime: ${this.dateTime.toISOString()}, location: ${this.location}, grade: ${this.grade}, number: ${this.number})`;
     }
 }

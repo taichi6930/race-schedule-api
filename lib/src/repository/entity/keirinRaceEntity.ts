@@ -28,7 +28,11 @@ import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
 /**
- * 競輪のレース開催データ
+ * 競輪のレース開催データ (Entity)
+ *
+ * このクラスはエンティティとして実装されており、
+ * 一意のIDを持ち、ライフサイクルが管理されます。
+ * ドメインオブジェクト（Value Object）を組み合わせて永続化可能な形にします。
  */
 export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     /**

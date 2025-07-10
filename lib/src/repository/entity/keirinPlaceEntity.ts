@@ -9,7 +9,11 @@ import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
 /**
- * Repository層のEntity 競輪のレース開催場所データ
+ * Repository層のEntity 競輪のレース開催場所データ (Entity)
+ *
+ * このクラスはエンティティとして実装されており、
+ * 一意のIDを持ち、ライフサイクルが管理されます。
+ * ドメインオブジェクト（Value Object）を組み合わせて永続化可能な形にします。
  */
 export class KeirinPlaceEntity implements IPlaceEntity<KeirinPlaceEntity> {
     /**

@@ -7,7 +7,11 @@ import { validateKeirinRaceDateTime } from '../utility/data/keirin/keirinRaceDat
 import type { IPlaceData } from './iPlaceData';
 
 /**
- * 競輪のレース開催場所データ
+ * 競輪のレース開催場所データ (Value Object)
+ *
+ * このクラスは値オブジェクトとして実装されており、
+ * 同じデータを持つインスタンスは等価として扱われます。
+ * 一度作成されると変更できない不変オブジェクトです。
  */
 export class KeirinPlaceData implements IPlaceData<KeirinPlaceData> {
     /**
@@ -72,5 +76,30 @@ export class KeirinPlaceData implements IPlaceData<KeirinPlaceData> {
             partial.location ?? this.location,
             partial.grade ?? this.grade,
         );
+    }
+
+    /**
+     * 値の等価性を比較する (Value Object の特徴)
+     * @param other - 比較対象のKeirinPlaceData
+     * @returns 全ての値が等しい場合はtrue
+     */
+    public equals(other: KeirinPlaceData): boolean {
+        if (!(other instanceof KeirinPlaceData)) {
+            return false;
+        }
+
+        return (
+            this.dateTime.getTime() === other.dateTime.getTime() &&
+            this.location === other.location &&
+            this.grade === other.grade
+        );
+    }
+
+    /**
+     * デバッグ用の文字列表現
+     * @returns オブジェクトの文字列表現
+     */
+    public toString(): string {
+        return `KeirinPlaceData(dateTime: ${this.dateTime.toISOString()}, location: ${this.location}, grade: ${this.grade})`;
     }
 }
