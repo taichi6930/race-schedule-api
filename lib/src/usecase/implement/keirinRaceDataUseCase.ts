@@ -166,7 +166,22 @@ export class KeirinRaceDataUseCase
     public async upsertRaceDataList(
         raceDataList: KeirinRaceData[],
     ): Promise<void> {
-        const raceEntityList: KeirinRaceEntity[] = raceDataList.map(
+        // 重複するレースデータを除去する (Value Objectのequalsメソッドを活用)
+        const uniqueRaceDataList: KeirinRaceData[] = [];
+        for (const raceData of raceDataList) {
+            const isDuplicate = uniqueRaceDataList.some((existing) =>
+                existing.equals(raceData),
+            );
+            if (!isDuplicate) {
+                uniqueRaceDataList.push(raceData);
+            }
+        }
+
+        console.debug(
+            `Removed ${raceDataList.length - uniqueRaceDataList.length} duplicate race data entries`,
+        );
+
+        const raceEntityList: KeirinRaceEntity[] = uniqueRaceDataList.map(
             (raceData) =>
                 KeirinRaceEntity.createWithoutId(
                     raceData,

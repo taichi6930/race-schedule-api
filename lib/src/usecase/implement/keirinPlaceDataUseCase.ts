@@ -35,7 +35,26 @@ export class KeirinPlaceDataUseCase
                 finishDate,
                 DataLocation.Storage,
             );
-        return placeEntityList.map(({ placeData }) => placeData);
+        const placeDataList = placeEntityList.map(({ placeData }) => placeData);
+
+        // 重複する開催場データを除去する (Value Objectのequalsメソッドを活用)
+        const uniquePlaceDataList: KeirinPlaceData[] = [];
+        for (const placeData of placeDataList) {
+            const isDuplicate = uniquePlaceDataList.some((existing) =>
+                existing.equals(placeData),
+            );
+            if (!isDuplicate) {
+                uniquePlaceDataList.push(placeData);
+            }
+        }
+
+        if (placeDataList.length !== uniquePlaceDataList.length) {
+            console.debug(
+                `Removed ${placeDataList.length - uniquePlaceDataList.length} duplicate place data entries`,
+            );
+        }
+
+        return uniquePlaceDataList;
     }
 
     /**
