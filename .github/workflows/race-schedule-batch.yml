@@ -79,63 +79,6 @@ jobs:
             exit 1
           fi
 
-  update-jra-race-data:
-    needs: [set-dates, health-check]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Send curl request to API
-        run: |
-          # 日付はset-datesで設定済み
-          startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date }}"
-
-          # レースデータの更新
-          update_race_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/jra/race" \
-            -H "accept: */*" \
-            -H "Content-Type: application/json" \
-            -d "{
-                  \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
-                }")
-
-          # レスポンスチェック
-          if [[ "$update_race_data_response" != "200" ]]; then
-            echo "❌ POST request failed with status code $update_race_data_response"
-            exit 1
-          fi
-
-  update-jra-race-calendar:
-    needs: [set-dates, update-jra-race-data]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Send curl request to API
-        run: |
-          startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date }}"
-
-          # カレンダーの更新
-          update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/jra/calendar" \
-            -H "accept: */*" \
-            -H "Content-Type: application/json" \
-            -d "{
-                  \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
-                }")
-
-          # レスポンスチェック
-          if [[ "$update_race_calendar_response" != "200" ]]; then
-            echo "❌ POST request failed with status code $update_race_calendar_response"
-            exit 1
-          fi
-
   update-nar-race-data:
     needs: [set-dates, health-check]
     runs-on: ubuntu-latest
