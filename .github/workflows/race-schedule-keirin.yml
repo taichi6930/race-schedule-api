@@ -1,4 +1,4 @@
-name: Race Schedule Batch
+name: Race Schedule Keirin
 
 on:
   schedule:
@@ -26,11 +26,6 @@ jobs:
     outputs:
       start-date: ${{ steps.set-dates.outputs.start-date }}
       finish-date: ${{ steps.set-dates.outputs.finish-date }}
-      # 競輪・オートレースは1日毎に出走表が更新されるため、finish-dateを1日後に設定
-      start-date-for-keirin: ${{ steps.set-dates.outputs.start-date-for-keirin }}
-      finish-date-for-keirin: ${{ steps.set-dates.outputs.finish-date-for-keirin }}
-      finish-date-for-autorace: ${{ steps.set-dates.outputs.finish-date-for-autorace }}
-      finish-date-for-boatrace: ${{ steps.set-dates.outputs.finish-date-for-boatrace }}
     steps:
       - name: Outputを設定
         id: set-dates
@@ -38,30 +33,18 @@ jobs:
           # 日付を計算、デフォルトは昨日から2日後
           startDate="${{ github.event.inputs.start-date }}"
           finishDate="${{ github.event.inputs.finish-date }}"
-          startDateForKeirin="${{ github.event.inputs.start-date }}"
-          finishDateForKeirin="${{ github.event.inputs.finish-date }}"
-          finishDateForAutorace="${{ github.event.inputs.finish-date }}"
-          finishDateForBoatrace="${{ github.event.inputs.finish-date }}"
 
           # 入力がない場合のデフォルト設定
           if [ -z "$startDate" ]; then
-            startDate=$(date -d "yesterday" +"%Y-%m-%d")
-            startDateForKeirin=$(date -d "today" +"%Y-%m-%d")
+            startDate=$(date -d "today" +"%Y-%m-%d")
           fi
           if [ -z "$finishDate" ]; then
-            finishDate=$(date -d "+2 days" +"%Y-%m-%d")
-            finishDateForKeirin=$(date -d "+1 day" +"%Y-%m-%d")
-            finishDateForAutorace=$(date -d "+1 day" +"%Y-%m-%d")
-            finishDateForBoatrace=$(date -d "+1 day" +"%Y-%m-%d")
+            finishDate=$(date -d "+1 day" +"%Y-%m-%d")
           fi
 
           # GITHUB_OUTPUTを使って出力設定
           echo "start-date=$startDate" >> $GITHUB_OUTPUT
           echo "finish-date=$finishDate" >> $GITHUB_OUTPUT
-          echo "start-date-for-keirin=$startDateForKeirin" >> $GITHUB_OUTPUT
-          echo "finish-date-for-keirin=$finishDateForKeirin" >> $GITHUB_OUTPUT
-          echo "finish-date-for-autorace=$finishDateForAutorace" >> $GITHUB_OUTPUT
-          echo "finish-date-for-boatrace=$finishDateForBoatrace" >> $GITHUB_OUTPUT
 
   health-check:
     runs-on: ubuntu-latest
@@ -79,63 +62,6 @@ jobs:
             exit 1
           fi
 
-  update-autorace-race-data:
-    needs: [set-dates, health-check]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Send curl request to API
-        run: |
-          # 日付はset-datesで設定済み
-          startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date-for-autorace }}"
-
-          # レースデータの更新
-          update_race_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/autorace/race" \
-            -H "accept: */*" \
-            -H "Content-Type: application/json" \
-            -d "{
-                  \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
-                }")
-
-          # レスポンスチェック
-          if [[ "$update_race_data_response" != "200" ]]; then
-            echo "❌ POST request failed with status code $update_race_data_response"
-            exit 1
-          fi
-
-  update-autorace-race-calendar:
-    needs: [set-dates, update-autorace-race-data]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Send curl request to API
-        run: |
-          startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date }}"
-
-          # カレンダーの更新
-          update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/autorace/calendar" \
-            -H "accept: */*" \
-            -H "Content-Type: application/json" \
-            -d "{
-                  \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
-                }")
-
-          # レスポンスチェック
-          if [[ "$update_race_calendar_response" != "200" ]]; then
-            echo "❌ POST request failed with status code $update_race_calendar_response"
-            exit 1
-          fi
-
   update-keirin-race-data-g:
     needs: [set-dates, health-check]
     runs-on: ubuntu-latest
@@ -146,8 +72,8 @@ jobs:
       - name: Send curl request to API
         run: |
           # 日付はset-datesで設定済み
-          startDate="${{ needs.set-dates.outputs.start-date-for-keirin }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date-for-keirin }}"
+          startDate="${{ needs.set-dates.outputs.start-date }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date }}"
 
           currentDate="$startDate"
           while [ "$currentDate" != "$(date -I -d "$finishDate + 1 day")" ]; do
@@ -183,7 +109,7 @@ jobs:
       - name: Send curl request to API
         run: |
           # 日付はset-datesで設定済み
-          startDate="${{ needs.set-dates.outputs.start-date-for-keirin }}"
+          startDate="${{ needs.set-dates.outputs.start-date }}"
           finishDate="${{ needs.set-dates.outputs.finish-date }}"
 
           currentDate="$startDate"
@@ -220,7 +146,7 @@ jobs:
       - name: Send curl request to API
         run: |
           # 日付はset-datesで設定済み
-          startDate="${{ needs.set-dates.outputs.start-date-for-keirin }}"
+          startDate="${{ needs.set-dates.outputs.start-date }}"
           finishDate="${{ needs.set-dates.outputs.finish-date }}"
 
           currentDate="$startDate"
@@ -256,7 +182,7 @@ jobs:
 
       - name: Send curl request to API
         run: |
-          startDate="${{ needs.set-dates.outputs.start-date-for-keirin }}"
+          startDate="${{ needs.set-dates.outputs.start-date }}"
           finishDate="${{ needs.set-dates.outputs.finish-date }}"
 
           # カレンダーの更新
@@ -284,69 +210,12 @@ jobs:
 
       - name: Send curl request to API
         run: |
-          startDate="${{ needs.set-dates.outputs.start-date-for-keirin }}"
+          startDate="${{ needs.set-dates.outputs.start-date }}"
           finishDate="${{ needs.set-dates.outputs.finish-date }}"
 
           # カレンダーの更新
           update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
             "${API_PRODUCTION_URL}/api/races/keirin/calendar" \
-            -H "accept: */*" \
-            -H "Content-Type: application/json" \
-            -d "{
-                  \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
-                }")
-
-          # レスポンスチェック
-          if [[ "$update_race_calendar_response" != "200" ]]; then
-            echo "❌ POST request failed with status code $update_race_calendar_response"
-            exit 1
-          fi
-
-  update-boatrace-race-data:
-    needs: [set-dates, health-check]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Send curl request to API
-        run: |
-          # 日付はset-datesで設定済み
-          startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date-for-boatrace }}"
-
-          # レースデータの更新
-          update_race_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/boatrace/race" \
-            -H "accept: */*" \
-            -H "Content-Type: application/json" \
-            -d "{
-                  \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
-                }")
-
-          # レスポンスチェック
-          if [[ "$update_race_data_response" != "200" ]]; then
-            echo "❌ POST request failed with status code $update_race_data_response"
-            exit 1
-          fi
-
-  update-boatrace-race-calendar:
-    needs: [set-dates, update-boatrace-race-data]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Send curl request to API
-        run: |
-          startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date }}"
-
-          # カレンダーの更新
-          update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/boatrace/calendar" \
             -H "accept: */*" \
             -H "Content-Type: application/json" \
             -d "{

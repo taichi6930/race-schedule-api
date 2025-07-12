@@ -13,6 +13,9 @@
         // For Stylelint
         "source.fixAll.stylelint": "always"
     },
+    "[yaml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
     "spellright.language": ["en", "ja"],
     "spellright.documentTypes": ["markdown", "latex", "plaintext"]
 }

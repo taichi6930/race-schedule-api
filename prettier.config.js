@@ -12,7 +12,9 @@ module.exports = {
         {
             files: '*.yaml',
             options: {
-                tabWidth: 2, // インデントをスペース2つに設定
+                tabWidth: 2, // YAMLのみ2スペース
+                singleQuote: false, // YAMLはシングルクォート推奨されない
+                proseWrap: 'preserve',
             },
         },
     ],
