@@ -1,0 +1,111 @@
+name: Race Schedule NAR
+
+on:
+  schedule:
+    # 日本時間0時と12時（JST0時=UTC15時, JST12時=UTC3時）
+    - cron: '0 15,3 * * *'
+  workflow_dispatch:
+    inputs:
+      start-date:
+        description: 'Start date (YYYY-MM-DD format)'
+        required: false
+      finish-date:
+        description: 'Finish date (YYYY-MM-DD format)'
+        required: false
+
+env:
+  API_PRODUCTION_URL: "${{ secrets.API_PRODUCTION_URL }}"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  set-dates:
+    runs-on: ubuntu-latest
+    outputs:
+      start-date: ${{ steps.set-dates.outputs.start-date }}
+      finish-date: ${{ steps.set-dates.outputs.finish-date }}
+    steps:
+      - name: Outputを設定
+        id: set-dates
+        run: |
+          # 日付を計算、デフォルトは昨日から2日後
+          startDate="${{ github.event.inputs.start-date }}"
+          finishDate="${{ github.event.inputs.finish-date }}"
+
+          # 入力がない場合のデフォルト設定
+          if [ -z "$startDate" ]; then
+            startDate=$(date -d "yesterday" +"%Y-%m-%d")
+          fi
+          if [ -z "$finishDate" ]; then
+            finishDate=$(date -d "+2 days" +"%Y-%m-%d")
+          fi
+
+          # GITHUB_OUTPUTを使って出力設定
+          echo "start-date=$startDate" >> $GITHUB_OUTPUT
+          echo "finish-date=$finishDate" >> $GITHUB_OUTPUT
+
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Start server in background
+        run: |
+          health_check_response=$(curl -s -o /dev/null -w "%{http_code}" ${API_PRODUCTION_URL}/health)
+
+          # レスポンスチェック
+          if [[ "$health_check_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $health_check_response"
+            exit 1
+          fi
+
+  update-nar-race-data:
+    needs: [set-dates, health-check]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Send curl request to API
+        run: |
+          # 日付はset-datesで設定済み
+          startDate="${{ needs.set-dates.outputs.start-date }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date }}"
+
+          # レースデータの更新
+          update_race_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "${API_PRODUCTION_URL}/api/races/nar/race" \
+            -H "accept: */*" \
+            -H "Content-Type: application/json" \
+            -d "{\n                  \"startDate\": \"$startDate\",\n                  \"finishDate\": \"$finishDate\"\n                }")
+
+          # レスポンスチェック
+          if [[ "$update_race_data_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $update_race_data_response"
+            exit 1
+          fi
+
+  update-nar-race-calendar:
+    needs: [set-dates, update-nar-race-data]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Send curl request to API
+        run: |
+          startDate="${{ needs.set-dates.outputs.start-date }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date }}"
+
+          # カレンダーの更新
+          update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "${API_PRODUCTION_URL}/api/races/nar/calendar" \
+            -H "accept: */*" \
+            -H "Content-Type: application/json" \
+            -d "{\n                  \"startDate\": \"$startDate\",\n                  \"finishDate\": \"$finishDate\"\n                }")
+
+          # レスポンスチェック
+          if [[ "$update_race_calendar_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $update_race_calendar_response"
+            exit 1
+          fi
