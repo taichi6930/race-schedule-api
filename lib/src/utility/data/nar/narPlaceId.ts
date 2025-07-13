@@ -6,18 +6,12 @@ import { z } from 'zod';
  */
 const NarPlaceIdSchema = z
     .string()
-    .refine(
-        (value) => value.startsWith('nar'),
-        (value) => ({
-            message: `narから始まる必要があります（入力値: "${value}"）`,
-        }),
-    )
-    .refine(
-        (value) => /^nar\d{10}$/.test(value),
-        (value) => ({
-            message: `NarPlaceIdの形式ではありません（入力値: "${value}"）`,
-        }),
-    );
+    .refine((value) => value.startsWith('nar'), {
+        message: `narから始まる必要があります`,
+    })
+    .refine((value) => /^nar\d{10}$/.test(value), {
+        message: `NarPlaceIdの形式ではありません`,
+    });
 
 /**
  * NarPlaceIdの型定義

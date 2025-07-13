@@ -3,12 +3,11 @@ import { z } from 'zod';
 /**
  * AutoraceGradeTypeのzod型定義
  */
-export const AutoraceGradeTypeSchema = z.string().refine(
-    (value) => AutoraceGradeTypeList.has(value),
-    (value) => ({
-        message: `オートレースのグレードではありません（入力値: "${value}"）`,
-    }),
-);
+export const AutoraceGradeTypeSchema = z
+    .string()
+    .refine((value) => AutoraceGradeTypeList.has(value), {
+        message: `オートレースのグレードではありません`,
+    });
 
 /**
  * AutoraceGradeTypeの型定義
