@@ -6,12 +6,18 @@ import { z } from 'zod';
  */
 const KeirinPlaceIdSchema = z
     .string()
-    .refine((value) => {
-        return value.startsWith('keirin');
-    }, 'keirinから始まる必要があります')
-    .refine((value) => {
-        return /^keirin\d{10}$/.test(value);
-    }, 'KeirinPlaceIdの形式ではありません');
+    .refine(
+        (value) => value.startsWith('keirin'),
+        (value) => ({
+            message: `keirinから始まる必要があります（入力値: "${value}"）`,
+        }),
+    )
+    .refine(
+        (value) => /^keirin\d{10}$/.test(value),
+        (value) => ({
+            message: `KeirinPlaceIdの形式ではありません（入力値: "${value}"）`,
+        }),
+    );
 
 /**
  * KeirinPlaceIdの型定義

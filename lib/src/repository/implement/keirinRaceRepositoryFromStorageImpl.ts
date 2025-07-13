@@ -200,20 +200,26 @@ export class KeirinRaceRepositoryFromStorageImpl
                     ? new Date(columns[indices.updateDate])
                     : getJSTDate(new Date());
 
-                return [
-                    KeirinRaceRecord.create(
-                        columns[indices.id],
-                        columns[indices.name],
-                        columns[indices.stage],
-                        new Date(columns[indices.dateTime]),
-                        columns[indices.location],
-                        columns[indices.grade],
-                        Number.parseInt(columns[indices.number]),
-                        updateDate,
-                    ),
-                ];
+                try {
+                    return [
+                        KeirinRaceRecord.create(
+                            columns[indices.id],
+                            columns[indices.name],
+                            columns[indices.stage],
+                            new Date(columns[indices.dateTime]),
+                            columns[indices.location],
+                            columns[indices.grade],
+                            Number.parseInt(columns[indices.number]),
+                            updateDate,
+                        ),
+                    ];
+                } catch (error) {
+                    // 入力値も一緒に出す
+                    console.error('KeirinRaceRecord create error', error);
+                    return [];
+                }
             } catch (error) {
-                console.error('KeirinRaceRecord create error', error);
+                console.error('KeirinRaceRecord create error!', error);
                 return [];
             }
         });
