@@ -11,6 +11,10 @@ import {
     validateJraRaceId,
 } from '../../utility/data/jra/jraRaceId';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
+import {
+    createNetkeibaJraRaceVideoUrl,
+    createNetkeibaJraShutubaUrl,
+} from '../../utility/data/url';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getJraGoogleCalendarColorId } from '../../utility/googleCalendar';
@@ -137,8 +141,18 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
             description:
                 `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
                     発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
-                    ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceIdForNetkeiba}`)}
-                    ${createAnchorTag('レース動画', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%3Fpid%3Drace_movie%26race_id%3D${raceIdForNetkeiba}`)}
+                    ${createAnchorTag(
+                        'レース情報',
+                        `https://netkeiba.page.link/?link=${encodeURIComponent(
+                            createNetkeibaJraShutubaUrl(raceIdForNetkeiba),
+                        )}`,
+                    )}
+                    ${createAnchorTag(
+                        'レース動画',
+                        `https://netkeiba.page.link/?link=${encodeURIComponent(
+                            createNetkeibaJraRaceVideoUrl(raceIdForNetkeiba),
+                        )}`,
+                    )}
                     更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}
                 `.replace(/\n\s+/g, '\n'),
             extendedProperties: {
