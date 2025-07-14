@@ -3,6 +3,12 @@ import path from 'node:path';
 
 import Database from 'better-sqlite3';
 
+import {
+    PLAYER_DATA_INDEX_QUERIES,
+    PLAYER_DATA_SCHEMA_QUERIES,
+    PLAYER_DATA_TABLE_QUERIES,
+    PLAYER_DATA_TRIGGER_QUERIES,
+} from '../../sql/table/playerDataTable';
 import { SCHEMA_QUERIES } from './sqlite/schema/index';
 
 /**
@@ -18,35 +24,50 @@ export enum RaceType {
 }
 
 /**
- * SQLiteデータベースマネージャークラス
+ * 汎用SQLiteデータベースマネージャークラス
+ *
+ * 用途ごとに getInstanceForSchedule(), getInstanceForSetting() を利用してください。
  */
 export class SQLiteManager {
-    private static instance: SQLiteManager | undefined;
+    private static scheduleInstance: SQLiteManager | undefined;
+    private static settingInstance: SQLiteManager | undefined;
     private readonly db: Database.Database;
 
-    private constructor() {
-        const dbPath = path.join(
-            process.cwd(),
-            'volume',
-            'data',
-            'race-schedule.db',
-        );
+    private constructor(dbFileName: string, schemaQueries: string[]) {
+        const dbPath = path.join(process.cwd(), 'volume', 'data', dbFileName);
         const dbDir = path.dirname(dbPath);
-
         if (!existsSync(dbDir)) {
             mkdirSync(dbDir, { recursive: true });
         }
-
         this.db = new Database(dbPath);
-        this.initialize();
+        this.initialize([
+            ...schemaQueries,
+            ...PLAYER_DATA_SCHEMA_QUERIES,
+            ...PLAYER_DATA_INDEX_QUERIES,
+            ...PLAYER_DATA_TRIGGER_QUERIES,
+        ]);
     }
 
     /**
-     * シングルトンインスタンスを取得
+     * レーススケジュール用インスタンス取得
      */
-    public static getInstance(): SQLiteManager {
-        SQLiteManager.instance ??= new SQLiteManager();
-        return SQLiteManager.instance;
+    public static getInstanceForSchedule(): SQLiteManager {
+        SQLiteManager.scheduleInstance ??= new SQLiteManager(
+            'race-schedule.db',
+            SCHEMA_QUERIES,
+        );
+        return SQLiteManager.scheduleInstance;
+    }
+
+    /**
+     * レース設定用インスタンス取得
+     */
+    public static getInstanceForSetting(): SQLiteManager {
+        SQLiteManager.settingInstance ??= new SQLiteManager(
+            'race-setting.db',
+            PLAYER_DATA_TABLE_QUERIES,
+        );
+        return SQLiteManager.settingInstance;
     }
 
     /**
@@ -58,25 +79,22 @@ export class SQLiteManager {
 
     /**
      * データベースを初期化
+     * @param schemaQueries - スキーマクエリ配列
      */
-    private initialize(): void {
-        // マイグレーションの実行
-        this.migrate();
+    private initialize(schemaQueries: string[]): void {
+        this.migrate(schemaQueries);
     }
 
     /**
      * マイグレーションを実行
+     * @param schemaQueries - スキーマクエリ配列
      */
-    private migrate(): void {
-        // トランザクションを開始
+    private migrate(schemaQueries: string[]): void {
         const transaction = this.db.transaction(() => {
-            // 各クエリを実行
-            for (const query of SCHEMA_QUERIES) {
+            for (const query of schemaQueries) {
                 this.db.exec(query);
             }
         });
-
-        // トランザクションを実行
         transaction();
     }
 
@@ -85,7 +103,7 @@ export class SQLiteManager {
      * @param tableName - テーブル名
      * @returns - テーブルが存在すればtrue
      */
-    private tableExists(tableName: string): boolean {
+    public tableExists(tableName: string): boolean {
         const result = this.db
             .prepare(
                 "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
