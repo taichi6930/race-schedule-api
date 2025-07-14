@@ -45,7 +45,7 @@ export class KeirinRaceRepositoryFromStorageImpl
 
         // レースデータを取得する
         const raceRaceRecordList: KeirinRaceRecord[] =
-            await this.getRaceRecordListFromS3();
+            await this.getRaceRecordListFromS3(searchFilter.startDate);
 
         // RaceEntityに変換
         const raceEntityList: KeirinRaceEntity[] = raceRaceRecordList.map(
@@ -160,9 +160,12 @@ export class KeirinRaceRepositoryFromStorageImpl
 
     /**
      * レースデータをS3から取得する
+     * @param borderDate
      */
     @Logger
-    private async getRaceRecordListFromS3(): Promise<KeirinRaceRecord[]> {
+    private async getRaceRecordListFromS3(
+        borderDate?: Date,
+    ): Promise<KeirinRaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.raceS3Gateway.fetchDataFromS3(
             this.raceListFileName,
@@ -192,37 +195,36 @@ export class KeirinRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してRaceDataのリストを生成
-        return lines.slice(1).flatMap((line: string): KeirinRaceRecord[] => {
+        const result: KeirinRaceRecord[] = [];
+        for (const line of lines.slice(1)) {
             try {
                 const columns = line.split(',');
-
+                const dateTime = new Date(columns[indices.dateTime]);
+                if (borderDate && borderDate > dateTime) {
+                    break;
+                }
                 const updateDate = columns[indices.updateDate]
                     ? new Date(columns[indices.updateDate])
                     : getJSTDate(new Date());
 
-                try {
-                    return [
-                        KeirinRaceRecord.create(
-                            columns[indices.id],
-                            columns[indices.name],
-                            columns[indices.stage],
-                            new Date(columns[indices.dateTime]),
-                            columns[indices.location],
-                            columns[indices.grade],
-                            Number.parseInt(columns[indices.number]),
-                            updateDate,
-                        ),
-                    ];
-                } catch (error) {
-                    // 入力値も一緒に出す
-                    console.error('KeirinRaceRecord create error', error);
-                    return [];
-                }
+                result.push(
+                    KeirinRaceRecord.create(
+                        columns[indices.id],
+                        columns[indices.name],
+                        columns[indices.stage],
+                        dateTime,
+                        columns[indices.location],
+                        columns[indices.grade],
+                        Number.parseInt(columns[indices.number]),
+                        updateDate,
+                    ),
+                );
             } catch (error) {
-                console.error('KeirinRaceRecord create error!', error);
-                return [];
+                console.error('KeirinRaceRecord create error', error);
+                // continue
             }
-        });
+        }
+        return result;
     }
 
     /**
