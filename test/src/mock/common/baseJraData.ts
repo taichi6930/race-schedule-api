@@ -109,6 +109,7 @@ export const baseJraGoogleCalendarData: calendar_v3.Schema$Event = {
     description: `距離: 芝2500m
 発走: 15:40
 <a href="https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D202406050811">レース情報</a>
+<a href="https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%3Fpid%3Drace_movie%26race_id%3D202406050811">レース動画</a>
 更新日時: 2025/01/01 21:00:00
 `,
     extendedProperties: {
