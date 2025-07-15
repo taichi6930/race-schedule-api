@@ -14,7 +14,8 @@ export class PlayerRepositoryFromSqliteImpl {
     private readonly db: Database.Database;
 
     public constructor() {
-        this.db = SQLiteManager.getInstance().getDatabase();
+        // race-setting.db（player_data用）を使う
+        this.db = SQLiteManager.getInstanceForSetting().getDatabase();
     }
 
     /**
@@ -28,15 +29,12 @@ export class PlayerRepositoryFromSqliteImpl {
     ): Promise<PlayerEntity[]> {
         const query = this.db.prepare(`
             SELECT id, raceType, playerNumber, name, priority
-            FROM player
+            FROM player_data
             WHERE raceType = :raceType
-            AND playerNumber = :playerNumber
-            AND name = :name
-            AND priority = :priority
         `);
 
         const params = {
-            type: searchFilter.raceType,
+            raceType: searchFilter.raceType,
         };
 
         const results = await new Promise<unknown[]>((resolve) => {
@@ -59,7 +57,7 @@ export class PlayerRepositoryFromSqliteImpl {
             return (
                 typeof (row as { raceType: unknown }).raceType === 'string' &&
                 typeof (row as { playerNumber: unknown }).playerNumber ===
-                    'number' &&
+                    'string' &&
                 typeof (row as { name: unknown }).name === 'string' &&
                 typeof (row as { priority: unknown }).priority === 'number'
             );
