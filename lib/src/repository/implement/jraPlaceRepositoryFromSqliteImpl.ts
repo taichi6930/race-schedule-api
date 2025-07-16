@@ -26,7 +26,7 @@ export class JraPlaceRepositoryFromSqliteImpl
     private readonly db: Database.Database;
 
     public constructor() {
-        this.db = SQLiteManager.getInstance().getDatabase();
+        this.db = SQLiteManager.getInstanceForSchedule().getDatabase();
     }
 
     /**

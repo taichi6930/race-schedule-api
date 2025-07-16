@@ -1,13 +1,56 @@
-import '../../utility/format';
-
 import Database from 'better-sqlite3';
 import { injectable } from 'tsyringe';
 
 import { PlayerData } from '../../domain/playerData';
 import { Logger } from '../../utility/logger';
-import { SQLiteManager } from '../../utility/sqlite';
+import { RaceType, SQLiteManager } from '../../utility/sqlite';
 import { PlayerEntity } from '../entity/playerEntity';
 import { SearchPlayerFilterEntity } from '../entity/searchPlayerFilterEntity';
+
+interface PlayerRow {
+    id: string;
+    raceType: string;
+    playerNumber: string;
+    name: string;
+    priority: number;
+}
+
+function toPlayerRow(row: unknown): PlayerRow | undefined {
+    if (
+        typeof row !== 'object' ||
+        row === null ||
+        !('id' in row) ||
+        !('raceType' in row) ||
+        !('playerNumber' in row) ||
+        !('name' in row) ||
+        !('priority' in row)
+    ) {
+        return undefined;
+    }
+    const r = row as Record<string, unknown>;
+    if (
+        typeof r.id !== 'string' ||
+        typeof r.raceType !== 'string' ||
+        typeof r.playerNumber !== 'string' ||
+        typeof r.name !== 'string' ||
+        typeof r.priority !== 'number'
+    ) {
+        return undefined;
+    }
+    if (Number.isNaN(Number(r.playerNumber))) {
+        return undefined;
+    }
+    if (!(Object.values(RaceType) as string[]).includes(r.raceType)) {
+        return undefined;
+    }
+    return {
+        id: r.id,
+        raceType: r.raceType,
+        playerNumber: r.playerNumber,
+        name: r.name,
+        priority: r.priority,
+    };
+}
 
 @injectable()
 export class PlayerRepositoryFromSqliteImpl {
@@ -19,14 +62,15 @@ export class PlayerRepositoryFromSqliteImpl {
     }
 
     /**
-     * 開催データを取得する
-     * このメソッドで日付の範囲を指定して開催データを取得する
+     * プレイヤーデータを取得する
      * @param searchFilter
      */
     @Logger
+    // eslint-disable-next-line @typescript-eslint/require-await
     public async fetchPlayerEntityList(
         searchFilter: SearchPlayerFilterEntity,
     ): Promise<PlayerEntity[]> {
+        // asyncのため将来的な拡張性を担保
         const query = this.db.prepare(`
             SELECT id, raceType, playerNumber, name, priority
             FROM player_data
@@ -37,51 +81,32 @@ export class PlayerRepositoryFromSqliteImpl {
             raceType: searchFilter.raceType,
         };
 
-        const results = await new Promise<unknown[]>((resolve) => {
-            resolve(query.all(params));
-        });
-
-        // 受け取ったPlayer情報を元にPlayerEntityを生成する
-        const playerRows = results.filter((row): row is PlayerData => {
-            if (typeof row !== 'object' || row === null) {
-                return false;
+        const rows = query.all(params);
+        const validatedRows: PlayerRow[] = [];
+        for (const row of rows) {
+            const valid = toPlayerRow(row);
+            if (valid) {
+                validatedRows.push(valid);
+            } else {
+                console.warn('Invalid player row structure detected:', row);
             }
-            const hasRequiredProperties =
-                'raceType' in row &&
-                'playerNumber' in row &&
-                'name' in row &&
-                'priority' in row;
-            if (!hasRequiredProperties) {
-                return false;
+        }
+        const entities = validatedRows.map((row) => {
+            if (!this.isRaceType(row.raceType)) {
+                throw new Error(`Invalid race type: ${row.raceType}`);
             }
-            return (
-                typeof (row as { raceType: unknown }).raceType === 'string' &&
-                typeof (row as { playerNumber: unknown }).playerNumber ===
-                    'string' &&
-                typeof (row as { name: unknown }).name === 'string' &&
-                typeof (row as { priority: unknown }).priority === 'number'
+            const playerData = PlayerData.create(
+                row.raceType,
+                Number(row.playerNumber),
+                row.name,
+                row.priority,
             );
+            return PlayerEntity.createWithoutId(playerData);
         });
+        return entities;
+    }
 
-        const entities: PlayerEntity[] = playerRows.map((result) => {
-            if (
-                typeof result === 'object' &&
-                'raceType' in result &&
-                'playerNumber' in result &&
-                'name' in result &&
-                'priority' in result
-            ) {
-                const { raceType, playerNumber, name, priority } = result;
-                const playerData = PlayerData.create(
-                    raceType,
-                    playerNumber,
-                    name,
-                    priority,
-                );
-                return PlayerEntity.createWithoutId(playerData);
-            }
-            throw new Error('Invalid result format');
-        });
-        return Promise.all(entities);
+    private isRaceType(value: string): value is RaceType {
+        return (Object.values(RaceType) as string[]).includes(value);
     }
 }
