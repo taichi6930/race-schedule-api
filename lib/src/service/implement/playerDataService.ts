@@ -1,4 +1,6 @@
-import { PlayerData } from '../../domain/playerData';
+import type { PlayerData } from '../../domain/playerData';
+import { SearchPlayerFilterEntity } from '../../repository/entity/searchPlayerFilterEntity';
+import { PlayerRepositoryFromSqliteImpl } from '../../repository/implement/playerRepositoryFromSqliteImpl';
 import { RaceType } from '../../utility/sqlite';
 import type { IPlayerDataService } from '../interface/IPlayerDataService';
 
@@ -184,6 +186,8 @@ export const PlayerList = [
 ];
 
 export class PlayerDataService implements IPlayerDataService {
+    private readonly playerRepository = new PlayerRepositoryFromSqliteImpl();
+
     /**
      * プレイヤーデータをStorageから取得します
      *
@@ -191,14 +195,12 @@ export class PlayerDataService implements IPlayerDataService {
      * Storageから取得します。データが存在しない場合は空の配列を返します。
      * @param type
      */
-    public fetchPlayerDataList(type: RaceType): PlayerData[] {
-        return PlayerList.map((player) =>
-            PlayerData.create(
-                type,
-                Number.parseInt(player.playerNumber),
-                player.name,
-                player.priority,
-            ),
-        ).filter((player) => player.raceType === type);
+    public async fetchPlayerDataList(type: RaceType): Promise<PlayerData[]> {
+        // raceTypeのみ指定で全件取得したい場合は他の引数をダミーで渡す
+        const filter = new SearchPlayerFilterEntity(type, 0, '', 0);
+        const entities = await Promise.resolve(
+            this.playerRepository.fetchPlayerEntityList(filter),
+        );
+        return entities.map((entity) => entity.playerData);
     }
 }

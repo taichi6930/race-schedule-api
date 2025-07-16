@@ -172,4 +172,57 @@ export class ImportCsvMigration {
             throw error;
         }
     }
+
+    /**
+     * playerData.csv を player_data テーブルにインポート
+     * @param csvPath - インポートするCSVファイルのパス
+     */
+    public importPlayerData(csvPath: string): void {
+        try {
+            const { rows } = CsvUtils.readCsvFile(csvPath);
+            const stmt = this.db.prepare(`
+                INSERT INTO player_data (id, raceType, playerNumber, name, priority)
+                VALUES (@id, @raceType, @playerNumber, @name, @priority)
+                ON CONFLICT(id) DO UPDATE SET
+                    raceType = excluded.raceType,
+                    playerNumber = excluded.playerNumber,
+                    name = excluded.name,
+                    priority = excluded.priority,
+                    updated_at = DATETIME('now', 'localtime')
+                WHERE raceType != excluded.raceType
+                   OR playerNumber != excluded.playerNumber
+                   OR name != excluded.name
+                   OR priority != excluded.priority
+            `);
+
+            let inserted = 0;
+            let updated = 0;
+
+            // 1行目はヘッダーなのでスキップ済み
+            for (const row of rows) {
+                const [id, raceType, playerNumber, name, priority] = row;
+                if (!id || !raceType || !playerNumber || !name || !priority) {
+                    continue;
+                }
+                const result = stmt.run({
+                    id,
+                    raceType,
+                    playerNumber,
+                    name,
+                    priority: Number(priority),
+                });
+                if (result.changes > 0) {
+                    if (result.lastInsertRowid) {
+                        inserted++;
+                    } else {
+                        updated++;
+                    }
+                }
+            }
+            console.log(`player_data: ${inserted}件挿入, ${updated}件更新`);
+        } catch (error) {
+            console.error('player_dataのインポートに失敗:', error);
+            throw error;
+        }
+    }
 }
