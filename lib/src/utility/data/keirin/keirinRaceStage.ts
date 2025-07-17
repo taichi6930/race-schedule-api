@@ -118,6 +118,7 @@ export const KeirinSpecifiedGradeAndStageList: {
     { grade: 'GⅡ', stage: 'SA混合ヤンググランプリ', priority: 8 },
     { grade: 'GⅡ', stage: 'S級毘沙門天賞', priority: 8 },
     { grade: 'GⅡ', stage: 'S級決勝', priority: 8 },
+    { grade: 'GⅡ', stage: 'S級アルタイル賞', priority: 8 },
     { grade: 'GⅡ', stage: 'S級準決勝', priority: 7 },
     { grade: 'GⅡ', stage: 'S級二次予選', priority: 4 },
     { grade: 'GⅡ', stage: 'S級一次予選', priority: 2 },
