@@ -52,7 +52,7 @@
         "eslint-plugin-simple-import-sort": "^12.1.1",
         "express": "^5.1.0",
         "google-auth-library": "^10.1.0",
-        "googleapis": "^152.0.0",
+        "googleapis": "^153.0.0",
         "jest-html-reporters": "^3.1.7",
         "nodemon": "^3.1.10",
         "only-allow": "^1.2.1",
