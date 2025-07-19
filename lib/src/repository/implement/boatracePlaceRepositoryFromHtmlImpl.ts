@@ -120,7 +120,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
 
         // rListの中の、tr class="br-tableSchedule__row"を取得（複数ある）
         const trs = rList.find('tr.br-tableSchedule__row');
-        trs.each((_: number, element: cheerio.Element) => {
+        trs.each((_: number, element) => {
             // 日付を取得
             const dateText = $(element)
                 .find('td.br-tableSchedule__data')

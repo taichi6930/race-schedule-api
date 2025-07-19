@@ -21,8 +21,7 @@
         "esModuleInterop": true,
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "typeRoots": ["./node_modules/@types"]
+        "skipLibCheck": true
     },
     "exclude": ["node_modules", "cdk.out"]
 }

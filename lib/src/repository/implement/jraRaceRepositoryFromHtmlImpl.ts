@@ -66,7 +66,7 @@ export class JraRaceRepositoryFromHtmlImpl
             const doc = $(`#raceInfo`);
             const table = doc.find('table');
 
-            table.each((i: number, tableElem: cheerio.Element) => {
+            table.each((i: number, tableElem) => {
                 // theadタグを取得
                 const thead = $(tableElem).find('thead');
 
@@ -99,7 +99,7 @@ export class JraRaceRepositoryFromHtmlImpl
                 $(tableElem)
                     .find('tbody')
                     .find('tr')
-                    .each((_: number, elem: cheerio.Element) => {
+                    .each((_: number, elem) => {
                         const element = $(elem);
                         // レース番号を取得
                         const raceNumber = this.extractRaceNumber(element);

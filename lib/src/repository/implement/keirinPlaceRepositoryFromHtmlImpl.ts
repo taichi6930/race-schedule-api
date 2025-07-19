@@ -107,12 +107,12 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         // tableタグが複数あるので、全て取得
         const tables = chartWrapper.find('table');
 
-        tables.each((_: number, element: cheerio.Element) => {
+        tables.each((_: number, element) => {
             // その中のtbodyを取得
             const tbody = $(element).find('tbody');
             // tr class="ref_sche"を取得
             const trs = tbody.find('tr');
-            trs.each((__: number, trElement: cheerio.Element) => {
+            trs.each((__: number, trElement) => {
                 try {
                     // thを取得
                     const th = $(trElement).find('th');
@@ -126,7 +126,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                     );
 
                     const tds = $(trElement).find('td');
-                    tds.each((index: number, tdElement: cheerio.Element) => {
+                    tds.each((index: number, tdElement) => {
                         const imgs = $(tdElement).find('img');
                         let grade: KeirinGradeType | undefined;
                         imgs.each((___, img) => {
