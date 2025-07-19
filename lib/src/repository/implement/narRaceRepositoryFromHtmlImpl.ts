@@ -68,22 +68,22 @@ export class NarRaceRepositoryFromHtmlImpl
                 try {
                     const tds = $(tr).find('td');
                     const distance = this.extractDistance(
-                        [...tds].map((td: cheerio.Element) => $(td).text()),
+                        [...tds].map((td) => $(td).text()),
                     );
                     if (distance <= 0) {
                         continue;
                     }
                     const raceName = this.extractRaceName(
-                        [...tds].map((td: cheerio.Element) => $(td).text()),
+                        [...tds].map((td) => $(td).text()),
                     );
                     const grade = this.extractGrade(
-                        [...tds].map((td: cheerio.Element) => $(td).text()),
+                        [...tds].map((td) => $(td).text()),
                     );
                     const surfaceType = this.extractSurfaceType(
-                        [...tds].map((td: cheerio.Element) => $(td).text()),
+                        [...tds].map((td) => $(td).text()),
                     );
                     const raceNumber = this.extractRaceNumber(
-                        [...tds].map((td: cheerio.Element) => $(td).text()),
+                        [...tds].map((td) => $(td).text()),
                     );
                     // 0時0分の日付を取得
                     const raceDate = new Date(
@@ -94,7 +94,7 @@ export class NarRaceRepositoryFromHtmlImpl
                         0,
                     );
                     const raceDateTime = this.extractRaceDateTime(
-                        [...tds].map((td: cheerio.Element) => $(td).text()),
+                        [...tds].map((td) => $(td).text()),
                         placeEntity.placeData.dateTime,
                     );
                     const processedRaceName = processNarRaceName({

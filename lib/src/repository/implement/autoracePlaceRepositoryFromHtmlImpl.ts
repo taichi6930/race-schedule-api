@@ -113,12 +113,12 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         // tableタグが複数あるので、全て取得
         const tables = chartWrapprer.find('table');
 
-        tables.each((_: number, element: cheerio.Element) => {
+        tables.each((_, element) => {
             // その中のtbodyを取得
             const tbody = $(element).find('tbody');
             // tr class="ref_sche"を取得
             const trs = tbody.find('tr');
-            trs.each((__: number, trElement: cheerio.Element) => {
+            trs.each((__, trElement) => {
                 // thを取得
                 const th = $(trElement).find('th');
 
@@ -136,7 +136,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                 //   <img src="/ud_shared/pc/autorace/autorace/shared/images/ico-night3.gif?20221013111450" width = "10" height = "10" alt = "ico" class="time_ref" >
                 //   <div class="ico-kaisai">開催</div>
                 // </td>
-                tds.each((index: number, tdElement: cheerio.Element) => {
+                tds.each((index: number, tdElement) => {
                     const div = $(tdElement).find('div');
                     let grade: AutoraceGradeType | undefined;
                     // divのclassを取得
