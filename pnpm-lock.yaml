@@ -18,8 +18,8 @@ importers:
         specifier: ^8.10.151
         version: 8.10.151
       '@types/cheerio':
-        specifier: ^0.22.35
-        version: 0.22.35
+        specifier: ^1.0.0
+        version: 1.0.0
       '@types/express':
         specifier: ^5.0.3
         version: 5.0.3
@@ -1110,8 +1110,9 @@ packages:
   '@types/body-parser@1.19.6':
     resolution: {integrity: sha512-HLFeCYgz89uk22N5Qg3dvGvsv46B8GLvKKo1zKG4NybA8U2DiEO3w9lqGg29t/tfLRJpJ6iQxnVw4OnB7MoM9g==}
 
-  '@types/cheerio@0.22.35':
-    resolution: {integrity: sha512-yD57BchKRvTV+JD53UZ6PD8KWY5g5rvvMLRnZR3EQBCZXiDT/HR+pKpMzFGlWNhFrXlo7VPZXtKvIEwZkAWOIA==}
+  '@types/cheerio@1.0.0':
+    resolution: {integrity: sha512-zAaImHWoh5RY2CLgU2mvg3bl2k3F65B0N5yphuII3ythFLPmJhL7sj1RDu6gSxcgqHlETbr/lhA2OBY+WF1fXQ==}
+    deprecated: This is a stub types definition. cheerio provides its own type definitions, so you do not need this installed.
 
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
@@ -5228,9 +5229,9 @@ snapshots:
       '@types/connect': 3.4.38
       '@types/node': 24.0.15
 
-  '@types/cheerio@0.22.35':
+  '@types/cheerio@1.0.0':
     dependencies:
-      '@types/node': 24.0.15
+      cheerio: 1.1.0
 
   '@types/connect@3.4.38':
     dependencies:
