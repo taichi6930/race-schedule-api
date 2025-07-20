@@ -180,7 +180,7 @@ export const KeirinStageMap: Record<string, KeirinRaceStage> = {
     'Ａ級特選': 'A級特選',
     'Ｓ級選抜': 'S級選抜',
     'Ｓ級一般': 'S級一般',
-    'Ａ級一般': "A級一般",
+    'Ａ級一般': 'A級一般',
     'Ｓ級特秀': 'S級特別優秀',
     'Ｓ級優秀': 'S級優秀',
     'Ｓ級決勝': 'S級決勝',
