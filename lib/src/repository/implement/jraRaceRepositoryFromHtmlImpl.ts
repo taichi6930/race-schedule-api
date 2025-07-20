@@ -66,7 +66,7 @@ export class JraRaceRepositoryFromHtmlImpl
             const doc = $(`#raceInfo`);
             const table = doc.find('table');
 
-            table.each((i: number, tableElem: cheerio.Element) => {
+            table.each((i: number, tableElem) => {
                 // theadタグを取得
                 const thead = $(tableElem).find('thead');
 
@@ -99,24 +99,38 @@ export class JraRaceRepositoryFromHtmlImpl
                 $(tableElem)
                     .find('tbody')
                     .find('tr')
-                    .each((_: number, elem: cheerio.Element) => {
+                    .each((_: number, elem) => {
                         const element = $(elem);
                         // レース番号を取得
-                        const raceNumber = this.extractRaceNumber(element);
+                        const [raceNumAndTime] = element
+                            .find('td')
+                            .eq(0)
+                            .text()
+                            .split(' ');
+                        const raceNumber =
+                            this.extractRaceNumber(raceNumAndTime);
                         // レース距離を取得
-                        const raceDistance = this.extractRaceDistance(element);
+                        // tdの2つ目の要素からレース距離を取得
+                        const distanceMatch = /\d+m/.exec(
+                            element.find('td').eq(1).find('span').eq(1).text(),
+                        );
+                        const raceDistance =
+                            this.extractRaceDistance(distanceMatch);
                         // レース距離が取得できない場合はreturn
                         if (raceDistance === null) {
                             return;
                         }
                         // レース時間を取得
                         const raceDateTime: Date = this.extractRaceTime(
-                            element,
+                            raceNumAndTime,
                             raceDate,
                         );
                         // surfaceTypeを取得
+                        const surfaceTypeMatch = /[ダ芝障]{1,2}/.exec(
+                            element.find('td').eq(1).find('span').eq(1).text(),
+                        );
                         const raceSurfaceType =
-                            this.extractSurfaceType(element);
+                            this.extractSurfaceType(surfaceTypeMatch);
                         if (raceSurfaceType === null) {
                             return;
                         }
@@ -142,9 +156,15 @@ export class JraRaceRepositoryFromHtmlImpl
                             .replace('サラ系', '');
 
                         // レースのグレードを取得
+                        const tbodyTrTdElement1 = element
+                            .find('td')
+                            .eq(1)
+                            .find('span')
+                            .eq(0)
+                            .text();
                         const [raceGrade, _raceName] =
                             this.extractRaceGradeAndRaceName(
-                                element,
+                                tbodyTrTdElement1,
                                 raceSurfaceType,
                                 rowRaceName,
                             );
@@ -228,10 +248,9 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * レース番号を取得
-     * @param element
+     * @param raceNumAndTime
      */
-    private readonly extractRaceNumber = (element: cheerio.Cheerio): number => {
-        const [raceNumAndTime] = element.find('td').eq(0).text().split(' ');
+    private readonly extractRaceNumber = (raceNumAndTime: string): number => {
         // tdの最初の要素からレース番号を取得 raceNumAndTimeのxRとなっているxを取得
         const raceNum: number = Number.parseInt(raceNumAndTime.split('R')[0]);
         return raceNum;
@@ -239,15 +258,11 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * レース距離を取得
-     * @param element
+     * @param distanceMatch
      */
     private readonly extractRaceDistance = (
-        element: cheerio.Cheerio,
+        distanceMatch: RegExpExecArray | null,
     ): number | null => {
-        // tdの2つ目の要素からレース距離を取得
-        const distanceMatch = /\d+m/.exec(
-            element.find('td').eq(1).find('span').eq(1).text(),
-        );
         const distance: number | null = distanceMatch
             ? Number.parseInt(distanceMatch[0].replace('m', ''))
             : null;
@@ -256,17 +271,16 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * レース時間を取得
-     * @param element
+     * @param raceNumAndTime
      * @param date
      */
     private readonly extractRaceTime = (
-        element: cheerio.Cheerio,
+        raceNumAndTime: string,
         date: Date,
     ): Date => {
         // tdが3つある
         // 1つ目はレース番号とレース開始時間
         // hh:mmの形式で取得
-        const [raceNumAndTime] = element.find('td').eq(0).text().split(' ');
         // tdの最初の要素からレース開始時間を取得 raceNumAndTimeのhh:mmを取得
         const [, raceTime] = raceNumAndTime.split('R');
         // hh:mmの形式からhhとmmを取得
@@ -284,14 +298,11 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * surfaceType
-     * @param element
+     * @param surfaceTypeMatch
      */
     private readonly extractSurfaceType = (
-        element: cheerio.Cheerio,
+        surfaceTypeMatch: RegExpExecArray | null,
     ): JraRaceCourseType | null => {
-        const surfaceTypeMatch = /[ダ芝障]{1,2}/.exec(
-            element.find('td').eq(1).find('span').eq(1).text(),
-        );
         // ダ である場合には ダート に、障 である場合には 障害 に変換する
         const surfaceType: string = (surfaceTypeMatch?.[0] ?? '')
             .replace('ダ', 'ダート')
@@ -308,12 +319,12 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * レースグレードを取得
-     * @param element
+     * @param tbodyTrTdElement1
      * @param raceSurfaceType
      * @param rowRaceName
      */
     private readonly extractRaceGradeAndRaceName = (
-        element: cheerio.Cheerio,
+        tbodyTrTdElement1: string,
         raceSurfaceType: JraRaceCourseType,
         rowRaceName: string,
     ): [JraGradeType, string] => {
@@ -337,12 +348,7 @@ export class JraRaceRepositoryFromHtmlImpl
         }
         if (raceGrade === null) {
             // 2つあるspanのうち1つ目にレースの格が入っているので、それを取得
-            const tbodyTrTdElement1 = element
-                .find('td')
-                .eq(1)
-                .find('span')
-                .eq(0)
-                .text();
+
             if (tbodyTrTdElement1.includes('オープン')) {
                 raceGrade = 'オープン特別';
             }
