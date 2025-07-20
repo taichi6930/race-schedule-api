@@ -107,13 +107,13 @@ export class NarPlaceRepositoryFromHtmlImpl
         const trs = tbody.find('tr');
         const narPlaceDataDict: Record<string, number[]> = {};
 
-        trs.each((index: number, element: cheerio.Element) => {
+        trs.each((index: number, element) => {
             if (index < 2) {
                 return;
             }
             const tds = $(element).find('td');
             const place = $(tds[0]).text();
-            tds.each((tdIndex: number, tdElement: cheerio.Element) => {
+            tds.each((tdIndex: number, tdElement) => {
                 if (tdIndex === 0) {
                     if (!(place in narPlaceDataDict)) {
                         narPlaceDataDict[place] = [];
