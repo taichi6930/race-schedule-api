@@ -15,28 +15,14 @@ import { NarPlaceRepositoryFromStorageImpl } from '../../src/repository/implemen
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
-if (ENV === allowedEnvs.local) {
-    container.register<IPlaceRepository<NarPlaceEntity>>(
-        'NarPlaceRepositoryFromStorage',
-        { useClass: NarPlaceRepositoryFromSqliteImpl },
-    );
-} else {
-    container.register<IPlaceRepository<NarPlaceEntity>>(
-        'NarPlaceRepositoryFromStorage',
-        { useClass: NarPlaceRepositoryFromStorageImpl },
-    );
-}
-if (ENV === allowedEnvs.local) {
-    container.register<IPlaceRepository<JraPlaceEntity>>(
-        'JraPlaceRepositoryFromStorage',
-        { useClass: JraPlaceRepositoryFromSqliteImpl },
-    );
-} else {
-    container.register<IPlaceRepository<JraPlaceEntity>>(
-        'JraPlaceRepositoryFromStorage',
-        { useClass: JraPlaceRepositoryFromStorageImpl },
-    );
-}
+container.register<IPlaceRepository<NarPlaceEntity>>(
+    'NarPlaceRepositoryFromStorage',
+    { useClass: NarPlaceRepositoryFromStorageImpl },
+);
+container.register<IPlaceRepository<JraPlaceEntity>>(
+    'JraPlaceRepositoryFromStorage',
+    { useClass: JraPlaceRepositoryFromStorageImpl },
+);
 container.register<IPlaceRepository<KeirinPlaceEntity>>(
     'KeirinPlaceRepositoryFromStorage',
     { useClass: KeirinPlaceRepositoryFromStorageImpl },

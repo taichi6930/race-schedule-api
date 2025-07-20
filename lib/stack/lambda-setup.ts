@@ -30,6 +30,7 @@ export function createLambdaFunction(
                 GOOGLE_PRIVATE_KEY: (
                     process.env.GOOGLE_PRIVATE_KEY ?? ''
                 ).replace(/\\n/g, '\n'),
+                IS_HTML_FETCH_ENABLED: process.env.IS_HTML_FETCH_ENABLED ?? 'false',
             },
             timeout: Duration.seconds(90),
             memorySize: 1024,

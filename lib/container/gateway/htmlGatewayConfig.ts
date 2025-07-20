@@ -136,10 +136,10 @@ container.register<IJraRaceDataHtmlGateway>('JraRaceDataHtmlGateway', {
 container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case allowedEnvs.production: {
+            case allowedEnvs.production:
+            case allowedEnvs.local: {
                 return new JraPlaceDataHtmlGateway();
             }
-            case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.test:

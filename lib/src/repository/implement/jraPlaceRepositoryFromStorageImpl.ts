@@ -45,7 +45,6 @@ export class JraPlaceRepositoryFromStorageImpl
                 placeEntity.placeData.dateTime >= searchFilter.startDate &&
                 placeEntity.placeData.dateTime <= searchFilter.finishDate,
         );
-
         return filteredPlaceEntityList;
     }
 
