@@ -151,10 +151,37 @@ export const KeirinRaceGradeAndStageList: {
         priority: 7,
         description: 'GⅡの準決勝レース。決勝進出を目指す重要なレース。',
     },
-    // { grade: ['GⅡ'], stage: 'S級毘沙門天賞', priority: 8 },
-    // { grade: ['GⅡ'], stage: 'S級二次予選', priority: 4 },
-    // { grade: ['GⅡ'], stage: 'S級一次予選', priority: 2 },
-    // { grade: ['GⅡ'], stage: 'S級特別選抜予選', priority: 7 },
+    {
+        grade: ['GⅡ'],
+        stage: 'S級毘沙門天賞',
+        stageByOddspark: 'Ｓ級毘沙門',
+        priority: 8,
+        description:
+            'GⅡウィナーズカップのシードレース。準決勝のシード選手が出場する特別なレース。',
+    },
+    { grade: ['GⅡ'], stage: 'S級二次予選',
+        stageByOddspark: 'Ｓ級二予',
+        priority: 4,
+        description:
+            'GⅡの二次予選レース。選手たちが決勝進出を目指して競い合う。',
+    },
+    {
+        grade: ['GⅡ'],
+        stage: 'S級一次予選',
+        stageByOddspark: 'Ｓ級一予戦',
+        priority: 2,
+        description:
+            'GⅡの一次予選レース。選手たちが決勝進出を目指して競い合う。',
+    },
+
+    {
+        grade: ['GⅡ'],
+        stage: 'S級特別選抜予選',
+        stageByOddspark: 'Ｓ級特選予',
+        priority: 7,
+        description:
+            'GⅡ初日の特別選抜予選レース。特別な選手たちが出場し、2日目のシードレースを決定する重要なレース。',
+    },
     {
         grade: ['GⅢ'],
         stage: 'S級決勝',
@@ -227,7 +254,6 @@ const KeirinRaceStageList = new Set([
     'S級ドリームレース',
     'S級オリオン賞',
     'S級ダイヤモンドレース',
-    'S級毘沙門天賞',
     'S級準決勝',
     'S級特選',
     'A級特選',
@@ -317,8 +343,8 @@ export const KeirinStageMap: Record<string, KeirinRaceStage> = {
 
     'Ｓ級ＳＴＲ': 'S級スタールビー賞',
     'Ｓ級ＤＭＤ': 'S級ダイヤモンドレース',
-    'Ｓ級毘沙門': 'S級毘沙門天賞',
     'Ｓ級一予': 'S級一次予選',
+    'Ｓ級一予戦': 'S級一次予選',
     'Ｓ級一予1': 'S級一次予選',
     'Ｓ級一予2': 'S級一次予選',
     'Ｓ級特選予': 'S級特別選抜予選',
