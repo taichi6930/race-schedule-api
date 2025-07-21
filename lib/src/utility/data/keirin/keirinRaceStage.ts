@@ -19,6 +19,13 @@ export const KeirinRaceGradeAndStageList: {
         priority: 10,
         description: '競輪の最高峰レース。SS級選手が集結し、年間の頂点を決める。',
     },
+    {
+        grade: ['GP'],
+        stage: 'L級ガールズグランプリ',
+        stageByOddspark: 'Ｌ級ＧＧＰ',
+        priority: 10,
+        description: '女子競輪の最高峰レース。L級ガールズ選手が集結し、年間の頂点を決める。',
+    },
 ];
 
 /**
@@ -37,7 +44,6 @@ export type KeirinRaceStage = z.infer<typeof KeirinRaceStageSchema>;
  * 競輪のステージ リスト
  */
 const KeirinRaceStageList = new Set([
-    'L級ガールズグランプリ',
     'SA混合ヤンググランプリ',
     'S級一次予選',
     'S級二次予選',
@@ -107,8 +113,6 @@ export const KeirinSpecifiedGradeAndStageList: {
     stage: KeirinRaceStage;
     priority: number;
 }[] = [
-    { grade: 'GP', stage: 'L級ガールズグランプリ', priority: 10 },
-
     { grade: 'GⅠ', stage: 'S級決勝', priority: 9 },
     { grade: 'GⅠ', stage: 'S級準決勝', priority: 8 },
     { grade: 'GⅠ', stage: 'S級特別選抜予選', priority: 8 },
@@ -198,7 +202,6 @@ const KeirinStageByOddsparkMap: Record<string, KeirinRaceStage> = Object.fromEnt
 export const KeirinStageMap: Record<string, KeirinRaceStage> = {
     ...KeirinStageByOddsparkMap,
     ...{
-        'Ｌ級ＧＧＰ': 'L級ガールズグランプリ',
         'ＳＡ混合ＹＧＰ': 'SA混合ヤンググランプリ',
         'Ｓ級ＳＴＲ': 'S級スタールビー賞',
         'Ｓ級ＤＭＤ': 'S級ダイヤモンドレース',
