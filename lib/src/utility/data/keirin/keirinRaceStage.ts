@@ -69,8 +69,22 @@ export const KeirinRaceGradeAndStageList: {
     // { grade: ['GⅠ'], stage: 'S級スタールビー賞', priority: 8 },
     // { grade: ['GⅠ'], stage: 'S級白虎賞', priority: 8 },
     // { grade: ['GⅠ'], stage: 'S級青龍賞', priority: 8 },
-    // { grade: ['GⅠ'], stage: 'S級西日本準決勝', priority: 8 },
-    // { grade: ['GⅠ'], stage: 'S級東日本準決勝', priority: 8 },
+    {
+        grade: ['GⅠ'],
+        stage: 'S級西日本準決勝',
+        stageByOddspark: 'Ｓ級西準決',
+        priority: 8,
+        description:
+            'GⅠ高松宮記念杯競輪の西日本準決勝。西日本地区の選手が集結し、決勝進出を目指す重要なレース。',
+    },
+    {
+        grade: ['GⅠ'],
+        stage: 'S級東日本準決勝',
+        stageByOddspark: 'Ｓ級東準決',
+        priority: 8,
+        description:
+            'GⅠ高松宮記念杯競輪の東日本準決勝。東日本地区の選手が集結し、決勝進出を目指す重要なレース。',
+    },
     // { grade: ['GⅠ'], stage: 'S級西日本特別選抜予選', priority: 8 },
     // { grade: ['GⅠ'], stage: 'S級東日本特別選抜予選', priority: 8 },
     // { grade: ['GⅠ'], stage: 'S級日本競輪選手会理事長杯', priority: 8 },
