@@ -8,14 +8,14 @@ import type { KeirinGradeType } from './keirinGradeType';
 export const KeirinRaceGradeAndStageList: {
     grade: KeirinGradeType[];
     stage: KeirinRaceStage;
-    stageByOddspark: string;
+    stageByOddspark: string[];
     priority: number;
     description: string;
 }[] = [
     {
         grade: ['GP'],
         stage: 'S級グランプリ',
-        stageByOddspark: 'Ｓ級ＧＰ',
+        stageByOddspark: ['Ｓ級ＧＰ'],
         priority: 10,
         description:
             '競輪の最高峰レース。SS級選手が集結し、年間の頂点を決める。',
@@ -23,7 +23,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GP'],
         stage: 'L級ガールズグランプリ',
-        stageByOddspark: 'Ｌ級ＧＧＰ',
+        stageByOddspark: ['Ｌ級ＧＧＰ'],
         priority: 10,
         description:
             '女子競輪の最高峰レース。L級ガールズ選手が集結し、年間の頂点を決める。',
@@ -31,7 +31,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅡ'],
         stage: 'SA混合ヤンググランプリ',
-        stageByOddspark: 'ＳＡ混合ＹＧＰ',
+        stageByOddspark: ['ＳＡ混合ＹＧＰ'],
         priority: 8,
         description:
             'GⅡレースの若手のグランプリ。若手選手が集結し、将来を担う選手を発掘するレース。',
@@ -39,7 +39,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅡ'],
         stage: 'S級アルタイル賞',
-        stageByOddspark: 'Ｓ級ＡＬＴ',
+        stageByOddspark: ['Ｓ級ＡＬＴ'],
         priority: 8,
         description:
             'GⅡレース・サマーナイトフェスティバルの2日目に行われるレース。準決勝のシード選手が出場する特別なレース。',
@@ -47,7 +47,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅠ'],
         stage: 'S級決勝',
-        stageByOddspark: 'Ｓ級決勝',
+        stageByOddspark: ['Ｓ級決勝'],
         priority: 9,
         description:
             'GⅠの最終日に行われる決勝レース。優勝すると、その年のグランプリ出場権を得る。',
@@ -55,7 +55,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅠ'],
         stage: 'S級準決勝',
-        stageByOddspark: 'Ｓ級準決勝',
+        stageByOddspark: ['Ｓ級準決勝'],
         priority: 8,
         description: 'GⅠの準決勝レース。決勝進出を目指す重要なレース。',
     },
@@ -66,7 +66,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅠ'],
         stage: 'S級ドリームレース',
-        stageByOddspark: 'Ｓ級ＤＲＭ',
+        stageByOddspark: ['Ｓ級ＤＲＭ'],
         priority: 8,
         description:
             'GⅠオールスター競輪の特別なレース。ファン投票で選ばれたトップ9選手が出場する特別なレース。',
@@ -74,7 +74,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅠ'],
         stage: 'S級オリオン賞',
-        stageByOddspark: 'Ｓ級ＯＲＩ',
+        stageByOddspark: ['Ｓ級ＯＲＩ'],
         priority: 8,
         description:
             'GⅠオールスター競輪の特別なレース。ファン投票で選ばれたトップ選手が出場する特別なレース。',
@@ -82,7 +82,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅠ'],
         stage: 'S級シャイニングスター賞',
-        stageByOddspark: 'Ｓ級シャイ',
+        stageByOddspark: ['Ｓ級シャイ'],
         priority: 8,
         description:
             'GⅠオールスター競輪の特別なレース。準決勝のシード選手が出場する特別なレース。',
@@ -91,7 +91,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅠ'],
         stage: 'S級白虎賞',
-        stageByOddspark: 'Ｓ級白虎賞',
+        stageByOddspark: ['Ｓ級白虎賞'],
         priority: 8,
         description:
             'GⅠ高松宮記念杯競輪の西日本のシードレース。準決勝のシード選手が出場する特別なレース。',
@@ -99,7 +99,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅠ'],
         stage: 'S級青龍賞',
-        stageByOddspark: 'Ｓ級青龍賞',
+        stageByOddspark: ['Ｓ級青龍賞'],
         priority: 8,
         description:
             'GⅠ高松宮記念杯競輪の東日本のシードレース。準決勝のシード選手が出場する特別なレース。',
@@ -107,7 +107,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅠ'],
         stage: 'S級西日本準決勝',
-        stageByOddspark: 'Ｓ級西準決',
+        stageByOddspark: ['Ｓ級西準決'],
         priority: 8,
         description:
             'GⅠ高松宮記念杯競輪の西日本準決勝。西日本地区の選手が集結し、決勝進出を目指す重要なレース。',
@@ -115,7 +115,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅠ'],
         stage: 'S級東日本準決勝',
-        stageByOddspark: 'Ｓ級東準決',
+        stageByOddspark: ['Ｓ級東準決'],
         priority: 8,
         description:
             'GⅠ高松宮記念杯競輪の東日本準決勝。東日本地区の選手が集結し、決勝進出を目指す重要なレース。',
@@ -139,7 +139,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅡ'],
         stage: 'S級決勝',
-        stageByOddspark: 'Ｓ級決勝',
+        stageByOddspark: ['Ｓ級決勝'],
         priority: 8,
         description:
             'GⅡの最終日に行われる決勝レース。高額賞金が用意され、競輪の中でも重要なレースの一つ。',
@@ -147,20 +147,20 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅡ'],
         stage: 'S級準決勝',
-        stageByOddspark: 'Ｓ級準決勝',
+        stageByOddspark: ['Ｓ級準決勝'],
         priority: 7,
         description: 'GⅡの準決勝レース。決勝進出を目指す重要なレース。',
     },
     {
         grade: ['GⅡ'],
         stage: 'S級毘沙門天賞',
-        stageByOddspark: 'Ｓ級毘沙門',
+        stageByOddspark: ['Ｓ級毘沙門'],
         priority: 8,
         description:
             'GⅡウィナーズカップのシードレース。準決勝のシード選手が出場する特別なレース。',
     },
     { grade: ['GⅡ'], stage: 'S級二次予選',
-        stageByOddspark: 'Ｓ級二予',
+        stageByOddspark: ['Ｓ級二予'],
         priority: 4,
         description:
             'GⅡの二次予選レース。選手たちが決勝進出を目指して競い合う。',
@@ -168,7 +168,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅡ'],
         stage: 'S級一次予選',
-        stageByOddspark: 'Ｓ級一予戦',
+        stageByOddspark: ['Ｓ級一予戦'],
         priority: 2,
         description:
             'GⅡの一次予選レース。選手たちが決勝進出を目指して競い合う。',
@@ -177,7 +177,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅡ'],
         stage: 'S級特別選抜予選',
-        stageByOddspark: 'Ｓ級特選予',
+        stageByOddspark: ['Ｓ級特選予'],
         priority: 7,
         description:
             'GⅡ初日の特別選抜予選レース。特別な選手たちが出場し、2日目のシードレースを決定する重要なレース。',
@@ -185,7 +185,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅢ'],
         stage: 'S級決勝',
-        stageByOddspark: 'Ｓ級決勝',
+        stageByOddspark: ['Ｓ級決勝'    ],
         priority: 8,
         description:
             'GⅢの最終日に行われる決勝レース。そこそこ賞金が高く、競輪の中でも重要なレースの一つ。',
@@ -193,7 +193,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['GⅢ'],
         stage: 'S級準決勝',
-        stageByOddspark: 'Ｓ級準決勝',
+        stageByOddspark: ['Ｓ級準決勝'],
         priority: 5,
         description: 'GⅢの準決勝レース。決勝進出を目指す重要なレース。',
     },
@@ -204,7 +204,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['FⅠ'],
         stage: 'S級決勝',
-        stageByOddspark: 'Ｓ級決勝',
+        stageByOddspark: ['Ｓ級決勝'],
         priority: 4,
         description:
             'FⅠの最終日に行われる決勝レース。ウィナーズカップの出場権に近づく。',
@@ -212,7 +212,7 @@ export const KeirinRaceGradeAndStageList: {
     {
         grade: ['FⅠ'],
         stage: 'S級準決勝',
-        stageByOddspark: 'Ｓ級準決勝',
+        stageByOddspark: ['Ｓ級準決勝'],
         priority: 3,
         description: 'FⅠの準決勝レース。決勝進出を目指す重要なレース。',
     },
@@ -302,7 +302,7 @@ const KeirinRaceStageList = new Set([
 export const KeirinSpecifiedGradeAndStageList: {
     grade: KeirinGradeType[];
     stage: KeirinRaceStage;
-    stageByOddspark: string;
+    stageByOddspark: string[];
     priority: number;
     description: string;
 }[] =
@@ -329,10 +329,12 @@ export const validateKeirinRaceStage = (stage: string): KeirinRaceStage =>
  */
 const KeirinStageByOddsparkMap: Record<string, KeirinRaceStage> =
     Object.fromEntries(
-        KeirinRaceGradeAndStageList.map((item) => [
-            item.stageByOddspark,
-            item.stage,
-        ]),
+        KeirinRaceGradeAndStageList.flatMap((item) =>
+            item.stageByOddspark.map((stageByOddspark) => [
+                stageByOddspark,
+                item.stage,
+            ]),
+        ),
     );
 
 /**
@@ -340,7 +342,6 @@ const KeirinStageByOddsparkMap: Record<string, KeirinRaceStage> =
  */
 export const KeirinStageMap: Record<string, KeirinRaceStage> = {
     ...KeirinStageByOddsparkMap,
-
     'Ｓ級ＳＴＲ': 'S級スタールビー賞',
     'Ｓ級ＤＭＤ': 'S級ダイヤモンドレース',
     'Ｓ級一予': 'S級一次予選',
