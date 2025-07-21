@@ -33,6 +33,12 @@ export const KeirinRaceGradeAndStageList: {
         priority: 8,
         description: 'GⅡレースの若手のグランプリ。若手選手が集結し、将来を担う選手を発掘するレース。',
     },
+    { grade: ['GⅡ'],
+        stage: 'S級アルタイル賞',
+        stageByOddspark: 'Ｓ級ＡＬＴ',
+        priority: 8,
+        description: 'GⅡレース・サマーナイトフェスティバルの2日目に行われるレース。準決勝のシード選手が出場する特別なレース。',
+    },
 ];
 
 /**
@@ -63,7 +69,6 @@ const KeirinRaceStageList = new Set([
     'S級オリオン賞',
     'S級ダイヤモンドレース',
     'S級シャイニングスター賞',
-    'S級アルタイル賞',
     'S級毘沙門天賞',
     'S級準決勝',
     'S級特選',
@@ -152,7 +157,6 @@ export const KeirinSpecifiedGradeAndStageList: {
 
     { grade: 'GⅡ', stage: 'S級毘沙門天賞', priority: 8 },
     { grade: 'GⅡ', stage: 'S級決勝', priority: 8 },
-    { grade: 'GⅡ', stage: 'S級アルタイル賞', priority: 8 },
     { grade: 'GⅡ', stage: 'S級準決勝', priority: 7 },
     { grade: 'GⅡ', stage: 'S級二次予選', priority: 4 },
     { grade: 'GⅡ', stage: 'S級一次予選', priority: 2 },
@@ -210,7 +214,6 @@ export const KeirinStageMap: Record<string, KeirinRaceStage> = {
         'Ｓ級ＳＴＲ': 'S級スタールビー賞',
         'Ｓ級ＤＭＤ': 'S級ダイヤモンドレース',
         'Ｓ級シャイ': 'S級シャイニングスター賞',
-        'Ｓ級ＡＬＴ': 'S級アルタイル賞',
         'Ｓ級毘沙門': 'S級毘沙門天賞',
         'Ｓ級一予': 'S級一次予選',
         'Ｓ級一予1': 'S級一次予選',
