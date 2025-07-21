@@ -52,6 +52,12 @@ export const KeirinRaceGradeAndStageList: {
         description:
             'GⅠの最終日に行われる決勝レース。優勝すると、その年のグランプリ出場権を得る。',
     },
+    {
+        grade: ['GⅠ'],
+        stage: 'S級準決勝',
+        stageByOddspark: 'Ｓ級準決勝',
+        priority: 8,
+        description: 'GⅠの準決勝レース。決勝進出を目指す重要なレース。',
     },
     // { grade: ['GⅠ'], stage: 'S級特別選抜予選', priority: 8 },
     // { grade: ['GⅠ'], stage: 'S級初日特別選抜', priority: 8 },
@@ -89,9 +95,14 @@ export const KeirinRaceGradeAndStageList: {
         description:
             'GⅡの最終日に行われる決勝レース。高額賞金が用意され、競輪の中でも重要なレースの一つ。',
     },
+    {
+        grade: ['GⅡ'],
+        stage: 'S級準決勝',
+        stageByOddspark: 'Ｓ級準決勝',
+        priority: 7,
+        description: 'GⅡの準決勝レース。決勝進出を目指す重要なレース。',
     },
     // { grade: ['GⅡ'], stage: 'S級毘沙門天賞', priority: 8 },
-    // { grade: ['GⅡ'], stage: 'S級準決勝', priority: 7 },
     // { grade: ['GⅡ'], stage: 'S級二次予選', priority: 4 },
     // { grade: ['GⅡ'], stage: 'S級一次予選', priority: 2 },
     // { grade: ['GⅡ'], stage: 'S級特別選抜予選', priority: 7 },
@@ -103,8 +114,13 @@ export const KeirinRaceGradeAndStageList: {
         description:
             'GⅢの最終日に行われる決勝レース。そこそこ賞金が高く、競輪の中でも重要なレースの一つ。',
     },
+    {
+        grade: ['GⅢ'],
+        stage: 'S級準決勝',
+        stageByOddspark: 'Ｓ級準決勝',
+        priority: 5,
+        description: 'GⅢの準決勝レース。決勝進出を目指す重要なレース。',
     },
-    // { grade: ['GⅢ'], stage: 'S級準決勝', priority: 5 },
     // { grade: ['GⅢ'], stage: 'S級二次予選', priority: 3 },
     // { grade: ['GⅢ'], stage: 'S級一次予選', priority: 1 },
     // { grade: ['GⅢ'], stage: 'S級初日特別選抜', priority: 6 },
@@ -117,8 +133,13 @@ export const KeirinRaceGradeAndStageList: {
         description:
             'FⅠの最終日に行われる決勝レース。ウィナーズカップの出場権に近づく。',
     },
+    {
+        grade: ['FⅠ'],
+        stage: 'S級準決勝',
+        stageByOddspark: 'Ｓ級準決勝',
+        priority: 3,
+        description: 'FⅠの準決勝レース。決勝進出を目指す重要なレース。',
     },
-    // { grade: ['FⅠ'], stage: 'S級準決勝', priority: 3 },
     // { grade: ['FⅠ'], stage: 'S級予選', priority: 1 },
     // { grade: ['FⅠ'], stage: 'S級初日特別選抜', priority: 1 },
 
