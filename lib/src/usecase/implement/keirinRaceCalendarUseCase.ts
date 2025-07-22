@@ -10,7 +10,7 @@ import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
-import { KeirinSpecifiedGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
+import { KeirinRaceGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/sqlite';
@@ -130,7 +130,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                 );
 
                 const racePriority: number =
-                    KeirinSpecifiedGradeAndStageList.find((raceGradeList) => {
+                    KeirinRaceGradeAndStageList.find((raceGradeList) => {
                         return (
                             displayGradeList.includes(
                                 raceEntity.raceData.grade,
