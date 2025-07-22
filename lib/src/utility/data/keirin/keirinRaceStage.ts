@@ -586,10 +586,9 @@ export const validateKeirinRaceStage = (stage: string): KeirinRaceStage =>
     KeirinRaceStageSchema.parse(stage);
 
 /**
- * KeirinRaceGradeAndStageListのstageByOddsparkとstageのマッピング
- * stageByOddsparkをキー、stageを値とするマップ
+ * HTML表記・oddspark表記の両方をカバーする競輪ステージ名マップ
  */
-const KeirinStageByOddsparkMap: Record<string, KeirinRaceStage> =
+export const KeirinStageMap: Record<string, KeirinRaceStage> =
     Object.fromEntries(
         KeirinRaceGradeAndStageList.flatMap((item) =>
             item.stageByOddspark.map((stageByOddspark) => [
@@ -598,10 +597,3 @@ const KeirinStageByOddsparkMap: Record<string, KeirinRaceStage> =
             ]),
         ),
     );
-
-/**
- * HTML表記・oddspark表記の両方をカバーする競輪ステージ名マップ
- */
-export const KeirinStageMap: Record<string, KeirinRaceStage> = {
-    ...KeirinStageByOddsparkMap,
-};
