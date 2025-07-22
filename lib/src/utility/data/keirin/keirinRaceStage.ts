@@ -502,31 +502,9 @@ const KeirinRaceStageList = new Set([
     'L級ガールズ選抜',
     'L級ガールズ西日本予選',
     'L級ガールズ東日本予選',
-    'S級ダイナミックステージ',
-    'S級ワンダーステージ',
     '',
     ...KeirinRaceGradeAndStageList.map((item) => item.stage),
 ]);
-
-/**
- * 競輪の指定グレード・ステージリスト
- * KeirinRaceGradeAndStageListの内容も追加されています。
- */
-export const KeirinSpecifiedGradeAndStageList: {
-    grade: KeirinGradeType[];
-    stage: KeirinRaceStage;
-    stageByOddspark: string[];
-    priority: number;
-    description: string;
-}[] =
-    // KeirinRaceGradeAndStageListから追加（grade配列の全要素を展開）
-    KeirinRaceGradeAndStageList.flatMap((item) => ({
-        grade: item.grade,
-        stage: item.stage,
-        stageByOddspark: item.stageByOddspark,
-        priority: item.priority,
-        description: item.description,
-    }));
 
 /**
  * 競輪のステージ リスト
