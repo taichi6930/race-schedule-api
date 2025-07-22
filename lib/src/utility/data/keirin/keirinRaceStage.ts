@@ -327,10 +327,24 @@ export const KeirinRaceGradeAndStageList: {
     },
     {
         grade: ['GⅠ', 'GⅡ', 'GⅢ', 'FⅠ'],
+        stage: 'S級順位決定',
+        stageByOddspark: ['Ｓ級順位決'],
+        priority: 0,
+        description: '順位決定レース。負け戦。',
+    },
+    {
+        grade: ['GⅠ', 'GⅡ', 'GⅢ', 'FⅠ'],
         stage: 'S級特別優秀',
         stageByOddspark: ['Ｓ級特秀'],
         priority: 0,
         description: '特別優秀レース。負け戦。',
+    },
+    {
+        grade: ['GⅠ', 'GⅡ', 'GⅢ', 'FⅠ'],
+        stage: 'S級優秀',
+        stageByOddspark: ['Ｓ級優秀'],
+        priority: 0,
+        description: '優秀レース。負け戦。',
     },
     {
         grade: ['GⅠ', 'GⅡ', 'GⅢ', 'FⅠ'],
@@ -345,6 +359,29 @@ export const KeirinRaceGradeAndStageList: {
         stageByOddspark: ['Ｓ級選抜'],
         priority: 0,
         description: '選抜レース。負け戦',
+    },
+    {
+        grade: ['GⅠ', 'GⅡ', 'GⅢ', 'FⅠ'],
+        stage: 'S級特一般',
+        stageByOddspark: ['Ｓ級特一般'],
+        priority: 0,
+        description: '特一般レース。負け戦。',
+    },
+    {
+        grade: ['FⅠ'],
+        stage: 'S級特一般',
+        stageByOddspark: ['Ｓ級特一般'],
+        priority: 5,
+        description:
+            'FⅠの特別なレース。準決勝のシード選手が出場する特別なレース。',
+    },
+    {
+        grade: ['FⅠ'],
+        stage: 'S級優秀',
+        stageByOddspark: ['Ｓ級優秀'],
+        priority: 6,
+        description:
+            'FⅠの優秀レース。準決勝のシード選手が出場する特別なレース。',
     },
     {
         grade: ['GⅠ', 'GⅡ', 'GⅢ', 'FⅠ'],
@@ -536,13 +573,9 @@ export type KeirinRaceStage = z.infer<typeof KeirinRaceStageSchema>;
 /**
  * 競輪のステージ リスト
  */
-const KeirinRaceStageList = new Set([
-    'S級特一般',
-    'S級順位決定',
-    'S級優秀',
-    '',
-    ...KeirinRaceGradeAndStageList.map((item) => item.stage),
-]);
+const KeirinRaceStageList = new Set(
+    KeirinRaceGradeAndStageList.map((item) => item.stage),
+);
 
 /**
  * 競輪のステージ リスト
@@ -571,7 +604,4 @@ const KeirinStageByOddsparkMap: Record<string, KeirinRaceStage> =
  */
 export const KeirinStageMap: Record<string, KeirinRaceStage> = {
     ...KeirinStageByOddsparkMap,
-    Ｓ級特一般: 'S級特一般',
-    Ｓ級優秀: 'S級優秀',
-    Ｓ級順位決: 'S級順位決定',
 };
