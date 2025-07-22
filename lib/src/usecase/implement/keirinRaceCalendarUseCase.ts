@@ -65,16 +65,12 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                 DataLocation.Storage,
             );
 
-        const keirinPlayerList = this.playerDataService.fetchPlayerDataList(
+        const playerList = this.playerDataService.fetchPlayerDataList(
             RaceType.KEIRIN,
         );
 
         const filteredRaceEntityList: KeirinRaceEntity[] =
-            this.filterRaceEntity(
-                raceEntityList,
-                displayGradeList,
-                keirinPlayerList,
-            );
+            this.filterRaceEntity(raceEntityList, displayGradeList, playerList);
 
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
@@ -120,9 +116,9 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                     (maxPriority, playerData) => {
                         const playerPriority =
                             playerDataList.find(
-                                (keirinPlayer) =>
+                                (player) =>
                                     playerData.playerNumber ===
-                                    keirinPlayer.playerNumber,
+                                    player.playerNumber,
                             )?.priority ?? 0;
                         return Math.max(maxPriority, playerPriority);
                     },
