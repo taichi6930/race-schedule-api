@@ -135,7 +135,9 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                             displayGradeList.includes(
                                 raceEntity.raceData.grade,
                             ) &&
-                            raceGradeList.grade === raceEntity.raceData.grade &&
+                            raceGradeList.grade.includes(
+                                raceEntity.raceData.grade,
+                            ) &&
                             raceGradeList.stage === raceEntity.raceData.stage
                         );
                     })?.priority ?? 0;
