@@ -67,9 +67,9 @@ export const KeirinRaceGradeAndStageList: {
         description:
             'GⅠ初日の特別選抜予選レース。特別な選手たちが出場し、2日目のシードレースを決定する重要なレース。',
     },
-    { 
+    {
         grade: ['GⅠ'],
-        stage: 'S級ゴールデンレーサー賞', 
+        stage: 'S級ゴールデンレーサー賞',
         stageByOddspark: ['Ｓ級ＧＤＲ'],
         priority: 8,
         description:
@@ -147,28 +147,35 @@ export const KeirinRaceGradeAndStageList: {
         description:
             'GⅠ高松宮記念杯競輪の東日本準決勝。東日本地区の選手が集結し、決勝進出を目指す重要なレース。',
     },
-    { grade: ['GⅠ'], stage: 'S級日本競輪選手会理事長杯',
+    {
+        grade: ['GⅠ'],
+        stage: 'S級日本競輪選手会理事長杯',
         stageByOddspark: ['Ｓ級日競杯'],
         priority: 8,
         description:
-        'GⅠ寬仁親王牌の初日特別選抜予選レース。特別な選手たちが出場し、2日目のシードレースを決定する重要なレース。',
+            'GⅠ寬仁親王牌の初日特別選抜予選レース。特別な選手たちが出場し、2日目のシードレースを決定する重要なレース。',
     },
-    { grade: ['GⅠ'], stage: 'S級ローズカップ', 
+    {
+        grade: ['GⅠ'],
+        stage: 'S級ローズカップ',
         stageByOddspark: ['Ｓ級ローズ'],
         priority: 8,
         description:
-        'GⅠ寬仁親王杯競輪の特別なレース。準決勝のシード選手が出場する特別なレース。',
+            'GⅠ寬仁親王杯競輪の特別なレース。準決勝のシード選手が出場する特別なレース。',
     },
 
     // { grade: ['GⅠ'], stage: 'S級西日本特別選抜予選', priority: 8 },
     // { grade: ['GⅠ'], stage: 'S級東日本特別選抜予選', priority: 8 },
-    { grade: ['GⅠ'], stage: 'L級ティアラカップ',
+    {
+        grade: ['GⅠ'],
+        stage: 'L級ティアラカップ',
         stageByOddspark: ['Ｌ級ティア'],
         priority: 8,
         description:
-        'GⅠオールガールズクラシックの特別なレース。準決勝のシード選手が出場する特別なレース。',
+            'GⅠオールガールズクラシックの特別なレース。準決勝のシード選手が出場する特別なレース。',
     },
-    { grade: ['GⅠ'],
+    {
+        grade: ['GⅠ'],
         stage: 'L級ガールズ決勝',
         stageByOddspark: ['Ｌ級ガ決勝'],
         priority: 8,
@@ -297,7 +304,7 @@ export const KeirinRaceGradeAndStageList: {
         priority: 5,
         description: 'GⅢの準決勝レース。決勝進出を目指す重要なレース。',
     },
-        {
+    {
         grade: ['GⅢ'],
         stage: 'S級二次予選',
         stageByOddspark: ['Ｓ級二予戦', 'Ｓ級二予'],
@@ -342,8 +349,7 @@ export const KeirinRaceGradeAndStageList: {
         stage: 'S級予選',
         stageByOddspark: ['Ｓ級予選'],
         priority: 1,
-        description:
-            'FⅠの予選レース。選手たちが決勝進出を目指して競い合う。',
+        description: 'FⅠの予選レース。選手たちが決勝進出を目指して競い合う。',
     },
     {
         grade: ['FⅠ'],
@@ -363,8 +369,7 @@ export const KeirinRaceGradeAndStageList: {
         stage: 'L級ガールズ決勝',
         stageByOddspark: ['Ｌ級ガ決勝'],
         priority: 2,
-        description:
-            'ガールズ競輪の最終日に行われる決勝レース。',
+        description: 'ガールズ競輪の最終日に行われる決勝レース。',
     },
     {
         grade: ['GⅢ', 'FⅠ', 'FⅡ'],
