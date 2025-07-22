@@ -53,6 +53,13 @@ export const KeirinRaceGradeAndStageList: {
     },
     {
         grade: ['GⅠ'],
+        stage: 'S級準々決勝',
+        stageByOddspark: ['Ｓ級準々決', 'Ｓ級準々Ａ', 'Ｓ級準々Ｂ'],
+        priority: 8,
+        description: 'GⅠの準々決勝レース。準決勝進出を目指す重要なレース。',
+    },
+    {
+        grade: ['GⅠ'],
         stage: 'S級初日特別選抜',
         stageByOddspark: ['Ｓ級初特選'],
         priority: 8,
