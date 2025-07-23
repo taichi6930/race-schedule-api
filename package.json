@@ -70,11 +70,11 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.31.0",
-        "@swc/core": "^1.13.1",
+        "@swc/core": "^1.13.2",
         "@swc/jest": "^0.2.39",
         "@types/better-sqlite3": "^7.6.13",
         "@types/jest": "^30.0.0",
-        "@types/node": "24.0.15",
+        "@types/node": "24.1.0",
         "@types/swagger-jsdoc": "^6.0.4",
         "@types/swagger-ui-express": "^4.1.8",
         "aws-cdk": "2.1021.0",
