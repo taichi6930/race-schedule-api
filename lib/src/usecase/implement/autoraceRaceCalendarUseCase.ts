@@ -116,9 +116,9 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                     (maxPriority, playerData) => {
                         const playerPriority =
                             playerDataList.find(
-                                (autoracePlayer) =>
+                                (player) =>
                                     playerData.playerNumber ===
-                                    autoracePlayer.playerNumber,
+                                    player.playerNumber,
                             )?.priority ?? 0;
                         return Math.max(maxPriority, playerPriority);
                     },
