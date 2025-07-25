@@ -126,7 +126,10 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                 );
 
                 const racePriority: number =
-                    KeirinRaceGradeAndStageList.find((raceGradeList) => {
+                    KeirinRaceGradeAndStageList.filter(
+                        (raceGradeList) =>
+                            raceGradeList.raceType === RaceType.KEIRIN,
+                    ).find((raceGradeList) => {
                         return (
                             displayGradeList.includes(
                                 raceEntity.raceData.grade,
