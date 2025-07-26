@@ -12,7 +12,7 @@ cdk.out
 coverage
 
 # env
-*.env
+*.env*
 
 # mock
 lib/src/gateway/mockData/*

@@ -57,15 +57,26 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     @Logger
     public async uploadDataToS3(data: T[], fileName: string): Promise<void> {
         try {
-            const csvWriter = createCsvWriter({
+            if (data.length === 0) {
+                // データが空の場合は何もしない
+                return;
+            }
+            const firstRecord = data[0] as Record<string, unknown>;
+            const csvWriterUnknown = createCsvWriter({
                 path: `/tmp/${fileName}`,
-                header: Object.keys(data[0]).map((key) => ({
+                header: Object.keys(firstRecord).map((key) => ({
                     id: key,
                     title: key,
                 })),
-            });
+            }) as unknown;
 
-            await csvWriter.writeRecords(data);
+            await (
+                csvWriterUnknown as {
+                    writeRecords: (
+                        records: Record<string, unknown>[],
+                    ) => Promise<void>;
+                }
+            ).writeRecords(data as Record<string, unknown>[]);
 
             const fileContent = fs.readFileSync(`/tmp/${fileName}`);
             const params = {
@@ -77,7 +88,11 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
             const command = new PutObjectCommand(params);
             await this.s3Client.send(command);
         } catch (error: unknown) {
-            console.debug(error);
+            if (error instanceof Error) {
+                console.debug(error.message);
+            } else {
+                console.debug(String(error));
+            }
             throw new Error('ファイルのアップロードに失敗しました');
         }
     }
@@ -109,8 +124,12 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
             }
 
             return Buffer.concat(chunks).toString(); // 最後に文字列化
-        } catch (error) {
-            console.debug(error);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.debug(error.message);
+            } else {
+                console.debug(String(error));
+            }
             console.warn('ファイルが存在しません');
             return '';
         }

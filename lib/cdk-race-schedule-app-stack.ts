@@ -1,30 +1,57 @@
 import * as cdk from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import type { Construct } from 'constructs';
-import * as dotenv from 'dotenv';
+
+// StackPropsを拡張してlambdaEnvを追加
+export interface RaceScheduleAppStackProps extends cdk.StackProps {
+    lambdaEnv: Record<string, string>;
+}
 
 import { createApiGateway } from './stack/api-setup';
 import { createLambdaExecutionRole } from './stack/iam-setup';
 import { createLambdaFunction } from './stack/lambda-setup';
 
-dotenv.config({ path: './.env' });
-
 export class CdkRaceScheduleAppStack extends cdk.Stack {
-    public constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    public constructor(
+        scope: Construct,
+        id: string,
+        props: RaceScheduleAppStackProps,
+    ) {
         super(scope, id, props);
 
-        // S3バケットの参照
+        // S3バケット名を環境変数から取得
+        const s3BucketName =
+            process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket';
         const bucket = s3.Bucket.fromBucketName(
             this,
             'RaceScheduleBucket',
-            'race-schedule-bucket',
+            s3BucketName,
         );
 
         // Lambda実行に必要なIAMロールを作成
         const lambdaRole = createLambdaExecutionRole(this, bucket);
+        // Lambda関数名・CDKリソースIDをStack名（id）でユニーク化
 
-        // Lambda関数を作成
-        const lambdaFunction = createLambdaFunction(this, lambdaRole);
+        const lambdaFunctionName = props.lambdaEnv.LAMBDA_FUNCTION_NAME;
+
+        // Lambda用の環境変数オブジェクトを作成
+        // props.lambdaEnv からLambda用の環境変数を組み立てる
+        const lambdaEnv = {
+            ...props.lambdaEnv,
+            S3_BUCKET_NAME: s3BucketName,
+            GOOGLE_PRIVATE_KEY: props.lambdaEnv.GOOGLE_PRIVATE_KEY.replace(
+                /\\n/g,
+                '\n',
+            ),
+        };
+
+        // Lambda関数を作成（CDKリソースIDも同じ値を使う）
+        const lambdaFunction = createLambdaFunction(
+            this,
+            lambdaRole,
+            lambdaFunctionName,
+            lambdaEnv,
+        );
 
         // API Gatewayの設定
         const api = createApiGateway(this, lambdaFunction);
