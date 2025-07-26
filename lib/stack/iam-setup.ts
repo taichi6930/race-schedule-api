@@ -5,6 +5,7 @@ import type { Construct } from 'constructs';
 export function createLambdaExecutionRole(
     scope: Construct,
     bucket: s3.IBucket,
+    s3BucketName: string,
 ): iam.Role {
     // Lambda 実行に必要な IAM ロールを作成
     const role = new iam.Role(scope, 'LambdaExecutionRole', {
@@ -20,7 +21,10 @@ export function createLambdaExecutionRole(
                 's3:ListBucket',
                 's3:DeleteObject',
             ],
-            resources: [bucket.bucketArn + '/*', bucket.bucketArn],
+            resources: [
+                `arn:aws:s3:::${s3BucketName}`,
+                `arn:aws:s3:::${s3BucketName}/*`,
+            ],
         }),
     );
 

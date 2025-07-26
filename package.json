@@ -89,11 +89,10 @@
         "lint-staged": "^16.1.2",
         "typescript": "~5.8.3",
         "typescript-eslint": "^8.38.0"
+    },
+    "lint-staged": {
+        "*.{ts,tsx,js,jsx}": [
+            "pnpm run lint:fix"
+        ]
     }
-  ,
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "pnpm run lint:fix"
-    ]
-  }
 }

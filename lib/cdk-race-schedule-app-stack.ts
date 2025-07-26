@@ -20,8 +20,7 @@ export class CdkRaceScheduleAppStack extends cdk.Stack {
         super(scope, id, props);
 
         // S3バケット名を環境変数から取得
-        const s3BucketName =
-            process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket';
+        const s3BucketName = props.lambdaEnv.S3_BUCKET_NAME;
         const bucket = s3.Bucket.fromBucketName(
             this,
             'RaceScheduleBucket',
@@ -29,7 +28,11 @@ export class CdkRaceScheduleAppStack extends cdk.Stack {
         );
 
         // Lambda実行に必要なIAMロールを作成
-        const lambdaRole = createLambdaExecutionRole(this, bucket);
+        const lambdaRole = createLambdaExecutionRole(
+            this,
+            bucket,
+            s3BucketName,
+        );
         // Lambda関数名・CDKリソースIDをStack名（id）でユニーク化
 
         const lambdaFunctionName = props.lambdaEnv.LAMBDA_FUNCTION_NAME;
