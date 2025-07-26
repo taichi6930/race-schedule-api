@@ -14,7 +14,7 @@ describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
     let repository: KeirinPlaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
-        // gatwayのモックを作成
+        // gatewayのモックを作成
         placeDataHtmlgateway = new MockKeirinPlaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
