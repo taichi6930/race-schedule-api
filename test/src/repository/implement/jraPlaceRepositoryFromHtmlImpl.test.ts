@@ -13,7 +13,7 @@ describe('JraPlaceRepositoryFromHtmlImpl', () => {
     let repository: JraPlaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
-        // gatwayのモックを作成
+        // gatewayのモックを作成
         placeDataHtmlgateway = new MockJraPlaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
