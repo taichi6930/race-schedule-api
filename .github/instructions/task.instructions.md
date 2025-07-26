@@ -45,9 +45,6 @@ git add .
 git commit -m "作業内容を記載"
 
 git push origin feature/your-task
- 
-# マージ済みブランチのローカル削除
-git branch -d feature/your-task
 ```
 
 ---
