@@ -25,13 +25,13 @@ container.register<IS3Gateway<KeirinPlaceRecord>>('KeirinPlaceS3Gateway', {
         switch (ENV) {
             case allowedEnvs.production: {
                 return new S3Gateway<KeirinPlaceRecord>(
-                    'race-schedule-bucket',
+                    process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
                     'keirin/',
                 );
             }
             case allowedEnvs.test: {
                 return new S3Gateway<KeirinPlaceRecord>(
-                    'test-race-schedule-bucket',
+                    process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket-test',
                     'keirin/',
                 );
             }
@@ -40,7 +40,7 @@ container.register<IS3Gateway<KeirinPlaceRecord>>('KeirinPlaceS3Gateway', {
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<KeirinPlaceRecord>(
-                    'race-schedule-bucket',
+                    process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
                     'keirin/',
                 );
             }
@@ -61,7 +61,7 @@ container.register<IS3Gateway<KeirinRaceRecord>>('KeirinRaceS3Gateway', {
             }
             case allowedEnvs.test: {
                 return new S3Gateway<KeirinRaceRecord>(
-                    'test-race-schedule-bucket',
+                    'race-schedule-bucket-test',
                     'keirin/',
                 );
             }
@@ -94,7 +94,7 @@ container.register<IS3Gateway<KeirinRacePlayerRecord>>(
                 }
                 case allowedEnvs.test: {
                     return new S3Gateway<KeirinRacePlayerRecord>(
-                        'test-race-schedule-bucket',
+                        'race-schedule-bucket-test',
                         'keirin/',
                     );
                 }
@@ -128,7 +128,7 @@ container.register<IS3Gateway<NarRaceRecord>>('NarRaceS3Gateway', {
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<NarRaceRecord>(
-                    'test-race-schedule-bucket',
+                    'race-schedule-bucket-test',
                     'nar/',
                 );
             }
@@ -158,7 +158,7 @@ container.register<IS3Gateway<NarPlaceRecord>>('NarPlaceS3Gateway', {
             }
             case allowedEnvs.test: {
                 return new S3Gateway<NarPlaceRecord>(
-                    'test-race-schedule-bucket',
+                    'race-schedule-bucket-test',
                     'nar/',
                 );
             }
@@ -190,7 +190,7 @@ container.register<IS3Gateway<JraRaceRecord>>('JraRaceS3Gateway', {
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<JraRaceRecord>(
-                    'test-race-schedule-bucket',
+                    'race-schedule-bucket-test',
                     'jra/',
                 );
             }
@@ -221,7 +221,7 @@ container.register<IS3Gateway<JraPlaceRecord>>('JraPlaceS3Gateway', {
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<JraPlaceRecord>(
-                    'test-race-schedule-bucket',
+                    'race-schedule-bucket-test',
                     'jra/',
                 );
             }
@@ -253,7 +253,7 @@ container.register<IS3Gateway<WorldRaceRecord>>('WorldRaceS3Gateway', {
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<WorldRaceRecord>(
-                    'test-race-schedule-bucket',
+                    'race-schedule-bucket-test',
                     'world/',
                 );
             }
@@ -286,7 +286,7 @@ container.register<IS3Gateway<AutoraceRaceRecord>>('AutoraceRaceS3Gateway', {
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<AutoraceRaceRecord>(
-                    'test-race-schedule-bucket',
+                    'race-schedule-bucket-test',
                     'autorace/',
                 );
             }
@@ -316,7 +316,7 @@ container.register<IS3Gateway<AutoracePlaceRecord>>('AutoracePlaceS3Gateway', {
             }
             case allowedEnvs.test: {
                 return new S3Gateway<AutoracePlaceRecord>(
-                    'test-race-schedule-bucket',
+                    'race-schedule-bucket-test',
                     'autorace/',
                 );
             }
@@ -350,7 +350,7 @@ container.register<IS3Gateway<AutoraceRacePlayerRecord>>(
                 case allowedEnvs.test: {
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<AutoraceRacePlayerRecord>(
-                        'test-race-schedule-bucket',
+                        'race-schedule-bucket-test',
                         'autorace/',
                     );
                 }
@@ -381,7 +381,7 @@ container.register<IS3Gateway<BoatracePlaceRecord>>('BoatracePlaceS3Gateway', {
             }
             case allowedEnvs.test: {
                 return new S3Gateway<BoatracePlaceRecord>(
-                    'test-race-schedule-bucket',
+                    'race-schedule-bucket-test',
                     'boatrace/',
                 );
             }
@@ -413,7 +413,7 @@ container.register<IS3Gateway<BoatraceRaceRecord>>('BoatraceRaceS3Gateway', {
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<BoatraceRaceRecord>(
-                    'test-race-schedule-bucket',
+                    'race-schedule-bucket-test',
                     'boatrace/',
                 );
             }
@@ -447,7 +447,7 @@ container.register<IS3Gateway<BoatraceRacePlayerRecord>>(
                 case allowedEnvs.test: {
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<BoatraceRacePlayerRecord>(
-                        'test-race-schedule-bucket',
+                        'race-schedule-bucket-test',
                         'boatrace/',
                     );
                 }

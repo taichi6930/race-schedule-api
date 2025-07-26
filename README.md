@@ -233,12 +233,12 @@ MIT License
 
 - 本プロジェクトはGitHub Flowに準拠したブランチ運用を行います。
 - 運用フローの要点：
-  1. mainブランチは常にデプロイ可能な状態を保つ
-  2. 機能追加・修正は必ず `feature/xxxx` や `fix/xxxx` などのブランチを作成
-  3. 作業ブランチで開発し、こまめにコミット
-  4. コミット前に `pnpm run lint` を実行し、エラーが出ないことを確認
-  5. 作業ブランチをリモートにpush
-  6. Pull Request（PR）を作成し、レビュー・CIを通過後にmainへマージ
-  7. mainブランチへの直接pushは禁止（ブランチ保護ルールで強制）
+    1. mainブランチは常にデプロイ可能な状態を保つ
+    2. 機能追加・修正は必ず `feature/xxxx` や `fix/xxxx` などのブランチを作成
+    3. 作業ブランチで開発し、こまめにコミット
+    4. コミット前に `pnpm run lint` を実行し、エラーが出ないことを確認
+    5. 作業ブランチをリモートにpush
+    6. Pull Request（PR）を作成し、レビュー・CIを通過後にmainへマージ
+    7. mainブランチへの直接pushは禁止（ブランチ保護ルールで強制）
 
 - 詳細な運用手順やコマンド例は `.github/instructions/task.instructions.md` を参照してください。
