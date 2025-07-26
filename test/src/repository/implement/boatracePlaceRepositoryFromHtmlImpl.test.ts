@@ -14,7 +14,7 @@ describe('BoatracePlaceRepositoryFromHtmlImpl', () => {
     let repository: BoatracePlaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
-        // gatwayのモックを作成
+        // gatewayのモックを作成
         placeDataHtmlgateway = new MockBoatracePlaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
@@ -38,11 +38,11 @@ describe('BoatracePlaceRepositoryFromHtmlImpl', () => {
             async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
-                        new Date('2024-10-01'),
-                        new Date('2024-12-31'),
+                        new Date('2025-04-01'),
+                        new Date('2025-06-30'),
                     ),
                 );
-                expect(placeEntityList).toHaveLength(98);
+                expect(placeEntityList).toHaveLength(66);
             },
         );
     });

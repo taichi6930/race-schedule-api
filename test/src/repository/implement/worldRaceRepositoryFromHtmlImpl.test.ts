@@ -15,7 +15,7 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
     let repository: WorldRaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
-        // gatwayのモックを作成
+        // gatewayのモックを作成
         raceDataHtmlGateway = new MockWorldRaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
@@ -39,12 +39,12 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
                     new SearchRaceFilterEntity<WorldPlaceEntity>(
-                        new Date('2024-11-01'),
-                        new Date('2024-12-31'),
+                        new Date('2025-05-01'),
+                        new Date('2025-06-30'),
                         [],
                     ),
                 );
-                expect(raceEntityList).toHaveLength(20);
+                expect(raceEntityList).toHaveLength(35);
             },
         );
 
@@ -54,12 +54,12 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
                     new SearchRaceFilterEntity<WorldPlaceEntity>(
-                        new Date('2025-02-01'),
-                        new Date('2025-03-31'),
+                        new Date('2025-06-01'),
+                        new Date('2025-07-31'),
                         [],
                     ),
                 );
-                expect(raceEntityList).toHaveLength(6);
+                expect(raceEntityList).toHaveLength(30);
             },
         );
     });
