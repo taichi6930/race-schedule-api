@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { WorldRaceData } from '../domain/worldRaceData';
-import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../usecase/interface/IOldRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
     WorldGradeType,
@@ -20,7 +20,7 @@ export class WorldRaceController {
 
     public constructor(
         @inject('WorldRaceCalendarUseCase')
-        private readonly raceCalendarUseCase: IRaceCalendarUseCase,
+        private readonly raceCalendarUseCase: IOldRaceCalendarUseCase,
         @inject('WorldRaceDataUseCase')
         private readonly worldRaceDataUseCase: IRaceDataUseCase<
             WorldRaceData,

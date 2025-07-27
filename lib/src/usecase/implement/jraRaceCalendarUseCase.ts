@@ -10,13 +10,13 @@ import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 
 /**
  * Jraレースカレンダーユースケース
  */
 @injectable()
-export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
+export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('JraCalendarService')
         private readonly calendarService: ICalendarService<JraRaceEntity>,

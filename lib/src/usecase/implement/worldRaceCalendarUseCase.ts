@@ -9,13 +9,13 @@ import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 
 /**
  * Worldレースカレンダーユースケース
  */
 @injectable()
-export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
+export class WorldRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('WorldCalendarService')
         private readonly calendarService: ICalendarService<WorldRaceEntity>,

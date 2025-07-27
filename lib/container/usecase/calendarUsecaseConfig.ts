@@ -7,26 +7,26 @@ import { KeirinRaceCalendarUseCase } from '../../src/usecase/implement/keirinRac
 import { NarRaceCalendarUseCase } from '../../src/usecase/implement/narRaceCalendarUseCase';
 import { PublicGamblingCalendarUseCase } from '../../src/usecase/implement/publicGamblingCalendarUseCase';
 import { WorldRaceCalendarUseCase } from '../../src/usecase/implement/worldRaceCalendarUseCase';
-import type { IRaceCalendarUseCase } from '../../src/usecase/interface/IRaceCalendarUseCase';
+import type { IOldRaceCalendarUseCase } from '../../src/usecase/interface/IOldRaceCalendarUseCase';
 
-container.register<IRaceCalendarUseCase>('NarRaceCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('NarRaceCalendarUseCase', {
     useClass: NarRaceCalendarUseCase,
 });
-container.register<IRaceCalendarUseCase>('JraRaceCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('JraRaceCalendarUseCase', {
     useClass: JraRaceCalendarUseCase,
 });
-container.register<IRaceCalendarUseCase>('WorldRaceCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('WorldRaceCalendarUseCase', {
     useClass: WorldRaceCalendarUseCase,
 });
-container.register<IRaceCalendarUseCase>('KeirinRaceCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('KeirinRaceCalendarUseCase', {
     useClass: KeirinRaceCalendarUseCase,
 });
-container.register<IRaceCalendarUseCase>('AutoraceRaceCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('AutoraceRaceCalendarUseCase', {
     useClass: AutoraceRaceCalendarUseCase,
 });
-container.register<IRaceCalendarUseCase>('BoatraceRaceCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('BoatraceRaceCalendarUseCase', {
     useClass: BoatraceRaceCalendarUseCase,
 });
-container.register<IRaceCalendarUseCase>('PublicGamblingCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('PublicGamblingCalendarUseCase', {
     useClass: PublicGamblingCalendarUseCase,
 });

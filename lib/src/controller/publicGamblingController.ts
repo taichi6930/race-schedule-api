@@ -70,6 +70,11 @@ export class PublicGamblingController {
                           : undefined
                       : undefined;
 
+            if (!raceTypeList || raceTypeList.length === 0) {
+                res.status(400).send('raceTypeは必須です');
+                return;
+            }
+
             const races =
                 await this.publicGamblingCalendarUseCase.fetchRacesFromCalendar(
                     new Date(startDate as string),

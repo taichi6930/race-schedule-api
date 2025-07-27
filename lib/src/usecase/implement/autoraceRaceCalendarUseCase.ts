@@ -14,13 +14,13 @@ import { AutoraceSpecifiedGradeAndStageList } from '../../utility/data/autorace/
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/sqlite';
-import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 
 /**
  * Autoraceレースカレンダーユースケース
  */
 @injectable()
-export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
+export class AutoraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('AutoraceCalendarService')
         private readonly calendarService: ICalendarService<AutoraceRaceEntity>,

@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { BoatracePlaceData } from '../domain/boatracePlaceData';
 import { BoatraceRaceData } from '../domain/boatraceRaceData';
 import { IOldPlaceDataUseCase } from '../usecase/interface/IOldPlaceDataUseCase';
-import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../usecase/interface/IOldRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
     BoatraceGradeType,
@@ -23,7 +23,7 @@ export class BoatraceRaceController {
 
     public constructor(
         @inject('BoatraceRaceCalendarUseCase')
-        private readonly raceCalendarUseCase: IRaceCalendarUseCase,
+        private readonly raceCalendarUseCase: IOldRaceCalendarUseCase,
         @inject('BoatraceRaceDataUseCase')
         private readonly boatraceRaceDataUseCase: IRaceDataUseCase<
             BoatraceRaceData,

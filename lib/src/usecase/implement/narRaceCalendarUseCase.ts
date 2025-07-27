@@ -10,13 +10,13 @@ import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 
 /**
  * Narレースカレンダーユースケース
  */
 @injectable()
-export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
+export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('NarCalendarService')
         private readonly calendarService: ICalendarService<NarRaceEntity>,

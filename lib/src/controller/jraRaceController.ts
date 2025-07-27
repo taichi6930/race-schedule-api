@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { JraPlaceData } from '../domain/jraPlaceData';
 import { JraRaceData } from '../domain/jraRaceData';
 import { IOldPlaceDataUseCase } from '../usecase/interface/IOldPlaceDataUseCase';
-import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../usecase/interface/IOldRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
     JraGradeType,
@@ -22,7 +22,7 @@ export class JraRaceController {
 
     public constructor(
         @inject('JraRaceCalendarUseCase')
-        private readonly raceCalendarUseCase: IRaceCalendarUseCase,
+        private readonly raceCalendarUseCase: IOldRaceCalendarUseCase,
         @inject('JraRaceDataUseCase')
         private readonly jraRaceDataUseCase: IRaceDataUseCase<
             JraRaceData,

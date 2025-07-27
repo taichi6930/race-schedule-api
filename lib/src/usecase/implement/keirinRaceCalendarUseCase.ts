@@ -14,13 +14,13 @@ import { KeirinRaceGradeAndStageList } from '../../utility/data/keirin/keirinRac
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/sqlite';
-import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 
 /**
  * Keirinレースカレンダーユースケース
  */
 @injectable()
-export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
+export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('KeirinCalendarService')
         private readonly calendarService: ICalendarService<KeirinRaceEntity>,

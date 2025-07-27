@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { NarPlaceData } from '../domain/narPlaceData';
 import { NarRaceData } from '../domain/narRaceData';
 import { IOldPlaceDataUseCase } from '../usecase/interface/IOldPlaceDataUseCase';
-import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../usecase/interface/IOldRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
     NarGradeType,
@@ -22,7 +22,7 @@ export class NarRaceController {
 
     public constructor(
         @inject('NarRaceCalendarUseCase')
-        private readonly raceCalendarUseCase: IRaceCalendarUseCase,
+        private readonly raceCalendarUseCase: IOldRaceCalendarUseCase,
         @inject('NarRaceDataUseCase')
         private readonly narRaceDataUseCase: IRaceDataUseCase<
             NarRaceData,
