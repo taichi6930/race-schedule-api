@@ -6,7 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
@@ -23,7 +23,7 @@ import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 export class BoatraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('BoatraceCalendarService')
-        private readonly calendarService: ICalendarService<BoatraceRaceEntity>,
+        private readonly calendarService: IOldCalendarService<BoatraceRaceEntity>,
         @inject('BoatraceRaceDataService')
         private readonly raceDataService: IRaceDataService<
             BoatraceRaceEntity,

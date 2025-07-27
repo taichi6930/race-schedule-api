@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -18,7 +18,7 @@ import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 export class WorldRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('WorldCalendarService')
-        private readonly calendarService: ICalendarService<WorldRaceEntity>,
+        private readonly calendarService: IOldCalendarService<WorldRaceEntity>,
         @inject('WorldRaceDataService')
         private readonly raceDataService: IRaceDataService<
             WorldRaceEntity,

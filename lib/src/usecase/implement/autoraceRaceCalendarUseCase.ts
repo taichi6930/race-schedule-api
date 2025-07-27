@@ -6,7 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
@@ -23,7 +23,7 @@ import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 export class AutoraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('AutoraceCalendarService')
-        private readonly calendarService: ICalendarService<AutoraceRaceEntity>,
+        private readonly calendarService: IOldCalendarService<AutoraceRaceEntity>,
         @inject('AutoraceRaceDataService')
         private readonly raceDataService: IRaceDataService<
             AutoraceRaceEntity,

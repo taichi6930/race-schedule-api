@@ -6,7 +6,7 @@ import { IRaceEntity } from '../../repository/entity/iRaceEntity';
 import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';
-import { ICalendarService } from '../interface/ICalendarService';
+import { IOldCalendarService } from '../interface/IOldCalendarService';
 
 /**
  * Googleカレンダーとの連携機能を提供する基底サービスクラス
@@ -33,7 +33,7 @@ import { ICalendarService } from '../interface/ICalendarService';
  * ```
  */
 export abstract class BaseCalendarService<R extends IRaceEntity<R>>
-    implements ICalendarService<R>
+    implements IOldCalendarService<R>
 {
     protected abstract calendarRepository: ICalendarRepository<R>;
 

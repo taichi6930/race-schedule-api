@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IOldCalendarService } from '../../../../lib/src/service/interface/IOldCalendarService';
 import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { AutoraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/autoraceRaceCalendarUseCase';
@@ -19,7 +19,7 @@ import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock'
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('AutoraceRaceCalendarUseCase', () => {
-    let calendarService: jest.Mocked<ICalendarService<AutoraceRaceEntity>>;
+    let calendarService: jest.Mocked<IOldCalendarService<AutoraceRaceEntity>>;
     let raceDataService: jest.Mocked<
         IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
     >;
@@ -28,7 +28,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         calendarService = calendarServiceMock<AutoraceRaceEntity>();
-        container.registerInstance<ICalendarService<AutoraceRaceEntity>>(
+        container.registerInstance<IOldCalendarService<AutoraceRaceEntity>>(
             'AutoraceCalendarService',
             calendarService,
         );

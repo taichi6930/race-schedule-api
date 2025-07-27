@@ -11,33 +11,41 @@ import { BoatraceCalendarService } from '../../src/service/implement/boatraceCal
 import { JraCalendarService } from '../../src/service/implement/jraCalendarService';
 import { KeirinCalendarService } from '../../src/service/implement/keirinCalendarService';
 import { NarCalendarService } from '../../src/service/implement/narCalendarService';
+import { PublicGamblingCalendarService } from '../../src/service/implement/publicGamblingCalendarService';
 import { WorldCalendarService } from '../../src/service/implement/worldCalendarService';
 import type { ICalendarService } from '../../src/service/interface/ICalendarService';
+import type { IOldCalendarService } from '../../src/service/interface/IOldCalendarService';
 
-container.register<ICalendarService<NarRaceEntity>>('NarCalendarService', {
+container.register<IOldCalendarService<NarRaceEntity>>('NarCalendarService', {
     useClass: NarCalendarService,
 });
-container.register<ICalendarService<JraRaceEntity>>('JraCalendarService', {
+container.register<IOldCalendarService<JraRaceEntity>>('JraCalendarService', {
     useClass: JraCalendarService,
 });
-container.register<ICalendarService<KeirinRaceEntity>>(
+container.register<IOldCalendarService<KeirinRaceEntity>>(
     'KeirinCalendarService',
     {
         useClass: KeirinCalendarService,
     },
 );
-container.register<ICalendarService<AutoraceRaceEntity>>(
+container.register<IOldCalendarService<AutoraceRaceEntity>>(
     'AutoraceCalendarService',
     {
         useClass: AutoraceCalendarService,
     },
 );
-container.register<ICalendarService<BoatraceRaceEntity>>(
+container.register<IOldCalendarService<BoatraceRaceEntity>>(
     'BoatraceCalendarService',
     {
         useClass: BoatraceCalendarService,
     },
 );
-container.register<ICalendarService<WorldRaceEntity>>('WorldCalendarService', {
-    useClass: WorldCalendarService,
+container.register<IOldCalendarService<WorldRaceEntity>>(
+    'WorldCalendarService',
+    {
+        useClass: WorldCalendarService,
+    },
+);
+container.register<ICalendarService>('PublicGamblingCalendarService', {
+    useClass: PublicGamblingCalendarService,
 });

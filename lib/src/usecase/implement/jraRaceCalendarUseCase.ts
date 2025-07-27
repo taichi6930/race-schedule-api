@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { DataLocation } from '../../utility/dataType';
@@ -19,7 +19,7 @@ import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('JraCalendarService')
-        private readonly calendarService: ICalendarService<JraRaceEntity>,
+        private readonly calendarService: IOldCalendarService<JraRaceEntity>,
         @inject('JraRaceDataService')
         private readonly raceDataService: IRaceDataService<
             JraRaceEntity,

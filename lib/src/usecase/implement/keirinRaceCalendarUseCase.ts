@@ -6,7 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
@@ -23,7 +23,7 @@ import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('KeirinCalendarService')
-        private readonly calendarService: ICalendarService<KeirinRaceEntity>,
+        private readonly calendarService: IOldCalendarService<KeirinRaceEntity>,
         @inject('KeirinRaceDataService')
         private readonly raceDataService: IRaceDataService<
             KeirinRaceEntity,
