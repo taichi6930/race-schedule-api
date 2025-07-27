@@ -170,7 +170,7 @@ curl -X POST "http://localhost:3000/api/races/jra/race" \
 
 ```bash
 # JRA
-curl -X GET "http://localhost:3000/api/races/jra/place?startDate=2024-09-01&finishDate=2024-09-30"
+curl -X GET "http://localhost:3000/api/races/all/place?startDate=2024-09-01&finishDate=2024-09-30&raceType=jra"
 ```
 
 レスポンス例:
