@@ -17,6 +17,12 @@ sequenceDiagram
     else 日付が正
         JraRaceController->>JraRaceCalendarUseCase: updateRacesToCalendar(startDate, finishDate, gradeList)
         JraRaceCalendarUseCase->>JraRaceDataService: fetchRaceEntityList(startDate, finishDate, Storage)
+        note right of JraRaceDataService: DataLocation.StorageでJraRaceRepositoryFromStorageImplを利用
+        JraRaceDataService->>JraRaceRepositoryFromStorageImpl: fetchRaceEntityList
+        JraRaceRepositoryFromStorageImpl->>S3Gateway: fetchDataFromS3
+        S3Gateway-->>JraRaceRepositoryFromStorageImpl: CSVデータ
+        note right of JraRaceRepositoryFromStorageImpl: CSV→JraRaceRecord[]→JraRaceEntity[]変換・filter
+        JraRaceRepositoryFromStorageImpl-->>JraRaceDataService: JraRaceEntity[]
         JraRaceDataService-->>JraRaceCalendarUseCase: JraRaceEntity[]
         JraRaceCalendarUseCase->>JraCalendarService: getEvents(startDate, finishDate)
         JraCalendarService->>JraGoogleCalendarRepositoryImpl: getEvents(SearchCalendarFilterEntity)

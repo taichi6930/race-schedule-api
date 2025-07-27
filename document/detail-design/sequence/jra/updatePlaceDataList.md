@@ -4,11 +4,13 @@
 sequenceDiagram
     participant Client
     participant JraRaceController
-    participant JraPlaceDataUseCase as JraPlaceDataUseCase (implement)
-    participant JraPlaceDataService as JraPlaceDataService (implement)
-    participant JraPlaceRepositoryFromHtmlImpl as JraPlaceRepositoryFromHtmlImpl (implement)
-    participant JraPlaceRepositoryFromStorageImpl as JraPlaceRepositoryFromStorageImpl (implement)
-    participant S3Gateway as S3Gateway<JraPlaceRecord> (implement)
+    participant JraPlaceDataUseCase
+    participant JraPlaceDataService
+    participant JraPlaceRepositoryFromHtmlImpl
+    participant IJraPlaceDataHtmlGateway
+    participant Web
+    participant JraPlaceRepositoryFromStorageImpl
+    participant S3Gateway
 
     Client->>JraRaceController: POST /place (startDate, finishDate)
     JraRaceController->>JraRaceController: startDate/finishDateのバリデーション
@@ -16,12 +18,27 @@ sequenceDiagram
         JraRaceController-->>Client: 400エラー返却
     else 日付が正
         JraRaceController->>JraPlaceDataUseCase: updatePlaceDataList(startDate, finishDate)
-        JraPlaceDataUseCase->>JraPlaceDataService: fetchPlaceEntityList(startDate, finishDate, Web)
-        JraPlaceDataService->>JraPlaceRepositoryFromHtmlImpl: fetchPlaceEntityList(searchFilter)
-        JraPlaceRepositoryFromHtmlImpl-->>JraPlaceDataService: placeEntityList
+        JraPlaceDataUseCase->>JraPlaceDataUseCase: 年初・年末に日付補正
+        JraPlaceDataUseCase->>JraPlaceDataService: fetchPlaceEntityList(補正日付, Web)
+        alt DataLocation.Web
+            JraPlaceDataService->>JraPlaceRepositoryFromHtmlImpl: fetchPlaceEntityList(searchFilter)
+            loop 年ごと
+                JraPlaceRepositoryFromHtmlImpl->>IJraPlaceDataHtmlGateway: getPlaceDataHtml(年)
+                IJraPlaceDataHtmlGateway->>Web: HTML取得リクエスト
+                Web-->>IJraPlaceDataHtmlGateway: HTMLレスポンス
+                IJraPlaceDataHtmlGateway-->>JraPlaceRepositoryFromHtmlImpl: HTMLデータ
+                note right of JraPlaceRepositoryFromHtmlImpl: cheerioでHTMLパース→JraPlaceRecord[]生成
+            end
+            note right of JraPlaceRepositoryFromHtmlImpl: JraPlaceRecord[]→JraPlaceEntity[]変換・日付filter
+            JraPlaceRepositoryFromHtmlImpl-->>JraPlaceDataService: placeEntityList
+        end
         JraPlaceDataService-->>JraPlaceDataUseCase: placeEntityList
         JraPlaceDataUseCase->>JraPlaceDataService: updatePlaceEntityList(placeEntityList)
         JraPlaceDataService->>JraPlaceRepositoryFromStorageImpl: registerPlaceEntityList(placeEntityList)
+        note right of JraPlaceRepositoryFromStorageImpl: 既存データ取得
+        JraPlaceRepositoryFromStorageImpl->>S3Gateway: fetchDataFromS3
+        S3Gateway-->>JraPlaceRepositoryFromStorageImpl: CSVデータ
+        note right of JraPlaceRepositoryFromStorageImpl: JraPlaceEntity[]→JraPlaceRecord[]変換、重複上書き・新規追加
         JraPlaceRepositoryFromStorageImpl->>S3Gateway: uploadDataToS3(placeRecordList, fileName)
         S3Gateway-->>JraPlaceRepositoryFromStorageImpl: 完了
         JraPlaceRepositoryFromStorageImpl-->>JraPlaceDataService: 完了

@@ -5,16 +5,30 @@ sequenceDiagram
     participant Client
     participant JraRaceController
     participant JraRaceDataUseCase
+    participant JraPlaceDataService
     participant JraRaceDataService
+    participant JraRaceRepositoryFromHtmlImpl
+    participant IJraRaceDataHtmlGateway
+    participant Web
     participant JraRaceRepositoryFromStorageImpl
     participant S3Gateway
 
     Client->>JraRaceController: POST /race (startDate, finishDate, raceList)
-    JraRaceController->>JraRaceController: パラメータのバリデーション
-    alt 不正な入力
+    JraRaceController->>JraRaceController: パラメータバリデーション
+    alt 全て未指定
         JraRaceController-->>Client: 400エラー返却
-    else startDate/finishDate指定
+    else 日付指定
         JraRaceController->>JraRaceDataUseCase: updateRaceEntityList(startDate, finishDate)
+        JraRaceDataUseCase->>JraPlaceDataService: fetchPlaceEntityList(startDate, finishDate, Storage)
+        JraPlaceDataService-->>JraRaceDataUseCase: placeEntityList
+        JraRaceDataUseCase->>JraRaceDataService: fetchRaceEntityList(startDate, finishDate, Web, placeEntityList)
+        JraRaceDataService->>JraRaceRepositoryFromHtmlImpl: fetchRaceEntityList(searchFilter)
+        JraRaceRepositoryFromHtmlImpl->>IJraRaceDataHtmlGateway: getRaceDataHtml(日付ごと)
+        IJraRaceDataHtmlGateway->>Web: HTML取得リクエスト
+        Web-->>IJraRaceDataHtmlGateway: HTMLレスポンス
+        IJraRaceDataHtmlGateway-->>JraRaceRepositoryFromHtmlImpl: HTMLデータ
+        JraRaceRepositoryFromHtmlImpl-->>JraRaceDataService: raceEntityList
+        JraRaceDataService-->>JraRaceDataUseCase: raceEntityList
         JraRaceDataUseCase->>JraRaceDataService: updateRaceEntityList(raceEntityList)
         JraRaceDataService->>JraRaceRepositoryFromStorageImpl: registerRaceEntityList(raceEntityList)
         JraRaceRepositoryFromStorageImpl->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
