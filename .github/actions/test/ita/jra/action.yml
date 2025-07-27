@@ -119,7 +119,7 @@ runs:
       run: |
         # Initial GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/jra/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
+          'http://localhost:3000/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=jra' \
           -H 'accept: application/json')
 
         # Initial GET Response Check
@@ -146,7 +146,7 @@ runs:
 
         # Updated GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/jra/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
+          'http://localhost:3000/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=jra' \
           -H 'accept: application/json')
 
         # Final GET Response Check: 要素数が372個であることを確認
