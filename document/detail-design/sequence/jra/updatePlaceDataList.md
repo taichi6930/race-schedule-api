@@ -16,11 +16,11 @@ sequenceDiagram
         JraRaceController-->>Client: 400エラー返却
     else 日付が正
         JraRaceController->>JraPlaceDataUseCase: updatePlaceDataList(startDate, finishDate)
-        JraPlaceDataUseCase->>JraPlaceDataService: updatePlaceDataList(startDate, finishDate)
-        JraPlaceDataService->>JraPlaceDataService: fetchPlaceEntityList(startDate, finishDate, Web)
+        JraPlaceDataUseCase->>JraPlaceDataService: fetchPlaceEntityList(startDate, finishDate, Web)
         JraPlaceDataService->>JraPlaceRepositoryFromHtmlImpl: fetchPlaceEntityList(searchFilter)
         JraPlaceRepositoryFromHtmlImpl-->>JraPlaceDataService: placeEntityList
-        JraPlaceDataService->>JraPlaceDataService: updatePlaceEntityList(placeEntityList)
+        JraPlaceDataService-->>JraPlaceDataUseCase: placeEntityList
+        JraPlaceDataUseCase->>JraPlaceDataService: updatePlaceEntityList(placeEntityList)
         JraPlaceDataService->>JraPlaceRepositoryFromStorageImpl: registerPlaceEntityList(placeEntityList)
         JraPlaceRepositoryFromStorageImpl->>S3Gateway: uploadDataToS3(placeRecordList, fileName)
         S3Gateway-->>JraPlaceRepositoryFromStorageImpl: 完了
