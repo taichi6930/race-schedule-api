@@ -10,7 +10,9 @@ import { BoatracePlaceDataUseCase } from '../../src/usecase/implement/boatracePl
 import { JraPlaceDataUseCase } from '../../src/usecase/implement/jraPlaceDataUseCase';
 import { KeirinPlaceDataUseCase } from '../../src/usecase/implement/keirinPlaceDataUseCase';
 import { NarPlaceDataUseCase } from '../../src/usecase/implement/narPlaceDataUseCase';
+import { PublicGamblingPlaceUseCase } from '../../src/usecase/implement/publicGamblingPlaceUseCase';
 import type { IOldPlaceDataUseCase } from '../../src/usecase/interface/IOldPlaceDataUseCase';
+import type { IPlaceDataUseCase } from '../../src/usecase/interface/IPlaceDataUseCase';
 
 container.register<IOldPlaceDataUseCase<BoatracePlaceData>>(
     'BoatracePlaceDataUseCase',
@@ -35,4 +37,7 @@ container.register<IOldPlaceDataUseCase<NarPlaceData>>('NarPlaceDataUseCase', {
 });
 container.register<IOldPlaceDataUseCase<JraPlaceData>>('JraPlaceDataUseCase', {
     useClass: JraPlaceDataUseCase,
+});
+container.register<IPlaceDataUseCase>('PublicGamblingPlaceUseCase', {
+    useClass: PublicGamblingPlaceUseCase,
 });
