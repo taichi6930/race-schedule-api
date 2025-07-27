@@ -51,7 +51,6 @@ export class KeirinRaceController {
         this.router.post('/race', this.updateRaceDataList.bind(this));
 
         // PlaceData関連のAPI
-        this.router.get('/place', this.getPlaceDataList.bind(this));
         this.router.post('/place', this.updatePlaceDataList.bind(this));
     }
 
@@ -205,42 +204,6 @@ export class KeirinRaceController {
             res.status(200).send();
         } catch (error) {
             console.error('レース情報の更新中にエラーが発生しました:', error);
-            const errorMessage =
-                error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
-        }
-    }
-
-    /**
-     * 競輪場情報を取得する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
-    @Logger
-    private async getPlaceDataList(req: Request, res: Response): Promise<void> {
-        try {
-            const { startDate, finishDate } = req.query;
-
-            // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (
-                Number.isNaN(Date.parse(startDate as string)) ||
-                Number.isNaN(Date.parse(finishDate as string))
-            ) {
-                res.status(400).send('startDate、finishDateは必須です');
-                return;
-            }
-
-            // 競輪場情報を取得する
-            const placeList =
-                await this.keirinPlaceDataUseCase.fetchPlaceDataList(
-                    new Date(startDate as string),
-                    new Date(finishDate as string),
-                );
-            res.json(placeList);
-        } catch (error) {
-            console.error('競輪場情報の取得中にエラーが発生しました:', error);
             const errorMessage =
                 error instanceof Error ? error.message : String(error);
             res.status(500).send(
