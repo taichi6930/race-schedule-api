@@ -1,8 +1,4 @@
-import type { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
-import type { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
-import type { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
-import type { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
-import type { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
+import type { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import type { DataLocationType } from '../../utility/dataType';
 
 /**
@@ -14,7 +10,7 @@ import type { DataLocationType } from '../../utility/dataType';
  * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
  *               例：JraPlaceEntity, NarPlaceEntity など
  */
-export interface IPlaceDataService {
+export interface IOldPlaceDataService<P extends IPlaceEntity<P>> {
     /**
      * 指定された期間の開催場所データを取得します
      * @param startDate - 取得開始日
@@ -28,13 +24,16 @@ export interface IPlaceDataService {
     fetchPlaceEntityList: (
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
         type: DataLocationType,
-    ) => Promise<
-        | JraPlaceEntity[]
-        | NarPlaceEntity[]
-        | KeirinPlaceEntity[]
-        | AutoracePlaceEntity[]
-        | BoatracePlaceEntity[]
-    >;
+    ) => Promise<P[]>;
+
+    /**
+     * 開催場所データをStorageに保存/更新します
+     *
+     * 既存のデータが存在する場合は上書き、存在しない場合は新規作成します。
+     * このメソッドは一般的にWebから取得した最新データを保存する際に使用されます。
+     * @param placeEntityList - 保存/更新する開催場所エンティティの配列
+     * @throws Error データの保存/更新に失敗した場合
+     */
+    updatePlaceEntityList: (placeEntityList: P[]) => Promise<void>;
 }

@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
-import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IOldPlaceDataUseCase } from '../interface/IOldPlaceDataUseCase';
@@ -22,7 +22,7 @@ import { IOldPlaceDataUseCase } from '../interface/IOldPlaceDataUseCase';
 export class JraPlaceDataUseCase implements IOldPlaceDataUseCase<JraPlaceData> {
     public constructor(
         @inject('JraPlaceDataService')
-        private readonly placeDataService: IPlaceDataService<JraPlaceEntity>,
+        private readonly placeDataService: IOldPlaceDataService<JraPlaceEntity>,
     ) {}
 
     /**

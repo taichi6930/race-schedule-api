@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
-import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IOldPlaceDataUseCase } from '../interface/IOldPlaceDataUseCase';
@@ -16,7 +16,7 @@ export class KeirinPlaceDataUseCase
 {
     public constructor(
         @inject('KeirinPlaceDataService')
-        private readonly placeDataService: IPlaceDataService<KeirinPlaceEntity>,
+        private readonly placeDataService: IOldPlaceDataService<KeirinPlaceEntity>,
     ) {}
 
     /**

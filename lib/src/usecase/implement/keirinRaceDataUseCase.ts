@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
-import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { KeirinRaceCourse } from '../../utility/data/keirin/keirinRaceCourse';
@@ -28,7 +28,7 @@ export class KeirinRaceDataUseCase
 {
     public constructor(
         @inject('KeirinPlaceDataService')
-        private readonly placeDataService: IPlaceDataService<KeirinPlaceEntity>,
+        private readonly placeDataService: IOldPlaceDataService<KeirinPlaceEntity>,
         @inject('KeirinRaceDataService')
         private readonly raceDataService: IRaceDataService<
             KeirinRaceEntity,

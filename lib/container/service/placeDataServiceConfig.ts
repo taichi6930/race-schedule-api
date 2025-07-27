@@ -10,33 +10,45 @@ import { BoatracePlaceDataService } from '../../src/service/implement/boatracePl
 import { JraPlaceDataService } from '../../src/service/implement/jraPlaceDataService';
 import { KeirinPlaceDataService } from '../../src/service/implement/keirinPlaceDataService';
 import { NarPlaceDataService } from '../../src/service/implement/narPlaceDataService';
+import { PublicGamblingPlaceDataService } from '../../src/service/implement/publicGamblingPlaceDataService';
+import type { IOldPlaceDataService } from '../../src/service/interface/IOldPlaceDataService';
 import type { IPlaceDataService } from '../../src/service/interface/IPlaceDataService';
 
-container.register<IPlaceDataService<JraPlaceEntity>>('JraPlaceDataService', {
-    useClass: JraPlaceDataService,
-});
+container.register<IOldPlaceDataService<JraPlaceEntity>>(
+    'JraPlaceDataService',
+    {
+        useClass: JraPlaceDataService,
+    },
+);
 
-container.register<IPlaceDataService<NarPlaceEntity>>('NarPlaceDataService', {
-    useClass: NarPlaceDataService,
-});
+container.register<IOldPlaceDataService<NarPlaceEntity>>(
+    'NarPlaceDataService',
+    {
+        useClass: NarPlaceDataService,
+    },
+);
 
-container.register<IPlaceDataService<KeirinPlaceEntity>>(
+container.register<IOldPlaceDataService<KeirinPlaceEntity>>(
     'KeirinPlaceDataService',
     {
         useClass: KeirinPlaceDataService,
     },
 );
 
-container.register<IPlaceDataService<AutoracePlaceEntity>>(
+container.register<IOldPlaceDataService<AutoracePlaceEntity>>(
     'AutoracePlaceDataService',
     {
         useClass: AutoracePlaceDataService,
     },
 );
 
-container.register<IPlaceDataService<BoatracePlaceEntity>>(
+container.register<IOldPlaceDataService<BoatracePlaceEntity>>(
     'BoatracePlaceDataService',
     {
         useClass: BoatracePlaceDataService,
     },
 );
+
+container.register<IPlaceDataService>('PublicGamblingPlaceDataService', {
+    useClass: PublicGamblingPlaceDataService,
+});

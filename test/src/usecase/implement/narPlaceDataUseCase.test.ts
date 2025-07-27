@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
-import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
+import type { IOldPlaceDataService } from '../../../../lib/src/service/interface/IOldPlaceDataService';
 import { NarPlaceDataUseCase } from '../../../../lib/src/usecase/implement/narPlaceDataUseCase';
 import {
     baseNarPlaceData,
@@ -13,12 +13,12 @@ import {
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('NarPlaceDataUseCase', () => {
-    let placeDataService: jest.Mocked<IPlaceDataService<NarPlaceEntity>>;
+    let placeDataService: jest.Mocked<IOldPlaceDataService<NarPlaceEntity>>;
     let useCase: NarPlaceDataUseCase;
 
     beforeEach(() => {
         placeDataService = placeDataServiceMock<NarPlaceEntity>();
-        container.registerInstance<IPlaceDataService<NarPlaceEntity>>(
+        container.registerInstance<IOldPlaceDataService<NarPlaceEntity>>(
             'NarPlaceDataService',
             placeDataService,
         );

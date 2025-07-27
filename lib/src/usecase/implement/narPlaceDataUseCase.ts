@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
-import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IOldPlaceDataUseCase } from '../interface/IOldPlaceDataUseCase';
@@ -14,7 +14,7 @@ import { IOldPlaceDataUseCase } from '../interface/IOldPlaceDataUseCase';
 export class NarPlaceDataUseCase implements IOldPlaceDataUseCase<NarPlaceData> {
     public constructor(
         @inject('NarPlaceDataService')
-        private readonly placeDataService: IPlaceDataService<NarPlaceEntity>,
+        private readonly placeDataService: IOldPlaceDataService<NarPlaceEntity>,
     ) {}
 
     /**

@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
-import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IOldPlaceDataUseCase } from '../interface/IOldPlaceDataUseCase';
@@ -16,7 +16,7 @@ export class BoatracePlaceDataUseCase
 {
     public constructor(
         @inject('BoatracePlaceDataService')
-        private readonly placeDataService: IPlaceDataService<BoatracePlaceEntity>,
+        private readonly placeDataService: IOldPlaceDataService<BoatracePlaceEntity>,
     ) {}
 
     /**

@@ -10,7 +10,7 @@ import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
-import type { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
@@ -22,16 +22,8 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 @injectable()
 export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
     public constructor(
-        @inject('JraPlaceDataService')
-        private readonly jraPlaceDataService: IPlaceDataService<JraPlaceEntity>,
-        @inject('NarPlaceDataService')
-        private readonly narPlaceDataService: IPlaceDataService<NarPlaceEntity>,
-        @inject('KeirinPlaceDataService')
-        private readonly keirinPlaceDataService: IPlaceDataService<KeirinPlaceEntity>,
-        @inject('AutoracePlaceDataService')
-        private readonly autoracePlaceDataService: IPlaceDataService<AutoracePlaceEntity>,
-        @inject('BoatracePlaceDataService')
-        private readonly boatracePlaceDataService: IPlaceDataService<BoatracePlaceEntity>,
+        @inject('PublicGamblingPlaceDataService')
+        private readonly publicGamblingPlaceDataService: IPlaceDataService,
     ) {}
 
     /**
@@ -52,58 +44,19 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
         | AutoracePlaceData[]
         | BoatracePlaceData[]
     > {
+        // 開催場データを取得
         const placeEntityList: (
             | JraPlaceEntity
             | NarPlaceEntity
             | KeirinPlaceEntity
             | AutoracePlaceEntity
             | BoatracePlaceEntity
-        )[] = [];
-        if (raceTypeList.includes('jra')) {
-            const jraPlaceEntityList: JraPlaceEntity[] =
-                await this.jraPlaceDataService.fetchPlaceEntityList(
-                    startDate,
-                    finishDate,
-                    DataLocation.Storage,
-                );
-            placeEntityList.push(...jraPlaceEntityList);
-        }
-        if (raceTypeList.includes('nar')) {
-            const narPlaceEntityList: NarPlaceEntity[] =
-                await this.narPlaceDataService.fetchPlaceEntityList(
-                    startDate,
-                    finishDate,
-                    DataLocation.Storage,
-                );
-            placeEntityList.push(...narPlaceEntityList);
-        }
-        if (raceTypeList.includes('keirin')) {
-            const keirinPlaceEntityList: KeirinPlaceEntity[] =
-                await this.keirinPlaceDataService.fetchPlaceEntityList(
-                    startDate,
-                    finishDate,
-                    DataLocation.Storage,
-                );
-            placeEntityList.push(...keirinPlaceEntityList);
-        }
-        if (raceTypeList.includes('autorace')) {
-            const autoracePlaceEntityList: AutoracePlaceEntity[] =
-                await this.autoracePlaceDataService.fetchPlaceEntityList(
-                    startDate,
-                    finishDate,
-                    DataLocation.Storage,
-                );
-            placeEntityList.push(...autoracePlaceEntityList);
-        }
-        if (raceTypeList.includes('boatrace')) {
-            const boatracePlaceEntityList: BoatracePlaceEntity[] =
-                await this.boatracePlaceDataService.fetchPlaceEntityList(
-                    startDate,
-                    finishDate,
-                    DataLocation.Storage,
-                );
-            placeEntityList.push(...boatracePlaceEntityList);
-        }
+        )[] = await this.publicGamblingPlaceDataService.fetchPlaceEntityList(
+            startDate,
+            finishDate,
+            raceTypeList,
+            DataLocation.Storage,
+        );
         // 全ての開催場データを結合して返す
         // それぞれのplaceDataを抽出して返す
         return placeEntityList.map(({ placeData }) => placeData);

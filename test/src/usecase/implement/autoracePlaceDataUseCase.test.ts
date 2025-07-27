@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import type { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
-import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
+import type { IOldPlaceDataService } from '../../../../lib/src/service/interface/IOldPlaceDataService';
 import { AutoracePlaceDataUseCase } from '../../../../lib/src/usecase/implement/autoracePlaceDataUseCase';
 import {
     baseAutoracePlaceData,
@@ -13,12 +13,14 @@ import {
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('AutoracePlaceDataUseCase', () => {
-    let placeDataService: jest.Mocked<IPlaceDataService<AutoracePlaceEntity>>;
+    let placeDataService: jest.Mocked<
+        IOldPlaceDataService<AutoracePlaceEntity>
+    >;
     let useCase: AutoracePlaceDataUseCase;
 
     beforeEach(() => {
         placeDataService = placeDataServiceMock<AutoracePlaceEntity>();
-        container.registerInstance<IPlaceDataService<AutoracePlaceEntity>>(
+        container.registerInstance<IOldPlaceDataService<AutoracePlaceEntity>>(
             'AutoracePlaceDataService',
             placeDataService,
         );

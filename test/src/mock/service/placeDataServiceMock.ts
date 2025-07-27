@@ -1,12 +1,12 @@
 import type { IPlaceEntity } from '../../../../lib/src/repository/entity/iPlaceEntity';
-import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
+import type { IOldPlaceDataService } from '../../../../lib/src/service/interface/IOldPlaceDataService';
 
 /**
  * PlaceDataServiceのモックを作成する
  * @returns モック化されたIPlaceDataServiceインターフェースのインスタンス
  */
 export const placeDataServiceMock = <P extends IPlaceEntity<P>>(): jest.Mocked<
-    IPlaceDataService<P>
+    IOldPlaceDataService<P>
 > => {
     return {
         fetchPlaceEntityList: jest.fn().mockResolvedValue([] as P[]),

@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
@@ -28,7 +28,7 @@ export class AutoraceRaceDataUseCase
 {
     public constructor(
         @inject('AutoracePlaceDataService')
-        private readonly placeDataService: IPlaceDataService<AutoracePlaceEntity>,
+        private readonly placeDataService: IOldPlaceDataService<AutoracePlaceEntity>,
         @inject('AutoraceRaceDataService')
         private readonly raceDataService: IRaceDataService<
             AutoraceRaceEntity,
