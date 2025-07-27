@@ -1,36 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { AutoracePlaceData } from '../domain/autoracePlaceData';
-import { AutoraceRaceData } from '../domain/autoraceRaceData';
-import { BoatracePlaceData } from '../domain/boatracePlaceData';
-import { BoatraceRaceData } from '../domain/boatraceRaceData';
-import { JraPlaceData } from '../domain/jraPlaceData';
-import { JraRaceData } from '../domain/jraRaceData';
-import { KeirinPlaceData } from '../domain/keirinPlaceData';
-import { KeirinRaceData } from '../domain/keirinRaceData';
-import { NarPlaceData } from '../domain/narPlaceData';
-import { NarRaceData } from '../domain/narRaceData';
-import { WorldRaceData } from '../domain/worldRaceData';
-import { IOldPlaceDataUseCase } from '../usecase/interface/IOldPlaceDataUseCase';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
-import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { AutoraceGradeType } from '../utility/data/autorace/autoraceGradeType';
-import { AutoraceRaceCourse } from '../utility/data/autorace/autoraceRaceCourse';
-import { AutoraceRaceStage } from '../utility/data/autorace/autoraceRaceStage';
-import { BoatraceGradeType } from '../utility/data/boatrace/boatraceGradeType';
-import { BoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCourse';
-import { BoatraceRaceStage } from '../utility/data/boatrace/boatraceRaceStage';
-import { JraGradeType } from '../utility/data/jra/jraGradeType';
-import { JraRaceCourse } from '../utility/data/jra/jraRaceCourse';
-import { KeirinGradeType } from '../utility/data/keirin/keirinGradeType';
-import { KeirinRaceCourse } from '../utility/data/keirin/keirinRaceCourse';
-import { KeirinRaceStage } from '../utility/data/keirin/keirinRaceStage';
-import { NarGradeType } from '../utility/data/nar/narGradeType';
-import { NarRaceCourse } from '../utility/data/nar/narRaceCourse';
-import { WorldGradeType } from '../utility/data/world/worldGradeType';
-import { WorldRaceCourse } from '../utility/data/world/worldRaceCourse';
 import { Logger } from '../utility/logger';
 
 /**
@@ -45,58 +17,6 @@ export class PublicGamblingController {
         private readonly publicGamblingCalendarUseCase: IRaceCalendarUseCase,
         @inject('PublicGamblingPlaceUseCase')
         private readonly publicGamblingPlaceUseCase: IPlaceDataUseCase,
-        @inject('JraRaceDataUseCase')
-        private readonly jraRaceDataUseCase: IRaceDataUseCase<
-            JraRaceData,
-            JraGradeType,
-            JraRaceCourse,
-            undefined
-        >,
-        @inject('JraPlaceDataUseCase')
-        private readonly jraPlaceDataUseCase: IOldPlaceDataUseCase<JraPlaceData>,
-        @inject('NarRaceDataUseCase')
-        private readonly narRaceDataUseCase: IRaceDataUseCase<
-            NarRaceData,
-            NarGradeType,
-            NarRaceCourse,
-            undefined
-        >,
-        @inject('NarPlaceDataUseCase')
-        private readonly narPlaceDataUseCase: IOldPlaceDataUseCase<NarPlaceData>,
-        @inject('WorldRaceDataUseCase')
-        private readonly worldRaceDataUseCase: IRaceDataUseCase<
-            WorldRaceData,
-            WorldGradeType,
-            WorldRaceCourse,
-            undefined
-        >,
-        @inject('KeirinRaceDataUseCase')
-        private readonly keirinRaceDataUseCase: IRaceDataUseCase<
-            KeirinRaceData,
-            KeirinGradeType,
-            KeirinRaceCourse,
-            KeirinRaceStage
-        >,
-        @inject('KeirinPlaceDataUseCase')
-        private readonly keirinPlaceDataUseCase: IOldPlaceDataUseCase<KeirinPlaceData>,
-        @inject('AutoraceRaceDataUseCase')
-        private readonly autoraceRaceDataUseCase: IRaceDataUseCase<
-            AutoraceRaceData,
-            AutoraceGradeType,
-            AutoraceRaceCourse,
-            AutoraceRaceStage
-        >,
-        @inject('AutoracePlaceDataUseCase')
-        private readonly autoracePlaceDataUseCase: IOldPlaceDataUseCase<AutoracePlaceData>,
-        @inject('BoatraceRaceDataUseCase')
-        private readonly boatraceRaceDataUseCase: IRaceDataUseCase<
-            BoatraceRaceData,
-            BoatraceGradeType,
-            BoatraceRaceCourse,
-            BoatraceRaceStage
-        >,
-        @inject('BoatracePlaceDataUseCase')
-        private readonly boatracePlaceDataUseCase: IOldPlaceDataUseCase<BoatracePlaceData>,
     ) {
         this.router = Router();
         this.initializeRoutes();
