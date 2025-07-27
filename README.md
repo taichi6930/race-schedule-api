@@ -71,19 +71,10 @@ pnpm run dev:local
 
 ```bash
 # JRA
-curl -X GET "http://localhost:3000/api/races/jra/calendar?startDate=2024-09-01&finishDate=2024-09-30"
+curl -X GET "http://localhost:3000/api/races/all/calendar?startDate=2024-09-01&finishDate=2024-09-30&raceType=jra"
 
 # NAR
-curl -X GET "http://localhost:3000/api/races/nar/calendar?startDate=2024-09-01&finishDate=2024-09-30"
-
-# 競輪
-curl -X GET "http://localhost:3000/api/races/keirin/calendar?startDate=2024-09-01&finishDate=2024-09-30"
-
-# 競艇
-curl -X GET "http://localhost:3000/api/races/boatrace/calendar?startDate=2024-09-01&finishDate=2024-09-30"
-
-# オートレース
-curl -X GET "http://localhost:3000/api/races/autorace/calendar?startDate=2024-09-01&finishDate=2024-09-30"
+curl -X GET "http://localhost:3000/api/races/all/calendar?startDate=2024-09-01&finishDate=2024-09-30&raceType=nar"
 ```
 
 ##### レーススケジュールの更新（POST）
