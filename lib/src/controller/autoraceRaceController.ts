@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { AutoracePlaceData } from '../domain/autoracePlaceData';
 import { AutoraceRaceData } from '../domain/autoraceRaceData';
-import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
+import { IOldPlaceDataUseCase } from '../usecase/interface/IOldPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
@@ -32,7 +32,7 @@ export class AutoraceRaceController {
             AutoraceRaceStage
         >,
         @inject('AutoracePlaceDataUseCase')
-        private readonly autoracePlaceDataUseCase: IPlaceDataUseCase<AutoracePlaceData>,
+        private readonly autoracePlaceDataUseCase: IOldPlaceDataUseCase<AutoracePlaceData>,
     ) {
         this.router = Router();
         this.initializeRoutes();

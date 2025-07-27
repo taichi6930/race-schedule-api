@@ -5,14 +5,14 @@ import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
+import { IOldPlaceDataUseCase } from '../interface/IOldPlaceDataUseCase';
 
 /**
  * Keirin開催場データユースケース
  */
 @injectable()
 export class KeirinPlaceDataUseCase
-    implements IPlaceDataUseCase<KeirinPlaceData>
+    implements IOldPlaceDataUseCase<KeirinPlaceData>
 {
     public constructor(
         @inject('KeirinPlaceDataService')

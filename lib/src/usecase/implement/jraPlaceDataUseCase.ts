@@ -5,7 +5,7 @@ import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
+import { IOldPlaceDataUseCase } from '../interface/IOldPlaceDataUseCase';
 
 /**
  * JRAの開催場所データを管理するユースケース
@@ -19,7 +19,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
  * - Web: JRAのWebサイトから直接取得（最新）
  */
 @injectable()
-export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
+export class JraPlaceDataUseCase implements IOldPlaceDataUseCase<JraPlaceData> {
     public constructor(
         @inject('JraPlaceDataService')
         private readonly placeDataService: IPlaceDataService<JraPlaceEntity>,

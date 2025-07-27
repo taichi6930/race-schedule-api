@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { NarPlaceData } from '../domain/narPlaceData';
 import { NarRaceData } from '../domain/narRaceData';
-import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
+import { IOldPlaceDataUseCase } from '../usecase/interface/IOldPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
@@ -31,7 +31,7 @@ export class NarRaceController {
             undefined
         >,
         @inject('NarPlaceDataUseCase')
-        private readonly narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceData>,
+        private readonly narPlaceDataUseCase: IOldPlaceDataUseCase<NarPlaceData>,
     ) {
         this.router = Router();
         this.initializeRoutes();

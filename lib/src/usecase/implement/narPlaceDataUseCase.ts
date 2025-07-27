@@ -5,13 +5,13 @@ import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
+import { IOldPlaceDataUseCase } from '../interface/IOldPlaceDataUseCase';
 
 /**
  * Nar開催場データユースケース
  */
 @injectable()
-export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
+export class NarPlaceDataUseCase implements IOldPlaceDataUseCase<NarPlaceData> {
     public constructor(
         @inject('NarPlaceDataService')
         private readonly placeDataService: IPlaceDataService<NarPlaceEntity>,

@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { JraPlaceData } from '../domain/jraPlaceData';
 import { JraRaceData } from '../domain/jraRaceData';
-import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
+import { IOldPlaceDataUseCase } from '../usecase/interface/IOldPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
@@ -31,7 +31,7 @@ export class JraRaceController {
             undefined
         >,
         @inject('JraPlaceDataUseCase')
-        private readonly jraPlaceDataUseCase: IPlaceDataUseCase<JraPlaceData>,
+        private readonly jraPlaceDataUseCase: IOldPlaceDataUseCase<JraPlaceData>,
     ) {
         this.router = Router();
         this.initializeRoutes();

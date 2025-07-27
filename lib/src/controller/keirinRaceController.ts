@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../domain/keirinPlaceData';
 import { KeirinRaceData } from '../domain/keirinRaceData';
-import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
+import { IOldPlaceDataUseCase } from '../usecase/interface/IOldPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
@@ -32,7 +32,7 @@ export class KeirinRaceController {
             KeirinRaceStage
         >,
         @inject('KeirinPlaceDataUseCase')
-        private readonly keirinPlaceDataUseCase: IPlaceDataUseCase<KeirinPlaceData>,
+        private readonly keirinPlaceDataUseCase: IOldPlaceDataUseCase<KeirinPlaceData>,
     ) {
         this.router = Router();
         this.initializeRoutes();

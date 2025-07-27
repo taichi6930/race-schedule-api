@@ -5,14 +5,14 @@ import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
+import { IOldPlaceDataUseCase } from '../interface/IOldPlaceDataUseCase';
 
 /**
  * Boatrace開催場データユースケース
  */
 @injectable()
 export class BoatracePlaceDataUseCase
-    implements IPlaceDataUseCase<BoatracePlaceData>
+    implements IOldPlaceDataUseCase<BoatracePlaceData>
 {
     public constructor(
         @inject('BoatracePlaceDataService')
