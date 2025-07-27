@@ -44,7 +44,6 @@ export class BoatraceRaceController {
     @Logger
     private initializeRoutes(): void {
         // Calendar関連のAPI
-        this.router.get('/calendar', this.getRacesFromCalendar.bind(this));
         this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
 
         // RaceData関連のAPI
