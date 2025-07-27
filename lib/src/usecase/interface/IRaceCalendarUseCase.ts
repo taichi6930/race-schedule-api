@@ -10,6 +10,7 @@ export interface IRaceCalendarUseCase {
     getRacesFromCalendar: (
         startDate: Date,
         finishDate: Date,
+        raceTypeList?: string[],
     ) => Promise<CalendarData[]>;
     /**
      * カレンダーの更新を行う

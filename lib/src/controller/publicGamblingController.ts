@@ -5,7 +5,6 @@ import { AutoracePlaceData } from '../domain/autoracePlaceData';
 import { AutoraceRaceData } from '../domain/autoraceRaceData';
 import { BoatracePlaceData } from '../domain/boatracePlaceData';
 import { BoatraceRaceData } from '../domain/boatraceRaceData';
-import { CalendarData } from '../domain/calendarData';
 import { JraPlaceData } from '../domain/jraPlaceData';
 import { JraRaceData } from '../domain/jraRaceData';
 import { KeirinPlaceData } from '../domain/keirinPlaceData';
@@ -41,8 +40,8 @@ export class PublicGamblingController {
     public router: Router;
 
     public constructor(
-        @inject('JraRaceCalendarUseCase')
-        private readonly jraRaceCalendarUseCase: IRaceCalendarUseCase,
+        @inject('PublicGamblingCalendarUseCase')
+        private readonly publicGamblingCalendarUseCase: IRaceCalendarUseCase,
         @inject('JraRaceDataUseCase')
         private readonly jraRaceDataUseCase: IRaceDataUseCase<
             JraRaceData,
@@ -52,8 +51,6 @@ export class PublicGamblingController {
         >,
         @inject('JraPlaceDataUseCase')
         private readonly jraPlaceDataUseCase: IPlaceDataUseCase<JraPlaceData>,
-        @inject('NarRaceCalendarUseCase')
-        private readonly narRaceCalendarUseCase: IRaceCalendarUseCase,
         @inject('NarRaceDataUseCase')
         private readonly narRaceDataUseCase: IRaceDataUseCase<
             NarRaceData,
@@ -63,8 +60,6 @@ export class PublicGamblingController {
         >,
         @inject('NarPlaceDataUseCase')
         private readonly narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceData>,
-        @inject('WorldRaceCalendarUseCase')
-        private readonly worldRaceCalendarUseCase: IRaceCalendarUseCase,
         @inject('WorldRaceDataUseCase')
         private readonly worldRaceDataUseCase: IRaceDataUseCase<
             WorldRaceData,
@@ -72,8 +67,6 @@ export class PublicGamblingController {
             WorldRaceCourse,
             undefined
         >,
-        @inject('KeirinRaceCalendarUseCase')
-        private readonly keirinRaceCalendarUseCase: IRaceCalendarUseCase,
         @inject('KeirinRaceDataUseCase')
         private readonly keirinRaceDataUseCase: IRaceDataUseCase<
             KeirinRaceData,
@@ -83,8 +76,6 @@ export class PublicGamblingController {
         >,
         @inject('KeirinPlaceDataUseCase')
         private readonly keirinPlaceDataUseCase: IPlaceDataUseCase<KeirinPlaceData>,
-        @inject('AutoraceRaceCalendarUseCase')
-        private readonly autoraceRaceCalendarUseCase: IRaceCalendarUseCase,
         @inject('AutoraceRaceDataUseCase')
         private readonly autoraceRaceDataUseCase: IRaceDataUseCase<
             AutoraceRaceData,
@@ -94,8 +85,6 @@ export class PublicGamblingController {
         >,
         @inject('AutoracePlaceDataUseCase')
         private readonly autoracePlaceDataUseCase: IPlaceDataUseCase<AutoracePlaceData>,
-        @inject('BoatraceRaceCalendarUseCase')
-        private readonly boatraceRaceCalendarUseCase: IRaceCalendarUseCase,
         @inject('BoatraceRaceDataUseCase')
         private readonly boatraceRaceDataUseCase: IRaceDataUseCase<
             BoatraceRaceData,
@@ -158,15 +147,12 @@ export class PublicGamblingController {
                           : undefined
                       : undefined;
 
-            let races: CalendarData[] = [];
-            console.log('raceTypeList:', raceTypeList);
-            if (Array.isArray(raceTypeList)) {
-                races = await this.getRacesFromCalendarsByTypes(
-                    raceTypeList,
+            const races =
+                await this.publicGamblingCalendarUseCase.getRacesFromCalendar(
                     new Date(startDate as string),
                     new Date(finishDate as string),
+                    raceTypeList,
                 );
-            }
             res.json(races);
         } catch (error) {
             console.error(
@@ -179,37 +165,5 @@ export class PublicGamblingController {
                 `サーバーエラーが発生しました: ${errorMessage}`,
             );
         }
-    }
-
-    /**
-     * raceTypeごとにカレンダーからレース情報を取得し、まとめて返す共通メソッド
-     * @param raceTypeList - レース種別のリスト
-     * @param startDate - 開始日
-     * @param finishDate - 終了日
-     * @returns レース情報の配列
-     */
-    private async getRacesFromCalendarsByTypes(
-        raceTypeList: string[],
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<CalendarData[]> {
-        const useCaseMap: Record<string, IRaceCalendarUseCase> = {
-            jra: this.jraRaceCalendarUseCase,
-            nar: this.narRaceCalendarUseCase,
-            world: this.worldRaceCalendarUseCase,
-            keirin: this.keirinRaceCalendarUseCase,
-            autorace: this.autoraceRaceCalendarUseCase,
-            boatrace: this.boatraceRaceCalendarUseCase,
-        };
-        const allRaces: CalendarData[] = [];
-        for (const type of raceTypeList) {
-            const useCase = useCaseMap[type];
-            const races = await useCase.getRacesFromCalendar(
-                startDate,
-                finishDate,
-            );
-            allRaces.push(...races);
-        }
-        return allRaces;
     }
 }
