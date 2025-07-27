@@ -17,7 +17,7 @@ describe('JraRaceRepositoryFromHtmlImpl', () => {
     let repository: JraRaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
-        // gatwayのモックを作成
+        // gatewayのモックを作成
         raceDataHtmlGateway = new MockJraRaceDataHtmlGateway();
 
         // DIコンテナにモックを登録

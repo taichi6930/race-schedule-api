@@ -14,7 +14,7 @@ describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
     let repository: AutoracePlaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
-        // gatwayのモックを作成
+        // gatewayのモックを作成
         placeDataHtmlgateway = new MockAutoracePlaceDataHtmlGateway();
 
         // DIコンテナにモックを登録

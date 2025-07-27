@@ -17,7 +17,7 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
     let repository: NarRaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
-        // gatwayのモックを作成
+        // gatewayのモックを作成
         raceDataHtmlGateway = new MockNarRaceDataHtmlGateway();
 
         // DIコンテナにモックを登録

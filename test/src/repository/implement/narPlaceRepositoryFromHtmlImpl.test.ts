@@ -14,7 +14,7 @@ describe('NarPlaceRepositoryFromHtmlImpl', () => {
     let repository: NarPlaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
-        // gatwayのモックを作成
+        // gatewayのモックを作成
         placeDataHtmlgateway = new MockNarPlaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
