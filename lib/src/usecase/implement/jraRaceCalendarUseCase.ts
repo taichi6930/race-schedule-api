@@ -33,7 +33,7 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param finishDate
      */
     @Logger
-    public async getRacesFromCalendar(
+    public async fetchRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {

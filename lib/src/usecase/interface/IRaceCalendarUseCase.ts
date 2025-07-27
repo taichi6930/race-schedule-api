@@ -7,7 +7,7 @@ export interface IRaceCalendarUseCase {
      * @param startDate
      * @param finishDate
      */
-    getRacesFromCalendar: (
+    fetchRacesFromCalendar: (
         startDate: Date,
         finishDate: Date,
         raceTypeList?: string[],

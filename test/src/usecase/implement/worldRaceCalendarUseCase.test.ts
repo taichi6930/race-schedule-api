@@ -54,7 +54,7 @@ describe('WorldRaceCalendarUseCase', () => {
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
 
-            const result = await useCase.getRacesFromCalendar(
+            const result = await useCase.fetchRacesFromCalendar(
                 startDate,
                 finishDate,
             );

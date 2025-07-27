@@ -41,7 +41,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * @param raceTypeList
      */
     @Logger
-    public async getRacesFromCalendar(
+    public async fetchRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
         raceTypeList?: string[],

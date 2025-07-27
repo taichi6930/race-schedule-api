@@ -148,7 +148,7 @@ export class PublicGamblingController {
                       : undefined;
 
             const races =
-                await this.publicGamblingCalendarUseCase.getRacesFromCalendar(
+                await this.publicGamblingCalendarUseCase.fetchRacesFromCalendar(
                     new Date(startDate as string),
                     new Date(finishDate as string),
                     raceTypeList,
