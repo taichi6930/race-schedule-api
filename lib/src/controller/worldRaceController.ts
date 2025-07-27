@@ -46,48 +46,6 @@ export class WorldRaceController {
     }
 
     /**
-     * 海外競馬カレンダーからレース情報を取得する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
-    @Logger
-    private async getRacesFromCalendar(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
-        try {
-            const { startDate, finishDate } = req.query;
-
-            // startDateとfinishDateが指定されていないかつ、日付形式でない場合はエラーを返す
-            if (
-                Number.isNaN(Date.parse(startDate as string)) ||
-                Number.isNaN(Date.parse(finishDate as string))
-            ) {
-                res.status(400).send('startDate、finishDateは必須です');
-                return;
-            }
-
-            // カレンダーからレース情報を取得する
-            const races = await this.raceCalendarUseCase.getRacesFromCalendar(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-            );
-            // レース情報を返す
-            res.json(races);
-        } catch (error) {
-            console.error(
-                'カレンダーからレース情報を取得中にエラーが発生しました:',
-                error,
-            );
-            const errorMessage =
-                error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
-        }
-    }
-
-    /**
      * カレンダーにレース情報を更新する
      * @param req - リクエスト
      * @param res - レスポンス
