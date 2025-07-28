@@ -14,7 +14,7 @@ import {
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/oldRaceDataServiceMock';
 
 describe('NarRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;

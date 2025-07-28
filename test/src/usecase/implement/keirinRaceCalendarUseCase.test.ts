@@ -15,8 +15,8 @@ import {
     baseKeirinRaceEntity,
 } from '../../mock/common/baseKeirinData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/oldRaceDataServiceMock';
 import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;

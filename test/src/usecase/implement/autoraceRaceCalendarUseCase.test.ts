@@ -15,8 +15,8 @@ import {
     baseAutoraceRaceEntity,
 } from '../../mock/common/baseAutoraceData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/oldRaceDataServiceMock';
 import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('AutoraceRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
