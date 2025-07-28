@@ -20,7 +20,6 @@ container.register<IPlaceDataService>('PublicGamblingPlaceDataService', {
 container.register<ICalendarService>('PublicGamblingCalendarService', {
     useClass: PublicGamblingCalendarService,
 });
-container.register<IRaceDataService>(
-    'PublicGamblingRaceDataService',
-    PublicGamblingRaceDataService,
-);
+container.register<IRaceDataService>('PublicGamblingRaceDataService', {
+    useClass: PublicGamblingRaceDataService,
+});

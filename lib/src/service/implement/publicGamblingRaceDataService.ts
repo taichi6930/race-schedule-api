@@ -1,11 +1,17 @@
 import { inject, injectable } from 'tsyringe';
 
+import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
+import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
+import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
+import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
+import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
@@ -109,12 +115,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         finishDate: Date,
         type: DataLocationType,
         placeEntityList?: {
-            jra?: JraRaceEntity[];
-            nar?: NarRaceEntity[];
-            world?: WorldRaceEntity[];
-            keirin?: KeirinRaceEntity[];
-            autorace?: AutoraceRaceEntity[];
-            boatrace?: BoatraceRaceEntity[];
+            jra?: JraPlaceEntity[];
+            nar?: NarPlaceEntity[];
+            world?: WorldPlaceEntity[];
+            keirin?: KeirinPlaceEntity[];
+            autorace?: AutoracePlaceEntity[];
+            boatrace?: BoatracePlaceEntity[];
         },
     ): Promise<{
         jra: JraRaceEntity[];

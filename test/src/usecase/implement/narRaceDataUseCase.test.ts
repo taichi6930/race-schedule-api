@@ -7,6 +7,7 @@ import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPl
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { NarRaceDataUseCase } from '../../../../lib/src/usecase/implement/narRaceDataUseCase';
 import {
     baseNarRaceDataList,
@@ -14,13 +15,17 @@ import {
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import {
+    oldRaceDataServiceMock,
+    raceDataServiceMock,
+} from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceDataUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService>;
-    let raceDataService: jest.Mocked<
+    let oldRaceDataService: jest.Mocked<
         IOldRaceDataService<NarRaceEntity, NarPlaceEntity>
     >;
+    let raceDataService: jest.Mocked<IRaceDataService>;
     let useCase: NarRaceDataUseCase;
 
     beforeEach(() => {
@@ -30,13 +35,19 @@ describe('NarRaceDataUseCase', () => {
             placeDataService,
         );
 
-        raceDataService = oldRaceDataServiceMock<
+        oldRaceDataService = oldRaceDataServiceMock<
             NarRaceEntity,
             NarPlaceEntity
         >();
         container.registerInstance<
             IOldRaceDataService<NarRaceEntity, NarPlaceEntity>
-        >('NarRaceDataService', raceDataService);
+        >('NarRaceDataService', oldRaceDataService);
+
+        raceDataService = raceDataServiceMock();
+        container.registerInstance<IRaceDataService>(
+            'PublicGamblingRaceDataService',
+            raceDataService,
+        );
 
         useCase = container.resolve(NarRaceDataUseCase);
     });
@@ -83,9 +94,14 @@ describe('NarRaceDataUseCase', () => {
         ]) {
             it(`正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                 // モックの戻り値を設定
-                raceDataService.fetchRaceEntityList.mockResolvedValue(
-                    baseNarRaceEntityList,
-                );
+                raceDataService.fetchRaceEntityList.mockResolvedValue({
+                    nar: baseNarRaceEntityList,
+                    jra: [],
+                    world: [],
+                    keirin: [],
+                    autorace: [],
+                    boatrace: [],
+                });
 
                 const startDate = new Date('2025-12-01');
                 const finishDate = new Date('2025-12-31');
@@ -109,15 +125,15 @@ describe('NarRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
+            oldRaceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
             await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
-            expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
-            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
+            expect(oldRaceDataService.fetchRaceEntityList).toHaveBeenCalled();
+            expect(oldRaceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 
@@ -127,7 +143,7 @@ describe('NarRaceDataUseCase', () => {
 
             await useCase.upsertRaceDataList(mockRaceData);
 
-            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
+            expect(oldRaceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 });

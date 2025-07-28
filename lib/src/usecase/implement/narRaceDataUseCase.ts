@@ -5,6 +5,7 @@ import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
 import { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
 import { DataLocation } from '../../utility/dataType';
@@ -23,8 +24,10 @@ export class NarRaceDataUseCase
     public constructor(
         @inject('PublicGamblingPlaceDataService')
         private readonly placeDataService: IPlaceDataService,
+        @inject('PublicGamblingRaceDataService')
+        private readonly raceDataService: IRaceDataService,
         @inject('NarRaceDataService')
-        private readonly raceDataService: IOldRaceDataService<
+        private readonly oldRaceDataService: IOldRaceDataService<
             NarRaceEntity,
             NarPlaceEntity
         >,
@@ -55,13 +58,13 @@ export class NarRaceDataUseCase
             );
         const placeEntityList: NarPlaceEntity[] = _placeEntityList.nar;
 
-        const raceEntityList: NarRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Storage,
-                placeEntityList,
-            );
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            DataLocation.Storage,
+            { nar: placeEntityList },
+        );
+        const raceEntityList: NarRaceEntity[] = _raceEntityList.nar;
 
         const raceDataList: NarRaceData[] = raceEntityList.map(
             ({ raceData }) => raceData,
@@ -106,15 +109,15 @@ export class NarRaceDataUseCase
             );
         const placeEntityList: NarPlaceEntity[] = _placeEntityList.nar;
 
-        const raceEntityList: NarRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
+        const raceEntityList =
+            await this.oldRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Web,
                 placeEntityList,
             );
 
-        await this.raceDataService.updateRaceEntityList(raceEntityList);
+        await this.oldRaceDataService.updateRaceEntityList(raceEntityList);
     }
 
     /**
@@ -128,6 +131,6 @@ export class NarRaceDataUseCase
         const raceEntityList: NarRaceEntity[] = raceDataList.map((raceData) =>
             NarRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );
-        await this.raceDataService.updateRaceEntityList(raceEntityList);
+        await this.oldRaceDataService.updateRaceEntityList(raceEntityList);
     }
 }
