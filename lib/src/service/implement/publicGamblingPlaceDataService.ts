@@ -128,4 +128,52 @@ export class PublicGamblingPlaceDataService<P extends IPlaceEntity<P>>
             return [];
         }
     }
+
+    /**
+     * 開催場所データをStorageに保存/更新します
+     *
+     * 既存のデータが存在する場合は上書き、存在しない場合は新規作成します。
+     * このメソッドは一般的にWebから取得した最新データを保存する際に使用されます。
+     * @param placeEntityList - 保存/更新する開催場所エンティティの配列
+     * @throws Error データの保存/更新に失敗した場合
+     */
+    public updatePlaceEntityList: (
+        placeEntityList: (
+            | JraPlaceEntity
+            | NarPlaceEntity
+            | KeirinPlaceEntity
+            | AutoracePlaceEntity
+            | BoatracePlaceEntity
+        )[],
+    ) => Promise<void> = async (placeEntityList) => {
+        if (placeEntityList.length === 0) return;
+        try {
+            for (const placeEntity of placeEntityList) {
+                if (placeEntity instanceof JraPlaceEntity) {
+                    await this.jraPlaceRepositoryFromHtml.registerPlaceEntityList(
+                        [placeEntity],
+                    );
+                } else if (placeEntity instanceof NarPlaceEntity) {
+                    await this.narPlaceRepositoryFromHtml.registerPlaceEntityList(
+                        [placeEntity],
+                    );
+                } else if (placeEntity instanceof KeirinPlaceEntity) {
+                    await this.keirinPlaceRepositoryFromHtml.registerPlaceEntityList(
+                        [placeEntity],
+                    );
+                } else if (placeEntity instanceof AutoracePlaceEntity) {
+                    await this.autoracePlaceRepositoryFromHtml.registerPlaceEntityList(
+                        [placeEntity],
+                    );
+                } else if (placeEntity instanceof BoatracePlaceEntity) {
+                    await this.boatracePlaceRepositoryFromHtml.registerPlaceEntityList(
+                        [placeEntity],
+                    );
+                }
+            }
+        } catch (error) {
+            console.error('開催場データの保存/更新に失敗しました', error);
+            throw error;
+        }
+    };
 }

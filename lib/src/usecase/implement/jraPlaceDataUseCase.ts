@@ -77,7 +77,6 @@ export class JraPlaceDataUseCase implements IOldPlaceDataUseCase<JraPlaceData> {
                 modifyFinishDate,
                 DataLocation.Web,
             );
-
         await this.placeDataService.updatePlaceEntityList(placeEntityList);
     }
 }

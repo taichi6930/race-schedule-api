@@ -64,10 +64,43 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
 
     /**
      * 開催場データを更新する
+     * @param startDate
+     * @param finishDate
+     * @param raceTypeList
      */
     @Logger
-    public async updatePlaceDataList(): Promise<void> {
-        throw new Error('Not implemented');
-        await Promise.resolve();
+    public async updatePlaceDataList(
+        startDate: Date,
+        finishDate: Date,
+        raceTypeList: string[],
+    ): Promise<void> {
+        // startDateは月の1日に設定する
+        const modifyStartDate = new Date(
+            startDate.getFullYear(),
+            startDate.getMonth(),
+            1,
+        );
+        // finishDateは月の最終日に設定する
+        const modifyFinishDate = new Date(
+            finishDate.getFullYear(),
+            finishDate.getMonth() + 1,
+            0,
+        );
+        const placeEntityList: (
+            | JraPlaceEntity
+            | NarPlaceEntity
+            | KeirinPlaceEntity
+            | AutoracePlaceEntity
+            | BoatracePlaceEntity
+        )[] = await this.publicGamblingPlaceDataService.fetchPlaceEntityList(
+            modifyStartDate,
+            modifyFinishDate,
+            raceTypeList,
+            DataLocation.Web,
+        );
+        // 開催場データを更新
+        await this.publicGamblingPlaceDataService.updatePlaceEntityList(
+            placeEntityList,
+        );
     }
 }

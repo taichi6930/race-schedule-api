@@ -29,5 +29,9 @@ export interface IPlaceDataUseCase {
      * @param startDate
      * @param finishDate
      */
-    updatePlaceDataList: (startDate: Date, finishDate: Date) => Promise<void>;
+    updatePlaceDataList: (
+        startDate: Date,
+        finishDate: Date,
+        raceTypeList: string[],
+    ) => Promise<void>;
 }
