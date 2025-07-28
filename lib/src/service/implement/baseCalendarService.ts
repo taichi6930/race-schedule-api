@@ -1,9 +1,7 @@
 import 'reflect-metadata';
 import '../../utility/format';
 
-import { CalendarData } from '../../domain/calendarData';
 import { IRaceEntity } from '../../repository/entity/iRaceEntity';
-import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';
 import { IOldCalendarService } from '../interface/IOldCalendarService';
@@ -36,31 +34,6 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
     implements IOldCalendarService<R>
 {
     protected abstract calendarRepository: ICalendarRepository<R>;
-
-    /**
-     * 指定された期間のカレンダーイベントを取得します
-     *
-     * このメソッドは、Googleカレンダーから指定された期間の
-     * レース関連イベントを取得します。取得されたイベントは
-     * アプリケーション固有のCalendarData形式に変換されます。
-     * @param startDate - 取得開始日
-     * @param finishDate - 取得終了日（この日を含む）
-     * @returns カレンダーイベントの配列
-     * @throws カレンダーAPIとの通信エラーなど
-     * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
-     */
-    @Logger
-    public async getEvents(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<CalendarData[]> {
-        const searchFilter = new SearchCalendarFilterEntity(
-            startDate,
-            finishDate,
-        );
-        return this.calendarRepository.getEvents(searchFilter);
-    }
-
     /**
      * レース情報をカレンダーイベントとして登録・更新します
      *
@@ -81,27 +54,5 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
             return;
         }
         await this.calendarRepository.upsertEvents(raceEntityList);
-    }
-
-    /**
-     * 指定されたカレンダーイベントを削除します
-     *
-     * このメソッドは、不要になったレースイベント（中止された
-     * レースなど）をカレンダーから削除します。削除は完全な
-     * 削除であり、元に戻すことはできません。
-     *
-     * 空の配列が渡された場合は早期リターンし、不要な
-     * API呼び出しを防止します。
-     * @param calendarDataList - 削除するカレンダーイベントの配列
-     * @throws カレンダーAPIとの通信エラーなど
-     * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
-     */
-    @Logger
-    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
-        if (calendarDataList.length === 0) {
-            console.debug('指定された期間にイベントが見つかりませんでした。');
-            return;
-        }
-        await this.calendarRepository.deleteEvents(calendarDataList);
     }
 }

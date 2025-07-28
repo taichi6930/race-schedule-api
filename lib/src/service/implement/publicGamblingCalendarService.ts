@@ -117,4 +117,71 @@ export class PublicGamblingCalendarService implements ICalendarService {
         }
         return calendarDataList;
     }
+
+    /**
+     * 指定されたカレンダーイベントを削除します
+     *
+     * このメソッドは、不要になったレースイベント（中止された
+     * レースなど）をカレンダーから削除します。削除は完全な
+     * 削除であり、元に戻すことはできません。
+     *
+     * 空の配列が渡された場合は早期リターンし、不要な
+     * API呼び出しを防止します。
+     * @param calendarDataList - 削除するカレンダーイベントの配列
+     * @param calendarDataList.jra
+     * @param calendarDataList.nar
+     * @param calendarDataList.keirin
+     * @param calendarDataList.world
+     * @param calendarDataList.boatrace
+     * @param calendarDataList.autorace
+     * @throws カレンダーAPIとの通信エラーなど
+     * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
+     */
+    @Logger
+    public async deleteEvents(calendarDataList: {
+        jra: CalendarData[];
+        nar: CalendarData[];
+        keirin: CalendarData[];
+        world: CalendarData[];
+        boatrace: CalendarData[];
+        autorace: CalendarData[];
+    }): Promise<void> {
+        if (
+            calendarDataList.jra.length === 0 &&
+            calendarDataList.nar.length === 0 &&
+            calendarDataList.keirin.length === 0 &&
+            calendarDataList.world.length === 0 &&
+            calendarDataList.boatrace.length === 0 &&
+            calendarDataList.autorace.length === 0
+        ) {
+            console.debug('削除対象のイベントが見つかりませんでした。');
+            return;
+        }
+        if (calendarDataList.jra.length > 0) {
+            await this.jraCalendarRepository.deleteEvents(calendarDataList.jra);
+        }
+        if (calendarDataList.nar.length > 0) {
+            await this.narCalendarRepository.deleteEvents(calendarDataList.nar);
+        }
+        if (calendarDataList.keirin.length > 0) {
+            await this.keirinCalendarRepository.deleteEvents(
+                calendarDataList.keirin,
+            );
+        }
+        if (calendarDataList.world.length > 0) {
+            await this.worldCalendarRepository.deleteEvents(
+                calendarDataList.world,
+            );
+        }
+        if (calendarDataList.boatrace.length > 0) {
+            await this.boatraceCalendarRepository.deleteEvents(
+                calendarDataList.boatrace,
+            );
+        }
+        if (calendarDataList.autorace.length > 0) {
+            await this.autoraceRaceCalendarRepository.deleteEvents(
+                calendarDataList.autorace,
+            );
+        }
+    }
 }

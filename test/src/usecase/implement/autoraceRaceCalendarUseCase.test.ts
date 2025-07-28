@@ -89,13 +89,18 @@ describe('AutoraceRaceCalendarUseCase', () => {
                 ),
             ];
 
-            const expectCalendarDataList: CalendarData[] = Array.from(
-                { length: 3 },
-                (_, i: number) =>
+            const expectCalendarDataList = {
+                autorace: Array.from({ length: 3 }, (_, i: number) =>
                     baseAutoraceCalendarData.copy({
                         id: `autorace2024122920${(i + 6).toXDigits(2)}`,
                     }),
-            );
+                ),
+                jra: [],
+                nar: [],
+                world: [],
+                keirin: [],
+                boatrace: [],
+            };
             const expectRaceEntityList: AutoraceRaceEntity[] = Array.from(
                 { length: 5 },
                 (_, i: number) =>
@@ -127,8 +132,8 @@ describe('AutoraceRaceCalendarUseCase', () => {
             );
 
             // deleteEventsが呼び出された回数を確認
-            expect(oldCalendarService.deleteEvents).toHaveBeenCalledTimes(1);
-            expect(oldCalendarService.deleteEvents).toHaveBeenCalledWith(
+            expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
             expect(oldCalendarService.upsertEvents).toHaveBeenCalledTimes(1);

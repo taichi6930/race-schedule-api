@@ -1,4 +1,3 @@
-import type { CalendarData } from '../../domain/calendarData';
 import type { IRaceEntity } from '../../repository/entity/iRaceEntity';
 
 /**
@@ -29,15 +28,4 @@ export interface IOldCalendarService<R extends IRaceEntity<R>> {
      * @throws Error イベントの登録/更新に失敗した場合
      */
     upsertEvents: (raceEntityList: R[]) => Promise<void>;
-    /**
-     * 指定されたカレンダーイベントを削除します
-     *
-     * 通常、以下のような場合に使用されます：
-     * - レースが中止になった場合
-     * - イベント情報が誤っていた場合
-     * - 重複したイベントを整理する場合
-     * @param calendarDataList - 削除するカレンダーイベントの配列
-     * @throws Error イベントの削除に失敗した場合
-     */
-    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
 }

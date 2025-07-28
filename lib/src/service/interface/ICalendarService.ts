@@ -17,4 +17,32 @@ export interface ICalendarService {
         finishDate: Date,
         raceTypeList: string[],
     ) => Promise<CalendarData[]>;
+
+    /**
+     * 指定されたカレンダーイベントを削除します
+     *
+     * このメソッドは、不要になったレースイベント（中止された
+     * レースなど）をカレンダーから削除します。削除は完全な
+     * 削除であり、元に戻すことはできません。
+     *
+     * 空の配列が渡された場合は早期リターンし、不要な
+     * API呼び出しを防止します。
+     * @param calendarDataList - 削除するカレンダーイベントの配列
+     * @param calendarDataList.jra
+     * @param calendarDataList.nar
+     * @param calendarDataList.keirin
+     * @param calendarDataList.world
+     * @param calendarDataList.boatrace
+     * @param calendarDataList.autorace
+     * @throws カレンダーAPIとの通信エラーなど
+     * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
+     */
+    deleteEvents: (calendarDataList: {
+        jra: CalendarData[];
+        nar: CalendarData[];
+        keirin: CalendarData[];
+        world: CalendarData[];
+        boatrace: CalendarData[];
+        autorace: CalendarData[];
+    }) => Promise<void>;
 }

@@ -70,13 +70,18 @@ describe('WorldRaceCalendarUseCase', () => {
                     }),
             );
 
-            const expectCalendarDataList: CalendarData[] = Array.from(
-                { length: 3 },
-                (_, i: number) =>
+            const expectCalendarDataList = {
+                world: Array.from({ length: 3 }, (_, i: number) =>
                     baseWorldCalendarData.copy({
                         id: `world2024122920${(i + 5).toXDigits(2)}`,
                     }),
-            );
+                ),
+                jra: [],
+                nar: [],
+                keirin: [],
+                boatrace: [],
+                autorace: [],
+            };
             const expectRaceEntityList: WorldRaceEntity[] = mockRaceEntityList;
 
             // モックの戻り値を設定
@@ -102,8 +107,8 @@ describe('WorldRaceCalendarUseCase', () => {
             );
 
             // deleteEventsが呼び出された回数を確認
-            expect(oldCalendarService.deleteEvents).toHaveBeenCalledTimes(1);
-            expect(oldCalendarService.deleteEvents).toHaveBeenCalledWith(
+            expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
             expect(oldCalendarService.upsertEvents).toHaveBeenCalledTimes(1);

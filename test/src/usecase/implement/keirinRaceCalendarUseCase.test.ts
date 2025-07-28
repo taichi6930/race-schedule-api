@@ -87,13 +87,19 @@ describe('KeirinRaceCalendarUseCase', () => {
                 ),
             ];
 
-            const expectCalendarDataList: CalendarData[] = Array.from(
-                { length: 3 },
-                (_, i: number) =>
+            const expectCalendarDataList = {
+                keirin: Array.from({ length: 3 }, (_, i: number) =>
                     baseKeirinCalendarData.copy({
                         id: `keirin2024122920${(i + 6).toXDigits(2)}`,
                     }),
-            );
+                ),
+                jra: [],
+                nar: [],
+                world: [],
+                autorace: [],
+                boatrace: [],
+            };
+
             const expectRaceEntityList: KeirinRaceEntity[] = Array.from(
                 { length: 5 },
                 (_, i: number) =>
@@ -125,8 +131,8 @@ describe('KeirinRaceCalendarUseCase', () => {
             );
 
             // deleteEventsが呼び出された回数を確認
-            expect(oldCalendarService.deleteEvents).toHaveBeenCalledTimes(1);
-            expect(oldCalendarService.deleteEvents).toHaveBeenCalledWith(
+            expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
             expect(oldCalendarService.upsertEvents).toHaveBeenCalledTimes(1);

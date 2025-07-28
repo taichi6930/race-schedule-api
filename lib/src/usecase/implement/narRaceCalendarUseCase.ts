@@ -70,7 +70,14 @@ export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        await this.oldCalendarService.deleteEvents(deleteCalendarDataList);
+        await this.publicGamblingCalendarService.deleteEvents({
+            jra: [],
+            nar: deleteCalendarDataList,
+            world: [],
+            keirin: [],
+            boatrace: [],
+            autorace: [],
+        });
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: NarRaceEntity[] =
