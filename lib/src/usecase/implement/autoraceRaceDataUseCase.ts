@@ -3,8 +3,8 @@ import { inject, injectable } from 'tsyringe';
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
 import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
@@ -30,10 +30,7 @@ export class AutoraceRaceDataUseCase
         @inject('PublicGamblingPlaceDataService')
         private readonly placeDataService: IPlaceDataService,
         @inject('AutoraceRaceDataService')
-        private readonly raceDataService: IOldRaceDataService<
-            AutoraceRaceEntity,
-            AutoracePlaceEntity
-        >,
+        private readonly raceDataService: IRaceDataService,
     ) {}
 
     /**
@@ -54,24 +51,23 @@ export class AutoraceRaceDataUseCase
             stageList?: AutoraceRaceStage[];
         },
     ): Promise<AutoraceRaceData[]> {
-        const _placeEntityList =
+        const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 ['autorace'],
                 DataLocation.Storage,
             );
-        const placeEntityList: AutoracePlaceEntity[] =
-            _placeEntityList.autorace;
 
-        const raceEntityList: AutoraceRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Storage,
-                placeEntityList,
-            );
-
+        const raceEntityResult = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            DataLocation.Storage,
+            {
+                autorace: placeEntityList.autorace,
+            },
+        );
+        const raceEntityList: AutoraceRaceEntity[] = raceEntityResult.autorace;
         const raceDataList: AutoraceRaceData[] = raceEntityList.map(
             ({ raceData }) => raceData,
         );
@@ -153,15 +149,23 @@ export class AutoraceRaceDataUseCase
             return;
         }
 
-        const raceEntityList: AutoraceRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Web,
-                placeEntityList,
-            );
-
-        await this.raceDataService.updateRaceEntityList(raceEntityList);
+        const raceEntityResult = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            DataLocation.Web,
+            {
+                autorace: placeEntityList,
+            },
+        );
+        const raceEntityList: AutoraceRaceEntity[] = raceEntityResult.autorace;
+        await this.raceDataService.updateRaceEntityList({
+            jra: [],
+            nar: [],
+            world: [],
+            keirin: [],
+            autorace: raceEntityList,
+            boatrace: [],
+        });
     }
 
     /**
@@ -180,6 +184,13 @@ export class AutoraceRaceDataUseCase
                     getJSTDate(new Date()),
                 ),
         );
-        await this.raceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList({
+            jra: [],
+            nar: [],
+            world: [],
+            keirin: [],
+            autorace: raceEntityList,
+            boatrace: [],
+        });
     }
 }

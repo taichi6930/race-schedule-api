@@ -1,11 +1,17 @@
 import { inject, injectable } from 'tsyringe';
 
+import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
+import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
+import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
+import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
+import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
@@ -109,12 +115,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         finishDate: Date,
         type: DataLocationType,
         placeEntityList?: {
-            jra?: JraRaceEntity[];
-            nar?: NarRaceEntity[];
-            world?: WorldRaceEntity[];
-            keirin?: KeirinRaceEntity[];
-            autorace?: AutoraceRaceEntity[];
-            boatrace?: BoatraceRaceEntity[];
+            jra?: JraPlaceEntity[];
+            nar?: NarPlaceEntity[];
+            world?: WorldPlaceEntity[];
+            keirin?: KeirinPlaceEntity[];
+            autorace?: AutoracePlaceEntity[];
+            boatrace?: BoatracePlaceEntity[];
         },
     ): Promise<{
         jra: JraRaceEntity[];
@@ -246,44 +252,62 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * @throws Error データの保存/更新に失敗した場合
      */
     public updateRaceEntityList: (raceEntityList: {
-        jra: JraRaceEntity[];
-        nar: NarRaceEntity[];
-        world: WorldRaceEntity[];
-        keirin: KeirinRaceEntity[];
-        autorace: AutoraceRaceEntity[];
-        boatrace: BoatraceRaceEntity[];
+        jra?: JraRaceEntity[];
+        nar?: NarRaceEntity[];
+        world?: WorldRaceEntity[];
+        keirin?: KeirinRaceEntity[];
+        autorace?: AutoraceRaceEntity[];
+        boatrace?: BoatraceRaceEntity[];
     }) => Promise<void> = async (raceEntityList) => {
         if (
-            raceEntityList.jra.length === 0 &&
-            raceEntityList.nar.length === 0 &&
-            raceEntityList.world.length === 0 &&
-            raceEntityList.keirin.length === 0 &&
-            raceEntityList.autorace.length === 0 &&
-            raceEntityList.boatrace.length === 0
+            raceEntityList.jra?.length === 0 &&
+            raceEntityList.nar?.length === 0 &&
+            raceEntityList.world?.length === 0 &&
+            raceEntityList.keirin?.length === 0 &&
+            raceEntityList.autorace?.length === 0 &&
+            raceEntityList.boatrace?.length === 0
         )
             return;
         try {
-            if (raceEntityList.jra.length > 0)
+            if (
+                raceEntityList.jra !== undefined &&
+                raceEntityList.jra.length > 0
+            )
                 await this.jraRaceRepositoryFromStorage.registerRaceEntityList(
                     raceEntityList.jra,
                 );
-            if (raceEntityList.nar.length > 0)
+            if (
+                raceEntityList.nar !== undefined &&
+                raceEntityList.nar.length > 0
+            )
                 await this.narRaceRepositoryFromStorage.registerRaceEntityList(
                     raceEntityList.nar,
                 );
-            if (raceEntityList.world.length > 0)
+            if (
+                raceEntityList.world !== undefined &&
+                raceEntityList.world.length > 0
+            )
                 await this.raceRepositoryFromStorage.registerRaceEntityList(
                     raceEntityList.world,
                 );
-            if (raceEntityList.keirin.length > 0)
+            if (
+                raceEntityList.keirin !== undefined &&
+                raceEntityList.keirin.length > 0
+            )
                 await this.keirinRaceRepositoryFromStorage.registerRaceEntityList(
                     raceEntityList.keirin,
                 );
-            if (raceEntityList.autorace.length > 0)
+            if (
+                raceEntityList.autorace !== undefined &&
+                raceEntityList.autorace.length > 0
+            )
                 await this.autoraceRaceRepositoryFromStorage.registerRaceEntityList(
                     raceEntityList.autorace,
                 );
-            if (raceEntityList.boatrace.length > 0)
+            if (
+                raceEntityList.boatrace !== undefined &&
+                raceEntityList.boatrace.length > 0
+            )
                 await this.boatraceRaceRepositoryFromStorage.registerRaceEntityList(
                     raceEntityList.boatrace,
                 );
