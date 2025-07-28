@@ -3,10 +3,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
@@ -18,12 +17,9 @@ import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 export class WorldRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
-        private readonly publicGamblingCalendarService: ICalendarService,
-        @inject('WorldRaceDataService')
-        private readonly raceDataService: IOldRaceDataService<
-            WorldRaceEntity,
-            WorldPlaceEntity
-        >,
+        private readonly calendarService: ICalendarService,
+        @inject('PublicGamblingRaceDataService')
+        private readonly raceDataService: IRaceDataService,
     ) {}
 
     /**
@@ -39,11 +35,12 @@ export class WorldRaceCalendarUseCase implements IOldRaceCalendarUseCase {
         displayGradeList: string[],
     ): Promise<void> {
         // displayGradeListに含まれるレース情報のみを抽出
-        const raceEntityList = await this.raceDataService.fetchRaceEntityList(
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
             startDate,
             finishDate,
             DataLocation.Storage,
         );
+        const raceEntityList: WorldRaceEntity[] = _raceEntityList.world;
         const filteredRaceEntityList: WorldRaceEntity[] = raceEntityList.filter(
             (raceEntity) =>
                 displayGradeList.includes(raceEntity.raceData.grade),
@@ -51,11 +48,9 @@ export class WorldRaceCalendarUseCase implements IOldRaceCalendarUseCase {
 
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
-            await this.publicGamblingCalendarService.fetchEvents(
-                startDate,
-                finishDate,
-                ['world'],
-            );
+            await this.calendarService.fetchEvents(startDate, finishDate, [
+                'world',
+            ]);
 
         // 1. raceEntityListのIDに存在しないcalendarDataListを取得
         const deleteCalendarDataList: CalendarData[] = calendarDataList.filter(
@@ -64,7 +59,7 @@ export class WorldRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        await this.publicGamblingCalendarService.deleteEvents({
+        await this.calendarService.deleteEvents({
             jra: [],
             nar: [],
             world: deleteCalendarDataList,
@@ -81,7 +76,7 @@ export class WorldRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        await this.publicGamblingCalendarService.upsertEvents({
+        await this.calendarService.upsertEvents({
             world: upsertRaceEntityList,
         });
     }
