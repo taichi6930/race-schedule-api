@@ -6,7 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
+import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -21,7 +21,7 @@ export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
         @inject('JraRaceDataService')
-        private readonly raceDataService: IRaceDataService<
+        private readonly raceDataService: IOldRaceDataService<
             JraRaceEntity,
             JraPlaceEntity
         >,

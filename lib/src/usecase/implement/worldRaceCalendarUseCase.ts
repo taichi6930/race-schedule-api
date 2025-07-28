@@ -6,7 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
+import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
@@ -20,7 +20,7 @@ export class WorldRaceCalendarUseCase implements IOldRaceCalendarUseCase {
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
         @inject('WorldRaceDataService')
-        private readonly raceDataService: IRaceDataService<
+        private readonly raceDataService: IOldRaceDataService<
             WorldRaceEntity,
             WorldPlaceEntity
         >,

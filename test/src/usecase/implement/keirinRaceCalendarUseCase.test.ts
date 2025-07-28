@@ -6,8 +6,8 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
-import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { KeirinRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/keirinRaceCalendarUseCase';
 import { KeirinSpecifiedGradeList } from '../../../../lib/src/utility/data/keirin/keirinGradeType';
 import {
@@ -16,12 +16,12 @@ import {
 } from '../../mock/common/baseKeirinData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
 import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
     let raceDataService: jest.Mocked<
-        IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
+        IOldRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
     >;
     let playerDataService: jest.Mocked<IPlayerDataService>;
     let useCase: KeirinRaceCalendarUseCase;
@@ -33,12 +33,12 @@ describe('KeirinRaceCalendarUseCase', () => {
             calendarService,
         );
 
-        raceDataService = raceDataServiceMock<
+        raceDataService = oldRaceDataServiceMock<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
         container.registerInstance<
-            IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
+            IOldRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceDataService', raceDataService);
 
         playerDataService = playerDataServiceMock();

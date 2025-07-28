@@ -5,8 +5,8 @@ import { container } from 'tsyringe';
 import type { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
-import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { KeirinRaceDataUseCase } from '../../../../lib/src/usecase/implement/keirinRaceDataUseCase';
 import {
     baseKeirinPlaceEntity,
@@ -14,22 +14,22 @@ import {
     baseKeirinRaceEntityList,
 } from '../../mock/common/baseKeirinData';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<
-        IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
+        IOldRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
     >;
     let placeDataService: jest.Mocked<IPlaceDataService>;
     let useCase: KeirinRaceDataUseCase;
 
     beforeEach(() => {
-        raceDataService = raceDataServiceMock<
+        raceDataService = oldRaceDataServiceMock<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
         container.registerInstance<
-            IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
+            IOldRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceDataService', raceDataService);
 
         placeDataService = placeDataServiceMock();

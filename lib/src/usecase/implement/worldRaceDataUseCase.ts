@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
+import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import { WorldRaceCourse } from '../../utility/data/world/worldRaceCourse';
 import { DataLocation } from '../../utility/dataType';
@@ -26,7 +26,7 @@ export class WorldRaceDataUseCase
 {
     public constructor(
         @inject('WorldRaceDataService')
-        private readonly raceDataService: IRaceDataService<
+        private readonly raceDataService: IOldRaceDataService<
             WorldRaceEntity,
             WorldPlaceEntity
         >,

@@ -5,8 +5,8 @@ import { container } from 'tsyringe';
 import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
+import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
-import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { NarRaceDataUseCase } from '../../../../lib/src/usecase/implement/narRaceDataUseCase';
 import {
     baseNarRaceDataList,
@@ -14,12 +14,12 @@ import {
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceDataUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService>;
     let raceDataService: jest.Mocked<
-        IRaceDataService<NarRaceEntity, NarPlaceEntity>
+        IOldRaceDataService<NarRaceEntity, NarPlaceEntity>
     >;
     let useCase: NarRaceDataUseCase;
 
@@ -30,9 +30,12 @@ describe('NarRaceDataUseCase', () => {
             placeDataService,
         );
 
-        raceDataService = raceDataServiceMock<NarRaceEntity, NarPlaceEntity>();
+        raceDataService = oldRaceDataServiceMock<
+            NarRaceEntity,
+            NarPlaceEntity
+        >();
         container.registerInstance<
-            IRaceDataService<NarRaceEntity, NarPlaceEntity>
+            IOldRaceDataService<NarRaceEntity, NarPlaceEntity>
         >('NarRaceDataService', raceDataService);
 
         useCase = container.resolve(NarRaceDataUseCase);

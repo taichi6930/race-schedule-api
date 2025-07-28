@@ -18,46 +18,44 @@ import { JraRaceDataService } from '../../src/service/implement/jraRaceDataServi
 import { KeirinRaceDataService } from '../../src/service/implement/keirinRaceDataService';
 import { NarRaceDataService } from '../../src/service/implement/narRaceDataService';
 import { WorldRaceDataService } from '../../src/service/implement/worldRaceDataService';
-import type { IRaceDataService } from '../../src/service/interface/IRaceDataService';
+import type { IOldRaceDataService } from '../../src/service/interface/IOldRaceDataService';
 
-container.register<IRaceDataService<JraRaceEntity, JraPlaceEntity>>(
+container.register<IOldRaceDataService<JraRaceEntity, JraPlaceEntity>>(
     'JraRaceDataService',
     {
         useClass: JraRaceDataService,
     },
 );
 
-container.register<IRaceDataService<NarRaceEntity, NarPlaceEntity>>(
+container.register<IOldRaceDataService<NarRaceEntity, NarPlaceEntity>>(
     'NarRaceDataService',
     {
         useClass: NarRaceDataService,
     },
 );
 
-container.register<IRaceDataService<WorldRaceEntity, WorldPlaceEntity>>(
+container.register<IOldRaceDataService<WorldRaceEntity, WorldPlaceEntity>>(
     'WorldRaceDataService',
     {
         useClass: WorldRaceDataService,
     },
 );
 
-container.register<IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>>(
+container.register<IOldRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>>(
     'KeirinRaceDataService',
     {
         useClass: KeirinRaceDataService,
     },
 );
 
-container.register<IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>>(
-    'AutoraceRaceDataService',
-    {
-        useClass: AutoraceRaceDataService,
-    },
-);
+container.register<
+    IOldRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
+>('AutoraceRaceDataService', {
+    useClass: AutoraceRaceDataService,
+});
 
-container.register<IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>>(
-    'BoatraceRaceDataService',
-    {
-        useClass: BoatraceRaceDataService,
-    },
-);
+container.register<
+    IOldRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
+>('BoatraceRaceDataService', {
+    useClass: BoatraceRaceDataService,
+});

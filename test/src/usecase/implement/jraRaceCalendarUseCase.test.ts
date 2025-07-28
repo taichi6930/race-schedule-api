@@ -6,7 +6,7 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
+import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import { JraRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/jraRaceCalendarUseCase';
 import { JraSpecifiedGradeList } from '../../../../lib/src/utility/data/jra/jraGradeType';
 import {
@@ -14,12 +14,12 @@ import {
     baseJraRaceEntity,
 } from '../../mock/common/baseJraData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('JraRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
     let raceDataService: jest.Mocked<
-        IRaceDataService<JraRaceEntity, JraPlaceEntity>
+        IOldRaceDataService<JraRaceEntity, JraPlaceEntity>
     >;
     let useCase: JraRaceCalendarUseCase;
 
@@ -30,9 +30,12 @@ describe('JraRaceCalendarUseCase', () => {
             calendarService,
         );
 
-        raceDataService = raceDataServiceMock<JraRaceEntity, JraPlaceEntity>();
+        raceDataService = oldRaceDataServiceMock<
+            JraRaceEntity,
+            JraPlaceEntity
+        >();
         container.registerInstance<
-            IRaceDataService<JraRaceEntity, JraPlaceEntity>
+            IOldRaceDataService<JraRaceEntity, JraPlaceEntity>
         >('JraRaceDataService', raceDataService);
 
         useCase = container.resolve(JraRaceCalendarUseCase);

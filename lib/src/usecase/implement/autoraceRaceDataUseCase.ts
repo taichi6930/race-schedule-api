@@ -3,8 +3,8 @@ import { inject, injectable } from 'tsyringe';
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
+import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
 import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
@@ -30,7 +30,7 @@ export class AutoraceRaceDataUseCase
         @inject('PublicGamblingPlaceDataService')
         private readonly placeDataService: IPlaceDataService,
         @inject('AutoraceRaceDataService')
-        private readonly raceDataService: IRaceDataService<
+        private readonly raceDataService: IOldRaceDataService<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >,

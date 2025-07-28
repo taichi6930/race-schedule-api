@@ -4,7 +4,7 @@ import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilter
 import type { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, type DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import type { IRaceDataService } from '../interface/IRaceDataService';
+import type { IOldRaceDataService } from '../interface/IOldRaceDataService';
 
 /**
  * レース開催情報の取得と更新を担当する基底サービスクラス
@@ -34,7 +34,7 @@ import type { IRaceDataService } from '../interface/IRaceDataService';
 export abstract class BaseRaceDataService<
     R extends IRaceEntity<R>,
     P extends IPlaceEntity<P>,
-> implements IRaceDataService<R, P>
+> implements IOldRaceDataService<R, P>
 {
     protected abstract raceRepositoryFromStorage: IRaceRepository<R, P>;
     protected abstract raceRepositoryFromHtml: IRaceRepository<R, P>;

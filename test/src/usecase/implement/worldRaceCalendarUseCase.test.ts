@@ -6,7 +6,7 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
+import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import { WorldRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/worldRaceCalendarUseCase';
 import { WorldSpecifiedGradeList } from '../../../../lib/src/utility/data/world/worldGradeType';
 import {
@@ -14,12 +14,12 @@ import {
     baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('WorldRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
     let raceDataService: jest.Mocked<
-        IRaceDataService<WorldRaceEntity, WorldPlaceEntity>
+        IOldRaceDataService<WorldRaceEntity, WorldPlaceEntity>
     >;
     let useCase: WorldRaceCalendarUseCase;
 
@@ -29,12 +29,12 @@ describe('WorldRaceCalendarUseCase', () => {
             'PublicGamblingCalendarService',
             calendarService,
         );
-        raceDataService = raceDataServiceMock<
+        raceDataService = oldRaceDataServiceMock<
             WorldRaceEntity,
             WorldPlaceEntity
         >();
         container.registerInstance<
-            IRaceDataService<WorldRaceEntity, WorldPlaceEntity>
+            IOldRaceDataService<WorldRaceEntity, WorldPlaceEntity>
         >('WorldRaceDataService', raceDataService);
 
         useCase = container.resolve(WorldRaceCalendarUseCase);

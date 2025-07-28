@@ -6,8 +6,8 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
-import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { AutoraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/autoraceRaceCalendarUseCase';
 import { AutoraceSpecifiedGradeList } from '../../../../lib/src/utility/data/autorace/autoraceGradeType';
 import {
@@ -16,12 +16,12 @@ import {
 } from '../../mock/common/baseAutoraceData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
 import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('AutoraceRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
     let raceDataService: jest.Mocked<
-        IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
+        IOldRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
     >;
     let playerDataService: jest.Mocked<IPlayerDataService>;
     let useCase: AutoraceRaceCalendarUseCase;
@@ -33,12 +33,12 @@ describe('AutoraceRaceCalendarUseCase', () => {
             calendarService,
         );
 
-        raceDataService = raceDataServiceMock<
+        raceDataService = oldRaceDataServiceMock<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >();
         container.registerInstance<
-            IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
+            IOldRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
         >('AutoraceRaceDataService', raceDataService);
 
         playerDataService = playerDataServiceMock();

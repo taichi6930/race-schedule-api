@@ -6,7 +6,7 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
+import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
 import { NarSpecifiedGradeList } from '../../../../lib/src/utility/data/nar/narGradeType';
 import {
@@ -14,12 +14,12 @@ import {
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
     let raceDataService: jest.Mocked<
-        IRaceDataService<NarRaceEntity, NarPlaceEntity>
+        IOldRaceDataService<NarRaceEntity, NarPlaceEntity>
     >;
     let useCase: NarRaceCalendarUseCase;
 
@@ -29,9 +29,12 @@ describe('NarRaceCalendarUseCase', () => {
             'PublicGamblingCalendarService',
             calendarService,
         );
-        raceDataService = raceDataServiceMock<NarRaceEntity, NarPlaceEntity>();
+        raceDataService = oldRaceDataServiceMock<
+            NarRaceEntity,
+            NarPlaceEntity
+        >();
         container.registerInstance<
-            IRaceDataService<NarRaceEntity, NarPlaceEntity>
+            IOldRaceDataService<NarRaceEntity, NarPlaceEntity>
         >('NarRaceDataService', raceDataService);
 
         useCase = container.resolve(NarRaceCalendarUseCase);

@@ -5,28 +5,28 @@ import { container } from 'tsyringe';
 import type { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
-import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
+import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import { WorldRaceDataUseCase } from '../../../../lib/src/usecase/implement/worldRaceDataUseCase';
 import {
     baseWorldRaceDataList,
     baseWorldRaceEntity,
     baseWorldRaceEntityList,
 } from '../../mock/common/baseWorldData';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('WorldRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<
-        IRaceDataService<WorldRaceEntity, WorldPlaceEntity>
+        IOldRaceDataService<WorldRaceEntity, WorldPlaceEntity>
     >;
     let useCase: WorldRaceDataUseCase;
 
     beforeEach(() => {
-        raceDataService = raceDataServiceMock<
+        raceDataService = oldRaceDataServiceMock<
             WorldRaceEntity,
             WorldPlaceEntity
         >();
         container.registerInstance<
-            IRaceDataService<WorldRaceEntity, WorldPlaceEntity>
+            IOldRaceDataService<WorldRaceEntity, WorldPlaceEntity>
         >('WorldRaceDataService', raceDataService);
 
         useCase = container.resolve(WorldRaceDataUseCase);
