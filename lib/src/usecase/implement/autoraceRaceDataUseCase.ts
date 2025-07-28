@@ -29,7 +29,7 @@ export class AutoraceRaceDataUseCase
     public constructor(
         @inject('PublicGamblingPlaceDataService')
         private readonly placeDataService: IPlaceDataService,
-        @inject('AutoraceRaceDataService')
+        @inject('PublicGamblingRaceDataService')
         private readonly raceDataService: IRaceDataService,
     ) {}
 
