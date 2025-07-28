@@ -1,3 +1,5 @@
+import './raceDataServiceConfig';
+
 import { container } from 'tsyringe';
 
 import { PlayerDataService } from '../../src/service/implement/playerDataService';
@@ -18,6 +20,7 @@ container.register<IPlaceDataService>('PublicGamblingPlaceDataService', {
 container.register<ICalendarService>('PublicGamblingCalendarService', {
     useClass: PublicGamblingCalendarService,
 });
-container.register<IRaceDataService>('PublicGamblingRaceDataService', {
-    useClass: PublicGamblingRaceDataService,
-});
+container.register<IRaceDataService>(
+    'PublicGamblingRaceDataService',
+    PublicGamblingRaceDataService,
+);

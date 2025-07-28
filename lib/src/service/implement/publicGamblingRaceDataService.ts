@@ -1,14 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
-import { AutoracePlaceData } from '../../domain/autoracePlaceData';
-import { BoatracePlaceData } from '../../domain/boatracePlaceData';
-import { JraPlaceData } from '../../domain/jraPlaceData';
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
-import { NarPlaceData } from '../../domain/narPlaceData';
-import { WorldPlaceData } from '../../domain/worldPlaceData';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
-import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
@@ -116,12 +109,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         finishDate: Date,
         type: DataLocationType,
         placeEntityList?: {
-            jra?: IPlaceEntity<JraPlaceData>[];
-            nar?: IPlaceEntity<NarPlaceData>[];
-            world?: IPlaceEntity<WorldPlaceData>[];
-            keirin?: IPlaceEntity<KeirinPlaceData>[];
-            autorace?: IPlaceEntity<AutoracePlaceData>[];
-            boatrace?: IPlaceEntity<BoatracePlaceData>[];
+            jra?: JraRaceEntity[];
+            nar?: NarRaceEntity[];
+            world?: WorldRaceEntity[];
+            keirin?: KeirinRaceEntity[];
+            autorace?: AutoraceRaceEntity[];
+            boatrace?: BoatraceRaceEntity[];
         },
     ): Promise<{
         jra: JraRaceEntity[];
