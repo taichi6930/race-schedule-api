@@ -6,7 +6,6 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import type { IOldCalendarService } from '../../../../lib/src/service/interface/IOldCalendarService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { WorldRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/worldRaceCalendarUseCase';
 import { WorldSpecifiedGradeList } from '../../../../lib/src/utility/data/world/worldGradeType';
@@ -15,12 +14,10 @@ import {
     baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { oldCalendarServiceMock } from '../../mock/service/oldCalendarServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('WorldRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
-    let oldCalendarService: jest.Mocked<IOldCalendarService<WorldRaceEntity>>;
     let raceDataService: jest.Mocked<
         IRaceDataService<WorldRaceEntity, WorldPlaceEntity>
     >;
@@ -31,12 +28,6 @@ describe('WorldRaceCalendarUseCase', () => {
         container.registerInstance<ICalendarService>(
             'PublicGamblingCalendarService',
             calendarService,
-        );
-
-        oldCalendarService = oldCalendarServiceMock<WorldRaceEntity>();
-        container.registerInstance<IOldCalendarService<WorldRaceEntity>>(
-            'WorldCalendarService',
-            oldCalendarService,
         );
         raceDataService = raceDataServiceMock<
             WorldRaceEntity,

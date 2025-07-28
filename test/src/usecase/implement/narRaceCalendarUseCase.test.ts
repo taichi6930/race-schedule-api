@@ -6,7 +6,6 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import type { IOldCalendarService } from '../../../../lib/src/service/interface/IOldCalendarService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
 import { NarSpecifiedGradeList } from '../../../../lib/src/utility/data/nar/narGradeType';
@@ -15,12 +14,10 @@ import {
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { oldCalendarServiceMock } from '../../mock/service/oldCalendarServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
-    let oldCalendarService: jest.Mocked<IOldCalendarService<NarRaceEntity>>;
     let raceDataService: jest.Mocked<
         IRaceDataService<NarRaceEntity, NarPlaceEntity>
     >;
@@ -32,13 +29,6 @@ describe('NarRaceCalendarUseCase', () => {
             'PublicGamblingCalendarService',
             calendarService,
         );
-
-        oldCalendarService = oldCalendarServiceMock<NarRaceEntity>();
-        container.registerInstance<IOldCalendarService<NarRaceEntity>>(
-            'NarCalendarService',
-            oldCalendarService,
-        );
-
         raceDataService = raceDataServiceMock<NarRaceEntity, NarPlaceEntity>();
         container.registerInstance<
             IRaceDataService<NarRaceEntity, NarPlaceEntity>
