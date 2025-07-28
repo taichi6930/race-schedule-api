@@ -3,24 +3,21 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
-import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
-import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { JraRaceDataUseCase } from '../../../../lib/src/usecase/implement/jraRaceDataUseCase';
 import {
     baseJraRaceDataList,
     baseJraRaceEntity,
     baseJraRaceEntityList,
 } from '../../mock/common/baseJraData';
-import { oldRaceDataServiceMock } from '../../mock/service/oldRaceDataServiceMock';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('JraRaceDataUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService>;
-    let raceDataService: jest.Mocked<
-        IOldRaceDataService<JraRaceEntity, JraPlaceEntity>
-    >;
+    let raceDataService: jest.Mocked<IRaceDataService>;
     let useCase: JraRaceDataUseCase;
 
     beforeEach(() => {
@@ -30,13 +27,11 @@ describe('JraRaceDataUseCase', () => {
             placeDataService,
         );
 
-        raceDataService = oldRaceDataServiceMock<
-            JraRaceEntity,
-            JraPlaceEntity
-        >();
-        container.registerInstance<
-            IOldRaceDataService<JraRaceEntity, JraPlaceEntity>
-        >('JraRaceDataService', raceDataService);
+        raceDataService = raceDataServiceMock();
+        container.registerInstance<IRaceDataService>(
+            'PublicGamblingRaceDataService',
+            raceDataService,
+        );
 
         useCase = container.resolve(JraRaceDataUseCase);
     });
@@ -83,9 +78,14 @@ describe('JraRaceDataUseCase', () => {
         ]) {
             it(`正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                 // モックの戻り値を設定
-                raceDataService.fetchRaceEntityList.mockResolvedValue(
-                    baseJraRaceEntityList,
-                );
+                raceDataService.fetchRaceEntityList.mockResolvedValue({
+                    keirin: [],
+                    boatrace: [],
+                    nar: [],
+                    world: [],
+                    jra: baseJraRaceEntityList,
+                    autorace: [],
+                });
 
                 const startDate = new Date('2025-12-01');
                 const finishDate = new Date('2025-12-31');
@@ -109,9 +109,14 @@ describe('JraRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntity,
-            );
+            raceDataService.fetchRaceEntityList.mockResolvedValue({
+                keirin: [],
+                boatrace: [],
+                nar: [],
+                world: [],
+                jra: mockRaceEntity,
+                autorace: [],
+            });
 
             await useCase.updateRaceEntityList(startDate, finishDate);
 

@@ -3,34 +3,28 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
-import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
-import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
-import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { KeirinRaceDataUseCase } from '../../../../lib/src/usecase/implement/keirinRaceDataUseCase';
 import {
     baseKeirinPlaceEntity,
     baseKeirinRaceDataList,
     baseKeirinRaceEntityList,
 } from '../../mock/common/baseKeirinData';
-import { oldRaceDataServiceMock } from '../../mock/service/oldRaceDataServiceMock';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceDataUseCase', () => {
-    let raceDataService: jest.Mocked<
-        IOldRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
-    >;
+    let raceDataService: jest.Mocked<IRaceDataService>;
     let placeDataService: jest.Mocked<IPlaceDataService>;
     let useCase: KeirinRaceDataUseCase;
 
     beforeEach(() => {
-        raceDataService = oldRaceDataServiceMock<
-            KeirinRaceEntity,
-            KeirinPlaceEntity
-        >();
-        container.registerInstance<
-            IOldRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
-        >('KeirinRaceDataService', raceDataService);
+        raceDataService = raceDataServiceMock();
+        container.registerInstance<IRaceDataService>(
+            'PublicGamblingRaceDataService',
+            raceDataService,
+        );
 
         placeDataService = placeDataServiceMock();
         container.registerInstance<IPlaceDataService>(
@@ -114,9 +108,14 @@ describe('KeirinRaceDataUseCase', () => {
         ]) {
             it(`正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                 // モックの戻り値を設定
-                raceDataService.fetchRaceEntityList.mockResolvedValue(
-                    baseKeirinRaceEntityList,
-                );
+                raceDataService.fetchRaceEntityList.mockResolvedValue({
+                    keirin: baseKeirinRaceEntityList,
+                    jra: [],
+                    nar: [],
+                    world: [],
+                    boatrace: [],
+                    autorace: [],
+                });
 
                 const startDate = new Date('2025-12-01');
                 const finishDate = new Date('2025-12-31');
@@ -137,6 +136,7 @@ describe('KeirinRaceDataUseCase', () => {
             const mockPlaceEntity = {
                 jra: [],
                 nar: [],
+                world: [],
                 keirin: [baseKeirinPlaceEntity],
                 autorace: [],
                 boatrace: [],
@@ -150,9 +150,14 @@ describe('KeirinRaceDataUseCase', () => {
             };
 
             // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                baseKeirinRaceEntityList,
-            );
+            raceDataService.fetchRaceEntityList.mockResolvedValue({
+                keirin: baseKeirinRaceEntityList,
+                jra: [],
+                nar: [],
+                world: [],
+                boatrace: [],
+                autorace: [],
+            });
             placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
@@ -184,9 +189,14 @@ describe('KeirinRaceDataUseCase', () => {
             };
 
             // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                baseKeirinRaceEntityList,
-            );
+            raceDataService.fetchRaceEntityList.mockResolvedValue({
+                keirin: baseKeirinRaceEntityList,
+                jra: [],
+                nar: [],
+                world: [],
+                boatrace: [],
+                autorace: [],
+            });
             placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
@@ -215,9 +225,14 @@ describe('KeirinRaceDataUseCase', () => {
             const searchList = {};
 
             // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                baseKeirinRaceEntityList,
-            );
+            raceDataService.fetchRaceEntityList.mockResolvedValue({
+                keirin: baseKeirinRaceEntityList,
+                jra: [],
+                nar: [],
+                world: [],
+                boatrace: [],
+                autorace: [],
+            });
             placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );

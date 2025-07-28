@@ -23,7 +23,7 @@ describe('AutoraceRaceDataUseCase', () => {
     beforeEach(() => {
         raceDataService = raceDataServiceMock();
         container.registerInstance<IRaceDataService>(
-            'AutoraceRaceDataService',
+            'PublicGamblingRaceDataService',
             raceDataService,
         );
 

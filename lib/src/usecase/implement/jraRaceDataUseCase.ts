@@ -3,8 +3,8 @@ import { inject, injectable } from 'tsyringe';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
 import { DataLocation } from '../../utility/dataType';
@@ -23,11 +23,8 @@ export class JraRaceDataUseCase
     public constructor(
         @inject('PublicGamblingPlaceDataService')
         private readonly placeDataService: IPlaceDataService,
-        @inject('JraRaceDataService')
-        private readonly raceDataService: IOldRaceDataService<
-            JraRaceEntity,
-            JraPlaceEntity
-        >,
+        @inject('PublicGamblingRaceDataService')
+        private readonly raceDataService: IRaceDataService,
     ) {}
 
     /**
@@ -55,13 +52,15 @@ export class JraRaceDataUseCase
             );
         const placeEntityList: JraPlaceEntity[] = _placeEntityList.jra;
 
-        const raceEntityList: JraRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Storage,
-                placeEntityList,
-            );
+        const raceEntityResult = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            DataLocation.Storage,
+            {
+                jra: placeEntityList,
+            },
+        );
+        const raceEntityList: JraRaceEntity[] = raceEntityResult.jra;
 
         const raceDataList: JraRaceData[] = raceEntityList.map(
             ({ raceData }) => raceData,
@@ -97,22 +96,22 @@ export class JraRaceDataUseCase
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
-        const _placeEntityList =
+        const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 ['jra'],
                 DataLocation.Storage,
             );
-        const placeEntityList: JraPlaceEntity[] = _placeEntityList.jra;
 
-        const raceEntityList: JraRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Web,
-                placeEntityList,
-            );
+        const raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            DataLocation.Web,
+            {
+                jra: placeEntityList.jra,
+            },
+        );
 
         await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
@@ -128,6 +127,8 @@ export class JraRaceDataUseCase
         const raceEntityList: JraRaceEntity[] = raceDataList.map((raceData) =>
             JraRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );
-        await this.raceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList({
+            jra: raceEntityList,
+        });
     }
 }
