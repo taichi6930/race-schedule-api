@@ -75,32 +75,6 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
     }
 
     /**
-     * 開催場所データをストレージに保存/更新します
-     *
-     * このメソッドは、取得した開催場所データを永続化します。
-     * 空の配列が渡された場合は何も実行せず、エラーが発生した場合は
-     * ログ出力のみを行い、アプリケーションの実行を継続します。
-     *
-     * 更新されたデータは、その後のレースデータ取得・更新処理で
-     * 参照情報として使用されます。
-     * @param placeEntityList - 保存/更新する開催場所エンティティの配列
-     * @throws エラーはキャッチされログ出力されます
-     * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
-     */
-    @Logger
-    public async updatePlaceEntityList(placeEntityList: P[]): Promise<void> {
-        try {
-            if (placeEntityList.length === 0) return;
-
-            await this.placeRepositoryFromStorage.registerPlaceEntityList(
-                placeEntityList,
-            );
-        } catch (error) {
-            console.error('開催場データの更新に失敗しました', error);
-        }
-    }
-
-    /**
      * データソースに応じた適切なリポジトリインスタンスを取得します
      *
      * このメソッドは、指定されたデータソースタイプに基づいて、

@@ -2,7 +2,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
-import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
@@ -16,9 +15,7 @@ import { IPlaceDataService } from '../interface/IPlaceDataService';
  * 開催場所データの取得と更新を担当する基底サービスクラス
  */
 @injectable()
-export class PublicGamblingPlaceDataService<P extends IPlaceEntity<P>>
-    implements IPlaceDataService
-{
+export class PublicGamblingPlaceDataService implements IPlaceDataService {
     public constructor(
         @inject('JraPlaceRepositoryFromStorage')
         protected jraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,

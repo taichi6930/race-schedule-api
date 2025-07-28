@@ -10,6 +10,5 @@ export const oldPlaceDataServiceMock = <
 >(): jest.Mocked<IOldPlaceDataService<P>> => {
     return {
         fetchPlaceEntityList: jest.fn().mockResolvedValue([] as P[]),
-        updatePlaceEntityList: jest.fn().mockResolvedValue([]),
     };
 };
