@@ -125,19 +125,14 @@ describe('NarRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue({
-                nar: mockRaceEntity,
-                jra: [],
-                world: [],
-                keirin: [],
-                autorace: [],
-                boatrace: [],
-            });
+            oldRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntity,
+            );
 
             await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
-            expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
+            expect(oldRaceDataService.fetchRaceEntityList).toHaveBeenCalled();
             expect(oldRaceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });

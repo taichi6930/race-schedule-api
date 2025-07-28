@@ -109,13 +109,13 @@ export class NarRaceDataUseCase
             );
         const placeEntityList: NarPlaceEntity[] = _placeEntityList.nar;
 
-        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
-            startDate,
-            finishDate,
-            DataLocation.Web,
-            { nar: placeEntityList },
-        );
-        const raceEntityList: NarRaceEntity[] = _raceEntityList.nar;
+        const raceEntityList =
+            await this.oldRaceDataService.fetchRaceEntityList(
+                startDate,
+                finishDate,
+                DataLocation.Web,
+                placeEntityList,
+            );
 
         await this.oldRaceDataService.updateRaceEntityList(raceEntityList);
     }
