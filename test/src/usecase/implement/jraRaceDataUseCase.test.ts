@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import type { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
-import type { IOldPlaceDataService } from '../../../../lib/src/service/interface/IOldPlaceDataService';
+import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { JraRaceDataUseCase } from '../../../../lib/src/usecase/implement/jraRaceDataUseCase';
 import {
@@ -13,20 +13,20 @@ import {
     baseJraRaceEntity,
     baseJraRaceEntityList,
 } from '../../mock/common/baseJraData';
-import { oldPlaceDataServiceMock } from '../../mock/service/oldPlaceDataServiceMock';
+import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('JraRaceDataUseCase', () => {
-    let placeDataService: jest.Mocked<IOldPlaceDataService<JraPlaceEntity>>;
+    let placeDataService: jest.Mocked<IPlaceDataService>;
     let raceDataService: jest.Mocked<
         IRaceDataService<JraRaceEntity, JraPlaceEntity>
     >;
     let useCase: JraRaceDataUseCase;
 
     beforeEach(() => {
-        placeDataService = oldPlaceDataServiceMock<JraPlaceEntity>();
-        container.registerInstance<IOldPlaceDataService<JraPlaceEntity>>(
-            'JraPlaceDataService',
+        placeDataService = placeDataServiceMock();
+        container.registerInstance<IPlaceDataService>(
+            'PublicGamblingPlaceDataService',
             placeDataService,
         );
 

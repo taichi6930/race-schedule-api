@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
@@ -27,8 +27,8 @@ export class AutoraceRaceDataUseCase
         >
 {
     public constructor(
-        @inject('AutoracePlaceDataService')
-        private readonly placeDataService: IOldPlaceDataService<AutoracePlaceEntity>,
+        @inject('PublicGamblingPlaceDataService')
+        private readonly placeDataService: IPlaceDataService,
         @inject('AutoraceRaceDataService')
         private readonly raceDataService: IRaceDataService<
             AutoraceRaceEntity,
@@ -54,12 +54,15 @@ export class AutoraceRaceDataUseCase
             stageList?: AutoraceRaceStage[];
         },
     ): Promise<AutoraceRaceData[]> {
-        const placeEntityList: AutoracePlaceEntity[] =
+        const _placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
+                ['autorace'],
                 DataLocation.Storage,
             );
+        const placeEntityList: AutoracePlaceEntity[] =
+            _placeEntityList.autorace;
 
         const raceEntityList: AutoraceRaceEntity[] =
             await this.raceDataService.fetchRaceEntityList(
@@ -118,12 +121,15 @@ export class AutoraceRaceDataUseCase
         },
     ): Promise<void> {
         // フィルタリング処理
-        const fetchedPlaceEntityList =
+        const _placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
+                ['autorace'],
                 DataLocation.Storage,
             );
+        const fetchedPlaceEntityList: AutoracePlaceEntity[] =
+            _placeEntityList.autorace;
         const placeEntityList: AutoracePlaceEntity[] = fetchedPlaceEntityList
             .filter((placeEntity) => {
                 if (searchList?.gradeList) {

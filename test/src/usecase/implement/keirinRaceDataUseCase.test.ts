@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import type { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
-import type { IOldPlaceDataService } from '../../../../lib/src/service/interface/IOldPlaceDataService';
+import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { KeirinRaceDataUseCase } from '../../../../lib/src/usecase/implement/keirinRaceDataUseCase';
 import {
@@ -13,14 +13,14 @@ import {
     baseKeirinRaceDataList,
     baseKeirinRaceEntityList,
 } from '../../mock/common/baseKeirinData';
-import { oldPlaceDataServiceMock } from '../../mock/service/oldPlaceDataServiceMock';
+import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<
         IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
     >;
-    let placeDataService: jest.Mocked<IOldPlaceDataService<KeirinPlaceEntity>>;
+    let placeDataService: jest.Mocked<IPlaceDataService>;
     let useCase: KeirinRaceDataUseCase;
 
     beforeEach(() => {
@@ -32,12 +32,11 @@ describe('KeirinRaceDataUseCase', () => {
             IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceDataService', raceDataService);
 
-        placeDataService = oldPlaceDataServiceMock<KeirinPlaceEntity>();
-        container.registerInstance<IOldPlaceDataService<KeirinPlaceEntity>>(
-            'KeirinPlaceDataService',
+        placeDataService = placeDataServiceMock();
+        container.registerInstance<IPlaceDataService>(
+            'PublicGamblingPlaceDataService',
             placeDataService,
         );
-
         useCase = container.resolve(KeirinRaceDataUseCase);
     });
 
@@ -135,9 +134,13 @@ describe('KeirinRaceDataUseCase', () => {
 
     describe('updateRaceDataList', () => {
         it('正常にレース開催データが更新されること', async () => {
-            const mockPlaceEntity: KeirinPlaceEntity[] = [
-                baseKeirinPlaceEntity,
-            ];
+            const mockPlaceEntity = {
+                jra: [],
+                nar: [],
+                keirin: [baseKeirinPlaceEntity],
+                autorace: [],
+                boatrace: [],
+            };
 
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
@@ -166,8 +169,13 @@ describe('KeirinRaceDataUseCase', () => {
         });
 
         it('開催場がない時、正常にレース開催データが更新されないこと', async () => {
-            const mockPlaceEntity: KeirinPlaceEntity[] = [];
-
+            const mockPlaceEntity = {
+                jra: [],
+                nar: [],
+                keirin: [],
+                autorace: [],
+                boatrace: [],
+            };
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
             const searchList = {
@@ -195,9 +203,13 @@ describe('KeirinRaceDataUseCase', () => {
         });
 
         it('検索条件がなく、正常にレース開催データが更新されること', async () => {
-            const mockPlaceEntity: KeirinPlaceEntity[] = [
-                baseKeirinPlaceEntity,
-            ];
+            const mockPlaceEntity = {
+                jra: [],
+                nar: [],
+                keirin: [baseKeirinPlaceEntity],
+                autorace: [],
+                boatrace: [],
+            };
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
             const searchList = {};

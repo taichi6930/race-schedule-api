@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
-import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { KeirinRaceCourse } from '../../utility/data/keirin/keirinRaceCourse';
@@ -27,8 +27,8 @@ export class KeirinRaceDataUseCase
         >
 {
     public constructor(
-        @inject('KeirinPlaceDataService')
-        private readonly placeDataService: IOldPlaceDataService<KeirinPlaceEntity>,
+        @inject('PublicGamblingPlaceDataService')
+        private readonly placeDataService: IPlaceDataService,
         @inject('KeirinRaceDataService')
         private readonly raceDataService: IRaceDataService<
             KeirinRaceEntity,
@@ -54,13 +54,14 @@ export class KeirinRaceDataUseCase
             stageList?: KeirinRaceStage[];
         },
     ): Promise<KeirinRaceData[]> {
-        const placeEntityList: KeirinPlaceEntity[] =
+        const _placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
+                ['keirin'],
                 DataLocation.Storage,
             );
-
+        const placeEntityList: KeirinPlaceEntity[] = _placeEntityList.keirin;
         const raceEntityList: KeirinRaceEntity[] =
             await this.raceDataService.fetchRaceEntityList(
                 startDate,
@@ -118,12 +119,15 @@ export class KeirinRaceDataUseCase
         },
     ): Promise<void> {
         // フィルタリング処理
-        const fetchedPlaceEntityList =
+        const _placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
+                ['keirin'],
                 DataLocation.Storage,
             );
+        const fetchedPlaceEntityList: KeirinPlaceEntity[] =
+            _placeEntityList.keirin;
         const placeEntityList: KeirinPlaceEntity[] = fetchedPlaceEntityList
             .filter((placeEntity) => {
                 if (searchList?.gradeList) {

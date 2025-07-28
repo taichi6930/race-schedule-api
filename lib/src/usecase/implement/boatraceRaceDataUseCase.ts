@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
-import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import { BoatraceRaceCourse } from '../../utility/data/boatrace/boatraceRaceCourse';
@@ -27,8 +27,8 @@ export class BoatraceRaceDataUseCase
         >
 {
     public constructor(
-        @inject('BoatracePlaceDataService')
-        private readonly placeDataService: IOldPlaceDataService<BoatracePlaceEntity>,
+        @inject('PublicGamblingPlaceDataService')
+        private readonly placeDataService: IPlaceDataService,
         @inject('BoatraceRaceDataService')
         private readonly raceDataService: IRaceDataService<
             BoatraceRaceEntity,
@@ -54,12 +54,15 @@ export class BoatraceRaceDataUseCase
             stageList?: BoatraceRaceStage[];
         },
     ): Promise<BoatraceRaceData[]> {
-        const placeEntityList: BoatracePlaceEntity[] =
+        const _placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
+                ['boatrace'],
                 DataLocation.Storage,
             );
+        const placeEntityList: BoatracePlaceEntity[] =
+            _placeEntityList.boatrace;
 
         const raceEntityList: BoatraceRaceEntity[] =
             await this.raceDataService.fetchRaceEntityList(
@@ -118,12 +121,16 @@ export class BoatraceRaceDataUseCase
         },
     ): Promise<void> {
         // フィルタリング処理
-        const fetchedPlaceEntityList =
+        const _placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
+                ['boatrace'],
                 DataLocation.Storage,
             );
+        const fetchedPlaceEntityList: BoatracePlaceEntity[] =
+            _placeEntityList.boatrace;
+
         const placeEntityList: BoatracePlaceEntity[] = fetchedPlaceEntityList
             .filter((placeEntity) => {
                 if (searchList?.gradeList) {

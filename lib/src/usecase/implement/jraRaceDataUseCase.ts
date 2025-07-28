@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
@@ -21,8 +21,8 @@ export class JraRaceDataUseCase
         IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse, undefined>
 {
     public constructor(
-        @inject('JraPlaceDataService')
-        private readonly placeDataService: IOldPlaceDataService<JraPlaceEntity>,
+        @inject('PublicGamblingPlaceDataService')
+        private readonly placeDataService: IPlaceDataService,
         @inject('JraRaceDataService')
         private readonly raceDataService: IRaceDataService<
             JraRaceEntity,
@@ -46,12 +46,14 @@ export class JraRaceDataUseCase
             locationList?: JraRaceCourse[];
         },
     ): Promise<JraRaceData[]> {
-        const placeEntityList: JraPlaceEntity[] =
+        const _placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
+                ['jra'],
                 DataLocation.Storage,
             );
+        const placeEntityList: JraPlaceEntity[] = _placeEntityList.jra;
 
         const raceEntityList: JraRaceEntity[] =
             await this.raceDataService.fetchRaceEntityList(
@@ -95,12 +97,14 @@ export class JraRaceDataUseCase
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
-        const placeEntityList: JraPlaceEntity[] =
+        const _placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
+                ['jra'],
                 DataLocation.Storage,
             );
+        const placeEntityList: JraPlaceEntity[] = _placeEntityList.jra;
 
         const raceEntityList: JraRaceEntity[] =
             await this.raceDataService.fetchRaceEntityList(
