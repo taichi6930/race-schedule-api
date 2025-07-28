@@ -7,7 +7,6 @@ import { PlayerData } from '../../domain/playerData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
@@ -25,8 +24,6 @@ export class AutoraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
-        @inject('AutoraceCalendarService')
-        private readonly oldCalendarService: IOldCalendarService<AutoraceRaceEntity>,
         @inject('AutoraceRaceDataService')
         private readonly raceDataService: IRaceDataService<
             AutoraceRaceEntity,
@@ -78,11 +75,6 @@ export class AutoraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                 ),
         );
         await this.publicGamblingCalendarService.deleteEvents({
-            jra: [],
-            nar: [],
-            world: [],
-            keirin: [],
-            boatrace: [],
             autorace: deleteCalendarDataList,
         });
 
@@ -95,7 +87,9 @@ export class AutoraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        await this.oldCalendarService.upsertEvents(upsertRaceEntityList);
+        await this.publicGamblingCalendarService.upsertEvents({
+            autorace: upsertRaceEntityList,
+        });
     }
 
     /**

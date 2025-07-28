@@ -119,6 +119,85 @@ export class PublicGamblingCalendarService implements ICalendarService {
     }
 
     /**
+     * レース情報をカレンダーイベントとして登録・更新します
+     *
+     * このメソッドは、レースエンティティの情報をGoogleカレンダーの
+     * イベントとして同期します。既存のイベントは更新され、
+     * 新しいレースは新規イベントとして作成されます。
+     *
+     * 空の配列が渡された場合は早期リターンし、不要な
+     * API呼び出しを防止します。
+     * @param raceEntityList - 登録・更新するレースエンティティの配列
+     * @param raceEntityList.jra
+     * @param raceEntityList.nar
+     * @param raceEntityList.keirin
+     * @param raceEntityList.world
+     * @param raceEntityList.boatrace
+     * @param raceEntityList.autorace
+     * @throws カレンダーAPIとの通信エラーなど
+     * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
+     */
+    @Logger
+    public async upsertEvents(raceEntityList: {
+        jra?: JraRaceEntity[];
+        nar?: NarRaceEntity[];
+        keirin?: KeirinRaceEntity[];
+        world?: WorldRaceEntity[];
+        boatrace?: BoatraceRaceEntity[];
+        autorace?: AutoraceRaceEntity[];
+    }): Promise<void> {
+        if (
+            raceEntityList.jra?.length === 0 &&
+            raceEntityList.nar?.length === 0 &&
+            raceEntityList.keirin?.length === 0 &&
+            raceEntityList.world?.length === 0 &&
+            raceEntityList.boatrace?.length === 0 &&
+            raceEntityList.autorace?.length === 0
+        ) {
+            console.debug('更新対象のイベントが見つかりませんでした。');
+            return;
+        }
+        if (raceEntityList.jra !== undefined && raceEntityList.jra.length > 0) {
+            await this.jraCalendarRepository.upsertEvents(raceEntityList.jra);
+        }
+        if (raceEntityList.nar !== undefined && raceEntityList.nar.length > 0) {
+            await this.narCalendarRepository.upsertEvents(raceEntityList.nar);
+        }
+        if (
+            raceEntityList.keirin !== undefined &&
+            raceEntityList.keirin.length > 0
+        ) {
+            await this.keirinCalendarRepository.upsertEvents(
+                raceEntityList.keirin,
+            );
+        }
+        if (
+            raceEntityList.world !== undefined &&
+            raceEntityList.world.length > 0
+        ) {
+            await this.worldCalendarRepository.upsertEvents(
+                raceEntityList.world,
+            );
+        }
+        if (
+            raceEntityList.boatrace !== undefined &&
+            raceEntityList.boatrace.length > 0
+        ) {
+            await this.boatraceCalendarRepository.upsertEvents(
+                raceEntityList.boatrace,
+            );
+        }
+        if (
+            raceEntityList.autorace !== undefined &&
+            raceEntityList.autorace.length > 0
+        ) {
+            await this.autoraceRaceCalendarRepository.upsertEvents(
+                raceEntityList.autorace,
+            );
+        }
+    }
+
+    /**
      * 指定されたカレンダーイベントを削除します
      *
      * このメソッドは、不要になったレースイベント（中止された
@@ -139,46 +218,46 @@ export class PublicGamblingCalendarService implements ICalendarService {
      */
     @Logger
     public async deleteEvents(calendarDataList: {
-        jra: CalendarData[];
-        nar: CalendarData[];
-        keirin: CalendarData[];
-        world: CalendarData[];
-        boatrace: CalendarData[];
-        autorace: CalendarData[];
+        jra?: CalendarData[];
+        nar?: CalendarData[];
+        keirin?: CalendarData[];
+        world?: CalendarData[];
+        boatrace?: CalendarData[];
+        autorace?: CalendarData[];
     }): Promise<void> {
         if (
-            calendarDataList.jra.length === 0 &&
-            calendarDataList.nar.length === 0 &&
-            calendarDataList.keirin.length === 0 &&
-            calendarDataList.world.length === 0 &&
-            calendarDataList.boatrace.length === 0 &&
-            calendarDataList.autorace.length === 0
+            calendarDataList.jra?.length === 0 &&
+            calendarDataList.nar?.length === 0 &&
+            calendarDataList.keirin?.length === 0 &&
+            calendarDataList.world?.length === 0 &&
+            calendarDataList.boatrace?.length === 0 &&
+            calendarDataList.autorace?.length === 0
         ) {
             console.debug('削除対象のイベントが見つかりませんでした。');
             return;
         }
-        if (calendarDataList.jra.length > 0) {
+        if (calendarDataList.jra && calendarDataList.jra.length > 0) {
             await this.jraCalendarRepository.deleteEvents(calendarDataList.jra);
         }
-        if (calendarDataList.nar.length > 0) {
+        if (calendarDataList.nar && calendarDataList.nar.length > 0) {
             await this.narCalendarRepository.deleteEvents(calendarDataList.nar);
         }
-        if (calendarDataList.keirin.length > 0) {
+        if (calendarDataList.keirin && calendarDataList.keirin.length > 0) {
             await this.keirinCalendarRepository.deleteEvents(
                 calendarDataList.keirin,
             );
         }
-        if (calendarDataList.world.length > 0) {
+        if (calendarDataList.world && calendarDataList.world.length > 0) {
             await this.worldCalendarRepository.deleteEvents(
                 calendarDataList.world,
             );
         }
-        if (calendarDataList.boatrace.length > 0) {
+        if (calendarDataList.boatrace && calendarDataList.boatrace.length > 0) {
             await this.boatraceCalendarRepository.deleteEvents(
                 calendarDataList.boatrace,
             );
         }
-        if (calendarDataList.autorace.length > 0) {
+        if (calendarDataList.autorace && calendarDataList.autorace.length > 0) {
             await this.autoraceRaceCalendarRepository.deleteEvents(
                 calendarDataList.autorace,
             );

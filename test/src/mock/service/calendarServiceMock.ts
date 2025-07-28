@@ -11,6 +11,7 @@ export const calendarServiceMock = <
 >(): jest.Mocked<ICalendarService> => {
     return {
         fetchEvents: jest.fn().mockResolvedValue([] as CalendarData[]),
+        upsertEvents: jest.fn().mockResolvedValue(Promise.resolve()),
         deleteEvents: jest.fn().mockResolvedValue(Promise.resolve()),
     };
 };

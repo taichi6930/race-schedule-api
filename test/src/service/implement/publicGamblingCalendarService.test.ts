@@ -95,11 +95,6 @@ describe('PublicGamblingCalendarService', () => {
     describe('deleteEvents', () => {
         it('カレンダーのイベントの削除が正常に行われること', async () => {
             await service.deleteEvents({
-                jra: [],
-                nar: [],
-                world: [],
-                keirin: [],
-                boatrace: [],
                 autorace: [baseAutoraceCalendarData],
             });
 
