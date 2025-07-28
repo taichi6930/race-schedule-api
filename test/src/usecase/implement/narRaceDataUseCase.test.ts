@@ -13,7 +13,7 @@ import {
     baseNarRaceEntity,
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
-import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { oldPlaceDataServiceMock } from '../../mock/service/oldPlaceDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceDataUseCase', () => {
@@ -24,7 +24,7 @@ describe('NarRaceDataUseCase', () => {
     let useCase: NarRaceDataUseCase;
 
     beforeEach(() => {
-        placeDataService = placeDataServiceMock<NarPlaceEntity>();
+        placeDataService = oldPlaceDataServiceMock<NarPlaceEntity>();
         container.registerInstance<IOldPlaceDataService<NarPlaceEntity>>(
             'NarPlaceDataService',
             placeDataService,

@@ -13,7 +13,7 @@ import {
     baseJraRaceEntity,
     baseJraRaceEntityList,
 } from '../../mock/common/baseJraData';
-import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { oldPlaceDataServiceMock } from '../../mock/service/oldPlaceDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('JraRaceDataUseCase', () => {
@@ -24,7 +24,7 @@ describe('JraRaceDataUseCase', () => {
     let useCase: JraRaceDataUseCase;
 
     beforeEach(() => {
-        placeDataService = placeDataServiceMock<JraPlaceEntity>();
+        placeDataService = oldPlaceDataServiceMock<JraPlaceEntity>();
         container.registerInstance<IOldPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
             placeDataService,

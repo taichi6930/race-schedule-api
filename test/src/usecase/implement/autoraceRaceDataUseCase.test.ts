@@ -13,7 +13,7 @@ import {
     baseAutoraceRaceDataList,
     baseAutoraceRaceEntityList,
 } from '../../mock/common/baseAutoraceData';
-import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { oldPlaceDataServiceMock } from '../../mock/service/oldPlaceDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('AutoraceRaceDataUseCase', () => {
@@ -34,7 +34,7 @@ describe('AutoraceRaceDataUseCase', () => {
             IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
         >('AutoraceRaceDataService', raceDataService);
 
-        placeDataService = placeDataServiceMock<AutoracePlaceEntity>();
+        placeDataService = oldPlaceDataServiceMock<AutoracePlaceEntity>();
         container.registerInstance<IOldPlaceDataService<AutoracePlaceEntity>>(
             'AutoracePlaceDataService',
             placeDataService,

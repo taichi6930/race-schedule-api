@@ -13,7 +13,7 @@ import {
     baseKeirinRaceDataList,
     baseKeirinRaceEntityList,
 } from '../../mock/common/baseKeirinData';
-import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { oldPlaceDataServiceMock } from '../../mock/service/oldPlaceDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceDataUseCase', () => {
@@ -32,7 +32,7 @@ describe('KeirinRaceDataUseCase', () => {
             IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceDataService', raceDataService);
 
-        placeDataService = placeDataServiceMock<KeirinPlaceEntity>();
+        placeDataService = oldPlaceDataServiceMock<KeirinPlaceEntity>();
         container.registerInstance<IOldPlaceDataService<KeirinPlaceEntity>>(
             'KeirinPlaceDataService',
             placeDataService,
