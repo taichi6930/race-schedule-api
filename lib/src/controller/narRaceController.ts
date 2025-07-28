@@ -1,9 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../domain/narPlaceData';
 import { NarRaceData } from '../domain/narRaceData';
-import { IOldPlaceDataUseCase } from '../usecase/interface/IOldPlaceDataUseCase';
 import { IOldRaceCalendarUseCase } from '../usecase/interface/IOldRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
@@ -30,8 +28,6 @@ export class NarRaceController {
             NarRaceCourse,
             undefined
         >,
-        @inject('NarPlaceDataUseCase')
-        private readonly narPlaceDataUseCase: IOldPlaceDataUseCase<NarPlaceData>,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -47,8 +43,6 @@ export class NarRaceController {
         // RaceData関連のAPI
         this.router.get('/race', this.getRaceDataList.bind(this));
         this.router.post('/race', this.updateRaceDataList.bind(this));
-        // PlaceData関連のAPI
-        this.router.post('/place', this.updatePlaceDataList.bind(this));
     }
 
     /**
@@ -252,44 +246,6 @@ export class NarRaceController {
         } catch (error) {
             console.error('Error updating race data:', error);
             res.status(500).send('レースデータの更新中にエラーが発生しました');
-        }
-    }
-
-    /**
-     * 競馬場情報を更新する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
-    @Logger
-    private async updatePlaceDataList(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
-        try {
-            const { startDate, finishDate } = req.body;
-
-            // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (
-                Number.isNaN(Date.parse(startDate as string)) ||
-                Number.isNaN(Date.parse(finishDate as string))
-            ) {
-                res.status(400).send('startDate、finishDateは必須です');
-                return;
-            }
-
-            // 競馬場情報を取得する
-            await this.narPlaceDataUseCase.updatePlaceDataList(
-                new Date(startDate),
-                new Date(finishDate),
-            );
-            res.status(200).send();
-        } catch (error) {
-            console.error('競馬場情報の更新中にエラーが発生しました:', error);
-            const errorMessage =
-                error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
         }
     }
 }

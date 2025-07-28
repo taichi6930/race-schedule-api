@@ -5,6 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
+import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
@@ -18,27 +19,16 @@ import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 @injectable()
 export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
+        @inject('PublicGamblingCalendarService')
+        private readonly publicGamblingCalendarService: ICalendarService,
         @inject('JraCalendarService')
-        private readonly calendarService: IOldCalendarService<JraRaceEntity>,
+        private readonly oldCalendarService: IOldCalendarService<JraRaceEntity>,
         @inject('JraRaceDataService')
         private readonly raceDataService: IRaceDataService<
             JraRaceEntity,
             JraPlaceEntity
         >,
     ) {}
-
-    /**
-     * カレンダーからレース情報の取得を行う
-     * @param startDate
-     * @param finishDate
-     */
-    @Logger
-    public async fetchRacesFromCalendar(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<CalendarData[]> {
-        return this.calendarService.getEvents(startDate, finishDate);
-    }
 
     /**
      * カレンダーの更新を行う
@@ -67,7 +57,11 @@ export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
         );
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
-            await this.calendarService.getEvents(startDate, finishDate);
+            await this.publicGamblingCalendarService.fetchEvents(
+                startDate,
+                finishDate,
+                ['jra'],
+            );
 
         // 1. raceEntityListのIDに存在しないcalendarDataListを取得
         const deleteCalendarDataList: CalendarData[] = calendarDataList.filter(
@@ -76,7 +70,7 @@ export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        await this.calendarService.deleteEvents(deleteCalendarDataList);
+        await this.oldCalendarService.deleteEvents(deleteCalendarDataList);
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: JraRaceEntity[] =
             filteredRaceEntityList.filter(
@@ -86,6 +80,6 @@ export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        await this.calendarService.upsertEvents(upsertRaceEntityList);
+        await this.oldCalendarService.upsertEvents(upsertRaceEntityList);
     }
 }

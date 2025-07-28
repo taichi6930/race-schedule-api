@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { NarRaceData } from '../../domain/narRaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
-import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
 import { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
@@ -21,8 +21,8 @@ export class NarRaceDataUseCase
         IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse, undefined>
 {
     public constructor(
-        @inject('NarPlaceDataService')
-        private readonly placeDataService: IOldPlaceDataService<NarPlaceEntity>,
+        @inject('PublicGamblingPlaceDataService')
+        private readonly placeDataService: IPlaceDataService,
         @inject('NarRaceDataService')
         private readonly raceDataService: IRaceDataService<
             NarRaceEntity,
@@ -46,12 +46,14 @@ export class NarRaceDataUseCase
             locationList?: NarRaceCourse[];
         },
     ): Promise<NarRaceData[]> {
-        const placeEntityList: NarPlaceEntity[] =
+        const _placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
+                ['nar'],
                 DataLocation.Storage,
             );
+        const placeEntityList: NarPlaceEntity[] = _placeEntityList.nar;
 
         const raceEntityList: NarRaceEntity[] =
             await this.raceDataService.fetchRaceEntityList(
@@ -95,12 +97,14 @@ export class NarRaceDataUseCase
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
-        const placeEntityList: NarPlaceEntity[] =
+        const _placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
+                ['nar'],
                 DataLocation.Storage,
             );
+        const placeEntityList: NarPlaceEntity[] = _placeEntityList.nar;
 
         const raceEntityList: NarRaceEntity[] =
             await this.raceDataService.fetchRaceEntityList(

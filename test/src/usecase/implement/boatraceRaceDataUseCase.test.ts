@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import type { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
-import type { IOldPlaceDataService } from '../../../../lib/src/service/interface/IOldPlaceDataService';
+import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { BoatraceRaceDataUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceDataUseCase';
 import {
@@ -20,9 +20,7 @@ describe('BoatraceRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<
         IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
     >;
-    let placeDataService: jest.Mocked<
-        IOldPlaceDataService<BoatracePlaceEntity>
-    >;
+    let placeDataService: jest.Mocked<IPlaceDataService>;
     let useCase: BoatraceRaceDataUseCase;
 
     beforeEach(() => {
@@ -34,9 +32,9 @@ describe('BoatraceRaceDataUseCase', () => {
             IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
         >('BoatraceRaceDataService', raceDataService);
 
-        placeDataService = placeDataServiceMock<BoatracePlaceEntity>();
-        container.registerInstance<IOldPlaceDataService<BoatracePlaceEntity>>(
-            'BoatracePlaceDataService',
+        placeDataService = placeDataServiceMock();
+        container.registerInstance<IPlaceDataService>(
+            'PublicGamblingPlaceDataService',
             placeDataService,
         );
 
@@ -140,9 +138,13 @@ describe('BoatraceRaceDataUseCase', () => {
 
     describe('updateRaceDataList', () => {
         it('正常にレース開催データが更新されること', async () => {
-            const mockPlaceEntity: BoatracePlaceEntity[] = [
-                baseBoatracePlaceEntity,
-            ];
+            const mockPlaceEntity = {
+                jra: [],
+                nar: [],
+                keirin: [],
+                autorace: [],
+                boatrace: [baseBoatracePlaceEntity],
+            };
 
             const startDate = new Date('2024-12-01');
             const finishDate = new Date('2025-12-31');
@@ -171,7 +173,13 @@ describe('BoatraceRaceDataUseCase', () => {
         });
 
         it('開催場がない時、正常にレース開催データが更新されないこと', async () => {
-            const mockPlaceEntity: BoatracePlaceEntity[] = [];
+            const mockPlaceEntity = {
+                jra: [],
+                nar: [],
+                keirin: [],
+                autorace: [],
+                boatrace: [],
+            };
 
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
@@ -200,9 +208,13 @@ describe('BoatraceRaceDataUseCase', () => {
         });
 
         it('検索条件がなく、正常にレース開催データが更新されること', async () => {
-            const mockPlaceEntity: BoatracePlaceEntity[] = [
-                baseBoatracePlaceEntity,
-            ];
+            const mockPlaceEntity = {
+                jra: [],
+                nar: [],
+                keirin: [],
+                autorace: [],
+                boatrace: [baseBoatracePlaceEntity],
+            };
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
             const searchList = {};

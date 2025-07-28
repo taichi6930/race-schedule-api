@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
-import type { IOldPlaceDataService } from '../../../../lib/src/service/interface/IOldPlaceDataService';
+import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { NarRaceDataUseCase } from '../../../../lib/src/usecase/implement/narRaceDataUseCase';
 import {
@@ -17,16 +17,16 @@ import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceDataUseCase', () => {
-    let placeDataService: jest.Mocked<IOldPlaceDataService<NarPlaceEntity>>;
+    let placeDataService: jest.Mocked<IPlaceDataService>;
     let raceDataService: jest.Mocked<
         IRaceDataService<NarRaceEntity, NarPlaceEntity>
     >;
     let useCase: NarRaceDataUseCase;
 
     beforeEach(() => {
-        placeDataService = placeDataServiceMock<NarPlaceEntity>();
-        container.registerInstance<IOldPlaceDataService<NarPlaceEntity>>(
-            'NarPlaceDataService',
+        placeDataService = placeDataServiceMock();
+        container.registerInstance<IPlaceDataService>(
+            'PublicGamblingPlaceDataService',
             placeDataService,
         );
 

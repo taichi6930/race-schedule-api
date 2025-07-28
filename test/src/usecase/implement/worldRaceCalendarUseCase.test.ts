@@ -5,6 +5,7 @@ import { container } from 'tsyringe';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
+import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import type { IOldCalendarService } from '../../../../lib/src/service/interface/IOldCalendarService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { WorldRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/worldRaceCalendarUseCase';
@@ -14,20 +15,28 @@ import {
     baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { oldCalendarServiceMock } from '../../mock/service/oldCalendarServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('WorldRaceCalendarUseCase', () => {
-    let calendarService: jest.Mocked<IOldCalendarService<WorldRaceEntity>>;
+    let calendarService: jest.Mocked<ICalendarService>;
+    let oldCalendarService: jest.Mocked<IOldCalendarService<WorldRaceEntity>>;
     let raceDataService: jest.Mocked<
         IRaceDataService<WorldRaceEntity, WorldPlaceEntity>
     >;
     let useCase: WorldRaceCalendarUseCase;
 
     beforeEach(() => {
-        calendarService = calendarServiceMock<WorldRaceEntity>();
+        calendarService = calendarServiceMock();
+        container.registerInstance<ICalendarService>(
+            'PublicGamblingCalendarService',
+            calendarService,
+        );
+
+        oldCalendarService = oldCalendarServiceMock<WorldRaceEntity>();
         container.registerInstance<IOldCalendarService<WorldRaceEntity>>(
             'WorldCalendarService',
-            calendarService,
+            oldCalendarService,
         );
         raceDataService = raceDataServiceMock<
             WorldRaceEntity,
@@ -42,29 +51,6 @@ describe('WorldRaceCalendarUseCase', () => {
 
     afterEach(() => {
         jest.clearAllMocks();
-    });
-
-    describe('getRacesFromCalendar', () => {
-        it('CalendarDataのリストが正常に返ってくること', async () => {
-            const mockCalendarData: CalendarData[] = [baseWorldCalendarData];
-
-            // モックの戻り値を設定
-            calendarService.getEvents.mockResolvedValue(mockCalendarData);
-
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            const result = await useCase.fetchRacesFromCalendar(
-                startDate,
-                finishDate,
-            );
-
-            expect(calendarService.getEvents).toHaveBeenCalledWith(
-                startDate,
-                finishDate,
-            );
-            expect(result).toEqual(mockCalendarData);
-        });
     });
 
     describe('updateRacesToCalendar', () => {
@@ -94,7 +80,7 @@ describe('WorldRaceCalendarUseCase', () => {
             const expectRaceEntityList: WorldRaceEntity[] = mockRaceEntityList;
 
             // モックの戻り値を設定
-            calendarService.getEvents.mockResolvedValue(mockCalendarDataList);
+            calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
             raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntityList,
             );
@@ -109,18 +95,19 @@ describe('WorldRaceCalendarUseCase', () => {
             );
 
             // モックが呼び出されたことを確認
-            expect(calendarService.getEvents).toHaveBeenCalledWith(
+            expect(calendarService.fetchEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
+                ['world'],
             );
 
             // deleteEventsが呼び出された回数を確認
-            expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
-            expect(calendarService.deleteEvents).toHaveBeenCalledWith(
+            expect(oldCalendarService.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(oldCalendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
-            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
-            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
+            expect(oldCalendarService.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(oldCalendarService.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
         });

@@ -1,9 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { AutoracePlaceData } from '../domain/autoracePlaceData';
 import { AutoraceRaceData } from '../domain/autoraceRaceData';
-import { IOldPlaceDataUseCase } from '../usecase/interface/IOldPlaceDataUseCase';
 import { IOldRaceCalendarUseCase } from '../usecase/interface/IOldRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
@@ -31,8 +29,6 @@ export class AutoraceRaceController {
             AutoraceRaceCourse,
             AutoraceRaceStage
         >,
-        @inject('AutoracePlaceDataUseCase')
-        private readonly autoracePlaceDataUseCase: IOldPlaceDataUseCase<AutoracePlaceData>,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -49,9 +45,6 @@ export class AutoraceRaceController {
         // RaceData関連のAPI
         this.router.get('/race', this.getRaceDataList.bind(this));
         this.router.post('/race', this.updateRaceDataList.bind(this));
-
-        // PlaceData関連のAPI
-        this.router.post('/place', this.updatePlaceDataList.bind(this));
     }
 
     /**
@@ -262,47 +255,6 @@ export class AutoraceRaceController {
         } catch (error) {
             console.error('Error updating race data:', error);
             res.status(500).send('レースデータの更新中にエラーが発生しました');
-        }
-    }
-
-    /**
-     * オートレース場情報を更新する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
-    @Logger
-    private async updatePlaceDataList(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
-        try {
-            const { startDate, finishDate } = req.body;
-
-            // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (
-                Number.isNaN(Date.parse(startDate as string)) ||
-                Number.isNaN(Date.parse(finishDate as string))
-            ) {
-                res.status(400).send('startDate、finishDateは必須です');
-                return;
-            }
-
-            // オートレース場情報を取得する
-            await this.autoracePlaceDataUseCase.updatePlaceDataList(
-                new Date(startDate),
-                new Date(finishDate),
-            );
-            res.status(200).send();
-        } catch (error) {
-            console.error(
-                'オートレース場情報の更新中にエラーが発生しました:',
-                error,
-            );
-            const errorMessage =
-                error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
         }
     }
 }

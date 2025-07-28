@@ -6,6 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
@@ -22,8 +23,10 @@ import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 @injectable()
 export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
+        @inject('PublicGamblingCalendarService')
+        private readonly publicGamblingCalendarService: ICalendarService,
         @inject('KeirinCalendarService')
-        private readonly calendarService: IOldCalendarService<KeirinRaceEntity>,
+        private readonly oldCalendarService: IOldCalendarService<KeirinRaceEntity>,
         @inject('KeirinRaceDataService')
         private readonly raceDataService: IRaceDataService<
             KeirinRaceEntity,
@@ -32,19 +35,6 @@ export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
         @inject('PlayerDataService')
         private readonly playerDataService: IPlayerDataService,
     ) {}
-
-    /**
-     * カレンダーからレース情報の取得を行う
-     * @param startDate
-     * @param finishDate
-     */
-    @Logger
-    public async fetchRacesFromCalendar(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<CalendarData[]> {
-        return this.calendarService.getEvents(startDate, finishDate);
-    }
 
     /**
      * カレンダーの更新を行う
@@ -74,7 +64,11 @@ export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
 
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
-            await this.calendarService.getEvents(startDate, finishDate);
+            await this.publicGamblingCalendarService.fetchEvents(
+                startDate,
+                finishDate,
+                ['keirin'],
+            );
 
         // 1. raceEntityListのIDに存在しないcalendarDataListを取得
         const deleteCalendarDataList: CalendarData[] = calendarDataList.filter(
@@ -83,7 +77,7 @@ export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        await this.calendarService.deleteEvents(deleteCalendarDataList);
+        await this.oldCalendarService.deleteEvents(deleteCalendarDataList);
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: KeirinRaceEntity[] =
@@ -94,7 +88,7 @@ export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        await this.calendarService.upsertEvents(upsertRaceEntityList);
+        await this.oldCalendarService.upsertEvents(upsertRaceEntityList);
     }
 
     /**
