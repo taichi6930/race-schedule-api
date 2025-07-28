@@ -6,8 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
+import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -21,10 +20,8 @@ export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
-        @inject('NarCalendarService')
-        private readonly oldCalendarService: IOldCalendarService<NarRaceEntity>,
         @inject('NarRaceDataService')
-        private readonly raceDataService: IRaceDataService<
+        private readonly raceDataService: IOldRaceDataService<
             NarRaceEntity,
             NarPlaceEntity
         >,
@@ -70,7 +67,14 @@ export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        await this.oldCalendarService.deleteEvents(deleteCalendarDataList);
+        await this.publicGamblingCalendarService.deleteEvents({
+            jra: [],
+            nar: deleteCalendarDataList,
+            world: [],
+            keirin: [],
+            boatrace: [],
+            autorace: [],
+        });
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: NarRaceEntity[] =
@@ -81,6 +85,8 @@ export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        await this.oldCalendarService.upsertEvents(upsertRaceEntityList);
+        await this.publicGamblingCalendarService.upsertEvents({
+            nar: upsertRaceEntityList,
+        });
     }
 }

@@ -7,9 +7,8 @@ import { PlayerData } from '../../domain/playerData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
+import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoraceSpecifiedGradeAndStageList } from '../../utility/data/autorace/autoraceRaceStage';
 import { DataLocation } from '../../utility/dataType';
@@ -25,10 +24,8 @@ export class AutoraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
-        @inject('AutoraceCalendarService')
-        private readonly oldCalendarService: IOldCalendarService<AutoraceRaceEntity>,
         @inject('AutoraceRaceDataService')
-        private readonly raceDataService: IRaceDataService<
+        private readonly raceDataService: IOldRaceDataService<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >,
@@ -77,7 +74,9 @@ export class AutoraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        await this.oldCalendarService.deleteEvents(deleteCalendarDataList);
+        await this.publicGamblingCalendarService.deleteEvents({
+            autorace: deleteCalendarDataList,
+        });
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: AutoraceRaceEntity[] =
@@ -88,7 +87,9 @@ export class AutoraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        await this.oldCalendarService.upsertEvents(upsertRaceEntityList);
+        await this.publicGamblingCalendarService.upsertEvents({
+            autorace: upsertRaceEntityList,
+        });
     }
 
     /**

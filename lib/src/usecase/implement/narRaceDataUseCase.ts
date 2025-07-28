@@ -3,8 +3,8 @@ import { inject, injectable } from 'tsyringe';
 import { NarRaceData } from '../../domain/narRaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
+import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
 import { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
 import { DataLocation } from '../../utility/dataType';
@@ -24,7 +24,7 @@ export class NarRaceDataUseCase
         @inject('PublicGamblingPlaceDataService')
         private readonly placeDataService: IPlaceDataService,
         @inject('NarRaceDataService')
-        private readonly raceDataService: IRaceDataService<
+        private readonly raceDataService: IOldRaceDataService<
             NarRaceEntity,
             NarPlaceEntity
         >,

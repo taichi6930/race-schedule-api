@@ -7,9 +7,8 @@ import { PlayerData } from '../../domain/playerData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
+import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import { BoatraceSpecifiedGradeAndStageList } from '../../utility/data/boatrace/boatraceRaceStage';
 import { DataLocation } from '../../utility/dataType';
@@ -25,10 +24,8 @@ export class BoatraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
-        @inject('BoatraceCalendarService')
-        private readonly oldCalendarService: IOldCalendarService<BoatraceRaceEntity>,
         @inject('BoatraceRaceDataService')
-        private readonly raceDataService: IRaceDataService<
+        private readonly raceDataService: IOldRaceDataService<
             BoatraceRaceEntity,
             BoatracePlaceEntity
         >,
@@ -77,7 +74,14 @@ export class BoatraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        await this.oldCalendarService.deleteEvents(deleteCalendarDataList);
+        await this.publicGamblingCalendarService.deleteEvents({
+            jra: [],
+            nar: [],
+            world: [],
+            keirin: [],
+            boatrace: deleteCalendarDataList,
+            autorace: [],
+        });
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: BoatraceRaceEntity[] =
@@ -88,7 +92,9 @@ export class BoatraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        await this.oldCalendarService.upsertEvents(upsertRaceEntityList);
+        await this.publicGamblingCalendarService.upsertEvents({
+            boatrace: upsertRaceEntityList,
+        });
     }
 
     /**

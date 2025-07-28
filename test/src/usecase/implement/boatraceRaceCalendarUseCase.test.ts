@@ -6,9 +6,8 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import type { IOldCalendarService } from '../../../../lib/src/service/interface/IOldCalendarService';
+import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
-import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { BoatraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceCalendarUseCase';
 import { BoatraceSpecifiedGradeList } from '../../../../lib/src/utility/data/boatrace/boatraceGradeType';
 import {
@@ -16,17 +15,13 @@ import {
     baseBoatraceRaceEntity,
 } from '../../mock/common/baseBoatraceData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { oldCalendarServiceMock } from '../../mock/service/oldCalendarServiceMock';
 import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('BoatraceRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
-    let oldCalendarService: jest.Mocked<
-        IOldCalendarService<BoatraceRaceEntity>
-    >;
     let raceDataService: jest.Mocked<
-        IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
+        IOldRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
     >;
     let playerDataService: jest.Mocked<IPlayerDataService>;
     let useCase: BoatraceRaceCalendarUseCase;
@@ -38,18 +33,12 @@ describe('BoatraceRaceCalendarUseCase', () => {
             calendarService,
         );
 
-        oldCalendarService = oldCalendarServiceMock<BoatraceRaceEntity>();
-        container.registerInstance<IOldCalendarService<BoatraceRaceEntity>>(
-            'BoatraceCalendarService',
-            oldCalendarService,
-        );
-
-        raceDataService = raceDataServiceMock<
+        raceDataService = oldRaceDataServiceMock<
             BoatraceRaceEntity,
             BoatracePlaceEntity
         >();
         container.registerInstance<
-            IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
+            IOldRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
         >('BoatraceRaceDataService', raceDataService);
 
         playerDataService = playerDataServiceMock();
@@ -89,20 +78,25 @@ describe('BoatraceRaceCalendarUseCase', () => {
                 ),
             ];
 
-            const expectCalendarDataList: CalendarData[] = Array.from(
-                { length: 3 },
-                (_, i: number) =>
+            const expectCalendarDataList = {
+                boatrace: Array.from({ length: 3 }, (_, i: number) =>
                     baseBoatraceCalendarData.copy({
                         id: `boatrace2024122920${(i + 6).toXDigits(2)}`,
                     }),
-            );
-            const expectRaceEntityList: BoatraceRaceEntity[] = Array.from(
-                { length: 5 },
-                (_, i: number) =>
+                ),
+                jra: [],
+                nar: [],
+                world: [],
+                keirin: [],
+                autorace: [],
+            };
+            const expectRaceEntityList = {
+                boatrace: Array.from({ length: 5 }, (_, i: number) =>
                     baseBoatraceRaceEntity.copy({
                         id: `boatrace2024122920${(i + 1).toXDigits(2)}`,
                     }),
-            );
+                ),
+            };
 
             // モックの戻り値を設定
             calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
@@ -127,12 +121,12 @@ describe('BoatraceRaceCalendarUseCase', () => {
             );
 
             // deleteEventsが呼び出された回数を確認
-            expect(oldCalendarService.deleteEvents).toHaveBeenCalledTimes(1);
-            expect(oldCalendarService.deleteEvents).toHaveBeenCalledWith(
+            expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledTimes(1);
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
         });

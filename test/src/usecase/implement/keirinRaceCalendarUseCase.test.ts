@@ -6,9 +6,8 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import type { IOldCalendarService } from '../../../../lib/src/service/interface/IOldCalendarService';
+import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
-import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { KeirinRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/keirinRaceCalendarUseCase';
 import { KeirinSpecifiedGradeList } from '../../../../lib/src/utility/data/keirin/keirinGradeType';
 import {
@@ -16,15 +15,13 @@ import {
     baseKeirinRaceEntity,
 } from '../../mock/common/baseKeirinData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { oldCalendarServiceMock } from '../../mock/service/oldCalendarServiceMock';
 import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
-    let oldCalendarService: jest.Mocked<IOldCalendarService<KeirinRaceEntity>>;
     let raceDataService: jest.Mocked<
-        IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
+        IOldRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
     >;
     let playerDataService: jest.Mocked<IPlayerDataService>;
     let useCase: KeirinRaceCalendarUseCase;
@@ -36,18 +33,12 @@ describe('KeirinRaceCalendarUseCase', () => {
             calendarService,
         );
 
-        oldCalendarService = oldCalendarServiceMock<KeirinRaceEntity>();
-        container.registerInstance<IOldCalendarService<KeirinRaceEntity>>(
-            'KeirinCalendarService',
-            oldCalendarService,
-        );
-
-        raceDataService = raceDataServiceMock<
+        raceDataService = oldRaceDataServiceMock<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
         container.registerInstance<
-            IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
+            IOldRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceDataService', raceDataService);
 
         playerDataService = playerDataServiceMock();
@@ -87,20 +78,26 @@ describe('KeirinRaceCalendarUseCase', () => {
                 ),
             ];
 
-            const expectCalendarDataList: CalendarData[] = Array.from(
-                { length: 3 },
-                (_, i: number) =>
+            const expectCalendarDataList = {
+                keirin: Array.from({ length: 3 }, (_, i: number) =>
                     baseKeirinCalendarData.copy({
                         id: `keirin2024122920${(i + 6).toXDigits(2)}`,
                     }),
-            );
-            const expectRaceEntityList: KeirinRaceEntity[] = Array.from(
-                { length: 5 },
-                (_, i: number) =>
+                ),
+                jra: [],
+                nar: [],
+                world: [],
+                autorace: [],
+                boatrace: [],
+            };
+
+            const expectRaceEntityList = {
+                keirin: Array.from({ length: 5 }, (_, i: number) =>
                     baseKeirinRaceEntity.copy({
                         id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
-            );
+                ),
+            };
 
             // モックの戻り値を設定
             calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
@@ -125,12 +122,12 @@ describe('KeirinRaceCalendarUseCase', () => {
             );
 
             // deleteEventsが呼び出された回数を確認
-            expect(oldCalendarService.deleteEvents).toHaveBeenCalledTimes(1);
-            expect(oldCalendarService.deleteEvents).toHaveBeenCalledWith(
+            expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledTimes(1);
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
         });

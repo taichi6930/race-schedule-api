@@ -5,8 +5,8 @@ import { container } from 'tsyringe';
 import type { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
+import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
-import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { BoatraceRaceDataUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceDataUseCase';
 import {
     baseBoatracePlaceEntity,
@@ -14,22 +14,22 @@ import {
     baseBoatraceRaceEntityList,
 } from '../../mock/common/baseBoatraceData';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('BoatraceRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<
-        IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
+        IOldRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
     >;
     let placeDataService: jest.Mocked<IPlaceDataService>;
     let useCase: BoatraceRaceDataUseCase;
 
     beforeEach(() => {
-        raceDataService = raceDataServiceMock<
+        raceDataService = oldRaceDataServiceMock<
             BoatraceRaceEntity,
             BoatracePlaceEntity
         >();
         container.registerInstance<
-            IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
+            IOldRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
         >('BoatraceRaceDataService', raceDataService);
 
         placeDataService = placeDataServiceMock();

@@ -1,16 +1,5 @@
-import type { AutoracePlaceData } from '../../domain/autoracePlaceData';
-import type { BoatracePlaceData } from '../../domain/boatracePlaceData';
-import type { JraPlaceData } from '../../domain/jraPlaceData';
-import type { KeirinPlaceData } from '../../domain/keirinPlaceData';
-import type { NarPlaceData } from '../../domain/narPlaceData';
-import type { WorldPlaceData } from '../../domain/worldPlaceData';
-import type { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import type { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import type { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
-import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import type { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
-import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
-import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
+import type { IRaceEntity } from '../../repository/entity/iRaceEntity';
 import type { DataLocationType } from '../../utility/dataType';
 
 /**
@@ -27,7 +16,10 @@ import type { DataLocationType } from '../../utility/dataType';
  * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
  *               例：JraPlaceEntity, NarPlaceEntity など
  */
-export interface IRaceDataService {
+export interface IOldRaceDataService<
+    R extends IRaceEntity<R>,
+    P extends IPlaceEntity<P>,
+> {
     /**
      * 指定された期間のレース開催データを取得します
      * @param startDate - 取得開始日
@@ -45,22 +37,8 @@ export interface IRaceDataService {
         startDate: Date,
         finishDate: Date,
         type: DataLocationType,
-        placeEntityList?: {
-            jra?: IPlaceEntity<JraPlaceData>[];
-            nar?: IPlaceEntity<NarPlaceData>[];
-            world?: IPlaceEntity<WorldPlaceData>[];
-            keirin?: IPlaceEntity<KeirinPlaceData>[];
-            autorace?: IPlaceEntity<AutoracePlaceData>[];
-            boatrace?: IPlaceEntity<BoatracePlaceData>[];
-        },
-    ) => Promise<{
-        jra: JraRaceEntity[];
-        nar: NarRaceEntity[];
-        world: WorldRaceEntity[];
-        keirin: KeirinRaceEntity[];
-        autorace: AutoraceRaceEntity[];
-        boatrace: BoatraceRaceEntity[];
-    }>;
+        placeEntityList?: P[],
+    ) => Promise<R[]>;
 
     /**
      * レース開催データをStorageに保存/更新します
@@ -70,12 +48,5 @@ export interface IRaceDataService {
      * @param raceEntityList - 保存/更新するレース開催エンティティの配列
      * @throws Error データの保存/更新に失敗した場合
      */
-    updateRaceEntityList: (raceEntityList: {
-        jra: JraRaceEntity[];
-        nar: NarRaceEntity[];
-        world: WorldRaceEntity[];
-        keirin: KeirinRaceEntity[];
-        autorace: AutoraceRaceEntity[];
-        boatrace: BoatraceRaceEntity[];
-    }) => Promise<void>;
+    updateRaceEntityList: (raceEntityList: R[]) => Promise<void>;
 }

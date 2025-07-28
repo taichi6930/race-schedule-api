@@ -7,9 +7,8 @@ import { PlayerData } from '../../domain/playerData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
+import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { KeirinRaceGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
 import { DataLocation } from '../../utility/dataType';
@@ -25,10 +24,8 @@ export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
-        @inject('KeirinCalendarService')
-        private readonly oldCalendarService: IOldCalendarService<KeirinRaceEntity>,
         @inject('KeirinRaceDataService')
-        private readonly raceDataService: IRaceDataService<
+        private readonly raceDataService: IOldRaceDataService<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >,
@@ -77,8 +74,14 @@ export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        await this.oldCalendarService.deleteEvents(deleteCalendarDataList);
-
+        await this.publicGamblingCalendarService.deleteEvents({
+            jra: [],
+            nar: [],
+            world: [],
+            keirin: deleteCalendarDataList,
+            boatrace: [],
+            autorace: [],
+        });
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: KeirinRaceEntity[] =
             filteredRaceEntityList.filter(
@@ -88,7 +91,9 @@ export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        await this.oldCalendarService.upsertEvents(upsertRaceEntityList);
+        await this.publicGamblingCalendarService.upsertEvents({
+            keirin: upsertRaceEntityList,
+        });
     }
 
     /**

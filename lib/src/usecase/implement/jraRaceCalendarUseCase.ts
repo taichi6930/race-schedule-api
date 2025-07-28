@@ -6,8 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
+import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -21,10 +20,8 @@ export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
-        @inject('JraCalendarService')
-        private readonly oldCalendarService: IOldCalendarService<JraRaceEntity>,
         @inject('JraRaceDataService')
-        private readonly raceDataService: IRaceDataService<
+        private readonly raceDataService: IOldRaceDataService<
             JraRaceEntity,
             JraPlaceEntity
         >,
@@ -70,7 +67,14 @@ export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        await this.oldCalendarService.deleteEvents(deleteCalendarDataList);
+        await this.publicGamblingCalendarService.deleteEvents({
+            jra: deleteCalendarDataList,
+            nar: [],
+            world: [],
+            keirin: [],
+            boatrace: [],
+            autorace: [],
+        });
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: JraRaceEntity[] =
             filteredRaceEntityList.filter(
@@ -80,6 +84,8 @@ export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        await this.oldCalendarService.upsertEvents(upsertRaceEntityList);
+        await this.publicGamblingCalendarService.upsertEvents({
+            jra: upsertRaceEntityList,
+        });
     }
 }
