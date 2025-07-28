@@ -1,12 +1,5 @@
-import type { AutoracePlaceData } from '../../domain/autoracePlaceData';
-import type { BoatracePlaceData } from '../../domain/boatracePlaceData';
-import type { JraPlaceData } from '../../domain/jraPlaceData';
-import type { KeirinPlaceData } from '../../domain/keirinPlaceData';
-import type { NarPlaceData } from '../../domain/narPlaceData';
-import type { WorldPlaceData } from '../../domain/worldPlaceData';
 import type { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import type { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
-import type { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
@@ -46,12 +39,12 @@ export interface IRaceDataService {
         finishDate: Date,
         type: DataLocationType,
         placeEntityList?: {
-            jra?: IPlaceEntity<JraPlaceData>[];
-            nar?: IPlaceEntity<NarPlaceData>[];
-            world?: IPlaceEntity<WorldPlaceData>[];
-            keirin?: IPlaceEntity<KeirinPlaceData>[];
-            autorace?: IPlaceEntity<AutoracePlaceData>[];
-            boatrace?: IPlaceEntity<BoatracePlaceData>[];
+            jra?: JraRaceEntity[];
+            nar?: NarRaceEntity[];
+            world?: WorldRaceEntity[];
+            keirin?: KeirinRaceEntity[];
+            autorace?: AutoraceRaceEntity[];
+            boatrace?: BoatraceRaceEntity[];
         },
     ) => Promise<{
         jra: JraRaceEntity[];
