@@ -95,9 +95,32 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
         )[] = await this.publicGamblingPlaceDataService.fetchPlaceEntityList(
             modifyStartDate,
             modifyFinishDate,
-            raceTypeList,
+            // raceTypeListからjraを除外して取得
+            raceTypeList.filter((type) => type !== 'jra'),
             DataLocation.Web,
         );
+        // JRAの開催場データは別途処理するため、ここでは除外
+        const modifyJraStartDate = new Date(
+            modifyStartDate.getFullYear(),
+            0,
+            1,
+        );
+        // finishDateは年の最終日に設定する
+        const modifyJraFinishDate = new Date(
+            finishDate.getFullYear() + 1,
+            0,
+            0,
+        );
+        const jraPlaceEntityList =
+            await this.publicGamblingPlaceDataService.fetchPlaceEntityList(
+                modifyJraStartDate,
+                modifyJraFinishDate,
+                raceTypeList.filter((type) => type === 'jra'),
+                DataLocation.Web,
+            );
+
+        // JRAの開催場データを追加
+        placeEntityList.push(...jraPlaceEntityList);
         // 開催場データを更新
         await this.publicGamblingPlaceDataService.updatePlaceEntityList(
             placeEntityList,
