@@ -50,21 +50,18 @@ describe('PublicGamblingPlaceUseCase', () => {
                 baseJraPlaceData,
                 baseNarPlaceData,
                 baseKeirinPlaceData,
-                baseBoatracePlaceData,
                 baseAutoracePlaceData,
-            ];
-            const mockPlaceEntity = [
-                baseJraPlaceEntity,
-                baseNarPlaceEntity,
-                baseKeirinPlaceEntity,
-                baseBoatracePlaceEntity,
-                baseAutoracePlaceEntity,
+                baseBoatracePlaceData,
             ];
 
             // モックの戻り値を設定
-            placeDataService.fetchPlaceEntityList.mockResolvedValue(
-                mockPlaceEntity,
-            );
+            placeDataService.fetchPlaceEntityList.mockResolvedValue({
+                jra: [baseJraPlaceEntity],
+                nar: [baseNarPlaceEntity],
+                keirin: [baseKeirinPlaceEntity],
+                autorace: [baseAutoracePlaceEntity],
+                boatrace: [baseBoatracePlaceEntity],
+            });
 
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
@@ -81,21 +78,17 @@ describe('PublicGamblingPlaceUseCase', () => {
 
     describe('updatePlaceDataList', () => {
         it('正常に開催場データが更新されること', async () => {
-            const mockPlaceEntity = [
-                baseJraPlaceEntity,
-                baseNarPlaceEntity,
-                baseKeirinPlaceEntity,
-                baseBoatracePlaceEntity,
-                baseAutoracePlaceEntity,
-            ];
-
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            placeDataService.fetchPlaceEntityList.mockResolvedValue(
-                mockPlaceEntity,
-            );
+            placeDataService.fetchPlaceEntityList.mockResolvedValue({
+                jra: [baseJraPlaceEntity],
+                nar: [baseNarPlaceEntity],
+                keirin: [baseKeirinPlaceEntity],
+                autorace: [baseAutoracePlaceEntity],
+                boatrace: [baseBoatracePlaceEntity],
+            });
 
             await useCase.updatePlaceDataList(startDate, finishDate, [
                 'jra',

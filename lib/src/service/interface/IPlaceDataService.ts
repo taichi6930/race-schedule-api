@@ -30,13 +30,13 @@ export interface IPlaceDataService {
         finishDate: Date,
         raceTypeList: string[],
         type: DataLocationType,
-    ) => Promise<
-        | JraPlaceEntity[]
-        | NarPlaceEntity[]
-        | KeirinPlaceEntity[]
-        | AutoracePlaceEntity[]
-        | BoatracePlaceEntity[]
-    >;
+    ) => Promise<{
+        jra: JraPlaceEntity[];
+        nar: NarPlaceEntity[];
+        keirin: KeirinPlaceEntity[];
+        autorace: AutoracePlaceEntity[];
+        boatrace: BoatracePlaceEntity[];
+    }>;
 
     /**
      * 開催場所データをStorageに保存/更新します
@@ -46,13 +46,11 @@ export interface IPlaceDataService {
      * @param placeEntityList - 保存/更新する開催場所エンティティの配列
      * @throws Error データの保存/更新に失敗した場合
      */
-    updatePlaceEntityList: (
-        placeEntityList: (
-            | JraPlaceEntity
-            | NarPlaceEntity
-            | KeirinPlaceEntity
-            | AutoracePlaceEntity
-            | BoatracePlaceEntity
-        )[],
-    ) => Promise<void>;
+    updatePlaceEntityList: (placeEntityList: {
+        jra: JraPlaceEntity[];
+        nar: NarPlaceEntity[];
+        keirin: KeirinPlaceEntity[];
+        autorace: AutoracePlaceEntity[];
+        boatrace: BoatracePlaceEntity[];
+    }) => Promise<void>;
 }
