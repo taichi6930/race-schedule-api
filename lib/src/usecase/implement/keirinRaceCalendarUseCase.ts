@@ -34,19 +34,6 @@ export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     ) {}
 
     /**
-     * カレンダーからレース情報の取得を行う
-     * @param startDate
-     * @param finishDate
-     */
-    @Logger
-    public async fetchRacesFromCalendar(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<CalendarData[]> {
-        return this.calendarService.getEvents(startDate, finishDate);
-    }
-
-    /**
      * カレンダーの更新を行う
      * @param startDate
      * @param finishDate

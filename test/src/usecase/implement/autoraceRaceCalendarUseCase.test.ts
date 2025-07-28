@@ -14,7 +14,7 @@ import {
     baseAutoraceCalendarData,
     baseAutoraceRaceEntity,
 } from '../../mock/common/baseAutoraceData';
-import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { oldCalendarServiceMock } from '../../mock/service/oldCalendarServiceMock';
 import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
@@ -27,7 +27,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
     let useCase: AutoraceRaceCalendarUseCase;
 
     beforeEach(() => {
-        calendarService = calendarServiceMock<AutoraceRaceEntity>();
+        calendarService = oldCalendarServiceMock<AutoraceRaceEntity>();
         container.registerInstance<IOldCalendarService<AutoraceRaceEntity>>(
             'AutoraceCalendarService',
             calendarService,
@@ -52,29 +52,6 @@ describe('AutoraceRaceCalendarUseCase', () => {
 
     afterEach(() => {
         jest.clearAllMocks();
-    });
-
-    describe('getRacesFromCalendar', () => {
-        it('CalendarDataのリストが正常に返ってくること', async () => {
-            const mockCalendarData: CalendarData[] = [baseAutoraceCalendarData];
-
-            // モックの戻り値を設定
-            calendarService.getEvents.mockResolvedValue(mockCalendarData);
-
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            const result = await useCase.fetchRacesFromCalendar(
-                startDate,
-                finishDate,
-            );
-
-            expect(calendarService.getEvents).toHaveBeenCalledWith(
-                startDate,
-                finishDate,
-            );
-            expect(result).toEqual(mockCalendarData);
-        });
     });
 
     describe('updateRacesToCalendar', () => {
