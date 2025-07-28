@@ -89,37 +89,57 @@ export class PublicGamblingPlaceDataService<P extends IPlaceEntity<P>>
             )[] = [];
             if (raceTypeList.includes('jra')) {
                 const jraPlaceEntityList: JraPlaceEntity[] =
-                    await this.jraPlaceRepositoryFromStorage.fetchPlaceEntityList(
-                        searchFilter,
-                    );
+                    type === DataLocation.Storage
+                        ? await this.jraPlaceRepositoryFromStorage.fetchPlaceEntityList(
+                              searchFilter,
+                          )
+                        : await this.jraPlaceRepositoryFromHtml.fetchPlaceEntityList(
+                              searchFilter,
+                          );
                 placeEntityList.push(...jraPlaceEntityList);
             }
             if (raceTypeList.includes('nar')) {
                 const narPlaceEntityList: NarPlaceEntity[] =
-                    await this.narPlaceRepositoryFromStorage.fetchPlaceEntityList(
-                        searchFilter,
-                    );
+                    type === DataLocation.Storage
+                        ? await this.narPlaceRepositoryFromStorage.fetchPlaceEntityList(
+                              searchFilter,
+                          )
+                        : await this.narPlaceRepositoryFromHtml.fetchPlaceEntityList(
+                              searchFilter,
+                          );
                 placeEntityList.push(...narPlaceEntityList);
             }
             if (raceTypeList.includes('keirin')) {
                 const keirinPlaceEntityList: KeirinPlaceEntity[] =
-                    await this.keirinPlaceRepositoryFromStorage.fetchPlaceEntityList(
-                        searchFilter,
-                    );
+                    type === DataLocation.Storage
+                        ? await this.keirinPlaceRepositoryFromStorage.fetchPlaceEntityList(
+                              searchFilter,
+                          )
+                        : await this.keirinPlaceRepositoryFromHtml.fetchPlaceEntityList(
+                              searchFilter,
+                          );
                 placeEntityList.push(...keirinPlaceEntityList);
             }
             if (raceTypeList.includes('autorace')) {
                 const autoracePlaceEntityList: AutoracePlaceEntity[] =
-                    await this.autoracePlaceRepositoryFromStorage.fetchPlaceEntityList(
-                        searchFilter,
-                    );
+                    type === DataLocation.Storage
+                        ? await this.autoracePlaceRepositoryFromStorage.fetchPlaceEntityList(
+                              searchFilter,
+                          )
+                        : await this.autoracePlaceRepositoryFromHtml.fetchPlaceEntityList(
+                              searchFilter,
+                          );
                 placeEntityList.push(...autoracePlaceEntityList);
             }
             if (raceTypeList.includes('boatrace')) {
                 const boatracePlaceEntityList: BoatracePlaceEntity[] =
-                    await this.boatracePlaceRepositoryFromStorage.fetchPlaceEntityList(
-                        searchFilter,
-                    );
+                    type === DataLocation.Storage
+                        ? await this.boatracePlaceRepositoryFromStorage.fetchPlaceEntityList(
+                              searchFilter,
+                          )
+                        : await this.boatracePlaceRepositoryFromHtml.fetchPlaceEntityList(
+                              searchFilter,
+                          );
                 placeEntityList.push(...boatracePlaceEntityList);
             }
             return placeEntityList;
@@ -150,23 +170,23 @@ export class PublicGamblingPlaceDataService<P extends IPlaceEntity<P>>
         try {
             for (const placeEntity of placeEntityList) {
                 if (placeEntity instanceof JraPlaceEntity) {
-                    await this.jraPlaceRepositoryFromHtml.registerPlaceEntityList(
+                    await this.jraPlaceRepositoryFromStorage.registerPlaceEntityList(
                         [placeEntity],
                     );
                 } else if (placeEntity instanceof NarPlaceEntity) {
-                    await this.narPlaceRepositoryFromHtml.registerPlaceEntityList(
+                    await this.narPlaceRepositoryFromStorage.registerPlaceEntityList(
                         [placeEntity],
                     );
                 } else if (placeEntity instanceof KeirinPlaceEntity) {
-                    await this.keirinPlaceRepositoryFromHtml.registerPlaceEntityList(
+                    await this.keirinPlaceRepositoryFromStorage.registerPlaceEntityList(
                         [placeEntity],
                     );
                 } else if (placeEntity instanceof AutoracePlaceEntity) {
-                    await this.autoracePlaceRepositoryFromHtml.registerPlaceEntityList(
+                    await this.autoracePlaceRepositoryFromStorage.registerPlaceEntityList(
                         [placeEntity],
                     );
                 } else if (placeEntity instanceof BoatracePlaceEntity) {
-                    await this.boatracePlaceRepositoryFromHtml.registerPlaceEntityList(
+                    await this.boatracePlaceRepositoryFromStorage.registerPlaceEntityList(
                         [placeEntity],
                     );
                 }
