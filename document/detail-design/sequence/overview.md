@@ -19,4 +19,3 @@ sequenceDiagram
     Service-->>Usecase: 結果返却
     Usecase-->>Controller: レスポンス返却
 ```
-

@@ -5,21 +5,21 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 
 /**
  * Narレースカレンダーユースケース
  */
 @injectable()
-export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
+export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('NarCalendarService')
-        private readonly calendarService: ICalendarService<NarRaceEntity>,
+        private readonly calendarService: IOldCalendarService<NarRaceEntity>,
         @inject('NarRaceDataService')
         private readonly raceDataService: IRaceDataService<
             NarRaceEntity,
@@ -33,7 +33,7 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param finishDate
      */
     @Logger
-    public async getRacesFromCalendar(
+    public async fetchRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {

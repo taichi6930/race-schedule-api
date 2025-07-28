@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import type { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
-import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
+import type { IOldPlaceDataService } from '../../../../lib/src/service/interface/IOldPlaceDataService';
 import { BoatracePlaceDataUseCase } from '../../../../lib/src/usecase/implement/boatracePlaceDataUseCase';
 import {
     baseBoatracePlaceData,
@@ -13,12 +13,14 @@ import {
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('BoatracePlaceDataUseCase', () => {
-    let placeDataService: jest.Mocked<IPlaceDataService<BoatracePlaceEntity>>;
+    let placeDataService: jest.Mocked<
+        IOldPlaceDataService<BoatracePlaceEntity>
+    >;
     let useCase: BoatracePlaceDataUseCase;
 
     beforeEach(() => {
         placeDataService = placeDataServiceMock<BoatracePlaceEntity>();
-        container.registerInstance<IPlaceDataService<BoatracePlaceEntity>>(
+        container.registerInstance<IOldPlaceDataService<BoatracePlaceEntity>>(
             'BoatracePlaceDataService',
             placeDataService,
         );

@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import type { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
-import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
+import type { IOldPlaceDataService } from '../../../../lib/src/service/interface/IOldPlaceDataService';
 import { JraPlaceDataUseCase } from '../../../../lib/src/usecase/implement/jraPlaceDataUseCase';
 import {
     baseJraPlaceData,
@@ -13,12 +13,12 @@ import {
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('JraPlaceDataUseCase', () => {
-    let placeDataService: jest.Mocked<IPlaceDataService<JraPlaceEntity>>;
+    let placeDataService: jest.Mocked<IOldPlaceDataService<JraPlaceEntity>>;
     let useCase: JraPlaceDataUseCase;
 
     beforeEach(() => {
         placeDataService = placeDataServiceMock<JraPlaceEntity>();
-        container.registerInstance<IPlaceDataService<JraPlaceEntity>>(
+        container.registerInstance<IOldPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
             placeDataService,
         );

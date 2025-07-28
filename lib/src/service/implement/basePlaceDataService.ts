@@ -3,7 +3,7 @@ import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilt
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IPlaceDataService } from '../interface/IPlaceDataService';
+import { IOldPlaceDataService } from '../interface/IOldPlaceDataService';
 
 /**
  * 開催場所データの取得と更新を担当する基底サービスクラス
@@ -31,7 +31,7 @@ import { IPlaceDataService } from '../interface/IPlaceDataService';
  * ```
  */
 export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
-    implements IPlaceDataService<P>
+    implements IOldPlaceDataService<P>
 {
     protected abstract placeRepositoryFromStorage: IPlaceRepository<P>;
     protected abstract placeRepositoryFromHtml: IPlaceRepository<P>;

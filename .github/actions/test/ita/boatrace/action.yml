@@ -31,7 +31,7 @@ runs:
       run: |
         # Initial GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/boatrace/place?startDate=2024-10-01&finishDate=2024-10-31' \
+          'http://localhost:3000/api/races/all/place?startDate=2024-10-01&finishDate=2024-10-31&raceType=boatrace' \
           -H 'accept: application/json')
 
         # Initial GET Response Check
@@ -58,7 +58,7 @@ runs:
 
         # Updated GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/boatrace/place?startDate=2024-10-01&finishDate=2024-10-31' \
+          'http://localhost:3000/api/races/all/place?startDate=2024-10-01&finishDate=2024-10-31&raceType=boatrace' \
           -H 'accept: application/json')
 
         # Final GET Response Check: 要素数が31個であることを確認
@@ -119,7 +119,7 @@ runs:
       run: |
         # Initial GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/boatrace/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
+          'http://localhost:3000/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=boatrace' \
           -H 'accept: application/json')
 
         # Initial GET Response Check
@@ -146,7 +146,7 @@ runs:
 
         # Updated GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/boatrace/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
+          'http://localhost:3000/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=boatrace' \
           -H 'accept: application/json')
 
         # Final GET Response Check: 要素数が31個であることを確認

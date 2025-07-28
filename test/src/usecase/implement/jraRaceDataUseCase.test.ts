@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import type { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
-import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
+import type { IOldPlaceDataService } from '../../../../lib/src/service/interface/IOldPlaceDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { JraRaceDataUseCase } from '../../../../lib/src/usecase/implement/jraRaceDataUseCase';
 import {
@@ -17,7 +17,7 @@ import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('JraRaceDataUseCase', () => {
-    let placeDataService: jest.Mocked<IPlaceDataService<JraPlaceEntity>>;
+    let placeDataService: jest.Mocked<IOldPlaceDataService<JraPlaceEntity>>;
     let raceDataService: jest.Mocked<
         IRaceDataService<JraRaceEntity, JraPlaceEntity>
     >;
@@ -25,7 +25,7 @@ describe('JraRaceDataUseCase', () => {
 
     beforeEach(() => {
         placeDataService = placeDataServiceMock<JraPlaceEntity>();
-        container.registerInstance<IPlaceDataService<JraPlaceEntity>>(
+        container.registerInstance<IOldPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
             placeDataService,
         );

@@ -2,21 +2,21 @@ import { inject, injectable } from 'tsyringe';
 
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
-import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
+import { IOldPlaceDataUseCase } from '../interface/IOldPlaceDataUseCase';
 
 /**
  * Autorace開催場データユースケース
  */
 @injectable()
 export class AutoracePlaceDataUseCase
-    implements IPlaceDataUseCase<AutoracePlaceData>
+    implements IOldPlaceDataUseCase<AutoracePlaceData>
 {
     public constructor(
         @inject('AutoracePlaceDataService')
-        private readonly placeDataService: IPlaceDataService<AutoracePlaceEntity>,
+        private readonly placeDataService: IOldPlaceDataService<AutoracePlaceEntity>,
     ) {}
 
     /**

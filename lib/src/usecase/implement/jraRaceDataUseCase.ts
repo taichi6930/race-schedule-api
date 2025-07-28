@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
@@ -22,7 +22,7 @@ export class JraRaceDataUseCase
 {
     public constructor(
         @inject('JraPlaceDataService')
-        private readonly placeDataService: IPlaceDataService<JraPlaceEntity>,
+        private readonly placeDataService: IOldPlaceDataService<JraPlaceEntity>,
         @inject('JraRaceDataService')
         private readonly raceDataService: IRaceDataService<
             JraRaceEntity,

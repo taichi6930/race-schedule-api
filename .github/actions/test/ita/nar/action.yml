@@ -73,7 +73,7 @@ runs:
         
         # Initial GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/nar/place?startDate=2024-10-01&finishDate=2024-10-31' \
+          'http://localhost:3000/api/races/all/place?startDate=2024-10-01&finishDate=2024-10-31&raceType=nar' \
           -H 'accept: application/json')
 
         if [[ "$response" != "[]" ]]; then
@@ -98,7 +98,7 @@ runs:
 
         # Updated GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/nar/place?startDate=2024-10-01&finishDate=2024-10-31' \
+          'http://localhost:3000/api/races/all/place?startDate=2024-10-01&finishDate=2024-10-31&raceType=nar' \
           -H 'accept: application/json')
 
         # Cache the successful response
@@ -171,7 +171,7 @@ runs:
         
         # Initial GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/nar/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
+          'http://localhost:3000/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=nar' \
           -H 'accept: application/json')
 
         if [[ "$response" != "[]" ]]; then
@@ -196,7 +196,7 @@ runs:
 
         # Updated GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/nar/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
+          'http://localhost:3000/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=nar' \
           -H 'accept: application/json')
 
         # Cache the successful response

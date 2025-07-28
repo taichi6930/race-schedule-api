@@ -5,21 +5,21 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 
 /**
  * Jraレースカレンダーユースケース
  */
 @injectable()
-export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
+export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('JraCalendarService')
-        private readonly calendarService: ICalendarService<JraRaceEntity>,
+        private readonly calendarService: IOldCalendarService<JraRaceEntity>,
         @inject('JraRaceDataService')
         private readonly raceDataService: IRaceDataService<
             JraRaceEntity,
@@ -33,7 +33,7 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param finishDate
      */
     @Logger
-    public async getRacesFromCalendar(
+    public async fetchRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {

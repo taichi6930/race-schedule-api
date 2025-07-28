@@ -5,20 +5,20 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 
 /**
  * Worldレースカレンダーユースケース
  */
 @injectable()
-export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
+export class WorldRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('WorldCalendarService')
-        private readonly calendarService: ICalendarService<WorldRaceEntity>,
+        private readonly calendarService: IOldCalendarService<WorldRaceEntity>,
         @inject('WorldRaceDataService')
         private readonly raceDataService: IRaceDataService<
             WorldRaceEntity,
@@ -32,7 +32,7 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param finishDate
      */
     @Logger
-    public async getRacesFromCalendar(
+    public async fetchRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {

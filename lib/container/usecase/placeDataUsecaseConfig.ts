@@ -10,29 +10,34 @@ import { BoatracePlaceDataUseCase } from '../../src/usecase/implement/boatracePl
 import { JraPlaceDataUseCase } from '../../src/usecase/implement/jraPlaceDataUseCase';
 import { KeirinPlaceDataUseCase } from '../../src/usecase/implement/keirinPlaceDataUseCase';
 import { NarPlaceDataUseCase } from '../../src/usecase/implement/narPlaceDataUseCase';
+import { PublicGamblingPlaceUseCase } from '../../src/usecase/implement/publicGamblingPlaceUseCase';
+import type { IOldPlaceDataUseCase } from '../../src/usecase/interface/IOldPlaceDataUseCase';
 import type { IPlaceDataUseCase } from '../../src/usecase/interface/IPlaceDataUseCase';
 
-container.register<IPlaceDataUseCase<BoatracePlaceData>>(
+container.register<IOldPlaceDataUseCase<BoatracePlaceData>>(
     'BoatracePlaceDataUseCase',
     {
         useClass: BoatracePlaceDataUseCase,
     },
 );
-container.register<IPlaceDataUseCase<AutoracePlaceData>>(
+container.register<IOldPlaceDataUseCase<AutoracePlaceData>>(
     'AutoracePlaceDataUseCase',
     {
         useClass: AutoracePlaceDataUseCase,
     },
 );
-container.register<IPlaceDataUseCase<KeirinPlaceData>>(
+container.register<IOldPlaceDataUseCase<KeirinPlaceData>>(
     'KeirinPlaceDataUseCase',
     {
         useClass: KeirinPlaceDataUseCase,
     },
 );
-container.register<IPlaceDataUseCase<NarPlaceData>>('NarPlaceDataUseCase', {
+container.register<IOldPlaceDataUseCase<NarPlaceData>>('NarPlaceDataUseCase', {
     useClass: NarPlaceDataUseCase,
 });
-container.register<IPlaceDataUseCase<JraPlaceData>>('JraPlaceDataUseCase', {
+container.register<IOldPlaceDataUseCase<JraPlaceData>>('JraPlaceDataUseCase', {
     useClass: JraPlaceDataUseCase,
+});
+container.register<IPlaceDataUseCase>('PublicGamblingPlaceUseCase', {
+    useClass: PublicGamblingPlaceUseCase,
 });

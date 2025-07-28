@@ -6,7 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
@@ -14,16 +14,16 @@ import { BoatraceSpecifiedGradeAndStageList } from '../../utility/data/boatrace/
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/sqlite';
-import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 
 /**
  * Boatraceレースカレンダーユースケース
  */
 @injectable()
-export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
+export class BoatraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('BoatraceCalendarService')
-        private readonly calendarService: ICalendarService<BoatraceRaceEntity>,
+        private readonly calendarService: IOldCalendarService<BoatraceRaceEntity>,
         @inject('BoatraceRaceDataService')
         private readonly raceDataService: IRaceDataService<
             BoatraceRaceEntity,
@@ -39,7 +39,7 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param finishDate
      */
     @Logger
-    public async getRacesFromCalendar(
+    public async fetchRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {

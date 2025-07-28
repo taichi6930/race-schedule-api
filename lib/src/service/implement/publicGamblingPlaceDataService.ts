@@ -1,0 +1,131 @@
+import { inject, injectable } from 'tsyringe';
+
+import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
+import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
+import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
+import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
+import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
+import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
+import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
+import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
+import { DataLocation, DataLocationType } from '../../utility/dataType';
+import { Logger } from '../../utility/logger';
+import { IPlaceDataService } from '../interface/IPlaceDataService';
+
+/**
+ * 開催場所データの取得と更新を担当する基底サービスクラス
+ */
+@injectable()
+export class PublicGamblingPlaceDataService<P extends IPlaceEntity<P>>
+    implements IPlaceDataService
+{
+    public constructor(
+        @inject('JraPlaceRepositoryFromStorage')
+        protected jraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
+        @inject('JraPlaceRepositoryFromHtml')
+        protected jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
+        @inject('NarPlaceRepositoryFromStorage')
+        protected narPlaceRepositoryFromStorage: IPlaceRepository<NarPlaceEntity>,
+        @inject('NarPlaceRepositoryFromHtml')
+        protected narPlaceRepositoryFromHtml: IPlaceRepository<NarPlaceEntity>,
+        @inject('KeirinPlaceRepositoryFromStorage')
+        protected keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceEntity>,
+        @inject('KeirinPlaceRepositoryFromHtml')
+        protected keirinPlaceRepositoryFromHtml: IPlaceRepository<KeirinPlaceEntity>,
+        @inject('AutoracePlaceRepositoryFromStorage')
+        protected autoracePlaceRepositoryFromStorage: IPlaceRepository<AutoracePlaceEntity>,
+        @inject('AutoracePlaceRepositoryFromHtml')
+        protected autoracePlaceRepositoryFromHtml: IPlaceRepository<AutoracePlaceEntity>,
+        @inject('BoatracePlaceRepositoryFromStorage')
+        protected boatracePlaceRepositoryFromStorage: IPlaceRepository<BoatracePlaceEntity>,
+        @inject('BoatracePlaceRepositoryFromHtml')
+        protected boatracePlaceRepositoryFromHtml: IPlaceRepository<BoatracePlaceEntity>,
+    ) {}
+
+    /**
+     * 指定された期間の開催場所データを取得します
+     *
+     * このメソッドは、指定されたデータソース（StorageまたはWeb）から
+     * 開催場所情報を取得します。エラーが発生した場合は空配列を返し、
+     * アプリケーションの継続性を保証します。
+     *
+     * レースデータ取得の前提として使用され、開催場所の基本情報を
+     * 提供する重要な役割を持ちます。
+     * @param startDate - 取得開始日
+     * @param finishDate - 取得終了日（この日を含む）
+     * @param raceTypeList
+     * @param type - データ取得元の指定（storage/web）
+     * @returns 開催場所エンティティの配列。エラー時は空配列
+     * @throws エラーはキャッチされログ出力されます
+     * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
+     */
+    @Logger
+    public async fetchPlaceEntityList(
+        startDate: Date,
+        finishDate: Date,
+        raceTypeList: string[],
+        type: DataLocationType,
+    ): Promise<
+        | JraPlaceEntity[]
+        | NarPlaceEntity[]
+        | KeirinPlaceEntity[]
+        | AutoracePlaceEntity[]
+        | BoatracePlaceEntity[]
+    > {
+        try {
+            const searchFilter = new SearchPlaceFilterEntity(
+                startDate,
+                finishDate,
+            );
+            if (raceTypeList.length === 0 && type !== DataLocation.Storage) {
+                return [];
+            }
+            const placeEntityList: (
+                | JraPlaceEntity
+                | NarPlaceEntity
+                | KeirinPlaceEntity
+                | AutoracePlaceEntity
+                | BoatracePlaceEntity
+            )[] = [];
+            if (raceTypeList.includes('jra')) {
+                const jraPlaceEntityList: JraPlaceEntity[] =
+                    await this.jraPlaceRepositoryFromStorage.fetchPlaceEntityList(
+                        searchFilter,
+                    );
+                placeEntityList.push(...jraPlaceEntityList);
+            }
+            if (raceTypeList.includes('nar')) {
+                const narPlaceEntityList: NarPlaceEntity[] =
+                    await this.narPlaceRepositoryFromStorage.fetchPlaceEntityList(
+                        searchFilter,
+                    );
+                placeEntityList.push(...narPlaceEntityList);
+            }
+            if (raceTypeList.includes('keirin')) {
+                const keirinPlaceEntityList: KeirinPlaceEntity[] =
+                    await this.keirinPlaceRepositoryFromStorage.fetchPlaceEntityList(
+                        searchFilter,
+                    );
+                placeEntityList.push(...keirinPlaceEntityList);
+            }
+            if (raceTypeList.includes('autorace')) {
+                const autoracePlaceEntityList: AutoracePlaceEntity[] =
+                    await this.autoracePlaceRepositoryFromStorage.fetchPlaceEntityList(
+                        searchFilter,
+                    );
+                placeEntityList.push(...autoracePlaceEntityList);
+            }
+            if (raceTypeList.includes('boatrace')) {
+                const boatracePlaceEntityList: BoatracePlaceEntity[] =
+                    await this.boatracePlaceRepositoryFromStorage.fetchPlaceEntityList(
+                        searchFilter,
+                    );
+                placeEntityList.push(...boatracePlaceEntityList);
+            }
+            return placeEntityList;
+        } catch (error) {
+            console.error('開催場データの取得に失敗しました', error);
+            return [];
+        }
+    }
+}

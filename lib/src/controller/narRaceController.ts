@@ -3,8 +3,8 @@ import { inject, injectable } from 'tsyringe';
 
 import { NarPlaceData } from '../domain/narPlaceData';
 import { NarRaceData } from '../domain/narRaceData';
-import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
-import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
+import { IOldPlaceDataUseCase } from '../usecase/interface/IOldPlaceDataUseCase';
+import { IOldRaceCalendarUseCase } from '../usecase/interface/IOldRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
     NarGradeType,
@@ -22,7 +22,7 @@ export class NarRaceController {
 
     public constructor(
         @inject('NarRaceCalendarUseCase')
-        private readonly raceCalendarUseCase: IRaceCalendarUseCase,
+        private readonly raceCalendarUseCase: IOldRaceCalendarUseCase,
         @inject('NarRaceDataUseCase')
         private readonly narRaceDataUseCase: IRaceDataUseCase<
             NarRaceData,
@@ -31,7 +31,7 @@ export class NarRaceController {
             undefined
         >,
         @inject('NarPlaceDataUseCase')
-        private readonly narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceData>,
+        private readonly narPlaceDataUseCase: IOldPlaceDataUseCase<NarPlaceData>,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -43,56 +43,12 @@ export class NarRaceController {
     @Logger
     private initializeRoutes(): void {
         // Calendar関連のAPI
-        this.router.get('/calendar', this.getRacesFromCalendar.bind(this));
         this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
         // RaceData関連のAPI
         this.router.get('/race', this.getRaceDataList.bind(this));
         this.router.post('/race', this.updateRaceDataList.bind(this));
         // PlaceData関連のAPI
-        this.router.get('/place', this.getPlaceDataList.bind(this));
         this.router.post('/place', this.updatePlaceDataList.bind(this));
-    }
-
-    /**
-     * NARカレンダーからレース情報を取得する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
-    @Logger
-    private async getRacesFromCalendar(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
-        try {
-            const { startDate, finishDate } = req.query;
-
-            // startDateとfinishDateが指定されていないかつ、日付形式でない場合はエラーを返す
-            if (
-                Number.isNaN(Date.parse(startDate as string)) ||
-                Number.isNaN(Date.parse(finishDate as string))
-            ) {
-                res.status(400).send('startDate、finishDateは必須です');
-                return;
-            }
-
-            // カレンダーからレース情報を取得する
-            const races = await this.raceCalendarUseCase.getRacesFromCalendar(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-            );
-            // レース情報を返す
-            res.json(races);
-        } catch (error) {
-            console.error(
-                'カレンダーからレース情報を取得中にエラーが発生しました:',
-                error,
-            );
-            const errorMessage =
-                error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
-        }
     }
 
     /**
@@ -296,41 +252,6 @@ export class NarRaceController {
         } catch (error) {
             console.error('Error updating race data:', error);
             res.status(500).send('レースデータの更新中にエラーが発生しました');
-        }
-    }
-
-    /**
-     * 競馬場情報を取得する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
-    @Logger
-    private async getPlaceDataList(req: Request, res: Response): Promise<void> {
-        try {
-            const { startDate, finishDate } = req.query;
-
-            // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (
-                Number.isNaN(Date.parse(startDate as string)) ||
-                Number.isNaN(Date.parse(finishDate as string))
-            ) {
-                res.status(400).send('startDate、finishDateは必須です');
-                return;
-            }
-
-            // 競馬場情報を取得する
-            const placeList = await this.narPlaceDataUseCase.fetchPlaceDataList(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-            );
-            res.json(placeList);
-        } catch (error) {
-            console.error('競馬場情報の取得中にエラーが発生しました:', error);
-            const errorMessage =
-                error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
         }
     }
 

@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
-import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IOldCalendarService } from '../../../../lib/src/service/interface/IOldCalendarService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { JraRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/jraRaceCalendarUseCase';
 import { JraSpecifiedGradeList } from '../../../../lib/src/utility/data/jra/jraGradeType';
@@ -17,7 +17,7 @@ import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('JraRaceCalendarUseCase', () => {
-    let calendarService: jest.Mocked<ICalendarService<JraRaceEntity>>;
+    let calendarService: jest.Mocked<IOldCalendarService<JraRaceEntity>>;
     let raceDataService: jest.Mocked<
         IRaceDataService<JraRaceEntity, JraPlaceEntity>
     >;
@@ -25,7 +25,7 @@ describe('JraRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         calendarService = calendarServiceMock<JraRaceEntity>();
-        container.registerInstance<ICalendarService<JraRaceEntity>>(
+        container.registerInstance<IOldCalendarService<JraRaceEntity>>(
             'JraCalendarService',
             calendarService,
         );
@@ -52,7 +52,7 @@ describe('JraRaceCalendarUseCase', () => {
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
 
-            const result = await useCase.getRacesFromCalendar(
+            const result = await useCase.fetchRacesFromCalendar(
                 startDate,
                 finishDate,
             );

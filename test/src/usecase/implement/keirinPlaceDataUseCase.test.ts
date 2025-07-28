@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import type { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
-import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
+import type { IOldPlaceDataService } from '../../../../lib/src/service/interface/IOldPlaceDataService';
 import { KeirinPlaceDataUseCase } from '../../../../lib/src/usecase/implement/keirinPlaceDataUseCase';
 import {
     baseKeirinPlaceData,
@@ -13,12 +13,12 @@ import {
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('KeirinPlaceDataUseCase', () => {
-    let placeDataService: jest.Mocked<IPlaceDataService<KeirinPlaceEntity>>;
+    let placeDataService: jest.Mocked<IOldPlaceDataService<KeirinPlaceEntity>>;
     let useCase: KeirinPlaceDataUseCase;
 
     beforeEach(() => {
         placeDataService = placeDataServiceMock<KeirinPlaceEntity>();
-        container.registerInstance<IPlaceDataService<KeirinPlaceEntity>>(
+        container.registerInstance<IOldPlaceDataService<KeirinPlaceEntity>>(
             'KeirinPlaceDataService',
             placeDataService,
         );

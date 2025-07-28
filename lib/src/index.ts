@@ -11,6 +11,7 @@ import { BoatraceRaceController } from './controller/boatraceRaceController';
 import { JraRaceController } from './controller/jraRaceController';
 import { KeirinRaceController } from './controller/keirinRaceController';
 import { NarRaceController } from './controller/narRaceController';
+import { PublicGamblingController } from './controller/publicGamblingController';
 import { WorldRaceController } from './controller/worldRaceController';
 
 // Expressアプリケーションの設定
@@ -23,6 +24,7 @@ const worldRaceController = container.resolve(WorldRaceController);
 const keirinRaceController = container.resolve(KeirinRaceController);
 const autoraceRaceController = container.resolve(AutoraceRaceController);
 const boatraceController = container.resolve(BoatraceRaceController);
+const publicGamblingController = container.resolve(PublicGamblingController);
 
 // Expressの設定
 app.use(express.json());
@@ -34,6 +36,7 @@ app.use('/api/races/world', worldRaceController.router);
 app.use('/api/races/keirin', keirinRaceController.router);
 app.use('/api/races/autorace', autoraceRaceController.router);
 app.use('/api/races/boatrace', boatraceController.router);
+app.use('/api/races/all', publicGamblingController.router);
 
 // health check
 app.get('/health', (_, res) => {

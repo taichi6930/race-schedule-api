@@ -2,21 +2,21 @@ import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
-import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IOldPlaceDataService } from '../../service/interface/IOldPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
+import { IOldPlaceDataUseCase } from '../interface/IOldPlaceDataUseCase';
 
 /**
  * Keirin開催場データユースケース
  */
 @injectable()
 export class KeirinPlaceDataUseCase
-    implements IPlaceDataUseCase<KeirinPlaceData>
+    implements IOldPlaceDataUseCase<KeirinPlaceData>
 {
     public constructor(
         @inject('KeirinPlaceDataService')
-        private readonly placeDataService: IPlaceDataService<KeirinPlaceEntity>,
+        private readonly placeDataService: IOldPlaceDataService<KeirinPlaceEntity>,
     ) {}
 
     /**

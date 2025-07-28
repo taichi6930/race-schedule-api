@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
-import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IOldCalendarService } from '../../../../lib/src/service/interface/IOldCalendarService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
 import { NarSpecifiedGradeList } from '../../../../lib/src/utility/data/nar/narGradeType';
@@ -17,7 +17,7 @@ import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceCalendarUseCase', () => {
-    let calendarService: jest.Mocked<ICalendarService<NarRaceEntity>>;
+    let calendarService: jest.Mocked<IOldCalendarService<NarRaceEntity>>;
     let raceDataService: jest.Mocked<
         IRaceDataService<NarRaceEntity, NarPlaceEntity>
     >;
@@ -25,7 +25,7 @@ describe('NarRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         calendarService = calendarServiceMock<NarRaceEntity>();
-        container.registerInstance<ICalendarService<NarRaceEntity>>(
+        container.registerInstance<IOldCalendarService<NarRaceEntity>>(
             'NarCalendarService',
             calendarService,
         );
@@ -52,7 +52,7 @@ describe('NarRaceCalendarUseCase', () => {
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
 
-            const result = await useCase.getRacesFromCalendar(
+            const result = await useCase.fetchRacesFromCalendar(
                 startDate,
                 finishDate,
             );

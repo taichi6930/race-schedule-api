@@ -1,13 +1,13 @@
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { IRaceEntity } from '../../../../lib/src/repository/entity/iRaceEntity';
-import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IOldCalendarService } from '../../../../lib/src/service/interface/IOldCalendarService';
 
 /**
  * CalendarServiceのモックを作成する
  * @returns モック化されたICalendarServiceインターフェースのインスタンス
  */
 export const calendarServiceMock = <R extends IRaceEntity<R>>(): jest.Mocked<
-    ICalendarService<R>
+    IOldCalendarService<R>
 > => {
     return {
         getEvents: jest.fn().mockResolvedValue([] as CalendarData[]),

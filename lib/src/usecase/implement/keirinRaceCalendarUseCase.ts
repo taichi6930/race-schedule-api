@@ -6,7 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
@@ -14,16 +14,16 @@ import { KeirinRaceGradeAndStageList } from '../../utility/data/keirin/keirinRac
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/sqlite';
-import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 
 /**
  * Keirinレースカレンダーユースケース
  */
 @injectable()
-export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
+export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('KeirinCalendarService')
-        private readonly calendarService: ICalendarService<KeirinRaceEntity>,
+        private readonly calendarService: IOldCalendarService<KeirinRaceEntity>,
         @inject('KeirinRaceDataService')
         private readonly raceDataService: IRaceDataService<
             KeirinRaceEntity,
@@ -39,7 +39,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param finishDate
      */
     @Logger
-    public async getRacesFromCalendar(
+    public async fetchRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {

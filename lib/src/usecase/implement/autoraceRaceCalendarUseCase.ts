@@ -6,7 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
@@ -14,16 +14,16 @@ import { AutoraceSpecifiedGradeAndStageList } from '../../utility/data/autorace/
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/sqlite';
-import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
+import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 
 /**
  * Autoraceレースカレンダーユースケース
  */
 @injectable()
-export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
+export class AutoraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('AutoraceCalendarService')
-        private readonly calendarService: ICalendarService<AutoraceRaceEntity>,
+        private readonly calendarService: IOldCalendarService<AutoraceRaceEntity>,
         @inject('AutoraceRaceDataService')
         private readonly raceDataService: IRaceDataService<
             AutoraceRaceEntity,
@@ -39,7 +39,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param finishDate
      */
     @Logger
-    public async getRacesFromCalendar(
+    public async fetchRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {

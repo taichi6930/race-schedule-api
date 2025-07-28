@@ -5,24 +5,29 @@ import { BoatraceRaceCalendarUseCase } from '../../src/usecase/implement/boatrac
 import { JraRaceCalendarUseCase } from '../../src/usecase/implement/jraRaceCalendarUseCase';
 import { KeirinRaceCalendarUseCase } from '../../src/usecase/implement/keirinRaceCalendarUseCase';
 import { NarRaceCalendarUseCase } from '../../src/usecase/implement/narRaceCalendarUseCase';
+import { PublicGamblingCalendarUseCase } from '../../src/usecase/implement/publicGamblingCalendarUseCase';
 import { WorldRaceCalendarUseCase } from '../../src/usecase/implement/worldRaceCalendarUseCase';
+import type { IOldRaceCalendarUseCase } from '../../src/usecase/interface/IOldRaceCalendarUseCase';
 import type { IRaceCalendarUseCase } from '../../src/usecase/interface/IRaceCalendarUseCase';
 
-container.register<IRaceCalendarUseCase>('NarRaceCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('NarRaceCalendarUseCase', {
     useClass: NarRaceCalendarUseCase,
 });
-container.register<IRaceCalendarUseCase>('JraRaceCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('JraRaceCalendarUseCase', {
     useClass: JraRaceCalendarUseCase,
 });
-container.register<IRaceCalendarUseCase>('WorldRaceCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('WorldRaceCalendarUseCase', {
     useClass: WorldRaceCalendarUseCase,
 });
-container.register<IRaceCalendarUseCase>('KeirinRaceCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('KeirinRaceCalendarUseCase', {
     useClass: KeirinRaceCalendarUseCase,
 });
-container.register<IRaceCalendarUseCase>('AutoraceRaceCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('AutoraceRaceCalendarUseCase', {
     useClass: AutoraceRaceCalendarUseCase,
 });
-container.register<IRaceCalendarUseCase>('BoatraceRaceCalendarUseCase', {
+container.register<IOldRaceCalendarUseCase>('BoatraceRaceCalendarUseCase', {
     useClass: BoatraceRaceCalendarUseCase,
+});
+container.register<IRaceCalendarUseCase>('PublicGamblingCalendarUseCase', {
+    useClass: PublicGamblingCalendarUseCase,
 });
