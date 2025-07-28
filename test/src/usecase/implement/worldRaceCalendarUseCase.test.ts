@@ -82,7 +82,7 @@ describe('WorldRaceCalendarUseCase', () => {
                 boatrace: [],
                 autorace: [],
             };
-            const expectRaceEntityList: WorldRaceEntity[] = mockRaceEntityList;
+            const expectRaceEntityList = { world: mockRaceEntityList };
 
             // モックの戻り値を設定
             calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
@@ -111,8 +111,8 @@ describe('WorldRaceCalendarUseCase', () => {
             expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledTimes(1);
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
         });

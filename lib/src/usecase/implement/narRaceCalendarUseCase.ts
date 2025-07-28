@@ -6,7 +6,6 @@ import { CalendarData } from '../../domain/calendarData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
 import { DataLocation } from '../../utility/dataType';
@@ -21,8 +20,6 @@ export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
-        @inject('NarCalendarService')
-        private readonly oldCalendarService: IOldCalendarService<NarRaceEntity>,
         @inject('NarRaceDataService')
         private readonly raceDataService: IRaceDataService<
             NarRaceEntity,
@@ -88,6 +85,8 @@ export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        await this.oldCalendarService.upsertEvents(upsertRaceEntityList);
+        await this.publicGamblingCalendarService.upsertEvents({
+            nar: upsertRaceEntityList,
+        });
     }
 }

@@ -6,7 +6,6 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import type { IOldCalendarService } from '../../../../lib/src/service/interface/IOldCalendarService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { JraRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/jraRaceCalendarUseCase';
 import { JraSpecifiedGradeList } from '../../../../lib/src/utility/data/jra/jraGradeType';
@@ -15,12 +14,10 @@ import {
     baseJraRaceEntity,
 } from '../../mock/common/baseJraData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { oldCalendarServiceMock } from '../../mock/service/oldCalendarServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('JraRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
-    let oldCalendarService: jest.Mocked<IOldCalendarService<JraRaceEntity>>;
     let raceDataService: jest.Mocked<
         IRaceDataService<JraRaceEntity, JraPlaceEntity>
     >;
@@ -31,12 +28,6 @@ describe('JraRaceCalendarUseCase', () => {
         container.registerInstance<ICalendarService>(
             'PublicGamblingCalendarService',
             calendarService,
-        );
-
-        oldCalendarService = oldCalendarServiceMock<JraRaceEntity>();
-        container.registerInstance<IOldCalendarService<JraRaceEntity>>(
-            'JraCalendarService',
-            oldCalendarService,
         );
 
         raceDataService = raceDataServiceMock<JraRaceEntity, JraPlaceEntity>();
@@ -80,7 +71,9 @@ describe('JraRaceCalendarUseCase', () => {
                 boatrace: [],
                 autorace: [],
             };
-            const expectRaceEntityList: JraRaceEntity[] = mockRaceEntityList;
+            const expectRaceEntityList = {
+                jra: mockRaceEntityList,
+            };
 
             // モックの戻り値を設定
             calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
@@ -109,8 +102,8 @@ describe('JraRaceCalendarUseCase', () => {
             expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledTimes(1);
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
         });

@@ -6,7 +6,6 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import type { IOldCalendarService } from '../../../../lib/src/service/interface/IOldCalendarService';
 import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { BoatraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceCalendarUseCase';
@@ -16,15 +15,11 @@ import {
     baseBoatraceRaceEntity,
 } from '../../mock/common/baseBoatraceData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { oldCalendarServiceMock } from '../../mock/service/oldCalendarServiceMock';
 import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('BoatraceRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
-    let oldCalendarService: jest.Mocked<
-        IOldCalendarService<BoatraceRaceEntity>
-    >;
     let raceDataService: jest.Mocked<
         IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
     >;
@@ -36,12 +31,6 @@ describe('BoatraceRaceCalendarUseCase', () => {
         container.registerInstance<ICalendarService>(
             'PublicGamblingCalendarService',
             calendarService,
-        );
-
-        oldCalendarService = oldCalendarServiceMock<BoatraceRaceEntity>();
-        container.registerInstance<IOldCalendarService<BoatraceRaceEntity>>(
-            'BoatraceCalendarService',
-            oldCalendarService,
         );
 
         raceDataService = raceDataServiceMock<
@@ -101,13 +90,13 @@ describe('BoatraceRaceCalendarUseCase', () => {
                 keirin: [],
                 autorace: [],
             };
-            const expectRaceEntityList: BoatraceRaceEntity[] = Array.from(
-                { length: 5 },
-                (_, i: number) =>
+            const expectRaceEntityList = {
+                boatrace: Array.from({ length: 5 }, (_, i: number) =>
                     baseBoatraceRaceEntity.copy({
                         id: `boatrace2024122920${(i + 1).toXDigits(2)}`,
                     }),
-            );
+                ),
+            };
 
             // モックの戻り値を設定
             calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
@@ -136,8 +125,8 @@ describe('BoatraceRaceCalendarUseCase', () => {
             expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledTimes(1);
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
         });

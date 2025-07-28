@@ -80,7 +80,7 @@ describe('NarRaceCalendarUseCase', () => {
                 boatrace: [],
                 autorace: [],
             };
-            const expectRaceEntityList: NarRaceEntity[] = mockRaceEntityList;
+            const expectRaceEntityList = { nar: mockRaceEntityList };
 
             // モックの戻り値を設定
             calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
@@ -109,8 +109,8 @@ describe('NarRaceCalendarUseCase', () => {
             expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledTimes(1);
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
         });

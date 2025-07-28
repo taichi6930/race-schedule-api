@@ -100,13 +100,13 @@ describe('KeirinRaceCalendarUseCase', () => {
                 boatrace: [],
             };
 
-            const expectRaceEntityList: KeirinRaceEntity[] = Array.from(
-                { length: 5 },
-                (_, i: number) =>
+            const expectRaceEntityList = {
+                keirin: Array.from({ length: 5 }, (_, i: number) =>
                     baseKeirinRaceEntity.copy({
                         id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
-            );
+                ),
+            };
 
             // モックの戻り値を設定
             calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
@@ -135,8 +135,8 @@ describe('KeirinRaceCalendarUseCase', () => {
             expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledTimes(1);
-            expect(oldCalendarService.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
         });
