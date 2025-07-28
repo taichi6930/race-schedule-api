@@ -4,11 +4,10 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
-import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoraceSpecifiedGradeAndStageList } from '../../utility/data/autorace/autoraceRaceStage';
 import { DataLocation } from '../../utility/dataType';
@@ -24,11 +23,8 @@ export class AutoraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
-        @inject('AutoraceRaceDataService')
-        private readonly raceDataService: IOldRaceDataService<
-            AutoraceRaceEntity,
-            AutoracePlaceEntity
-        >,
+        @inject('PublicGamblingRaceDataService')
+        private readonly raceDataService: IRaceDataService,
         @inject('PlayerDataService')
         private readonly playerDataService: IPlayerDataService,
     ) {}
@@ -45,12 +41,12 @@ export class AutoraceRaceCalendarUseCase implements IOldRaceCalendarUseCase {
         finishDate: Date,
         displayGradeList: AutoraceGradeType[],
     ): Promise<void> {
-        const raceEntityList: AutoraceRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Storage,
-            );
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            DataLocation.Storage,
+        );
+        const raceEntityList: AutoraceRaceEntity[] = _raceEntityList.autorace;
 
         const playerList = this.playerDataService.fetchPlayerDataList(
             RaceType.AUTORACE,

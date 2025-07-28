@@ -4,11 +4,10 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
-import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { KeirinRaceGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
 import { DataLocation } from '../../utility/dataType';
@@ -24,11 +23,8 @@ export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
-        @inject('KeirinRaceDataService')
-        private readonly raceDataService: IOldRaceDataService<
-            KeirinRaceEntity,
-            KeirinPlaceEntity
-        >,
+        @inject('PublicGamblingRaceDataService')
+        private readonly raceDataService: IRaceDataService,
         @inject('PlayerDataService')
         private readonly playerDataService: IPlayerDataService,
     ) {}
@@ -45,12 +41,12 @@ export class KeirinRaceCalendarUseCase implements IOldRaceCalendarUseCase {
         finishDate: Date,
         displayGradeList: KeirinGradeType[],
     ): Promise<void> {
-        const raceEntityList: KeirinRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Storage,
-            );
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            DataLocation.Storage,
+        );
+        const raceEntityList: KeirinRaceEntity[] = _raceEntityList.keirin;
 
         const playerList = this.playerDataService.fetchPlayerDataList(
             RaceType.KEIRIN,

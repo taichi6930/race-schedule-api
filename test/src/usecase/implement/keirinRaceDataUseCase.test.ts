@@ -13,8 +13,8 @@ import {
     baseKeirinRaceDataList,
     baseKeirinRaceEntityList,
 } from '../../mock/common/baseKeirinData';
+import { oldRaceDataServiceMock } from '../../mock/service/oldRaceDataServiceMock';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<

@@ -13,8 +13,8 @@ import {
     baseAutoraceRaceDataList,
     baseAutoraceRaceEntityList,
 } from '../../mock/common/baseAutoraceData';
+import { oldRaceDataServiceMock } from '../../mock/service/oldRaceDataServiceMock';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('AutoraceRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<

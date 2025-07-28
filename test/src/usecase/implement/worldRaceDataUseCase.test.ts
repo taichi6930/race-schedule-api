@@ -12,7 +12,7 @@ import {
     baseWorldRaceEntity,
     baseWorldRaceEntityList,
 } from '../../mock/common/baseWorldData';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { oldRaceDataServiceMock } from '../../mock/service/oldRaceDataServiceMock';
 
 describe('WorldRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<

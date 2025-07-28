@@ -13,8 +13,8 @@ import {
     baseJraRaceEntity,
     baseJraRaceEntityList,
 } from '../../mock/common/baseJraData';
+import { oldRaceDataServiceMock } from '../../mock/service/oldRaceDataServiceMock';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('JraRaceDataUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService>;

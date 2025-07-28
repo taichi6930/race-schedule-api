@@ -13,8 +13,8 @@ import {
     baseNarRaceEntity,
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
+import { oldRaceDataServiceMock } from '../../mock/service/oldRaceDataServiceMock';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceDataUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService>;

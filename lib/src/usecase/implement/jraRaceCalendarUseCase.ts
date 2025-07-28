@@ -3,10 +3,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -20,11 +19,8 @@ export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
-        @inject('JraRaceDataService')
-        private readonly raceDataService: IOldRaceDataService<
-            JraRaceEntity,
-            JraPlaceEntity
-        >,
+        @inject('PublicGamblingRaceDataService')
+        private readonly raceDataService: IRaceDataService,
     ) {}
 
     /**
@@ -40,12 +36,12 @@ export class JraRaceCalendarUseCase implements IOldRaceCalendarUseCase {
         displayGradeList: JraGradeType[],
     ): Promise<void> {
         // レース情報を取得する
-        const raceEntityList: JraRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Storage,
-            );
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            DataLocation.Storage,
+        );
+        const raceEntityList: JraRaceEntity[] = _raceEntityList.jra;
 
         // displayGradeListに含まれるレース情報のみを抽出
         const filteredRaceEntityList: JraRaceEntity[] = raceEntityList.filter(
