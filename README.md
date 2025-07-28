@@ -190,11 +190,12 @@ curl -X GET "http://localhost:3000/api/races/all/place?startDate=2024-09-01&fini
 
 ```bash
 # JRA
-curl -X POST "http://localhost:3000/api/races/jra/place" \
+curl -X POST "http://localhost:3000/api/races/all/place" \
 -H "Content-Type: application/json" \
 -d '{
   "startDate": "2024-09-01",
-  "finishDate": "2024-09-30"
+  "finishDate": "2024-09-30",
+  "raceTypeList": ["jra"]
 }'
 ```
 

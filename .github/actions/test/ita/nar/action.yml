@@ -83,12 +83,13 @@ runs:
 
         # POST request (always execute to set up server state)
         post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
-          'http://localhost:3000/api/races/nar/place' \
+          'http://localhost:3000/api/races/all/place' \
           -H 'accept: */*' \
           -H 'Content-Type: application/json' \
           -d '{
                 "startDate": "2024-10-01",
-                "finishDate": "2024-10-31"
+                "finishDate": "2024-10-31",
+                "raceTypeList": ["nar"]
               }')
 
         if [[ "$post_response" != "200" ]]; then

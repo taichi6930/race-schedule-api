@@ -42,12 +42,13 @@ runs:
 
         # POST request
         post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
-          'http://localhost:3000/api/races/jra/place' \
+          'http://localhost:3000/api/races/all/place' \
           -H 'accept: */*' \
           -H 'Content-Type: application/json' \
           -d '{
                 "startDate": "2024-10-01",
-                "finishDate": "2024-10-31"
+                "finishDate": "2024-10-31",
+                "raceTypeList": ["jra"]
               }')
 
         # POST Response Check

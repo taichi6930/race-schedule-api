@@ -35,7 +35,7 @@ export class PublicGamblingController {
         // this.router.post('/race', this.updateRaceDataList.bind(this));
         // PlaceData関連のAPI
         this.router.get('/place', this.getPlaceDataList.bind(this));
-        // this.router.post('/place', this.updatePlaceDataList.bind(this));
+        this.router.post('/place', this.updatePlaceDataList.bind(this));
     }
 
     /**
@@ -139,6 +139,60 @@ export class PublicGamblingController {
             res.json(placeList);
         } catch (error) {
             console.error('競馬場情報の取得中にエラーが発生しました:', error);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
+        }
+    }
+
+    /**
+     * 競馬場情報を更新する
+     * @param req - リクエスト
+     * @param res - レスポンス
+     */
+    @Logger
+    private async updatePlaceDataList(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { startDate, finishDate, raceType } = req.body;
+
+            // startDateとfinishDateが指定されていない場合はエラーを返す
+            if (
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
+            ) {
+                res.status(400).send('startDate、finishDateは必須です');
+                return;
+            }
+
+            // raceTypeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            const raceTypeList =
+                typeof raceType === 'string'
+                    ? [raceType]
+                    : typeof raceType === 'object'
+                      ? Array.isArray(raceType)
+                          ? (raceType as string[]).map((g: string) => g)
+                          : undefined
+                      : undefined;
+
+            if (!raceTypeList || raceTypeList.length === 0) {
+                res.status(400).send('raceTypeは必須です');
+                return;
+            }
+
+            // 競馬場情報を取得する
+            await this.publicGamblingPlaceUseCase.updatePlaceDataList(
+                new Date(startDate),
+                new Date(finishDate),
+                raceTypeList,
+            );
+            res.status(200).send();
+        } catch (error) {
+            console.error('競馬場情報の更新中にエラーが発生しました:', error);
             const errorMessage =
                 error instanceof Error ? error.message : String(error);
             res.status(500).send(
