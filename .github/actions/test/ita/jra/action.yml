@@ -48,7 +48,7 @@ runs:
           -d '{
                 "startDate": "2024-10-01",
                 "finishDate": "2024-10-31",
-                "raceTypeList": ["jra"]
+                "raceType": ["jra"]
               }')
 
         # POST Response Check
