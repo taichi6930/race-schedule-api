@@ -20,17 +20,6 @@ import type { IRaceEntity } from '../../repository/entity/iRaceEntity';
  */
 export interface IOldCalendarService<R extends IRaceEntity<R>> {
     /**
-     * 指定された期間のカレンダーイベントを取得します
-     *
-     * 外部カレンダーサービスから、指定された期間に登録されている
-     * レース関連のイベントをすべて取得します。
-     * @param startDate - 取得開始日
-     * @param finishDate - 取得終了日（この日を含む）
-     * @returns カレンダーイベントの配列。イベントが存在しない場合は空配列
-     * @throws Error 外部カレンダーサービスとの通信に失敗した場合
-     */
-    getEvents: (startDate: Date, finishDate: Date) => Promise<CalendarData[]>;
-    /**
      * レース情報をカレンダーイベントとして登録/更新します
      *
      * 提供されたレースエンティティの情報を基に、カレンダーイベントを作成または更新します。

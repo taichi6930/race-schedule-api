@@ -5,6 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
+import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
@@ -18,8 +19,10 @@ import { IOldRaceCalendarUseCase } from '../interface/IOldRaceCalendarUseCase';
 @injectable()
 export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
+        @inject('PublicGamblingCalendarService')
+        private readonly publicGamblingCalendarService: ICalendarService,
         @inject('NarCalendarService')
-        private readonly calendarService: IOldCalendarService<NarRaceEntity>,
+        private readonly oldCalendarService: IOldCalendarService<NarRaceEntity>,
         @inject('NarRaceDataService')
         private readonly raceDataService: IRaceDataService<
             NarRaceEntity,
@@ -54,7 +57,11 @@ export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
         );
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
-            await this.calendarService.getEvents(startDate, finishDate);
+            await this.publicGamblingCalendarService.fetchEvents(
+                startDate,
+                finishDate,
+                ['nar'],
+            );
 
         // 1. raceEntityListのIDに存在しないcalendarDataListを取得
         const deleteCalendarDataList: CalendarData[] = calendarDataList.filter(
@@ -63,7 +70,7 @@ export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        await this.calendarService.deleteEvents(deleteCalendarDataList);
+        await this.oldCalendarService.deleteEvents(deleteCalendarDataList);
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: NarRaceEntity[] =
@@ -74,6 +81,6 @@ export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        await this.calendarService.upsertEvents(upsertRaceEntityList);
+        await this.oldCalendarService.upsertEvents(upsertRaceEntityList);
     }
 }
