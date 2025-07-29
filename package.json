@@ -34,7 +34,7 @@
         "db:setup": "TZ=jst ts-node lib/scripts/sqliteSetting.ts"
     },
     "dependencies": {
-        "@aws-sdk/client-s3": "^3.850.0",
+        "@aws-sdk/client-s3": "^3.855.0",
         "@codegenie/serverless-express": "^4.17.0",
         "@types/aws-lambda": "^8.10.152",
         "@types/express": "^5.0.3",
@@ -51,7 +51,7 @@
         "eslint-plugin-simple-import-sort": "^12.1.1",
         "express": "^5.1.0",
         "google-auth-library": "^10.1.0",
-        "googleapis": "^154.0.0",
+        "googleapis": "^154.1.0",
         "jest-html-reporters": "^3.1.7",
         "nodemon": "^3.1.10",
         "only-allow": "^1.2.1",
@@ -66,7 +66,7 @@
         "ts-node": "^10.9.2",
         "tsyringe": "^4.10.0",
         "typedoc": "^0.28.8",
-        "zod": "^4.0.10"
+        "zod": "^4.0.11"
     },
     "devDependencies": {
         "@eslint/js": "^9.31.0",
