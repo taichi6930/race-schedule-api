@@ -3,7 +3,6 @@ import { inject, injectable } from 'tsyringe';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
@@ -26,11 +25,6 @@ export class JraRaceDataUseCase
         private readonly placeDataService: IPlaceDataService,
         @inject('PublicGamblingRaceDataService')
         private readonly raceDataService: IRaceDataService,
-        @inject('JraRaceDataService')
-        private readonly oldRaceDataService: IOldRaceDataService<
-            JraRaceEntity,
-            JraPlaceEntity
-        >,
     ) {}
 
     /**
@@ -63,9 +57,7 @@ export class JraRaceDataUseCase
             finishDate,
             ['jra'],
             DataLocation.Storage,
-            {
-                jra: placeEntityList,
-            },
+            { jra: placeEntityList },
         );
         const raceEntityList: JraRaceEntity[] = _raceEntityList.jra;
 
@@ -110,17 +102,16 @@ export class JraRaceDataUseCase
                 ['jra'],
                 DataLocation.Storage,
             );
-        const placeEntityList: JraPlaceEntity[] = _placeEntityList.jra;
 
-        const raceEntityList: JraRaceEntity[] =
-            await this.oldRaceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Web,
-                placeEntityList,
-            );
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            ['jra'],
+            DataLocation.Web,
+            _placeEntityList,
+        );
 
-        await this.oldRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(_raceEntityList);
     }
 
     /**
@@ -134,6 +125,8 @@ export class JraRaceDataUseCase
         const raceEntityList: JraRaceEntity[] = raceDataList.map((raceData) =>
             JraRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );
-        await this.oldRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList({
+            jra: raceEntityList,
+        });
     }
 }

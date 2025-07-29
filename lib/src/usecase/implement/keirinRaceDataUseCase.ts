@@ -3,8 +3,8 @@ import { inject, injectable } from 'tsyringe';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
-import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { KeirinRaceCourse } from '../../utility/data/keirin/keirinRaceCourse';
 import { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
@@ -29,11 +29,8 @@ export class KeirinRaceDataUseCase
     public constructor(
         @inject('PublicGamblingPlaceDataService')
         private readonly placeDataService: IPlaceDataService,
-        @inject('KeirinRaceDataService')
-        private readonly raceDataService: IOldRaceDataService<
-            KeirinRaceEntity,
-            KeirinPlaceEntity
-        >,
+        @inject('PublicGamblingRaceDataService')
+        private readonly raceDataService: IRaceDataService,
     ) {}
 
     /**
@@ -62,13 +59,14 @@ export class KeirinRaceDataUseCase
                 DataLocation.Storage,
             );
         const placeEntityList: KeirinPlaceEntity[] = _placeEntityList.keirin;
-        const raceEntityList: KeirinRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Storage,
-                placeEntityList,
-            );
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            ['keirin'],
+            DataLocation.Storage,
+            { keirin: placeEntityList },
+        );
+        const raceEntityList: KeirinRaceEntity[] = _raceEntityList.keirin;
 
         const raceDataList: KeirinRaceData[] = raceEntityList.map(
             ({ raceData }) => raceData,
@@ -151,15 +149,17 @@ export class KeirinRaceDataUseCase
             return;
         }
 
-        const raceEntityList: KeirinRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Web,
-                placeEntityList,
-            );
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            ['keirin'],
+            DataLocation.Web,
+            { keirin: placeEntityList },
+        );
 
-        await this.raceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList({
+            keirin: _raceEntityList.keirin,
+        });
     }
 
     /**
@@ -178,6 +178,8 @@ export class KeirinRaceDataUseCase
                     getJSTDate(new Date()),
                 ),
         );
-        await this.raceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList({
+            keirin: raceEntityList,
+        });
     }
 }
