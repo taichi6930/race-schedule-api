@@ -61,6 +61,7 @@ export class JraRaceDataUseCase
         const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
             startDate,
             finishDate,
+            ['jra'],
             DataLocation.Storage,
             {
                 jra: placeEntityList,

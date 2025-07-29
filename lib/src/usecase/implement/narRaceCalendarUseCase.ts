@@ -7,6 +7,7 @@ import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -20,11 +21,8 @@ export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly publicGamblingCalendarService: ICalendarService,
-        @inject('NarRaceDataService')
-        private readonly raceDataService: IOldRaceDataService<
-            NarRaceEntity,
-            NarPlaceEntity
-        >,
+        @inject('PublicGamblingRaceDataService')
+        private readonly raceDataService: IRaceDataService,
     ) {}
 
     /**
@@ -40,12 +38,13 @@ export class NarRaceCalendarUseCase implements IOldRaceCalendarUseCase {
         displayGradeList: NarGradeType[],
     ): Promise<void> {
         // レース情報を取得する
-        const raceEntityList: NarRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Storage,
-            );
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            ['nar'],
+            DataLocation.Storage,
+        );
+        const raceEntityList: NarRaceEntity[] = _raceEntityList.nar;
 
         // displayGradeListに含まれるレース情報のみを抽出
         const filteredRaceEntityList: NarRaceEntity[] = raceEntityList.filter(

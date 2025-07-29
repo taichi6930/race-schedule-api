@@ -3,10 +3,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
 import { NarSpecifiedGradeList } from '../../../../lib/src/utility/data/nar/narGradeType';
 import {
@@ -14,13 +13,11 @@ import {
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
-    let raceDataService: jest.Mocked<
-        IOldRaceDataService<NarRaceEntity, NarPlaceEntity>
-    >;
+    let raceDataService: jest.Mocked<IRaceDataService>;
     let useCase: NarRaceCalendarUseCase;
 
     beforeEach(() => {
@@ -29,13 +26,11 @@ describe('NarRaceCalendarUseCase', () => {
             'PublicGamblingCalendarService',
             calendarService,
         );
-        raceDataService = oldRaceDataServiceMock<
-            NarRaceEntity,
-            NarPlaceEntity
-        >();
-        container.registerInstance<
-            IOldRaceDataService<NarRaceEntity, NarPlaceEntity>
-        >('NarRaceDataService', raceDataService);
+        raceDataService = raceDataServiceMock();
+        container.registerInstance<IRaceDataService>(
+            'PublicGamblingRaceDataService',
+            raceDataService,
+        );
 
         useCase = container.resolve(NarRaceCalendarUseCase);
     });
@@ -77,9 +72,14 @@ describe('NarRaceCalendarUseCase', () => {
 
             // モックの戻り値を設定
             calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntityList,
-            );
+            raceDataService.fetchRaceEntityList.mockResolvedValue({
+                nar: mockRaceEntityList,
+                jra: [],
+                world: [],
+                keirin: [],
+                boatrace: [],
+                autorace: [],
+            });
 
             const startDate = new Date('2024-02-01');
             const finishDate = new Date('2024-12-31');
