@@ -1,9 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 
 import { WorldRaceData } from '../../domain/worldRaceData';
-import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import { WorldRaceCourse } from '../../utility/data/world/worldRaceCourse';
 import { DataLocation } from '../../utility/dataType';
@@ -25,11 +24,8 @@ export class WorldRaceDataUseCase
         >
 {
     public constructor(
-        @inject('WorldRaceDataService')
-        private readonly raceDataService: IOldRaceDataService<
-            WorldRaceEntity,
-            WorldPlaceEntity
-        >,
+        @inject('PublicGamblingRaceDataService')
+        private readonly raceDataService: IRaceDataService,
     ) {}
 
     /**
@@ -48,12 +44,13 @@ export class WorldRaceDataUseCase
             locationList?: WorldRaceCourse[];
         },
     ): Promise<WorldRaceData[]> {
-        const raceEntityList: WorldRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Storage,
-            );
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            ['world'],
+            DataLocation.Storage,
+        );
+        const raceEntityList: WorldRaceEntity[] = _raceEntityList.world;
 
         const raceDataList: WorldRaceData[] = raceEntityList.map(
             ({ raceData }) => raceData,
@@ -89,12 +86,12 @@ export class WorldRaceDataUseCase
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
-        const raceEntityList: WorldRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Web,
-            );
+        const raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            ['world'],
+            DataLocation.Web,
+        );
         await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 
@@ -109,6 +106,13 @@ export class WorldRaceDataUseCase
         const raceEntityList: WorldRaceEntity[] = raceDataList.map((raceData) =>
             WorldRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );
-        await this.raceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList({
+            world: raceEntityList,
+            jra: [],
+            nar: [],
+            keirin: [],
+            boatrace: [],
+            autorace: [],
+        });
     }
 }

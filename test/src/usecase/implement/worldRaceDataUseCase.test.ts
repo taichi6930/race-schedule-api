@@ -3,32 +3,24 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
-import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
-import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
-import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { WorldRaceDataUseCase } from '../../../../lib/src/usecase/implement/worldRaceDataUseCase';
 import {
     baseWorldRaceDataList,
-    baseWorldRaceEntity,
     baseWorldRaceEntityList,
 } from '../../mock/common/baseWorldData';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('WorldRaceDataUseCase', () => {
-    let raceDataService: jest.Mocked<
-        IOldRaceDataService<WorldRaceEntity, WorldPlaceEntity>
-    >;
+    let raceDataService: jest.Mocked<IRaceDataService>;
     let useCase: WorldRaceDataUseCase;
 
     beforeEach(() => {
-        raceDataService = oldRaceDataServiceMock<
-            WorldRaceEntity,
-            WorldPlaceEntity
-        >();
-        container.registerInstance<
-            IOldRaceDataService<WorldRaceEntity, WorldPlaceEntity>
-        >('WorldRaceDataService', raceDataService);
-
+        raceDataService = raceDataServiceMock();
+        container.registerInstance<IRaceDataService>(
+            'PublicGamblingRaceDataService',
+            raceDataService,
+        );
         useCase = container.resolve(WorldRaceDataUseCase);
     });
 
@@ -74,9 +66,14 @@ describe('WorldRaceDataUseCase', () => {
         ]) {
             it(`正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                 // モックの戻り値を設定
-                raceDataService.fetchRaceEntityList.mockResolvedValue(
-                    baseWorldRaceEntityList,
-                );
+                raceDataService.fetchRaceEntityList.mockResolvedValue({
+                    world: baseWorldRaceEntityList,
+                    jra: [],
+                    nar: [],
+                    keirin: [],
+                    autorace: [],
+                    boatrace: [],
+                });
 
                 const startDate = new Date('2025-12-01');
                 const finishDate = new Date('2025-12-31');
@@ -94,15 +91,18 @@ describe('WorldRaceDataUseCase', () => {
 
     describe('updateRaceDataList', () => {
         it('正常にレース開催データが更新されること', async () => {
-            const mockRaceEntity: WorldRaceEntity[] = [baseWorldRaceEntity];
-
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntity,
-            );
+            raceDataService.fetchRaceEntityList.mockResolvedValue({
+                world: baseWorldRaceEntityList,
+                jra: [],
+                nar: [],
+                keirin: [],
+                autorace: [],
+                boatrace: [],
+            });
 
             await useCase.updateRaceEntityList(startDate, finishDate);
 
