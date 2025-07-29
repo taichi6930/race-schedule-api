@@ -61,6 +61,7 @@ export class NarRaceDataUseCase
         const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
             startDate,
             finishDate,
+            ['nar'],
             DataLocation.Storage,
             { nar: placeEntityList },
         );

@@ -43,6 +43,7 @@ export interface IRaceDataService {
     fetchRaceEntityList: (
         startDate: Date,
         finishDate: Date,
+        raceType: string[],
         type: DataLocationType,
         placeEntityList?: {
             jra?: JraPlaceEntity[];

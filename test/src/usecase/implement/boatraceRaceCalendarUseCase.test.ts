@@ -3,11 +3,10 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
 import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { BoatraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceCalendarUseCase';
 import { BoatraceSpecifiedGradeList } from '../../../../lib/src/utility/data/boatrace/boatraceGradeType';
 import {
@@ -16,13 +15,11 @@ import {
 } from '../../mock/common/baseBoatraceData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
 import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('BoatraceRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
-    let raceDataService: jest.Mocked<
-        IOldRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
-    >;
+    let raceDataService: jest.Mocked<IRaceDataService>;
     let playerDataService: jest.Mocked<IPlayerDataService>;
     let useCase: BoatraceRaceCalendarUseCase;
 
@@ -32,15 +29,11 @@ describe('BoatraceRaceCalendarUseCase', () => {
             'PublicGamblingCalendarService',
             calendarService,
         );
-
-        raceDataService = oldRaceDataServiceMock<
-            BoatraceRaceEntity,
-            BoatracePlaceEntity
-        >();
-        container.registerInstance<
-            IOldRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
-        >('BoatraceRaceDataService', raceDataService);
-
+        raceDataService = raceDataServiceMock();
+        container.registerInstance<IRaceDataService>(
+            'PublicGamblingRaceDataService',
+            raceDataService,
+        );
         playerDataService = playerDataServiceMock();
         container.registerInstance<IPlayerDataService>(
             'PlayerDataService',
@@ -87,9 +80,10 @@ describe('BoatraceRaceCalendarUseCase', () => {
                 jra: [],
                 nar: [],
                 world: [],
-                keirin: [],
                 autorace: [],
+                keirin: [],
             };
+
             const expectRaceEntityList = {
                 boatrace: Array.from({ length: 5 }, (_, i: number) =>
                     baseBoatraceRaceEntity.copy({
@@ -100,9 +94,14 @@ describe('BoatraceRaceCalendarUseCase', () => {
 
             // モックの戻り値を設定
             calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntityList,
-            );
+            raceDataService.fetchRaceEntityList.mockResolvedValue({
+                boatrace: mockRaceEntityList,
+                jra: [],
+                nar: [],
+                world: [],
+                autorace: [],
+                keirin: [],
+            });
 
             const startDate = new Date('2024-02-01');
             const finishDate = new Date('2024-12-31');

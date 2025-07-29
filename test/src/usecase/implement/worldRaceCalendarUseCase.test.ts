@@ -3,10 +3,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import type { IOldRaceDataService } from '../../../../lib/src/service/interface/IOldRaceDataService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { WorldRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/worldRaceCalendarUseCase';
 import { WorldSpecifiedGradeList } from '../../../../lib/src/utility/data/world/worldGradeType';
 import {
@@ -14,13 +13,12 @@ import {
     baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { oldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('WorldRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
-    let raceDataService: jest.Mocked<
-        IOldRaceDataService<WorldRaceEntity, WorldPlaceEntity>
-    >;
+
+    let raceDataService: jest.Mocked<IRaceDataService>;
     let useCase: WorldRaceCalendarUseCase;
 
     beforeEach(() => {
@@ -29,14 +27,11 @@ describe('WorldRaceCalendarUseCase', () => {
             'PublicGamblingCalendarService',
             calendarService,
         );
-        raceDataService = oldRaceDataServiceMock<
-            WorldRaceEntity,
-            WorldPlaceEntity
-        >();
-        container.registerInstance<
-            IOldRaceDataService<WorldRaceEntity, WorldPlaceEntity>
-        >('WorldRaceDataService', raceDataService);
-
+        raceDataService = raceDataServiceMock();
+        container.registerInstance<IRaceDataService>(
+            'PublicGamblingRaceDataService',
+            raceDataService,
+        );
         useCase = container.resolve(WorldRaceCalendarUseCase);
     });
 
@@ -77,9 +72,14 @@ describe('WorldRaceCalendarUseCase', () => {
 
             // モックの戻り値を設定
             calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntityList,
-            );
+            raceDataService.fetchRaceEntityList.mockResolvedValue({
+                world: mockRaceEntityList,
+                jra: [],
+                nar: [],
+                keirin: [],
+                autorace: [],
+                boatrace: [],
+            });
 
             const startDate = new Date('2024-02-01');
             const finishDate = new Date('2024-12-31');
