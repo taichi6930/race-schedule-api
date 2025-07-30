@@ -11,6 +11,7 @@ import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getWorldGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateWorldRaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/sqlite';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
@@ -160,6 +161,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     ): CalendarData {
         return CalendarData.create(
             event.id,
+            RaceType.WORLD,
             event.summary,
             event.start?.dateTime,
             event.end?.dateTime,

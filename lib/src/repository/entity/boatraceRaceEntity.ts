@@ -19,6 +19,7 @@ import {
     generateBoatraceRaceId,
     generateBoatraceRacePlayerId,
 } from '../../utility/raceId';
+import { RaceType } from '../../utility/sqlite';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
@@ -154,6 +155,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     ): CalendarData {
         return CalendarData.create(
             event.id,
+            RaceType.BOATRACE,
             event.summary,
             event.start?.dateTime,
             event.end?.dateTime,

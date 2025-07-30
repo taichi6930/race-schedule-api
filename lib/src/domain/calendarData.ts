@@ -1,3 +1,5 @@
+import type { RaceType } from '../utility/sqlite';
+
 /**
  * カレンダーのデータを表すクラス
  */
@@ -5,6 +7,7 @@ export class CalendarData {
     /**
      * コンストラクタ
      * @param id - イベントID
+     * @param raceType - レースの種類
      * @param title - イベントタイトル
      * @param startTime - イベント開始時間
      * @param endTime - イベント終了時間
@@ -15,6 +18,7 @@ export class CalendarData {
      */
     private constructor(
         public readonly id: string,
+        public readonly raceType: RaceType,
         public readonly title: string,
         public readonly startTime: Date,
         public readonly endTime: Date,
@@ -25,6 +29,7 @@ export class CalendarData {
     /**
      * インスタンスを生成する
      * @param id
+     * @param raceType
      * @param title
      * @param startTime
      * @param endTime
@@ -33,6 +38,7 @@ export class CalendarData {
      */
     public static create(
         id: string | null | undefined,
+        raceType: RaceType,
         title: string | null | undefined,
         startTime: string | null | undefined,
         endTime: string | null | undefined,
@@ -41,6 +47,7 @@ export class CalendarData {
     ): CalendarData {
         return new CalendarData(
             id ?? '',
+            raceType,
             title ?? '',
             startTime ? new Date(startTime) : new Date(0),
             endTime ? new Date(endTime) : new Date(0),
@@ -56,6 +63,7 @@ export class CalendarData {
     public copy(partial: Partial<CalendarData> = {}): CalendarData {
         return new CalendarData(
             partial.id ?? this.id,
+            partial.raceType ?? this.raceType,
             partial.title ?? this.title,
             partial.startTime ?? this.startTime,
             partial.endTime ?? this.endTime,

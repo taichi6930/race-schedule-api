@@ -13,6 +13,7 @@ import {
     generateJraPlaceId,
     generateJraRaceId,
 } from '../../../../lib/src/utility/raceId';
+import { RaceType } from '../../../../lib/src/utility/sqlite';
 
 const baseJraPlaceCourse: JraRaceCourse = '中山';
 const baseJraPlaceDateTime = new Date('2024-12-22');
@@ -173,6 +174,7 @@ export const baseJraRaceDataList = baseJraRaceEntityList.map(
 
 export const baseJraCalendarData = CalendarData.create(
     'test202412220611',
+    RaceType.JRA,
     '有馬記念',
     '2024-12-22T15:40:00Z',
     '2024-12-22T15:50:00Z',

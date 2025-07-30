@@ -16,6 +16,7 @@ import {
     generateBoatraceRaceId,
     generateBoatraceRacePlayerId,
 } from '../../../../lib/src/utility/raceId';
+import { RaceType } from '../../../../lib/src/utility/sqlite';
 
 const baseBoatracePlaceCourse: BoatraceRaceCourse = '平和島';
 const baseBoatracePlaceDateTime = new Date('2024-12-31');
@@ -156,6 +157,7 @@ export const baseBoatraceRaceDataList = baseBoatraceRaceEntityList.map(
 
 export const baseBoatraceCalendarData = CalendarData.create(
     'test202412310511',
+    RaceType.BOATRACE,
     '優勝戦 グランプリ',
     '2024-12-31T16:30:00Z',
     '2024-12-31T16:40:00Z',

@@ -1,9 +1,11 @@
 import { CalendarData } from '../../../lib/src/domain/calendarData';
+import { RaceType } from '../../../lib/src/utility/sqlite';
 
 describe('CalendarDataクラスのテスト', () => {
     it('正しい入力でCalendarDataのインスタンスを作成できることを確認', () => {
         const calendarData = CalendarData.create(
             'event1',
+            RaceType.JRA,
             'イベントタイトル',
             '2024-08-12T09:00:00',
             '2024-08-12T10:00:00',
@@ -12,6 +14,7 @@ describe('CalendarDataクラスのテスト', () => {
         );
 
         expect(calendarData.id).toBe('event1');
+        expect(calendarData.raceType).toBe(RaceType.JRA);
         expect(calendarData.title).toBe('イベントタイトル');
         expect(calendarData.startTime).toEqual(new Date('2024-08-12T09:00:00'));
         expect(calendarData.endTime).toEqual(new Date('2024-08-12T10:00:00'));
@@ -22,6 +25,7 @@ describe('CalendarDataクラスのテスト', () => {
     it('copyメソッドが正常に動作することを確認', () => {
         const calendarData = CalendarData.create(
             'event1',
+            RaceType.JRA,
             'イベントタイトル',
             '2024-08-12T09:00:00',
             '2024-08-12T10:00:00',
@@ -47,6 +51,7 @@ describe('CalendarDataクラスのテスト', () => {
     it('copyメソッドが正常に動作することを確認2', () => {
         const calendarData = CalendarData.create(
             'event1',
+            RaceType.JRA,
             'イベントタイトル',
             '2024-08-12T09:00:00',
             '2024-08-12T10:00:00',
@@ -70,6 +75,7 @@ describe('CalendarDataクラスのテスト', () => {
     it('文字列がundefinedの場合、空文字列に変換されることを確認', () => {
         const calendarData = CalendarData.create(
             undefined,
+            RaceType.JRA,
             undefined,
             undefined,
             undefined,

@@ -20,6 +20,7 @@ import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getNarGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateNarRaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/sqlite';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 
@@ -164,6 +165,7 @@ export class NarRaceEntity {
     ): CalendarData {
         return CalendarData.create(
             event.id,
+            RaceType.NAR,
             event.summary,
             event.start?.dateTime,
             event.end?.dateTime,

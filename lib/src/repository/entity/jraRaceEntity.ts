@@ -19,6 +19,7 @@ import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getJraGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateJraRaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/sqlite';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
@@ -178,6 +179,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     ): CalendarData {
         return CalendarData.create(
             event.id,
+            RaceType.JRA,
             event.summary,
             event.start?.dateTime,
             event.end?.dateTime,

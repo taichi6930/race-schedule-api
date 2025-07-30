@@ -16,6 +16,7 @@ import {
     generateKeirinRaceId,
     generateKeirinRacePlayerId,
 } from '../../../../lib/src/utility/raceId';
+import { RaceType } from '../../../../lib/src/utility/sqlite';
 
 const baseKeirinPlaceCourse: KeirinRaceCourse = '平塚';
 const baseKeirinPlaceDateTime = new Date('2025-12-30');
@@ -154,6 +155,7 @@ export const baseKeirinRaceDataList = baseKeirinRaceEntityList.map(
 
 export const baseKeirinCalendarData = CalendarData.create(
     'test202512303511',
+    RaceType.KEIRIN,
     'S級グランプリ KEIRINグランプリ',
     '2024-12-31T16:30:00Z',
     '2024-12-31T16:40:00Z',
