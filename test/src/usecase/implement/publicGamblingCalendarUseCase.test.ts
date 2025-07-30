@@ -5,13 +5,16 @@ import { container } from 'tsyringe';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingCalendarUseCase } from '../../../../lib/src/usecase/implement/publicGamblingCalendarUseCase';
 import { baseAutoraceCalendarData } from '../../mock/common/baseAutoraceData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
 import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
+import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('PublicGamblingRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
+    let raceDataService: jest.Mocked<IRaceDataService>;
     let playerDataService: jest.Mocked<IPlayerDataService>;
     let useCase: PublicGamblingCalendarUseCase;
 
@@ -20,6 +23,12 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         container.registerInstance<ICalendarService>(
             'PublicGamblingCalendarService',
             calendarService,
+        );
+
+        raceDataService = raceDataServiceMock();
+        container.registerInstance<IRaceDataService>(
+            'PublicGamblingRaceDataService',
+            raceDataService,
         );
 
         playerDataService = playerDataServiceMock();
