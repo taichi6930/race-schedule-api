@@ -3,8 +3,8 @@ import { inject, injectable } from 'tsyringe';
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
-import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import { BoatraceRaceCourse } from '../../utility/data/boatrace/boatraceRaceCourse';
 import { BoatraceRaceStage } from '../../utility/data/boatrace/boatraceRaceStage';
@@ -29,11 +29,8 @@ export class BoatraceRaceDataUseCase
     public constructor(
         @inject('PublicGamblingPlaceDataService')
         private readonly placeDataService: IPlaceDataService,
-        @inject('BoatraceRaceDataService')
-        private readonly raceDataService: IOldRaceDataService<
-            BoatraceRaceEntity,
-            BoatracePlaceEntity
-        >,
+        @inject('PublicGamblingRaceDataService')
+        private readonly raceDataService: IRaceDataService,
     ) {}
 
     /**
@@ -64,13 +61,16 @@ export class BoatraceRaceDataUseCase
         const placeEntityList: BoatracePlaceEntity[] =
             _placeEntityList.boatrace;
 
-        const raceEntityList: BoatraceRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Storage,
-                placeEntityList,
-            );
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            ['boatrace'],
+            DataLocation.Storage,
+            {
+                boatrace: placeEntityList,
+            },
+        );
+        const raceEntityList: BoatraceRaceEntity[] = _raceEntityList.boatrace;
 
         const raceDataList: BoatraceRaceData[] = raceEntityList.map(
             ({ raceData }) => raceData,
@@ -154,13 +154,15 @@ export class BoatraceRaceDataUseCase
             return;
         }
 
-        const raceEntityList: BoatraceRaceEntity[] =
-            await this.raceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Web,
-                placeEntityList,
-            );
+        const raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            ['boatrace'],
+            DataLocation.Web,
+            {
+                boatrace: placeEntityList,
+            },
+        );
 
         await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
@@ -181,6 +183,8 @@ export class BoatraceRaceDataUseCase
                     getJSTDate(new Date()),
                 ),
         );
-        await this.raceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList({
+            boatrace: raceEntityList,
+        });
     }
 }

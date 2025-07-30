@@ -3,7 +3,6 @@ import { inject, injectable } from 'tsyringe';
 import { NarRaceData } from '../../domain/narRaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
-import { IOldRaceDataService } from '../../service/interface/IOldRaceDataService';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
@@ -26,11 +25,6 @@ export class NarRaceDataUseCase
         private readonly placeDataService: IPlaceDataService,
         @inject('PublicGamblingRaceDataService')
         private readonly raceDataService: IRaceDataService,
-        @inject('NarRaceDataService')
-        private readonly oldRaceDataService: IOldRaceDataService<
-            NarRaceEntity,
-            NarPlaceEntity
-        >,
     ) {}
 
     /**
@@ -108,17 +102,16 @@ export class NarRaceDataUseCase
                 ['nar'],
                 DataLocation.Storage,
             );
-        const placeEntityList: NarPlaceEntity[] = _placeEntityList.nar;
 
-        const raceEntityList =
-            await this.oldRaceDataService.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                DataLocation.Web,
-                placeEntityList,
-            );
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            ['nar'],
+            DataLocation.Web,
+            _placeEntityList,
+        );
 
-        await this.oldRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(_raceEntityList);
     }
 
     /**
@@ -132,6 +125,8 @@ export class NarRaceDataUseCase
         const raceEntityList: NarRaceEntity[] = raceDataList.map((raceData) =>
             NarRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );
-        await this.oldRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList({
+            nar: raceEntityList,
+        });
     }
 }

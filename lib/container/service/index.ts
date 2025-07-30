@@ -1,5 +1,3 @@
-import './raceDataServiceConfig';
-
 import { container } from 'tsyringe';
 
 import { PlayerDataService } from '../../src/service/implement/playerDataService';

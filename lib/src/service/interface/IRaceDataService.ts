@@ -71,11 +71,11 @@ export interface IRaceDataService {
      * @throws Error データの保存/更新に失敗した場合
      */
     updateRaceEntityList: (raceEntityList: {
-        jra: JraRaceEntity[];
-        nar: NarRaceEntity[];
-        world: WorldRaceEntity[];
-        keirin: KeirinRaceEntity[];
-        autorace: AutoraceRaceEntity[];
-        boatrace: BoatraceRaceEntity[];
+        jra?: JraRaceEntity[];
+        nar?: NarRaceEntity[];
+        world?: WorldRaceEntity[];
+        keirin?: KeirinRaceEntity[];
+        autorace?: AutoraceRaceEntity[];
+        boatrace?: BoatraceRaceEntity[];
     }) => Promise<void>;
 }
