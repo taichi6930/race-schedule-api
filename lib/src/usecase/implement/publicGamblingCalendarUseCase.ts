@@ -75,7 +75,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         const raceEntityList = await this.raceDataService.fetchRaceEntityList(
             startDate,
             finishDate,
-            ['jra'],
+            ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
             DataLocation.Storage,
         );
 
@@ -84,13 +84,28 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             jra: raceEntityList.jra.filter((raceEntity) =>
                 displayGradeList.jra.includes(raceEntity.raceData.grade),
             ),
+            nar: raceEntityList.nar.filter((raceEntity) =>
+                displayGradeList.nar.includes(raceEntity.raceData.grade),
+            ),
+            world: raceEntityList.world.filter((raceEntity) =>
+                displayGradeList.world.includes(raceEntity.raceData.grade),
+            ),
+            keirin: raceEntityList.keirin.filter((raceEntity) =>
+                displayGradeList.keirin.includes(raceEntity.raceData.grade),
+            ),
+            boatrace: raceEntityList.boatrace.filter((raceEntity) =>
+                displayGradeList.boatrace.includes(raceEntity.raceData.grade),
+            ),
+            autorace: raceEntityList.autorace.filter((raceEntity) =>
+                displayGradeList.autorace.includes(raceEntity.raceData.grade),
+            ),
         };
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
             await this.publicGamblingCalendarService.fetchEvents(
                 startDate,
                 finishDate,
-                ['jra'],
+                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
             );
 
         // 1. raceEntityListのIDに存在しないcalendarDataListを取得
@@ -103,14 +118,54 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                             calendarData.raceType === RaceType.JRA,
                     ),
             ),
+            nar: calendarDataList.filter(
+                (calendarData) =>
+                    !filteredRaceEntityList.nar.some(
+                        (raceEntity) =>
+                            raceEntity.id === calendarData.id &&
+                            calendarData.raceType === RaceType.NAR,
+                    ),
+            ),
+            world: calendarDataList.filter(
+                (calendarData) =>
+                    !filteredRaceEntityList.world.some(
+                        (raceEntity) =>
+                            raceEntity.id === calendarData.id &&
+                            calendarData.raceType === RaceType.WORLD,
+                    ),
+            ),
+            keirin: calendarDataList.filter(
+                (calendarData) =>
+                    !filteredRaceEntityList.keirin.some(
+                        (raceEntity) =>
+                            raceEntity.id === calendarData.id &&
+                            calendarData.raceType === RaceType.KEIRIN,
+                    ),
+            ),
+            boatrace: calendarDataList.filter(
+                (calendarData) =>
+                    !filteredRaceEntityList.boatrace.some(
+                        (raceEntity) =>
+                            raceEntity.id === calendarData.id &&
+                            calendarData.raceType === RaceType.BOATRACE,
+                    ),
+            ),
+            autorace: calendarDataList.filter(
+                (calendarData) =>
+                    !filteredRaceEntityList.autorace.some(
+                        (raceEntity) =>
+                            raceEntity.id === calendarData.id &&
+                            calendarData.raceType === RaceType.AUTORACE,
+                    ),
+            ),
         };
         await this.publicGamblingCalendarService.deleteEvents({
-            nar: [],
             jra: deleteCalendarDataList.jra,
-            world: [],
-            keirin: [],
-            boatrace: [],
-            autorace: [],
+            nar: deleteCalendarDataList.nar,
+            world: deleteCalendarDataList.world,
+            keirin: deleteCalendarDataList.keirin,
+            boatrace: deleteCalendarDataList.boatrace,
+            autorace: deleteCalendarDataList.autorace,
         });
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
@@ -122,9 +177,49 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             ),
+            nar: filteredRaceEntityList.nar.filter(
+                (raceEntity) =>
+                    !deleteCalendarDataList.nar.some(
+                        (deleteCalendarData) =>
+                            deleteCalendarData.id === raceEntity.id,
+                    ),
+            ),
+            world: filteredRaceEntityList.world.filter(
+                (raceEntity) =>
+                    !deleteCalendarDataList.world.some(
+                        (deleteCalendarData) =>
+                            deleteCalendarData.id === raceEntity.id,
+                    ),
+            ),
+            keirin: filteredRaceEntityList.keirin.filter(
+                (raceEntity) =>
+                    !deleteCalendarDataList.keirin.some(
+                        (deleteCalendarData) =>
+                            deleteCalendarData.id === raceEntity.id,
+                    ),
+            ),
+            boatrace: filteredRaceEntityList.boatrace.filter(
+                (raceEntity) =>
+                    !deleteCalendarDataList.boatrace.some(
+                        (deleteCalendarData) =>
+                            deleteCalendarData.id === raceEntity.id,
+                    ),
+            ),
+            autorace: filteredRaceEntityList.autorace.filter(
+                (raceEntity) =>
+                    !deleteCalendarDataList.autorace.some(
+                        (deleteCalendarData) =>
+                            deleteCalendarData.id === raceEntity.id,
+                    ),
+            ),
         };
         await this.publicGamblingCalendarService.upsertEvents({
             jra: upsertRaceEntityList.jra,
+            nar: upsertRaceEntityList.nar,
+            world: upsertRaceEntityList.world,
+            keirin: upsertRaceEntityList.keirin,
+            boatrace: upsertRaceEntityList.boatrace,
+            autorace: upsertRaceEntityList.autorace,
         });
     }
 }
