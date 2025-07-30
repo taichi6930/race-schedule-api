@@ -3,11 +3,22 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
+import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingCalendarUseCase } from '../../../../lib/src/usecase/implement/publicGamblingCalendarUseCase';
+import { AutoraceSpecifiedGradeList } from '../../../../lib/src/utility/data/autorace/autoraceGradeType';
+import { BoatraceSpecifiedGradeList } from '../../../../lib/src/utility/data/boatrace/boatraceGradeType';
+import { JraSpecifiedGradeList } from '../../../../lib/src/utility/data/jra/jraGradeType';
+import { KeirinSpecifiedGradeList } from '../../../../lib/src/utility/data/keirin/keirinGradeType';
+import { NarSpecifiedGradeList } from '../../../../lib/src/utility/data/nar/narGradeType';
+import { WorldSpecifiedGradeList } from '../../../../lib/src/utility/data/world/worldGradeType';
 import { baseAutoraceCalendarData } from '../../mock/common/baseAutoraceData';
+import {
+    baseJraCalendarData,
+    baseJraRaceEntity,
+} from '../../mock/common/baseJraData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
 import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
@@ -57,15 +68,88 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             const result = await useCase.fetchRacesFromCalendar(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'keirin', 'boatrace', 'autorace'],
+                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
             );
 
             expect(calendarService.fetchEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'keirin', 'boatrace', 'autorace'],
+                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
             );
             expect(result).toEqual(mockCalendarData);
+        });
+    });
+
+    describe('updateRacesToCalendar', () => {
+        it('イベントが追加・削除されること', async () => {
+            const mockCalendarDataList: CalendarData[] = Array.from(
+                { length: 8 },
+                (_, i: number) =>
+                    baseJraCalendarData.copy({
+                        id: `jra2024122920${(i + 1).toXDigits(2)}`,
+                    }),
+            );
+            const mockRaceEntityList: JraRaceEntity[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseJraRaceEntity.copy({
+                        id: `jra2024122920${(i + 1).toXDigits(2)}`,
+                    }),
+            );
+
+            const expectCalendarDataList = {
+                jra: Array.from({ length: 3 }, (_, i: number) =>
+                    baseJraCalendarData.copy({
+                        id: `jra2024122920${(i + 6).toXDigits(2)}`,
+                    }),
+                ),
+                nar: [],
+                world: [],
+                keirin: [],
+                boatrace: [],
+                autorace: [],
+            };
+            const expectRaceEntityList = { jra: mockRaceEntityList };
+
+            // モックの戻り値を設定
+            calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
+            raceDataService.fetchRaceEntityList.mockResolvedValue({
+                jra: mockRaceEntityList,
+                nar: [],
+                world: [],
+                keirin: [],
+                boatrace: [],
+                autorace: [],
+            });
+
+            const startDate = new Date('2024-02-01');
+            const finishDate = new Date('2024-12-31');
+
+            await useCase.updateRacesToCalendar(startDate, finishDate, {
+                jra: JraSpecifiedGradeList,
+                nar: NarSpecifiedGradeList,
+                world: WorldSpecifiedGradeList,
+                keirin: KeirinSpecifiedGradeList,
+                autorace: AutoraceSpecifiedGradeList,
+                boatrace: BoatraceSpecifiedGradeList,
+            });
+
+            // モックが呼び出されたことを確認
+            expect(calendarService.fetchEvents).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+                ['jra'],
+            );
+
+            // deleteEventsが呼び出された回数を確認
+            expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.deleteEvents).toHaveBeenCalledWith(
+                expectCalendarDataList,
+            );
+            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
+                expectRaceEntityList,
+            );
         });
     });
 });
