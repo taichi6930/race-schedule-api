@@ -13,6 +13,11 @@ import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worl
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../lib/src/service/implement/publicGamblingCalendarService';
 import { baseAutoraceCalendarData } from '../../mock/common/baseAutoraceData';
+import { baseBoatraceCalendarData } from '../../mock/common/baseBoatraceData';
+import { baseJraCalendarData } from '../../mock/common/baseJraData';
+import { baseKeirinCalendarData } from '../../mock/common/baseKeirinData';
+import { baseNarCalendarData } from '../../mock/common/baseNarData';
+import { baseWorldCalendarData } from '../../mock/common/baseWorldData';
 import { mockCalendarRepository } from '../../mock/repository/mockCalendarRepository';
 
 describe('PublicGamblingCalendarService', () => {
@@ -76,12 +81,39 @@ describe('PublicGamblingCalendarService', () => {
         it('カレンダーのイベントの取得が正常に行われること', async () => {
             const startDate = new Date('2023-01-01');
             const finishDate = new Date('2023-01-31');
-            const calendarDataList: CalendarData[] = [baseAutoraceCalendarData];
+            const calendarDataList: CalendarData[] = [
+                baseJraCalendarData,
+                baseNarCalendarData,
+                baseWorldCalendarData,
+                baseKeirinCalendarData,
+                baseBoatraceCalendarData,
+                baseAutoraceCalendarData,
+            ];
 
-            autoraceCalendarRepository.getEvents.mockResolvedValue(
-                calendarDataList,
-            );
+            jraCalendarRepository.getEvents.mockResolvedValue([
+                baseJraCalendarData,
+            ]);
+            narCalendarRepository.getEvents.mockResolvedValue([
+                baseNarCalendarData,
+            ]);
+            worldCalendarRepository.getEvents.mockResolvedValue([
+                baseWorldCalendarData,
+            ]);
+            keirinCalendarRepository.getEvents.mockResolvedValue([
+                baseKeirinCalendarData,
+            ]);
+            boatraceCalendarRepository.getEvents.mockResolvedValue([
+                baseBoatraceCalendarData,
+            ]);
+            autoraceCalendarRepository.getEvents.mockResolvedValue([
+                baseAutoraceCalendarData,
+            ]);
             const result = await service.fetchEvents(startDate, finishDate, [
+                'jra',
+                'nar',
+                'world',
+                'keirin',
+                'boatrace',
                 'autorace',
             ]);
 

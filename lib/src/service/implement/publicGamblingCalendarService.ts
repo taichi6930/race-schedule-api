@@ -89,16 +89,16 @@ export class PublicGamblingCalendarService implements ICalendarService {
                 ...(await this.narCalendarRepository.getEvents(searchFilter)),
             );
         }
+        if (raceTypeList.includes('world')) {
+            calendarDataList.push(
+                ...(await this.worldCalendarRepository.getEvents(searchFilter)),
+            );
+        }
         if (raceTypeList.includes('keirin')) {
             calendarDataList.push(
                 ...(await this.keirinCalendarRepository.getEvents(
                     searchFilter,
                 )),
-            );
-        }
-        if (raceTypeList.includes('world')) {
-            calendarDataList.push(
-                ...(await this.worldCalendarRepository.getEvents(searchFilter)),
             );
         }
         if (raceTypeList.includes('boatrace')) {
