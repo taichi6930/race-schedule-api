@@ -77,12 +77,13 @@ jobs:
   
             # レースデータの更新
             update_race_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-              "${API_PRODUCTION_URL}/api/races/jra/race" \
+              "${API_PRODUCTION_URL}/api/races/all/race" \
               -H "accept: */*" \
               -H "Content-Type: application/json" \
               -d "{
                     \"startDate\": \"$startDate\",
-                    \"finishDate\": \"$finishDate\"
+                    \"finishDate\": \"$finishDate\",
+                    \"raceType\": [\"jra\"]
                   }")
   
             # レスポンスチェック
@@ -105,12 +106,13 @@ jobs:
   
             # カレンダーの更新
             update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-              "${API_PRODUCTION_URL}/api/races/jra/calendar" \
+              "${API_PRODUCTION_URL}/api/races/all/calendar" \
               -H "accept: */*" \
               -H "Content-Type: application/json" \
               -d "{
                     \"startDate\": \"$startDate\",
-                    \"finishDate\": \"$finishDate\"
+                    \"finishDate\": \"$finishDate\",
+                    \"raceType\": [\"jra\"]
                   }")
   
             # レスポンスチェック

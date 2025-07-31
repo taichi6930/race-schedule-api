@@ -31,23 +31,25 @@ runs:
       run: |
         # Initial GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/world/race?startDate=2024-10-01&finishDate=2024-11-01' \
+          'http://localhost:3000/api/races/all/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=world' \
           -H 'accept: application/json')
 
         # Initial GET Response Check
-        if [[ "$response" != "[]" ]]; then
+        world_items=$(echo "$response" | jq 'if type=="object" and has("world") then .world else . end')
+        if [[ "$world_items" != "[]" ]]; then
           echo "❌ Initial GET request failed. Expected [], but got $response"
           exit 1
         fi
 
         # POST request
         post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
-          'http://localhost:3000/api/races/world/race' \
+          'http://localhost:3000/api/races/all/race' \
           -H 'accept: */*' \
           -H 'Content-Type: application/json' \
           -d '{
                 "startDate": "2024-10-01",
-                "finishDate": "2024-11-01"
+                "finishDate": "2024-11-01",
+                "raceType": ["world"]
               }')
 
         # POST Response Check
@@ -58,11 +60,11 @@ runs:
 
         # Updated GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/world/race?startDate=2024-10-01&finishDate=2024-11-01' \
+          'http://localhost:3000/api/races/all/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=world' \
           -H 'accept: application/json')
 
         # Final GET Response Check: 要素数が372個であることを確認
-        item_count=$(echo "$response" | jq '. | length')
+        item_count=$(echo "$response" | jq 'if type=="object" and has("world") then .world | length else length end')
         if [[ "$item_count" -ne 372 ]]; then
           echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
           exit 1
@@ -79,7 +81,8 @@ runs:
           -H 'accept: application/json')
 
         # Initial GET Response Check
-        if [[ "$response" != "[]" ]]; then
+        world_items=$(echo "$response" | jq 'if type=="object" and has("world") then .world else . end')
+        if [[ "$world_items" != "[]" ]]; then
           echo "❌ Initial GET request failed. Expected [], but got $response"
           exit 1
         fi
@@ -107,7 +110,7 @@ runs:
           -H 'accept: application/json')
 
         # Final GET Response Check: 要素数が372個であることを確認
-        item_count=$(echo "$response" | jq '. | length')
+        item_count=$(echo "$response" | jq 'if type=="object" and has("world") then .world | length else length end')
         if [[ "$item_count" -ne 372 ]]; then
           echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
           exit 1

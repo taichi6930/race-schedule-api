@@ -41,7 +41,7 @@ export class PublicGamblingController {
         this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
         // RaceData関連のAPI
         this.router.get('/race', this.getRaceDataList.bind(this));
-        // this.router.post('/race', this.updateRaceDataList.bind(this));
+        this.router.post('/race', this.updateRaceDataList.bind(this));
         // PlaceData関連のAPI
         this.router.get('/place', this.getPlaceDataList.bind(this));
         this.router.post('/place', this.updatePlaceDataList.bind(this));
@@ -388,6 +388,73 @@ export class PublicGamblingController {
                 error: 'サーバーエラーが発生しました',
                 details: `レース情報の取得中にエラーが発生しました: ${errorMessage}`,
             });
+        }
+    }
+
+    /**
+     * レース情報を更新する
+     * @param req - リクエスト
+     * @param res - レスポンス
+     */
+    @Logger
+    private async updateRaceDataList(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { startDate, finishDate, raceType, gradeList } = req.body;
+
+            const raceTypeList =
+                typeof raceType === 'string'
+                    ? [raceType]
+                    : typeof raceType === 'object'
+                      ? Array.isArray(raceType)
+                          ? (raceType as string[]).map((r: string) => r)
+                          : undefined
+                      : undefined;
+
+            // startDateとfinishDateが指定されていない場合はエラーを返す
+            if (
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
+            ) {
+                res.status(400).send('startDate、finishDateは必須です');
+                return;
+            }
+
+            if (!raceTypeList || raceTypeList.length === 0) {
+                res.status(400).json({
+                    error: 'raceTypeは必須です',
+                    details: 'raceTypeを指定してください',
+                });
+                return;
+            }
+
+            // raceTypeListに応じて各種プロパティを動的に生成
+            const raceTypeParams: Record<string, { gradeList?: string[] }> = {};
+            for (const type of raceTypeList) {
+                raceTypeParams[type] = {
+                    gradeList:
+                        gradeList === undefined
+                            ? undefined
+                            : gradeList.map((g: string) => g),
+                };
+            }
+
+            await this.publicGamblingRaceDataUseCase.updateRaceEntityList(
+                new Date(startDate),
+                new Date(finishDate),
+                raceTypeList,
+                raceTypeParams,
+            );
+            res.status(200).send();
+        } catch (error) {
+            console.error('レース情報の更新中にエラーが発生しました:', error);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
         }
     }
 }
