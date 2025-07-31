@@ -2,10 +2,12 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { BoatraceRaceData } from '../domain/boatraceRaceData';
-import { IOldRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
+import {
+    IOldRaceDataUseCase,
+    IRaceDataUseCase,
+} from '../usecase/interface/IRaceDataUseCase';
 import { BoatraceGradeType } from '../utility/data/boatrace/boatraceGradeType';
 import { BoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCourse';
-import { BoatraceRaceStage } from '../utility/data/boatrace/boatraceRaceStage';
 import { Logger } from '../utility/logger';
 
 /**
@@ -20,9 +22,10 @@ export class BoatraceRaceController {
         private readonly boatraceRaceDataUseCase: IOldRaceDataUseCase<
             BoatraceRaceData,
             BoatraceGradeType,
-            BoatraceRaceCourse,
-            BoatraceRaceStage
+            BoatraceRaceCourse
         >,
+        @inject('PublicGamblingRaceDataUseCase')
+        private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -89,16 +92,20 @@ export class BoatraceRaceController {
             }
 
             // レース情報を取得する
-            const races = await this.boatraceRaceDataUseCase.fetchRaceDataList(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-                {
-                    gradeList,
-                    locationList,
-                    stageList,
-                },
-            );
-            res.json(races);
+            const races =
+                await this.publicGamblingRaceDataUseCase.fetchRaceDataList(
+                    new Date(startDate as string),
+                    new Date(finishDate as string),
+                    ['boatrace'],
+                    {
+                        boatrace: {
+                            gradeList,
+                            locationList,
+                            stageList,
+                        },
+                    },
+                );
+            res.json(races.boatrace);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
             const errorMessage =

@@ -22,8 +22,7 @@ export class NarRaceController {
         private readonly narRaceDataUseCase: IOldRaceDataUseCase<
             NarRaceData,
             NarGradeType,
-            NarRaceCourse,
-            undefined
+            NarRaceCourse
         >,
         @inject('PublicGamblingRaceDataUseCase')
         private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
