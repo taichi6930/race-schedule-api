@@ -24,7 +24,7 @@ import {
     generateKeirinRaceId,
     generateKeirinRacePlayerId,
 } from '../../utility/raceId';
-import { RaceType } from '../../utility/racetype';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 

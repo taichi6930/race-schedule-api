@@ -1,5 +1,5 @@
 import { CalendarData } from '../../../lib/src/domain/calendarData';
-import { RaceType } from '../../../lib/src/utility/racetype';
+import { RaceType } from '../../../lib/src/utility/raceType';
 
 describe('CalendarDataクラスのテスト', () => {
     it('正しい入力でCalendarDataのインスタンスを作成できることを確認', () => {

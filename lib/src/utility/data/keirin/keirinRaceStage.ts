@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { RaceType } from '../../racetype';
+import { RaceType } from '../../raceType';
 import type { KeirinGradeType } from './keirinGradeType';
 
 /**

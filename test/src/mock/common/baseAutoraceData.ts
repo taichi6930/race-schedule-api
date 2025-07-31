@@ -17,7 +17,7 @@ import {
     generateAutoraceRaceId,
     generateAutoraceRacePlayerId,
 } from '../../../../lib/src/utility/raceId';
-import { RaceType } from '../../../../lib/src/utility/racetype';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 
 const baseAutoracePlaceCourse: AutoraceRaceCourse = '飯塚';
 const baseAutoracePlaceDateTime = new Date('2024-12-31');

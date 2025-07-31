@@ -1,4 +1,4 @@
-import type { RaceType } from '../../utility/racetype';
+import type { RaceType } from '../../utility/raceType';
 
 export class SearchPlayerFilterEntity {
     public constructor(

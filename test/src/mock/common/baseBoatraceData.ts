@@ -16,7 +16,7 @@ import {
     generateBoatraceRaceId,
     generateBoatraceRacePlayerId,
 } from '../../../../lib/src/utility/raceId';
-import { RaceType } from '../../../../lib/src/utility/racetype';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 
 const baseBoatracePlaceCourse: BoatraceRaceCourse = '平和島';
 const baseBoatracePlaceDateTime = new Date('2024-12-31');

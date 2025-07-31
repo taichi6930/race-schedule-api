@@ -1,5 +1,5 @@
 import { PlayerData } from '../../domain/playerData';
-import { RaceType } from '../../utility/racetype';
+import { RaceType } from '../../utility/raceType';
 import type { IPlayerDataService } from '../interface/IPlayerDataService';
 
 /**
