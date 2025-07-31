@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { RaceType } from '../../sqlite';
+import { RaceType } from '../../racetype';
 import type { KeirinGradeType } from './keirinGradeType';
 
 /**

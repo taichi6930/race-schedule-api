@@ -19,7 +19,7 @@ import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getJraGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateJraRaceId } from '../../utility/raceId';
-import { RaceType } from '../../utility/sqlite';
+import { RaceType } from '../../utility/racetype';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';

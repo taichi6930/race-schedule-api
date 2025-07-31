@@ -1,4 +1,4 @@
-import type { RaceType } from '../utility/sqlite';
+import type { RaceType } from '../utility/racetype';
 
 /**
  * カレンダーのデータを表すクラス

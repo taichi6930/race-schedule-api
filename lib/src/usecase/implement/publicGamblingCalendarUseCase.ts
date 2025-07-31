@@ -19,7 +19,7 @@ import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { KeirinRaceGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/sqlite';
+import { RaceType } from '../../utility/racetype';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
 /**

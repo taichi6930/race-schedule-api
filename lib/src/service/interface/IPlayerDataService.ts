@@ -1,5 +1,5 @@
 import type { PlayerData } from '../../domain/playerData';
-import type { RaceType } from '../../utility/sqlite';
+import type { RaceType } from '../../utility/racetype';
 
 export interface IPlayerDataService {
     /**

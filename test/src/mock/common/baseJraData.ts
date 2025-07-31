@@ -13,7 +13,7 @@ import {
     generateJraPlaceId,
     generateJraRaceId,
 } from '../../../../lib/src/utility/raceId';
-import { RaceType } from '../../../../lib/src/utility/sqlite';
+import { RaceType } from '../../../../lib/src/utility/racetype';
 
 const baseJraPlaceCourse: JraRaceCourse = '中山';
 const baseJraPlaceDateTime = new Date('2024-12-22');
