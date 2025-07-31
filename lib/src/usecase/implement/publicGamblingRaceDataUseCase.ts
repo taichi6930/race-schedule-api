@@ -422,13 +422,16 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
 
         // placeEntityListが空の場合は処理を終了する
         if (
-            !raceTypeList.includes('world') ||
-            (filteredPlaceEntityList.jra.length === 0 &&
-                filteredPlaceEntityList.nar.length === 0 &&
-                filteredPlaceEntityList.keirin.length === 0 &&
-                filteredPlaceEntityList.autorace.length === 0 &&
-                filteredPlaceEntityList.boatrace.length === 0)
+            !raceTypeList.includes('world') &&
+            filteredPlaceEntityList.jra.length === 0 &&
+            filteredPlaceEntityList.nar.length === 0 &&
+            filteredPlaceEntityList.keirin.length === 0 &&
+            filteredPlaceEntityList.autorace.length === 0 &&
+            filteredPlaceEntityList.boatrace.length === 0
         ) {
+            console.log(
+                '指定された条件に合致する開催場所が存在しません。レースデータの更新をスキップします。',
+            );
             return;
         }
 
