@@ -12,7 +12,7 @@ import { JraRaceDataUseCase } from '../../src/usecase/implement/jraRaceDataUseCa
 import { KeirinRaceDataUseCase } from '../../src/usecase/implement/keirinRaceDataUseCase';
 import { NarRaceDataUseCase } from '../../src/usecase/implement/narRaceDataUseCase';
 import { WorldRaceDataUseCase } from '../../src/usecase/implement/worldRaceDataUseCase';
-import type { IRaceDataUseCase } from '../../src/usecase/interface/IRaceDataUseCase';
+import type { IOldRaceDataUseCase } from '../../src/usecase/interface/IRaceDataUseCase';
 import type { AutoraceGradeType } from '../../src/utility/data/autorace/autoraceGradeType';
 import type { AutoraceRaceCourse } from '../../src/utility/data/autorace/autoraceRaceCourse';
 import type { AutoraceRaceStage } from '../../src/utility/data/autorace/autoraceRaceStage';
@@ -31,17 +31,17 @@ import type { WorldRaceCourse } from '../../src/utility/data/world/worldRaceCour
 
 // Usecaseの実装クラスをDIコンテナに登錄する
 container.register<
-    IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse, undefined>
+    IOldRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse, undefined>
 >('NarRaceDataUseCase', {
     useClass: NarRaceDataUseCase,
 });
 container.register<
-    IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse, undefined>
+    IOldRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse, undefined>
 >('JraRaceDataUseCase', {
     useClass: JraRaceDataUseCase,
 });
 container.register<
-    IRaceDataUseCase<
+    IOldRaceDataUseCase<
         KeirinRaceData,
         KeirinGradeType,
         KeirinRaceCourse,
@@ -51,12 +51,17 @@ container.register<
     useClass: KeirinRaceDataUseCase,
 });
 container.register<
-    IRaceDataUseCase<WorldRaceData, WorldGradeType, WorldRaceCourse, undefined>
+    IOldRaceDataUseCase<
+        WorldRaceData,
+        WorldGradeType,
+        WorldRaceCourse,
+        undefined
+    >
 >('WorldRaceDataUseCase', {
     useClass: WorldRaceDataUseCase,
 });
 container.register<
-    IRaceDataUseCase<
+    IOldRaceDataUseCase<
         AutoraceRaceData,
         AutoraceGradeType,
         AutoraceRaceCourse,
@@ -66,7 +71,7 @@ container.register<
     useClass: AutoraceRaceDataUseCase,
 });
 container.register<
-    IRaceDataUseCase<
+    IOldRaceDataUseCase<
         BoatraceRaceData,
         BoatraceGradeType,
         BoatraceRaceCourse,

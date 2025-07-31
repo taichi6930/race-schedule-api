@@ -11,7 +11,7 @@ import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
+import { IOldRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
  * Autoraceレース開催データユースケース
@@ -19,7 +19,7 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 @injectable()
 export class AutoraceRaceDataUseCase
     implements
-        IRaceDataUseCase<
+        IOldRaceDataUseCase<
             AutoraceRaceData,
             AutoraceGradeType,
             AutoraceRaceCourse,

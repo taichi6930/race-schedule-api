@@ -4,7 +4,7 @@ import type { GradeType, RaceCourse, RaceStage } from '../../utility/data/base';
 /**
  * レースデータUseCaseのインターフェース
  */
-export interface IRaceDataUseCase<
+export interface IOldRaceDataUseCase<
     R extends IRaceData<R>,
     G extends GradeType,
     C extends RaceCourse,

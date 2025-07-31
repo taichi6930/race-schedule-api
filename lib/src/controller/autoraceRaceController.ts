@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { AutoraceRaceData } from '../domain/autoraceRaceData';
-import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
+import { IOldRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { AutoraceGradeType } from '../utility/data/autorace/autoraceGradeType';
 import { AutoraceRaceCourse } from '../utility/data/autorace/autoraceRaceCourse';
 import { AutoraceRaceStage } from '../utility/data/autorace/autoraceRaceStage';
@@ -17,7 +17,7 @@ export class AutoraceRaceController {
 
     public constructor(
         @inject('AutoraceRaceDataUseCase')
-        private readonly autoraceRaceDataUseCase: IRaceDataUseCase<
+        private readonly autoraceRaceDataUseCase: IOldRaceDataUseCase<
             AutoraceRaceData,
             AutoraceGradeType,
             AutoraceRaceCourse,

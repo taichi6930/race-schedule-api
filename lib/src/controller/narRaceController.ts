@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { NarRaceData } from '../domain/narRaceData';
-import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
+import { IOldRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { NarGradeType } from '../utility/data/nar/narGradeType';
 import { NarRaceCourse } from '../utility/data/nar/narRaceCourse';
 import { Logger } from '../utility/logger';
@@ -16,7 +16,7 @@ export class NarRaceController {
 
     public constructor(
         @inject('NarRaceDataUseCase')
-        private readonly narRaceDataUseCase: IRaceDataUseCase<
+        private readonly narRaceDataUseCase: IOldRaceDataUseCase<
             NarRaceData,
             NarGradeType,
             NarRaceCourse,

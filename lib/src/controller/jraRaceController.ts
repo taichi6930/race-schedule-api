@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { JraRaceData } from '../domain/jraRaceData';
-import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
+import { IOldRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { JraGradeType } from '../utility/data/jra/jraGradeType';
 import { JraRaceCourse } from '../utility/data/jra/jraRaceCourse';
 import { Logger } from '../utility/logger';
@@ -16,7 +16,7 @@ export class JraRaceController {
 
     public constructor(
         @inject('JraRaceDataUseCase')
-        private readonly jraRaceDataUseCase: IRaceDataUseCase<
+        private readonly jraRaceDataUseCase: IOldRaceDataUseCase<
             JraRaceData,
             JraGradeType,
             JraRaceCourse,

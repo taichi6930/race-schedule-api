@@ -11,7 +11,7 @@ import { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
+import { IOldRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
  * Keirinレース開催データユースケース
@@ -19,7 +19,7 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 @injectable()
 export class KeirinRaceDataUseCase
     implements
-        IRaceDataUseCase<
+        IOldRaceDataUseCase<
             KeirinRaceData,
             KeirinGradeType,
             KeirinRaceCourse,

@@ -10,7 +10,7 @@ import { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
+import { IOldRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
  * Jraレース開催データユースケース
@@ -18,7 +18,7 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 @injectable()
 export class JraRaceDataUseCase
     implements
-        IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse, undefined>
+        IOldRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse, undefined>
 {
     public constructor(
         @inject('PublicGamblingPlaceDataService')

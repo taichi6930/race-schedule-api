@@ -8,7 +8,7 @@ import { WorldRaceCourse } from '../../utility/data/world/worldRaceCourse';
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
+import { IOldRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
  * Worldレース開催データユースケース
@@ -16,7 +16,7 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 @injectable()
 export class WorldRaceDataUseCase
     implements
-        IRaceDataUseCase<
+        IOldRaceDataUseCase<
             WorldRaceData,
             WorldGradeType,
             WorldRaceCourse,

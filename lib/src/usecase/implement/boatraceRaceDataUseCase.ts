@@ -11,7 +11,7 @@ import { BoatraceRaceStage } from '../../utility/data/boatrace/boatraceRaceStage
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
+import { IOldRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
  * Boatraceレース開催データユースケース
@@ -19,7 +19,7 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 @injectable()
 export class BoatraceRaceDataUseCase
     implements
-        IRaceDataUseCase<
+        IOldRaceDataUseCase<
             BoatraceRaceData,
             BoatraceGradeType,
             BoatraceRaceCourse,

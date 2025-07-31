@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { BoatraceRaceData } from '../domain/boatraceRaceData';
-import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
+import { IOldRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { BoatraceGradeType } from '../utility/data/boatrace/boatraceGradeType';
 import { BoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCourse';
 import { BoatraceRaceStage } from '../utility/data/boatrace/boatraceRaceStage';
@@ -17,7 +17,7 @@ export class BoatraceRaceController {
 
     public constructor(
         @inject('BoatraceRaceDataUseCase')
-        private readonly boatraceRaceDataUseCase: IRaceDataUseCase<
+        private readonly boatraceRaceDataUseCase: IOldRaceDataUseCase<
             BoatraceRaceData,
             BoatraceGradeType,
             BoatraceRaceCourse,

@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { WorldRaceData } from '../domain/worldRaceData';
-import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
+import { IOldRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { WorldGradeType } from '../utility/data/world/worldGradeType';
 import { WorldRaceCourse } from '../utility/data/world/worldRaceCourse';
 import { Logger } from '../utility/logger';
@@ -16,7 +16,7 @@ export class WorldRaceController {
 
     public constructor(
         @inject('WorldRaceDataUseCase')
-        private readonly worldRaceDataUseCase: IRaceDataUseCase<
+        private readonly worldRaceDataUseCase: IOldRaceDataUseCase<
             WorldRaceData,
             WorldGradeType,
             WorldRaceCourse,

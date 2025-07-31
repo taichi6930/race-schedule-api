@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { KeirinRaceData } from '../domain/keirinRaceData';
-import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
+import { IOldRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { KeirinGradeType } from '../utility/data/keirin/keirinGradeType';
 import { KeirinRaceCourse } from '../utility/data/keirin/keirinRaceCourse';
 import { KeirinRaceStage } from '../utility/data/keirin/keirinRaceStage';
@@ -17,7 +17,7 @@ export class KeirinRaceController {
 
     public constructor(
         @inject('KeirinRaceDataUseCase')
-        private readonly keirinRaceDataUseCase: IRaceDataUseCase<
+        private readonly keirinRaceDataUseCase: IOldRaceDataUseCase<
             KeirinRaceData,
             KeirinGradeType,
             KeirinRaceCourse,

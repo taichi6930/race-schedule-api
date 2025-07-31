@@ -10,7 +10,7 @@ import { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
+import { IOldRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
  * Narレース開催データユースケース
@@ -18,7 +18,7 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 @injectable()
 export class NarRaceDataUseCase
     implements
-        IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse, undefined>
+        IOldRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse, undefined>
 {
     public constructor(
         @inject('PublicGamblingPlaceDataService')
