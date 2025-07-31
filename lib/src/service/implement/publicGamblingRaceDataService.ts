@@ -45,12 +45,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             NarPlaceEntity
         >,
         @inject('WorldRaceRepositoryFromStorage')
-        protected readonly raceRepositoryFromStorage: IRaceRepository<
+        protected readonly worldRaceRepositoryFromStorage: IRaceRepository<
             WorldRaceEntity,
             WorldPlaceEntity
         >,
         @inject('WorldRaceRepositoryFromHtml')
-        protected readonly raceRepositoryFromHtml: IRaceRepository<
+        protected readonly worldRaceRepositoryFromHtml: IRaceRepository<
             WorldRaceEntity,
             WorldPlaceEntity
         >,
@@ -189,23 +189,18 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                           );
                 result.nar.push(...narRaceEntityList);
             }
-            if (
-                raceType.includes('world') ||
-                (placeEntityList?.world !== undefined &&
-                    placeEntityList.world.length > 0)
-            ) {
+            if (raceType.includes('world')) {
                 const searchFilter =
                     new SearchRaceFilterEntity<WorldPlaceEntity>(
                         startDate,
                         finishDate,
-                        placeEntityList?.world,
                     );
                 const worldRaceEntityList: WorldRaceEntity[] =
                     type === DataLocation.Storage
-                        ? await this.raceRepositoryFromStorage.fetchRaceEntityList(
+                        ? await this.worldRaceRepositoryFromStorage.fetchRaceEntityList(
                               searchFilter,
                           )
-                        : await this.raceRepositoryFromHtml.fetchRaceEntityList(
+                        : await this.worldRaceRepositoryFromHtml.fetchRaceEntityList(
                               searchFilter,
                           );
                 result.world.push(...worldRaceEntityList);
@@ -325,7 +320,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 raceEntityList.world !== undefined &&
                 raceEntityList.world.length > 0
             ) {
-                await this.raceRepositoryFromStorage.registerRaceEntityList(
+                await this.worldRaceRepositoryFromStorage.registerRaceEntityList(
                     raceEntityList.world,
                 );
             }
