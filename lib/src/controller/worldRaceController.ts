@@ -2,9 +2,10 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { WorldRaceData } from '../domain/worldRaceData';
-import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { WorldGradeType } from '../utility/data/world/worldGradeType';
-import { WorldRaceCourse } from '../utility/data/world/worldRaceCourse';
+import {
+    IOldRaceDataUseCase,
+    IRaceDataUseCase,
+} from '../usecase/interface/IRaceDataUseCase';
 import { Logger } from '../utility/logger';
 
 /**
@@ -16,12 +17,10 @@ export class WorldRaceController {
 
     public constructor(
         @inject('WorldRaceDataUseCase')
-        private readonly worldRaceDataUseCase: IRaceDataUseCase<
-            WorldRaceData,
-            WorldGradeType,
-            WorldRaceCourse,
-            undefined
-        >,
+        private readonly worldRaceDataUseCase: IOldRaceDataUseCase<WorldRaceData>,
+
+        @inject('PublicGamblingRaceDataUseCase')
+        private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -79,15 +78,19 @@ export class WorldRaceController {
             }
 
             // レース情報を取得する
-            const races = await this.worldRaceDataUseCase.fetchRaceDataList(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-                {
-                    gradeList,
-                    locationList,
-                },
-            );
-            res.json(races);
+            const races =
+                await this.publicGamblingRaceDataUseCase.fetchRaceDataList(
+                    new Date(startDate as string),
+                    new Date(finishDate as string),
+                    ['world'],
+                    {
+                        world: {
+                            gradeList,
+                            locationList,
+                        },
+                    },
+                );
+            res.json(races.world);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
             const errorMessage =
@@ -122,9 +125,10 @@ export class WorldRaceController {
             }
 
             // レース情報を取得する
-            await this.worldRaceDataUseCase.updateRaceEntityList(
+            await this.publicGamblingRaceDataUseCase.updateRaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
+                ['world'],
             );
             res.status(200).send();
         } catch (error) {

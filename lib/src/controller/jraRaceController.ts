@@ -2,9 +2,10 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { JraRaceData } from '../domain/jraRaceData';
-import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { JraGradeType } from '../utility/data/jra/jraGradeType';
-import { JraRaceCourse } from '../utility/data/jra/jraRaceCourse';
+import {
+    IOldRaceDataUseCase,
+    IRaceDataUseCase,
+} from '../usecase/interface/IRaceDataUseCase';
 import { Logger } from '../utility/logger';
 
 /**
@@ -16,12 +17,9 @@ export class JraRaceController {
 
     public constructor(
         @inject('JraRaceDataUseCase')
-        private readonly jraRaceDataUseCase: IRaceDataUseCase<
-            JraRaceData,
-            JraGradeType,
-            JraRaceCourse,
-            undefined
-        >,
+        private readonly jraRaceDataUseCase: IOldRaceDataUseCase<JraRaceData>,
+        @inject('PublicGamblingRaceDataUseCase')
+        private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -79,15 +77,19 @@ export class JraRaceController {
             }
 
             // レース情報を取得する
-            const races = await this.jraRaceDataUseCase.fetchRaceDataList(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-                {
-                    gradeList,
-                    locationList,
-                },
-            );
-            res.json(races);
+            const races =
+                await this.publicGamblingRaceDataUseCase.fetchRaceDataList(
+                    new Date(startDate as string),
+                    new Date(finishDate as string),
+                    ['jra'],
+                    {
+                        jra: {
+                            gradeList,
+                            locationList,
+                        },
+                    },
+                );
+            res.json(races.jra);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
             const errorMessage =
@@ -144,9 +146,10 @@ export class JraRaceController {
                 }
 
                 // レース情報を取得する
-                await this.jraRaceDataUseCase.updateRaceEntityList(
+                await this.publicGamblingRaceDataUseCase.updateRaceEntityList(
                     parsedStartDate,
                     parsedFinishDate,
+                    ['jra'],
                 );
                 res.status(200).send();
                 return;

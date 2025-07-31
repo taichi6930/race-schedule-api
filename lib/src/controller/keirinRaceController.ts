@@ -2,10 +2,10 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { KeirinRaceData } from '../domain/keirinRaceData';
-import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { KeirinGradeType } from '../utility/data/keirin/keirinGradeType';
-import { KeirinRaceCourse } from '../utility/data/keirin/keirinRaceCourse';
-import { KeirinRaceStage } from '../utility/data/keirin/keirinRaceStage';
+import {
+    IOldRaceDataUseCase,
+    IRaceDataUseCase,
+} from '../usecase/interface/IRaceDataUseCase';
 import { Logger } from '../utility/logger';
 
 /**
@@ -17,12 +17,9 @@ export class KeirinRaceController {
 
     public constructor(
         @inject('KeirinRaceDataUseCase')
-        private readonly keirinRaceDataUseCase: IRaceDataUseCase<
-            KeirinRaceData,
-            KeirinGradeType,
-            KeirinRaceCourse,
-            KeirinRaceStage
-        >,
+        private readonly keirinRaceDataUseCase: IOldRaceDataUseCase<KeirinRaceData>,
+        @inject('PublicGamblingRaceDataUseCase')
+        private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -89,16 +86,20 @@ export class KeirinRaceController {
             }
 
             // レース情報を取得する
-            const races = await this.keirinRaceDataUseCase.fetchRaceDataList(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-                {
-                    gradeList,
-                    locationList,
-                    stageList,
-                },
-            );
-            res.json(races);
+            const races =
+                await this.publicGamblingRaceDataUseCase.fetchRaceDataList(
+                    new Date(startDate as string),
+                    new Date(finishDate as string),
+                    ['keirin'],
+                    {
+                        keirin: {
+                            gradeList,
+                            locationList,
+                            stageList,
+                        },
+                    },
+                );
+            res.json(races.keirin);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
             const errorMessage =
@@ -133,14 +134,17 @@ export class KeirinRaceController {
             }
 
             // レース情報を取得する
-            await this.keirinRaceDataUseCase.updateRaceEntityList(
+            await this.publicGamblingRaceDataUseCase.updateRaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
+                ['keirin'],
                 {
-                    gradeList:
-                        gradeList === undefined
-                            ? undefined
-                            : gradeList.map((g: string) => g),
+                    keirin: {
+                        gradeList:
+                            gradeList === undefined
+                                ? undefined
+                                : gradeList.map((g: string) => g),
+                    },
                 },
             );
             res.status(200).send();

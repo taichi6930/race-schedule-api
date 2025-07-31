@@ -45,12 +45,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             NarPlaceEntity
         >,
         @inject('WorldRaceRepositoryFromStorage')
-        protected readonly raceRepositoryFromStorage: IRaceRepository<
+        protected readonly worldRaceRepositoryFromStorage: IRaceRepository<
             WorldRaceEntity,
             WorldPlaceEntity
         >,
         @inject('WorldRaceRepositoryFromHtml')
-        protected readonly raceRepositoryFromHtml: IRaceRepository<
+        protected readonly worldRaceRepositoryFromHtml: IRaceRepository<
             WorldRaceEntity,
             WorldPlaceEntity
         >,
@@ -189,23 +189,18 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                           );
                 result.nar.push(...narRaceEntityList);
             }
-            if (
-                raceType.includes('world') ||
-                (placeEntityList?.world !== undefined &&
-                    placeEntityList.world.length > 0)
-            ) {
+            if (raceType.includes('world')) {
                 const searchFilter =
                     new SearchRaceFilterEntity<WorldPlaceEntity>(
                         startDate,
                         finishDate,
-                        placeEntityList?.world,
                     );
                 const worldRaceEntityList: WorldRaceEntity[] =
                     type === DataLocation.Storage
-                        ? await this.raceRepositoryFromStorage.fetchRaceEntityList(
+                        ? await this.worldRaceRepositoryFromStorage.fetchRaceEntityList(
                               searchFilter,
                           )
-                        : await this.raceRepositoryFromHtml.fetchRaceEntityList(
+                        : await this.worldRaceRepositoryFromHtml.fetchRaceEntityList(
                               searchFilter,
                           );
                 result.world.push(...worldRaceEntityList);
@@ -287,16 +282,23 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * 既存のデータが存在する場合は上書き、存在しない場合は新規作成します。
      * このメソッドは一般的にWebから取得した最新データを保存する際に使用されます。
      * @param raceEntityList
+     * @param raceEntityList.jra
+     * @param raceEntityList.nar
+     * @param raceEntityList.world
+     * @param raceEntityList.keirin
+     * @param raceEntityList.autorace
+     * @param raceEntityList.boatrace
      * @throws Error データの保存/更新に失敗した場合
      */
-    public updateRaceEntityList: (raceEntityList: {
+    @Logger
+    public async updateRaceEntityList(raceEntityList: {
         jra?: JraRaceEntity[];
         nar?: NarRaceEntity[];
         world?: WorldRaceEntity[];
         keirin?: KeirinRaceEntity[];
         autorace?: AutoraceRaceEntity[];
         boatrace?: BoatraceRaceEntity[];
-    }) => Promise<void> = async (raceEntityList) => {
+    }): Promise<void> {
         try {
             if (
                 raceEntityList.jra !== undefined &&
@@ -318,7 +320,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 raceEntityList.world !== undefined &&
                 raceEntityList.world.length > 0
             ) {
-                await this.raceRepositoryFromStorage.registerRaceEntityList(
+                await this.worldRaceRepositoryFromStorage.registerRaceEntityList(
                     raceEntityList.world,
                 );
             }
@@ -350,5 +352,5 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             console.error('開催場データの保存/更新に失敗しました', error);
             throw error;
         }
-    };
+    }
 }
