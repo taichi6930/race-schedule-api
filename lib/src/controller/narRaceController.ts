@@ -96,7 +96,7 @@ export class NarRaceController {
                         },
                     },
                 );
-            res.json(races);
+            res.json(races.nar);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
             const errorMessage =
