@@ -81,13 +81,14 @@ jobs:
 
             # カレンダーの更新
             update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-              "${API_PRODUCTION_URL}/api/races/keirin/race" \
+              "${API_PRODUCTION_URL}/api/races/all/race" \
               -H "accept: */*" \
               -H "Content-Type: application/json" \
               -d "{
                     \"startDate\": \"$currentDate\",
                     \"finishDate\": \"$currentDate\",
-                    \"gradeList\": [\"GP\", \"GⅠ\", \"GⅡ\", \"GⅢ\"]
+                    \"gradeList\": [\"GP\", \"GⅠ\", \"GⅡ\", \"GⅢ\"],
+                    \"raceType\": [\"keirin\"]
                   }")
 
             # レスポンスチェック
@@ -118,13 +119,14 @@ jobs:
 
             # カレンダーの更新
             update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-              "${API_PRODUCTION_URL}/api/races/keirin/race" \
+              "${API_PRODUCTION_URL}/api/races/all/race" \
               -H "accept: */*" \
               -H "Content-Type: application/json" \
               -d "{
                     \"startDate\": \"$currentDate\",
                     \"finishDate\": \"$currentDate\",
-                    \"gradeList\": [\"FⅠ\"]
+                    \"gradeList\": [\"FⅠ\"],
+                    \"raceType\": [\"keirin\"]
                   }")
 
             # レスポンスチェック
@@ -155,13 +157,14 @@ jobs:
 
             # カレンダーの更新
             update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-              "${API_PRODUCTION_URL}/api/races/keirin/race" \
+              "${API_PRODUCTION_URL}/api/races/all/race" \
               -H "accept: */*" \
               -H "Content-Type: application/json" \
               -d "{
                     \"startDate\": \"$currentDate\",
                     \"finishDate\": \"$currentDate\",
-                    \"gradeList\": [\"FⅡ\"]
+                    \"gradeList\": [\"FⅡ\"],
+                    \"raceType\": [\"keirin\"]
                   }")
 
             # レスポンスチェック
@@ -187,12 +190,13 @@ jobs:
 
           # カレンダーの更新
           update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/keirin/calendar" \
+            "${API_PRODUCTION_URL}/api/races/all/calendar" \
             -H "accept: */*" \
             -H "Content-Type: application/json" \
             -d "{
                   \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
+                  \"finishDate\": \"$finishDate\",
+                  \"raceType\": [\"keirin\"]
                 }")
 
           # レスポンスチェック
@@ -215,12 +219,13 @@ jobs:
 
           # カレンダーの更新
           update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/keirin/calendar" \
+            "${API_PRODUCTION_URL}/api/races/all/calendar" \
             -H "accept: */*" \
             -H "Content-Type: application/json" \
             -d "{
                   \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
+                  \"finishDate\": \"$finishDate\",
+                  \"raceType\": [\"keirin\"]
                 }")
 
           # レスポンスチェック

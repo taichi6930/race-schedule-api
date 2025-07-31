@@ -123,7 +123,7 @@ runs:
         
         # Initial GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/nar/race?startDate=2024-10-01&finishDate=2024-11-01' \
+          'http://localhost:3000/api/races/all/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=nar' \
           -H 'accept: application/json')
 
         if [[ "$response" != "[]" ]]; then
@@ -133,12 +133,13 @@ runs:
 
         # POST request (always execute to set up server state)
         post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
-          'http://localhost:3000/api/races/nar/race' \
+          'http://localhost:3000/api/races/all/race' \
           -H 'accept: */*' \
           -H 'Content-Type: application/json' \
           -d '{
                 "startDate": "2024-10-01",
-                "finishDate": "2024-11-01"
+                "finishDate": "2024-11-01",
+                "raceType": ["nar"]
               }')
 
         if [[ "$post_response" != "200" ]]; then
@@ -148,7 +149,7 @@ runs:
 
         # Updated GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/nar/race?startDate=2024-10-01&finishDate=2024-11-01' \
+          'http://localhost:3000/api/races/all/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=nar' \
           -H 'accept: application/json')
 
         # Cache the successful response
