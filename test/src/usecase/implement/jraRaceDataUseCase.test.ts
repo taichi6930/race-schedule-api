@@ -10,7 +10,6 @@ import { JraRaceDataUseCase } from '../../../../lib/src/usecase/implement/jraRac
 import {
     baseJraRaceDataList,
     baseJraRaceEntity,
-    baseJraRaceEntityList,
 } from '../../mock/common/baseJraData';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
@@ -37,67 +36,6 @@ describe('JraRaceDataUseCase', () => {
 
     afterEach(() => {
         jest.clearAllMocks();
-    });
-
-    describe('fetchRaceDataList', () => {
-        for (const { searchConditions, descriptions, expectedLength } of [
-            {
-                searchConditions: { gradeList: ['GⅠ'] },
-                descriptions: 'gradeを検索条件に入れて',
-                expectedLength: 2,
-            },
-            {
-                searchConditions: {
-                    locationList: ['東京'],
-                },
-                descriptions: 'locationを検索条件に入れて',
-                expectedLength: 12,
-            },
-            {
-                searchConditions: {
-                    gradeList: ['GⅠ'],
-                    locationList: ['東京'],
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 1,
-            },
-            {
-                searchConditions: {
-                    gradeList: ['GⅠ'],
-                    locationList: ['阪神'],
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 0,
-            },
-            {
-                searchConditions: {},
-                descriptions: '検索条件なし',
-                expectedLength: 24,
-            },
-        ]) {
-            it(`正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
-                // モックの戻り値を設定
-                raceDataService.fetchRaceEntityList.mockResolvedValue({
-                    jra: baseJraRaceEntityList,
-                    nar: [],
-                    world: [],
-                    keirin: [],
-                    autorace: [],
-                    boatrace: [],
-                });
-
-                const startDate = new Date('2025-12-01');
-                const finishDate = new Date('2025-12-31');
-
-                const result = await useCase.fetchRaceDataList(
-                    startDate,
-                    finishDate,
-                    searchConditions,
-                );
-
-                expect(result.length).toBe(expectedLength);
-            });
-        }
     });
 
     describe('updateRaceDataList', () => {

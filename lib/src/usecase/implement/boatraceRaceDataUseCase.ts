@@ -7,7 +7,6 @@ import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import { BoatraceRaceCourse } from '../../utility/data/boatrace/boatraceRaceCourse';
-import { BoatraceRaceStage } from '../../utility/data/boatrace/boatraceRaceStage';
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -22,8 +21,7 @@ export class BoatraceRaceDataUseCase
         IOldRaceDataUseCase<
             BoatraceRaceData,
             BoatraceGradeType,
-            BoatraceRaceCourse,
-            BoatraceRaceStage
+            BoatraceRaceCourse
         >
 {
     public constructor(
@@ -32,76 +30,6 @@ export class BoatraceRaceDataUseCase
         @inject('PublicGamblingRaceDataService')
         private readonly raceDataService: IRaceDataService,
     ) {}
-
-    /**
-     * レース開催データを取得する
-     * @param startDate
-     * @param finishDate
-     * @param searchList
-     * @param searchList.gradeList
-     * @param searchList.locationList
-     * @param searchList.stageList
-     */
-    public async fetchRaceDataList(
-        startDate: Date,
-        finishDate: Date,
-        searchList?: {
-            gradeList?: BoatraceGradeType[];
-            locationList?: BoatraceRaceCourse[];
-            stageList?: BoatraceRaceStage[];
-        },
-    ): Promise<BoatraceRaceData[]> {
-        const _placeEntityList =
-            await this.placeDataService.fetchPlaceEntityList(
-                startDate,
-                finishDate,
-                ['boatrace'],
-                DataLocation.Storage,
-            );
-        const placeEntityList: BoatracePlaceEntity[] =
-            _placeEntityList.boatrace;
-
-        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
-            startDate,
-            finishDate,
-            ['boatrace'],
-            DataLocation.Storage,
-            {
-                boatrace: placeEntityList,
-            },
-        );
-        const raceEntityList: BoatraceRaceEntity[] = _raceEntityList.boatrace;
-
-        const raceDataList: BoatraceRaceData[] = raceEntityList.map(
-            ({ raceData }) => raceData,
-        );
-
-        // フィルタリング処理
-        const filteredRaceDataList: BoatraceRaceData[] = raceDataList
-            // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
-            .filter((raceData) => {
-                if (searchList?.gradeList) {
-                    return searchList.gradeList.includes(raceData.grade);
-                }
-                return true;
-            })
-            // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
-            .filter((raceData) => {
-                if (searchList?.locationList) {
-                    return searchList.locationList.includes(raceData.location);
-                }
-                return true;
-            })
-            // レースステージが指定されている場合は、指定されたレースステージのレースのみを取得する
-            .filter((raceData) => {
-                if (searchList?.stageList) {
-                    return searchList.stageList.includes(raceData.stage);
-                }
-                return true;
-            });
-
-        return filteredRaceDataList;
-    }
 
     /**
      * レース開催データを更新する

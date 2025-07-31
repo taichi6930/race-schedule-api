@@ -3,7 +3,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
-import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { KeirinRaceDataUseCase } from '../../../../lib/src/usecase/implement/keirinRaceDataUseCase';
@@ -37,102 +36,6 @@ describe('KeirinRaceDataUseCase', () => {
 
     afterEach(() => {
         jest.clearAllMocks();
-    });
-
-    describe('fetchRaceDataList', () => {
-        for (const { searchConditions, descriptions, expectedLength } of [
-            {
-                searchConditions: { gradeList: ['GP'] },
-                descriptions: 'gradeを検索条件に入れて',
-                expectedLength: 12,
-            },
-            {
-                searchConditions: {
-                    locationList: ['平塚'],
-                },
-                descriptions: 'locationを検索条件に入れて',
-                expectedLength: 12,
-            },
-            {
-                searchConditions: {
-                    stageList: ['S級決勝'],
-                },
-                descriptions: 'stageを検索条件に入れて',
-                expectedLength: 6,
-            },
-            {
-                searchConditions: {
-                    gradeList: ['GP'],
-                    locationList: ['平塚'],
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 12,
-            },
-            {
-                searchConditions: {
-                    gradeList: ['GP'],
-                    locationList: ['小倉'],
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 0,
-            },
-            {
-                searchConditions: {
-                    gradeList: ['GP'],
-                    stageList: ['S級決勝'],
-                },
-                descriptions: 'gradeとstageを検索条件に入れて',
-                expectedLength: 1,
-            },
-            {
-                searchConditions: {
-                    locationList: ['平塚'],
-                    stageList: ['S級決勝'],
-                },
-                descriptions: 'locationとstageを検索条件に入れて',
-                expectedLength: 1,
-            },
-            {
-                searchConditions: {
-                    gradeList: ['GP'],
-                    locationList: ['平塚'],
-                    stageList: ['S級決勝'],
-                },
-                descriptions: 'gradeとlocation、stageを検索条件に入れて',
-                expectedLength: 1,
-            },
-            {
-                searchConditions: {},
-                descriptions: '検索条件なし',
-                expectedLength: 72,
-            },
-        ]) {
-            it(`正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
-                const mockRaceEntity: KeirinRaceEntity[] =
-                    baseKeirinRaceEntityList;
-
-                // モックの戻り値を設定
-                raceDataService.fetchRaceEntityList.mockResolvedValue({
-                    keirin: mockRaceEntity,
-                    jra: [],
-                    nar: [],
-                    world: [],
-                    boatrace: [],
-                    autorace: [],
-                });
-
-                const startDate = new Date('2025-12-01');
-                const finishDate = new Date('2025-12-31');
-
-                const result = await useCase.fetchRaceDataList(
-                    startDate,
-                    finishDate,
-                    searchConditions,
-                );
-
-                expect(result.length).toBe(expectedLength);
-            });
-        }
     });
 
     describe('updateRaceDataList', () => {

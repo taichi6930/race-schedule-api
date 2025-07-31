@@ -7,7 +7,6 @@ import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
-import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -22,8 +21,7 @@ export class AutoraceRaceDataUseCase
         IOldRaceDataUseCase<
             AutoraceRaceData,
             AutoraceGradeType,
-            AutoraceRaceCourse,
-            AutoraceRaceStage
+            AutoraceRaceCourse
         >
 {
     public constructor(
@@ -32,76 +30,6 @@ export class AutoraceRaceDataUseCase
         @inject('PublicGamblingRaceDataService')
         private readonly raceDataService: IRaceDataService,
     ) {}
-
-    /**
-     * レース開催データを取得する
-     * @param startDate
-     * @param finishDate
-     * @param searchList
-     * @param searchList.gradeList
-     * @param searchList.locationList
-     * @param searchList.stageList
-     */
-    public async fetchRaceDataList(
-        startDate: Date,
-        finishDate: Date,
-        searchList?: {
-            gradeList?: AutoraceGradeType[];
-            locationList?: AutoraceRaceCourse[];
-            stageList?: AutoraceRaceStage[];
-        },
-    ): Promise<AutoraceRaceData[]> {
-        const _placeEntityList =
-            await this.placeDataService.fetchPlaceEntityList(
-                startDate,
-                finishDate,
-                ['autorace'],
-                DataLocation.Storage,
-            );
-        const placeEntityList: AutoracePlaceEntity[] =
-            _placeEntityList.autorace;
-
-        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
-            startDate,
-            finishDate,
-            ['autorace'],
-            DataLocation.Storage,
-            {
-                autorace: placeEntityList,
-            },
-        );
-        const raceEntityList: AutoraceRaceEntity[] = _raceEntityList.autorace;
-
-        const raceDataList: AutoraceRaceData[] = raceEntityList.map(
-            ({ raceData }) => raceData,
-        );
-
-        // フィルタリング処理
-        const filteredRaceDataList: AutoraceRaceData[] = raceDataList
-            // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
-            .filter((raceData) => {
-                if (searchList?.gradeList) {
-                    return searchList.gradeList.includes(raceData.grade);
-                }
-                return true;
-            })
-            // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
-            .filter((raceData) => {
-                if (searchList?.locationList) {
-                    return searchList.locationList.includes(raceData.location);
-                }
-                return true;
-            })
-            // レースステージが指定されている場合は、指定されたレースステージのレースのみを取得する
-            .filter((raceData) => {
-                if (searchList?.stageList) {
-                    return searchList.stageList.includes(raceData.stage);
-                }
-                return true;
-            });
-
-        return filteredRaceDataList;
-    }
 
     /**
      * レース開催データを更新する

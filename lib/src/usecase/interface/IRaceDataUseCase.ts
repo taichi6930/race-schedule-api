@@ -8,7 +8,7 @@ import type { WorldRaceData } from '../../domain/worldRaceData';
 import type { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import type { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
 import type { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
-import type { GradeType, RaceCourse, RaceStage } from '../../utility/data/base';
+import type { GradeType, RaceCourse } from '../../utility/data/base';
 import type { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import type { BoatraceRaceCourse } from '../../utility/data/boatrace/boatraceRaceCourse';
 import type { BoatraceRaceStage } from '../../utility/data/boatrace/boatraceRaceStage';
@@ -29,21 +29,7 @@ export interface IOldRaceDataUseCase<
     R extends IRaceData<R>,
     G extends GradeType,
     C extends RaceCourse,
-    S extends RaceStage | undefined,
 > {
-    /**
-     * レース開催データを取得する
-     * @param startDate
-     * @param finishDate
-     * @param searchList
-     */
-    fetchRaceDataList: (
-        startDate: Date,
-        finishDate: Date,
-        // Optional parameters
-        searchList?: { gradeList?: G[]; locationList?: C[]; stageList?: S[] },
-    ) => Promise<R[]>;
-
     /**
      * レース開催データを更新する
      * @param startDate
