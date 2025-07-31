@@ -8,6 +8,7 @@ import type { WorldGradeType } from '../../../../lib/src/utility/data/world/worl
 import type { WorldRaceCourse } from '../../../../lib/src/utility/data/world/worldRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { generateWorldRaceId } from '../../../../lib/src/utility/raceId';
+import { RaceType } from '../../../../lib/src/utility/sqlite';
 
 const baseWorldPlaceCourse: WorldRaceCourse = 'パリロンシャン';
 const baseWorldPlaceDateTime = new Date('2024-10-01');
@@ -98,6 +99,7 @@ export const baseWorldRaceDataList = baseWorldRaceEntityList.map(
 
 export const baseWorldCalendarData = CalendarData.create(
     'test20241001longchamp01',
+    RaceType.WORLD,
     '凱旋門賞',
     '2024-10-01T16:30:00Z',
     '2024-10-01T16:40:00Z',

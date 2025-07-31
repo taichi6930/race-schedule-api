@@ -3,6 +3,12 @@ import { inject, injectable } from 'tsyringe';
 
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
+import { AutoraceSpecifiedGradeList } from '../utility/data/autorace/autoraceGradeType';
+import { BoatraceSpecifiedGradeList } from '../utility/data/boatrace/boatraceGradeType';
+import { JraSpecifiedGradeList } from '../utility/data/jra/jraGradeType';
+import { KeirinSpecifiedGradeList } from '../utility/data/keirin/keirinGradeType';
+import { NarSpecifiedGradeList } from '../utility/data/nar/narGradeType';
+import { WorldSpecifiedGradeList } from '../utility/data/world/worldGradeType';
 import { Logger } from '../utility/logger';
 
 /**
@@ -29,7 +35,7 @@ export class PublicGamblingController {
     private initializeRoutes(): void {
         // Calendar関連のAPI
         this.router.get('/calendar', this.getRacesFromCalendar.bind(this));
-        // this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
+        this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
         // // RaceData関連のAPI
         // this.router.get('/race', this.getRaceDataList.bind(this));
         // this.router.post('/race', this.updateRaceDataList.bind(this));
@@ -85,6 +91,70 @@ export class PublicGamblingController {
         } catch (error) {
             console.error(
                 'カレンダーからレース情報を取得中にエラーが発生しました:',
+                error,
+            );
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
+        }
+    }
+
+    /**
+     * カレンダーにレース情報を更新する
+     * @param req - リクエスト
+     * @param res - レスポンス
+     */
+    @Logger
+    private async updateRacesToCalendar(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { startDate, finishDate, raceType } = req.body;
+
+            // startDateとfinishDateが指定されていないかつ、日付形式でない場合はエラーを返す
+            if (
+                Number.isNaN(Date.parse(startDate as string)) ||
+                Number.isNaN(Date.parse(finishDate as string))
+            ) {
+                res.status(400).send('startDate、finishDateは必須です');
+                return;
+            }
+
+            // raceTypeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            const raceTypeList =
+                typeof raceType === 'string'
+                    ? [raceType]
+                    : typeof raceType === 'object'
+                      ? Array.isArray(raceType)
+                          ? (raceType as string[]).map((g: string) => g)
+                          : undefined
+                      : undefined;
+
+            if (!raceTypeList || raceTypeList.length === 0) {
+                res.status(400).send('raceTypeは必須です');
+                return;
+            }
+
+            // カレンダーにレース情報を更新する
+            await this.publicGamblingCalendarUseCase.updateRacesToCalendar(
+                new Date(startDate),
+                new Date(finishDate),
+                {
+                    jra: JraSpecifiedGradeList,
+                    nar: NarSpecifiedGradeList,
+                    world: WorldSpecifiedGradeList,
+                    keirin: KeirinSpecifiedGradeList,
+                    autorace: AutoraceSpecifiedGradeList,
+                    boatrace: BoatraceSpecifiedGradeList,
+                },
+            );
+            res.status(200).send();
+        } catch (error) {
+            console.error(
+                'カレンダーにレース情報を更新中にエラーが発生しました:',
                 error,
             );
             const errorMessage =

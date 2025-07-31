@@ -131,12 +131,13 @@ runs:
 
         # POST request
         post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
-          'http://localhost:3000/api/races/boatrace/calendar' \
+          'http://localhost:3000/api/races/all/calendar' \
           -H 'accept: */*' \
           -H 'Content-Type: application/json' \
           -d '{
                 "startDate": "2024-10-01",
-                "finishDate": "2024-11-01"
+                "finishDate": "2024-11-01",
+                "raceType": ["boatrace"]
               }')
 
         # POST Response Check

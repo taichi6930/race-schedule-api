@@ -2,12 +2,8 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { KeirinRaceData } from '../domain/keirinRaceData';
-import { IOldRaceCalendarUseCase } from '../usecase/interface/IOldRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import {
-    KeirinGradeType,
-    KeirinSpecifiedGradeList,
-} from '../utility/data/keirin/keirinGradeType';
+import { KeirinGradeType } from '../utility/data/keirin/keirinGradeType';
 import { KeirinRaceCourse } from '../utility/data/keirin/keirinRaceCourse';
 import { KeirinRaceStage } from '../utility/data/keirin/keirinRaceStage';
 import { Logger } from '../utility/logger';
@@ -20,8 +16,6 @@ export class KeirinRaceController {
     public router: Router;
 
     public constructor(
-        @inject('KeirinRaceCalendarUseCase')
-        private readonly raceCalendarUseCase: IOldRaceCalendarUseCase,
         @inject('KeirinRaceDataUseCase')
         private readonly keirinRaceDataUseCase: IRaceDataUseCase<
             KeirinRaceData,
@@ -39,54 +33,9 @@ export class KeirinRaceController {
      */
     @Logger
     private initializeRoutes(): void {
-        // Calendar関連のAPI
-        this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
-
         // RaceData関連のAPI
         this.router.get('/race', this.getRaceDataList.bind(this));
         this.router.post('/race', this.updateRaceDataList.bind(this));
-    }
-
-    /**
-     * カレンダーにレース情報を更新する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
-    @Logger
-    private async updateRacesToCalendar(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
-        try {
-            const { startDate, finishDate } = req.body;
-
-            // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (
-                Number.isNaN(Date.parse(startDate as string)) ||
-                Number.isNaN(Date.parse(finishDate as string))
-            ) {
-                res.status(400).send('startDate、finishDateは必須です');
-                return;
-            }
-
-            // カレンダーにレース情報を更新する
-            await this.raceCalendarUseCase.updateRacesToCalendar(
-                new Date(startDate),
-                new Date(finishDate),
-                KeirinSpecifiedGradeList,
-            );
-            res.status(200).send();
-        } catch (error) {
-            console.error(
-                'カレンダーにレース情報を更新中にエラーが発生しました:',
-                error,
-            );
-            const errorMessage =
-                error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
-        }
     }
 
     /**

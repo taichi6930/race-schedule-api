@@ -17,6 +17,7 @@ import {
     generateAutoraceRaceId,
     generateAutoraceRacePlayerId,
 } from '../../../../lib/src/utility/raceId';
+import { RaceType } from '../../../../lib/src/utility/sqlite';
 
 const baseAutoracePlaceCourse: AutoraceRaceCourse = '飯塚';
 const baseAutoracePlaceDateTime = new Date('2024-12-31');
@@ -153,6 +154,7 @@ export const baseAutoraceRaceDataList = baseAutoraceRaceEntityList.map(
 
 export const baseAutoraceCalendarData = CalendarData.create(
     'autorace202412310511',
+    RaceType.AUTORACE,
     '優勝戦 スーパースター王座決定戦',
     '2024-12-31T16:30:00Z',
     '2024-12-31T16:40:00Z',

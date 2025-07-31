@@ -21,6 +21,13 @@ export interface IRaceCalendarUseCase {
     updateRacesToCalendar: (
         startDate: Date,
         finishDate: Date,
-        displayGradeList: GradeType[],
+        displayGradeList: {
+            jra: GradeType[];
+            nar: GradeType[];
+            world: GradeType[];
+            keirin: GradeType[];
+            autorace: GradeType[];
+            boatrace: GradeType[];
+        },
     ) => Promise<void>;
 }

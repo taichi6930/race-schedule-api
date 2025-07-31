@@ -13,6 +13,7 @@ import {
     generateNarPlaceId,
     generateNarRaceId,
 } from '../../../../lib/src/utility/raceId';
+import { RaceType } from '../../../../lib/src/utility/sqlite';
 
 const baseNarPlaceCourse: NarRaceCourse = '大井';
 const baseNarPlaceDateTime = new Date('2024-12-29');
@@ -156,6 +157,7 @@ export const baseNarRaceDataList = baseNarRaceEntityList.map(
 
 export const baseNarCalendarData = CalendarData.create(
     'test202412292011',
+    RaceType.NAR,
     '東京大賞典',
     '2024-12-29T15:40:00Z',
     '2024-12-29T15:50:00Z',

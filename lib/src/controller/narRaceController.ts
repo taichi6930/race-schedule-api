@@ -2,12 +2,8 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { NarRaceData } from '../domain/narRaceData';
-import { IOldRaceCalendarUseCase } from '../usecase/interface/IOldRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import {
-    NarGradeType,
-    NarSpecifiedGradeList,
-} from '../utility/data/nar/narGradeType';
+import { NarGradeType } from '../utility/data/nar/narGradeType';
 import { NarRaceCourse } from '../utility/data/nar/narRaceCourse';
 import { Logger } from '../utility/logger';
 
@@ -19,8 +15,6 @@ export class NarRaceController {
     public router: Router;
 
     public constructor(
-        @inject('NarRaceCalendarUseCase')
-        private readonly raceCalendarUseCase: IOldRaceCalendarUseCase,
         @inject('NarRaceDataUseCase')
         private readonly narRaceDataUseCase: IRaceDataUseCase<
             NarRaceData,
@@ -38,53 +32,9 @@ export class NarRaceController {
      */
     @Logger
     private initializeRoutes(): void {
-        // Calendar関連のAPI
-        this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
         // RaceData関連のAPI
         this.router.get('/race', this.getRaceDataList.bind(this));
         this.router.post('/race', this.updateRaceDataList.bind(this));
-    }
-
-    /**
-     * カレンダーにレース情報を更新する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
-    @Logger
-    private async updateRacesToCalendar(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
-        try {
-            const { startDate, finishDate } = req.body;
-
-            // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (
-                Number.isNaN(Date.parse(startDate as string)) ||
-                Number.isNaN(Date.parse(finishDate as string))
-            ) {
-                res.status(400).send('startDate、finishDateは必須です');
-                return;
-            }
-
-            // カレンダーにレース情報を更新する
-            await this.raceCalendarUseCase.updateRacesToCalendar(
-                new Date(startDate),
-                new Date(finishDate),
-                NarSpecifiedGradeList,
-            );
-            res.status(200).send();
-        } catch (error) {
-            console.error(
-                'カレンダーにレース情報を更新中にエラーが発生しました:',
-                error,
-            );
-            const errorMessage =
-                error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
-        }
     }
 
     /**

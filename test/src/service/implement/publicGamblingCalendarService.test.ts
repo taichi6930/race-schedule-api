@@ -12,7 +12,30 @@ import { SearchCalendarFilterEntity } from '../../../../lib/src/repository/entit
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../lib/src/service/implement/publicGamblingCalendarService';
-import { baseAutoraceCalendarData } from '../../mock/common/baseAutoraceData';
+import {
+    baseAutoraceCalendarData,
+    baseAutoraceRaceEntityList,
+} from '../../mock/common/baseAutoraceData';
+import {
+    baseBoatraceCalendarData,
+    baseBoatraceRaceEntityList,
+} from '../../mock/common/baseBoatraceData';
+import {
+    baseJraCalendarData,
+    baseJraRaceEntityList,
+} from '../../mock/common/baseJraData';
+import {
+    baseKeirinCalendarData,
+    baseKeirinRaceEntityList,
+} from '../../mock/common/baseKeirinData';
+import {
+    baseNarCalendarData,
+    baseNarRaceEntityList,
+} from '../../mock/common/baseNarData';
+import {
+    baseWorldCalendarData,
+    baseWorldRaceEntityList,
+} from '../../mock/common/baseWorldData';
 import { mockCalendarRepository } from '../../mock/repository/mockCalendarRepository';
 
 describe('PublicGamblingCalendarService', () => {
@@ -76,15 +99,57 @@ describe('PublicGamblingCalendarService', () => {
         it('カレンダーのイベントの取得が正常に行われること', async () => {
             const startDate = new Date('2023-01-01');
             const finishDate = new Date('2023-01-31');
-            const calendarDataList: CalendarData[] = [baseAutoraceCalendarData];
+            const calendarDataList: CalendarData[] = [
+                baseJraCalendarData,
+                baseNarCalendarData,
+                baseWorldCalendarData,
+                baseKeirinCalendarData,
+                baseBoatraceCalendarData,
+                baseAutoraceCalendarData,
+            ];
 
-            autoraceCalendarRepository.getEvents.mockResolvedValue(
-                calendarDataList,
-            );
+            jraCalendarRepository.getEvents.mockResolvedValue([
+                baseJraCalendarData,
+            ]);
+            narCalendarRepository.getEvents.mockResolvedValue([
+                baseNarCalendarData,
+            ]);
+            worldCalendarRepository.getEvents.mockResolvedValue([
+                baseWorldCalendarData,
+            ]);
+            keirinCalendarRepository.getEvents.mockResolvedValue([
+                baseKeirinCalendarData,
+            ]);
+            boatraceCalendarRepository.getEvents.mockResolvedValue([
+                baseBoatraceCalendarData,
+            ]);
+            autoraceCalendarRepository.getEvents.mockResolvedValue([
+                baseAutoraceCalendarData,
+            ]);
             const result = await service.fetchEvents(startDate, finishDate, [
+                'jra',
+                'nar',
+                'world',
+                'keirin',
+                'boatrace',
                 'autorace',
             ]);
 
+            expect(jraCalendarRepository.getEvents).toHaveBeenCalledWith(
+                new SearchCalendarFilterEntity(startDate, finishDate),
+            );
+            expect(narCalendarRepository.getEvents).toHaveBeenCalledWith(
+                new SearchCalendarFilterEntity(startDate, finishDate),
+            );
+            expect(worldCalendarRepository.getEvents).toHaveBeenCalledWith(
+                new SearchCalendarFilterEntity(startDate, finishDate),
+            );
+            expect(keirinCalendarRepository.getEvents).toHaveBeenCalledWith(
+                new SearchCalendarFilterEntity(startDate, finishDate),
+            );
+            expect(boatraceCalendarRepository.getEvents).toHaveBeenCalledWith(
+                new SearchCalendarFilterEntity(startDate, finishDate),
+            );
             expect(autoraceCalendarRepository.getEvents).toHaveBeenCalledWith(
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
@@ -95,9 +160,29 @@ describe('PublicGamblingCalendarService', () => {
     describe('deleteEvents', () => {
         it('カレンダーのイベントの削除が正常に行われること', async () => {
             await service.deleteEvents({
+                jra: [baseJraCalendarData],
+                nar: [baseNarCalendarData],
+                world: [baseWorldCalendarData],
+                keirin: [baseKeirinCalendarData],
+                boatrace: [baseBoatraceCalendarData],
                 autorace: [baseAutoraceCalendarData],
             });
 
+            expect(jraCalendarRepository.deleteEvents).toHaveBeenCalledWith([
+                baseJraCalendarData,
+            ]);
+            expect(narCalendarRepository.deleteEvents).toHaveBeenCalledWith([
+                baseNarCalendarData,
+            ]);
+            expect(worldCalendarRepository.deleteEvents).toHaveBeenCalledWith([
+                baseWorldCalendarData,
+            ]);
+            expect(keirinCalendarRepository.deleteEvents).toHaveBeenCalledWith([
+                baseKeirinCalendarData,
+            ]);
+            expect(
+                boatraceCalendarRepository.deleteEvents,
+            ).toHaveBeenCalledWith([baseBoatraceCalendarData]);
             expect(
                 autoraceCalendarRepository.deleteEvents,
             ).toHaveBeenCalledWith([baseAutoraceCalendarData]);
@@ -122,6 +207,71 @@ describe('PublicGamblingCalendarService', () => {
             );
             expect(
                 autoraceCalendarRepository.deleteEvents,
+            ).not.toHaveBeenCalled();
+
+            consoleSpy.mockRestore();
+        });
+    });
+
+    describe('upsertEvents', () => {
+        it('カレンダーのイベントの更新が正常に行われること', async () => {
+            await service.upsertEvents({
+                jra: baseJraRaceEntityList,
+                nar: baseNarRaceEntityList,
+                world: baseWorldRaceEntityList,
+                keirin: baseKeirinRaceEntityList,
+                boatrace: baseBoatraceRaceEntityList,
+                autorace: baseAutoraceRaceEntityList,
+            });
+
+            expect(jraCalendarRepository.upsertEvents).toHaveBeenCalledWith(
+                baseJraRaceEntityList,
+            );
+            expect(narCalendarRepository.upsertEvents).toHaveBeenCalledWith(
+                baseNarRaceEntityList,
+            );
+            expect(worldCalendarRepository.upsertEvents).toHaveBeenCalledWith(
+                baseWorldRaceEntityList,
+            );
+            expect(keirinCalendarRepository.upsertEvents).toHaveBeenCalledWith(
+                baseKeirinRaceEntityList,
+            );
+            expect(
+                boatraceCalendarRepository.upsertEvents,
+            ).toHaveBeenCalledWith(baseBoatraceRaceEntityList);
+            expect(
+                autoraceCalendarRepository.upsertEvents,
+            ).toHaveBeenCalledWith(baseAutoraceRaceEntityList);
+        });
+
+        it('更新対象のイベントが見つからない場合、更新処理が行われないこと', async () => {
+            const consoleSpy = jest
+                .spyOn(console, 'debug')
+                .mockImplementation();
+
+            await service.upsertEvents({
+                jra: [],
+                nar: [],
+                world: [],
+                keirin: [],
+                boatrace: [],
+                autorace: [],
+            });
+
+            expect(consoleSpy).toHaveBeenCalledWith(
+                '更新対象のイベントが見つかりませんでした。',
+            );
+            expect(jraCalendarRepository.upsertEvents).not.toHaveBeenCalled();
+            expect(narCalendarRepository.upsertEvents).not.toHaveBeenCalled();
+            expect(worldCalendarRepository.upsertEvents).not.toHaveBeenCalled();
+            expect(
+                keirinCalendarRepository.upsertEvents,
+            ).not.toHaveBeenCalled();
+            expect(
+                boatraceCalendarRepository.upsertEvents,
+            ).not.toHaveBeenCalled();
+            expect(
+                autoraceCalendarRepository.upsertEvents,
             ).not.toHaveBeenCalled();
 
             consoleSpy.mockRestore();

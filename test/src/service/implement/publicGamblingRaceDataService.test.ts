@@ -19,6 +19,11 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 import { PublicGamblingRaceDataService } from '../../../../lib/src/service/implement/publicGamblingRaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
+import { baseBoatraceRaceEntityList } from '../../mock/common/baseBoatraceData';
+import { baseJraRaceEntityList } from '../../mock/common/baseJraData';
+import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
+import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
+import { baseWorldRaceEntityList } from '../../mock/common/baseWorldData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
 
@@ -184,12 +189,24 @@ describe('PublicGamblingRaceDataService', () => {
 
     describe('fetchRaceEntityList', () => {
         it('正常にレース開催データが取得できること（storage）', async () => {
-            const mockRaceEntity: AutoraceRaceEntity[] =
-                baseAutoraceRaceEntityList;
-
             // モックの戻り値を設定
+            jraRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                baseJraRaceEntityList,
+            );
+            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                baseNarRaceEntityList,
+            );
+            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                baseWorldRaceEntityList,
+            );
+            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                baseKeirinRaceEntityList,
+            );
+            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                baseBoatraceRaceEntityList,
+            );
             autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntity,
+                baseAutoraceRaceEntityList,
             );
 
             const startDate = new Date('2024-06-01');
@@ -198,18 +215,36 @@ describe('PublicGamblingRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                ['autorace'],
+                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
                 DataLocation.Storage,
             );
-            expect(result.autorace).toEqual(mockRaceEntity);
+            expect(result.jra).toEqual(baseJraRaceEntityList);
+            expect(result.nar).toEqual(baseNarRaceEntityList);
+            expect(result.world).toEqual(baseWorldRaceEntityList);
+            expect(result.keirin).toEqual(baseKeirinRaceEntityList);
+            expect(result.boatrace).toEqual(baseBoatraceRaceEntityList);
+            expect(result.autorace).toEqual(baseAutoraceRaceEntityList);
         });
-        it('正常にレース開催データが取得できること（web）', async () => {
-            const mockRaceEntity: AutoraceRaceEntity[] =
-                baseAutoraceRaceEntityList;
 
+        it('正常にレース開催データが取得できること（web）', async () => {
             // モックの戻り値を設定
+            jraRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+                baseJraRaceEntityList,
+            );
+            narRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+                baseNarRaceEntityList,
+            );
+            worldRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+                baseWorldRaceEntityList,
+            );
+            keirinRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+                baseKeirinRaceEntityList,
+            );
+            boatraceRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+                baseBoatraceRaceEntityList,
+            );
             autoraceRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntity,
+                baseAutoraceRaceEntityList,
             );
 
             const startDate = new Date('2024-06-01');
@@ -218,10 +253,16 @@ describe('PublicGamblingRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                ['autorace'],
+                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
                 DataLocation.Web,
             );
-            expect(result.autorace).toEqual(mockRaceEntity);
+
+            expect(result.jra).toEqual(baseJraRaceEntityList);
+            expect(result.nar).toEqual(baseNarRaceEntityList);
+            expect(result.world).toEqual(baseWorldRaceEntityList);
+            expect(result.keirin).toEqual(baseKeirinRaceEntityList);
+            expect(result.boatrace).toEqual(baseBoatraceRaceEntityList);
+            expect(result.autorace).toEqual(baseAutoraceRaceEntityList);
         });
 
         it('レース開催データが取得できない場合、エラーが発生すること', async () => {
@@ -240,7 +281,7 @@ describe('PublicGamblingRaceDataService', () => {
             await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                ['autorace'],
+                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
                 DataLocation.Storage,
             );
 
@@ -250,28 +291,82 @@ describe('PublicGamblingRaceDataService', () => {
 
     describe('updateRaceDataList', () => {
         it('正常にレース開催データが更新されること', async () => {
-            const mockRaceEntity: AutoraceRaceEntity[] =
-                baseAutoraceRaceEntityList;
-
             // モックの戻り値を設定
+            jraRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                baseJraRaceEntityList,
+            );
+            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                baseNarRaceEntityList,
+            );
+            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                baseWorldRaceEntityList,
+            );
+            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                baseKeirinRaceEntityList,
+            );
+            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                baseBoatraceRaceEntityList,
+            );
             autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntity,
+                baseAutoraceRaceEntityList,
             );
 
-            await service.updateRaceEntityList({ autorace: mockRaceEntity });
+            await service.updateRaceEntityList({
+                jra: baseJraRaceEntityList,
+                nar: baseNarRaceEntityList,
+                world: baseWorldRaceEntityList,
+                keirin: baseKeirinRaceEntityList,
+                boatrace: baseBoatraceRaceEntityList,
+                autorace: baseAutoraceRaceEntityList,
+            });
 
+            expect(
+                jraRaceRepositoryFromStorageImpl.registerRaceEntityList,
+            ).toHaveBeenCalledWith(baseJraRaceEntityList);
+            expect(
+                narRaceRepositoryFromStorageImpl.registerRaceEntityList,
+            ).toHaveBeenCalledWith(baseNarRaceEntityList);
+            expect(
+                worldRaceRepositoryFromStorageImpl.registerRaceEntityList,
+            ).toHaveBeenCalledWith(baseWorldRaceEntityList);
+            expect(
+                keirinRaceRepositoryFromStorageImpl.registerRaceEntityList,
+            ).toHaveBeenCalledWith(baseKeirinRaceEntityList);
+            expect(
+                boatraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
+            ).toHaveBeenCalledWith(baseBoatraceRaceEntityList);
             expect(
                 autoraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
         it('レース開催データが0件の場合、更新処理が実行されないこと', async () => {
-            const mockRaceEntity: AutoraceRaceEntity[] = [];
-
-            await service.updateRaceEntityList({ autorace: mockRaceEntity });
+            await service.updateRaceEntityList({
+                jra: [],
+                nar: [],
+                world: [],
+                keirin: [],
+                autorace: [],
+                boatrace: [],
+            });
 
             expect(
+                jraRaceRepositoryFromStorageImpl.registerRaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(
+                narRaceRepositoryFromStorageImpl.registerRaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(
+                worldRaceRepositoryFromStorageImpl.registerRaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(
+                keirinRaceRepositoryFromStorageImpl.registerRaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(
                 autoraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(
+                boatraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).not.toHaveBeenCalled();
         });
     });
