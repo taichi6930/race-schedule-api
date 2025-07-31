@@ -281,4 +281,177 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 }),
         };
     }
+
+    /**
+     * レース開催データを更新する
+     * @param startDate
+     * @param finishDate
+     * @param searchList.gradeList
+     * @param searchList.locationList
+     * @param searchList.jra
+     * @param searchList.jra.gradeList
+     * @param searchList.jra.locationList
+     * @param searchList.nar
+     * @param searchList.nar.gradeList
+     * @param searchList.nar.locationList
+     * @param searchList.world
+     * @param searchList.world.gradeList
+     * @param searchList.world.locationList
+     * @param searchList.keirin
+     * @param searchList.keirin.gradeList
+     * @param searchList.keirin.locationList
+     * @param searchList.keirin.stageList
+     * @param searchList.autorace
+     * @param searchList.autorace.gradeList
+     * @param searchList.autorace.locationList
+     * @param searchList.autorace.stageList
+     * @param searchList.boatrace
+     * @param searchList.boatrace.gradeList
+     * @param searchList.boatrace.locationList
+     * @param searchList.boatrace.stageList
+     * @param raceTypeList
+     * @param searchList
+     */
+    @Logger
+    public async updateRaceEntityList(
+        startDate: Date,
+        finishDate: Date,
+        raceTypeList: string[],
+        searchList?: {
+            jra?: {
+                locationList?: JraRaceCourse[];
+            };
+            nar?: {
+                locationList?: NarRaceCourse[];
+            };
+            world?: {
+                locationList?: WorldRaceCourse[];
+            };
+            keirin?: {
+                gradeList?: KeirinGradeType[];
+                locationList?: KeirinRaceCourse[];
+            };
+            autorace?: {
+                gradeList?: AutoraceGradeType[];
+                locationList?: AutoraceRaceCourse[];
+            };
+            boatrace?: {
+                gradeList?: BoatraceGradeType[];
+                locationList?: BoatraceRaceCourse[];
+            };
+        },
+    ): Promise<void> {
+        // フィルタリング処理
+        const _placeEntityList =
+            await this.placeDataService.fetchPlaceEntityList(
+                startDate,
+                finishDate,
+                raceTypeList,
+                DataLocation.Storage,
+            );
+
+        const placeEntityList = {
+            jra: _placeEntityList.jra.filter((placeEntity) => {
+                if (searchList?.jra?.locationList) {
+                    return searchList.jra.locationList.includes(
+                        placeEntity.placeData.location,
+                    );
+                }
+                return true;
+            }),
+            nar: _placeEntityList.nar.filter((placeEntity) => {
+                if (searchList?.nar?.locationList) {
+                    return searchList.nar.locationList.includes(
+                        placeEntity.placeData.location,
+                    );
+                }
+                return true;
+            }),
+            keirin: _placeEntityList.keirin
+                .filter((placeEntity) => {
+                    if (searchList?.keirin?.gradeList) {
+                        return searchList.keirin.gradeList.includes(
+                            placeEntity.placeData.grade,
+                        );
+                    }
+                    return true;
+                })
+                .filter((placeEntity) => {
+                    if (searchList?.keirin?.locationList) {
+                        return searchList.keirin.locationList.includes(
+                            placeEntity.placeData.location,
+                        );
+                    }
+                    return true;
+                }),
+            autorace: _placeEntityList.autorace
+                .filter((placeEntity) => {
+                    if (searchList?.autorace?.gradeList) {
+                        return searchList.autorace.gradeList.includes(
+                            placeEntity.placeData.grade,
+                        );
+                    }
+                    return true;
+                })
+                .filter((placeEntity) => {
+                    if (searchList?.autorace?.locationList) {
+                        return searchList.autorace.locationList.includes(
+                            placeEntity.placeData.location,
+                        );
+                    }
+                    return true;
+                }),
+            boatrace: _placeEntityList.boatrace
+                .filter((placeEntity) => {
+                    if (searchList?.boatrace?.gradeList) {
+                        return searchList.boatrace.gradeList.includes(
+                            placeEntity.placeData.grade,
+                        );
+                    }
+                    return true;
+                })
+                .filter((placeEntity) => {
+                    if (searchList?.boatrace?.locationList) {
+                        return searchList.boatrace.locationList.includes(
+                            placeEntity.placeData.location,
+                        );
+                    }
+                    return true;
+                }),
+        };
+
+        // placeEntityListが空の場合は処理を終了する
+        if (
+            placeEntityList.jra.length === 0 &&
+            placeEntityList.nar.length === 0 &&
+            placeEntityList.keirin.length === 0 &&
+            placeEntityList.autorace.length === 0 &&
+            placeEntityList.boatrace.length === 0
+        ) {
+            return;
+        }
+
+        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+            startDate,
+            finishDate,
+            raceTypeList,
+            DataLocation.Web,
+            {
+                jra: placeEntityList.jra,
+                nar: placeEntityList.nar,
+                keirin: placeEntityList.keirin,
+                autorace: placeEntityList.autorace,
+                boatrace: placeEntityList.boatrace,
+            },
+        );
+
+        await this.raceDataService.updateRaceEntityList({
+            jra: _raceEntityList.jra,
+            nar: _raceEntityList.nar,
+            world: _raceEntityList.world,
+            keirin: _raceEntityList.keirin,
+            autorace: _raceEntityList.autorace,
+            boatrace: _raceEntityList.boatrace,
+        });
+    }
 }

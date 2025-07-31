@@ -100,20 +100,40 @@ export interface IRaceDataUseCase {
         boatrace: BoatraceRaceData[];
     }>;
 
-    // /**
-    //  * レース開催データを更新する
-    //  * @param startDate
-    //  * @param finishDate
-    //  * @param searchList
-    //  */
-    // updateRaceEntityList: (
-    //     startDate: Date,
-    //     finishDate: Date,
-    //     // Optional parameters
-    //     searchList?: {
-    //         jra: { gradeList?: JraGradeType[]; locationList?: JraRaceCourse[] };
-    //     },
-    // ) => Promise<void>;
+    /**
+     * レース開催データを更新する
+     * @param startDate
+     * @param finishDate
+     * @param searchList
+     */
+    updateRaceEntityList: (
+        startDate: Date,
+        finishDate: Date,
+        raceTypeList: string[],
+        searchList?: {
+            jra?: {
+                locationList?: JraRaceCourse[];
+            };
+            nar?: {
+                locationList?: NarRaceCourse[];
+            };
+            world?: {
+                locationList?: WorldRaceCourse[];
+            };
+            keirin?: {
+                gradeList?: KeirinGradeType[];
+                locationList?: KeirinRaceCourse[];
+            };
+            autorace?: {
+                gradeList?: AutoraceGradeType[];
+                locationList?: AutoraceRaceCourse[];
+            };
+            boatrace?: {
+                gradeList?: BoatraceGradeType[];
+                locationList?: BoatraceRaceCourse[];
+            };
+        },
+    ) => Promise<void>;
 
     // /**
     //  * レース開催データを更新する
