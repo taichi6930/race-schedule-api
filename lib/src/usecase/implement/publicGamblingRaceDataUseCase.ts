@@ -350,8 +350,6 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 DataLocation.Storage,
             );
 
-        console.log(_placeEntityList);
-
         const placeEntityList = {
             jra: _placeEntityList.jra.filter((placeEntity) => {
                 if (searchList?.jra?.locationList) {
