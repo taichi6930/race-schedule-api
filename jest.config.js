@@ -12,6 +12,7 @@ module.exports = {
         'lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl.ts',
+        'lib/src/utility/sqlite.ts',
     ],
     coverageReporters: ['text', 'lcov'],
     testEnvironment: 'node',
