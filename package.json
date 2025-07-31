@@ -34,7 +34,7 @@
         "db:setup": "TZ=jst ts-node lib/scripts/sqliteSetting.ts"
     },
     "dependencies": {
-        "@aws-sdk/client-s3": "^3.856.0",
+        "@aws-sdk/client-s3": "^3.857.0",
         "@codegenie/serverless-express": "^4.17.0",
         "@types/aws-lambda": "^8.10.152",
         "@types/express": "^5.0.3",
@@ -66,7 +66,7 @@
         "ts-node": "^10.9.2",
         "tsyringe": "^4.10.0",
         "typedoc": "^0.28.8",
-        "zod": "^4.0.13"
+        "zod": "^4.0.14"
     },
     "devDependencies": {
         "@eslint/js": "^9.31.0",
