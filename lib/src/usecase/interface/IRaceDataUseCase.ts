@@ -74,6 +74,7 @@ export interface IRaceDataUseCase {
     fetchRaceDataList: (
         startDate: Date,
         finishDate: Date,
+        raceTypeList: string[],
         // Optional parameters
         searchList?: {
             jra?: {

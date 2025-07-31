@@ -283,7 +283,18 @@ export class PublicGamblingController {
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
         try {
             // gradeが複数来ることもある
-            const { startDate, finishDate, grade, location } = req.query;
+            const { startDate, finishDate, raceType, grade, location, stage } =
+                req.query;
+
+            const raceTypeList =
+                typeof raceType === 'string'
+                    ? [raceType]
+                    : typeof raceType === 'object'
+                      ? Array.isArray(raceType)
+                          ? (raceType as string[]).map((r: string) => r)
+                          : undefined
+                      : undefined;
+
             // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const gradeList =
                 typeof grade === 'string'
@@ -303,6 +314,15 @@ export class PublicGamblingController {
                           : undefined
                       : undefined;
 
+            const stageList =
+                typeof stage === 'string'
+                    ? [stage]
+                    : typeof stage === 'object'
+                      ? Array.isArray(stage)
+                          ? (stage as string[]).map((s: string) => s)
+                          : undefined
+                      : undefined;
+
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
                 Number.isNaN(Date.parse(startDate as string)) ||
@@ -315,15 +335,47 @@ export class PublicGamblingController {
                 return;
             }
 
+            if (!raceTypeList || raceTypeList.length === 0) {
+                res.status(400).json({
+                    error: 'raceTypeは必須です',
+                    details: 'raceTypeを指定してください',
+                });
+                return;
+            }
+
             // レース情報を取得する
             const races =
                 await this.publicGamblingRaceDataUseCase.fetchRaceDataList(
                     new Date(startDate as string),
                     new Date(finishDate as string),
+                    raceTypeList,
                     {
                         jra: {
                             gradeList,
                             locationList,
+                        },
+                        nar: {
+                            gradeList,
+                            locationList,
+                        },
+                        world: {
+                            gradeList,
+                            locationList,
+                        },
+                        keirin: {
+                            gradeList,
+                            locationList,
+                            stageList,
+                        },
+                        autorace: {
+                            gradeList,
+                            locationList,
+                            stageList,
+                        },
+                        boatrace: {
+                            gradeList,
+                            locationList,
+                            stageList,
                         },
                     },
                 );

@@ -43,7 +43,6 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
      * レース開催データを取得する
      * @param startDate
      * @param finishDate
-     * @param searchList
      * @param searchList.gradeList
      * @param searchList.locationList
      * @param searchList.jra
@@ -67,11 +66,14 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
      * @param searchList.boatrace.gradeList
      * @param searchList.boatrace.locationList
      * @param searchList.boatrace.stageList
+     * @param raceTypeList
+     * @param searchList
      */
     @Logger
     public async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
+        raceTypeList: string[],
         searchList?: {
             jra?: {
                 gradeList?: JraGradeType[];
@@ -113,14 +115,14 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'keirin', 'autorace', 'boatrace'],
+                raceTypeList,
                 DataLocation.Storage,
             );
 
         const raceEntityList = await this.raceDataService.fetchRaceEntityList(
             startDate,
             finishDate,
-            ['jra', 'nar', 'world', 'keirin', 'autorace', 'boatrace'],
+            raceTypeList,
             DataLocation.Storage,
             placeEntityList,
         );
