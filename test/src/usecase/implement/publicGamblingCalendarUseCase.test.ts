@@ -3,7 +3,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
@@ -19,6 +18,14 @@ import {
     baseJraCalendarData,
     baseJraRaceEntity,
 } from '../../mock/common/baseJraData';
+import {
+    baseNarCalendarData,
+    baseNarRaceEntity,
+} from '../../mock/common/baseNarData';
+import {
+    baseWorldCalendarData,
+    baseWorldRaceEntity,
+} from '../../mock/common/baseWorldData';
 import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
 import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
@@ -80,76 +87,101 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         });
     });
 
-    describe('updateRacesToCalendar', () => {
-        it('イベントが追加・削除されること', async () => {
-            const mockCalendarDataList: CalendarData[] = Array.from(
-                { length: 8 },
-                (_, i: number) =>
-                    baseJraCalendarData.copy({
-                        id: `jra2024122920${(i + 1).toXDigits(2)}`,
-                    }),
-            );
-            const mockRaceEntityList: JraRaceEntity[] = Array.from(
-                { length: 5 },
-                (_, i: number) =>
-                    baseJraRaceEntity.copy({
-                        id: `jra2024122920${(i + 1).toXDigits(2)}`,
-                    }),
-            );
+    it('イベントが追加・削除されること（複数）', async () => {
+        const mockCalendarDataList: CalendarData[] = [
+            ...Array.from({ length: 8 }, (_, i: number) =>
+                baseJraCalendarData.copy({
+                    id: `jra2024122920${(i + 1).toXDigits(2)}`,
+                }),
+            ),
+            ...Array.from({ length: 8 }, (_, i: number) =>
+                baseNarCalendarData.copy({
+                    id: `nar2024122920${(i + 1).toXDigits(2)}`,
+                }),
+            ),
+            ...Array.from({ length: 8 }, (_, i: number) =>
+                baseWorldCalendarData.copy({
+                    id: `world2024122920${(i + 1).toXDigits(2)}`,
+                }),
+            ),
+        ];
 
-            const expectCalendarDataList = {
-                jra: Array.from({ length: 3 }, (_, i: number) =>
-                    baseJraCalendarData.copy({
-                        id: `jra2024122920${(i + 6).toXDigits(2)}`,
-                    }),
-                ),
-                nar: [],
-                world: [],
-                keirin: [],
-                boatrace: [],
-                autorace: [],
-            };
-            const expectRaceEntityList = { jra: mockRaceEntityList };
+        const mockRaceEntityList = {
+            jra: Array.from({ length: 5 }, (_, i: number) =>
+                baseJraRaceEntity.copy({
+                    id: `jra2024122920${(i + 1).toXDigits(2)}`,
+                }),
+            ),
+            nar: Array.from({ length: 5 }, (_, i: number) =>
+                baseNarRaceEntity.copy({
+                    id: `nar2024122920${(i + 1).toXDigits(2)}`,
+                }),
+            ),
+            world: Array.from({ length: 5 }, (_, i: number) =>
+                baseWorldRaceEntity.copy({
+                    id: `world2024122920${(i + 1).toXDigits(2)}`,
+                }),
+            ),
+        };
 
-            // モックの戻り値を設定
-            calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
-            raceDataService.fetchRaceEntityList.mockResolvedValue({
-                jra: mockRaceEntityList,
-                nar: [],
-                world: [],
-                keirin: [],
-                boatrace: [],
-                autorace: [],
-            });
+        const expectDeleteCalendarDataList = {
+            jra: Array.from({ length: 3 }, (_, i: number) =>
+                baseJraCalendarData.copy({
+                    id: `jra2024122920${(i + 6).toXDigits(2)}`,
+                }),
+            ),
+            nar: Array.from({ length: 3 }, (_, i: number) =>
+                baseNarCalendarData.copy({
+                    id: `nar2024122920${(i + 6).toXDigits(2)}`,
+                }),
+            ),
+            world: Array.from({ length: 3 }, (_, i: number) =>
+                baseWorldCalendarData.copy({
+                    id: `world2024122920${(i + 6).toXDigits(2)}`,
+                }),
+            ),
+        };
+        const expectRaceEntityList = mockRaceEntityList;
 
-            const startDate = new Date('2024-02-01');
-            const finishDate = new Date('2024-12-31');
+        // モックの戻り値を設定
+        calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
 
-            await useCase.updateRacesToCalendar(startDate, finishDate, {
-                jra: JraSpecifiedGradeList,
-                nar: NarSpecifiedGradeList,
-                world: WorldSpecifiedGradeList,
-                keirin: KeirinSpecifiedGradeList,
-                autorace: AutoraceSpecifiedGradeList,
-                boatrace: BoatraceSpecifiedGradeList,
-            });
-
-            // モックが呼び出されたことを確認
-            expect(calendarService.fetchEvents).toHaveBeenCalledWith(
-                startDate,
-                finishDate,
-                ['jra'],
-            );
-
-            // deleteEventsが呼び出された回数を確認
-            expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
-            expect(calendarService.deleteEvents).toHaveBeenCalledWith(
-                expectCalendarDataList,
-            );
-            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
-            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
-                expectRaceEntityList,
-            );
+        raceDataService.fetchRaceEntityList.mockResolvedValue({
+            jra: mockRaceEntityList.jra,
+            nar: mockRaceEntityList.nar,
+            world: mockRaceEntityList.world,
+            keirin: [],
+            boatrace: [],
+            autorace: [],
         });
+
+        const startDate = new Date('2024-02-01');
+        const finishDate = new Date('2024-12-31');
+
+        await useCase.updateRacesToCalendar(startDate, finishDate, {
+            jra: JraSpecifiedGradeList,
+            nar: NarSpecifiedGradeList,
+            world: WorldSpecifiedGradeList,
+            keirin: KeirinSpecifiedGradeList,
+            autorace: AutoraceSpecifiedGradeList,
+            boatrace: BoatraceSpecifiedGradeList,
+        });
+
+        // モックが呼び出されたことを確認
+        expect(calendarService.fetchEvents).toHaveBeenCalledWith(
+            startDate,
+            finishDate,
+            ['jra', 'nar', 'world', 'keirin', 'autorace', 'boatrace'],
+        );
+
+        // deleteEventsが呼び出された回数を確認
+        expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
+        expect(calendarService.deleteEvents).toHaveBeenCalledWith(
+            expectDeleteCalendarDataList,
+        );
+        expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
+        expect(calendarService.upsertEvents).toHaveBeenCalledWith(
+            expectRaceEntityList,
+        );
     });
 });
