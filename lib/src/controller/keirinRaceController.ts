@@ -1,11 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { KeirinRaceData } from '../domain/keirinRaceData';
-import {
-    IOldRaceDataUseCase,
-    IRaceDataUseCase,
-} from '../usecase/interface/IRaceDataUseCase';
+import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { Logger } from '../utility/logger';
 
 /**
@@ -16,8 +12,6 @@ export class KeirinRaceController {
     public router: Router;
 
     public constructor(
-        @inject('KeirinRaceDataUseCase')
-        private readonly keirinRaceDataUseCase: IOldRaceDataUseCase<KeirinRaceData>,
         @inject('PublicGamblingRaceDataUseCase')
         private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {

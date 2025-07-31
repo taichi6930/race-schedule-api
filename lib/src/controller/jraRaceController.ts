@@ -2,10 +2,7 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { JraRaceData } from '../domain/jraRaceData';
-import {
-    IOldRaceDataUseCase,
-    IRaceDataUseCase,
-} from '../usecase/interface/IRaceDataUseCase';
+import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { Logger } from '../utility/logger';
 
 /**
@@ -16,8 +13,6 @@ export class JraRaceController {
     public router: Router;
 
     public constructor(
-        @inject('JraRaceDataUseCase')
-        private readonly jraRaceDataUseCase: IOldRaceDataUseCase<JraRaceData>,
         @inject('PublicGamblingRaceDataUseCase')
         private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {
@@ -187,9 +182,9 @@ export class JraRaceController {
                 console.info(jraRaceDataList);
 
                 // レース情報を更新する
-                await this.jraRaceDataUseCase.upsertRaceDataList(
-                    jraRaceDataList,
-                );
+                await this.publicGamblingRaceDataUseCase.upsertRaceDataList({
+                    jra: jraRaceDataList,
+                });
                 res.status(200).send();
                 return;
             }

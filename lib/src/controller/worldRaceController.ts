@@ -1,11 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { WorldRaceData } from '../domain/worldRaceData';
-import {
-    IOldRaceDataUseCase,
-    IRaceDataUseCase,
-} from '../usecase/interface/IRaceDataUseCase';
+import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { Logger } from '../utility/logger';
 
 /**
@@ -16,9 +12,6 @@ export class WorldRaceController {
     public router: Router;
 
     public constructor(
-        @inject('WorldRaceDataUseCase')
-        private readonly worldRaceDataUseCase: IOldRaceDataUseCase<WorldRaceData>,
-
         @inject('PublicGamblingRaceDataUseCase')
         private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {
