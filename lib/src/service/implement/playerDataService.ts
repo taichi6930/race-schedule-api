@@ -19,8 +19,8 @@ export class PlayerDataService implements IPlayerDataService {
      * プレイヤーデータをDBから取得します
      * @param type
      */
-    public async fetchPlayerDataList(type: RaceType): Promise<PlayerData[]> {
-        const allPlayers = await this.repository.findAll();
+    public fetchPlayerDataList(type: RaceType): PlayerData[] {
+        const allPlayers = this.repository.findAll();
         return allPlayers
             .filter((p) => p.race_type === (type as string))
             .map((p) =>

@@ -1,105 +1,59 @@
-import sqlite3 from 'sqlite3';
-
-sqlite3.verbose();
+/* eslint-disable @typescript-eslint/no-unnecessary-type-parameters */
+import Database, { Database as DatabaseType } from 'better-sqlite3';
+import { injectable } from 'tsyringe';
 
 import type { ISQLiteGateway } from '../interface/ISQLiteGateway';
 
+@injectable()
 export class SQLiteGateway implements ISQLiteGateway {
-    private readonly db: sqlite3.Database;
+    private readonly db: DatabaseType;
 
     public constructor(dbPath: string) {
-        this.db = new sqlite3.Database(dbPath);
+        this.db = new Database(dbPath);
+        this.db.pragma('journal_mode = WAL');
     }
 
     /**
      * トランザクションラップメソッド
      * @param fn - トランザクション内で実行する関数
      */
-    public async transaction<T>(fn: () => Promise<T>): Promise<T> {
-        return new Promise<T>((resolve, reject) => {
-            this.db.serialize(() => {
-                void (async (): Promise<void> => {
-                    try {
-                        await this.run('BEGIN TRANSACTION');
-                        const result = await fn();
-                        await this.run('COMMIT');
-                        resolve(result);
-                    } catch (error: unknown) {
-                        try {
-                            await this.run('ROLLBACK');
-                        } catch (rollbackError: unknown) {
-                            reject(
-                                rollbackError instanceof Error
-                                    ? rollbackError
-                                    : new Error(String(rollbackError)),
-                            );
-                            return;
-                        }
-                        reject(
-                            error instanceof Error
-                                ? error
-                                : new Error(String(error)),
-                        );
-                    }
-                })();
-            });
-        });
+    public transaction<T>(fn: () => T): T {
+        try {
+            this.db.prepare('BEGIN TRANSACTION').run();
+            const result = fn();
+            this.db.prepare('COMMIT').run();
+            return result;
+        } catch (error) {
+            this.db.prepare('ROLLBACK').run();
+            throw error instanceof Error ? error : new Error(String(error));
+        }
     }
 
-    public async run(query: string, params: unknown[] = []): Promise<void> {
-        return new Promise((resolve, reject) => {
-            this.db.run(query, params, function (err) {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve();
-            });
-        });
+    public run(query: string, params: unknown[] = []): void {
+        try {
+            this.db.prepare(query).run(...params);
+        } catch (error) {
+            throw error instanceof Error ? error : new Error(String(error));
+        }
     }
 
-    public async get<T>(
-        query: string,
-        params: unknown[] = [],
-    ): Promise<T | undefined> {
-        return new Promise((resolve, reject) => {
-            this.db.get(query, params, (err, row) => {
-                if (err) {
-                    reject(err instanceof Error ? err : new Error(String(err)));
-                    return;
-                }
-                // Tは呼び出し側でobject型であることを保証する前提
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-                resolve(row as T);
-            });
-        });
+    public get<T>(query: string, params: unknown[] = []): T | undefined {
+        try {
+            const row = this.db.prepare(query).get(...params);
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+            return row as T | undefined;
+        } catch (error) {
+            throw error instanceof Error ? error : new Error(String(error));
+        }
     }
 
-    public async all<T>(query: string, params: unknown[] = []): Promise<T[]> {
-        return new Promise((resolve, reject) => {
-            this.db.all(query, params, (err, rows) => {
-                if (err) {
-                    reject(err instanceof Error ? err : new Error(String(err)));
-                    return;
-                }
-                if (Array.isArray(rows)) {
-                    // 各要素がobject型であることを期待（呼び出し側で担保）
-                    // Tは呼び出し側でobject型であることを保証する前提
-                    resolve(
-                        rows.map((row) => {
-                            if (typeof row === 'object') {
-                                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-                                return row as unknown as T;
-                            }
-                            // 万一objectでなければ空objectを返す
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-                            return {} as unknown as T;
-                        }),
-                    );
-                } else {
-                    resolve([]);
-                }
-            });
-        });
+    public all<T>(query: string, params: unknown[] = []): T[] {
+        try {
+            const rows = this.db.prepare(query).all(...params);
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+            return Array.isArray(rows) ? (rows as T[]) : [];
+        } catch (error) {
+            throw error instanceof Error ? error : new Error(String(error));
+        }
     }
 }

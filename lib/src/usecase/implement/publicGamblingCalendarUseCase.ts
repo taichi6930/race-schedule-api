@@ -93,13 +93,11 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         );
 
         const playerList = {
-            keirin: await this.playerDataService.fetchPlayerDataList(
-                RaceType.KEIRIN,
-            ),
-            autorace: await this.playerDataService.fetchPlayerDataList(
+            keirin: this.playerDataService.fetchPlayerDataList(RaceType.KEIRIN),
+            autorace: this.playerDataService.fetchPlayerDataList(
                 RaceType.AUTORACE,
             ),
-            boatrace: await this.playerDataService.fetchPlayerDataList(
+            boatrace: this.playerDataService.fetchPlayerDataList(
                 RaceType.BOATRACE,
             ),
         };
