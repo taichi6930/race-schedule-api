@@ -342,7 +342,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         },
     ): Promise<void> {
         // フィルタリング処理
-        const _placeEntityList =
+        const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
@@ -350,8 +350,8 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 DataLocation.Storage,
             );
 
-        const placeEntityList = {
-            jra: _placeEntityList.jra.filter((placeEntity) => {
+        const filteredPlaceEntityList = {
+            jra: placeEntityList.jra.filter((placeEntity) => {
                 if (searchList?.jra?.locationList) {
                     return searchList.jra.locationList.includes(
                         placeEntity.placeData.location,
@@ -359,7 +359,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 }
                 return true;
             }),
-            nar: _placeEntityList.nar.filter((placeEntity) => {
+            nar: placeEntityList.nar.filter((placeEntity) => {
                 if (searchList?.nar?.locationList) {
                     return searchList.nar.locationList.includes(
                         placeEntity.placeData.location,
@@ -367,7 +367,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 }
                 return true;
             }),
-            keirin: _placeEntityList.keirin
+            keirin: placeEntityList.keirin
                 .filter((placeEntity) => {
                     if (searchList?.keirin?.gradeList) {
                         return searchList.keirin.gradeList.includes(
@@ -384,7 +384,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                     }
                     return true;
                 }),
-            autorace: _placeEntityList.autorace
+            autorace: placeEntityList.autorace
                 .filter((placeEntity) => {
                     if (searchList?.autorace?.gradeList) {
                         return searchList.autorace.gradeList.includes(
@@ -401,7 +401,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                     }
                     return true;
                 }),
-            boatrace: _placeEntityList.boatrace
+            boatrace: placeEntityList.boatrace
                 .filter((placeEntity) => {
                     if (searchList?.boatrace?.gradeList) {
                         return searchList.boatrace.gradeList.includes(
@@ -422,36 +422,36 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
 
         // placeEntityListが空の場合は処理を終了する
         if (
-            placeEntityList.jra.length === 0 &&
-            placeEntityList.nar.length === 0 &&
-            placeEntityList.keirin.length === 0 &&
-            placeEntityList.autorace.length === 0 &&
-            placeEntityList.boatrace.length === 0
+            filteredPlaceEntityList.jra.length === 0 &&
+            filteredPlaceEntityList.nar.length === 0 &&
+            filteredPlaceEntityList.keirin.length === 0 &&
+            filteredPlaceEntityList.autorace.length === 0 &&
+            filteredPlaceEntityList.boatrace.length === 0
         ) {
             return;
         }
 
-        const _raceEntityList = await this.raceDataService.fetchRaceEntityList(
+        const raceEntityList = await this.raceDataService.fetchRaceEntityList(
             startDate,
             finishDate,
             raceTypeList,
             DataLocation.Web,
             {
-                jra: placeEntityList.jra,
-                nar: placeEntityList.nar,
-                keirin: placeEntityList.keirin,
-                autorace: placeEntityList.autorace,
-                boatrace: placeEntityList.boatrace,
+                jra: filteredPlaceEntityList.jra,
+                nar: filteredPlaceEntityList.nar,
+                keirin: filteredPlaceEntityList.keirin,
+                autorace: filteredPlaceEntityList.autorace,
+                boatrace: filteredPlaceEntityList.boatrace,
             },
         );
 
         await this.raceDataService.updateRaceEntityList({
-            jra: _raceEntityList.jra,
-            nar: _raceEntityList.nar,
-            world: _raceEntityList.world,
-            keirin: _raceEntityList.keirin,
-            autorace: _raceEntityList.autorace,
-            boatrace: _raceEntityList.boatrace,
+            jra: raceEntityList.jra,
+            nar: raceEntityList.nar,
+            world: raceEntityList.world,
+            keirin: raceEntityList.keirin,
+            autorace: raceEntityList.autorace,
+            boatrace: raceEntityList.boatrace,
         });
     }
 }
