@@ -11,8 +11,7 @@ import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 /**
- * 公開用開催場データユースケース（JRA/NAR共通）
- * 期間拡張ロジックを注入することで、JRA/NAR両方に対応
+ * 公開用開催場データユースケース
  */
 @injectable()
 export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
