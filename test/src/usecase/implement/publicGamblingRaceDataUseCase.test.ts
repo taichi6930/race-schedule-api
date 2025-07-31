@@ -5,11 +5,26 @@ import { container } from 'tsyringe';
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingRaceDataUseCase } from '../../../../lib/src/usecase/implement/publicGamblingRaceDataUseCase';
-import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
-import { baseBoatraceRaceEntityList } from '../../mock/common/baseBoatraceData';
-import { baseJraRaceEntityList } from '../../mock/common/baseJraData';
-import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
-import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
+import {
+    baseAutoracePlaceEntity,
+    baseAutoraceRaceEntityList,
+} from '../../mock/common/baseAutoraceData';
+import {
+    baseBoatracePlaceEntity,
+    baseBoatraceRaceEntityList,
+} from '../../mock/common/baseBoatraceData';
+import {
+    baseJraPlaceEntity,
+    baseJraRaceEntityList,
+} from '../../mock/common/baseJraData';
+import {
+    baseKeirinPlaceEntity,
+    baseKeirinRaceEntityList,
+} from '../../mock/common/baseKeirinData';
+import {
+    baseNarPlaceEntity,
+    baseNarRaceEntityList,
+} from '../../mock/common/baseNarData';
 import { baseWorldRaceEntityList } from '../../mock/common/baseWorldData';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
@@ -750,6 +765,14 @@ describe('PublicGamblingRaceDataUseCase', () => {
         it('正常にレース開催データが更新されること', async () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
+
+            placeDataService.fetchPlaceEntityList.mockResolvedValue({
+                jra: [baseJraPlaceEntity],
+                nar: [baseNarPlaceEntity],
+                keirin: [baseKeirinPlaceEntity],
+                autorace: [baseAutoracePlaceEntity],
+                boatrace: [baseBoatracePlaceEntity],
+            });
 
             // モックの戻り値を設定
             raceDataService.fetchRaceEntityList.mockResolvedValue({
