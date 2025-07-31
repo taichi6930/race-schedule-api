@@ -6,8 +6,6 @@ import {
     IOldRaceDataUseCase,
     IRaceDataUseCase,
 } from '../usecase/interface/IRaceDataUseCase';
-import { KeirinGradeType } from '../utility/data/keirin/keirinGradeType';
-import { KeirinRaceCourse } from '../utility/data/keirin/keirinRaceCourse';
 import { Logger } from '../utility/logger';
 
 /**
@@ -19,11 +17,7 @@ export class KeirinRaceController {
 
     public constructor(
         @inject('KeirinRaceDataUseCase')
-        private readonly keirinRaceDataUseCase: IOldRaceDataUseCase<
-            KeirinRaceData,
-            KeirinGradeType,
-            KeirinRaceCourse
-        >,
+        private readonly keirinRaceDataUseCase: IOldRaceDataUseCase<KeirinRaceData>,
         @inject('PublicGamblingRaceDataUseCase')
         private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {
@@ -140,14 +134,17 @@ export class KeirinRaceController {
             }
 
             // レース情報を取得する
-            await this.keirinRaceDataUseCase.updateRaceEntityList(
+            await this.publicGamblingRaceDataUseCase.updateRaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
+                ['keirin'],
                 {
-                    gradeList:
-                        gradeList === undefined
-                            ? undefined
-                            : gradeList.map((g: string) => g),
+                    keirin: {
+                        gradeList:
+                            gradeList === undefined
+                                ? undefined
+                                : gradeList.map((g: string) => g),
+                    },
                 },
             );
             res.status(200).send();

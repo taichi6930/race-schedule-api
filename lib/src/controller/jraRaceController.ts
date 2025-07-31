@@ -6,8 +6,6 @@ import {
     IOldRaceDataUseCase,
     IRaceDataUseCase,
 } from '../usecase/interface/IRaceDataUseCase';
-import { JraGradeType } from '../utility/data/jra/jraGradeType';
-import { JraRaceCourse } from '../utility/data/jra/jraRaceCourse';
 import { Logger } from '../utility/logger';
 
 /**
@@ -19,11 +17,7 @@ export class JraRaceController {
 
     public constructor(
         @inject('JraRaceDataUseCase')
-        private readonly jraRaceDataUseCase: IOldRaceDataUseCase<
-            JraRaceData,
-            JraGradeType,
-            JraRaceCourse
-        >,
+        private readonly jraRaceDataUseCase: IOldRaceDataUseCase<JraRaceData>,
         @inject('PublicGamblingRaceDataUseCase')
         private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {
@@ -152,9 +146,10 @@ export class JraRaceController {
                 }
 
                 // レース情報を取得する
-                await this.jraRaceDataUseCase.updateRaceEntityList(
+                await this.publicGamblingRaceDataUseCase.updateRaceEntityList(
                     parsedStartDate,
                     parsedFinishDate,
+                    ['jra'],
                 );
                 res.status(200).send();
                 return;

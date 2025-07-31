@@ -6,8 +6,6 @@ import {
     IOldRaceDataUseCase,
     IRaceDataUseCase,
 } from '../usecase/interface/IRaceDataUseCase';
-import { AutoraceGradeType } from '../utility/data/autorace/autoraceGradeType';
-import { AutoraceRaceCourse } from '../utility/data/autorace/autoraceRaceCourse';
 import { Logger } from '../utility/logger';
 
 /**
@@ -19,11 +17,7 @@ export class AutoraceRaceController {
 
     public constructor(
         @inject('AutoraceRaceDataUseCase')
-        private readonly autoraceRaceDataUseCase: IOldRaceDataUseCase<
-            AutoraceRaceData,
-            AutoraceGradeType,
-            AutoraceRaceCourse
-        >,
+        private readonly autoraceRaceDataUseCase: IOldRaceDataUseCase<AutoraceRaceData>,
         @inject('PublicGamblingRaceDataUseCase')
         private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {
@@ -162,9 +156,10 @@ export class AutoraceRaceController {
                 }
 
                 // レース情報を取得する
-                await this.autoraceRaceDataUseCase.updateRaceEntityList(
+                await this.publicGamblingRaceDataUseCase.updateRaceEntityList(
                     parsedStartDate,
                     parsedFinishDate,
+                    ['autorace'],
                 );
                 res.status(200).send();
                 return;

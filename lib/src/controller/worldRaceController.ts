@@ -6,8 +6,6 @@ import {
     IOldRaceDataUseCase,
     IRaceDataUseCase,
 } from '../usecase/interface/IRaceDataUseCase';
-import { WorldGradeType } from '../utility/data/world/worldGradeType';
-import { WorldRaceCourse } from '../utility/data/world/worldRaceCourse';
 import { Logger } from '../utility/logger';
 
 /**
@@ -19,11 +17,7 @@ export class WorldRaceController {
 
     public constructor(
         @inject('WorldRaceDataUseCase')
-        private readonly worldRaceDataUseCase: IOldRaceDataUseCase<
-            WorldRaceData,
-            WorldGradeType,
-            WorldRaceCourse
-        >,
+        private readonly worldRaceDataUseCase: IOldRaceDataUseCase<WorldRaceData>,
 
         @inject('PublicGamblingRaceDataUseCase')
         private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
@@ -131,9 +125,10 @@ export class WorldRaceController {
             }
 
             // レース情報を取得する
-            await this.worldRaceDataUseCase.updateRaceEntityList(
+            await this.publicGamblingRaceDataUseCase.updateRaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
+                ['world'],
             );
             res.status(200).send();
         } catch (error) {

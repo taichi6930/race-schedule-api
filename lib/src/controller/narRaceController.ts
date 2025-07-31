@@ -6,8 +6,6 @@ import {
     IOldRaceDataUseCase,
     IRaceDataUseCase,
 } from '../usecase/interface/IRaceDataUseCase';
-import { NarGradeType } from '../utility/data/nar/narGradeType';
-import { NarRaceCourse } from '../utility/data/nar/narRaceCourse';
 import { Logger } from '../utility/logger';
 
 /**
@@ -19,11 +17,7 @@ export class NarRaceController {
 
     public constructor(
         @inject('NarRaceDataUseCase')
-        private readonly narRaceDataUseCase: IOldRaceDataUseCase<
-            NarRaceData,
-            NarGradeType,
-            NarRaceCourse
-        >,
+        private readonly narRaceDataUseCase: IOldRaceDataUseCase<NarRaceData>,
         @inject('PublicGamblingRaceDataUseCase')
         private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {
@@ -152,9 +146,10 @@ export class NarRaceController {
                 }
 
                 // レース情報を取得する
-                await this.narRaceDataUseCase.updateRaceEntityList(
+                await this.publicGamblingRaceDataUseCase.updateRaceEntityList(
                     parsedStartDate,
                     parsedFinishDate,
+                    ['nar'],
                 );
                 res.status(200).send();
                 return;
