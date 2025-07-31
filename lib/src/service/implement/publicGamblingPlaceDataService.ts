@@ -159,15 +159,21 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
      * 既存のデータが存在する場合は上書き、存在しない場合は新規作成します。
      * このメソッドは一般的にWebから取得した最新データを保存する際に使用されます。
      * @param placeEntityList - 保存/更新する開催場所エンティティの配列
+     * @param placeEntityList.jra
+     * @param placeEntityList.nar
+     * @param placeEntityList.keirin
+     * @param placeEntityList.autorace
+     * @param placeEntityList.boatrace
      * @throws Error データの保存/更新に失敗した場合
      */
-    public updatePlaceEntityList: (placeEntityList: {
+    @Logger
+    public async updatePlaceEntityList(placeEntityList: {
         jra: JraPlaceEntity[];
         nar: NarPlaceEntity[];
         keirin: KeirinPlaceEntity[];
         autorace: AutoracePlaceEntity[];
         boatrace: BoatracePlaceEntity[];
-    }) => Promise<void> = async (placeEntityList) => {
+    }): Promise<void> {
         if (
             placeEntityList.jra.length === 0 &&
             placeEntityList.nar.length === 0 &&
@@ -202,5 +208,5 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
             console.error('開催場データの保存/更新に失敗しました', error);
             throw error;
         }
-    };
+    }
 }
