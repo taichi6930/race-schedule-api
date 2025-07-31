@@ -3,9 +3,14 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
+import { PlayerData } from '../../domain/playerData';
+import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { GradeType } from '../../utility/data/base';
+import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
+import { KeirinRaceGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/sqlite';
@@ -21,6 +26,8 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         private readonly publicGamblingCalendarService: ICalendarService,
         @inject('PublicGamblingRaceDataService')
         private readonly raceDataService: IRaceDataService,
+        @inject('PlayerDataService')
+        private readonly playerDataService: IPlayerDataService,
     ) {}
 
     /**
@@ -79,6 +86,16 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             DataLocation.Storage,
         );
 
+        const playerList = {
+            keirin: this.playerDataService.fetchPlayerDataList(RaceType.KEIRIN),
+            // autorace: this.playerDataService.fetchPlayerDataList(
+            //     RaceType.AUTORACE,
+            // ),
+            // boatrace: this.playerDataService.fetchPlayerDataList(
+            //     RaceType.BOATRACE,
+            // ),
+        };
+
         // displayGradeListに含まれるレース情報のみを抽出
         const filteredRaceEntityList = {
             jra: raceEntityList.jra.filter((raceEntity) =>
@@ -90,9 +107,13 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             world: raceEntityList.world.filter((raceEntity) =>
                 displayGradeList.world.includes(raceEntity.raceData.grade),
             ),
-            // keirin: raceEntityList.keirin.filter((raceEntity) =>
-            //     displayGradeList.keirin.includes(raceEntity.raceData.grade),
-            // ),
+            keirin: this.filterRaceEntityForKeirin(
+                raceEntityList.keirin,
+                displayGradeList.keirin,
+                playerList.keirin,
+            ).filter((raceEntity) =>
+                displayGradeList.keirin.includes(raceEntity.raceData.grade),
+            ),
             // autorace: raceEntityList.autorace.filter((raceEntity) =>
             //     displayGradeList.autorace.includes(raceEntity.raceData.grade),
             // ),
@@ -134,14 +155,14 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 );
             }),
-            // keirin: calendarDataList.filter((calendarData) => {
-            //     if (calendarData.raceType !== RaceType.KEIRIN) {
-            //         return false;
-            //     }
-            //     return !filteredRaceEntityList.keirin.some(
-            //         (raceEntity) => raceEntity.id === calendarData.id,
-            //     );
-            // }),
+            keirin: calendarDataList.filter((calendarData) => {
+                if (calendarData.raceType !== RaceType.KEIRIN) {
+                    return false;
+                }
+                return !filteredRaceEntityList.keirin.some(
+                    (raceEntity) => raceEntity.id === calendarData.id,
+                );
+            }),
             // autorace: calendarDataList.filter((calendarData) => {
             //     if (calendarData.raceType !== RaceType.AUTORACE) {
             //         return false;
@@ -163,7 +184,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             jra: deleteCalendarDataList.jra,
             nar: deleteCalendarDataList.nar,
             world: deleteCalendarDataList.world,
-            // keirin: deleteCalendarDataList.keirin,
+            keirin: deleteCalendarDataList.keirin,
             // autorace: deleteCalendarDataList.autorace,
             // boatrace: deleteCalendarDataList.boatrace,
         });
@@ -191,14 +212,14 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                             deleteCalendarData.raceType === RaceType.WORLD,
                     ),
             ),
-            // keirin: filteredRaceEntityList.keirin.filter(
-            //     (raceEntity) =>
-            //         !deleteCalendarDataList.keirin.some(
-            //             (deleteCalendarData) =>
-            //                 deleteCalendarData.id === raceEntity.id &&
-            //                 deleteCalendarData.raceType === RaceType.KEIRIN,
-            //         ),
-            // ),
+            keirin: filteredRaceEntityList.keirin.filter(
+                (raceEntity) =>
+                    !deleteCalendarDataList.keirin.some(
+                        (deleteCalendarData) =>
+                            deleteCalendarData.id === raceEntity.id &&
+                            deleteCalendarData.raceType === RaceType.KEIRIN,
+                    ),
+            ),
             // autorace: filteredRaceEntityList.autorace.filter(
             //     (raceEntity) =>
             //         !deleteCalendarDataList.autorace.some(
@@ -220,6 +241,56 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             jra: upsertRaceEntityList.jra,
             nar: upsertRaceEntityList.nar,
             world: upsertRaceEntityList.world,
+            keirin: upsertRaceEntityList.keirin,
         });
+    }
+
+    /**
+     * 表示対象のレースデータのみに絞り込む
+     * - 6以上の優先度を持つレースデータを表示対象とする
+     * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
+     * @param raceEntityList
+     * @param displayGradeList
+     * @param playerDataList
+     */
+    private filterRaceEntityForKeirin(
+        raceEntityList: KeirinRaceEntity[],
+        displayGradeList: KeirinGradeType[],
+        playerDataList: PlayerData[],
+    ): KeirinRaceEntity[] {
+        const filteredRaceEntityList: KeirinRaceEntity[] =
+            raceEntityList.filter((raceEntity) => {
+                const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
+                    (maxPriority, playerData) => {
+                        const playerPriority =
+                            playerDataList.find(
+                                (player) =>
+                                    playerData.playerNumber ===
+                                    player.playerNumber,
+                            )?.priority ?? 0;
+                        return Math.max(maxPriority, playerPriority);
+                    },
+                    0,
+                );
+
+                const racePriority: number =
+                    KeirinRaceGradeAndStageList.filter(
+                        (raceGradeList) =>
+                            raceGradeList.raceType === RaceType.KEIRIN,
+                    ).find((raceGradeList) => {
+                        return (
+                            displayGradeList.includes(
+                                raceEntity.raceData.grade,
+                            ) &&
+                            raceGradeList.grade.includes(
+                                raceEntity.raceData.grade,
+                            ) &&
+                            raceGradeList.stage === raceEntity.raceData.stage
+                        );
+                    })?.priority ?? 0;
+
+                return racePriority + maxPlayerPriority >= 6;
+            });
+        return filteredRaceEntityList;
     }
 }

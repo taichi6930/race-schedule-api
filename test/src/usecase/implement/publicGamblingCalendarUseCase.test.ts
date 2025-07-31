@@ -19,6 +19,10 @@ import {
     baseJraRaceEntity,
 } from '../../mock/common/baseJraData';
 import {
+    baseKeirinCalendarData,
+    baseKeirinRaceEntity,
+} from '../../mock/common/baseKeirinData';
+import {
     baseNarCalendarData,
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
@@ -104,6 +108,11 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                     id: `world2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
+            ...Array.from({ length: 8 }, (_, i: number) =>
+                baseKeirinCalendarData.copy({
+                    id: `keirin2024122920${(i + 1).toXDigits(2)}`,
+                }),
+            ),
         ];
 
         const mockRaceEntityList = {
@@ -120,6 +129,11 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             world: Array.from({ length: 5 }, (_, i: number) =>
                 baseWorldRaceEntity.copy({
                     id: `world2024122920${(i + 1).toXDigits(2)}`,
+                }),
+            ),
+            keirin: Array.from({ length: 5 }, (_, i: number) =>
+                baseKeirinRaceEntity.copy({
+                    id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
         };
@@ -140,6 +154,11 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                     id: `world2024122920${(i + 6).toXDigits(2)}`,
                 }),
             ),
+            keirin: Array.from({ length: 3 }, (_, i: number) =>
+                baseKeirinCalendarData.copy({
+                    id: `keirin2024122920${(i + 6).toXDigits(2)}`,
+                }),
+            ),
         };
         const expectRaceEntityList = mockRaceEntityList;
 
@@ -150,7 +169,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             jra: mockRaceEntityList.jra,
             nar: mockRaceEntityList.nar,
             world: mockRaceEntityList.world,
-            keirin: [],
+            keirin: mockRaceEntityList.keirin,
             boatrace: [],
             autorace: [],
         });

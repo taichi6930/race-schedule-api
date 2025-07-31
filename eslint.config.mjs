@@ -279,7 +279,7 @@ export default [
         },
     },
     {
-        files: ['**/lib/src/usecase/implement/**RaceCalendarUseCase.ts'],
+        files: ['**/lib/src/usecase/implement/**CalendarUseCase.ts'],
         rules: {
             'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
         },
