@@ -458,6 +458,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             {
                 jra: filteredPlaceEntityList.jra,
                 nar: filteredPlaceEntityList.nar,
+                world: filteredPlaceEntityList.world,
                 keirin: filteredPlaceEntityList.keirin,
                 autorace: filteredPlaceEntityList.autorace,
                 boatrace: filteredPlaceEntityList.boatrace,
