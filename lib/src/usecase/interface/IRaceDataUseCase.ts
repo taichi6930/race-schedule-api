@@ -1,6 +1,5 @@
 import type { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import type { BoatraceRaceData } from '../../domain/boatraceRaceData';
-import type { IRaceData } from '../../domain/iRaceData';
 import type { JraRaceData } from '../../domain/jraRaceData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { NarRaceData } from '../../domain/narRaceData';
@@ -24,14 +23,6 @@ import type { WorldRaceCourse } from '../../utility/data/world/worldRaceCourse';
 /**
  * レースデータUseCaseのインターフェース
  */
-export interface IOldRaceDataUseCase<R extends IRaceData<R>> {
-    /**
-     * レース開催データを更新する
-     * @param raceDataList
-     */
-    upsertRaceDataList: (raceDataList: R[]) => Promise<void>;
-}
-
 export interface IRaceDataUseCase {
     /**
      * レース開催データを取得する
@@ -117,11 +108,16 @@ export interface IRaceDataUseCase {
         },
     ) => Promise<void>;
 
-    // /**
-    //  * レース開催データを更新する
-    //  * @param raceDataList
-    //  */
-    // upsertRaceDataList: (raceDataList: {
-    //     jra: { raceDataList: JraRaceData[] };
-    // }) => Promise<void>;
+    /**
+     * レース開催データを更新する
+     * @param raceDataList
+     */
+    upsertRaceDataList: (raceDataList: {
+        jra?: JraRaceData[];
+        nar?: NarRaceData[];
+        world?: WorldRaceData[];
+        keirin?: KeirinRaceData[];
+        autorace?: AutoraceRaceData[];
+        boatrace?: BoatraceRaceData[];
+    }) => Promise<void>;
 }

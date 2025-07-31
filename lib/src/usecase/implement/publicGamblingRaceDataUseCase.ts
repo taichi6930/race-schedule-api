@@ -6,6 +6,12 @@ import { JraRaceData } from '../../domain/jraRaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { NarRaceData } from '../../domain/narRaceData';
 import { WorldRaceData } from '../../domain/worldRaceData';
+import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
+import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
+import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
+import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
+import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
@@ -24,6 +30,7 @@ import { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
 import { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import { WorldRaceCourse } from '../../utility/data/world/worldRaceCourse';
 import { DataLocation } from '../../utility/dataType';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -457,5 +464,52 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             autorace: raceEntityList.autorace,
             boatrace: raceEntityList.boatrace,
         });
+    }
+
+    @Logger
+    public async upsertRaceDataList(raceDataList: {
+        jra?: JraRaceData[];
+        nar?: NarRaceData[];
+        world?: WorldRaceData[];
+        keirin?: KeirinRaceData[];
+        autorace?: AutoraceRaceData[];
+        boatrace?: BoatraceRaceData[];
+    }): Promise<void> {
+        const raceEntityList = {
+            jra: (raceDataList.jra ?? []).map((raceData) =>
+                JraRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
+            ),
+            nar: (raceDataList.nar ?? []).map((raceData) =>
+                NarRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
+            ),
+            world: (raceDataList.world ?? []).map((raceData) =>
+                WorldRaceEntity.createWithoutId(
+                    raceData,
+                    getJSTDate(new Date()),
+                ),
+            ),
+            keirin: (raceDataList.keirin ?? []).map((raceData) =>
+                KeirinRaceEntity.createWithoutId(
+                    raceData,
+                    [],
+                    getJSTDate(new Date()),
+                ),
+            ),
+            autorace: (raceDataList.autorace ?? []).map((raceData) =>
+                AutoraceRaceEntity.createWithoutId(
+                    raceData,
+                    [],
+                    getJSTDate(new Date()),
+                ),
+            ),
+            boatrace: (raceDataList.boatrace ?? []).map((raceData) =>
+                BoatraceRaceEntity.createWithoutId(
+                    raceData,
+                    [],
+                    getJSTDate(new Date()),
+                ),
+            ),
+        };
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 }

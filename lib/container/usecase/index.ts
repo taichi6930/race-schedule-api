@@ -1,5 +1,3 @@
-import './raceDataUsecaseConfig';
-
 import { container } from 'tsyringe';
 
 import { PublicGamblingCalendarUseCase } from '../../src/usecase/implement/publicGamblingCalendarUseCase';

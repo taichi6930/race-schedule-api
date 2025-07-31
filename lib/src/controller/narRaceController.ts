@@ -2,10 +2,7 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { NarRaceData } from '../domain/narRaceData';
-import {
-    IOldRaceDataUseCase,
-    IRaceDataUseCase,
-} from '../usecase/interface/IRaceDataUseCase';
+import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { Logger } from '../utility/logger';
 
 /**
@@ -16,8 +13,6 @@ export class NarRaceController {
     public router: Router;
 
     public constructor(
-        @inject('NarRaceDataUseCase')
-        private readonly narRaceDataUseCase: IOldRaceDataUseCase<NarRaceData>,
         @inject('PublicGamblingRaceDataUseCase')
         private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {
@@ -185,9 +180,9 @@ export class NarRaceController {
                 console.info(narRaceDataList);
 
                 // レース情報を更新する
-                await this.narRaceDataUseCase.upsertRaceDataList(
-                    narRaceDataList,
-                );
+                await this.publicGamblingRaceDataUseCase.upsertRaceDataList({
+                    nar: narRaceDataList,
+                });
                 res.status(200).send();
                 return;
             }
