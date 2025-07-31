@@ -4,11 +4,17 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
+import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
+import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
+import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
+import { AutoraceSpecifiedGradeAndStageList } from '../../utility/data/autorace/autoraceRaceStage';
 import { GradeType } from '../../utility/data/base';
+import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
+import { BoatraceSpecifiedGradeAndStageList } from '../../utility/data/boatrace/boatraceRaceStage';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { KeirinRaceGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
 import { DataLocation } from '../../utility/dataType';
@@ -88,12 +94,12 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
 
         const playerList = {
             keirin: this.playerDataService.fetchPlayerDataList(RaceType.KEIRIN),
-            // autorace: this.playerDataService.fetchPlayerDataList(
-            //     RaceType.AUTORACE,
-            // ),
-            // boatrace: this.playerDataService.fetchPlayerDataList(
-            //     RaceType.BOATRACE,
-            // ),
+            autorace: this.playerDataService.fetchPlayerDataList(
+                RaceType.AUTORACE,
+            ),
+            boatrace: this.playerDataService.fetchPlayerDataList(
+                RaceType.BOATRACE,
+            ),
         };
 
         // displayGradeListに含まれるレース情報のみを抽出
@@ -114,12 +120,20 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             ).filter((raceEntity) =>
                 displayGradeList.keirin.includes(raceEntity.raceData.grade),
             ),
-            // autorace: raceEntityList.autorace.filter((raceEntity) =>
-            //     displayGradeList.autorace.includes(raceEntity.raceData.grade),
-            // ),
-            // boatrace: raceEntityList.boatrace.filter((raceEntity) =>
-            //     displayGradeList.boatrace.includes(raceEntity.raceData.grade),
-            // ),
+            autorace: this.filterRaceEntityForAutorace(
+                raceEntityList.autorace,
+                displayGradeList.autorace,
+                playerList.autorace,
+            ).filter((raceEntity) =>
+                displayGradeList.autorace.includes(raceEntity.raceData.grade),
+            ),
+            boatrace: this.filterRaceEntityForBoatrace(
+                raceEntityList.boatrace,
+                displayGradeList.boatrace,
+                playerList.boatrace,
+            ).filter((raceEntity) =>
+                displayGradeList.boatrace.includes(raceEntity.raceData.grade),
+            ),
         };
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
@@ -163,30 +177,30 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 );
             }),
-            // autorace: calendarDataList.filter((calendarData) => {
-            //     if (calendarData.raceType !== RaceType.AUTORACE) {
-            //         return false;
-            //     }
-            //     return !filteredRaceEntityList.autorace.some(
-            //         (raceEntity) => raceEntity.id === calendarData.id,
-            //     );
-            // }),
-            // boatrace: calendarDataList.filter((calendarData) => {
-            //     if (calendarData.raceType !== RaceType.BOATRACE) {
-            //         return false;
-            //     }
-            //     return !filteredRaceEntityList.boatrace.some(
-            //         (raceEntity) => raceEntity.id === calendarData.id,
-            //     );
-            // }),
+            autorace: calendarDataList.filter((calendarData) => {
+                if (calendarData.raceType !== RaceType.AUTORACE) {
+                    return false;
+                }
+                return !filteredRaceEntityList.autorace.some(
+                    (raceEntity) => raceEntity.id === calendarData.id,
+                );
+            }),
+            boatrace: calendarDataList.filter((calendarData) => {
+                if (calendarData.raceType !== RaceType.BOATRACE) {
+                    return false;
+                }
+                return !filteredRaceEntityList.boatrace.some(
+                    (raceEntity) => raceEntity.id === calendarData.id,
+                );
+            }),
         };
         await this.publicGamblingCalendarService.deleteEvents({
             jra: deleteCalendarDataList.jra,
             nar: deleteCalendarDataList.nar,
             world: deleteCalendarDataList.world,
             keirin: deleteCalendarDataList.keirin,
-            // autorace: deleteCalendarDataList.autorace,
-            // boatrace: deleteCalendarDataList.boatrace,
+            autorace: deleteCalendarDataList.autorace,
+            boatrace: deleteCalendarDataList.boatrace,
         });
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
@@ -220,28 +234,30 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                             deleteCalendarData.raceType === RaceType.KEIRIN,
                     ),
             ),
-            // autorace: filteredRaceEntityList.autorace.filter(
-            //     (raceEntity) =>
-            //         !deleteCalendarDataList.autorace.some(
-            //             (deleteCalendarData) =>
-            //                 deleteCalendarData.id === raceEntity.id &&
-            //                 deleteCalendarData.raceType === RaceType.AUTORACE,
-            //         ),
-            // ),
-            // boatrace: filteredRaceEntityList.boatrace.filter(
-            //     (raceEntity) =>
-            //         !deleteCalendarDataList.boatrace.some(
-            //             (deleteCalendarData) =>
-            //                 deleteCalendarData.id === raceEntity.id &&
-            //                 deleteCalendarData.raceType === RaceType.BOATRACE,
-            //         ),
-            // ),
+            autorace: filteredRaceEntityList.autorace.filter(
+                (raceEntity) =>
+                    !deleteCalendarDataList.autorace.some(
+                        (deleteCalendarData) =>
+                            deleteCalendarData.id === raceEntity.id &&
+                            deleteCalendarData.raceType === RaceType.AUTORACE,
+                    ),
+            ),
+            boatrace: filteredRaceEntityList.boatrace.filter(
+                (raceEntity) =>
+                    !deleteCalendarDataList.boatrace.some(
+                        (deleteCalendarData) =>
+                            deleteCalendarData.id === raceEntity.id &&
+                            deleteCalendarData.raceType === RaceType.BOATRACE,
+                    ),
+            ),
         };
         await this.publicGamblingCalendarService.upsertEvents({
             jra: upsertRaceEntityList.jra,
             nar: upsertRaceEntityList.nar,
             world: upsertRaceEntityList.world,
             keirin: upsertRaceEntityList.keirin,
+            autorace: upsertRaceEntityList.autorace,
+            boatrace: upsertRaceEntityList.boatrace,
         });
     }
 
@@ -285,6 +301,94 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                             raceGradeList.grade.includes(
                                 raceEntity.raceData.grade,
                             ) &&
+                            raceGradeList.stage === raceEntity.raceData.stage
+                        );
+                    })?.priority ?? 0;
+
+                return racePriority + maxPlayerPriority >= 6;
+            });
+        return filteredRaceEntityList;
+    }
+
+    /**
+     * 表示対象のレースデータのみに絞り込む
+     * - 6以上の優先度を持つレースデータを表示対象とする
+     * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
+     * @param raceEntityList
+     * @param displayGradeList
+     * @param playerDataList
+     */
+    private filterRaceEntityForAutorace(
+        raceEntityList: AutoraceRaceEntity[],
+        displayGradeList: AutoraceGradeType[],
+        playerDataList: PlayerData[],
+    ): AutoraceRaceEntity[] {
+        const filteredRaceEntityList: AutoraceRaceEntity[] =
+            raceEntityList.filter((raceEntity) => {
+                const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
+                    (maxPriority, playerData) => {
+                        const playerPriority =
+                            playerDataList.find(
+                                (player) =>
+                                    playerData.playerNumber ===
+                                    player.playerNumber,
+                            )?.priority ?? 0;
+                        return Math.max(maxPriority, playerPriority);
+                    },
+                    0,
+                );
+
+                const racePriority: number =
+                    AutoraceSpecifiedGradeAndStageList.find((raceGradeList) => {
+                        return (
+                            displayGradeList.includes(
+                                raceEntity.raceData.grade,
+                            ) &&
+                            raceGradeList.grade === raceEntity.raceData.grade &&
+                            raceGradeList.stage === raceEntity.raceData.stage
+                        );
+                    })?.priority ?? 0;
+
+                return racePriority + maxPlayerPriority >= 6;
+            });
+        return filteredRaceEntityList;
+    }
+
+    /**
+     * 表示対象のレースデータのみに絞り込む
+     * - 6以上の優先度を持つレースデータを表示対象とする
+     * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
+     * @param raceEntityList
+     * @param displayGradeList
+     * @param playerDataList
+     */
+    private filterRaceEntityForBoatrace(
+        raceEntityList: BoatraceRaceEntity[],
+        displayGradeList: BoatraceGradeType[],
+        playerDataList: PlayerData[],
+    ): BoatraceRaceEntity[] {
+        const filteredRaceEntityList: BoatraceRaceEntity[] =
+            raceEntityList.filter((raceEntity) => {
+                const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
+                    (maxPriority, playerData) => {
+                        const playerPriority =
+                            playerDataList.find(
+                                (player) =>
+                                    playerData.playerNumber ===
+                                    player.playerNumber,
+                            )?.priority ?? 0;
+                        return Math.max(maxPriority, playerPriority);
+                    },
+                    0,
+                );
+
+                const racePriority: number =
+                    BoatraceSpecifiedGradeAndStageList.find((raceGradeList) => {
+                        return (
+                            displayGradeList.includes(
+                                raceEntity.raceData.grade,
+                            ) &&
+                            raceGradeList.grade === raceEntity.raceData.grade &&
                             raceGradeList.stage === raceEntity.raceData.stage
                         );
                     })?.priority ?? 0;
