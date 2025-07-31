@@ -1,13 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { BoatraceRaceData } from '../domain/boatraceRaceData';
-import {
-    IOldRaceDataUseCase,
-    IRaceDataUseCase,
-} from '../usecase/interface/IRaceDataUseCase';
-import { BoatraceGradeType } from '../utility/data/boatrace/boatraceGradeType';
-import { BoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCourse';
+import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { Logger } from '../utility/logger';
 
 /**
@@ -18,12 +12,6 @@ export class BoatraceRaceController {
     public router: Router;
 
     public constructor(
-        @inject('BoatraceRaceDataUseCase')
-        private readonly boatraceRaceDataUseCase: IOldRaceDataUseCase<
-            BoatraceRaceData,
-            BoatraceGradeType,
-            BoatraceRaceCourse
-        >,
         @inject('PublicGamblingRaceDataUseCase')
         private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
     ) {
@@ -140,9 +128,10 @@ export class BoatraceRaceController {
             }
 
             // レース情報を取得する
-            await this.boatraceRaceDataUseCase.updateRaceEntityList(
+            await this.publicGamblingRaceDataUseCase.updateRaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
+                ['boatrace'],
             );
             res.status(200).send();
         } catch (error) {

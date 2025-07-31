@@ -13,47 +13,32 @@ import { KeirinRaceDataUseCase } from '../../src/usecase/implement/keirinRaceDat
 import { NarRaceDataUseCase } from '../../src/usecase/implement/narRaceDataUseCase';
 import { WorldRaceDataUseCase } from '../../src/usecase/implement/worldRaceDataUseCase';
 import type { IOldRaceDataUseCase } from '../../src/usecase/interface/IRaceDataUseCase';
-import type { AutoraceGradeType } from '../../src/utility/data/autorace/autoraceGradeType';
-import type { AutoraceRaceCourse } from '../../src/utility/data/autorace/autoraceRaceCourse';
-import type { BoatraceGradeType } from '../../src/utility/data/boatrace/boatraceGradeType';
-import type { BoatraceRaceCourse } from '../../src/utility/data/boatrace/boatraceRaceCourse';
-import type { JraGradeType } from '../../src/utility/data/jra/jraGradeType';
-import type { JraRaceCourse } from '../../src/utility/data/jra/jraRaceCourse';
-import type { KeirinGradeType } from '../../src/utility/data/keirin/keirinGradeType';
-import type { KeirinRaceCourse } from '../../src/utility/data/keirin/keirinRaceCourse';
-import type { NarGradeType } from '../../src/utility/data/nar/narGradeType';
-import type { NarRaceCourse } from '../../src/utility/data/nar/narRaceCourse';
-import type { WorldGradeType } from '../../src/utility/data/world/worldGradeType';
-import type { WorldRaceCourse } from '../../src/utility/data/world/worldRaceCourse';
 
 // Usecaseの実装クラスをDIコンテナに登錄する
-container.register<
-    IOldRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse>
->('NarRaceDataUseCase', {
+container.register<IOldRaceDataUseCase<NarRaceData>>('NarRaceDataUseCase', {
     useClass: NarRaceDataUseCase,
 });
-container.register<
-    IOldRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse>
->('JraRaceDataUseCase', {
+container.register<IOldRaceDataUseCase<JraRaceData>>('JraRaceDataUseCase', {
     useClass: JraRaceDataUseCase,
 });
-container.register<
-    IOldRaceDataUseCase<KeirinRaceData, KeirinGradeType, KeirinRaceCourse>
->('KeirinRaceDataUseCase', {
-    useClass: KeirinRaceDataUseCase,
-});
-container.register<
-    IOldRaceDataUseCase<WorldRaceData, WorldGradeType, WorldRaceCourse>
->('WorldRaceDataUseCase', {
+container.register<IOldRaceDataUseCase<KeirinRaceData>>(
+    'KeirinRaceDataUseCase',
+    {
+        useClass: KeirinRaceDataUseCase,
+    },
+);
+container.register<IOldRaceDataUseCase<WorldRaceData>>('WorldRaceDataUseCase', {
     useClass: WorldRaceDataUseCase,
 });
-container.register<
-    IOldRaceDataUseCase<AutoraceRaceData, AutoraceGradeType, AutoraceRaceCourse>
->('AutoraceRaceDataUseCase', {
-    useClass: AutoraceRaceDataUseCase,
-});
-container.register<
-    IOldRaceDataUseCase<BoatraceRaceData, BoatraceGradeType, BoatraceRaceCourse>
->('BoatraceRaceDataUseCase', {
-    useClass: BoatraceRaceDataUseCase,
-});
+container.register<IOldRaceDataUseCase<AutoraceRaceData>>(
+    'AutoraceRaceDataUseCase',
+    {
+        useClass: AutoraceRaceDataUseCase,
+    },
+);
+container.register<IOldRaceDataUseCase<BoatraceRaceData>>(
+    'BoatraceRaceDataUseCase',
+    {
+        useClass: BoatraceRaceDataUseCase,
+    },
+);
