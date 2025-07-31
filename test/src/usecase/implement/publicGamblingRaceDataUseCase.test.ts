@@ -31,6 +31,7 @@ import {
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
 import {
+    baseWorldPlaceEntity,
     baseWorldRaceDataList,
     baseWorldRaceEntityList,
 } from '../../mock/common/baseWorldData';
@@ -777,6 +778,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
+                world: [baseWorldPlaceEntity],
                 keirin: [baseKeirinPlaceEntity],
                 autorace: [baseAutoracePlaceEntity],
                 boatrace: [baseBoatracePlaceEntity],

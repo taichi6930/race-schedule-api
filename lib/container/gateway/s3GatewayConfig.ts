@@ -16,6 +16,7 @@ import type { KeirinRacePlayerRecord } from '../../src/gateway/record/keirinRace
 import type { KeirinRaceRecord } from '../../src/gateway/record/keirinRaceRecord';
 import type { NarPlaceRecord } from '../../src/gateway/record/narPlaceRecord';
 import type { NarRaceRecord } from '../../src/gateway/record/narRaceRecord';
+import type { WorldPlaceRecord } from '../../src/gateway/record/worldPlaceRecord';
 import type { WorldRaceRecord } from '../../src/gateway/record/worldRaceRecord';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
@@ -272,7 +273,36 @@ container.register<IS3Gateway<WorldRaceRecord>>('WorldRaceS3Gateway', {
         }
     },
 });
-
+container.register<IS3Gateway<WorldPlaceRecord>>('WorldPlaceS3Gateway', {
+    useFactory: () => {
+        switch (ENV) {
+            case allowedEnvs.production: {
+                return new S3Gateway<WorldPlaceRecord>(
+                    'race-schedule-bucket',
+                    'world/',
+                );
+            }
+            case allowedEnvs.test: {
+                return new S3Gateway<WorldPlaceRecord>(
+                    'race-schedule-bucket-test',
+                    'world/',
+                );
+            }
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
+                return new MockS3Gateway<WorldPlaceRecord>(
+                    'race-schedule-bucket',
+                    'world/',
+                );
+            }
+            default: {
+                throw new Error('Invalid ENV value');
+            }
+        }
+    },
+});
 container.register<IS3Gateway<AutoraceRaceRecord>>('AutoraceRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {

@@ -7,6 +7,7 @@ import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
+import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/implement/publicGamblingPlaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
@@ -15,6 +16,7 @@ import { baseBoatracePlaceEntity } from '../../mock/common/baseBoatraceData';
 import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
 import { baseKeirinPlaceEntity } from '../../mock/common/baseKeirinData';
 import { baseNarPlaceEntity } from '../../mock/common/baseNarData';
+import { baseWorldPlaceEntity } from '../../mock/common/baseWorldData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('PublicGamblingPlaceDataService', () => {
@@ -29,6 +31,12 @@ describe('PublicGamblingPlaceDataService', () => {
     >;
     let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<NarPlaceEntity>
+    >;
+    let worldPlaceRepositoryFromStorageImpl: jest.Mocked<
+        IPlaceRepository<WorldPlaceEntity>
+    >;
+    let worldPlaceRepositoryFromHtmlImpl: jest.Mocked<
+        IPlaceRepository<WorldPlaceEntity>
     >;
     let keirinPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<KeirinPlaceEntity>
@@ -74,6 +82,19 @@ describe('PublicGamblingPlaceDataService', () => {
         container.registerInstance<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromHtml',
             narPlaceRepositoryFromHtmlImpl,
+        );
+
+        worldPlaceRepositoryFromStorageImpl =
+            mockPlaceRepository<WorldPlaceEntity>();
+        container.registerInstance<IPlaceRepository<WorldPlaceEntity>>(
+            'WorldPlaceRepositoryFromStorage',
+            worldPlaceRepositoryFromStorageImpl,
+        );
+
+        worldPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
+        container.registerInstance<IPlaceRepository<WorldPlaceEntity>>(
+            'WorldPlaceRepositoryFromHtml',
+            worldPlaceRepositoryFromHtmlImpl,
         );
 
         keirinPlaceRepositoryFromStorageImpl =
@@ -127,6 +148,7 @@ describe('PublicGamblingPlaceDataService', () => {
             const mockPlaceEntity = {
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
+                world: [baseWorldPlaceEntity],
                 keirin: [baseKeirinPlaceEntity],
                 autorace: [baseAutoracePlaceEntity],
                 boatrace: [baseBoatracePlaceEntity],
@@ -138,6 +160,9 @@ describe('PublicGamblingPlaceDataService', () => {
             );
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
+            );
+            worldPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+                [baseWorldPlaceEntity],
             );
             keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseKeirinPlaceEntity],
@@ -155,7 +180,7 @@ describe('PublicGamblingPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'keirin', 'boatrace', 'autorace'],
+                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
                 DataLocation.Storage,
             );
 
@@ -166,6 +191,7 @@ describe('PublicGamblingPlaceDataService', () => {
             const mockPlaceEntity = {
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
+                world: [baseWorldPlaceEntity],
                 keirin: [baseKeirinPlaceEntity],
                 autorace: [baseAutoracePlaceEntity],
                 boatrace: [baseBoatracePlaceEntity],
@@ -177,6 +203,9 @@ describe('PublicGamblingPlaceDataService', () => {
             );
             narPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
+            );
+            worldPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
+                [baseWorldPlaceEntity],
             );
             keirinPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseKeirinPlaceEntity],
@@ -194,7 +223,7 @@ describe('PublicGamblingPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'keirin', 'boatrace', 'autorace'],
+                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
                 DataLocation.Web,
             );
 
@@ -217,7 +246,7 @@ describe('PublicGamblingPlaceDataService', () => {
             await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'keirin', 'boatrace', 'autorace'],
+                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
                 DataLocation.Storage,
             );
 
@@ -230,6 +259,7 @@ describe('PublicGamblingPlaceDataService', () => {
             const mockPlaceEntity = {
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
+                world: [baseWorldPlaceEntity],
                 keirin: [baseKeirinPlaceEntity],
                 autorace: [baseAutoracePlaceEntity],
                 boatrace: [baseBoatracePlaceEntity],
@@ -241,6 +271,9 @@ describe('PublicGamblingPlaceDataService', () => {
             );
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
+            );
+            worldPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
+                [baseWorldPlaceEntity],
             );
             keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseKeirinPlaceEntity],
@@ -263,6 +296,7 @@ describe('PublicGamblingPlaceDataService', () => {
             await service.updatePlaceEntityList({
                 jra: [],
                 nar: [],
+                world: [],
                 keirin: [],
                 boatrace: [],
                 autorace: [],
@@ -277,6 +311,7 @@ describe('PublicGamblingPlaceDataService', () => {
             const mockPlaceEntity = {
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
+                world: [baseWorldPlaceEntity],
                 keirin: [baseKeirinPlaceEntity],
                 autorace: [baseAutoracePlaceEntity],
                 boatrace: [baseBoatracePlaceEntity],
@@ -286,6 +321,9 @@ describe('PublicGamblingPlaceDataService', () => {
                 new Error('開催場データの登録に失敗しました'),
             );
             narPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
+                new Error('開催場データの登録に失敗しました'),
+            );
+            worldPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('開催場データの登録に失敗しました'),
             );
             keirinPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(

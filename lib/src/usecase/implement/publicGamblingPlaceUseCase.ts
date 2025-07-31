@@ -5,13 +5,14 @@ import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { NarPlaceData } from '../../domain/narPlaceData';
+import { WorldPlaceData } from '../../domain/worldPlaceData';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 /**
- * 公開用開催場データユースケース
+ * 公営競技の開催場データユースケース
  */
 @injectable()
 export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
@@ -34,6 +35,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
     ): Promise<
         | JraPlaceData[]
         | NarPlaceData[]
+        | WorldPlaceData[]
         | KeirinPlaceData[]
         | AutoracePlaceData[]
         | BoatracePlaceData[]
@@ -52,6 +54,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
         for (const placeEntityX of [
             placeEntityList.jra,
             placeEntityList.nar,
+            placeEntityList.world,
             placeEntityList.keirin,
             placeEntityList.autorace,
             placeEntityList.boatrace,

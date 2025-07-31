@@ -10,6 +10,7 @@ import { KeirinPlaceDataHtmlGateway } from '../../src/gateway/implement/keirinPl
 import { KeirinRaceDataHtmlGateway } from '../../src/gateway/implement/keirinRaceDataHtmlGateway';
 import { NarPlaceDataHtmlGateway } from '../../src/gateway/implement/narPlaceDataHtmlGateway';
 import { NarRaceDataHtmlGateway } from '../../src/gateway/implement/narRaceDataHtmlGateway';
+import { WorldPlaceDataHtmlGateway } from '../../src/gateway/implement/worldPlaceDataHtmlGateway';
 import { WorldRaceDataHtmlGateway } from '../../src/gateway/implement/worldRaceDataHtmlGateway';
 import type { IAutoracePlaceDataHtmlGateway } from '../../src/gateway/interface/iAutoracePlaceDataHtmlGateway';
 import type { IAutoraceRaceDataHtmlGateway } from '../../src/gateway/interface/iAutoraceRaceDataHtmlGateway';
@@ -21,6 +22,7 @@ import type { IKeirinPlaceDataHtmlGateway } from '../../src/gateway/interface/iK
 import type { IKeirinRaceDataHtmlGateway } from '../../src/gateway/interface/iKeirinRaceDataHtmlGateway';
 import type { INarPlaceDataHtmlGateway } from '../../src/gateway/interface/iNarPlaceDataHtmlGateway';
 import type { INarRaceDataHtmlGateway } from '../../src/gateway/interface/iNarRaceDataHtmlGateway';
+import type { IWorldPlaceDataHtmlGateway } from '../../src/gateway/interface/iWorldPlaceDataHtmlGateway';
 import type { IWorldRaceDataHtmlGateway } from '../../src/gateway/interface/iWorldRaceDataHtmlGateway';
 import { MockAutoracePlaceDataHtmlGateway } from '../../src/gateway/mock/mockAutoracePlaceDataHtmlGateway';
 import { MockAutoraceRaceDataHtmlGateway } from '../../src/gateway/mock/mockAutoraceRaceDataHtmlGateway';
@@ -32,6 +34,7 @@ import { MockKeirinPlaceDataHtmlGateway } from '../../src/gateway/mock/mockKeiri
 import { MockKeirinRaceDataHtmlGateway } from '../../src/gateway/mock/mockKeirinRaceDataHtmlGateway';
 import { MockNarPlaceDataHtmlGateway } from '../../src/gateway/mock/mockNarPlaceDataHtmlGateway';
 import { MockNarRaceDataHtmlGateway } from '../../src/gateway/mock/mockNarRaceDataHtmlGateway';
+import { MockWorldPlaceDataHtmlGateway } from '../../src/gateway/mock/mockWorldPlaceDataHtmlGateway';
 import { MockWorldRaceDataHtmlGateway } from '../../src/gateway/mock/mockWorldRaceDataHtmlGateway';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
@@ -153,6 +156,25 @@ container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
     },
 });
 
+container.register<IWorldPlaceDataHtmlGateway>('WorldPlaceDataHtmlGateway', {
+    useFactory: () => {
+        switch (ENV) {
+            case allowedEnvs.production: {
+                return new WorldPlaceDataHtmlGateway();
+            }
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.test:
+            case allowedEnvs.githubActionsCi: {
+                return new MockWorldPlaceDataHtmlGateway();
+            }
+            default: {
+                throw new Error('Invalid ENV value');
+            }
+        }
+    },
+});
 container.register<IWorldRaceDataHtmlGateway>('WorldRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {

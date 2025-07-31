@@ -3,6 +3,7 @@ import type { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceE
 import type { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import type { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
+import type { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import type { DataLocationType } from '../../utility/dataType';
 
 /**
@@ -33,6 +34,7 @@ export interface IPlaceDataService {
     ) => Promise<{
         jra: JraPlaceEntity[];
         nar: NarPlaceEntity[];
+        world: WorldPlaceEntity[];
         keirin: KeirinPlaceEntity[];
         autorace: AutoracePlaceEntity[];
         boatrace: BoatracePlaceEntity[];
@@ -49,6 +51,7 @@ export interface IPlaceDataService {
     updatePlaceEntityList: (placeEntityList: {
         jra: JraPlaceEntity[];
         nar: NarPlaceEntity[];
+        world: WorldPlaceEntity[];
         keirin: KeirinPlaceEntity[];
         autorace: AutoracePlaceEntity[];
         boatrace: BoatracePlaceEntity[];

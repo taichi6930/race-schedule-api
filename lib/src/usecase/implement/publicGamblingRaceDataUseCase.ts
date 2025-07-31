@@ -374,6 +374,14 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 }
                 return true;
             }),
+            world: placeEntityList.world.filter((placeEntity) => {
+                if (searchList?.world?.locationList) {
+                    return searchList.world.locationList.includes(
+                        placeEntity.placeData.location,
+                    );
+                }
+                return true;
+            }),
             keirin: placeEntityList.keirin
                 .filter((placeEntity) => {
                     if (searchList?.keirin?.gradeList) {
@@ -429,9 +437,9 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
 
         // placeEntityListが空の場合は処理を終了する
         if (
-            !raceTypeList.includes('world') &&
             filteredPlaceEntityList.jra.length === 0 &&
             filteredPlaceEntityList.nar.length === 0 &&
+            filteredPlaceEntityList.world.length === 0 &&
             filteredPlaceEntityList.keirin.length === 0 &&
             filteredPlaceEntityList.autorace.length === 0 &&
             filteredPlaceEntityList.boatrace.length === 0

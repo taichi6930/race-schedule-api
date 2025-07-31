@@ -6,6 +6,7 @@ import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
+import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -25,6 +26,10 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         protected narPlaceRepositoryFromStorage: IPlaceRepository<NarPlaceEntity>,
         @inject('NarPlaceRepositoryFromHtml')
         protected narPlaceRepositoryFromHtml: IPlaceRepository<NarPlaceEntity>,
+        @inject('WorldPlaceRepositoryFromStorage')
+        protected worldPlaceRepositoryFromStorage: IPlaceRepository<WorldPlaceEntity>,
+        @inject('WorldPlaceRepositoryFromHtml')
+        protected worldPlaceRepositoryFromHtml: IPlaceRepository<WorldPlaceEntity>,
         @inject('KeirinPlaceRepositoryFromStorage')
         protected keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceEntity>,
         @inject('KeirinPlaceRepositoryFromHtml')
@@ -65,6 +70,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     ): Promise<{
         jra: JraPlaceEntity[];
         nar: NarPlaceEntity[];
+        world: WorldPlaceEntity[];
         keirin: KeirinPlaceEntity[];
         autorace: AutoracePlaceEntity[];
         boatrace: BoatracePlaceEntity[];
@@ -72,12 +78,14 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         const result: {
             jra: JraPlaceEntity[];
             nar: NarPlaceEntity[];
+            world: WorldPlaceEntity[];
             keirin: KeirinPlaceEntity[];
             autorace: AutoracePlaceEntity[];
             boatrace: BoatracePlaceEntity[];
         } = {
             jra: [],
             nar: [],
+            world: [],
             keirin: [],
             autorace: [],
             boatrace: [],
@@ -112,6 +120,17 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                               searchFilter,
                           );
                 result.nar.push(...narPlaceEntityList);
+            }
+            if (raceTypeList.includes('world')) {
+                const worldPlaceEntityList: WorldPlaceEntity[] =
+                    type === DataLocation.Storage
+                        ? await this.worldPlaceRepositoryFromStorage.fetchPlaceEntityList(
+                              searchFilter,
+                          )
+                        : await this.worldPlaceRepositoryFromHtml.fetchPlaceEntityList(
+                              searchFilter,
+                          );
+                result.world.push(...worldPlaceEntityList);
             }
             if (raceTypeList.includes('keirin')) {
                 const keirinPlaceEntityList: KeirinPlaceEntity[] =
@@ -164,12 +183,14 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
      * @param placeEntityList.keirin
      * @param placeEntityList.autorace
      * @param placeEntityList.boatrace
+     * @param placeEntityList.world
      * @throws Error データの保存/更新に失敗した場合
      */
     @Logger
     public async updatePlaceEntityList(placeEntityList: {
         jra: JraPlaceEntity[];
         nar: NarPlaceEntity[];
+        world: WorldPlaceEntity[];
         keirin: KeirinPlaceEntity[];
         autorace: AutoracePlaceEntity[];
         boatrace: BoatracePlaceEntity[];
@@ -177,6 +198,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         if (
             placeEntityList.jra.length === 0 &&
             placeEntityList.nar.length === 0 &&
+            placeEntityList.world.length === 0 &&
             placeEntityList.keirin.length === 0 &&
             placeEntityList.autorace.length === 0 &&
             placeEntityList.boatrace.length === 0
@@ -191,7 +213,10 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 await this.narPlaceRepositoryFromStorage.registerPlaceEntityList(
                     placeEntityList.nar,
                 );
-
+            if (placeEntityList.world.length > 0)
+                await this.worldPlaceRepositoryFromStorage.registerPlaceEntityList(
+                    placeEntityList.world,
+                );
             if (placeEntityList.keirin.length > 0)
                 await this.keirinPlaceRepositoryFromStorage.registerPlaceEntityList(
                     placeEntityList.keirin,

@@ -24,6 +24,10 @@ import {
     baseNarPlaceData,
     baseNarPlaceEntity,
 } from '../../mock/common/baseNarData';
+import {
+    baseWorldPlaceData,
+    baseWorldPlaceEntity,
+} from '../../mock/common/baseWorldData';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('PublicGamblingPlaceUseCase', () => {
@@ -49,6 +53,7 @@ describe('PublicGamblingPlaceUseCase', () => {
             const mockPlaceData = [
                 baseJraPlaceData,
                 baseNarPlaceData,
+                baseWorldPlaceData,
                 baseKeirinPlaceData,
                 baseAutoracePlaceData,
                 baseBoatracePlaceData,
@@ -58,6 +63,7 @@ describe('PublicGamblingPlaceUseCase', () => {
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
+                world: [baseWorldPlaceEntity],
                 keirin: [baseKeirinPlaceEntity],
                 autorace: [baseAutoracePlaceEntity],
                 boatrace: [baseBoatracePlaceEntity],
@@ -69,7 +75,7 @@ describe('PublicGamblingPlaceUseCase', () => {
             const result = await useCase.fetchPlaceDataList(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'keirin', 'autorace', 'boatrace'],
+                ['jra', 'nar', 'world', 'keirin', 'autorace', 'boatrace'],
             );
 
             expect(result).toEqual(mockPlaceData);
@@ -85,6 +91,7 @@ describe('PublicGamblingPlaceUseCase', () => {
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
+                world: [baseWorldPlaceEntity],
                 keirin: [baseKeirinPlaceEntity],
                 autorace: [baseAutoracePlaceEntity],
                 boatrace: [baseBoatracePlaceEntity],
@@ -93,6 +100,7 @@ describe('PublicGamblingPlaceUseCase', () => {
             await useCase.updatePlaceDataList(startDate, finishDate, [
                 'jra',
                 'nar',
+                'world',
                 'keirin',
                 'boatrace',
                 'autorace',

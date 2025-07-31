@@ -19,7 +19,7 @@ export class MockWorldRaceDataHtmlGateway implements IWorldRaceDataHtmlGateway {
     public async getRaceDataHtml(date: Date): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
         const testHtmlUrl = `../mockData/html/world/race/${format(date, 'yyyyMM')}.html`;
-        // lib/src/gateway/mockData/html/world/placeの中にあるhtmlを取得
+        // lib/src/gateway/mockData/html/world/raceの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
         const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
