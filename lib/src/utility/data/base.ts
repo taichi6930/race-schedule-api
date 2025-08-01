@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
-import { AutoraceGradeTypeSchema } from './autorace/autoraceGradeType';
 import { AutoraceRaceStageSchema } from './autorace/autoraceRaceStage';
 import { BoatraceGradeTypeSchema } from './boatrace/boatraceGradeType';
 import { BoatraceRaceStageSchema } from './boatrace/boatraceRaceStage';
+import { AutoraceGradeTypeSchema } from './common/gradeType';
 import {
     AutoraceRaceCourseSchema,
     BoatraceRaceCourseSchema,

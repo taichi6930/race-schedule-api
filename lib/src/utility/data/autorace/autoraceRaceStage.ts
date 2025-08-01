@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import type { AutoraceGradeType } from './autoraceGradeType';
+import type { AutoraceGradeType } from '../common/gradeType';
 
 /**
  * AutoraceRaceStageのzod型定義

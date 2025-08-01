@@ -1,3 +1,4 @@
+import { validateGradeType } from '../utility/data/common/gradeType';
 import {
     validateRaceCourse,
     type WorldRaceCourse,
@@ -8,10 +9,7 @@ import {
     type RaceDistance,
     validateRaceDistance,
 } from '../utility/data/common/raceDistance';
-import {
-    validateWorldGradeType,
-    type WorldGradeType,
-} from '../utility/data/world/worldGradeType';
+import type { WorldGradeType } from '../utility/data/world/worldGradeType';
 import {
     validateWorldRaceCourseType,
     type WorldRaceCourseType,
@@ -123,7 +121,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
             validateRaceCourse(RaceType.WORLD, location),
             validateWorldRaceCourseType(surfaceType),
             validateRaceDistance(distance),
-            validateWorldGradeType(grade),
+            validateGradeType(RaceType.WORLD, grade),
             validateWorldRaceNumber(number),
         );
     }

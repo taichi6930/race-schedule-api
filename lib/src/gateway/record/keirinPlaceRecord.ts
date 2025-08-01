@@ -1,5 +1,6 @@
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
+import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
     type KeirinRaceCourse,
     validateRaceCourse,
@@ -8,10 +9,7 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
-import {
-    type KeirinGradeType,
-    validateKeirinGradeType,
-} from '../../utility/data/keirin/keirinGradeType';
+import type { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import {
     type KeirinPlaceId,
     validateKeirinPlaceId,
@@ -63,7 +61,7 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
                 validateKeirinPlaceId(id),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.KEIRIN, location),
-                validateKeirinGradeType(grade),
+                validateGradeType(RaceType.KEIRIN, grade),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {

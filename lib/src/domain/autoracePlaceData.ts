@@ -1,5 +1,5 @@
-import type { AutoraceGradeType } from '../utility/data/autorace/autoraceGradeType';
-import { validateAutoraceGradeType } from '../utility/data/autorace/autoraceGradeType';
+import type { AutoraceGradeType } from '../utility/data/common/gradeType';
+import { validateGradeType } from '../utility/data/common/gradeType';
 import type { AutoraceRaceCourse } from '../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../utility/data/common/raceCourse';
 import {
@@ -62,7 +62,7 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
         return new AutoracePlaceData(
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.AUTORACE, location),
-            validateAutoraceGradeType(grade),
+            validateGradeType(RaceType.AUTORACE, grade),
         );
     }
 

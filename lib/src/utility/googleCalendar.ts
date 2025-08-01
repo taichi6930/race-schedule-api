@@ -1,5 +1,5 @@
-import type { AutoraceGradeType } from './data/autorace/autoraceGradeType';
 import type { BoatraceGradeType } from './data/boatrace/boatraceGradeType';
+import type { AutoraceGradeType } from './data/common/gradeType';
 import type { JraGradeType } from './data/jra/jraGradeType';
 import type { KeirinGradeType } from './data/keirin/keirinGradeType';
 import type { NarGradeType } from './data/nar/narGradeType';

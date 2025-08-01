@@ -1,13 +1,11 @@
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
-import {
-    type BoatraceGradeType,
-    validateBoatraceGradeType,
-} from '../../utility/data/boatrace/boatraceGradeType';
+import type { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import {
     type BoatracePlaceId,
     validateBoatracePlaceId,
 } from '../../utility/data/boatrace/boatracePlaceId';
+import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
     type BoatraceRaceCourse,
     validateRaceCourse,
@@ -63,7 +61,7 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
                 validateBoatracePlaceId(id),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.BOATRACE, location),
-                validateBoatraceGradeType(grade),
+                validateGradeType(RaceType.BOATRACE, grade),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {

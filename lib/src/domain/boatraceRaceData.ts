@@ -1,7 +1,4 @@
-import {
-    type BoatraceGradeType,
-    validateBoatraceGradeType,
-} from '../utility/data/boatrace/boatraceGradeType';
+import type { BoatraceGradeType } from '../utility/data/boatrace/boatraceGradeType';
 import {
     type BoatraceRaceName,
     validateBoatraceRaceName,
@@ -14,6 +11,7 @@ import {
     type BoatraceRaceStage,
     validateBoatraceRaceStage,
 } from '../utility/data/boatrace/boatraceRaceStage';
+import { validateGradeType } from '../utility/data/common/gradeType';
 import {
     type BoatraceRaceCourse,
     validateRaceCourse,
@@ -110,7 +108,7 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
             validateBoatraceRaceStage(stage),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.BOATRACE, location),
-            validateBoatraceGradeType(grade),
+            validateGradeType(RaceType.BOATRACE, grade),
             validateBoatraceRaceNumber(number),
         );
     }

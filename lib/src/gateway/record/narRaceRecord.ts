@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
+import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
     type NarRaceCourse,
     validateRaceCourse,
@@ -14,10 +15,7 @@ import {
     type RaceDistance,
     validateRaceDistance,
 } from '../../utility/data/common/raceDistance';
-import {
-    type NarGradeType,
-    validateNarGradeType,
-} from '../../utility/data/nar/narGradeType';
+import type { NarGradeType } from '../../utility/data/nar/narGradeType';
 import {
     type NarRaceCourseType,
     validateNarRaceCourseType,
@@ -100,7 +98,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
                 validateRaceCourse(RaceType.NAR, location),
                 validateNarRaceCourseType(surfaceType),
                 validateRaceDistance(distance),
-                validateNarGradeType(grade),
+                validateGradeType(RaceType.NAR, grade),
                 validateNarRaceNumber(number),
                 validateUpdateDate(updateDate),
             );

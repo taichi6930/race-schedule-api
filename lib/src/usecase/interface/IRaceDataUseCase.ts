@@ -4,10 +4,10 @@ import type { JraRaceData } from '../../domain/jraRaceData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { NarRaceData } from '../../domain/narRaceData';
 import type { WorldRaceData } from '../../domain/worldRaceData';
-import type { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import type { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
 import type { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import type { BoatraceRaceStage } from '../../utility/data/boatrace/boatraceRaceStage';
+import type { AutoraceGradeType } from '../../utility/data/common/gradeType';
 import type {
     AutoraceRaceCourse,
     BoatraceRaceCourse,

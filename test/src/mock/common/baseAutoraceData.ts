@@ -7,9 +7,9 @@ import { AutoraceRacePlayerRecord } from '../../../../lib/src/gateway/record/aut
 import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type { AutoraceGradeType } from '../../../../lib/src/utility/data/autorace/autoraceGradeType';
 import type { AutoracePlaceId } from '../../../../lib/src/utility/data/autorace/autoracePlaceId';
 import type { AutoraceRaceStage } from '../../../../lib/src/utility/data/autorace/autoraceRaceStage';
+import type { AutoraceGradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { AutoraceRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
