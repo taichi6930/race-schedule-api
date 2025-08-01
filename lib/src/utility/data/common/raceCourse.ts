@@ -263,7 +263,7 @@ export const NarBabacodeMap: Record<string, string> = {
  */
 export const WorldRaceCourseSchema = z.string().refine((value) => {
     return WorldRaceCourseList.has(value);
-}, '海外競馬場ではありません');
+}, '海外の競馬場ではありません');
 
 /**
  * WorldRaceCourseの型定義

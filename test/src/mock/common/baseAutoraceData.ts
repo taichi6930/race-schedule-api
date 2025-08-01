@@ -9,8 +9,8 @@ import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autor
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { AutoraceGradeType } from '../../../../lib/src/utility/data/autorace/autoraceGradeType';
 import type { AutoracePlaceId } from '../../../../lib/src/utility/data/autorace/autoracePlaceId';
-import type { AutoraceRaceCourse } from '../../../../lib/src/utility/data/autorace/autoraceRaceCourse';
 import type { AutoraceRaceStage } from '../../../../lib/src/utility/data/autorace/autoraceRaceStage';
+import type { AutoraceRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
     generateAutoracePlaceId,

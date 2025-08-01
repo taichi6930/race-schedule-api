@@ -5,20 +5,22 @@ import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { NarRaceData } from '../../domain/narRaceData';
 import type { WorldRaceData } from '../../domain/worldRaceData';
 import type { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
-import type { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
 import type { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
 import type { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
-import type { BoatraceRaceCourse } from '../../utility/data/boatrace/boatraceRaceCourse';
 import type { BoatraceRaceStage } from '../../utility/data/boatrace/boatraceRaceStage';
-import type { KeirinRaceCourse } from '../../utility/data/common/raceCourse';
-import type { JraRaceCourse } from '../../utility/data/common/raceCourse';
+import type {
+    AutoraceRaceCourse,
+    BoatraceRaceCourse,
+    JraRaceCourse,
+    KeirinRaceCourse,
+    NarRaceCourse,
+    WorldRaceCourse,
+} from '../../utility/data/common/raceCourse';
 import type { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import type { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import type { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
 import type { NarGradeType } from '../../utility/data/nar/narGradeType';
-import type { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
 import type { WorldGradeType } from '../../utility/data/world/worldGradeType';
-import type { WorldRaceCourse } from '../../utility/data/world/worldRaceCourse';
 
 /**
  * レースデータUseCaseのインターフェース
