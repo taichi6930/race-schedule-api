@@ -4,6 +4,90 @@ import { RaceType } from '../../raceType';
 import type { GradeType } from '../base';
 
 /**
+ * グレードのマスターリスト
+ */
+const GradeMasterList: {
+    gradeName: string;
+    detail: { raceType: RaceType; isSpecified: boolean }[];
+}[] = [
+    {
+        gradeName: 'SG',
+        detail: [
+            { raceType: RaceType.BOATRACE, isSpecified: true },
+            { raceType: RaceType.AUTORACE, isSpecified: true },
+        ],
+    },
+    {
+        gradeName: 'GP',
+        detail: [{ raceType: RaceType.KEIRIN, isSpecified: true }],
+    },
+    {
+        gradeName: '特GⅠ',
+        detail: [{ raceType: RaceType.AUTORACE, isSpecified: true }],
+    },
+    {
+        gradeName: 'GⅠ',
+        detail: [
+            { raceType: RaceType.JRA, isSpecified: true },
+            { raceType: RaceType.NAR, isSpecified: true },
+            { raceType: RaceType.BOATRACE, isSpecified: false },
+            { raceType: RaceType.WORLD, isSpecified: true },
+            { raceType: RaceType.KEIRIN, isSpecified: true },
+            { raceType: RaceType.AUTORACE, isSpecified: false },
+        ],
+    },
+    {
+        gradeName: 'GⅡ',
+        detail: [
+            { raceType: RaceType.JRA, isSpecified: true },
+            { raceType: RaceType.NAR, isSpecified: true },
+            { raceType: RaceType.BOATRACE, isSpecified: false },
+            { raceType: RaceType.WORLD, isSpecified: true },
+            { raceType: RaceType.KEIRIN, isSpecified: true },
+            { raceType: RaceType.AUTORACE, isSpecified: false },
+        ],
+    },
+    {
+        gradeName: 'GⅢ',
+        detail: [
+            { raceType: RaceType.JRA, isSpecified: true },
+            { raceType: RaceType.NAR, isSpecified: true },
+            { raceType: RaceType.BOATRACE, isSpecified: false },
+            { raceType: RaceType.WORLD, isSpecified: true },
+            { raceType: RaceType.KEIRIN, isSpecified: true },
+        ],
+    },
+    {
+        gradeName: 'FⅠ',
+        detail: [{ raceType: RaceType.KEIRIN, isSpecified: true }],
+    },
+    {
+        gradeName: 'FⅡ',
+        detail: [{ raceType: RaceType.KEIRIN, isSpecified: true }],
+    },
+    {
+        gradeName: 'Listed',
+        detail: [
+            { raceType: RaceType.JRA, isSpecified: true },
+            { raceType: RaceType.NAR, isSpecified: true },
+            { raceType: RaceType.WORLD, isSpecified: true },
+        ],
+    },
+    {
+        gradeName: '一般',
+        detail: [{ raceType: RaceType.BOATRACE, isSpecified: false }],
+    },
+    {
+        gradeName: '開催',
+        detail: [{ raceType: RaceType.AUTORACE, isSpecified: false }],
+    },
+    {
+        gradeName: '格付けなし',
+        detail: [{ raceType: RaceType.WORLD, isSpecified: true }],
+    },
+];
+
+/**
  * AutoraceGradeTypeのzod型定義
  */
 export const AutoraceGradeTypeSchema = z
@@ -68,9 +152,6 @@ export type JraGradeType = z.infer<typeof JraGradeTypeSchema>;
  * JRAのグレード リスト
  */
 const JraGradeTypeList = new Set<string>([
-    'GⅠ',
-    'GⅡ',
-    'GⅢ',
     'J.GⅠ',
     'J.GⅡ',
     'J.GⅢ',
@@ -78,7 +159,6 @@ const JraGradeTypeList = new Set<string>([
     'JpnⅡ',
     'JpnⅢ',
     '重賞',
-    'Listed',
     'オープン特別',
     '格付けなし',
     'オープン',
@@ -92,15 +172,16 @@ const JraGradeTypeList = new Set<string>([
     '未勝利',
     '未出走',
     '新馬',
+    // MasterGradeTypeListの中でJRAに対応するグレードを抽出
+    ...GradeMasterList.filter((grade) =>
+        grade.detail.some((detail) => detail.raceType === RaceType.JRA),
+    ).map((grade) => grade.gradeName),
 ]);
 
 /**
  * JRAの指定グレードリスト
  */
 export const JraSpecifiedGradeList: JraGradeType[] = [
-    'GⅠ',
-    'GⅡ',
-    'GⅢ',
     'J.GⅠ',
     'J.GⅡ',
     'J.GⅢ',
@@ -108,8 +189,12 @@ export const JraSpecifiedGradeList: JraGradeType[] = [
     'JpnⅡ',
     'JpnⅢ',
     '重賞',
-    'Listed',
     'オープン特別',
+    ...GradeMasterList.filter((grade) =>
+        grade.detail.some(
+            (detail) => detail.raceType === RaceType.JRA && detail.isSpecified,
+        ),
+    ).map((grade) => grade.gradeName),
 ];
 
 /**
@@ -152,38 +237,38 @@ export type NarGradeType = z.infer<typeof NarGradeTypeSchema>;
  * 海外競馬のグレード リスト
  */
 const NarGradeTypeList = new Set<string>([
-    'GⅠ',
-    'GⅡ',
-    'GⅢ',
     'JpnⅠ',
     'JpnⅡ',
     'JpnⅢ',
     '重賞',
     '地方重賞',
-    'Listed',
     'オープン特別',
     '地方準重賞',
     '格付けなし',
     'オープン',
     '未格付',
     '一般',
+    ...GradeMasterList.filter((grade) =>
+        grade.detail.some((detail) => detail.raceType === RaceType.NAR),
+    ).map((grade) => grade.gradeName),
 ]);
 
 /**
  * 地方競馬の指定グレードリスト
  */
 export const NarSpecifiedGradeList: NarGradeType[] = [
-    'GⅠ',
-    'GⅡ',
-    'GⅢ',
     'JpnⅠ',
     'JpnⅡ',
     'JpnⅢ',
     '重賞',
-    'Listed',
     'オープン特別',
     '地方重賞',
     '地方準重賞',
+    ...GradeMasterList.filter((grade) =>
+        grade.detail.some(
+            (detail) => detail.raceType === RaceType.NAR && detail.isSpecified,
+        ),
+    ).map((grade) => grade.gradeName),
 ];
 
 /**
@@ -197,80 +282,6 @@ export const BoatraceGradeTypeSchema = z.string().refine((value) => {
  * BoatraceGradeTypeの型定義
  */
 export type BoatraceGradeType = z.infer<typeof BoatraceGradeTypeSchema>;
-
-/**
- * グレードのマスターリスト
- */
-const GradeMasterList: {
-    gradeName: string;
-    detail: { raceType: RaceType; isSpecified: boolean }[];
-}[] = [
-    {
-        gradeName: 'SG',
-        detail: [
-            { raceType: RaceType.BOATRACE, isSpecified: true },
-            { raceType: RaceType.AUTORACE, isSpecified: true },
-        ],
-    },
-    {
-        gradeName: 'GP',
-        detail: [{ raceType: RaceType.KEIRIN, isSpecified: true }],
-    },
-    {
-        gradeName: '特GⅠ',
-        detail: [{ raceType: RaceType.AUTORACE, isSpecified: true }],
-    },
-    {
-        gradeName: 'GⅠ',
-        detail: [
-            { raceType: RaceType.BOATRACE, isSpecified: false },
-            { raceType: RaceType.WORLD, isSpecified: true },
-            { raceType: RaceType.KEIRIN, isSpecified: true },
-            { raceType: RaceType.AUTORACE, isSpecified: false },
-        ],
-    },
-    {
-        gradeName: 'GⅡ',
-        detail: [
-            { raceType: RaceType.BOATRACE, isSpecified: false },
-            { raceType: RaceType.WORLD, isSpecified: true },
-            { raceType: RaceType.KEIRIN, isSpecified: true },
-            { raceType: RaceType.AUTORACE, isSpecified: false },
-        ],
-    },
-    {
-        gradeName: 'GⅢ',
-        detail: [
-            { raceType: RaceType.BOATRACE, isSpecified: false },
-            { raceType: RaceType.WORLD, isSpecified: true },
-            { raceType: RaceType.KEIRIN, isSpecified: true },
-        ],
-    },
-    {
-        gradeName: 'FⅠ',
-        detail: [{ raceType: RaceType.KEIRIN, isSpecified: true }],
-    },
-    {
-        gradeName: 'FⅡ',
-        detail: [{ raceType: RaceType.KEIRIN, isSpecified: true }],
-    },
-    {
-        gradeName: 'Listed',
-        detail: [{ raceType: RaceType.WORLD, isSpecified: true }],
-    },
-    {
-        gradeName: '一般',
-        detail: [{ raceType: RaceType.BOATRACE, isSpecified: false }],
-    },
-    {
-        gradeName: '開催',
-        detail: [{ raceType: RaceType.AUTORACE, isSpecified: false }],
-    },
-    {
-        gradeName: '格付けなし',
-        detail: [{ raceType: RaceType.WORLD, isSpecified: true }],
-    },
-];
 
 /**
  * ボートレースのグレード リスト
