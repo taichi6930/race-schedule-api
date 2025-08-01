@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
-import type { IKeirinRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iKeirinRaceDataHtmlGateway';
-import { MockKeirinRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockKeirinRaceDataHtmlGateway';
+import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
+import { MockRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
@@ -13,18 +13,15 @@ import { allowedEnvs } from '../../../../lib/src/utility/env';
 import { SkipEnv } from '../../../utility/testDecorators';
 
 describe('KeirinRaceRepositoryFromHtmlImpl', () => {
-    let raceDataHtmlGateway: IKeirinRaceDataHtmlGateway;
+    let raceDataHtmlGateway: IRaceDataHtmlGateway;
     let repository: KeirinRaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
         // gatewayのモックを作成
-        raceDataHtmlGateway = new MockKeirinRaceDataHtmlGateway();
+        raceDataHtmlGateway = new MockRaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
-        container.registerInstance(
-            'KeirinRaceDataHtmlGateway',
-            raceDataHtmlGateway,
-        );
+        container.registerInstance('RaceDataHtmlGateway', raceDataHtmlGateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(KeirinRaceRepositoryFromHtmlImpl);

@@ -4,25 +4,22 @@ import { AutoraceRaceDataHtmlGateway } from '../../src/gateway/implement/autorac
 import { BoatracePlaceDataHtmlGateway } from '../../src/gateway/implement/boatracePlaceDataHtmlGateway';
 import { BoatraceRaceDataHtmlGateway } from '../../src/gateway/implement/boatraceRaceDataHtmlGateway';
 import { JraRaceDataHtmlGateway } from '../../src/gateway/implement/jraRaceDataHtmlGateway';
-import { KeirinRaceDataHtmlGateway } from '../../src/gateway/implement/keirinRaceDataHtmlGateway';
-import { NarRaceDataHtmlGateway } from '../../src/gateway/implement/narRaceDataHtmlGateway';
 import { PlaceDataHtmlGateway } from '../../src/gateway/implement/placeDataHtmlGateway';
+import { RaceDataHtmlGateway } from '../../src/gateway/implement/raceDataHtmlGateway';
 import { WorldRaceDataHtmlGateway } from '../../src/gateway/implement/worldRaceDataHtmlGateway';
 import type { IAutoraceRaceDataHtmlGateway } from '../../src/gateway/interface/iAutoraceRaceDataHtmlGateway';
 import type { IBoatracePlaceDataHtmlGateway } from '../../src/gateway/interface/iBoatracePlaceDataHtmlGateway';
 import type { IBoatraceRaceDataHtmlGateway } from '../../src/gateway/interface/iBoatraceRaceDataHtmlGateway';
 import type { IJraRaceDataHtmlGateway } from '../../src/gateway/interface/iJraRaceDataHtmlGateway';
-import type { IKeirinRaceDataHtmlGateway } from '../../src/gateway/interface/iKeirinRaceDataHtmlGateway';
-import type { INarRaceDataHtmlGateway } from '../../src/gateway/interface/iNarRaceDataHtmlGateway';
 import type { IPlaceDataHtmlGateway } from '../../src/gateway/interface/iPlaceDataHtmlGateway';
+import type { IRaceDataHtmlGateway } from '../../src/gateway/interface/iRaceDataHtmlGateway';
 import type { IWorldRaceDataHtmlGateway } from '../../src/gateway/interface/iWorldRaceDataHtmlGateway';
 import { MockAutoraceRaceDataHtmlGateway } from '../../src/gateway/mock/mockAutoraceRaceDataHtmlGateway';
 import { MockBoatracePlaceDataHtmlGateway } from '../../src/gateway/mock/mockBoatracePlaceDataHtmlGateway';
 import { MockBoatraceRaceDataHtmlGateway } from '../../src/gateway/mock/mockBoatraceRaceDataHtmlGateway';
 import { MockJraRaceDataHtmlGateway } from '../../src/gateway/mock/mockJraRaceDataHtmlGateway';
-import { MockKeirinRaceDataHtmlGateway } from '../../src/gateway/mock/mockKeirinRaceDataHtmlGateway';
-import { MockNarRaceDataHtmlGateway } from '../../src/gateway/mock/mockNarRaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../src/gateway/mock/mockPlaceDataHtmlGateway';
+import { MockRaceDataHtmlGateway } from '../../src/gateway/mock/mockRaceDataHtmlGateway';
 import { MockWorldRaceDataHtmlGateway } from '../../src/gateway/mock/mockWorldRaceDataHtmlGateway';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
@@ -47,18 +44,19 @@ container.register<IPlaceDataHtmlGateway>('PlaceDataHtmlGateway', {
         }
     },
 });
-container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
+
+container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new KeirinRaceDataHtmlGateway();
+                return new RaceDataHtmlGateway();
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.test:
             case allowedEnvs.githubActionsCi: {
-                return new MockKeirinRaceDataHtmlGateway();
+                return new MockRaceDataHtmlGateway();
             }
             default: {
                 throw new Error('Invalid ENV value');
@@ -67,25 +65,6 @@ container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
     },
 });
 
-container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
-    useFactory: () => {
-        switch (ENV) {
-            case allowedEnvs.production: {
-                return new NarRaceDataHtmlGateway();
-            }
-            case allowedEnvs.local:
-            case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData:
-            case allowedEnvs.test:
-            case allowedEnvs.githubActionsCi: {
-                return new MockNarRaceDataHtmlGateway();
-            }
-            default: {
-                throw new Error('Invalid ENV value');
-            }
-        }
-    },
-});
 container.register<IJraRaceDataHtmlGateway>('JraRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
