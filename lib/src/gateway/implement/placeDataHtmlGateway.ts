@@ -1,3 +1,5 @@
+import '../../utility/format';
+
 import { format } from 'date-fns';
 
 import { Logger } from '../../utility/logger';
@@ -21,8 +23,7 @@ export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
         if (raceType === RaceType.NAR) {
             // getXDigitMonth(2)はdate-fnsで代替可能なら置換
             // 例: String(date.getMonth() + 1).padStart(2, '0')
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            return `https://www.keiba.go.jp/KeibaWeb/MonthlyConveneInfo/MonthlyConveneInfoTop?k_year=${date.getFullYear()}&k_month=${month}`;
+            return `https://www.keiba.go.jp/KeibaWeb/MonthlyConveneInfo/MonthlyConveneInfoTop?k_year=${date.getFullYear()}&k_month=${date.getXDigitMonth(2)}`;
         }
         if (raceType === RaceType.KEIRIN) {
             return `https://www.oddspark.com/keirin/KaisaiCalendar.do?target=${format(date, 'yyyyMM')}`;
