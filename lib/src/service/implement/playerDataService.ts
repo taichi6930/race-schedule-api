@@ -21,6 +21,7 @@ export class PlayerDataService implements IPlayerDataService {
      */
     public fetchPlayerDataList(type: RaceType): PlayerData[] {
         const allPlayers = this.repository.findAll();
+        console.log('allPlayers', allPlayers);
         return allPlayers
             .filter((p) => p.race_type === (type as string))
             .map((p) =>

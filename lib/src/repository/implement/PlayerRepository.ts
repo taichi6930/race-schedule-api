@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import type { ISQLiteGateway } from '../../gateway/interface/ISQLiteGateway';
+import { Logger } from '../../utility/logger';
 import type { IPlayerRepository, Player } from '../interface/IPlayerRepository';
 
 @injectable()
@@ -12,7 +13,8 @@ export class PlayerRepository implements IPlayerRepository {
         private readonly gateway: ISQLiteGateway,
     ) {}
 
-    public upsert = (player: Player): void => {
+    @Logger
+    public upsert(player: Player): void {
         const query = `INSERT INTO players (id, race_type, player_no, player_name, priority)
       VALUES (?, ?, ?, ?, ?)
       ON CONFLICT(id) DO UPDATE SET
@@ -27,20 +29,28 @@ export class PlayerRepository implements IPlayerRepository {
             player.player_name,
             player.priority,
         ]);
-    };
+    }
 
-    public findById = (id: string): Player | undefined => {
+    @Logger
+    public findById(id: string): Player | undefined {
         const query = 'SELECT * FROM players WHERE id = ?';
         return this.gateway.get<Player>(query, [id]);
-    };
+    }
 
-    public findAll = (): Player[] => {
+    @Logger
+    public findAll(): Player[] {
         const query = 'SELECT * FROM players';
-        return this.gateway.all<Player>(query);
-    };
+        const result = this.gateway.all<Player>(query);
+        console.log('PlayerRepository: findAll executed', {
+            query,
+            result,
+        });
+        return Array.isArray(result) ? result : [];
+    }
 
-    public deleteById = (id: string): void => {
+    @Logger
+    public deleteById(id: string): void {
         const query = 'DELETE FROM players WHERE id = ?';
         this.gateway.run(query, [id]);
-    };
+    }
 }

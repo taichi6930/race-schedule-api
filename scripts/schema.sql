@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS players (
     ,priority INTEGER NOT NULL DEFAULT 0
     ,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ,UNIQUE(race_type, player_no)
 );
 
 CREATE TRIGGER IF NOT EXISTS update_players_updated_at
