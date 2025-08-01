@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
-import type { IBoatraceRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iBoatraceRaceDataHtmlGateway';
-import { MockBoatraceRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockBoatraceRaceDataHtmlGateway';
+import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
+import { MockRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { BoatraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl';
@@ -13,18 +13,15 @@ import { allowedEnvs } from '../../../../lib/src/utility/env';
 import { SkipEnv } from '../../../utility/testDecorators';
 
 describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
-    let raceDataHtmlGateway: IBoatraceRaceDataHtmlGateway;
+    let raceDataHtmlGateway: IRaceDataHtmlGateway;
     let repository: BoatraceRaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
         // gatewayのモックを作成
-        raceDataHtmlGateway = new MockBoatraceRaceDataHtmlGateway();
+        raceDataHtmlGateway = new MockRaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
-        container.registerInstance(
-            'BoatraceRaceDataHtmlGateway',
-            raceDataHtmlGateway,
-        );
+        container.registerInstance('RaceDataHtmlGateway', raceDataHtmlGateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(BoatraceRaceRepositoryFromHtmlImpl);

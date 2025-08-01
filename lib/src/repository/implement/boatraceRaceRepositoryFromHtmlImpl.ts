@@ -6,7 +6,7 @@ import { inject, injectable } from 'tsyringe';
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
-import { IBoatraceRaceDataHtmlGateway } from '../../gateway/interface/iBoatraceRaceDataHtmlGateway';
+import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import {
     BoatraceRaceStage,
@@ -14,6 +14,7 @@ import {
 } from '../../utility/data/boatrace/boatraceRaceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -27,8 +28,8 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     implements IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
 {
     public constructor(
-        @inject('BoatraceRaceDataHtmlGateway')
-        private readonly raceDataHtmlGateway: IBoatraceRaceDataHtmlGateway,
+        @inject('RaceDataHtmlGateway')
+        private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
     /**
@@ -69,6 +70,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             // TODO: 全レースを取りたいが、12レースのみ取得するので、後で修正する
             const raceNumber = 12;
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
+                RaceType.BOATRACE,
                 placeData.dateTime,
                 placeData.location,
                 raceNumber,

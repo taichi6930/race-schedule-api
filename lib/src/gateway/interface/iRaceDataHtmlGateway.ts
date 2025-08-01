@@ -16,5 +16,6 @@ export interface IRaceDataHtmlGateway {
         raceType: RaceType,
         date: Date,
         place?: RaceCourse,
+        number?: number,
     ) => Promise<string>;
 }

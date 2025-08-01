@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 
 import { AutoracePlaceCodeMap } from '../../utility/data/autorace/autoraceRaceCourse';
 import { RaceCourse } from '../../utility/data/base';
+import { BoatracePlaceCodeMap } from '../../utility/data/boatrace/boatraceRaceCourse';
 import { KeirinPlaceCodeMap } from '../../utility/data/keirin/keirinRaceCourse';
 import { NarBabacodeMap } from '../../utility/data/nar/narRaceCourse';
 import { Logger } from '../../utility/logger';
@@ -17,39 +18,83 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
     private buildUrl(
         raceType: RaceType,
         date: Date,
-        place: RaceCourse | undefined,
+        place?: RaceCourse,
+        number?: number,
     ): string {
-        if (raceType === RaceType.JRA) {
-            return `../mockData/html/jra/race/${format(date, 'yyyyMMdd')}.html`;
-        }
-        if (raceType === RaceType.NAR) {
-            if (place === undefined) {
-                throw new Error('NARレースの開催場が指定されていません');
+        switch (raceType) {
+            case RaceType.JRA: {
+                return this.buildJraUrl(date);
             }
-            return `../mockData/html/nar/race/${format(date, 'yyyyMMdd')}${NarBabacodeMap[place]}.html`;
-        }
-        if (raceType === RaceType.WORLD) {
-            return `../mockData/html/world/race/${format(date, 'yyyyMM')}.html`;
-        }
-        if (raceType === RaceType.KEIRIN) {
-            if (place === undefined) {
-                throw new Error('競輪レースの開催場が指定されていません');
+            case RaceType.NAR: {
+                return this.buildNarUrl(date, place);
             }
-            return `../mockData/html/keirin/race/${format(date, 'yyyyMMdd')}${KeirinPlaceCodeMap[place]}.html`;
-        }
-        if (raceType === RaceType.AUTORACE) {
-            if (place === undefined) {
-                throw new Error('オートレースの開催場が指定されていません');
+            case RaceType.WORLD: {
+                return this.buildWorldUrl(date);
             }
-            return `../mockData/html/autorace/race/${format(date, 'yyyyMMdd')}${AutoracePlaceCodeMap[place]}.html`;
+            case RaceType.KEIRIN: {
+                return this.buildKeirinUrl(date, place);
+            }
+            case RaceType.AUTORACE: {
+                return this.buildAutoraceUrl(date, place);
+            }
+            case RaceType.BOATRACE: {
+                return this.buildBoatraceUrl(date, place, number);
+            }
+            default: {
+                throw new Error('未対応のraceTypeです');
+            }
         }
-        throw new Error('未対応のraceTypeです');
+    }
+
+    private buildJraUrl(date: Date): string {
+        return `../mockData/html/jra/race/${format(date, 'yyyyMMdd')}.html`;
+    }
+
+    private buildNarUrl(date: Date, place?: RaceCourse): string {
+        if (place === undefined) {
+            throw new Error('NARレースの開催場が指定されていません');
+        }
+        return `../mockData/html/nar/race/${format(date, 'yyyyMMdd')}${NarBabacodeMap[place]}.html`;
+    }
+
+    private buildWorldUrl(date: Date): string {
+        return `../mockData/html/world/race/${format(date, 'yyyyMM')}.html`;
+    }
+
+    private buildKeirinUrl(date: Date, place?: RaceCourse): string {
+        if (place === undefined) {
+            throw new Error('競輪レースの開催場が指定されていません');
+        }
+        return `../mockData/html/keirin/race/${format(date, 'yyyyMMdd')}${KeirinPlaceCodeMap[place]}.html`;
+    }
+
+    private buildAutoraceUrl(date: Date, place?: RaceCourse): string {
+        if (place === undefined) {
+            throw new Error('オートレースの開催場が指定されていません');
+        }
+        return `../mockData/html/autorace/race/${format(date, 'yyyyMMdd')}${AutoracePlaceCodeMap[place]}.html`;
+    }
+
+    private buildBoatraceUrl(
+        date: Date,
+        place?: RaceCourse,
+        number?: number,
+    ): string {
+        if (place === undefined) {
+            throw new Error('ボートレースの開催場が指定されていません');
+        }
+        if (number === undefined) {
+            throw new Error('ボートレースのレース番号が指定されていません');
+        }
+        return `../mockData/html/boatrace/race/${format(date, 'yyyyMMdd')}${BoatracePlaceCodeMap[place]}${number.toString()}.html`;
+        // lib/src/gateway/mockData/html/boatrace/placeの中にあるhtmlを取得
     }
     /**
      * レースデータのHTMLを取得する
      * @param raceType
      * @param date - 取得する年月
      * @param place - 開催場
+     * @param number
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger
@@ -57,10 +102,11 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         raceType: RaceType,
         date: Date,
         place: RaceCourse | undefined,
+        number?: number,
     ): Promise<string> {
         try {
             // mockDataフォルダにあるhtmlを取得
-            const testHtmlUrl = this.buildUrl(raceType, date, place);
+            const testHtmlUrl = this.buildUrl(raceType, date, place, number);
             // lib/src/gateway/mockData/html/nar/placeの中にあるhtmlを取得
             const htmlFilePath = path.join(__dirname, testHtmlUrl);
             const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
