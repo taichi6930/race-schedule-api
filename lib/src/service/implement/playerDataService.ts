@@ -35,7 +35,7 @@ export class PlayerDataService implements IPlayerDataService {
                 if (!isRaceType(raceTypeStr)) {
                     return false;
                 }
-                return true;
+                return p.race_type.toUpperCase() === _type.toUpperCase();
             })
             .map((p) => {
                 // race_typeの型安全な変換
