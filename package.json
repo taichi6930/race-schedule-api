@@ -34,7 +34,7 @@
         "db:setup": "TZ=jst ts-node lib/scripts/sqliteSetting.ts"
     },
     "dependencies": {
-        "@aws-sdk/client-s3": "^3.857.0",
+        "@aws-sdk/client-s3": "^3.858.0",
         "@codegenie/serverless-express": "^4.17.0",
         "@types/aws-lambda": "^8.10.152",
         "@types/express": "^5.0.3",
@@ -79,7 +79,7 @@
         "@types/swagger-ui-express": "^4.1.8",
         "aws-cdk": "2.1023.0",
         "eslint": "^9.31.0",
-        "eslint-plugin-jsdoc": "^52.0.1",
+        "eslint-plugin-jsdoc": "^52.0.2",
         "eslint-plugin-promise": "^7.2.1",
         "eslint-plugin-unicorn": "^60.0.0",
         "eslint-plugin-unused-imports": "^4.1.4",
@@ -87,7 +87,7 @@
         "husky": "^9.1.7",
         "jest": "^30.0.5",
         "lint-staged": "^16.1.2",
-        "typescript": "~5.8.3",
+        "typescript": "~5.9.2",
         "typescript-eslint": "^8.38.0"
     },
     "lint-staged": {
