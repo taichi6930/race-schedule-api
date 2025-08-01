@@ -16,7 +16,7 @@ import {
     generateKeirinRaceId,
     generateKeirinRacePlayerId,
 } from '../../../../lib/src/utility/raceId';
-import { RaceType } from '../../../../lib/src/utility/sqlite';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 
 const baseKeirinPlaceCourse: KeirinRaceCourse = '平塚';
 const baseKeirinPlaceDateTime = new Date('2025-12-30');

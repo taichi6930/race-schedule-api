@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
+import { IPlayerDataUseCase } from '../usecase/interface/IPlayerDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { AutoraceSpecifiedGradeList } from '../utility/data/autorace/autoraceGradeType';
@@ -26,6 +27,8 @@ export class PublicGamblingController {
         private readonly publicGamblingPlaceUseCase: IPlaceDataUseCase,
         @inject('PublicGamblingRaceDataUseCase')
         private readonly publicGamblingRaceDataUseCase: IRaceDataUseCase,
+        @inject('PublicGamblingPlayerUseCase')
+        private readonly publicGamblingPlayerUseCase: IPlayerDataUseCase,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -45,6 +48,8 @@ export class PublicGamblingController {
         // PlaceData関連のAPI
         this.router.get('/place', this.getPlaceDataList.bind(this));
         this.router.post('/place', this.updatePlaceDataList.bind(this));
+        // PlayerData関連のAPI
+        this.router.get('/player', this.getPlayerDataList.bind(this));
     }
 
     /**
@@ -455,6 +460,54 @@ export class PublicGamblingController {
             res.status(500).send(
                 `サーバーエラーが発生しました: ${errorMessage}`,
             );
+        }
+    }
+
+    /**
+     * 選手データを取得する
+     * @param req - リクエスト
+     * @param res - レスポンス
+     */
+    @Logger
+    private async getPlayerDataList(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            // gradeが複数来ることもある
+            const { raceType } = req.query;
+
+            const raceTypeList =
+                typeof raceType === 'string'
+                    ? [raceType]
+                    : typeof raceType === 'object'
+                      ? Array.isArray(raceType)
+                          ? (raceType as string[]).map((r: string) => r)
+                          : undefined
+                      : undefined;
+
+            if (!raceTypeList || raceTypeList.length === 0) {
+                res.status(400).json({
+                    error: 'raceTypeは必須です',
+                    details: 'raceTypeを指定してください',
+                });
+                return;
+            }
+
+            // レース情報を取得する
+            const players =
+                await this.publicGamblingPlayerUseCase.fetchPlayerDataList(
+                    raceTypeList,
+                );
+            res.json(players);
+        } catch (error) {
+            console.error('レース情報の取得中にエラーが発生しました:', error);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).json({
+                error: 'サーバーエラーが発生しました',
+                details: `レース情報の取得中にエラーが発生しました: ${errorMessage}`,
+            });
         }
     }
 }

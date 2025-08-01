@@ -13,7 +13,7 @@ import {
     generateNarPlaceId,
     generateNarRaceId,
 } from '../../../../lib/src/utility/raceId';
-import { RaceType } from '../../../../lib/src/utility/sqlite';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 
 const baseNarPlaceCourse: NarRaceCourse = '大井';
 const baseNarPlaceDateTime = new Date('2024-12-29');

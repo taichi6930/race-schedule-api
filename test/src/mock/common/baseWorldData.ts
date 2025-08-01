@@ -8,7 +8,7 @@ import type { WorldGradeType } from '../../../../lib/src/utility/data/world/worl
 import type { WorldRaceCourse } from '../../../../lib/src/utility/data/world/worldRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { generateWorldRaceId } from '../../../../lib/src/utility/raceId';
-import { RaceType } from '../../../../lib/src/utility/sqlite';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 
 const baseWorldPlaceCourse: WorldRaceCourse = 'パリロンシャン';
 const baseWorldPlaceDateTime = new Date('2024-10-01');

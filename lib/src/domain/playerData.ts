@@ -1,5 +1,5 @@
 import { validatePlayerNumber } from '../utility/data/playerNumber';
-import type { RaceType } from '../utility/sqlite';
+import type { RaceType } from '../utility/raceType';
 
 /**
  * 選手情報
