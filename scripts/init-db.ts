@@ -200,7 +200,7 @@ const playerList: Player[] = [
 ];
 
 const insertStmt = db.prepare(
-    `INSERT INTO users (race_type, player_no, player_name, priority) VALUES (@race_type, @player_no, @player_name, @priority)`,
+    `INSERT INTO players (race_type, player_no, player_name, priority) VALUES (@race_type, @player_no, @player_name, @priority)`,
 );
 for (const player of playerList) {
     insertStmt.run(player);

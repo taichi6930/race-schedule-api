@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-parameters */
+
 import Database, { Database as DatabaseType } from 'better-sqlite3';
 import { injectable } from 'tsyringe';
 
@@ -9,6 +10,8 @@ export class SQLiteGateway implements ISQLiteGateway {
     private readonly db: DatabaseType;
 
     public constructor(dbPath: string) {
+        // デバッグ用のログ出力
+        console.log(`SQLiteGateway: Opening database at ${dbPath}`);
         this.db = new Database(dbPath);
         this.db.pragma('journal_mode = WAL');
     }

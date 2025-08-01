@@ -1,5 +1,5 @@
 -- DBスキーマ定義
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS players (
     id INTEGER PRIMARY KEY AUTOINCREMENT
     ,race_type TEXT NOT NULL
     ,player_no TEXT NOT NULL
@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS users (
     ,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TRIGGER IF NOT EXISTS update_users_updated_at
-AFTER UPDATE ON users
+CREATE TRIGGER IF NOT EXISTS update_players_updated_at
+AFTER UPDATE ON players
 FOR EACH ROW
 BEGIN
-    UPDATE users SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+    UPDATE players SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
 END;
