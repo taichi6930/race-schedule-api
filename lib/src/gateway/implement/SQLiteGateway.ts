@@ -3,6 +3,7 @@
 import Database, { Database as DatabaseType } from 'better-sqlite3';
 import { injectable } from 'tsyringe';
 
+import { Logger } from '../../utility/logger';
 import type { ISQLiteGateway } from '../interface/ISQLiteGateway';
 
 @injectable()
@@ -20,6 +21,7 @@ export class SQLiteGateway implements ISQLiteGateway {
      * トランザクションラップメソッド
      * @param fn - トランザクション内で実行する関数
      */
+    @Logger
     public transaction<T>(fn: () => T): T {
         try {
             this.db.prepare('BEGIN TRANSACTION').run();
@@ -32,6 +34,7 @@ export class SQLiteGateway implements ISQLiteGateway {
         }
     }
 
+    @Logger
     public run(query: string, params: unknown[] = []): void {
         try {
             this.db.prepare(query).run(...params);
@@ -40,6 +43,7 @@ export class SQLiteGateway implements ISQLiteGateway {
         }
     }
 
+    @Logger
     public get<T>(query: string, params: unknown[] = []): T | undefined {
         try {
             const row = this.db.prepare(query).get(...params);
@@ -50,6 +54,7 @@ export class SQLiteGateway implements ISQLiteGateway {
         }
     }
 
+    @Logger
     public all<T>(query: string, params: unknown[] = []): T[] {
         try {
             const rows = this.db.prepare(query).all(...params);
