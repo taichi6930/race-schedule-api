@@ -9,7 +9,7 @@ import { container } from 'tsyringe';
 
 import { SQLiteGateway } from '../../src/gateway/implement/SQLiteGateway';
 import type { ISQLiteGateway } from '../../src/gateway/interface/ISQLiteGateway';
-import { PlayerRepository } from '../../src/repository/implement/PlayerRepository';
+import { PlayerRepository } from '../../src/repository/implement/playerRepository';
 import type { IPlayerRepository } from '../../src/repository/interface/IPlayerRepository';
 
 // SQLiteGateway
