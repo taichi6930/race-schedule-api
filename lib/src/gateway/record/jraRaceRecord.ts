@@ -3,6 +3,10 @@ import '../../utility/format';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import {
+    type JraRaceCourse,
+    validateRaceCourse,
+} from '../../utility/data/common/raceCourse';
+import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
@@ -20,14 +24,8 @@ import {
     type JraHeldTimes,
     validateJraHeldTimes,
 } from '../../utility/data/jra/jraHeldTimes';
-import {
-    type JraRaceCourse,
-    validateJraRaceCourse,
-} from '../../utility/data/jra/jraRaceCourse';
-import {
-    type JraRaceCourseType,
-    validateJraRaceCourseType,
-} from '../../utility/data/jra/jraRaceCourseType';
+import type { JraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
+import { validateJraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
 import {
     type JraRaceId,
     validateJraRaceId,
@@ -41,6 +39,7 @@ import {
     validateJraRaceNumber,
 } from '../../utility/data/jra/jraRaceNumber';
 import { createErrorMessage } from '../../utility/error';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -110,7 +109,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
                 validateJraRaceId(id),
                 validateJraRaceName(name),
                 validateRaceDateTime(dateTime),
-                validateJraRaceCourse(location),
+                validateRaceCourse(RaceType.JRA, location),
                 validateJraRaceCourseType(surfaceType),
                 validateRaceDistance(distance),
                 validateJraGradeType(grade),

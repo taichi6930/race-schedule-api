@@ -1,5 +1,74 @@
 import { z } from 'zod';
 
+import { RaceType } from '../../raceType';
+import { AutoraceRaceCourseSchema } from '../autorace/autoraceRaceCourse';
+import type { RaceCourse } from '../base';
+import { BoatraceRaceCourseSchema } from '../boatrace/boatraceRaceCourse';
+import { NarRaceCourseSchema } from '../nar/narRaceCourse';
+import { WorldRaceCourseSchema } from '../world/worldRaceCourse';
+
+/**
+ * JraRaceCourseのzod型定義
+ */
+export const JraRaceCourseSchema = z.string().refine((value) => {
+    return JraRaceCourseList.has(value);
+}, '中央の競馬場ではありません');
+
+/**
+ * JraRaceCourseの型定義
+ */
+export type JraRaceCourse = z.infer<typeof JraRaceCourseSchema>;
+
+/**
+ * JRAの競馬場 リスト
+ */
+const JraRaceCourseList = new Set([
+    '札幌',
+    '函館',
+    '福島',
+    '新潟',
+    '東京',
+    '中山',
+    '中京',
+    '京都',
+    '阪神',
+    '小倉',
+]);
+
+/**
+ * 開催場のバリデーション
+ * @param raceType
+ * @param course
+ */
+export const validateRaceCourse = (
+    raceType: RaceType,
+    course: string,
+): RaceCourse => {
+    switch (raceType) {
+        case RaceType.JRA: {
+            return JraRaceCourseSchema.parse(course);
+        }
+        case RaceType.NAR: {
+            return NarRaceCourseSchema.parse(course);
+        }
+        case RaceType.WORLD: {
+            return WorldRaceCourseSchema.parse(course);
+        }
+        case RaceType.KEIRIN: {
+            return KeirinRaceCourseSchema.parse(course);
+        }
+        case RaceType.AUTORACE: {
+            return AutoraceRaceCourseSchema.parse(course);
+        }
+        case RaceType.BOATRACE: {
+            return BoatraceRaceCourseSchema.parse(course);
+        }
+        default: {
+            throw new Error('未対応のraceTypeです');
+        }
+    }
+};
+
 /**
  * 競輪のレース場名とコードの対応表
  */
@@ -106,10 +175,3 @@ const KeirinRaceCourseList = new Set([
     '別府',
     '熊本',
 ]);
-
-/**
- * 開催競輪場のバリデーション
- * @param course
- */
-export const validateKeirinRaceCourse = (course: string): KeirinRaceCourse =>
-    KeirinRaceCourseSchema.parse(course);

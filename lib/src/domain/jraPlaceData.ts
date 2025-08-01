@@ -1,4 +1,8 @@
 import {
+    type JraRaceCourse,
+    validateRaceCourse,
+} from '../utility/data/common/raceCourse';
+import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../utility/data/common/raceDateTime';
@@ -10,8 +14,7 @@ import {
     type JraHeldTimes,
     validateJraHeldTimes,
 } from '../utility/data/jra/jraHeldTimes';
-import type { JraRaceCourse } from '../utility/data/jra/jraRaceCourse';
-import { validateJraRaceCourse } from '../utility/data/jra/jraRaceCourse';
+import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -74,7 +77,7 @@ export class JraPlaceData implements IPlaceData<JraPlaceData> {
     ): JraPlaceData {
         return new JraPlaceData(
             validateRaceDateTime(dateTime),
-            validateJraRaceCourse(location),
+            validateRaceCourse(RaceType.JRA, location),
             validateJraHeldTimes(heldTimes),
             validateJraHeldDayTimes(heldDayTimes),
         );

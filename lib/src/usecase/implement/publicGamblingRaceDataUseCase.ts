@@ -20,10 +20,10 @@ import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import { BoatraceRaceCourse } from '../../utility/data/boatrace/boatraceRaceCourse';
 import { BoatraceRaceStage } from '../../utility/data/boatrace/boatraceRaceStage';
+import { KeirinRaceCourse } from '../../utility/data/common/raceCourse';
+import { JraRaceCourse } from '../../utility/data/common/raceCourse';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
-import { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
-import { KeirinRaceCourse } from '../../utility/data/keirin/keirinRaceCourse';
 import { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
 import { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';

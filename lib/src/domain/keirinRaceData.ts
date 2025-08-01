@@ -1,13 +1,13 @@
+import {
+    type KeirinRaceCourse,
+    validateRaceCourse,
+} from '../utility/data/common/raceCourse';
 import type { RaceDateTime } from '../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
 import {
     type KeirinGradeType,
     validateKeirinGradeType,
 } from '../utility/data/keirin/keirinGradeType';
-import {
-    type KeirinRaceCourse,
-    validateKeirinRaceCourse,
-} from '../utility/data/keirin/keirinRaceCourse';
 import {
     type KeirinRaceName,
     validateKeirinRaceName,
@@ -20,6 +20,7 @@ import {
     type KeirinRaceStage,
     validateKeirinRaceStage,
 } from '../utility/data/keirin/keirinRaceStage';
+import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -106,7 +107,7 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
             validateKeirinRaceName(name),
             validateKeirinRaceStage(stage),
             validateRaceDateTime(dateTime),
-            validateKeirinRaceCourse(location),
+            validateRaceCourse(RaceType.KEIRIN, location),
             validateKeirinGradeType(grade),
             validateKeirinRaceNumber(number),
         );

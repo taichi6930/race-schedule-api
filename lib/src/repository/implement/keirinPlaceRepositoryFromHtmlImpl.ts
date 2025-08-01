@@ -6,11 +6,11 @@ import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import {
     KeirinRaceCourse,
-    validateKeirinRaceCourse,
-} from '../../utility/data/keirin/keirinRaceCourse';
+    validateRaceCourse,
+} from '../../utility/data/common/raceCourse';
+import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -125,7 +125,8 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                     if (!th.text()) {
                         return;
                     }
-                    const place: KeirinRaceCourse = validateKeirinRaceCourse(
+                    const place: KeirinRaceCourse = validateRaceCourse(
+                        RaceType.KEIRIN,
                         th.text(),
                     );
 

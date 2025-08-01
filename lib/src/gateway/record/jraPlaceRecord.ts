@@ -1,5 +1,9 @@
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
+import {
+    type JraRaceCourse,
+    validateRaceCourse,
+} from '../../utility/data/common/raceCourse';
 import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../../utility/data/common/raceDateTime';
 import {
@@ -14,11 +18,8 @@ import {
     type JraPlaceId,
     validateJraPlaceId,
 } from '../../utility/data/jra/jraPlaceId';
-import {
-    type JraRaceCourse,
-    validateJraRaceCourse,
-} from '../../utility/data/jra/jraRaceCourse';
 import { createErrorMessage } from '../../utility/error';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 /**
@@ -66,7 +67,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
             return new JraPlaceRecord(
                 validateJraPlaceId(id),
                 validateRaceDateTime(dateTime),
-                validateJraRaceCourse(location),
+                validateRaceCourse(RaceType.JRA, location),
                 validateJraHeldTimes(heldTimes),
                 validateJraHeldDayTimes(heldDayTimes),
                 validateUpdateDate(updateDate),

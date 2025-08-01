@@ -3,11 +3,11 @@ import { inject, injectable } from 'tsyringe';
 
 import { JraRaceData } from '../../domain/jraRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import {
     JraRaceCourse,
-    validateJraRaceCourse,
-} from '../../utility/data/jra/jraRaceCourse';
+    validateRaceCourse,
+} from '../../utility/data/common/raceCourse';
+import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { JraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -217,7 +217,7 @@ export class JraRaceRepositoryFromHtmlImpl
         const placeString: string = theadElementMatch[2];
         // placeStringがJraRaceCourseに変換できるかを確認して、OKであればキャストする
         const place: JraRaceCourse = placeString;
-        return validateJraRaceCourse(place);
+        return validateRaceCourse(RaceType.JRA, place);
     };
 
     /**

@@ -7,8 +7,8 @@ import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecor
 import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
+import type { JraRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import type { JraGradeType } from '../../../../lib/src/utility/data/jra/jraGradeType';
-import type { JraRaceCourse } from '../../../../lib/src/utility/data/jra/jraRaceCourse';
 import {
     generateJraPlaceId,
     generateJraRaceId,

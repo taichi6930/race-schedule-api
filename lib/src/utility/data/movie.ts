@@ -1,4 +1,4 @@
-import type { KeirinRaceCourse } from './keirin/keirinRaceCourse';
+import type { RaceCourse } from './base';
 
 /**
  * YoutubeのライブURLを取得する
@@ -34,7 +34,7 @@ export const ChihoKeibaYoutubeUserIdMap: Record<string, string> = {
  * @param placeName
  * @returns YoutubeのライブURL
  */
-export const KeirinYoutubeUserIdMap: Record<KeirinRaceCourse, string> = {
+export const KeirinYoutubeUserIdMap: Record<RaceCourse, string> = {
     函館: 'rinrin-hakodate-Keirin',
     青森: 'もりんちゃんねる葵萌輪',
     いわき平: 'iwakitairakeirin',
