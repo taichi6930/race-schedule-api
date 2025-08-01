@@ -3,11 +3,11 @@ import { inject, injectable } from 'tsyringe';
 
 import { JraRaceData } from '../../domain/jraRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
+import { JraGradeType } from '../../utility/data/common/gradeType';
 import {
     JraRaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { JraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';

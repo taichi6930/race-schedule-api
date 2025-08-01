@@ -1,4 +1,3 @@
-import type { BoatraceGradeType } from '../utility/data/boatrace/boatraceGradeType';
 import {
     type BoatraceRaceName,
     validateBoatraceRaceName,
@@ -11,6 +10,7 @@ import {
     type BoatraceRaceStage,
     validateBoatraceRaceStage,
 } from '../utility/data/boatrace/boatraceRaceStage';
+import type { BoatraceGradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
 import {
     type BoatraceRaceCourse,

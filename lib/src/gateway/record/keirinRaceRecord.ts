@@ -1,5 +1,6 @@
 import '../../utility/format';
 
+import type { KeirinGradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
     type KeirinRaceCourse,
@@ -9,7 +10,6 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
-import type { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import {
     type KeirinRaceId,
     validateKeirinRaceId,

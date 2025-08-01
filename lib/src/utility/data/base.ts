@@ -1,9 +1,13 @@
 import { z } from 'zod';
 
 import { AutoraceRaceStageSchema } from './autorace/autoraceRaceStage';
-import { BoatraceGradeTypeSchema } from './boatrace/boatraceGradeType';
 import { BoatraceRaceStageSchema } from './boatrace/boatraceRaceStage';
+import { BoatraceGradeTypeSchema } from './common/gradeType';
 import { AutoraceGradeTypeSchema } from './common/gradeType';
+import { KeirinGradeTypeSchema } from './common/gradeType';
+import { JraGradeTypeSchema } from './common/gradeType';
+import { NarGradeTypeSchema } from './common/gradeType';
+import { WorldGradeTypeSchema } from './common/gradeType';
 import {
     AutoraceRaceCourseSchema,
     BoatraceRaceCourseSchema,
@@ -12,11 +16,7 @@ import {
     NarRaceCourseSchema,
     WorldRaceCourseSchema,
 } from './common/raceCourse';
-import { JraGradeTypeSchema } from './jra/jraGradeType';
-import { KeirinGradeTypeSchema } from './keirin/keirinGradeType';
 import { KeirinRaceStageSchema } from './keirin/keirinRaceStage';
-import { NarGradeTypeSchema } from './nar/narGradeType';
-import { WorldGradeTypeSchema } from './world/worldGradeType';
 
 /**
  * GradeTypeのzod型定義

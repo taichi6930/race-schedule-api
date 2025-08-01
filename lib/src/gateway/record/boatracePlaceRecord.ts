@@ -1,10 +1,10 @@
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
-import type { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import {
     type BoatracePlaceId,
     validateBoatracePlaceId,
 } from '../../utility/data/boatrace/boatracePlaceId';
+import type { BoatraceGradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
     type BoatraceRaceCourse,

@@ -1,9 +1,9 @@
+import type { KeirinGradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
 import type { KeirinRaceCourse } from '../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../utility/data/common/raceCourse';
 import type { RaceDateTime } from '../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
-import type { KeirinGradeType } from '../utility/data/keirin/keirinGradeType';
 import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 

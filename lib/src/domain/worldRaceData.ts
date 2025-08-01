@@ -1,3 +1,4 @@
+import type { WorldGradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
 import {
     validateRaceCourse,
@@ -9,7 +10,6 @@ import {
     type RaceDistance,
     validateRaceDistance,
 } from '../utility/data/common/raceDistance';
-import type { WorldGradeType } from '../utility/data/world/worldGradeType';
 import {
     validateWorldRaceCourseType,
     type WorldRaceCourseType,

@@ -1,4 +1,4 @@
-import type { BoatraceGradeType } from '../utility/data/boatrace/boatraceGradeType';
+import type { BoatraceGradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
 import type { BoatraceRaceCourse } from '../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../utility/data/common/raceCourse';

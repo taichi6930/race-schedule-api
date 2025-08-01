@@ -1,3 +1,4 @@
+import type { JraGradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
 import {
     type JraRaceCourse,
@@ -11,7 +12,6 @@ import {
     type RaceDistance,
     validateRaceDistance,
 } from '../utility/data/common/raceDistance';
-import type { JraGradeType } from '../utility/data/jra/jraGradeType';
 import {
     type JraHeldDayTimes,
     validateJraHeldDayTimes,

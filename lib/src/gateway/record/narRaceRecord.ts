@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
+import type { NarGradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
     type NarRaceCourse,
@@ -15,7 +16,6 @@ import {
     type RaceDistance,
     validateRaceDistance,
 } from '../../utility/data/common/raceDistance';
-import type { NarGradeType } from '../../utility/data/nar/narGradeType';
 import {
     type NarRaceCourseType,
     validateNarRaceCourseType,
