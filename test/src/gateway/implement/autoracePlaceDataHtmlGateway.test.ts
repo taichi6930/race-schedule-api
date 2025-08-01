@@ -2,7 +2,7 @@ import { PlaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/plac
 import type { IPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
-describe('AutoPlaceDataHtmlGateway', () => {
+describe('AutoRacePlaceDataHtmlGateway', () => {
     let gateway: IPlaceDataHtmlGateway;
     let fetchMock: jest.Mock;
 

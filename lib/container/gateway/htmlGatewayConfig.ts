@@ -1,14 +1,11 @@
 import { container } from 'tsyringe';
 
-import { BoatracePlaceDataHtmlGateway } from '../../src/gateway/implement/boatracePlaceDataHtmlGateway';
 import { BoatraceRaceDataHtmlGateway } from '../../src/gateway/implement/boatraceRaceDataHtmlGateway';
 import { PlaceDataHtmlGateway } from '../../src/gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGateway } from '../../src/gateway/implement/raceDataHtmlGateway';
-import type { IBoatracePlaceDataHtmlGateway } from '../../src/gateway/interface/iBoatracePlaceDataHtmlGateway';
 import type { IBoatraceRaceDataHtmlGateway } from '../../src/gateway/interface/iBoatraceRaceDataHtmlGateway';
 import type { IPlaceDataHtmlGateway } from '../../src/gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from '../../src/gateway/interface/iRaceDataHtmlGateway';
-import { MockBoatracePlaceDataHtmlGateway } from '../../src/gateway/mock/mockBoatracePlaceDataHtmlGateway';
 import { MockBoatraceRaceDataHtmlGateway } from '../../src/gateway/mock/mockBoatraceRaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../src/gateway/mock/mockPlaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../src/gateway/mock/mockRaceDataHtmlGateway';
@@ -56,28 +53,6 @@ container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
     },
 });
 
-container.register<IBoatracePlaceDataHtmlGateway>(
-    'BoatracePlaceDataHtmlGateway',
-    {
-        useFactory: () => {
-            switch (ENV) {
-                case allowedEnvs.production: {
-                    return new BoatracePlaceDataHtmlGateway();
-                }
-                case allowedEnvs.local:
-                case allowedEnvs.localNoInitData:
-                case allowedEnvs.localInitMadeData:
-                case allowedEnvs.test:
-                case allowedEnvs.githubActionsCi: {
-                    return new MockBoatracePlaceDataHtmlGateway();
-                }
-                default: {
-                    throw new Error('Invalid ENV value');
-                }
-            }
-        },
-    },
-);
 container.register<IBoatraceRaceDataHtmlGateway>(
     'BoatraceRaceDataHtmlGateway',
     {

@@ -31,6 +31,12 @@ export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
         if (raceType === RaceType.AUTORACE) {
             return `https://www.oddspark.com/autorace/KaisaiCalendar.do?target=${format(date, 'yyyyMM')}`;
         }
+        if (raceType === RaceType.BOATRACE) {
+            // 1~3月は1、4月~6月は2、7月~9月は3、10月~12月は4
+            const quarter = Math.ceil((date.getMonth() + 1) / 3).toString();
+            // ボートレースのURLはquarterを使って生成
+            return `https://sports.yahoo.co.jp/boatrace/schedule/?quarter=${quarter}`;
+        }
         throw new Error('未対応のraceTypeです');
     }
 
