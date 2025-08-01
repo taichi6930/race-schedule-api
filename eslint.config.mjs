@@ -312,5 +312,5 @@ export default [
             '@typescript-eslint/no-explicit-any': 'off', // ✅ any型の代入を許可
             '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型のプロパティアクセスを許可
         },
-    }
+    },
 ];
