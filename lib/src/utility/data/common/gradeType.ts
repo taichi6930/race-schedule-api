@@ -18,17 +18,6 @@ export const AutoraceGradeTypeSchema = z
 export type AutoraceGradeType = z.infer<typeof AutoraceGradeTypeSchema>;
 
 /**
- * ボートレースのグレード リスト
- */
-const AutoraceGradeTypeList = new Set<string>([
-    'SG',
-    '特GⅠ',
-    'GⅠ',
-    'GⅡ',
-    '開催',
-]);
-
-/**
  * オートレースのグレードのバリデーション
  * @param raceType
  * @param grade - オートレースのグレード
@@ -62,11 +51,6 @@ export const validateGradeType = (
         }
     }
 };
-
-/**
- * オートレースの指定グレードリスト
- */
-export const AutoraceSpecifiedGradeList: AutoraceGradeType[] = ['SG'];
 
 /**
  * JraGradeTypeのzod型定義
@@ -141,28 +125,6 @@ export const WorldGradeTypeSchema = z.string().refine((value) => {
 export type WorldGradeType = z.infer<typeof WorldGradeTypeSchema>;
 
 /**
- * 海外競馬のグレード リスト
- */
-const WorldGradeTypeList = new Set<string>([
-    'GⅠ',
-    'GⅡ',
-    'GⅢ',
-    'Listed',
-    '格付けなし',
-]);
-
-/**
- * 海外競馬の指定グレードリスト
- */
-export const WorldSpecifiedGradeList: WorldGradeType[] = [
-    'GⅠ',
-    'GⅡ',
-    'GⅢ',
-    'Listed',
-    '格付けなし',
-];
-
-/**
  * KeirinGradeTypeのzod型定義
  */
 export const KeirinGradeTypeSchema = z.string().refine((value) => {
@@ -173,30 +135,6 @@ export const KeirinGradeTypeSchema = z.string().refine((value) => {
  * KeirinGradeTypeの型定義
  */
 export type KeirinGradeType = z.infer<typeof KeirinGradeTypeSchema>;
-
-/**
- * 競輪のグレード リスト
- */
-const KeirinGradeTypeList = new Set<string>([
-    'GP',
-    'GⅠ',
-    'GⅡ',
-    'GⅢ',
-    'FⅠ',
-    'FⅡ',
-]);
-
-/**
- * 競輪の指定グレードリスト
- */
-export const KeirinSpecifiedGradeList: KeirinGradeType[] = [
-    'GP',
-    'GⅠ',
-    'GⅡ',
-    'GⅢ',
-    'FⅠ',
-    'FⅡ',
-];
 
 /**
  * NarGradeTypeのzod型定義
@@ -261,16 +199,155 @@ export const BoatraceGradeTypeSchema = z.string().refine((value) => {
 export type BoatraceGradeType = z.infer<typeof BoatraceGradeTypeSchema>;
 
 /**
- * ボートレースのグレード リスト
+ * グレードのマスターリスト
  */
-const BoatraceGradeTypeList = new Set<string>(['SG', 'GⅠ', 'GⅡ', 'GⅢ', '一般']);
+const GradeMasterList: {
+    gradeName: string;
+    detail: { raceType: RaceType; isSpecified: boolean }[];
+}[] = [
+    {
+        gradeName: 'SG',
+        detail: [
+            { raceType: RaceType.BOATRACE, isSpecified: true },
+            { raceType: RaceType.AUTORACE, isSpecified: true },
+        ],
+    },
+    {
+        gradeName: 'GP',
+        detail: [{ raceType: RaceType.KEIRIN, isSpecified: true }],
+    },
+    {
+        gradeName: '特GⅠ',
+        detail: [{ raceType: RaceType.AUTORACE, isSpecified: true }],
+    },
+    {
+        gradeName: 'GⅠ',
+        detail: [
+            { raceType: RaceType.BOATRACE, isSpecified: false },
+            { raceType: RaceType.WORLD, isSpecified: true },
+            { raceType: RaceType.KEIRIN, isSpecified: true },
+            { raceType: RaceType.AUTORACE, isSpecified: false },
+        ],
+    },
+    {
+        gradeName: 'GⅡ',
+        detail: [
+            { raceType: RaceType.BOATRACE, isSpecified: false },
+            { raceType: RaceType.WORLD, isSpecified: true },
+            { raceType: RaceType.KEIRIN, isSpecified: true },
+            { raceType: RaceType.AUTORACE, isSpecified: false },
+        ],
+    },
+    {
+        gradeName: 'GⅢ',
+        detail: [
+            { raceType: RaceType.BOATRACE, isSpecified: false },
+            { raceType: RaceType.WORLD, isSpecified: true },
+            { raceType: RaceType.KEIRIN, isSpecified: true },
+        ],
+    },
+    {
+        gradeName: 'FⅠ',
+        detail: [{ raceType: RaceType.KEIRIN, isSpecified: true }],
+    },
+    {
+        gradeName: 'FⅡ',
+        detail: [{ raceType: RaceType.KEIRIN, isSpecified: true }],
+    },
+    {
+        gradeName: 'Listed',
+        detail: [{ raceType: RaceType.WORLD, isSpecified: true }],
+    },
+    {
+        gradeName: '一般',
+        detail: [{ raceType: RaceType.BOATRACE, isSpecified: false }],
+    },
+    {
+        gradeName: '開催',
+        detail: [{ raceType: RaceType.AUTORACE, isSpecified: false }],
+    },
+    {
+        gradeName: '格付けなし',
+        detail: [{ raceType: RaceType.WORLD, isSpecified: true }],
+    },
+];
 
 /**
- * ボートレースのグレード
+ * ボートレースのグレード リスト
  */
-export const BoatraceSpecifiedGradeList: BoatraceGradeType[] = [
-    'SG',
-    'GⅠ',
-    'GⅡ',
-    'GⅢ',
-];
+const BoatraceGradeTypeList = new Set<string>(
+    GradeMasterList.filter((grade) =>
+        grade.detail.some((detail) => detail.raceType === RaceType.BOATRACE),
+    ).map((grade) => grade.gradeName),
+);
+
+/**
+ * ボートレースの指定グレード リスト
+ */
+export const BoatraceSpecifiedGradeList: BoatraceGradeType[] =
+    GradeMasterList.filter((grade) =>
+        grade.detail.some(
+            (detail) =>
+                detail.raceType === RaceType.BOATRACE && detail.isSpecified,
+        ),
+    ).map((grade) => grade.gradeName);
+
+/**
+ * 海外競馬のグレード リスト
+ */
+const WorldGradeTypeList = new Set<string>(
+    GradeMasterList.filter((grade) =>
+        grade.detail.some((detail) => detail.raceType === RaceType.WORLD),
+    ).map((grade) => grade.gradeName),
+);
+
+/**
+ * 海外競馬の指定グレード リスト
+ */
+export const WorldSpecifiedGradeList: WorldGradeType[] = GradeMasterList.filter(
+    (grade) =>
+        grade.detail.some(
+            (detail) =>
+                detail.raceType === RaceType.WORLD && detail.isSpecified,
+        ),
+).map((grade) => grade.gradeName);
+
+/**
+ * 競輪のグレード リスト
+ */
+const KeirinGradeTypeList = new Set<string>(
+    GradeMasterList.filter((grade) =>
+        grade.detail.some((detail) => detail.raceType === RaceType.KEIRIN),
+    ).map((grade) => grade.gradeName),
+);
+
+/**
+ * 競輪の指定グレードリスト
+ */
+export const KeirinSpecifiedGradeList: KeirinGradeType[] =
+    GradeMasterList.filter((grade) =>
+        grade.detail.some(
+            (detail) =>
+                detail.raceType === RaceType.KEIRIN && detail.isSpecified,
+        ),
+    ).map((grade) => grade.gradeName);
+
+/**
+ * ボートレースのグレード リスト
+ */
+const AutoraceGradeTypeList = new Set<string>(
+    GradeMasterList.filter((grade) =>
+        grade.detail.some((detail) => detail.raceType === RaceType.AUTORACE),
+    ).map((grade) => grade.gradeName),
+);
+
+/**
+ * オートレースの指定グレードリスト
+ */
+export const AutoraceSpecifiedGradeList: AutoraceGradeType[] =
+    GradeMasterList.filter((grade) =>
+        grade.detail.some(
+            (detail) =>
+                detail.raceType === RaceType.AUTORACE && detail.isSpecified,
+        ),
+    ).map((grade) => grade.gradeName);
