@@ -23,7 +23,7 @@ export interface IPlayerRepository {
      * 全てのプレイヤー情報を取得します。
      * @returns プレイヤー情報のリスト
      */
-    findAll: () => Player[];
+    findAll: () => Promise<Player[]>;
     /**
      * IDでプレイヤー情報を削除します。
      * @param id - プレイヤーのID

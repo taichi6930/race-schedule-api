@@ -199,6 +199,9 @@ const playerList: Player[] = [
     },
 ];
 
+// データを一度削除してから挿入
+const deleteStmt = db.prepare('DELETE FROM players');
+deleteStmt.run();
 const insertStmt = db.prepare(
     `INSERT INTO players (race_type, player_no, player_name, priority) VALUES (@race_type, @player_no, @player_name, @priority)`,
 );
