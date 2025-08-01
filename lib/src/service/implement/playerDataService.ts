@@ -5,7 +5,9 @@ import { inject, injectable } from 'tsyringe';
 
 import { PlayerData } from '../../domain/playerData';
 import type { IPlayerRepository } from '../../repository/interface/IPlayerRepository';
-import type { RaceType } from '../../utility/raceType';
+import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
+import { isRaceType } from '../../utility/raceType';
 import type { IPlayerDataService } from '../interface/IPlayerDataService';
 
 @injectable()
@@ -17,20 +19,40 @@ export class PlayerDataService implements IPlayerDataService {
 
     /**
      * プレイヤーデータをDBから取得します
-     * @param type
+     * @param _type - レースタイプ（未使用）
      */
-    public async fetchPlayerDataList(type: RaceType): Promise<PlayerData[]> {
+    @Logger
+    public async fetchPlayerDataList(_type: RaceType): Promise<PlayerData[]> {
         const allPlayers = await this.repository.findAll();
-        console.log('allPlayers', allPlayers);
+        console.log(
+            _type,
+            'PlayerDataService: fetchPlayerDataList executed',
+            allPlayers[0],
+        );
         return allPlayers
-            .filter((p) => p.race_type === (type as string))
-            .map((p) =>
-                PlayerData.create(
-                    type,
+            .filter((p) => {
+                const raceTypeStr = p.race_type.toUpperCase();
+                if (!isRaceType(raceTypeStr)) {
+                    return false;
+                }
+                return true;
+            })
+            .map((p) => {
+                // race_typeの型安全な変換
+                const raceTypeStr = p.race_type.toUpperCase();
+                if (!isRaceType(raceTypeStr)) {
+                    throw new Error(`Invalid race_type: ${p.race_type}`);
+                }
+
+                // RaceType値を取得
+                const raceTypeEnum =
+                    RaceType[raceTypeStr as keyof typeof RaceType];
+                return PlayerData.create(
+                    raceTypeEnum,
                     Number.parseInt(p.player_no),
                     p.player_name,
                     p.priority,
-                ),
-            );
+                );
+            });
     }
 }

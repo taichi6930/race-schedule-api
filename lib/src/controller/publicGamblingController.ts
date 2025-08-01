@@ -469,7 +469,10 @@ export class PublicGamblingController {
      * @param res - レスポンス
      */
     @Logger
-    private getPlayerDataList(req: Request, res: Response): void {
+    private async getPlayerDataList(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
         try {
             // gradeが複数来ることもある
             const { raceType } = req.query;
@@ -493,7 +496,7 @@ export class PublicGamblingController {
 
             // レース情報を取得する
             const players =
-                this.publicGamblingPlayerUseCase.fetchPlayerDataList(
+                await this.publicGamblingPlayerUseCase.fetchPlayerDataList(
                     raceTypeList,
                 );
             res.json(players);

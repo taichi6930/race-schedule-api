@@ -9,5 +9,5 @@ export interface IPlayerDataUseCase {
      * @param startDate
      * @param finishDate
      */
-    fetchPlayerDataList: (raceTypeList: string[]) => PlayerData[];
+    fetchPlayerDataList: (raceTypeList: string[]) => Promise<PlayerData[]>;
 }

@@ -17,16 +17,19 @@ export class PublicGamblingPlayerUseCase implements IPlayerDataUseCase {
     ) {}
 
     @Logger
-    public fetchPlayerDataList(raceTypeList: string[]): PlayerData[] {
-        // 開催場データを取得
-
+    public async fetchPlayerDataList(
+        raceTypeList: string[],
+    ): Promise<PlayerData[]> {
         const [raceType] = raceTypeList;
         if (!isRaceType(raceType)) {
             throw new Error(`Invalid race type: ${raceType}`);
         }
         const playerDataList: PlayerData[] =
-            this.playerDataService.fetchPlayerDataList(raceType);
-        console.log(playerDataList);
+            await this.playerDataService.fetchPlayerDataList(raceType);
+        console.log(
+            'PublicGamblingPlayerUseCase: fetchPlayerDataList executed',
+            playerDataList[0],
+        );
         return playerDataList;
     }
 }
