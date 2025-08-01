@@ -2,6 +2,8 @@ import '../../utility/format';
 
 import { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
+import type { RaceDistance } from '../../utility/data/common/raceDistance';
+import { validateRaceDistance } from '../../utility/data/common/raceDistance';
 import {
     type JraGradeType,
     validateJraGradeType,
@@ -26,10 +28,6 @@ import {
     type JraRaceDateTime,
     validateJraRaceDateTime,
 } from '../../utility/data/jra/jraRaceDateTime';
-import {
-    type JraRaceDistance,
-    validateJraRaceDistance,
-} from '../../utility/data/jra/jraRaceDistance';
 import {
     type JraRaceId,
     validateJraRaceId,
@@ -72,7 +70,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
         public readonly dateTime: JraRaceDateTime,
         public readonly location: JraRaceCourse,
         public readonly surfaceType: JraRaceCourseType,
-        public readonly distance: JraRaceDistance,
+        public readonly distance: RaceDistance,
         public readonly grade: JraGradeType,
         public readonly number: JraRaceNumber,
         public readonly heldTimes: JraHeldTimes,
@@ -114,7 +112,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
                 validateJraRaceDateTime(dateTime),
                 validateJraRaceCourse(location),
                 validateJraRaceCourseType(surfaceType),
-                validateJraRaceDistance(distance),
+                validateRaceDistance(distance),
                 validateJraGradeType(grade),
                 validateJraRaceNumber(number),
                 validateJraHeldTimes(heldTimes),

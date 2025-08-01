@@ -6,13 +6,13 @@ import { inject, injectable } from 'tsyringe';
 
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
+import { validateRaceDistance } from '../../utility/data/common/raceDistance';
 import { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import {
     validateWorldRaceCourse,
     WorldRaceCourse,
 } from '../../utility/data/world/worldRaceCourse';
 import { validateWorldRaceCourseType } from '../../utility/data/world/worldRaceCourseType';
-import { validateWorldRaceDistance } from '../../utility/data/world/worldRaceDistance';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processWorldRaceName } from '../../utility/raceName';
@@ -155,7 +155,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                             const distanceMatch = /\d+/.exec(
                                 surfaceTypeAndDistanceText,
                             );
-                            const distance: number = validateWorldRaceDistance(
+                            const distance: number = validateRaceDistance(
                                 distanceMatch ? Number(distanceMatch[0]) : -1,
                             );
                             const gradeText: string = rowRaceName.includes(

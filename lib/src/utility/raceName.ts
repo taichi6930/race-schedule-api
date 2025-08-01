@@ -1,22 +1,20 @@
 import './format';
 
+import type { RaceDistance } from './data/common/raceDistance';
 import type { JraGradeType } from './data/jra/jraGradeType';
 import type { JraRaceCourse } from './data/jra/jraRaceCourse';
 import type { JraRaceCourseType } from './data/jra/jraRaceCourseType';
 import type { JraRaceDateTime } from './data/jra/jraRaceDateTime';
-import type { JraRaceDistance } from './data/jra/jraRaceDistance';
 import type { JraRaceName } from './data/jra/jraRaceName';
 import type { NarGradeType } from './data/nar/narGradeType';
 import type { NarRaceCourse } from './data/nar/narRaceCourse';
 import type { NarRaceCourseType } from './data/nar/narRaceCourseType';
 import type { NarRaceDateTime } from './data/nar/narRaceDateTime';
-import type { NarRaceDistance } from './data/nar/narRaceDistance';
 import type { NarRaceName } from './data/nar/narRaceName';
 import type { WorldGradeType } from './data/world/worldGradeType';
 import type { WorldRaceCourse } from './data/world/worldRaceCourse';
 import type { WorldRaceCourseType } from './data/world/worldRaceCourseType';
 import type { WorldRaceDateTime } from './data/world/worldRaceDateTime';
-import type { WorldRaceDistance } from './data/world/worldRaceDistance';
 import type { WorldRaceName } from './data/world/worldRaceName';
 
 interface JraRaceDataForRaceName {
@@ -25,7 +23,7 @@ interface JraRaceDataForRaceName {
     grade: JraGradeType;
     date: JraRaceDateTime;
     surfaceType: JraRaceCourseType;
-    distance: JraRaceDistance;
+    distance: RaceDistance;
 }
 
 export const processJraRaceName = (
@@ -189,7 +187,7 @@ interface NarRaceDataForRaceName {
     grade: NarGradeType;
     date: NarRaceDateTime;
     surfaceType: NarRaceCourseType;
-    distance: NarRaceDistance;
+    distance: RaceDistance;
 }
 export const processNarRaceName = (
     raceInfo: NarRaceDataForRaceName,
@@ -323,7 +321,7 @@ interface WorldRaceDataForRaceName {
     grade: WorldGradeType;
     date: WorldRaceDateTime;
     surfaceType: WorldRaceCourseType;
-    distance: WorldRaceDistance;
+    distance: RaceDistance;
 }
 
 export const processWorldRaceName = (

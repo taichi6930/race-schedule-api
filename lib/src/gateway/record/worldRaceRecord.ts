@@ -3,6 +3,10 @@ import '../../utility/format';
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import {
+    type RaceDistance,
+    validateRaceDistance,
+} from '../../utility/data/common/raceDistance';
+import {
     validateWorldGradeType,
     type WorldGradeType,
 } from '../../utility/data/world/worldGradeType';
@@ -18,10 +22,6 @@ import {
     validateWorldRaceDateTime,
     type WorldRaceDateTime,
 } from '../../utility/data/world/worldRaceDateTime';
-import {
-    validateWorldRaceDistance,
-    type WorldRaceDistance,
-} from '../../utility/data/world/worldRaceDistance';
 import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import {
     validateWorldRaceName,
@@ -58,7 +58,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
         public readonly dateTime: WorldRaceDateTime,
         public readonly location: WorldRaceCourse,
         public readonly surfaceType: WorldRaceCourseType,
-        public readonly distance: WorldRaceDistance,
+        public readonly distance: RaceDistance,
         public readonly grade: WorldGradeType,
         public readonly number: WorldRaceNumber,
         public readonly updateDate: UpdateDate,
@@ -82,7 +82,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
         dateTime: WorldRaceDateTime,
         location: WorldRaceCourse,
         surfaceType: WorldRaceCourseType,
-        distance: WorldRaceDistance,
+        distance: RaceDistance,
         grade: WorldGradeType,
         number: WorldRaceNumber,
         updateDate: Date,
@@ -93,7 +93,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
             validateWorldRaceDateTime(dateTime),
             validateWorldRaceCourse(location),
             validateWorldRaceCourseType(surfaceType),
-            validateWorldRaceDistance(distance),
+            validateRaceDistance(distance),
             validateWorldGradeType(grade),
             validateWorldRaceNumber(number),
             validateUpdateDate(updateDate),

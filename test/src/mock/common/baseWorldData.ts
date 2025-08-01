@@ -17,7 +17,7 @@ const baseWorldRaceName = '凱旋門賞';
 const baseWorldRaceDateTime = new Date('2024-10-01 16:30');
 const baseWorldRaceNumber = 11;
 const baseWorldRaceSurfaceType = '芝';
-const baseWorldRaceDistance = 2400;
+const baseRaceDistance = 2400;
 const baseWorldRaceGrade: WorldGradeType = 'GⅠ';
 const baseWorldRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
@@ -31,7 +31,7 @@ export const baseWorldRaceData = WorldRaceData.create(
     baseWorldRaceDateTime,
     baseWorldPlaceCourse,
     baseWorldRaceSurfaceType,
-    baseWorldRaceDistance,
+    baseRaceDistance,
     baseWorldRaceGrade,
     baseWorldRaceNumber,
 );
@@ -46,7 +46,7 @@ export const baseWorldRaceRecord = WorldRaceRecord.create(
     baseWorldRaceDateTime,
     baseWorldPlaceCourse,
     baseWorldRaceSurfaceType,
-    baseWorldRaceDistance,
+    baseRaceDistance,
     baseWorldRaceGrade,
     baseWorldRaceNumber,
     baseWorldRaceUpdateDate,
