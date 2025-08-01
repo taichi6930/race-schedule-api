@@ -3,6 +3,14 @@ import '../../utility/format';
 import { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import {
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../../utility/data/common/raceDateTime';
+import {
+    type RaceDistance,
+    validateRaceDistance,
+} from '../../utility/data/common/raceDistance';
+import {
     type NarGradeType,
     validateNarGradeType,
 } from '../../utility/data/nar/narGradeType';
@@ -14,14 +22,6 @@ import {
     type NarRaceCourseType,
     validateNarRaceCourseType,
 } from '../../utility/data/nar/narRaceCourseType';
-import {
-    type NarRaceDateTime,
-    validateNarRaceDateTime,
-} from '../../utility/data/nar/narRaceDateTime';
-import {
-    type NarRaceDistance,
-    validateNarRaceDistance,
-} from '../../utility/data/nar/narRaceDistance';
 import {
     type NarRaceId,
     validateNarRaceId,
@@ -59,10 +59,10 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
     private constructor(
         public readonly id: NarRaceId,
         public readonly name: NarRaceName,
-        public readonly dateTime: NarRaceDateTime,
+        public readonly dateTime: RaceDateTime,
         public readonly location: NarRaceCourse,
         public readonly surfaceType: NarRaceCourseType,
-        public readonly distance: NarRaceDistance,
+        public readonly distance: RaceDistance,
         public readonly grade: NarGradeType,
         public readonly number: NarRaceNumber,
         public readonly updateDate: UpdateDate,
@@ -95,10 +95,10 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
             return new NarRaceRecord(
                 validateNarRaceId(id),
                 validateNarRaceName(name),
-                validateNarRaceDateTime(dateTime),
+                validateRaceDateTime(dateTime),
                 validateNarRaceCourse(location),
                 validateNarRaceCourseType(surfaceType),
-                validateNarRaceDistance(distance),
+                validateRaceDistance(distance),
                 validateNarGradeType(grade),
                 validateNarRaceNumber(number),
                 validateUpdateDate(updateDate),

@@ -1,4 +1,12 @@
 import {
+    type JraRaceCourse,
+    validateRaceCourse,
+} from '../utility/data/common/raceCourse';
+import {
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../utility/data/common/raceDateTime';
+import {
     type JraHeldDayTimes,
     validateJraHeldDayTimes,
 } from '../utility/data/jra/jraHeldDayTimes';
@@ -6,12 +14,7 @@ import {
     type JraHeldTimes,
     validateJraHeldTimes,
 } from '../utility/data/jra/jraHeldTimes';
-import type { JraRaceCourse } from '../utility/data/jra/jraRaceCourse';
-import { validateJraRaceCourse } from '../utility/data/jra/jraRaceCourse';
-import {
-    type JraRaceDateTime,
-    validateJraRaceDateTime,
-} from '../utility/data/jra/jraRaceDateTime';
+import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -20,9 +23,9 @@ import type { IPlaceData } from './iPlaceData';
 export class JraPlaceData implements IPlaceData<JraPlaceData> {
     /**
      * 開催日時
-     * @type {JraRaceDateTime}
+     * @type {RaceDateTime}
      */
-    public readonly dateTime: JraRaceDateTime;
+    public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
      * @type {JraRaceCourse}
@@ -47,7 +50,7 @@ export class JraPlaceData implements IPlaceData<JraPlaceData> {
      * @param heldDayTimes - 開催日数
      */
     private constructor(
-        dateTime: JraRaceDateTime,
+        dateTime: RaceDateTime,
         location: JraRaceCourse,
         heldTimes: JraHeldTimes,
         heldDayTimes: JraHeldDayTimes,
@@ -73,8 +76,8 @@ export class JraPlaceData implements IPlaceData<JraPlaceData> {
         heldDayTimes: number,
     ): JraPlaceData {
         return new JraPlaceData(
-            validateJraRaceDateTime(dateTime),
-            validateJraRaceCourse(location),
+            validateRaceDateTime(dateTime),
+            validateRaceCourse(RaceType.JRA, location),
             validateJraHeldTimes(heldTimes),
             validateJraHeldDayTimes(heldDayTimes),
         );

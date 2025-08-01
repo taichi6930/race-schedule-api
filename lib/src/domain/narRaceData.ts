@@ -1,4 +1,12 @@
 import {
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../utility/data/common/raceDateTime';
+import {
+    type RaceDistance,
+    validateRaceDistance,
+} from '../utility/data/common/raceDistance';
+import {
     type NarGradeType,
     validateNarGradeType,
 } from '../utility/data/nar/narGradeType';
@@ -10,14 +18,6 @@ import {
     type NarRaceCourseType,
     validateNarRaceCourseType,
 } from '../utility/data/nar/narRaceCourseType';
-import {
-    type NarRaceDateTime,
-    validateNarRaceDateTime,
-} from '../utility/data/nar/narRaceDateTime';
-import {
-    type NarRaceDistance,
-    validateNarRaceDistance,
-} from '../utility/data/nar/narRaceDistance';
 import {
     type NarRaceName,
     validateNarRaceName,
@@ -39,9 +39,9 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
     public readonly name: NarRaceName;
     /**
      * 開催日時
-     * @type {NarRaceDateTime}
+     * @type {RaceDateTime}
      */
-    public readonly dateTime: NarRaceDateTime;
+    public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
      * @type {NarRaceCourse}
@@ -54,9 +54,9 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
     public readonly surfaceType: NarRaceCourseType;
     /**
      * 距離
-     * @type {NarRaceDistance}
+     * @type {RaceDistance}
      */
-    public readonly distance: NarRaceDistance;
+    public readonly distance: RaceDistance;
     /**
      * グレード
      * @type {NarGradeType}
@@ -82,10 +82,10 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      */
     private constructor(
         name: NarRaceName,
-        dateTime: NarRaceDateTime,
+        dateTime: RaceDateTime,
         location: NarRaceCourse,
         surfaceType: NarRaceCourseType,
-        distance: NarRaceDistance,
+        distance: RaceDistance,
         grade: NarGradeType,
         number: NarRaceNumber,
     ) {
@@ -120,10 +120,10 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
     ): NarRaceData {
         return new NarRaceData(
             validateNarRaceName(name),
-            validateNarRaceDateTime(dateTime),
+            validateRaceDateTime(dateTime),
             validateNarRaceCourse(location),
             validateNarRaceCourseType(surfaceType),
-            validateNarRaceDistance(distance),
+            validateRaceDistance(distance),
             validateNarGradeType(grade),
             validateNarRaceNumber(number),
         );

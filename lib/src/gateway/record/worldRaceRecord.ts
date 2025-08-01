@@ -3,6 +3,14 @@ import '../../utility/format';
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import {
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../../utility/data/common/raceDateTime';
+import {
+    type RaceDistance,
+    validateRaceDistance,
+} from '../../utility/data/common/raceDistance';
+import {
     validateWorldGradeType,
     type WorldGradeType,
 } from '../../utility/data/world/worldGradeType';
@@ -14,14 +22,6 @@ import {
     validateWorldRaceCourseType,
     type WorldRaceCourseType,
 } from '../../utility/data/world/worldRaceCourseType';
-import {
-    validateWorldRaceDateTime,
-    type WorldRaceDateTime,
-} from '../../utility/data/world/worldRaceDateTime';
-import {
-    validateWorldRaceDistance,
-    type WorldRaceDistance,
-} from '../../utility/data/world/worldRaceDistance';
 import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import {
     validateWorldRaceName,
@@ -55,10 +55,10 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     private constructor(
         public readonly id: WorldRaceId,
         public readonly name: WorldRaceName,
-        public readonly dateTime: WorldRaceDateTime,
+        public readonly dateTime: RaceDateTime,
         public readonly location: WorldRaceCourse,
         public readonly surfaceType: WorldRaceCourseType,
-        public readonly distance: WorldRaceDistance,
+        public readonly distance: RaceDistance,
         public readonly grade: WorldGradeType,
         public readonly number: WorldRaceNumber,
         public readonly updateDate: UpdateDate,
@@ -79,10 +79,10 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     public static create(
         id: WorldRaceId,
         name: WorldRaceName,
-        dateTime: WorldRaceDateTime,
+        dateTime: RaceDateTime,
         location: WorldRaceCourse,
         surfaceType: WorldRaceCourseType,
-        distance: WorldRaceDistance,
+        distance: RaceDistance,
         grade: WorldGradeType,
         number: WorldRaceNumber,
         updateDate: Date,
@@ -90,10 +90,10 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
         return new WorldRaceRecord(
             id,
             validateWorldRaceName(name),
-            validateWorldRaceDateTime(dateTime),
+            validateRaceDateTime(dateTime),
             validateWorldRaceCourse(location),
             validateWorldRaceCourseType(surfaceType),
-            validateWorldRaceDistance(distance),
+            validateRaceDistance(distance),
             validateWorldGradeType(grade),
             validateWorldRaceNumber(number),
             validateUpdateDate(updateDate),

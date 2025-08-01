@@ -28,7 +28,7 @@ const baseAutoracePlaceId: AutoracePlaceId = generateAutoracePlaceId(
 );
 
 const baseAutoraceRaceName = 'スーパースター王座決定戦';
-const baseAutoraceRaceDateTime = new Date('2024-12-31 16:30');
+const baseRaceDateTime = new Date('2024-12-31 16:30');
 const baseAutoraceRaceNumber = 11;
 const baseAutoraceRaceStage: AutoraceRaceStage = '優勝戦';
 const baseAutoraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
@@ -42,7 +42,7 @@ export const baseAutoracePlaceData = AutoracePlaceData.create(
 export const baseAutoraceRaceData = AutoraceRaceData.create(
     baseAutoraceRaceName,
     baseAutoraceRaceStage,
-    baseAutoraceRaceDateTime,
+    baseRaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
     baseAutoraceRaceNumber,
@@ -64,7 +64,7 @@ export const baseAutoraceRaceRecord = AutoraceRaceRecord.create(
     ),
     baseAutoraceRaceName,
     baseAutoraceRaceStage,
-    baseAutoraceRaceDateTime,
+    baseRaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
     baseAutoraceRaceNumber,
@@ -97,7 +97,7 @@ export const baseAutoraceRacePlayerRecord = AutoraceRacePlayerRecord.create(
         1,
     ),
     generateAutoraceRaceId(
-        baseAutoraceRaceDateTime,
+        baseRaceDateTime,
         baseAutoracePlaceCourse,
         baseAutoraceRaceNumber,
     ),

@@ -8,7 +8,7 @@ import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { KeirinRacePlayerRecord } from '../../gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
-import { KeirinPlaceCodeMap } from '../../utility/data/keirin/keirinRaceCourse';
+import { KeirinPlaceCodeMap } from '../../utility/data/common/raceCourse';
 import {
     type KeirinRaceId,
     validateKeirinRaceId,

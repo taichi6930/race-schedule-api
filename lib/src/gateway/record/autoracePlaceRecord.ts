@@ -11,9 +11,9 @@ import {
     validateAutoraceRaceCourse,
 } from '../../utility/data/autorace/autoraceRaceCourse';
 import {
-    type AutoraceRaceDateTime,
-    validateAutoraceRaceDateTime,
-} from '../../utility/data/autorace/autoraceRaceDateTime';
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../../utility/data/common/raceDateTime';
 import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
@@ -35,7 +35,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
      */
     private constructor(
         public readonly id: AutoracePlaceId,
-        public readonly dateTime: AutoraceRaceDateTime,
+        public readonly dateTime: RaceDateTime,
         public readonly location: AutoraceRaceCourse,
         public readonly grade: AutoraceGradeType,
         public readonly updateDate: UpdateDate,
@@ -59,7 +59,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
         try {
             return new AutoracePlaceRecord(
                 validateAutoracePlaceId(id),
-                validateAutoraceRaceDateTime(dateTime),
+                validateRaceDateTime(dateTime),
                 validateAutoraceRaceCourse(location),
                 validateAutoraceGradeType(grade),
                 validateUpdateDate(updateDate),

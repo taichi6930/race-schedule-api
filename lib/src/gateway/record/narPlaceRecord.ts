@@ -1,15 +1,15 @@
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
+import {
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../../utility/data/common/raceDateTime';
 import type { NarPlaceId } from '../../utility/data/nar/narPlaceId';
 import { validateNarPlaceId } from '../../utility/data/nar/narPlaceId';
 import {
     type NarRaceCourse,
     validateNarRaceCourse,
 } from '../../utility/data/nar/narRaceCourse';
-import {
-    type NarRaceDateTime,
-    validateNarRaceDateTime,
-} from '../../utility/data/nar/narRaceDateTime';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -29,7 +29,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
      */
     private constructor(
         public readonly id: NarPlaceId,
-        public readonly dateTime: NarRaceDateTime,
+        public readonly dateTime: RaceDateTime,
         public readonly location: NarRaceCourse,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -50,7 +50,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
         try {
             return new NarPlaceRecord(
                 validateNarPlaceId(id),
-                validateNarRaceDateTime(dateTime),
+                validateRaceDateTime(dateTime),
                 validateNarRaceCourse(location),
                 validateUpdateDate(updateDate),
             );

@@ -1,9 +1,9 @@
+import {
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../utility/data/common/raceDateTime';
 import type { WorldRaceCourse } from '../utility/data/world/worldRaceCourse';
 import { validateWorldRaceCourse } from '../utility/data/world/worldRaceCourse';
-import {
-    validateWorldRaceDateTime,
-    type WorldRaceDateTime,
-} from '../utility/data/world/worldRaceDateTime';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -12,9 +12,9 @@ import type { IPlaceData } from './iPlaceData';
 export class WorldPlaceData implements IPlaceData<WorldPlaceData> {
     /**
      * 開催日
-     * @type {WorldRaceDateTime}
+     * @type {RaceDateTime}
      */
-    public readonly dateTime: WorldRaceDateTime;
+    public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
      * @type {WorldRaceCourse}
@@ -26,10 +26,7 @@ export class WorldPlaceData implements IPlaceData<WorldPlaceData> {
      * @param dateTime
      * @param location
      */
-    private constructor(
-        dateTime: WorldRaceDateTime,
-        location: WorldRaceCourse,
-    ) {
+    private constructor(dateTime: RaceDateTime, location: WorldRaceCourse) {
         this.dateTime = dateTime;
         this.location = location;
     }
@@ -42,7 +39,7 @@ export class WorldPlaceData implements IPlaceData<WorldPlaceData> {
      */
     public static create(dateTime: Date, location: string): WorldPlaceData {
         return new WorldPlaceData(
-            validateWorldRaceDateTime(dateTime),
+            validateRaceDateTime(dateTime),
             validateWorldRaceCourse(location),
         );
     }

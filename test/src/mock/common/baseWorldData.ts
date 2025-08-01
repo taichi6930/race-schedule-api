@@ -14,10 +14,10 @@ const baseWorldPlaceCourse: WorldRaceCourse = 'パリロンシャン';
 const baseWorldPlaceDateTime = new Date('2024-10-01');
 
 const baseWorldRaceName = '凱旋門賞';
-const baseWorldRaceDateTime = new Date('2024-10-01 16:30');
+const baseRaceDateTime = new Date('2024-10-01 16:30');
 const baseWorldRaceNumber = 11;
 const baseWorldRaceSurfaceType = '芝';
-const baseWorldRaceDistance = 2400;
+const baseRaceDistance = 2400;
 const baseWorldRaceGrade: WorldGradeType = 'GⅠ';
 const baseWorldRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
@@ -28,10 +28,10 @@ export const baseWorldPlaceData = WorldPlaceData.create(
 
 export const baseWorldRaceData = WorldRaceData.create(
     baseWorldRaceName,
-    baseWorldRaceDateTime,
+    baseRaceDateTime,
     baseWorldPlaceCourse,
     baseWorldRaceSurfaceType,
-    baseWorldRaceDistance,
+    baseRaceDistance,
     baseWorldRaceGrade,
     baseWorldRaceNumber,
 );
@@ -43,10 +43,10 @@ export const baseWorldRaceRecord = WorldRaceRecord.create(
         baseWorldRaceNumber,
     ),
     baseWorldRaceName,
-    baseWorldRaceDateTime,
+    baseRaceDateTime,
     baseWorldPlaceCourse,
     baseWorldRaceSurfaceType,
-    baseWorldRaceDistance,
+    baseRaceDistance,
     baseWorldRaceGrade,
     baseWorldRaceNumber,
     baseWorldRaceUpdateDate,

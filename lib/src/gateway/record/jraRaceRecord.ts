@@ -3,6 +3,16 @@ import '../../utility/format';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import {
+    type JraRaceCourse,
+    validateRaceCourse,
+} from '../../utility/data/common/raceCourse';
+import {
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../../utility/data/common/raceDateTime';
+import type { RaceDistance } from '../../utility/data/common/raceDistance';
+import { validateRaceDistance } from '../../utility/data/common/raceDistance';
+import {
     type JraGradeType,
     validateJraGradeType,
 } from '../../utility/data/jra/jraGradeType';
@@ -14,22 +24,8 @@ import {
     type JraHeldTimes,
     validateJraHeldTimes,
 } from '../../utility/data/jra/jraHeldTimes';
-import {
-    type JraRaceCourse,
-    validateJraRaceCourse,
-} from '../../utility/data/jra/jraRaceCourse';
-import {
-    type JraRaceCourseType,
-    validateJraRaceCourseType,
-} from '../../utility/data/jra/jraRaceCourseType';
-import {
-    type JraRaceDateTime,
-    validateJraRaceDateTime,
-} from '../../utility/data/jra/jraRaceDateTime';
-import {
-    type JraRaceDistance,
-    validateJraRaceDistance,
-} from '../../utility/data/jra/jraRaceDistance';
+import type { JraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
+import { validateJraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
 import {
     type JraRaceId,
     validateJraRaceId,
@@ -43,6 +39,7 @@ import {
     validateJraRaceNumber,
 } from '../../utility/data/jra/jraRaceNumber';
 import { createErrorMessage } from '../../utility/error';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -69,10 +66,10 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
     private constructor(
         public readonly id: JraRaceId,
         public readonly name: JraRaceName,
-        public readonly dateTime: JraRaceDateTime,
+        public readonly dateTime: RaceDateTime,
         public readonly location: JraRaceCourse,
         public readonly surfaceType: JraRaceCourseType,
-        public readonly distance: JraRaceDistance,
+        public readonly distance: RaceDistance,
         public readonly grade: JraGradeType,
         public readonly number: JraRaceNumber,
         public readonly heldTimes: JraHeldTimes,
@@ -111,10 +108,10 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
             return new JraRaceRecord(
                 validateJraRaceId(id),
                 validateJraRaceName(name),
-                validateJraRaceDateTime(dateTime),
-                validateJraRaceCourse(location),
+                validateRaceDateTime(dateTime),
+                validateRaceCourse(RaceType.JRA, location),
                 validateJraRaceCourseType(surfaceType),
-                validateJraRaceDistance(distance),
+                validateRaceDistance(distance),
                 validateJraGradeType(grade),
                 validateJraRaceNumber(number),
                 validateJraHeldTimes(heldTimes),

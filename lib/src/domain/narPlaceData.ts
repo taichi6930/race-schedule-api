@@ -1,7 +1,7 @@
+import type { RaceDateTime } from '../utility/data/common/raceDateTime';
+import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
 import type { NarRaceCourse } from '../utility/data/nar/narRaceCourse';
 import { validateNarRaceCourse } from '../utility/data/nar/narRaceCourse';
-import type { NarRaceDateTime } from '../utility/data/nar/narRaceDateTime';
-import { validateNarRaceDateTime } from '../utility/data/nar/narRaceDateTime';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -10,9 +10,9 @@ import type { IPlaceData } from './iPlaceData';
 export class NarPlaceData implements IPlaceData<NarPlaceData> {
     /**
      * 開催日
-     * @type {NarRaceDateTime}
+     * @type {RaceDateTime}
      */
-    public readonly dateTime: NarRaceDateTime;
+    public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
      * @type {NarRaceCourse}
@@ -24,7 +24,7 @@ export class NarPlaceData implements IPlaceData<NarPlaceData> {
      * @param dateTime - 開催日時
      * @param location - 開催場所
      */
-    private constructor(dateTime: NarRaceDateTime, location: NarRaceCourse) {
+    private constructor(dateTime: RaceDateTime, location: NarRaceCourse) {
         this.dateTime = dateTime;
         this.location = location;
     }
@@ -37,7 +37,7 @@ export class NarPlaceData implements IPlaceData<NarPlaceData> {
      */
     public static create(dateTime: Date, location: string): NarPlaceData {
         return new NarPlaceData(
-            validateNarRaceDateTime(dateTime),
+            validateRaceDateTime(dateTime),
             validateNarRaceCourse(location),
         );
     }

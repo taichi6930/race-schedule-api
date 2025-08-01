@@ -1,17 +1,17 @@
 import '../../utility/format';
 
 import {
+    type KeirinRaceCourse,
+    validateRaceCourse,
+} from '../../utility/data/common/raceCourse';
+import {
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../../utility/data/common/raceDateTime';
+import {
     type KeirinGradeType,
     validateKeirinGradeType,
 } from '../../utility/data/keirin/keirinGradeType';
-import {
-    type KeirinRaceCourse,
-    validateKeirinRaceCourse,
-} from '../../utility/data/keirin/keirinRaceCourse';
-import {
-    type KeirinRaceDateTime,
-    validateKeirinRaceDateTime,
-} from '../../utility/data/keirin/keirinRaceDateTime';
 import {
     type KeirinRaceId,
     validateKeirinRaceId,
@@ -29,6 +29,7 @@ import {
     validateKeirinRaceStage,
 } from '../../utility/data/keirin/keirinRaceStage';
 import { createErrorMessage } from '../../utility/error';
+import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -54,7 +55,7 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
         public readonly id: KeirinRaceId,
         public readonly name: KeirinRaceName,
         public readonly stage: KeirinRaceStage,
-        public readonly dateTime: KeirinRaceDateTime,
+        public readonly dateTime: RaceDateTime,
         public readonly location: KeirinRaceCourse,
         public readonly grade: KeirinGradeType,
         public readonly number: KeirinRaceNumber,
@@ -87,8 +88,8 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
                 validateKeirinRaceId(id),
                 validateKeirinRaceName(name),
                 validateKeirinRaceStage(stage),
-                validateKeirinRaceDateTime(dateTime),
-                validateKeirinRaceCourse(location),
+                validateRaceDateTime(dateTime),
+                validateRaceCourse(RaceType.KEIRIN, location),
                 validateKeirinGradeType(grade),
                 validateKeirinRaceNumber(number),
                 validateUpdateDate(updateDate),

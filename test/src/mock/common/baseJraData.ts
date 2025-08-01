@@ -7,8 +7,8 @@ import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecor
 import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
+import type { JraRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import type { JraGradeType } from '../../../../lib/src/utility/data/jra/jraGradeType';
-import type { JraRaceCourse } from '../../../../lib/src/utility/data/jra/jraRaceCourse';
 import {
     generateJraPlaceId,
     generateJraRaceId,
@@ -23,7 +23,7 @@ const baseJraPlaceId = generateJraPlaceId(
 );
 
 const baseJraRaceName = '有馬記念';
-const baseJraRaceDateTime = new Date('2024-12-22 15:40');
+const baseRaceDateTime = new Date('2024-12-22 15:40');
 const baseJraRaceNumber = 11;
 const baseJraRaceSurfaceType = '芝';
 const baseJraRaceDistance = 2500;
@@ -41,7 +41,7 @@ export const baseJraPlaceData = JraPlaceData.create(
 
 export const baseJraRaceData = JraRaceData.create(
     baseJraRaceName,
-    baseJraRaceDateTime,
+    baseRaceDateTime,
     baseJraPlaceCourse,
     baseJraRaceSurfaceType,
     baseJraRaceDistance,
@@ -67,7 +67,7 @@ export const baseJraRaceRecord = JraRaceRecord.create(
         baseJraRaceNumber,
     ),
     baseJraRaceName,
-    baseJraRaceDateTime,
+    baseRaceDateTime,
     baseJraPlaceCourse,
     baseJraRaceSurfaceType,
     baseJraRaceDistance,
@@ -96,11 +96,11 @@ export const baseJraGoogleCalendarData: calendar_v3.Schema$Event = {
     ),
     summary: baseJraRaceName,
     start: {
-        dateTime: baseJraRaceDateTime.toISOString().replace('Z', '+09:00'),
+        dateTime: baseRaceDateTime.toISOString().replace('Z', '+09:00'),
         timeZone: 'Asia/Tokyo',
     },
     end: {
-        dateTime: new Date(baseJraRaceDateTime.getTime() + 10 * 60 * 1000)
+        dateTime: new Date(baseRaceDateTime.getTime() + 10 * 60 * 1000)
             .toISOString()
             .replace('Z', '+09:00'),
         timeZone: 'Asia/Tokyo',
@@ -115,7 +115,7 @@ export const baseJraGoogleCalendarData: calendar_v3.Schema$Event = {
 `,
     extendedProperties: {
         private: {
-            dateTime: baseJraRaceDateTime.toISOString(),
+            dateTime: baseRaceDateTime.toISOString(),
             distance: baseJraRaceDistance.toString(),
             grade: baseJraRaceGrade,
             heldDayTimes: baseJraRaceHeldDayTimes.toString(),
