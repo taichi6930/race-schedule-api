@@ -3,11 +3,11 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
-import { AutoracePlaceCodeMap } from '../../utility/data/autorace/autoraceRaceCourse';
 import { RaceCourse } from '../../utility/data/base';
-import { BoatracePlaceCodeMap } from '../../utility/data/boatrace/boatraceRaceCourse';
+import { AutoracePlaceCodeMap } from '../../utility/data/common/raceCourse';
+import { BoatracePlaceCodeMap } from '../../utility/data/common/raceCourse';
 import { KeirinPlaceCodeMap } from '../../utility/data/common/raceCourse';
-import { NarBabacodeMap } from '../../utility/data/nar/narRaceCourse';
+import { NarBabacodeMap } from '../../utility/data/common/raceCourse';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';

@@ -3,10 +3,6 @@ import {
     validateAutoraceGradeType,
 } from '../utility/data/autorace/autoraceGradeType';
 import {
-    type AutoraceRaceCourse,
-    validateAutoraceRaceCourse,
-} from '../utility/data/autorace/autoraceRaceCourse';
-import {
     type AutoraceRaceName,
     validateAutoraceRaceName,
 } from '../utility/data/autorace/autoraceRaceName';
@@ -19,9 +15,14 @@ import {
     validateAutoraceRaceStage,
 } from '../utility/data/autorace/autoraceRaceStage';
 import {
+    type AutoraceRaceCourse,
+    validateRaceCourse,
+} from '../utility/data/common/raceCourse';
+import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../utility/data/common/raceDateTime';
+import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -108,7 +109,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
             validateAutoraceRaceName(name),
             validateAutoraceRaceStage(stage),
             validateRaceDateTime(dateTime),
-            validateAutoraceRaceCourse(location),
+            validateRaceCourse(RaceType.AUTORACE, location),
             validateAutoraceGradeType(grade),
             validateAutoraceRaceNumber(number),
         );

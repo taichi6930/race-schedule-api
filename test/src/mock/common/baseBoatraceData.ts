@@ -8,8 +8,8 @@ import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceR
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { BoatraceGradeType } from '../../../../lib/src/utility/data/boatrace/boatraceGradeType';
-import type { BoatraceRaceCourse } from '../../../../lib/src/utility/data/boatrace/boatraceRaceCourse';
 import type { BoatraceRaceStage } from '../../../../lib/src/utility/data/boatrace/boatraceRaceStage';
+import type { BoatraceRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
     generateBoatracePlaceId,

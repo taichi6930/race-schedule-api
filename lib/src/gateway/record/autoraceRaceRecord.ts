@@ -5,10 +5,6 @@ import {
     validateAutoraceGradeType,
 } from '../../utility/data/autorace/autoraceGradeType';
 import {
-    type AutoraceRaceCourse,
-    validateAutoraceRaceCourse,
-} from '../../utility/data/autorace/autoraceRaceCourse';
-import {
     type AutoraceRaceId,
     validateAutoraceRaceId,
 } from '../../utility/data/autorace/autoraceRaceId';
@@ -25,10 +21,15 @@ import {
     validateAutoraceRaceStage,
 } from '../../utility/data/autorace/autoraceRaceStage';
 import {
+    type AutoraceRaceCourse,
+    validateRaceCourse,
+} from '../../utility/data/common/raceCourse';
+import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
 import { createErrorMessage } from '../../utility/error';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -87,7 +88,7 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
                 validateAutoraceRaceName(name),
                 validateAutoraceRaceStage(stage),
                 validateRaceDateTime(dateTime),
-                validateAutoraceRaceCourse(location),
+                validateRaceCourse(RaceType.AUTORACE, location),
                 validateAutoraceGradeType(grade),
                 validateAutoraceRaceNumber(number),
                 validateUpdateDate(updateDate),

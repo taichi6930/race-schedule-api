@@ -1,16 +1,15 @@
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
+import type { NarRaceCourse } from '../../utility/data/common/raceCourse';
+import { validateRaceCourse } from '../../utility/data/common/raceCourse';
 import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
 import type { NarPlaceId } from '../../utility/data/nar/narPlaceId';
 import { validateNarPlaceId } from '../../utility/data/nar/narPlaceId';
-import {
-    type NarRaceCourse,
-    validateNarRaceCourse,
-} from '../../utility/data/nar/narRaceCourse';
 import { createErrorMessage } from '../../utility/error';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -51,7 +50,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
             return new NarPlaceRecord(
                 validateNarPlaceId(id),
                 validateRaceDateTime(dateTime),
-                validateNarRaceCourse(location),
+                validateRaceCourse(RaceType.NAR, location),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {

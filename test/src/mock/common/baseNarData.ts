@@ -7,8 +7,8 @@ import { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecor
 import { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
+import type { NarRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import type { NarGradeType } from '../../../../lib/src/utility/data/nar/narGradeType';
-import type { NarRaceCourse } from '../../../../lib/src/utility/data/nar/narRaceCourse';
 import {
     generateNarPlaceId,
     generateNarRaceId,

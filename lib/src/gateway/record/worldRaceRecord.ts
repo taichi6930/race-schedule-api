@@ -3,6 +3,10 @@ import '../../utility/format';
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import {
+    validateRaceCourse,
+    type WorldRaceCourse,
+} from '../../utility/data/common/raceCourse';
+import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
@@ -14,10 +18,6 @@ import {
     validateWorldGradeType,
     type WorldGradeType,
 } from '../../utility/data/world/worldGradeType';
-import {
-    validateWorldRaceCourse,
-    type WorldRaceCourse,
-} from '../../utility/data/world/worldRaceCourse';
 import {
     validateWorldRaceCourseType,
     type WorldRaceCourseType,
@@ -31,6 +31,7 @@ import {
     validateWorldRaceNumber,
     type WorldRaceNumber,
 } from '../../utility/data/world/worldRaceNumber';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -91,7 +92,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
             id,
             validateWorldRaceName(name),
             validateRaceDateTime(dateTime),
-            validateWorldRaceCourse(location),
+            validateRaceCourse(RaceType.WORLD, location),
             validateWorldRaceCourseType(surfaceType),
             validateRaceDistance(distance),
             validateWorldGradeType(grade),

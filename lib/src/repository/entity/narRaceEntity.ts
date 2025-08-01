@@ -6,11 +6,11 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../../domain/calendarData';
 import type { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
+import { NarBabacodeMap } from '../../utility/data/common/raceCourse';
 import {
     ChihoKeibaYoutubeUserIdMap,
     getYoutubeLiveUrl,
 } from '../../utility/data/movie';
-import { NarBabacodeMap } from '../../utility/data/nar/narRaceCourse';
 import {
     type NarRaceId,
     validateNarRaceId,

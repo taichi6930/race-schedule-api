@@ -1,3 +1,7 @@
+import {
+    validateRaceCourse,
+    type WorldRaceCourse,
+} from '../utility/data/common/raceCourse';
 import type { RaceDateTime } from '../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
 import {
@@ -8,10 +12,6 @@ import {
     validateWorldGradeType,
     type WorldGradeType,
 } from '../utility/data/world/worldGradeType';
-import {
-    validateWorldRaceCourse,
-    type WorldRaceCourse,
-} from '../utility/data/world/worldRaceCourse';
 import {
     validateWorldRaceCourseType,
     type WorldRaceCourseType,
@@ -24,6 +24,7 @@ import {
     validateWorldRaceNumber,
     type WorldRaceNumber,
 } from '../utility/data/world/worldRaceNumber';
+import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -119,7 +120,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
         return new WorldRaceData(
             validateWorldRaceName(name),
             validateRaceDateTime(dateTime),
-            validateWorldRaceCourse(location),
+            validateRaceCourse(RaceType.WORLD, location),
             validateWorldRaceCourseType(surfaceType),
             validateRaceDistance(distance),
             validateWorldGradeType(grade),
