@@ -305,4 +305,12 @@ export default [
             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
         },
     },
+    {
+        files: ['**/lib/src/gateway/implement/S3SQLiteGateway.ts'],
+        rules: {
+            '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の戻り値を許可
+            '@typescript-eslint/no-explicit-any': 'off', // ✅ any型の代入を許可
+            '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型のプロパティアクセスを許可
+        },
+    }
 ];

@@ -15,5 +15,5 @@ export interface ISQLiteGateway {
     /**
      * 複数件取得用クエリ（同期）
      */
-    all: <T>(query: string, params?: unknown[]) => T[];
+    all: <T>(query: string, params?: unknown[]) => Promise<T[]>;
 }

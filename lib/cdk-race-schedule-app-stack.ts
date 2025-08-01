@@ -46,6 +46,7 @@ export class CdkRaceScheduleAppStack extends cdk.Stack {
                 /\\n/g,
                 '\n',
             ),
+            S3_DB_PATH: 'db/app.db',
         };
 
         // Lambda関数を作成（CDKリソースIDも同じ値を使う）
