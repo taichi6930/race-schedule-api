@@ -1,9 +1,10 @@
+import type { WorldRaceCourse } from '../utility/data/common/raceCourse';
+import { validateRaceCourse } from '../utility/data/common/raceCourse';
 import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../utility/data/common/raceDateTime';
-import type { WorldRaceCourse } from '../utility/data/world/worldRaceCourse';
-import { validateWorldRaceCourse } from '../utility/data/world/worldRaceCourse';
+import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -40,7 +41,7 @@ export class WorldPlaceData implements IPlaceData<WorldPlaceData> {
     public static create(dateTime: Date, location: string): WorldPlaceData {
         return new WorldPlaceData(
             validateRaceDateTime(dateTime),
-            validateWorldRaceCourse(location),
+            validateRaceCourse(RaceType.WORLD, location),
         );
     }
 

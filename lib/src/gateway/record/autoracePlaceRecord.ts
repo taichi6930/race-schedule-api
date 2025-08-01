@@ -8,13 +8,14 @@ import type { AutoracePlaceId } from '../../utility/data/autorace/autoracePlaceI
 import { validateAutoracePlaceId } from '../../utility/data/autorace/autoracePlaceId';
 import {
     type AutoraceRaceCourse,
-    validateAutoraceRaceCourse,
-} from '../../utility/data/autorace/autoraceRaceCourse';
+    validateRaceCourse,
+} from '../../utility/data/common/raceCourse';
 import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
 import { createErrorMessage } from '../../utility/error';
+import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -60,7 +61,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
             return new AutoracePlaceRecord(
                 validateAutoracePlaceId(id),
                 validateRaceDateTime(dateTime),
-                validateAutoraceRaceCourse(location),
+                validateRaceCourse(RaceType.AUTORACE, location),
                 validateAutoraceGradeType(grade),
                 validateUpdateDate(updateDate),
             );

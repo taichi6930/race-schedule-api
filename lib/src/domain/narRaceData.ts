@@ -1,4 +1,8 @@
 import {
+    type NarRaceCourse,
+    validateRaceCourse,
+} from '../utility/data/common/raceCourse';
+import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../utility/data/common/raceDateTime';
@@ -11,10 +15,6 @@ import {
     validateNarGradeType,
 } from '../utility/data/nar/narGradeType';
 import {
-    type NarRaceCourse,
-    validateNarRaceCourse,
-} from '../utility/data/nar/narRaceCourse';
-import {
     type NarRaceCourseType,
     validateNarRaceCourseType,
 } from '../utility/data/nar/narRaceCourseType';
@@ -26,6 +26,7 @@ import {
     type NarRaceNumber,
     validateNarRaceNumber,
 } from '../utility/data/nar/narRaceNumber';
+import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -121,7 +122,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
         return new NarRaceData(
             validateNarRaceName(name),
             validateRaceDateTime(dateTime),
-            validateNarRaceCourse(location),
+            validateRaceCourse(RaceType.NAR, location),
             validateNarRaceCourseType(surfaceType),
             validateRaceDistance(distance),
             validateNarGradeType(grade),

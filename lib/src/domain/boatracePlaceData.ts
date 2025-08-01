@@ -1,9 +1,10 @@
 import type { BoatraceGradeType } from '../utility/data/boatrace/boatraceGradeType';
 import { validateBoatraceGradeType } from '../utility/data/boatrace/boatraceGradeType';
-import type { BoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCourse';
-import { validateBoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCourse';
+import type { BoatraceRaceCourse } from '../utility/data/common/raceCourse';
+import { validateRaceCourse } from '../utility/data/common/raceCourse';
 import type { RaceDateTime } from '../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
+import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -58,7 +59,7 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
     ): BoatracePlaceData {
         return new BoatracePlaceData(
             validateRaceDateTime(dateTime),
-            validateBoatraceRaceCourse(location),
+            validateRaceCourse(RaceType.BOATRACE, location),
             validateBoatraceGradeType(grade),
         );
     }

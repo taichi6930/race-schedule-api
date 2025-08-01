@@ -5,10 +5,6 @@ import {
     validateBoatraceGradeType,
 } from '../../utility/data/boatrace/boatraceGradeType';
 import {
-    type BoatraceRaceCourse,
-    validateBoatraceRaceCourse,
-} from '../../utility/data/boatrace/boatraceRaceCourse';
-import {
     type BoatraceRaceId,
     validateBoatraceRaceId,
 } from '../../utility/data/boatrace/boatraceRaceId';
@@ -25,10 +21,15 @@ import {
     validateBoatraceRaceStage,
 } from '../../utility/data/boatrace/boatraceRaceStage';
 import {
+    type BoatraceRaceCourse,
+    validateRaceCourse,
+} from '../../utility/data/common/raceCourse';
+import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
 import { createErrorMessage } from '../../utility/error';
+import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -88,7 +89,7 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
                 validateBoatraceRaceName(name),
                 validateBoatraceRaceStage(stage),
                 validateRaceDateTime(dateTime),
-                validateBoatraceRaceCourse(location),
+                validateRaceCourse(RaceType.BOATRACE, location),
                 validateBoatraceGradeType(grade),
                 validateBoatraceRaceNumber(number),
                 validateUpdateDate(updateDate),

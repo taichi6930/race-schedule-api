@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import { WorldPlaceCodeMap } from '../../utility/data/world/worldRaceCourse';
+import { WorldPlaceCodeMap } from '../../utility/data/common/raceCourse';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';

@@ -10,13 +10,14 @@ import {
 } from '../../utility/data/boatrace/boatracePlaceId';
 import {
     type BoatraceRaceCourse,
-    validateBoatraceRaceCourse,
-} from '../../utility/data/boatrace/boatraceRaceCourse';
+    validateRaceCourse,
+} from '../../utility/data/common/raceCourse';
 import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
 import { createErrorMessage } from '../../utility/error';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -61,7 +62,7 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
             return new BoatracePlaceRecord(
                 validateBoatracePlaceId(id),
                 validateRaceDateTime(dateTime),
-                validateBoatraceRaceCourse(location),
+                validateRaceCourse(RaceType.BOATRACE, location),
                 validateBoatraceGradeType(grade),
                 validateUpdateDate(updateDate),
             );

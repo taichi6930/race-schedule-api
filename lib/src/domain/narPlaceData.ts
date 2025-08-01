@@ -1,7 +1,8 @@
+import type { NarRaceCourse } from '../utility/data/common/raceCourse';
+import { validateRaceCourse } from '../utility/data/common/raceCourse';
 import type { RaceDateTime } from '../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
-import type { NarRaceCourse } from '../utility/data/nar/narRaceCourse';
-import { validateNarRaceCourse } from '../utility/data/nar/narRaceCourse';
+import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -38,7 +39,7 @@ export class NarPlaceData implements IPlaceData<NarPlaceData> {
     public static create(dateTime: Date, location: string): NarPlaceData {
         return new NarPlaceData(
             validateRaceDateTime(dateTime),
-            validateNarRaceCourse(location),
+            validateRaceCourse(RaceType.NAR, location),
         );
     }
 

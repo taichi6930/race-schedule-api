@@ -6,12 +6,12 @@ import { inject, injectable } from 'tsyringe';
 
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
+import {
+    validateRaceCourse,
+    WorldRaceCourse,
+} from '../../utility/data/common/raceCourse';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
 import { WorldGradeType } from '../../utility/data/world/worldGradeType';
-import {
-    validateWorldRaceCourse,
-    WorldRaceCourse,
-} from '../../utility/data/world/worldRaceCourse';
 import { validateWorldRaceCourseType } from '../../utility/data/world/worldRaceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -128,7 +128,8 @@ export class WorldRaceRepositoryFromHtmlImpl
                                 .text();
 
                             const location: WorldRaceCourse =
-                                validateWorldRaceCourse(
+                                validateRaceCourse(
+                                    RaceType.WORLD,
                                     $(raceElement)
                                         .find('.racelist__race__sub')
                                         .find('.course')
