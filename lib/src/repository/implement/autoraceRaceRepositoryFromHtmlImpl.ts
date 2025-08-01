@@ -5,11 +5,12 @@ import { inject, injectable } from 'tsyringe';
 
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
-import { IAutoraceRaceDataHtmlGateway } from '../../gateway/interface/iAutoraceRaceDataHtmlGateway';
+import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { AutoraceStageMap } from '../../utility/data/autorace/autoraceRaceStage';
 import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -23,8 +24,8 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     implements IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
 {
     public constructor(
-        @inject('AutoraceRaceDataHtmlGateway')
-        private readonly raceDataHtmlGateway: IAutoraceRaceDataHtmlGateway,
+        @inject('RaceDataHtmlGateway')
+        private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
     /**
@@ -63,6 +64,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                 placeEntity.placeData.dateTime.getDate(),
             ];
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
+                RaceType.AUTORACE,
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );

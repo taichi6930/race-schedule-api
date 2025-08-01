@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
+import { AutoracePlaceCodeMap } from '../../utility/data/autorace/autoraceRaceCourse';
 import { RaceCourse } from '../../utility/data/base';
 import { KeirinPlaceCodeMap } from '../../utility/data/keirin/keirinRaceCourse';
 import { NarBabacodeMap } from '../../utility/data/nar/narRaceCourse';
@@ -18,6 +19,9 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         date: Date,
         place: RaceCourse | undefined,
     ): string {
+        if (raceType === RaceType.JRA) {
+            return `../mockData/html/jra/race/${format(date, 'yyyyMMdd')}.html`;
+        }
         if (raceType === RaceType.NAR) {
             if (place === undefined) {
                 throw new Error('NARレースの開催場が指定されていません');
@@ -29,6 +33,12 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
                 throw new Error('競輪レースの開催場が指定されていません');
             }
             return `../mockData/html/keirin/race/${format(date, 'yyyyMMdd')}${KeirinPlaceCodeMap[place]}.html`;
+        }
+        if (raceType === RaceType.AUTORACE) {
+            if (place === undefined) {
+                throw new Error('オートレースの開催場が指定されていません');
+            }
+            return `../mockData/html/autorace/race/${format(date, 'yyyyMMdd')}${AutoracePlaceCodeMap[place]}.html`;
         }
         throw new Error('未対応のraceTypeです');
     }

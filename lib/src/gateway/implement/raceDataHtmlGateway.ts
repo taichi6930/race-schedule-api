@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import { format } from 'date-fns';
 
+import { AutoracePlaceCodeMap } from '../../utility/data/autorace/autoraceRaceCourse';
 import { RaceCourse } from '../../utility/data/base';
 import { KeirinPlaceCodeMap } from '../../utility/data/keirin/keirinRaceCourse';
 import { NarBabacodeMap } from '../../utility/data/nar/narRaceCourse';
@@ -17,6 +18,10 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
         date: Date,
         place: RaceCourse | undefined,
     ): string {
+        if (raceType === RaceType.JRA) {
+            const raceId = format(date, 'yyyyMMdd');
+            return `https://www.keibalab.jp/db/race/${raceId}/`;
+        }
         if (raceType === RaceType.NAR) {
             const raceDate = `${date.getFullYear().toString()}%2f${date.getXDigitMonth(2)}%2f${date.getXDigitDays(2)}`;
             if (place === undefined) {
@@ -28,10 +33,18 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
         if (raceType === RaceType.KEIRIN) {
             const raceDate = format(date, 'yyyyMMdd');
             if (place === undefined) {
-                throw new Error('NARレースの開催場が指定されていません');
+                throw new Error('競輪レースの開催場が指定されていません');
             }
             const babacode = KeirinPlaceCodeMap[place];
             return `https://www.oddspark.com/keirin/AllRaceList.do?joCode=${babacode}&kaisaiBi=${raceDate}`;
+        }
+        if (raceType === RaceType.AUTORACE) {
+            const raceDate = format(date, 'yyyyMMdd');
+            if (place === undefined) {
+                throw new Error('オートレースの開催場が指定されていません');
+            }
+            const babacode = AutoracePlaceCodeMap[place];
+            return `https://www.oddspark.com/autorace/OneDayRaceList.do?raceDy=${raceDate}&placeCd=${babacode}`;
         }
 
         throw new Error('未対応のraceTypeです');

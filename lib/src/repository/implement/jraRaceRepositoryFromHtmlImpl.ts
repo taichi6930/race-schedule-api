@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { JraRaceData } from '../../domain/jraRaceData';
-import { IJraRaceDataHtmlGateway } from '../../gateway/interface/iJraRaceDataHtmlGateway';
+import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import {
     JraRaceCourse,
@@ -12,6 +12,7 @@ import { JraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processJraRaceName } from '../../utility/raceName';
+import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -22,8 +23,8 @@ export class JraRaceRepositoryFromHtmlImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
     public constructor(
-        @inject('JraRaceDataHtmlGateway')
-        private readonly raceDataHtmlGateway: IJraRaceDataHtmlGateway,
+        @inject('RaceDataHtmlGateway')
+        private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
     /**
@@ -57,7 +58,10 @@ export class JraRaceRepositoryFromHtmlImpl
         try {
             // レース情報を取得
             const htmlText: string =
-                await this.raceDataHtmlGateway.getRaceDataHtml(raceDate);
+                await this.raceDataHtmlGateway.getRaceDataHtml(
+                    RaceType.JRA,
+                    raceDate,
+                );
             const jraRaceDataList: JraRaceEntity[] = [];
 
             // mockHTML内のsection id="raceInfo"の中のtableを取得
