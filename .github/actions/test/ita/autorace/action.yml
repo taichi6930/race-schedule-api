@@ -19,6 +19,7 @@ runs:
     # サーバーが起動したらcurlを叩く
     - name: Start server in background
       run: |
+        pnpm run db:init
         pnpm run start:local:no_data &  # サーバーをバックグラウンドで起動
         for i in {1..5}; do
           curl --silent --head http://localhost:3000/health && break
