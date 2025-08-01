@@ -27,7 +27,7 @@ const baseBoatracePlaceId = generateBoatracePlaceId(
 );
 
 const baseBoatraceRaceName = 'グランプリ';
-const baseBoatraceRaceDateTime = new Date('2024-12-31 16:30');
+const baseRaceDateTime = new Date('2024-12-31 16:30');
 const baseBoatraceRaceNumber = 11;
 const baseBoatraceRaceStage: BoatraceRaceStage = '優勝戦';
 const baseBoatraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
@@ -41,7 +41,7 @@ export const baseBoatracePlaceData = BoatracePlaceData.create(
 export const baseBoatraceRaceData = BoatraceRaceData.create(
     baseBoatraceRaceName,
     baseBoatraceRaceStage,
-    baseBoatraceRaceDateTime,
+    baseRaceDateTime,
     baseBoatracePlaceCourse,
     baseBoatracePlaceGrade,
     baseBoatraceRaceNumber,
@@ -63,7 +63,7 @@ export const baseBoatraceRaceRecord = BoatraceRaceRecord.create(
     ),
     baseBoatraceRaceName,
     baseBoatraceRaceStage,
-    baseBoatraceRaceDateTime,
+    baseRaceDateTime,
     baseBoatracePlaceCourse,
     baseBoatracePlaceGrade,
     baseBoatraceRaceNumber,
@@ -101,7 +101,7 @@ export const baseBoatraceRacePlayerRecord = BoatraceRacePlayerRecord.create(
         1,
     ),
     generateBoatraceRaceId(
-        baseBoatraceRaceDateTime,
+        baseRaceDateTime,
         baseBoatracePlaceCourse,
         baseBoatraceRaceNumber,
     ),

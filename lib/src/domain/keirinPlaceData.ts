@@ -1,9 +1,9 @@
+import type { RaceDateTime } from '../utility/data/common/raceDateTime';
+import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
 import type { KeirinGradeType } from '../utility/data/keirin/keirinGradeType';
 import { validateKeirinGradeType } from '../utility/data/keirin/keirinGradeType';
 import type { KeirinRaceCourse } from '../utility/data/keirin/keirinRaceCourse';
 import { validateKeirinRaceCourse } from '../utility/data/keirin/keirinRaceCourse';
-import type { KeirinRaceDateTime } from '../utility/data/keirin/keirinRaceDateTime';
-import { validateKeirinRaceDateTime } from '../utility/data/keirin/keirinRaceDateTime';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -12,9 +12,9 @@ import type { IPlaceData } from './iPlaceData';
 export class KeirinPlaceData implements IPlaceData<KeirinPlaceData> {
     /**
      * 開催日
-     * @type {KeirinRaceDateTime}
+     * @type {RaceDateTime}
      */
-    public readonly dateTime: KeirinRaceDateTime;
+    public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
      * @type {KeirinRaceCourse}
@@ -33,7 +33,7 @@ export class KeirinPlaceData implements IPlaceData<KeirinPlaceData> {
      * @param grade
      */
     private constructor(
-        dateTime: KeirinRaceDateTime,
+        dateTime: RaceDateTime,
         location: KeirinRaceCourse,
         grade: KeirinGradeType,
     ) {
@@ -55,7 +55,7 @@ export class KeirinPlaceData implements IPlaceData<KeirinPlaceData> {
         grade: string,
     ): KeirinPlaceData {
         return new KeirinPlaceData(
-            validateKeirinRaceDateTime(dateTime),
+            validateRaceDateTime(dateTime),
             validateKeirinRaceCourse(location),
             validateKeirinGradeType(grade),
         );

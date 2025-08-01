@@ -14,6 +14,7 @@ import { BoatracePlaceCodeMap } from './data/boatrace/boatraceRaceCourse';
 import type { BoatraceRaceId } from './data/boatrace/boatraceRaceId';
 import type { BoatraceRaceNumber } from './data/boatrace/boatraceRaceNumber';
 import type { BoatraceRacePlayerId } from './data/boatrace/boatraceRacePlayerId';
+import type { RaceDateTime } from './data/common/raceDateTime';
 import type { JraRaceCourse } from './data/jra/jraRaceCourse';
 import type { JraRaceId } from './data/jra/jraRaceId';
 import type { JraRaceNumber } from './data/jra/jraRaceNumber';
@@ -31,7 +32,6 @@ import type { NarRaceNumber } from './data/nar/narRaceNumber';
 import { NetkeibaBabacodeMap } from './data/netkeiba';
 import type { WorldRaceCourse } from './data/world/worldRaceCourse';
 import { WorldPlaceCodeMap } from './data/world/worldRaceCourse';
-import type { WorldRaceDateTime } from './data/world/worldRaceDateTime';
 import type { WorldRaceId } from './data/world/worldRaceId';
 import type { WorldRaceNumber } from './data/world/worldRaceNumber';
 
@@ -104,7 +104,7 @@ export const generateNarPlaceId = (
  * @param number - レース番号
  */
 export const generateWorldRaceId = (
-    dateTime: WorldRaceDateTime,
+    dateTime: RaceDateTime,
     location: WorldRaceCourse,
     number: WorldRaceNumber,
 ): WorldRaceId => {

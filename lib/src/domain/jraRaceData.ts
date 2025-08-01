@@ -1,4 +1,8 @@
 import {
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../utility/data/common/raceDateTime';
+import {
     type RaceDistance,
     validateRaceDistance,
 } from '../utility/data/common/raceDistance';
@@ -23,10 +27,6 @@ import {
     validateJraRaceCourseType,
 } from '../utility/data/jra/jraRaceCourseType';
 import {
-    type JraRaceDateTime,
-    validateJraRaceDateTime,
-} from '../utility/data/jra/jraRaceDateTime';
-import {
     type JraRaceName,
     validateJraRaceName,
 } from '../utility/data/jra/jraRaceName';
@@ -47,9 +47,9 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
     public readonly name: JraRaceName;
     /**
      * 開催日時
-     * @type {JraRaceDateTime}
+     * @type {RaceDateTime}
      */
-    public readonly dateTime: JraRaceDateTime;
+    public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
      * @type {JraRaceCourse}
@@ -102,7 +102,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
      */
     private constructor(
         name: JraRaceName,
-        dateTime: JraRaceDateTime,
+        dateTime: RaceDateTime,
         location: JraRaceCourse,
         surfaceType: JraRaceCourseType,
         distance: RaceDistance,
@@ -148,7 +148,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
     ): JraRaceData {
         return new JraRaceData(
             validateJraRaceName(name),
-            validateJraRaceDateTime(dateTime),
+            validateRaceDateTime(dateTime),
             validateJraRaceCourse(location),
             validateJraRaceCourseType(surfaceType),
             validateRaceDistance(distance),

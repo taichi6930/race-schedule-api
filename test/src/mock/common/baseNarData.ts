@@ -19,7 +19,7 @@ const baseNarPlaceCourse: NarRaceCourse = '大井';
 const baseNarPlaceDateTime = new Date('2024-12-29');
 
 const baseNarRaceName = '東京大賞典';
-const baseNarRaceDateTime = new Date('2024-12-29 15:40');
+const baseRaceDateTime = new Date('2024-12-29 15:40');
 const baseNarRaceNumber = 11;
 const baseNarRaceSurfaceType = 'ダート';
 const baseNarRaceDistance = 2000;
@@ -33,7 +33,7 @@ export const baseNarPlaceData = NarPlaceData.create(
 
 export const baseNarRaceData = NarRaceData.create(
     baseNarRaceName,
-    baseNarRaceDateTime,
+    baseRaceDateTime,
     baseNarPlaceCourse,
     baseNarRaceSurfaceType,
     baseNarRaceDistance,
@@ -55,7 +55,7 @@ export const baseNarRaceRecord = NarRaceRecord.create(
         baseNarRaceNumber,
     ),
     baseNarRaceName,
-    baseNarRaceDateTime,
+    baseRaceDateTime,
     baseNarPlaceCourse,
     baseNarRaceSurfaceType,
     baseNarRaceDistance,
@@ -82,11 +82,11 @@ export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
     ),
     summary: baseNarRaceName,
     start: {
-        dateTime: baseNarRaceDateTime.toISOString().replace('Z', '+09:00'),
+        dateTime: baseRaceDateTime.toISOString().replace('Z', '+09:00'),
         timeZone: 'Asia/Tokyo',
     },
     end: {
-        dateTime: new Date(baseNarRaceDateTime.getTime() + 10 * 60 * 1000)
+        dateTime: new Date(baseRaceDateTime.getTime() + 10 * 60 * 1000)
             .toISOString()
             .replace('Z', '+09:00'),
         timeZone: 'Asia/Tokyo',
@@ -102,7 +102,7 @@ export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
 `,
     extendedProperties: {
         private: {
-            dateTime: baseNarRaceDateTime.toISOString(),
+            dateTime: baseRaceDateTime.toISOString(),
             distance: baseNarRaceDistance.toString(),
             grade: baseNarRaceGrade,
             location: baseNarPlaceCourse,

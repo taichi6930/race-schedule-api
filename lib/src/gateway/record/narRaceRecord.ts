@@ -3,6 +3,10 @@ import '../../utility/format';
 import { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import {
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../../utility/data/common/raceDateTime';
+import {
     type RaceDistance,
     validateRaceDistance,
 } from '../../utility/data/common/raceDistance';
@@ -18,10 +22,6 @@ import {
     type NarRaceCourseType,
     validateNarRaceCourseType,
 } from '../../utility/data/nar/narRaceCourseType';
-import {
-    type NarRaceDateTime,
-    validateNarRaceDateTime,
-} from '../../utility/data/nar/narRaceDateTime';
 import {
     type NarRaceId,
     validateNarRaceId,
@@ -59,7 +59,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
     private constructor(
         public readonly id: NarRaceId,
         public readonly name: NarRaceName,
-        public readonly dateTime: NarRaceDateTime,
+        public readonly dateTime: RaceDateTime,
         public readonly location: NarRaceCourse,
         public readonly surfaceType: NarRaceCourseType,
         public readonly distance: RaceDistance,
@@ -95,7 +95,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
             return new NarRaceRecord(
                 validateNarRaceId(id),
                 validateNarRaceName(name),
-                validateNarRaceDateTime(dateTime),
+                validateRaceDateTime(dateTime),
                 validateNarRaceCourse(location),
                 validateNarRaceCourseType(surfaceType),
                 validateRaceDistance(distance),

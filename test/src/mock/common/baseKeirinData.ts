@@ -27,7 +27,7 @@ const baseKeirinPlaceId = generateKeirinPlaceId(
 );
 
 const baseKeirinRaceName = 'KEIRINグランプリ';
-const baseKeirinRaceDateTime = new Date('2025-12-30 16:30');
+const baseRaceDateTime = new Date('2025-12-30 16:30');
 const baseKeirinRaceNumber = 11;
 const baseKeirinRaceStage: KeirinRaceStage = 'S級グランプリ';
 const baseKeirinRaceUpdateDate = getJSTDate(new Date('2025-10-01 16:30'));
@@ -41,7 +41,7 @@ export const baseKeirinPlaceData = KeirinPlaceData.create(
 export const baseKeirinRaceData = KeirinRaceData.create(
     baseKeirinRaceName,
     baseKeirinRaceStage,
-    baseKeirinRaceDateTime,
+    baseRaceDateTime,
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
     baseKeirinRaceNumber,
@@ -63,7 +63,7 @@ export const baseKeirinRaceRecord = KeirinRaceRecord.create(
     ),
     baseKeirinRaceName,
     baseKeirinRaceStage,
-    baseKeirinRaceDateTime,
+    baseRaceDateTime,
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
     baseKeirinRaceNumber,
@@ -138,7 +138,7 @@ export const baseKeirinRacePlayerRecord = KeirinRacePlayerRecord.create(
         1,
     ),
     generateKeirinRaceId(
-        baseKeirinRaceDateTime,
+        baseRaceDateTime,
         baseKeirinPlaceCourse,
         baseKeirinRaceNumber,
     ),
