@@ -55,11 +55,14 @@ export class SQLiteGateway implements ISQLiteGateway {
     }
 
     @Logger
-    public all<T>(query: string, params: unknown[] = []): T[] {
+    public async all<T>(query: string, params: unknown[] = []): Promise<T[]> {
         try {
             const rows = this.db.prepare(query).all(...params);
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-            return Array.isArray(rows) ? (rows as T[]) : [];
+
+            return await Promise.resolve(
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+                Array.isArray(rows) ? (rows as T[]) : [],
+            );
         } catch (error) {
             throw error instanceof Error ? error : new Error(String(error));
         }
