@@ -1,11 +1,13 @@
-import { KeirinRaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/keirinRaceDataHtmlGateway';
+import { RaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/raceDataHtmlGateway';
+import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 
 describe('KeirinRaceDataHtmlGateway', () => {
-    let gateway: KeirinRaceDataHtmlGateway;
+    let gateway: IRaceDataHtmlGateway;
     let fetchMock: jest.Mock;
 
     beforeEach(() => {
-        gateway = new KeirinRaceDataHtmlGateway();
+        gateway = new RaceDataHtmlGateway();
 
         // fetch をモックし、型定義を追加
         fetchMock = jest.fn();
@@ -25,7 +27,11 @@ describe('KeirinRaceDataHtmlGateway', () => {
             text: jest.fn().mockResolvedValue(expectedHtml),
         });
 
-        const html = await gateway.getRaceDataHtml(testDate, '弥彦');
+        const html = await gateway.getRaceDataHtml(
+            RaceType.KEIRIN,
+            testDate,
+            '弥彦',
+        );
 
         expect(fetchMock).toHaveBeenCalledWith(expectedUrl);
         expect(html).toBe(expectedHtml);
@@ -36,7 +42,7 @@ describe('KeirinRaceDataHtmlGateway', () => {
         fetchMock.mockRejectedValue(new Error('Fetch error'));
 
         await expect(
-            gateway.getRaceDataHtml(testDate, 'いわき平'),
+            gateway.getRaceDataHtml(RaceType.KEIRIN, testDate, 'いわき平'),
         ).rejects.toThrow('htmlを取得できませんでした');
     });
 });

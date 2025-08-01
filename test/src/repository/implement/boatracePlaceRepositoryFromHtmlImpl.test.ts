@@ -2,24 +2,24 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IBoatracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iBoatracePlaceDataHtmlGateway';
-import { MockBoatracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockBoatracePlaceDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
+import { MockPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { BoatracePlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
 import { allowedEnvs } from '../../../../lib/src/utility/env';
 import { SkipEnv } from '../../../utility/testDecorators';
 
 describe('BoatracePlaceRepositoryFromHtmlImpl', () => {
-    let placeDataHtmlgateway: IBoatracePlaceDataHtmlGateway;
+    let placeDataHtmlgateway: IPlaceDataHtmlGateway;
     let repository: BoatracePlaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
         // gatewayのモックを作成
-        placeDataHtmlgateway = new MockBoatracePlaceDataHtmlGateway();
+        placeDataHtmlgateway = new MockPlaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
         container.registerInstance(
-            'BoatracePlaceDataHtmlGateway',
+            'PlaceDataHtmlGateway',
             placeDataHtmlgateway,
         );
 

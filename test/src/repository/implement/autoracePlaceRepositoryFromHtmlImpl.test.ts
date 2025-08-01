@@ -2,24 +2,24 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IAutoracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iAutoracePlaceDataHtmlGateway';
-import { MockAutoracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockAutoracePlaceDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
+import { MockPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { AutoracePlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
 import { allowedEnvs } from '../../../../lib/src/utility/env';
 import { SkipEnv } from '../../../utility/testDecorators';
 
 describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
-    let placeDataHtmlgateway: IAutoracePlaceDataHtmlGateway;
+    let placeDataHtmlgateway: IPlaceDataHtmlGateway;
     let repository: AutoracePlaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
         // gatewayのモックを作成
-        placeDataHtmlgateway = new MockAutoracePlaceDataHtmlGateway();
+        placeDataHtmlgateway = new MockPlaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
         container.registerInstance(
-            'AutoracePlaceDataHtmlGateway',
+            'PlaceDataHtmlGateway',
             placeDataHtmlgateway,
         );
 

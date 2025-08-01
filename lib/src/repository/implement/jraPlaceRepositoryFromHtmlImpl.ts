@@ -1,12 +1,13 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { IJraPlaceDataHtmlGateway } from '../../gateway/interface/iJraPlaceDataHtmlGateway';
+import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { generateJraPlaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -16,8 +17,8 @@ export class JraPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
     public constructor(
-        @inject('JraPlaceDataHtmlGateway')
-        private readonly placeDataHtmlGateway: IJraPlaceDataHtmlGateway,
+        @inject('PlaceDataHtmlGateway')
+        private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
     ) {}
 
     /**
@@ -91,7 +92,10 @@ export class JraPlaceRepositoryFromHtmlImpl
     ): Promise<JraPlaceRecord[]> {
         // レースHTMLを取得
         const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(date);
+            await this.placeDataHtmlGateway.getPlaceDataHtml(
+                RaceType.JRA,
+                date,
+            );
 
         // 競馬場開催レコードはここに追加
         const jraPlaceRecordList: JraPlaceRecord[] = [];

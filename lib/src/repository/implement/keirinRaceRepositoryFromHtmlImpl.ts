@@ -6,7 +6,7 @@ import { inject, injectable } from 'tsyringe';
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
-import { IKeirinRaceDataHtmlGateway } from '../../gateway/interface/iKeirinRaceDataHtmlGateway';
+import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import {
     KeirinRaceStage,
@@ -14,6 +14,7 @@ import {
 } from '../../utility/data/keirin/keirinRaceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -27,8 +28,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
     implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
 {
     public constructor(
-        @inject('KeirinRaceDataHtmlGateway')
-        private readonly raceDataHtmlGateway: IKeirinRaceDataHtmlGateway,
+        @inject('RaceDataHtmlGateway')
+        private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
     /**
@@ -67,6 +68,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 placeData.dateTime.getDate(),
             ];
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
+                RaceType.KEIRIN,
                 placeData.dateTime,
                 placeData.location,
             );

@@ -1,11 +1,13 @@
-import { JraRaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/jraRaceDataHtmlGateway';
+import { RaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/raceDataHtmlGateway';
+import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 
 describe('JraRaceDataHtmlGateway', () => {
-    let gateway: JraRaceDataHtmlGateway;
+    let gateway: IRaceDataHtmlGateway;
     let fetchMock: jest.Mock;
 
     beforeEach(() => {
-        gateway = new JraRaceDataHtmlGateway();
+        gateway = new RaceDataHtmlGateway();
 
         // fetch をモックし、型定義を追加
         fetchMock = jest.fn();
@@ -25,7 +27,7 @@ describe('JraRaceDataHtmlGateway', () => {
             text: jest.fn().mockResolvedValue(expectedHtml),
         });
 
-        const html = await gateway.getRaceDataHtml(testDate);
+        const html = await gateway.getRaceDataHtml(RaceType.JRA, testDate);
 
         expect(fetchMock).toHaveBeenCalledWith(expectedUrl);
         expect(html).toBe(expectedHtml);
@@ -35,8 +37,8 @@ describe('JraRaceDataHtmlGateway', () => {
         const testDate = new Date('2024-10-01');
         fetchMock.mockRejectedValue(new Error('Fetch error'));
 
-        await expect(gateway.getRaceDataHtml(testDate)).rejects.toThrow(
-            'htmlを取得できませんでした',
-        );
+        await expect(
+            gateway.getRaceDataHtml(RaceType.JRA, testDate),
+        ).rejects.toThrow('htmlを取得できませんでした');
     });
 });

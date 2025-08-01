@@ -2,24 +2,24 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IKeirinPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iKeirinPlaceDataHtmlGateway';
-import { MockKeirinPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockKeirinPlaceDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
+import { MockPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { KeirinPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
 import { allowedEnvs } from '../../../../lib/src/utility/env';
 import { SkipEnv } from '../../../utility/testDecorators';
 
 describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
-    let placeDataHtmlgateway: IKeirinPlaceDataHtmlGateway;
+    let placeDataHtmlgateway: IPlaceDataHtmlGateway;
     let repository: KeirinPlaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
         // gatewayのモックを作成
-        placeDataHtmlgateway = new MockKeirinPlaceDataHtmlGateway();
+        placeDataHtmlgateway = new MockPlaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
         container.registerInstance(
-            'KeirinPlaceDataHtmlGateway',
+            'PlaceDataHtmlGateway',
             placeDataHtmlgateway,
         );
 

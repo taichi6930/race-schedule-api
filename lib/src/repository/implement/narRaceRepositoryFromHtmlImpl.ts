@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { NarRaceData } from '../../domain/narRaceData';
-import { INarRaceDataHtmlGateway } from '../../gateway/interface/iNarRaceDataHtmlGateway';
+import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import {
     NarGradeType,
     validateNarGradeType,
@@ -11,6 +11,7 @@ import { NarRaceCourseType } from '../../utility/data/nar/narRaceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processNarRaceName } from '../../utility/raceName';
+import { RaceType } from '../../utility/raceType';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -24,8 +25,8 @@ export class NarRaceRepositoryFromHtmlImpl
     implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
     public constructor(
-        @inject('NarRaceDataHtmlGateway')
-        private readonly raceDataHtmlGateway: INarRaceDataHtmlGateway,
+        @inject('RaceDataHtmlGateway')
+        private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
     /**
@@ -56,6 +57,7 @@ export class NarRaceRepositoryFromHtmlImpl
     ): Promise<NarRaceEntity[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
+                RaceType.NAR,
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );

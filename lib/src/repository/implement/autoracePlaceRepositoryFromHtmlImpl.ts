@@ -5,11 +5,12 @@ import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
-import { IAutoracePlaceDataHtmlGateway } from '../../gateway/interface/iAutoracePlaceDataHtmlGateway';
+import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -22,8 +23,8 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<AutoracePlaceEntity>
 {
     public constructor(
-        @inject('AutoracePlaceDataHtmlGateway')
-        private readonly placeDataHtmlGateway: IAutoracePlaceDataHtmlGateway,
+        @inject('PlaceDataHtmlGateway')
+        private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
     ) {}
 
     /**
@@ -104,7 +105,10 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(date);
+            await this.placeDataHtmlGateway.getPlaceDataHtml(
+                RaceType.AUTORACE,
+                date,
+            );
 
         const $ = cheerio.load(htmlText);
 

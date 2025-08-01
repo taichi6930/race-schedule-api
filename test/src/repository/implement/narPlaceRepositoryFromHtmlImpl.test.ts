@@ -2,24 +2,24 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { INarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarPlaceDataHtmlGateway';
-import { MockNarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockNarPlaceDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
+import { MockPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { NarPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromHtmlImpl';
 import { allowedEnvs } from '../../../../lib/src/utility/env';
 import { SkipEnv } from '../../../utility/testDecorators';
 
 describe('NarPlaceRepositoryFromHtmlImpl', () => {
-    let placeDataHtmlgateway: INarPlaceDataHtmlGateway;
+    let placeDataHtmlgateway: IPlaceDataHtmlGateway;
     let repository: NarPlaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
         // gatewayのモックを作成
-        placeDataHtmlgateway = new MockNarPlaceDataHtmlGateway();
+        placeDataHtmlgateway = new MockPlaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
         container.registerInstance(
-            'NarPlaceDataHtmlGateway',
+            'PlaceDataHtmlGateway',
             placeDataHtmlgateway,
         );
 

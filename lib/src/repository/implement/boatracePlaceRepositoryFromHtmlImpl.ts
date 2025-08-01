@@ -5,9 +5,10 @@ import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
-import { IBoatracePlaceDataHtmlGateway } from '../../gateway/interface/iBoatracePlaceDataHtmlGateway';
+import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -20,8 +21,8 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<BoatracePlaceEntity>
 {
     public constructor(
-        @inject('BoatracePlaceDataHtmlGateway')
-        private readonly placeDataHtmlGateway: IBoatracePlaceDataHtmlGateway,
+        @inject('PlaceDataHtmlGateway')
+        private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
     ) {}
 
     /**
@@ -33,15 +34,15 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
-        const quarters: Record<string, Date> = this.generateQuarterList(
+        const quarters: Date[] = this.generateQuarterList(
             searchFilter.startDate,
             searchFilter.finishDate,
         );
 
         // quartersの月リストを取得
         const placeEntityArray = await Promise.all(
-            Object.entries(quarters).map(async ([quarter, quarterDate]) =>
-                this.fetchMonthPlaceEntityList(quarter, quarterDate),
+            quarters.map(async (quarterDate) =>
+                this.fetchMonthPlaceEntityList(quarterDate),
             ),
         );
         const placeEntityList: BoatracePlaceEntity[] = placeEntityArray.flat();
@@ -63,11 +64,8 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * @param startDate
      * @param finishDate
      */
-    private generateQuarterList(
-        startDate: Date,
-        finishDate: Date,
-    ): Record<string, Date> {
-        const quarterList: Record<string, Date> = {};
+    private generateQuarterList(startDate: Date, finishDate: Date): Date[] {
+        const quarterList: Date[] = [];
 
         const qStartDate = new Date(
             startDate.getFullYear(),
@@ -86,8 +84,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             currentDate <= qFinishDate;
             currentDate.setMonth(currentDate.getMonth() + 3)
         ) {
-            const quarter = `${currentDate.getFullYear().toString()}${(Math.floor(currentDate.getMonth() / 3) + 1).toString()}`;
-            quarterList[quarter] = new Date(currentDate);
+            quarterList.push(new Date(currentDate));
         }
 
         return quarterList;
@@ -97,21 +94,20 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * S3から開催データを取得する
      * ファイル名を利用してS3から開催データを取得する
      * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
-     * @param quarterString
      * @param date
      */
     @Logger
     private async fetchMonthPlaceEntityList(
-        quarterString: string,
         date: Date,
     ): Promise<BoatracePlaceEntity[]> {
         const boatracePlaceEntityList: BoatracePlaceEntity[] = [];
-        console.log(
-            `HTMLから${quarterString} ${formatDate(date, 'yyyy-MM')}を取得します`,
-        );
+        console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(quarterString);
+            await this.placeDataHtmlGateway.getPlaceDataHtml(
+                RaceType.BOATRACE,
+                date,
+            );
 
         const $ = cheerio.load(htmlText);
 

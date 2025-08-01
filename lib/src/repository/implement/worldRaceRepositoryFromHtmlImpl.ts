@@ -5,7 +5,7 @@ import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { WorldRaceData } from '../../domain/worldRaceData';
-import { IWorldRaceDataHtmlGateway } from '../../gateway/interface/iWorldRaceDataHtmlGateway';
+import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import {
     validateWorldRaceCourse,
@@ -16,6 +16,7 @@ import { validateWorldRaceDistance } from '../../utility/data/world/worldRaceDis
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processWorldRaceName } from '../../utility/raceName';
+import { RaceType } from '../../utility/raceType';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
@@ -29,8 +30,8 @@ export class WorldRaceRepositoryFromHtmlImpl
     implements IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
 {
     public constructor(
-        @inject('WorldRaceDataHtmlGateway')
-        private readonly raceDataHtmlGateway: IWorldRaceDataHtmlGateway,
+        @inject('RaceDataHtmlGateway')
+        private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
     /**
@@ -83,8 +84,10 @@ export class WorldRaceRepositoryFromHtmlImpl
     @Logger
     public async fetchRaceListFromHtml(date: Date): Promise<WorldRaceEntity[]> {
         try {
-            const htmlText =
-                await this.raceDataHtmlGateway.getRaceDataHtml(date);
+            const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
+                RaceType.WORLD,
+                date,
+            );
             const worldRaceDataList: WorldRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             const content = $('.racelist');
