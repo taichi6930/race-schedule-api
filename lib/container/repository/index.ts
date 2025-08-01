@@ -16,7 +16,7 @@ import { allowedEnvs, ENV } from '../../src/utility/env';
 
 // SQLiteGateway
 switch (ENV) {
-    case allowedEnvs.localNoInitData: {
+    case allowedEnvs.local: {
         container.register<ISQLiteGateway>('SQLiteGateway', {
             useFactory: () => {
                 const dbPath = path.resolve(
@@ -28,7 +28,7 @@ switch (ENV) {
         });
         break;
     }
-    case allowedEnvs.local:
+    case allowedEnvs.localNoInitData:
     case allowedEnvs.localInitMadeData:
     case allowedEnvs.githubActionsCi: {
         container.register<ISQLiteGateway>('SQLiteGateway', {
