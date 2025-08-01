@@ -1,0 +1,55 @@
+import * as fs from 'node:fs';
+import path from 'node:path';
+
+import { format } from 'date-fns';
+
+import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
+import { IPlaceDataHtmlGateway } from '../interface/iPlaceDataHtmlGateway';
+/**
+ * MockPlaceDataHtmlGatewayは、IPlaceDataHtmlGatewayのモック実装です。
+ * 実際のHTML取得を行わず、モックデータを返します。
+ * 主にテストや開発環境で使用されます。
+ */
+export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
+    /**
+     * raceTypeとdateからURLを生成
+     * @param raceType
+     * @param date
+     */
+    private buildUrl(raceType: RaceType, date: Date): string {
+        if (raceType === RaceType.JRA) {
+            return `../mockData/html/jra/place/${format(date, 'yyyy')}.html`;
+        }
+        if (raceType === RaceType.NAR) {
+            return `../mockData/html/nar/place/${format(date, 'yyyyMM')}.html`;
+        }
+        if (raceType === RaceType.KEIRIN) {
+            return `../mockData/html/keirin/place/${format(date, 'yyyyMM')}.html`;
+        }
+        if (raceType === RaceType.AUTORACE) {
+            return `../mockData/html/autorace/place/${format(date, 'yyyyMM')}.html`;
+        }
+        throw new Error('未対応のraceTypeです');
+    }
+
+    /**
+     * 開催データのHTMLを取得する
+     * @param raceType
+     * @param date - 取得する年月
+     * @returns Promise<string> - 開催データのHTML
+     */
+    @Logger
+    public async getPlaceDataHtml(
+        raceType: RaceType,
+        date: Date,
+    ): Promise<string> {
+        // mockDataフォルダにあるhtmlを取得
+        const testHtmlUrl = this.buildUrl(raceType, date);
+        // lib/src/gateway/mockData/html/autorace/placeの中にあるhtmlを取得
+        const htmlFilePath = path.join(__dirname, testHtmlUrl);
+
+        const htmlContent = await fs.promises.readFile(htmlFilePath, 'utf8');
+        return htmlContent;
+    }
+}

@@ -5,7 +5,7 @@ import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
-import { IKeirinPlaceDataHtmlGateway } from '../../gateway/interface/iKeirinPlaceDataHtmlGateway';
+import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import {
     KeirinRaceCourse,
@@ -13,6 +13,7 @@ import {
 } from '../../utility/data/keirin/keirinRaceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -25,8 +26,8 @@ export class KeirinPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<KeirinPlaceEntity>
 {
     public constructor(
-        @inject('KeirinPlaceDataHtmlGateway')
-        private readonly placeDataHtmlGateway: IKeirinPlaceDataHtmlGateway,
+        @inject('PlaceDataHtmlGateway')
+        private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
     ) {}
 
     /**
@@ -98,7 +99,10 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(date);
+            await this.placeDataHtmlGateway.getPlaceDataHtml(
+                RaceType.KEIRIN,
+                date,
+            );
 
         const $ = cheerio.load(htmlText);
 

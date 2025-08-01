@@ -2,23 +2,23 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iJraPlaceDataHtmlGateway';
-import { MockJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockJraPlaceDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
+import { MockPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { allowedEnvs, SkipEnv } from '../../../utility/testDecorators';
 
 describe('JraPlaceRepositoryFromHtmlImpl', () => {
-    let placeDataHtmlgateway: IJraPlaceDataHtmlGateway;
+    let placeDataHtmlgateway: IPlaceDataHtmlGateway;
     let repository: JraPlaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
         // gatewayのモックを作成
-        placeDataHtmlgateway = new MockJraPlaceDataHtmlGateway();
+        placeDataHtmlgateway = new MockPlaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
         container.registerInstance(
-            'JraPlaceDataHtmlGateway',
+            'PlaceDataHtmlGateway',
             placeDataHtmlgateway,
         );
 

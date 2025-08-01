@@ -1,13 +1,15 @@
 import { format } from 'date-fns';
 
-import { KeirinPlaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/keirinPlaceDataHtmlGateway';
+import { PlaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/placeDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 
 describe('KeirinPlaceDataHtmlGateway', () => {
-    let gateway: KeirinPlaceDataHtmlGateway;
+    let gateway: IPlaceDataHtmlGateway;
     let fetchMock: jest.Mock;
 
     beforeEach(() => {
-        gateway = new KeirinPlaceDataHtmlGateway();
+        gateway = new PlaceDataHtmlGateway();
 
         // fetch をモックし、型定義を追加
         fetchMock = jest.fn();
@@ -27,7 +29,7 @@ describe('KeirinPlaceDataHtmlGateway', () => {
             text: jest.fn().mockResolvedValue(expectedHtml),
         });
 
-        const html = await gateway.getPlaceDataHtml(testDate);
+        const html = await gateway.getPlaceDataHtml(RaceType.KEIRIN, testDate);
 
         expect(fetchMock).toHaveBeenCalledWith(expectedUrl);
         expect(html).toBe(expectedHtml);
@@ -37,8 +39,8 @@ describe('KeirinPlaceDataHtmlGateway', () => {
         const testDate = new Date('2024-10-01');
         fetchMock.mockRejectedValue(new Error('Fetch error'));
 
-        await expect(gateway.getPlaceDataHtml(testDate)).rejects.toThrow(
-            'htmlを取得できませんでした',
-        );
+        await expect(
+            gateway.getPlaceDataHtml(RaceType.KEIRIN, testDate),
+        ).rejects.toThrow('HTMLの取得に失敗しました');
     });
 });

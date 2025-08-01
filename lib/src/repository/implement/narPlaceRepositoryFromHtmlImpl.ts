@@ -5,9 +5,10 @@ import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { NarPlaceData } from '../../domain/narPlaceData';
-import { INarPlaceDataHtmlGateway } from '../../gateway/interface/iNarPlaceDataHtmlGateway';
+import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -20,8 +21,8 @@ export class NarPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<NarPlaceEntity>
 {
     public constructor(
-        @inject('NarPlaceDataHtmlGateway')
-        private readonly placeDataHtmlGateway: INarPlaceDataHtmlGateway,
+        @inject('PlaceDataHtmlGateway')
+        private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
     ) {}
 
     /**
@@ -91,7 +92,10 @@ export class NarPlaceRepositoryFromHtmlImpl
         console.log(`S3から${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(date);
+            await this.placeDataHtmlGateway.getPlaceDataHtml(
+                RaceType.NAR,
+                date,
+            );
 
         const $ = cheerio.load(htmlText);
         // <div class="chartWrapprer">を取得

@@ -1,11 +1,13 @@
-import { AutoracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/autoracePlaceDataHtmlGateway';
+import { PlaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/placeDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 
 describe('AutoPlaceDataHtmlGateway', () => {
-    let gateway: AutoracePlaceDataHtmlGateway;
+    let gateway: IPlaceDataHtmlGateway;
     let fetchMock: jest.Mock;
 
     beforeEach(() => {
-        gateway = new AutoracePlaceDataHtmlGateway();
+        gateway = new PlaceDataHtmlGateway();
 
         // fetch をモックし、型定義を追加
         fetchMock = jest.fn();
@@ -25,7 +27,10 @@ describe('AutoPlaceDataHtmlGateway', () => {
             text: jest.fn().mockResolvedValue(expectedHtml),
         });
 
-        const html = await gateway.getPlaceDataHtml(testDate);
+        const html = await gateway.getPlaceDataHtml(
+            RaceType.AUTORACE,
+            testDate,
+        );
 
         expect(fetchMock).toHaveBeenCalledWith(expectedUrl);
         expect(html).toBe(expectedHtml);
@@ -35,8 +40,8 @@ describe('AutoPlaceDataHtmlGateway', () => {
         const testDate = new Date('2024-11-01');
         fetchMock.mockRejectedValue(new Error('Fetch error'));
 
-        await expect(gateway.getPlaceDataHtml(testDate)).rejects.toThrow(
-            'htmlを取得できませんでした',
-        );
+        await expect(
+            gateway.getPlaceDataHtml(RaceType.AUTORACE, testDate),
+        ).rejects.toThrow('HTMLの取得に失敗しました');
     });
 });
