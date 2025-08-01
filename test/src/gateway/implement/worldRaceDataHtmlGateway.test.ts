@@ -1,11 +1,13 @@
-import { WorldRaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/worldRaceDataHtmlGateway';
+import { RaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/raceDataHtmlGateway';
+import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 
 describe('WorldRaceDataHtmlGateway', () => {
-    let gateway: WorldRaceDataHtmlGateway;
+    let gateway: IRaceDataHtmlGateway;
     let fetchMock: jest.Mock;
 
     beforeEach(() => {
-        gateway = new WorldRaceDataHtmlGateway();
+        gateway = new RaceDataHtmlGateway();
 
         // fetch をモックし、型定義を追加
         fetchMock = jest.fn();
@@ -25,7 +27,7 @@ describe('WorldRaceDataHtmlGateway', () => {
             text: jest.fn().mockResolvedValue(expectedHtml),
         });
 
-        const html = await gateway.getRaceDataHtml(testDate);
+        const html = await gateway.getRaceDataHtml(RaceType.WORLD, testDate);
 
         expect(fetchMock).toHaveBeenCalledWith(expectedUrl);
         expect(html).toBe(expectedHtml);
@@ -35,8 +37,8 @@ describe('WorldRaceDataHtmlGateway', () => {
         const testDate = new Date('2024-10-01');
         fetchMock.mockRejectedValue(new Error('Fetch error'));
 
-        await expect(gateway.getRaceDataHtml(testDate)).rejects.toThrow(
-            'htmlを取得できませんでした',
-        );
+        await expect(
+            gateway.getRaceDataHtml(RaceType.WORLD, testDate),
+        ).rejects.toThrow('htmlを取得できませんでした');
     });
 });

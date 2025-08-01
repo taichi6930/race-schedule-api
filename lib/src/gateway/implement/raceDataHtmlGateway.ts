@@ -30,6 +30,9 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
             const babacode = NarBabacodeMap[place];
             return `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/RaceList?k_raceDate=${raceDate}&k_babaCode=${babacode}`;
         }
+        if (raceType === RaceType.WORLD) {
+            return `https://world.jra-van.jp/schedule/?year=${date.getFullYear().toString()}&month=${(date.getMonth() + 1).toString()}`;
+        }
         if (raceType === RaceType.KEIRIN) {
             const raceDate = format(date, 'yyyyMMdd');
             if (place === undefined) {

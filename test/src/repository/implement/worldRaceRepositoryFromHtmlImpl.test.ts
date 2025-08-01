@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IWorldRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iWorldRaceDataHtmlGateway';
-import { MockWorldRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockWorldRaceDataHtmlGateway';
+import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
+import { MockRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl';
@@ -11,18 +11,15 @@ import { allowedEnvs } from '../../../../lib/src/utility/env';
 import { SkipEnv } from '../../../utility/testDecorators';
 
 describe('WorldRaceRepositoryFromHtmlImpl', () => {
-    let raceDataHtmlGateway: IWorldRaceDataHtmlGateway;
+    let raceDataHtmlGateway: IRaceDataHtmlGateway;
     let repository: WorldRaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
         // gatewayのモックを作成
-        raceDataHtmlGateway = new MockWorldRaceDataHtmlGateway();
+        raceDataHtmlGateway = new MockRaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
-        container.registerInstance(
-            'WorldRaceDataHtmlGateway',
-            raceDataHtmlGateway,
-        );
+        container.registerInstance('RaceDataHtmlGateway', raceDataHtmlGateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(WorldRaceRepositoryFromHtmlImpl);

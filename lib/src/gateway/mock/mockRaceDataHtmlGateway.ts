@@ -28,6 +28,9 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
             }
             return `../mockData/html/nar/race/${format(date, 'yyyyMMdd')}${NarBabacodeMap[place]}.html`;
         }
+        if (raceType === RaceType.WORLD) {
+            return `../mockData/html/world/race/${format(date, 'yyyyMM')}.html`;
+        }
         if (raceType === RaceType.KEIRIN) {
             if (place === undefined) {
                 throw new Error('競輪レースの開催場が指定されていません');
