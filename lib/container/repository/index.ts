@@ -28,29 +28,20 @@ switch (ENV) {
         });
         break;
     }
+    case allowedEnvs.production:
+    case allowedEnvs.test:
     case allowedEnvs.localNoInitData:
     case allowedEnvs.localInitMadeData:
     case allowedEnvs.githubActionsCi: {
-        container.register<ISQLiteGateway>('SQLiteGateway', {
-            useFactory: () => {
-                const dbPath = 'test/volume/app.db';
-                return new MockSQLiteGateway(dbPath);
-            },
-        });
-        break;
-    }
-    case allowedEnvs.production:
-    case allowedEnvs.test: {
-        container.register<ISQLiteGateway>('SQLiteGateway', {
-            useFactory: () => {
-                const dbPath = path.resolve(
-                    __dirname,
-                    '../../../volume/app.db',
-                );
-                return new SQLiteGateway(dbPath);
-            },
-        });
-        break;
+        {
+            container.register<ISQLiteGateway>('SQLiteGateway', {
+                useFactory: () => {
+                    const dbPath = 'test/volume/app.db';
+                    return new MockSQLiteGateway(dbPath);
+                },
+            });
+            break;
+        }
     }
 }
 
