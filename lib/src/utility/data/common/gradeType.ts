@@ -241,9 +241,7 @@ export const validateGradeType = (
  * グレードのバリデーションスキーマを生成する
  * @param allowed - 許可されているグレードのセット
  * @param errorMessage - エラーメッセージ
- * @param allowed
- * @param errorMessage
- * @returns ZodType - バリデーションスキーマ
+ * @returns ZodString
  */
 const createGradeSchema = (
     allowed: ReadonlySet<string>,
@@ -254,19 +252,21 @@ const createGradeSchema = (
     }, errorMessage);
 
 /**
- * ボートレースのグレード リスト
+ * グレード リスト
+ * @param raceType
  */
-const AutoraceGradeTypeList = new Set<string>(
-    GradeMasterList.filter((grade) =>
-        grade.detail.some((detail) => detail.raceType === RaceType.AUTORACE),
-    ).map((grade) => grade.gradeName),
-);
+const GradeTypeList: (raceType: RaceType) => Set<string> = (raceType) =>
+    new Set<string>(
+        GradeMasterList.filter((grade) =>
+            grade.detail.some((detail) => detail.raceType === raceType),
+        ).map((grade) => grade.gradeName),
+    );
 
 /**
  * AutoraceGradeTypeのzod型定義
  */
 export const AutoraceGradeTypeSchema = createGradeSchema(
-    AutoraceGradeTypeList,
+    GradeTypeList(RaceType.AUTORACE),
     'オートレースのグレードではありません',
 );
 
@@ -274,20 +274,12 @@ export const AutoraceGradeTypeSchema = createGradeSchema(
  * AutoraceGradeTypeの型定義
  */
 export type AutoraceGradeType = z.infer<typeof AutoraceGradeTypeSchema>;
-/**
- * JRAのグレード リスト
- */
-const JraGradeTypeList = new Set<string>(
-    GradeMasterList.filter((grade) =>
-        grade.detail.some((detail) => detail.raceType === RaceType.JRA),
-    ).map((grade) => grade.gradeName),
-);
 
 /**
  * JraGradeTypeのzod型定義
  */
 export const JraGradeTypeSchema = createGradeSchema(
-    JraGradeTypeList,
+    GradeTypeList(RaceType.JRA),
     'JRAのグレードではありません',
 );
 
@@ -307,19 +299,10 @@ export const JraSpecifiedGradeList: JraGradeType[] = GradeMasterList.filter(
 ).map((grade) => grade.gradeName);
 
 /**
- * 海外競馬のグレード リスト
- */
-const WorldGradeTypeList = new Set<string>(
-    GradeMasterList.filter((grade) =>
-        grade.detail.some((detail) => detail.raceType === RaceType.WORLD),
-    ).map((grade) => grade.gradeName),
-);
-
-/**
  * WorldGradeTypeのzod型定義
  */
 export const WorldGradeTypeSchema = createGradeSchema(
-    WorldGradeTypeList,
+    GradeTypeList(RaceType.WORLD),
     '海外競馬のグレードではありません',
 );
 
@@ -329,19 +312,10 @@ export const WorldGradeTypeSchema = createGradeSchema(
 export type WorldGradeType = z.infer<typeof WorldGradeTypeSchema>;
 
 /**
- * 競輪のグレード リスト
- */
-const KeirinGradeTypeList = new Set<string>(
-    GradeMasterList.filter((grade) =>
-        grade.detail.some((detail) => detail.raceType === RaceType.KEIRIN),
-    ).map((grade) => grade.gradeName),
-);
-
-/**
  * KeirinGradeTypeのzod型定義
  */
 export const KeirinGradeTypeSchema = createGradeSchema(
-    KeirinGradeTypeList,
+    GradeTypeList(RaceType.KEIRIN),
     '競輪のグレードではありません',
 );
 
@@ -351,20 +325,13 @@ export const KeirinGradeTypeSchema = createGradeSchema(
 export type KeirinGradeType = z.infer<typeof KeirinGradeTypeSchema>;
 
 /**
- * 地方競馬のグレード リスト
- */
-const NarGradeTypeList = new Set<string>(
-    GradeMasterList.filter((grade) =>
-        grade.detail.some((detail) => detail.raceType === RaceType.NAR),
-    ).map((grade) => grade.gradeName),
-);
-/**
  * NarGradeTypeのzod型定義
  */
 export const NarGradeTypeSchema = createGradeSchema(
-    NarGradeTypeList,
+    GradeTypeList(RaceType.NAR),
     '地方競馬のグレードではありません',
 );
+
 /**
  * NarGradeTypeの型定義
  */
@@ -381,18 +348,10 @@ export const NarSpecifiedGradeList: NarGradeType[] = GradeMasterList.filter(
 ).map((grade) => grade.gradeName);
 
 /**
- * ボートレースのグレード リスト
- */
-const BoatraceGradeTypeList = new Set<string>(
-    GradeMasterList.filter((grade) =>
-        grade.detail.some((detail) => detail.raceType === RaceType.BOATRACE),
-    ).map((grade) => grade.gradeName),
-);
-/**
  * BoatraceGradeTypeのzod型定義
  */
 export const BoatraceGradeTypeSchema = createGradeSchema(
-    BoatraceGradeTypeList,
+    GradeTypeList(RaceType.BOATRACE),
     'ボートレースのグレードではありません',
 );
 
