@@ -6,12 +6,14 @@ import type { WorldGradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import type { WorldRaceCourse } from '../../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../../utility/data/common/raceCourse';
-import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
+import {
+    type RaceCourseType,
+    validateRaceCourseType,
+} from '../../utility/data/common/raceCourseType';
 import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../../utility/data/common/raceDateTime';
 import type { RaceDistance } from '../../utility/data/common/raceDistance';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
-import { validateWorldRaceCourseType } from '../../utility/data/world/worldRaceCourseType';
 import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import {
     validateWorldRaceName,
@@ -83,7 +85,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
             validateWorldRaceName(name),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.WORLD, location),
-            validateWorldRaceCourseType(surfaceType),
+            validateRaceCourseType(surfaceType),
             validateRaceDistance(distance),
             validateGradeType(RaceType.WORLD, grade),
             validateWorldRaceNumber(number),
