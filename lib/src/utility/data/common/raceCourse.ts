@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
-import type { RaceCourse } from '../base';
 
 /**
  * JraRaceCourseのzod型定義
@@ -471,3 +470,20 @@ export const BoatracePlaceCodeMap: Record<string, string> = {
     唐津: '23',
     大村: '24',
 };
+
+/**
+ * RaceCourseのzod型定義
+ */
+export const RaceCourseSchema = z.union([
+    JraRaceCourseSchema,
+    NarRaceCourseSchema,
+    WorldRaceCourseSchema,
+    KeirinRaceCourseSchema,
+    AutoraceRaceCourseSchema,
+    BoatraceRaceCourseSchema,
+]);
+
+/**
+ * RaceCourseの型定義
+ */
+export type RaceCourse = z.infer<typeof RaceCourseSchema>;

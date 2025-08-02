@@ -1,5 +1,5 @@
 import type { CalendarData } from '../../domain/calendarData';
-import type { GradeType } from '../../utility/data/base';
+import type { GradeType } from '../../utility/data/common/gradeType';
 
 export interface IRaceCalendarUseCase {
     /**
