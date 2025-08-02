@@ -107,8 +107,33 @@ const GradeMasterList: {
         ],
     },
     {
+        gradeName: '重賞',
+        detail: [
+            { raceType: RaceType.JRA, isSpecified: true },
+            { raceType: RaceType.NAR, isSpecified: true },
+        ],
+    },
+    {
+        gradeName: '地方重賞',
+        detail: [{ raceType: RaceType.NAR, isSpecified: true }],
+    },
+    {
+        gradeName: '地方準重賞',
+        detail: [{ raceType: RaceType.NAR, isSpecified: true }],
+    },
+    {
+        gradeName: 'オープン特別',
+        detail: [
+            { raceType: RaceType.JRA, isSpecified: true },
+            { raceType: RaceType.NAR, isSpecified: true },
+        ],
+    },
+    {
         gradeName: '一般',
-        detail: [{ raceType: RaceType.BOATRACE, isSpecified: false }],
+        detail: [
+            { raceType: RaceType.NAR, isSpecified: false },
+            { raceType: RaceType.BOATRACE, isSpecified: false },
+        ],
     },
     {
         gradeName: '開催',
@@ -185,8 +210,6 @@ export type JraGradeType = z.infer<typeof JraGradeTypeSchema>;
  * JRAのグレード リスト
  */
 const JraGradeTypeList = new Set<string>([
-    '重賞',
-    'オープン特別',
     '格付けなし',
     'オープン',
     '3勝クラス',
@@ -208,15 +231,12 @@ const JraGradeTypeList = new Set<string>([
 /**
  * JRAの指定グレードリスト
  */
-export const JraSpecifiedGradeList: JraGradeType[] = [
-    '重賞',
-    'オープン特別',
-    ...GradeMasterList.filter((grade) =>
+export const JraSpecifiedGradeList: JraGradeType[] = GradeMasterList.filter(
+    (grade) =>
         grade.detail.some(
             (detail) => detail.raceType === RaceType.JRA && detail.isSpecified,
         ),
-    ).map((grade) => grade.gradeName),
-];
+).map((grade) => grade.gradeName);
 
 /**
  * WorldGradeTypeのzod型定義
@@ -258,14 +278,9 @@ export type NarGradeType = z.infer<typeof NarGradeTypeSchema>;
  * 海外競馬のグレード リスト
  */
 const NarGradeTypeList = new Set<string>([
-    '重賞',
-    '地方重賞',
-    'オープン特別',
-    '地方準重賞',
     '格付けなし',
     'オープン',
     '未格付',
-    '一般',
     ...GradeMasterList.filter((grade) =>
         grade.detail.some((detail) => detail.raceType === RaceType.NAR),
     ).map((grade) => grade.gradeName),
@@ -274,17 +289,12 @@ const NarGradeTypeList = new Set<string>([
 /**
  * 地方競馬の指定グレードリスト
  */
-export const NarSpecifiedGradeList: NarGradeType[] = [
-    '重賞',
-    'オープン特別',
-    '地方重賞',
-    '地方準重賞',
-    ...GradeMasterList.filter((grade) =>
+export const NarSpecifiedGradeList: NarGradeType[] = GradeMasterList.filter(
+    (grade) =>
         grade.detail.some(
             (detail) => detail.raceType === RaceType.NAR && detail.isSpecified,
         ),
-    ).map((grade) => grade.gradeName),
-];
+).map((grade) => grade.gradeName);
 
 /**
  * BoatraceGradeTypeのzod型定義
