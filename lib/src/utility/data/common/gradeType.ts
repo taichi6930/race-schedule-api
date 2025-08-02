@@ -58,6 +58,39 @@ const GradeMasterList: {
         ],
     },
     {
+        gradeName: 'JpnⅠ',
+        detail: [
+            { raceType: RaceType.JRA, isSpecified: true },
+            { raceType: RaceType.NAR, isSpecified: true },
+        ],
+    },
+    {
+        gradeName: 'JpnⅡ',
+        detail: [
+            { raceType: RaceType.JRA, isSpecified: true },
+            { raceType: RaceType.NAR, isSpecified: true },
+        ],
+    },
+    {
+        gradeName: 'JpnⅢ',
+        detail: [
+            { raceType: RaceType.JRA, isSpecified: true },
+            { raceType: RaceType.NAR, isSpecified: true },
+        ],
+    },
+    {
+        gradeName: 'J.GⅠ',
+        detail: [{ raceType: RaceType.JRA, isSpecified: true }],
+    },
+    {
+        gradeName: 'J.GⅡ',
+        detail: [{ raceType: RaceType.JRA, isSpecified: true }],
+    },
+    {
+        gradeName: 'J.GⅢ',
+        detail: [{ raceType: RaceType.JRA, isSpecified: true }],
+    },
+    {
         gradeName: 'FⅠ',
         detail: [{ raceType: RaceType.KEIRIN, isSpecified: true }],
     },
@@ -152,12 +185,6 @@ export type JraGradeType = z.infer<typeof JraGradeTypeSchema>;
  * JRAのグレード リスト
  */
 const JraGradeTypeList = new Set<string>([
-    'J.GⅠ',
-    'J.GⅡ',
-    'J.GⅢ',
-    'JpnⅠ',
-    'JpnⅡ',
-    'JpnⅢ',
     '重賞',
     'オープン特別',
     '格付けなし',
@@ -182,12 +209,6 @@ const JraGradeTypeList = new Set<string>([
  * JRAの指定グレードリスト
  */
 export const JraSpecifiedGradeList: JraGradeType[] = [
-    'J.GⅠ',
-    'J.GⅡ',
-    'J.GⅢ',
-    'JpnⅠ',
-    'JpnⅡ',
-    'JpnⅢ',
     '重賞',
     'オープン特別',
     ...GradeMasterList.filter((grade) =>
@@ -237,9 +258,6 @@ export type NarGradeType = z.infer<typeof NarGradeTypeSchema>;
  * 海外競馬のグレード リスト
  */
 const NarGradeTypeList = new Set<string>([
-    'JpnⅠ',
-    'JpnⅡ',
-    'JpnⅢ',
     '重賞',
     '地方重賞',
     'オープン特別',
@@ -257,9 +275,6 @@ const NarGradeTypeList = new Set<string>([
  * 地方競馬の指定グレードリスト
  */
 export const NarSpecifiedGradeList: NarGradeType[] = [
-    'JpnⅠ',
-    'JpnⅡ',
-    'JpnⅢ',
     '重賞',
     'オープン特別',
     '地方重賞',
