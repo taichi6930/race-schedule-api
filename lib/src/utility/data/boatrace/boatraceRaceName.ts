@@ -6,7 +6,7 @@ import { z } from 'zod';
 const BoatraceRaceNameSchema = z.string().min(1, '空文字は許可されていません');
 
 /**
- * BoatraceRaceNameの型定義
+ * BoatraceRaceNameの 型定義
  */
 export type BoatraceRaceName = z.infer<typeof BoatraceRaceNameSchema>;
 
