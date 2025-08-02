@@ -70,6 +70,6 @@ export const CommonPositionNumberSchema = z.union([
 ]);
 
 /**
- * RaceStageの型定義
+ * 共通のPositionNumber型定義
  */
 type PositionNumber = z.infer<typeof CommonPositionNumberSchema>;
