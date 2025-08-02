@@ -3,10 +3,6 @@ import {
     validateAutoraceRaceName,
 } from '../utility/data/autorace/autoraceRaceName';
 import {
-    type AutoraceRaceNumber,
-    validateAutoraceRaceNumber,
-} from '../utility/data/autorace/autoraceRaceNumber';
-import {
     type AutoraceRaceStage,
     validateAutoraceRaceStage,
 } from '../utility/data/autorace/autoraceRaceStage';
@@ -22,6 +18,10 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../utility/data/common/raceDateTime';
+import {
+    type RaceNumber,
+    validateRaceNumber,
+} from '../utility/data/common/raceNumber';
 import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
@@ -56,9 +56,9 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
     public readonly grade: AutoraceGradeType;
     /**
      * レース番号
-     * @type {AutoraceRaceNumber}
+     * @type {RaceNumber}
      */
-    public readonly number: AutoraceRaceNumber;
+    public readonly number: RaceNumber;
 
     /**
      * コンストラクタ
@@ -77,7 +77,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
         dateTime: RaceDateTime,
         location: AutoraceRaceCourse,
         grade: AutoraceGradeType,
-        number: AutoraceRaceNumber,
+        number: RaceNumber,
     ) {
         this.name = name;
         this.stage = stage;
@@ -111,7 +111,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.AUTORACE, location),
             validateGradeType(RaceType.AUTORACE, grade),
-            validateAutoraceRaceNumber(number),
+            validateRaceNumber(number),
         );
     }
 

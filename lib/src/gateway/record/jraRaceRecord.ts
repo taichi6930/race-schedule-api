@@ -17,6 +17,10 @@ import {
 import type { RaceDistance } from '../../utility/data/common/raceDistance';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
 import {
+    type RaceNumber,
+    validateRaceNumber,
+} from '../../utility/data/common/raceNumber';
+import {
     type JraHeldDayTimes,
     validateJraHeldDayTimes,
 } from '../../utility/data/jra/jraHeldDayTimes';
@@ -32,10 +36,6 @@ import {
     type JraRaceName,
     validateJraRaceName,
 } from '../../utility/data/jra/jraRaceName';
-import {
-    type JraRaceNumber,
-    validateJraRaceNumber,
-} from '../../utility/data/jra/jraRaceNumber';
 import { createErrorMessage } from '../../utility/error';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
@@ -69,7 +69,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
         public readonly surfaceType: RaceCourseType,
         public readonly distance: RaceDistance,
         public readonly grade: JraGradeType,
-        public readonly number: JraRaceNumber,
+        public readonly number: RaceNumber,
         public readonly heldTimes: JraHeldTimes,
         public readonly heldDayTimes: JraHeldDayTimes,
         public readonly updateDate: UpdateDate,
@@ -111,7 +111,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
                 validateRaceCourseType(surfaceType),
                 validateRaceDistance(distance),
                 validateGradeType(RaceType.JRA, grade),
-                validateJraRaceNumber(number),
+                validateRaceNumber(number),
                 validateJraHeldTimes(heldTimes),
                 validateJraHeldDayTimes(heldDayTimes),
                 validateUpdateDate(updateDate),
