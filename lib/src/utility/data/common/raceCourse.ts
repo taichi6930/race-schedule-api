@@ -3,6 +3,290 @@ import { z } from 'zod';
 import { RaceType } from '../../raceType';
 
 /**
+ * RaceCourseのマスターデータ
+ */
+const RaceCourseMasterList: {
+    raceType: RaceType;
+    placeName: string;
+    placeCode: string;
+}[] = [
+    // Autorace
+    {
+        raceType: RaceType.AUTORACE,
+        placeName: '船橋',
+        placeCode: '01',
+    },
+    {
+        raceType: RaceType.AUTORACE,
+        placeName: '川口',
+        placeCode: '02',
+    },
+    {
+        raceType: RaceType.AUTORACE,
+        placeName: '伊勢崎',
+        placeCode: '03',
+    },
+    {
+        raceType: RaceType.AUTORACE,
+        placeName: '浜松',
+        placeCode: '04',
+    },
+    {
+        raceType: RaceType.AUTORACE,
+        placeName: '飯塚',
+        placeCode: '05',
+    },
+    {
+        raceType: RaceType.AUTORACE,
+        placeName: '山陽',
+        placeCode: '06',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ロンシャン',
+        placeCode: 'longchamp',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'パリロンシャン',
+        placeCode: 'longchamp',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'シャンティイ',
+        placeCode: 'chantilly',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'サンクルー',
+        placeCode: 'saintcloud',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ドーヴィル',
+        placeCode: 'deauville',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'アスコット',
+        placeCode: 'ascot',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ニューマーケット',
+        placeCode: 'newmarket',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ニューベリー',
+        placeCode: 'newbury',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'エプソム',
+        placeCode: 'epsom',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'グッドウッド',
+        placeCode: 'goodwood',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'サンダウン',
+        placeCode: 'sandown',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ヨーク',
+        placeCode: 'york',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ヘイドック',
+        placeCode: 'haydock',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ドンカスター',
+        placeCode: 'doncaster',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'レパーズタウン',
+        placeCode: 'leopardstown',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'カラ',
+        placeCode: 'curragh',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ガルフストリームパーク',
+        placeCode: 'gulfstreampark',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'サンタアニタパーク',
+        placeCode: 'santaanitapark',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'チャーチルダウンズ',
+        placeCode: 'churchill-downs',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ピムリコ',
+        placeCode: 'pimlico',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'サラトガ',
+        placeCode: 'saratoga',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'アケダクト',
+        placeCode: 'aqueduct',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'モンマスパーク',
+        placeCode: 'monmouthpark',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ベルモントパーク',
+        placeCode: 'belmontpark',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'コロニアルダウンズ',
+        placeCode: 'colonial-downs',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'デルマー',
+        placeCode: 'delmar',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'パークスレーシング',
+        placeCode: 'parxracing',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'キーンランド',
+        placeCode: 'keeneland',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'オークローンパーク',
+        placeCode: 'oaklawnpark',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ミュンヘン',
+        placeCode: 'munich',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ホッペガルテン',
+        placeCode: 'hoppegarten',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'バーデンバーデン',
+        placeCode: 'badenbaden',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'シャティン',
+        placeCode: 'shatin',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'キングアブドゥルアジーズ',
+        placeCode: 'king-abdulaziz',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'メイダン',
+        placeCode: 'meydan',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ランドウィック',
+        placeCode: 'randwick',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'コーフィールド',
+        placeCode: 'caulfield',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'フレミントン',
+        placeCode: 'flemington',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'メルボルン',
+        placeCode: 'melbourne',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ムーニーバレー',
+        placeCode: 'mooneevalley',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ローズヒルガーデンズ',
+        placeCode: 'rosehill-gardens',
+    },
+];
+
+/**
+ * 場リスト
+ * @param raceType
+ */
+const RaceCourseList = (raceType: RaceType): Set<string> =>
+    new Set(
+        RaceCourseMasterList.filter(
+            (course) => course.raceType === raceType,
+        ).map((course) => course.placeName),
+    );
+
+/**
+ * RaceCourseMasterListからraceTypeごとのPlaceCodeMapを生成するユーティリティ
+ * @param raceType - 生成対象のレース種別
+ * @returns placeName をキー、placeCode を値とするマップ
+ */
+export function createPlaceCodeMap(raceType: RaceType): Record<string, string> {
+    const map: Record<string, string> = {};
+    for (const course of RaceCourseMasterList) {
+        if (course.raceType === raceType) {
+            map[course.placeName] = course.placeCode;
+        }
+    }
+    return map;
+}
+
+/**
+ * オートレース場リスト
+ */
+const AutoraceRaceCourseList = RaceCourseList(RaceType.AUTORACE);
+
+/**
+ * オートレースのレース場名とコードの対応表（RaceCourseMasterListから自動生成）
+ */
+export const AutoracePlaceCodeMap: Record<string, string> = createPlaceCodeMap(
+    RaceType.AUTORACE,
+);
+
+/**
  * JraRaceCourseのzod型定義
  */
 export const JraRaceCourseSchema = z.string().refine((value) => {
@@ -272,96 +556,14 @@ export type WorldRaceCourse = z.infer<typeof WorldRaceCourseSchema>;
 /**
  * 海外競馬場 リスト
  */
-const WorldRaceCourseList = new Set([
-    'ロンシャン',
-    'パリロンシャン',
-    'シャンティイ',
-    'サンクルー',
-    'ドーヴィル',
-    'アスコット',
-    'ニューマーケット',
-    'ニューベリー',
-    'エプソム',
-    'グッドウッド',
-    'サンダウン',
-    'ヨーク',
-    'ヘイドック',
-    'ドンカスター',
-    'レパーズタウン',
-    'カラ',
-    'ガルフストリームパーク',
-    'サンタアニタパーク',
-    'チャーチルダウンズ',
-    'ピムリコ',
-    'サラトガ',
-    'アケダクト',
-    'モンマスパーク',
-    'ベルモントパーク',
-    'コロニアルダウンズ',
-    'デルマー',
-    'パークスレーシング',
-    'キーンランド',
-    'オークローンパーク',
-    'ミュンヘン',
-    'ホッペガルテン',
-    'バーデンバーデン',
-    'シャティン',
-    'キングアブドゥルアジーズ',
-    'メイダン',
-    'ランドウィック',
-    'コーフィールド',
-    'フレミントン',
-    'メルボルン',
-    'ムーニーバレー',
-    'ローズヒルガーデンズ',
-]);
+const WorldRaceCourseList = RaceCourseList(RaceType.WORLD);
 
 /**
  * 海外の競馬場のレース場名とコードの対応表
  */
-export const WorldPlaceCodeMap: Record<string, string> = {
-    ロンシャン: 'longchamp',
-    パリロンシャン: 'longchamp',
-    シャンティイ: 'chantilly',
-    サンクルー: 'saintcloud',
-    ドーヴィル: 'deauville',
-    アスコット: 'ascot',
-    ニューマーケット: 'newmarket',
-    ニューベリー: 'newbury',
-    エプソム: 'epsom',
-    グッドウッド: 'goodwood',
-    サンダウン: 'sandown',
-    ヨーク: 'york',
-    ヘイドック: 'haydock',
-    ドンカスター: 'doncaster',
-    レパーズタウン: 'leopardstown',
-    カラ: 'curragh',
-    ガルフストリームパーク: 'gulfstreampark',
-    サンタアニタパーク: 'santaanitapark',
-    チャーチルダウンズ: 'churchill-downs',
-    ピムリコ: 'pimlico',
-    サラトガ: 'saratoga',
-    アケダクト: 'aqueduct',
-    モンマスパーク: 'monmouthpark',
-    ベルモントパーク: 'belmontpark',
-    コロニアルダウンズ: 'colonial-downs',
-    デルマー: 'delmar',
-    パークスレーシング: 'parxracing',
-    キーンランド: 'keeneland',
-    オークローンパーク: 'oaklawnpark',
-    ミュンヘン: 'munich',
-    ホッペガルテン: 'hoppegarten',
-    バーデンバーデン: 'badenbaden',
-    シャティン: 'shatin',
-    キングアブドゥルアジーズ: 'king-abdulaziz',
-    メイダン: 'meydan',
-    ランドウィック: 'randwick',
-    コーフィールド: 'caulfield',
-    フレミントン: 'flemington',
-    メルボルン: 'melbourne',
-    ムーニーバレー: 'mooneevalley',
-    ローズヒルガーデンズ: 'rosehill-gardens',
-};
+export const WorldPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
+    RaceType.WORLD,
+);
 
 /**
  * AutoraceRaceCourseのzod型定義
@@ -374,30 +576,6 @@ export const AutoraceRaceCourseSchema = z.string().refine((value) => {
  * AutoraceRaceCourseの型定義
  */
 export type AutoraceRaceCourse = z.infer<typeof AutoraceRaceCourseSchema>;
-
-/**
- * オートレース場リスト
- */
-const AutoraceRaceCourseList = new Set([
-    '船橋',
-    '川口',
-    '伊勢崎',
-    '浜松',
-    '飯塚',
-    '山陽',
-]);
-
-/**
- * オートレースのレース場名とコードの対応表
- */
-export const AutoracePlaceCodeMap: Record<string, string> = {
-    船橋: '01',
-    川口: '02',
-    伊勢崎: '03',
-    浜松: '04',
-    飯塚: '05',
-    山陽: '06',
-};
 
 /**
  * BoatraceRaceCourseのzod型定義
