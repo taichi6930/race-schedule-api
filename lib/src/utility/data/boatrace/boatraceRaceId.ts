@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
-import { validateBoatraceRaceNumber } from './boatraceRaceNumber';
-
+import { validateRaceNumber } from '../common/raceNumber';
 /**
  * BoatraceRaceIdのzod型定義
  * boatrace + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
@@ -19,7 +18,7 @@ const BoatraceRaceIdSchema = z
     .refine((value) => {
         const raceNumber = Number.parseInt(value.slice(-2));
         try {
-            validateBoatraceRaceNumber(raceNumber);
+            validateRaceNumber(raceNumber);
             return true;
         } catch {
             return false;

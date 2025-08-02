@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { validateNarRaceNumber } from './narRaceNumber';
+import { validateRaceNumber } from '../common/raceNumber';
 
 /**
  * NarRaceIdのzod型定義
@@ -19,7 +19,7 @@ const NarRaceIdSchema = z
     .refine((value) => {
         const raceNumber = Number.parseInt(value.slice(-2));
         try {
-            validateNarRaceNumber(raceNumber);
+            validateRaceNumber(raceNumber);
             return true;
         } catch {
             return false;

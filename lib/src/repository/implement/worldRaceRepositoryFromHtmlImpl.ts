@@ -6,6 +6,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
+import { processWorldRaceName } from '../../utility/createRaceName';
 import { WorldGradeType } from '../../utility/data/common/gradeType';
 import {
     validateRaceCourse,
@@ -15,7 +16,6 @@ import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { processWorldRaceName } from '../../utility/raceName';
 import { RaceType } from '../../utility/raceType';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { WorldPlaceEntity } from '../entity/worldPlaceEntity';

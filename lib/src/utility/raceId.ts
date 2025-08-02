@@ -2,35 +2,37 @@ import { format } from 'date-fns';
 
 import type { AutoracePlaceId } from './data/autorace/autoracePlaceId';
 import type { AutoraceRaceId } from './data/autorace/autoraceRaceId';
-import type { AutoraceRaceNumber } from './data/autorace/autoraceRaceNumber';
 import type { AutoraceRacePlayerId } from './data/autorace/autoraceRacePlayerId';
 import type { BoatracePlaceId } from './data/boatrace/boatracePlaceId';
 import type { BoatraceRaceId } from './data/boatrace/boatraceRaceId';
-import type { BoatraceRaceNumber } from './data/boatrace/boatraceRaceNumber';
 import type { BoatraceRacePlayerId } from './data/boatrace/boatraceRacePlayerId';
-import type { AutoracePositionNumber } from './data/common/positionNumber';
-import type { BoatracePositionNumber } from './data/common/positionNumber';
-import type { KeirinPositionNumber } from './data/common/positionNumber';
-import type { AutoraceRaceCourse } from './data/common/raceCourse';
-import type { BoatraceRaceCourse } from './data/common/raceCourse';
-import type { JraRaceCourse } from './data/common/raceCourse';
-import type { KeirinRaceCourse } from './data/common/raceCourse';
-import type { NarRaceCourse } from './data/common/raceCourse';
-import type { WorldRaceCourse } from './data/common/raceCourse';
-import { AutoracePlaceCodeMap } from './data/common/raceCourse';
-import { BoatracePlaceCodeMap } from './data/common/raceCourse';
-import { KeirinPlaceCodeMap } from './data/common/raceCourse';
-import { WorldPlaceCodeMap } from './data/common/raceCourse';
+import type {
+    AutoracePositionNumber,
+    BoatracePositionNumber,
+    KeirinPositionNumber,
+} from './data/common/positionNumber';
+import type {
+    AutoraceRaceCourse,
+    BoatraceRaceCourse,
+    JraRaceCourse,
+    KeirinRaceCourse,
+    NarRaceCourse,
+    WorldRaceCourse,
+} from './data/common/raceCourse';
+import {
+    AutoracePlaceCodeMap,
+    BoatracePlaceCodeMap,
+    KeirinPlaceCodeMap,
+    WorldPlaceCodeMap,
+} from './data/common/raceCourse';
 import type { RaceDateTime } from './data/common/raceDateTime';
+import type { RaceNumber } from './data/common/raceNumber';
 import type { JraRaceId } from './data/jra/jraRaceId';
-import type { JraRaceNumber } from './data/jra/jraRaceNumber';
 import type { KeirinPlaceId } from './data/keirin/keirinPlaceId';
 import type { KeirinRaceId } from './data/keirin/keirinRaceId';
-import type { KeirinRaceNumber } from './data/keirin/keirinRaceNumber';
 import type { KeirinRacePlayerId } from './data/keirin/keirinRacePlayerId';
 import type { NarPlaceId } from './data/nar/narPlaceId';
 import type { NarRaceId } from './data/nar/narRaceId';
-import type { NarRaceNumber } from './data/nar/narRaceNumber';
 import { NetkeibaBabacodeMap } from './data/netkeiba';
 import type { WorldRaceId } from './data/world/worldRaceId';
 import type { WorldRaceNumber } from './data/world/worldRaceNumber';
@@ -44,7 +46,7 @@ import type { WorldRaceNumber } from './data/world/worldRaceNumber';
 export const generateJraRaceId = (
     dateTime: Date,
     location: JraRaceCourse,
-    number: JraRaceNumber,
+    number: RaceNumber,
 ): JraRaceId => {
     const numberCode = number.toXDigits(2);
     return `${generateJraPlaceId(dateTime, location)}${numberCode}`;
@@ -75,7 +77,7 @@ export const generateJraPlaceId = (
 export const generateNarRaceId = (
     dateTime: Date,
     location: NarRaceCourse,
-    number: NarRaceNumber,
+    number: RaceNumber,
 ): NarRaceId => {
     const numberCode = number.toXDigits(2);
     return `${generateNarPlaceId(dateTime, location)}${numberCode}`;
@@ -136,7 +138,7 @@ export const generateWorldPlaceId = (
 export const generateKeirinRacePlayerId = (
     dateTime: Date,
     location: KeirinRaceCourse,
-    number: KeirinRaceNumber,
+    number: RaceNumber,
     positionNumber: KeirinPositionNumber,
 ): KeirinRacePlayerId => {
     const positionNumberCode = positionNumber.toXDigits(2);
@@ -152,7 +154,7 @@ export const generateKeirinRacePlayerId = (
 export const generateKeirinRaceId = (
     dateTime: Date,
     location: KeirinRaceCourse,
-    number: KeirinRaceNumber,
+    number: RaceNumber,
 ): KeirinRaceId => {
     const numberCode = number.toXDigits(2);
     return `${generateKeirinPlaceId(dateTime, location)}${numberCode}`;
@@ -182,7 +184,7 @@ export const generateKeirinPlaceId = (
 export const generateBoatraceRacePlayerId = (
     dateTime: Date,
     location: BoatraceRaceCourse,
-    number: BoatraceRaceNumber,
+    number: RaceNumber,
     positionNumber: BoatracePositionNumber,
 ): BoatraceRacePlayerId => {
     const positionNumberCode = positionNumber.toXDigits(2);
@@ -198,7 +200,7 @@ export const generateBoatraceRacePlayerId = (
 export const generateBoatraceRaceId = (
     dateTime: Date,
     location: BoatraceRaceCourse,
-    number: BoatraceRaceNumber,
+    number: RaceNumber,
 ): BoatraceRaceId => {
     const numberCode = number.toXDigits(2);
     return `${generateBoatracePlaceId(dateTime, location)}${numberCode}`;
@@ -228,7 +230,7 @@ export const generateBoatracePlaceId = (
 export const generateAutoraceRacePlayerId = (
     dateTime: Date,
     location: AutoraceRaceCourse,
-    number: AutoraceRaceNumber,
+    number: RaceNumber,
     positionNumber: AutoracePositionNumber,
 ): AutoraceRacePlayerId => {
     const positionNumberCode = positionNumber.toXDigits(2);
@@ -244,7 +246,7 @@ export const generateAutoraceRacePlayerId = (
 export const generateAutoraceRaceId = (
     dateTime: Date,
     location: AutoraceRaceCourse,
-    number: AutoraceRaceNumber,
+    number: RaceNumber,
 ): AutoraceRaceId => {
     const numberCode = number.toXDigits(2);
     return `${generateAutoracePlaceId(dateTime, location)}${numberCode}`;

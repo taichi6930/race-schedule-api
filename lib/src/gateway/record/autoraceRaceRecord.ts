@@ -5,14 +5,6 @@ import {
     validateAutoraceRaceId,
 } from '../../utility/data/autorace/autoraceRaceId';
 import {
-    type AutoraceRaceName,
-    validateAutoraceRaceName,
-} from '../../utility/data/autorace/autoraceRaceName';
-import {
-    type AutoraceRaceNumber,
-    validateAutoraceRaceNumber,
-} from '../../utility/data/autorace/autoraceRaceNumber';
-import {
     type AutoraceRaceStage,
     validateAutoraceRaceStage,
 } from '../../utility/data/autorace/autoraceRaceStage';
@@ -28,6 +20,12 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
+import type { RaceName } from '../../utility/data/common/raceName';
+import { validateRaceName } from '../../utility/data/common/raceName';
+import {
+    type RaceNumber,
+    validateRaceNumber,
+} from '../../utility/data/common/raceNumber';
 import { createErrorMessage } from '../../utility/error';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
@@ -52,12 +50,12 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
      */
     private constructor(
         public readonly id: AutoraceRaceId,
-        public readonly name: AutoraceRaceName,
+        public readonly name: RaceName,
         public readonly stage: AutoraceRaceStage,
         public readonly dateTime: RaceDateTime,
         public readonly location: AutoraceRaceCourse,
         public readonly grade: AutoraceGradeType,
-        public readonly number: AutoraceRaceNumber,
+        public readonly number: RaceNumber,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -85,12 +83,12 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
         try {
             return new AutoraceRaceRecord(
                 validateAutoraceRaceId(id),
-                validateAutoraceRaceName(name),
+                validateRaceName(name),
                 validateAutoraceRaceStage(stage),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.AUTORACE, location),
                 validateGradeType(RaceType.AUTORACE, grade),
-                validateAutoraceRaceNumber(number),
+                validateRaceNumber(number),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {

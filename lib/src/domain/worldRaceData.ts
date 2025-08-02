@@ -15,9 +15,9 @@ import {
     validateRaceDistance,
 } from '../utility/data/common/raceDistance';
 import {
-    validateWorldRaceName,
-    type WorldRaceName,
-} from '../utility/data/world/worldRaceName';
+    type RaceName,
+    validateRaceName,
+} from '../utility/data/common/raceName';
 import {
     validateWorldRaceNumber,
     type WorldRaceNumber,
@@ -31,9 +31,9 @@ import type { IPlaceData } from './iPlaceData';
 export class WorldRaceData implements IPlaceData<WorldRaceData> {
     /**
      * レース名
-     * @type {WorldRaceName}
+     * @type {RaceName}
      */
-    public readonly name: WorldRaceName;
+    public readonly name: RaceName;
     /**
      * 開催日時
      * @type {RaceDateTime}
@@ -78,7 +78,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
      * レース開催データを生成する
      */
     private constructor(
-        name: WorldRaceName,
+        name: RaceName,
         dateTime: RaceDateTime,
         location: WorldRaceCourse,
         surfaceType: RaceCourseType,
@@ -116,7 +116,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
         number: number,
     ): WorldRaceData {
         return new WorldRaceData(
-            validateWorldRaceName(name),
+            validateRaceName(name),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.WORLD, location),
             validateRaceCourseType(surfaceType),

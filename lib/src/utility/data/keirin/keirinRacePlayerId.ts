@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
 import { validatePositionNumber } from '../common/positionNumber';
-import { validateKeirinRaceNumber } from './keirinRaceNumber';
+import { validateRaceNumber } from '../common/raceNumber';
 /**
  * KeirinRacePlayerIdのzod型定義
  * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
@@ -21,7 +21,7 @@ const KeirinRacePlayerIdSchema = z
         (value) => {
             const raceNumber = Number.parseInt(value.slice(-4, -2));
             try {
-                validateKeirinRaceNumber(raceNumber);
+                validateRaceNumber(raceNumber);
                 return true;
             } catch {
                 return false;

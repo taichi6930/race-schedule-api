@@ -7,13 +7,13 @@ import {
 import type { RaceDateTime } from '../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
 import {
-    type KeirinRaceName,
-    validateKeirinRaceName,
-} from '../utility/data/keirin/keirinRaceName';
+    type RaceName,
+    validateRaceName,
+} from '../utility/data/common/raceName';
 import {
-    type KeirinRaceNumber,
-    validateKeirinRaceNumber,
-} from '../utility/data/keirin/keirinRaceNumber';
+    type RaceNumber,
+    validateRaceNumber,
+} from '../utility/data/common/raceNumber';
 import {
     type KeirinRaceStage,
     validateKeirinRaceStage,
@@ -27,9 +27,9 @@ import type { IPlaceData } from './iPlaceData';
 export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
     /**
      * レース名
-     * @type {KeirinRaceName}
+     * @type {RaceName}
      */
-    public readonly name: KeirinRaceName;
+    public readonly name: RaceName;
     /**
      * 開催ステージ
      * @type {KeirinRaceStage}
@@ -52,9 +52,9 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
     public readonly grade: KeirinGradeType;
     /**
      * レース番号
-     * @type {KeirinRaceNumber}
+     * @type {RaceNumber}
      */
-    public readonly number: KeirinRaceNumber;
+    public readonly number: RaceNumber;
 
     /**
      * コンストラクタ
@@ -68,12 +68,12 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
      * レース開催データを生成する
      */
     private constructor(
-        name: KeirinRaceName,
+        name: RaceName,
         stage: KeirinRaceStage,
         dateTime: RaceDateTime,
         location: KeirinRaceCourse,
         grade: KeirinGradeType,
-        number: KeirinRaceNumber,
+        number: RaceNumber,
     ) {
         this.name = name;
         this.stage = stage;
@@ -102,12 +102,12 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
         number: number,
     ): KeirinRaceData {
         return new KeirinRaceData(
-            validateKeirinRaceName(name),
+            validateRaceName(name),
             validateKeirinRaceStage(stage),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.KEIRIN, location),
             validateGradeType(RaceType.KEIRIN, grade),
-            validateKeirinRaceNumber(number),
+            validateRaceNumber(number),
         );
     }
 

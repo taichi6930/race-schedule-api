@@ -1,12 +1,4 @@
 import {
-    type BoatraceRaceName,
-    validateBoatraceRaceName,
-} from '../utility/data/boatrace/boatraceRaceName';
-import {
-    type BoatraceRaceNumber,
-    validateBoatraceRaceNumber,
-} from '../utility/data/boatrace/boatraceRaceNumber';
-import {
     type BoatraceRaceStage,
     validateBoatraceRaceStage,
 } from '../utility/data/boatrace/boatraceRaceStage';
@@ -20,6 +12,14 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../utility/data/common/raceDateTime';
+import {
+    type RaceName,
+    validateRaceName,
+} from '../utility/data/common/raceName';
+import {
+    type RaceNumber,
+    validateRaceNumber,
+} from '../utility/data/common/raceNumber';
 import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
@@ -29,9 +29,9 @@ import type { IPlaceData } from './iPlaceData';
 export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
     /**
      * レース名
-     * @type {BoatraceRaceName}
+     * @type {RaceName}
      */
-    public readonly name: BoatraceRaceName;
+    public readonly name: RaceName;
     /**
      * 開催ステージ
      * @type {BoatraceRaceStage}
@@ -54,9 +54,9 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
     public readonly grade: BoatraceGradeType;
     /**
      * レース番号
-     * @type {BoatraceRaceNumber}
+     * @type {RaceNumber}
      */
-    public readonly number: BoatraceRaceNumber;
+    public readonly number: RaceNumber;
 
     /**
      * コンストラクタ
@@ -70,12 +70,12 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
      * レース開催データを生成する
      */
     private constructor(
-        name: BoatraceRaceName,
+        name: RaceName,
         stage: BoatraceRaceStage,
         dateTime: RaceDateTime,
         location: BoatraceRaceCourse,
         grade: BoatraceGradeType,
-        number: BoatraceRaceNumber,
+        number: RaceNumber,
     ) {
         this.name = name;
         this.stage = stage;
@@ -104,12 +104,12 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
         number: number,
     ): BoatraceRaceData {
         return new BoatraceRaceData(
-            validateBoatraceRaceName(name),
+            validateRaceName(name),
             validateBoatraceRaceStage(stage),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.BOATRACE, location),
             validateGradeType(RaceType.BOATRACE, grade),
-            validateBoatraceRaceNumber(number),
+            validateRaceNumber(number),
         );
     }
 

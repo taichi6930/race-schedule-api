@@ -15,6 +15,14 @@ import {
     validateRaceDistance,
 } from '../utility/data/common/raceDistance';
 import {
+    type RaceName,
+    validateRaceName,
+} from '../utility/data/common/raceName';
+import {
+    type RaceNumber,
+    validateRaceNumber,
+} from '../utility/data/common/raceNumber';
+import {
     type JraHeldDayTimes,
     validateJraHeldDayTimes,
 } from '../utility/data/jra/jraHeldDayTimes';
@@ -22,14 +30,6 @@ import {
     type JraHeldTimes,
     validateJraHeldTimes,
 } from '../utility/data/jra/jraHeldTimes';
-import {
-    type JraRaceName,
-    validateJraRaceName,
-} from '../utility/data/jra/jraRaceName';
-import {
-    type JraRaceNumber,
-    validateJraRaceNumber,
-} from '../utility/data/jra/jraRaceNumber';
 import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
@@ -39,9 +39,9 @@ import type { IPlaceData } from './iPlaceData';
 export class JraRaceData implements IPlaceData<JraRaceData> {
     /**
      * レース名
-     * @type {JraRaceName}
+     * @type {RaceName}
      */
-    public readonly name: JraRaceName;
+    public readonly name: RaceName;
     /**
      * 開催日時
      * @type {RaceDateTime}
@@ -69,9 +69,9 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
     public readonly grade: JraGradeType;
     /**
      * レース番号
-     * @type {JraRaceNumber}
+     * @type {RaceNumber}
      */
-    public readonly number: JraRaceNumber;
+    public readonly number: RaceNumber;
     /**
      * 開催回数
      * @type {JraHeldTimes}
@@ -98,13 +98,13 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
      * レース開催データを生成する
      */
     private constructor(
-        name: JraRaceName,
+        name: RaceName,
         dateTime: RaceDateTime,
         location: JraRaceCourse,
         surfaceType: RaceCourseType,
         distance: RaceDistance,
         grade: JraGradeType,
-        number: JraRaceNumber,
+        number: RaceNumber,
         heldTimes: JraHeldTimes,
         heldDayTimes: JraHeldDayTimes,
     ) {
@@ -144,13 +144,13 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
         heldDayTimes: number,
     ): JraRaceData {
         return new JraRaceData(
-            validateJraRaceName(name),
+            validateRaceName(name),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.JRA, location),
             validateRaceCourseType(surfaceType),
             validateRaceDistance(distance),
             validateGradeType(RaceType.JRA, grade),
-            validateJraRaceNumber(number),
+            validateRaceNumber(number),
             validateJraHeldTimes(heldTimes),
             validateJraHeldDayTimes(heldDayTimes),
         );

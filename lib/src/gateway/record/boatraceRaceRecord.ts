@@ -5,14 +5,6 @@ import {
     validateBoatraceRaceId,
 } from '../../utility/data/boatrace/boatraceRaceId';
 import {
-    type BoatraceRaceName,
-    validateBoatraceRaceName,
-} from '../../utility/data/boatrace/boatraceRaceName';
-import {
-    type BoatraceRaceNumber,
-    validateBoatraceRaceNumber,
-} from '../../utility/data/boatrace/boatraceRaceNumber';
-import {
     type BoatraceRaceStage,
     validateBoatraceRaceStage,
 } from '../../utility/data/boatrace/boatraceRaceStage';
@@ -26,6 +18,14 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
+import {
+    type RaceName,
+    validateRaceName,
+} from '../../utility/data/common/raceName';
+import {
+    type RaceNumber,
+    validateRaceNumber,
+} from '../../utility/data/common/raceNumber';
 import { createErrorMessage } from '../../utility/error';
 import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
@@ -51,12 +51,12 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
      */
     private constructor(
         public readonly id: BoatraceRaceId,
-        public readonly name: BoatraceRaceName,
+        public readonly name: RaceName,
         public readonly stage: BoatraceRaceStage,
         public readonly dateTime: RaceDateTime,
         public readonly location: BoatraceRaceCourse,
         public readonly grade: BoatraceGradeType,
-        public readonly number: BoatraceRaceNumber,
+        public readonly number: RaceNumber,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -84,12 +84,12 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
         try {
             return new BoatraceRaceRecord(
                 validateBoatraceRaceId(id),
-                validateBoatraceRaceName(name),
+                validateRaceName(name),
                 validateBoatraceRaceStage(stage),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.BOATRACE, location),
                 validateGradeType(RaceType.BOATRACE, grade),
-                validateBoatraceRaceNumber(number),
+                validateRaceNumber(number),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {

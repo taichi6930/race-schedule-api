@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
 import { validatePositionNumber } from '../common/positionNumber';
-import { validateAutoraceRaceNumber } from './autoraceRaceNumber';
+import { validateRaceNumber } from '../common/raceNumber';
 /**
  * AutoraceRacePlayerIdのzod型定義
  * autorace + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
@@ -20,7 +20,7 @@ const AutoraceRacePlayerIdSchema = z
     .refine((value) => {
         const raceNumber = Number.parseInt(value.slice(-4, -2));
         try {
-            validateAutoraceRaceNumber(raceNumber);
+            validateRaceNumber(raceNumber);
             return true;
         } catch {
             return false;
