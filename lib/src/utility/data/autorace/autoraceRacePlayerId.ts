@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { validateAutoracePositionNumber } from './../common/commonPositionNumber';
+import { validateAutoracePositionNumber } from '../common/positionNumber';
 import { validateAutoraceRaceNumber } from './autoraceRaceNumber';
 /**
  * AutoraceRacePlayerIdのzod型定義

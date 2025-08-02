@@ -1,4 +1,4 @@
-import { validateKeirinPositionNumber } from '../../../../../lib/src/utility/data/common/commonPositionNumber';
+import { validateKeirinPositionNumber } from '../../../../../lib/src/utility/data/common/positionNumber';
 
 /**
  * KeirinPositionNumberのテスト

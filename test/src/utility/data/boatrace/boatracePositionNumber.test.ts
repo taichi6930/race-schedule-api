@@ -1,4 +1,4 @@
-import { validateBoatracePositionNumber } from '../../../../../lib/src/utility/data/common/commonPositionNumber';
+import { validateBoatracePositionNumber } from '../../../../../lib/src/utility/data/common/positionNumber';
 
 /**
  * BoatracePositionNumberのテスト

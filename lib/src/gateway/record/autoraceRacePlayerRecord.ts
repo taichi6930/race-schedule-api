@@ -7,7 +7,7 @@ import { validateAutoraceRacePlayerId } from '../../utility/data/autorace/autora
 import {
     type AutoracePositionNumber,
     validateAutoracePositionNumber,
-} from '../../utility/data/common/commonPositionNumber';
+} from '../../utility/data/common/positionNumber';
 import type { PlayerNumber } from '../../utility/data/playerNumber';
 import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';

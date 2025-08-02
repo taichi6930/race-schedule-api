@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { validateBoatracePositionNumber } from '../common/commonPositionNumber';
+import { validateBoatracePositionNumber } from '../common/positionNumber';
 import { validateBoatraceRaceNumber } from './boatraceRaceNumber';
 /**
  * BoatraceRacePlayerIdのzod型定義
