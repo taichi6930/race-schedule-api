@@ -7,8 +7,8 @@ import { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keiri
 import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import type { KeirinGradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { KeirinRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
-import type { KeirinGradeType } from '../../../../lib/src/utility/data/keirin/keirinGradeType';
 import type { KeirinRaceStage } from '../../../../lib/src/utility/data/keirin/keirinRaceStage';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {

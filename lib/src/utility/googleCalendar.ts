@@ -1,9 +1,9 @@
-import type { AutoraceGradeType } from './data/autorace/autoraceGradeType';
-import type { BoatraceGradeType } from './data/boatrace/boatraceGradeType';
-import type { JraGradeType } from './data/jra/jraGradeType';
-import type { KeirinGradeType } from './data/keirin/keirinGradeType';
-import type { NarGradeType } from './data/nar/narGradeType';
-import type { WorldGradeType } from './data/world/worldGradeType';
+import type { BoatraceGradeType } from './data/common/gradeType';
+import type { AutoraceGradeType } from './data/common/gradeType';
+import type { JraGradeType } from './data/common/gradeType';
+import type { KeirinGradeType } from './data/common/gradeType';
+import type { NarGradeType } from './data/common/gradeType';
+import type { WorldGradeType } from './data/common/gradeType';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール

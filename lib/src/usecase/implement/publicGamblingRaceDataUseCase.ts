@@ -14,21 +14,25 @@ import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
-import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
-import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import { BoatraceRaceStage } from '../../utility/data/boatrace/boatraceRaceStage';
-import { AutoraceRaceCourse } from '../../utility/data/common/raceCourse';
-import { BoatraceRaceCourse } from '../../utility/data/common/raceCourse';
-import { KeirinRaceCourse } from '../../utility/data/common/raceCourse';
-import { JraRaceCourse } from '../../utility/data/common/raceCourse';
-import { NarRaceCourse } from '../../utility/data/common/raceCourse';
-import { WorldRaceCourse } from '../../utility/data/common/raceCourse';
-import { JraGradeType } from '../../utility/data/jra/jraGradeType';
-import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
+import {
+    AutoraceGradeType,
+    BoatraceGradeType,
+    JraGradeType,
+    KeirinGradeType,
+    NarGradeType,
+    WorldGradeType,
+} from '../../utility/data/common/gradeType';
+import {
+    AutoraceRaceCourse,
+    BoatraceRaceCourse,
+    JraRaceCourse,
+    KeirinRaceCourse,
+    NarRaceCourse,
+    WorldRaceCourse,
+} from '../../utility/data/common/raceCourse';
 import { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
-import { NarGradeType } from '../../utility/data/nar/narGradeType';
-import { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';

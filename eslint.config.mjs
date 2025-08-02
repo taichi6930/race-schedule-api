@@ -198,7 +198,14 @@ export default [
         },
     },
     {
-        files: ['**/*Controller.ts', '**/logger.ts'],
+        files: [
+            '**/*Controller.ts',
+            '**/*Service.ts',
+            '**/*UseCase.ts',
+            '**/logger.ts',
+            '**/Data.ts',
+            '**/Record.ts',
+        ],
         rules: {
             '@typescript-eslint/no-unsafe-member-access': 'off', // ✅ any型のプロパティアクセスを許可
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可

@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
-import { RaceCourse } from '../../utility/data/base';
+import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { AutoracePlaceCodeMap } from '../../utility/data/common/raceCourse';
 import { BoatracePlaceCodeMap } from '../../utility/data/common/raceCourse';
 import { KeirinPlaceCodeMap } from '../../utility/data/common/raceCourse';

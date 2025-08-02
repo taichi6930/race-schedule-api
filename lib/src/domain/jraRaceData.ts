@@ -1,3 +1,5 @@
+import type { JraGradeType } from '../utility/data/common/gradeType';
+import { validateGradeType } from '../utility/data/common/gradeType';
 import {
     type JraRaceCourse,
     validateRaceCourse,
@@ -10,10 +12,6 @@ import {
     type RaceDistance,
     validateRaceDistance,
 } from '../utility/data/common/raceDistance';
-import {
-    type JraGradeType,
-    validateJraGradeType,
-} from '../utility/data/jra/jraGradeType';
 import {
     type JraHeldDayTimes,
     validateJraHeldDayTimes,
@@ -151,7 +149,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
             validateRaceCourse(RaceType.JRA, location),
             validateJraRaceCourseType(surfaceType),
             validateRaceDistance(distance),
-            validateJraGradeType(grade),
+            validateGradeType(RaceType.JRA, grade),
             validateJraRaceNumber(number),
             validateJraHeldTimes(heldTimes),
             validateJraHeldDayTimes(heldDayTimes),

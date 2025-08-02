@@ -1,11 +1,11 @@
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
-import {
-    type AutoraceGradeType,
-    validateAutoraceGradeType,
-} from '../../utility/data/autorace/autoraceGradeType';
 import type { AutoracePlaceId } from '../../utility/data/autorace/autoracePlaceId';
 import { validateAutoracePlaceId } from '../../utility/data/autorace/autoracePlaceId';
+import {
+    type AutoraceGradeType,
+    validateGradeType,
+} from '../../utility/data/common/gradeType';
 import {
     type AutoraceRaceCourse,
     validateRaceCourse,
@@ -62,7 +62,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
                 validateAutoracePlaceId(id),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.AUTORACE, location),
-                validateAutoraceGradeType(grade),
+                validateGradeType(RaceType.AUTORACE, grade),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {

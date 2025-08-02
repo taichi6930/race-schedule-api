@@ -1,5 +1,7 @@
 import '../../utility/format';
 
+import type { KeirinGradeType } from '../../utility/data/common/gradeType';
+import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
     type KeirinRaceCourse,
     validateRaceCourse,
@@ -8,10 +10,6 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
-import {
-    type KeirinGradeType,
-    validateKeirinGradeType,
-} from '../../utility/data/keirin/keirinGradeType';
 import {
     type KeirinRaceId,
     validateKeirinRaceId,
@@ -90,7 +88,7 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
                 validateKeirinRaceStage(stage),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.KEIRIN, location),
-                validateKeirinGradeType(grade),
+                validateGradeType(RaceType.KEIRIN, grade),
                 validateKeirinRaceNumber(number),
                 validateUpdateDate(updateDate),
             );

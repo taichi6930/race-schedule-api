@@ -1,4 +1,4 @@
-import type { RaceCourse } from './base';
+import type { RaceCourse } from './common/raceCourse';
 
 /**
  * YoutubeのライブURLを取得する

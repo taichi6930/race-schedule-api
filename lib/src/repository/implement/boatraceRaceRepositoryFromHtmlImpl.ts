@@ -7,11 +7,11 @@ import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import {
     BoatraceRaceStage,
     BoatraceStageMap,
 } from '../../utility/data/boatrace/boatraceRaceStage';
+import { BoatraceGradeType } from '../../utility/data/common/gradeType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';

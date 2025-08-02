@@ -1,9 +1,9 @@
-import type { AutoraceGradeType } from '../../../lib/src/utility/data/autorace/autoraceGradeType';
-import type { BoatraceGradeType } from '../../../lib/src/utility/data/boatrace/boatraceGradeType';
-import type { JraGradeType } from '../../../lib/src/utility/data/jra/jraGradeType';
-import type { KeirinGradeType } from '../../../lib/src/utility/data/keirin/keirinGradeType';
-import type { NarGradeType } from '../../../lib/src/utility/data/nar/narGradeType';
-import type { WorldGradeType } from '../../../lib/src/utility/data/world/worldGradeType';
+import type { BoatraceGradeType } from '../../../lib/src/utility/data/common/gradeType';
+import type { AutoraceGradeType } from '../../../lib/src/utility/data/common/gradeType';
+import type { JraGradeType } from '../../../lib/src/utility/data/common/gradeType';
+import type { KeirinGradeType } from '../../../lib/src/utility/data/common/gradeType';
+import type { NarGradeType } from '../../../lib/src/utility/data/common/gradeType';
+import type { WorldGradeType } from '../../../lib/src/utility/data/common/gradeType';
 import {
     getAutoraceGoogleCalendarColorId,
     getBoatraceGoogleCalendarColorId,

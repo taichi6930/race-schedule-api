@@ -5,12 +5,14 @@ import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IPlayerDataUseCase } from '../usecase/interface/IPlayerDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { AutoraceSpecifiedGradeList } from '../utility/data/autorace/autoraceGradeType';
-import { BoatraceSpecifiedGradeList } from '../utility/data/boatrace/boatraceGradeType';
-import { JraSpecifiedGradeList } from '../utility/data/jra/jraGradeType';
-import { KeirinSpecifiedGradeList } from '../utility/data/keirin/keirinGradeType';
-import { NarSpecifiedGradeList } from '../utility/data/nar/narGradeType';
-import { WorldSpecifiedGradeList } from '../utility/data/world/worldGradeType';
+import {
+    AutoraceSpecifiedGradeList,
+    BoatraceSpecifiedGradeList,
+    JraSpecifiedGradeList,
+    KeirinSpecifiedGradeList,
+    NarSpecifiedGradeList,
+    WorldSpecifiedGradeList,
+} from '../utility/data/common/gradeType';
 import { Logger } from '../utility/logger';
 
 /**

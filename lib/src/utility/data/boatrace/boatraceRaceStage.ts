@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import type { BoatraceGradeType } from './boatraceGradeType';
+import type { BoatraceGradeType } from '../common/gradeType';
 
 /**
  * BoatraceRaceStageのzod型定義

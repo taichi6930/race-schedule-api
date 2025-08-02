@@ -6,7 +6,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
+import { AutoraceGradeType } from '../../utility/data/common/gradeType';
 import { AutoraceRaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';

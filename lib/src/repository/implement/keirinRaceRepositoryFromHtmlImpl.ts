@@ -7,7 +7,7 @@ import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
+import { KeirinGradeType } from '../../utility/data/common/gradeType';
 import {
     KeirinRaceStage,
     KeirinStageMap,

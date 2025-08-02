@@ -1,3 +1,5 @@
+import type { NarGradeType } from '../utility/data/common/gradeType';
+import { validateGradeType } from '../utility/data/common/gradeType';
 import {
     type NarRaceCourse,
     validateRaceCourse,
@@ -10,10 +12,6 @@ import {
     type RaceDistance,
     validateRaceDistance,
 } from '../utility/data/common/raceDistance';
-import {
-    type NarGradeType,
-    validateNarGradeType,
-} from '../utility/data/nar/narGradeType';
 import {
     type NarRaceCourseType,
     validateNarRaceCourseType,
@@ -125,7 +123,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
             validateRaceCourse(RaceType.NAR, location),
             validateNarRaceCourseType(surfaceType),
             validateRaceDistance(distance),
-            validateNarGradeType(grade),
+            validateGradeType(RaceType.NAR, grade),
             validateNarRaceNumber(number),
         );
     }
