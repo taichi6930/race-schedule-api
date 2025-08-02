@@ -1,11 +1,12 @@
 import {
     type AutoracePositionNumber,
-    validateAutoracePositionNumber,
-} from '../utility/data/autorace/autoracePositionNumber';
+    validatePositionNumber,
+} from '../utility/data/common/positionNumber';
 import {
     type PlayerNumber,
     validatePlayerNumber,
 } from '../utility/data/playerNumber';
+import { RaceType } from '../utility/raceType';
 
 /**
  * オートレースのレースの選手データ
@@ -47,7 +48,7 @@ export class AutoraceRacePlayerData {
         playerNumber: number,
     ): AutoraceRacePlayerData {
         return new AutoraceRacePlayerData(
-            validateAutoracePositionNumber(positionNumber),
+            validatePositionNumber(RaceType.AUTORACE, positionNumber),
             validatePlayerNumber(playerNumber),
         );
     }

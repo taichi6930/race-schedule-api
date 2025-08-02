@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-import { validateKeirinPositionNumber } from './keirinPositionNumber';
+import { RaceType } from '../../raceType';
+import { validatePositionNumber } from '../common/positionNumber';
 import { validateKeirinRaceNumber } from './keirinRaceNumber';
 /**
  * KeirinRacePlayerIdのzod型定義
@@ -35,7 +36,7 @@ const KeirinRacePlayerIdSchema = z
         (value) => {
             const positionNumber = Number.parseInt(value.slice(-2));
             try {
-                validateKeirinPositionNumber(positionNumber);
+                validatePositionNumber(RaceType.KEIRIN, positionNumber);
                 return true;
             } catch {
                 return false;

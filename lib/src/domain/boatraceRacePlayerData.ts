@@ -1,11 +1,12 @@
 import {
     type BoatracePositionNumber,
-    validateBoatracePositionNumber,
-} from '../utility/data/boatrace/boatracePositionNumber';
+    validatePositionNumber,
+} from '../utility/data/common/positionNumber';
 import {
     type PlayerNumber,
     validatePlayerNumber,
 } from '../utility/data/playerNumber';
+import { RaceType } from '../utility/raceType';
 
 /**
  * ボートレースのレースの選手データ
@@ -47,7 +48,7 @@ export class BoatraceRacePlayerData {
         playerNumber: number,
     ): BoatraceRacePlayerData {
         return new BoatraceRacePlayerData(
-            validateBoatracePositionNumber(positionNumber),
+            validatePositionNumber(RaceType.BOATRACE, positionNumber),
             validatePlayerNumber(playerNumber),
         );
     }

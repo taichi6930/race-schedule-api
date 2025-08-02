@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-import { validateBoatracePositionNumber } from './boatracePositionNumber';
+import { RaceType } from '../../raceType';
+import { validatePositionNumber } from '../common/positionNumber';
 import { validateBoatraceRaceNumber } from './boatraceRaceNumber';
 /**
  * BoatraceRacePlayerIdのzod型定義
@@ -29,7 +30,7 @@ const BoatraceRacePlayerIdSchema = z
     .refine((value) => {
         const positionNumber = Number.parseInt(value.slice(-2));
         try {
-            validateBoatracePositionNumber(positionNumber);
+            validatePositionNumber(RaceType.BOATRACE, positionNumber);
             return true;
         } catch {
             return false;
