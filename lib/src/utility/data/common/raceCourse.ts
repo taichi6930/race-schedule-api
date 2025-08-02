@@ -11,36 +11,12 @@ const RaceCourseMasterList: {
     placeCode: string;
 }[] = [
     // Autorace
-    {
-        raceType: RaceType.AUTORACE,
-        placeName: '船橋',
-        placeCode: '01',
-    },
-    {
-        raceType: RaceType.AUTORACE,
-        placeName: '川口',
-        placeCode: '02',
-    },
-    {
-        raceType: RaceType.AUTORACE,
-        placeName: '伊勢崎',
-        placeCode: '03',
-    },
-    {
-        raceType: RaceType.AUTORACE,
-        placeName: '浜松',
-        placeCode: '04',
-    },
-    {
-        raceType: RaceType.AUTORACE,
-        placeName: '飯塚',
-        placeCode: '05',
-    },
-    {
-        raceType: RaceType.AUTORACE,
-        placeName: '山陽',
-        placeCode: '06',
-    },
+    { raceType: RaceType.AUTORACE, placeName: '船橋', placeCode: '01' },
+    { raceType: RaceType.AUTORACE, placeName: '川口', placeCode: '02' },
+    { raceType: RaceType.AUTORACE, placeName: '伊勢崎', placeCode: '03' },
+    { raceType: RaceType.AUTORACE, placeName: '浜松', placeCode: '04' },
+    { raceType: RaceType.AUTORACE, placeName: '飯塚', placeCode: '05' },
+    { raceType: RaceType.AUTORACE, placeName: '山陽', placeCode: '06' },
     {
         raceType: RaceType.WORLD,
         placeName: 'ロンシャン',
@@ -320,6 +296,31 @@ const RaceCourseMasterList: {
     { raceType: RaceType.NAR, placeName: '佐賀', placeCode: '32' },
     { raceType: RaceType.NAR, placeName: '荒尾', placeCode: '33' },
     { raceType: RaceType.NAR, placeName: '中津', placeCode: '34' },
+    // 競艇
+    { raceType: RaceType.BOATRACE, placeName: '桐生', placeCode: '01' },
+    { raceType: RaceType.BOATRACE, placeName: '戸田', placeCode: '02' },
+    { raceType: RaceType.BOATRACE, placeName: '江戸川', placeCode: '03' },
+    { raceType: RaceType.BOATRACE, placeName: '平和島', placeCode: '04' },
+    { raceType: RaceType.BOATRACE, placeName: '多摩川', placeCode: '05' },
+    { raceType: RaceType.BOATRACE, placeName: '浜名湖', placeCode: '06' },
+    { raceType: RaceType.BOATRACE, placeName: '蒲郡', placeCode: '07' },
+    { raceType: RaceType.BOATRACE, placeName: '常滑', placeCode: '08' },
+    { raceType: RaceType.BOATRACE, placeName: '津', placeCode: '09' },
+    { raceType: RaceType.BOATRACE, placeName: '三国', placeCode: '10' },
+    { raceType: RaceType.BOATRACE, placeName: 'びわこ', placeCode: '11' },
+    { raceType: RaceType.BOATRACE, placeName: '住之江', placeCode: '12' },
+    { raceType: RaceType.BOATRACE, placeName: '尼崎', placeCode: '13' },
+    { raceType: RaceType.BOATRACE, placeName: '鳴門', placeCode: '14' },
+    { raceType: RaceType.BOATRACE, placeName: '丸亀', placeCode: '15' },
+    { raceType: RaceType.BOATRACE, placeName: '児島', placeCode: '16' },
+    { raceType: RaceType.BOATRACE, placeName: '宮島', placeCode: '17' },
+    { raceType: RaceType.BOATRACE, placeName: '徳山', placeCode: '18' },
+    { raceType: RaceType.BOATRACE, placeName: '下関', placeCode: '19' },
+    { raceType: RaceType.BOATRACE, placeName: '若松', placeCode: '20' },
+    { raceType: RaceType.BOATRACE, placeName: '芦屋', placeCode: '21' },
+    { raceType: RaceType.BOATRACE, placeName: '福岡', placeCode: '22' },
+    { raceType: RaceType.BOATRACE, placeName: '唐津', placeCode: '23' },
+    { raceType: RaceType.BOATRACE, placeName: '大村', placeCode: '24' },
 ];
 
 /**
@@ -518,62 +519,14 @@ export type BoatraceRaceCourse = z.infer<typeof BoatraceRaceCourseSchema>;
 /**
  * ボートレース場リスト
  */
-const BoatraceRaceCourseList = new Set([
-    '桐生',
-    '戸田',
-    '江戸川',
-    '平和島',
-    '多摩川',
-    '浜名湖',
-    '蒲郡',
-    '常滑',
-    '津',
-    '三国',
-    'びわこ',
-    '住之江',
-    '尼崎',
-    '鳴門',
-    '丸亀',
-    '児島',
-    '宮島',
-    '徳山',
-    '下関',
-    '若松',
-    '芦屋',
-    '福岡',
-    '唐津',
-    '大村',
-]);
+const BoatraceRaceCourseList = RaceCourseList(RaceType.BOATRACE);
 
 /**
  * ボートレースのレース場名とコードの対応表
  */
-export const BoatracePlaceCodeMap: Record<string, string> = {
-    桐生: '01',
-    戸田: '02',
-    江戸川: '03',
-    平和島: '04',
-    多摩川: '05',
-    浜名湖: '06',
-    蒲郡: '07',
-    常滑: '08',
-    津: '09',
-    三国: '10',
-    びわこ: '11',
-    住之江: '12',
-    尼崎: '13',
-    鳴門: '14',
-    丸亀: '15',
-    児島: '16',
-    宮島: '17',
-    徳山: '18',
-    下関: '19',
-    若松: '20',
-    芦屋: '21',
-    福岡: '22',
-    唐津: '23',
-    大村: '24',
-};
+export const BoatracePlaceCodeMap: Record<string, string> = createPlaceCodeMap(
+    RaceType.BOATRACE,
+);
 
 /**
  * RaceCourseのzod型定義
