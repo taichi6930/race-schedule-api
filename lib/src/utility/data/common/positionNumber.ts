@@ -28,38 +28,42 @@ export const validatePositionNumber = (
         }
     }
 };
+
+/**
+ * PositionNumber zod型定義
+ * @param min
+ * @param max
+ */
+const PositionNumberSchema: (min: number, max: number) => z.ZodNumber = (
+    min,
+    max,
+) =>
+    z
+        .number()
+        .int()
+        .min(min, `枠番は${min}以上である必要があります`)
+        .max(max, `枠番は${max}以下である必要があります`);
+
 /** AutoracePositionNumber zod型定義 */
-const AutoracePositionNumberSchema = z
-    .number()
-    .int()
-    .min(1, '枠番は1以上である必要があります')
-    .max(8, '枠番は8以下である必要があります');
+const AutoracePositionNumberSchema = PositionNumberSchema(1, 8);
 export type AutoracePositionNumber = z.infer<
     typeof AutoracePositionNumberSchema
 >;
 
 /** BoatracePositionNumber zod型定義 */
-const BoatracePositionNumberSchema = z
-    .number()
-    .int()
-    .min(1, '枠番は1以上である必要があります')
-    .max(6, '枠番は6以下である必要があります');
+const BoatracePositionNumberSchema = PositionNumberSchema(1, 6);
 export type BoatracePositionNumber = z.infer<
     typeof BoatracePositionNumberSchema
 >;
 
 /** KeirinPositionNumber zod型定義 */
-const KeirinPositionNumberSchema = z
-    .number()
-    .int()
-    .min(1, '枠番は1以上である必要があります')
-    .max(9, '枠番は9以下である必要があります');
+const KeirinPositionNumberSchema = PositionNumberSchema(1, 9);
 export type KeirinPositionNumber = z.infer<typeof KeirinPositionNumberSchema>;
 
 /**
- * RaceStageのzod型定義
+ * 共通のPositionNumber zod型定義
  */
-export const PositionNumberSchema = z.union([
+export const CommonPositionNumberSchema = z.union([
     KeirinPositionNumberSchema,
     AutoracePositionNumberSchema,
     BoatracePositionNumberSchema,
@@ -68,4 +72,4 @@ export const PositionNumberSchema = z.union([
 /**
  * RaceStageの型定義
  */
-export type PositionNumber = z.infer<typeof PositionNumberSchema>;
+type PositionNumber = z.infer<typeof CommonPositionNumberSchema>;
