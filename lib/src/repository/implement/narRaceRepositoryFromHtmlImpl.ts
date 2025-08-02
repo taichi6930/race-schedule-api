@@ -3,12 +3,14 @@ import { inject, injectable } from 'tsyringe';
 
 import { NarRaceData } from '../../domain/narRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { validateGradeType } from '../../utility/data/common/gradeType';
-import { NarGradeType } from '../../utility/data/common/gradeType';
+import { processNarRaceName } from '../../utility/createRaceName';
+import {
+    NarGradeType,
+    validateGradeType,
+} from '../../utility/data/common/gradeType';
 import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { processNarRaceName } from '../../utility/raceName';
 import { RaceType } from '../../utility/raceType';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';

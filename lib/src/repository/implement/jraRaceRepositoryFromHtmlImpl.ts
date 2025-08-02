@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { JraRaceData } from '../../domain/jraRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
+import { processJraRaceName } from '../../utility/createRaceName';
 import { JraGradeType } from '../../utility/data/common/gradeType';
 import {
     JraRaceCourse,
@@ -11,7 +12,6 @@ import {
 import { JraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { processJraRaceName } from '../../utility/raceName';
 import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
