@@ -11,8 +11,8 @@ import {
     validateRaceCourse,
     WorldRaceCourse,
 } from '../../utility/data/common/raceCourse';
+import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
-import { validateWorldRaceCourseType } from '../../utility/data/world/worldRaceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processWorldRaceName } from '../../utility/raceName';
@@ -144,15 +144,11 @@ export class WorldRaceRepositoryFromHtmlImpl
                                 .text()
                                 .trim(); // テキストをトリムして不要な空白を削除
 
-                            const surfaceType: string =
-                                validateWorldRaceCourseType(
-                                    ['芝', 'ダート', '障害', 'AW'].find(
-                                        (type) =>
-                                            surfaceTypeAndDistanceText.includes(
-                                                type,
-                                            ),
-                                    ) ?? '',
-                                );
+                            const surfaceType: string = this.extractSurfaceType(
+                                ['芝', 'ダート', '障害', 'AW'].filter((type) =>
+                                    surfaceTypeAndDistanceText.includes(type),
+                                ),
+                            );
                             const distanceMatch = /\d+/.exec(
                                 surfaceTypeAndDistanceText,
                             );
@@ -258,5 +254,13 @@ export class WorldRaceRepositoryFromHtmlImpl
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
+    }
+
+    private extractSurfaceType(race: string[]): RaceCourseType {
+        const types = ['芝', 'ダート', '障害', 'AW'];
+        const found = types.find((type) =>
+            race.some((item) => item.includes(type)),
+        );
+        return found ?? '芝';
     }
 }

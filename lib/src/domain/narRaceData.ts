@@ -5,6 +5,10 @@ import {
     validateRaceCourse,
 } from '../utility/data/common/raceCourse';
 import {
+    type RaceCourseType,
+    validateRaceCourseType,
+} from '../utility/data/common/raceCourseType';
+import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../utility/data/common/raceDateTime';
@@ -12,10 +16,6 @@ import {
     type RaceDistance,
     validateRaceDistance,
 } from '../utility/data/common/raceDistance';
-import {
-    type NarRaceCourseType,
-    validateNarRaceCourseType,
-} from '../utility/data/nar/narRaceCourseType';
 import {
     type NarRaceName,
     validateNarRaceName,
@@ -48,9 +48,9 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
     public readonly location: NarRaceCourse;
     /**
      * 馬場種別
-     * @type {NarRaceCourseType}
+     * @type {RaceCourseType}
      */
-    public readonly surfaceType: NarRaceCourseType;
+    public readonly surfaceType: RaceCourseType;
     /**
      * 距離
      * @type {RaceDistance}
@@ -83,7 +83,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
         name: NarRaceName,
         dateTime: RaceDateTime,
         location: NarRaceCourse,
-        surfaceType: NarRaceCourseType,
+        surfaceType: RaceCourseType,
         distance: RaceDistance,
         grade: NarGradeType,
         number: NarRaceNumber,
@@ -121,7 +121,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
             validateNarRaceName(name),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.NAR, location),
-            validateNarRaceCourseType(surfaceType),
+            validateRaceCourseType(surfaceType),
             validateRaceDistance(distance),
             validateGradeType(RaceType.NAR, grade),
             validateNarRaceNumber(number),

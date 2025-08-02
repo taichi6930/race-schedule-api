@@ -6,13 +6,11 @@ import type { WorldGradeType } from './data/common/gradeType';
 import type { JraRaceCourse } from './data/common/raceCourse';
 import type { NarRaceCourse } from './data/common/raceCourse';
 import type { WorldRaceCourse } from './data/common/raceCourse';
+import type { RaceCourseType } from './data/common/raceCourseType';
 import type { RaceDateTime } from './data/common/raceDateTime';
 import type { RaceDistance } from './data/common/raceDistance';
-import type { JraRaceCourseType } from './data/jra/jraRaceCourseType';
 import type { JraRaceName } from './data/jra/jraRaceName';
-import type { NarRaceCourseType } from './data/nar/narRaceCourseType';
 import type { NarRaceName } from './data/nar/narRaceName';
-import type { WorldRaceCourseType } from './data/world/worldRaceCourseType';
 import type { WorldRaceName } from './data/world/worldRaceName';
 
 interface JraRaceDataForRaceName {
@@ -20,7 +18,7 @@ interface JraRaceDataForRaceName {
     place: JraRaceCourse;
     grade: JraGradeType;
     date: RaceDateTime;
-    surfaceType: JraRaceCourseType;
+    surfaceType: RaceCourseType;
     distance: RaceDistance;
 }
 
@@ -184,7 +182,7 @@ interface NarRaceDataForRaceName {
     place: NarRaceCourse;
     grade: NarGradeType;
     date: RaceDateTime;
-    surfaceType: NarRaceCourseType;
+    surfaceType: RaceCourseType;
     distance: RaceDistance;
 }
 export const processNarRaceName = (
@@ -318,7 +316,7 @@ interface WorldRaceDataForRaceName {
     place: WorldRaceCourse;
     grade: WorldGradeType;
     date: RaceDateTime;
-    surfaceType: WorldRaceCourseType;
+    surfaceType: RaceCourseType;
     distance: RaceDistance;
 }
 
