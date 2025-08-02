@@ -146,24 +146,12 @@ const GradeMasterList: {
 ];
 
 /**
- * AutoraceGradeTypeのzod型定義
- */
-export const AutoraceGradeTypeSchema = z
-    .string()
-    .refine((value) => AutoraceGradeTypeList.has(value), {
-        message: `オートレースのグレードではありません`,
-    });
-
-/**
- * AutoraceGradeTypeの型定義
- */
-export type AutoraceGradeType = z.infer<typeof AutoraceGradeTypeSchema>;
-
-/**
- * オートレースのグレードのバリデーション
- * @param raceType
- * @param grade - オートレースのグレード
- * @returns - バリデーション済みのオートレースのグレード
+ * グレードのバリデーション
+ * @param raceType - レースの種類
+ * @param grade - バリデーション対象のグレード
+ * @returns バリデーション済みのグレード
+ * @throws エラー - 対応するレースタイプがない場合
+ * @throws エラー - グレードが不正な場合
  */
 export const validateGradeType = (
     raceType: RaceType,
@@ -193,6 +181,20 @@ export const validateGradeType = (
         }
     }
 };
+
+/**
+ * AutoraceGradeTypeのzod型定義
+ */
+export const AutoraceGradeTypeSchema = z
+    .string()
+    .refine((value) => AutoraceGradeTypeList.has(value), {
+        message: `オートレースのグレードではありません`,
+    });
+
+/**
+ * AutoraceGradeTypeの型定義
+ */
+export type AutoraceGradeType = z.infer<typeof AutoraceGradeTypeSchema>;
 
 /**
  * JraGradeTypeのzod型定義
