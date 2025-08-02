@@ -1,7 +1,7 @@
 import {
     type BoatracePositionNumber,
     validateBoatracePositionNumber,
-} from '../utility/data/boatrace/boatracePositionNumber';
+} from '../utility/data/common/commonPositionNumber';
 import {
     type PlayerNumber,
     validatePlayerNumber,

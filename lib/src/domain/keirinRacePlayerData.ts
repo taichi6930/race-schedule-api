@@ -1,7 +1,7 @@
 import {
     type KeirinPositionNumber,
     validateKeirinPositionNumber,
-} from '../utility/data/keirin/keirinPositionNumber';
+} from '../utility/data/common/commonPositionNumber';
 import {
     type PlayerNumber,
     validatePlayerNumber,

@@ -1,4 +1,4 @@
-import { validateAutoracePositionNumber } from '../../../../../lib/src/utility/data/autorace/autoracePositionNumber';
+import { validateAutoracePositionNumber } from '../../../../../lib/src/utility/data/common/commonPositionNumber';
 
 /**
  * AutoracePositionNumberのテスト

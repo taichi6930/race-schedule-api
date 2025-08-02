@@ -1,7 +1,7 @@
 import {
     type AutoracePositionNumber,
     validateAutoracePositionNumber,
-} from '../utility/data/autorace/autoracePositionNumber';
+} from '../utility/data/common/commonPositionNumber';
 import {
     type PlayerNumber,
     validatePlayerNumber,

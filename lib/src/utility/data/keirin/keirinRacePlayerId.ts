@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { validateKeirinPositionNumber } from './keirinPositionNumber';
+import { validateKeirinPositionNumber } from './../common/commonPositionNumber';
 import { validateKeirinRaceNumber } from './keirinRaceNumber';
 /**
  * KeirinRacePlayerIdのzod型定義

@@ -3,7 +3,7 @@ import '../../utility/format';
 import {
     type KeirinPositionNumber,
     validateKeirinPositionNumber,
-} from '../../utility/data/keirin/keirinPositionNumber';
+} from '../../utility/data/common/commonPositionNumber';
 import type { KeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
 import { validateKeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
 import type { KeirinRacePlayerId } from '../../utility/data/keirin/keirinRacePlayerId';

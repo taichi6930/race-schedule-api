@@ -1,13 +1,13 @@
 import '../../utility/format';
 
-import {
-    type AutoracePositionNumber,
-    validateAutoracePositionNumber,
-} from '../../utility/data/autorace/autoracePositionNumber';
 import type { AutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
 import { validateAutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
 import type { AutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
 import { validateAutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
+import {
+    type AutoracePositionNumber,
+    validateAutoracePositionNumber,
+} from '../../utility/data/common/commonPositionNumber';
 import type { PlayerNumber } from '../../utility/data/playerNumber';
 import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';
