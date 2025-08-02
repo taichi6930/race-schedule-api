@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-import { validateAutoracePositionNumber } from '../common/positionNumber';
+import { RaceType } from '../../raceType';
+import { validatePositionNumber } from '../common/positionNumber';
 import { validateAutoraceRaceNumber } from './autoraceRaceNumber';
 /**
  * AutoraceRacePlayerIdのzod型定義
@@ -29,7 +30,7 @@ const AutoraceRacePlayerIdSchema = z
     .refine((value) => {
         const positionNumber = Number.parseInt(value.slice(-2));
         try {
-            validateAutoracePositionNumber(positionNumber);
+            validatePositionNumber(RaceType.AUTORACE, positionNumber);
             return true;
         } catch {
             return false;

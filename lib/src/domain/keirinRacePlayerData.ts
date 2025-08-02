@@ -1,11 +1,12 @@
 import {
     type KeirinPositionNumber,
-    validateKeirinPositionNumber,
+    validatePositionNumber,
 } from '../utility/data/common/positionNumber';
 import {
     type PlayerNumber,
     validatePlayerNumber,
 } from '../utility/data/playerNumber';
+import { RaceType } from '../utility/raceType';
 
 /**
  * 競輪のレースの選手データ
@@ -47,7 +48,7 @@ export class KeirinRacePlayerData {
         playerNumber: number,
     ): KeirinRacePlayerData {
         return new KeirinRacePlayerData(
-            validateKeirinPositionNumber(positionNumber),
+            validatePositionNumber(RaceType.KEIRIN, positionNumber),
             validatePlayerNumber(playerNumber),
         );
     }

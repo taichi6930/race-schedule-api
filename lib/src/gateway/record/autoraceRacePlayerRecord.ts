@@ -6,11 +6,12 @@ import type { AutoraceRacePlayerId } from '../../utility/data/autorace/autoraceR
 import { validateAutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
 import {
     type AutoracePositionNumber,
-    validateAutoracePositionNumber,
+    validatePositionNumber,
 } from '../../utility/data/common/positionNumber';
 import type { PlayerNumber } from '../../utility/data/playerNumber';
 import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -57,7 +58,7 @@ export class AutoraceRacePlayerRecord
             return new AutoraceRacePlayerRecord(
                 validateAutoraceRacePlayerId(id),
                 validateAutoraceRaceId(raceId),
-                validateAutoracePositionNumber(positionNumber),
+                validatePositionNumber(RaceType.AUTORACE, positionNumber),
                 validatePlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),
             );

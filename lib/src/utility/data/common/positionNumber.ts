@@ -1,5 +1,33 @@
 import { z } from 'zod';
 
+import { RaceType } from '../../raceType';
+
+export const validatePositionNumber = (
+    raceType: RaceType,
+    positionNumber: number,
+): PositionNumber => {
+    switch (raceType) {
+        case RaceType.AUTORACE: {
+            return AutoracePositionNumberSchema.parse(positionNumber);
+        }
+        case RaceType.BOATRACE: {
+            return BoatracePositionNumberSchema.parse(positionNumber);
+        }
+        case RaceType.KEIRIN: {
+            return KeirinPositionNumberSchema.parse(positionNumber);
+        }
+        case RaceType.JRA:
+        case RaceType.NAR:
+        case RaceType.WORLD: {
+            throw new Error(
+                `Position number validation is not supported for race type: ${raceType}`,
+            );
+        }
+        default: {
+            throw new Error('Invalid race type');
+        }
+    }
+};
 /** AutoracePositionNumber zod型定義 */
 const AutoracePositionNumberSchema = z
     .number()
@@ -9,9 +37,6 @@ const AutoracePositionNumberSchema = z
 export type AutoracePositionNumber = z.infer<
     typeof AutoracePositionNumberSchema
 >;
-export const validateAutoracePositionNumber = (
-    positionNumber: number,
-): AutoracePositionNumber => AutoracePositionNumberSchema.parse(positionNumber);
 
 /** BoatracePositionNumber zod型定義 */
 const BoatracePositionNumberSchema = z
@@ -22,9 +47,6 @@ const BoatracePositionNumberSchema = z
 export type BoatracePositionNumber = z.infer<
     typeof BoatracePositionNumberSchema
 >;
-export const validateBoatracePositionNumber = (
-    positionNumber: number,
-): BoatracePositionNumber => BoatracePositionNumberSchema.parse(positionNumber);
 
 /** KeirinPositionNumber zod型定義 */
 const KeirinPositionNumberSchema = z
@@ -33,6 +55,17 @@ const KeirinPositionNumberSchema = z
     .min(1, '枠番は1以上である必要があります')
     .max(9, '枠番は9以下である必要があります');
 export type KeirinPositionNumber = z.infer<typeof KeirinPositionNumberSchema>;
-export const validateKeirinPositionNumber = (
-    positionNumber: number,
-): KeirinPositionNumber => KeirinPositionNumberSchema.parse(positionNumber);
+
+/**
+ * RaceStageのzod型定義
+ */
+export const PositionNumberSchema = z.union([
+    KeirinPositionNumberSchema,
+    AutoracePositionNumberSchema,
+    BoatracePositionNumberSchema,
+]);
+
+/**
+ * RaceStageの型定義
+ */
+export type PositionNumber = z.infer<typeof PositionNumberSchema>;
