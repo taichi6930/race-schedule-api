@@ -24,7 +24,7 @@
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "lint": "npx eslint './lib/**/*.ts' './test/**/*.ts'",
-        "lint:fix": "npx eslint --fix './lib/**/*.ts' './test/**/*.ts' && prettier --write .",
+        "lint:fix": "npx eslint --fix './lib/**/*.ts' './test/**/*.ts' --ignore-pattern '**/*.d.ts' && prettier --write .",
         "lint:check": "npx eslint --quiet './lib/**/*.ts' './test/**/*.ts'",
         "type-check": "tsc --noEmit",
         "typedoc": "npx typedoc --out ./docs ./lib/src",
