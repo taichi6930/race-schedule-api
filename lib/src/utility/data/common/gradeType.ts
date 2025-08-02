@@ -302,7 +302,7 @@ export const KeirinGradeTypeSchema = z.string().refine((value) => {
 }, '競輪のグレードではありません');
 
 /**
- * KeirinGradeTypeの型定義
+ * KeirinGradeTypeの 型定義
  */
 export type KeirinGradeType = z.infer<typeof KeirinGradeTypeSchema>;
 
