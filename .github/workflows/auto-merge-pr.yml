@@ -13,8 +13,7 @@ permissions:
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    # CIが成功した場合のみ実行
-    if: github.event.workflow_run.conclusion == 'success'
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,7 +25,6 @@ jobs:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_PRIVATE_KEY }}
 
-      # PRの情報を取得
       - name: Extract PR Information
         id: pr-info
         uses: actions/github-script@v7
@@ -38,30 +36,21 @@ jobs:
               console.log('No pull request found');
               return;
             }
-            
-            // PRの情報をoutputsに設定
             core.setOutput('has_pr', 'true');
             core.setOutput('pr_number', pullRequest.number);
+            core.setOutput('pr_author', pullRequest.user.login);
 
-      # PRが存在する場合のみマージ処理を実行
       - name: Auto-merge PR
-        if: steps.pr-info.outputs.has_pr == 'true'
+        if: ${{ steps.pr-info.outputs.has_pr == 'true' }}
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_NUMBER: ${{ steps.pr-info.outputs.pr_number }}
+          PR_AUTHOR: ${{ steps.pr-info.outputs.pr_author }}
         run: |
-          # レポジトリ情報を取得
           REPO="${GITHUB_REPOSITORY}"
-          
-          # PRを承認
-          gh pr review $PR_NUMBER --approve -R $REPO
-          
-          # PRをマージ
+          if [ "$PR_AUTHOR" != "$GITHUB_ACTOR" ]; then
+            gh pr review $PR_NUMBER --approve -R $REPO
+          else
+            echo "PR author and bot user are the same. Skipping approval."
+          fi
           gh pr merge $PR_NUMBER --auto --merge -R $REPO
-          # レポジトリ情報を取得
-          REPO="${GITHUB_REPOSITORY}"
-          # PRを承認
-          gh pr review $PR_NUMBER --approve
-          
-          # PRをマージ
-          gh pr merge $PR_NUMBER --auto --merge
