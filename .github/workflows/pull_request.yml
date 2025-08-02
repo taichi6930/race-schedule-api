@@ -42,10 +42,16 @@ jobs:
   # 単体テストの実行
   call-unit-test:
     runs-on: ubuntu-latest
+    env:
+      SKIP_UNIT_TEST: ${{ secrets.SKIP_UNIT_TEST }}
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
+      - name: SKIP判定（SKIP_UNIT_TEST=trueならneutral判定）
+        if: ${{ env.SKIP_UNIT_TEST == 'true' }}
+        run: exit 78
       - name: Run Unit Tests
+        if: ${{ env.SKIP_UNIT_TEST != 'true' }}
         uses: ./.github/actions/test/unit
 
   # ITAテストの実行
