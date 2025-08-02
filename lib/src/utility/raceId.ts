@@ -6,7 +6,6 @@ import type { AutoraceRaceNumber } from './data/autorace/autoraceRaceNumber';
 import type { AutoraceRacePlayerId } from './data/autorace/autoraceRacePlayerId';
 import type { BoatracePlaceId } from './data/boatrace/boatracePlaceId';
 import type { BoatraceRaceId } from './data/boatrace/boatraceRaceId';
-import type { BoatraceRaceNumber } from './data/boatrace/boatraceRaceNumber';
 import type { BoatraceRacePlayerId } from './data/boatrace/boatraceRacePlayerId';
 import type { AutoracePositionNumber } from './data/common/positionNumber';
 import type { BoatracePositionNumber } from './data/common/positionNumber';
@@ -22,6 +21,7 @@ import { BoatracePlaceCodeMap } from './data/common/raceCourse';
 import { KeirinPlaceCodeMap } from './data/common/raceCourse';
 import { WorldPlaceCodeMap } from './data/common/raceCourse';
 import type { RaceDateTime } from './data/common/raceDateTime';
+import type { RaceNumber } from './data/common/raceNumber';
 import type { JraRaceId } from './data/jra/jraRaceId';
 import type { JraRaceNumber } from './data/jra/jraRaceNumber';
 import type { KeirinPlaceId } from './data/keirin/keirinPlaceId';
@@ -182,7 +182,7 @@ export const generateKeirinPlaceId = (
 export const generateBoatraceRacePlayerId = (
     dateTime: Date,
     location: BoatraceRaceCourse,
-    number: BoatraceRaceNumber,
+    number: RaceNumber,
     positionNumber: BoatracePositionNumber,
 ): BoatraceRacePlayerId => {
     const positionNumberCode = positionNumber.toXDigits(2);
@@ -198,7 +198,7 @@ export const generateBoatraceRacePlayerId = (
 export const generateBoatraceRaceId = (
     dateTime: Date,
     location: BoatraceRaceCourse,
-    number: BoatraceRaceNumber,
+    number: RaceNumber,
 ): BoatraceRaceId => {
     const numberCode = number.toXDigits(2);
     return `${generateBoatracePlaceId(dateTime, location)}${numberCode}`;
