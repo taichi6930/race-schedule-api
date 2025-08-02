@@ -4,22 +4,14 @@ import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { WorldGradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
-import {
-    validateRaceCourse,
-    type WorldRaceCourse,
-} from '../../utility/data/common/raceCourse';
-import {
-    type RaceDateTime,
-    validateRaceDateTime,
-} from '../../utility/data/common/raceDateTime';
-import {
-    type RaceDistance,
-    validateRaceDistance,
-} from '../../utility/data/common/raceDistance';
-import {
-    validateWorldRaceCourseType,
-    type WorldRaceCourseType,
-} from '../../utility/data/world/worldRaceCourseType';
+import type { WorldRaceCourse } from '../../utility/data/common/raceCourse';
+import { validateRaceCourse } from '../../utility/data/common/raceCourse';
+import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
+import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
+import { validateRaceDateTime } from '../../utility/data/common/raceDateTime';
+import type { RaceDistance } from '../../utility/data/common/raceDistance';
+import { validateRaceDistance } from '../../utility/data/common/raceDistance';
+import { validateWorldRaceCourseType } from '../../utility/data/world/worldRaceCourseType';
 import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import {
     validateWorldRaceName,
@@ -56,7 +48,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
         public readonly name: WorldRaceName,
         public readonly dateTime: RaceDateTime,
         public readonly location: WorldRaceCourse,
-        public readonly surfaceType: WorldRaceCourseType,
+        public readonly surfaceType: RaceCourseType,
         public readonly distance: RaceDistance,
         public readonly grade: WorldGradeType,
         public readonly number: WorldRaceNumber,
@@ -80,7 +72,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
         name: WorldRaceName,
         dateTime: RaceDateTime,
         location: WorldRaceCourse,
-        surfaceType: WorldRaceCourseType,
+        surfaceType: RaceCourseType,
         distance: RaceDistance,
         grade: WorldGradeType,
         number: WorldRaceNumber,

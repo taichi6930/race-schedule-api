@@ -1,26 +1,13 @@
-import { z } from 'zod';
+import type { RaceCourseType } from '../common/raceCourseType';
+import {
+    RaceCourseTypeList,
+    RaceCourseTypeSchema,
+} from '../common/raceCourseType';
 
-/**
- * JraRaceCourseTypeのzod型定義
- */
-const JraRaceCourseTypeSchema = z.string().refine((value) => {
-    return JraRaceCourseTypeList.has(value);
-}, '中央競馬の馬場種別ではありません');
-
-/**
- * JraRaceCourseTypeの型定義
- */
-export type JraRaceCourseType = z.infer<typeof JraRaceCourseTypeSchema>;
-
-/**
- * JRAの競馬の馬場種別 リスト
- */
-const JraRaceCourseTypeList = new Set(['芝', 'ダート', '障害']);
-
-/**
- * 中央競馬の馬場種別のバリデーション
- * @param type - 中央競馬の馬場種別
- * @returns - バリデーション済みの中央競馬の馬場種別
- */
-export const validateJraRaceCourseType = (type: string): JraRaceCourseType =>
-    JraRaceCourseTypeSchema.parse(type);
+export type JraRaceCourseType = RaceCourseType;
+export const validateJraRaceCourseType = (type: string): JraRaceCourseType => {
+    if (!RaceCourseTypeList.has(type)) {
+        throw new Error('中央競馬の馬場種別ではありません');
+    }
+    return RaceCourseTypeSchema.parse(type);
+};
