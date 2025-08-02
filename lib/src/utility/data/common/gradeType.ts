@@ -147,6 +147,57 @@ const GradeMasterList: {
             { raceType: RaceType.WORLD, isSpecified: true },
         ],
     },
+    {
+        gradeName: 'オープン',
+        detail: [
+            { raceType: RaceType.JRA, isSpecified: false },
+            { raceType: RaceType.NAR, isSpecified: false },
+        ],
+    },
+    {
+        gradeName: '未格付',
+        detail: [{ raceType: RaceType.NAR, isSpecified: false }],
+    },
+    {
+        gradeName: '3勝クラス',
+        detail: [{ raceType: RaceType.JRA, isSpecified: false }],
+    },
+    {
+        gradeName: '2勝クラス',
+        detail: [{ raceType: RaceType.JRA, isSpecified: false }],
+    },
+    {
+        gradeName: '1勝クラス',
+        detail: [{ raceType: RaceType.JRA, isSpecified: false }],
+    },
+    {
+        gradeName: '1600万下',
+        detail: [{ raceType: RaceType.JRA, isSpecified: false }],
+    },
+    {
+        gradeName: '1000万下',
+        detail: [{ raceType: RaceType.JRA, isSpecified: false }],
+    },
+    {
+        gradeName: '900万下',
+        detail: [{ raceType: RaceType.JRA, isSpecified: false }],
+    },
+    {
+        gradeName: '500万下',
+        detail: [{ raceType: RaceType.JRA, isSpecified: false }],
+    },
+    {
+        gradeName: '未勝利',
+        detail: [{ raceType: RaceType.JRA, isSpecified: false }],
+    },
+    {
+        gradeName: '未出走',
+        detail: [{ raceType: RaceType.JRA, isSpecified: false }],
+    },
+    {
+        gradeName: '新馬',
+        detail: [{ raceType: RaceType.JRA, isSpecified: false }],
+    },
 ];
 
 /**
@@ -215,23 +266,11 @@ export type JraGradeType = z.infer<typeof JraGradeTypeSchema>;
 /**
  * JRAのグレード リスト
  */
-const JraGradeTypeList = new Set<string>([
-    'オープン',
-    '3勝クラス',
-    '2勝クラス',
-    '1勝クラス',
-    '1600万下',
-    '1000万下',
-    '900万下',
-    '500万下',
-    '未勝利',
-    '未出走',
-    '新馬',
-    // MasterGradeTypeListの中でJRAに対応するグレードを抽出
-    ...GradeMasterList.filter((grade) =>
+const JraGradeTypeList = new Set<string>(
+    GradeMasterList.filter((grade) =>
         grade.detail.some((detail) => detail.raceType === RaceType.JRA),
     ).map((grade) => grade.gradeName),
-]);
+);
 
 /**
  * JRAの指定グレードリスト
@@ -280,15 +319,13 @@ export const NarGradeTypeSchema = z.string().refine((value) => {
 export type NarGradeType = z.infer<typeof NarGradeTypeSchema>;
 
 /**
- * 海外競馬のグレード リスト
+ * 地方競馬のグレード リスト
  */
-const NarGradeTypeList = new Set<string>([
-    'オープン',
-    '未格付',
-    ...GradeMasterList.filter((grade) =>
+const NarGradeTypeList = new Set<string>(
+    GradeMasterList.filter((grade) =>
         grade.detail.some((detail) => detail.raceType === RaceType.NAR),
     ).map((grade) => grade.gradeName),
-]);
+);
 
 /**
  * 地方競馬の指定グレードリスト
