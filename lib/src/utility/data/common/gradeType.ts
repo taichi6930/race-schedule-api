@@ -371,45 +371,27 @@ export type BoatraceGradeType = z.infer<typeof BoatraceGradeTypeSchema>;
  * ボートレースの指定グレード リスト
  */
 export const BoatraceSpecifiedGradeList: BoatraceGradeType[] =
-    GradeMasterList.filter((grade) =>
-        grade.detail.some(
-            (detail) =>
-                detail.raceType === RaceType.BOATRACE && detail.isSpecified,
-        ),
-    ).map((grade) => grade.gradeName);
+    SpecifiedGradeList(RaceType.BOATRACE);
 
 /**
  * 海外競馬の指定グレード リスト
  */
-export const WorldSpecifiedGradeList: WorldGradeType[] = GradeMasterList.filter(
-    (grade) =>
-        grade.detail.some(
-            (detail) =>
-                detail.raceType === RaceType.WORLD && detail.isSpecified,
-        ),
-).map((grade) => grade.gradeName);
+export const WorldSpecifiedGradeList: WorldGradeType[] = SpecifiedGradeList(
+    RaceType.WORLD,
+);
 
 /**
  * 競輪の指定グレードリスト
  */
-export const KeirinSpecifiedGradeList: KeirinGradeType[] =
-    GradeMasterList.filter((grade) =>
-        grade.detail.some(
-            (detail) =>
-                detail.raceType === RaceType.KEIRIN && detail.isSpecified,
-        ),
-    ).map((grade) => grade.gradeName);
+export const KeirinSpecifiedGradeList: KeirinGradeType[] = SpecifiedGradeList(
+    RaceType.KEIRIN,
+);
 
 /**
  * オートレースの指定グレードリスト
  */
 export const AutoraceSpecifiedGradeList: AutoraceGradeType[] =
-    GradeMasterList.filter((grade) =>
-        grade.detail.some(
-            (detail) =>
-                detail.raceType === RaceType.AUTORACE && detail.isSpecified,
-        ),
-    ).map((grade) => grade.gradeName);
+    SpecifiedGradeList(RaceType.AUTORACE);
 
 /**
  * GradeTypeのzod型定義
