@@ -472,18 +472,13 @@ export const NarBabacodeMap: Record<string, string> = createPlaceCodeMap(
  * WorldRaceCourseのzod型定義
  */
 export const WorldRaceCourseSchema = z.string().refine((value) => {
-    return WorldRaceCourseList.has(value);
+    return RaceCourseList(RaceType.WORLD).has(value);
 }, '海外の競馬場ではありません');
 
 /**
  * WorldRaceCourseの型定義
  */
 export type WorldRaceCourse = z.infer<typeof WorldRaceCourseSchema>;
-
-/**
- * 海外競馬場 リスト
- */
-const WorldRaceCourseList = RaceCourseList(RaceType.WORLD);
 
 /**
  * 海外の競馬場のレース場名とコードの対応表
@@ -508,18 +503,13 @@ export type AutoraceRaceCourse = z.infer<typeof AutoraceRaceCourseSchema>;
  * BoatraceRaceCourseのzod型定義
  */
 export const BoatraceRaceCourseSchema = z.string().refine((value) => {
-    return BoatraceRaceCourseList.has(value);
+    return RaceCourseList(RaceType.BOATRACE).has(value);
 }, 'ボートレース場ではありません');
 
 /**
  * BoatraceRaceCourseの型定義
  */
 export type BoatraceRaceCourse = z.infer<typeof BoatraceRaceCourseSchema>;
-
-/**
- * ボートレース場リスト
- */
-const BoatraceRaceCourseList = RaceCourseList(RaceType.BOATRACE);
 
 /**
  * ボートレースのレース場名とコードの対応表
