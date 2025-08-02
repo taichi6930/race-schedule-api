@@ -5,7 +5,7 @@ import { NarRaceData } from '../../domain/narRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import { NarGradeType } from '../../utility/data/common/gradeType';
-import { NarRaceCourseType } from '../../utility/data/nar/narRaceCourseType';
+import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processNarRaceName } from '../../utility/raceName';
@@ -165,7 +165,7 @@ export class NarRaceRepositoryFromHtmlImpl
         );
     }
 
-    private extractSurfaceType(race: string[]): NarRaceCourseType {
+    private extractSurfaceType(race: string[]): RaceCourseType {
         const regex = /(芝)[右左直]+\d+m/;
         const trackType = race.find((item) => regex.test(item));
         if (!trackType) {

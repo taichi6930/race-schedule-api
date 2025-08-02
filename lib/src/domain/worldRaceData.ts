@@ -4,16 +4,16 @@ import {
     validateRaceCourse,
     type WorldRaceCourse,
 } from '../utility/data/common/raceCourse';
+import {
+    type RaceCourseType,
+    validateRaceCourseType,
+} from '../utility/data/common/raceCourseType';
 import type { RaceDateTime } from '../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
 import {
     type RaceDistance,
     validateRaceDistance,
 } from '../utility/data/common/raceDistance';
-import {
-    validateWorldRaceCourseType,
-    type WorldRaceCourseType,
-} from '../utility/data/world/worldRaceCourseType';
 import {
     validateWorldRaceName,
     type WorldRaceName,
@@ -46,9 +46,9 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
     public readonly location: WorldRaceCourse;
     /**
      * 馬場種別
-     * @type {WorldRaceCourseType}
+     * @type {RaceCourseType}
      */
-    public readonly surfaceType: WorldRaceCourseType;
+    public readonly surfaceType: RaceCourseType;
     /**
      * 距離
      * @type {RaceDistance}
@@ -81,7 +81,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
         name: WorldRaceName,
         dateTime: RaceDateTime,
         location: WorldRaceCourse,
-        surfaceType: WorldRaceCourseType,
+        surfaceType: RaceCourseType,
         distance: RaceDistance,
         grade: WorldGradeType,
         number: WorldRaceNumber,
@@ -119,7 +119,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
             validateWorldRaceName(name),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.WORLD, location),
-            validateWorldRaceCourseType(surfaceType),
+            validateRaceCourseType(surfaceType),
             validateRaceDistance(distance),
             validateGradeType(RaceType.WORLD, grade),
             validateWorldRaceNumber(number),

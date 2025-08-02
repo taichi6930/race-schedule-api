@@ -9,6 +9,10 @@ import {
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import {
+    type RaceCourseType,
+    validateRaceCourseType,
+} from '../../utility/data/common/raceCourseType';
+import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
@@ -16,10 +20,6 @@ import {
     type RaceDistance,
     validateRaceDistance,
 } from '../../utility/data/common/raceDistance';
-import {
-    type NarRaceCourseType,
-    validateNarRaceCourseType,
-} from '../../utility/data/nar/narRaceCourseType';
 import {
     type NarRaceId,
     validateNarRaceId,
@@ -60,7 +60,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
         public readonly name: NarRaceName,
         public readonly dateTime: RaceDateTime,
         public readonly location: NarRaceCourse,
-        public readonly surfaceType: NarRaceCourseType,
+        public readonly surfaceType: RaceCourseType,
         public readonly distance: RaceDistance,
         public readonly grade: NarGradeType,
         public readonly number: NarRaceNumber,
@@ -96,7 +96,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
                 validateNarRaceName(name),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.NAR, location),
-                validateNarRaceCourseType(surfaceType),
+                validateRaceCourseType(surfaceType),
                 validateRaceDistance(distance),
                 validateGradeType(RaceType.NAR, grade),
                 validateNarRaceNumber(number),
