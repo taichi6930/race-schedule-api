@@ -141,7 +141,11 @@ const GradeMasterList: {
     },
     {
         gradeName: '格付けなし',
-        detail: [{ raceType: RaceType.WORLD, isSpecified: true }],
+        detail: [
+            { raceType: RaceType.JRA, isSpecified: false },
+            { raceType: RaceType.NAR, isSpecified: false },
+            { raceType: RaceType.WORLD, isSpecified: true },
+        ],
     },
 ];
 
@@ -212,7 +216,6 @@ export type JraGradeType = z.infer<typeof JraGradeTypeSchema>;
  * JRAのグレード リスト
  */
 const JraGradeTypeList = new Set<string>([
-    '格付けなし',
     'オープン',
     '3勝クラス',
     '2勝クラス',
@@ -280,7 +283,6 @@ export type NarGradeType = z.infer<typeof NarGradeTypeSchema>;
  * 海外競馬のグレード リスト
  */
 const NarGradeTypeList = new Set<string>([
-    '格付けなし',
     'オープン',
     '未格付',
     ...GradeMasterList.filter((grade) =>
