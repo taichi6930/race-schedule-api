@@ -14,11 +14,11 @@ import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../../utility/data/common/raceDateTime';
 import type { RaceDistance } from '../../utility/data/common/raceDistance';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
-import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import {
-    validateWorldRaceName,
-    type WorldRaceName,
-} from '../../utility/data/world/worldRaceName';
+    type RaceName,
+    validateRaceName,
+} from '../../utility/data/common/raceName';
+import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import {
     validateWorldRaceNumber,
     type WorldRaceNumber,
@@ -47,7 +47,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
      */
     private constructor(
         public readonly id: WorldRaceId,
-        public readonly name: WorldRaceName,
+        public readonly name: RaceName,
         public readonly dateTime: RaceDateTime,
         public readonly location: WorldRaceCourse,
         public readonly surfaceType: RaceCourseType,
@@ -71,7 +71,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
      */
     public static create(
         id: WorldRaceId,
-        name: WorldRaceName,
+        name: RaceName,
         dateTime: RaceDateTime,
         location: WorldRaceCourse,
         surfaceType: RaceCourseType,
@@ -82,7 +82,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     ): WorldRaceRecord {
         return new WorldRaceRecord(
             id,
-            validateWorldRaceName(name),
+            validateRaceName(name),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.WORLD, location),
             validateRaceCourseType(surfaceType),

@@ -11,6 +11,10 @@ import {
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
 import {
+    type RaceName,
+    validateRaceName,
+} from '../../utility/data/common/raceName';
+import {
     type RaceNumber,
     validateRaceNumber,
 } from '../../utility/data/common/raceNumber';
@@ -18,10 +22,6 @@ import {
     type KeirinRaceId,
     validateKeirinRaceId,
 } from '../../utility/data/keirin/keirinRaceId';
-import {
-    type KeirinRaceName,
-    validateKeirinRaceName,
-} from '../../utility/data/keirin/keirinRaceName';
 import {
     type KeirinRaceStage,
     validateKeirinRaceStage,
@@ -51,7 +51,7 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
      */
     private constructor(
         public readonly id: KeirinRaceId,
-        public readonly name: KeirinRaceName,
+        public readonly name: RaceName,
         public readonly stage: KeirinRaceStage,
         public readonly dateTime: RaceDateTime,
         public readonly location: KeirinRaceCourse,
@@ -84,7 +84,7 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
         try {
             return new KeirinRaceRecord(
                 validateKeirinRaceId(id),
-                validateKeirinRaceName(name),
+                validateRaceName(name),
                 validateKeirinRaceStage(stage),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.KEIRIN, location),

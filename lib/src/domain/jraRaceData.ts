@@ -15,6 +15,10 @@ import {
     validateRaceDistance,
 } from '../utility/data/common/raceDistance';
 import {
+    type RaceName,
+    validateRaceName,
+} from '../utility/data/common/raceName';
+import {
     type RaceNumber,
     validateRaceNumber,
 } from '../utility/data/common/raceNumber';
@@ -26,10 +30,6 @@ import {
     type JraHeldTimes,
     validateJraHeldTimes,
 } from '../utility/data/jra/jraHeldTimes';
-import {
-    type JraRaceName,
-    validateJraRaceName,
-} from '../utility/data/jra/jraRaceName';
 import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
@@ -39,9 +39,9 @@ import type { IPlaceData } from './iPlaceData';
 export class JraRaceData implements IPlaceData<JraRaceData> {
     /**
      * レース名
-     * @type {JraRaceName}
+     * @type {RaceName}
      */
-    public readonly name: JraRaceName;
+    public readonly name: RaceName;
     /**
      * 開催日時
      * @type {RaceDateTime}
@@ -98,7 +98,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
      * レース開催データを生成する
      */
     private constructor(
-        name: JraRaceName,
+        name: RaceName,
         dateTime: RaceDateTime,
         location: JraRaceCourse,
         surfaceType: RaceCourseType,
@@ -144,7 +144,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
         heldDayTimes: number,
     ): JraRaceData {
         return new JraRaceData(
-            validateJraRaceName(name),
+            validateRaceName(name),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.JRA, location),
             validateRaceCourseType(surfaceType),

@@ -7,13 +7,13 @@ import {
 import type { RaceDateTime } from '../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
 import {
+    type RaceName,
+    validateRaceName,
+} from '../utility/data/common/raceName';
+import {
     type RaceNumber,
     validateRaceNumber,
 } from '../utility/data/common/raceNumber';
-import {
-    type KeirinRaceName,
-    validateKeirinRaceName,
-} from '../utility/data/keirin/keirinRaceName';
 import {
     type KeirinRaceStage,
     validateKeirinRaceStage,
@@ -27,9 +27,9 @@ import type { IPlaceData } from './iPlaceData';
 export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
     /**
      * レース名
-     * @type {KeirinRaceName}
+     * @type {RaceName}
      */
-    public readonly name: KeirinRaceName;
+    public readonly name: RaceName;
     /**
      * 開催ステージ
      * @type {KeirinRaceStage}
@@ -68,7 +68,7 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
      * レース開催データを生成する
      */
     private constructor(
-        name: KeirinRaceName,
+        name: RaceName,
         stage: KeirinRaceStage,
         dateTime: RaceDateTime,
         location: KeirinRaceCourse,
@@ -102,7 +102,7 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
         number: number,
     ): KeirinRaceData {
         return new KeirinRaceData(
-            validateKeirinRaceName(name),
+            validateRaceName(name),
             validateKeirinRaceStage(stage),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.KEIRIN, location),
