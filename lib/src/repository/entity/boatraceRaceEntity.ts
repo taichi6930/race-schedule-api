@@ -10,7 +10,7 @@ import { BoatraceRacePlayerRecord } from '../../gateway/record/boatraceRacePlaye
 import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
 import {
     type BoatraceRaceId,
-    validateBoatraceRaceId,
+    validateRaceId,
 } from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
@@ -57,7 +57,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
         updateDate: Date,
     ): BoatraceRaceEntity {
         return new BoatraceRaceEntity(
-            validateBoatraceRaceId(id),
+            validateRaceId(RaceType.BOATRACE, id),
             raceData,
             racePlayerDataList,
             validateUpdateDate(updateDate),

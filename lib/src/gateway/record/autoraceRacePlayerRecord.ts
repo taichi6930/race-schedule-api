@@ -1,11 +1,13 @@
 import '../../utility/format';
 
-import type { AutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
-import { validateAutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
 import {
     type AutoracePositionNumber,
     validatePositionNumber,
 } from '../../utility/data/common/positionNumber';
+import {
+    type AutoraceRaceId,
+    validateRaceId,
+} from '../../utility/data/common/raceId';
 import type { RacePlayerId } from '../../utility/data/common/racePlayerId';
 import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import type { PlayerNumber } from '../../utility/data/playerNumber';
@@ -57,7 +59,7 @@ export class AutoraceRacePlayerRecord
         try {
             return new AutoraceRacePlayerRecord(
                 validateRacePlayerId(RaceType.AUTORACE, id),
-                validateAutoraceRaceId(raceId),
+                validateRaceId(RaceType.AUTORACE, raceId),
                 validatePositionNumber(RaceType.AUTORACE, positionNumber),
                 validatePlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),

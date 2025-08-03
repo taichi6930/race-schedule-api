@@ -1,5 +1,4 @@
 import { validateAutoracePlaceId } from '../../../lib/src/utility/data/autorace/autoracePlaceId';
-import { validateAutoraceRaceId } from '../../../lib/src/utility/data/autorace/autoraceRaceId';
 import { validateBoatracePlaceId } from '../../../lib/src/utility/data/boatrace/boatracePlaceId';
 import { validateRaceId } from '../../../lib/src/utility/data/common/raceId';
 import { validateRacePlayerId } from '../../../lib/src/utility/data/common/racePlayerId';
@@ -317,7 +316,7 @@ describe('AutoracePlaceIdSchema', () => {
 describe('AutoraceRaceIdSchema', () => {
     it('正しいAutoraceRaceId', () => {
         const validAutoraceRaceId = 'autorace202108010101';
-        expect(validateAutoraceRaceId(validAutoraceRaceId)).toBe(
+        expect(validateRaceId(RaceType.AUTORACE, validAutoraceRaceId)).toBe(
             validAutoraceRaceId,
         );
     });
@@ -337,7 +336,9 @@ describe('AutoraceRaceIdSchema', () => {
             ],
         ];
         for (const [invalidId, message] of invalidAutoraceRaceIdAndMessage) {
-            expect(() => validateAutoraceRaceId(invalidId)).toThrow(message);
+            expect(() => validateRaceId(RaceType.AUTORACE, invalidId)).toThrow(
+                message,
+            );
         }
     });
 });

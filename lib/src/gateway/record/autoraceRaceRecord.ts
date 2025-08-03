@@ -1,10 +1,6 @@
 import '../../utility/format';
 
 import {
-    type AutoraceRaceId,
-    validateAutoraceRaceId,
-} from '../../utility/data/autorace/autoraceRaceId';
-import {
     type AutoraceRaceStage,
     validateAutoraceRaceStage,
 } from '../../utility/data/autorace/autoraceRaceStage';
@@ -20,6 +16,10 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
+import {
+    type AutoraceRaceId,
+    validateRaceId,
+} from '../../utility/data/common/raceId';
 import type { RaceName } from '../../utility/data/common/raceName';
 import { validateRaceName } from '../../utility/data/common/raceName';
 import {
@@ -82,7 +82,7 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
     ): AutoraceRaceRecord {
         try {
             return new AutoraceRaceRecord(
-                validateAutoraceRaceId(id),
+                validateRaceId(RaceType.AUTORACE, id),
                 validateRaceName(name),
                 validateAutoraceRaceStage(stage),
                 validateRaceDateTime(dateTime),

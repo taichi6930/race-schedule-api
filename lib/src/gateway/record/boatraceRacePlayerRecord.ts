@@ -4,8 +4,10 @@ import {
     type BoatracePositionNumber,
     validatePositionNumber,
 } from '../../utility/data/common/positionNumber';
-import type { BoatraceRaceId } from '../../utility/data/common/raceId';
-import { validateBoatraceRaceId } from '../../utility/data/common/raceId';
+import {
+    type BoatraceRaceId,
+    validateRaceId,
+} from '../../utility/data/common/raceId';
 import type { RacePlayerId } from '../../utility/data/common/racePlayerId';
 import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import type { PlayerNumber } from '../../utility/data/playerNumber';
@@ -57,7 +59,7 @@ export class BoatraceRacePlayerRecord
         try {
             return new BoatraceRacePlayerRecord(
                 validateRacePlayerId(RaceType.BOATRACE, id),
-                validateBoatraceRaceId(raceId),
+                validateRaceId(RaceType.BOATRACE, raceId),
                 validatePositionNumber(RaceType.BOATRACE, positionNumber),
                 validatePlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),

@@ -4,19 +4,6 @@ import { RaceType } from '../../raceType';
 import { validateRaceNumber } from './raceNumber';
 
 /**
- * KeirinRaceIdの型定義
- */
-export type KeirinRaceId = z.infer<typeof KeirinRaceIdSchema>;
-
-/**
- * KeirinRaceIdのバリデーション
- * @param value - バリデーション対象
- * @returns バリデーション済みのKeirinRaceId
- */
-export const validateKeirinRaceId = (value: string): KeirinRaceId =>
-    KeirinRaceIdSchema.parse(value);
-
-/**
  * RaceIdのzod型定義
  * @param raceType
  */
@@ -100,9 +87,14 @@ const AutoraceRaceIdSchema = RaceIdSchema(RaceType.AUTORACE);
  */
 export const UnionRaceIdSchema = z.union([
     KeirinRaceIdSchema,
-    // AutoraceRaceIdSchema,
+    AutoraceRaceIdSchema,
     BoatraceRaceIdSchema,
 ]);
+
+/**
+ * KeirinRaceIdの型定義
+ */
+export type KeirinRaceId = z.infer<typeof KeirinRaceIdSchema>;
 
 /**
  * BoatraceRaceIdの型定義
@@ -110,10 +102,7 @@ export const UnionRaceIdSchema = z.union([
 export type BoatraceRaceId = z.infer<typeof BoatraceRaceIdSchema>;
 
 /**
- * BoatraceRaceIdのバリデーション
- * @param value - バリデーション対象
- * @returns バリデーション済みのBoatraceRaceId
+ * AutoraceRaceIdの型定義
  */
 
-export const validateBoatraceRaceId = (value: string): BoatraceRaceId =>
-    BoatraceRaceIdSchema.parse(value);
+export type AutoraceRaceId = z.infer<typeof AutoraceRaceIdSchema>;

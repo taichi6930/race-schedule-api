@@ -10,8 +10,8 @@ import { AutoraceRacePlayerRecord } from '../../gateway/record/autoraceRacePlaye
 import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
 import {
     type AutoraceRaceId,
-    validateAutoraceRaceId,
-} from '../../utility/data/autorace/autoraceRaceId';
+    validateRaceId,
+} from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getAutoraceGoogleCalendarColorId } from '../../utility/googleCalendar';
@@ -57,7 +57,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
         updateDate: Date,
     ): AutoraceRaceEntity {
         return new AutoraceRaceEntity(
-            validateAutoraceRaceId(id),
+            validateRaceId(RaceType.AUTORACE, id),
             raceData,
             racePlayerDataList,
             validateUpdateDate(updateDate),
