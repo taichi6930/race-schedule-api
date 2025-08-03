@@ -4,7 +4,7 @@ import {
     type KeirinPositionNumber,
     validatePositionNumber,
 } from '../../utility/data/common/positionNumber';
-import type { KeirinRacePlayerId } from '../../utility/data/common/racePlayerId';
+import type { RacePlayerId } from '../../utility/data/common/racePlayerId';
 import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import type { KeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
 import { validateKeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
@@ -31,7 +31,7 @@ export class KeirinRacePlayerRecord implements IRecord<KeirinRacePlayerRecord> {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: KeirinRacePlayerId,
+        public readonly id: RacePlayerId,
         public readonly raceId: KeirinRaceId,
         public readonly positionNumber: KeirinPositionNumber,
         public readonly playerNumber: PlayerNumber,

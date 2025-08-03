@@ -5,8 +5,7 @@ import { validatePositionNumber } from './positionNumber';
 import { validateRaceNumber } from './raceNumber';
 
 /**
- * BoatraceRacePlayerIdのzod型定義
- * boatrace + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
+ * RacePlayerIdのzod型定義
  * @param raceType
  */
 const RacePlayerIdSchema = (raceType: RaceType): z.ZodString => {
@@ -47,11 +46,6 @@ const RacePlayerIdSchema = (raceType: RaceType): z.ZodString => {
  * BoatraceRacePlayerIdのzod型定義
  */
 const BoatraceRacePlayerIdSchema = RacePlayerIdSchema(RaceType.BOATRACE);
-
-/**
- * BoatraceRacePlayerIdの型定義
- */
-export type BoatraceRacePlayerId = z.infer<typeof BoatraceRacePlayerIdSchema>;
 
 /**
  * RacePlayerIdのzod型定義
@@ -95,22 +89,11 @@ export const validateRacePlayerId = (
  * autorace + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
  */
 const AutoraceRacePlayerIdSchema = RacePlayerIdSchema(RaceType.AUTORACE);
-/**
- * AutoraceRacePlayerIdの型定義
- */
-
-export type AutoraceRacePlayerId = z.infer<typeof AutoraceRacePlayerIdSchema>;
 
 /**
  * KeirinRacePlayerIdのzod型定義
  */
 const KeirinRacePlayerIdSchema = RacePlayerIdSchema(RaceType.KEIRIN);
-
-/**
- * KeirinRacePlayerIdの型定義
- */
-
-export type KeirinRacePlayerId = z.infer<typeof KeirinRacePlayerIdSchema>;
 
 /**
  * RacePlayerIdのzod型定義

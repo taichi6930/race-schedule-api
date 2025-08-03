@@ -25,11 +25,7 @@ import {
 } from './data/common/raceCourse';
 import type { RaceDateTime } from './data/common/raceDateTime';
 import type { RaceNumber } from './data/common/raceNumber';
-import type {
-    AutoraceRacePlayerId,
-    BoatraceRacePlayerId,
-    KeirinRacePlayerId,
-} from './data/common/racePlayerId';
+import type { RacePlayerId } from './data/common/racePlayerId';
 import type { JraRaceId } from './data/jra/jraRaceId';
 import type { KeirinPlaceId } from './data/keirin/keirinPlaceId';
 import type { KeirinRaceId } from './data/keirin/keirinRaceId';
@@ -142,7 +138,7 @@ export const generateKeirinRacePlayerId = (
     location: KeirinRaceCourse,
     number: RaceNumber,
     positionNumber: KeirinPositionNumber,
-): KeirinRacePlayerId => {
+): RacePlayerId => {
     const positionNumberCode = positionNumber.toXDigits(2);
     return `${generateKeirinRaceId(dateTime, location, number)}${positionNumberCode}`;
 };
@@ -188,7 +184,7 @@ export const generateBoatraceRacePlayerId = (
     location: BoatraceRaceCourse,
     number: RaceNumber,
     positionNumber: BoatracePositionNumber,
-): BoatraceRacePlayerId => {
+): RacePlayerId => {
     const positionNumberCode = positionNumber.toXDigits(2);
     return `${generateBoatraceRaceId(dateTime, location, number)}${positionNumberCode}`;
 };
@@ -234,7 +230,7 @@ export const generateAutoraceRacePlayerId = (
     location: AutoraceRaceCourse,
     number: RaceNumber,
     positionNumber: AutoracePositionNumber,
-): AutoraceRacePlayerId => {
+): RacePlayerId => {
     const positionNumberCode = positionNumber.toXDigits(2);
     return `${generateAutoraceRaceId(dateTime, location, number)}${positionNumberCode}`;
 };

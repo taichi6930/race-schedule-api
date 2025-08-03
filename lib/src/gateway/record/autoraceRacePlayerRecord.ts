@@ -6,7 +6,7 @@ import {
     type AutoracePositionNumber,
     validatePositionNumber,
 } from '../../utility/data/common/positionNumber';
-import type { AutoraceRacePlayerId } from '../../utility/data/common/racePlayerId';
+import type { RacePlayerId } from '../../utility/data/common/racePlayerId';
 import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import type { PlayerNumber } from '../../utility/data/playerNumber';
 import { validatePlayerNumber } from '../../utility/data/playerNumber';
@@ -32,7 +32,7 @@ export class AutoraceRacePlayerRecord
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: AutoraceRacePlayerId,
+        public readonly id: RacePlayerId,
         public readonly raceId: AutoraceRaceId,
         public readonly positionNumber: AutoracePositionNumber,
         public readonly playerNumber: PlayerNumber,

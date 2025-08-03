@@ -6,7 +6,7 @@ import {
     type BoatracePositionNumber,
     validatePositionNumber,
 } from '../../utility/data/common/positionNumber';
-import type { BoatraceRacePlayerId } from '../../utility/data/common/racePlayerId';
+import type { RacePlayerId } from '../../utility/data/common/racePlayerId';
 import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import type { PlayerNumber } from '../../utility/data/playerNumber';
 import { validatePlayerNumber } from '../../utility/data/playerNumber';
@@ -32,7 +32,7 @@ export class BoatraceRacePlayerRecord
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: BoatraceRacePlayerId,
+        public readonly id: RacePlayerId,
         public readonly raceId: BoatraceRaceId,
         public readonly positionNumber: BoatracePositionNumber,
         public readonly playerNumber: PlayerNumber,
