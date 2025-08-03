@@ -1,10 +1,10 @@
 import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
 import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
-import { AutoraceRacePlayerData } from '../../../../lib/src/domain/autoraceRacePlayerData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autoracePlaceRecord';
-import { AutoraceRacePlayerRecord } from '../../../../lib/src/gateway/record/autoraceRacePlayerRecord';
 import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
+import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { AutoracePlaceId } from '../../../../lib/src/utility/data/autorace/autoracePlaceId';
@@ -79,7 +79,7 @@ export const baseAutoracePlaceEntity = AutoracePlaceEntity.createWithoutId(
 export const baseAutoraceRacePlayerDataList = Array.from(
     { length: 8 },
     (_, i) => {
-        return AutoraceRacePlayerData.create(i + 1, i + 1);
+        return RacePlayerData.create(RaceType.AUTORACE, i + 1, i + 1);
     },
 );
 
@@ -89,13 +89,14 @@ export const baseAutoraceRaceEntity = AutoraceRaceEntity.createWithoutId(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoraceRacePlayerRecord = AutoraceRacePlayerRecord.create(
+export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
     generateAutoraceRacePlayerId(
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,
         baseAutoraceRaceNumber,
         1,
     ),
+    RaceType.AUTORACE,
     generateAutoraceRaceId(
         baseRaceDateTime,
         baseAutoracePlaceCourse,
@@ -106,7 +107,8 @@ export const baseAutoraceRacePlayerRecord = AutoraceRacePlayerRecord.create(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoraceRacePlayerData = AutoraceRacePlayerData.create(
+export const baseAutoraceRacePlayerData = RacePlayerData.create(
+    RaceType.AUTORACE,
     1,
     10000,
 );

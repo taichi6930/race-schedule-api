@@ -1,29 +1,27 @@
 import '../../utility/format';
 
-import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
-import { validateBoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
-import {
-    type BoatracePositionNumber,
-    validatePositionNumber,
-} from '../../utility/data/common/positionNumber';
+import type { PositionNumber } from '../../utility/data/common/positionNumber';
+import { validatePositionNumber } from '../../utility/data/common/positionNumber';
+import type { RaceId } from '../../utility/data/common/raceId';
+import { validateRaceId } from '../../utility/data/common/raceId';
 import type { RacePlayerId } from '../../utility/data/common/racePlayerId';
 import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import type { PlayerNumber } from '../../utility/data/playerNumber';
 import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';
-import { RaceType } from '../../utility/raceType';
+import type { RaceType } from '../../utility/raceType';
+import { isRaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
 /**
- * ボートレースのレース選手データ
+ * レース選手データ
  */
-export class BoatraceRacePlayerRecord
-    implements IRecord<BoatraceRacePlayerRecord>
-{
+export class RacePlayerRecord implements IRecord<RacePlayerRecord> {
     /**
      * コンストラクタ
      * @param id - ID
+     * @param raceType - レース種別
      * @param raceId - レースID
      * @param positionNumber - 枠番
      * @param playerNumber - 選手番号
@@ -33,8 +31,9 @@ export class BoatraceRacePlayerRecord
      */
     private constructor(
         public readonly id: RacePlayerId,
-        public readonly raceId: BoatraceRaceId,
-        public readonly positionNumber: BoatracePositionNumber,
+        public readonly raceType: RaceType,
+        public readonly raceId: RaceId,
+        public readonly positionNumber: PositionNumber,
         public readonly playerNumber: PlayerNumber,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -42,6 +41,7 @@ export class BoatraceRacePlayerRecord
     /**
      * インスタンス生成メソッド
      * @param id - ID
+     * @param raceType - レース種別
      * @param raceId - レースID
      * @param positionNumber - 枠番
      * @param playerNumber - 選手番号
@@ -49,22 +49,27 @@ export class BoatraceRacePlayerRecord
      */
     public static create(
         id: string,
+        raceType: string,
         raceId: string,
         positionNumber: number,
         playerNumber: number,
         updateDate: Date,
-    ): BoatraceRacePlayerRecord {
+    ): RacePlayerRecord {
+        if (!isRaceType(raceType)) {
+            throw new Error(`Invalid raceType: ${raceType}`);
+        }
         try {
-            return new BoatraceRacePlayerRecord(
-                validateRacePlayerId(RaceType.BOATRACE, id),
-                validateBoatraceRaceId(raceId),
-                validatePositionNumber(RaceType.BOATRACE, positionNumber),
+            return new RacePlayerRecord(
+                validateRacePlayerId(raceType, id),
+                raceType,
+                validateRaceId(raceType, raceId),
+                validatePositionNumber(raceType, positionNumber),
                 validatePlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
             throw new Error(
-                createErrorMessage('BoatraceRacePlayerRecord', error),
+                createErrorMessage('Failed to create RacePlayerRecord', error),
             );
         }
     }
@@ -73,11 +78,10 @@ export class BoatraceRacePlayerRecord
      * データのコピー
      * @param partial
      */
-    public copy(
-        partial: Partial<BoatraceRacePlayerRecord> = {},
-    ): BoatraceRacePlayerRecord {
-        return BoatraceRacePlayerRecord.create(
+    public copy(partial: Partial<RacePlayerRecord> = {}): RacePlayerRecord {
+        return RacePlayerRecord.create(
             partial.id ?? this.id,
+            partial.raceType ?? this.raceType,
             partial.raceId ?? this.raceId,
             partial.positionNumber ?? this.positionNumber,
             partial.playerNumber ?? this.playerNumber,

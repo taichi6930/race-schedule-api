@@ -1,12 +1,10 @@
 import { validateAutoracePlaceId } from '../../../lib/src/utility/data/autorace/autoracePlaceId';
-import { validateAutoraceRaceId } from '../../../lib/src/utility/data/autorace/autoraceRaceId';
 import { validateBoatracePlaceId } from '../../../lib/src/utility/data/boatrace/boatracePlaceId';
-import { validateBoatraceRaceId } from '../../../lib/src/utility/data/boatrace/boatraceRaceId';
+import { validateRaceId } from '../../../lib/src/utility/data/common/raceId';
 import { validateRacePlayerId } from '../../../lib/src/utility/data/common/racePlayerId';
 import { validateJraPlaceId } from '../../../lib/src/utility/data/jra/jraPlaceId';
 import { validateJraRaceId } from '../../../lib/src/utility/data/jra/jraRaceId';
 import { validateKeirinPlaceId } from '../../../lib/src/utility/data/keirin/keirinPlaceId';
-import { validateKeirinRaceId } from '../../../lib/src/utility/data/keirin/keirinRaceId';
 import { validateNarPlaceId } from '../../../lib/src/utility/data/nar/narPlaceId';
 import { validateNarRaceId } from '../../../lib/src/utility/data/nar/narRaceId';
 import { validateWorldPlaceId } from '../../../lib/src/utility/data/world/worldPlaceId';
@@ -153,14 +151,16 @@ describe('KeirinPlaceIdSchema', () => {
 describe('KeirinRaceIdSchema', () => {
     it('正しいKeirinRaceId', () => {
         const validKeirinRaceId = 'keirin202108010101';
-        expect(validateKeirinRaceId(validKeirinRaceId)).toBe(validKeirinRaceId);
+        expect(validateRaceId(RaceType.KEIRIN, validKeirinRaceId)).toBe(
+            validKeirinRaceId,
+        );
     });
 
     it('不正なKeirinRaceId', () => {
         const invalidKeirinRaceIdAndMessage = [
-            ['keirinabc2021080101', 'KeirinRaceIdの形式ではありません'],
-            ['keirin2021keirin080101', 'KeirinRaceIdの形式ではありません'],
-            ['keirin202108010', 'KeirinRaceIdの形式ではありません'],
+            ['keirinabc2021080101', 'keirinRaceIdの形式ではありません'],
+            ['keirin2021keirin080101', 'keirinRaceIdの形式ではありません'],
+            ['keirin202108010', 'keirinRaceIdの形式ではありません'],
             ['jra202108010101', 'keirinから始まる必要があります'],
             [
                 'keirin202108010113',
@@ -168,7 +168,9 @@ describe('KeirinRaceIdSchema', () => {
             ],
         ];
         for (const [invalidId, message] of invalidKeirinRaceIdAndMessage) {
-            expect(() => validateKeirinRaceId(invalidId)).toThrow(message);
+            expect(() => validateRaceId(RaceType.KEIRIN, invalidId)).toThrow(
+                message,
+            );
         }
     });
 });
@@ -227,19 +229,19 @@ describe('BoatracePlaceIdSchema', () => {
 describe('BoatraceRaceIdSchema', () => {
     it('正しいBoatraceRaceId', () => {
         const validBoatraceRaceId = 'boatrace202108010101';
-        expect(validateBoatraceRaceId(validBoatraceRaceId)).toBe(
+        expect(validateRaceId(RaceType.BOATRACE, validBoatraceRaceId)).toBe(
             validBoatraceRaceId,
         );
     });
 
     it('不正なBoatraceRaceId', () => {
         const invalidBoatraceRaceIdAndMessage = [
-            ['boatraceabc2021080101', 'BoatraceRaceIdの形式ではありません'],
+            ['boatraceabc2021080101', 'boatraceRaceIdの形式ではありません'],
             [
                 'boatrace2021boatrace080101',
-                'BoatraceRaceIdの形式ではありません',
+                'boatraceRaceIdの形式ではありません',
             ],
-            ['boatrace202108010', 'BoatraceRaceIdの形式ではありません'],
+            ['boatrace202108010', 'boatraceRaceIdの形式ではありません'],
             ['jra202108010101', 'boatraceから始まる必要があります'],
             [
                 'boatrace202108010113',
@@ -247,7 +249,9 @@ describe('BoatraceRaceIdSchema', () => {
             ],
         ];
         for (const [invalidId, message] of invalidBoatraceRaceIdAndMessage) {
-            expect(() => validateBoatraceRaceId(invalidId)).toThrow(message);
+            expect(() => validateRaceId(RaceType.BOATRACE, invalidId)).toThrow(
+                message,
+            );
         }
     });
 });
@@ -312,19 +316,19 @@ describe('AutoracePlaceIdSchema', () => {
 describe('AutoraceRaceIdSchema', () => {
     it('正しいAutoraceRaceId', () => {
         const validAutoraceRaceId = 'autorace202108010101';
-        expect(validateAutoraceRaceId(validAutoraceRaceId)).toBe(
+        expect(validateRaceId(RaceType.AUTORACE, validAutoraceRaceId)).toBe(
             validAutoraceRaceId,
         );
     });
 
     it('不正なAutoraceRaceId', () => {
         const invalidAutoraceRaceIdAndMessage = [
-            ['autoraceabc2021080101', 'AutoraceRaceIdの形式ではありません'],
+            ['autoraceabc2021080101', 'autoraceRaceIdの形式ではありません'],
             [
                 'autorace2021autorace080101',
-                'AutoraceRaceIdの形式ではありません',
+                'autoraceRaceIdの形式ではありません',
             ],
-            ['autorace202108010', 'AutoraceRaceIdの形式ではありません'],
+            ['autorace202108010', 'autoraceRaceIdの形式ではありません'],
             ['jra202108010101', 'autoraceから始まる必要があります'],
             [
                 'autorace202108010113',
@@ -332,7 +336,9 @@ describe('AutoraceRaceIdSchema', () => {
             ],
         ];
         for (const [invalidId, message] of invalidAutoraceRaceIdAndMessage) {
-            expect(() => validateAutoraceRaceId(invalidId)).toThrow(message);
+            expect(() => validateRaceId(RaceType.AUTORACE, invalidId)).toThrow(
+                message,
+            );
         }
     });
 });

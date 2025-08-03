@@ -4,14 +4,14 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import type { AutoraceRaceData } from '../../domain/autoraceRaceData';
-import type { AutoraceRacePlayerData } from '../../domain/autoraceRacePlayerData';
 import { CalendarData } from '../../domain/calendarData';
-import { AutoraceRacePlayerRecord } from '../../gateway/record/autoraceRacePlayerRecord';
+import type { RacePlayerData } from '../../domain/racePlayerData';
 import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
+import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import {
     type AutoraceRaceId,
-    validateAutoraceRaceId,
-} from '../../utility/data/autorace/autoraceRaceId';
+    validateRaceId,
+} from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getAutoraceGoogleCalendarColorId } from '../../utility/googleCalendar';
@@ -39,7 +39,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     private constructor(
         public readonly id: AutoraceRaceId,
         public readonly raceData: AutoraceRaceData,
-        public readonly racePlayerDataList: AutoraceRacePlayerData[],
+        public readonly racePlayerDataList: RacePlayerData[],
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -53,11 +53,11 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     public static create(
         id: string,
         raceData: AutoraceRaceData,
-        racePlayerDataList: AutoraceRacePlayerData[],
+        racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): AutoraceRaceEntity {
         return new AutoraceRaceEntity(
-            validateAutoraceRaceId(id),
+            validateRaceId(RaceType.AUTORACE, id),
             raceData,
             racePlayerDataList,
             validateUpdateDate(updateDate),
@@ -72,7 +72,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
      */
     public static createWithoutId(
         raceData: AutoraceRaceData,
-        racePlayerDataList: AutoraceRacePlayerData[],
+        racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): AutoraceRaceEntity {
         return AutoraceRaceEntity.create(
@@ -167,15 +167,16 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     /**
      * AutoraceRacePlayerRecordに変換する
      */
-    public toPlayerRecordList(): AutoraceRacePlayerRecord[] {
+    public toPlayerRecordList(): RacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
-            AutoraceRacePlayerRecord.create(
+            RacePlayerRecord.create(
                 generateAutoraceRacePlayerId(
                     this.raceData.dateTime,
                     this.raceData.location,
                     this.raceData.number,
                     playerData.positionNumber,
                 ),
+                RaceType.AUTORACE,
                 this.id,
                 playerData.positionNumber,
                 playerData.playerNumber,

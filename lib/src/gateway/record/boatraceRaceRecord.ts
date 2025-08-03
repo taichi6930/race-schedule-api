@@ -1,10 +1,6 @@
 import '../../utility/format';
 
 import {
-    type BoatraceRaceId,
-    validateBoatraceRaceId,
-} from '../../utility/data/boatrace/boatraceRaceId';
-import {
     type BoatraceRaceStage,
     validateBoatraceRaceStage,
 } from '../../utility/data/boatrace/boatraceRaceStage';
@@ -18,6 +14,8 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
+import type { RaceId } from '../../utility/data/common/raceId';
+import { validateRaceId } from '../../utility/data/common/raceId';
 import {
     type RaceName,
     validateRaceName,
@@ -50,7 +48,7 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: BoatraceRaceId,
+        public readonly id: RaceId,
         public readonly name: RaceName,
         public readonly stage: BoatraceRaceStage,
         public readonly dateTime: RaceDateTime,
@@ -83,7 +81,7 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
     ): BoatraceRaceRecord {
         try {
             return new BoatraceRaceRecord(
-                validateBoatraceRaceId(id),
+                validateRaceId(RaceType.BOATRACE, id),
                 validateRaceName(name),
                 validateBoatraceRaceStage(stage),
                 validateRaceDateTime(dateTime),

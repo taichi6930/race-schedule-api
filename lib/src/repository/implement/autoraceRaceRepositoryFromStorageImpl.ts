@@ -3,12 +3,13 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
-import { AutoraceRacePlayerData } from '../../domain/autoraceRacePlayerData';
+import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { AutoraceRacePlayerRecord } from '../../gateway/record/autoraceRacePlayerRecord';
 import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
+import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -28,7 +29,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
         @inject('AutoraceRaceS3Gateway')
         private readonly raceS3Gateway: IS3Gateway<AutoraceRaceRecord>,
         @inject('AutoraceRacePlayerS3Gateway')
-        private readonly racePlayerS3Gateway: IS3Gateway<AutoraceRacePlayerRecord>,
+        private readonly racePlayerS3Gateway: IS3Gateway<RacePlayerRecord>,
     ) {}
 
     /**
@@ -40,7 +41,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
         searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
     ): Promise<AutoraceRaceEntity[]> {
         // ファイル名リストからオートレース選手データを取得する
-        const racePlayerRecordList: AutoraceRacePlayerRecord[] =
+        const racePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
         // レースデータを取得する
@@ -51,14 +52,15 @@ export class AutoraceRaceRepositoryFromStorageImpl
         const raceEntityList: AutoraceRaceEntity[] = raceRaceRecordList.map(
             (raceRecord) => {
                 // raceIdに対応したracePlayerRecordListを取得
-                const filteredRacePlayerRecordList: AutoraceRacePlayerRecord[] =
+                const filteredRacePlayerRecordList: RacePlayerRecord[] =
                     racePlayerRecordList.filter((racePlayerRecord) => {
                         return racePlayerRecord.raceId === raceRecord.id;
                     });
                 // AutoraceRacePlayerDataのリストを生成
-                const racePlayerDataList: AutoraceRacePlayerData[] =
+                const racePlayerDataList: RacePlayerData[] =
                     filteredRacePlayerRecordList.map((racePlayerRecord) => {
-                        return AutoraceRacePlayerData.create(
+                        return RacePlayerData.create(
+                            RaceType.AUTORACE,
                             racePlayerRecord.positionNumber,
                             racePlayerRecord.playerNumber,
                         );
@@ -103,7 +105,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
         const existFetchRaceRecordList: AutoraceRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
-        const existFetchRacePlayerRecordList: AutoraceRacePlayerRecord[] =
+        const existFetchRacePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
@@ -223,9 +225,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
      * レースプレイヤーデータをS3から取得する
      */
     @Logger
-    private async getRacePlayerRecordListFromS3(): Promise<
-        AutoraceRacePlayerRecord[]
-    > {
+    private async getRacePlayerRecordListFromS3(): Promise<RacePlayerRecord[]> {
         // S3からデータを取得する
         const csv = await this.racePlayerS3Gateway.fetchDataFromS3(
             this.racePlayerListFileName,
@@ -251,9 +251,9 @@ export class AutoraceRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してAutoraceRaceDataのリストを生成
-        const autoraceRacePlayerRecordList: AutoraceRacePlayerRecord[] = lines
+        const autoraceRacePlayerRecordList: RacePlayerRecord[] = lines
             .slice(1)
-            .flatMap((line: string): AutoraceRacePlayerRecord[] => {
+            .flatMap((line: string): RacePlayerRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -262,8 +262,9 @@ export class AutoraceRaceRepositoryFromStorageImpl
                         : getJSTDate(new Date());
 
                     return [
-                        AutoraceRacePlayerRecord.create(
+                        RacePlayerRecord.create(
                             columns[indices.id],
+                            RaceType.AUTORACE,
                             columns[indices.raceId],
                             Number.parseInt(columns[indices.positionNumber]),
                             Number.parseInt(columns[indices.playerNumber]),

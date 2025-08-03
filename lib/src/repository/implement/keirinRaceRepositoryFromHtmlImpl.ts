@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
-import { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
+import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { KeirinGradeType } from '../../utility/data/common/gradeType';
 import {
@@ -118,7 +118,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                             raceStage ?? '',
                             new Date(year, month - 1, day),
                         );
-                        const racePlayerDataList: KeirinRacePlayerData[] = [];
+                        const racePlayerDataList: RacePlayerData[] = [];
                         // tableを取得
                         const table = $(element).find('table');
                         // class="bg-1-pl", "bg-2-pl"..."bg-9-pl"を取得
@@ -143,7 +143,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                         ?.split('=')[1] ?? null;
                                 if (positionNumber && playerNumber !== null) {
                                     racePlayerDataList.push(
-                                        KeirinRacePlayerData.create(
+                                        RacePlayerData.create(
+                                            RaceType.KEIRIN,
                                             Number(positionNumber),
                                             Number(playerNumber),
                                         ),

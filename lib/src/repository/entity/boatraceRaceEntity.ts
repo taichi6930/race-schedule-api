@@ -4,14 +4,14 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import type { BoatraceRaceData } from '../../domain/boatraceRaceData';
-import type { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
 import { CalendarData } from '../../domain/calendarData';
-import { BoatraceRacePlayerRecord } from '../../gateway/record/boatraceRacePlayerRecord';
+import type { RacePlayerData } from '../../domain/racePlayerData';
 import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
+import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import {
     type BoatraceRaceId,
-    validateBoatraceRaceId,
-} from '../../utility/data/boatrace/boatraceRaceId';
+    validateRaceId,
+} from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getBoatraceGoogleCalendarColorId } from '../../utility/googleCalendar';
@@ -39,7 +39,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     private constructor(
         public readonly id: BoatraceRaceId,
         public readonly raceData: BoatraceRaceData,
-        public readonly racePlayerDataList: BoatraceRacePlayerData[],
+        public readonly racePlayerDataList: RacePlayerData[],
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -53,11 +53,11 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     public static create(
         id: string,
         raceData: BoatraceRaceData,
-        racePlayerDataList: BoatraceRacePlayerData[],
+        racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): BoatraceRaceEntity {
         return new BoatraceRaceEntity(
-            validateBoatraceRaceId(id),
+            validateRaceId(RaceType.BOATRACE, id),
             raceData,
             racePlayerDataList,
             validateUpdateDate(updateDate),
@@ -72,7 +72,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
      */
     public static createWithoutId(
         raceData: BoatraceRaceData,
-        racePlayerDataList: BoatraceRacePlayerData[],
+        racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): BoatraceRaceEntity {
         return BoatraceRaceEntity.create(
@@ -167,15 +167,16 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     /**
      * BoatraceRacePlayerRecordに変換する
      */
-    public toPlayerRecordList(): BoatraceRacePlayerRecord[] {
+    public toPlayerRecordList(): RacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
-            BoatraceRacePlayerRecord.create(
+            RacePlayerRecord.create(
                 generateBoatraceRacePlayerId(
                     this.raceData.dateTime,
                     this.raceData.location,
                     this.raceData.number,
                     playerData.positionNumber,
                 ),
+                RaceType.BOATRACE,
                 this.id,
                 playerData.positionNumber,
                 playerData.playerNumber,

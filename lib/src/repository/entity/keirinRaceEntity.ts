@@ -5,14 +5,12 @@ import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
-import type { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
-import { KeirinRacePlayerRecord } from '../../gateway/record/keirinRacePlayerRecord';
+import type { RacePlayerData } from '../../domain/racePlayerData';
 import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
+import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import { KeirinPlaceCodeMap } from '../../utility/data/common/raceCourse';
-import {
-    type KeirinRaceId,
-    validateKeirinRaceId,
-} from '../../utility/data/keirin/keirinRaceId';
+import type { RaceId } from '../../utility/data/common/raceId';
+import { validateRaceId } from '../../utility/data/common/raceId';
 import {
     getYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
@@ -42,9 +40,9 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: KeirinRaceId,
+        public readonly id: RaceId,
         public readonly raceData: KeirinRaceData,
-        public readonly racePlayerDataList: KeirinRacePlayerData[],
+        public readonly racePlayerDataList: RacePlayerData[],
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -58,11 +56,11 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     public static create(
         id: string,
         raceData: KeirinRaceData,
-        racePlayerDataList: KeirinRacePlayerData[],
+        racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): KeirinRaceEntity {
         return new KeirinRaceEntity(
-            validateKeirinRaceId(id),
+            validateRaceId(RaceType.KEIRIN, id),
             raceData,
             racePlayerDataList,
             validateUpdateDate(updateDate),
@@ -77,7 +75,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      */
     public static createWithoutId(
         raceData: KeirinRaceData,
-        racePlayerDataList: KeirinRacePlayerData[],
+        racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): KeirinRaceEntity {
         return KeirinRaceEntity.create(
@@ -186,15 +184,16 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     /**
      * KeirinRacePlayerRecordに変換する
      */
-    public toPlayerRecordList(): KeirinRacePlayerRecord[] {
+    public toPlayerRecordList(): RacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
-            KeirinRacePlayerRecord.create(
+            RacePlayerRecord.create(
                 generateKeirinRacePlayerId(
                     this.raceData.dateTime,
                     this.raceData.location,
                     this.raceData.number,
                     playerData.positionNumber,
                 ),
+                RaceType.KEIRIN,
                 this.id,
                 playerData.positionNumber,
                 playerData.playerNumber,

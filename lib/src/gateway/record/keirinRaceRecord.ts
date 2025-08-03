@@ -10,6 +10,8 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
+import type { KeirinRaceId } from '../../utility/data/common/raceId';
+import { validateRaceId } from '../../utility/data/common/raceId';
 import {
     type RaceName,
     validateRaceName,
@@ -18,10 +20,6 @@ import {
     type RaceNumber,
     validateRaceNumber,
 } from '../../utility/data/common/raceNumber';
-import {
-    type KeirinRaceId,
-    validateKeirinRaceId,
-} from '../../utility/data/keirin/keirinRaceId';
 import {
     type KeirinRaceStage,
     validateKeirinRaceStage,
@@ -82,8 +80,9 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
         updateDate: Date,
     ): KeirinRaceRecord {
         try {
+            console.log(id);
             return new KeirinRaceRecord(
-                validateKeirinRaceId(id),
+                validateRaceId(RaceType.KEIRIN, id),
                 validateRaceName(name),
                 validateKeirinRaceStage(stage),
                 validateRaceDateTime(dateTime),

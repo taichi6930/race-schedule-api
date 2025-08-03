@@ -1,10 +1,10 @@
 import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
-import { BoatraceRacePlayerData } from '../../../../lib/src/domain/boatraceRacePlayerData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
-import { BoatraceRacePlayerRecord } from '../../../../lib/src/gateway/record/boatraceRacePlayerRecord';
 import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceRaceRecord';
+import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { BoatraceRaceStage } from '../../../../lib/src/utility/data/boatrace/boatraceRaceStage';
@@ -75,7 +75,8 @@ export const baseBoatracePlaceEntity = BoatracePlaceEntity.createWithoutId(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatraceRacePlayerData = BoatraceRacePlayerData.create(
+export const baseBoatraceRacePlayerData = RacePlayerData.create(
+    RaceType.BOATRACE,
     1,
     10000,
 );
@@ -83,7 +84,7 @@ export const baseBoatraceRacePlayerData = BoatraceRacePlayerData.create(
 export const baseBoatraceRacePlayerDataList = Array.from(
     { length: 6 },
     (_, i) => {
-        return BoatraceRacePlayerData.create(i + 1, i + 1);
+        return RacePlayerData.create(RaceType.BOATRACE, i + 1, i + 1);
     },
 );
 
@@ -93,13 +94,14 @@ export const baseBoatraceRaceEntity = BoatraceRaceEntity.createWithoutId(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatraceRacePlayerRecord = BoatraceRacePlayerRecord.create(
+export const baseBoatraceRacePlayerRecord = RacePlayerRecord.create(
     generateBoatraceRacePlayerId(
         baseBoatracePlaceDateTime,
         baseBoatracePlaceCourse,
         baseBoatraceRaceNumber,
         1,
     ),
+    RaceType.BOATRACE,
     generateBoatraceRaceId(
         baseRaceDateTime,
         baseBoatracePlaceCourse,
@@ -141,7 +143,7 @@ export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
             index + 1,
         );
         const racePlayerDataList = Array.from({ length: 6 }, (_, i) => {
-            return BoatraceRacePlayerData.create(i + 1, i + 1);
+            return RacePlayerData.create(RaceType.BOATRACE, i + 1, i + 1);
         });
         return BoatraceRaceEntity.createWithoutId(
             raceData,

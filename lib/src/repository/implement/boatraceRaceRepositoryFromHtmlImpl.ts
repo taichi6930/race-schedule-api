@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
-import { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
+import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import {
     BoatraceRaceStage,
@@ -107,7 +107,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             const minute = Number.parseInt(minuteString);
 
             // TODO: 選手情報を取得する
-            const racePlayerDataList: BoatraceRacePlayerData[] = [];
+            const racePlayerDataList: RacePlayerData[] = [];
 
             boatraceRaceEntityList.push(
                 BoatraceRaceEntity.createWithoutId(
