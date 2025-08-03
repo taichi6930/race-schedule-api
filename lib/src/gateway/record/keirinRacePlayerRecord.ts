@@ -4,10 +4,10 @@ import {
     type KeirinPositionNumber,
     validatePositionNumber,
 } from '../../utility/data/common/positionNumber';
+import type { KeirinRaceId } from '../../utility/data/common/raceId';
+import { validateRaceId } from '../../utility/data/common/raceId';
 import type { RacePlayerId } from '../../utility/data/common/racePlayerId';
 import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
-import type { KeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
-import { validateKeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
 import type { PlayerNumber } from '../../utility/data/playerNumber';
 import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';
@@ -56,7 +56,7 @@ export class KeirinRacePlayerRecord implements IRecord<KeirinRacePlayerRecord> {
         try {
             return new KeirinRacePlayerRecord(
                 validateRacePlayerId(RaceType.KEIRIN, id),
-                validateKeirinRaceId(raceId),
+                validateRaceId(RaceType.KEIRIN, raceId),
                 validatePositionNumber(RaceType.KEIRIN, positionNumber),
                 validatePlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),

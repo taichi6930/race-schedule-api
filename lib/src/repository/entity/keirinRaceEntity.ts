@@ -11,8 +11,8 @@ import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
 import { KeirinPlaceCodeMap } from '../../utility/data/common/raceCourse';
 import {
     type KeirinRaceId,
-    validateKeirinRaceId,
-} from '../../utility/data/keirin/keirinRaceId';
+    validateRaceId,
+} from '../../utility/data/common/raceId';
 import {
     getYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
@@ -62,7 +62,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
         updateDate: Date,
     ): KeirinRaceEntity {
         return new KeirinRaceEntity(
-            validateKeirinRaceId(id),
+            validateRaceId(RaceType.KEIRIN, id),
             raceData,
             racePlayerDataList,
             validateUpdateDate(updateDate),

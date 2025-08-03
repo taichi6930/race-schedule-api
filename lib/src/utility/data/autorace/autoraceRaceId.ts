@@ -14,7 +14,7 @@ const AutoraceRaceIdSchema = z
     // autoraceの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
     .refine((value) => {
         return /^autorace\d{12}$/.test(value);
-    }, 'AutoraceRaceIdの形式ではありません')
+    }, 'autoraceRaceIdの形式ではありません')
     // レース番号は1~12の範囲
     .refine((value) => {
         const raceNumber = Number.parseInt(value.slice(-2));
