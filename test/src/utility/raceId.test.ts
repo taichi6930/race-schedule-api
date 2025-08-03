@@ -183,14 +183,14 @@ describe('KeirinRacePlayerIdSchema', () => {
 
     it('不正なKeirinRacePlayerId', () => {
         const invalidKeirinRacePlayerIdAndMessage = [
-            ['keirinabc202108010101', 'KeirinRacePlayerIdの形式ではありません'],
+            ['keirinabc202108010101', 'keirinRacePlayerIdの形式ではありません'],
             [
                 'keirin2021keirin08010101',
-                'KeirinRacePlayerIdの形式ではありません',
+                'keirinRacePlayerIdの形式ではありません',
             ],
-            ['keirin202108010101', 'KeirinRacePlayerIdの形式ではありません'],
+            ['keirin202108010101', 'keirinRacePlayerIdの形式ではありません'],
             ['jra20210801010101', 'keirinから始まる必要があります'],
-            ['keirin20210801010113', '枠番は1~9の範囲である必要があります'],
+            ['keirin20210801010113', '枠番が不正です'],
         ];
         for (const [
             invalidId,
@@ -264,18 +264,18 @@ describe('BoatraceRacePlayerIdSchema', () => {
         const invalidBoatraceRacePlayerIdAndMessage = [
             [
                 'boatraceabc202108010101',
-                'BoatraceRacePlayerIdの形式ではありません',
+                'boatraceRacePlayerIdの形式ではありません',
             ],
             [
                 'boatrace2021boatrace08010101',
-                'BoatraceRacePlayerIdの形式ではありません',
+                'boatraceRacePlayerIdの形式ではありません',
             ],
             [
                 'boatrace202108010101',
-                'BoatraceRacePlayerIdの形式ではありません',
+                'boatraceRacePlayerIdの形式ではありません',
             ],
             ['jra20210801010101', 'boatraceから始まる必要があります'],
-            ['boatrace20210801010113', '枠番は1~6の範囲である必要があります'],
+            ['boatrace20210801010113', '枠番が不正です'],
         ];
         for (const [
             invalidId,
@@ -349,18 +349,18 @@ describe('AutoraceRacePlayerIdSchema', () => {
         const invalidAutoraceRacePlayerIdAndMessage = [
             [
                 'autoraceabc202108010101',
-                'AutoraceRacePlayerIdの形式ではありません',
+                'autoraceRacePlayerIdの形式ではありません',
             ],
             [
                 'autorace2021autorace08010101',
-                'AutoraceRacePlayerIdの形式ではありません',
+                'autoraceRacePlayerIdの形式ではありません',
             ],
             [
                 'autorace202108010101',
-                'AutoraceRacePlayerIdの形式ではありません',
+                'autoraceRacePlayerIdの形式ではありません',
             ],
             ['jra20210801010101', 'autoraceから始まる必要があります'],
-            ['autorace20210801010113', '枠番は1~8の範囲である必要があります'],
+            ['autorace20210801010113', '枠番が不正です'],
         ];
         for (const [
             invalidId,
