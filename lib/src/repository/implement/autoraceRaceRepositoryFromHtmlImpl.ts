@@ -6,8 +6,10 @@ import { inject, injectable } from 'tsyringe';
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { AutoraceStageMap } from '../../utility/data/autorace/autoraceRaceStage';
-import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
+import {
+    AutoraceRaceStage,
+    AutoraceStageMap,
+} from '../../utility/data/autorace/autoraceRaceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -133,7 +135,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
             });
             return autoraceRaceDataList;
         } catch (error) {
-            console.error('htmlを取得できませんでした', error);
+            console.error('HTMLの取得に失敗しました', error);
             return [];
         }
     }

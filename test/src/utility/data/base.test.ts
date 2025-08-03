@@ -1,6 +1,6 @@
 import { RaceStageSchema } from '../../../../lib/src/utility/data/base';
 import { GradeTypeSchema } from '../../../../lib/src/utility/data/common/gradeType';
-import { RaceCourseSchema } from '../../../../lib/src/utility/data/common/raceCourse';
+import { UnionRaceCourseSchema } from '../../../../lib/src/utility/data/common/raceCourse';
 
 describe('GradeType', () => {
     it('GradeTypeに適した値を入力すると、その値が返却される', () => {
@@ -13,7 +13,7 @@ describe('GradeType', () => {
 describe('RaceCourse', () => {
     it('RaceCourseに適した値を入力すると、その値が返却される', () => {
         const value = '東京';
-        const actual = RaceCourseSchema.parse(value);
+        const actual = UnionRaceCourseSchema.parse(value);
         expect(actual).toBe(value);
     });
 });

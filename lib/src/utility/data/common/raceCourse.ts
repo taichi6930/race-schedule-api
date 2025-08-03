@@ -3,32 +3,381 @@ import { z } from 'zod';
 import { RaceType } from '../../raceType';
 
 /**
+ * RaceCourseのマスターデータ
+ */
+const RaceCourseMasterList: {
+    raceType: RaceType;
+    placeName: string;
+    placeCode: string;
+}[] = [
+    // Autorace
+    { raceType: RaceType.AUTORACE, placeName: '船橋', placeCode: '01' },
+    { raceType: RaceType.AUTORACE, placeName: '川口', placeCode: '02' },
+    { raceType: RaceType.AUTORACE, placeName: '伊勢崎', placeCode: '03' },
+    { raceType: RaceType.AUTORACE, placeName: '浜松', placeCode: '04' },
+    { raceType: RaceType.AUTORACE, placeName: '飯塚', placeCode: '05' },
+    { raceType: RaceType.AUTORACE, placeName: '山陽', placeCode: '06' },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ロンシャン',
+        placeCode: 'longchamp',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'パリロンシャン',
+        placeCode: 'longchamp',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'シャンティイ',
+        placeCode: 'chantilly',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'サンクルー',
+        placeCode: 'saintcloud',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ドーヴィル',
+        placeCode: 'deauville',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'アスコット',
+        placeCode: 'ascot',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ニューマーケット',
+        placeCode: 'newmarket',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ニューベリー',
+        placeCode: 'newbury',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'エプソム',
+        placeCode: 'epsom',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'グッドウッド',
+        placeCode: 'goodwood',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'サンダウン',
+        placeCode: 'sandown',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ヨーク',
+        placeCode: 'york',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ヘイドック',
+        placeCode: 'haydock',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ドンカスター',
+        placeCode: 'doncaster',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'レパーズタウン',
+        placeCode: 'leopardstown',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'カラ',
+        placeCode: 'curragh',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ガルフストリームパーク',
+        placeCode: 'gulfstreampark',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'サンタアニタパーク',
+        placeCode: 'santaanitapark',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'チャーチルダウンズ',
+        placeCode: 'churchill-downs',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ピムリコ',
+        placeCode: 'pimlico',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'サラトガ',
+        placeCode: 'saratoga',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'アケダクト',
+        placeCode: 'aqueduct',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'モンマスパーク',
+        placeCode: 'monmouthpark',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ベルモントパーク',
+        placeCode: 'belmontpark',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'コロニアルダウンズ',
+        placeCode: 'colonial-downs',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'デルマー',
+        placeCode: 'delmar',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'パークスレーシング',
+        placeCode: 'parxracing',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'キーンランド',
+        placeCode: 'keeneland',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'オークローンパーク',
+        placeCode: 'oaklawnpark',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ミュンヘン',
+        placeCode: 'munich',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ホッペガルテン',
+        placeCode: 'hoppegarten',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'バーデンバーデン',
+        placeCode: 'badenbaden',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'シャティン',
+        placeCode: 'shatin',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'キングアブドゥルアジーズ',
+        placeCode: 'king-abdulaziz',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'メイダン',
+        placeCode: 'meydan',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ランドウィック',
+        placeCode: 'randwick',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'コーフィールド',
+        placeCode: 'caulfield',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'フレミントン',
+        placeCode: 'flemington',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'メルボルン',
+        placeCode: 'melbourne',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ムーニーバレー',
+        placeCode: 'mooneevalley',
+    },
+    {
+        raceType: RaceType.WORLD,
+        placeName: 'ローズヒルガーデンズ',
+        placeCode: 'rosehill-gardens',
+    },
+    { raceType: RaceType.KEIRIN, placeName: '函館', placeCode: '11' },
+    { raceType: RaceType.KEIRIN, placeName: '青森', placeCode: '12' },
+    { raceType: RaceType.KEIRIN, placeName: 'いわき平', placeCode: '13' },
+    { raceType: RaceType.KEIRIN, placeName: '弥彦', placeCode: '21' },
+    { raceType: RaceType.KEIRIN, placeName: '前橋', placeCode: '22' },
+    { raceType: RaceType.KEIRIN, placeName: '取手', placeCode: '23' },
+    { raceType: RaceType.KEIRIN, placeName: '宇都宮', placeCode: '24' },
+    { raceType: RaceType.KEIRIN, placeName: '大宮', placeCode: '25' },
+    { raceType: RaceType.KEIRIN, placeName: '西武園', placeCode: '26' },
+    { raceType: RaceType.KEIRIN, placeName: '京王閣', placeCode: '27' },
+    { raceType: RaceType.KEIRIN, placeName: '立川', placeCode: '28' },
+    { raceType: RaceType.KEIRIN, placeName: '松戸', placeCode: '31' },
+    { raceType: RaceType.KEIRIN, placeName: '千葉', placeCode: '32' },
+    { raceType: RaceType.KEIRIN, placeName: '川崎', placeCode: '34' },
+    { raceType: RaceType.KEIRIN, placeName: '平塚', placeCode: '35' },
+    { raceType: RaceType.KEIRIN, placeName: '小田原', placeCode: '36' },
+    { raceType: RaceType.KEIRIN, placeName: '伊東', placeCode: '37' },
+    { raceType: RaceType.KEIRIN, placeName: '静岡', placeCode: '38' },
+    { raceType: RaceType.KEIRIN, placeName: '名古屋', placeCode: '42' },
+    { raceType: RaceType.KEIRIN, placeName: '岐阜', placeCode: '43' },
+    { raceType: RaceType.KEIRIN, placeName: '大垣', placeCode: '44' },
+    { raceType: RaceType.KEIRIN, placeName: '豊橋', placeCode: '45' },
+    { raceType: RaceType.KEIRIN, placeName: '富山', placeCode: '46' },
+    { raceType: RaceType.KEIRIN, placeName: '松阪', placeCode: '47' },
+    { raceType: RaceType.KEIRIN, placeName: '四日市', placeCode: '48' },
+    { raceType: RaceType.KEIRIN, placeName: '福井', placeCode: '51' },
+    { raceType: RaceType.KEIRIN, placeName: '奈良', placeCode: '53' },
+    { raceType: RaceType.KEIRIN, placeName: '向日町', placeCode: '54' },
+    { raceType: RaceType.KEIRIN, placeName: '和歌山', placeCode: '55' },
+    { raceType: RaceType.KEIRIN, placeName: '岸和田', placeCode: '56' },
+    { raceType: RaceType.KEIRIN, placeName: '玉野', placeCode: '61' },
+    { raceType: RaceType.KEIRIN, placeName: '広島', placeCode: '62' },
+    { raceType: RaceType.KEIRIN, placeName: '防府', placeCode: '63' },
+    { raceType: RaceType.KEIRIN, placeName: '高松', placeCode: '71' },
+    { raceType: RaceType.KEIRIN, placeName: '小松島', placeCode: '73' },
+    { raceType: RaceType.KEIRIN, placeName: '高知', placeCode: '74' },
+    { raceType: RaceType.KEIRIN, placeName: '松山', placeCode: '75' },
+    { raceType: RaceType.KEIRIN, placeName: '小倉', placeCode: '81' },
+    { raceType: RaceType.KEIRIN, placeName: '久留米', placeCode: '83' },
+    { raceType: RaceType.KEIRIN, placeName: '武雄', placeCode: '84' },
+    { raceType: RaceType.KEIRIN, placeName: '佐世保', placeCode: '85' },
+    { raceType: RaceType.KEIRIN, placeName: '別府', placeCode: '86' },
+    { raceType: RaceType.KEIRIN, placeName: '熊本', placeCode: '87' },
+    { raceType: RaceType.NAR, placeName: '北見ば', placeCode: '1' },
+    { raceType: RaceType.NAR, placeName: '岩見ば', placeCode: '2' },
+    { raceType: RaceType.NAR, placeName: '帯広ば', placeCode: '3' },
+    { raceType: RaceType.NAR, placeName: '旭川ば', placeCode: '4' },
+    { raceType: RaceType.NAR, placeName: '旭川', placeCode: '7' },
+    { raceType: RaceType.NAR, placeName: '門別ば', placeCode: '36' },
+    { raceType: RaceType.NAR, placeName: '札幌', placeCode: '8' },
+    { raceType: RaceType.NAR, placeName: '盛岡', placeCode: '10' },
+    { raceType: RaceType.NAR, placeName: '水沢', placeCode: '11' },
+    { raceType: RaceType.NAR, placeName: '上山', placeCode: '12' },
+    { raceType: RaceType.NAR, placeName: '新潟', placeCode: '13' },
+    { raceType: RaceType.NAR, placeName: '三条', placeCode: '14' },
+    { raceType: RaceType.NAR, placeName: '足利', placeCode: '15' },
+    { raceType: RaceType.NAR, placeName: '宇都宮', placeCode: '16' },
+    { raceType: RaceType.NAR, placeName: '高崎', placeCode: '17' },
+    { raceType: RaceType.NAR, placeName: '浦和', placeCode: '18' },
+    { raceType: RaceType.NAR, placeName: '船橋', placeCode: '19' },
+    { raceType: RaceType.NAR, placeName: '大井', placeCode: '20' },
+    { raceType: RaceType.NAR, placeName: '川崎', placeCode: '21' },
+    { raceType: RaceType.NAR, placeName: '金沢', placeCode: '22' },
+    { raceType: RaceType.NAR, placeName: '笠松', placeCode: '23' },
+    { raceType: RaceType.NAR, placeName: '名古屋', placeCode: '24' },
+    { raceType: RaceType.NAR, placeName: '中京', placeCode: '25' },
+    { raceType: RaceType.NAR, placeName: '園田', placeCode: '27' },
+    { raceType: RaceType.NAR, placeName: '姫路', placeCode: '28' },
+    { raceType: RaceType.NAR, placeName: '益田', placeCode: '29' },
+    { raceType: RaceType.NAR, placeName: '福山', placeCode: '30' },
+    { raceType: RaceType.NAR, placeName: '高知', placeCode: '31' },
+    { raceType: RaceType.NAR, placeName: '佐賀', placeCode: '32' },
+    { raceType: RaceType.NAR, placeName: '荒尾', placeCode: '33' },
+    { raceType: RaceType.NAR, placeName: '中津', placeCode: '34' },
+    // 競艇
+    { raceType: RaceType.BOATRACE, placeName: '桐生', placeCode: '01' },
+    { raceType: RaceType.BOATRACE, placeName: '戸田', placeCode: '02' },
+    { raceType: RaceType.BOATRACE, placeName: '江戸川', placeCode: '03' },
+    { raceType: RaceType.BOATRACE, placeName: '平和島', placeCode: '04' },
+    { raceType: RaceType.BOATRACE, placeName: '多摩川', placeCode: '05' },
+    { raceType: RaceType.BOATRACE, placeName: '浜名湖', placeCode: '06' },
+    { raceType: RaceType.BOATRACE, placeName: '蒲郡', placeCode: '07' },
+    { raceType: RaceType.BOATRACE, placeName: '常滑', placeCode: '08' },
+    { raceType: RaceType.BOATRACE, placeName: '津', placeCode: '09' },
+    { raceType: RaceType.BOATRACE, placeName: '三国', placeCode: '10' },
+    { raceType: RaceType.BOATRACE, placeName: 'びわこ', placeCode: '11' },
+    { raceType: RaceType.BOATRACE, placeName: '住之江', placeCode: '12' },
+    { raceType: RaceType.BOATRACE, placeName: '尼崎', placeCode: '13' },
+    { raceType: RaceType.BOATRACE, placeName: '鳴門', placeCode: '14' },
+    { raceType: RaceType.BOATRACE, placeName: '丸亀', placeCode: '15' },
+    { raceType: RaceType.BOATRACE, placeName: '児島', placeCode: '16' },
+    { raceType: RaceType.BOATRACE, placeName: '宮島', placeCode: '17' },
+    { raceType: RaceType.BOATRACE, placeName: '徳山', placeCode: '18' },
+    { raceType: RaceType.BOATRACE, placeName: '下関', placeCode: '19' },
+    { raceType: RaceType.BOATRACE, placeName: '若松', placeCode: '20' },
+    { raceType: RaceType.BOATRACE, placeName: '芦屋', placeCode: '21' },
+    { raceType: RaceType.BOATRACE, placeName: '福岡', placeCode: '22' },
+    { raceType: RaceType.BOATRACE, placeName: '唐津', placeCode: '23' },
+    { raceType: RaceType.BOATRACE, placeName: '大村', placeCode: '24' },
+    { raceType: RaceType.JRA, placeName: '札幌', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '函館', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '福島', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '新潟', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '東京', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '中山', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '中京', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '京都', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '阪神', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '小倉', placeCode: '' },
+];
+
+/**
+ * 場リスト
+ * @param raceType
+ */
+const RaceCourseList = (raceType: RaceType): Set<string> =>
+    new Set(
+        RaceCourseMasterList.filter(
+            (course) => course.raceType === raceType,
+        ).map((course) => course.placeName),
+    );
+
+/**
+ * RaceCourseMasterListからraceTypeごとのPlaceCodeMapを生成するユーティリティ
+ * @param raceType - 生成対象のレース種別
+ * @returns placeName をキー、placeCode を値とするマップ
+ */
+export const createPlaceCodeMap = (
+    raceType: RaceType,
+): Record<string, string> => {
+    if (raceType === RaceType.JRA) {
+        throw new Error(
+            'JRAのレース場コード作成されていないため、使用できません',
+        );
+    }
+    const map: Record<string, string> = {};
+    for (const course of RaceCourseMasterList) {
+        if (course.raceType === raceType) {
+            map[course.placeName] = course.placeCode;
+        }
+    }
+    return map;
+};
+
+/**
  * JraRaceCourseのzod型定義
+ * @param raceType
+ * @param errorMessage
  */
-export const JraRaceCourseSchema = z.string().refine((value) => {
-    return JraRaceCourseList.has(value);
-}, '中央の競馬場ではありません');
-
-/**
- * JraRaceCourseの型定義
- */
-export type JraRaceCourse = z.infer<typeof JraRaceCourseSchema>;
-
-/**
- * JRAの競馬場 リスト
- */
-const JraRaceCourseList = new Set([
-    '札幌',
-    '函館',
-    '福島',
-    '新潟',
-    '東京',
-    '中山',
-    '中京',
-    '京都',
-    '阪神',
-    '小倉',
-]);
+export const createRaceCourseSchema = (
+    raceType: RaceType,
+    errorMessage: string,
+): z.ZodString =>
+    z.string().refine((value) => {
+        return RaceCourseList(raceType).has(value);
+    }, errorMessage);
 
 /**
  * 開催場のバリデーション
@@ -65,118 +414,52 @@ export const validateRaceCourse = (
 };
 
 /**
+ * オートレースのレース場名とコードの対応表（RaceCourseMasterListから自動生成）
+ */
+export const AutoracePlaceCodeMap: Record<string, string> = createPlaceCodeMap(
+    RaceType.AUTORACE,
+);
+
+/**
+ * JraRaceCourseのzod型定義
+ */
+const JraRaceCourseSchema = createRaceCourseSchema(
+    RaceType.JRA,
+    '中央の競馬場ではありません',
+);
+
+/**
+ * JraRaceCourseの型定義
+ */
+export type JraRaceCourse = z.infer<typeof JraRaceCourseSchema>;
+
+/**
  * 競輪のレース場名とコードの対応表
  */
-export const KeirinPlaceCodeMap: Record<string, string> = {
-    函館: '11',
-    青森: '12',
-    いわき平: '13',
-    弥彦: '21',
-    前橋: '22',
-    取手: '23',
-    宇都宮: '24',
-    大宮: '25',
-    西武園: '26',
-    京王閣: '27',
-    立川: '28',
-    松戸: '31',
-    千葉: '32',
-    川崎: '34',
-    平塚: '35',
-    小田原: '36',
-    伊東: '37',
-    静岡: '38',
-    名古屋: '42',
-    岐阜: '43',
-    大垣: '44',
-    豊橋: '45',
-    富山: '46',
-    松阪: '47',
-    四日市: '48',
-    福井: '51',
-    奈良: '53',
-    向日町: '54',
-    和歌山: '55',
-    岸和田: '56',
-    玉野: '61',
-    広島: '62',
-    防府: '63',
-    高松: '71',
-    小松島: '73',
-    高知: '74',
-    松山: '75',
-    小倉: '81',
-    久留米: '83',
-    武雄: '84',
-    佐世保: '85',
-    別府: '86',
-    熊本: '87',
-};
+export const KeirinPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
+    RaceType.KEIRIN,
+);
 
 /**
  * KeirinRaceCourseのzod型定義
  */
-export const KeirinRaceCourseSchema = z.string().refine((value) => {
-    return KeirinRaceCourseList.has(value);
-}, '競輪場ではありません');
+const KeirinRaceCourseSchema = createRaceCourseSchema(
+    RaceType.KEIRIN,
+    '競輪場ではありません',
+);
 
 /**
  * KeirinRaceCourseの型定義
  */
 export type KeirinRaceCourse = z.infer<typeof KeirinRaceCourseSchema>;
 
-const KeirinRaceCourseList = new Set([
-    '函館',
-    '青森',
-    'いわき平',
-    '弥彦',
-    '前橋',
-    '取手',
-    '宇都宮',
-    '大宮',
-    '西武園',
-    '京王閣',
-    '立川',
-    '松戸',
-    '千葉',
-    '川崎',
-    '平塚',
-    '小田原',
-    '伊東',
-    '静岡',
-    '名古屋',
-    '岐阜',
-    '大垣',
-    '豊橋',
-    '富山',
-    '松阪',
-    '四日市',
-    '福井',
-    '奈良',
-    '向日町',
-    '和歌山',
-    '岸和田',
-    '玉野',
-    '広島',
-    '防府',
-    '高松',
-    '小松島',
-    '高知',
-    '松山',
-    '小倉',
-    '久留米',
-    '武雄',
-    '佐世保',
-    '別府',
-    '熊本',
-]);
-
 /**
  * NarRaceCourseのzod型定義
  */
-export const NarRaceCourseSchema = z.string().refine((value) => {
-    return NarRaceCourseList.has(value);
-}, '地方の競馬場ではありません');
+const NarRaceCourseSchema = createRaceCourseSchema(
+    RaceType.NAR,
+    '地方の競馬場ではありません',
+);
 
 /**
  * NarRaceCourseの型定義
@@ -184,85 +467,19 @@ export const NarRaceCourseSchema = z.string().refine((value) => {
 export type NarRaceCourse = z.infer<typeof NarRaceCourseSchema>;
 
 /**
- * 地方の競馬場 リスト
- */
-const NarRaceCourseList = new Set([
-    '北見ば',
-    '岩見ば',
-    '帯広ば',
-    '旭川ば',
-    '旭川',
-    '門別',
-    '札幌',
-    '盛岡',
-    '水沢',
-    '上山',
-    '新潟',
-    '三条',
-    '足利',
-    '宇都宮',
-    '高崎',
-    '浦和',
-    '船橋',
-    '大井',
-    '川崎',
-    '金沢',
-    '笠松',
-    '名古屋',
-    '中京',
-    '園田',
-    '姫路',
-    '益田',
-    '福山',
-    '高知',
-    '佐賀',
-    '荒尾',
-    '中津',
-]);
-
-/**
  * 地方競馬のレース場名とコードの対応表
  */
-export const NarBabacodeMap: Record<string, string> = {
-    北見ば: '1',
-    岩見ば: '2',
-    帯広ば: '3',
-    旭川ば: '4',
-    旭川: '7',
-    門別: '36',
-    札幌: '8',
-    盛岡: '10',
-    水沢: '11',
-    上山: '12',
-    新潟: '13',
-    三条: '14',
-    足利: '15',
-    宇都宮: '16',
-    高崎: '17',
-    浦和: '18',
-    船橋: '19',
-    大井: '20',
-    川崎: '21',
-    金沢: '22',
-    笠松: '23',
-    名古屋: '24',
-    中京: '25',
-    園田: '27',
-    姫路: '28',
-    益田: '29',
-    福山: '30',
-    高知: '31',
-    佐賀: '32',
-    荒尾: '33',
-    中津: '34',
-};
+export const NarBabacodeMap: Record<string, string> = createPlaceCodeMap(
+    RaceType.NAR,
+);
 
 /**
  * WorldRaceCourseのzod型定義
  */
-export const WorldRaceCourseSchema = z.string().refine((value) => {
-    return WorldRaceCourseList.has(value);
-}, '海外の競馬場ではありません');
+const WorldRaceCourseSchema = createRaceCourseSchema(
+    RaceType.WORLD,
+    '海外の競馬場ではありません',
+);
 
 /**
  * WorldRaceCourseの型定義
@@ -270,105 +487,19 @@ export const WorldRaceCourseSchema = z.string().refine((value) => {
 export type WorldRaceCourse = z.infer<typeof WorldRaceCourseSchema>;
 
 /**
- * 海外競馬場 リスト
- */
-const WorldRaceCourseList = new Set([
-    'ロンシャン',
-    'パリロンシャン',
-    'シャンティイ',
-    'サンクルー',
-    'ドーヴィル',
-    'アスコット',
-    'ニューマーケット',
-    'ニューベリー',
-    'エプソム',
-    'グッドウッド',
-    'サンダウン',
-    'ヨーク',
-    'ヘイドック',
-    'ドンカスター',
-    'レパーズタウン',
-    'カラ',
-    'ガルフストリームパーク',
-    'サンタアニタパーク',
-    'チャーチルダウンズ',
-    'ピムリコ',
-    'サラトガ',
-    'アケダクト',
-    'モンマスパーク',
-    'ベルモントパーク',
-    'コロニアルダウンズ',
-    'デルマー',
-    'パークスレーシング',
-    'キーンランド',
-    'オークローンパーク',
-    'ミュンヘン',
-    'ホッペガルテン',
-    'バーデンバーデン',
-    'シャティン',
-    'キングアブドゥルアジーズ',
-    'メイダン',
-    'ランドウィック',
-    'コーフィールド',
-    'フレミントン',
-    'メルボルン',
-    'ムーニーバレー',
-    'ローズヒルガーデンズ',
-]);
-
-/**
  * 海外の競馬場のレース場名とコードの対応表
  */
-export const WorldPlaceCodeMap: Record<string, string> = {
-    ロンシャン: 'longchamp',
-    パリロンシャン: 'longchamp',
-    シャンティイ: 'chantilly',
-    サンクルー: 'saintcloud',
-    ドーヴィル: 'deauville',
-    アスコット: 'ascot',
-    ニューマーケット: 'newmarket',
-    ニューベリー: 'newbury',
-    エプソム: 'epsom',
-    グッドウッド: 'goodwood',
-    サンダウン: 'sandown',
-    ヨーク: 'york',
-    ヘイドック: 'haydock',
-    ドンカスター: 'doncaster',
-    レパーズタウン: 'leopardstown',
-    カラ: 'curragh',
-    ガルフストリームパーク: 'gulfstreampark',
-    サンタアニタパーク: 'santaanitapark',
-    チャーチルダウンズ: 'churchill-downs',
-    ピムリコ: 'pimlico',
-    サラトガ: 'saratoga',
-    アケダクト: 'aqueduct',
-    モンマスパーク: 'monmouthpark',
-    ベルモントパーク: 'belmontpark',
-    コロニアルダウンズ: 'colonial-downs',
-    デルマー: 'delmar',
-    パークスレーシング: 'parxracing',
-    キーンランド: 'keeneland',
-    オークローンパーク: 'oaklawnpark',
-    ミュンヘン: 'munich',
-    ホッペガルテン: 'hoppegarten',
-    バーデンバーデン: 'badenbaden',
-    シャティン: 'shatin',
-    キングアブドゥルアジーズ: 'king-abdulaziz',
-    メイダン: 'meydan',
-    ランドウィック: 'randwick',
-    コーフィールド: 'caulfield',
-    フレミントン: 'flemington',
-    メルボルン: 'melbourne',
-    ムーニーバレー: 'mooneevalley',
-    ローズヒルガーデンズ: 'rosehill-gardens',
-};
+export const WorldPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
+    RaceType.WORLD,
+);
 
 /**
  * AutoraceRaceCourseのzod型定義
  */
-export const AutoraceRaceCourseSchema = z.string().refine((value) => {
-    return AutoraceRaceCourseList.has(value);
-}, 'オートレース場ではありません');
+const AutoraceRaceCourseSchema = createRaceCourseSchema(
+    RaceType.AUTORACE,
+    'オートレース場ではありません',
+);
 
 /**
  * AutoraceRaceCourseの型定義
@@ -376,35 +507,12 @@ export const AutoraceRaceCourseSchema = z.string().refine((value) => {
 export type AutoraceRaceCourse = z.infer<typeof AutoraceRaceCourseSchema>;
 
 /**
- * オートレース場リスト
- */
-const AutoraceRaceCourseList = new Set([
-    '船橋',
-    '川口',
-    '伊勢崎',
-    '浜松',
-    '飯塚',
-    '山陽',
-]);
-
-/**
- * オートレースのレース場名とコードの対応表
- */
-export const AutoracePlaceCodeMap: Record<string, string> = {
-    船橋: '01',
-    川口: '02',
-    伊勢崎: '03',
-    浜松: '04',
-    飯塚: '05',
-    山陽: '06',
-};
-
-/**
  * BoatraceRaceCourseのzod型定義
  */
-export const BoatraceRaceCourseSchema = z.string().refine((value) => {
-    return BoatraceRaceCourseList.has(value);
-}, 'ボートレース場ではありません');
+const BoatraceRaceCourseSchema = createRaceCourseSchema(
+    RaceType.BOATRACE,
+    'ボートレース場ではありません',
+);
 
 /**
  * BoatraceRaceCourseの型定義
@@ -412,69 +520,16 @@ export const BoatraceRaceCourseSchema = z.string().refine((value) => {
 export type BoatraceRaceCourse = z.infer<typeof BoatraceRaceCourseSchema>;
 
 /**
- * ボートレース場リスト
- */
-const BoatraceRaceCourseList = new Set([
-    '桐生',
-    '戸田',
-    '江戸川',
-    '平和島',
-    '多摩川',
-    '浜名湖',
-    '蒲郡',
-    '常滑',
-    '津',
-    '三国',
-    'びわこ',
-    '住之江',
-    '尼崎',
-    '鳴門',
-    '丸亀',
-    '児島',
-    '宮島',
-    '徳山',
-    '下関',
-    '若松',
-    '芦屋',
-    '福岡',
-    '唐津',
-    '大村',
-]);
-
-/**
  * ボートレースのレース場名とコードの対応表
  */
-export const BoatracePlaceCodeMap: Record<string, string> = {
-    桐生: '01',
-    戸田: '02',
-    江戸川: '03',
-    平和島: '04',
-    多摩川: '05',
-    浜名湖: '06',
-    蒲郡: '07',
-    常滑: '08',
-    津: '09',
-    三国: '10',
-    びわこ: '11',
-    住之江: '12',
-    尼崎: '13',
-    鳴門: '14',
-    丸亀: '15',
-    児島: '16',
-    宮島: '17',
-    徳山: '18',
-    下関: '19',
-    若松: '20',
-    芦屋: '21',
-    福岡: '22',
-    唐津: '23',
-    大村: '24',
-};
+export const BoatracePlaceCodeMap: Record<string, string> = createPlaceCodeMap(
+    RaceType.BOATRACE,
+);
 
 /**
  * RaceCourseのzod型定義
  */
-export const RaceCourseSchema = z.union([
+export const UnionRaceCourseSchema = z.union([
     JraRaceCourseSchema,
     NarRaceCourseSchema,
     WorldRaceCourseSchema,
@@ -486,4 +541,4 @@ export const RaceCourseSchema = z.union([
 /**
  * RaceCourseの型定義
  */
-export type RaceCourse = z.infer<typeof RaceCourseSchema>;
+export type RaceCourse = z.infer<typeof UnionRaceCourseSchema>;

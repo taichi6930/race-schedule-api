@@ -125,7 +125,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             );
             return boatraceRaceEntityList;
         } catch (error) {
-            console.error('htmlを取得できませんでした', error);
+            console.error('HTMLの取得に失敗しました', error);
             return [];
         }
     }

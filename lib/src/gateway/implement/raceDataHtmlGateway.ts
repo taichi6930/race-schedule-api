@@ -2,11 +2,13 @@ import '../../utility/format';
 
 import { format } from 'date-fns';
 
-import { RaceCourse } from '../../utility/data/common/raceCourse';
-import { AutoracePlaceCodeMap } from '../../utility/data/common/raceCourse';
-import { BoatracePlaceCodeMap } from '../../utility/data/common/raceCourse';
-import { KeirinPlaceCodeMap } from '../../utility/data/common/raceCourse';
-import { NarBabacodeMap } from '../../utility/data/common/raceCourse';
+import {
+    AutoracePlaceCodeMap,
+    BoatracePlaceCodeMap,
+    KeirinPlaceCodeMap,
+    NarBabacodeMap,
+    RaceCourse,
+} from '../../utility/data/common/raceCourse';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
@@ -119,8 +121,8 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
             const htmlText = await html.text();
             return htmlText;
         } catch (error) {
-            console.debug('htmlを取得できませんでした', error);
-            throw new Error('htmlを取得できませんでした');
+            console.debug('HTMLの取得に失敗しました', error);
+            throw new Error('HTMLの取得に失敗しました');
         }
     }
 }

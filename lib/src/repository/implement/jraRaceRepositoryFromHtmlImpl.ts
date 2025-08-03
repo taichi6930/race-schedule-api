@@ -9,7 +9,7 @@ import {
     JraRaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import { JraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
+import { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -202,7 +202,7 @@ export class JraRaceRepositoryFromHtmlImpl
             });
             return jraRaceDataList;
         } catch (error) {
-            console.error('htmlを取得できませんでした', error);
+            console.error('HTMLの取得に失敗しました', error);
             return [];
         }
     }
@@ -306,7 +306,7 @@ export class JraRaceRepositoryFromHtmlImpl
      */
     private readonly extractSurfaceType = (
         surfaceTypeMatch: RegExpExecArray | null,
-    ): JraRaceCourseType | null => {
+    ): RaceCourseType | null => {
         // ダ である場合には ダート に、障 である場合には 障害 に変換する
         const surfaceType: string = (surfaceTypeMatch?.[0] ?? '')
             .replace('ダ', 'ダート')
@@ -329,7 +329,7 @@ export class JraRaceRepositoryFromHtmlImpl
      */
     private readonly extractRaceGradeAndRaceName = (
         tbodyTrTdElement1: string,
-        raceSurfaceType: JraRaceCourseType,
+        raceSurfaceType: RaceCourseType,
         rowRaceName: string,
     ): [JraGradeType, string] => {
         let raceGrade: JraGradeType | null = null;
