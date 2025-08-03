@@ -270,7 +270,7 @@ const RaceCourseMasterList: {
     { raceType: RaceType.NAR, placeName: '帯広ば', placeCode: '3' },
     { raceType: RaceType.NAR, placeName: '旭川ば', placeCode: '4' },
     { raceType: RaceType.NAR, placeName: '旭川', placeCode: '7' },
-    { raceType: RaceType.NAR, placeName: '門別ば', placeCode: '36' },
+    { raceType: RaceType.NAR, placeName: '門別', placeCode: '36' },
     { raceType: RaceType.NAR, placeName: '札幌', placeCode: '8' },
     { raceType: RaceType.NAR, placeName: '盛岡', placeCode: '10' },
     { raceType: RaceType.NAR, placeName: '水沢', placeCode: '11' },

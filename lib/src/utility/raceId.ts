@@ -2,10 +2,8 @@ import { format } from 'date-fns';
 
 import type { AutoracePlaceId } from './data/autorace/autoracePlaceId';
 import type { AutoraceRaceId } from './data/autorace/autoraceRaceId';
-import type { AutoraceRacePlayerId } from './data/autorace/autoraceRacePlayerId';
 import type { BoatracePlaceId } from './data/boatrace/boatracePlaceId';
 import type { BoatraceRaceId } from './data/boatrace/boatraceRaceId';
-import type { BoatraceRacePlayerId } from './data/boatrace/boatraceRacePlayerId';
 import type {
     AutoracePositionNumber,
     BoatracePositionNumber,
@@ -27,10 +25,10 @@ import {
 } from './data/common/raceCourse';
 import type { RaceDateTime } from './data/common/raceDateTime';
 import type { RaceNumber } from './data/common/raceNumber';
+import type { RacePlayerId } from './data/common/racePlayerId';
 import type { JraRaceId } from './data/jra/jraRaceId';
 import type { KeirinPlaceId } from './data/keirin/keirinPlaceId';
 import type { KeirinRaceId } from './data/keirin/keirinRaceId';
-import type { KeirinRacePlayerId } from './data/keirin/keirinRacePlayerId';
 import type { NarPlaceId } from './data/nar/narPlaceId';
 import type { NarRaceId } from './data/nar/narRaceId';
 import { NetkeibaBabacodeMap } from './data/netkeiba';
@@ -140,7 +138,7 @@ export const generateKeirinRacePlayerId = (
     location: KeirinRaceCourse,
     number: RaceNumber,
     positionNumber: KeirinPositionNumber,
-): KeirinRacePlayerId => {
+): RacePlayerId => {
     const positionNumberCode = positionNumber.toXDigits(2);
     return `${generateKeirinRaceId(dateTime, location, number)}${positionNumberCode}`;
 };
@@ -186,7 +184,7 @@ export const generateBoatraceRacePlayerId = (
     location: BoatraceRaceCourse,
     number: RaceNumber,
     positionNumber: BoatracePositionNumber,
-): BoatraceRacePlayerId => {
+): RacePlayerId => {
     const positionNumberCode = positionNumber.toXDigits(2);
     return `${generateBoatraceRaceId(dateTime, location, number)}${positionNumberCode}`;
 };
@@ -232,7 +230,7 @@ export const generateAutoraceRacePlayerId = (
     location: AutoraceRaceCourse,
     number: RaceNumber,
     positionNumber: AutoracePositionNumber,
-): AutoraceRacePlayerId => {
+): RacePlayerId => {
     const positionNumberCode = positionNumber.toXDigits(2);
     return `${generateAutoraceRaceId(dateTime, location, number)}${positionNumberCode}`;
 };

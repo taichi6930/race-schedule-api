@@ -1,18 +1,17 @@
 import { validateAutoracePlaceId } from '../../../lib/src/utility/data/autorace/autoracePlaceId';
 import { validateAutoraceRaceId } from '../../../lib/src/utility/data/autorace/autoraceRaceId';
-import { validateAutoraceRacePlayerId } from '../../../lib/src/utility/data/autorace/autoraceRacePlayerId';
 import { validateBoatracePlaceId } from '../../../lib/src/utility/data/boatrace/boatracePlaceId';
 import { validateBoatraceRaceId } from '../../../lib/src/utility/data/boatrace/boatraceRaceId';
-import { validateBoatraceRacePlayerId } from '../../../lib/src/utility/data/boatrace/boatraceRacePlayerId';
+import { validateRacePlayerId } from '../../../lib/src/utility/data/common/racePlayerId';
 import { validateJraPlaceId } from '../../../lib/src/utility/data/jra/jraPlaceId';
 import { validateJraRaceId } from '../../../lib/src/utility/data/jra/jraRaceId';
 import { validateKeirinPlaceId } from '../../../lib/src/utility/data/keirin/keirinPlaceId';
 import { validateKeirinRaceId } from '../../../lib/src/utility/data/keirin/keirinRaceId';
-import { validateKeirinRacePlayerId } from '../../../lib/src/utility/data/keirin/keirinRacePlayerId';
 import { validateNarPlaceId } from '../../../lib/src/utility/data/nar/narPlaceId';
 import { validateNarRaceId } from '../../../lib/src/utility/data/nar/narRaceId';
 import { validateWorldPlaceId } from '../../../lib/src/utility/data/world/worldPlaceId';
 import { validateWorldRaceId } from '../../../lib/src/utility/data/world/worldRaceId';
+import { RaceType } from '../../../lib/src/utility/raceType';
 
 describe('JraPlaceIdSchema', () => {
     it('正しいJraPlaceId', () => {
@@ -177,29 +176,29 @@ describe('KeirinRaceIdSchema', () => {
 describe('KeirinRacePlayerIdSchema', () => {
     it('正しいKeirinRacePlayerId', () => {
         const validKeirinRacePlayerId = 'keirin20210801010101';
-        expect(validateKeirinRacePlayerId(validKeirinRacePlayerId)).toBe(
-            validKeirinRacePlayerId,
-        );
+        expect(
+            validateRacePlayerId(RaceType.KEIRIN, validKeirinRacePlayerId),
+        ).toBe(validKeirinRacePlayerId);
     });
 
     it('不正なKeirinRacePlayerId', () => {
         const invalidKeirinRacePlayerIdAndMessage = [
-            ['keirinabc202108010101', 'KeirinRacePlayerIdの形式ではありません'],
+            ['keirinabc202108010101', 'keirinRacePlayerIdの形式ではありません'],
             [
                 'keirin2021keirin08010101',
-                'KeirinRacePlayerIdの形式ではありません',
+                'keirinRacePlayerIdの形式ではありません',
             ],
-            ['keirin202108010101', 'KeirinRacePlayerIdの形式ではありません'],
+            ['keirin202108010101', 'keirinRacePlayerIdの形式ではありません'],
             ['jra20210801010101', 'keirinから始まる必要があります'],
-            ['keirin20210801010113', '枠番は1~9の範囲である必要があります'],
+            ['keirin20210801010113', '枠番が不正です'],
         ];
         for (const [
             invalidId,
             message,
         ] of invalidKeirinRacePlayerIdAndMessage) {
-            expect(() => validateKeirinRacePlayerId(invalidId)).toThrow(
-                message,
-            );
+            expect(() =>
+                validateRacePlayerId(RaceType.KEIRIN, invalidId),
+            ).toThrow(message);
         }
     });
 });
@@ -256,35 +255,35 @@ describe('BoatraceRaceIdSchema', () => {
 describe('BoatraceRacePlayerIdSchema', () => {
     it('正しいBoatraceRacePlayerId', () => {
         const validBoatraceRacePlayerId = 'boatrace20210801010101';
-        expect(validateBoatraceRacePlayerId(validBoatraceRacePlayerId)).toBe(
-            validBoatraceRacePlayerId,
-        );
+        expect(
+            validateRacePlayerId(RaceType.BOATRACE, validBoatraceRacePlayerId),
+        ).toBe(validBoatraceRacePlayerId);
     });
 
     it('不正なBoatraceRacePlayerId', () => {
         const invalidBoatraceRacePlayerIdAndMessage = [
             [
                 'boatraceabc202108010101',
-                'BoatraceRacePlayerIdの形式ではありません',
+                'boatraceRacePlayerIdの形式ではありません',
             ],
             [
                 'boatrace2021boatrace08010101',
-                'BoatraceRacePlayerIdの形式ではありません',
+                'boatraceRacePlayerIdの形式ではありません',
             ],
             [
                 'boatrace202108010101',
-                'BoatraceRacePlayerIdの形式ではありません',
+                'boatraceRacePlayerIdの形式ではありません',
             ],
             ['jra20210801010101', 'boatraceから始まる必要があります'],
-            ['boatrace20210801010113', '枠番は1~6の範囲である必要があります'],
+            ['boatrace20210801010113', '枠番が不正です'],
         ];
         for (const [
             invalidId,
             message,
         ] of invalidBoatraceRacePlayerIdAndMessage) {
-            expect(() => validateBoatraceRacePlayerId(invalidId)).toThrow(
-                message,
-            );
+            expect(() =>
+                validateRacePlayerId(RaceType.BOATRACE, invalidId),
+            ).toThrow(message);
         }
     });
 });
@@ -341,35 +340,35 @@ describe('AutoraceRaceIdSchema', () => {
 describe('AutoraceRacePlayerIdSchema', () => {
     it('正しいAutoraceRacePlayerId', () => {
         const validAutoraceRacePlayerId = 'autorace20210801010101';
-        expect(validateAutoraceRacePlayerId(validAutoraceRacePlayerId)).toBe(
-            validAutoraceRacePlayerId,
-        );
+        expect(
+            validateRacePlayerId(RaceType.AUTORACE, validAutoraceRacePlayerId),
+        ).toBe(validAutoraceRacePlayerId);
     });
 
     it('不正なAutoraceRacePlayerId', () => {
         const invalidAutoraceRacePlayerIdAndMessage = [
             [
                 'autoraceabc202108010101',
-                'AutoraceRacePlayerIdの形式ではありません',
+                'autoraceRacePlayerIdの形式ではありません',
             ],
             [
                 'autorace2021autorace08010101',
-                'AutoraceRacePlayerIdの形式ではありません',
+                'autoraceRacePlayerIdの形式ではありません',
             ],
             [
                 'autorace202108010101',
-                'AutoraceRacePlayerIdの形式ではありません',
+                'autoraceRacePlayerIdの形式ではありません',
             ],
             ['jra20210801010101', 'autoraceから始まる必要があります'],
-            ['autorace20210801010113', '枠番は1~8の範囲である必要があります'],
+            ['autorace20210801010113', '枠番が不正です'],
         ];
         for (const [
             invalidId,
             message,
         ] of invalidAutoraceRacePlayerIdAndMessage) {
-            expect(() => validateAutoraceRacePlayerId(invalidId)).toThrow(
-                message,
-            );
+            expect(() =>
+                validateRacePlayerId(RaceType.AUTORACE, invalidId),
+            ).toThrow(message);
         }
     });
 });
