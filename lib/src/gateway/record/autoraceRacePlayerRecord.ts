@@ -4,10 +4,8 @@ import {
     type AutoracePositionNumber,
     validatePositionNumber,
 } from '../../utility/data/common/positionNumber';
-import {
-    type AutoraceRaceId,
-    validateRaceId,
-} from '../../utility/data/common/raceId';
+import type { RaceId } from '../../utility/data/common/raceId';
+import { validateRaceId } from '../../utility/data/common/raceId';
 import type { RacePlayerId } from '../../utility/data/common/racePlayerId';
 import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import type { PlayerNumber } from '../../utility/data/playerNumber';
@@ -35,7 +33,7 @@ export class AutoraceRacePlayerRecord
      */
     private constructor(
         public readonly id: RacePlayerId,
-        public readonly raceId: AutoraceRaceId,
+        public readonly raceId: RaceId,
         public readonly positionNumber: AutoracePositionNumber,
         public readonly playerNumber: PlayerNumber,
         public readonly updateDate: UpdateDate,
