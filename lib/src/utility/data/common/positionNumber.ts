@@ -75,4 +75,4 @@ export const CommonPositionNumberSchema = z.union([
 /**
  * 共通のPositionNumber型定義
  */
-type PositionNumber = z.infer<typeof CommonPositionNumberSchema>;
+export type PositionNumber = z.infer<typeof CommonPositionNumberSchema>;
