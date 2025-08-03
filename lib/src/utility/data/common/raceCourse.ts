@@ -380,26 +380,6 @@ export const createRaceCourseSchema = (
     }, errorMessage);
 
 /**
- * オートレースのレース場名とコードの対応表（RaceCourseMasterListから自動生成）
- */
-export const AutoracePlaceCodeMap: Record<string, string> = createPlaceCodeMap(
-    RaceType.AUTORACE,
-);
-
-/**
- * JraRaceCourseのzod型定義
- */
-export const JraRaceCourseSchema = createRaceCourseSchema(
-    RaceType.JRA,
-    '中央の競馬場ではありません',
-);
-
-/**
- * JraRaceCourseの型定義
- */
-export type JraRaceCourse = z.infer<typeof JraRaceCourseSchema>;
-
-/**
  * 開催場のバリデーション
  * @param raceType
  * @param course
@@ -434,6 +414,26 @@ export const validateRaceCourse = (
 };
 
 /**
+ * オートレースのレース場名とコードの対応表（RaceCourseMasterListから自動生成）
+ */
+export const AutoracePlaceCodeMap: Record<string, string> = createPlaceCodeMap(
+    RaceType.AUTORACE,
+);
+
+/**
+ * JraRaceCourseのzod型定義
+ */
+const JraRaceCourseSchema = createRaceCourseSchema(
+    RaceType.JRA,
+    '中央の競馬場ではありません',
+);
+
+/**
+ * JraRaceCourseの型定義
+ */
+export type JraRaceCourse = z.infer<typeof JraRaceCourseSchema>;
+
+/**
  * 競輪のレース場名とコードの対応表
  */
 export const KeirinPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
@@ -443,7 +443,7 @@ export const KeirinPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
 /**
  * KeirinRaceCourseのzod型定義
  */
-export const KeirinRaceCourseSchema = createRaceCourseSchema(
+const KeirinRaceCourseSchema = createRaceCourseSchema(
     RaceType.KEIRIN,
     '競輪場ではありません',
 );
@@ -456,7 +456,7 @@ export type KeirinRaceCourse = z.infer<typeof KeirinRaceCourseSchema>;
 /**
  * NarRaceCourseのzod型定義
  */
-export const NarRaceCourseSchema = createRaceCourseSchema(
+const NarRaceCourseSchema = createRaceCourseSchema(
     RaceType.NAR,
     '地方の競馬場ではありません',
 );
@@ -476,7 +476,7 @@ export const NarBabacodeMap: Record<string, string> = createPlaceCodeMap(
 /**
  * WorldRaceCourseのzod型定義
  */
-export const WorldRaceCourseSchema = createRaceCourseSchema(
+const WorldRaceCourseSchema = createRaceCourseSchema(
     RaceType.WORLD,
     '海外の競馬場ではありません',
 );
@@ -496,7 +496,7 @@ export const WorldPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
 /**
  * AutoraceRaceCourseのzod型定義
  */
-export const AutoraceRaceCourseSchema = createRaceCourseSchema(
+const AutoraceRaceCourseSchema = createRaceCourseSchema(
     RaceType.AUTORACE,
     'オートレース場ではありません',
 );
@@ -509,7 +509,7 @@ export type AutoraceRaceCourse = z.infer<typeof AutoraceRaceCourseSchema>;
 /**
  * BoatraceRaceCourseのzod型定義
  */
-export const BoatraceRaceCourseSchema = createRaceCourseSchema(
+const BoatraceRaceCourseSchema = createRaceCourseSchema(
     RaceType.BOATRACE,
     'ボートレース場ではありません',
 );
