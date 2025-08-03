@@ -202,7 +202,7 @@ export class JraRaceRepositoryFromHtmlImpl
             });
             return jraRaceDataList;
         } catch (error) {
-            console.error('htmlを取得できませんでした', error);
+            console.error('HTMLの取得に失敗しました', error);
             return [];
         }
     }
