@@ -96,6 +96,7 @@ export const baseAutoraceRacePlayerRecord = AutoraceRacePlayerRecord.create(
         baseAutoraceRaceNumber,
         1,
     ),
+    RaceType.AUTORACE,
     generateAutoraceRaceId(
         baseRaceDateTime,
         baseAutoracePlaceCourse,

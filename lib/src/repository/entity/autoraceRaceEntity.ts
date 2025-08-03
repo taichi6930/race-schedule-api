@@ -176,6 +176,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
                     this.raceData.number,
                     playerData.positionNumber,
                 ),
+                RaceType.AUTORACE,
                 this.id,
                 playerData.positionNumber,
                 playerData.playerNumber,
