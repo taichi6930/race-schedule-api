@@ -321,6 +321,16 @@ const RaceCourseMasterList: {
     { raceType: RaceType.BOATRACE, placeName: '福岡', placeCode: '22' },
     { raceType: RaceType.BOATRACE, placeName: '唐津', placeCode: '23' },
     { raceType: RaceType.BOATRACE, placeName: '大村', placeCode: '24' },
+    { raceType: RaceType.JRA, placeName: '札幌', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '函館', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '福島', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '新潟', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '東京', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '中山', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '中京', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '京都', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '阪神', placeCode: '' },
+    { raceType: RaceType.JRA, placeName: '小倉', placeCode: '' },
 ];
 
 /**
@@ -339,7 +349,14 @@ const RaceCourseList = (raceType: RaceType): Set<string> =>
  * @param raceType - 生成対象のレース種別
  * @returns placeName をキー、placeCode を値とするマップ
  */
-export function createPlaceCodeMap(raceType: RaceType): Record<string, string> {
+export const createPlaceCodeMap = (
+    raceType: RaceType,
+): Record<string, string> => {
+    if (raceType === RaceType.JRA) {
+        throw new Error(
+            'JRAのレース場コード作成されていないため、使用できません',
+        );
+    }
     const map: Record<string, string> = {};
     for (const course of RaceCourseMasterList) {
         if (course.raceType === raceType) {
@@ -347,12 +364,20 @@ export function createPlaceCodeMap(raceType: RaceType): Record<string, string> {
         }
     }
     return map;
-}
+};
 
 /**
- * オートレース場リスト
+ * JraRaceCourseのzod型定義
+ * @param raceType
+ * @param errorMessage
  */
-const AutoraceRaceCourseList = RaceCourseList(RaceType.AUTORACE);
+export const createRaceCourseSchema = (
+    raceType: RaceType,
+    errorMessage: string,
+): z.ZodString =>
+    z.string().refine((value) => {
+        return RaceCourseList(raceType).has(value);
+    }, errorMessage);
 
 /**
  * オートレースのレース場名とコードの対応表（RaceCourseMasterListから自動生成）
@@ -364,30 +389,15 @@ export const AutoracePlaceCodeMap: Record<string, string> = createPlaceCodeMap(
 /**
  * JraRaceCourseのzod型定義
  */
-export const JraRaceCourseSchema = z.string().refine((value) => {
-    return JraRaceCourseList.has(value);
-}, '中央の競馬場ではありません');
+export const JraRaceCourseSchema = createRaceCourseSchema(
+    RaceType.JRA,
+    '中央の競馬場ではありません',
+);
 
 /**
  * JraRaceCourseの型定義
  */
 export type JraRaceCourse = z.infer<typeof JraRaceCourseSchema>;
-
-/**
- * JRAの競馬場 リスト
- */
-const JraRaceCourseList = new Set([
-    '札幌',
-    '函館',
-    '福島',
-    '新潟',
-    '東京',
-    '中山',
-    '中京',
-    '京都',
-    '阪神',
-    '小倉',
-]);
 
 /**
  * 開催場のバリデーション
@@ -433,33 +443,28 @@ export const KeirinPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
 /**
  * KeirinRaceCourseのzod型定義
  */
-export const KeirinRaceCourseSchema = z.string().refine((value) => {
-    return KeirinRaceCourseList.has(value);
-}, '競輪場ではありません');
+export const KeirinRaceCourseSchema = createRaceCourseSchema(
+    RaceType.KEIRIN,
+    '競輪場ではありません',
+);
 
 /**
  * KeirinRaceCourseの型定義
  */
 export type KeirinRaceCourse = z.infer<typeof KeirinRaceCourseSchema>;
 
-const KeirinRaceCourseList = RaceCourseList(RaceType.KEIRIN);
-
 /**
  * NarRaceCourseのzod型定義
  */
-export const NarRaceCourseSchema = z.string().refine((value) => {
-    return NarRaceCourseList.has(value);
-}, '地方の競馬場ではありません');
+export const NarRaceCourseSchema = createRaceCourseSchema(
+    RaceType.NAR,
+    '地方の競馬場ではありません',
+);
 
 /**
  * NarRaceCourseの型定義
  */
 export type NarRaceCourse = z.infer<typeof NarRaceCourseSchema>;
-
-/**
- * 地方の競馬場 リスト
- */
-const NarRaceCourseList = RaceCourseList(RaceType.NAR);
 
 /**
  * 地方競馬のレース場名とコードの対応表
@@ -471,9 +476,10 @@ export const NarBabacodeMap: Record<string, string> = createPlaceCodeMap(
 /**
  * WorldRaceCourseのzod型定義
  */
-export const WorldRaceCourseSchema = z.string().refine((value) => {
-    return RaceCourseList(RaceType.WORLD).has(value);
-}, '海外の競馬場ではありません');
+export const WorldRaceCourseSchema = createRaceCourseSchema(
+    RaceType.WORLD,
+    '海外の競馬場ではありません',
+);
 
 /**
  * WorldRaceCourseの型定義
@@ -490,9 +496,10 @@ export const WorldPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
 /**
  * AutoraceRaceCourseのzod型定義
  */
-export const AutoraceRaceCourseSchema = z.string().refine((value) => {
-    return AutoraceRaceCourseList.has(value);
-}, 'オートレース場ではありません');
+export const AutoraceRaceCourseSchema = createRaceCourseSchema(
+    RaceType.AUTORACE,
+    'オートレース場ではありません',
+);
 
 /**
  * AutoraceRaceCourseの型定義
@@ -502,9 +509,10 @@ export type AutoraceRaceCourse = z.infer<typeof AutoraceRaceCourseSchema>;
 /**
  * BoatraceRaceCourseのzod型定義
  */
-export const BoatraceRaceCourseSchema = z.string().refine((value) => {
-    return RaceCourseList(RaceType.BOATRACE).has(value);
-}, 'ボートレース場ではありません');
+export const BoatraceRaceCourseSchema = createRaceCourseSchema(
+    RaceType.BOATRACE,
+    'ボートレース場ではありません',
+);
 
 /**
  * BoatraceRaceCourseの型定義
@@ -521,7 +529,7 @@ export const BoatracePlaceCodeMap: Record<string, string> = createPlaceCodeMap(
 /**
  * RaceCourseのzod型定義
  */
-export const RaceCourseSchema = z.union([
+export const UnionRaceCourseSchema = z.union([
     JraRaceCourseSchema,
     NarRaceCourseSchema,
     WorldRaceCourseSchema,
@@ -533,4 +541,4 @@ export const RaceCourseSchema = z.union([
 /**
  * RaceCourseの型定義
  */
-export type RaceCourse = z.infer<typeof RaceCourseSchema>;
+export type RaceCourse = z.infer<typeof UnionRaceCourseSchema>;
