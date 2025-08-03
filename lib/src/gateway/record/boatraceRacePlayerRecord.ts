@@ -1,11 +1,11 @@
 import '../../utility/format';
 
-import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
-import { validateBoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
 import {
     type BoatracePositionNumber,
     validatePositionNumber,
 } from '../../utility/data/common/positionNumber';
+import type { BoatraceRaceId } from '../../utility/data/common/raceId';
+import { validateBoatraceRaceId } from '../../utility/data/common/raceId';
 import type { RacePlayerId } from '../../utility/data/common/racePlayerId';
 import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import type { PlayerNumber } from '../../utility/data/playerNumber';

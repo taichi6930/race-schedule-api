@@ -80,6 +80,7 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
         updateDate: Date,
     ): KeirinRaceRecord {
         try {
+            console.log(id);
             return new KeirinRaceRecord(
                 validateRaceId(RaceType.KEIRIN, id),
                 validateRaceName(name),

@@ -4,35 +4,6 @@ import { RaceType } from '../../raceType';
 import { validateRaceNumber } from './raceNumber';
 
 /**
- * KeirinRaceIdのzod型定義
- * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
- */
-const KeirinRaceIdSchema = z
-    .string()
-    .refine((value) => value.startsWith('keirin'), {
-        message: `keirinから始まる必要があります`,
-    })
-    // keirinの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
-    .refine((value) => /^keirin\d{12}$/.test(value), {
-        message: `keirinRaceIdの形式ではありません`,
-    })
-    // レース番号は1~12の範囲
-    .refine(
-        (value) => {
-            const raceNumber = Number.parseInt(value.slice(-2));
-            try {
-                validateRaceNumber(raceNumber);
-                return true;
-            } catch {
-                return false;
-            }
-        },
-        {
-            message: `レース番号は1~12の範囲である必要があります`,
-        },
-    );
-
-/**
  * KeirinRaceIdの型定義
  */
 export type KeirinRaceId = z.infer<typeof KeirinRaceIdSchema>;
@@ -59,11 +30,11 @@ const RaceIdSchema = (raceType: RaceType): z.ZodString => {
             }, `${lowerCaseRaceType}から始まる必要があります`)
             // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号)
             .refine((value) => {
-                return new RegExp(`^${lowerCaseRaceType}\\d{14}$`).test(value);
+                return new RegExp(`^${lowerCaseRaceType}\\d{12}$`).test(value);
             }, `${lowerCaseRaceType}RaceIdの形式ではありません`)
             // レース番号は1~12の範囲
             .refine((value) => {
-                const raceNumber = Number.parseInt(value.slice(-4, -2));
+                const raceNumber = Number.parseInt(value.slice(-2));
                 try {
                     validateRaceNumber(raceNumber);
                     return true;
@@ -73,6 +44,13 @@ const RaceIdSchema = (raceType: RaceType): z.ZodString => {
             }, 'レース番号は1~12の範囲である必要があります')
     );
 };
+
+/**
+ * KeirinRaceIdのzod型定義
+ * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+ */
+const KeirinRaceIdSchema = RaceIdSchema(RaceType.KEIRIN);
+
 /**
  * BoatraceRaceIdのzod型定義
  */
@@ -123,5 +101,19 @@ const AutoraceRaceIdSchema = RaceIdSchema(RaceType.AUTORACE);
 export const UnionRaceIdSchema = z.union([
     KeirinRaceIdSchema,
     // AutoraceRaceIdSchema,
-    // BoatraceRaceIdSchema,
+    BoatraceRaceIdSchema,
 ]);
+
+/**
+ * BoatraceRaceIdの型定義
+ */
+export type BoatraceRaceId = z.infer<typeof BoatraceRaceIdSchema>;
+
+/**
+ * BoatraceRaceIdのバリデーション
+ * @param value - バリデーション対象
+ * @returns バリデーション済みのBoatraceRaceId
+ */
+
+export const validateBoatraceRaceId = (value: string): BoatraceRaceId =>
+    BoatraceRaceIdSchema.parse(value);

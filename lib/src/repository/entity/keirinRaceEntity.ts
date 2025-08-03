@@ -9,10 +9,8 @@ import type { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { KeirinRacePlayerRecord } from '../../gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
 import { KeirinPlaceCodeMap } from '../../utility/data/common/raceCourse';
-import {
-    type KeirinRaceId,
-    validateRaceId,
-} from '../../utility/data/common/raceId';
+import type { RaceId } from '../../utility/data/common/raceId';
+import { validateRaceId } from '../../utility/data/common/raceId';
 import {
     getYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
@@ -42,7 +40,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: KeirinRaceId,
+        public readonly id: RaceId,
         public readonly raceData: KeirinRaceData,
         public readonly racePlayerDataList: KeirinRacePlayerData[],
         public readonly updateDate: UpdateDate,

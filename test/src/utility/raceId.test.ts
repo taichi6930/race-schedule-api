@@ -1,11 +1,7 @@
 import { validateAutoracePlaceId } from '../../../lib/src/utility/data/autorace/autoracePlaceId';
 import { validateAutoraceRaceId } from '../../../lib/src/utility/data/autorace/autoraceRaceId';
 import { validateBoatracePlaceId } from '../../../lib/src/utility/data/boatrace/boatracePlaceId';
-import { validateBoatraceRaceId } from '../../../lib/src/utility/data/boatrace/boatraceRaceId';
-import {
-    validateKeirinRaceId,
-    validateRaceId,
-} from '../../../lib/src/utility/data/common/raceId';
+import { validateRaceId } from '../../../lib/src/utility/data/common/raceId';
 import { validateRacePlayerId } from '../../../lib/src/utility/data/common/racePlayerId';
 import { validateJraPlaceId } from '../../../lib/src/utility/data/jra/jraPlaceId';
 import { validateJraRaceId } from '../../../lib/src/utility/data/jra/jraRaceId';
@@ -156,7 +152,9 @@ describe('KeirinPlaceIdSchema', () => {
 describe('KeirinRaceIdSchema', () => {
     it('正しいKeirinRaceId', () => {
         const validKeirinRaceId = 'keirin202108010101';
-        expect(validateKeirinRaceId(validKeirinRaceId)).toBe(validKeirinRaceId);
+        expect(validateRaceId(RaceType.KEIRIN, validKeirinRaceId)).toBe(
+            validKeirinRaceId,
+        );
     });
 
     it('不正なKeirinRaceId', () => {
@@ -232,7 +230,7 @@ describe('BoatracePlaceIdSchema', () => {
 describe('BoatraceRaceIdSchema', () => {
     it('正しいBoatraceRaceId', () => {
         const validBoatraceRaceId = 'boatrace202108010101';
-        expect(validateBoatraceRaceId(validBoatraceRaceId)).toBe(
+        expect(validateRaceId(RaceType.BOATRACE, validBoatraceRaceId)).toBe(
             validBoatraceRaceId,
         );
     });
@@ -252,7 +250,9 @@ describe('BoatraceRaceIdSchema', () => {
             ],
         ];
         for (const [invalidId, message] of invalidBoatraceRaceIdAndMessage) {
-            expect(() => validateBoatraceRaceId(invalidId)).toThrow(message);
+            expect(() => validateRaceId(RaceType.BOATRACE, invalidId)).toThrow(
+                message,
+            );
         }
     });
 });

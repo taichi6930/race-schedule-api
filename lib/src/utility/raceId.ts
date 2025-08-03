@@ -3,7 +3,6 @@ import { format } from 'date-fns';
 import type { AutoracePlaceId } from './data/autorace/autoracePlaceId';
 import type { AutoraceRaceId } from './data/autorace/autoraceRaceId';
 import type { BoatracePlaceId } from './data/boatrace/boatracePlaceId';
-import type { BoatraceRaceId } from './data/boatrace/boatraceRaceId';
 import type {
     AutoracePositionNumber,
     BoatracePositionNumber,
@@ -24,7 +23,7 @@ import {
     WorldPlaceCodeMap,
 } from './data/common/raceCourse';
 import type { RaceDateTime } from './data/common/raceDateTime';
-import type { KeirinRaceId } from './data/common/raceId';
+import type { BoatraceRaceId, KeirinRaceId } from './data/common/raceId';
 import type { RaceNumber } from './data/common/raceNumber';
 import type { RacePlayerId } from './data/common/racePlayerId';
 import type { JraRaceId } from './data/jra/jraRaceId';

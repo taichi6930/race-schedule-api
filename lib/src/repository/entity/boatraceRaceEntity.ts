@@ -11,7 +11,7 @@ import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
 import {
     type BoatraceRaceId,
     validateBoatraceRaceId,
-} from '../../utility/data/boatrace/boatraceRaceId';
+} from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getBoatraceGoogleCalendarColorId } from '../../utility/googleCalendar';
