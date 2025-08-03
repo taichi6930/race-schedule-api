@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
-import { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
+import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
@@ -57,9 +57,10 @@ export class BoatraceRaceRepositoryFromStorageImpl
                         return racePlayerRecord.raceId === raceRecord.id;
                     });
                 // BoatraceRacePlayerDataのリストを生成
-                const racePlayerDataList: BoatraceRacePlayerData[] =
+                const racePlayerDataList: RacePlayerData[] =
                     filteredRacePlayerRecordList.map((racePlayerRecord) => {
-                        return BoatraceRacePlayerData.create(
+                        return RacePlayerData.create(
+                            RaceType.BOATRACE,
                             racePlayerRecord.positionNumber,
                             racePlayerRecord.playerNumber,
                         );
