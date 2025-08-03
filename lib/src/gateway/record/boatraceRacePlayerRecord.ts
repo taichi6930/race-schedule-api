@@ -2,12 +2,12 @@ import '../../utility/format';
 
 import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
 import { validateBoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
-import type { BoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
-import { validateBoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
 import {
     type BoatracePositionNumber,
     validatePositionNumber,
 } from '../../utility/data/common/positionNumber';
+import type { BoatraceRacePlayerId } from '../../utility/data/common/racePlayerId';
+import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import type { PlayerNumber } from '../../utility/data/playerNumber';
 import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';
@@ -56,7 +56,7 @@ export class BoatraceRacePlayerRecord
     ): BoatraceRacePlayerRecord {
         try {
             return new BoatraceRacePlayerRecord(
-                validateBoatraceRacePlayerId(id),
+                validateRacePlayerId(RaceType.BOATRACE, id),
                 validateBoatraceRaceId(raceId),
                 validatePositionNumber(RaceType.BOATRACE, positionNumber),
                 validatePlayerNumber(playerNumber),

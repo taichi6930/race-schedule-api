@@ -2,12 +2,12 @@ import '../../utility/format';
 
 import type { AutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
 import { validateAutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
-import type { AutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
-import { validateAutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
 import {
     type AutoracePositionNumber,
     validatePositionNumber,
 } from '../../utility/data/common/positionNumber';
+import type { AutoraceRacePlayerId } from '../../utility/data/common/racePlayerId';
+import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import type { PlayerNumber } from '../../utility/data/playerNumber';
 import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';
@@ -56,7 +56,7 @@ export class AutoraceRacePlayerRecord
     ): AutoraceRacePlayerRecord {
         try {
             return new AutoraceRacePlayerRecord(
-                validateAutoraceRacePlayerId(id),
+                validateRacePlayerId(RaceType.AUTORACE, id),
                 validateAutoraceRaceId(raceId),
                 validatePositionNumber(RaceType.AUTORACE, positionNumber),
                 validatePlayerNumber(playerNumber),
