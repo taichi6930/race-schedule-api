@@ -3,8 +3,8 @@ import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import { BoatraceRacePlayerData } from '../../../../lib/src/domain/boatraceRacePlayerData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
-import { BoatraceRacePlayerRecord } from '../../../../lib/src/gateway/record/boatraceRacePlayerRecord';
 import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceRaceRecord';
+import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { BoatraceRaceStage } from '../../../../lib/src/utility/data/boatrace/boatraceRaceStage';
@@ -93,13 +93,14 @@ export const baseBoatraceRaceEntity = BoatraceRaceEntity.createWithoutId(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatraceRacePlayerRecord = BoatraceRacePlayerRecord.create(
+export const baseBoatraceRacePlayerRecord = RacePlayerRecord.create(
     generateBoatraceRacePlayerId(
         baseBoatracePlaceDateTime,
         baseBoatracePlaceCourse,
         baseBoatraceRaceNumber,
         1,
     ),
+    RaceType.BOATRACE,
     generateBoatraceRaceId(
         baseRaceDateTime,
         baseBoatracePlaceCourse,

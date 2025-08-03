@@ -8,8 +8,8 @@ import { container } from 'tsyringe';
 
 import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
-import type { BoatraceRacePlayerRecord } from '../../../../lib/src/gateway/record/boatraceRacePlayerRecord';
 import type { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceRaceRecord';
+import type { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
@@ -20,13 +20,13 @@ import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('BoatraceRaceRepositoryFromStorageImpl', () => {
     let raceS3Gateway: jest.Mocked<IS3Gateway<BoatraceRaceRecord>>;
-    let racePlayerS3Gateway: jest.Mocked<IS3Gateway<BoatraceRacePlayerRecord>>;
+    let racePlayerS3Gateway: jest.Mocked<IS3Gateway<RacePlayerRecord>>;
     let repository: BoatraceRaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
         raceS3Gateway = mockS3Gateway<BoatraceRaceRecord>();
-        racePlayerS3Gateway = mockS3Gateway<BoatraceRacePlayerRecord>();
+        racePlayerS3Gateway = mockS3Gateway<RacePlayerRecord>();
 
         // DIコンテナにモックを登録
         container.registerInstance('BoatraceRaceS3Gateway', raceS3Gateway);

@@ -6,8 +6,8 @@ import type { calendar_v3 } from 'googleapis';
 import type { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import type { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
 import { CalendarData } from '../../domain/calendarData';
-import { BoatraceRacePlayerRecord } from '../../gateway/record/boatraceRacePlayerRecord';
 import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
+import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import {
     type BoatraceRaceId,
     validateRaceId,
@@ -167,15 +167,16 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     /**
      * BoatraceRacePlayerRecordに変換する
      */
-    public toPlayerRecordList(): BoatraceRacePlayerRecord[] {
+    public toPlayerRecordList(): RacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
-            BoatraceRacePlayerRecord.create(
+            RacePlayerRecord.create(
                 generateBoatraceRacePlayerId(
                     this.raceData.dateTime,
                     this.raceData.location,
                     this.raceData.number,
                     playerData.positionNumber,
                 ),
+                RaceType.BOATRACE,
                 this.id,
                 playerData.positionNumber,
                 playerData.playerNumber,

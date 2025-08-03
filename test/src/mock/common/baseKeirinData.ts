@@ -3,8 +3,8 @@ import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
 import { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
-import { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
+import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { KeirinGradeType } from '../../../../lib/src/utility/data/common/gradeType';
@@ -130,13 +130,14 @@ export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
     });
 });
 
-export const baseKeirinRacePlayerRecord = KeirinRacePlayerRecord.create(
+export const baseKeirinRacePlayerRecord = RacePlayerRecord.create(
     generateKeirinRacePlayerId(
         baseKeirinPlaceDateTime,
         baseKeirinPlaceCourse,
         baseKeirinRaceNumber,
         1,
     ),
+    RaceType.KEIRIN,
     generateKeirinRaceId(
         baseRaceDateTime,
         baseKeirinPlaceCourse,

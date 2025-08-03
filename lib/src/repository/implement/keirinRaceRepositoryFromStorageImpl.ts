@@ -5,10 +5,11 @@ import { inject, injectable } from 'tsyringe';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { KeirinRacePlayerRecord } from '../../gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
+import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -28,7 +29,7 @@ export class KeirinRaceRepositoryFromStorageImpl
         @inject('KeirinRaceS3Gateway')
         private readonly raceS3Gateway: IS3Gateway<KeirinRaceRecord>,
         @inject('KeirinRacePlayerS3Gateway')
-        private readonly racePlayerS3Gateway: IS3Gateway<KeirinRacePlayerRecord>,
+        private readonly racePlayerS3Gateway: IS3Gateway<RacePlayerRecord>,
     ) {}
 
     /**
@@ -40,7 +41,7 @@ export class KeirinRaceRepositoryFromStorageImpl
         searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
         // ファイル名リストから選手データを取得する
-        const racePlayerRecordList: KeirinRacePlayerRecord[] =
+        const racePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
         // レースデータを取得する
@@ -51,7 +52,7 @@ export class KeirinRaceRepositoryFromStorageImpl
         const raceEntityList: KeirinRaceEntity[] = raceRaceRecordList.map(
             (raceRecord) => {
                 // raceIdに対応したracePlayerRecordListを取得
-                const filteredRacePlayerRecordList: KeirinRacePlayerRecord[] =
+                const filteredRacePlayerRecordList: RacePlayerRecord[] =
                     racePlayerRecordList.filter((racePlayerRecord) => {
                         return racePlayerRecord.raceId === raceRecord.id;
                     });
@@ -103,7 +104,7 @@ export class KeirinRaceRepositoryFromStorageImpl
         const existFetchRaceRecordList: KeirinRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
-        const existFetchRacePlayerRecordList: KeirinRacePlayerRecord[] =
+        const existFetchRacePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
@@ -231,9 +232,7 @@ export class KeirinRaceRepositoryFromStorageImpl
      * レースプレイヤーデータをS3から取得する
      */
     @Logger
-    private async getRacePlayerRecordListFromS3(): Promise<
-        KeirinRacePlayerRecord[]
-    > {
+    private async getRacePlayerRecordListFromS3(): Promise<RacePlayerRecord[]> {
         // S3からデータを取得する
         const csv = await this.racePlayerS3Gateway.fetchDataFromS3(
             this.racePlayerListFileName,
@@ -259,9 +258,9 @@ export class KeirinRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してKeirinRaceDataのリストを生成
-        const keirinRacePlayerRecordList: KeirinRacePlayerRecord[] = lines
+        const keirinRacePlayerRecordList: RacePlayerRecord[] = lines
             .slice(1)
-            .flatMap((line: string): KeirinRacePlayerRecord[] => {
+            .flatMap((line: string): RacePlayerRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -270,8 +269,9 @@ export class KeirinRaceRepositoryFromStorageImpl
                         : getJSTDate(new Date());
 
                     return [
-                        KeirinRacePlayerRecord.create(
+                        RacePlayerRecord.create(
                             columns[indices.id],
+                            RaceType.KEIRIN,
                             columns[indices.raceId],
                             Number.parseInt(columns[indices.positionNumber]),
                             Number.parseInt(columns[indices.playerNumber]),
@@ -279,7 +279,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                         ),
                     ];
                 } catch (error) {
-                    console.error('KeirinRacePlayerRecord create error', error);
+                    console.error('RacePlayerRecord create error', error);
                     return [];
                 }
             });
