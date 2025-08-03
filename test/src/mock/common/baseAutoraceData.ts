@@ -3,8 +3,8 @@ import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
 import { AutoraceRacePlayerData } from '../../../../lib/src/domain/autoraceRacePlayerData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autoracePlaceRecord';
-import { AutoraceRacePlayerRecord } from '../../../../lib/src/gateway/record/autoraceRacePlayerRecord';
 import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
+import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { AutoracePlaceId } from '../../../../lib/src/utility/data/autorace/autoracePlaceId';
@@ -89,7 +89,7 @@ export const baseAutoraceRaceEntity = AutoraceRaceEntity.createWithoutId(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoraceRacePlayerRecord = AutoraceRacePlayerRecord.create(
+export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
     generateAutoraceRacePlayerId(
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,

@@ -15,11 +15,9 @@ import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
 /**
- * オートレースのレース選手データ
+ * レース選手データ
  */
-export class AutoraceRacePlayerRecord
-    implements IRecord<AutoraceRacePlayerRecord>
-{
+export class RacePlayerRecord implements IRecord<RacePlayerRecord> {
     /**
      * コンストラクタ
      * @param id - ID
@@ -56,12 +54,12 @@ export class AutoraceRacePlayerRecord
         positionNumber: number,
         playerNumber: number,
         updateDate: Date,
-    ): AutoraceRacePlayerRecord {
+    ): RacePlayerRecord {
         if (!isRaceType(raceType)) {
             throw new Error(`Invalid raceType: ${raceType}`);
         }
         try {
-            return new AutoraceRacePlayerRecord(
+            return new RacePlayerRecord(
                 validateRacePlayerId(raceType, id),
                 raceType,
                 validateRaceId(raceType, raceId),
@@ -71,10 +69,7 @@ export class AutoraceRacePlayerRecord
             );
         } catch (error) {
             throw new Error(
-                createErrorMessage(
-                    'Failed to create AutoraceRacePlayerRecord',
-                    error,
-                ),
+                createErrorMessage('Failed to create RacePlayerRecord', error),
             );
         }
     }
@@ -83,10 +78,8 @@ export class AutoraceRacePlayerRecord
      * データのコピー
      * @param partial
      */
-    public copy(
-        partial: Partial<AutoraceRacePlayerRecord> = {},
-    ): AutoraceRacePlayerRecord {
-        return AutoraceRacePlayerRecord.create(
+    public copy(partial: Partial<RacePlayerRecord> = {}): RacePlayerRecord {
+        return RacePlayerRecord.create(
             partial.id ?? this.id,
             partial.raceType ?? this.raceType,
             partial.raceId ?? this.raceId,
