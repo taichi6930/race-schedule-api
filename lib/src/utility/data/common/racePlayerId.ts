@@ -59,10 +59,10 @@ export type BoatraceRacePlayerId = z.infer<typeof BoatraceRacePlayerIdSchema>;
 export type RacePlayerId = z.infer<typeof UnionRacePlayerIdSchema>;
 
 /**
- * BoatraceRacePlayerIdのバリデーション
+ * RacePlayerIdのバリデーション
  * @param raceType
  * @param value - バリデーション対象
- * @returns バリデーション済みのBoatraceRaceId
+ * @returns バリデーション済みのRacePlayerId
  */
 export const validateRacePlayerId = (
     raceType: RaceType,
@@ -103,7 +103,6 @@ export type AutoraceRacePlayerId = z.infer<typeof AutoraceRacePlayerIdSchema>;
 
 /**
  * KeirinRacePlayerIdのzod型定義
- * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
  */
 const KeirinRacePlayerIdSchema = RacePlayerIdSchema(RaceType.KEIRIN);
 
