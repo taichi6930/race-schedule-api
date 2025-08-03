@@ -3,12 +3,13 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
-import { AutoraceRacePlayerData } from '../../domain/autoraceRacePlayerData';
+import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -56,9 +57,10 @@ export class AutoraceRaceRepositoryFromStorageImpl
                         return racePlayerRecord.raceId === raceRecord.id;
                     });
                 // AutoraceRacePlayerDataのリストを生成
-                const racePlayerDataList: AutoraceRacePlayerData[] =
+                const racePlayerDataList: RacePlayerData[] =
                     filteredRacePlayerRecordList.map((racePlayerRecord) => {
-                        return AutoraceRacePlayerData.create(
+                        return RacePlayerData.create(
+                            RaceType.AUTORACE,
                             racePlayerRecord.positionNumber,
                             racePlayerRecord.playerNumber,
                         );
@@ -262,6 +264,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     return [
                         RacePlayerRecord.create(
                             columns[indices.id],
+                            RaceType.AUTORACE,
                             columns[indices.raceId],
                             Number.parseInt(columns[indices.positionNumber]),
                             Number.parseInt(columns[indices.playerNumber]),

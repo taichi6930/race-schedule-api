@@ -4,8 +4,8 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import type { AutoraceRaceData } from '../../domain/autoraceRaceData';
-import type { AutoraceRacePlayerData } from '../../domain/autoraceRacePlayerData';
 import { CalendarData } from '../../domain/calendarData';
+import type { RacePlayerData } from '../../domain/racePlayerData';
 import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import {
@@ -39,7 +39,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     private constructor(
         public readonly id: AutoraceRaceId,
         public readonly raceData: AutoraceRaceData,
-        public readonly racePlayerDataList: AutoraceRacePlayerData[],
+        public readonly racePlayerDataList: RacePlayerData[],
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -53,7 +53,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     public static create(
         id: string,
         raceData: AutoraceRaceData,
-        racePlayerDataList: AutoraceRacePlayerData[],
+        racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): AutoraceRaceEntity {
         return new AutoraceRaceEntity(
@@ -72,7 +72,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
      */
     public static createWithoutId(
         raceData: AutoraceRaceData,
-        racePlayerDataList: AutoraceRacePlayerData[],
+        racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): AutoraceRaceEntity {
         return AutoraceRaceEntity.create(

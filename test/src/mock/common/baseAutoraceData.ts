@@ -1,7 +1,7 @@
 import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
 import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
-import { AutoraceRacePlayerData } from '../../../../lib/src/domain/autoraceRacePlayerData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autoracePlaceRecord';
 import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
@@ -79,7 +79,7 @@ export const baseAutoracePlaceEntity = AutoracePlaceEntity.createWithoutId(
 export const baseAutoraceRacePlayerDataList = Array.from(
     { length: 8 },
     (_, i) => {
-        return AutoraceRacePlayerData.create(i + 1, i + 1);
+        return RacePlayerData.create(RaceType.AUTORACE, i + 1, i + 1);
     },
 );
 
@@ -107,7 +107,8 @@ export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoraceRacePlayerData = AutoraceRacePlayerData.create(
+export const baseAutoraceRacePlayerData = RacePlayerData.create(
+    RaceType.AUTORACE,
     1,
     10000,
 );

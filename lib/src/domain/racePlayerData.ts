@@ -7,7 +7,8 @@ import {
     type PlayerNumber,
     validatePlayerNumber,
 } from '../utility/data/playerNumber';
-import { isRaceType, RaceType } from '../utility/raceType';
+import type { RaceType } from '../utility/raceType';
+import { isRaceType } from '../utility/raceType';
 
 /**
  * レースの選手データ
@@ -63,7 +64,7 @@ export class RacePlayerData {
         }
         return new RacePlayerData(
             raceType,
-            validatePositionNumber(RaceType.BOATRACE, positionNumber),
+            validatePositionNumber(raceType, positionNumber),
             validatePlayerNumber(playerNumber),
         );
     }

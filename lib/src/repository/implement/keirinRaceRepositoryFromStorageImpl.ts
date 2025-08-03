@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { KeirinRaceData } from '../../domain/keirinRaceData';
-import { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
+import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
@@ -57,9 +57,10 @@ export class KeirinRaceRepositoryFromStorageImpl
                         return racePlayerRecord.raceId === raceRecord.id;
                     });
                 // KeirinRacePlayerDataのリストを生成
-                const racePlayerDataList: KeirinRacePlayerData[] =
+                const racePlayerDataList: RacePlayerData[] =
                     filteredRacePlayerRecordList.map((racePlayerRecord) => {
-                        return KeirinRacePlayerData.create(
+                        return RacePlayerData.create(
+                            RaceType.KEIRIN,
                             racePlayerRecord.positionNumber,
                             racePlayerRecord.playerNumber,
                         );
