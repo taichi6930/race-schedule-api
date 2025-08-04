@@ -2,7 +2,7 @@ import type { PlaceData } from '../../domain/placeData';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
-import { generateAutoracePlaceId } from '../../utility/raceId';
+import { generatePlaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
@@ -60,7 +60,11 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
         updateDate: Date,
     ): PlaceEntity {
         return PlaceEntity.create(
-            generateAutoracePlaceId(placeData.dateTime, placeData.location),
+            generatePlaceId(
+                RaceType.AUTORACE,
+                placeData.dateTime,
+                placeData.location,
+            ),
             raceType,
             placeData,
             updateDate,

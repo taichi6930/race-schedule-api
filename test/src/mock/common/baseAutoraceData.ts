@@ -12,16 +12,17 @@ import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCou
 import type { RaceStage } from '../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
-    generateAutoracePlaceId,
     generateAutoraceRaceId,
     generateAutoraceRacePlayerId,
+    generatePlaceId,
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
 const baseAutoracePlaceCourse: RaceCourse = '飯塚';
 const baseAutoracePlaceDateTime = new Date('2024-12-31');
 const baseAutoracePlaceGrade: GradeType = 'SG';
-const baseAutoracePlaceId = generateAutoracePlaceId(
+const baseAutoracePlaceId = generatePlaceId(
+    RaceType.AUTORACE,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
 );

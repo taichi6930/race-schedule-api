@@ -4,7 +4,7 @@ import {
     type PlaceId,
     validatePlaceId,
 } from '../../utility/data/common/placeId';
-import { generateBoatracePlaceId } from '../../utility/raceId';
+import { generatePlaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
@@ -55,7 +55,11 @@ export class BoatracePlaceEntity implements IPlaceEntity<BoatracePlaceEntity> {
         updateDate: Date,
     ): BoatracePlaceEntity {
         return BoatracePlaceEntity.create(
-            generateBoatracePlaceId(placeData.dateTime, placeData.location),
+            generatePlaceId(
+                RaceType.BOATRACE,
+                placeData.dateTime,
+                placeData.location,
+            ),
             placeData,
             updateDate,
         );

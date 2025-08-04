@@ -12,16 +12,17 @@ import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCou
 import type { RaceStage } from '../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
-    generateKeirinPlaceId,
     generateKeirinRaceId,
     generateKeirinRacePlayerId,
+    generatePlaceId,
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
 const baseKeirinPlaceCourse: RaceCourse = '平塚';
 const baseKeirinPlaceDateTime = new Date('2025-12-30');
 const baseKeirinPlaceGrade: GradeType = 'GP';
-const baseKeirinPlaceId = generateKeirinPlaceId(
+const baseKeirinPlaceId = generatePlaceId(
+    RaceType.KEIRIN,
     baseKeirinPlaceDateTime,
     baseKeirinPlaceCourse,
 );

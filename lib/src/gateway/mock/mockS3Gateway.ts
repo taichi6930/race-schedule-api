@@ -8,18 +8,17 @@ import { injectable } from 'tsyringe';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import {
-    generateAutoracePlaceId,
     generateAutoraceRaceId,
-    generateBoatracePlaceId,
     generateBoatraceRaceId,
     generateJraPlaceId,
     generateJraRaceId,
-    generateKeirinPlaceId,
     generateKeirinRaceId,
     generateNarPlaceId,
     generateNarRaceId,
+    generatePlaceId,
     generateWorldRaceId,
 } from '../../utility/raceId';
+import { RaceType } from '../../utility/raceType';
 import { IS3Gateway } from '../interface/iS3Gateway';
 import { IRecord } from '../record/iRecord';
 
@@ -495,7 +494,11 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                 while (currentDate.getMonth() === startDate.getMonth()) {
                     mockData.push(
                         [
-                            generateKeirinPlaceId(currentDate, '川崎'),
+                            generatePlaceId(
+                                RaceType.KEIRIN,
+                                currentDate,
+                                '川崎',
+                            ),
                             format(currentDate, 'yyyy-MM-dd'),
                             '川崎',
                             'GP',
@@ -566,7 +569,11 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                 while (currentDate.getMonth() === startDate.getMonth()) {
                     mockData.push(
                         [
-                            generateAutoracePlaceId(currentDate, '飯塚'),
+                            generatePlaceId(
+                                RaceType.AUTORACE,
+                                currentDate,
+                                '飯塚',
+                            ),
                             format(currentDate, 'yyyy-MM-dd'),
                             '飯塚',
                             'SG',
@@ -642,7 +649,11 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                 while (currentDate.getMonth() === startDate.getMonth()) {
                     mockData.push(
                         [
-                            generateBoatracePlaceId(currentDate, '平和島'),
+                            generatePlaceId(
+                                RaceType.BOATRACE,
+                                currentDate,
+                                '平和島',
+                            ),
                             format(currentDate, 'yyyy-MM-dd'),
                             '平和島',
                             'SG',

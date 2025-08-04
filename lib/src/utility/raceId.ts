@@ -7,19 +7,14 @@ import type {
     KeirinPositionNumber,
 } from './data/common/positionNumber';
 import type { RaceCourse } from './data/common/raceCourse';
-import {
-    AutoracePlaceCodeMap,
-    BoatracePlaceCodeMap,
-    KeirinPlaceCodeMap,
-    WorldPlaceCodeMap,
-} from './data/common/raceCourse';
+import { createPlaceCodeMap } from './data/common/raceCourse';
 import type { RaceDateTime } from './data/common/raceDateTime';
 import type { RaceId } from './data/common/raceId';
 import type { RaceNumber } from './data/common/raceNumber';
 import type { RacePlayerId } from './data/common/racePlayerId';
 import { NetkeibaBabacodeMap } from './data/netkeiba';
 import type { WorldRaceNumber } from './data/world/worldRaceNumber';
-import type { RaceType } from './raceType';
+import { RaceType } from './raceType';
 
 /**
  * 中央競馬のraceIdを作成する
@@ -95,21 +90,11 @@ export const generateWorldRaceId = (
     number: WorldRaceNumber,
 ): RaceId => {
     const numberCode = number.toXDigits(2);
-    return `${generateWorldPlaceId(dateTime, location)}${numberCode}`;
-};
-
-/**
- * 海外競馬のplaceIdを作成する
- * @param dateTime - 開催日時
- * @param location - 開催場所
- */
-export const generateWorldPlaceId = (
-    dateTime: Date,
-    location: RaceCourse,
-): RaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = WorldPlaceCodeMap[location];
-    return `world${dateCode}${locationCode}`;
+    return `${generatePlaceId(
+        RaceType.WORLD,
+        dateTime,
+        location,
+    )}${numberCode}`;
 };
 
 /**
@@ -141,21 +126,7 @@ export const generateKeirinRaceId = (
     number: RaceNumber,
 ): RaceId => {
     const numberCode = number.toXDigits(2);
-    return `${generateKeirinPlaceId(dateTime, location)}${numberCode}`;
-};
-
-/**
- * 競輪のplaceIdを作成する
- * @param dateTime - 開催日時
- * @param location - 開催場所
- */
-export const generateKeirinPlaceId = (
-    dateTime: Date,
-    location: RaceCourse,
-): PlaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = KeirinPlaceCodeMap[location];
-    return `keirin${dateCode}${locationCode}`;
+    return `${generatePlaceId(RaceType.KEIRIN, dateTime, location)}${numberCode}`;
 };
 
 /**
@@ -187,21 +158,7 @@ export const generateBoatraceRaceId = (
     number: RaceNumber,
 ): RaceId => {
     const numberCode = number.toXDigits(2);
-    return `${generateBoatracePlaceId(dateTime, location)}${numberCode}`;
-};
-
-/**
- * ボートレースのplaceIdを作成する
- * @param dateTime - 開催日時
- * @param location - 開催場所
- */
-export const generateBoatracePlaceId = (
-    dateTime: Date,
-    location: RaceCourse,
-): PlaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = BoatracePlaceCodeMap[location];
-    return `boatrace${dateCode}${locationCode}`;
+    return `${generatePlaceId(RaceType.BOATRACE, dateTime, location)}${numberCode}`;
 };
 
 /**
@@ -233,21 +190,7 @@ export const generateAutoraceRaceId = (
     number: RaceNumber,
 ): RaceId => {
     const numberCode = number.toXDigits(2);
-    return `${generateAutoracePlaceId(dateTime, location)}${numberCode}`;
-};
-
-/**
- * オートレースのplaceIdを作成する
- * @param dateTime - 開催日時
- * @param location - 開催場所
- */
-export const generateAutoracePlaceId = (
-    dateTime: Date,
-    location: RaceCourse,
-): PlaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = AutoracePlaceCodeMap[location];
-    return `autorace${dateCode}${locationCode}`;
+    return `${generatePlaceId(RaceType.AUTORACE, dateTime, location)}${numberCode}`;
 };
 
 /**
@@ -262,7 +205,7 @@ export const generatePlaceId = (
     location: RaceCourse,
 ): PlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = AutoracePlaceCodeMap[location];
+    const locationCode = createPlaceCodeMap(raceType)[location];
     const raceTypePrefix = raceType.toLowerCase();
     return `${raceTypePrefix}${dateCode}${locationCode}`;
 };

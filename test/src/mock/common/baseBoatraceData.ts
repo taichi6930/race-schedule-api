@@ -11,16 +11,17 @@ import type { GradeType } from '../../../../lib/src/utility/data/common/gradeTyp
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
-    generateBoatracePlaceId,
     generateBoatraceRaceId,
     generateBoatraceRacePlayerId,
+    generatePlaceId,
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
 const baseBoatracePlaceCourse: RaceCourse = '平和島';
 const baseBoatracePlaceDateTime = new Date('2024-12-31');
 const baseBoatracePlaceGrade: GradeType = 'SG';
-const baseBoatracePlaceId = generateBoatracePlaceId(
+const baseBoatracePlaceId = generatePlaceId(
+    RaceType.BOATRACE,
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,
 );

@@ -2,7 +2,7 @@ import type { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
-import { generateKeirinPlaceId } from '../../utility/raceId';
+import { generatePlaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
@@ -52,7 +52,11 @@ export class KeirinPlaceEntity implements IPlaceEntity<KeirinPlaceEntity> {
         updateDate: Date,
     ): KeirinPlaceEntity {
         return KeirinPlaceEntity.create(
-            generateKeirinPlaceId(placeData.dateTime, placeData.location),
+            generatePlaceId(
+                RaceType.KEIRIN,
+                placeData.dateTime,
+                placeData.location,
+            ),
             placeData,
             updateDate,
         );
