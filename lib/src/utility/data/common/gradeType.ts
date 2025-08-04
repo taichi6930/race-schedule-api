@@ -266,9 +266,7 @@ const GradeTypeList: (raceType: RaceType) => Set<string> = (raceType) =>
  * 指定グレードリスト
  * @param raceType
  */
-export const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (
-    raceType,
-) =>
+const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (raceType) =>
     GradeMasterList.filter((grade) =>
         grade.detail.some(
             (detail) => detail.raceType === raceType && detail.isSpecified,
@@ -278,7 +276,7 @@ export const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (
 /**
  * AutoraceGradeTypeのzod型定義
  */
-export const AutoraceGradeTypeSchema = createGradeSchema(
+const AutoraceGradeTypeSchema = createGradeSchema(
     GradeTypeList(RaceType.AUTORACE),
     'オートレースのグレードではありません',
 );
@@ -286,7 +284,7 @@ export const AutoraceGradeTypeSchema = createGradeSchema(
 /**
  * JraGradeTypeのzod型定義
  */
-export const JraGradeTypeSchema = createGradeSchema(
+const JraGradeTypeSchema = createGradeSchema(
     GradeTypeList(RaceType.JRA),
     'JRAのグレードではありません',
 );
@@ -301,7 +299,7 @@ export const JraSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
 /**
  * WorldGradeTypeのzod型定義
  */
-export const WorldGradeTypeSchema = createGradeSchema(
+const WorldGradeTypeSchema = createGradeSchema(
     GradeTypeList(RaceType.WORLD),
     '海外競馬のグレードではありません',
 );
@@ -309,7 +307,7 @@ export const WorldGradeTypeSchema = createGradeSchema(
 /**
  * KeirinGradeTypeのzod型定義
  */
-export const KeirinGradeTypeSchema = createGradeSchema(
+const KeirinGradeTypeSchema = createGradeSchema(
     GradeTypeList(RaceType.KEIRIN),
     '競輪のグレードではありません',
 );
@@ -317,7 +315,7 @@ export const KeirinGradeTypeSchema = createGradeSchema(
 /**
  * NarGradeTypeのzod型定義
  */
-export const NarGradeTypeSchema = createGradeSchema(
+const NarGradeTypeSchema = createGradeSchema(
     GradeTypeList(RaceType.NAR),
     '地方競馬のグレードではありません',
 );
@@ -332,7 +330,7 @@ export const NarSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
 /**
  * BoatraceGradeTypeのzod型定義
  */
-export const BoatraceGradeTypeSchema = createGradeSchema(
+const BoatraceGradeTypeSchema = createGradeSchema(
     GradeTypeList(RaceType.BOATRACE),
     'ボートレースのグレードではありません',
 );
@@ -366,6 +364,11 @@ export const AutoraceSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
 );
 
 /**
+ * GradeTypeの型定義
+ */
+export type GradeType = z.infer<typeof GradeTypeSchema>;
+
+/**
  * GradeTypeのzod型定義
  */
 export const GradeTypeSchema = z.union([
@@ -376,8 +379,3 @@ export const GradeTypeSchema = z.union([
     AutoraceGradeTypeSchema,
     BoatraceGradeTypeSchema,
 ]);
-
-/**
- * GradeTypeの型定義
- */
-export type GradeType = z.infer<typeof GradeTypeSchema>;

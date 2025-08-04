@@ -3,10 +3,7 @@ import {
     validatePlayerNumber,
 } from '../utility/data/common/playerNumber';
 import type { PositionNumber } from '../utility/data/common/positionNumber';
-import {
-    type BoatracePositionNumber,
-    validatePositionNumber,
-} from '../utility/data/common/positionNumber';
+import { validatePositionNumber } from '../utility/data/common/positionNumber';
 import type { RaceType } from '../utility/raceType';
 import { isRaceType } from '../utility/raceType';
 
@@ -21,7 +18,7 @@ export class RacePlayerData {
     public readonly raceType: RaceType;
     /**
      * 枠番
-     * @type {BoatracePositionNumber}
+     * @type {PositionNumber}
      */
     public readonly positionNumber: PositionNumber;
     /**
