@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
 import { BoatraceRaceStageSchema } from '../boatrace/boatraceRaceStage';
-import type { AutoraceGradeType, GradeType } from './gradeType';
+import type { GradeType } from './gradeType';
 
 /**
  * 指定グレード・ステージリスト
@@ -638,20 +638,70 @@ export const RaceGradeAndStageList: {
         priority: 9,
         description: 'SGの最終日に行われる決勝レース。',
     },
-    // 優勝戦: '優勝戦',
-    // 特別選抜戦: '特別選抜戦',
-    // 選抜戦: '選抜戦',
-    // 特別一般戦: '特別一般戦',
-    // Ｇレース７一般戦: '一般戦',
-    // 一般戦: '一般戦',
-    // 予選: '予選',
-    // 選抜予選: '選抜予選',
-    // 準決勝戦Ｂ: '準決勝戦',
-    // 準決勝戦Ａ: '準決勝戦',
-    // 準決勝戦: '準決勝戦',
-    // 最終予選: '最終予選',
-    // 特別一般戦Ａ: '特別一般戦',
-    // 特別一般戦Ｂ: '特別一般戦',
+    {
+        grade: ['SG'],
+        stage: '特別選抜戦',
+        stageByWebSite: ['特別選抜戦'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの特別選抜レース。決勝進出を目指す重要なレース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '選抜戦',
+        stageByWebSite: ['選抜戦'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの選抜レース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '特別一般戦',
+        stageByWebSite: ['特別一般戦', '特別一般戦Ａ', '特別一般戦Ｂ'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの特別一般戦。',
+    },
+    {
+        grade: ['SG'],
+        stage: '一般戦',
+        stageByWebSite: ['Ｇレース７一般戦', '一般戦'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの一般戦。',
+    },
+    {
+        grade: ['SG'],
+        stage: '予選',
+        stageByWebSite: ['予選'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの予選レース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '選抜予選',
+        stageByWebSite: ['選抜予選'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの選抜予選レース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '準決勝戦',
+        stageByWebSite: ['準決勝戦', '準決勝戦Ａ', '準決勝戦Ｂ'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの準決勝戦。',
+    },
+    {
+        grade: ['SG'],
+        stage: '最終予選',
+        stageByWebSite: ['最終予選'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの最終予選。',
+    },
 ];
 
 /**
@@ -731,42 +781,9 @@ export const KeirinStageMap: Record<string, RaceStage> = StageMap(
 /**
  * AutoraceRaceStageのzod型定義
  */
-
 export const AutoraceRaceStageSchema = z.string().refine((value) => {
-    return AutoraceRaceStageList.has(value);
+    return RaceStageList(RaceType.AUTORACE).has(value);
 }, 'オートレースのステージではありません');
-
-/**
- * オートレースのステージ リスト
- * @param stage - ステージ
- * @returns - バリデーション済みのステージ
- */
-
-export const validateAutoraceRaceStage = (stage: string): RaceStage =>
-    AutoraceRaceStageSchema.parse(stage);
-/**
- * ボートレースのステージ リスト
- */
-const AutoraceRaceStageList = new Set([
-    '優勝戦',
-    '準決勝戦',
-    '特別選抜戦',
-    '特別一般戦',
-    '一般戦',
-    '予選',
-    '選抜予選',
-    '最終予選',
-    'オーバル特別',
-    '選抜戦',
-]);
-/**
- * オートレースの指定グレード・ステージリスト
- */
-export const AutoraceSpecifiedGradeAndStageList: {
-    grade: AutoraceGradeType;
-    stage: RaceStage;
-    priority: number;
-}[] = [{ grade: 'SG', stage: '優勝戦', priority: 9 }];
 
 /**
  * HTMLのステージ名を正式名称に変換するためのマップ
