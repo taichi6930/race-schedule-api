@@ -1,9 +1,8 @@
 import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
-import { AutoraceRaceStageSchema } from '../autorace/autoraceRaceStage';
 import { BoatraceRaceStageSchema } from '../boatrace/boatraceRaceStage';
-import type { KeirinGradeType } from './gradeType';
+import type { AutoraceGradeType, KeirinGradeType } from './gradeType';
 
 /**
  * 指定グレード・ステージリスト
@@ -693,13 +692,8 @@ export const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
  * KeirinRaceStageのzod型定義
  */
 export const KeirinRaceStageSchema = z.string().refine((value) => {
-    return KeirinRaceStageList.has(value);
+    return RaceStageList(RaceType.KEIRIN).has(value);
 }, '競輪のステージではありません');
-
-/**
- * 競輪のステージ リスト
- */
-const KeirinRaceStageList = RaceStageList(RaceType.KEIRIN);
 
 /**
  * HTML表記・oddspark表記の両方をカバーする競輪ステージ名マップ
@@ -707,6 +701,67 @@ const KeirinRaceStageList = RaceStageList(RaceType.KEIRIN);
 export const KeirinStageMap: Record<string, RaceStage> = StageMap(
     RaceType.KEIRIN,
 );
+
+/**
+ * AutoraceRaceStageのzod型定義
+ */
+
+export const AutoraceRaceStageSchema = z.string().refine((value) => {
+    return AutoraceRaceStageList.has(value);
+}, 'オートレースのステージではありません');
+
+/**
+ * オートレースのステージ リスト
+ * @param stage - ステージ
+ * @returns - バリデーション済みのステージ
+ */
+
+export const validateAutoraceRaceStage = (stage: string): RaceStage =>
+    AutoraceRaceStageSchema.parse(stage);
+/**
+ * ボートレースのステージ リスト
+ */
+const AutoraceRaceStageList = new Set([
+    '優勝戦',
+    '準決勝戦',
+    '特別選抜戦',
+    '特別一般戦',
+    '一般戦',
+    '予選',
+    '選抜予選',
+    '最終予選',
+    'オーバル特別',
+    '選抜戦',
+]);
+/**
+ * オートレースの指定グレード・ステージリスト
+ */
+
+export const AutoraceSpecifiedGradeAndStageList: {
+    grade: AutoraceGradeType;
+    stage: RaceStage;
+    priority: number;
+}[] = [{ grade: 'SG', stage: '優勝戦', priority: 9 }];
+/**
+ * HTMLのステージ名を正式名称に変換するためのマップ
+ */
+
+export const AutoraceStageMap: Record<string, RaceStage> = {
+    優勝戦: '優勝戦',
+    特別選抜戦: '特別選抜戦',
+    選抜戦: '選抜戦',
+    特別一般戦: '特別一般戦',
+    Ｇレース７一般戦: '一般戦',
+    一般戦: '一般戦',
+    予選: '予選',
+    選抜予選: '選抜予選',
+    準決勝戦Ｂ: '準決勝戦',
+    準決勝戦Ａ: '準決勝戦',
+    準決勝戦: '準決勝戦',
+    最終予選: '最終予選',
+    特別一般戦Ａ: '特別一般戦',
+    特別一般戦Ｂ: '特別一般戦',
+};
 
 /**
  * RaceStageのzod型定義

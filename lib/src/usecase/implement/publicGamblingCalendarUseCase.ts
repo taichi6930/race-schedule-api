@@ -10,7 +10,6 @@ import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
-import { AutoraceSpecifiedGradeAndStageList } from '../../utility/data/autorace/autoraceRaceStage';
 import { BoatraceSpecifiedGradeAndStageList } from '../../utility/data/boatrace/boatraceRaceStage';
 import {
     AutoraceGradeType,
@@ -18,7 +17,10 @@ import {
     GradeType,
     KeirinGradeType,
 } from '../../utility/data/common/gradeType';
-import { RaceGradeAndStageList } from '../../utility/data/common/raceStage';
+import {
+    AutoraceSpecifiedGradeAndStageList,
+    RaceGradeAndStageList,
+} from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';

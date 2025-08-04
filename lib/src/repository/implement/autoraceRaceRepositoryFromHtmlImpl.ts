@@ -7,9 +7,9 @@ import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import {
-    AutoraceRaceStage,
     AutoraceStageMap,
-} from '../../utility/data/autorace/autoraceRaceStage';
+    RaceStage,
+} from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -139,9 +139,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
             return [];
         }
     }
-    private extractRaceStage(
-        raceSummaryInfoChild: string,
-    ): AutoraceRaceStage | null {
+    private extractRaceStage(raceSummaryInfoChild: string): RaceStage | null {
         for (const [pattern, stage] of Object.entries(AutoraceStageMap)) {
             if (new RegExp(pattern).test(raceSummaryInfoChild)) {
                 return stage;

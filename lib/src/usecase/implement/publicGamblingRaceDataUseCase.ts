@@ -14,7 +14,6 @@ import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
-import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
 import { BoatraceRaceStage } from '../../utility/data/boatrace/boatraceRaceStage';
 import {
     AutoraceGradeType,
@@ -106,7 +105,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             autorace?: {
                 gradeList?: AutoraceGradeType[];
                 locationList?: AutoraceRaceCourse[];
-                stageList?: AutoraceRaceStage[];
+                stageList?: RaceStage[];
             };
             boatrace?: {
                 gradeList?: BoatraceGradeType[];

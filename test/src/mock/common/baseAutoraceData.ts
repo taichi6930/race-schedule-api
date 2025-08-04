@@ -7,9 +7,9 @@ import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceR
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type { AutoraceRaceStage } from '../../../../lib/src/utility/data/autorace/autoraceRaceStage';
 import type { AutoraceGradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { AutoraceRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
+import type { RaceStage } from '../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
     generateAutoracePlaceId,
@@ -29,7 +29,7 @@ const baseAutoracePlaceId = generateAutoracePlaceId(
 const baseAutoraceRaceName = 'スーパースター王座決定戦';
 const baseRaceDateTime = new Date('2024-12-31 16:30');
 const baseAutoraceRaceNumber = 11;
-const baseAutoraceRaceStage: AutoraceRaceStage = '優勝戦';
+const baseAutoraceRaceStage: RaceStage = '優勝戦';
 const baseAutoraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
 export const baseAutoracePlaceData = AutoracePlaceData.create(

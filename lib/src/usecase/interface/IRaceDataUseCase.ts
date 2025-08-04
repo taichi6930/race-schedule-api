@@ -4,7 +4,6 @@ import type { JraRaceData } from '../../domain/jraRaceData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { NarRaceData } from '../../domain/narRaceData';
 import type { WorldRaceData } from '../../domain/worldRaceData';
-import type { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
 import type { BoatraceRaceStage } from '../../utility/data/boatrace/boatraceRaceStage';
 import type {
     AutoraceGradeType,
@@ -60,7 +59,7 @@ export interface IRaceDataUseCase {
             autorace?: {
                 gradeList?: AutoraceGradeType[];
                 locationList?: AutoraceRaceCourse[];
-                stageList?: AutoraceRaceStage[];
+                stageList?: RaceStage[];
             };
             boatrace?: {
                 gradeList?: BoatraceGradeType[];

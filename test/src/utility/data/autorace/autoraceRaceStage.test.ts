@@ -1,9 +1,9 @@
-import { validateAutoraceRaceStage } from '../../../../../lib/src/utility/data/autorace/autoraceRaceStage';
+import { validateAutoraceRaceStage } from '../../../../../lib/src/utility/data/common/raceStage';
 
 /**
  * AutoraceRaceStageクラスのテスト
  */
-describe('AutoraceRaceStage', () => {
+describe('RaceStage', () => {
     describe('validateAutoraceRaceStage', () => {
         it('正常系', () => {
             expect(validateAutoraceRaceStage('優勝戦')).toBe('優勝戦');
