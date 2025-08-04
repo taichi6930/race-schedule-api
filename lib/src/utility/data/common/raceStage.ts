@@ -647,7 +647,9 @@ export type KeirinRaceStage = z.infer<typeof KeirinRaceStageSchema>;
  * 競輪のステージ リスト
  */
 const KeirinRaceStageList = new Set(
-    RaceGradeAndStageList.map((item) => item.stage),
+    RaceGradeAndStageList.filter(
+        (item) => item.raceType === RaceType.KEIRIN,
+    ).map((item) => item.stage),
 );
 
 /**
@@ -663,7 +665,9 @@ export const validateKeirinRaceStage = (stage: string): KeirinRaceStage =>
  */
 export const KeirinStageMap: Record<string, KeirinRaceStage> =
     Object.fromEntries(
-        RaceGradeAndStageList.flatMap((item) =>
+        RaceGradeAndStageList.filter(
+            (item) => item.raceType === RaceType.KEIRIN,
+        ).flatMap((item) =>
             item.stageByWebSite.map((stageByOddspark) => [
                 stageByOddspark,
                 item.stage,
