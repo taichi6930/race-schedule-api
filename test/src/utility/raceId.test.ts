@@ -6,7 +6,6 @@ import { validateJraPlaceId } from '../../../lib/src/utility/data/jra/jraPlaceId
 import { validateKeirinPlaceId } from '../../../lib/src/utility/data/keirin/keirinPlaceId';
 import { validateNarPlaceId } from '../../../lib/src/utility/data/nar/narPlaceId';
 import { validateWorldPlaceId } from '../../../lib/src/utility/data/world/worldPlaceId';
-import { validateWorldRaceId } from '../../../lib/src/utility/data/world/worldRaceId';
 import { RaceType } from '../../../lib/src/utility/raceType';
 
 describe('JraPlaceIdSchema', () => {
@@ -117,18 +116,22 @@ describe('WorldPlaceIdSchema', () => {
 describe('WorldRaceIdSchema', () => {
     it('正しいWorldRaceId', () => {
         const validWorldRaceId = 'world202108010101';
-        expect(validateWorldRaceId(validWorldRaceId)).toBe(validWorldRaceId);
+        expect(validateRaceId(RaceType.WORLD, validWorldRaceId)).toBe(
+            validWorldRaceId,
+        );
     });
 
     it('不正なWorldRaceId', () => {
         const invalidWorldRaceIdAndMessage = [
-            ['worldabc2021080101', 'WorldRaceIdの形式ではありません'],
-            ['world2021world080101', 'WorldRaceIdの形式ではありません'],
-            ['world202108010', 'WorldRaceIdの形式ではありません'],
+            ['worldabc2021080101', 'worldRaceIdの形式ではありません'],
+            ['world2021world080101', 'worldRaceIdの形式ではありません'],
+            ['world202108010', 'worldRaceIdの形式ではありません'],
             ['jra202108010101', 'worldから始まる必要があります'],
         ];
         for (const [invalidId, message] of invalidWorldRaceIdAndMessage) {
-            expect(() => validateWorldRaceId(invalidId)).toThrow(message);
+            expect(() => validateRaceId(RaceType.WORLD, invalidId)).toThrow(
+                message,
+            );
         }
     });
 });

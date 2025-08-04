@@ -6,7 +6,7 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../../domain/calendarData';
 import type { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
-import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
+import type { RaceId } from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getWorldGoogleCalendarColorId } from '../../utility/googleCalendar';
@@ -28,7 +28,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: WorldRaceId,
+        public readonly id: RaceId,
         public readonly raceData: WorldRaceData,
         public readonly updateDate: UpdateDate,
     ) {}

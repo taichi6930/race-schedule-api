@@ -14,11 +14,11 @@ import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../../utility/data/common/raceDateTime';
 import type { RaceDistance } from '../../utility/data/common/raceDistance';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
+import type { RaceId } from '../../utility/data/common/raceId';
 import {
     type RaceName,
     validateRaceName,
 } from '../../utility/data/common/raceName';
-import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import {
     validateWorldRaceNumber,
     type WorldRaceNumber,
@@ -46,7 +46,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: WorldRaceId,
+        public readonly id: RaceId,
         public readonly name: RaceName,
         public readonly dateTime: RaceDateTime,
         public readonly location: WorldRaceCourse,
@@ -70,7 +70,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
      * @param updateDate - 更新日時
      */
     public static create(
-        id: WorldRaceId,
+        id: RaceId,
         name: RaceName,
         dateTime: RaceDateTime,
         location: WorldRaceCourse,

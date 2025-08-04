@@ -28,7 +28,6 @@ import type { RacePlayerId } from './data/common/racePlayerId';
 import type { KeirinPlaceId } from './data/keirin/keirinPlaceId';
 import type { NarPlaceId } from './data/nar/narPlaceId';
 import { NetkeibaBabacodeMap } from './data/netkeiba';
-import type { WorldRaceId } from './data/world/worldRaceId';
 import type { WorldRaceNumber } from './data/world/worldRaceNumber';
 
 /**
@@ -103,7 +102,7 @@ export const generateWorldRaceId = (
     dateTime: RaceDateTime,
     location: WorldRaceCourse,
     number: WorldRaceNumber,
-): WorldRaceId => {
+): RaceId => {
     const numberCode = number.toXDigits(2);
     return `${generateWorldPlaceId(dateTime, location)}${numberCode}`;
 };
@@ -116,7 +115,7 @@ export const generateWorldRaceId = (
 export const generateWorldPlaceId = (
     dateTime: Date,
     location: WorldRaceCourse,
-): WorldRaceId => {
+): RaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = WorldPlaceCodeMap[location];
     return `world${dateCode}${locationCode}`;
