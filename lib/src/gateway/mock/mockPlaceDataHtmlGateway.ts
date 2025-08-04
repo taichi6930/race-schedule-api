@@ -18,24 +18,33 @@ export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
      * @param date
      */
     private buildUrl(raceType: RaceType, date: Date): string {
-        if (raceType === RaceType.JRA) {
-            return `../mockData/html/jra/place/${format(date, 'yyyy')}.html`;
+        switch (raceType) {
+            case RaceType.JRA: {
+                return `../mockData/html/jra/place/${format(date, 'yyyy')}.html`;
+            }
+            case RaceType.NAR: {
+                return `../mockData/html/nar/place/${format(date, 'yyyyMM')}.html`;
+            }
+            case RaceType.KEIRIN: {
+                return `../mockData/html/keirin/place/${format(date, 'yyyyMM')}.html`;
+            }
+            case RaceType.AUTORACE: {
+                return `../mockData/html/autorace/place/${format(date, 'yyyyMM')}.html`;
+            }
+            case RaceType.BOATRACE: {
+                // 1~3月は1、4月~6月は2、7月~9月は3、10月~12月は4
+                const quarter = Math.ceil((date.getMonth() + 1) / 3).toString();
+                // ボートレースのURLはquarterを使って生成
+                return `../mockData/html/boatrace/place/${format(date, 'yyyy')}${quarter}.html`;
+            }
+            case RaceType.WORLD: {
+                // WORLDは未対応
+                throw new Error('未対応のraceTypeです');
+            }
+            default: {
+                throw new Error('未対応のraceTypeです');
+            }
         }
-        if (raceType === RaceType.NAR) {
-            return `../mockData/html/nar/place/${format(date, 'yyyyMM')}.html`;
-        }
-        if (raceType === RaceType.KEIRIN) {
-            return `../mockData/html/keirin/place/${format(date, 'yyyyMM')}.html`;
-        }
-        if (raceType === RaceType.AUTORACE) {
-            return `../mockData/html/autorace/place/${format(date, 'yyyyMM')}.html`;
-        }
-        if (raceType === RaceType.BOATRACE) {
-            // 1~3月は1、4月~6月は2、7月~9月は3、10月~12月は4
-            const quarter = Math.ceil((date.getMonth() + 1) / 3).toString();
-            return `../mockData/html/boatrace/place/${format(date, 'yyyy')}${quarter}.html`;
-        }
-        throw new Error('未対応のraceTypeです');
     }
 
     /**
