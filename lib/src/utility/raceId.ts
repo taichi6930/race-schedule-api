@@ -26,13 +26,13 @@ import type {
     AutoraceRaceId,
     BoatraceRaceId,
     KeirinRaceId,
+    RaceId,
 } from './data/common/raceId';
 import type { RaceNumber } from './data/common/raceNumber';
 import type { RacePlayerId } from './data/common/racePlayerId';
 import type { JraRaceId } from './data/jra/jraRaceId';
 import type { KeirinPlaceId } from './data/keirin/keirinPlaceId';
 import type { NarPlaceId } from './data/nar/narPlaceId';
-import type { NarRaceId } from './data/nar/narRaceId';
 import { NetkeibaBabacodeMap } from './data/netkeiba';
 import type { WorldRaceId } from './data/world/worldRaceId';
 import type { WorldRaceNumber } from './data/world/worldRaceNumber';
@@ -78,7 +78,7 @@ export const generateNarRaceId = (
     dateTime: Date,
     location: NarRaceCourse,
     number: RaceNumber,
-): NarRaceId => {
+): RaceId => {
     const numberCode = number.toXDigits(2);
     return `${generateNarPlaceId(dateTime, location)}${numberCode}`;
 };

@@ -6,7 +6,6 @@ import { validateJraPlaceId } from '../../../lib/src/utility/data/jra/jraPlaceId
 import { validateJraRaceId } from '../../../lib/src/utility/data/jra/jraRaceId';
 import { validateKeirinPlaceId } from '../../../lib/src/utility/data/keirin/keirinPlaceId';
 import { validateNarPlaceId } from '../../../lib/src/utility/data/nar/narPlaceId';
-import { validateNarRaceId } from '../../../lib/src/utility/data/nar/narRaceId';
 import { validateWorldPlaceId } from '../../../lib/src/utility/data/world/worldPlaceId';
 import { validateWorldRaceId } from '../../../lib/src/utility/data/world/worldRaceId';
 import { RaceType } from '../../../lib/src/utility/raceType';
@@ -72,19 +71,23 @@ describe('NarPlaceIdSchema', () => {
 describe('NarRaceIdSchema', () => {
     it('正しいNarRaceId', () => {
         const validNarRaceId = 'nar202108010101';
-        expect(validateNarRaceId(validNarRaceId)).toBe(validNarRaceId);
+        expect(validateRaceId(RaceType.NAR, validNarRaceId)).toBe(
+            validNarRaceId,
+        );
     });
 
     it('不正なNarRaceId', () => {
         const invalidNarRaceIdAndMessage = [
-            ['narabc2021080101', 'NarRaceIdの形式ではありません'],
-            ['nar2021nar080101', 'NarRaceIdの形式ではありません'],
-            ['nar202108010', 'NarRaceIdの形式ではありません'],
+            ['narabc2021080101', 'narRaceIdの形式ではありません'],
+            ['nar2021nar080101', 'narRaceIdの形式ではありません'],
+            ['nar202108010', 'narRaceIdの形式ではありません'],
             ['jra202108010101', 'narから始まる必要があります'],
             ['nar202108010113', 'レース番号は1~12の範囲である必要があります'],
         ];
         for (const [invalidId, message] of invalidNarRaceIdAndMessage) {
-            expect(() => validateNarRaceId(invalidId)).toThrow(message);
+            expect(() => validateRaceId(RaceType.NAR, invalidId)).toThrow(
+                message,
+            );
         }
     });
 });

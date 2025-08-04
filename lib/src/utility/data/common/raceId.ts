@@ -34,7 +34,6 @@ const RaceIdSchema = (raceType: RaceType): z.ZodString => {
 
 /**
  * KeirinRaceIdのzod型定義
- * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
  */
 const KeirinRaceIdSchema = RaceIdSchema(RaceType.KEIRIN);
 
@@ -42,6 +41,11 @@ const KeirinRaceIdSchema = RaceIdSchema(RaceType.KEIRIN);
  * BoatraceRaceIdのzod型定義
  */
 const BoatraceRaceIdSchema = RaceIdSchema(RaceType.BOATRACE);
+
+/**
+ * BoatraceRaceIdのzod型定義
+ */
+const NarRaceIdSchema = RaceIdSchema(RaceType.NAR);
 
 /**
  * RaceIdのzod型定義
@@ -65,8 +69,10 @@ export const validateRaceId = (raceType: RaceType, value: string): RaceId => {
         case RaceType.AUTORACE: {
             return AutoraceRaceIdSchema.parse(value);
         }
+        case RaceType.NAR: {
+            return NarRaceIdSchema.parse(value);
+        }
         case RaceType.JRA:
-        case RaceType.NAR:
         case RaceType.WORLD: {
             throw new Error(
                 `RaceId validation is not supported for ${raceType}`,
@@ -89,6 +95,7 @@ export const UnionRaceIdSchema = z.union([
     KeirinRaceIdSchema,
     AutoraceRaceIdSchema,
     BoatraceRaceIdSchema,
+    NarRaceIdSchema,
 ]);
 
 /**
@@ -104,5 +111,4 @@ export type BoatraceRaceId = z.infer<typeof BoatraceRaceIdSchema>;
 /**
  * AutoraceRaceIdの型定義
  */
-
 export type AutoraceRaceId = z.infer<typeof AutoraceRaceIdSchema>;
