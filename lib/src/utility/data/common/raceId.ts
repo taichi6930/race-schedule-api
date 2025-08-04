@@ -76,9 +76,7 @@ export type RaceId = z.infer<typeof UnionRaceIdSchema>;
 export const validateRaceId = (raceType: RaceType, value: string): RaceId => {
     switch (raceType) {
         case RaceType.WORLD: {
-            WorldRaceIdSchema.parse(value);
-            // If parse succeeds, return value; otherwise, parse will throw
-            return value;
+            return WorldRaceIdSchema.parse(value);
         }
         case RaceType.BOATRACE: {
             return BoatraceRaceIdSchema.parse(value);

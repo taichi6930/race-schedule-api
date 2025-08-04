@@ -6,8 +6,8 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../../domain/calendarData';
 import type { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
+import type { RaceId } from '../../utility/data/common/raceId';
 import { validateRaceId } from '../../utility/data/common/raceId';
-import type { RaceId } from '../../utility/data/jra/jraRaceId';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import {
     createNetkeibaJraRaceVideoUrl,

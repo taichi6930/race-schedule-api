@@ -16,6 +16,7 @@ import {
 } from '../../utility/data/common/raceDateTime';
 import type { RaceDistance } from '../../utility/data/common/raceDistance';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
+import type { RaceId } from '../../utility/data/common/raceId';
 import { validateRaceId } from '../../utility/data/common/raceId';
 import {
     type RaceName,
@@ -33,7 +34,6 @@ import {
     type JraHeldTimes,
     validateJraHeldTimes,
 } from '../../utility/data/jra/jraHeldTimes';
-import type { RaceId } from '../../utility/data/jra/jraRaceId';
 import { createErrorMessage } from '../../utility/error';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
