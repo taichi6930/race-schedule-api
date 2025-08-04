@@ -25,17 +25,18 @@ import {
     validateRaceStage,
 } from '../../utility/data/common/raceStage';
 import { createErrorMessage } from '../../utility/error';
-import { RaceType } from '../../utility/raceType';
+import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
 /**
- * オートレースのレース開催データ
+ * レース開催データ
  */
-export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
+export class RaceRecord implements IRecord<RaceRecord> {
     /**
      * コンストラクタ
      * @param id - ID
+     * @param raceType - レース種別
      * @param name - レース名
      * @param stage - 開催ステージ
      * @param dateTime - 開催日時
@@ -48,6 +49,7 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
      */
     private constructor(
         public readonly id: RaceId,
+        public readonly raceType: RaceType,
         public readonly name: RaceName,
         public readonly stage: RaceStage,
         public readonly dateTime: RaceDateTime,
@@ -60,6 +62,7 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
     /**
      * インスタンス生成メソッド
      * @param id - ID
+     * @param raceType - レース種別
      * @param name - レース名
      * @param stage - 開催ステージ
      * @param dateTime - 開催日時
@@ -70,6 +73,7 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
      */
     public static create(
         id: string,
+        raceType: RaceType,
         name: string,
         stage: string,
         dateTime: Date,
@@ -77,20 +81,21 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
         grade: string,
         number: number,
         updateDate: Date,
-    ): AutoraceRaceRecord {
+    ): RaceRecord {
         try {
-            return new AutoraceRaceRecord(
-                validateRaceId(RaceType.AUTORACE, id),
+            return new RaceRecord(
+                validateRaceId(raceType, id),
+                raceType,
                 validateRaceName(name),
-                validateRaceStage(RaceType.AUTORACE, stage),
+                validateRaceStage(raceType, stage),
                 validateRaceDateTime(dateTime),
-                validateRaceCourse(RaceType.AUTORACE, location),
-                validateGradeType(RaceType.AUTORACE, grade),
+                validateRaceCourse(raceType, location),
+                validateGradeType(raceType, grade),
                 validateRaceNumber(number),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
-            throw new Error(createErrorMessage('AutoraceRaceRecord', error));
+            throw new Error(createErrorMessage('RaceRecord', error));
         }
     }
 
@@ -98,9 +103,10 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<AutoraceRaceRecord> = {}): AutoraceRaceRecord {
-        return AutoraceRaceRecord.create(
+    public copy(partial: Partial<RaceRecord> = {}): RaceRecord {
+        return RaceRecord.create(
             partial.id ?? this.id,
+            partial.raceType ?? this.raceType,
             partial.name ?? this.name,
             partial.stage ?? this.stage,
             partial.dateTime ?? this.dateTime,

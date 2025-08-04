@@ -2,11 +2,11 @@ import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
-import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import { PlaceRecord } from '../../../../lib/src/gateway/record/placeRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
-import { PlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import { RaceRecord } from '../../../../lib/src/gateway/record/raceRecord';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
+import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import type { RaceStage } from '../../../../lib/src/utility/data/common/raceStage';
@@ -59,13 +59,14 @@ export const baseAutoracePlaceRecord = PlaceRecord.create(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoraceRaceRecord = AutoraceRaceRecord.create(
+export const baseAutoraceRaceRecord = RaceRecord.create(
     generateRaceId(
         RaceType.AUTORACE,
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,
         baseAutoraceRaceNumber,
     ),
+    RaceType.AUTORACE,
     baseAutoraceRaceName,
     baseAutoraceRaceStage,
     baseRaceDateTime,

@@ -3,7 +3,6 @@ import { container } from 'tsyringe';
 import { S3Gateway } from '../../src/gateway/implement/s3Gateway';
 import type { IS3Gateway } from '../../src/gateway/interface/iS3Gateway';
 import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
-import type { AutoraceRaceRecord } from '../../src/gateway/record/autoraceRaceRecord';
 import type { BoatracePlaceRecord } from '../../src/gateway/record/boatracePlaceRecord';
 import type { BoatraceRaceRecord } from '../../src/gateway/record/boatraceRaceRecord';
 import type { JraPlaceRecord } from '../../src/gateway/record/jraPlaceRecord';
@@ -14,6 +13,7 @@ import type { NarPlaceRecord } from '../../src/gateway/record/narPlaceRecord';
 import type { NarRaceRecord } from '../../src/gateway/record/narRaceRecord';
 import type { PlaceRecord } from '../../src/gateway/record/placeRecord';
 import type { RacePlayerRecord } from '../../src/gateway/record/racePlayerRecord';
+import type { RaceRecord } from '../../src/gateway/record/raceRecord';
 import type { WorldRaceRecord } from '../../src/gateway/record/worldRaceRecord';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
@@ -268,19 +268,19 @@ container.register<IS3Gateway<WorldRaceRecord>>('WorldRaceS3Gateway', {
     },
 });
 
-container.register<IS3Gateway<AutoraceRaceRecord>>('AutoraceRaceS3Gateway', {
+container.register<IS3Gateway<RaceRecord>>('AutoraceRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<AutoraceRaceRecord>(
+                return new S3Gateway<RaceRecord>(
                     'race-schedule-bucket',
                     'autorace/',
                 );
             }
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<AutoraceRaceRecord>(
+                return new S3Gateway<RaceRecord>(
                     'race-schedule-bucket-test',
                     'autorace/',
                 );
@@ -289,7 +289,7 @@ container.register<IS3Gateway<AutoraceRaceRecord>>('AutoraceRaceS3Gateway', {
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<AutoraceRaceRecord>(
+                return new MockS3Gateway<RaceRecord>(
                     'race-schedule-bucket',
                     'autorace/',
                 );

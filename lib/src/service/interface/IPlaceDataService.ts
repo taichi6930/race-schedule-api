@@ -1,8 +1,8 @@
-import type { PlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import type { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import type { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import type { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
+import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { DataLocationType } from '../../utility/dataType';
 
 /**

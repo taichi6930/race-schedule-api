@@ -5,13 +5,13 @@ import { inject, injectable } from 'tsyringe';
 import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
+import { RaceRecord } from '../../gateway/record/raceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { PlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -27,7 +27,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('AutoraceRaceS3Gateway')
-        private readonly raceS3Gateway: IS3Gateway<AutoraceRaceRecord>,
+        private readonly raceS3Gateway: IS3Gateway<RaceRecord>,
         @inject('AutoraceRacePlayerS3Gateway')
         private readonly racePlayerS3Gateway: IS3Gateway<RacePlayerRecord>,
     ) {}
@@ -45,7 +45,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
             await this.getRacePlayerRecordListFromS3();
 
         // レースデータを取得する
-        const raceRaceRecordList: AutoraceRaceRecord[] =
+        const raceRaceRecordList: RaceRecord[] =
             await this.getRaceRecordListFromS3();
 
         // RaceEntityに変換
@@ -103,15 +103,15 @@ export class AutoraceRaceRepositoryFromStorageImpl
         raceEntityList: AutoraceRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchRaceRecordList: AutoraceRaceRecord[] =
+        const existFetchRaceRecordList: RaceRecord[] =
             await this.getRaceRecordListFromS3();
 
         const existFetchRacePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
-        const raceRecordList: AutoraceRaceRecord[] = raceEntityList.map(
-            (raceEntity) => raceEntity.toRaceRecord(),
+        const raceRecordList: RaceRecord[] = raceEntityList.map((raceEntity) =>
+            raceEntity.toRaceRecord(),
         );
 
         // RaceEntityをRacePlayerRecordに変換する
@@ -165,7 +165,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
      * レースデータをS3から取得する
      */
     @Logger
-    private async getRaceRecordListFromS3(): Promise<AutoraceRaceRecord[]> {
+    private async getRaceRecordListFromS3(): Promise<RaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.raceS3Gateway.fetchDataFromS3(
             this.raceListFileName,
@@ -195,7 +195,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してRaceDataのリストを生成
-        return lines.slice(1).flatMap((line: string): AutoraceRaceRecord[] => {
+        return lines.slice(1).flatMap((line: string): RaceRecord[] => {
             try {
                 const columns = line.split(',');
 
@@ -204,8 +204,9 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return [
-                    AutoraceRaceRecord.create(
+                    RaceRecord.create(
                         columns[indices.id],
+                        RaceType.AUTORACE,
                         columns[indices.name],
                         columns[indices.stage],
                         new Date(columns[indices.dateTime]),

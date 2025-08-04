@@ -8,7 +8,7 @@ import { container } from 'tsyringe';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { PlaceRecord } from '../../../../lib/src/gateway/record/placeRecord';
-import { PlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { AutoracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/autoracePlaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';

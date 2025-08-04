@@ -1,5 +1,5 @@
 import { PlaceData } from '../../domain/placeData';
-import { PlaceEntity } from '../../repository/entity/autoracePlaceEntity';
+import { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
@@ -13,7 +13,7 @@ import {
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
 import { createErrorMessage } from '../../utility/error';
-import { RaceType } from '../../utility/raceType';
+import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -61,19 +61,16 @@ export class PlaceRecord implements IRecord<PlaceRecord> {
     ): PlaceRecord {
         try {
             return new PlaceRecord(
-                validatePlaceId(RaceType.AUTORACE, id),
+                validatePlaceId(raceType, id),
                 raceType,
                 validateRaceDateTime(dateTime),
-                validateRaceCourse(RaceType.AUTORACE, location),
-                validateGradeType(RaceType.AUTORACE, grade),
+                validateRaceCourse(raceType, location),
+                validateGradeType(raceType, grade),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
             throw new Error(
-                createErrorMessage(
-                    'Failed to create AutoracePlaceRecord',
-                    error,
-                ),
+                createErrorMessage('Failed to create PlaceRecord', error),
             );
         }
     }

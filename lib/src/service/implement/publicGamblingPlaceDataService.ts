@@ -1,10 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
+import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';

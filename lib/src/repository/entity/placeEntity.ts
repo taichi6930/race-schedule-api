@@ -3,7 +3,7 @@ import { PlaceRecord } from '../../gateway/record/placeRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import { generatePlaceId } from '../../utility/raceId';
-import { RaceType } from '../../utility/raceType';
+import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
@@ -41,7 +41,7 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
         updateDate: Date,
     ): PlaceEntity {
         return new PlaceEntity(
-            validatePlaceId(RaceType.AUTORACE, id),
+            validatePlaceId(raceType, id),
             raceType,
             placeData,
             validateUpdateDate(updateDate),
@@ -60,11 +60,7 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
         updateDate: Date,
     ): PlaceEntity {
         return PlaceEntity.create(
-            generatePlaceId(
-                RaceType.AUTORACE,
-                placeData.dateTime,
-                placeData.location,
-            ),
+            generatePlaceId(raceType, placeData.dateTime, placeData.location),
             raceType,
             placeData,
             updateDate,

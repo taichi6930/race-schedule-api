@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import { PlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';

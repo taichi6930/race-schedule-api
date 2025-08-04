@@ -6,8 +6,8 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../../domain/calendarData';
 import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
-import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
+import { RaceRecord } from '../../gateway/record/raceRecord';
 import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
@@ -98,9 +98,10 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     /**
      * AutoraceRaceRecordに変換する
      */
-    public toRaceRecord(): AutoraceRaceRecord {
-        return AutoraceRaceRecord.create(
+    public toRaceRecord(): RaceRecord {
+        return RaceRecord.create(
             this.id,
+            this.raceData.raceType,
             this.raceData.name,
             this.raceData.stage,
             this.raceData.dateTime,

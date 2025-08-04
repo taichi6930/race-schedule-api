@@ -1,10 +1,10 @@
 import { container } from 'tsyringe';
 
-import type { PlaceEntity } from '../../src/repository/entity/autoracePlaceEntity';
 import type { BoatracePlaceEntity } from '../../src/repository/entity/boatracePlaceEntity';
 import type { JraPlaceEntity } from '../../src/repository/entity/jraPlaceEntity';
 import type { KeirinPlaceEntity } from '../../src/repository/entity/keirinPlaceEntity';
 import type { NarPlaceEntity } from '../../src/repository/entity/narPlaceEntity';
+import type { PlaceEntity } from '../../src/repository/entity/placeEntity';
 import { AutoracePlaceRepositoryFromStorageImpl } from '../../src/repository/implement/autoracePlaceRepositoryFromStorageImpl';
 import { BoatracePlaceRepositoryFromStorageImpl } from '../../src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
 import { JraPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/jraPlaceRepositoryFromStorageImpl';
