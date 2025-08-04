@@ -17,10 +17,7 @@ import {
     GradeType,
     KeirinGradeType,
 } from '../../utility/data/common/gradeType';
-import {
-    AutoraceSpecifiedGradeAndStageList,
-    RaceGradeAndStageList,
-} from '../../utility/data/common/raceStage';
+import { RaceGradeAndStageList } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -345,12 +342,17 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 );
 
                 const racePriority: number =
-                    AutoraceSpecifiedGradeAndStageList.find((raceGradeList) => {
+                    RaceGradeAndStageList.filter(
+                        (raceGradeList) =>
+                            raceGradeList.raceType === RaceType.AUTORACE,
+                    ).find((raceGradeList) => {
                         return (
                             displayGradeList.includes(
                                 raceEntity.raceData.grade,
                             ) &&
-                            raceGradeList.grade === raceEntity.raceData.grade &&
+                            raceGradeList.grade.includes(
+                                raceEntity.raceData.grade,
+                            ) &&
                             raceGradeList.stage === raceEntity.raceData.stage
                         );
                     })?.priority ?? 0;

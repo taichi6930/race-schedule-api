@@ -2,13 +2,13 @@ import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
 import { BoatraceRaceStageSchema } from '../boatrace/boatraceRaceStage';
-import type { AutoraceGradeType, KeirinGradeType } from './gradeType';
+import type { AutoraceGradeType, GradeType } from './gradeType';
 
 /**
  * 指定グレード・ステージリスト
  */
 export const RaceGradeAndStageList: {
-    grade: KeirinGradeType[];
+    grade: GradeType[];
     stage: RaceStage;
     stageByWebSite: string[];
     raceType: RaceType;
@@ -630,6 +630,28 @@ export const RaceGradeAndStageList: {
         description:
             'FⅠの初日特別選抜レース。準決勝のシード選手が出場する特別なレース。',
     },
+    {
+        grade: ['SG'],
+        stage: '優勝戦',
+        stageByWebSite: ['優勝戦'],
+        raceType: RaceType.AUTORACE,
+        priority: 9,
+        description: 'SGの最終日に行われる決勝レース。',
+    },
+    // 優勝戦: '優勝戦',
+    // 特別選抜戦: '特別選抜戦',
+    // 選抜戦: '選抜戦',
+    // 特別一般戦: '特別一般戦',
+    // Ｇレース７一般戦: '一般戦',
+    // 一般戦: '一般戦',
+    // 予選: '予選',
+    // 選抜予選: '選抜予選',
+    // 準決勝戦Ｂ: '準決勝戦',
+    // 準決勝戦Ａ: '準決勝戦',
+    // 準決勝戦: '準決勝戦',
+    // 最終予選: '最終予選',
+    // 特別一般戦Ａ: '特別一般戦',
+    // 特別一般戦Ｂ: '特別一般戦',
 ];
 
 /**
@@ -740,32 +762,18 @@ const AutoraceRaceStageList = new Set([
 /**
  * オートレースの指定グレード・ステージリスト
  */
-
 export const AutoraceSpecifiedGradeAndStageList: {
     grade: AutoraceGradeType;
     stage: RaceStage;
     priority: number;
 }[] = [{ grade: 'SG', stage: '優勝戦', priority: 9 }];
+
 /**
  * HTMLのステージ名を正式名称に変換するためのマップ
  */
-
-export const AutoraceStageMap: Record<string, RaceStage> = {
-    優勝戦: '優勝戦',
-    特別選抜戦: '特別選抜戦',
-    選抜戦: '選抜戦',
-    特別一般戦: '特別一般戦',
-    Ｇレース７一般戦: '一般戦',
-    一般戦: '一般戦',
-    予選: '予選',
-    選抜予選: '選抜予選',
-    準決勝戦Ｂ: '準決勝戦',
-    準決勝戦Ａ: '準決勝戦',
-    準決勝戦: '準決勝戦',
-    最終予選: '最終予選',
-    特別一般戦Ａ: '特別一般戦',
-    特別一般戦Ｂ: '特別一般戦',
-};
+export const AutoraceStageMap: Record<string, RaceStage> = StageMap(
+    RaceType.AUTORACE,
+);
 
 /**
  * RaceStageのzod型定義
