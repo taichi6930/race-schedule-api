@@ -1,8 +1,8 @@
-import type { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import type { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import type { JraRaceData } from '../../domain/jraRaceData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { NarRaceData } from '../../domain/narRaceData';
+import type { RaceData } from '../../domain/raceData';
 import type { WorldRaceData } from '../../domain/worldRaceData';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import type { RaceCourse } from '../../utility/data/common/raceCourse';
@@ -57,7 +57,7 @@ export interface IRaceDataUseCase {
         nar: NarRaceData[];
         world: WorldRaceData[];
         keirin: KeirinRaceData[];
-        autorace: AutoraceRaceData[];
+        autorace: RaceData[];
         boatrace: BoatraceRaceData[];
     }>;
 
@@ -105,7 +105,7 @@ export interface IRaceDataUseCase {
         nar?: NarRaceData[];
         world?: WorldRaceData[];
         keirin?: KeirinRaceData[];
-        autorace?: AutoraceRaceData[];
+        autorace?: RaceData[];
         boatrace?: BoatraceRaceData[];
     }) => Promise<void>;
 }

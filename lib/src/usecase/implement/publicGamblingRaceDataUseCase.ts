@@ -1,10 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
-import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { NarRaceData } from '../../domain/narRaceData';
+import { RaceData } from '../../domain/raceData';
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
@@ -103,7 +103,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         nar: NarRaceData[];
         world: WorldRaceData[];
         keirin: KeirinRaceData[];
-        autorace: AutoraceRaceData[];
+        autorace: RaceData[];
         boatrace: BoatraceRaceData[];
     }> {
         const placeEntityList =
@@ -460,7 +460,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         nar?: NarRaceData[];
         world?: WorldRaceData[];
         keirin?: KeirinRaceData[];
-        autorace?: AutoraceRaceData[];
+        autorace?: RaceData[];
         boatrace?: BoatraceRaceData[];
     }): Promise<void> {
         const raceEntityList = {

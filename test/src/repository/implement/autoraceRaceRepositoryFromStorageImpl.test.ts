@@ -6,7 +6,7 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import type { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
@@ -15,6 +15,7 @@ import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autora
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/autoraceRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { baseAutoraceRacePlayerDataList } from '../../mock/common/baseAutoraceData';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
@@ -89,7 +90,8 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from({ length: 12 }, (__, j) =>
                         AutoraceRaceEntity.createWithoutId(
-                            AutoraceRaceData.create(
+                            RaceData.create(
+                                RaceType.AUTORACE,
                                 `raceName${format(date, 'yyyyMMdd')}`,
                                 `優勝戦`,
                                 date,
@@ -121,7 +123,8 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                 date.setDate(date.getDate() + day);
                 return Array.from({ length: 12 }, (__, j) =>
                     AutoraceRaceEntity.createWithoutId(
-                        AutoraceRaceData.create(
+                        RaceData.create(
+                            RaceType.AUTORACE,
                             `raceName${format(date, 'yyyyMMdd')}`,
                             `優勝戦`,
                             date,

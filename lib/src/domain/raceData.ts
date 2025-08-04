@@ -22,13 +22,18 @@ import {
     type RaceStage,
     validateRaceStage,
 } from '../utility/data/common/raceStage';
-import { RaceType } from '../utility/raceType';
+import type { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
  * オートレースのレース開催データ
  */
-export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
+export class RaceData implements IPlaceData<RaceData> {
+    /**
+     * レース種別
+     * @type {RaceType}
+     */
+    public readonly raceType: RaceType;
     /**
      * レース名
      * @type {RaceName}
@@ -62,6 +67,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
 
     /**
      * コンストラクタ
+     * @param raceType - レース種別
      * @param name - レース名
      * @param stage - 開催ステージ
      * @param dateTime - 開催日時
@@ -72,6 +78,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
      * レース開催データを生成する
      */
     private constructor(
+        raceType: RaceType,
         name: RaceName,
         stage: RaceStage,
         dateTime: RaceDateTime,
@@ -79,6 +86,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
         grade: GradeType,
         number: RaceNumber,
     ) {
+        this.raceType = raceType;
         this.name = name;
         this.stage = stage;
         this.dateTime = dateTime;
@@ -90,6 +98,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
     /**
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
+     * @param raceType - レース種別
      * @param name - レース名
      * @param stage - 開催ステージ
      * @param dateTime - 開催日時
@@ -98,19 +107,21 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
      * @param number - レース番号
      */
     public static create(
+        raceType: RaceType,
         name: string,
         stage: string,
         dateTime: Date,
         location: string,
         grade: string,
         number: number,
-    ): AutoraceRaceData {
-        return new AutoraceRaceData(
+    ): RaceData {
+        return new RaceData(
+            raceType,
             validateRaceName(name),
-            validateRaceStage(RaceType.AUTORACE, stage),
+            validateRaceStage(raceType, stage),
             validateRaceDateTime(dateTime),
-            validateRaceCourse(RaceType.AUTORACE, location),
-            validateGradeType(RaceType.AUTORACE, grade),
+            validateRaceCourse(raceType, location),
+            validateGradeType(raceType, grade),
             validateRaceNumber(number),
         );
     }
@@ -119,8 +130,9 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<AutoraceRaceData> = {}): AutoraceRaceData {
-        return AutoraceRaceData.create(
+    public copy(partial: Partial<RaceData> = {}): RaceData {
+        return RaceData.create(
+            partial.raceType ?? this.raceType,
             partial.name ?? this.name,
             partial.stage ?? this.stage,
             partial.dateTime ?? this.dateTime,

@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { PlaceData } from '../../domain/placeData';
+import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import {
     AutoraceStageMap,
@@ -118,7 +118,8 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                         if (raceStage !== null && raceStage.trim() !== '') {
                             autoraceRaceDataList.push(
                                 AutoraceRaceEntity.createWithoutId(
-                                    AutoraceRaceData.create(
+                                    RaceData.create(
+                                        RaceType.AUTORACE,
                                         raceName,
                                         raceStage,
                                         raceDate,

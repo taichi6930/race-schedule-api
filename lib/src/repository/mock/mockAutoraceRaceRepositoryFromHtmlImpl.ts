@@ -1,6 +1,7 @@
-import { AutoraceRaceData } from '../../domain/autoraceRaceData';
+import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { PlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -23,7 +24,8 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
                     const raceStage = i === 12 ? '優勝戦' : '予選';
                     raceEntityList.push(
                         AutoraceRaceEntity.createWithoutId(
-                            AutoraceRaceData.create(
+                            RaceData.create(
+                                RaceType.AUTORACE,
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
                                 raceStage,
                                 new Date(

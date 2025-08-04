@@ -6,7 +6,7 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../utility/data/common/raceDateTime';
-import { RaceType } from '../utility/raceType';
+import type { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -72,8 +72,8 @@ export class PlaceData implements IPlaceData<PlaceData> {
         return new PlaceData(
             raceType,
             validateRaceDateTime(dateTime),
-            validateRaceCourse(RaceType.AUTORACE, location),
-            validateGradeType(RaceType.AUTORACE, grade),
+            validateRaceCourse(raceType, location),
+            validateGradeType(raceType, grade),
         );
     }
 

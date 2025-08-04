@@ -1,6 +1,6 @@
-import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import { PlaceRecord } from '../../../../lib/src/gateway/record/placeRecord';
@@ -40,7 +40,8 @@ export const baseAutoracePlaceData = PlaceData.create(
     baseAutoracePlaceGrade,
 );
 
-export const baseAutoraceRaceData = AutoraceRaceData.create(
+export const baseAutoraceRaceData = RaceData.create(
+    RaceType.AUTORACE,
     baseAutoraceRaceName,
     baseAutoraceRaceStage,
     baseRaceDateTime,
@@ -142,7 +143,8 @@ export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
         '優勝戦',
     ].map((stage, index) => {
         return AutoraceRaceEntity.createWithoutId(
-            AutoraceRaceData.create(
+            RaceData.create(
+                RaceType.AUTORACE,
                 `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
                 stage,
                 new Date(2025, 12 - 1, 31, 7 + index, 0),
