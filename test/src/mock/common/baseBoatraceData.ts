@@ -2,9 +2,9 @@ import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
-import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceRaceRecord';
 import { PlaceRecord } from '../../../../lib/src/gateway/record/placeRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
+import { RaceRecord } from '../../../../lib/src/gateway/record/raceRecord';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
@@ -57,13 +57,14 @@ export const baseBoatracePlaceRecord = PlaceRecord.create(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatraceRaceRecord = BoatraceRaceRecord.create(
+export const baseBoatraceRaceRecord = RaceRecord.create(
     generateRaceId(
         RaceType.BOATRACE,
         baseBoatracePlaceDateTime,
         baseBoatracePlaceCourse,
         baseBoatraceRaceNumber,
     ),
+    RaceType.BOATRACE,
     baseBoatraceRaceName,
     baseBoatraceRaceStage,
     baseRaceDateTime,

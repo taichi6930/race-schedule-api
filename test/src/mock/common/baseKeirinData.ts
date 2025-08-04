@@ -2,9 +2,9 @@ import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
-import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
 import { PlaceRecord } from '../../../../lib/src/gateway/record/placeRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
+import { RaceRecord } from '../../../../lib/src/gateway/record/raceRecord';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
@@ -58,13 +58,14 @@ export const baseKeirinPlaceRecord = PlaceRecord.create(
     baseKeirinRaceUpdateDate,
 );
 
-export const baseKeirinRaceRecord = KeirinRaceRecord.create(
+export const baseKeirinRaceRecord = RaceRecord.create(
     generateRaceId(
         RaceType.KEIRIN,
         baseKeirinPlaceDateTime,
         baseKeirinPlaceCourse,
         baseKeirinRaceNumber,
     ),
+    RaceType.KEIRIN,
     baseKeirinRaceName,
     baseKeirinRaceStage,
     baseRaceDateTime,

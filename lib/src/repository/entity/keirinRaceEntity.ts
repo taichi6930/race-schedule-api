@@ -6,8 +6,8 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../../domain/calendarData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
-import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
+import { RaceRecord } from '../../gateway/record/raceRecord';
 import { KeirinPlaceCodeMap } from '../../utility/data/common/raceCourse';
 import type { RaceId } from '../../utility/data/common/raceId';
 import { validateRaceId } from '../../utility/data/common/raceId';
@@ -104,8 +104,8 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     /**
      * KeirinRaceRecordに変換する
      */
-    public toRaceRecord(): KeirinRaceRecord {
-        return KeirinRaceRecord.create(
+    public toRaceRecord(): RaceRecord {
+        return RaceRecord.create(
             this.id,
             this.raceData.name,
             this.raceData.stage,
