@@ -1,13 +1,13 @@
 import '../../utility/format';
 
+import type { PlayerNumber } from '../../utility/data/common/playerNumber';
+import { validatePlayerNumber } from '../../utility/data/common/playerNumber';
 import type { PositionNumber } from '../../utility/data/common/positionNumber';
 import { validatePositionNumber } from '../../utility/data/common/positionNumber';
 import type { RaceId } from '../../utility/data/common/raceId';
 import { validateRaceId } from '../../utility/data/common/raceId';
 import type { RacePlayerId } from '../../utility/data/common/racePlayerId';
 import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
-import type { PlayerNumber } from '../../utility/data/playerNumber';
-import { validatePlayerNumber } from '../../utility/data/playerNumber';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import { isRaceType } from '../../utility/raceType';

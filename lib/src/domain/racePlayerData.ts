@@ -1,12 +1,12 @@
+import {
+    type PlayerNumber,
+    validatePlayerNumber,
+} from '../utility/data/common/playerNumber';
 import type { PositionNumber } from '../utility/data/common/positionNumber';
 import {
     type BoatracePositionNumber,
     validatePositionNumber,
 } from '../utility/data/common/positionNumber';
-import {
-    type PlayerNumber,
-    validatePlayerNumber,
-} from '../utility/data/playerNumber';
 import type { RaceType } from '../utility/raceType';
 import { isRaceType } from '../utility/raceType';
 
