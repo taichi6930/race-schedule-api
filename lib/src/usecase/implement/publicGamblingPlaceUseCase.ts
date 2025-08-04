@@ -15,7 +15,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
     public constructor(
         @inject('PublicGamblingPlaceDataService')
-        private readonly publicGamblingPlaceDataService: IPlaceDataService,
+        private readonly placeDataService: IPlaceDataService,
     ) {}
 
     /**
@@ -32,7 +32,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
     ): Promise<JraPlaceData[] | NarPlaceData[] | PlaceData[]> {
         // 開催場データを取得
         const placeEntityList =
-            await this.publicGamblingPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 raceTypeList,
@@ -80,7 +80,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
             0,
         );
         const placeEntityList =
-            await this.publicGamblingPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
                 // raceTypeListからjraを除外して取得
@@ -100,7 +100,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
             0,
         );
         const jraPlaceEntityList =
-            await this.publicGamblingPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 modifyJraStartDate,
                 modifyJraFinishDate,
                 raceTypeList.filter((type) => type === 'jra'),
@@ -110,8 +110,6 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
         // JRAの開催場データを追加
         placeEntityList.jra.push(...jraPlaceEntityList.jra);
         // 開催場データを更新
-        await this.publicGamblingPlaceDataService.updatePlaceEntityList(
-            placeEntityList,
-        );
+        await this.placeDataService.updatePlaceEntityList(placeEntityList);
     }
 }
