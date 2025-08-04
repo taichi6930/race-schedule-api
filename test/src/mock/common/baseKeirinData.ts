@@ -12,9 +12,9 @@ import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCou
 import type { RaceStage } from '../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
-    generateKeirinRaceId,
-    generateKeirinRacePlayerId,
     generatePlaceId,
+    generateRaceId,
+    generateRacePlayerId,
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
@@ -57,7 +57,8 @@ export const baseKeirinPlaceRecord = KeirinPlaceRecord.create(
 );
 
 export const baseKeirinRaceRecord = KeirinRaceRecord.create(
-    generateKeirinRaceId(
+    generateRaceId(
+        RaceType.KEIRIN,
         baseKeirinPlaceDateTime,
         baseKeirinPlaceCourse,
         baseKeirinRaceNumber,
@@ -132,14 +133,16 @@ export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
 });
 
 export const baseKeirinRacePlayerRecord = RacePlayerRecord.create(
-    generateKeirinRacePlayerId(
+    generateRacePlayerId(
+        RaceType.KEIRIN,
         baseKeirinPlaceDateTime,
         baseKeirinPlaceCourse,
         baseKeirinRaceNumber,
         1,
     ),
     RaceType.KEIRIN,
-    generateKeirinRaceId(
+    generateRaceId(
+        RaceType.KEIRIN,
         baseRaceDateTime,
         baseKeirinPlaceCourse,
         baseKeirinRaceNumber,

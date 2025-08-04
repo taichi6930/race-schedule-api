@@ -11,9 +11,9 @@ import type { GradeType } from '../../../../lib/src/utility/data/common/gradeTyp
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
-    generateBoatraceRaceId,
-    generateBoatraceRacePlayerId,
     generatePlaceId,
+    generateRaceId,
+    generateRacePlayerId,
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
@@ -56,7 +56,8 @@ export const baseBoatracePlaceRecord = BoatracePlaceRecord.create(
 );
 
 export const baseBoatraceRaceRecord = BoatraceRaceRecord.create(
-    generateBoatraceRaceId(
+    generateRaceId(
+        RaceType.BOATRACE,
         baseBoatracePlaceDateTime,
         baseBoatracePlaceCourse,
         baseBoatraceRaceNumber,
@@ -95,14 +96,16 @@ export const baseBoatraceRaceEntity = BoatraceRaceEntity.createWithoutId(
 );
 
 export const baseBoatraceRacePlayerRecord = RacePlayerRecord.create(
-    generateBoatraceRacePlayerId(
+    generateRacePlayerId(
+        RaceType.BOATRACE,
         baseBoatracePlaceDateTime,
         baseBoatracePlaceCourse,
         baseBoatraceRaceNumber,
         1,
     ),
     RaceType.BOATRACE,
-    generateBoatraceRaceId(
+    generateRaceId(
+        RaceType.BOATRACE,
         baseRaceDateTime,
         baseBoatracePlaceCourse,
         baseBoatraceRaceNumber,

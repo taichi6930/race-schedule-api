@@ -8,14 +8,12 @@ import { injectable } from 'tsyringe';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import {
-    generateAutoraceRaceId,
-    generateBoatraceRaceId,
     generateJraPlaceId,
     generateJraRaceId,
-    generateKeirinRaceId,
     generateNarPlaceId,
     generateNarRaceId,
     generatePlaceId,
+    generateRaceId,
     generateWorldRaceId,
 } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
@@ -462,7 +460,12 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         '川崎',
                         'GP',
                         raceNumber,
-                        generateKeirinRaceId(currentDate, '川崎', raceNumber),
+                        generateRaceId(
+                            RaceType.KEIRIN,
+                            currentDate,
+                            '川崎',
+                            raceNumber,
+                        ),
                     ].join(','),
                 );
             }
@@ -538,7 +541,12 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         '飯塚',
                         'SG',
                         raceNumber,
-                        generateAutoraceRaceId(currentDate, '飯塚', raceNumber),
+                        generateRaceId(
+                            RaceType.AUTORACE,
+                            currentDate,
+                            '飯塚',
+                            raceNumber,
+                        ),
                     ].join(','),
                 );
             }
@@ -613,7 +621,8 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         '平和島',
                         'SG',
                         raceNumber,
-                        generateBoatraceRaceId(
+                        generateRaceId(
+                            RaceType.BOATRACE,
                             currentDate,
                             '平和島',
                             raceNumber,

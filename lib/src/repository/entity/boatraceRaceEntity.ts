@@ -12,10 +12,7 @@ import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getBoatraceGoogleCalendarColorId } from '../../utility/googleCalendar';
-import {
-    generateBoatraceRaceId,
-    generateBoatraceRacePlayerId,
-} from '../../utility/raceId';
+import { generateRaceId, generateRacePlayerId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
@@ -73,7 +70,8 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
         updateDate: Date,
     ): BoatraceRaceEntity {
         return BoatraceRaceEntity.create(
-            generateBoatraceRaceId(
+            generateRaceId(
+                RaceType.BOATRACE,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -121,7 +119,8 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
         updateDate: Date = new Date(),
     ): calendar_v3.Schema$Event {
         return {
-            id: generateBoatraceRaceId(
+            id: generateRaceId(
+                RaceType.BOATRACE,
                 this.raceData.dateTime,
                 this.raceData.location,
                 this.raceData.number,
@@ -167,7 +166,8 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     public toPlayerRecordList(): RacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
             RacePlayerRecord.create(
-                generateBoatraceRacePlayerId(
+                generateRacePlayerId(
+                    RaceType.BOATRACE,
                     this.raceData.dateTime,
                     this.raceData.location,
                     this.raceData.number,

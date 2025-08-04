@@ -18,10 +18,7 @@ import {
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getKeirinGoogleCalendarColorId } from '../../utility/googleCalendar';
-import {
-    generateKeirinRaceId,
-    generateKeirinRacePlayerId,
-} from '../../utility/raceId';
+import { generateRaceId, generateRacePlayerId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
@@ -79,7 +76,8 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
         updateDate: Date,
     ): KeirinRaceEntity {
         return KeirinRaceEntity.create(
-            generateKeirinRaceId(
+            generateRaceId(
+                RaceType.KEIRIN,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -127,7 +125,8 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
         updateDate: Date = new Date(),
     ): calendar_v3.Schema$Event {
         return {
-            id: generateKeirinRaceId(
+            id: generateRaceId(
+                RaceType.KEIRIN,
                 this.raceData.dateTime,
                 this.raceData.location,
                 this.raceData.number,
@@ -187,7 +186,8 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     public toPlayerRecordList(): RacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
             RacePlayerRecord.create(
-                generateKeirinRacePlayerId(
+                generateRacePlayerId(
+                    RaceType.KEIRIN,
                     this.raceData.dateTime,
                     this.raceData.location,
                     this.raceData.number,

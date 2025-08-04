@@ -12,9 +12,9 @@ import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCou
 import type { RaceStage } from '../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
-    generateAutoraceRaceId,
-    generateAutoraceRacePlayerId,
     generatePlaceId,
+    generateRaceId,
+    generateRacePlayerId,
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
@@ -59,7 +59,8 @@ export const baseAutoracePlaceRecord = PlaceRecord.create(
 );
 
 export const baseAutoraceRaceRecord = AutoraceRaceRecord.create(
-    generateAutoraceRaceId(
+    generateRaceId(
+        RaceType.AUTORACE,
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,
         baseAutoraceRaceNumber,
@@ -93,14 +94,16 @@ export const baseAutoraceRaceEntity = AutoraceRaceEntity.createWithoutId(
 );
 
 export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
-    generateAutoraceRacePlayerId(
+    generateRacePlayerId(
+        RaceType.AUTORACE,
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,
         baseAutoraceRaceNumber,
         1,
     ),
     RaceType.AUTORACE,
-    generateAutoraceRaceId(
+    generateRaceId(
+        RaceType.AUTORACE,
         baseRaceDateTime,
         baseAutoracePlaceCourse,
         baseAutoraceRaceNumber,
