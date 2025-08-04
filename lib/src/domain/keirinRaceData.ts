@@ -1,4 +1,4 @@
-import type { KeirinGradeType } from '../utility/data/common/gradeType';
+import type { GradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
 import {
     type RaceCourse,
@@ -45,9 +45,9 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
     public readonly location: RaceCourse;
     /**
      * グレード
-     * @type {KeirinGradeType}
+     * @type {GradeType}
      */
-    public readonly grade: KeirinGradeType;
+    public readonly grade: GradeType;
     /**
      * レース番号
      * @type {RaceNumber}
@@ -70,7 +70,7 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
         stage: RaceStage,
         dateTime: RaceDateTime,
         location: RaceCourse,
-        grade: KeirinGradeType,
+        grade: GradeType,
         number: RaceNumber,
     ) {
         this.name = name;

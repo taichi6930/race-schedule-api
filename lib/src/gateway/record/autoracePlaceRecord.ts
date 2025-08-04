@@ -1,6 +1,6 @@
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
-import type { AutoraceGradeType } from '../../utility/data/common/gradeType';
+import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
@@ -36,7 +36,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
         public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
         public readonly location: RaceCourse,
-        public readonly grade: AutoraceGradeType,
+        public readonly grade: GradeType,
         public readonly updateDate: UpdateDate,
     ) {}
 

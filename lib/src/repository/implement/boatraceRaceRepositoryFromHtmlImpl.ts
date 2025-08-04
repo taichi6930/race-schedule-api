@@ -7,7 +7,7 @@ import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { BoatraceGradeType } from '../../utility/data/common/gradeType';
+import { GradeType } from '../../utility/data/common/gradeType';
 import {
     BoatraceStageMap,
     RaceStage,
@@ -166,8 +166,8 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 
     private extractRaceGrade(
         raceName: string,
-        raceGrade: BoatraceGradeType,
-    ): BoatraceGradeType {
+        raceGrade: GradeType,
+    ): GradeType {
         // レース名に「レディースチャレンジカップ」が含まれている場合は「GⅡ」
         if (raceName.includes('レディースチャレンジカップ')) {
             return 'GⅡ';

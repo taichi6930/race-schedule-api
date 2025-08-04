@@ -284,11 +284,6 @@ export const AutoraceGradeTypeSchema = createGradeSchema(
 );
 
 /**
- * AutoraceGradeTypeの型定義
- */
-export type AutoraceGradeType = z.infer<typeof AutoraceGradeTypeSchema>;
-
-/**
  * JraGradeTypeのzod型定義
  */
 export const JraGradeTypeSchema = createGradeSchema(
@@ -297,14 +292,9 @@ export const JraGradeTypeSchema = createGradeSchema(
 );
 
 /**
- * JraGradeTypeの型定義
- */
-export type JraGradeType = z.infer<typeof JraGradeTypeSchema>;
-
-/**
  * JRAの指定グレードリスト
  */
-export const JraSpecifiedGradeList: JraGradeType[] = SpecifiedGradeList(
+export const JraSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
     RaceType.JRA,
 );
 
@@ -317,22 +307,12 @@ export const WorldGradeTypeSchema = createGradeSchema(
 );
 
 /**
- * WorldGradeTypeの型定義
- */
-export type WorldGradeType = z.infer<typeof WorldGradeTypeSchema>;
-
-/**
  * KeirinGradeTypeのzod型定義
  */
 export const KeirinGradeTypeSchema = createGradeSchema(
     GradeTypeList(RaceType.KEIRIN),
     '競輪のグレードではありません',
 );
-
-/**
- * KeirinGradeTypeの型定義
- */
-export type KeirinGradeType = z.infer<typeof KeirinGradeTypeSchema>;
 
 /**
  * NarGradeTypeのzod型定義
@@ -343,14 +323,9 @@ export const NarGradeTypeSchema = createGradeSchema(
 );
 
 /**
- * NarGradeTypeの型定義
- */
-export type NarGradeType = z.infer<typeof NarGradeTypeSchema>;
-
-/**
  * 地方競馬の指定グレードリスト
  */
-export const NarSpecifiedGradeList: NarGradeType[] = SpecifiedGradeList(
+export const NarSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
     RaceType.NAR,
 );
 
@@ -363,35 +338,32 @@ export const BoatraceGradeTypeSchema = createGradeSchema(
 );
 
 /**
- * BoatraceGradeTypeの型定義
- */
-export type BoatraceGradeType = z.infer<typeof BoatraceGradeTypeSchema>;
-
-/**
  * ボートレースの指定グレード リスト
  */
-export const BoatraceSpecifiedGradeList: BoatraceGradeType[] =
-    SpecifiedGradeList(RaceType.BOATRACE);
+export const BoatraceSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
+    RaceType.BOATRACE,
+);
 
 /**
  * 海外競馬の指定グレード リスト
  */
-export const WorldSpecifiedGradeList: WorldGradeType[] = SpecifiedGradeList(
+export const WorldSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
     RaceType.WORLD,
 );
 
 /**
  * 競輪の指定グレードリスト
  */
-export const KeirinSpecifiedGradeList: KeirinGradeType[] = SpecifiedGradeList(
+export const KeirinSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
     RaceType.KEIRIN,
 );
 
 /**
  * オートレースの指定グレードリスト
  */
-export const AutoraceSpecifiedGradeList: AutoraceGradeType[] =
-    SpecifiedGradeList(RaceType.AUTORACE);
+export const AutoraceSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
+    RaceType.AUTORACE,
+);
 
 /**
  * GradeTypeのzod型定義

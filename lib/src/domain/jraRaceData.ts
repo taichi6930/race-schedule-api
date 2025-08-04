@@ -1,4 +1,4 @@
-import type { JraGradeType } from '../utility/data/common/gradeType';
+import type { GradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
 import {
     type RaceCourse,
@@ -64,9 +64,9 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
     public readonly distance: RaceDistance;
     /**
      * グレード
-     * @type {JraGradeType}
+     * @type {GradeType}
      */
-    public readonly grade: JraGradeType;
+    public readonly grade: GradeType;
     /**
      * レース番号
      * @type {RaceNumber}
@@ -103,7 +103,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
         location: RaceCourse,
         surfaceType: RaceCourseType,
         distance: RaceDistance,
-        grade: JraGradeType,
+        grade: GradeType,
         number: RaceNumber,
         heldTimes: JraHeldTimes,
         heldDayTimes: JraHeldDayTimes,

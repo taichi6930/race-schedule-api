@@ -7,7 +7,7 @@ import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecor
 import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
-import type { JraGradeType } from '../../../../lib/src/utility/data/common/gradeType';
+import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import {
     generateJraPlaceId,
@@ -27,7 +27,7 @@ const baseRaceDateTime = new Date('2024-12-22 15:40');
 const baseJraRaceNumber = 11;
 const baseJraRaceSurfaceType = '芝';
 const baseJraRaceDistance = 2500;
-const baseJraRaceGrade: JraGradeType = 'GⅠ';
+const baseJraRaceGrade: GradeType = 'GⅠ';
 const baseJraRaceHeldTimes = 5;
 const baseJraRaceHeldDayTimes = 8;
 const baseJraRaceUpdateDate = new Date('2024-12-01 00:00');

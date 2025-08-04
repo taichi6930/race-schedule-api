@@ -7,7 +7,7 @@ import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceR
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
-import type { KeirinGradeType } from '../../../../lib/src/utility/data/common/gradeType';
+import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import type { RaceStage } from '../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../lib/src/utility/date';
@@ -20,7 +20,7 @@ import { RaceType } from '../../../../lib/src/utility/raceType';
 
 const baseKeirinPlaceCourse: RaceCourse = '平塚';
 const baseKeirinPlaceDateTime = new Date('2025-12-30');
-const baseKeirinPlaceGrade: KeirinGradeType = 'GP';
+const baseKeirinPlaceGrade: GradeType = 'GP';
 const baseKeirinPlaceId = generateKeirinPlaceId(
     baseKeirinPlaceDateTime,
     baseKeirinPlaceCourse,

@@ -1,6 +1,6 @@
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
-import type { KeirinGradeType } from '../../utility/data/common/gradeType';
+import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
@@ -35,7 +35,7 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
         public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
         public readonly location: RaceCourse,
-        public readonly grade: KeirinGradeType,
+        public readonly grade: GradeType,
         public readonly updateDate: UpdateDate,
     ) {}
 

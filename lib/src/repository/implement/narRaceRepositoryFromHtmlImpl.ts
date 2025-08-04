@@ -5,7 +5,7 @@ import { NarRaceData } from '../../domain/narRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { processNarRaceName } from '../../utility/createRaceName';
 import {
-    NarGradeType,
+    GradeType,
     validateGradeType,
 } from '../../utility/data/common/gradeType';
 import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
@@ -176,8 +176,8 @@ export class NarRaceRepositoryFromHtmlImpl
         return '芝';
     }
 
-    private extractGrade(race: string[]): NarGradeType {
-        let grade: NarGradeType = '一般';
+    private extractGrade(race: string[]): GradeType {
+        let grade: GradeType = '一般';
         if (race.includes('準重賞')) {
             return '地方準重賞';
         }

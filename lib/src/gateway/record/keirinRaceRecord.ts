@@ -1,6 +1,6 @@
 import '../../utility/format';
 
-import type { KeirinGradeType } from '../../utility/data/common/gradeType';
+import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
     type RaceCourse,
@@ -51,7 +51,7 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
         public readonly stage: RaceStage,
         public readonly dateTime: RaceDateTime,
         public readonly location: RaceCourse,
-        public readonly grade: KeirinGradeType,
+        public readonly grade: GradeType,
         public readonly number: RaceNumber,
         public readonly updateDate: UpdateDate,
     ) {}

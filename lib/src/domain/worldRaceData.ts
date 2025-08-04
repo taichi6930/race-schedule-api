@@ -1,4 +1,4 @@
-import type { WorldGradeType } from '../utility/data/common/gradeType';
+import type { GradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
 import {
     type RaceCourse,
@@ -56,9 +56,9 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
     public readonly distance: RaceDistance;
     /**
      * グレード
-     * @type {WorldGradeType}
+     * @type {GradeType}
      */
-    public readonly grade: WorldGradeType;
+    public readonly grade: GradeType;
     /**
      * レース番号
      * @type {WorldRaceNumber}
@@ -83,7 +83,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
         location: RaceCourse,
         surfaceType: RaceCourseType,
         distance: RaceDistance,
-        grade: WorldGradeType,
+        grade: GradeType,
         number: WorldRaceNumber,
     ) {
         this.name = name;

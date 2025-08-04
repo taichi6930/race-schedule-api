@@ -7,7 +7,7 @@ import { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecor
 import { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
-import type { NarGradeType } from '../../../../lib/src/utility/data/common/gradeType';
+import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import {
     generateNarPlaceId,
@@ -23,7 +23,7 @@ const baseRaceDateTime = new Date('2024-12-29 15:40');
 const baseNarRaceNumber = 11;
 const baseNarRaceSurfaceType = 'ダート';
 const baseNarRaceDistance = 2000;
-const baseNarRaceGrade: NarGradeType = 'GⅠ';
+const baseNarRaceGrade: GradeType = 'GⅠ';
 const baseNarRaceUpdateDate = new Date('2024-12-01 00:00');
 
 export const baseNarPlaceData = NarPlaceData.create(

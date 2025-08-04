@@ -1,4 +1,4 @@
-import type { NarGradeType } from '../utility/data/common/gradeType';
+import type { GradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
 import {
     type RaceCourse,
@@ -56,9 +56,9 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
     public readonly distance: RaceDistance;
     /**
      * グレード
-     * @type {NarGradeType}
+     * @type {GradeType}
      */
-    public readonly grade: NarGradeType;
+    public readonly grade: GradeType;
     /**
      * レース番号
      * @type {RaceNumber}
@@ -83,7 +83,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
         location: RaceCourse,
         surfaceType: RaceCourseType,
         distance: RaceDistance,
-        grade: NarGradeType,
+        grade: GradeType,
         number: RaceNumber,
     ) {
         this.name = name;

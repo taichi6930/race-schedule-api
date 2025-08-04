@@ -4,7 +4,7 @@ import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
 import { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
-import type { WorldGradeType } from '../../../../lib/src/utility/data/common/gradeType';
+import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { generateWorldRaceId } from '../../../../lib/src/utility/raceId';
@@ -18,7 +18,7 @@ const baseRaceDateTime = new Date('2024-10-01 16:30');
 const baseWorldRaceNumber = 11;
 const baseWorldRaceSurfaceType = '芝';
 const baseRaceDistance = 2400;
-const baseWorldRaceGrade: WorldGradeType = 'GⅠ';
+const baseWorldRaceGrade: GradeType = 'GⅠ';
 const baseWorldRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
 export const baseWorldPlaceData = WorldPlaceData.create(

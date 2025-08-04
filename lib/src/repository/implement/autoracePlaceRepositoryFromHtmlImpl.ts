@@ -6,7 +6,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { AutoraceGradeType } from '../../utility/data/common/gradeType';
+import { GradeType } from '../../utility/data/common/gradeType';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -142,7 +142,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                 // </td>
                 tds.each((index: number, tdElement) => {
                     const div = $(tdElement).find('div');
-                    let grade: AutoraceGradeType | undefined;
+                    let grade: GradeType | undefined;
                     // divのclassを取得
                     switch (div.attr('class')) {
                         case 'ico-kaisai': {

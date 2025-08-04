@@ -1,6 +1,6 @@
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
-import type { BoatraceGradeType } from '../../utility/data/common/gradeType';
+import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
     type PlaceId,
@@ -37,7 +37,7 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
         public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
         public readonly location: RaceCourse,
-        public readonly grade: BoatraceGradeType,
+        public readonly grade: GradeType,
         public readonly updateDate: UpdateDate,
     ) {}
 

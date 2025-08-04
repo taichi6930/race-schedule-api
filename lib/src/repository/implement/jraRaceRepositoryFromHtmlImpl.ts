@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { processJraRaceName } from '../../utility/createRaceName';
-import { JraGradeType } from '../../utility/data/common/gradeType';
+import { GradeType } from '../../utility/data/common/gradeType';
 import {
     RaceCourse,
     validateRaceCourse,
@@ -331,8 +331,8 @@ export class JraRaceRepositoryFromHtmlImpl
         tbodyTrTdElement1: string,
         raceSurfaceType: RaceCourseType,
         rowRaceName: string,
-    ): [JraGradeType, string] => {
-        let raceGrade: JraGradeType | null = null;
+    ): [GradeType, string] => {
+        let raceGrade: GradeType | null = null;
 
         if (rowRaceName.includes('(GⅠ)')) {
             raceGrade = raceSurfaceType === '障害' ? 'J.GⅠ' : 'GⅠ';

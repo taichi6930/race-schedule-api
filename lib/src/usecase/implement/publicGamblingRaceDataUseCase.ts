@@ -14,14 +14,7 @@ import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
-import {
-    AutoraceGradeType,
-    BoatraceGradeType,
-    JraGradeType,
-    KeirinGradeType,
-    NarGradeType,
-    WorldGradeType,
-} from '../../utility/data/common/gradeType';
+import { GradeType } from '../../utility/data/common/gradeType';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { RaceStage } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
@@ -78,29 +71,29 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         raceTypeList: string[],
         searchList?: {
             jra?: {
-                gradeList?: JraGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
             nar?: {
-                gradeList?: NarGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
             world?: {
-                gradeList?: WorldGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
             keirin?: {
-                gradeList?: KeirinGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
             autorace?: {
-                gradeList?: AutoraceGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
             boatrace?: {
-                gradeList?: BoatraceGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
@@ -330,15 +323,15 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 locationList?: RaceCourse[];
             };
             keirin?: {
-                gradeList?: KeirinGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
             autorace?: {
-                gradeList?: AutoraceGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
             boatrace?: {
-                gradeList?: BoatraceGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
         },

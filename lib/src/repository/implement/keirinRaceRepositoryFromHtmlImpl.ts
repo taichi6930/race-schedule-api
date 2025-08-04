@@ -7,7 +7,7 @@ import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { KeirinGradeType } from '../../utility/data/common/gradeType';
+import { GradeType } from '../../utility/data/common/gradeType';
 import { KeirinStageMap, RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -249,10 +249,10 @@ export class KeirinRaceRepositoryFromHtmlImpl
 
     private extractRaceGrade(
         raceName: string,
-        raceGrade: KeirinGradeType,
+        raceGrade: GradeType,
         raceStage: RaceStage,
         raceDate: Date,
-    ): KeirinGradeType {
+    ): GradeType {
         // raceStageが「ヤンググランプリ」の場合、GⅡを返す
         if (raceStage === 'SA混合ヤンググランプリ') {
             return 'GⅡ';

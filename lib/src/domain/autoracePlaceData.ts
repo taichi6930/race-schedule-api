@@ -1,4 +1,4 @@
-import type { AutoraceGradeType } from '../utility/data/common/gradeType';
+import type { GradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
 import type { RaceCourse } from '../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../utility/data/common/raceCourse';
@@ -25,9 +25,9 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
     public readonly location: RaceCourse;
     /**
      * グレード
-     * @type {AutoraceGradeType}
+     * @type {GradeType}
      */
-    public readonly grade: AutoraceGradeType;
+    public readonly grade: GradeType;
 
     /**
      * コンストラクタ
@@ -40,7 +40,7 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
     private constructor(
         dateTime: RaceDateTime,
         location: RaceCourse,
-        grade: AutoraceGradeType,
+        grade: GradeType,
     ) {
         this.dateTime = dateTime;
         this.location = location;

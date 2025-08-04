@@ -1,10 +1,6 @@
 import './format';
 
-import type {
-    JraGradeType,
-    NarGradeType,
-    WorldGradeType,
-} from './data/common/gradeType';
+import type { GradeType } from './data/common/gradeType';
 import type { RaceCourse } from './data/common/raceCourse';
 import type { RaceCourseType } from './data/common/raceCourseType';
 import type { RaceDateTime } from './data/common/raceDateTime';
@@ -14,7 +10,7 @@ import type { RaceName } from './data/common/raceName';
 interface JraRaceDataForRaceName {
     name: RaceName;
     place: RaceCourse;
-    grade: JraGradeType;
+    grade: GradeType;
     date: RaceDateTime;
     surfaceType: RaceCourseType;
     distance: RaceDistance;
@@ -178,7 +174,7 @@ const isLumiereAutumnDash = (raceInfo: JraRaceDataForRaceName): boolean =>
 interface NarRaceDataForRaceName {
     name: RaceName;
     place: RaceCourse;
-    grade: NarGradeType;
+    grade: GradeType;
     date: RaceDateTime;
     surfaceType: RaceCourseType;
     distance: RaceDistance;
@@ -312,7 +308,7 @@ export const processNarRaceName = (
 interface WorldRaceDataForRaceName {
     name: RaceName;
     place: RaceCourse;
-    grade: WorldGradeType;
+    grade: GradeType;
     date: RaceDateTime;
     surfaceType: RaceCourseType;
     distance: RaceDistance;

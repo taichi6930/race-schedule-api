@@ -1,5 +1,5 @@
 import {
-    type AutoraceGradeType,
+    type GradeType,
     validateGradeType,
 } from '../utility/data/common/gradeType';
 import {
@@ -51,9 +51,9 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
     public readonly location: RaceCourse;
     /**
      * グレード
-     * @type {AutoraceGradeType}
+     * @type {GradeType}
      */
-    public readonly grade: AutoraceGradeType;
+    public readonly grade: GradeType;
     /**
      * レース番号
      * @type {RaceNumber}
@@ -76,7 +76,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
         stage: RaceStage,
         dateTime: RaceDateTime,
         location: RaceCourse,
-        grade: AutoraceGradeType,
+        grade: GradeType,
         number: RaceNumber,
     ) {
         this.name = name;

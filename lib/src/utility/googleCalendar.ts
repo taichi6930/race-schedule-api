@@ -1,9 +1,4 @@
-import type { BoatraceGradeType } from './data/common/gradeType';
-import type { AutoraceGradeType } from './data/common/gradeType';
-import type { JraGradeType } from './data/common/gradeType';
-import type { KeirinGradeType } from './data/common/gradeType';
-import type { NarGradeType } from './data/common/gradeType';
-import type { WorldGradeType } from './data/common/gradeType';
+import type { GradeType } from './data/common/gradeType';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール
@@ -52,7 +47,7 @@ type GoogleCalendarColorIdType =
  * 中央競馬の特徴的なグレード体系に対応
  */
 const JraGoogleCalendarColorIdMap: Record<
-    JraGradeType,
+    GradeType,
     GoogleCalendarColorIdType
 > = {
     'GⅠ': GoogleCalendarColorId.BLUEBERRY,
@@ -84,7 +79,7 @@ const JraGoogleCalendarColorIdMap: Record<
  * ```
  */
 export const getJraGoogleCalendarColorId = (
-    raceGrade: JraGradeType,
+    raceGrade: GradeType,
 ): GoogleCalendarColorIdType => {
     return (
         JraGoogleCalendarColorIdMap[raceGrade] ?? GoogleCalendarColorId.GRAPHITE
@@ -97,7 +92,7 @@ export const getJraGoogleCalendarColorId = (
  * 地方競馬特有の格付けに対応
  */
 const NarGoogleCalendarColorIdMap: Record<
-    NarGradeType,
+    GradeType,
     GoogleCalendarColorIdType
 > = {
     GⅠ: GoogleCalendarColorId.BLUEBERRY,
@@ -120,14 +115,14 @@ const NarGoogleCalendarColorIdMap: Record<
  * カレンダー表示色を決定します：
  * @param raceGrade - NARのレースグレード
  * @returns カレンダーイベントの色ID
- * @example
+ * @exampleGradeType
  * ```typescript
  * const colorId = getNarGoogleCalendarColorId('JpnⅠ');
  * // returns '1' (薄紫色)
  * ```
  */
 export const getNarGoogleCalendarColorId = (
-    raceGrade: NarGradeType,
+    raceGrade: GradeType,
 ): GoogleCalendarColorIdType => {
     return (
         NarGoogleCalendarColorIdMap[raceGrade] ?? GoogleCalendarColorId.GRAPHITE
@@ -145,7 +140,7 @@ export const getNarGoogleCalendarColorId = (
  * - 格付けなし: グレー
  */
 const WorldGoogleCalendarColorIdMap: Record<
-    WorldGradeType,
+    GradeType,
     GoogleCalendarColorIdType
 > = {
     GⅠ: GoogleCalendarColorId.BLUEBERRY,
@@ -169,7 +164,7 @@ const WorldGoogleCalendarColorIdMap: Record<
  * ```
  */
 export const getWorldGoogleCalendarColorId = (
-    raceGrade: WorldGradeType,
+    raceGrade: GradeType,
 ): GoogleCalendarColorIdType => {
     return WorldGoogleCalendarColorIdMap[raceGrade];
 };
@@ -184,7 +179,7 @@ export const getWorldGoogleCalendarColorId = (
  * - FⅠ/FⅡ: グレー
  */
 const KeirinGoogleCalendarColorIdMap: Record<
-    KeirinGradeType,
+    GradeType,
     GoogleCalendarColorIdType
 > = {
     GP: GoogleCalendarColorId.BLUEBERRY,
@@ -213,7 +208,7 @@ const KeirinGoogleCalendarColorIdMap: Record<
  * ```
  */
 export const getKeirinGoogleCalendarColorId = (
-    raceGrade: KeirinGradeType,
+    raceGrade: GradeType,
 ): GoogleCalendarColorIdType => {
     return KeirinGoogleCalendarColorIdMap[raceGrade];
 };
@@ -229,7 +224,7 @@ export const getKeirinGoogleCalendarColorId = (
  * - 一般戦: グレー
  */
 const BoatraceGoogleCalendarColorIdMap: Record<
-    BoatraceGradeType,
+    GradeType,
     GoogleCalendarColorIdType
 > = {
     SG: GoogleCalendarColorId.BLUEBERRY,
@@ -257,7 +252,7 @@ const BoatraceGoogleCalendarColorIdMap: Record<
  * ```
  */
 export const getBoatraceGoogleCalendarColorId = (
-    raceGrade: BoatraceGradeType,
+    raceGrade: GradeType,
 ): GoogleCalendarColorIdType => {
     return BoatraceGoogleCalendarColorIdMap[raceGrade];
 };
@@ -271,7 +266,7 @@ export const getBoatraceGoogleCalendarColorId = (
  * - 一般開催: グレー
  */
 const AutoraceGoogleCalendarColorIdMap: Record<
-    AutoraceGradeType,
+    GradeType,
     GoogleCalendarColorIdType
 > = {
     SG: GoogleCalendarColorId.BLUEBERRY,
@@ -298,7 +293,7 @@ const AutoraceGoogleCalendarColorIdMap: Record<
  * ```
  */
 export const getAutoraceGoogleCalendarColorId = (
-    raceGrade: AutoraceGradeType,
+    raceGrade: GradeType,
 ): GoogleCalendarColorIdType => {
     return AutoraceGoogleCalendarColorIdMap[raceGrade];
 };

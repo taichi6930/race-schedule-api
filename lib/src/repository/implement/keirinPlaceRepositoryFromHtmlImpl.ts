@@ -6,7 +6,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { KeirinGradeType } from '../../utility/data/common/gradeType';
+import { GradeType } from '../../utility/data/common/gradeType';
 import {
     RaceCourse,
     validateRaceCourse,
@@ -133,7 +133,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                     const tds = $(trElement).find('td');
                     tds.each((index: number, tdElement) => {
                         const imgs = $(tdElement).find('img');
-                        let grade: KeirinGradeType | undefined;
+                        let grade: GradeType | undefined;
                         imgs.each((___, img) => {
                             const alt = $(img).attr('alt');
                             if (alt !== undefined && alt.trim() !== '') {

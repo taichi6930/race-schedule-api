@@ -7,7 +7,7 @@ import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceR
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
-import type { BoatraceGradeType } from '../../../../lib/src/utility/data/common/gradeType';
+import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
@@ -19,7 +19,7 @@ import { RaceType } from '../../../../lib/src/utility/raceType';
 
 const baseBoatracePlaceCourse: RaceCourse = '平和島';
 const baseBoatracePlaceDateTime = new Date('2024-12-31');
-const baseBoatracePlaceGrade: BoatraceGradeType = 'SG';
+const baseBoatracePlaceGrade: GradeType = 'SG';
 const baseBoatracePlaceId = generateBoatracePlaceId(
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,

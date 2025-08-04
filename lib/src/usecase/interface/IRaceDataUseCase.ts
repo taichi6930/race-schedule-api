@@ -4,14 +4,7 @@ import type { JraRaceData } from '../../domain/jraRaceData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { NarRaceData } from '../../domain/narRaceData';
 import type { WorldRaceData } from '../../domain/worldRaceData';
-import type {
-    AutoraceGradeType,
-    BoatraceGradeType,
-    JraGradeType,
-    KeirinGradeType,
-    NarGradeType,
-    WorldGradeType,
-} from '../../utility/data/common/gradeType';
+import type { GradeType } from '../../utility/data/common/gradeType';
 import type { RaceCourse } from '../../utility/data/common/raceCourse';
 import type { RaceStage } from '../../utility/data/common/raceStage';
 
@@ -32,29 +25,29 @@ export interface IRaceDataUseCase {
         // Optional parameters
         searchList?: {
             jra?: {
-                gradeList?: JraGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
             nar?: {
-                gradeList?: NarGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
             world?: {
-                gradeList?: WorldGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
             keirin?: {
-                gradeList?: KeirinGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
             autorace?: {
-                gradeList?: AutoraceGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
             boatrace?: {
-                gradeList?: BoatraceGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
@@ -89,15 +82,15 @@ export interface IRaceDataUseCase {
                 locationList?: RaceCourse[];
             };
             keirin?: {
-                gradeList?: KeirinGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
             autorace?: {
-                gradeList?: AutoraceGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
             boatrace?: {
-                gradeList?: BoatraceGradeType[];
+                gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
         },
