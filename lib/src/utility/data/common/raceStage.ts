@@ -671,6 +671,24 @@ const RaceStageList: (raceType: RaceType) => Set<string> = (raceType) =>
     );
 
 /**
+ * HTML表記・oddspark表記の両方をカバーするステージ名マップ
+ * @param raceType
+ */
+export const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
+    raceType,
+) =>
+    Object.fromEntries(
+        RaceGradeAndStageList.filter(
+            (item) => item.raceType === raceType,
+        ).flatMap((item) =>
+            item.stageByWebSite.map((stageByOddspark) => [
+                stageByOddspark,
+                item.stage,
+            ]),
+        ),
+    );
+
+/**
  * KeirinRaceStageのzod型定義
  */
 export const KeirinRaceStageSchema = z.string().refine((value) => {
@@ -690,14 +708,6 @@ const KeirinRaceStageList = RaceStageList(RaceType.KEIRIN);
 /**
  * HTML表記・oddspark表記の両方をカバーする競輪ステージ名マップ
  */
-export const KeirinStageMap: Record<string, KeirinRaceStage> =
-    Object.fromEntries(
-        RaceGradeAndStageList.filter(
-            (item) => item.raceType === RaceType.KEIRIN,
-        ).flatMap((item) =>
-            item.stageByWebSite.map((stageByOddspark) => [
-                stageByOddspark,
-                item.stage,
-            ]),
-        ),
-    );
+export const KeirinStageMap: Record<string, KeirinRaceStage> = StageMap(
+    RaceType.KEIRIN,
+);
