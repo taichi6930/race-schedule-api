@@ -20,8 +20,10 @@ import {
     type RaceNumber,
     validateRaceNumber,
 } from '../../utility/data/common/raceNumber';
-import type { RaceStage } from '../../utility/data/common/raceStage';
-import { validateAutoraceRaceStage } from '../../utility/data/common/raceStage';
+import {
+    type RaceStage,
+    validateRaceStage,
+} from '../../utility/data/common/raceStage';
 import { createErrorMessage } from '../../utility/error';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
@@ -80,7 +82,7 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
             return new AutoraceRaceRecord(
                 validateRaceId(RaceType.AUTORACE, id),
                 validateRaceName(name),
-                validateAutoraceRaceStage(stage),
+                validateRaceStage(RaceType.AUTORACE, stage),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.AUTORACE, location),
                 validateGradeType(RaceType.AUTORACE, grade),

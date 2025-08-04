@@ -18,8 +18,10 @@ import {
     type RaceNumber,
     validateRaceNumber,
 } from '../utility/data/common/raceNumber';
-import type { RaceStage } from '../utility/data/common/raceStage';
-import { validateAutoraceRaceStage } from '../utility/data/common/raceStage';
+import {
+    type RaceStage,
+    validateRaceStage,
+} from '../utility/data/common/raceStage';
 import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
@@ -105,7 +107,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
     ): AutoraceRaceData {
         return new AutoraceRaceData(
             validateRaceName(name),
-            validateAutoraceRaceStage(stage),
+            validateRaceStage(RaceType.AUTORACE, stage),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.AUTORACE, location),
             validateGradeType(RaceType.AUTORACE, grade),

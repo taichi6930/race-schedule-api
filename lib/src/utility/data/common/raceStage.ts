@@ -646,11 +646,15 @@ export const validateRaceStage = (
         case RaceType.KEIRIN: {
             return KeirinRaceStageSchema.parse(stage);
         }
+        case RaceType.AUTORACE: {
+            return AutoraceRaceStageSchema.parse(stage);
+        }
+        case RaceType.BOATRACE: {
+            return BoatraceRaceStageSchema.parse(stage);
+        }
         case RaceType.JRA:
         case RaceType.NAR:
-        case RaceType.WORLD:
-        case RaceType.AUTORACE:
-        case RaceType.BOATRACE: {
+        case RaceType.WORLD: {
             throw new Error(`Unsupported race type: ${raceType}`);
         }
         default: {
