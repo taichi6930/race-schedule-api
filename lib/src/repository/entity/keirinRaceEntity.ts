@@ -107,6 +107,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     public toRaceRecord(): RaceRecord {
         return RaceRecord.create(
             this.id,
+            RaceType.KEIRIN,
             this.raceData.name,
             this.raceData.stage,
             this.raceData.dateTime,
