@@ -1,7 +1,7 @@
 import type { NarGradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
 import {
-    type NarRaceCourse,
+    type RaceCourse,
     validateRaceCourse,
 } from '../utility/data/common/raceCourse';
 import {
@@ -41,9 +41,9 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
     public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
-     * @type {NarRaceCourse}
+     * @type {RaceCourse}
      */
-    public readonly location: NarRaceCourse;
+    public readonly location: RaceCourse;
     /**
      * 馬場種別
      * @type {RaceCourseType}
@@ -80,7 +80,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
     private constructor(
         name: RaceName,
         dateTime: RaceDateTime,
-        location: NarRaceCourse,
+        location: RaceCourse,
         surfaceType: RaceCourseType,
         distance: RaceDistance,
         grade: NarGradeType,

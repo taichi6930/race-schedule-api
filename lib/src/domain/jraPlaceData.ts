@@ -1,5 +1,5 @@
 import {
-    type JraRaceCourse,
+    type RaceCourse,
     validateRaceCourse,
 } from '../utility/data/common/raceCourse';
 import {
@@ -28,9 +28,9 @@ export class JraPlaceData implements IPlaceData<JraPlaceData> {
     public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
-     * @type {JraRaceCourse}
+     * @type {RaceCourse}
      */
-    public readonly location: JraRaceCourse;
+    public readonly location: RaceCourse;
     /**
      * 開催回数
      * @type {JraHeldTimes}
@@ -51,7 +51,7 @@ export class JraPlaceData implements IPlaceData<JraPlaceData> {
      */
     private constructor(
         dateTime: RaceDateTime,
-        location: JraRaceCourse,
+        location: RaceCourse,
         heldTimes: JraHeldTimes,
         heldDayTimes: JraHeldDayTimes,
     ) {

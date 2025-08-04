@@ -6,14 +6,7 @@ import type {
     BoatracePositionNumber,
     KeirinPositionNumber,
 } from './data/common/positionNumber';
-import type {
-    AutoraceRaceCourse,
-    BoatraceRaceCourse,
-    JraRaceCourse,
-    KeirinRaceCourse,
-    NarRaceCourse,
-    WorldRaceCourse,
-} from './data/common/raceCourse';
+import type { RaceCourse } from './data/common/raceCourse';
 import {
     AutoracePlaceCodeMap,
     BoatracePlaceCodeMap,
@@ -35,7 +28,7 @@ import type { WorldRaceNumber } from './data/world/worldRaceNumber';
  */
 export const generateJraRaceId = (
     dateTime: Date,
-    location: JraRaceCourse,
+    location: RaceCourse,
     number: RaceNumber,
 ): RaceId => {
     const numberCode = number.toXDigits(2);
@@ -49,7 +42,7 @@ export const generateJraRaceId = (
  */
 export const generateJraPlaceId = (
     dateTime: Date,
-    location: JraRaceCourse,
+    location: RaceCourse,
 ): RaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = NetkeibaBabacodeMap[location];
@@ -66,7 +59,7 @@ export const generateJraPlaceId = (
  */
 export const generateNarRaceId = (
     dateTime: Date,
-    location: NarRaceCourse,
+    location: RaceCourse,
     number: RaceNumber,
 ): RaceId => {
     const numberCode = number.toXDigits(2);
@@ -82,7 +75,7 @@ export const generateNarRaceId = (
  */
 export const generateNarPlaceId = (
     dateTime: Date,
-    location: NarRaceCourse,
+    location: RaceCourse,
 ): PlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = NetkeibaBabacodeMap[location];
@@ -97,7 +90,7 @@ export const generateNarPlaceId = (
  */
 export const generateWorldRaceId = (
     dateTime: RaceDateTime,
-    location: WorldRaceCourse,
+    location: RaceCourse,
     number: WorldRaceNumber,
 ): RaceId => {
     const numberCode = number.toXDigits(2);
@@ -111,7 +104,7 @@ export const generateWorldRaceId = (
  */
 export const generateWorldPlaceId = (
     dateTime: Date,
-    location: WorldRaceCourse,
+    location: RaceCourse,
 ): RaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = WorldPlaceCodeMap[location];
@@ -127,7 +120,7 @@ export const generateWorldPlaceId = (
  */
 export const generateKeirinRacePlayerId = (
     dateTime: Date,
-    location: KeirinRaceCourse,
+    location: RaceCourse,
     number: RaceNumber,
     positionNumber: KeirinPositionNumber,
 ): RacePlayerId => {
@@ -143,7 +136,7 @@ export const generateKeirinRacePlayerId = (
  */
 export const generateKeirinRaceId = (
     dateTime: Date,
-    location: KeirinRaceCourse,
+    location: RaceCourse,
     number: RaceNumber,
 ): RaceId => {
     const numberCode = number.toXDigits(2);
@@ -157,7 +150,7 @@ export const generateKeirinRaceId = (
  */
 export const generateKeirinPlaceId = (
     dateTime: Date,
-    location: KeirinRaceCourse,
+    location: RaceCourse,
 ): PlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = KeirinPlaceCodeMap[location];
@@ -173,7 +166,7 @@ export const generateKeirinPlaceId = (
  */
 export const generateBoatraceRacePlayerId = (
     dateTime: Date,
-    location: BoatraceRaceCourse,
+    location: RaceCourse,
     number: RaceNumber,
     positionNumber: BoatracePositionNumber,
 ): RacePlayerId => {
@@ -189,7 +182,7 @@ export const generateBoatraceRacePlayerId = (
  */
 export const generateBoatraceRaceId = (
     dateTime: Date,
-    location: BoatraceRaceCourse,
+    location: RaceCourse,
     number: RaceNumber,
 ): RaceId => {
     const numberCode = number.toXDigits(2);
@@ -203,7 +196,7 @@ export const generateBoatraceRaceId = (
  */
 export const generateBoatracePlaceId = (
     dateTime: Date,
-    location: BoatraceRaceCourse,
+    location: RaceCourse,
 ): PlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = BoatracePlaceCodeMap[location];
@@ -219,7 +212,7 @@ export const generateBoatracePlaceId = (
  */
 export const generateAutoraceRacePlayerId = (
     dateTime: Date,
-    location: AutoraceRaceCourse,
+    location: RaceCourse,
     number: RaceNumber,
     positionNumber: AutoracePositionNumber,
 ): RacePlayerId => {
@@ -235,7 +228,7 @@ export const generateAutoraceRacePlayerId = (
  */
 export const generateAutoraceRaceId = (
     dateTime: Date,
-    location: AutoraceRaceCourse,
+    location: RaceCourse,
     number: RaceNumber,
 ): RaceId => {
     const numberCode = number.toXDigits(2);
@@ -249,7 +242,7 @@ export const generateAutoraceRaceId = (
  */
 export const generateAutoracePlaceId = (
     dateTime: Date,
-    location: AutoraceRaceCourse,
+    location: RaceCourse,
 ): PlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = AutoracePlaceCodeMap[location];

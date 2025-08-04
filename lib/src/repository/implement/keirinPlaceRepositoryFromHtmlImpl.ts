@@ -8,7 +8,7 @@ import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { KeirinGradeType } from '../../utility/data/common/gradeType';
 import {
-    KeirinRaceCourse,
+    RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
@@ -125,7 +125,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                     if (!th.text()) {
                         return;
                     }
-                    const place: KeirinRaceCourse = validateRaceCourse(
+                    const place: RaceCourse = validateRaceCourse(
                         RaceType.KEIRIN,
                         th.text(),
                     );

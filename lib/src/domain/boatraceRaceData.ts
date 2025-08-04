@@ -3,7 +3,7 @@ import {
     validateGradeType,
 } from '../utility/data/common/gradeType';
 import {
-    type BoatraceRaceCourse,
+    type RaceCourse,
     validateRaceCourse,
 } from '../utility/data/common/raceCourse';
 import {
@@ -46,9 +46,9 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
     public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
-     * @type {BoatraceRaceCourse}
+     * @type {RaceCourse}
      */
-    public readonly location: BoatraceRaceCourse;
+    public readonly location: RaceCourse;
     /**
      * グレード
      * @type {BoatraceGradeType}
@@ -75,7 +75,7 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
         name: RaceName,
         stage: RaceStage,
         dateTime: RaceDateTime,
-        location: BoatraceRaceCourse,
+        location: RaceCourse,
         grade: BoatraceGradeType,
         number: RaceNumber,
     ) {

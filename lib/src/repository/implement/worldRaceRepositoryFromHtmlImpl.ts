@@ -9,8 +9,8 @@ import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGatew
 import { processWorldRaceName } from '../../utility/createRaceName';
 import { WorldGradeType } from '../../utility/data/common/gradeType';
 import {
+    RaceCourse,
     validateRaceCourse,
-    WorldRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
@@ -127,15 +127,14 @@ export class WorldRaceRepositoryFromHtmlImpl
                                 .find('.name')
                                 .text();
 
-                            const location: WorldRaceCourse =
-                                validateRaceCourse(
-                                    RaceType.WORLD,
-                                    $(raceElement)
-                                        .find('.racelist__race__sub')
-                                        .find('.course')
-                                        .text()
-                                        .trim(),
-                                );
+                            const location: RaceCourse = validateRaceCourse(
+                                RaceType.WORLD,
+                                $(raceElement)
+                                    .find('.racelist__race__sub')
+                                    .find('.course')
+                                    .text()
+                                    .trim(),
+                            );
                             // 芝1600mのような文字列からsurfaceTypeを取得
                             // 芝、ダート、障害、AWがある
                             const surfaceTypeAndDistanceText = $(raceElement)

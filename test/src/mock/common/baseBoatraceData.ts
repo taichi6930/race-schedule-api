@@ -8,7 +8,7 @@ import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerR
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { BoatraceGradeType } from '../../../../lib/src/utility/data/common/gradeType';
-import type { BoatraceRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
+import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
     generateBoatracePlaceId,
@@ -17,7 +17,7 @@ import {
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
-const baseBoatracePlaceCourse: BoatraceRaceCourse = '平和島';
+const baseBoatracePlaceCourse: RaceCourse = '平和島';
 const baseBoatracePlaceDateTime = new Date('2024-12-31');
 const baseBoatracePlaceGrade: BoatraceGradeType = 'SG';
 const baseBoatracePlaceId = generateBoatracePlaceId(

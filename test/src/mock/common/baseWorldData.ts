@@ -5,12 +5,12 @@ import { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRec
 import { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { WorldGradeType } from '../../../../lib/src/utility/data/common/gradeType';
-import type { WorldRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
+import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { generateWorldRaceId } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
-const baseWorldPlaceCourse: WorldRaceCourse = 'パリロンシャン';
+const baseWorldPlaceCourse: RaceCourse = 'パリロンシャン';
 const baseWorldPlaceDateTime = new Date('2024-10-01');
 
 const baseWorldRaceName = '凱旋門賞';

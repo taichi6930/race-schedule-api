@@ -3,7 +3,7 @@ import '../../utility/format';
 import type { KeirinGradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
-    type KeirinRaceCourse,
+    type RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import {
@@ -50,7 +50,7 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
         public readonly name: RaceName,
         public readonly stage: RaceStage,
         public readonly dateTime: RaceDateTime,
-        public readonly location: KeirinRaceCourse,
+        public readonly location: RaceCourse,
         public readonly grade: KeirinGradeType,
         public readonly number: RaceNumber,
         public readonly updateDate: UpdateDate,

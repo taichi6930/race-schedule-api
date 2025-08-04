@@ -3,7 +3,7 @@ import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import {
-    type JraRaceCourse,
+    type RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
@@ -38,7 +38,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     private constructor(
         public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
-        public readonly location: JraRaceCourse,
+        public readonly location: RaceCourse,
         public readonly heldTimes: JraHeldTimes,
         public readonly heldDayTimes: JraHeldDayTimes,
         public readonly updateDate: UpdateDate,

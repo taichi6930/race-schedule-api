@@ -2,7 +2,7 @@ import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
-import type { NarRaceCourse } from '../../utility/data/common/raceCourse';
+import type { RaceCourse } from '../../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../../utility/data/common/raceCourse';
 import {
     type RaceDateTime,
@@ -29,7 +29,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
     private constructor(
         public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
-        public readonly location: NarRaceCourse,
+        public readonly location: RaceCourse,
         public readonly updateDate: UpdateDate,
     ) {}
 

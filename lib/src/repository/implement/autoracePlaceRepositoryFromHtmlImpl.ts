@@ -7,7 +7,7 @@ import { inject, injectable } from 'tsyringe';
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { AutoraceGradeType } from '../../utility/data/common/gradeType';
-import { AutoraceRaceCourse } from '../../utility/data/common/raceCourse';
+import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -133,7 +133,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
 
                 // 川口２を川口に変換して、placeに代入
                 // TODO: どこかのタイミングで処理をリファクタリングする
-                const place: AutoraceRaceCourse = th.text().replace('２', '');
+                const place: RaceCourse = th.text().replace('２', '');
 
                 const tds = $(trElement).find('td');
                 // <td valign="top" class="bg-4-lt">

@@ -5,7 +5,7 @@ import { validateGradeType } from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import {
-    type AutoraceRaceCourse,
+    type RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import {
@@ -35,7 +35,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
     private constructor(
         public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
-        public readonly location: AutoraceRaceCourse,
+        public readonly location: RaceCourse,
         public readonly grade: AutoraceGradeType,
         public readonly updateDate: UpdateDate,
     ) {}

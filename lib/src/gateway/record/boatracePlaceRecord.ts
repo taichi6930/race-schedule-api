@@ -7,7 +7,7 @@ import {
     validatePlaceId,
 } from '../../utility/data/common/placeId';
 import {
-    type BoatraceRaceCourse,
+    type RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import {
@@ -36,7 +36,7 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
     private constructor(
         public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
-        public readonly location: BoatraceRaceCourse,
+        public readonly location: RaceCourse,
         public readonly grade: BoatraceGradeType,
         public readonly updateDate: UpdateDate,
     ) {}

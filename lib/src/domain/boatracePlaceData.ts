@@ -1,6 +1,6 @@
 import type { BoatraceGradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
-import type { BoatraceRaceCourse } from '../utility/data/common/raceCourse';
+import type { RaceCourse } from '../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../utility/data/common/raceCourse';
 import type { RaceDateTime } from '../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
@@ -18,9 +18,9 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
     public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
-     * @type {BoatraceRaceCourse}
+     * @type {RaceCourse}
      */
-    public readonly location: BoatraceRaceCourse;
+    public readonly location: RaceCourse;
     /**
      * グレード
      * @type {BoatraceGradeType}
@@ -37,7 +37,7 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
      */
     private constructor(
         dateTime: RaceDateTime,
-        location: BoatraceRaceCourse,
+        location: RaceCourse,
         grade: BoatraceGradeType,
     ) {
         this.dateTime = dateTime;

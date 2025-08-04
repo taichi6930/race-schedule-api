@@ -5,7 +5,7 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { JraGradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
-    type JraRaceCourse,
+    type RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
@@ -63,7 +63,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
         public readonly id: RaceId,
         public readonly name: RaceName,
         public readonly dateTime: RaceDateTime,
-        public readonly location: JraRaceCourse,
+        public readonly location: RaceCourse,
         public readonly surfaceType: RaceCourseType,
         public readonly distance: RaceDistance,
         public readonly grade: JraGradeType,

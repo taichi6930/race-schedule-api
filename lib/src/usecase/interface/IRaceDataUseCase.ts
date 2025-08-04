@@ -12,14 +12,7 @@ import type {
     NarGradeType,
     WorldGradeType,
 } from '../../utility/data/common/gradeType';
-import type {
-    AutoraceRaceCourse,
-    BoatraceRaceCourse,
-    JraRaceCourse,
-    KeirinRaceCourse,
-    NarRaceCourse,
-    WorldRaceCourse,
-} from '../../utility/data/common/raceCourse';
+import type { RaceCourse } from '../../utility/data/common/raceCourse';
 import type { RaceStage } from '../../utility/data/common/raceStage';
 
 /**
@@ -40,29 +33,29 @@ export interface IRaceDataUseCase {
         searchList?: {
             jra?: {
                 gradeList?: JraGradeType[];
-                locationList?: JraRaceCourse[];
+                locationList?: RaceCourse[];
             };
             nar?: {
                 gradeList?: NarGradeType[];
-                locationList?: NarRaceCourse[];
+                locationList?: RaceCourse[];
             };
             world?: {
                 gradeList?: WorldGradeType[];
-                locationList?: WorldRaceCourse[];
+                locationList?: RaceCourse[];
             };
             keirin?: {
                 gradeList?: KeirinGradeType[];
-                locationList?: KeirinRaceCourse[];
+                locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
             autorace?: {
                 gradeList?: AutoraceGradeType[];
-                locationList?: AutoraceRaceCourse[];
+                locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
             boatrace?: {
                 gradeList?: BoatraceGradeType[];
-                locationList?: BoatraceRaceCourse[];
+                locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
         },
@@ -87,25 +80,25 @@ export interface IRaceDataUseCase {
         raceTypeList: string[],
         searchList?: {
             jra?: {
-                locationList?: JraRaceCourse[];
+                locationList?: RaceCourse[];
             };
             nar?: {
-                locationList?: NarRaceCourse[];
+                locationList?: RaceCourse[];
             };
             world?: {
-                locationList?: WorldRaceCourse[];
+                locationList?: RaceCourse[];
             };
             keirin?: {
                 gradeList?: KeirinGradeType[];
-                locationList?: KeirinRaceCourse[];
+                locationList?: RaceCourse[];
             };
             autorace?: {
                 gradeList?: AutoraceGradeType[];
-                locationList?: AutoraceRaceCourse[];
+                locationList?: RaceCourse[];
             };
             boatrace?: {
                 gradeList?: BoatraceGradeType[];
-                locationList?: BoatraceRaceCourse[];
+                locationList?: RaceCourse[];
             };
         },
     ) => Promise<void>;

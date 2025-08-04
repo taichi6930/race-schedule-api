@@ -8,14 +8,14 @@ import { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord'
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { NarGradeType } from '../../../../lib/src/utility/data/common/gradeType';
-import type { NarRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
+import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import {
     generateNarPlaceId,
     generateNarRaceId,
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
-const baseNarPlaceCourse: NarRaceCourse = '大井';
+const baseNarPlaceCourse: RaceCourse = '大井';
 const baseNarPlaceDateTime = new Date('2024-12-29');
 
 const baseNarRaceName = '東京大賞典';

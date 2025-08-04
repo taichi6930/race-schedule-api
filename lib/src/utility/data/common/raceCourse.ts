@@ -429,11 +429,6 @@ const JraRaceCourseSchema = createRaceCourseSchema(
 );
 
 /**
- * JraRaceCourseの型定義
- */
-export type JraRaceCourse = z.infer<typeof JraRaceCourseSchema>;
-
-/**
  * 競輪のレース場名とコードの対応表
  */
 export const KeirinPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
@@ -449,22 +444,12 @@ const KeirinRaceCourseSchema = createRaceCourseSchema(
 );
 
 /**
- * KeirinRaceCourseの型定義
- */
-export type KeirinRaceCourse = z.infer<typeof KeirinRaceCourseSchema>;
-
-/**
  * NarRaceCourseのzod型定義
  */
 const NarRaceCourseSchema = createRaceCourseSchema(
     RaceType.NAR,
     '地方の競馬場ではありません',
 );
-
-/**
- * NarRaceCourseの型定義
- */
-export type NarRaceCourse = z.infer<typeof NarRaceCourseSchema>;
 
 /**
  * 地方競馬のレース場名とコードの対応表
@@ -482,11 +467,6 @@ const WorldRaceCourseSchema = createRaceCourseSchema(
 );
 
 /**
- * WorldRaceCourseの型定義
- */
-export type WorldRaceCourse = z.infer<typeof WorldRaceCourseSchema>;
-
-/**
  * 海外の競馬場のレース場名とコードの対応表
  */
 export const WorldPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
@@ -502,22 +482,12 @@ const AutoraceRaceCourseSchema = createRaceCourseSchema(
 );
 
 /**
- * AutoraceRaceCourseの型定義
- */
-export type AutoraceRaceCourse = z.infer<typeof AutoraceRaceCourseSchema>;
-
-/**
  * BoatraceRaceCourseのzod型定義
  */
 const BoatraceRaceCourseSchema = createRaceCourseSchema(
     RaceType.BOATRACE,
     'ボートレース場ではありません',
 );
-
-/**
- * BoatraceRaceCourseの型定義
- */
-export type BoatraceRaceCourse = z.infer<typeof BoatraceRaceCourseSchema>;
 
 /**
  * ボートレースのレース場名とコードの対応表

@@ -8,14 +8,14 @@ import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord'
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import type { JraGradeType } from '../../../../lib/src/utility/data/common/gradeType';
-import type { JraRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
+import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import {
     generateJraPlaceId,
     generateJraRaceId,
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
-const baseJraPlaceCourse: JraRaceCourse = '中山';
+const baseJraPlaceCourse: RaceCourse = '中山';
 const baseJraPlaceDateTime = new Date('2024-12-22');
 const baseJraPlaceId = generateJraPlaceId(
     baseJraPlaceDateTime,

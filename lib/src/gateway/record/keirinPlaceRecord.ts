@@ -5,7 +5,7 @@ import { validateGradeType } from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import {
-    type KeirinRaceCourse,
+    type RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import {
@@ -34,7 +34,7 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
     private constructor(
         public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
-        public readonly location: KeirinRaceCourse,
+        public readonly location: RaceCourse,
         public readonly grade: KeirinGradeType,
         public readonly updateDate: UpdateDate,
     ) {}

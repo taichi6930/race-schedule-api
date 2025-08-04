@@ -6,7 +6,7 @@ import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGatew
 import { processJraRaceName } from '../../utility/createRaceName';
 import { JraGradeType } from '../../utility/data/common/gradeType';
 import {
-    JraRaceCourse,
+    RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import { RaceCourseType } from '../../utility/data/common/raceCourseType';
@@ -86,7 +86,7 @@ export class JraRaceRepositoryFromHtmlImpl
                     return;
                 }
                 // 競馬場を取得
-                const raceCourse: JraRaceCourse =
+                const raceCourse: RaceCourse =
                     this.extractRaceCourse(theadElementMatch);
                 // 開催回数を取得
                 const raceHeld: number | null =
@@ -213,10 +213,10 @@ export class JraRaceRepositoryFromHtmlImpl
      */
     private readonly extractRaceCourse = (
         theadElementMatch: RegExpExecArray,
-    ): JraRaceCourse => {
+    ): RaceCourse => {
         const placeString: string = theadElementMatch[2];
         // placeStringがJraRaceCourseに変換できるかを確認して、OKであればキャストする
-        const place: JraRaceCourse = placeString;
+        const place: RaceCourse = placeString;
         return validateRaceCourse(RaceType.JRA, place);
     };
 

@@ -5,7 +5,7 @@ import {
     validateGradeType,
 } from '../../utility/data/common/gradeType';
 import {
-    type AutoraceRaceCourse,
+    type RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import {
@@ -51,7 +51,7 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
         public readonly name: RaceName,
         public readonly stage: RaceStage,
         public readonly dateTime: RaceDateTime,
-        public readonly location: AutoraceRaceCourse,
+        public readonly location: RaceCourse,
         public readonly grade: AutoraceGradeType,
         public readonly number: RaceNumber,
         public readonly updateDate: UpdateDate,
