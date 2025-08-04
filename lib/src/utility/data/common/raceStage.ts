@@ -632,6 +632,17 @@ export const RaceGradeAndStageList: {
 ];
 
 /**
+ * ステージ リスト
+ * @param raceType
+ */
+const RaceStageList: (raceType: RaceType) => Set<string> = (raceType) =>
+    new Set(
+        RaceGradeAndStageList.filter((item) => item.raceType === raceType).map(
+            (item) => item.stage,
+        ),
+    );
+
+/**
  * KeirinRaceStageのzod型定義
  */
 export const KeirinRaceStageSchema = z.string().refine((value) => {
@@ -646,11 +657,7 @@ export type KeirinRaceStage = z.infer<typeof KeirinRaceStageSchema>;
 /**
  * 競輪のステージ リスト
  */
-const KeirinRaceStageList = new Set(
-    RaceGradeAndStageList.filter(
-        (item) => item.raceType === RaceType.KEIRIN,
-    ).map((item) => item.stage),
-);
+const KeirinRaceStageList = RaceStageList(RaceType.KEIRIN);
 
 /**
  * 競輪のステージ リスト
