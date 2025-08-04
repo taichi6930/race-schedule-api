@@ -11,6 +11,7 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
