@@ -9,6 +9,7 @@ import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { DataLocationType } from '../../utility/dataType';
+import type { RaceType } from '../../utility/raceType';
 
 /**
  * レース開催データを管理するサービスのインターフェース
@@ -41,7 +42,7 @@ export interface IRaceDataService {
     fetchRaceEntityList: (
         startDate: Date,
         finishDate: Date,
-        raceType: string[],
+        raceType: RaceType[],
         type: DataLocationType,
         placeEntityList?: {
             jra?: JraPlaceEntity[];

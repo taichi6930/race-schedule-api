@@ -14,6 +14,7 @@ import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { IRaceDataService } from '../interface/IRaceDataService';
 
 /**
@@ -112,7 +113,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     public async fetchRaceEntityList(
         startDate: Date,
         finishDate: Date,
-        raceType: string[],
+        raceType: RaceType[],
         type: DataLocationType,
         placeEntityList?: {
             jra?: JraPlaceEntity[];
@@ -148,7 +149,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
 
         try {
             if (
-                raceType.includes('jra') ||
+                raceType.includes(RaceType.JRA) ||
                 (placeEntityList?.jra !== undefined &&
                     placeEntityList.jra.length > 0)
             ) {
@@ -168,7 +169,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 result.jra.push(...jraRaceEntityList);
             }
             if (
-                raceType.includes('nar') ||
+                raceType.includes(RaceType.NAR) ||
                 (placeEntityList?.nar !== undefined &&
                     placeEntityList.nar.length > 0)
             ) {
@@ -187,7 +188,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                           );
                 result.nar.push(...narRaceEntityList);
             }
-            if (raceType.includes('world')) {
+            if (raceType.includes(RaceType.WORLD)) {
                 const searchFilter =
                     new SearchRaceFilterEntity<WorldPlaceEntity>(
                         startDate,
@@ -204,7 +205,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 result.world.push(...worldRaceEntityList);
             }
             if (
-                raceType.includes('keirin') ||
+                raceType.includes(RaceType.KEIRIN) ||
                 (placeEntityList?.keirin !== undefined &&
                     placeEntityList.keirin.length > 0)
             ) {
@@ -224,7 +225,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 result.keirin.push(...keirinRaceEntityList);
             }
             if (
-                raceType.includes('autorace') ||
+                raceType.includes(RaceType.AUTORACE) ||
                 (placeEntityList?.autorace !== undefined &&
                     placeEntityList.autorace.length > 0)
             ) {
@@ -244,7 +245,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 result.autorace.push(...autoraceRaceEntityList);
             }
             if (
-                raceType.includes('boatrace') ||
+                raceType.includes(RaceType.BOATRACE) ||
                 (placeEntityList?.boatrace !== undefined &&
                     placeEntityList.boatrace.length > 0)
             ) {

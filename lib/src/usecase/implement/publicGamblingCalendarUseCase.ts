@@ -83,7 +83,14 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         const raceEntityList = await this.raceDataService.fetchRaceEntityList(
             startDate,
             finishDate,
-            ['jra', 'nar', 'world', 'keirin', 'autorace', 'boatrace'],
+            [
+                RaceType.JRA,
+                RaceType.NAR,
+                RaceType.WORLD,
+                RaceType.KEIRIN,
+                RaceType.AUTORACE,
+                RaceType.BOATRACE,
+            ],
             DataLocation.Storage,
         );
 
