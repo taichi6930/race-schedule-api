@@ -1,4 +1,5 @@
-import { validateKeirinRaceStage } from '../../../../../lib/src/utility/data/common/raceStage';
+import { validateRaceStage } from '../../../../../lib/src/utility/data/common/raceStage';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
 
 /**
  * KeirinRaceStageクラスのテスト
@@ -6,13 +7,15 @@ import { validateKeirinRaceStage } from '../../../../../lib/src/utility/data/com
 describe('KeirinRaceStage', () => {
     describe('validateKeirinRaceStage', () => {
         it('正常系', () => {
-            expect(validateKeirinRaceStage('S級決勝')).toBe('S級決勝');
+            expect(validateRaceStage(RaceType.KEIRIN, 'S級決勝')).toBe(
+                'S級決勝',
+            );
         });
 
         it('異常系', () => {
-            expect(() => validateKeirinRaceStage('不正なステージ')).toThrow(
-                '競輪のステージではありません',
-            );
+            expect(() =>
+                validateRaceStage(RaceType.KEIRIN, '不正なステージ'),
+            ).toThrow('競輪のステージではありません');
         });
     });
 });

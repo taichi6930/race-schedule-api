@@ -16,7 +16,7 @@ import {
 } from '../utility/data/common/raceNumber';
 import {
     type KeirinRaceStage,
-    validateKeirinRaceStage,
+    validateRaceStage,
 } from '../utility/data/common/raceStage';
 import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
@@ -103,7 +103,7 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
     ): KeirinRaceData {
         return new KeirinRaceData(
             validateRaceName(name),
-            validateKeirinRaceStage(stage),
+            validateRaceStage(RaceType.KEIRIN, stage),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.KEIRIN, location),
             validateGradeType(RaceType.KEIRIN, grade),
