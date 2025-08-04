@@ -22,7 +22,7 @@ import type {
     NarRaceCourse,
     WorldRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import type { KeirinRaceStage } from '../../utility/data/common/raceStage';
+import type { RaceStage } from '../../utility/data/common/raceStage';
 
 /**
  * レースデータUseCaseのインターフェース
@@ -55,7 +55,7 @@ export interface IRaceDataUseCase {
             keirin?: {
                 gradeList?: KeirinGradeType[];
                 locationList?: KeirinRaceCourse[];
-                stageList?: KeirinRaceStage[];
+                stageList?: RaceStage[];
             };
             autorace?: {
                 gradeList?: AutoraceGradeType[];

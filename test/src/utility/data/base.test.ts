@@ -1,6 +1,6 @@
-import { RaceStageSchema } from '../../../../lib/src/utility/data/base';
 import { GradeTypeSchema } from '../../../../lib/src/utility/data/common/gradeType';
 import { UnionRaceCourseSchema } from '../../../../lib/src/utility/data/common/raceCourse';
+import { RaceStageSchema } from '../../../../lib/src/utility/data/common/raceStage';
 
 describe('GradeType', () => {
     it('GradeTypeに適した値を入力すると、その値が返却される', () => {

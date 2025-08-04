@@ -1,7 +1,8 @@
 import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
-import type { RaceStage } from '../base';
+import { AutoraceRaceStageSchema } from '../autorace/autoraceRaceStage';
+import { BoatraceRaceStageSchema } from '../boatrace/boatraceRaceStage';
 import type { KeirinGradeType } from './gradeType';
 
 /**
@@ -9,7 +10,7 @@ import type { KeirinGradeType } from './gradeType';
  */
 export const RaceGradeAndStageList: {
     grade: KeirinGradeType[];
-    stage: KeirinRaceStage;
+    stage: RaceStage;
     stageByWebSite: string[];
     raceType: RaceType;
     priority: number;
@@ -696,11 +697,6 @@ export const KeirinRaceStageSchema = z.string().refine((value) => {
 }, '競輪のステージではありません');
 
 /**
- * KeirinRaceStageの型定義
- */
-export type KeirinRaceStage = z.infer<typeof KeirinRaceStageSchema>;
-
-/**
  * 競輪のステージ リスト
  */
 const KeirinRaceStageList = RaceStageList(RaceType.KEIRIN);
@@ -708,6 +704,21 @@ const KeirinRaceStageList = RaceStageList(RaceType.KEIRIN);
 /**
  * HTML表記・oddspark表記の両方をカバーする競輪ステージ名マップ
  */
-export const KeirinStageMap: Record<string, KeirinRaceStage> = StageMap(
+export const KeirinStageMap: Record<string, RaceStage> = StageMap(
     RaceType.KEIRIN,
 );
+
+/**
+ * RaceStageのzod型定義
+ */
+
+export const RaceStageSchema = z.union([
+    KeirinRaceStageSchema,
+    AutoraceRaceStageSchema,
+    BoatraceRaceStageSchema,
+]);
+/**
+ * RaceStageの型定義
+ */
+
+export type RaceStage = z.infer<typeof RaceStageSchema>;

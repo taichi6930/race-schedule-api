@@ -9,7 +9,7 @@ import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinP
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { KeirinGradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { KeirinRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
-import type { KeirinRaceStage } from '../../../../lib/src/utility/data/common/raceStage';
+import type { RaceStage } from '../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
     generateKeirinPlaceId,
@@ -29,7 +29,7 @@ const baseKeirinPlaceId = generateKeirinPlaceId(
 const baseKeirinRaceName = 'KEIRINグランプリ';
 const baseRaceDateTime = new Date('2025-12-30 16:30');
 const baseKeirinRaceNumber = 11;
-const baseKeirinRaceStage: KeirinRaceStage = 'S級グランプリ';
+const baseKeirinRaceStage: RaceStage = 'S級グランプリ';
 const baseKeirinRaceUpdateDate = getJSTDate(new Date('2025-10-01 16:30'));
 
 export const baseKeirinPlaceData = KeirinPlaceData.create(

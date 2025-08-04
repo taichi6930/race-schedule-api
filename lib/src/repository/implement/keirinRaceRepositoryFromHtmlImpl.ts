@@ -8,10 +8,7 @@ import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { KeirinGradeType } from '../../utility/data/common/gradeType';
-import {
-    KeirinRaceStage,
-    KeirinStageMap,
-} from '../../utility/data/common/raceStage';
+import { KeirinStageMap, RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -241,9 +238,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         return raceSummaryInfoChild;
     }
 
-    private extractRaceStage(
-        raceSummaryInfoChild: string,
-    ): KeirinRaceStage | null {
+    private extractRaceStage(raceSummaryInfoChild: string): RaceStage | null {
         for (const [pattern, stage] of Object.entries(KeirinStageMap)) {
             if (new RegExp(pattern).test(raceSummaryInfoChild)) {
                 return stage;
@@ -255,7 +250,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
     private extractRaceGrade(
         raceName: string,
         raceGrade: KeirinGradeType,
-        raceStage: KeirinRaceStage,
+        raceStage: RaceStage,
         raceDate: Date,
     ): KeirinGradeType {
         // raceStageが「ヤンググランプリ」の場合、GⅡを返す

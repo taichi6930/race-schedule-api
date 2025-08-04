@@ -32,7 +32,7 @@ import {
     NarRaceCourse,
     WorldRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import { KeirinRaceStage } from '../../utility/data/common/raceStage';
+import { RaceStage } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -101,7 +101,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             keirin?: {
                 gradeList?: KeirinGradeType[];
                 locationList?: KeirinRaceCourse[];
-                stageList?: KeirinRaceStage[];
+                stageList?: RaceStage[];
             };
             autorace?: {
                 gradeList?: AutoraceGradeType[];
