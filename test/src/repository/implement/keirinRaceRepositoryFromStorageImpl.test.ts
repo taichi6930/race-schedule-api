@@ -44,7 +44,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
     });
 
     describe('fetchRaceList', () => {
-        test('正しいレース開催データを取得できる', async () => {
+        test('レース開催データを正常に取得できる', async () => {
             // モックの戻り値を設定
             const csvFilePath = path.resolve(
                 __dirname,
