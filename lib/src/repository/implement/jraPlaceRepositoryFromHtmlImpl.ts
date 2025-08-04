@@ -6,7 +6,7 @@ import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { generateJraPlaceId } from '../../utility/raceId';
+import { generatePlaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
@@ -166,7 +166,8 @@ export class JraPlaceRepositoryFromHtmlImpl
                         // 競馬場開催レコードを追加
                         jraPlaceRecordList.push(
                             JraPlaceRecord.create(
-                                generateJraPlaceId(
+                                generatePlaceId(
+                                    RaceType.JRA,
                                     new Date(
                                         date.getFullYear(),
                                         month - 1,

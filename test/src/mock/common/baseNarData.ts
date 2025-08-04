@@ -10,8 +10,8 @@ import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEnti
 import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import {
-    generateNarPlaceId,
-    generateNarRaceId,
+    generatePlaceId,
+    generateRaceId,
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
@@ -42,14 +42,15 @@ export const baseNarRaceData = NarRaceData.create(
 );
 
 export const baseNarPlaceRecord = NarPlaceRecord.create(
-    generateNarPlaceId(baseNarPlaceDateTime, baseNarPlaceCourse),
+    generatePlaceId(RaceType.NAR, baseNarPlaceDateTime, baseNarPlaceCourse),
     baseNarPlaceDateTime,
     baseNarPlaceCourse,
     baseNarRaceUpdateDate,
 );
 
 export const baseNarRaceRecord = NarRaceRecord.create(
-    generateNarRaceId(
+    generateRaceId(
+        RaceType.NAR,
         baseNarPlaceDateTime,
         baseNarPlaceCourse,
         baseNarRaceNumber,
@@ -75,7 +76,8 @@ export const baseNarRaceEntity = NarRaceEntity.createWithoutId(
 );
 
 export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
-    id: generateNarRaceId(
+    id: generateRaceId(
+        RaceType.NAR,
         baseNarPlaceDateTime,
         baseNarPlaceCourse,
         baseNarRaceNumber,
@@ -108,7 +110,8 @@ export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
             location: baseNarPlaceCourse,
             name: baseNarRaceName,
             number: baseNarRaceNumber.toString(),
-            raceId: generateNarRaceId(
+            raceId: generateRaceId(
+                RaceType.NAR,
                 baseNarPlaceDateTime,
                 baseNarPlaceCourse,
                 baseNarRaceNumber,

@@ -16,7 +16,7 @@ import {
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getJraGoogleCalendarColorId } from '../../utility/googleCalendar';
-import { generateJraRaceId } from '../../utility/raceId';
+import { generateRaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
@@ -68,7 +68,8 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         updateDate: Date,
     ): JraRaceEntity {
         return JraRaceEntity.create(
-            generateJraRaceId(
+            generateRaceId(
+                RaceType.JRA,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -118,7 +119,8 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     ): calendar_v3.Schema$Event {
         const raceIdForNetkeiba = `${this.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[this.raceData.location]}${this.raceData.heldTimes.toXDigits(2)}${this.raceData.heldDayTimes.toXDigits(2)}${this.raceData.number.toXDigits(2)}`;
         return {
-            id: generateJraRaceId(
+            id: generateRaceId(
+                RaceType.JRA,
                 this.raceData.dateTime,
                 this.raceData.location,
                 this.raceData.number,

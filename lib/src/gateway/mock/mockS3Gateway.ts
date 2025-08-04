@@ -7,14 +7,7 @@ import { injectable } from 'tsyringe';
 
 import { allowedEnvs, ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
-import {
-    generateJraPlaceId,
-    generateJraRaceId,
-    generateNarPlaceId,
-    generateNarRaceId,
-    generatePlaceId,
-    generateRaceId,
-} from '../../utility/raceId';
+import { generatePlaceId, generateRaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { IS3Gateway } from '../interface/iS3Gateway';
 import { IRecord } from '../record/iRecord';
@@ -308,7 +301,12 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         '2000',
                         'GⅠ',
                         raceNumber,
-                        generateNarRaceId(currentDate, '大井', raceNumber),
+                        generateRaceId(
+                            RaceType.NAR,
+                            currentDate,
+                            '大井',
+                            raceNumber,
+                        ),
                     ].join(','),
                 );
             }
@@ -338,7 +336,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                 while (currentDate.getMonth() === startDate.getMonth()) {
                     mockData.push(
                         [
-                            generateNarPlaceId(currentDate, '大井'),
+                            generatePlaceId(RaceType.NAR, currentDate, '大井'),
                             format(currentDate, 'yyyy-MM-dd'),
                             '大井',
                         ].join(','),
@@ -383,7 +381,12 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         raceNumber,
                         '1',
                         '1',
-                        generateJraRaceId(currentDate, '東京', raceNumber),
+                        generateRaceId(
+                            RaceType.JRA,
+                            currentDate,
+                            '東京',
+                            raceNumber,
+                        ),
                     ].join(','),
                 );
             }
@@ -419,7 +422,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                 while (currentDate.getMonth() === startDate.getMonth()) {
                     mockData.push(
                         [
-                            generateJraPlaceId(currentDate, '東京'),
+                            generatePlaceId(RaceType.JRA, currentDate, '東京'),
                             format(currentDate, 'yyyy-MM-dd'),
                             '東京',
                             '1',
