@@ -7,7 +7,7 @@ import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRace
 import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { generateWorldRaceId } from '../../../../lib/src/utility/raceId';
+import { generateRaceId } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
 const baseWorldPlaceCourse: RaceCourse = 'パリロンシャン';
@@ -37,7 +37,8 @@ export const baseWorldRaceData = WorldRaceData.create(
 );
 
 export const baseWorldRaceRecord = WorldRaceRecord.create(
-    generateWorldRaceId(
+    generateRaceId(
+        RaceType.WORLD,
         baseWorldPlaceDateTime,
         baseWorldPlaceCourse,
         baseWorldRaceNumber,

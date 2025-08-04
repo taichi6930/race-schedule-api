@@ -14,7 +14,6 @@ import {
     generateNarRaceId,
     generatePlaceId,
     generateRaceId,
-    generateWorldRaceId,
 } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { IS3Gateway } from '../interface/iS3Gateway';
@@ -267,7 +266,8 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         '2400',
                         'GⅠ',
                         raceNumber,
-                        generateWorldRaceId(
+                        generateRaceId(
+                            RaceType.WORLD,
                             currentDate,
                             'パリロンシャン',
                             raceNumber,

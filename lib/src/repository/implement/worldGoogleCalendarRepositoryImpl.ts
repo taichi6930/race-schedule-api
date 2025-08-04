@@ -5,7 +5,8 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import { Logger } from '../../utility/logger';
-import { generateWorldRaceId } from '../../utility/raceId';
+import { generateRaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/raceType';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import { BaseGoogleCalendarRepository } from './baseGoogleCalendarRepository';
 
@@ -70,7 +71,8 @@ export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposit
     private generateEventId(raceEntity: WorldRaceEntity): string {
         // w, x, y, zはGoogle Calendar APIのIDで使用できないため、置換
         // https://developers.google.com/calendar/api/v3/reference/events/insert?hl=ja
-        return generateWorldRaceId(
+        return generateRaceId(
+            RaceType.WORLD,
             raceEntity.raceData.dateTime,
             raceEntity.raceData.location,
             raceEntity.raceData.number,
