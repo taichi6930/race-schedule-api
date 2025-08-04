@@ -22,7 +22,7 @@ import type {
     NarRaceCourse,
     WorldRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import type { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
+import type { KeirinRaceStage } from '../../utility/data/common/raceStage';
 
 /**
  * レースデータUseCaseのインターフェース

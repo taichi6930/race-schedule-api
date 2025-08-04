@@ -9,7 +9,7 @@ import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinP
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { KeirinGradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { KeirinRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
-import type { KeirinRaceStage } from '../../../../lib/src/utility/data/keirin/keirinRaceStage';
+import type { KeirinRaceStage } from '../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
     generateKeirinPlaceId,

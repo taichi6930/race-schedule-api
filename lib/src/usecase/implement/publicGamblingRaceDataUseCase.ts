@@ -32,7 +32,7 @@ import {
     NarRaceCourse,
     WorldRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
+import { KeirinRaceStage } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';

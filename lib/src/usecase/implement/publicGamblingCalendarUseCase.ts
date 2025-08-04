@@ -12,11 +12,13 @@ import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceSpecifiedGradeAndStageList } from '../../utility/data/autorace/autoraceRaceStage';
 import { BoatraceSpecifiedGradeAndStageList } from '../../utility/data/boatrace/boatraceRaceStage';
-import { GradeType } from '../../utility/data/common/gradeType';
-import { BoatraceGradeType } from '../../utility/data/common/gradeType';
-import { AutoraceGradeType } from '../../utility/data/common/gradeType';
-import { KeirinGradeType } from '../../utility/data/common/gradeType';
-import { KeirinRaceGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
+import {
+    AutoraceGradeType,
+    BoatraceGradeType,
+    GradeType,
+    KeirinGradeType,
+} from '../../utility/data/common/gradeType';
+import { KeirinRaceGradeAndStageList } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';

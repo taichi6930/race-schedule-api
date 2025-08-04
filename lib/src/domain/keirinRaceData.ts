@@ -17,7 +17,7 @@ import {
 import {
     type KeirinRaceStage,
     validateKeirinRaceStage,
-} from '../utility/data/keirin/keirinRaceStage';
+} from '../utility/data/common/raceStage';
 import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
-import type { KeirinGradeType } from '../common/gradeType';
+import type { KeirinGradeType } from './gradeType';
 
 /**
  * 競輪の指定グレード・ステージリスト

@@ -1,4 +1,4 @@
-import { validateKeirinRaceStage } from '../../../../../lib/src/utility/data/keirin/keirinRaceStage';
+import { validateKeirinRaceStage } from '../../../../../lib/src/utility/data/common/raceStage';
 
 /**
  * KeirinRaceStageクラスのテスト

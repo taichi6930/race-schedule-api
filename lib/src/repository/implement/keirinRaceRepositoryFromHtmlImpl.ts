@@ -11,7 +11,7 @@ import { KeirinGradeType } from '../../utility/data/common/gradeType';
 import {
     KeirinRaceStage,
     KeirinStageMap,
-} from '../../utility/data/keirin/keirinRaceStage';
+} from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';

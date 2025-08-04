@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { AutoraceRaceStageSchema } from './autorace/autoraceRaceStage';
 import { BoatraceRaceStageSchema } from './boatrace/boatraceRaceStage';
-import { KeirinRaceStageSchema } from './keirin/keirinRaceStage';
+import { KeirinRaceStageSchema } from './common/raceStage';
 
 /**
  * RaceStageのzod型定義

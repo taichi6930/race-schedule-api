@@ -23,7 +23,7 @@ import {
 import {
     type KeirinRaceStage,
     validateKeirinRaceStage,
-} from '../../utility/data/keirin/keirinRaceStage';
+} from '../../utility/data/common/raceStage';
 import { createErrorMessage } from '../../utility/error';
 import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
