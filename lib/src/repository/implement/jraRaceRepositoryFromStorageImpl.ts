@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
+import { RaceHeldRecord } from '../../gateway/record/raceHeldRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
@@ -103,6 +104,57 @@ export class JraRaceRepositoryFromStorageImpl
                         Number.parseInt(columns[indices.distance]),
                         columns[indices.grade],
                         Number.parseInt(columns[indices.number]),
+                        Number.parseInt(columns[indices.heldTimes]),
+                        Number.parseInt(columns[indices.heldDayTimes]),
+                        updateDate,
+                    ),
+                ];
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
+        });
+    }
+
+    /**
+     * レースデータをS3から取得する
+     */
+    @Logger
+    private async getRaceHeldRecordListFromS3(): Promise<RaceHeldRecord[]> {
+        // S3からデータを取得する
+        const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
+
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
+
+        // CSVを行ごとに分割
+        const lines = csv.split('\n');
+
+        // ヘッダー行を解析
+        const headers = lines[0].split('\r').join('').split(',');
+
+        // ヘッダーに基づいてインデックスを取得
+        const indices = {
+            id: headers.indexOf('id'),
+            heldTimes: headers.indexOf('heldTimes'),
+            heldDayTimes: headers.indexOf('heldDayTimes'),
+            updateDate: headers.indexOf('updateDate'),
+        };
+
+        // データ行を解析してRaceDataのリストを生成
+        return lines.slice(1).flatMap((line: string): RaceHeldRecord[] => {
+            try {
+                const columns = line.split('\r').join('').split(',');
+
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
+                return [
+                    RaceHeldRecord.create(
+                        columns[indices.id],
                         Number.parseInt(columns[indices.heldTimes]),
                         Number.parseInt(columns[indices.heldDayTimes]),
                         updateDate,
