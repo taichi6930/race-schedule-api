@@ -14,6 +14,7 @@ import {
     WorldSpecifiedGradeList,
 } from '../utility/data/common/gradeType';
 import { Logger } from '../utility/logger';
+import { raceTypeListValid } from '../utility/raceType';
 
 /**
  * 公営競技のレース情報コントローラー
@@ -94,7 +95,7 @@ export class PublicGamblingController {
             const races = await this.calendarUseCase.fetchRacesFromCalendar(
                 new Date(startDate as string),
                 new Date(finishDate as string),
-                raceTypeList,
+                raceTypeListValid(raceTypeList),
             );
             res.json(races);
         } catch (error) {
@@ -352,7 +353,7 @@ export class PublicGamblingController {
             const races = await this.raceDataUseCase.fetchRaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
-                raceTypeList,
+                raceTypeListValid(raceTypeList),
                 {
                     jra: {
                         gradeList,
@@ -448,7 +449,7 @@ export class PublicGamblingController {
             await this.raceDataUseCase.updateRaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
-                raceTypeList,
+                raceTypeListValid(raceTypeList),
                 raceTypeParams,
             );
             res.status(200).send();

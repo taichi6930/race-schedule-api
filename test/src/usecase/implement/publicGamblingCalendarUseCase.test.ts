@@ -7,12 +7,15 @@ import type { ICalendarService } from '../../../../lib/src/service/interface/ICa
 import type { IPlayerDataService } from '../../../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingCalendarUseCase } from '../../../../lib/src/usecase/implement/publicGamblingCalendarUseCase';
-import { BoatraceSpecifiedGradeList } from '../../../../lib/src/utility/data/common/gradeType';
-import { AutoraceSpecifiedGradeList } from '../../../../lib/src/utility/data/common/gradeType';
-import { KeirinSpecifiedGradeList } from '../../../../lib/src/utility/data/common/gradeType';
-import { JraSpecifiedGradeList } from '../../../../lib/src/utility/data/common/gradeType';
-import { NarSpecifiedGradeList } from '../../../../lib/src/utility/data/common/gradeType';
-import { WorldSpecifiedGradeList } from '../../../../lib/src/utility/data/common/gradeType';
+import {
+    AutoraceSpecifiedGradeList,
+    BoatraceSpecifiedGradeList,
+    JraSpecifiedGradeList,
+    KeirinSpecifiedGradeList,
+    NarSpecifiedGradeList,
+    WorldSpecifiedGradeList,
+} from '../../../../lib/src/utility/data/common/gradeType';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import {
     baseAutoraceCalendarData,
     baseAutoraceRaceEntity,
@@ -86,13 +89,27 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             const result = await useCase.fetchRacesFromCalendar(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.WORLD,
+                    RaceType.KEIRIN,
+                    RaceType.AUTORACE,
+                    RaceType.BOATRACE,
+                ],
             );
 
             expect(calendarService.fetchEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.WORLD,
+                    RaceType.KEIRIN,
+                    RaceType.AUTORACE,
+                    RaceType.BOATRACE,
+                ],
             );
             expect(result).toEqual(mockCalendarData);
         });
@@ -227,7 +244,14 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         expect(calendarService.fetchEvents).toHaveBeenCalledWith(
             startDate,
             finishDate,
-            ['jra', 'nar', 'world', 'keirin', 'autorace', 'boatrace'],
+            [
+                RaceType.JRA,
+                RaceType.NAR,
+                RaceType.WORLD,
+                RaceType.KEIRIN,
+                RaceType.AUTORACE,
+                RaceType.BOATRACE,
+            ],
         );
 
         // deleteEventsが呼び出された回数を確認

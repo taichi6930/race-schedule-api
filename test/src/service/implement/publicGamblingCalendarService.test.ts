@@ -12,6 +12,7 @@ import { SearchCalendarFilterEntity } from '../../../../lib/src/repository/entit
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../lib/src/service/implement/publicGamblingCalendarService';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import {
     baseAutoraceCalendarData,
     baseAutoraceRaceEntityList,
@@ -127,12 +128,12 @@ describe('PublicGamblingCalendarService', () => {
                 baseAutoraceCalendarData,
             ]);
             const result = await service.fetchEvents(startDate, finishDate, [
-                'jra',
-                'nar',
-                'world',
-                'keirin',
-                'boatrace',
-                'autorace',
+                RaceType.JRA,
+                RaceType.NAR,
+                RaceType.WORLD,
+                RaceType.KEIRIN,
+                RaceType.AUTORACE,
+                RaceType.BOATRACE,
             ]);
 
             expect(jraCalendarRepository.getEvents).toHaveBeenCalledWith(

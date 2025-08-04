@@ -26,10 +26,6 @@ export class PublicGamblingPlayerUseCase implements IPlayerDataUseCase {
         }
         const playerDataList: PlayerData[] =
             await this.playerDataService.fetchPlayerDataList(raceType);
-        console.log(
-            'PublicGamblingPlayerUseCase: fetchPlayerDataList executed',
-            playerDataList[0],
-        );
         return playerDataList;
     }
 }

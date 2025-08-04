@@ -18,6 +18,7 @@ import { RaceStage } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
@@ -66,7 +67,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
     public async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
         searchList?: {
             jra?: {
                 gradeList?: GradeType[];
@@ -309,7 +310,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
     public async updateRaceEntityList(
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
         searchList?: {
             jra?: {
                 locationList?: RaceCourse[];
@@ -415,7 +416,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
 
         // placeEntityListが空の場合は処理を終了する
         if (
-            !raceTypeList.includes('world') &&
+            !raceTypeList.includes(RaceType.WORLD) &&
             filteredPlaceEntityList.jra.length === 0 &&
             filteredPlaceEntityList.nar.length === 0 &&
             filteredPlaceEntityList.keirin.length === 0 &&

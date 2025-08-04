@@ -5,6 +5,7 @@ import type { WorldRaceData } from '../../domain/worldRaceData';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import type { RaceCourse } from '../../utility/data/common/raceCourse';
 import type { RaceStage } from '../../utility/data/common/raceStage';
+import type { RaceType } from '../../utility/raceType';
 
 /**
  * レースデータUseCaseのインターフェース
@@ -19,7 +20,7 @@ export interface IRaceDataUseCase {
     fetchRaceDataList: (
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
         // Optional parameters
         searchList?: {
             jra?: {
@@ -68,7 +69,7 @@ export interface IRaceDataUseCase {
     updateRaceEntityList: (
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
         searchList?: {
             jra?: {
                 locationList?: RaceCourse[];

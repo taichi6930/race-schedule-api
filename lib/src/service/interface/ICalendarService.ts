@@ -5,6 +5,7 @@ import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
+import type { RaceType } from '../../utility/raceType';
 
 export interface ICalendarService {
     /**
@@ -21,7 +22,7 @@ export interface ICalendarService {
     fetchEvents: (
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
     ) => Promise<CalendarData[]>;
 
     /**

@@ -13,6 +13,7 @@ import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalend
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { ICalendarService } from '../interface/ICalendarService';
 
 /**
@@ -72,43 +73,43 @@ export class PublicGamblingCalendarService implements ICalendarService {
     public async fetchEvents(
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
     ): Promise<CalendarData[]> {
         const searchFilter = new SearchCalendarFilterEntity(
             startDate,
             finishDate,
         );
         const calendarDataList: CalendarData[] = [];
-        if (raceTypeList.includes('jra')) {
+        if (raceTypeList.includes(RaceType.JRA)) {
             calendarDataList.push(
                 ...(await this.jraCalendarRepository.getEvents(searchFilter)),
             );
         }
-        if (raceTypeList.includes('nar')) {
+        if (raceTypeList.includes(RaceType.NAR)) {
             calendarDataList.push(
                 ...(await this.narCalendarRepository.getEvents(searchFilter)),
             );
         }
-        if (raceTypeList.includes('world')) {
+        if (raceTypeList.includes(RaceType.WORLD)) {
             calendarDataList.push(
                 ...(await this.worldCalendarRepository.getEvents(searchFilter)),
             );
         }
-        if (raceTypeList.includes('keirin')) {
+        if (raceTypeList.includes(RaceType.KEIRIN)) {
             calendarDataList.push(
                 ...(await this.keirinCalendarRepository.getEvents(
                     searchFilter,
                 )),
             );
         }
-        if (raceTypeList.includes('boatrace')) {
+        if (raceTypeList.includes(RaceType.BOATRACE)) {
             calendarDataList.push(
                 ...(await this.boatraceCalendarRepository.getEvents(
                     searchFilter,
                 )),
             );
         }
-        if (raceTypeList.includes('autorace')) {
+        if (raceTypeList.includes(RaceType.AUTORACE)) {
             calendarDataList.push(
                 ...(await this.autoraceRaceCalendarRepository.getEvents(
                     searchFilter,

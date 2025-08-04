@@ -15,3 +15,32 @@ export function isRaceType(value: string): value is RaceType {
     value = value.toUpperCase();
     return (Object.values(RaceType) as string[]).includes(value);
 }
+
+export const raceTypeListValid = (raceTypeList: string[]): RaceType[] =>
+    raceTypeList
+        .map((type) => {
+            switch (type) {
+                case 'jra': {
+                    return RaceType.JRA;
+                }
+                case 'nar': {
+                    return RaceType.NAR;
+                }
+                case 'world': {
+                    return RaceType.WORLD;
+                }
+                case 'keirin': {
+                    return RaceType.KEIRIN;
+                }
+                case 'boatrace': {
+                    return RaceType.BOATRACE;
+                }
+                case 'autorace': {
+                    return RaceType.AUTORACE;
+                }
+                default: {
+                    return 'none';
+                }
+            }
+        })
+        .filter((type) => type !== 'none');

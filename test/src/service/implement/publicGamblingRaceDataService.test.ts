@@ -16,6 +16,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { PublicGamblingRaceDataService } from '../../../../lib/src/service/implement/publicGamblingRaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
 import { baseBoatraceRaceEntityList } from '../../mock/common/baseBoatraceData';
 import { baseJraRaceEntityList } from '../../mock/common/baseJraData';
@@ -212,7 +213,14 @@ describe('PublicGamblingRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.WORLD,
+                    RaceType.KEIRIN,
+                    RaceType.AUTORACE,
+                    RaceType.BOATRACE,
+                ],
                 DataLocation.Storage,
             );
             expect(result.jra).toEqual(baseJraRaceEntityList);
@@ -250,7 +258,14 @@ describe('PublicGamblingRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.WORLD,
+                    RaceType.KEIRIN,
+                    RaceType.AUTORACE,
+                    RaceType.BOATRACE,
+                ],
                 DataLocation.Web,
             );
 
@@ -278,7 +293,14 @@ describe('PublicGamblingRaceDataService', () => {
             await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.WORLD,
+                    RaceType.KEIRIN,
+                    RaceType.AUTORACE,
+                    RaceType.BOATRACE,
+                ],
                 DataLocation.Storage,
             );
 
