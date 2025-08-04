@@ -24,7 +24,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
-        private readonly publicGamblingCalendarService: ICalendarService,
+        private readonly calendarService: ICalendarService,
         @inject('PublicGamblingRaceDataService')
         private readonly raceDataService: IRaceDataService,
         @inject('PlayerDataService')
@@ -45,7 +45,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
     ): Promise<CalendarData[]> {
         const calendarDataList: CalendarData[] = [];
         calendarDataList.push(
-            ...(await this.publicGamblingCalendarService.fetchEvents(
+            ...(await this.calendarService.fetchEvents(
                 startDate,
                 finishDate,
                 raceTypeList,
@@ -134,11 +134,14 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         };
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
-            await this.publicGamblingCalendarService.fetchEvents(
-                startDate,
-                finishDate,
-                ['jra', 'nar', 'world', 'keirin', 'autorace', 'boatrace'],
-            );
+            await this.calendarService.fetchEvents(startDate, finishDate, [
+                'jra',
+                'nar',
+                'world',
+                'keirin',
+                'autorace',
+                'boatrace',
+            ]);
 
         // 1. raceEntityListのIDに存在しないcalendarDataListを取得
         const deleteCalendarDataList = {
@@ -191,7 +194,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 );
             }),
         };
-        await this.publicGamblingCalendarService.deleteEvents({
+        await this.calendarService.deleteEvents({
             jra: deleteCalendarDataList.jra,
             nar: deleteCalendarDataList.nar,
             world: deleteCalendarDataList.world,
@@ -248,7 +251,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                     ),
             ),
         };
-        await this.publicGamblingCalendarService.upsertEvents({
+        await this.calendarService.upsertEvents({
             jra: upsertRaceEntityList.jra,
             nar: upsertRaceEntityList.nar,
             world: upsertRaceEntityList.world,
