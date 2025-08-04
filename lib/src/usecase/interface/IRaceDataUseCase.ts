@@ -4,8 +4,6 @@ import type { JraRaceData } from '../../domain/jraRaceData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { NarRaceData } from '../../domain/narRaceData';
 import type { WorldRaceData } from '../../domain/worldRaceData';
-import type { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
-import type { BoatraceRaceStage } from '../../utility/data/boatrace/boatraceRaceStage';
 import type {
     AutoraceGradeType,
     BoatraceGradeType,
@@ -22,7 +20,7 @@ import type {
     NarRaceCourse,
     WorldRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import type { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
+import type { RaceStage } from '../../utility/data/common/raceStage';
 
 /**
  * レースデータUseCaseのインターフェース
@@ -55,17 +53,17 @@ export interface IRaceDataUseCase {
             keirin?: {
                 gradeList?: KeirinGradeType[];
                 locationList?: KeirinRaceCourse[];
-                stageList?: KeirinRaceStage[];
+                stageList?: RaceStage[];
             };
             autorace?: {
                 gradeList?: AutoraceGradeType[];
                 locationList?: AutoraceRaceCourse[];
-                stageList?: AutoraceRaceStage[];
+                stageList?: RaceStage[];
             };
             boatrace?: {
                 gradeList?: BoatraceGradeType[];
                 locationList?: BoatraceRaceCourse[];
-                stageList?: BoatraceRaceStage[];
+                stageList?: RaceStage[];
             };
         },
     ) => Promise<{

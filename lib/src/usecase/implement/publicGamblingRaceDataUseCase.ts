@@ -14,8 +14,6 @@ import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
-import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
-import { BoatraceRaceStage } from '../../utility/data/boatrace/boatraceRaceStage';
 import {
     AutoraceGradeType,
     BoatraceGradeType,
@@ -32,7 +30,7 @@ import {
     NarRaceCourse,
     WorldRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
+import { RaceStage } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -101,17 +99,17 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             keirin?: {
                 gradeList?: KeirinGradeType[];
                 locationList?: KeirinRaceCourse[];
-                stageList?: KeirinRaceStage[];
+                stageList?: RaceStage[];
             };
             autorace?: {
                 gradeList?: AutoraceGradeType[];
                 locationList?: AutoraceRaceCourse[];
-                stageList?: AutoraceRaceStage[];
+                stageList?: RaceStage[];
             };
             boatrace?: {
                 gradeList?: BoatraceGradeType[];
                 locationList?: BoatraceRaceCourse[];
-                stageList?: BoatraceRaceStage[];
+                stageList?: RaceStage[];
             };
         },
     ): Promise<{

@@ -1,14 +1,14 @@
 import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
-import type { KeirinGradeType } from '../common/gradeType';
+import type { GradeType } from './gradeType';
 
 /**
- * 競輪の指定グレード・ステージリスト
+ * 指定グレード・ステージリスト
  */
-export const KeirinRaceGradeAndStageList: {
-    grade: KeirinGradeType[];
-    stage: KeirinRaceStage;
+export const RaceGradeAndStageList: {
+    grade: GradeType[];
+    stage: RaceStage;
     stageByWebSite: string[];
     raceType: RaceType;
     priority: number;
@@ -629,44 +629,225 @@ export const KeirinRaceGradeAndStageList: {
         description:
             'FⅠの初日特別選抜レース。準決勝のシード選手が出場する特別なレース。',
     },
+    {
+        grade: ['SG'],
+        stage: '優勝戦',
+        stageByWebSite: ['優勝戦'],
+        raceType: RaceType.AUTORACE,
+        priority: 9,
+        description: 'SGの最終日に行われる決勝レース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '特別選抜戦',
+        stageByWebSite: ['特別選抜戦'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの特別選抜レース。決勝進出を目指す重要なレース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '選抜戦',
+        stageByWebSite: ['選抜戦'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの選抜レース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '特別一般戦',
+        stageByWebSite: ['特別一般戦', '特別一般戦Ａ', '特別一般戦Ｂ'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの特別一般戦。',
+    },
+    {
+        grade: ['SG'],
+        stage: '一般戦',
+        stageByWebSite: ['Ｇレース７一般戦', '一般戦'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの一般戦。',
+    },
+    {
+        grade: ['SG'],
+        stage: 'オーバル特別',
+        stageByWebSite: ['オーバル特別'],
+        raceType: RaceType.AUTORACE,
+        priority: 9,
+        description: 'SGのオーバル特別レース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '予選',
+        stageByWebSite: ['予選'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの予選レース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '選抜予選',
+        stageByWebSite: ['選抜予選'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの選抜予選レース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '準決勝戦',
+        stageByWebSite: ['準決勝戦', '準決勝戦Ａ', '準決勝戦Ｂ'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの準決勝戦。',
+    },
+    {
+        grade: ['SG'],
+        stage: '最終予選',
+        stageByWebSite: ['最終予選'],
+        raceType: RaceType.AUTORACE,
+        priority: 0,
+        description: 'SGの最終予選。',
+    },
+    {
+        grade: ['SG'],
+        stage: '優勝戦',
+        stageByWebSite: ['優勝戦'],
+        raceType: RaceType.BOATRACE,
+        priority: 9,
+        description: 'SGの最終日に行われる決勝レース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '準優勝戦',
+        stageByWebSite: ['準優勝戦'],
+        raceType: RaceType.BOATRACE,
+        priority: 0,
+        description: 'SGの準決勝レース。決勝進出を目指す重要なレース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '一般戦',
+        stageByWebSite: ['一般戦'],
+        raceType: RaceType.BOATRACE,
+        priority: 0,
+        description: 'SGの一般戦。',
+    },
 ];
 
 /**
- * KeirinRaceStageのzod型定義
- */
-export const KeirinRaceStageSchema = z.string().refine((value) => {
-    return KeirinRaceStageList.has(value);
-}, '競輪のステージではありません');
-
-/**
- * KeirinRaceStageの型定義
- */
-export type KeirinRaceStage = z.infer<typeof KeirinRaceStageSchema>;
-
-/**
- * 競輪のステージ リスト
- */
-const KeirinRaceStageList = new Set(
-    KeirinRaceGradeAndStageList.map((item) => item.stage),
-);
-
-/**
- * 競輪のステージ リスト
+ * ステージ のバリデーション
+ * @param raceType
  * @param stage - ステージ
  * @returns - バリデーション済みのステージ
  */
-export const validateKeirinRaceStage = (stage: string): KeirinRaceStage =>
-    KeirinRaceStageSchema.parse(stage);
+export const validateRaceStage = (
+    raceType: RaceType,
+    stage: string,
+): RaceStage => {
+    switch (raceType) {
+        case RaceType.KEIRIN: {
+            return KeirinRaceStageSchema.parse(stage);
+        }
+        case RaceType.AUTORACE: {
+            return AutoraceRaceStageSchema.parse(stage);
+        }
+        case RaceType.BOATRACE: {
+            return BoatraceRaceStageSchema.parse(stage);
+        }
+        case RaceType.JRA:
+        case RaceType.NAR:
+        case RaceType.WORLD: {
+            throw new Error(`Unsupported race type: ${raceType}`);
+        }
+        default: {
+            throw new Error(`Unknown race type`);
+        }
+    }
+};
 
 /**
- * HTML表記・oddspark表記の両方をカバーする競輪ステージ名マップ
+ * ステージ リスト
+ * @param raceType
  */
-export const KeirinStageMap: Record<string, KeirinRaceStage> =
+const RaceStageList: (raceType: RaceType) => Set<string> = (raceType) =>
+    new Set(
+        RaceGradeAndStageList.filter((item) => item.raceType === raceType).map(
+            (item) => item.stage,
+        ),
+    );
+
+/**
+ * HTML表記・oddspark表記の両方をカバーするステージ名マップ
+ * @param raceType
+ */
+export const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
+    raceType,
+) =>
     Object.fromEntries(
-        KeirinRaceGradeAndStageList.flatMap((item) =>
+        RaceGradeAndStageList.filter(
+            (item) => item.raceType === raceType,
+        ).flatMap((item) =>
             item.stageByWebSite.map((stageByOddspark) => [
                 stageByOddspark,
                 item.stage,
             ]),
         ),
     );
+
+/**
+ * KeirinRaceStageのzod型定義
+ */
+export const KeirinRaceStageSchema = z.string().refine((value) => {
+    return RaceStageList(RaceType.KEIRIN).has(value);
+}, '競輪のステージではありません');
+
+/**
+ * HTML表記・oddspark表記の両方をカバーする競輪ステージ名マップ
+ */
+export const KeirinStageMap: Record<string, RaceStage> = StageMap(
+    RaceType.KEIRIN,
+);
+
+/**
+ * AutoraceRaceStageのzod型定義
+ */
+export const AutoraceRaceStageSchema = z.string().refine((value) => {
+    return RaceStageList(RaceType.AUTORACE).has(value);
+}, 'オートレースのステージではありません');
+
+/**
+ * HTMLのステージ名を正式名称に変換するためのマップ
+ */
+export const AutoraceStageMap: Record<string, RaceStage> = StageMap(
+    RaceType.AUTORACE,
+);
+
+/**
+ * BoatraceRaceStageのzod型定義
+ */
+export const BoatraceRaceStageSchema = z.string().refine((value) => {
+    return RaceStageList(RaceType.BOATRACE).has(value);
+}, 'ボートレースのステージではありません');
+
+/**
+ * HTMLのステージ名を正式名称に変換するためのマップ
+ */
+export const BoatraceStageMap: Record<string, RaceStage> = StageMap(
+    RaceType.BOATRACE,
+);
+
+/**
+ * RaceStageのzod型定義
+ */
+
+export const RaceStageSchema = z.union([
+    KeirinRaceStageSchema,
+    AutoraceRaceStageSchema,
+    BoatraceRaceStageSchema,
+]);
+/**
+ * RaceStageの型定義
+ */
+
+export type RaceStage = z.infer<typeof RaceStageSchema>;

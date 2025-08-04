@@ -23,7 +23,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
                 const placeData: BoatracePlaceData = placeEntity.placeData;
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
-                    const raceStage = i === 12 ? '優勝戦' : '';
+                    const raceStage = i === 12 ? '優勝戦' : '一般戦';
                     raceEntityList.push(
                         BoatraceRaceEntity.createWithoutId(
                             BoatraceRaceData.create(

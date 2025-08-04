@@ -10,13 +10,13 @@ import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
-import { AutoraceSpecifiedGradeAndStageList } from '../../utility/data/autorace/autoraceRaceStage';
-import { BoatraceSpecifiedGradeAndStageList } from '../../utility/data/boatrace/boatraceRaceStage';
-import { GradeType } from '../../utility/data/common/gradeType';
-import { BoatraceGradeType } from '../../utility/data/common/gradeType';
-import { AutoraceGradeType } from '../../utility/data/common/gradeType';
-import { KeirinGradeType } from '../../utility/data/common/gradeType';
-import { KeirinRaceGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
+import {
+    AutoraceGradeType,
+    BoatraceGradeType,
+    GradeType,
+    KeirinGradeType,
+} from '../../utility/data/common/gradeType';
+import { RaceGradeAndStageList } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -292,7 +292,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 );
 
                 const racePriority: number =
-                    KeirinRaceGradeAndStageList.filter(
+                    RaceGradeAndStageList.filter(
                         (raceGradeList) =>
                             raceGradeList.raceType === RaceType.KEIRIN,
                     ).find((raceGradeList) => {
@@ -341,12 +341,17 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 );
 
                 const racePriority: number =
-                    AutoraceSpecifiedGradeAndStageList.find((raceGradeList) => {
+                    RaceGradeAndStageList.filter(
+                        (raceGradeList) =>
+                            raceGradeList.raceType === RaceType.AUTORACE,
+                    ).find((raceGradeList) => {
                         return (
                             displayGradeList.includes(
                                 raceEntity.raceData.grade,
                             ) &&
-                            raceGradeList.grade === raceEntity.raceData.grade &&
+                            raceGradeList.grade.includes(
+                                raceEntity.raceData.grade,
+                            ) &&
                             raceGradeList.stage === raceEntity.raceData.stage
                         );
                     })?.priority ?? 0;
@@ -385,12 +390,17 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 );
 
                 const racePriority: number =
-                    BoatraceSpecifiedGradeAndStageList.find((raceGradeList) => {
+                    RaceGradeAndStageList.filter(
+                        (raceGradeList) =>
+                            raceGradeList.raceType === RaceType.BOATRACE,
+                    ).find((raceGradeList) => {
                         return (
                             displayGradeList.includes(
                                 raceEntity.raceData.grade,
                             ) &&
-                            raceGradeList.grade === raceEntity.raceData.grade &&
+                            raceGradeList.grade.includes(
+                                raceEntity.raceData.grade,
+                            ) &&
                             raceGradeList.stage === raceEntity.raceData.stage
                         );
                     })?.priority ?? 0;
