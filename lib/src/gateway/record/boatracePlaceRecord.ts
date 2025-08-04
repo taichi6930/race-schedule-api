@@ -1,11 +1,11 @@
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
-import {
-    type BoatracePlaceId,
-    validateBoatracePlaceId,
-} from '../../utility/data/boatrace/boatracePlaceId';
 import type { BoatraceGradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
+import {
+    type PlaceId,
+    validatePlaceId,
+} from '../../utility/data/common/placeId';
 import {
     type BoatraceRaceCourse,
     validateRaceCourse,
@@ -34,7 +34,7 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: BoatracePlaceId,
+        public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
         public readonly location: BoatraceRaceCourse,
         public readonly grade: BoatraceGradeType,
@@ -58,7 +58,7 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
     ): BoatracePlaceRecord {
         try {
             return new BoatracePlaceRecord(
-                validateBoatracePlaceId(id),
+                validatePlaceId(RaceType.BOATRACE, id),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.BOATRACE, location),
                 validateGradeType(RaceType.BOATRACE, grade),

@@ -1,7 +1,6 @@
 import { format } from 'date-fns';
 
-import type { AutoracePlaceId } from './data/autorace/autoracePlaceId';
-import type { BoatracePlaceId } from './data/boatrace/boatracePlaceId';
+import type { PlaceId } from './data/common/placeId';
 import type {
     AutoracePositionNumber,
     BoatracePositionNumber,
@@ -25,8 +24,6 @@ import type { RaceDateTime } from './data/common/raceDateTime';
 import type { RaceId } from './data/common/raceId';
 import type { RaceNumber } from './data/common/raceNumber';
 import type { RacePlayerId } from './data/common/racePlayerId';
-import type { KeirinPlaceId } from './data/keirin/keirinPlaceId';
-import type { NarPlaceId } from './data/nar/narPlaceId';
 import { NetkeibaBabacodeMap } from './data/netkeiba';
 import type { WorldRaceNumber } from './data/world/worldRaceNumber';
 
@@ -86,7 +83,7 @@ export const generateNarRaceId = (
 export const generateNarPlaceId = (
     dateTime: Date,
     location: NarRaceCourse,
-): NarPlaceId => {
+): PlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = NetkeibaBabacodeMap[location];
     return `nar${dateCode}${locationCode}`;
@@ -161,7 +158,7 @@ export const generateKeirinRaceId = (
 export const generateKeirinPlaceId = (
     dateTime: Date,
     location: KeirinRaceCourse,
-): KeirinPlaceId => {
+): PlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = KeirinPlaceCodeMap[location];
     return `keirin${dateCode}${locationCode}`;
@@ -207,7 +204,7 @@ export const generateBoatraceRaceId = (
 export const generateBoatracePlaceId = (
     dateTime: Date,
     location: BoatraceRaceCourse,
-): BoatracePlaceId => {
+): PlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = BoatracePlaceCodeMap[location];
     return `boatrace${dateCode}${locationCode}`;
@@ -253,7 +250,7 @@ export const generateAutoraceRaceId = (
 export const generateAutoracePlaceId = (
     dateTime: Date,
     location: AutoraceRaceCourse,
-): AutoracePlaceId => {
+): PlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = AutoracePlaceCodeMap[location];
     return `autorace${dateCode}${locationCode}`;

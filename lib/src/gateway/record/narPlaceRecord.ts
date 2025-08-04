@@ -1,13 +1,13 @@
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
+import type { PlaceId } from '../../utility/data/common/placeId';
+import { validatePlaceId } from '../../utility/data/common/placeId';
 import type { NarRaceCourse } from '../../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../../utility/data/common/raceCourse';
 import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
-import type { NarPlaceId } from '../../utility/data/nar/narPlaceId';
-import { validateNarPlaceId } from '../../utility/data/nar/narPlaceId';
 import { createErrorMessage } from '../../utility/error';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
@@ -27,7 +27,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: NarPlaceId,
+        public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
         public readonly location: NarRaceCourse,
         public readonly updateDate: UpdateDate,
@@ -48,7 +48,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
     ): NarPlaceRecord {
         try {
             return new NarPlaceRecord(
-                validateNarPlaceId(id),
+                validatePlaceId(RaceType.NAR, id),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.NAR, location),
                 validateUpdateDate(updateDate),

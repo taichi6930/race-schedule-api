@@ -1,11 +1,9 @@
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
-import type { AutoracePlaceId } from '../../utility/data/autorace/autoracePlaceId';
-import { validateAutoracePlaceId } from '../../utility/data/autorace/autoracePlaceId';
-import {
-    type AutoraceGradeType,
-    validateGradeType,
-} from '../../utility/data/common/gradeType';
+import type { AutoraceGradeType } from '../../utility/data/common/gradeType';
+import { validateGradeType } from '../../utility/data/common/gradeType';
+import type { PlaceId } from '../../utility/data/common/placeId';
+import { validatePlaceId } from '../../utility/data/common/placeId';
 import {
     type AutoraceRaceCourse,
     validateRaceCourse,
@@ -35,7 +33,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: AutoracePlaceId,
+        public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
         public readonly location: AutoraceRaceCourse,
         public readonly grade: AutoraceGradeType,
@@ -51,7 +49,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
      * @param updateDate - 更新日時
      */
     public static create(
-        id: AutoracePlaceId,
+        id: PlaceId,
         dateTime: Date,
         location: string,
         grade: string,
@@ -59,7 +57,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
     ): AutoracePlaceRecord {
         try {
             return new AutoracePlaceRecord(
-                validateAutoracePlaceId(id),
+                validatePlaceId(RaceType.AUTORACE, id),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.AUTORACE, location),
                 validateGradeType(RaceType.AUTORACE, grade),

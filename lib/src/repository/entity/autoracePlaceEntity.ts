@@ -1,10 +1,9 @@
 import type { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoracePlaceRecord } from '../../gateway/record/autoracePlaceRecord';
-import {
-    type AutoracePlaceId,
-    validateAutoracePlaceId,
-} from '../../utility/data/autorace/autoracePlaceId';
+import type { PlaceId } from '../../utility/data/common/placeId';
+import { validatePlaceId } from '../../utility/data/common/placeId';
 import { generateAutoracePlaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
@@ -21,7 +20,7 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: AutoracePlaceId,
+        public readonly id: PlaceId,
         public readonly placeData: AutoracePlaceData,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -38,7 +37,7 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
         updateDate: Date,
     ): AutoracePlaceEntity {
         return new AutoracePlaceEntity(
-            validateAutoracePlaceId(id),
+            validatePlaceId(RaceType.AUTORACE, id),
             placeData,
             validateUpdateDate(updateDate),
         );

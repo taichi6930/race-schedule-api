@@ -1,5 +1,7 @@
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
+import type { PlaceId } from '../../utility/data/common/placeId';
+import { validatePlaceId } from '../../utility/data/common/placeId';
 import {
     type JraRaceCourse,
     validateRaceCourse,
@@ -10,18 +12,14 @@ import {
     type JraHeldDayTimes,
     validateJraHeldDayTimes,
 } from '../../utility/data/jra/jraHeldDayTimes';
-import {
-    type JraHeldTimes,
-    validateJraHeldTimes,
-} from '../../utility/data/jra/jraHeldTimes';
-import {
-    type JraPlaceId,
-    validateJraPlaceId,
-} from '../../utility/data/jra/jraPlaceId';
+import type { JraHeldTimes } from '../../utility/data/jra/jraHeldTimes';
+import { validateJraHeldTimes } from '../../utility/data/jra/jraHeldTimes';
 import { createErrorMessage } from '../../utility/error';
 import { RaceType } from '../../utility/raceType';
-import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { UpdateDate } from '../../utility/updateDate';
+import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
+
 /**
  * Repository層のRecord 中央競馬のレース開催場所データ
  */
@@ -38,7 +36,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: JraPlaceId,
+        public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
         public readonly location: JraRaceCourse,
         public readonly heldTimes: JraHeldTimes,
@@ -65,7 +63,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     ): JraPlaceRecord {
         try {
             return new JraPlaceRecord(
-                validateJraPlaceId(id),
+                validatePlaceId(RaceType.JRA, id),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.JRA, location),
                 validateJraHeldTimes(heldTimes),

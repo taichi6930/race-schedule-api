@@ -1,10 +1,11 @@
 import type { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceRecord } from '../../gateway/record/boatracePlaceRecord';
 import {
-    type BoatracePlaceId,
-    validateBoatracePlaceId,
-} from '../../utility/data/boatrace/boatracePlaceId';
+    type PlaceId,
+    validatePlaceId,
+} from '../../utility/data/common/placeId';
 import { generateBoatracePlaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
@@ -21,7 +22,7 @@ export class BoatracePlaceEntity implements IPlaceEntity<BoatracePlaceEntity> {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: BoatracePlaceId,
+        public readonly id: PlaceId,
         public readonly placeData: BoatracePlaceData,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -38,7 +39,7 @@ export class BoatracePlaceEntity implements IPlaceEntity<BoatracePlaceEntity> {
         updateDate: Date,
     ): BoatracePlaceEntity {
         return new BoatracePlaceEntity(
-            validateBoatracePlaceId(id),
+            validatePlaceId(RaceType.BOATRACE, id),
             placeData,
             validateUpdateDate(updateDate),
         );
