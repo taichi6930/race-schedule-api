@@ -1,16 +1,23 @@
-import type { BoatraceGradeType } from '../utility/data/common/gradeType';
+import type { GradeType } from '../utility/data/common/gradeType';
 import { validateGradeType } from '../utility/data/common/gradeType';
-import type { BoatraceRaceCourse } from '../utility/data/common/raceCourse';
+import type { RaceCourse } from '../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../utility/data/common/raceCourse';
-import type { RaceDateTime } from '../utility/data/common/raceDateTime';
-import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
-import { RaceType } from '../utility/raceType';
+import {
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../utility/data/common/raceDateTime';
+import type { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
- * ボートレースのレース開催場所データ
+ * レース開催場所データ
  */
-export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
+export class PlaceData implements IPlaceData<PlaceData> {
+    /**
+     * レース種別
+     * @type {RaceType}
+     */
+    public readonly raceType: RaceType;
     /**
      * 開催日時
      * @type {RaceDateTime}
@@ -18,17 +25,18 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
     public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
-     * @type {BoatraceRaceCourse}
+     * @type {RaceCourse}
      */
-    public readonly location: BoatraceRaceCourse;
+    public readonly location: RaceCourse;
     /**
      * グレード
-     * @type {BoatraceGradeType}
+     * @type {GradeType}
      */
-    public readonly grade: BoatraceGradeType;
+    public readonly grade: GradeType;
 
     /**
      * コンストラクタ
+     * @param raceType - レース種別
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param grade - グレード
@@ -36,10 +44,12 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
      * レース開催場所データを生成する
      */
     private constructor(
+        raceType: RaceType,
         dateTime: RaceDateTime,
-        location: BoatraceRaceCourse,
-        grade: BoatraceGradeType,
+        location: RaceCourse,
+        grade: GradeType,
     ) {
+        this.raceType = raceType;
         this.dateTime = dateTime;
         this.location = location;
         this.grade = grade;
@@ -48,19 +58,22 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
     /**
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
+     * @param raceType
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param grade - グレード
      */
     public static create(
+        raceType: RaceType,
         dateTime: Date,
         location: string,
         grade: string,
-    ): BoatracePlaceData {
-        return new BoatracePlaceData(
+    ): PlaceData {
+        return new PlaceData(
+            raceType,
             validateRaceDateTime(dateTime),
-            validateRaceCourse(RaceType.BOATRACE, location),
-            validateGradeType(RaceType.BOATRACE, grade),
+            validateRaceCourse(raceType, location),
+            validateGradeType(raceType, grade),
         );
     }
 
@@ -68,8 +81,9 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
      * データのコピー
      * @param partial - 上書きする部分データ
      */
-    public copy(partial: Partial<BoatracePlaceData> = {}): BoatracePlaceData {
-        return new BoatracePlaceData(
+    public copy(partial: Partial<PlaceData> = {}): PlaceData {
+        return PlaceData.create(
+            partial.raceType ?? this.raceType,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
             partial.grade ?? this.grade,

@@ -5,22 +5,23 @@ import path from 'node:path';
 
 import { container } from 'tsyringe';
 
-import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
-import type { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
-import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
+import type { PlaceRecord } from '../../../../lib/src/gateway/record/placeRecord';
+import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { KeirinPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('KeirinPlaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<KeirinPlaceRecord>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<PlaceRecord>>;
     let repository: KeirinPlaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3Gateway<KeirinPlaceRecord>();
+        s3Gateway = mockS3Gateway<PlaceRecord>();
 
         // DIコンテナにモックを登録
         container.registerInstance('KeirinPlaceS3Gateway', s3Gateway);
@@ -68,14 +69,15 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
     });
 
     // 1年間の開催場データを登録する
-    const placeEntityList: KeirinPlaceEntity[] = Array.from(
+    const placeEntityList: PlaceEntity[] = Array.from(
         { length: 60 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
-                KeirinPlaceEntity.createWithoutId(
-                    KeirinPlaceData.create(date, '平塚', 'GP'),
+                PlaceEntity.createWithoutId(
+                    RaceType.KEIRIN,
+                    PlaceData.create(RaceType.KEIRIN, date, '平塚', 'GP'),
                     getJSTDate(new Date()),
                 ),
             );

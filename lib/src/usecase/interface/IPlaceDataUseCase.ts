@@ -1,8 +1,6 @@
-import type { AutoracePlaceData } from '../../domain/autoracePlaceData';
-import type { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import type { JraPlaceData } from '../../domain/jraPlaceData';
-import type { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import type { NarPlaceData } from '../../domain/narPlaceData';
+import type { PlaceData } from '../../domain/placeData';
 
 /**
  * IPlaceDataUseCase
@@ -17,13 +15,7 @@ export interface IPlaceDataUseCase {
         startDate: Date,
         finishDate: Date,
         raceTypeList: string[],
-    ) => Promise<
-        | JraPlaceData[]
-        | AutoracePlaceData[]
-        | BoatracePlaceData[]
-        | NarPlaceData[]
-        | KeirinPlaceData[]
-    >;
+    ) => Promise<JraPlaceData[] | PlaceData[] | NarPlaceData[]>;
     /**
      * 開催場データを更新する
      * @param startDate

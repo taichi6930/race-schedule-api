@@ -1,4 +1,4 @@
-import { validatePlayerNumber } from '../utility/data/playerNumber';
+import { validatePlayerNumber } from '../utility/data/common/playerNumber';
 import type { RaceType } from '../utility/raceType';
 
 /**

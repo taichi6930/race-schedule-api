@@ -10,7 +10,7 @@ import type { RaceId } from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getWorldGoogleCalendarColorId } from '../../utility/googleCalendar';
-import { generateWorldRaceId } from '../../utility/raceId';
+import { generateRaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
@@ -61,7 +61,8 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
         updateDate: Date,
     ): WorldRaceEntity {
         return WorldRaceEntity.create(
-            generateWorldRaceId(
+            generateRaceId(
+                RaceType.WORLD,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -108,7 +109,8 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
         updateDate: Date = new Date(),
     ): calendar_v3.Schema$Event {
         return {
-            id: generateWorldRaceId(
+            id: generateRaceId(
+                RaceType.WORLD,
                 this.raceData.dateTime,
                 this.raceData.location,
                 this.raceData.number,

@@ -2,7 +2,7 @@ import type { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
-import { generateJraPlaceId } from '../../utility/raceId';
+import { generatePlaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
@@ -53,7 +53,11 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
         updateDate: Date,
     ): JraPlaceEntity {
         return JraPlaceEntity.create(
-            generateJraPlaceId(placeData.dateTime, placeData.location),
+            generatePlaceId(
+                RaceType.JRA,
+                placeData.dateTime,
+                placeData.location,
+            ),
             placeData,
             updateDate,
         );

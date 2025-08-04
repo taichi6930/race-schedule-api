@@ -5,22 +5,23 @@ import path from 'node:path';
 
 import { container } from 'tsyringe';
 
-import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
-import type { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
-import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
+import type { PlaceRecord } from '../../../../lib/src/gateway/record/placeRecord';
+import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { BoatracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('BoatracePlaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<BoatracePlaceRecord>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<PlaceRecord>>;
     let repository: BoatracePlaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3Gateway<BoatracePlaceRecord>();
+        s3Gateway = mockS3Gateway<PlaceRecord>();
 
         // DIコンテナにモックを登録
         container.registerInstance('BoatracePlaceS3Gateway', s3Gateway);
@@ -68,14 +69,15 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
     });
 
     // 1年間の開催場データを登録する
-    const placeEntityList: BoatracePlaceEntity[] = Array.from(
+    const placeEntityList: PlaceEntity[] = Array.from(
         { length: 10 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
-                BoatracePlaceEntity.createWithoutId(
-                    BoatracePlaceData.create(date, '平和島', 'SG'),
+                PlaceEntity.createWithoutId(
+                    RaceType.BOATRACE,
+                    PlaceData.create(RaceType.BOATRACE, date, '平和島', 'SG'),
                     getJSTDate(new Date()),
                 ),
             );

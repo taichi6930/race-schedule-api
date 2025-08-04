@@ -1,6 +1,7 @@
 import type { WorldPlaceData } from '../../domain/worldPlaceData';
 import type { PlaceId } from '../../utility/data/common/placeId';
-import { generateWorldPlaceId } from '../../utility/raceId';
+import { generatePlaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/raceType';
 import type { IPlaceEntity } from './iPlaceEntity';
 
 /**
@@ -27,7 +28,11 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
      */
     public static createWithoutId(placeData: WorldPlaceData): WorldPlaceEntity {
         return new WorldPlaceEntity(
-            generateWorldPlaceId(placeData.dateTime, placeData.location),
+            generatePlaceId(
+                RaceType.WORLD,
+                placeData.dateTime,
+                placeData.location,
+            ),
             placeData,
         );
     }

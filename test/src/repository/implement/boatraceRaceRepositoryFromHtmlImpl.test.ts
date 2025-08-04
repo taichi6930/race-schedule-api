@@ -2,15 +2,15 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
+import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { BoatraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { allowedEnvs } from '../../../../lib/src/utility/env';
-import { SkipEnv } from '../../../utility/testDecorators';
+import { RaceType } from '../../../../lib/src/utility/raceType';
+import { allowedEnvs, SkipEnv } from '../../../utility/testDecorators';
 
 describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
@@ -37,12 +37,14 @@ describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<BoatracePlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
                         [
-                            BoatracePlaceEntity.createWithoutId(
-                                BoatracePlaceData.create(
+                            PlaceEntity.createWithoutId(
+                                RaceType.BOATRACE,
+                                PlaceData.create(
+                                    RaceType.BOATRACE,
                                     new Date('2024-11-24'),
                                     '下関',
                                     'SG',

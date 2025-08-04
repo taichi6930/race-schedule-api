@@ -2,9 +2,9 @@ import '../../utility/format';
 
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import type { WorldGradeType } from '../../utility/data/common/gradeType';
+import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
-import type { WorldRaceCourse } from '../../utility/data/common/raceCourse';
+import type { RaceCourse } from '../../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../../utility/data/common/raceCourse';
 import {
     type RaceCourseType,
@@ -49,10 +49,10 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
         public readonly id: RaceId,
         public readonly name: RaceName,
         public readonly dateTime: RaceDateTime,
-        public readonly location: WorldRaceCourse,
+        public readonly location: RaceCourse,
         public readonly surfaceType: RaceCourseType,
         public readonly distance: RaceDistance,
-        public readonly grade: WorldGradeType,
+        public readonly grade: GradeType,
         public readonly number: WorldRaceNumber,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -73,10 +73,10 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
         id: RaceId,
         name: RaceName,
         dateTime: RaceDateTime,
-        location: WorldRaceCourse,
+        location: RaceCourse,
         surfaceType: RaceCourseType,
         distance: RaceDistance,
-        grade: WorldGradeType,
+        grade: GradeType,
         number: WorldRaceNumber,
         updateDate: Date,
     ): WorldRaceRecord {

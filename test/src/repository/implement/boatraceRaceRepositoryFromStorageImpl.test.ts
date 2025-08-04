@@ -6,26 +6,27 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
-import type { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceRaceRecord';
 import type { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
-import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
+import type { RaceRecord } from '../../../../lib/src/gateway/record/raceRecord';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
+import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { BoatraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatraceRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { baseBoatraceRacePlayerDataList } from '../../mock/common/baseBoatraceData';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('BoatraceRaceRepositoryFromStorageImpl', () => {
-    let raceS3Gateway: jest.Mocked<IS3Gateway<BoatraceRaceRecord>>;
+    let raceS3Gateway: jest.Mocked<IS3Gateway<RaceRecord>>;
     let racePlayerS3Gateway: jest.Mocked<IS3Gateway<RacePlayerRecord>>;
     let repository: BoatraceRaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        raceS3Gateway = mockS3Gateway<BoatraceRaceRecord>();
+        raceS3Gateway = mockS3Gateway<RaceRecord>();
         racePlayerS3Gateway = mockS3Gateway<RacePlayerRecord>();
 
         // DIコンテナにモックを登録
@@ -66,11 +67,10 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
             );
 
             // リクエストの作成
-            const searchFilter =
-                new SearchRaceFilterEntity<BoatracePlaceEntity>(
-                    new Date('2024-01-01'),
-                    new Date('2024-02-01'),
-                );
+            const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
+                new Date('2024-01-01'),
+                new Date('2024-02-01'),
+            );
             // テスト実行
             const raceEntityList =
                 await repository.fetchRaceEntityList(searchFilter);
@@ -90,7 +90,8 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from({ length: 12 }, (__, j) =>
                         BoatraceRaceEntity.createWithoutId(
-                            BoatraceRaceData.create(
+                            RaceData.create(
+                                RaceType.BOATRACE,
                                 `raceName${format(date, 'yyyyMMdd')}`,
                                 `優勝戦`,
                                 date,
@@ -122,7 +123,8 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                 date.setDate(date.getDate() + day);
                 return Array.from({ length: 12 }, (__, j) =>
                     BoatraceRaceEntity.createWithoutId(
-                        BoatraceRaceData.create(
+                        RaceData.create(
+                            RaceType.BOATRACE,
                             `raceName${format(date, 'yyyyMMdd')}`,
                             `優勝戦`,
                             date,

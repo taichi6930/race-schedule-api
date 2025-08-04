@@ -1,10 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 
-import { AutoraceRaceData } from '../../domain/autoraceRaceData';
-import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { JraRaceData } from '../../domain/jraRaceData';
-import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { NarRaceData } from '../../domain/narRaceData';
+import { RaceData } from '../../domain/raceData';
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
@@ -14,22 +12,8 @@ import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
-import {
-    AutoraceGradeType,
-    BoatraceGradeType,
-    JraGradeType,
-    KeirinGradeType,
-    NarGradeType,
-    WorldGradeType,
-} from '../../utility/data/common/gradeType';
-import {
-    AutoraceRaceCourse,
-    BoatraceRaceCourse,
-    JraRaceCourse,
-    KeirinRaceCourse,
-    NarRaceCourse,
-    WorldRaceCourse,
-} from '../../utility/data/common/raceCourse';
+import { GradeType } from '../../utility/data/common/gradeType';
+import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { RaceStage } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
@@ -85,30 +69,30 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         raceTypeList: string[],
         searchList?: {
             jra?: {
-                gradeList?: JraGradeType[];
-                locationList?: JraRaceCourse[];
+                gradeList?: GradeType[];
+                locationList?: RaceCourse[];
             };
             nar?: {
-                gradeList?: NarGradeType[];
-                locationList?: NarRaceCourse[];
+                gradeList?: GradeType[];
+                locationList?: RaceCourse[];
             };
             world?: {
-                gradeList?: WorldGradeType[];
-                locationList?: WorldRaceCourse[];
+                gradeList?: GradeType[];
+                locationList?: RaceCourse[];
             };
             keirin?: {
-                gradeList?: KeirinGradeType[];
-                locationList?: KeirinRaceCourse[];
+                gradeList?: GradeType[];
+                locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
             autorace?: {
-                gradeList?: AutoraceGradeType[];
-                locationList?: AutoraceRaceCourse[];
+                gradeList?: GradeType[];
+                locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
             boatrace?: {
-                gradeList?: BoatraceGradeType[];
-                locationList?: BoatraceRaceCourse[];
+                gradeList?: GradeType[];
+                locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
         },
@@ -116,9 +100,9 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         jra: JraRaceData[];
         nar: NarRaceData[];
         world: WorldRaceData[];
-        keirin: KeirinRaceData[];
-        autorace: AutoraceRaceData[];
-        boatrace: BoatraceRaceData[];
+        keirin: RaceData[];
+        autorace: RaceData[];
+        boatrace: RaceData[];
     }> {
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
@@ -328,25 +312,25 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         raceTypeList: string[],
         searchList?: {
             jra?: {
-                locationList?: JraRaceCourse[];
+                locationList?: RaceCourse[];
             };
             nar?: {
-                locationList?: NarRaceCourse[];
+                locationList?: RaceCourse[];
             };
             world?: {
-                locationList?: WorldRaceCourse[];
+                locationList?: RaceCourse[];
             };
             keirin?: {
-                gradeList?: KeirinGradeType[];
-                locationList?: KeirinRaceCourse[];
+                gradeList?: GradeType[];
+                locationList?: RaceCourse[];
             };
             autorace?: {
-                gradeList?: AutoraceGradeType[];
-                locationList?: AutoraceRaceCourse[];
+                gradeList?: GradeType[];
+                locationList?: RaceCourse[];
             };
             boatrace?: {
-                gradeList?: BoatraceGradeType[];
-                locationList?: BoatraceRaceCourse[];
+                gradeList?: GradeType[];
+                locationList?: RaceCourse[];
             };
         },
     ): Promise<void> {
@@ -473,9 +457,9 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         jra?: JraRaceData[];
         nar?: NarRaceData[];
         world?: WorldRaceData[];
-        keirin?: KeirinRaceData[];
-        autorace?: AutoraceRaceData[];
-        boatrace?: BoatraceRaceData[];
+        keirin?: RaceData[];
+        autorace?: RaceData[];
+        boatrace?: RaceData[];
     }): Promise<void> {
         const raceEntityList = {
             jra: (raceDataList.jra ?? []).map((raceData) =>

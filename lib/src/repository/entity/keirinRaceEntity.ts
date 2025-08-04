@@ -4,10 +4,10 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
-import type { KeirinRaceData } from '../../domain/keirinRaceData';
+import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
-import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
+import { RaceRecord } from '../../gateway/record/raceRecord';
 import { KeirinPlaceCodeMap } from '../../utility/data/common/raceCourse';
 import type { RaceId } from '../../utility/data/common/raceId';
 import { validateRaceId } from '../../utility/data/common/raceId';
@@ -18,10 +18,7 @@ import {
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getKeirinGoogleCalendarColorId } from '../../utility/googleCalendar';
-import {
-    generateKeirinRaceId,
-    generateKeirinRacePlayerId,
-} from '../../utility/raceId';
+import { generateRaceId, generateRacePlayerId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
@@ -41,7 +38,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      */
     private constructor(
         public readonly id: RaceId,
-        public readonly raceData: KeirinRaceData,
+        public readonly raceData: RaceData,
         public readonly racePlayerDataList: RacePlayerData[],
         public readonly updateDate: UpdateDate,
     ) {}
@@ -55,7 +52,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      */
     public static create(
         id: string,
-        raceData: KeirinRaceData,
+        raceData: RaceData,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): KeirinRaceEntity {
@@ -74,12 +71,13 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      * @param updateDate
      */
     public static createWithoutId(
-        raceData: KeirinRaceData,
+        raceData: RaceData,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): KeirinRaceEntity {
         return KeirinRaceEntity.create(
-            generateKeirinRaceId(
+            generateRaceId(
+                RaceType.KEIRIN,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -106,9 +104,10 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     /**
      * KeirinRaceRecordに変換する
      */
-    public toRaceRecord(): KeirinRaceRecord {
-        return KeirinRaceRecord.create(
+    public toRaceRecord(): RaceRecord {
+        return RaceRecord.create(
             this.id,
+            RaceType.KEIRIN,
             this.raceData.name,
             this.raceData.stage,
             this.raceData.dateTime,
@@ -127,7 +126,8 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
         updateDate: Date = new Date(),
     ): calendar_v3.Schema$Event {
         return {
-            id: generateKeirinRaceId(
+            id: generateRaceId(
+                RaceType.KEIRIN,
                 this.raceData.dateTime,
                 this.raceData.location,
                 this.raceData.number,
@@ -187,7 +187,8 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     public toPlayerRecordList(): RacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
             RacePlayerRecord.create(
-                generateKeirinRacePlayerId(
+                generateRacePlayerId(
+                    RaceType.KEIRIN,
                     this.raceData.dateTime,
                     this.raceData.location,
                     this.raceData.number,

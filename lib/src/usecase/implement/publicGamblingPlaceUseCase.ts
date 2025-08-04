@@ -1,10 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 
-import { AutoracePlaceData } from '../../domain/autoracePlaceData';
-import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { JraPlaceData } from '../../domain/jraPlaceData';
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { NarPlaceData } from '../../domain/narPlaceData';
+import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -31,13 +29,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
         startDate: Date,
         finishDate: Date,
         raceTypeList: string[],
-    ): Promise<
-        | JraPlaceData[]
-        | NarPlaceData[]
-        | KeirinPlaceData[]
-        | AutoracePlaceData[]
-        | BoatracePlaceData[]
-    > {
+    ): Promise<JraPlaceData[] | NarPlaceData[] | PlaceData[]> {
         // 開催場データを取得
         const placeEntityList =
             await this.publicGamblingPlaceDataService.fetchPlaceEntityList(
@@ -46,7 +38,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
                 raceTypeList,
                 DataLocation.Storage,
             );
-        const placeDataList = [];
+        const placeDataList: (JraPlaceData | NarPlaceData | PlaceData)[] = [];
         // 全ての開催場データを結合して返す
         // それぞれのplaceDataを抽出して返す
         for (const placeEntityX of [

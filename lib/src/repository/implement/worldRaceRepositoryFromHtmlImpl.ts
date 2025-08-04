@@ -7,10 +7,10 @@ import { inject, injectable } from 'tsyringe';
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { processWorldRaceName } from '../../utility/createRaceName';
-import { WorldGradeType } from '../../utility/data/common/gradeType';
+import { GradeType } from '../../utility/data/common/gradeType';
 import {
+    RaceCourse,
     validateRaceCourse,
-    WorldRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
@@ -127,15 +127,14 @@ export class WorldRaceRepositoryFromHtmlImpl
                                 .find('.name')
                                 .text();
 
-                            const location: WorldRaceCourse =
-                                validateRaceCourse(
-                                    RaceType.WORLD,
-                                    $(raceElement)
-                                        .find('.racelist__race__sub')
-                                        .find('.course')
-                                        .text()
-                                        .trim(),
-                                );
+                            const location: RaceCourse = validateRaceCourse(
+                                RaceType.WORLD,
+                                $(raceElement)
+                                    .find('.racelist__race__sub')
+                                    .find('.course')
+                                    .text()
+                                    .trim(),
+                            );
                             // 芝1600mのような文字列からsurfaceTypeを取得
                             // 芝、ダート、障害、AWがある
                             const surfaceTypeAndDistanceText = $(raceElement)
@@ -167,7 +166,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                                       .replace('G1', 'GⅠ')
                                       .replace('G2', 'GⅡ')
                                       .replace('G3', 'GⅢ');
-                            const grade: WorldGradeType =
+                            const grade: GradeType =
                                 gradeText === '' ? '格付けなし' : gradeText;
 
                             // timeは<span class="time">23:36発走</span>の"23:36"を取得

@@ -2,11 +2,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
-import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
-import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
+import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/implement/publicGamblingPlaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
@@ -31,22 +29,22 @@ describe('PublicGamblingPlaceDataService', () => {
         IPlaceRepository<NarPlaceEntity>
     >;
     let keirinPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<KeirinPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<KeirinPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let boatracePlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<BoatracePlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let boatracePlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<BoatracePlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let autoracePlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<AutoracePlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let autoracePlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<AutoracePlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let service: PublicGamblingPlaceDataService;
 
@@ -77,40 +75,40 @@ describe('PublicGamblingPlaceDataService', () => {
         );
 
         keirinPlaceRepositoryFromStorageImpl =
-            mockPlaceRepository<KeirinPlaceEntity>();
-        container.registerInstance<IPlaceRepository<KeirinPlaceEntity>>(
+            mockPlaceRepository<PlaceEntity>();
+        container.registerInstance<IPlaceRepository<PlaceEntity>>(
             'KeirinPlaceRepositoryFromStorage',
             keirinPlaceRepositoryFromStorageImpl,
         );
 
         keirinPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.registerInstance<IPlaceRepository<KeirinPlaceEntity>>(
+        container.registerInstance<IPlaceRepository<PlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
             keirinPlaceRepositoryFromHtmlImpl,
         );
 
         boatracePlaceRepositoryFromStorageImpl =
-            mockPlaceRepository<BoatracePlaceEntity>();
-        container.registerInstance<IPlaceRepository<BoatracePlaceEntity>>(
+            mockPlaceRepository<PlaceEntity>();
+        container.registerInstance<IPlaceRepository<PlaceEntity>>(
             'BoatracePlaceRepositoryFromStorage',
             boatracePlaceRepositoryFromStorageImpl,
         );
 
         boatracePlaceRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.registerInstance<IPlaceRepository<BoatracePlaceEntity>>(
+        container.registerInstance<IPlaceRepository<PlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',
             boatracePlaceRepositoryFromHtmlImpl,
         );
 
         autoracePlaceRepositoryFromStorageImpl =
-            mockPlaceRepository<AutoracePlaceEntity>();
-        container.registerInstance<IPlaceRepository<AutoracePlaceEntity>>(
+            mockPlaceRepository<PlaceEntity>();
+        container.registerInstance<IPlaceRepository<PlaceEntity>>(
             'AutoracePlaceRepositoryFromStorage',
             autoracePlaceRepositoryFromStorageImpl,
         );
 
         autoracePlaceRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.registerInstance<IPlaceRepository<AutoracePlaceEntity>>(
+        container.registerInstance<IPlaceRepository<PlaceEntity>>(
             'AutoracePlaceRepositoryFromHtml',
             autoracePlaceRepositoryFromHtmlImpl,
         );

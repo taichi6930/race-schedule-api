@@ -2,16 +2,16 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { KeirinRaceData } from '../../domain/keirinRaceData';
+import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
+import { RaceRecord } from '../../gateway/record/raceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -20,14 +20,14 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class KeirinRaceRepositoryFromStorageImpl
-    implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
+    implements IRaceRepository<KeirinRaceEntity, PlaceEntity>
 {
     private readonly raceListFileName = 'raceList.csv';
     private readonly racePlayerListFileName = 'racePlayerList.csv';
 
     public constructor(
         @inject('KeirinRaceS3Gateway')
-        private readonly raceS3Gateway: IS3Gateway<KeirinRaceRecord>,
+        private readonly raceS3Gateway: IS3Gateway<RaceRecord>,
         @inject('KeirinRacePlayerS3Gateway')
         private readonly racePlayerS3Gateway: IS3Gateway<RacePlayerRecord>,
     ) {}
@@ -38,14 +38,14 @@ export class KeirinRaceRepositoryFromStorageImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
         // ファイル名リストから選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
         // レースデータを取得する
-        const raceRaceRecordList: KeirinRaceRecord[] =
+        const raceRaceRecordList: RaceRecord[] =
             await this.getRaceRecordListFromS3(searchFilter.startDate);
 
         // RaceEntityに変換
@@ -66,7 +66,8 @@ export class KeirinRaceRepositoryFromStorageImpl
                         );
                     });
                 // KeirinRaceDataを生成
-                const raceData = KeirinRaceData.create(
+                const raceData = RaceData.create(
+                    RaceType.KEIRIN,
                     raceRecord.name,
                     raceRecord.stage,
                     raceRecord.dateTime,
@@ -102,15 +103,15 @@ export class KeirinRaceRepositoryFromStorageImpl
         raceEntityList: KeirinRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchRaceRecordList: KeirinRaceRecord[] =
+        const existFetchRaceRecordList: RaceRecord[] =
             await this.getRaceRecordListFromS3();
 
         const existFetchRacePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
-        const raceRecordList: KeirinRaceRecord[] = raceEntityList.map(
-            (raceEntity) => raceEntity.toRaceRecord(),
+        const raceRecordList: RaceRecord[] = raceEntityList.map((raceEntity) =>
+            raceEntity.toRaceRecord(),
         );
 
         // RaceEntityをRacePlayerRecordに変換する
@@ -167,7 +168,7 @@ export class KeirinRaceRepositoryFromStorageImpl
     @Logger
     private async getRaceRecordListFromS3(
         borderDate?: Date,
-    ): Promise<KeirinRaceRecord[]> {
+    ): Promise<RaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.raceS3Gateway.fetchDataFromS3(
             this.raceListFileName,
@@ -197,7 +198,7 @@ export class KeirinRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してRaceDataのリストを生成
-        const result: KeirinRaceRecord[] = [];
+        const result: RaceRecord[] = [];
         for (const line of lines.slice(1)) {
             try {
                 const columns = line.split(',');
@@ -210,8 +211,9 @@ export class KeirinRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 result.push(
-                    KeirinRaceRecord.create(
+                    RaceRecord.create(
                         columns[indices.id],
+                        RaceType.KEIRIN,
                         columns[indices.name],
                         columns[indices.stage],
                         dateTime,
@@ -222,7 +224,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     ),
                 );
             } catch (error) {
-                console.error('KeirinRaceRecord create error', error);
+                console.error('RaceRecord create error', error);
                 // continue
             }
         }

@@ -1,11 +1,11 @@
 import '../../utility/format';
 
 import {
-    type BoatraceGradeType,
+    type GradeType,
     validateGradeType,
 } from '../../utility/data/common/gradeType';
 import {
-    type BoatraceRaceCourse,
+    type RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import {
@@ -25,17 +25,18 @@ import {
     validateRaceStage,
 } from '../../utility/data/common/raceStage';
 import { createErrorMessage } from '../../utility/error';
-import { RaceType } from '../../utility/raceType';
+import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
 /**
- * ボートレースのレース開催データ
+ * レース開催データ
  */
-export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
+export class RaceRecord implements IRecord<RaceRecord> {
     /**
      * コンストラクタ
      * @param id - ID
+     * @param raceType - レース種別
      * @param name - レース名
      * @param stage - 開催ステージ
      * @param dateTime - 開催日時
@@ -48,11 +49,12 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
      */
     private constructor(
         public readonly id: RaceId,
+        public readonly raceType: RaceType,
         public readonly name: RaceName,
         public readonly stage: RaceStage,
         public readonly dateTime: RaceDateTime,
-        public readonly location: BoatraceRaceCourse,
-        public readonly grade: BoatraceGradeType,
+        public readonly location: RaceCourse,
+        public readonly grade: GradeType,
         public readonly number: RaceNumber,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -60,6 +62,7 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
     /**
      * インスタンス生成メソッド
      * @param id - ID
+     * @param raceType - レース種別
      * @param name - レース名
      * @param stage - 開催ステージ
      * @param dateTime - 開催日時
@@ -70,6 +73,7 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
      */
     public static create(
         id: string,
+        raceType: RaceType,
         name: string,
         stage: string,
         dateTime: Date,
@@ -77,20 +81,21 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
         grade: string,
         number: number,
         updateDate: Date,
-    ): BoatraceRaceRecord {
+    ): RaceRecord {
         try {
-            return new BoatraceRaceRecord(
-                validateRaceId(RaceType.BOATRACE, id),
+            return new RaceRecord(
+                validateRaceId(raceType, id),
+                raceType,
                 validateRaceName(name),
-                validateRaceStage(RaceType.BOATRACE, stage),
+                validateRaceStage(raceType, stage),
                 validateRaceDateTime(dateTime),
-                validateRaceCourse(RaceType.BOATRACE, location),
-                validateGradeType(RaceType.BOATRACE, grade),
+                validateRaceCourse(raceType, location),
+                validateGradeType(raceType, grade),
                 validateRaceNumber(number),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
-            throw new Error(createErrorMessage('BoatraceRaceRecord', error));
+            throw new Error(createErrorMessage('RaceRecord', error));
         }
     }
 
@@ -98,9 +103,10 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<BoatraceRaceRecord> = {}): BoatraceRaceRecord {
-        return BoatraceRaceRecord.create(
+    public copy(partial: Partial<RaceRecord> = {}): RaceRecord {
+        return RaceRecord.create(
             partial.id ?? this.id,
+            partial.raceType ?? this.raceType,
             partial.name ?? this.name,
             partial.stage ?? this.stage,
             partial.dateTime ?? this.dateTime,

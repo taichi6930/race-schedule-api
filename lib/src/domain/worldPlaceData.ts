@@ -1,4 +1,4 @@
-import type { WorldRaceCourse } from '../utility/data/common/raceCourse';
+import type { RaceCourse } from '../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../utility/data/common/raceCourse';
 import {
     type RaceDateTime,
@@ -18,16 +18,16 @@ export class WorldPlaceData implements IPlaceData<WorldPlaceData> {
     public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
-     * @type {WorldRaceCourse}
+     * @type {RaceCourse}
      */
-    public readonly location: WorldRaceCourse;
+    public readonly location: RaceCourse;
 
     /**
      * コンストラクタ
      * @param dateTime
      * @param location
      */
-    private constructor(dateTime: RaceDateTime, location: WorldRaceCourse) {
+    private constructor(dateTime: RaceDateTime, location: RaceCourse) {
         this.dateTime = dateTime;
         this.location = location;
     }

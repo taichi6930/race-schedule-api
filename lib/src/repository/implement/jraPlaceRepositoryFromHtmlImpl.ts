@@ -3,10 +3,10 @@ import { inject, injectable } from 'tsyringe';
 
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
-import { JraRaceCourse } from '../../utility/data/common/raceCourse';
+import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { generateJraPlaceId } from '../../utility/raceId';
+import { generatePlaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
@@ -101,7 +101,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         const jraPlaceRecordList: JraPlaceRecord[] = [];
 
         // 競馬場のイニシャルと名前のマッピング
-        const placeMap: Record<string, JraRaceCourse> = {
+        const placeMap: Record<string, RaceCourse> = {
             札: '札幌',
             函: '函館',
             福: '福島',
@@ -115,7 +115,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         };
 
         // 競馬場名を取得する関数
-        const getPlaceName = (placeInitial: string): JraRaceCourse =>
+        const getPlaceName = (placeInitial: string): RaceCourse =>
             placeMap[placeInitial];
 
         // 開催日数を計算するためのdict
@@ -138,7 +138,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                         const placeInitial: string = $(element)
                             .find('span')
                             .text();
-                        const place: JraRaceCourse = getPlaceName(placeInitial);
+                        const place: RaceCourse = getPlaceName(placeInitial);
                         // 競馬場が存在しない場合はスキップ
                         if (!place) return;
 
@@ -166,7 +166,8 @@ export class JraPlaceRepositoryFromHtmlImpl
                         // 競馬場開催レコードを追加
                         jraPlaceRecordList.push(
                             JraPlaceRecord.create(
-                                generateJraPlaceId(
+                                generatePlaceId(
+                                    RaceType.JRA,
                                     new Date(
                                         date.getFullYear(),
                                         month - 1,

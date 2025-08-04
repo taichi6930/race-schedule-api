@@ -1,18 +1,19 @@
-import { AutoraceRaceData } from '../../domain/autoraceRaceData';
+import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
+import { RaceType } from '../../utility/raceType';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // AutoraceRaceRepositoryFromHtmlImplのモックを作成
 export class MockAutoraceRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
+    implements IRaceRepository<AutoraceRaceEntity, PlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<AutoraceRaceEntity[]> {
         const { placeEntityList } = searchFilter;
         const raceEntityList: AutoraceRaceEntity[] = [];
@@ -23,7 +24,8 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
                     const raceStage = i === 12 ? '優勝戦' : '予選';
                     raceEntityList.push(
                         AutoraceRaceEntity.createWithoutId(
-                            AutoraceRaceData.create(
+                            RaceData.create(
+                                RaceType.AUTORACE,
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
                                 raceStage,
                                 new Date(

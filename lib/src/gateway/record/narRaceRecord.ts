@@ -2,10 +2,10 @@ import '../../utility/format';
 
 import { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
-import type { NarGradeType } from '../../utility/data/common/gradeType';
+import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
-    type NarRaceCourse,
+    type RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import {
@@ -54,10 +54,10 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
         public readonly id: RaceId,
         public readonly name: RaceName,
         public readonly dateTime: RaceDateTime,
-        public readonly location: NarRaceCourse,
+        public readonly location: RaceCourse,
         public readonly surfaceType: RaceCourseType,
         public readonly distance: RaceDistance,
-        public readonly grade: NarGradeType,
+        public readonly grade: GradeType,
         public readonly number: RaceNumber,
         public readonly updateDate: UpdateDate,
     ) {}

@@ -3,17 +3,17 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
-import { KeirinRaceData } from '../../domain/keirinRaceData';
+import { PlaceData } from '../../domain/placeData';
+import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { KeirinGradeType } from '../../utility/data/common/gradeType';
+import { GradeType } from '../../utility/data/common/gradeType';
 import { KeirinStageMap, RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -22,7 +22,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class KeirinRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
+    implements IRaceRepository<KeirinRaceEntity, PlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -35,7 +35,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
         const keirinRaceDataList: KeirinRaceEntity[] = [];
         const { placeEntityList } = searchFilter;
@@ -56,7 +56,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
 
     @Logger
     public async fetchRaceListFromHtmlWithKeirinPlace(
-        placeData: KeirinPlaceData,
+        placeData: PlaceData,
     ): Promise<KeirinRaceEntity[]> {
         try {
             const [year, month, day] = [
@@ -151,7 +151,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         const keirinRaceData =
                             raceStage === null
                                 ? null
-                                : KeirinRaceData.create(
+                                : RaceData.create(
+                                      RaceType.KEIRIN,
                                       raceName,
                                       raceStage,
                                       new Date(
@@ -249,10 +250,10 @@ export class KeirinRaceRepositoryFromHtmlImpl
 
     private extractRaceGrade(
         raceName: string,
-        raceGrade: KeirinGradeType,
+        raceGrade: GradeType,
         raceStage: RaceStage,
         raceDate: Date,
-    ): KeirinGradeType {
+    ): GradeType {
         // raceStageが「ヤンググランプリ」の場合、GⅡを返す
         if (raceStage === 'SA混合ヤンググランプリ') {
             return 'GⅡ';

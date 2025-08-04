@@ -4,10 +4,11 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { AutoracePlaceRecord } from '../../gateway/record/autoracePlaceRecord';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
+import { RaceType } from '../../utility/raceType';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -16,14 +17,14 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  */
 @injectable()
 export class AutoracePlaceRepositoryFromStorageImpl
-    implements IPlaceRepository<AutoracePlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
     public constructor(
         @inject('AutoracePlaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<AutoracePlaceRecord>,
+        private readonly s3Gateway: IS3Gateway<PlaceRecord>,
     ) {}
 
     /**
@@ -35,36 +36,35 @@ export class AutoracePlaceRepositoryFromStorageImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<AutoracePlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // ファイル名リストから開催データを取得する
-        const placeRecordList: AutoracePlaceRecord[] =
+        const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
-        const placeEntityList: AutoracePlaceEntity[] = placeRecordList.map(
+        const placeEntityList: PlaceEntity[] = placeRecordList.map(
             (placeRecord) => placeRecord.toEntity(),
         );
 
         // 日付の範囲でフィルタリング
-        const filteredPlaceEntityList: AutoracePlaceEntity[] =
-            placeEntityList.filter(
-                (placeEntity) =>
-                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
-            );
+        const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
+            (placeEntity) =>
+                placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                placeEntity.placeData.dateTime <= searchFilter.finishDate,
+        );
 
         return filteredPlaceEntityList;
     }
 
     @Logger
     public async registerPlaceEntityList(
-        placeEntityList: AutoracePlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchPlaceRecordList: AutoracePlaceRecord[] =
+        const existFetchPlaceRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: AutoracePlaceRecord[] = placeEntityList.map(
+        const placeRecordList: PlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
         );
 
@@ -96,7 +96,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
      * 開催場データをS3から取得する
      */
     @Logger
-    private async getPlaceRecordListFromS3(): Promise<AutoracePlaceRecord[]> {
+    private async getPlaceRecordListFromS3(): Promise<PlaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
 
@@ -120,9 +120,9 @@ export class AutoracePlaceRepositoryFromStorageImpl
             updateDate: headers.indexOf('updateDate'),
         };
 
-        const placeRecordList: AutoracePlaceRecord[] = lines
+        const placeRecordList: PlaceRecord[] = lines
             .slice(1)
-            .flatMap((line: string): AutoracePlaceRecord[] => {
+            .flatMap((line: string): PlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -131,8 +131,9 @@ export class AutoracePlaceRepositoryFromStorageImpl
                         : getJSTDate(new Date());
 
                     return [
-                        AutoracePlaceRecord.create(
+                        PlaceRecord.create(
                             columns[indices.id],
+                            RaceType.AUTORACE,
                             new Date(columns[indices.dateTime]),
                             columns[indices.location],
                             columns[indices.grade],

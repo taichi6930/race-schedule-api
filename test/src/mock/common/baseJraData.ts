@@ -7,17 +7,18 @@ import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecor
 import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
-import type { JraGradeType } from '../../../../lib/src/utility/data/common/gradeType';
-import type { JraRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
+import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
+import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import {
-    generateJraPlaceId,
-    generateJraRaceId,
+    generatePlaceId,
+    generateRaceId,
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
-const baseJraPlaceCourse: JraRaceCourse = '中山';
+const baseJraPlaceCourse: RaceCourse = '中山';
 const baseJraPlaceDateTime = new Date('2024-12-22');
-const baseJraPlaceId = generateJraPlaceId(
+const baseJraPlaceId = generatePlaceId(
+    RaceType.JRA,
     baseJraPlaceDateTime,
     baseJraPlaceCourse,
 );
@@ -27,7 +28,7 @@ const baseRaceDateTime = new Date('2024-12-22 15:40');
 const baseJraRaceNumber = 11;
 const baseJraRaceSurfaceType = '芝';
 const baseJraRaceDistance = 2500;
-const baseJraRaceGrade: JraGradeType = 'GⅠ';
+const baseJraRaceGrade: GradeType = 'GⅠ';
 const baseJraRaceHeldTimes = 5;
 const baseJraRaceHeldDayTimes = 8;
 const baseJraRaceUpdateDate = new Date('2024-12-01 00:00');
@@ -61,7 +62,8 @@ export const baseJraPlaceRecord = JraPlaceRecord.create(
 );
 
 export const baseJraRaceRecord = JraRaceRecord.create(
-    generateJraRaceId(
+    generateRaceId(
+        RaceType.JRA,
         baseJraPlaceDateTime,
         baseJraPlaceCourse,
         baseJraRaceNumber,
@@ -89,7 +91,8 @@ export const baseJraRaceEntity = JraRaceEntity.createWithoutId(
 );
 
 export const baseJraGoogleCalendarData: calendar_v3.Schema$Event = {
-    id: generateJraRaceId(
+    id: generateRaceId(
+        RaceType.JRA,
         baseJraPlaceDateTime,
         baseJraPlaceCourse,
         baseJraRaceNumber,
@@ -123,7 +126,8 @@ export const baseJraGoogleCalendarData: calendar_v3.Schema$Event = {
             location: baseJraPlaceCourse,
             name: baseJraRaceName,
             number: baseJraRaceNumber.toString(),
-            raceId: generateJraRaceId(
+            raceId: generateRaceId(
+                RaceType.JRA,
                 baseJraPlaceDateTime,
                 baseJraPlaceCourse,
                 baseJraRaceNumber,

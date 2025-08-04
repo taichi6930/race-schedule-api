@@ -3,11 +3,11 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { BoatracePlaceData } from '../../domain/boatracePlaceData';
-import { BoatraceRaceData } from '../../domain/boatraceRaceData';
+import { PlaceData } from '../../domain/placeData';
+import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { BoatraceGradeType } from '../../utility/data/common/gradeType';
+import { GradeType } from '../../utility/data/common/gradeType';
 import {
     BoatraceStageMap,
     RaceStage,
@@ -15,8 +15,8 @@ import {
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -25,7 +25,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class BoatraceRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
+    implements IRaceRepository<BoatraceRaceEntity, PlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -38,7 +38,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<BoatracePlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<BoatraceRaceEntity[]> {
         const boatraceRaceDataList: BoatraceRaceEntity[] = [];
         const { placeEntityList } = searchFilter;
@@ -59,7 +59,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 
     @Logger
     public async fetchRaceListFromHtmlWithBoatracePlace(
-        placeData: BoatracePlaceData,
+        placeData: PlaceData,
     ): Promise<BoatraceRaceEntity[]> {
         try {
             const [year, month, day] = [
@@ -111,7 +111,8 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 
             boatraceRaceEntityList.push(
                 BoatraceRaceEntity.createWithoutId(
-                    BoatraceRaceData.create(
+                    RaceData.create(
+                        RaceType.BOATRACE,
                         raceName,
                         raceStage,
                         new Date(year, month - 1, day, hour, minute),
@@ -166,8 +167,8 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 
     private extractRaceGrade(
         raceName: string,
-        raceGrade: BoatraceGradeType,
-    ): BoatraceGradeType {
+        raceGrade: GradeType,
+    ): GradeType {
         // レース名に「レディースチャレンジカップ」が含まれている場合は「GⅡ」
         if (raceName.includes('レディースチャレンジカップ')) {
             return 'GⅡ';

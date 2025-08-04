@@ -10,12 +10,7 @@ import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
-import {
-    AutoraceGradeType,
-    BoatraceGradeType,
-    GradeType,
-    KeirinGradeType,
-} from '../../utility/data/common/gradeType';
+import { GradeType } from '../../utility/data/common/gradeType';
 import { RaceGradeAndStageList } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -273,7 +268,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      */
     private filterRaceEntityForKeirin(
         raceEntityList: KeirinRaceEntity[],
-        displayGradeList: KeirinGradeType[],
+        displayGradeList: GradeType[],
         playerDataList: PlayerData[],
     ): KeirinRaceEntity[] {
         const filteredRaceEntityList: KeirinRaceEntity[] =
@@ -322,7 +317,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      */
     private filterRaceEntityForAutorace(
         raceEntityList: AutoraceRaceEntity[],
-        displayGradeList: AutoraceGradeType[],
+        displayGradeList: GradeType[],
         playerDataList: PlayerData[],
     ): AutoraceRaceEntity[] {
         const filteredRaceEntityList: AutoraceRaceEntity[] =
@@ -371,7 +366,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      */
     private filterRaceEntityForBoatrace(
         raceEntityList: BoatraceRaceEntity[],
-        displayGradeList: BoatraceGradeType[],
+        displayGradeList: GradeType[],
         playerDataList: PlayerData[],
     ): BoatraceRaceEntity[] {
         const filteredRaceEntityList: BoatraceRaceEntity[] =

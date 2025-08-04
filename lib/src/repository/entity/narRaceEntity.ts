@@ -16,7 +16,7 @@ import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getNarGoogleCalendarColorId } from '../../utility/googleCalendar';
-import { generateNarRaceId } from '../../utility/raceId';
+import { generateRaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
@@ -67,7 +67,8 @@ export class NarRaceEntity {
         updateDate: Date,
     ): NarRaceEntity {
         return NarRaceEntity.create(
-            generateNarRaceId(
+            generateRaceId(
+                RaceType.NAR,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -114,7 +115,8 @@ export class NarRaceEntity {
         updateDate: Date = new Date(),
     ): calendar_v3.Schema$Event {
         return {
-            id: generateNarRaceId(
+            id: generateRaceId(
+                RaceType.NAR,
                 this.raceData.dateTime,
                 this.raceData.location,
                 this.raceData.number,

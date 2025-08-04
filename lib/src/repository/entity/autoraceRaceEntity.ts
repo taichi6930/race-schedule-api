@@ -3,19 +3,16 @@ import '../../utility/format';
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import type { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { CalendarData } from '../../domain/calendarData';
+import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
-import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
+import { RaceRecord } from '../../gateway/record/raceRecord';
 import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getAutoraceGoogleCalendarColorId } from '../../utility/googleCalendar';
-import {
-    generateAutoraceRaceId,
-    generateAutoraceRacePlayerId,
-} from '../../utility/raceId';
+import { generateRaceId, generateRacePlayerId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
@@ -35,7 +32,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
      */
     private constructor(
         public readonly id: RaceId,
-        public readonly raceData: AutoraceRaceData,
+        public readonly raceData: RaceData,
         public readonly racePlayerDataList: RacePlayerData[],
         public readonly updateDate: UpdateDate,
     ) {}
@@ -49,7 +46,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
      */
     public static create(
         id: string,
-        raceData: AutoraceRaceData,
+        raceData: RaceData,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): AutoraceRaceEntity {
@@ -68,12 +65,13 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
      * @param updateDate
      */
     public static createWithoutId(
-        raceData: AutoraceRaceData,
+        raceData: RaceData,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): AutoraceRaceEntity {
         return AutoraceRaceEntity.create(
-            generateAutoraceRaceId(
+            generateRaceId(
+                RaceType.AUTORACE,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -100,9 +98,10 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     /**
      * AutoraceRaceRecordに変換する
      */
-    public toRaceRecord(): AutoraceRaceRecord {
-        return AutoraceRaceRecord.create(
+    public toRaceRecord(): RaceRecord {
+        return RaceRecord.create(
             this.id,
+            this.raceData.raceType,
             this.raceData.name,
             this.raceData.stage,
             this.raceData.dateTime,
@@ -121,7 +120,8 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
         updateDate: Date = new Date(),
     ): calendar_v3.Schema$Event {
         return {
-            id: generateAutoraceRaceId(
+            id: generateRaceId(
+                RaceType.AUTORACE,
                 this.raceData.dateTime,
                 this.raceData.location,
                 this.raceData.number,
@@ -167,7 +167,8 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     public toPlayerRecordList(): RacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
             RacePlayerRecord.create(
-                generateAutoraceRacePlayerId(
+                generateRacePlayerId(
+                    RaceType.AUTORACE,
                     this.raceData.dateTime,
                     this.raceData.location,
                     this.raceData.number,

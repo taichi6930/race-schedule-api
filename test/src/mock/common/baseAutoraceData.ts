@@ -1,27 +1,28 @@
-import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
-import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
-import { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autoracePlaceRecord';
-import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
+import { PlaceRecord } from '../../../../lib/src/gateway/record/placeRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
-import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import { RaceRecord } from '../../../../lib/src/gateway/record/raceRecord';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type { AutoraceGradeType } from '../../../../lib/src/utility/data/common/gradeType';
-import type { AutoraceRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
+import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
+import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
+import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import type { RaceStage } from '../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
-    generateAutoracePlaceId,
-    generateAutoraceRaceId,
-    generateAutoraceRacePlayerId,
+    generatePlaceId,
+    generateRaceId,
+    generateRacePlayerId,
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
-const baseAutoracePlaceCourse: AutoraceRaceCourse = '飯塚';
+const baseAutoracePlaceCourse: RaceCourse = '飯塚';
 const baseAutoracePlaceDateTime = new Date('2024-12-31');
-const baseAutoracePlaceGrade: AutoraceGradeType = 'SG';
-const baseAutoracePlaceId = generateAutoracePlaceId(
+const baseAutoracePlaceGrade: GradeType = 'SG';
+const baseAutoracePlaceId = generatePlaceId(
+    RaceType.AUTORACE,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
 );
@@ -32,13 +33,15 @@ const baseAutoraceRaceNumber = 11;
 const baseAutoraceRaceStage: RaceStage = '優勝戦';
 const baseAutoraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
-export const baseAutoracePlaceData = AutoracePlaceData.create(
+export const baseAutoracePlaceData = PlaceData.create(
+    RaceType.AUTORACE,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
 );
 
-export const baseAutoraceRaceData = AutoraceRaceData.create(
+export const baseAutoraceRaceData = RaceData.create(
+    RaceType.AUTORACE,
     baseAutoraceRaceName,
     baseAutoraceRaceStage,
     baseRaceDateTime,
@@ -47,20 +50,23 @@ export const baseAutoraceRaceData = AutoraceRaceData.create(
     baseAutoraceRaceNumber,
 );
 
-export const baseAutoracePlaceRecord = AutoracePlaceRecord.create(
+export const baseAutoracePlaceRecord = PlaceRecord.create(
     baseAutoracePlaceId,
+    RaceType.AUTORACE,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoraceRaceRecord = AutoraceRaceRecord.create(
-    generateAutoraceRaceId(
+export const baseAutoraceRaceRecord = RaceRecord.create(
+    generateRaceId(
+        RaceType.AUTORACE,
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,
         baseAutoraceRaceNumber,
     ),
+    RaceType.AUTORACE,
     baseAutoraceRaceName,
     baseAutoraceRaceStage,
     baseRaceDateTime,
@@ -70,7 +76,8 @@ export const baseAutoraceRaceRecord = AutoraceRaceRecord.create(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoracePlaceEntity = AutoracePlaceEntity.createWithoutId(
+export const baseAutoracePlaceEntity = PlaceEntity.createWithoutId(
+    RaceType.AUTORACE,
     baseAutoracePlaceData,
     baseAutoraceRaceUpdateDate,
 );
@@ -89,14 +96,16 @@ export const baseAutoraceRaceEntity = AutoraceRaceEntity.createWithoutId(
 );
 
 export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
-    generateAutoraceRacePlayerId(
+    generateRacePlayerId(
+        RaceType.AUTORACE,
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,
         baseAutoraceRaceNumber,
         1,
     ),
     RaceType.AUTORACE,
-    generateAutoraceRaceId(
+    generateRaceId(
+        RaceType.AUTORACE,
         baseRaceDateTime,
         baseAutoracePlaceCourse,
         baseAutoraceRaceNumber,
@@ -135,7 +144,8 @@ export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
         '優勝戦',
     ].map((stage, index) => {
         return AutoraceRaceEntity.createWithoutId(
-            AutoraceRaceData.create(
+            RaceData.create(
+                RaceType.AUTORACE,
                 `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
                 stage,
                 new Date(2025, 12 - 1, 31, 7 + index, 0),

@@ -6,26 +6,27 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
-import type { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
 import type { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
-import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
+import type { RaceRecord } from '../../../../lib/src/gateway/record/raceRecord';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('KeirinRaceRepositoryFromStorageImpl', () => {
-    let raceS3Gateway: jest.Mocked<IS3Gateway<KeirinRaceRecord>>;
+    let raceS3Gateway: jest.Mocked<IS3Gateway<RaceRecord>>;
     let racePlayerS3Gateway: jest.Mocked<IS3Gateway<RacePlayerRecord>>;
     let repository: KeirinRaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        raceS3Gateway = mockS3Gateway<KeirinRaceRecord>();
+        raceS3Gateway = mockS3Gateway<RaceRecord>();
         racePlayerS3Gateway = mockS3Gateway<RacePlayerRecord>();
 
         // DIコンテナにモックを登録
@@ -44,7 +45,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
     });
 
     describe('fetchRaceList', () => {
-        test('正しいレース開催データを取得できる', async () => {
+        test('レース開催データを正常に取得できる', async () => {
             // モックの戻り値を設定
             const csvFilePath = path.resolve(
                 __dirname,
@@ -66,7 +67,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
             );
 
             // リクエストの作成
-            const searchFilter = new SearchRaceFilterEntity<KeirinPlaceEntity>(
+            const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );
@@ -89,7 +90,8 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from({ length: 12 }, (__, j) =>
                         KeirinRaceEntity.createWithoutId(
-                            KeirinRaceData.create(
+                            RaceData.create(
+                                RaceType.KEIRIN,
                                 `raceName${format(date, 'yyyyMMdd')}`,
                                 `S級決勝`,
                                 date,
@@ -121,7 +123,8 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                 date.setDate(date.getDate() + day);
                 return Array.from({ length: 12 }, (__, j) =>
                     KeirinRaceEntity.createWithoutId(
-                        KeirinRaceData.create(
+                        RaceData.create(
+                            RaceType.KEIRIN,
                             `raceName${format(date, 'yyyyMMdd')}`,
                             `S級決勝`,
                             date,

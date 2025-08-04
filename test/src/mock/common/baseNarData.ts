@@ -7,15 +7,15 @@ import { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecor
 import { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
-import type { NarGradeType } from '../../../../lib/src/utility/data/common/gradeType';
-import type { NarRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
+import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
+import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import {
-    generateNarPlaceId,
-    generateNarRaceId,
+    generatePlaceId,
+    generateRaceId,
 } from '../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 
-const baseNarPlaceCourse: NarRaceCourse = '大井';
+const baseNarPlaceCourse: RaceCourse = '大井';
 const baseNarPlaceDateTime = new Date('2024-12-29');
 
 const baseNarRaceName = '東京大賞典';
@@ -23,7 +23,7 @@ const baseRaceDateTime = new Date('2024-12-29 15:40');
 const baseNarRaceNumber = 11;
 const baseNarRaceSurfaceType = 'ダート';
 const baseNarRaceDistance = 2000;
-const baseNarRaceGrade: NarGradeType = 'GⅠ';
+const baseNarRaceGrade: GradeType = 'GⅠ';
 const baseNarRaceUpdateDate = new Date('2024-12-01 00:00');
 
 export const baseNarPlaceData = NarPlaceData.create(
@@ -42,14 +42,15 @@ export const baseNarRaceData = NarRaceData.create(
 );
 
 export const baseNarPlaceRecord = NarPlaceRecord.create(
-    generateNarPlaceId(baseNarPlaceDateTime, baseNarPlaceCourse),
+    generatePlaceId(RaceType.NAR, baseNarPlaceDateTime, baseNarPlaceCourse),
     baseNarPlaceDateTime,
     baseNarPlaceCourse,
     baseNarRaceUpdateDate,
 );
 
 export const baseNarRaceRecord = NarRaceRecord.create(
-    generateNarRaceId(
+    generateRaceId(
+        RaceType.NAR,
         baseNarPlaceDateTime,
         baseNarPlaceCourse,
         baseNarRaceNumber,
@@ -75,7 +76,8 @@ export const baseNarRaceEntity = NarRaceEntity.createWithoutId(
 );
 
 export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
-    id: generateNarRaceId(
+    id: generateRaceId(
+        RaceType.NAR,
         baseNarPlaceDateTime,
         baseNarPlaceCourse,
         baseNarRaceNumber,
@@ -108,7 +110,8 @@ export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
             location: baseNarPlaceCourse,
             name: baseNarRaceName,
             number: baseNarRaceNumber.toString(),
-            raceId: generateNarRaceId(
+            raceId: generateRaceId(
+                RaceType.NAR,
                 baseNarPlaceDateTime,
                 baseNarPlaceCourse,
                 baseNarRaceNumber,

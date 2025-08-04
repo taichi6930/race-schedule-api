@@ -1,4 +1,4 @@
-import type { NarRaceCourse } from '../utility/data/common/raceCourse';
+import type { RaceCourse } from '../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../utility/data/common/raceCourse';
 import type { RaceDateTime } from '../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../utility/data/common/raceDateTime';
@@ -16,16 +16,16 @@ export class NarPlaceData implements IPlaceData<NarPlaceData> {
     public readonly dateTime: RaceDateTime;
     /**
      * 開催場所
-     * @type {NarRaceCourse}
+     * @type {RaceCourse}
      */
-    public readonly location: NarRaceCourse;
+    public readonly location: RaceCourse;
 
     /**
      * コンストラクタ
      * @param dateTime - 開催日時
      * @param location - 開催場所
      */
-    private constructor(dateTime: RaceDateTime, location: NarRaceCourse) {
+    private constructor(dateTime: RaceDateTime, location: RaceCourse) {
         this.dateTime = dateTime;
         this.location = location;
     }
