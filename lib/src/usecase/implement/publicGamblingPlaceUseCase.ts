@@ -1,10 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
-import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { NarPlaceData } from '../../domain/narPlaceData';
+import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -35,7 +35,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
         | JraPlaceData[]
         | NarPlaceData[]
         | KeirinPlaceData[]
-        | AutoracePlaceData[]
+        | PlaceData[]
         | BoatracePlaceData[]
     > {
         // 開催場データを取得

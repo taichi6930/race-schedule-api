@@ -10,9 +10,14 @@ import { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
- * オートレースのレース開催場所データ
+ * レース開催場所データ
  */
-export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
+export class PlaceData implements IPlaceData<PlaceData> {
+    /**
+     * レース種別
+     * @type {RaceType}
+     */
+    public readonly raceType: RaceType;
     /**
      * 開催日時
      * @type {RaceDateTime}
@@ -31,6 +36,7 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
 
     /**
      * コンストラクタ
+     * @param raceType - レース種別
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param grade - グレード
@@ -38,10 +44,12 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
      * レース開催場所データを生成する
      */
     private constructor(
+        raceType: RaceType,
         dateTime: RaceDateTime,
         location: RaceCourse,
         grade: GradeType,
     ) {
+        this.raceType = raceType;
         this.dateTime = dateTime;
         this.location = location;
         this.grade = grade;
@@ -50,16 +58,19 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
     /**
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
+     * @param raceType
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param grade - グレード
      */
     public static create(
+        raceType: RaceType,
         dateTime: Date,
         location: string,
         grade: string,
-    ): AutoracePlaceData {
-        return new AutoracePlaceData(
+    ): PlaceData {
+        return new PlaceData(
+            raceType,
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.AUTORACE, location),
             validateGradeType(RaceType.AUTORACE, grade),
@@ -70,8 +81,9 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
      * データのコピー
      * @param partial - 上書きする部分データ
      */
-    public copy(partial: Partial<AutoracePlaceData> = {}): AutoracePlaceData {
-        return AutoracePlaceData.create(
+    public copy(partial: Partial<PlaceData> = {}): PlaceData {
+        return PlaceData.create(
+            partial.raceType ?? this.raceType,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
             partial.grade ?? this.grade,

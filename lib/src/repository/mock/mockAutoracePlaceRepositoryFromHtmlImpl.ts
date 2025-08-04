@@ -1,13 +1,13 @@
-import { AutoracePlaceData } from '../../domain/autoracePlaceData';
+import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
+import { PlaceEntity } from '../entity/autoracePlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // AutoraceRaceRepositoryFromHtmlImplのモックを作成
 export class MockAutoracePlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<AutoracePlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     /**
      * オートレース場データを取得する
@@ -16,7 +16,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<AutoracePlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // request.startDateからrequest.finishDateまでのオートレース場データを取得する
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
@@ -25,8 +25,8 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
             const datetime = new Date(currentDate);
             const place = '伊勢崎';
             // オートレース場データを作成
-            const autoracePlaceEntity = AutoracePlaceEntity.createWithoutId(
-                AutoracePlaceData.create(datetime, place, 'SG'),
+            const autoracePlaceEntity = PlaceEntity.createWithoutId(
+                PlaceData.create(datetime, place, 'SG'),
                 getJSTDate(new Date()),
             );
             placeEntityList.push(autoracePlaceEntity);
@@ -44,7 +44,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     public async registerPlaceEntityList(
-        placeEntityList: AutoracePlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

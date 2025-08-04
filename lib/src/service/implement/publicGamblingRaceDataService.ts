@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
-import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
+import { PlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
@@ -67,12 +67,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         @inject('AutoraceRaceRepositoryFromStorage')
         protected autoraceRaceRepositoryFromStorage: IRaceRepository<
             AutoraceRaceEntity,
-            AutoracePlaceEntity
+            PlaceEntity
         >,
         @inject('AutoraceRaceRepositoryFromHtml')
         protected autoraceRaceRepositoryFromHtml: IRaceRepository<
             AutoraceRaceEntity,
-            AutoracePlaceEntity
+            PlaceEntity
         >,
         @inject('BoatraceRaceRepositoryFromStorage')
         protected boatraceRaceRepositoryFromStorage: IRaceRepository<
@@ -121,7 +121,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             nar?: NarPlaceEntity[];
             world?: WorldPlaceEntity[];
             keirin?: KeirinPlaceEntity[];
-            autorace?: AutoracePlaceEntity[];
+            autorace?: PlaceEntity[];
             boatrace?: BoatracePlaceEntity[];
         },
     ): Promise<{
@@ -231,12 +231,11 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 (placeEntityList?.autorace !== undefined &&
                     placeEntityList.autorace.length > 0)
             ) {
-                const searchFilter =
-                    new SearchRaceFilterEntity<AutoracePlaceEntity>(
-                        startDate,
-                        finishDate,
-                        placeEntityList?.autorace,
-                    );
+                const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
+                    startDate,
+                    finishDate,
+                    placeEntityList?.autorace,
+                );
                 const autoraceRaceEntityList: AutoraceRaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.autoraceRaceRepositoryFromStorage.fetchRaceEntityList(

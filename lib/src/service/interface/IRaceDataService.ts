@@ -1,4 +1,4 @@
-import type { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
+import type { PlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import type { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
@@ -50,7 +50,7 @@ export interface IRaceDataService {
             nar?: NarPlaceEntity[];
             world?: WorldPlaceEntity[];
             keirin?: KeirinPlaceEntity[];
-            autorace?: AutoracePlaceEntity[];
+            autorace?: PlaceEntity[];
             boatrace?: BoatracePlaceEntity[];
         },
     ) => Promise<{

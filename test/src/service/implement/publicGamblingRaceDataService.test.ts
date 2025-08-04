@@ -2,7 +2,7 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import type { PlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
@@ -59,13 +59,13 @@ describe('PublicGamblingRaceDataService', () => {
         IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
     >;
     let autoraceRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
+        IRaceRepository<AutoraceRaceEntity, PlaceEntity>
     >;
     let autoraceRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
+        IRaceRepository<AutoraceRaceEntity, PlaceEntity>
     >;
     let placeRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<AutoracePlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let service: PublicGamblingRaceDataService;
 
@@ -156,25 +156,24 @@ describe('PublicGamblingRaceDataService', () => {
 
         autoraceRaceRepositoryFromStorageImpl = mockRaceRepository<
             AutoraceRaceEntity,
-            AutoracePlaceEntity
+            PlaceEntity
         >();
         container.registerInstance<
-            IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
+            IRaceRepository<AutoraceRaceEntity, PlaceEntity>
         >(
             'AutoraceRaceRepositoryFromStorage',
             autoraceRaceRepositoryFromStorageImpl,
         );
         autoraceRaceRepositoryFromHtmlImpl = mockRaceRepository<
             AutoraceRaceEntity,
-            AutoracePlaceEntity
+            PlaceEntity
         >();
         container.registerInstance<
-            IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
+            IRaceRepository<AutoraceRaceEntity, PlaceEntity>
         >('AutoraceRaceRepositoryFromHtml', autoraceRaceRepositoryFromHtmlImpl);
 
-        placeRepositoryFromStorageImpl =
-            mockPlaceRepository<AutoracePlaceEntity>();
-        container.registerInstance<IPlaceRepository<AutoracePlaceEntity>>(
+        placeRepositoryFromStorageImpl = mockPlaceRepository<PlaceEntity>();
+        container.registerInstance<IPlaceRepository<PlaceEntity>>(
             'AutoracePlaceRepositoryFromStorage',
             placeRepositoryFromStorageImpl,
         );

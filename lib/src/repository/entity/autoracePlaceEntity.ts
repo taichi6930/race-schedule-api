@@ -1,5 +1,5 @@
-import type { AutoracePlaceData } from '../../domain/autoracePlaceData';
-import { AutoracePlaceRecord } from '../../gateway/record/autoracePlaceRecord';
+import type { PlaceData } from '../../domain/placeData';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import { generateAutoracePlaceId } from '../../utility/raceId';
@@ -8,12 +8,13 @@ import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
 /**
- * Repository層のEntity オートレースのレース開催場所データ
+ * Repository層のEntity レース開催場所データ
  */
-export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
+export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
     /**
      * コンストラクタ
      * @param id - ID
+     * @param raceType - レース種別
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      * @remarks
@@ -21,23 +22,27 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
      */
     private constructor(
         public readonly id: PlaceId,
-        public readonly placeData: AutoracePlaceData,
+        public readonly raceType: RaceType,
+        public readonly placeData: PlaceData,
         public readonly updateDate: UpdateDate,
     ) {}
 
     /**
      * インスタンス生成メソッド
      * @param id - ID
+     * @param raceType - レース種別
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
     public static create(
         id: string,
-        placeData: AutoracePlaceData,
+        raceType: RaceType,
+        placeData: PlaceData,
         updateDate: Date,
-    ): AutoracePlaceEntity {
-        return new AutoracePlaceEntity(
+    ): PlaceEntity {
+        return new PlaceEntity(
             validatePlaceId(RaceType.AUTORACE, id),
+            raceType,
             placeData,
             validateUpdateDate(updateDate),
         );
@@ -45,15 +50,18 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
 
     /**
      * idがない場合でのcreate
+     * @param raceType
      * @param placeData
      * @param updateDate
      */
     public static createWithoutId(
-        placeData: AutoracePlaceData,
+        raceType: RaceType,
+        placeData: PlaceData,
         updateDate: Date,
-    ): AutoracePlaceEntity {
-        return AutoracePlaceEntity.create(
+    ): PlaceEntity {
+        return PlaceEntity.create(
             generateAutoracePlaceId(placeData.dateTime, placeData.location),
+            raceType,
             placeData,
             updateDate,
         );
@@ -63,11 +71,10 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
      * データのコピー
      * @param partial
      */
-    public copy(
-        partial: Partial<AutoracePlaceEntity> = {},
-    ): AutoracePlaceEntity {
-        return AutoracePlaceEntity.create(
+    public copy(partial: Partial<PlaceEntity> = {}): PlaceEntity {
+        return PlaceEntity.create(
             partial.id ?? this.id,
+            partial.raceType ?? this.raceType,
             partial.placeData ?? this.placeData,
             partial.updateDate ?? this.updateDate,
         );
@@ -76,9 +83,10 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
     /**
      * AutoracePlaceRecordに変換する
      */
-    public toRecord(): AutoracePlaceRecord {
-        return AutoracePlaceRecord.create(
+    public toRecord(): PlaceRecord {
+        return PlaceRecord.create(
             this.id,
+            this.raceType,
             this.placeData.dateTime,
             this.placeData.location,
             this.placeData.grade,

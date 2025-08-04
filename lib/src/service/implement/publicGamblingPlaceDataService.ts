@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
-import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
+import { PlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
@@ -30,9 +30,9 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         @inject('KeirinPlaceRepositoryFromHtml')
         protected keirinPlaceRepositoryFromHtml: IPlaceRepository<KeirinPlaceEntity>,
         @inject('AutoracePlaceRepositoryFromStorage')
-        protected autoracePlaceRepositoryFromStorage: IPlaceRepository<AutoracePlaceEntity>,
+        protected autoracePlaceRepositoryFromStorage: IPlaceRepository<PlaceEntity>,
         @inject('AutoracePlaceRepositoryFromHtml')
-        protected autoracePlaceRepositoryFromHtml: IPlaceRepository<AutoracePlaceEntity>,
+        protected autoracePlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
         @inject('BoatracePlaceRepositoryFromStorage')
         protected boatracePlaceRepositoryFromStorage: IPlaceRepository<BoatracePlaceEntity>,
         @inject('BoatracePlaceRepositoryFromHtml')
@@ -66,14 +66,14 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         jra: JraPlaceEntity[];
         nar: NarPlaceEntity[];
         keirin: KeirinPlaceEntity[];
-        autorace: AutoracePlaceEntity[];
+        autorace: PlaceEntity[];
         boatrace: BoatracePlaceEntity[];
     }> {
         const result: {
             jra: JraPlaceEntity[];
             nar: NarPlaceEntity[];
             keirin: KeirinPlaceEntity[];
-            autorace: AutoracePlaceEntity[];
+            autorace: PlaceEntity[];
             boatrace: BoatracePlaceEntity[];
         } = {
             jra: [],
@@ -125,7 +125,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 result.keirin.push(...keirinPlaceEntityList);
             }
             if (raceTypeList.includes('autorace')) {
-                const autoracePlaceEntityList: AutoracePlaceEntity[] =
+                const autoracePlaceEntityList: PlaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.autoracePlaceRepositoryFromStorage.fetchPlaceEntityList(
                               searchFilter,
@@ -171,7 +171,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         jra: JraPlaceEntity[];
         nar: NarPlaceEntity[];
         keirin: KeirinPlaceEntity[];
-        autorace: AutoracePlaceEntity[];
+        autorace: PlaceEntity[];
         boatrace: BoatracePlaceEntity[];
     }): Promise<void> {
         if (

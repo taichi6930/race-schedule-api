@@ -1,4 +1,4 @@
-import type { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
+import type { PlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import type { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import type { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
@@ -34,7 +34,7 @@ export interface IPlaceDataService {
         jra: JraPlaceEntity[];
         nar: NarPlaceEntity[];
         keirin: KeirinPlaceEntity[];
-        autorace: AutoracePlaceEntity[];
+        autorace: PlaceEntity[];
         boatrace: BoatracePlaceEntity[];
     }>;
 
@@ -50,7 +50,7 @@ export interface IPlaceDataService {
         jra: JraPlaceEntity[];
         nar: NarPlaceEntity[];
         keirin: KeirinPlaceEntity[];
-        autorace: AutoracePlaceEntity[];
+        autorace: PlaceEntity[];
         boatrace: BoatracePlaceEntity[];
     }) => Promise<void>;
 }

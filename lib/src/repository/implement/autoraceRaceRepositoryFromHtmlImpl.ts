@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
+import { PlaceData } from '../../domain/placeData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import {
     AutoraceStageMap,
@@ -13,7 +13,7 @@ import {
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
+import { PlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -23,7 +23,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class AutoraceRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
+    implements IRaceRepository<AutoraceRaceEntity, PlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -36,7 +36,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<AutoraceRaceEntity[]> {
         const autoraceRaceDataList: AutoraceRaceEntity[] = [];
         const { placeEntityList } = searchFilter;
@@ -57,7 +57,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
 
     @Logger
     public async fetchRaceListFromHtmlWithAutoracePlace(
-        placeEntity: AutoracePlaceEntity,
+        placeEntity: PlaceEntity,
     ): Promise<AutoraceRaceEntity[]> {
         try {
             const [year, month, day] = [
@@ -150,7 +150,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
 
     private extractRaceName(
         raceSummaryInfoChild: string,
-        placeData: AutoracePlaceData,
+        placeData: PlaceData,
     ): string {
         const raceConditions = [
             {

@@ -2,14 +2,15 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import { PlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../lib/src/utility/env';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../utility/testDecorators';
 
 describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
@@ -37,12 +38,14 @@ describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<AutoracePlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
                         [
-                            AutoracePlaceEntity.createWithoutId(
-                                AutoracePlaceData.create(
+                            PlaceEntity.createWithoutId(
+                                RaceType.AUTORACE,
+                                PlaceData.create(
+                                    RaceType.AUTORACE,
                                     new Date('2024-11-04'),
                                     '川口',
                                     'SG',

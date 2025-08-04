@@ -10,7 +10,7 @@ import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import type { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
-import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import type { PlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/autoraceRaceRepositoryFromStorageImpl';
@@ -66,11 +66,10 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
             );
 
             // リクエストの作成
-            const searchFilter =
-                new SearchRaceFilterEntity<AutoracePlaceEntity>(
-                    new Date('2024-01-01'),
-                    new Date('2024-02-01'),
-                );
+            const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
+                new Date('2024-01-01'),
+                new Date('2024-02-01'),
+            );
             // テスト実行
             const raceEntityList =
                 await repository.fetchRaceEntityList(searchFilter);

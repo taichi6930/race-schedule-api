@@ -1,4 +1,4 @@
-import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import type { PlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
@@ -18,7 +18,7 @@ export const placeDataServiceMock = (): jest.Mocked<IPlaceDataService> => {
                     | JraPlaceEntity[]
                     | NarPlaceEntity[]
                     | KeirinPlaceEntity[]
-                    | AutoracePlaceEntity[]
+                    | PlaceEntity[]
                     | BoatracePlaceEntity[],
             ),
         updatePlaceEntityList: jest.fn().mockResolvedValue([]),

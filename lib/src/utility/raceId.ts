@@ -19,6 +19,7 @@ import type { RaceNumber } from './data/common/raceNumber';
 import type { RacePlayerId } from './data/common/racePlayerId';
 import { NetkeibaBabacodeMap } from './data/netkeiba';
 import type { WorldRaceNumber } from './data/world/worldRaceNumber';
+import type { RaceType } from './raceType';
 
 /**
  * 中央競馬のraceIdを作成する
@@ -247,4 +248,21 @@ export const generateAutoracePlaceId = (
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = AutoracePlaceCodeMap[location];
     return `autorace${dateCode}${locationCode}`;
+};
+
+/**
+ * placeIdを作成する
+ * @param raceType - レース種別
+ * @param dateTime - 開催日時
+ * @param location - 開催場所
+ */
+export const generatePlaceId = (
+    raceType: RaceType,
+    dateTime: Date,
+    location: RaceCourse,
+): PlaceId => {
+    const dateCode = format(dateTime, 'yyyyMMdd');
+    const locationCode = AutoracePlaceCodeMap[location];
+    const raceTypePrefix = raceType.toLowerCase();
+    return `${raceTypePrefix}${dateCode}${locationCode}`;
 };

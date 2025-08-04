@@ -1,6 +1,6 @@
 import { container } from 'tsyringe';
 
-import type { AutoracePlaceEntity } from '../../src/repository/entity/autoracePlaceEntity';
+import type { PlaceEntity } from '../../src/repository/entity/autoracePlaceEntity';
 import type { BoatracePlaceEntity } from '../../src/repository/entity/boatracePlaceEntity';
 import type { JraPlaceEntity } from '../../src/repository/entity/jraPlaceEntity';
 import type { KeirinPlaceEntity } from '../../src/repository/entity/keirinPlaceEntity';
@@ -24,7 +24,7 @@ container.register<IPlaceRepository<KeirinPlaceEntity>>(
     'KeirinPlaceRepositoryFromStorage',
     { useClass: KeirinPlaceRepositoryFromStorageImpl },
 );
-container.register<IPlaceRepository<AutoracePlaceEntity>>(
+container.register<IPlaceRepository<PlaceEntity>>(
     'AutoracePlaceRepositoryFromStorage',
     { useClass: AutoracePlaceRepositoryFromStorageImpl },
 );

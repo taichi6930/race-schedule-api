@@ -1,18 +1,18 @@
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
+import { PlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // AutoraceRaceRepositoryFromHtmlImplのモックを作成
 export class MockAutoraceRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
+    implements IRaceRepository<AutoraceRaceEntity, PlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<AutoraceRaceEntity[]> {
         const { placeEntityList } = searchFilter;
         const raceEntityList: AutoraceRaceEntity[] = [];

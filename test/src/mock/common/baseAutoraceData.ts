@@ -1,11 +1,11 @@
-import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
 import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
-import { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autoracePlaceRecord';
 import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
+import { PlaceRecord } from '../../../../lib/src/gateway/record/placeRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
-import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import { PlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
@@ -32,7 +32,8 @@ const baseAutoraceRaceNumber = 11;
 const baseAutoraceRaceStage: RaceStage = '優勝戦';
 const baseAutoraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
-export const baseAutoracePlaceData = AutoracePlaceData.create(
+export const baseAutoracePlaceData = PlaceData.create(
+    RaceType.AUTORACE,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
@@ -47,8 +48,9 @@ export const baseAutoraceRaceData = AutoraceRaceData.create(
     baseAutoraceRaceNumber,
 );
 
-export const baseAutoracePlaceRecord = AutoracePlaceRecord.create(
+export const baseAutoracePlaceRecord = PlaceRecord.create(
     baseAutoracePlaceId,
+    RaceType.AUTORACE,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
@@ -70,7 +72,8 @@ export const baseAutoraceRaceRecord = AutoraceRaceRecord.create(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoracePlaceEntity = AutoracePlaceEntity.createWithoutId(
+export const baseAutoracePlaceEntity = PlaceEntity.createWithoutId(
+    RaceType.AUTORACE,
     baseAutoracePlaceData,
     baseAutoraceRaceUpdateDate,
 );
