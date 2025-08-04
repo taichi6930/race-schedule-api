@@ -4,9 +4,9 @@ import { RaceType } from '../../raceType';
 import type { KeirinGradeType } from './gradeType';
 
 /**
- * 競輪の指定グレード・ステージリスト
+ * 指定グレード・ステージリスト
  */
-export const KeirinRaceGradeAndStageList: {
+export const RaceGradeAndStageList: {
     grade: KeirinGradeType[];
     stage: KeirinRaceStage;
     stageByWebSite: string[];
@@ -647,7 +647,7 @@ export type KeirinRaceStage = z.infer<typeof KeirinRaceStageSchema>;
  * 競輪のステージ リスト
  */
 const KeirinRaceStageList = new Set(
-    KeirinRaceGradeAndStageList.map((item) => item.stage),
+    RaceGradeAndStageList.map((item) => item.stage),
 );
 
 /**
@@ -663,7 +663,7 @@ export const validateKeirinRaceStage = (stage: string): KeirinRaceStage =>
  */
 export const KeirinStageMap: Record<string, KeirinRaceStage> =
     Object.fromEntries(
-        KeirinRaceGradeAndStageList.flatMap((item) =>
+        RaceGradeAndStageList.flatMap((item) =>
             item.stageByWebSite.map((stageByOddspark) => [
                 stageByOddspark,
                 item.stage,
