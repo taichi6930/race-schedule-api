@@ -1,8 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
-import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { JraRaceData } from '../../domain/jraRaceData';
-import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { NarRaceData } from '../../domain/narRaceData';
 import { RaceData } from '../../domain/raceData';
 import { WorldRaceData } from '../../domain/worldRaceData';
@@ -102,9 +100,9 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         jra: JraRaceData[];
         nar: NarRaceData[];
         world: WorldRaceData[];
-        keirin: KeirinRaceData[];
+        keirin: RaceData[];
         autorace: RaceData[];
-        boatrace: BoatraceRaceData[];
+        boatrace: RaceData[];
     }> {
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
@@ -459,9 +457,9 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         jra?: JraRaceData[];
         nar?: NarRaceData[];
         world?: WorldRaceData[];
-        keirin?: KeirinRaceData[];
+        keirin?: RaceData[];
         autorace?: RaceData[];
-        boatrace?: BoatraceRaceData[];
+        boatrace?: RaceData[];
     }): Promise<void> {
         const raceEntityList = {
             jra: (raceDataList.jra ?? []).map((raceData) =>

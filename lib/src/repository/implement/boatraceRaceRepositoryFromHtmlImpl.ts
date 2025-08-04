@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { PlaceData } from '../../domain/placeData';
+import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { GradeType } from '../../utility/data/common/gradeType';
@@ -111,7 +111,8 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 
             boatraceRaceEntityList.push(
                 BoatraceRaceEntity.createWithoutId(
-                    BoatraceRaceData.create(
+                    RaceData.create(
+                        RaceType.BOATRACE,
                         raceName,
                         raceStage,
                         new Date(year, month - 1, day, hour, minute),

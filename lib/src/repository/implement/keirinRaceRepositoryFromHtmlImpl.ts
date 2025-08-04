@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { PlaceData } from '../../domain/placeData';
+import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { GradeType } from '../../utility/data/common/gradeType';
@@ -151,7 +151,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         const keirinRaceData =
                             raceStage === null
                                 ? null
-                                : KeirinRaceData.create(
+                                : RaceData.create(
+                                      RaceType.KEIRIN,
                                       raceName,
                                       raceStage,
                                       new Date(

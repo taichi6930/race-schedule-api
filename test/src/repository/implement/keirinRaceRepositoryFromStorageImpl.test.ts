@@ -6,7 +6,7 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import type { RaceRecord } from '../../../../lib/src/gateway/record/raceRecord';
@@ -15,6 +15,7 @@ import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEnt
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
@@ -89,7 +90,8 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from({ length: 12 }, (__, j) =>
                         KeirinRaceEntity.createWithoutId(
-                            KeirinRaceData.create(
+                            RaceData.create(
+                                RaceType.KEIRIN,
                                 `raceName${format(date, 'yyyyMMdd')}`,
                                 `S級決勝`,
                                 date,
@@ -121,7 +123,8 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                 date.setDate(date.getDate() + day);
                 return Array.from({ length: 12 }, (__, j) =>
                     KeirinRaceEntity.createWithoutId(
-                        KeirinRaceData.create(
+                        RaceData.create(
+                            RaceType.KEIRIN,
                             `raceName${format(date, 'yyyyMMdd')}`,
                             `S級決勝`,
                             date,

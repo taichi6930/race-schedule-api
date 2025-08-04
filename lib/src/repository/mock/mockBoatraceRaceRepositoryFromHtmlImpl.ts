@@ -1,8 +1,9 @@
 import { baseBoatraceRacePlayerDataList } from '../../../../test/src/mock/common/baseBoatraceData';
-import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { PlaceData } from '../../domain/placeData';
+import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -26,7 +27,8 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
                     const raceStage = i === 12 ? '優勝戦' : '一般戦';
                     raceEntityList.push(
                         BoatraceRaceEntity.createWithoutId(
-                            BoatraceRaceData.create(
+                            RaceData.create(
+                                RaceType.BOATRACE,
                                 `${placeData.location}第${i.toString()}R`,
                                 raceStage,
                                 new Date(

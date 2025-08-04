@@ -1,6 +1,6 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { PlaceRecord } from '../../../../lib/src/gateway/record/placeRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
@@ -40,7 +40,8 @@ export const baseKeirinPlaceData = PlaceData.create(
     baseKeirinPlaceGrade,
 );
 
-export const baseKeirinRaceData = KeirinRaceData.create(
+export const baseKeirinRaceData = RaceData.create(
+    RaceType.KEIRIN,
     baseKeirinRaceName,
     baseKeirinRaceStage,
     baseRaceDateTime,
@@ -117,7 +118,8 @@ export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
         'S級特別優秀',
         'S級決勝',
     ].map((stage, index) => {
-        const raceData = KeirinRaceData.create(
+        const raceData = RaceData.create(
+            RaceType.KEIRIN,
             `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
             stage,
             new Date(2025, 12 - 1, 30, 7 + index, 0),

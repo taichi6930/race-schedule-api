@@ -1,8 +1,9 @@
 import { baseKeirinRacePlayerDataList } from '../../../../test/src/mock/common/baseKeirinData';
-import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { PlaceData } from '../../domain/placeData';
+import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -26,7 +27,8 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
                     const raceStage = i === 12 ? 'S級決勝' : 'S級予選';
                     raceEntityList.push(
                         KeirinRaceEntity.createWithoutId(
-                            KeirinRaceData.create(
+                            RaceData.create(
+                                RaceType.KEIRIN,
                                 `keirin第${i.toString()}R`,
                                 raceStage,
                                 new Date(

@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { BoatraceRaceData } from '../../domain/boatraceRaceData';
+import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
@@ -66,7 +66,8 @@ export class BoatraceRaceRepositoryFromStorageImpl
                         );
                     });
                 // BoatraceRaceDataを生成
-                const raceData = BoatraceRaceData.create(
+                const raceData = RaceData.create(
+                    RaceType.BOATRACE,
                     raceRecord.name,
                     raceRecord.stage,
                     raceRecord.dateTime,
