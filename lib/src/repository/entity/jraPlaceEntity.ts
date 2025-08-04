@@ -1,10 +1,9 @@
 import type { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
-import {
-    type JraPlaceId,
-    validateJraPlaceId,
-} from '../../utility/data/jra/jraPlaceId';
+import type { PlaceId } from '../../utility/data/common/placeId';
+import { validatePlaceId } from '../../utility/data/common/placeId';
 import { generateJraPlaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
@@ -21,7 +20,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: JraPlaceId,
+        public readonly id: PlaceId,
         public readonly placeData: JraPlaceData,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -38,7 +37,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
         updateDate: Date,
     ): JraPlaceEntity {
         return new JraPlaceEntity(
-            validateJraPlaceId(id),
+            validatePlaceId(RaceType.JRA, id),
             placeData,
             validateUpdateDate(updateDate),
         );

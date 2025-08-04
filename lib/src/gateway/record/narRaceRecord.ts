@@ -20,16 +20,13 @@ import {
     type RaceDistance,
     validateRaceDistance,
 } from '../../utility/data/common/raceDistance';
+import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import {
     type RaceName,
     validateRaceName,
 } from '../../utility/data/common/raceName';
 import type { RaceNumber } from '../../utility/data/common/raceNumber';
 import { validateRaceNumber } from '../../utility/data/common/raceNumber';
-import {
-    type NarRaceId,
-    validateNarRaceId,
-} from '../../utility/data/nar/narRaceId';
 import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
@@ -54,7 +51,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: NarRaceId,
+        public readonly id: RaceId,
         public readonly name: RaceName,
         public readonly dateTime: RaceDateTime,
         public readonly location: NarRaceCourse,
@@ -90,7 +87,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
     ): NarRaceRecord {
         try {
             return new NarRaceRecord(
-                validateNarRaceId(id),
+                validateRaceId(RaceType.NAR, id),
                 validateRaceName(name),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.NAR, location),

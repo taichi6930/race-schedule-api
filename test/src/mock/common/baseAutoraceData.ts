@@ -7,7 +7,6 @@ import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceR
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type { AutoracePlaceId } from '../../../../lib/src/utility/data/autorace/autoracePlaceId';
 import type { AutoraceRaceStage } from '../../../../lib/src/utility/data/autorace/autoraceRaceStage';
 import type { AutoraceGradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { AutoraceRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
@@ -22,7 +21,7 @@ import { RaceType } from '../../../../lib/src/utility/raceType';
 const baseAutoracePlaceCourse: AutoraceRaceCourse = '飯塚';
 const baseAutoracePlaceDateTime = new Date('2024-12-31');
 const baseAutoracePlaceGrade: AutoraceGradeType = 'SG';
-const baseAutoracePlaceId: AutoracePlaceId = generateAutoracePlaceId(
+const baseAutoracePlaceId = generateAutoracePlaceId(
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
 );

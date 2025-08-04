@@ -2,6 +2,8 @@ import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import type { KeirinGradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
+import type { PlaceId } from '../../utility/data/common/placeId';
+import { validatePlaceId } from '../../utility/data/common/placeId';
 import {
     type KeirinRaceCourse,
     validateRaceCourse,
@@ -10,10 +12,6 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
-import {
-    type KeirinPlaceId,
-    validateKeirinPlaceId,
-} from '../../utility/data/keirin/keirinPlaceId';
 import { createErrorMessage } from '../../utility/error';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
@@ -34,7 +32,7 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: KeirinPlaceId,
+        public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
         public readonly location: KeirinRaceCourse,
         public readonly grade: KeirinGradeType,
@@ -58,7 +56,7 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
     ): KeirinPlaceRecord {
         try {
             return new KeirinPlaceRecord(
-                validateKeirinPlaceId(id),
+                validatePlaceId(RaceType.KEIRIN, id),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.KEIRIN, location),
                 validateGradeType(RaceType.KEIRIN, grade),

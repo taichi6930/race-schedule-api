@@ -1,5 +1,5 @@
 import type { WorldPlaceData } from '../../domain/worldPlaceData';
-import type { WorldPlaceId } from '../../utility/data/world/worldPlaceId';
+import type { PlaceId } from '../../utility/data/common/placeId';
 import { generateWorldPlaceId } from '../../utility/raceId';
 import type { IPlaceEntity } from './iPlaceEntity';
 
@@ -15,7 +15,7 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: WorldPlaceId,
+        public readonly id: PlaceId,
         public readonly placeData: WorldPlaceData,
     ) {}
 

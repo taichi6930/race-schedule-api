@@ -34,7 +34,6 @@ const RaceIdSchema = (raceType: RaceType): z.ZodString => {
 
 /**
  * KeirinRaceIdのzod型定義
- * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
  */
 const KeirinRaceIdSchema = RaceIdSchema(RaceType.KEIRIN);
 
@@ -42,6 +41,26 @@ const KeirinRaceIdSchema = RaceIdSchema(RaceType.KEIRIN);
  * BoatraceRaceIdのzod型定義
  */
 const BoatraceRaceIdSchema = RaceIdSchema(RaceType.BOATRACE);
+
+/**
+ * BoatraceRaceIdのzod型定義
+ */
+const NarRaceIdSchema = RaceIdSchema(RaceType.NAR);
+
+/**
+ * JraRaceIdのzod型定義
+ */
+const JraRaceIdSchema = RaceIdSchema(RaceType.JRA);
+
+/**
+ * AutoraceRaceIdのzod型定義
+ */
+const AutoraceRaceIdSchema = RaceIdSchema(RaceType.AUTORACE);
+
+/**
+ * WorldRaceIdのzod型定義
+ */
+const WorldRaceIdSchema = RaceIdSchema(RaceType.WORLD);
 
 /**
  * RaceIdのzod型定義
@@ -56,6 +75,9 @@ export type RaceId = z.infer<typeof UnionRaceIdSchema>;
  */
 export const validateRaceId = (raceType: RaceType, value: string): RaceId => {
     switch (raceType) {
+        case RaceType.WORLD: {
+            return WorldRaceIdSchema.parse(value);
+        }
         case RaceType.BOATRACE: {
             return BoatraceRaceIdSchema.parse(value);
         }
@@ -65,22 +87,18 @@ export const validateRaceId = (raceType: RaceType, value: string): RaceId => {
         case RaceType.AUTORACE: {
             return AutoraceRaceIdSchema.parse(value);
         }
-        case RaceType.JRA:
-        case RaceType.NAR:
-        case RaceType.WORLD: {
-            throw new Error(
-                `RaceId validation is not supported for ${raceType}`,
-            );
+        case RaceType.NAR: {
+            return NarRaceIdSchema.parse(value);
         }
+        case RaceType.JRA: {
+            return JraRaceIdSchema.parse(value);
+        }
+
         default: {
             throw new Error(`RaceId validation is not supported`);
         }
     }
 };
-/**
- * AutoraceRaceIdのzod型定義
- */
-const AutoraceRaceIdSchema = RaceIdSchema(RaceType.AUTORACE);
 
 /**
  * RaceIdのzod型定義
@@ -89,20 +107,7 @@ export const UnionRaceIdSchema = z.union([
     KeirinRaceIdSchema,
     AutoraceRaceIdSchema,
     BoatraceRaceIdSchema,
+    NarRaceIdSchema,
+    JraRaceIdSchema,
+    WorldRaceIdSchema,
 ]);
-
-/**
- * KeirinRaceIdの型定義
- */
-export type KeirinRaceId = z.infer<typeof KeirinRaceIdSchema>;
-
-/**
- * BoatraceRaceIdの型定義
- */
-export type BoatraceRaceId = z.infer<typeof BoatraceRaceIdSchema>;
-
-/**
- * AutoraceRaceIdの型定義
- */
-
-export type AutoraceRaceId = z.infer<typeof AutoraceRaceIdSchema>;

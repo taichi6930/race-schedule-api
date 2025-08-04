@@ -10,7 +10,7 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
-import type { KeirinRaceId } from '../../utility/data/common/raceId';
+import type { RaceId } from '../../utility/data/common/raceId';
 import { validateRaceId } from '../../utility/data/common/raceId';
 import {
     type RaceName,
@@ -48,7 +48,7 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: KeirinRaceId,
+        public readonly id: RaceId,
         public readonly name: RaceName,
         public readonly stage: KeirinRaceStage,
         public readonly dateTime: RaceDateTime,

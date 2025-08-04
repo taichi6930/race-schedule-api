@@ -6,10 +6,8 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../../domain/calendarData';
 import type { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
-import {
-    type JraRaceId,
-    validateJraRaceId,
-} from '../../utility/data/jra/jraRaceId';
+import type { RaceId } from '../../utility/data/common/raceId';
+import { validateRaceId } from '../../utility/data/common/raceId';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import {
     createNetkeibaJraRaceVideoUrl,
@@ -37,7 +35,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: JraRaceId,
+        public readonly id: RaceId,
         public readonly raceData: JraRaceData,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -54,7 +52,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         updateDate: Date,
     ): JraRaceEntity {
         return new JraRaceEntity(
-            validateJraRaceId(id),
+            validateRaceId(RaceType.JRA, id),
             raceData,
             validateUpdateDate(updateDate),
         );
@@ -192,7 +190,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     //     event: calendar_v3.Schema$Event,
     // ): JraRaceEntity {
     //     return new JraRaceEntity(
-    //         validateJraRaceId(event.extendedProperties?.private?.raceId ?? ''),
+    //         validateRaceId(RaceType.JRA,event.extendedProperties?.private?.raceId ?? ''),
     //         JraRaceData.create(
     //             event.extendedProperties?.private?.name ?? '',
     //             new Date(event.extendedProperties?.private?.dateTime ?? ''),

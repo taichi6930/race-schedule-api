@@ -1,10 +1,9 @@
 import type { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
-import {
-    type NarPlaceId,
-    validateNarPlaceId,
-} from '../../utility/data/nar/narPlaceId';
+import type { PlaceId } from '../../utility/data/common/placeId';
+import { validatePlaceId } from '../../utility/data/common/placeId';
 import { generateNarPlaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
@@ -21,7 +20,7 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: NarPlaceId,
+        public readonly id: PlaceId,
         public readonly placeData: NarPlaceData,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -38,7 +37,7 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
         updateDate: Date,
     ): NarPlaceEntity {
         return new NarPlaceEntity(
-            validateNarPlaceId(id),
+            validatePlaceId(RaceType.NAR, id),
             placeData,
             validateUpdateDate(updateDate),
         );

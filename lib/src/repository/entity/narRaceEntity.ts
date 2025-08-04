@@ -7,14 +7,11 @@ import { CalendarData } from '../../domain/calendarData';
 import type { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
 import { NarBabacodeMap } from '../../utility/data/common/raceCourse';
+import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import {
     ChihoKeibaYoutubeUserIdMap,
     getYoutubeLiveUrl,
 } from '../../utility/data/movie';
-import {
-    type NarRaceId,
-    validateNarRaceId,
-} from '../../utility/data/nar/narRaceId';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
@@ -37,7 +34,7 @@ export class NarRaceEntity {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: NarRaceId,
+        public readonly id: RaceId,
         public readonly raceData: NarRaceData,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -54,7 +51,7 @@ export class NarRaceEntity {
         updateDate: Date,
     ): NarRaceEntity {
         return new NarRaceEntity(
-            validateNarRaceId(id),
+            validateRaceId(RaceType.NAR, id),
             raceData,
             validateUpdateDate(updateDate),
         );

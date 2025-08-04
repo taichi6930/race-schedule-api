@@ -1,10 +1,9 @@
 import type { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
-import {
-    type KeirinPlaceId,
-    validateKeirinPlaceId,
-} from '../../utility/data/keirin/keirinPlaceId';
+import type { PlaceId } from '../../utility/data/common/placeId';
+import { validatePlaceId } from '../../utility/data/common/placeId';
 import { generateKeirinPlaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
@@ -21,7 +20,7 @@ export class KeirinPlaceEntity implements IPlaceEntity<KeirinPlaceEntity> {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: KeirinPlaceId,
+        public readonly id: PlaceId,
         public readonly placeData: KeirinPlaceData,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -38,7 +37,7 @@ export class KeirinPlaceEntity implements IPlaceEntity<KeirinPlaceEntity> {
         updateDate: Date,
     ): KeirinPlaceEntity {
         return new KeirinPlaceEntity(
-            validateKeirinPlaceId(id),
+            validatePlaceId(RaceType.KEIRIN, id),
             placeData,
             validateUpdateDate(updateDate),
         );
