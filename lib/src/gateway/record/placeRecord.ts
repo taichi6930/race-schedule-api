@@ -4,14 +4,10 @@ import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
-import {
-    type RaceCourse,
-    validateRaceCourse,
-} from '../../utility/data/common/raceCourse';
-import {
-    type RaceDateTime,
-    validateRaceDateTime,
-} from '../../utility/data/common/raceDateTime';
+import type { RaceCourse } from '../../utility/data/common/raceCourse';
+import { validateRaceCourse } from '../../utility/data/common/raceCourse';
+import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
+import { validateRaceDateTime } from '../../utility/data/common/raceDateTime';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';

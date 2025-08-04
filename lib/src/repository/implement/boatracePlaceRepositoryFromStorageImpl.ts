@@ -4,9 +4,10 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { BoatracePlaceRecord } from '../../gateway/record/boatracePlaceRecord';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -23,7 +24,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('BoatracePlaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<BoatracePlaceRecord>,
+        private readonly s3Gateway: IS3Gateway<PlaceRecord>,
     ) {}
 
     /**
@@ -36,7 +37,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         // ファイル名リストから開催データを取得する
-        const placeRecordList: BoatracePlaceRecord[] =
+        const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         const placeEntityList: PlaceEntity[] = placeRecordList.map(
@@ -58,10 +59,10 @@ export class BoatracePlaceRepositoryFromStorageImpl
         placeEntityList: PlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchPlaceRecordList: BoatracePlaceRecord[] =
+        const existFetchPlaceRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
-        const placeRecordList: BoatracePlaceRecord[] = placeEntityList.map(
+        const placeRecordList: PlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
         );
 
@@ -93,7 +94,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
      * 開催場データをS3から取得する
      */
     @Logger
-    private async getPlaceRecordListFromS3(): Promise<BoatracePlaceRecord[]> {
+    private async getPlaceRecordListFromS3(): Promise<PlaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
 
@@ -117,9 +118,9 @@ export class BoatracePlaceRepositoryFromStorageImpl
             updateDate: headers.indexOf('updateDate'),
         };
 
-        const placeRecordList: BoatracePlaceRecord[] = lines
+        const placeRecordList: PlaceRecord[] = lines
             .slice(1)
-            .flatMap((line: string): BoatracePlaceRecord[] => {
+            .flatMap((line: string): PlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -128,8 +129,9 @@ export class BoatracePlaceRepositoryFromStorageImpl
                         : getJSTDate(new Date());
 
                     return [
-                        BoatracePlaceRecord.create(
+                        PlaceRecord.create(
                             columns[indices.id],
+                            RaceType.BOATRACE,
                             new Date(columns[indices.dateTime]),
                             columns[indices.location],
                             columns[indices.grade],

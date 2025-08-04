@@ -3,11 +3,9 @@ import { container } from 'tsyringe';
 import { S3Gateway } from '../../src/gateway/implement/s3Gateway';
 import type { IS3Gateway } from '../../src/gateway/interface/iS3Gateway';
 import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
-import type { BoatracePlaceRecord } from '../../src/gateway/record/boatracePlaceRecord';
 import type { BoatraceRaceRecord } from '../../src/gateway/record/boatraceRaceRecord';
 import type { JraPlaceRecord } from '../../src/gateway/record/jraPlaceRecord';
 import type { JraRaceRecord } from '../../src/gateway/record/jraRaceRecord';
-import type { KeirinPlaceRecord } from '../../src/gateway/record/keirinPlaceRecord';
 import type { KeirinRaceRecord } from '../../src/gateway/record/keirinRaceRecord';
 import type { NarPlaceRecord } from '../../src/gateway/record/narPlaceRecord';
 import type { NarRaceRecord } from '../../src/gateway/record/narRaceRecord';
@@ -18,17 +16,17 @@ import type { WorldRaceRecord } from '../../src/gateway/record/worldRaceRecord';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
 // s3Gatewayの実装クラスをDIコンテナに登錄する
-container.register<IS3Gateway<KeirinPlaceRecord>>('KeirinPlaceS3Gateway', {
+container.register<IS3Gateway<PlaceRecord>>('KeirinPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new S3Gateway<KeirinPlaceRecord>(
+                return new S3Gateway<PlaceRecord>(
                     process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
                     'keirin/',
                 );
             }
             case allowedEnvs.test: {
-                return new S3Gateway<KeirinPlaceRecord>(
+                return new S3Gateway<PlaceRecord>(
                     process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket-test',
                     'keirin/',
                 );
@@ -37,7 +35,7 @@ container.register<IS3Gateway<KeirinPlaceRecord>>('KeirinPlaceS3Gateway', {
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<KeirinPlaceRecord>(
+                return new MockS3Gateway<PlaceRecord>(
                     process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
                     'keirin/',
                 );
@@ -365,17 +363,17 @@ container.register<IS3Gateway<RacePlayerRecord>>(
         },
     },
 );
-container.register<IS3Gateway<BoatracePlaceRecord>>('BoatracePlaceS3Gateway', {
+container.register<IS3Gateway<PlaceRecord>>('BoatracePlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new S3Gateway<BoatracePlaceRecord>(
+                return new S3Gateway<PlaceRecord>(
                     'race-schedule-bucket',
                     'boatrace/',
                 );
             }
             case allowedEnvs.test: {
-                return new S3Gateway<BoatracePlaceRecord>(
+                return new S3Gateway<PlaceRecord>(
                     'race-schedule-bucket-test',
                     'boatrace/',
                 );
@@ -384,7 +382,7 @@ container.register<IS3Gateway<BoatracePlaceRecord>>('BoatracePlaceS3Gateway', {
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<BoatracePlaceRecord>(
+                return new MockS3Gateway<PlaceRecord>(
                     'race-schedule-bucket',
                     'boatrace/',
                 );

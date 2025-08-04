@@ -4,9 +4,10 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -23,7 +24,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('KeirinPlaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<KeirinPlaceRecord>,
+        private readonly s3Gateway: IS3Gateway<PlaceRecord>,
     ) {}
 
     /**
@@ -36,7 +37,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         // ファイル名リストから開催データを取得する
-        const placeRecordList: KeirinPlaceRecord[] =
+        const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // KeirinPlaceRecordをKeirinPlaceEntityに変換
@@ -59,11 +60,11 @@ export class KeirinPlaceRepositoryFromStorageImpl
         placeEntityList: PlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchPlaceRecordList: KeirinPlaceRecord[] =
+        const existFetchPlaceRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: KeirinPlaceRecord[] = placeEntityList.map(
+        const placeRecordList: PlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
         );
 
@@ -95,7 +96,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
      * 開催場データをS3から取得する
      */
     @Logger
-    private async getPlaceRecordListFromS3(): Promise<KeirinPlaceRecord[]> {
+    private async getPlaceRecordListFromS3(): Promise<PlaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
 
@@ -119,9 +120,9 @@ export class KeirinPlaceRepositoryFromStorageImpl
             updateDate: headers.indexOf('updateDate'),
         };
 
-        const placeRecordList: KeirinPlaceRecord[] = lines
+        const placeRecordList: PlaceRecord[] = lines
             .slice(1)
-            .flatMap((line: string): KeirinPlaceRecord[] => {
+            .flatMap((line: string): PlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -130,8 +131,9 @@ export class KeirinPlaceRepositoryFromStorageImpl
                         : getJSTDate(new Date());
 
                     return [
-                        KeirinPlaceRecord.create(
+                        PlaceRecord.create(
                             columns[indices.id],
+                            RaceType.KEIRIN,
                             new Date(columns[indices.dateTime]),
                             columns[indices.location],
                             columns[indices.grade],
