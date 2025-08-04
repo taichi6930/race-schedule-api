@@ -7,7 +7,7 @@ import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -16,7 +16,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  */
 @injectable()
 export class KeirinPlaceRepositoryFromStorageImpl
-    implements IPlaceRepository<KeirinPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
@@ -34,30 +34,29 @@ export class KeirinPlaceRepositoryFromStorageImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<KeirinPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const placeRecordList: KeirinPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // KeirinPlaceRecordをKeirinPlaceEntityに変換
-        const placeEntityList: KeirinPlaceEntity[] = placeRecordList.map(
+        const placeEntityList: PlaceEntity[] = placeRecordList.map(
             (placeRecord) => placeRecord.toEntity(),
         );
 
         // 日付の範囲でフィルタリング
-        const filteredPlaceEntityList: KeirinPlaceEntity[] =
-            placeEntityList.filter(
-                (placeEntity) =>
-                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
-            );
+        const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
+            (placeEntity) =>
+                placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                placeEntity.placeData.dateTime <= searchFilter.finishDate,
+        );
 
         return filteredPlaceEntityList;
     }
 
     @Logger
     public async registerPlaceEntityList(
-        placeEntityList: KeirinPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: KeirinPlaceRecord[] =

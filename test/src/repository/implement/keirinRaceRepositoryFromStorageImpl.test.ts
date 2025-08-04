@@ -10,8 +10,8 @@ import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
 import type { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
-import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
@@ -66,7 +66,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
             );
 
             // リクエストの作成
-            const searchFilter = new SearchRaceFilterEntity<KeirinPlaceEntity>(
+            const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );

@@ -1,5 +1,5 @@
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
-import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
+import { PlaceData } from '../../domain/placeData';
+import { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
@@ -86,10 +86,16 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
     /**
      * Entityに変換する
      */
-    public toEntity(): KeirinPlaceEntity {
-        return KeirinPlaceEntity.create(
+    public toEntity(): PlaceEntity {
+        return PlaceEntity.create(
             this.id,
-            KeirinPlaceData.create(this.dateTime, this.location, this.grade),
+            RaceType.KEIRIN,
+            PlaceData.create(
+                RaceType.KEIRIN,
+                this.dateTime,
+                this.location,
+                this.grade,
+            ),
             this.updateDate,
         );
     }

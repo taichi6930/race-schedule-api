@@ -10,7 +10,6 @@ import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -20,7 +19,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class KeirinRaceRepositoryFromStorageImpl
-    implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
+    implements IRaceRepository<KeirinRaceEntity, PlaceEntity>
 {
     private readonly raceListFileName = 'raceList.csv';
     private readonly racePlayerListFileName = 'racePlayerList.csv';
@@ -38,7 +37,7 @@ export class KeirinRaceRepositoryFromStorageImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
         // ファイル名リストから選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =

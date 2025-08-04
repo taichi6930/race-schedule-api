@@ -1,26 +1,26 @@
 import { baseKeirinRacePlayerDataList } from '../../../../test/src/mock/common/baseKeirinData';
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
+import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
 export class MockKeirinRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
+    implements IRaceRepository<KeirinRaceEntity, PlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
         const { placeEntityList } = searchFilter;
         const raceEntityList: KeirinRaceEntity[] = [];
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
-                const placeData: KeirinPlaceData = placeEntity.placeData;
+                const placeData: PlaceData = placeEntity.placeData;
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
                     const raceStage = i === 12 ? 'S級決勝' : 'S級予選';

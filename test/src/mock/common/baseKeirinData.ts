@@ -1,12 +1,12 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
-import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import type { RaceStage } from '../../../../lib/src/utility/data/common/raceStage';
@@ -33,7 +33,8 @@ const baseKeirinRaceNumber = 11;
 const baseKeirinRaceStage: RaceStage = 'S級グランプリ';
 const baseKeirinRaceUpdateDate = getJSTDate(new Date('2025-10-01 16:30'));
 
-export const baseKeirinPlaceData = KeirinPlaceData.create(
+export const baseKeirinPlaceData = PlaceData.create(
+    RaceType.KEIRIN,
     baseKeirinPlaceDateTime,
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
@@ -72,7 +73,8 @@ export const baseKeirinRaceRecord = KeirinRaceRecord.create(
     baseKeirinRaceUpdateDate,
 );
 
-export const baseKeirinPlaceEntity = KeirinPlaceEntity.createWithoutId(
+export const baseKeirinPlaceEntity = PlaceEntity.createWithoutId(
+    RaceType.KEIRIN,
     baseKeirinPlaceData,
     baseKeirinRaceUpdateDate,
 );

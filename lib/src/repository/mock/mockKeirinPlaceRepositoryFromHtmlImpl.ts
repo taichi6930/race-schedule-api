@@ -1,13 +1,14 @@
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
+import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
+import { RaceType } from '../../utility/raceType';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
 export class MockKeirinPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<KeirinPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     /**
      * 競輪場データを取得する
@@ -16,15 +17,21 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<KeirinPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの競輪場データを取得する
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
             // 競輪場データを作成
-            const keirinPlaceEntity = KeirinPlaceEntity.createWithoutId(
-                KeirinPlaceData.create(new Date(currentDate), '川崎', 'GⅠ'),
+            const keirinPlaceEntity = PlaceEntity.createWithoutId(
+                RaceType.KEIRIN,
+                PlaceData.create(
+                    RaceType.KEIRIN,
+                    new Date(currentDate),
+                    '川崎',
+                    'GⅠ',
+                ),
                 getJSTDate(new Date()),
             );
             placeEntityList.push(keirinPlaceEntity);
@@ -42,7 +49,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
      */
     @Logger
     public async registerPlaceEntityList(
-        placeEntityList: KeirinPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

@@ -1,11 +1,9 @@
 import { container } from 'tsyringe';
 
 import type { AutoraceRaceEntity } from '../../src/repository/entity/autoraceRaceEntity';
-import type { BoatracePlaceEntity } from '../../src/repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../src/repository/entity/boatraceRaceEntity';
 import type { JraPlaceEntity } from '../../src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../src/repository/entity/jraRaceEntity';
-import type { KeirinPlaceEntity } from '../../src/repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../../src/repository/entity/keirinRaceEntity';
 import type { NarPlaceEntity } from '../../src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../src/repository/entity/narRaceEntity';
@@ -59,12 +57,13 @@ switch (ENV) {
             'JraPlaceRepositoryFromHtml',
             { useClass: JraPlaceRepositoryFromHtmlImpl },
         );
-        container.register<
-            IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
-        >('KeirinRaceRepositoryFromHtml', {
-            useClass: KeirinRaceRepositoryFromHtmlImpl,
-        });
-        container.register<IPlaceRepository<KeirinPlaceEntity>>(
+        container.register<IRaceRepository<KeirinRaceEntity, PlaceEntity>>(
+            'KeirinRaceRepositoryFromHtml',
+            {
+                useClass: KeirinRaceRepositoryFromHtmlImpl,
+            },
+        );
+        container.register<IPlaceRepository<PlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
             { useClass: KeirinPlaceRepositoryFromHtmlImpl },
         );
@@ -88,15 +87,16 @@ switch (ENV) {
                 useClass: AutoraceRaceRepositoryFromHtmlImpl,
             },
         );
-        container.register<IPlaceRepository<BoatracePlaceEntity>>(
+        container.register<IPlaceRepository<PlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',
             { useClass: BoatracePlaceRepositoryFromHtmlImpl },
         );
-        container.register<
-            IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
-        >('BoatraceRaceRepositoryFromHtml', {
-            useClass: BoatraceRaceRepositoryFromHtmlImpl,
-        });
+        container.register<IRaceRepository<BoatraceRaceEntity, PlaceEntity>>(
+            'BoatraceRaceRepositoryFromHtml',
+            {
+                useClass: BoatraceRaceRepositoryFromHtmlImpl,
+            },
+        );
         break;
     }
     case allowedEnvs.test:
@@ -119,12 +119,13 @@ switch (ENV) {
             'JraPlaceRepositoryFromHtml',
             { useClass: MockJraPlaceRepositoryFromHtmlImpl },
         );
-        container.register<
-            IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
-        >('KeirinRaceRepositoryFromHtml', {
-            useClass: MockKeirinRaceRepositoryFromHtmlImpl,
-        });
-        container.register<IPlaceRepository<KeirinPlaceEntity>>(
+        container.register<IRaceRepository<KeirinRaceEntity, PlaceEntity>>(
+            'KeirinRaceRepositoryFromHtml',
+            {
+                useClass: MockKeirinRaceRepositoryFromHtmlImpl,
+            },
+        );
+        container.register<IPlaceRepository<PlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
             { useClass: MockKeirinPlaceRepositoryFromHtmlImpl },
         );
@@ -142,15 +143,16 @@ switch (ENV) {
             'WorldRaceRepositoryFromHtml',
             { useClass: MockWorldRaceRepositoryFromHtmlImpl },
         );
-        container.register<IPlaceRepository<BoatracePlaceEntity>>(
+        container.register<IPlaceRepository<PlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',
             { useClass: MockBoatracePlaceRepositoryFromHtmlImpl },
         );
-        container.register<
-            IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
-        >('BoatraceRaceRepositoryFromHtml', {
-            useClass: MockBoatraceRaceRepositoryFromHtmlImpl,
-        });
+        container.register<IRaceRepository<BoatraceRaceEntity, PlaceEntity>>(
+            'BoatraceRaceRepositoryFromHtml',
+            {
+                useClass: MockBoatraceRaceRepositoryFromHtmlImpl,
+            },
+        );
         break;
     }
     default: {

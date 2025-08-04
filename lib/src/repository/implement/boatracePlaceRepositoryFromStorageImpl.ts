@@ -7,7 +7,7 @@ import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { BoatracePlaceRecord } from '../../gateway/record/boatracePlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -16,7 +16,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  */
 @injectable()
 export class BoatracePlaceRepositoryFromStorageImpl
-    implements IPlaceRepository<BoatracePlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
@@ -34,29 +34,28 @@ export class BoatracePlaceRepositoryFromStorageImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<BoatracePlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const placeRecordList: BoatracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
-        const placeEntityList: BoatracePlaceEntity[] = placeRecordList.map(
+        const placeEntityList: PlaceEntity[] = placeRecordList.map(
             (placeRecord) => placeRecord.toEntity(),
         );
 
         // 日付の範囲でフィルタリング
-        const filteredPlaceEntityList: BoatracePlaceEntity[] =
-            placeEntityList.filter(
-                (placeEntity) =>
-                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
-            );
+        const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
+            (placeEntity) =>
+                placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                placeEntity.placeData.dateTime <= searchFilter.finishDate,
+        );
 
         return filteredPlaceEntityList;
     }
 
     @Logger
     public async registerPlaceEntityList(
-        placeEntityList: BoatracePlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: BoatracePlaceRecord[] =

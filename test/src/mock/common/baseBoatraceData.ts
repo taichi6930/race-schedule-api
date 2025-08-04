@@ -1,12 +1,12 @@
-import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceRaceRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
-import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
+import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
@@ -32,7 +32,8 @@ const baseBoatraceRaceNumber = 11;
 const baseBoatraceRaceStage = '優勝戦';
 const baseBoatraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
-export const baseBoatracePlaceData = BoatracePlaceData.create(
+export const baseBoatracePlaceData = PlaceData.create(
+    RaceType.BOATRACE,
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,
     baseBoatracePlaceGrade,
@@ -71,7 +72,8 @@ export const baseBoatraceRaceRecord = BoatraceRaceRecord.create(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatracePlaceEntity = BoatracePlaceEntity.createWithoutId(
+export const baseBoatracePlaceEntity = PlaceEntity.createWithoutId(
+    RaceType.BOATRACE,
     baseBoatracePlaceData,
     baseBoatraceRaceUpdateDate,
 );

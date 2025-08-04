@@ -1,5 +1,5 @@
-import { BoatracePlaceData } from '../../domain/boatracePlaceData';
-import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
+import { PlaceData } from '../../domain/placeData';
+import { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
@@ -93,10 +93,16 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
     /**
      * BoatracePlaceEntityに変換する
      */
-    public toEntity(): BoatracePlaceEntity {
-        return BoatracePlaceEntity.create(
+    public toEntity(): PlaceEntity {
+        return PlaceEntity.create(
             this.id,
-            BoatracePlaceData.create(this.dateTime, this.location, this.grade),
+            RaceType.BOATRACE,
+            PlaceData.create(
+                RaceType.BOATRACE,
+                this.dateTime,
+                this.location,
+                this.grade,
+            ),
             this.updateDate,
         );
     }
