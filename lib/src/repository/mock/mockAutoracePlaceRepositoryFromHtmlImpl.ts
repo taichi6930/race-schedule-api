@@ -1,6 +1,7 @@
 import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { PlaceEntity } from '../entity/autoracePlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -26,7 +27,8 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
             const place = '伊勢崎';
             // オートレース場データを作成
             const autoracePlaceEntity = PlaceEntity.createWithoutId(
-                PlaceData.create(datetime, place, 'SG'),
+                RaceType.AUTORACE,
+                PlaceData.create(RaceType.AUTORACE, datetime, place, 'SG'),
                 getJSTDate(new Date()),
             );
             placeEntityList.push(autoracePlaceEntity);
