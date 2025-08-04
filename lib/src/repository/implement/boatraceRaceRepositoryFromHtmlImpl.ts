@@ -7,11 +7,11 @@ import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import {
-    BoatraceRaceStage,
-    BoatraceStageMap,
-} from '../../utility/data/boatrace/boatraceRaceStage';
 import { BoatraceGradeType } from '../../utility/data/common/gradeType';
+import {
+    BoatraceStageMap,
+    RaceStage,
+} from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -129,9 +129,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             return [];
         }
     }
-    private extractRaceStage(
-        raceSummaryInfoChild: string,
-    ): BoatraceRaceStage | null {
+    private extractRaceStage(raceSummaryInfoChild: string): RaceStage | null {
         for (const [pattern, stage] of Object.entries(BoatraceStageMap)) {
             if (new RegExp(pattern).test(raceSummaryInfoChild)) {
                 return stage;
@@ -142,7 +140,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 
     private extractRaceName(
         raceName: string,
-        raceStage: BoatraceRaceStage,
+        raceStage: RaceStage,
         raceNumber: number,
     ): string {
         // レース名に「チャレンジカップ」が含まれている場合で、

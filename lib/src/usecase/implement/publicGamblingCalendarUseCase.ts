@@ -10,7 +10,6 @@ import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
-import { BoatraceSpecifiedGradeAndStageList } from '../../utility/data/boatrace/boatraceRaceStage';
 import {
     AutoraceGradeType,
     BoatraceGradeType,
@@ -391,12 +390,17 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 );
 
                 const racePriority: number =
-                    BoatraceSpecifiedGradeAndStageList.find((raceGradeList) => {
+                    RaceGradeAndStageList.filter(
+                        (raceGradeList) =>
+                            raceGradeList.raceType === RaceType.BOATRACE,
+                    ).find((raceGradeList) => {
                         return (
                             displayGradeList.includes(
                                 raceEntity.raceData.grade,
                             ) &&
-                            raceGradeList.grade === raceEntity.raceData.grade &&
+                            raceGradeList.grade.includes(
+                                raceEntity.raceData.grade,
+                            ) &&
                             raceGradeList.stage === raceEntity.raceData.stage
                         );
                     })?.priority ?? 0;

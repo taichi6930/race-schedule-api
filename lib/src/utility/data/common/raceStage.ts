@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
-import { BoatraceRaceStageSchema } from '../boatrace/boatraceRaceStage';
 import type { GradeType } from './gradeType';
 
 /**
@@ -710,6 +709,30 @@ export const RaceGradeAndStageList: {
         priority: 0,
         description: 'SGの最終予選。',
     },
+    {
+        grade: ['SG'],
+        stage: '優勝戦',
+        stageByWebSite: ['優勝戦'],
+        raceType: RaceType.BOATRACE,
+        priority: 9,
+        description: 'SGの最終日に行われる決勝レース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '準優勝戦',
+        stageByWebSite: ['準優勝戦'],
+        raceType: RaceType.BOATRACE,
+        priority: 0,
+        description: 'SGの準決勝レース。決勝進出を目指す重要なレース。',
+    },
+    {
+        grade: ['SG'],
+        stage: '一般戦',
+        stageByWebSite: ['一般戦'],
+        raceType: RaceType.BOATRACE,
+        priority: 0,
+        description: 'SGの一般戦。',
+    },
 ];
 
 /**
@@ -798,6 +821,20 @@ export const AutoraceRaceStageSchema = z.string().refine((value) => {
  */
 export const AutoraceStageMap: Record<string, RaceStage> = StageMap(
     RaceType.AUTORACE,
+);
+
+/**
+ * BoatraceRaceStageのzod型定義
+ */
+export const BoatraceRaceStageSchema = z.string().refine((value) => {
+    return RaceStageList(RaceType.BOATRACE).has(value);
+}, 'ボートレースのステージではありません');
+
+/**
+ * HTMLのステージ名を正式名称に変換するためのマップ
+ */
+export const BoatraceStageMap: Record<string, RaceStage> = StageMap(
+    RaceType.BOATRACE,
 );
 
 /**

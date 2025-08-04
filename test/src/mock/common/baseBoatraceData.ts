@@ -7,7 +7,6 @@ import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceR
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
-import type { BoatraceRaceStage } from '../../../../lib/src/utility/data/boatrace/boatraceRaceStage';
 import type { BoatraceGradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { BoatraceRaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
@@ -29,7 +28,7 @@ const baseBoatracePlaceId = generateBoatracePlaceId(
 const baseBoatraceRaceName = 'グランプリ';
 const baseRaceDateTime = new Date('2024-12-31 16:30');
 const baseBoatraceRaceNumber = 11;
-const baseBoatraceRaceStage: BoatraceRaceStage = '優勝戦';
+const baseBoatraceRaceStage = '優勝戦';
 const baseBoatraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
 export const baseBoatracePlaceData = BoatracePlaceData.create(

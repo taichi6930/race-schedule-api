@@ -38,6 +38,9 @@ describe('RaceStage', () => {
             expect(validateRaceStage(RaceType.AUTORACE, '選抜戦')).toBe(
                 '選抜戦',
             );
+            expect(validateRaceStage(RaceType.BOATRACE, '優勝戦')).toBe(
+                '優勝戦',
+            );
         });
 
         it('異常系', () => {
@@ -47,6 +50,9 @@ describe('RaceStage', () => {
             expect(() =>
                 validateRaceStage(RaceType.AUTORACE, '不正なステージ'),
             ).toThrow('オートレースのステージではありません');
+            expect(() =>
+                validateRaceStage(RaceType.BOATRACE, '不正なステージ'),
+            ).toThrow('ボートレースのステージではありません');
         });
     });
 });
