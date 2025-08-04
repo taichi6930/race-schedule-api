@@ -672,6 +672,14 @@ export const RaceGradeAndStageList: {
     },
     {
         grade: ['SG'],
+        stage: 'オーバル特別',
+        stageByWebSite: ['オーバル特別'],
+        raceType: RaceType.AUTORACE,
+        priority: 9,
+        description: 'SGのオーバル特別レース。',
+    },
+    {
+        grade: ['SG'],
         stage: '予選',
         stageByWebSite: ['予選'],
         raceType: RaceType.AUTORACE,
