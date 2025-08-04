@@ -8,10 +8,7 @@ import { CalendarData } from '../../domain/calendarData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
 import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
-import {
-    type BoatraceRaceId,
-    validateRaceId,
-} from '../../utility/data/common/raceId';
+import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getBoatraceGoogleCalendarColorId } from '../../utility/googleCalendar';
@@ -37,7 +34,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: BoatraceRaceId,
+        public readonly id: RaceId,
         public readonly raceData: BoatraceRaceData,
         public readonly racePlayerDataList: RacePlayerData[],
         public readonly updateDate: UpdateDate,

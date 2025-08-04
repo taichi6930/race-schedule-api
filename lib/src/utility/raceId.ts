@@ -22,15 +22,9 @@ import {
     WorldPlaceCodeMap,
 } from './data/common/raceCourse';
 import type { RaceDateTime } from './data/common/raceDateTime';
-import type {
-    AutoraceRaceId,
-    BoatraceRaceId,
-    KeirinRaceId,
-    RaceId,
-} from './data/common/raceId';
+import type { RaceId } from './data/common/raceId';
 import type { RaceNumber } from './data/common/raceNumber';
 import type { RacePlayerId } from './data/common/racePlayerId';
-import type { JraRaceId } from './data/jra/jraRaceId';
 import type { KeirinPlaceId } from './data/keirin/keirinPlaceId';
 import type { NarPlaceId } from './data/nar/narPlaceId';
 import { NetkeibaBabacodeMap } from './data/netkeiba';
@@ -47,7 +41,7 @@ export const generateJraRaceId = (
     dateTime: Date,
     location: JraRaceCourse,
     number: RaceNumber,
-): JraRaceId => {
+): RaceId => {
     const numberCode = number.toXDigits(2);
     return `${generateJraPlaceId(dateTime, location)}${numberCode}`;
 };
@@ -60,7 +54,7 @@ export const generateJraRaceId = (
 export const generateJraPlaceId = (
     dateTime: Date,
     location: JraRaceCourse,
-): JraRaceId => {
+): RaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
     const locationCode = NetkeibaBabacodeMap[location];
     return `jra${dateCode}${locationCode}`;
@@ -155,7 +149,7 @@ export const generateKeirinRaceId = (
     dateTime: Date,
     location: KeirinRaceCourse,
     number: RaceNumber,
-): KeirinRaceId => {
+): RaceId => {
     const numberCode = number.toXDigits(2);
     return `${generateKeirinPlaceId(dateTime, location)}${numberCode}`;
 };
@@ -201,7 +195,7 @@ export const generateBoatraceRaceId = (
     dateTime: Date,
     location: BoatraceRaceCourse,
     number: RaceNumber,
-): BoatraceRaceId => {
+): RaceId => {
     const numberCode = number.toXDigits(2);
     return `${generateBoatracePlaceId(dateTime, location)}${numberCode}`;
 };
@@ -247,7 +241,7 @@ export const generateAutoraceRaceId = (
     dateTime: Date,
     location: AutoraceRaceCourse,
     number: RaceNumber,
-): AutoraceRaceId => {
+): RaceId => {
     const numberCode = number.toXDigits(2);
     return `${generateAutoracePlaceId(dateTime, location)}${numberCode}`;
 };

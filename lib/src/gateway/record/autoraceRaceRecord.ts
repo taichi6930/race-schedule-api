@@ -16,10 +16,8 @@ import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../utility/data/common/raceDateTime';
-import {
-    type AutoraceRaceId,
-    validateRaceId,
-} from '../../utility/data/common/raceId';
+import type { RaceId } from '../../utility/data/common/raceId';
+import { validateRaceId } from '../../utility/data/common/raceId';
 import type { RaceName } from '../../utility/data/common/raceName';
 import { validateRaceName } from '../../utility/data/common/raceName';
 import {
@@ -49,7 +47,7 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: AutoraceRaceId,
+        public readonly id: RaceId,
         public readonly name: RaceName,
         public readonly stage: AutoraceRaceStage,
         public readonly dateTime: RaceDateTime,

@@ -48,6 +48,11 @@ const BoatraceRaceIdSchema = RaceIdSchema(RaceType.BOATRACE);
 const NarRaceIdSchema = RaceIdSchema(RaceType.NAR);
 
 /**
+ * JraRaceIdのzod型定義
+ */
+const JraRaceIdSchema = RaceIdSchema(RaceType.JRA);
+
+/**
  * RaceIdのzod型定義
  */
 export type RaceId = z.infer<typeof UnionRaceIdSchema>;
@@ -72,7 +77,9 @@ export const validateRaceId = (raceType: RaceType, value: string): RaceId => {
         case RaceType.NAR: {
             return NarRaceIdSchema.parse(value);
         }
-        case RaceType.JRA:
+        case RaceType.JRA: {
+            return JraRaceIdSchema.parse(value);
+        }
         case RaceType.WORLD: {
             throw new Error(
                 `RaceId validation is not supported for ${raceType}`,
@@ -96,19 +103,5 @@ export const UnionRaceIdSchema = z.union([
     AutoraceRaceIdSchema,
     BoatraceRaceIdSchema,
     NarRaceIdSchema,
+    JraRaceIdSchema,
 ]);
-
-/**
- * KeirinRaceIdの型定義
- */
-export type KeirinRaceId = z.infer<typeof KeirinRaceIdSchema>;
-
-/**
- * BoatraceRaceIdの型定義
- */
-export type BoatraceRaceId = z.infer<typeof BoatraceRaceIdSchema>;
-
-/**
- * AutoraceRaceIdの型定義
- */
-export type AutoraceRaceId = z.infer<typeof AutoraceRaceIdSchema>;

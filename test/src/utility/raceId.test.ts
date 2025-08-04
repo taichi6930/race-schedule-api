@@ -3,7 +3,6 @@ import { validateBoatracePlaceId } from '../../../lib/src/utility/data/boatrace/
 import { validateRaceId } from '../../../lib/src/utility/data/common/raceId';
 import { validateRacePlayerId } from '../../../lib/src/utility/data/common/racePlayerId';
 import { validateJraPlaceId } from '../../../lib/src/utility/data/jra/jraPlaceId';
-import { validateJraRaceId } from '../../../lib/src/utility/data/jra/jraRaceId';
 import { validateKeirinPlaceId } from '../../../lib/src/utility/data/keirin/keirinPlaceId';
 import { validateNarPlaceId } from '../../../lib/src/utility/data/nar/narPlaceId';
 import { validateWorldPlaceId } from '../../../lib/src/utility/data/world/worldPlaceId';
@@ -32,19 +31,23 @@ describe('JraPlaceIdSchema', () => {
 describe('JraRaceIdSchema', () => {
     it('正しいJraRaceId', () => {
         const validJraRaceId = 'jra202108010101';
-        expect(validateJraRaceId(validJraRaceId)).toBe(validJraRaceId);
+        expect(validateRaceId(RaceType.JRA, validJraRaceId)).toBe(
+            validJraRaceId,
+        );
     });
 
     it('不正なJraRaceId', () => {
         const invalidJraRaceIdAndMessage = [
-            ['jraabc2021080101', 'JraRaceIdの形式ではありません'],
-            ['jra2021jra080101', 'JraRaceIdの形式ではありません'],
-            ['jra202108010', 'JraRaceIdの形式ではありません'],
+            ['jraabc2021080101', 'jraRaceIdの形式ではありません'],
+            ['jra2021jra080101', 'jraRaceIdの形式ではありません'],
+            ['jra202108010', 'jraRaceIdの形式ではありません'],
             ['nar202108010101', 'jraから始まる必要があります'],
             ['jra202108010113', 'レース番号は1~12の範囲である必要があります'],
         ];
         for (const [invalidId, message] of invalidJraRaceIdAndMessage) {
-            expect(() => validateJraRaceId(invalidId)).toThrow(message);
+            expect(() => validateRaceId(RaceType.JRA, invalidId)).toThrow(
+                message,
+            );
         }
     });
 });
