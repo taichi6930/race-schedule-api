@@ -2,10 +2,10 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { PlaceData } from '../../../../lib/src/domain/placeData';
+import { MechanicalRacingPlaceData } from '../../../../lib/src/domain/mechanicalRacingPlaceData';
 import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
+import { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
@@ -37,13 +37,13 @@ describe('KeirinRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<PlaceEntity>(
+                    new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         new Date('2024-10-20'),
                         new Date('2024-10-20'),
                         [
-                            PlaceEntity.createWithoutId(
+                            MechanicalRacingPlaceEntity.createWithoutId(
                                 RaceType.KEIRIN,
-                                PlaceData.create(
+                                MechanicalRacingPlaceData.create(
                                     RaceType.KEIRIN,
                                     new Date('2024-10-20'),
                                     '弥彦',

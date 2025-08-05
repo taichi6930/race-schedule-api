@@ -1,4 +1,4 @@
-import { PlaceData } from '../../../lib/src/domain/placeData';
+import { MechanicalRacingPlaceData } from '../../../lib/src/domain/mechanicalRacingPlaceData';
 import { RaceType } from '../../../lib/src/utility/raceType';
 import { baseKeirinPlaceData } from '../mock/common/baseKeirinData';
 
@@ -11,7 +11,7 @@ describe('KeirinPlaceDataクラスのテスト', () => {
     });
 
     it('日付を変更したKeirinPlaceDataのインスタンスを作成できることを確認', () => {
-        const placeData = PlaceData.create(
+        const placeData = MechanicalRacingPlaceData.create(
             RaceType.KEIRIN,
             new Date('2025-12-30'),
             '平塚',
@@ -26,7 +26,7 @@ describe('KeirinPlaceDataクラスのテスト', () => {
     });
 
     it('何も変更せずKeirinPlaceDataのインスタンスを作成できることを確認', () => {
-        const placeData = PlaceData.create(
+        const placeData = MechanicalRacingPlaceData.create(
             RaceType.KEIRIN,
             new Date('2025-12-30'),
             '平塚',

@@ -1,12 +1,12 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { PlaceData } from '../../../../lib/src/domain/placeData';
+import { MechanicalRacingPlaceData } from '../../../../lib/src/domain/mechanicalRacingPlaceData';
 import { RaceData } from '../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
-import { PlaceRecord } from '../../../../lib/src/gateway/record/placeRecord';
+import { MechanicalRacingPlaceRecord } from '../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import { RaceRecord } from '../../../../lib/src/gateway/record/raceRecord';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
-import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
+import { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import type { RaceStage } from '../../../../lib/src/utility/data/common/raceStage';
@@ -33,7 +33,7 @@ const baseKeirinRaceNumber = 11;
 const baseKeirinRaceStage: RaceStage = 'S級グランプリ';
 const baseKeirinRaceUpdateDate = getJSTDate(new Date('2025-10-01 16:30'));
 
-export const baseKeirinPlaceData = PlaceData.create(
+export const baseKeirinPlaceData = MechanicalRacingPlaceData.create(
     RaceType.KEIRIN,
     baseKeirinPlaceDateTime,
     baseKeirinPlaceCourse,
@@ -50,7 +50,7 @@ export const baseKeirinRaceData = RaceData.create(
     baseKeirinRaceNumber,
 );
 
-export const baseKeirinPlaceRecord = PlaceRecord.create(
+export const baseKeirinPlaceRecord = MechanicalRacingPlaceRecord.create(
     baseKeirinPlaceId,
     RaceType.KEIRIN,
     baseKeirinPlaceDateTime,
@@ -76,11 +76,12 @@ export const baseKeirinRaceRecord = RaceRecord.create(
     baseKeirinRaceUpdateDate,
 );
 
-export const baseKeirinPlaceEntity = PlaceEntity.createWithoutId(
-    RaceType.KEIRIN,
-    baseKeirinPlaceData,
-    baseKeirinRaceUpdateDate,
-);
+export const baseKeirinPlaceEntity =
+    MechanicalRacingPlaceEntity.createWithoutId(
+        RaceType.KEIRIN,
+        baseKeirinPlaceData,
+        baseKeirinRaceUpdateDate,
+    );
 
 export const baseKeirinRacePlayerDataList = Array.from(
     { length: 9 },

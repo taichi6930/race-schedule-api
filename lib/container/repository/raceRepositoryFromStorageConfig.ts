@@ -5,9 +5,9 @@ import type { BoatraceRaceEntity } from '../../src/repository/entity/boatraceRac
 import type { JraPlaceEntity } from '../../src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../src/repository/entity/jraRaceEntity';
 import type { KeirinRaceEntity } from '../../src/repository/entity/keirinRaceEntity';
+import type { MechanicalRacingPlaceEntity } from '../../src/repository/entity/mechanicalRacingPlaceEntity';
 import type { NarPlaceEntity } from '../../src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../src/repository/entity/narRaceEntity';
-import type { PlaceEntity } from '../../src/repository/entity/placeEntity';
 import type { WorldPlaceEntity } from '../../src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../src/repository/entity/worldRaceEntity';
 import { AutoraceRaceRepositoryFromStorageImpl } from '../../src/repository/implement/autoraceRaceRepositoryFromStorageImpl';
@@ -25,19 +25,22 @@ container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
     'JraRaceRepositoryFromStorage',
     { useClass: JraRaceRepositoryFromStorageImpl },
 );
-container.register<IRaceRepository<KeirinRaceEntity, PlaceEntity>>(
-    'KeirinRaceRepositoryFromStorage',
-    { useClass: KeirinRaceRepositoryFromStorageImpl },
-);
-container.register<IRaceRepository<AutoraceRaceEntity, PlaceEntity>>(
-    'AutoraceRaceRepositoryFromStorage',
-    { useClass: AutoraceRaceRepositoryFromStorageImpl },
-);
+container.register<
+    IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
+>('KeirinRaceRepositoryFromStorage', {
+    useClass: KeirinRaceRepositoryFromStorageImpl,
+});
+container.register<
+    IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
+>('AutoraceRaceRepositoryFromStorage', {
+    useClass: AutoraceRaceRepositoryFromStorageImpl,
+});
 container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
     'WorldRaceRepositoryFromStorage',
     { useClass: WorldRaceRepositoryFromStorageImpl },
 );
-container.register<IRaceRepository<BoatraceRaceEntity, PlaceEntity>>(
-    'BoatraceRaceRepositoryFromStorage',
-    { useClass: BoatraceRaceRepositoryFromStorageImpl },
-);
+container.register<
+    IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
+>('BoatraceRaceRepositoryFromStorage', {
+    useClass: BoatraceRaceRepositoryFromStorageImpl,
+});

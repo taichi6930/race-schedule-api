@@ -2,10 +2,10 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { PlaceData } from '../../../../lib/src/domain/placeData';
+import { MechanicalRacingPlaceData } from '../../../../lib/src/domain/mechanicalRacingPlaceData';
 import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
+import { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
@@ -38,13 +38,13 @@ describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<PlaceEntity>(
+                    new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
                         [
-                            PlaceEntity.createWithoutId(
+                            MechanicalRacingPlaceEntity.createWithoutId(
                                 RaceType.AUTORACE,
-                                PlaceData.create(
+                                MechanicalRacingPlaceData.create(
                                     RaceType.AUTORACE,
                                     new Date('2024-11-04'),
                                     '川口',

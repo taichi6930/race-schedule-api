@@ -1,14 +1,14 @@
-import { PlaceData } from '../../domain/placeData';
+import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { PlaceEntity } from '../entity/placeEntity';
+import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
 export class MockKeirinPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<PlaceEntity>
+    implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
     /**
      * 競輪場データを取得する
@@ -17,23 +17,24 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<MechanicalRacingPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの競輪場データを取得する
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
             // 競輪場データを作成
-            const keirinPlaceEntity = PlaceEntity.createWithoutId(
-                RaceType.KEIRIN,
-                PlaceData.create(
+            const keirinPlaceEntity =
+                MechanicalRacingPlaceEntity.createWithoutId(
                     RaceType.KEIRIN,
-                    new Date(currentDate),
-                    '川崎',
-                    'GⅠ',
-                ),
-                getJSTDate(new Date()),
-            );
+                    MechanicalRacingPlaceData.create(
+                        RaceType.KEIRIN,
+                        new Date(currentDate),
+                        '川崎',
+                        'GⅠ',
+                    ),
+                    getJSTDate(new Date()),
+                );
             placeEntityList.push(keirinPlaceEntity);
             // 日付を1日進める
             currentDate.setDate(currentDate.getDate() + 1);
@@ -49,7 +50,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
      */
     @Logger
     public async registerPlaceEntityList(
-        placeEntityList: PlaceEntity[],
+        placeEntityList: MechanicalRacingPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

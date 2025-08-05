@@ -1,3 +1,5 @@
+import type { GradeType } from '../utility/data/common/gradeType';
+import { validateGradeType } from '../utility/data/common/gradeType';
 import type { RaceCourse } from '../utility/data/common/raceCourse';
 import { validateRaceCourse } from '../utility/data/common/raceCourse';
 import {
@@ -10,7 +12,9 @@ import type { IPlaceData } from './iPlaceData';
 /**
  * レース開催場所データ
  */
-export class PlaceData implements IPlaceData<PlaceData> {
+export class MechanicalRacingPlaceData
+    implements IPlaceData<MechanicalRacingPlaceData>
+{
     /**
      * レース種別
      * @type {RaceType}
@@ -26,12 +30,18 @@ export class PlaceData implements IPlaceData<PlaceData> {
      * @type {RaceCourse}
      */
     public readonly location: RaceCourse;
+    /**
+     * グレード
+     * @type {GradeType}
+     */
+    public readonly grade: GradeType;
 
     /**
      * コンストラクタ
      * @param raceType - レース種別
      * @param dateTime - 開催日時
      * @param location - 開催場所
+     * @param grade - グレード
      * @remarks
      * レース開催場所データを生成する
      */
@@ -39,10 +49,12 @@ export class PlaceData implements IPlaceData<PlaceData> {
         raceType: RaceType,
         dateTime: RaceDateTime,
         location: RaceCourse,
+        grade: GradeType,
     ) {
         this.raceType = raceType;
         this.dateTime = dateTime;
         this.location = location;
+        this.grade = grade;
     }
 
     /**
@@ -51,16 +63,19 @@ export class PlaceData implements IPlaceData<PlaceData> {
      * @param raceType
      * @param dateTime - 開催日時
      * @param location - 開催場所
+     * @param grade - グレード
      */
     public static create(
         raceType: RaceType,
         dateTime: Date,
         location: string,
-    ): PlaceData {
-        return new PlaceData(
+        grade: string,
+    ): MechanicalRacingPlaceData {
+        return new MechanicalRacingPlaceData(
             raceType,
             validateRaceDateTime(dateTime),
             validateRaceCourse(raceType, location),
+            validateGradeType(raceType, grade),
         );
     }
 
@@ -68,11 +83,14 @@ export class PlaceData implements IPlaceData<PlaceData> {
      * データのコピー
      * @param partial - 上書きする部分データ
      */
-    public copy(partial: Partial<PlaceData> = {}): PlaceData {
-        return PlaceData.create(
+    public copy(
+        partial: Partial<MechanicalRacingPlaceData> = {},
+    ): MechanicalRacingPlaceData {
+        return MechanicalRacingPlaceData.create(
             partial.raceType ?? this.raceType,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
+            partial.grade ?? this.grade,
         );
     }
 }

@@ -1,5 +1,7 @@
-import { PlaceData } from '../../domain/placeData';
-import { PlaceEntity } from '../../repository/entity/placeEntity';
+import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
+import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
+import type { GradeType } from '../../utility/data/common/gradeType';
+import { validateGradeType } from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import type { RaceCourse } from '../../utility/data/common/raceCourse';
@@ -15,13 +17,16 @@ import type { IRecord } from './iRecord';
 /**
  * Repository層のRecord レース開催場所データ
  */
-export class PlaceRecord implements IRecord<PlaceRecord> {
+export class MechanicalRacingPlaceRecord
+    implements IRecord<MechanicalRacingPlaceRecord>
+{
     /**
      * コンストラクタ
      * @param id - ID
      * @param raceType - レース種別
      * @param dateTime - 開催日時
      * @param location - 開催場所
+     * @param grade - グレード
      * @param updateDate - 更新日時
      * @remarks
      * レース開催場所データを生成する
@@ -31,6 +36,7 @@ export class PlaceRecord implements IRecord<PlaceRecord> {
         public readonly raceType: RaceType,
         public readonly dateTime: RaceDateTime,
         public readonly location: RaceCourse,
+        public readonly grade: GradeType,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -40,6 +46,7 @@ export class PlaceRecord implements IRecord<PlaceRecord> {
      * @param raceType - レース種別
      * @param dateTime - 開催日時
      * @param location - 開催場所
+     * @param grade - グレード
      * @param updateDate - 更新日時
      */
     public static create(
@@ -47,14 +54,16 @@ export class PlaceRecord implements IRecord<PlaceRecord> {
         raceType: RaceType,
         dateTime: Date,
         location: string,
+        grade: string,
         updateDate: Date,
-    ): PlaceRecord {
+    ): MechanicalRacingPlaceRecord {
         try {
-            return new PlaceRecord(
+            return new MechanicalRacingPlaceRecord(
                 validatePlaceId(raceType, id),
                 raceType,
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(raceType, location),
+                validateGradeType(raceType, grade),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
@@ -68,12 +77,15 @@ export class PlaceRecord implements IRecord<PlaceRecord> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<PlaceRecord> = {}): PlaceRecord {
-        return PlaceRecord.create(
+    public copy(
+        partial: Partial<MechanicalRacingPlaceRecord> = {},
+    ): MechanicalRacingPlaceRecord {
+        return MechanicalRacingPlaceRecord.create(
             partial.id ?? this.id,
             partial.raceType ?? this.raceType,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
+            partial.grade ?? this.grade,
             partial.updateDate ?? this.updateDate,
         );
     }
@@ -81,11 +93,16 @@ export class PlaceRecord implements IRecord<PlaceRecord> {
     /**
      * PlaceEntityに変換する
      */
-    public toEntity(): PlaceEntity {
-        return PlaceEntity.create(
+    public toEntity(): MechanicalRacingPlaceEntity {
+        return MechanicalRacingPlaceEntity.create(
             this.id,
             this.raceType,
-            PlaceData.create(this.raceType, this.dateTime, this.location),
+            MechanicalRacingPlaceData.create(
+                this.raceType,
+                this.dateTime,
+                this.location,
+                this.grade,
+            ),
             this.updateDate,
         );
     }

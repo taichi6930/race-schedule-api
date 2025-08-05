@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceData } from '../../domain/placeData';
+import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { GradeType } from '../../utility/data/common/gradeType';
 import {
@@ -14,7 +14,7 @@ import {
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { PlaceEntity } from '../entity/placeEntity';
+import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -23,7 +23,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  */
 @injectable()
 export class KeirinPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<PlaceEntity>
+    implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
     public constructor(
         @inject('PlaceDataHtmlGateway')
@@ -38,7 +38,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<MechanicalRacingPlaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,
             searchFilter.finishDate,
@@ -48,14 +48,16 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                 this.fetchMonthPlaceEntityList(month),
             ),
         );
-        const placeEntityList: PlaceEntity[] = monthPlaceEntityLists.flat();
+        const placeEntityList: MechanicalRacingPlaceEntity[] =
+            monthPlaceEntityLists.flat();
 
         // startDateからfinishDateまでの中でのデータを取得
-        const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
-            (placeEntity) =>
-                placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                placeEntity.placeData.dateTime <= searchFilter.finishDate,
-        );
+        const filteredPlaceEntityList: MechanicalRacingPlaceEntity[] =
+            placeEntityList.filter(
+                (placeEntity) =>
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
+            );
 
         return filteredPlaceEntityList;
     }
@@ -92,8 +94,8 @@ export class KeirinPlaceRepositoryFromHtmlImpl
     @Logger
     private async fetchMonthPlaceEntityList(
         date: Date,
-    ): Promise<PlaceEntity[]> {
-        const keirinPlaceEntityList: PlaceEntity[] = [];
+    ): Promise<MechanicalRacingPlaceEntity[]> {
+        const keirinPlaceEntityList: MechanicalRacingPlaceEntity[] = [];
         console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
@@ -149,9 +151,9 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         // alt属性を出力
                         if (grade) {
                             keirinPlaceEntityList.push(
-                                PlaceEntity.createWithoutId(
+                                MechanicalRacingPlaceEntity.createWithoutId(
                                     RaceType.KEIRIN,
-                                    PlaceData.create(
+                                    MechanicalRacingPlaceData.create(
                                         RaceType.KEIRIN,
                                         datetime,
                                         place,
@@ -177,7 +179,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      */
     @Logger
     public async registerPlaceEntityList(
-        placeEntityList: PlaceEntity[],
+        placeEntityList: MechanicalRacingPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

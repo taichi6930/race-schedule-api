@@ -1,12 +1,12 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { PlaceData } from '../../../../lib/src/domain/placeData';
+import { MechanicalRacingPlaceData } from '../../../../lib/src/domain/mechanicalRacingPlaceData';
 import { RaceData } from '../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
-import { PlaceRecord } from '../../../../lib/src/gateway/record/placeRecord';
+import { MechanicalRacingPlaceRecord } from '../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import { RaceRecord } from '../../../../lib/src/gateway/record/raceRecord';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
-import { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
+import { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
@@ -32,7 +32,7 @@ const baseBoatraceRaceNumber = 11;
 const baseBoatraceRaceStage = '優勝戦';
 const baseBoatraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
-export const baseBoatracePlaceData = PlaceData.create(
+export const baseBoatracePlaceData = MechanicalRacingPlaceData.create(
     RaceType.BOATRACE,
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,
@@ -49,7 +49,7 @@ export const baseBoatraceRaceData = RaceData.create(
     baseBoatraceRaceNumber,
 );
 
-export const baseBoatracePlaceRecord = PlaceRecord.create(
+export const baseBoatracePlaceRecord = MechanicalRacingPlaceRecord.create(
     baseBoatracePlaceId,
     RaceType.BOATRACE,
     baseBoatracePlaceDateTime,
@@ -75,11 +75,12 @@ export const baseBoatraceRaceRecord = RaceRecord.create(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatracePlaceEntity = PlaceEntity.createWithoutId(
-    RaceType.BOATRACE,
-    baseBoatracePlaceData,
-    baseBoatraceRaceUpdateDate,
-);
+export const baseBoatracePlaceEntity =
+    MechanicalRacingPlaceEntity.createWithoutId(
+        RaceType.BOATRACE,
+        baseBoatracePlaceData,
+        baseBoatraceRaceUpdateDate,
+    );
 
 export const baseBoatraceRacePlayerData = RacePlayerData.create(
     RaceType.BOATRACE,
