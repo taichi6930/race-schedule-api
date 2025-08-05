@@ -1,12 +1,17 @@
 import { inject, injectable } from 'tsyringe';
 
+import { NarPlaceData } from '../../domain/narPlaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
-import { IOldPlaceRepository } from '../../repository/interface/IPlaceRepository';
+import {
+    IOldPlaceRepository,
+    IPlaceRepository,
+} from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { IPlaceDataService } from '../interface/IPlaceDataService';
 
 /**
@@ -35,6 +40,8 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         protected boatracePlaceRepositoryFromStorage: IOldPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('BoatracePlaceRepositoryFromHtml')
         protected boatracePlaceRepositoryFromHtml: IOldPlaceRepository<MechanicalRacingPlaceEntity>,
+        @inject('PlaceRepository')
+        protected placeRepository: IPlaceRepository,
     ) {}
 
     /**
@@ -101,15 +108,28 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 result.jra.push(...jraPlaceEntityList);
             }
             if (raceTypeList.includes('nar')) {
-                const narPlaceEntityList: NarPlaceEntity[] =
-                    type === DataLocation.Storage
-                        ? await this.narPlaceRepositoryFromStorage.fetchPlaceEntityList(
-                              searchFilter,
-                          )
-                        : await this.narPlaceRepositoryFromHtml.fetchPlaceEntityList(
-                              searchFilter,
-                          );
-                result.nar.push(...narPlaceEntityList);
+                if (type === DataLocation.Storage) {
+                    const placeRecordList =
+                        await this.placeRepository.findByRaceType(RaceType.NAR);
+                    const placeEntityList: NarPlaceEntity[] =
+                        placeRecordList.map((record) =>
+                            NarPlaceEntity.create(
+                                record.id,
+                                NarPlaceData.create(
+                                    record.dateTime,
+                                    record.location,
+                                ),
+                                record.updateDate,
+                            ),
+                        );
+                    result.nar.push(...placeEntityList);
+                } else {
+                    const narPlaceEntityList: NarPlaceEntity[] =
+                        await this.narPlaceRepositoryFromHtml.fetchPlaceEntityList(
+                            searchFilter,
+                        );
+                    result.nar.push(...narPlaceEntityList);
+                }
             }
             if (raceTypeList.includes('keirin')) {
                 const keirinPlaceEntityList: MechanicalRacingPlaceEntity[] =

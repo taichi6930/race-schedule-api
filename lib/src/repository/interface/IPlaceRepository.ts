@@ -1,5 +1,6 @@
 import type { PlaceRecord } from '../../gateway/record/placeRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
+import type { RaceType } from '../../utility/raceType';
 import type { IPlaceEntity } from '../entity/iPlaceEntity';
 import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 
@@ -70,6 +71,14 @@ export interface IPlaceRepository {
      * @returns 指定されたIDの開催場所情報
      */
     findById: (id: PlaceId) => PlaceRecord | undefined;
+
+    /**
+     * 開催場所情報をレースタイプで取得します。
+     * @param raceType - レースタイプ
+     * @returns 指定されたレースタイプの開催場所情報のリスト
+     */
+    findByRaceType: (raceType: RaceType) => Promise<PlaceRecord[]>;
+
     /**
      * 全ての開催場所情報を取得します。
      * @returns 開催場所情報のリスト
