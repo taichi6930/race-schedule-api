@@ -1,3 +1,5 @@
+import type { PlaceRecord } from '../../gateway/record/placeRecord';
+import type { PlaceId } from '../../utility/data/common/placeId';
 import type { IPlaceEntity } from '../entity/iPlaceEntity';
 import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 
@@ -54,4 +56,28 @@ export interface IOldPlaceRepository<P extends IPlaceEntity<P>> {
      *               - 一意制約違反が発生
      */
     registerPlaceEntityList: (placeEntityList: P[]) => Promise<void>;
+}
+
+export interface IPlaceRepository {
+    /**
+     * 開催場所情報を登録または更新します。
+     * @param place - 登録または更新する開催場所情報
+     */
+    upsert: (place: PlaceRecord) => void;
+    /**
+     *
+     * @param id - 開催場所のID
+     * @returns 指定されたIDの開催場所情報
+     */
+    findById: (id: PlaceId) => PlaceRecord | undefined;
+    /**
+     * 全ての開催場所情報を取得します。
+     * @returns 開催場所情報のリスト
+     */
+    findAll: () => Promise<PlaceRecord[]>;
+    /**
+     * IDで開催場所情報を削除します。
+     * @param id - 開催場所のID
+     */
+    deleteById: (id: PlaceId) => void;
 }
