@@ -16,3 +16,20 @@ FOR EACH ROW
 BEGIN
     UPDATE players SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
 END;
+
+CREATE TABLE IF NOT EXISTS places (
+    id INTEGER PRIMARY KEY
+    ,race_type TEXT NOT NULL
+    ,date_time DATETIME NOT NULL
+    ,location TEXT NOT NULL
+    ,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ,UNIQUE(id)
+);
+
+CREATE TRIGGER IF NOT EXISTS update_places_updated_at
+AFTER UPDATE ON places
+FOR EACH ROW
+BEGIN
+    UPDATE places SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+END;
