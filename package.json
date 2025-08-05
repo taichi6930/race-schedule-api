@@ -31,7 +31,7 @@
         "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check",
         "check:sqlite": "TZ=jst ENV=LOCAL ts-node lib/scripts/check-sqlite.ts",
         "sqliteInit": "TZ=jst npx tsx --tsconfig tsconfig.json lib/scripts/sqliteInit.ts",
-        "db:init": "TZ=jst npx tsx scripts/init-db.ts",
+        "db:init": "pnpm run s3-data-update;TZ=jst npx tsx scripts/init-db.ts",
         "db:setup": "TZ=jst ts-node lib/scripts/sqliteSetting.ts"
     },
     "engines": {
