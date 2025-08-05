@@ -1,7 +1,6 @@
 -- DBスキーマ定義
 CREATE TABLE IF NOT EXISTS players (
-    id INTEGER PRIMARY KEY AUTOINCREMENT
-    ,race_type TEXT NOT NULL
+    race_type TEXT NOT NULL
     ,player_no TEXT NOT NULL
     ,player_name TEXT NOT NULL
     ,priority INTEGER NOT NULL DEFAULT 0
