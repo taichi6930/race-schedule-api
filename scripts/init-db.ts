@@ -1,4 +1,5 @@
 import Database from 'better-sqlite3';
+import { parse as csvParse } from 'csv-parse/sync';
 import fs from 'fs';
 import path from 'path';
 
@@ -208,6 +209,46 @@ const insertStmt = db.prepare(
 for (const player of playerList) {
     insertStmt.run(player);
 }
+
+// ...既存のplayers投入処理...
+
+// places投入処理
+const placeCsvPath = path.resolve(
+    __dirname,
+    '../lib/src/gateway/mockData/csv/nar/placeList.csv',
+);
+const placeCsv = fs.readFileSync(placeCsvPath, 'utf-8');
+const placeRecords: any[] = csvParse(placeCsv, {
+    columns: true,
+    skip_empty_lines: true,
+});
+
+console.log('playersテーブルにCSV投入完了:', dbPath);
+
+// 既存データ削除
+const deletePlacesStmt = db.prepare('DELETE FROM places');
+deletePlacesStmt.run();
+
+const insertPlaceStmt = db.prepare(
+    `INSERT OR IGNORE INTO places (id, race_type, date_time, location) VALUES (@id, @race_type, @date_time, @location)`,
+);
+
+for (const rec of placeRecords) {
+    const row = rec as any;
+    // undefined行や空行はスキップ
+    if (!row.id || row.id === 'undefined') {
+        console.warn('Skipping row with undefined id:', row);
+        continue;
+    }
+    insertPlaceStmt.run({
+        id: row.id,
+        race_type: 'NAR',
+        date_time: row.dateTime,
+        location: row.location,
+    });
+}
+
+console.log('placesテーブルにCSV投入完了:', dbPath);
 
 console.log('DB初期化・データ投入完了:', dbPath);
 db.close();

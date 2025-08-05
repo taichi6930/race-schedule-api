@@ -17,7 +17,7 @@ BEGIN
 END;
 
 CREATE TABLE IF NOT EXISTS places (
-    id INTEGER PRIMARY KEY
+    id TEXT PRIMARY KEY
     ,race_type TEXT NOT NULL
     ,date_time DATETIME NOT NULL
     ,location TEXT NOT NULL

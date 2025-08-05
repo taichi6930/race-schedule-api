@@ -47,6 +47,7 @@
         "better-sqlite3": "12.2.0",
         "cheerio": "^1.1.2",
         "constructs": "^10.4.2",
+        "csv-parse": "^6.1.0",
         "csv-writer": "^1.6.0",
         "date-fns": "^4.1.0",
         "dotenv": "^17.2.1",
