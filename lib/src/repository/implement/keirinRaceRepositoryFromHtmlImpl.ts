@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceData } from '../../domain/placeData';
+import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
 import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
@@ -13,7 +13,7 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
-import { PlaceEntity } from '../entity/placeEntity';
+import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -22,7 +22,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class KeirinRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<KeirinRaceEntity, PlaceEntity>
+    implements IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -35,7 +35,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
         const keirinRaceDataList: KeirinRaceEntity[] = [];
         const { placeEntityList } = searchFilter;
@@ -56,7 +56,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
 
     @Logger
     public async fetchRaceListFromHtmlWithKeirinPlace(
-        placeData: PlaceData,
+        placeData: MechanicalRacingPlaceData,
     ): Promise<KeirinRaceEntity[]> {
         try {
             const [year, month, day] = [

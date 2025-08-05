@@ -3,9 +3,9 @@ import type { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEnt
 import type { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import type { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import type { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
-import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { DataLocationType } from '../../utility/dataType';
@@ -47,9 +47,9 @@ export interface IRaceDataService {
             jra?: JraPlaceEntity[];
             nar?: NarPlaceEntity[];
             world?: WorldPlaceEntity[];
-            keirin?: PlaceEntity[];
-            autorace?: PlaceEntity[];
-            boatrace?: PlaceEntity[];
+            keirin?: MechanicalRacingPlaceEntity[];
+            autorace?: MechanicalRacingPlaceEntity[];
+            boatrace?: MechanicalRacingPlaceEntity[];
         },
     ) => Promise<{
         jra: JraRaceEntity[];

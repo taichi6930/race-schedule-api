@@ -11,7 +11,7 @@ import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gatewa
 import type { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import type { RaceRecord } from '../../../../lib/src/gateway/record/raceRecord';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
-import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
+import type { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
@@ -67,10 +67,11 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
             );
 
             // リクエストの作成
-            const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
-                new Date('2024-01-01'),
-                new Date('2024-02-01'),
-            );
+            const searchFilter =
+                new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
+                    new Date('2024-01-01'),
+                    new Date('2024-02-01'),
+                );
             // テスト実行
             const raceEntityList =
                 await repository.fetchRaceEntityList(searchFilter);

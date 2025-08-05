@@ -4,11 +4,11 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { PlaceRecord } from '../../gateway/record/placeRecord';
+import { MechanicalRacingPlaceRecord } from '../../gateway/record/mechanicalRacingPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { PlaceEntity } from '../entity/placeEntity';
+import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -17,14 +17,14 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  */
 @injectable()
 export class AutoracePlaceRepositoryFromStorageImpl
-    implements IPlaceRepository<PlaceEntity>
+    implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
     public constructor(
         @inject('AutoracePlaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<PlaceRecord>,
+        private readonly s3Gateway: IS3Gateway<MechanicalRacingPlaceRecord>,
     ) {}
 
     /**
@@ -36,37 +36,36 @@ export class AutoracePlaceRepositoryFromStorageImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<MechanicalRacingPlaceEntity[]> {
         // ファイル名リストから開催データを取得する
-        const placeRecordList: PlaceRecord[] =
+        const placeRecordList: MechanicalRacingPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
-        const placeEntityList: PlaceEntity[] = placeRecordList.map(
-            (placeRecord) => placeRecord.toEntity(),
-        );
+        const placeEntityList: MechanicalRacingPlaceEntity[] =
+            placeRecordList.map((placeRecord) => placeRecord.toEntity());
 
         // 日付の範囲でフィルタリング
-        const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
-            (placeEntity) =>
-                placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                placeEntity.placeData.dateTime <= searchFilter.finishDate,
-        );
+        const filteredPlaceEntityList: MechanicalRacingPlaceEntity[] =
+            placeEntityList.filter(
+                (placeEntity) =>
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
+            );
 
         return filteredPlaceEntityList;
     }
 
     @Logger
     public async registerPlaceEntityList(
-        placeEntityList: PlaceEntity[],
+        placeEntityList: MechanicalRacingPlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchPlaceRecordList: PlaceRecord[] =
+        const existFetchPlaceRecordList: MechanicalRacingPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: PlaceRecord[] = placeEntityList.map(
-            (placeEntity) => placeEntity.toRecord(),
-        );
+        const placeRecordList: MechanicalRacingPlaceRecord[] =
+            placeEntityList.map((placeEntity) => placeEntity.toRecord());
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
         for (const placeRecord of placeRecordList) {
@@ -96,7 +95,9 @@ export class AutoracePlaceRepositoryFromStorageImpl
      * 開催場データをS3から取得する
      */
     @Logger
-    private async getPlaceRecordListFromS3(): Promise<PlaceRecord[]> {
+    private async getPlaceRecordListFromS3(): Promise<
+        MechanicalRacingPlaceRecord[]
+    > {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
 
@@ -120,9 +121,9 @@ export class AutoracePlaceRepositoryFromStorageImpl
             updateDate: headers.indexOf('updateDate'),
         };
 
-        const placeRecordList: PlaceRecord[] = lines
+        const placeRecordList: MechanicalRacingPlaceRecord[] = lines
             .slice(1)
-            .flatMap((line: string): PlaceRecord[] => {
+            .flatMap((line: string): MechanicalRacingPlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -131,7 +132,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
                         : getJSTDate(new Date());
 
                     return [
-                        PlaceRecord.create(
+                        MechanicalRacingPlaceRecord.create(
                             columns[indices.id],
                             RaceType.AUTORACE,
                             new Date(columns[indices.dateTime]),

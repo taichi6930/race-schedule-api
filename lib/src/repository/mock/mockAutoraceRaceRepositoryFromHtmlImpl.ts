@@ -3,17 +3,17 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
-import { PlaceEntity } from '../entity/placeEntity';
+import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // AutoraceRaceRepositoryFromHtmlImplのモックを作成
 export class MockAutoraceRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<AutoraceRaceEntity, PlaceEntity>
+    implements IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
     ): Promise<AutoraceRaceEntity[]> {
         const { placeEntityList } = searchFilter;
         const raceEntityList: AutoraceRaceEntity[] = [];

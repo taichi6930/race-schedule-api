@@ -12,7 +12,9 @@ import type { IPlaceData } from './iPlaceData';
 /**
  * レース開催場所データ
  */
-export class PlaceData implements IPlaceData<PlaceData> {
+export class MechanicalRacingPlaceData
+    implements IPlaceData<MechanicalRacingPlaceData>
+{
     /**
      * レース種別
      * @type {RaceType}
@@ -68,8 +70,8 @@ export class PlaceData implements IPlaceData<PlaceData> {
         dateTime: Date,
         location: string,
         grade: string,
-    ): PlaceData {
-        return new PlaceData(
+    ): MechanicalRacingPlaceData {
+        return new MechanicalRacingPlaceData(
             raceType,
             validateRaceDateTime(dateTime),
             validateRaceCourse(raceType, location),
@@ -81,8 +83,10 @@ export class PlaceData implements IPlaceData<PlaceData> {
      * データのコピー
      * @param partial - 上書きする部分データ
      */
-    public copy(partial: Partial<PlaceData> = {}): PlaceData {
-        return PlaceData.create(
+    public copy(
+        partial: Partial<MechanicalRacingPlaceData> = {},
+    ): MechanicalRacingPlaceData {
+        return MechanicalRacingPlaceData.create(
             partial.raceType ?? this.raceType,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

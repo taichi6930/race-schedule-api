@@ -11,7 +11,7 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
-import { PlaceEntity } from '../entity/placeEntity';
+import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -20,7 +20,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class BoatraceRaceRepositoryFromStorageImpl
-    implements IRaceRepository<BoatraceRaceEntity, PlaceEntity>
+    implements IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
 {
     private readonly raceListFileName = 'raceList.csv';
     private readonly racePlayerListFileName = 'racePlayerList.csv';
@@ -38,7 +38,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
     ): Promise<BoatraceRaceEntity[]> {
         // ファイル名リストからボートレース選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =

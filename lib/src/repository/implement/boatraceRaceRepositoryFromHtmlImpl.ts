@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceData } from '../../domain/placeData';
+import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
 import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
@@ -16,7 +16,7 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
-import { PlaceEntity } from '../entity/placeEntity';
+import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -25,7 +25,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class BoatraceRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<BoatraceRaceEntity, PlaceEntity>
+    implements IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -38,7 +38,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
     ): Promise<BoatraceRaceEntity[]> {
         const boatraceRaceDataList: BoatraceRaceEntity[] = [];
         const { placeEntityList } = searchFilter;
@@ -59,7 +59,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 
     @Logger
     public async fetchRaceListFromHtmlWithBoatracePlace(
-        placeData: PlaceData,
+        placeData: MechanicalRacingPlaceData,
     ): Promise<BoatraceRaceEntity[]> {
         try {
             const [year, month, day] = [

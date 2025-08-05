@@ -1,5 +1,5 @@
-import type { PlaceData } from '../../domain/placeData';
-import { PlaceRecord } from '../../gateway/record/placeRecord';
+import type { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
+import { MechanicalRacingPlaceRecord } from '../../gateway/record/mechanicalRacingPlaceRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import { generatePlaceId } from '../../utility/raceId';
@@ -10,7 +10,9 @@ import type { IPlaceEntity } from './iPlaceEntity';
 /**
  * Repository層のEntity レース開催場所データ
  */
-export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
+export class MechanicalRacingPlaceEntity
+    implements IPlaceEntity<MechanicalRacingPlaceEntity>
+{
     /**
      * コンストラクタ
      * @param id - ID
@@ -23,7 +25,7 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
     private constructor(
         public readonly id: PlaceId,
         public readonly raceType: RaceType,
-        public readonly placeData: PlaceData,
+        public readonly placeData: MechanicalRacingPlaceData,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -37,10 +39,10 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
     public static create(
         id: string,
         raceType: RaceType,
-        placeData: PlaceData,
+        placeData: MechanicalRacingPlaceData,
         updateDate: Date,
-    ): PlaceEntity {
-        return new PlaceEntity(
+    ): MechanicalRacingPlaceEntity {
+        return new MechanicalRacingPlaceEntity(
             validatePlaceId(raceType, id),
             raceType,
             placeData,
@@ -56,10 +58,10 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
      */
     public static createWithoutId(
         raceType: RaceType,
-        placeData: PlaceData,
+        placeData: MechanicalRacingPlaceData,
         updateDate: Date,
-    ): PlaceEntity {
-        return PlaceEntity.create(
+    ): MechanicalRacingPlaceEntity {
+        return MechanicalRacingPlaceEntity.create(
             generatePlaceId(raceType, placeData.dateTime, placeData.location),
             raceType,
             placeData,
@@ -71,8 +73,10 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<PlaceEntity> = {}): PlaceEntity {
-        return PlaceEntity.create(
+    public copy(
+        partial: Partial<MechanicalRacingPlaceEntity> = {},
+    ): MechanicalRacingPlaceEntity {
+        return MechanicalRacingPlaceEntity.create(
             partial.id ?? this.id,
             partial.raceType ?? this.raceType,
             partial.placeData ?? this.placeData,
@@ -81,10 +85,10 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
     }
 
     /**
-     * AutoracePlaceRecordに変換する
+     * PlaceRecordに変換する
      */
-    public toRecord(): PlaceRecord {
-        return PlaceRecord.create(
+    public toRecord(): MechanicalRacingPlaceRecord {
+        return MechanicalRacingPlaceRecord.create(
             this.id,
             this.raceType,
             this.placeData.dateTime,

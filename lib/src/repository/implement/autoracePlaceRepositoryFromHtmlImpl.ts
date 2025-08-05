@@ -4,14 +4,14 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceData } from '../../domain/placeData';
+import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { GradeType } from '../../utility/data/common/gradeType';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { PlaceEntity } from '../entity/placeEntity';
+import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -20,7 +20,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  */
 @injectable()
 export class AutoracePlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<PlaceEntity>
+    implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
     public constructor(
         @inject('PlaceDataHtmlGateway')
@@ -35,7 +35,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<MechanicalRacingPlaceEntity[]> {
         // 月リストを生成
         const monthList = [
             ...this.generateMonthList(
@@ -100,8 +100,8 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     @Logger
     private async fetchMonthPlaceEntityList(
         date: Date,
-    ): Promise<PlaceEntity[]> {
-        const autoracePlaceEntityList: PlaceEntity[] = [];
+    ): Promise<MechanicalRacingPlaceEntity[]> {
+        const autoracePlaceEntityList: MechanicalRacingPlaceEntity[] = [];
         console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
@@ -173,9 +173,9 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                     // alt属性を出力
                     if (grade) {
                         autoracePlaceEntityList.push(
-                            PlaceEntity.createWithoutId(
+                            MechanicalRacingPlaceEntity.createWithoutId(
                                 RaceType.AUTORACE,
-                                PlaceData.create(
+                                MechanicalRacingPlaceData.create(
                                     RaceType.AUTORACE,
                                     datetime,
                                     place,
@@ -198,7 +198,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     public async registerPlaceEntityList(
-        placeEntityList: PlaceEntity[],
+        placeEntityList: MechanicalRacingPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

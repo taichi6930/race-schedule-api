@@ -7,9 +7,9 @@ import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/b
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import type { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
-import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
@@ -45,25 +45,25 @@ describe('PublicGamblingRaceDataService', () => {
         IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
     >;
     let keirinRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<KeirinRaceEntity, PlaceEntity>
+        IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let keirinRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<KeirinRaceEntity, PlaceEntity>
+        IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let boatraceRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<BoatraceRaceEntity, PlaceEntity>
+        IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let boatraceRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<BoatraceRaceEntity, PlaceEntity>
+        IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let autoraceRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<AutoraceRaceEntity, PlaceEntity>
+        IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let autoraceRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<AutoraceRaceEntity, PlaceEntity>
+        IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let placeRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<PlaceEntity>
+        IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     let service: PublicGamblingRaceDataService;
 
@@ -117,64 +117,64 @@ describe('PublicGamblingRaceDataService', () => {
         // keirin
         keirinRaceRepositoryFromStorageImpl = mockRaceRepository<
             KeirinRaceEntity,
-            PlaceEntity
+            MechanicalRacingPlaceEntity
         >();
         container.registerInstance<
-            IRaceRepository<KeirinRaceEntity, PlaceEntity>
+            IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
         >(
             'KeirinRaceRepositoryFromStorage',
             keirinRaceRepositoryFromStorageImpl,
         );
         keirinRaceRepositoryFromHtmlImpl = mockRaceRepository<
             KeirinRaceEntity,
-            PlaceEntity
+            MechanicalRacingPlaceEntity
         >();
         container.registerInstance<
-            IRaceRepository<KeirinRaceEntity, PlaceEntity>
+            IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
         >('KeirinRaceRepositoryFromHtml', keirinRaceRepositoryFromHtmlImpl);
 
         // boatrace
         boatraceRaceRepositoryFromStorageImpl = mockRaceRepository<
             BoatraceRaceEntity,
-            PlaceEntity
+            MechanicalRacingPlaceEntity
         >();
         container.registerInstance<
-            IRaceRepository<BoatraceRaceEntity, PlaceEntity>
+            IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
         >(
             'BoatraceRaceRepositoryFromStorage',
             boatraceRaceRepositoryFromStorageImpl,
         );
         boatraceRaceRepositoryFromHtmlImpl = mockRaceRepository<
             BoatraceRaceEntity,
-            PlaceEntity
+            MechanicalRacingPlaceEntity
         >();
         container.registerInstance<
-            IRaceRepository<BoatraceRaceEntity, PlaceEntity>
+            IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
         >('BoatraceRaceRepositoryFromHtml', boatraceRaceRepositoryFromHtmlImpl);
 
         autoraceRaceRepositoryFromStorageImpl = mockRaceRepository<
             AutoraceRaceEntity,
-            PlaceEntity
+            MechanicalRacingPlaceEntity
         >();
         container.registerInstance<
-            IRaceRepository<AutoraceRaceEntity, PlaceEntity>
+            IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
         >(
             'AutoraceRaceRepositoryFromStorage',
             autoraceRaceRepositoryFromStorageImpl,
         );
         autoraceRaceRepositoryFromHtmlImpl = mockRaceRepository<
             AutoraceRaceEntity,
-            PlaceEntity
+            MechanicalRacingPlaceEntity
         >();
         container.registerInstance<
-            IRaceRepository<AutoraceRaceEntity, PlaceEntity>
+            IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
         >('AutoraceRaceRepositoryFromHtml', autoraceRaceRepositoryFromHtmlImpl);
 
-        placeRepositoryFromStorageImpl = mockPlaceRepository<PlaceEntity>();
-        container.registerInstance<IPlaceRepository<PlaceEntity>>(
-            'AutoracePlaceRepositoryFromStorage',
-            placeRepositoryFromStorageImpl,
-        );
+        placeRepositoryFromStorageImpl =
+            mockPlaceRepository<MechanicalRacingPlaceEntity>();
+        container.registerInstance<
+            IPlaceRepository<MechanicalRacingPlaceEntity>
+        >('AutoracePlaceRepositoryFromStorage', placeRepositoryFromStorageImpl);
 
         // AutoraceRaceCalendarServiceをコンテナから取得
         service = container.resolve(PublicGamblingRaceDataService);

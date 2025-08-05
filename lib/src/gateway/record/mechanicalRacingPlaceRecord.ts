@@ -1,5 +1,5 @@
-import { PlaceData } from '../../domain/placeData';
-import { PlaceEntity } from '../../repository/entity/placeEntity';
+import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
+import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
@@ -17,7 +17,9 @@ import type { IRecord } from './iRecord';
 /**
  * Repository層のRecord レース開催場所データ
  */
-export class PlaceRecord implements IRecord<PlaceRecord> {
+export class MechanicalRacingPlaceRecord
+    implements IRecord<MechanicalRacingPlaceRecord>
+{
     /**
      * コンストラクタ
      * @param id - ID
@@ -54,9 +56,9 @@ export class PlaceRecord implements IRecord<PlaceRecord> {
         location: string,
         grade: string,
         updateDate: Date,
-    ): PlaceRecord {
+    ): MechanicalRacingPlaceRecord {
         try {
-            return new PlaceRecord(
+            return new MechanicalRacingPlaceRecord(
                 validatePlaceId(raceType, id),
                 raceType,
                 validateRaceDateTime(dateTime),
@@ -75,8 +77,10 @@ export class PlaceRecord implements IRecord<PlaceRecord> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<PlaceRecord> = {}): PlaceRecord {
-        return PlaceRecord.create(
+    public copy(
+        partial: Partial<MechanicalRacingPlaceRecord> = {},
+    ): MechanicalRacingPlaceRecord {
+        return MechanicalRacingPlaceRecord.create(
             partial.id ?? this.id,
             partial.raceType ?? this.raceType,
             partial.dateTime ?? this.dateTime,
@@ -89,11 +93,11 @@ export class PlaceRecord implements IRecord<PlaceRecord> {
     /**
      * PlaceEntityに変換する
      */
-    public toEntity(): PlaceEntity {
-        return PlaceEntity.create(
+    public toEntity(): MechanicalRacingPlaceEntity {
+        return MechanicalRacingPlaceEntity.create(
             this.id,
             this.raceType,
-            PlaceData.create(
+            MechanicalRacingPlaceData.create(
                 this.raceType,
                 this.dateTime,
                 this.location,
