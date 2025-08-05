@@ -92,6 +92,13 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
             const searchFilter = new SearchPlaceFilterEntity(
                 startDate,
                 finishDate,
+                [
+                    // RaceType.JRA,
+                    RaceType.NAR,
+                    // RaceType.KEIRIN,
+                    // RaceType.AUTORACE,
+                    // RaceType.BOATRACE,
+                ],
             );
             if (raceTypeList.length === 0 && type !== DataLocation.Storage) {
                 return result;
@@ -110,7 +117,9 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
             if (raceTypeList.includes('nar')) {
                 if (type === DataLocation.Storage) {
                     const placeRecordList =
-                        await this.placeRepository.findByRaceType(RaceType.NAR);
+                        await this.placeRepository.findBySearchFilter(
+                            searchFilter,
+                        );
                     const placeEntityList: NarPlaceEntity[] =
                         placeRecordList.map((record) =>
                             NarPlaceEntity.create(

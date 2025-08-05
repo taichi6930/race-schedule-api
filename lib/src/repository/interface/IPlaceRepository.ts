@@ -80,6 +80,14 @@ export interface IPlaceRepository {
     findByRaceType: (raceType: RaceType) => Promise<PlaceRecord[]>;
 
     /**
+     * 指定された検索条件に基づいて開催場所情報を取得します。
+     * @returns 開催場所情報のリスト
+     */
+    findBySearchFilter: (
+        searchFilter: SearchPlaceFilterEntity,
+    ) => Promise<PlaceRecord[]>;
+
+    /**
      * 全ての開催場所情報を取得します。
      * @returns 開催場所情報のリスト
      */
