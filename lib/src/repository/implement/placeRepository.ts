@@ -2,46 +2,46 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import type { ISQLiteGateway } from '../../gateway/interface/ISQLiteGateway';
+import { ISQLiteGateway } from '../../gateway/interface/ISQLiteGateway';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
+import { PlaceId } from '../../utility/data/common/placeId';
 import { Logger } from '../../utility/logger';
-import type { IPlayerRepository, Player } from '../interface/IPlayerRepository';
+import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
-export class PlaceRepository implements IPlayerRepository {
+export class PlaceRepository implements IPlaceRepository {
     public constructor(
         @inject('SQLiteGateway')
         private readonly gateway: ISQLiteGateway,
     ) {}
 
     @Logger
-    public upsert(player: Player): void {
-        const query = `INSERT INTO players (id, race_type, player_no, player_name, priority)
-      VALUES (?, ?, ?, ?, ?)
-      ON CONFLICT(id) DO UPDATE SET
-        race_type=excluded.race_type,
-        player_no=excluded.player_no,
-        player_name=excluded.player_name,
-        priority=excluded.priority`;
+    public upsert(place: PlaceRecord): void {
+        const query = `
+            INSERT INTO places (id, raceType, dateTime, location)
+                VALUES (?, ?, ?, ?)
+                ON CONFLICT(id) DO UPDATE SET
+                raceType=excluded.raceType,
+                dateTime=excluded.dateTime,
+                location=excluded.location`;
         this.gateway.run(query, [
-            player.id,
-            player.race_type,
-            player.player_no,
-            player.player_name,
-            player.priority,
+            place.id,
+            place.raceType,
+            place.dateTime,
+            place.location,
         ]);
     }
 
     @Logger
-    public findById(id: string): Player | undefined {
-        const query = 'SELECT * FROM players WHERE id = ?';
-        return this.gateway.get<Player>(query, [id]);
+    public findById(id: PlaceId): PlaceRecord | undefined {
+        const query = 'SELECT * FROM places WHERE id = ?';
+        return this.gateway.get<PlaceRecord>(query, [id]);
     }
 
     @Logger
-    public async findAll(): Promise<Player[]> {
-        const query = 'SELECT * FROM players';
-        const result = await this.gateway.all<Player>(query);
-        console.log('findAll result:', result);
+    public async findAll(): Promise<PlaceRecord[]> {
+        const query = 'SELECT * FROM places';
+        const result = await this.gateway.all<PlaceRecord>(query);
         return Array.isArray(result)
             ? Promise.resolve(result)
             : Promise.resolve([]);
@@ -49,7 +49,7 @@ export class PlaceRepository implements IPlayerRepository {
 
     @Logger
     public deleteById(id: string): void {
-        const query = 'DELETE FROM players WHERE id = ?';
+        const query = 'DELETE FROM places WHERE id = ?';
         this.gateway.run(query, [id]);
     }
 }
