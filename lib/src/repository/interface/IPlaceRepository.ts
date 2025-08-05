@@ -21,7 +21,7 @@ import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity'
  * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
  *               例：JraPlaceEntity, NarPlaceEntity など
  */
-export interface IPlaceRepository<P extends IPlaceEntity<P>> {
+export interface IOldPlaceRepository<P extends IPlaceEntity<P>> {
     /**
      * 指定された検索条件に基づいて開催場所データを取得します
      *

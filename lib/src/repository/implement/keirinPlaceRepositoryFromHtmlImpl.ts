@@ -16,14 +16,14 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { IOldPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
  * 競輪場データリポジトリの実装
  */
 @injectable()
 export class KeirinPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<MechanicalRacingPlaceEntity>
+    implements IOldPlaceRepository<MechanicalRacingPlaceEntity>
 {
     public constructor(
         @inject('PlaceDataHtmlGateway')

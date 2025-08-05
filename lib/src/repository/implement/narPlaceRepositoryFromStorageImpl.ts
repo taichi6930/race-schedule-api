@@ -8,11 +8,11 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { IOldPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
 export class NarPlaceRepositoryFromStorageImpl
-    implements IPlaceRepository<NarPlaceEntity>
+    implements IOldPlaceRepository<NarPlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';

@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
-import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
+import type { IOldPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/implement/publicGamblingPlaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
@@ -17,59 +17,59 @@ import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('PublicGamblingPlaceDataService', () => {
     let jraPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<JraPlaceEntity>
+        IOldPlaceRepository<JraPlaceEntity>
     >;
     let jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<JraPlaceEntity>
+        IOldPlaceRepository<JraPlaceEntity>
     >;
     let narPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<NarPlaceEntity>
+        IOldPlaceRepository<NarPlaceEntity>
     >;
     let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<NarPlaceEntity>
+        IOldPlaceRepository<NarPlaceEntity>
     >;
     let keirinPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IOldPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     let keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IOldPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     let boatracePlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IOldPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     let boatracePlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IOldPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     let autoracePlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IOldPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     let autoracePlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IOldPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     let service: PublicGamblingPlaceDataService;
 
     beforeEach(() => {
         jraPlaceRepositoryFromStorageImpl =
             mockPlaceRepository<JraPlaceEntity>();
-        container.registerInstance<IPlaceRepository<JraPlaceEntity>>(
+        container.registerInstance<IOldPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromStorage',
             jraPlaceRepositoryFromStorageImpl,
         );
 
         jraPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.registerInstance<IPlaceRepository<JraPlaceEntity>>(
+        container.registerInstance<IOldPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
             jraPlaceRepositoryFromHtmlImpl,
         );
         narPlaceRepositoryFromStorageImpl =
             mockPlaceRepository<NarPlaceEntity>();
-        container.registerInstance<IPlaceRepository<NarPlaceEntity>>(
+        container.registerInstance<IOldPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromStorage',
             narPlaceRepositoryFromStorageImpl,
         );
 
         narPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.registerInstance<IPlaceRepository<NarPlaceEntity>>(
+        container.registerInstance<IOldPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromHtml',
             narPlaceRepositoryFromHtmlImpl,
         );
@@ -77,7 +77,7 @@ describe('PublicGamblingPlaceDataService', () => {
         keirinPlaceRepositoryFromStorageImpl =
             mockPlaceRepository<MechanicalRacingPlaceEntity>();
         container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
+            IOldPlaceRepository<MechanicalRacingPlaceEntity>
         >(
             'KeirinPlaceRepositoryFromStorage',
             keirinPlaceRepositoryFromStorageImpl,
@@ -85,13 +85,13 @@ describe('PublicGamblingPlaceDataService', () => {
 
         keirinPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
         container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
+            IOldPlaceRepository<MechanicalRacingPlaceEntity>
         >('KeirinPlaceRepositoryFromHtml', keirinPlaceRepositoryFromHtmlImpl);
 
         boatracePlaceRepositoryFromStorageImpl =
             mockPlaceRepository<MechanicalRacingPlaceEntity>();
         container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
+            IOldPlaceRepository<MechanicalRacingPlaceEntity>
         >(
             'BoatracePlaceRepositoryFromStorage',
             boatracePlaceRepositoryFromStorageImpl,
@@ -99,7 +99,7 @@ describe('PublicGamblingPlaceDataService', () => {
 
         boatracePlaceRepositoryFromHtmlImpl = mockPlaceRepository();
         container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
+            IOldPlaceRepository<MechanicalRacingPlaceEntity>
         >(
             'BoatracePlaceRepositoryFromHtml',
             boatracePlaceRepositoryFromHtmlImpl,
@@ -108,7 +108,7 @@ describe('PublicGamblingPlaceDataService', () => {
         autoracePlaceRepositoryFromStorageImpl =
             mockPlaceRepository<MechanicalRacingPlaceEntity>();
         container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
+            IOldPlaceRepository<MechanicalRacingPlaceEntity>
         >(
             'AutoracePlaceRepositoryFromStorage',
             autoracePlaceRepositoryFromStorageImpl,
@@ -116,7 +116,7 @@ describe('PublicGamblingPlaceDataService', () => {
 
         autoracePlaceRepositoryFromHtmlImpl = mockPlaceRepository();
         container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
+            IOldPlaceRepository<MechanicalRacingPlaceEntity>
         >(
             'AutoracePlaceRepositoryFromHtml',
             autoracePlaceRepositoryFromHtmlImpl,

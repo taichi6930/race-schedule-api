@@ -3,11 +3,11 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { IOldPlaceRepository } from '../interface/IPlaceRepository';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
 export class MockNarPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<NarPlaceEntity>
+    implements IOldPlaceRepository<NarPlaceEntity>
 {
     /**
      * 地方競馬場データを取得する

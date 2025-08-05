@@ -4,11 +4,11 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { IOldPlaceRepository } from '../interface/IPlaceRepository';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
 export class MockKeirinPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<MechanicalRacingPlaceEntity>
+    implements IOldPlaceRepository<MechanicalRacingPlaceEntity>
 {
     /**
      * 競輪場データを取得する

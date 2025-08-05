@@ -11,14 +11,14 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { IOldPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
  * Narデータリポジトリの実装
  */
 @injectable()
 export class NarPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<NarPlaceEntity>
+    implements IOldPlaceRepository<NarPlaceEntity>
 {
     public constructor(
         @inject('PlaceDataHtmlGateway')

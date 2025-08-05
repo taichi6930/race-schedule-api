@@ -1,8 +1,8 @@
 import type { IPlaceEntity } from '../../../../lib/src/repository/entity/iPlaceEntity';
-import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
+import type { IOldPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 
 export const mockPlaceRepository = <P extends IPlaceEntity<P>>(): jest.Mocked<
-    IPlaceRepository<P>
+    IOldPlaceRepository<P>
 > => {
     return {
         fetchPlaceEntityList: jest.fn().mockResolvedValue(Promise.resolve([])),

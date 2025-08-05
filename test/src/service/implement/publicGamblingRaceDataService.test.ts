@@ -12,7 +12,7 @@ import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPl
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
-import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
+import type { IOldPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { PublicGamblingRaceDataService } from '../../../../lib/src/service/implement/publicGamblingRaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
@@ -63,7 +63,7 @@ describe('PublicGamblingRaceDataService', () => {
         IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let placeRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IOldPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     let service: PublicGamblingRaceDataService;
 
@@ -173,7 +173,7 @@ describe('PublicGamblingRaceDataService', () => {
         placeRepositoryFromStorageImpl =
             mockPlaceRepository<MechanicalRacingPlaceEntity>();
         container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
+            IOldPlaceRepository<MechanicalRacingPlaceEntity>
         >('AutoracePlaceRepositoryFromStorage', placeRepositoryFromStorageImpl);
 
         // AutoraceRaceCalendarServiceをコンテナから取得

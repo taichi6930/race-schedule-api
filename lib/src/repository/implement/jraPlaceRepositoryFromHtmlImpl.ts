@@ -10,11 +10,11 @@ import { generatePlaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { IOldPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
 export class JraPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<JraPlaceEntity>
+    implements IOldPlaceRepository<JraPlaceEntity>
 {
     public constructor(
         @inject('PlaceDataHtmlGateway')

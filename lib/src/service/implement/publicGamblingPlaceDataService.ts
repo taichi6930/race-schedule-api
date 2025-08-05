@@ -4,7 +4,7 @@ import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
+import { IOldPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataService } from '../interface/IPlaceDataService';
@@ -16,25 +16,25 @@ import { IPlaceDataService } from '../interface/IPlaceDataService';
 export class PublicGamblingPlaceDataService implements IPlaceDataService {
     public constructor(
         @inject('JraPlaceRepositoryFromStorage')
-        protected jraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
+        protected jraPlaceRepositoryFromStorage: IOldPlaceRepository<JraPlaceEntity>,
         @inject('JraPlaceRepositoryFromHtml')
-        protected jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
+        protected jraPlaceRepositoryFromHtml: IOldPlaceRepository<JraPlaceEntity>,
         @inject('NarPlaceRepositoryFromStorage')
-        protected narPlaceRepositoryFromStorage: IPlaceRepository<NarPlaceEntity>,
+        protected narPlaceRepositoryFromStorage: IOldPlaceRepository<NarPlaceEntity>,
         @inject('NarPlaceRepositoryFromHtml')
-        protected narPlaceRepositoryFromHtml: IPlaceRepository<NarPlaceEntity>,
+        protected narPlaceRepositoryFromHtml: IOldPlaceRepository<NarPlaceEntity>,
         @inject('KeirinPlaceRepositoryFromStorage')
-        protected keirinPlaceRepositoryFromStorage: IPlaceRepository<MechanicalRacingPlaceEntity>,
+        protected keirinPlaceRepositoryFromStorage: IOldPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('KeirinPlaceRepositoryFromHtml')
-        protected keirinPlaceRepositoryFromHtml: IPlaceRepository<MechanicalRacingPlaceEntity>,
+        protected keirinPlaceRepositoryFromHtml: IOldPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('AutoracePlaceRepositoryFromStorage')
-        protected autoracePlaceRepositoryFromStorage: IPlaceRepository<MechanicalRacingPlaceEntity>,
+        protected autoracePlaceRepositoryFromStorage: IOldPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('AutoracePlaceRepositoryFromHtml')
-        protected autoracePlaceRepositoryFromHtml: IPlaceRepository<MechanicalRacingPlaceEntity>,
+        protected autoracePlaceRepositoryFromHtml: IOldPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('BoatracePlaceRepositoryFromStorage')
-        protected boatracePlaceRepositoryFromStorage: IPlaceRepository<MechanicalRacingPlaceEntity>,
+        protected boatracePlaceRepositoryFromStorage: IOldPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('BoatracePlaceRepositoryFromHtml')
-        protected boatracePlaceRepositoryFromHtml: IPlaceRepository<MechanicalRacingPlaceEntity>,
+        protected boatracePlaceRepositoryFromHtml: IOldPlaceRepository<MechanicalRacingPlaceEntity>,
     ) {}
 
     /**

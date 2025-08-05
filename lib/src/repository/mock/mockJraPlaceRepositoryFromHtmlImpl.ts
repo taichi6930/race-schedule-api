@@ -3,11 +3,11 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { IOldPlaceRepository } from '../interface/IPlaceRepository';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
 export class MockJraPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<JraPlaceEntity>
+    implements IOldPlaceRepository<JraPlaceEntity>
 {
     /**
      * 中央競馬場データを取得する

@@ -10,14 +10,14 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { IOldPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
  * 競輪データリポジトリの実装
  */
 @injectable()
 export class KeirinPlaceRepositoryFromStorageImpl
-    implements IPlaceRepository<MechanicalRacingPlaceEntity>
+    implements IOldPlaceRepository<MechanicalRacingPlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
