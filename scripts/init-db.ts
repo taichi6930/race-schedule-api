@@ -211,18 +211,6 @@ for (const player of playerList) {
 }
 
 // ...既存のplayers投入処理...
-
-// places投入処理
-const placeCsvPath = path.resolve(
-    __dirname,
-    '../lib/src/gateway/mockData/csv/nar/placeList.csv',
-);
-const placeCsv = fs.readFileSync(placeCsvPath, 'utf-8');
-const placeRecords: any[] = csvParse(placeCsv, {
-    columns: true,
-    skip_empty_lines: true,
-});
-
 console.log('playersテーブルにCSV投入完了:', dbPath);
 
 // 既存データ削除
@@ -233,7 +221,18 @@ const insertPlaceStmt = db.prepare(
     `INSERT OR IGNORE INTO places (id, race_type, date_time, location) VALUES (@id, @race_type, @date_time, @location)`,
 );
 
-for (const rec of placeRecords) {
+// places投入処理
+const narPlaceCsvPath = path.resolve(
+    __dirname,
+    '../lib/src/gateway/mockData/csv/nar/placeList.csv',
+);
+const narPlaceCsv = fs.readFileSync(narPlaceCsvPath, 'utf-8');
+const narPlaceRecords: any[] = csvParse(narPlaceCsv, {
+    columns: true,
+    skip_empty_lines: true,
+});
+
+for (const rec of narPlaceRecords) {
     const row = rec as any;
     // undefined行や空行はスキップ
     if (!row.id || row.id === 'undefined') {
@@ -243,6 +242,81 @@ for (const rec of placeRecords) {
     insertPlaceStmt.run({
         id: row.id,
         race_type: 'NAR',
+        date_time: row.dateTime,
+        location: row.location,
+    });
+}
+
+const jraPlaceCsvPath = path.resolve(
+    __dirname,
+    '../lib/src/gateway/mockData/csv/jra/placeList.csv',
+);
+const jraPlaceCsv = fs.readFileSync(jraPlaceCsvPath, 'utf-8');
+const jraPlaceRecords: any[] = csvParse(jraPlaceCsv, {
+    columns: true,
+    skip_empty_lines: true,
+});
+
+for (const rec of jraPlaceRecords) {
+    const row = rec as any;
+    // undefined行や空行はスキップ
+    if (!row.id || row.id === 'undefined') {
+        console.warn('Skipping row with undefined id:', row);
+        continue;
+    }
+    insertPlaceStmt.run({
+        id: row.id,
+        race_type: 'JRA',
+        date_time: row.dateTime,
+        location: row.location,
+    });
+}
+
+const keirinPlaceCsvPath = path.resolve(
+    __dirname,
+    '../lib/src/gateway/mockData/csv/keirin/placeList.csv',
+);
+const keirinPlaceCsv = fs.readFileSync(keirinPlaceCsvPath, 'utf-8');
+const keirinPlaceRecords: any[] = csvParse(keirinPlaceCsv, {
+    columns: true,
+    skip_empty_lines: true,
+});
+
+for (const rec of keirinPlaceRecords) {
+    const row = rec as any;
+    // undefined行や空行はスキップ
+    if (!row.id || row.id === 'undefined') {
+        console.warn('Skipping row with undefined id:', row);
+        continue;
+    }
+    insertPlaceStmt.run({
+        id: row.id,
+        race_type: 'KEIRIN',
+        date_time: row.dateTime,
+        location: row.location,
+    });
+}
+
+const autoracePlaceCsvPath = path.resolve(
+    __dirname,
+    '../lib/src/gateway/mockData/csv/autorace/placeList.csv',
+);
+const autoracePlaceCsv = fs.readFileSync(autoracePlaceCsvPath, 'utf-8');
+const autoracePlaceRecords: any[] = csvParse(autoracePlaceCsv, {
+    columns: true,
+    skip_empty_lines: true,
+});
+
+for (const rec of autoracePlaceRecords) {
+    const row = rec as any;
+    // undefined行や空行はスキップ
+    if (!row.id || row.id === 'undefined') {
+        console.warn('Skipping row with undefined id:', row);
+        continue;
+    }
+    insertPlaceStmt.run({
+        id: row.id,
+        race_type: 'AUTORACE',
         date_time: row.dateTime,
         location: row.location,
     });
