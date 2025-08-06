@@ -781,7 +781,7 @@ const RaceStageList: (raceType: RaceType) => Set<string> = (raceType) =>
  * HTML表記・oddspark表記の両方をカバーするステージ名マップ
  * @param raceType
  */
-export const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
+const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
     raceType,
 ) =>
     Object.fromEntries(
