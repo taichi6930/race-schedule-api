@@ -1,5 +1,6 @@
 import '../../utility/format';
 
+import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { JraHeldDayData } from '../../domain/jraHeldDayData';
 import { RaceData } from '../../domain/raceData';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
@@ -153,12 +154,11 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
                 this.name,
                 this.dateTime,
                 this.location,
-                this.surfaceType,
-                this.distance,
                 this.grade,
                 this.number,
             ),
             JraHeldDayData.create(this.heldTimes, this.heldDayTimes),
+            HorseRaceConditionData.create(this.surfaceType, this.distance),
             this.updateDate,
         );
     }

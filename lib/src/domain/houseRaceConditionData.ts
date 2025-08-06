@@ -20,7 +20,7 @@ export class HorseRaceConditionData {
      * @param surfaceType - 馬場種別
      * @param distance - 距離
      * @remarks
-     * レース開催データを生成する
+     * 馬場種別と距離を指定してレース条件データを生成する
      */
     private constructor(surfaceType: RaceCourseType, distance: RaceDistance) {
         this.surfaceType = surfaceType;

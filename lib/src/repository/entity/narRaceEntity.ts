@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
+import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
 import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
 import { NarBabacodeMap } from '../../utility/data/common/raceCourse';
@@ -29,6 +30,7 @@ export class NarRaceEntity {
      * コンストラクタ
      * @param id - ID
      * @param raceData - レースデータ
+     * @param conditionData
      * @param updateDate - 更新日時
      * @remarks
      * レース開催データを生成する
@@ -36,6 +38,7 @@ export class NarRaceEntity {
     private constructor(
         public readonly id: RaceId,
         public readonly raceData: RaceData,
+        public readonly conditionData: HorseRaceConditionData,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -43,16 +46,19 @@ export class NarRaceEntity {
      * インスタンス生成メソッド
      * @param id - ID
      * @param raceData - レースデータ
+     * @param conditionData
      * @param updateDate - 更新日時
      */
     public static create(
         id: string,
         raceData: RaceData,
+        conditionData: HorseRaceConditionData,
         updateDate: Date,
     ): NarRaceEntity {
         return new NarRaceEntity(
             validateRaceId(RaceType.NAR, id),
             raceData,
+            conditionData,
             validateUpdateDate(updateDate),
         );
     }
@@ -60,10 +66,12 @@ export class NarRaceEntity {
     /**
      * idがない場合でのcreate
      * @param raceData
+     * @param conditionData
      * @param updateDate
      */
     public static createWithoutId(
         raceData: RaceData,
+        conditionData: HorseRaceConditionData,
         updateDate: Date,
     ): NarRaceEntity {
         return NarRaceEntity.create(
@@ -74,6 +82,7 @@ export class NarRaceEntity {
                 raceData.number,
             ),
             raceData,
+            conditionData,
             updateDate,
         );
     }
@@ -86,6 +95,7 @@ export class NarRaceEntity {
         return NarRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
+            partial.conditionData ?? this.conditionData,
             partial.updateDate ?? this.updateDate,
         );
     }
@@ -99,8 +109,8 @@ export class NarRaceEntity {
             this.raceData.name,
             this.raceData.dateTime,
             this.raceData.location,
-            this.raceData.surfaceType,
-            this.raceData.distance,
+            this.conditionData.surfaceType,
+            this.conditionData.distance,
             this.raceData.grade,
             this.raceData.number,
             this.updateDate,
@@ -136,7 +146,7 @@ export class NarRaceEntity {
             },
             colorId: getNarGoogleCalendarColorId(this.raceData.grade),
             description:
-                `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
+                `距離: ${this.conditionData.surfaceType}${this.conditionData.distance.toString()}m
                 発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
                 ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[this.raceData.location]))}
                 ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${this.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[this.raceData.location]}${(this.raceData.dateTime.getMonth() + 1).toXDigits(2)}${this.raceData.dateTime.getDate().toXDigits(2)}${this.raceData.number.toXDigits(2)}`)}
@@ -149,8 +159,8 @@ export class NarRaceEntity {
                     name: this.raceData.name,
                     dateTime: this.raceData.dateTime.toISOString(),
                     location: this.raceData.location,
-                    distance: this.raceData.distance.toString(),
-                    surfaceType: this.raceData.surfaceType,
+                    distance: this.conditionData.distance.toString(),
+                    surfaceType: this.conditionData.surfaceType,
                     grade: this.raceData.grade,
                     number: this.raceData.number.toString(),
                     updateDate: this.updateDate.toISOString(),

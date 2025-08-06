@@ -7,33 +7,25 @@ import type { IRaceDataService } from '../../../../lib/src/service/interface/IRa
 import { PublicGamblingRaceDataUseCase } from '../../../../lib/src/usecase/implement/publicGamblingRaceDataUseCase';
 import {
     baseAutoracePlaceEntity,
-    baseAutoraceRaceDataList,
     baseAutoraceRaceEntityList,
 } from '../../mock/common/baseAutoraceData';
 import {
     baseBoatracePlaceEntity,
-    baseBoatraceRaceDataList,
     baseBoatraceRaceEntityList,
 } from '../../mock/common/baseBoatraceData';
 import {
     baseJraPlaceEntity,
-    baseJraRaceDataList,
     baseJraRaceEntityList,
 } from '../../mock/common/baseJraData';
 import {
     baseKeirinPlaceEntity,
-    baseKeirinRaceDataList,
     baseKeirinRaceEntityList,
 } from '../../mock/common/baseKeirinData';
 import {
     baseNarPlaceEntity,
-    baseNarRaceDataList,
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
-import {
-    baseWorldRaceDataList,
-    baseWorldRaceEntityList,
-} from '../../mock/common/baseWorldData';
+import { baseWorldRaceEntityList } from '../../mock/common/baseWorldData';
 import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
@@ -807,18 +799,18 @@ describe('PublicGamblingRaceDataUseCase', () => {
         });
     });
 
-    describe('upsertRaceDataList', () => {
-        it('正常にレース開催データが更新されること', async () => {
-            await useCase.upsertRaceDataList({
-                jra: baseJraRaceDataList,
-                nar: baseNarRaceDataList,
-                world: baseWorldRaceDataList,
-                keirin: baseKeirinRaceDataList,
-                autorace: baseAutoraceRaceDataList,
-                boatrace: baseBoatraceRaceDataList,
-            });
+    // describe('upsertRaceDataList', () => {
+    //     it('正常にレース開催データが更新されること', async () => {
+    //         await useCase.upsertRaceDataList({
+    //             jra: baseJraRaceDataList,
+    //             nar: baseNarRaceDataList,
+    //             world: baseWorldRaceDataList,
+    //             keirin: baseKeirinRaceDataList,
+    //             autorace: baseAutoraceRaceDataList,
+    //             boatrace: baseBoatraceRaceDataList,
+    //         });
 
-            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
-        });
-    });
+    //         expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
+    //     });
+    // });
 });

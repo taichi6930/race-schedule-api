@@ -2,18 +2,12 @@ import { inject, injectable } from 'tsyringe';
 
 import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import { RaceData } from '../../domain/raceData';
-import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
-import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
-import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
-import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { GradeType } from '../../utility/data/common/gradeType';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { RaceStage } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
-import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -449,48 +443,48 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         });
     }
 
-    @Logger
-    public async upsertRaceDataList(raceDataList: {
-        jra?: RaceData[];
-        nar?: RaceData[];
-        world?: RaceData[];
-        keirin?: MechanicalRacingRaceData[];
-        autorace?: MechanicalRacingRaceData[];
-        boatrace?: MechanicalRacingRaceData[];
-    }): Promise<void> {
-        const raceEntityList = {
-            jra: [],
-            nar: (raceDataList.nar ?? []).map((raceData) =>
-                NarRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
-            ),
-            world: (raceDataList.world ?? []).map((raceData) =>
-                WorldRaceEntity.createWithoutId(
-                    raceData,
-                    getJSTDate(new Date()),
-                ),
-            ),
-            keirin: (raceDataList.keirin ?? []).map((raceData) =>
-                KeirinRaceEntity.createWithoutId(
-                    raceData,
-                    [],
-                    getJSTDate(new Date()),
-                ),
-            ),
-            autorace: (raceDataList.autorace ?? []).map((raceData) =>
-                AutoraceRaceEntity.createWithoutId(
-                    raceData,
-                    [],
-                    getJSTDate(new Date()),
-                ),
-            ),
-            boatrace: (raceDataList.boatrace ?? []).map((raceData) =>
-                BoatraceRaceEntity.createWithoutId(
-                    raceData,
-                    [],
-                    getJSTDate(new Date()),
-                ),
-            ),
-        };
-        await this.raceDataService.updateRaceEntityList(raceEntityList);
-    }
+    // @Logger
+    // public async upsertRaceDataList(raceDataList: {
+    //     jra?: RaceData[];
+    //     nar?: RaceData[];
+    //     world?: RaceData[];
+    //     keirin?: MechanicalRacingRaceData[];
+    //     autorace?: MechanicalRacingRaceData[];
+    //     boatrace?: MechanicalRacingRaceData[];
+    // }): Promise<void> {
+    //     const raceEntityList = {
+    //         jra: [],
+    //         nar: (raceDataList.nar ?? []).map((raceData) =>
+    //             NarRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
+    //         ),
+    //         world: (raceDataList.world ?? []).map((raceData) =>
+    //             WorldRaceEntity.createWithoutId(
+    //                 raceData,
+    //                 getJSTDate(new Date()),
+    //             ),
+    //         ),
+    //         keirin: (raceDataList.keirin ?? []).map((raceData) =>
+    //             KeirinRaceEntity.createWithoutId(
+    //                 raceData,
+    //                 [],
+    //                 getJSTDate(new Date()),
+    //             ),
+    //         ),
+    //         autorace: (raceDataList.autorace ?? []).map((raceData) =>
+    //             AutoraceRaceEntity.createWithoutId(
+    //                 raceData,
+    //                 [],
+    //                 getJSTDate(new Date()),
+    //             ),
+    //         ),
+    //         boatrace: (raceDataList.boatrace ?? []).map((raceData) =>
+    //             BoatraceRaceEntity.createWithoutId(
+    //                 raceData,
+    //                 [],
+    //                 getJSTDate(new Date()),
+    //             ),
+    //         ),
+    //     };
+    //     await this.raceDataService.updateRaceEntityList(raceEntityList);
+    // }
 }

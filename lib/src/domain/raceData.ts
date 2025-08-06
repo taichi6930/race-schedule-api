@@ -5,17 +5,9 @@ import {
     validateRaceCourse,
 } from '../utility/data/common/raceCourse';
 import {
-    type RaceCourseType,
-    validateRaceCourseType,
-} from '../utility/data/common/raceCourseType';
-import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../utility/data/common/raceDateTime';
-import {
-    type RaceDistance,
-    validateRaceDistance,
-} from '../utility/data/common/raceDistance';
 import {
     type RaceName,
     validateRaceName,
@@ -50,16 +42,6 @@ export class RaceData implements IRaceData<RaceData> {
      */
     public readonly location: RaceCourse;
     /**
-     * 馬場種別
-     * @type {RaceCourseType}
-     */
-    public readonly surfaceType: RaceCourseType;
-    /**
-     * 距離
-     * @type {RaceDistance}
-     */
-    public readonly distance: RaceDistance;
-    /**
      * グレード
      * @type {GradeType}
      */
@@ -76,8 +58,6 @@ export class RaceData implements IRaceData<RaceData> {
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param surfaceType - 馬場種別
-     * @param distance - 距離
      * @param grade - グレード
      * @param number - レース番号
      * @remarks
@@ -88,8 +68,6 @@ export class RaceData implements IRaceData<RaceData> {
         name: RaceName,
         dateTime: RaceDateTime,
         location: RaceCourse,
-        surfaceType: RaceCourseType,
-        distance: RaceDistance,
         grade: GradeType,
         number: RaceNumber,
     ) {
@@ -97,8 +75,6 @@ export class RaceData implements IRaceData<RaceData> {
         this.name = name;
         this.dateTime = dateTime;
         this.location = location;
-        this.surfaceType = surfaceType;
-        this.distance = distance;
         this.grade = grade;
         this.number = number;
     }
@@ -110,8 +86,6 @@ export class RaceData implements IRaceData<RaceData> {
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param surfaceType - 馬場種別
-     * @param distance - 距離
      * @param grade - グレード
      * @param number - レース番号
      */
@@ -120,8 +94,6 @@ export class RaceData implements IRaceData<RaceData> {
         name: string,
         dateTime: Date,
         location: string,
-        surfaceType: string,
-        distance: number,
         grade: string,
         number: number,
     ): RaceData {
@@ -130,8 +102,6 @@ export class RaceData implements IRaceData<RaceData> {
             validateRaceName(name),
             validateRaceDateTime(dateTime),
             validateRaceCourse(raceType, location),
-            validateRaceCourseType(surfaceType),
-            validateRaceDistance(distance),
             validateGradeType(raceType, grade),
             validateRaceNumber(number),
         );
@@ -147,8 +117,6 @@ export class RaceData implements IRaceData<RaceData> {
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
-            partial.surfaceType ?? this.surfaceType,
-            partial.distance ?? this.distance,
             partial.grade ?? this.grade,
             partial.number ?? this.number,
         );

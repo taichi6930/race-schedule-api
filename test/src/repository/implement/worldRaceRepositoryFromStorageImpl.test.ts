@@ -6,6 +6,7 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
+import { HorseRaceConditionData } from '../../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
@@ -101,11 +102,10 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                         `raceName${format(date, 'yyyyMMdd')}`,
                         date,
                         'パリロンシャン',
-                        '芝',
-                        2400,
                         'GⅠ',
                         j + 1,
                     ),
+                    HorseRaceConditionData.create('芝', 2400),
                     getJSTDate(new Date()),
                 ),
             );

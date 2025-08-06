@@ -1,4 +1,5 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { HorseRaceConditionData } from '../../../../lib/src/domain/houseRaceConditionData';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../lib/src/domain/raceData';
 import { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
@@ -32,10 +33,13 @@ export const baseWorldRaceData = RaceData.create(
     baseWorldRaceName,
     baseRaceDateTime,
     baseWorldPlaceCourse,
-    baseWorldRaceSurfaceType,
-    baseRaceDistance,
     baseWorldRaceGrade,
     baseWorldRaceNumber,
+);
+
+export const baseWorldConditionData = HorseRaceConditionData.create(
+    baseWorldRaceSurfaceType,
+    baseRaceDistance,
 );
 
 export const baseWorldRaceRecord = WorldRaceRecord.create(
@@ -60,6 +64,7 @@ export const baseWorldPlaceEntity =
 
 export const baseWorldRaceEntity = WorldRaceEntity.createWithoutId(
     baseWorldRaceData,
+    baseWorldConditionData,
     baseWorldRaceUpdateDate,
 );
 
@@ -87,11 +92,10 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
                 `テスト${location}${grade}${(index + 1).toString()}レース`,
                 new Date(2024, 10 - 1, 1, 7 + index, 0),
                 location,
-                '芝',
-                1600,
                 grade,
                 index + 1,
             ),
+            HorseRaceConditionData.create('芝', 2400),
             getJSTDate(baseWorldRaceUpdateDate),
         );
     });

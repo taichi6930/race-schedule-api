@@ -12,8 +12,6 @@ describe('WorldRaceDataクラスのテスト', () => {
         expect(raceData.name).toBe('凱旋門賞');
         expect(raceData.dateTime).toEqual(new Date('2024-10-01 16:30'));
         expect(raceData.location).toBe('パリロンシャン');
-        expect(raceData.surfaceType).toBe('芝');
-        expect(raceData.distance).toBe(2400);
         expect(raceData.grade).toBe('GⅠ');
         expect(raceData.number).toBe(11);
     });

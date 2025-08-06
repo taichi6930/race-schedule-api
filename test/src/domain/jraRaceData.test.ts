@@ -10,8 +10,6 @@ describe('JraRaceDataクラスのテスト', () => {
         '東京優駿',
         new Date('2024-05-26 15:40'),
         '東京',
-        '芝',
-        2400,
         'GⅠ',
         10,
     );
@@ -22,8 +20,6 @@ describe('JraRaceDataクラスのテスト', () => {
         expect(raceData.name).toBe('東京優駿');
         expect(raceData.dateTime).toEqual(new Date('2024-05-26 15:40'));
         expect(raceData.location).toBe('東京');
-        expect(raceData.surfaceType).toBe('芝');
-        expect(raceData.distance).toBe(2400);
         expect(raceData.grade).toBe('GⅠ');
         expect(raceData.number).toBe(10);
     });
