@@ -242,7 +242,12 @@ for (const rec of narPlaceRecords) {
     insertPlaceStmt.run({
         id: row.id,
         race_type: 'NAR',
-        date_time: row.dateTime,
+        // date_timeはyyyy-mm-dd hh:mm:ss形式であることを想定
+        //.  Mon Jan 01 2024 00:00:00 GMT+0000 (Coordinated Universal Time）を 2024-01-01 00:00:00 の形式に変換
+        date_time: new Date(row.dateTime)
+            .toISOString()
+            .slice(0, 19)
+            .replace('T', ' '),
         location: row.location,
     });
 }
@@ -267,7 +272,10 @@ for (const rec of jraPlaceRecords) {
     insertPlaceStmt.run({
         id: row.id,
         race_type: 'JRA',
-        date_time: row.dateTime,
+        date_time: new Date(row.dateTime)
+            .toISOString()
+            .slice(0, 19)
+            .replace('T', ' '),
         location: row.location,
     });
 }
@@ -292,7 +300,10 @@ for (const rec of keirinPlaceRecords) {
     insertPlaceStmt.run({
         id: row.id,
         race_type: 'KEIRIN',
-        date_time: row.dateTime,
+        date_time: new Date(row.dateTime)
+            .toISOString()
+            .slice(0, 19)
+            .replace('T', ' '),
         location: row.location,
     });
 }
@@ -317,7 +328,10 @@ for (const rec of autoracePlaceRecords) {
     insertPlaceStmt.run({
         id: row.id,
         race_type: 'AUTORACE',
-        date_time: row.dateTime,
+        date_time: new Date(row.dateTime)
+            .toISOString()
+            .slice(0, 19)
+            .replace('T', ' '),
         location: row.location,
     });
 }

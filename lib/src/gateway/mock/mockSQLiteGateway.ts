@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-parameters */
-
 import { injectable } from 'tsyringe';
 
 import { Logger } from '../../utility/logger';
@@ -16,20 +14,26 @@ export class MockSQLiteGateway implements ISQLiteGateway {
      * @param fn - トランザクション内で実行する関数
      */
     @Logger
-    public transaction<T>(fn: () => T): T {
+    public async transaction<T>(fn: () => T): Promise<T> {
         console.log(fn);
+        await Promise.resolve(); // Simulate async operation
         throw new Error('MockSQLiteGateway does not support transactions');
     }
 
     @Logger
-    public run(query: string, params: unknown[] = []): void {
+    public async run(query: string, params: unknown[] = []): Promise<void> {
         console.log(query, params);
+        await Promise.resolve(); // Simulate async operation
         throw new Error('MockSQLiteGateway does not support run operation');
     }
 
     @Logger
-    public get<T>(query: string, params: unknown[] = []): T | undefined {
+    public async get<T>(
+        query: string,
+        params: unknown[] = [],
+    ): Promise<T | undefined> {
         console.log(query, params);
+        await Promise.resolve(); // Simulate async operation
         throw new Error('MockSQLiteGateway does not support get operation');
     }
 

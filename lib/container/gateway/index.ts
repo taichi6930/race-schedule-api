@@ -1,6 +1,6 @@
+import './calendarGatewayConfig';
 import './htmlGatewayConfig';
 import './s3GatewayConfig';
-import './calendarGatewayConfig';
 
 import path from 'node:path';
 
@@ -20,13 +20,31 @@ switch (ENV) {
                     __dirname,
                     '../../../volume/app.db',
                 );
-                return new SQLiteGateway(dbPath);
+                return new SQLiteGateway({
+                    // dbPath?: string; // ローカル環境用のDBパス
+                    // bucketName?: string; // S3バケット名
+                    // s3Key?: string; // S3内のDBファイルのキー
+                    dbPath: dbPath,
+                });
+            },
+        });
+        break;
+    }
+    case allowedEnvs.test: {
+        container.register<ISQLiteGateway>('SQLiteGateway', {
+            useFactory: () => {
+                return new SQLiteGateway({
+                    // dbPath?: string; // ローカル環境用のDBパス
+                    // bucketName?: string; // S3バケット名
+                    // s3Key?: string; // S3内のDBファイルのキー
+                    bucketName: 'race-schedule-bucket-test',
+                    s3Key: 'db/app.db',
+                });
             },
         });
         break;
     }
     case allowedEnvs.production:
-    case allowedEnvs.test:
     case allowedEnvs.localNoInitData:
     case allowedEnvs.localInitMadeData:
     case allowedEnvs.githubActionsCi: {

@@ -14,7 +14,7 @@ export class PlayerRepository implements IPlayerRepository {
     ) {}
 
     @Logger
-    public upsert(player: Player): void {
+    public async upsert(player: Player): Promise<void> {
         const query = `INSERT INTO players (id, race_type, player_no, player_name, priority)
       VALUES (?, ?, ?, ?, ?)
       ON CONFLICT(id) DO UPDATE SET
@@ -22,19 +22,13 @@ export class PlayerRepository implements IPlayerRepository {
         player_no=excluded.player_no,
         player_name=excluded.player_name,
         priority=excluded.priority`;
-        this.gateway.run(query, [
+        await this.gateway.run(query, [
             player.id,
             player.race_type,
             player.player_no,
             player.player_name,
             player.priority,
         ]);
-    }
-
-    @Logger
-    public findById(id: string): Player | undefined {
-        const query = 'SELECT * FROM players WHERE id = ?';
-        return this.gateway.get<Player>(query, [id]);
     }
 
     @Logger
@@ -48,8 +42,8 @@ export class PlayerRepository implements IPlayerRepository {
     }
 
     @Logger
-    public deleteById(id: string): void {
+    public async deleteById(id: string): Promise<void> {
         const query = 'DELETE FROM players WHERE id = ?';
-        this.gateway.run(query, [id]);
+        await this.gateway.run(query, [id]);
     }
 }

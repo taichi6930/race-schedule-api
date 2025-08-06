@@ -270,6 +270,7 @@ export default [
         files: [
             '**/lib/src/utility/env.ts',
             '**/lib/src/gateway/implement/s3Gateway.ts',
+            '**/lib/src/gateway/implement/SQLiteGateway.ts'
         ],
         rules: {
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可

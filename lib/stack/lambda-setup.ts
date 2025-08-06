@@ -18,5 +18,18 @@ export function createLambdaFunction(
         environment,
         timeout: Duration.seconds(90),
         memorySize: 1024,
+        bundling: {
+            commandHooks: {
+                afterBundling(_inputDir: string, outputDir: string): string[] {
+                    return [`cp ./package.json ${outputDir}/package.json`];
+                },
+                beforeBundling(): string[] {
+                    return [];
+                },
+                beforeInstall(): string[] {
+                    return [];
+                },
+            },
+        },
     });
 }

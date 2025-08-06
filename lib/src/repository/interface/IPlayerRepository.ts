@@ -12,13 +12,7 @@ export interface IPlayerRepository {
      * プレイヤー情報をアップサートします。
      * 既存のデータがある場合は更新、ない場合は挿入します。
      */
-    upsert: (player: Player) => void;
-    /**
-     * IDでプレイヤー情報を取得します。
-     * @param id - プレイヤーのID
-     * @returns プレイヤー情報またはundefined
-     */
-    findById: (id: string) => Player | undefined;
+    upsert: (player: Player) => Promise<void>;
     /**
      * 全てのプレイヤー情報を取得します。
      * @returns プレイヤー情報のリスト
@@ -28,5 +22,5 @@ export interface IPlayerRepository {
      * IDでプレイヤー情報を削除します。
      * @param id - プレイヤーのID
      */
-    deleteById: (id: string) => void;
+    deleteById: (id: string) => Promise<void>;
 }

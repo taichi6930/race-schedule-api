@@ -64,13 +64,13 @@ export interface IPlaceRepository {
      * 開催場所情報を登録または更新します。
      * @param place - 登録または更新する開催場所情報
      */
-    upsert: (place: PlaceRecord) => void;
+    upsert: (place: PlaceRecord) => Promise<void>;
     /**
      *
      * @param id - 開催場所のID
      * @returns 指定されたIDの開催場所情報
      */
-    findById: (id: PlaceId) => PlaceRecord | undefined;
+    findById: (id: PlaceId) => Promise<PlaceRecord | undefined>;
 
     /**
      * 開催場所情報をレースタイプで取得します。
@@ -96,5 +96,5 @@ export interface IPlaceRepository {
      * IDで開催場所情報を削除します。
      * @param id - 開催場所のID
      */
-    deleteById: (id: PlaceId) => void;
+    deleteById: (id: PlaceId) => Promise<void>;
 }

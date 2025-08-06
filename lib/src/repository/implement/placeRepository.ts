@@ -26,7 +26,7 @@ export class PlaceRepository implements IPlaceRepository {
     ) {}
 
     @Logger
-    public upsert(place: PlaceRecord): void {
+    public async upsert(place: PlaceRecord): Promise<void> {
         const query = `
             INSERT INTO places (id, raceType, dateTime, location)
                 VALUES (?, ?, ?, ?)
@@ -34,7 +34,7 @@ export class PlaceRepository implements IPlaceRepository {
                 raceType=excluded.raceType,
                 dateTime=excluded.dateTime,
                 location=excluded.location`;
-        this.gateway.run(query, [
+        await this.gateway.run(query, [
             place.id,
             place.raceType,
             place.dateTime,
@@ -43,7 +43,7 @@ export class PlaceRepository implements IPlaceRepository {
     }
 
     @Logger
-    public findById(id: PlaceId): PlaceRecord | undefined {
+    public async findById(id: PlaceId): Promise<PlaceRecord | undefined> {
         const query = 'SELECT * FROM places WHERE id = ?';
         return this.gateway.get<PlaceRecord>(query, [id]);
     }
@@ -86,8 +86,11 @@ export class PlaceRepository implements IPlaceRepository {
                 ? ` AND race_type IN (${searchFilter.raceTypeList.map(() => '?').join(',')})`
                 : '');
         const params = [
-            searchFilter.startDate.toString(),
-            searchFilter.finishDate.toString(),
+            searchFilter.startDate.toISOString().slice(0, 19).replace('T', ' '),
+            searchFilter.finishDate
+                .toISOString()
+                .slice(0, 19)
+                .replace('T', ' '),
             ...(searchFilter.raceTypeList ?? []),
         ];
         const result = await this.gateway.all<PlaceRow>(query, params);
@@ -144,8 +147,8 @@ export class PlaceRepository implements IPlaceRepository {
     }
 
     @Logger
-    public deleteById(id: string): void {
+    public async deleteById(id: string): Promise<void> {
         const query = 'DELETE FROM places WHERE id = ?';
-        this.gateway.run(query, [id]);
+        await this.gateway.run(query, [id]);
     }
 }
