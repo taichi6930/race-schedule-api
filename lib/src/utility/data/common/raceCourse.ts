@@ -371,7 +371,7 @@ export const createPlaceCodeMap = (
  * @param raceType
  * @param errorMessage
  */
-export const createRaceCourseSchema = (
+const createRaceCourseSchema = (
     raceType: RaceType,
     errorMessage: string,
 ): z.ZodString =>

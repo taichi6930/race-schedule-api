@@ -798,7 +798,7 @@ export const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
 /**
  * KeirinRaceStageのzod型定義
  */
-export const KeirinRaceStageSchema = z.string().refine((value) => {
+const KeirinRaceStageSchema = z.string().refine((value) => {
     return RaceStageList(RaceType.KEIRIN).has(value);
 }, '競輪のステージではありません');
 
@@ -812,7 +812,7 @@ export const KeirinStageMap: Record<string, RaceStage> = StageMap(
 /**
  * AutoraceRaceStageのzod型定義
  */
-export const AutoraceRaceStageSchema = z.string().refine((value) => {
+const AutoraceRaceStageSchema = z.string().refine((value) => {
     return RaceStageList(RaceType.AUTORACE).has(value);
 }, 'オートレースのステージではありません');
 
@@ -826,7 +826,7 @@ export const AutoraceStageMap: Record<string, RaceStage> = StageMap(
 /**
  * BoatraceRaceStageのzod型定義
  */
-export const BoatraceRaceStageSchema = z.string().refine((value) => {
+const BoatraceRaceStageSchema = z.string().refine((value) => {
     return RaceStageList(RaceType.BOATRACE).has(value);
 }, 'ボートレースのステージではありません');
 
