@@ -51,7 +51,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
         updateDate: Date,
     ): BoatraceRaceEntity {
         return new BoatraceRaceEntity(
-            validateRaceId(RaceType.BOATRACE, id),
+            validateRaceId(raceData.raceType, id),
             raceData,
             racePlayerDataList,
             validateUpdateDate(updateDate),
@@ -71,7 +71,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     ): BoatraceRaceEntity {
         return BoatraceRaceEntity.create(
             generateRaceId(
-                RaceType.BOATRACE,
+                raceData.raceType,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -101,7 +101,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     public toRaceRecord(): RaceRecord {
         return RaceRecord.create(
             this.id,
-            RaceType.BOATRACE,
+            this.raceData.raceType,
             this.raceData.name,
             this.raceData.stage,
             this.raceData.dateTime,
@@ -121,7 +121,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     ): calendar_v3.Schema$Event {
         return {
             id: generateRaceId(
-                RaceType.BOATRACE,
+                this.raceData.raceType,
                 this.raceData.dateTime,
                 this.raceData.location,
                 this.raceData.number,
@@ -168,13 +168,13 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
         return this.racePlayerDataList.map((playerData) =>
             RacePlayerRecord.create(
                 generateRacePlayerId(
-                    RaceType.BOATRACE,
+                    this.raceData.raceType,
                     this.raceData.dateTime,
                     this.raceData.location,
                     this.raceData.number,
                     playerData.positionNumber,
                 ),
-                RaceType.BOATRACE,
+                this.raceData.raceType,
                 this.id,
                 playerData.positionNumber,
                 playerData.playerNumber,

@@ -51,7 +51,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
         updateDate: Date,
     ): AutoraceRaceEntity {
         return new AutoraceRaceEntity(
-            validateRaceId(RaceType.AUTORACE, id),
+            validateRaceId(raceData.raceType, id),
             raceData,
             racePlayerDataList,
             validateUpdateDate(updateDate),
@@ -71,7 +71,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     ): AutoraceRaceEntity {
         return AutoraceRaceEntity.create(
             generateRaceId(
-                RaceType.AUTORACE,
+                raceData.raceType,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -121,7 +121,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     ): calendar_v3.Schema$Event {
         return {
             id: generateRaceId(
-                RaceType.AUTORACE,
+                this.raceData.raceType,
                 this.raceData.dateTime,
                 this.raceData.location,
                 this.raceData.number,
@@ -168,13 +168,13 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
         return this.racePlayerDataList.map((playerData) =>
             RacePlayerRecord.create(
                 generateRacePlayerId(
-                    RaceType.AUTORACE,
+                    this.raceData.raceType,
                     this.raceData.dateTime,
                     this.raceData.location,
                     this.raceData.number,
                     playerData.positionNumber,
                 ),
-                RaceType.AUTORACE,
+                this.raceData.raceType,
                 this.id,
                 playerData.positionNumber,
                 playerData.playerNumber,
