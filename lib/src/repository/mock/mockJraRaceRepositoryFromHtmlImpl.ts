@@ -1,4 +1,4 @@
-import { JraRaceData } from '../../domain/jraRaceData';
+import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
@@ -22,7 +22,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
                 for (let i = 1; i <= 12; i++) {
                     raceEntityList.push(
                         JraRaceEntity.createWithoutId(
-                            JraRaceData.create(
+                            RaceData.create(
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
                                 new Date(
                                     placeEntity.placeData.dateTime.getFullYear(),

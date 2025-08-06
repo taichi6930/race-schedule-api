@@ -1,4 +1,3 @@
-import type { JraRaceData } from '../../domain/jraRaceData';
 import type { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import type { RaceData } from '../../domain/raceData';
 import type { GradeType } from '../../utility/data/common/gradeType';
@@ -50,7 +49,7 @@ export interface IRaceDataUseCase {
             };
         },
     ) => Promise<{
-        jra: JraRaceData[];
+        jra: RaceData[];
         nar: RaceData[];
         world: RaceData[];
         keirin: MechanicalRacingRaceData[];
@@ -98,7 +97,7 @@ export interface IRaceDataUseCase {
      * @param raceDataList
      */
     upsertRaceDataList: (raceDataList: {
-        jra?: JraRaceData[];
+        jra?: RaceData[];
         nar?: RaceData[];
         world?: RaceData[];
         keirin?: MechanicalRacingRaceData[];

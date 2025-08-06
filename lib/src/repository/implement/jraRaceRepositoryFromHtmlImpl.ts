@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { JraRaceData } from '../../domain/jraRaceData';
+import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { processJraRaceName } from '../../utility/createRaceName';
 import { GradeType } from '../../utility/data/common/gradeType';
@@ -184,7 +184,7 @@ export class JraRaceRepositoryFromHtmlImpl
                         });
 
                         const jraRaceData = JraRaceEntity.createWithoutId(
-                            JraRaceData.create(
+                            RaceData.create(
                                 raceName,
                                 raceDateTime,
                                 raceCourse,

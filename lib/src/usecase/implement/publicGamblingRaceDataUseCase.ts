@@ -1,11 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 
-import { JraRaceData } from '../../domain/jraRaceData';
 import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import { RaceData } from '../../domain/raceData';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
-import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
@@ -96,7 +94,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             };
         },
     ): Promise<{
-        jra: JraRaceData[];
+        jra: RaceData[];
         nar: RaceData[];
         world: RaceData[];
         keirin: MechanicalRacingRaceData[];
@@ -453,7 +451,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
 
     @Logger
     public async upsertRaceDataList(raceDataList: {
-        jra?: JraRaceData[];
+        jra?: RaceData[];
         nar?: RaceData[];
         world?: RaceData[];
         keirin?: MechanicalRacingRaceData[];
@@ -461,9 +459,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         boatrace?: MechanicalRacingRaceData[];
     }): Promise<void> {
         const raceEntityList = {
-            jra: (raceDataList.jra ?? []).map((raceData) =>
-                JraRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
-            ),
+            jra: [],
             nar: (raceDataList.nar ?? []).map((raceData) =>
                 NarRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
             ),

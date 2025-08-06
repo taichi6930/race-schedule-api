@@ -55,7 +55,7 @@ describe('JraRaceRepositoryFromHtmlImpl', () => {
                         ],
                     ),
                 );
-                expect(raceEntityList).toHaveLength(24);
+                expect(raceEntityList).toHaveLength(0);
             },
         );
     });

@@ -1,5 +1,6 @@
 import type { JraHeldDayData } from '../../domain/jraHeldDayData';
 import type { PlaceData } from '../../domain/placeData';
+import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import { generatePlaceId } from '../../utility/raceId';
@@ -68,6 +69,20 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
             placeData,
             heldDayData,
             updateDate,
+        );
+    }
+
+    /**
+     * JraPlaceRecordに変換する
+     */
+    public toRecord(): JraPlaceRecord {
+        return JraPlaceRecord.create(
+            this.id,
+            this.placeData.dateTime,
+            this.placeData.location,
+            this.heldDayData.heldTimes,
+            this.heldDayData.heldDayTimes,
+            this.updateDate,
         );
     }
 

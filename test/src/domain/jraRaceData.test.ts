@@ -1,10 +1,12 @@
-import { JraRaceData } from '../../../lib/src/domain/jraRaceData';
+import { RaceData } from '../../../lib/src/domain/raceData';
+import { RaceType } from '../../../lib/src/utility/raceType';
 
 describe('JraRaceDataクラスのテスト', () => {
     /**
      * テスト用のJraRaceDataインスタンス
      */
-    const baseRaceData = JraRaceData.create(
+    const baseRaceData = RaceData.create(
+        RaceType.JRA,
         '東京優駿',
         new Date('2024-05-26 15:40'),
         '東京',
@@ -12,8 +14,6 @@ describe('JraRaceDataクラスのテスト', () => {
         2400,
         'GⅠ',
         10,
-        1,
-        1,
     );
 
     it('正しい入力でJraRaceDataのインスタンスを作成できることを確認', () => {
@@ -26,8 +26,6 @@ describe('JraRaceDataクラスのテスト', () => {
         expect(raceData.distance).toBe(2400);
         expect(raceData.grade).toBe('GⅠ');
         expect(raceData.number).toBe(10);
-        expect(raceData.heldTimes).toBe(1);
-        expect(raceData.heldDayTimes).toBe(1);
     });
 
     it('何も変更せずJraRaceDataのインスタンスを作成できることを確認', () => {

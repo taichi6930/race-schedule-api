@@ -1,6 +1,7 @@
 import '../../utility/format';
 
-import { JraRaceData } from '../../domain/jraRaceData';
+import { JraHeldDayData } from '../../domain/jraHeldDayData';
+import { RaceData } from '../../domain/raceData';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
@@ -147,7 +148,8 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
     public toEntity(): JraRaceEntity {
         return JraRaceEntity.create(
             this.id,
-            JraRaceData.create(
+            RaceData.create(
+                RaceType.JRA,
                 this.name,
                 this.dateTime,
                 this.location,
@@ -155,9 +157,8 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
                 this.distance,
                 this.grade,
                 this.number,
-                this.heldTimes,
-                this.heldDayTimes,
             ),
+            JraHeldDayData.create(this.heldTimes, this.heldDayTimes),
             this.updateDate,
         );
     }

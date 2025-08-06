@@ -58,16 +58,7 @@ export class JraPlaceRepositoryFromStorageImpl
             await this.getPlaceRecordListFromS3();
 
         const placeRecordList: JraPlaceRecord[] = placeEntityList.map(
-            (placeEntity) => {
-                return JraPlaceRecord.create(
-                    placeEntity.id,
-                    placeEntity.placeData.dateTime,
-                    placeEntity.placeData.location,
-                    placeEntity.heldDayData.heldTimes,
-                    placeEntity.heldDayData.heldDayTimes,
-                    placeEntity.updateDate,
-                );
-            },
+            (placeEntity) => placeEntity.toRecord(),
         );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
