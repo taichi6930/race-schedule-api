@@ -1,3 +1,4 @@
+import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { JraHeldDayData } from '../../domain/jraHeldDayData';
 import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
@@ -34,12 +35,11 @@ export class MockJraRaceRepositoryFromHtmlImpl
                                     i + 9,
                                 ),
                                 placeEntity.placeData.location,
-                                '芝',
-                                2000,
                                 'GⅠ',
                                 i,
                             ),
                             JraHeldDayData.create(1, 1),
+                            HorseRaceConditionData.create('芝', 2000),
                             getJSTDate(new Date()),
                         ),
                     );
