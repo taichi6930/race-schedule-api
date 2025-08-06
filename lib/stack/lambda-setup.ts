@@ -22,7 +22,7 @@ export function createLambdaFunction(
             lambda.LayerVersion.fromLayerVersionArn(
                 scope,
                 'BetterSqlite3Layer',
-                'arn:aws:lambda:ap-northeast-1:xxxxxxxxxxxx:layer:better-sqlite3:1', // TODO: Layer ARNを実際のものに置き換えてください
+                'arn:aws:lambda:ap-northeast-1:485169041965:layer:better-sqlite3:2',
             ),
         ],
     });
