@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
-import type { WorldRaceData } from '../../domain/worldRaceData';
+import type { RaceData } from '../../domain/raceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
@@ -29,7 +29,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      */
     private constructor(
         public readonly id: RaceId,
-        public readonly raceData: WorldRaceData,
+        public readonly raceData: RaceData,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -41,7 +41,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      */
     public static create(
         id: string,
-        raceData: WorldRaceData,
+        raceData: RaceData,
         updateDate: Date,
     ): WorldRaceEntity {
         return new WorldRaceEntity(
@@ -57,7 +57,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      * @param updateDate
      */
     public static createWithoutId(
-        raceData: WorldRaceData,
+        raceData: RaceData,
         updateDate: Date,
     ): WorldRaceEntity {
         return WorldRaceEntity.create(

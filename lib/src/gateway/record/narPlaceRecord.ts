@@ -1,4 +1,4 @@
-import { NarPlaceData } from '../../domain/narPlaceData';
+import { PlaceData } from '../../domain/placeData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
@@ -79,7 +79,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
     public toEntity(): NarPlaceEntity {
         return NarPlaceEntity.create(
             this.id,
-            NarPlaceData.create(this.dateTime, this.location),
+            PlaceData.create(RaceType.NAR, this.dateTime, this.location),
             this.updateDate,
         );
     }

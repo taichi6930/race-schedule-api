@@ -6,7 +6,8 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
+import { JraHeldDayData } from '../../../../lib/src/domain/jraHeldDayData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
@@ -14,6 +15,7 @@ import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEnti
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { JraRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/jraRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('JraRaceRepositoryFromStorageImpl', () => {
@@ -95,7 +97,8 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, (__, j) =>
                 JraRaceEntity.createWithoutId(
-                    JraRaceData.create(
+                    RaceData.create(
+                        RaceType.JRA,
                         `raceName${format(date, 'yyyyMMdd')}`,
                         date,
                         '東京',
@@ -103,9 +106,8 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         1200,
                         'GⅠ',
                         j + 1,
-                        1,
-                        1,
                     ),
+                    JraHeldDayData.create(1, 1),
                     getJSTDate(new Date()),
                 ),
             );

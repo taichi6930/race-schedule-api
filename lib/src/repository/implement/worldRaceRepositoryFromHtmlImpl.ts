@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { WorldRaceData } from '../../domain/worldRaceData';
+import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { processWorldRaceName } from '../../utility/createRaceName';
 import { GradeType } from '../../utility/data/common/gradeType';
@@ -214,7 +214,8 @@ export class WorldRaceRepositoryFromHtmlImpl
                             });
                             worldRaceDataList.push(
                                 WorldRaceEntity.createWithoutId(
-                                    WorldRaceData.create(
+                                    RaceData.create(
+                                        RaceType.WORLD,
                                         raceName,
                                         raceDate,
                                         location,

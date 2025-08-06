@@ -1,6 +1,6 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { MechanicalRacingPlaceData } from '../../../../lib/src/domain/mechanicalRacingPlaceData';
-import { RaceData } from '../../../../lib/src/domain/raceData';
+import { MechanicalRacingRaceData } from '../../../../lib/src/domain/mechanicalRacingRaceData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
@@ -39,7 +39,7 @@ export const baseBoatracePlaceData = MechanicalRacingPlaceData.create(
     baseBoatracePlaceGrade,
 );
 
-export const baseBoatraceRaceData = RaceData.create(
+export const baseBoatraceRaceData = MechanicalRacingRaceData.create(
     RaceType.BOATRACE,
     baseBoatraceRaceName,
     baseBoatraceRaceStage,
@@ -143,7 +143,7 @@ export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
         '一般戦',
         '優勝戦',
     ].map((stage, index) => {
-        const raceData = RaceData.create(
+        const raceData = MechanicalRacingRaceData.create(
             RaceType.BOATRACE,
             `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
             stage,

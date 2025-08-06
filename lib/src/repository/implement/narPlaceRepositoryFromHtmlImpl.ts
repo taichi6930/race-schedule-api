@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../../domain/narPlaceData';
+import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -139,7 +139,8 @@ export class NarPlaceRepositoryFromHtmlImpl
             for (const raceDay of raceDays) {
                 narPlaceDataList.push(
                     NarPlaceEntity.createWithoutId(
-                        NarPlaceData.create(
+                        PlaceData.create(
+                            RaceType.NAR,
                             new Date(
                                 date.getFullYear(),
                                 date.getMonth(),

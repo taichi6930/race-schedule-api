@@ -6,7 +6,7 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
@@ -14,6 +14,7 @@ import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/wor
 import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('WorldRaceRepositoryFromStorageImpl', () => {
@@ -95,7 +96,8 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, (__, j) =>
                 WorldRaceEntity.createWithoutId(
-                    WorldRaceData.create(
+                    RaceData.create(
+                        RaceType.WORLD,
                         `raceName${format(date, 'yyyyMMdd')}`,
                         date,
                         'パリロンシャン',

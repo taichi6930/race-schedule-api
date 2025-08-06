@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
-import type { RaceData } from '../../domain/raceData';
+import type { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import { RaceRecord } from '../../gateway/record/raceRecord';
@@ -38,7 +38,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      */
     private constructor(
         public readonly id: RaceId,
-        public readonly raceData: RaceData,
+        public readonly raceData: MechanicalRacingRaceData,
         public readonly racePlayerDataList: RacePlayerData[],
         public readonly updateDate: UpdateDate,
     ) {}
@@ -52,12 +52,12 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      */
     public static create(
         id: string,
-        raceData: RaceData,
+        raceData: MechanicalRacingRaceData,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): KeirinRaceEntity {
         return new KeirinRaceEntity(
-            validateRaceId(RaceType.KEIRIN, id),
+            validateRaceId(raceData.raceType, id),
             raceData,
             racePlayerDataList,
             validateUpdateDate(updateDate),
@@ -71,13 +71,13 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      * @param updateDate
      */
     public static createWithoutId(
-        raceData: RaceData,
+        raceData: MechanicalRacingRaceData,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): KeirinRaceEntity {
         return KeirinRaceEntity.create(
             generateRaceId(
-                RaceType.KEIRIN,
+                raceData.raceType,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -107,7 +107,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     public toRaceRecord(): RaceRecord {
         return RaceRecord.create(
             this.id,
-            RaceType.KEIRIN,
+            this.raceData.raceType,
             this.raceData.name,
             this.raceData.stage,
             this.raceData.dateTime,
@@ -127,7 +127,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     ): calendar_v3.Schema$Event {
         return {
             id: generateRaceId(
-                RaceType.KEIRIN,
+                this.raceData.raceType,
                 this.raceData.dateTime,
                 this.raceData.location,
                 this.raceData.number,
@@ -188,13 +188,13 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
         return this.racePlayerDataList.map((playerData) =>
             RacePlayerRecord.create(
                 generateRacePlayerId(
-                    RaceType.KEIRIN,
+                    this.raceData.raceType,
                     this.raceData.dateTime,
                     this.raceData.location,
                     this.raceData.number,
                     playerData.positionNumber,
                 ),
-                RaceType.KEIRIN,
+                this.raceData.raceType,
                 this.id,
                 playerData.positionNumber,
                 playerData.playerNumber,

@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
-import { RaceData } from '../../domain/raceData';
+import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { GradeType } from '../../utility/data/common/gradeType';
@@ -151,7 +151,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         const keirinRaceData =
                             raceStage === null
                                 ? null
-                                : RaceData.create(
+                                : MechanicalRacingRaceData.create(
                                       RaceType.KEIRIN,
                                       raceName,
                                       raceStage,

@@ -1,6 +1,6 @@
 import '../../utility/format';
 
-import { NarRaceData } from '../../domain/narRaceData';
+import { RaceData } from '../../domain/raceData';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
@@ -127,7 +127,8 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
     public toEntity(): NarRaceEntity {
         return NarRaceEntity.create(
             this.id,
-            NarRaceData.create(
+            RaceData.create(
+                RaceType.NAR,
                 this.name,
                 this.dateTime,
                 this.location,

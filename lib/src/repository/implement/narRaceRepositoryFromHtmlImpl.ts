@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { NarRaceData } from '../../domain/narRaceData';
+import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { processNarRaceName } from '../../utility/createRaceName';
 import {
@@ -109,7 +109,8 @@ export class NarRaceRepositoryFromHtmlImpl
                     });
                     narRaceDataList.push(
                         NarRaceEntity.createWithoutId(
-                            NarRaceData.create(
+                            RaceData.create(
+                                RaceType.NAR,
                                 processedRaceName,
                                 raceDateTime,
                                 placeEntity.placeData.location,

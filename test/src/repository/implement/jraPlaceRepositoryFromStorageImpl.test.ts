@@ -5,13 +5,15 @@ import path from 'node:path';
 
 import { container } from 'tsyringe';
 
-import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
+import { JraHeldDayData } from '../../../../lib/src/domain/jraHeldDayData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('JraPlaceRepositoryFromStorageImpl', () => {
@@ -75,7 +77,8 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
                 JraPlaceEntity.createWithoutId(
-                    JraPlaceData.create(date, '東京', 1, 1),
+                    PlaceData.create(RaceType.JRA, date, '東京'),
+                    JraHeldDayData.create(1, 1),
                     getJSTDate(new Date()),
                 ),
             );

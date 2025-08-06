@@ -1,39 +1,51 @@
-import type { GradeType } from '../utility/data/common/gradeType';
-import { validateGradeType } from '../utility/data/common/gradeType';
+import {
+    type GradeType,
+    validateGradeType,
+} from '../utility/data/common/gradeType';
 import {
     type RaceCourse,
     validateRaceCourse,
 } from '../utility/data/common/raceCourse';
 import {
-    type RaceCourseType,
-    validateRaceCourseType,
-} from '../utility/data/common/raceCourseType';
-import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../utility/data/common/raceDateTime';
 import {
-    type RaceDistance,
-    validateRaceDistance,
-} from '../utility/data/common/raceDistance';
-import {
     type RaceName,
     validateRaceName,
 } from '../utility/data/common/raceName';
-import type { RaceNumber } from '../utility/data/common/raceNumber';
-import { validateRaceNumber } from '../utility/data/common/raceNumber';
-import { RaceType } from '../utility/raceType';
+import {
+    type RaceNumber,
+    validateRaceNumber,
+} from '../utility/data/common/raceNumber';
+import {
+    type RaceStage,
+    validateRaceStage,
+} from '../utility/data/common/raceStage';
+import type { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
- * 地方競馬のレース開催データ
+ * オートレースのレース開催データ
  */
-export class NarRaceData implements IPlaceData<NarRaceData> {
+export class MechanicalRacingRaceData
+    implements IPlaceData<MechanicalRacingRaceData>
+{
+    /**
+     * レース種別
+     * @type {RaceType}
+     */
+    public readonly raceType: RaceType;
     /**
      * レース名
      * @type {RaceName}
      */
     public readonly name: RaceName;
+    /**
+     * 開催ステージ
+     * @type {RaceStage}
+     */
+    public readonly stage: RaceStage;
     /**
      * 開催日時
      * @type {RaceDateTime}
@@ -44,16 +56,6 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * @type {RaceCourse}
      */
     public readonly location: RaceCourse;
-    /**
-     * 馬場種別
-     * @type {RaceCourseType}
-     */
-    public readonly surfaceType: RaceCourseType;
-    /**
-     * 距離
-     * @type {RaceDistance}
-     */
-    public readonly distance: RaceDistance;
     /**
      * グレード
      * @type {GradeType}
@@ -67,30 +69,30 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
 
     /**
      * コンストラクタ
+     * @param raceType - レース種別
      * @param name - レース名
+     * @param stage - 開催ステージ
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param surfaceType - 馬場種別
-     * @param distance - 距離
      * @param grade - グレード
      * @param number - レース番号
      * @remarks
      * レース開催データを生成する
      */
     private constructor(
+        raceType: RaceType,
         name: RaceName,
+        stage: RaceStage,
         dateTime: RaceDateTime,
         location: RaceCourse,
-        surfaceType: RaceCourseType,
-        distance: RaceDistance,
         grade: GradeType,
         number: RaceNumber,
     ) {
+        this.raceType = raceType;
         this.name = name;
+        this.stage = stage;
         this.dateTime = dateTime;
         this.location = location;
-        this.surfaceType = surfaceType;
-        this.distance = distance;
         this.grade = grade;
         this.number = number;
     }
@@ -98,30 +100,30 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
     /**
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
+     * @param raceType - レース種別
      * @param name - レース名
+     * @param stage - 開催ステージ
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param surfaceType - 馬場種別
-     * @param distance - 距離
      * @param grade - グレード
      * @param number - レース番号
      */
     public static create(
+        raceType: RaceType,
         name: string,
+        stage: string,
         dateTime: Date,
         location: string,
-        surfaceType: string,
-        distance: number,
         grade: string,
         number: number,
-    ): NarRaceData {
-        return new NarRaceData(
+    ): MechanicalRacingRaceData {
+        return new MechanicalRacingRaceData(
+            raceType,
             validateRaceName(name),
+            validateRaceStage(raceType, stage),
             validateRaceDateTime(dateTime),
-            validateRaceCourse(RaceType.NAR, location),
-            validateRaceCourseType(surfaceType),
-            validateRaceDistance(distance),
-            validateGradeType(RaceType.NAR, grade),
+            validateRaceCourse(raceType, location),
+            validateGradeType(raceType, grade),
             validateRaceNumber(number),
         );
     }
@@ -130,13 +132,15 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<NarRaceData> = {}): NarRaceData {
-        return NarRaceData.create(
+    public copy(
+        partial: Partial<MechanicalRacingRaceData> = {},
+    ): MechanicalRacingRaceData {
+        return MechanicalRacingRaceData.create(
+            partial.raceType ?? this.raceType,
             partial.name ?? this.name,
+            partial.stage ?? this.stage,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
-            partial.surfaceType ?? this.surfaceType,
-            partial.distance ?? this.distance,
             partial.grade ?? this.grade,
             partial.number ?? this.number,
         );

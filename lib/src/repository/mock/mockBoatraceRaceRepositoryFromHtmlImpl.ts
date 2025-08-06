@@ -1,6 +1,6 @@
 import { baseBoatraceRacePlayerDataList } from '../../../../test/src/mock/common/baseBoatraceData';
 import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
-import { RaceData } from '../../domain/raceData';
+import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -28,7 +28,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
                     const raceStage = i === 12 ? '優勝戦' : '一般戦';
                     raceEntityList.push(
                         BoatraceRaceEntity.createWithoutId(
-                            RaceData.create(
+                            MechanicalRacingRaceData.create(
                                 RaceType.BOATRACE,
                                 `${placeData.location}第${i.toString()}R`,
                                 raceStage,

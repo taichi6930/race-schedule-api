@@ -1,6 +1,5 @@
-import type { JraPlaceData } from '../../domain/jraPlaceData';
 import type { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
-import type { NarPlaceData } from '../../domain/narPlaceData';
+import type { PlaceData } from '../../domain/placeData';
 
 /**
  * IPlaceDataUseCase
@@ -15,7 +14,7 @@ export interface IPlaceDataUseCase {
         startDate: Date,
         finishDate: Date,
         raceTypeList: string[],
-    ) => Promise<JraPlaceData[] | MechanicalRacingPlaceData[] | NarPlaceData[]>;
+    ) => Promise<(PlaceData | MechanicalRacingPlaceData)[]>;
     /**
      * 開催場データを更新する
      * @param startDate

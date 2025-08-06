@@ -1,8 +1,9 @@
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
-import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
+import { JraHeldDayData } from '../../../../lib/src/domain/jraHeldDayData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
 import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
@@ -33,14 +34,16 @@ const baseJraRaceHeldTimes = 5;
 const baseJraRaceHeldDayTimes = 8;
 const baseJraRaceUpdateDate = new Date('2024-12-01 00:00');
 
-export const baseJraPlaceData = JraPlaceData.create(
+export const baseJraPlaceData = PlaceData.create(
+    RaceType.JRA,
     baseJraPlaceDateTime,
     baseJraPlaceCourse,
-    1,
-    1,
 );
 
-export const baseJraRaceData = JraRaceData.create(
+export const baseJraHeldDayData = JraHeldDayData.create(5, 8);
+
+export const baseJraRaceData = RaceData.create(
+    RaceType.JRA,
     baseJraRaceName,
     baseRaceDateTime,
     baseJraPlaceCourse,
@@ -48,8 +51,6 @@ export const baseJraRaceData = JraRaceData.create(
     baseJraRaceDistance,
     baseJraRaceGrade,
     baseJraRaceNumber,
-    baseJraRaceHeldTimes,
-    baseJraRaceHeldDayTimes,
 );
 
 export const baseJraPlaceRecord = JraPlaceRecord.create(
@@ -82,11 +83,13 @@ export const baseJraRaceRecord = JraRaceRecord.create(
 
 export const baseJraPlaceEntity = JraPlaceEntity.createWithoutId(
     baseJraPlaceData,
+    baseJraHeldDayData,
     baseJraRaceUpdateDate,
 );
 
 export const baseJraRaceEntity = JraRaceEntity.createWithoutId(
     baseJraRaceData,
+    baseJraHeldDayData,
     baseJraRaceUpdateDate,
 );
 
@@ -155,7 +158,8 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
             '2勝クラス',
         ].map((grade, index) => {
             return JraRaceEntity.createWithoutId(
-                JraRaceData.create(
+                RaceData.create(
+                    RaceType.JRA,
                     `テスト${location}${grade}${(index + 1).toString()}レース`,
                     new Date(2024, 6 - 1, 1, 7 + index, 0),
                     location,
@@ -163,9 +167,8 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
                     1600,
                     grade,
                     index + 1,
-                    1,
-                    1,
                 ),
+                JraHeldDayData.create(1, 1),
                 baseJraRaceUpdateDate,
             );
         });
