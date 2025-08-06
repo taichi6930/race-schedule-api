@@ -1,8 +1,8 @@
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
 import { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
@@ -26,7 +26,8 @@ const baseNarRaceDistance = 2000;
 const baseNarRaceGrade: GradeType = 'GⅠ';
 const baseNarRaceUpdateDate = new Date('2024-12-01 00:00');
 
-export const baseNarPlaceData = NarPlaceData.create(
+export const baseNarPlaceData = PlaceData.create(
+    RaceType.NAR,
     baseNarPlaceDateTime,
     baseNarPlaceCourse,
 );

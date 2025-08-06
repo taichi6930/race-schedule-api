@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
-import { NarPlaceData } from '../../domain/narPlaceData';
+import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -29,7 +29,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
         startDate: Date,
         finishDate: Date,
         raceTypeList: string[],
-    ): Promise<JraPlaceData[] | NarPlaceData[] | MechanicalRacingPlaceData[]> {
+    ): Promise<(JraPlaceData | PlaceData | MechanicalRacingPlaceData)[]> {
         // 開催場データを取得
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
@@ -39,8 +39,8 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
                 DataLocation.Storage,
             );
         const placeDataList: (
+            | PlaceData
             | JraPlaceData
-            | NarPlaceData
             | MechanicalRacingPlaceData
         )[] = [];
         // 全ての開催場データを結合して返す

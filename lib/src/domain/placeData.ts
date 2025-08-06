@@ -48,7 +48,7 @@ export class PlaceData implements IPlaceData<PlaceData> {
     /**
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
-     * @param raceType
+     * @param raceType - レース種別
      * @param dateTime - 開催日時
      * @param location - 開催場所
      */

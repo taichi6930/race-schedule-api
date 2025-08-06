@@ -5,13 +5,14 @@ import path from 'node:path';
 
 import { container } from 'tsyringe';
 
-import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { NarPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('NarPlaceRepositoryFromStorageImpl', () => {
@@ -75,7 +76,7 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
                 NarPlaceEntity.createWithoutId(
-                    NarPlaceData.create(date, '大井'),
+                    PlaceData.create(RaceType.NAR, date, '大井'),
                     getJSTDate(new Date()),
                 ),
             );

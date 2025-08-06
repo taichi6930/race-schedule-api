@@ -1,4 +1,5 @@
-import { NarPlaceData } from '../../../lib/src/domain/narPlaceData';
+import { PlaceData } from '../../../lib/src/domain/placeData';
+import { RaceType } from '../../../lib/src/utility/raceType';
 import { baseNarPlaceData } from '../mock/common/baseNarData';
 
 describe('NarPlaceDataクラスのテスト', () => {
@@ -20,7 +21,11 @@ describe('NarPlaceDataクラスのテスト', () => {
     });
 
     it('何も変更せずNarPlaceDataのインスタンスを作成できることを確認', () => {
-        const placeData = NarPlaceData.create(new Date('2024-06-03'), '大井');
+        const placeData = PlaceData.create(
+            RaceType.NAR,
+            new Date('2024-06-03'),
+            '大井',
+        );
         const copiedPlaceData = placeData.copy();
 
         expect(copiedPlaceData).toEqual(placeData);

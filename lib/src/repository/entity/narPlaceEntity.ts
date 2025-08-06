@@ -1,4 +1,4 @@
-import type { NarPlaceData } from '../../domain/narPlaceData';
+import type { PlaceData } from '../../domain/placeData';
 import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
@@ -21,7 +21,7 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
      */
     private constructor(
         public readonly id: PlaceId,
-        public readonly placeData: NarPlaceData,
+        public readonly placeData: PlaceData,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -33,7 +33,7 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
      */
     public static create(
         id: string,
-        placeData: NarPlaceData,
+        placeData: PlaceData,
         updateDate: Date,
     ): NarPlaceEntity {
         return new NarPlaceEntity(
@@ -49,7 +49,7 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
      * @param updateDate
      */
     public static createWithoutId(
-        placeData: NarPlaceData,
+        placeData: PlaceData,
         updateDate: Date,
     ): NarPlaceEntity {
         return NarPlaceEntity.create(
