@@ -18,5 +18,12 @@ export function createLambdaFunction(
         environment,
         timeout: Duration.seconds(90),
         memorySize: 1024,
+        layers: [
+            lambda.LayerVersion.fromLayerVersionArn(
+                scope,
+                'BetterSqlite3Layer',
+                'arn:aws:lambda:ap-northeast-1:xxxxxxxxxxxx:layer:better-sqlite3:1', // TODO: Layer ARNを実際のものに置き換えてください
+            ),
+        ],
     });
 }
