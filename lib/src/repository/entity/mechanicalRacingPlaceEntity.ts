@@ -1,5 +1,9 @@
-import type { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
+import type { PlaceData } from '../../domain/placeData';
 import { MechanicalRacingPlaceRecord } from '../../gateway/record/mechanicalRacingPlaceRecord';
+import {
+    type GradeType,
+    validateGradeType,
+} from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import { generatePlaceId } from '../../utility/raceId';
@@ -18,14 +22,17 @@ export class MechanicalRacingPlaceEntity
      * @param id - ID
      * @param raceType - レース種別
      * @param placeData - レース開催場所データ
+     * @param grade - グレード
      * @param updateDate - 更新日時
+     * @grade - グレード
      * @remarks
      * レース開催場所データを生成する
      */
     private constructor(
         public readonly id: PlaceId,
         public readonly raceType: RaceType,
-        public readonly placeData: MechanicalRacingPlaceData,
+        public readonly placeData: PlaceData,
+        public readonly grade: GradeType,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -34,18 +41,21 @@ export class MechanicalRacingPlaceEntity
      * @param id - ID
      * @param raceType - レース種別
      * @param placeData - レース開催場所データ
+     * @param grade - グレード
      * @param updateDate - 更新日時
      */
     public static create(
         id: string,
         raceType: RaceType,
-        placeData: MechanicalRacingPlaceData,
+        placeData: PlaceData,
+        grade: GradeType,
         updateDate: Date,
     ): MechanicalRacingPlaceEntity {
         return new MechanicalRacingPlaceEntity(
             validatePlaceId(raceType, id),
             raceType,
             placeData,
+            validateGradeType(raceType, grade),
             validateUpdateDate(updateDate),
         );
     }
@@ -54,17 +64,20 @@ export class MechanicalRacingPlaceEntity
      * idがない場合でのcreate
      * @param raceType
      * @param placeData
+     * @param grade
      * @param updateDate
      */
     public static createWithoutId(
         raceType: RaceType,
-        placeData: MechanicalRacingPlaceData,
+        placeData: PlaceData,
+        grade: GradeType,
         updateDate: Date,
     ): MechanicalRacingPlaceEntity {
         return MechanicalRacingPlaceEntity.create(
             generatePlaceId(raceType, placeData.dateTime, placeData.location),
             raceType,
             placeData,
+            grade,
             updateDate,
         );
     }
@@ -80,6 +93,7 @@ export class MechanicalRacingPlaceEntity
             partial.id ?? this.id,
             partial.raceType ?? this.raceType,
             partial.placeData ?? this.placeData,
+            partial.grade ?? this.grade,
             partial.updateDate ?? this.updateDate,
         );
     }
@@ -93,7 +107,7 @@ export class MechanicalRacingPlaceEntity
             this.raceType,
             this.placeData.dateTime,
             this.placeData.location,
-            this.placeData.grade,
+            this.grade,
             this.updateDate,
         );
     }

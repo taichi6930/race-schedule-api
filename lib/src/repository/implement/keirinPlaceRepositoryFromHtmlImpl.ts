@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
+import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { GradeType } from '../../utility/data/common/gradeType';
 import {
@@ -153,12 +153,12 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                             keirinPlaceEntityList.push(
                                 MechanicalRacingPlaceEntity.createWithoutId(
                                     RaceType.KEIRIN,
-                                    MechanicalRacingPlaceData.create(
+                                    PlaceData.create(
                                         RaceType.KEIRIN,
                                         datetime,
                                         place,
-                                        grade,
                                     ),
+                                    grade,
                                     getJSTDate(new Date()),
                                 ),
                             );

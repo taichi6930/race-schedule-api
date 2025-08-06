@@ -1,6 +1,7 @@
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { HorseRaceConditionData } from '../../../../lib/src/domain/houseRaceConditionData';
 import { JraHeldDayData } from '../../../../lib/src/domain/jraHeldDayData';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../lib/src/domain/raceData';
@@ -47,10 +48,13 @@ export const baseJraRaceData = RaceData.create(
     baseJraRaceName,
     baseRaceDateTime,
     baseJraPlaceCourse,
-    baseJraRaceSurfaceType,
-    baseJraRaceDistance,
     baseJraRaceGrade,
     baseJraRaceNumber,
+);
+
+export const baseJraConditionData = HorseRaceConditionData.create(
+    baseJraRaceSurfaceType,
+    baseJraRaceDistance,
 );
 
 export const baseJraPlaceRecord = JraPlaceRecord.create(
@@ -90,6 +94,7 @@ export const baseJraPlaceEntity = JraPlaceEntity.createWithoutId(
 export const baseJraRaceEntity = JraRaceEntity.createWithoutId(
     baseJraRaceData,
     baseJraHeldDayData,
+    baseJraConditionData,
     baseJraRaceUpdateDate,
 );
 
@@ -163,12 +168,11 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
                     `テスト${location}${grade}${(index + 1).toString()}レース`,
                     new Date(2024, 6 - 1, 1, 7 + index, 0),
                     location,
-                    '芝',
-                    1600,
                     grade,
                     index + 1,
                 ),
                 JraHeldDayData.create(1, 1),
+                HorseRaceConditionData.create('芝', 1600),
                 baseJraRaceUpdateDate,
             );
         });

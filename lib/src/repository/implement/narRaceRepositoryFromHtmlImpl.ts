@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { processNarRaceName } from '../../utility/createRaceName';
@@ -114,10 +115,12 @@ export class NarRaceRepositoryFromHtmlImpl
                                 processedRaceName,
                                 raceDateTime,
                                 placeEntity.placeData.location,
-                                surfaceType,
-                                distance,
                                 grade,
                                 raceNumber,
+                            ),
+                            HorseRaceConditionData.create(
+                                surfaceType,
+                                distance,
                             ),
                             getJSTDate(new Date()),
                         ),

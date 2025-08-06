@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { JraHeldDayData } from '../../domain/jraHeldDayData';
 import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
@@ -190,12 +191,14 @@ export class JraRaceRepositoryFromHtmlImpl
                                 raceName,
                                 raceDateTime,
                                 raceCourse,
-                                raceSurfaceType,
-                                raceDistance,
                                 raceGrade,
                                 raceNumber,
                             ),
                             JraHeldDayData.create(raceHeld, raceHeldDay),
+                            HorseRaceConditionData.create(
+                                raceSurfaceType,
+                                raceDistance,
+                            ),
                             getJSTDate(new Date()),
                         );
                         jraRaceDataList.push(jraRaceData);

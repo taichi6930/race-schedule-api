@@ -1,6 +1,7 @@
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { HorseRaceConditionData } from '../../../../lib/src/domain/houseRaceConditionData';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../lib/src/domain/raceData';
 import { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
@@ -37,10 +38,13 @@ export const baseNarRaceData = RaceData.create(
     baseNarRaceName,
     baseRaceDateTime,
     baseNarPlaceCourse,
-    baseNarRaceSurfaceType,
-    baseNarRaceDistance,
     baseNarRaceGrade,
     baseNarRaceNumber,
+);
+
+export const baseNarConditionData = HorseRaceConditionData.create(
+    baseNarRaceSurfaceType,
+    baseNarRaceDistance,
 );
 
 export const baseNarPlaceRecord = NarPlaceRecord.create(
@@ -74,6 +78,7 @@ export const baseNarPlaceEntity = NarPlaceEntity.createWithoutId(
 
 export const baseNarRaceEntity = NarRaceEntity.createWithoutId(
     baseNarRaceData,
+    baseNarConditionData,
     baseNarRaceUpdateDate,
 );
 
@@ -146,11 +151,10 @@ export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatM
                     `テスト${location}${grade}${(index + 1).toString()}レース`,
                     new Date(2024, 6 - 1, 1, 7 + index, 0),
                     location,
-                    'ダート',
-                    1600,
                     grade,
                     index + 1,
                 ),
+                HorseRaceConditionData.create('ダート', 1600),
                 baseNarRaceUpdateDate,
             );
         });

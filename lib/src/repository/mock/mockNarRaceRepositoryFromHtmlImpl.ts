@@ -1,3 +1,4 @@
+import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -33,11 +34,10 @@ export class MockNarRaceRepositoryFromHtmlImpl
                                     i + 9,
                                 ),
                                 placeEntity.placeData.location,
-                                'ダート',
-                                2000,
                                 'GⅠ',
                                 i,
                             ),
+                            HorseRaceConditionData.create('ダート', 2000),
                             getJSTDate(new Date()),
                         ),
                     );

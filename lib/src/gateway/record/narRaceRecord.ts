@@ -1,5 +1,6 @@
 import '../../utility/format';
 
+import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
@@ -132,11 +133,10 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
                 this.name,
                 this.dateTime,
                 this.location,
-                this.surfaceType,
-                this.distance,
                 this.grade,
                 this.number,
             ),
+            HorseRaceConditionData.create(this.surfaceType, this.distance),
             this.updateDate,
         );
     }

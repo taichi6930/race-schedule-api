@@ -1,6 +1,6 @@
 import { baseBoatraceRacePlayerDataList } from '../../../../test/src/mock/common/baseBoatraceData';
-import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
 import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
+import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -21,8 +21,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
         const raceEntityList: BoatraceRaceEntity[] = [];
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
-                const placeData: MechanicalRacingPlaceData =
-                    placeEntity.placeData;
+                const placeData: PlaceData = placeEntity.placeData;
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
                     const raceStage = i === 12 ? '優勝戦' : '一般戦';
@@ -39,7 +38,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
                                     i + 9,
                                 ),
                                 placeData.location,
-                                placeData.grade,
+                                placeEntity.grade,
                                 i,
                             ),
                             baseBoatraceRacePlayerDataList,

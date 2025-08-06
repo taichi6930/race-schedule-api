@@ -5,7 +5,7 @@ import path from 'node:path';
 
 import { container } from 'tsyringe';
 
-import { MechanicalRacingPlaceData } from '../../../../lib/src/domain/mechanicalRacingPlaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { MechanicalRacingPlaceRecord } from '../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
@@ -77,12 +77,8 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
             return Array.from({ length: 12 }, () =>
                 MechanicalRacingPlaceEntity.createWithoutId(
                     RaceType.BOATRACE,
-                    MechanicalRacingPlaceData.create(
-                        RaceType.BOATRACE,
-                        date,
-                        '平和島',
-                        'SG',
-                    ),
+                    PlaceData.create(RaceType.BOATRACE, date, '平和島'),
+                    'SG',
                     getJSTDate(new Date()),
                 ),
             );

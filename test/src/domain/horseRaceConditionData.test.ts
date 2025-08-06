@@ -1,15 +1,12 @@
-import { baseNarRaceData } from '../mock/common/baseNarData';
+import { baseJraConditionData } from '../mock/common/baseJraData';
 
-describe('NarRaceDataクラスのテスト', () => {
-    const baseRaceData = baseNarRaceData;
+describe('HorseRaceConditionDataクラスのテスト', () => {
+    const baseRaceData = baseJraConditionData;
 
     it('正しい入力でNarRaceDataのインスタンスを作成できることを確認', () => {
         const raceData = baseRaceData;
-        expect(raceData.name).toBe('東京大賞典');
-        expect(raceData.dateTime).toEqual(new Date('2024-12-29 15:40'));
-        expect(raceData.location).toBe('大井');
-        expect(raceData.grade).toBe('GⅠ');
-        expect(raceData.number).toBe(11);
+        expect(raceData.surfaceType).toBe('芝');
+        expect(raceData.distance).toBe(2500);
     });
 
     it('何も変更せずNarRaceDataのインスタンスを作成できることを確認', () => {

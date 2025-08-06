@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
+import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { JraHeldDayData } from '../../domain/jraHeldDayData';
 import type { RaceData } from '../../domain/raceData';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
@@ -32,6 +33,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      * @param id - ID
      * @param raceData - レースデータ
      * @param heldDayData
+     * @param conditionData
      * @param updateDate - 更新日時
      * @remarks
      * レース開催データを生成する
@@ -40,6 +42,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         public readonly id: RaceId,
         public readonly raceData: RaceData,
         public readonly heldDayData: JraHeldDayData,
+        public readonly conditionData: HorseRaceConditionData,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -48,18 +51,21 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      * @param id - ID
      * @param raceData - レースデータ
      * @param heldDayData
+     * @param conditionData
      * @param updateDate - 更新日時
      */
     public static create(
         id: string,
         raceData: RaceData,
         heldDayData: JraHeldDayData,
+        conditionData: HorseRaceConditionData,
         updateDate: Date,
     ): JraRaceEntity {
         return new JraRaceEntity(
             validateRaceId(RaceType.JRA, id),
             raceData,
             heldDayData,
+            conditionData,
             validateUpdateDate(updateDate),
         );
     }
@@ -68,11 +74,13 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      * idがない場合でのcreate
      * @param raceData
      * @param heldDayData
+     * @param conditionData
      * @param updateDate
      */
     public static createWithoutId(
         raceData: RaceData,
         heldDayData: JraHeldDayData,
+        conditionData: HorseRaceConditionData,
         updateDate: Date,
     ): JraRaceEntity {
         return JraRaceEntity.create(
@@ -84,6 +92,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
             ),
             raceData,
             heldDayData,
+            conditionData,
             updateDate,
         );
     }
@@ -97,6 +106,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.heldDayData ?? this.heldDayData,
+            partial.conditionData ?? this.conditionData,
             partial.updateDate ?? this.updateDate,
         );
     }
@@ -110,8 +120,8 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
             this.raceData.name,
             this.raceData.dateTime,
             this.raceData.location,
-            this.raceData.surfaceType,
-            this.raceData.distance,
+            this.conditionData.surfaceType,
+            this.conditionData.distance,
             this.raceData.grade,
             this.raceData.number,
             this.heldDayData.heldTimes,
@@ -150,7 +160,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
             },
             colorId: getJraGoogleCalendarColorId(this.raceData.grade),
             description:
-                `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
+                `距離: ${this.conditionData.surfaceType}${this.conditionData.distance.toString()}m
                     発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
                     ${createAnchorTag(
                         'レース情報',
@@ -172,8 +182,8 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
                     name: this.raceData.name,
                     dateTime: this.raceData.dateTime.toISOString(),
                     location: this.raceData.location,
-                    distance: this.raceData.distance.toString(),
-                    surfaceType: this.raceData.surfaceType,
+                    distance: this.conditionData.distance.toString(),
+                    surfaceType: this.conditionData.surfaceType,
                     grade: this.raceData.grade,
                     number: this.raceData.number.toString(),
                     heldTimes: this.heldDayData.heldTimes.toString(),

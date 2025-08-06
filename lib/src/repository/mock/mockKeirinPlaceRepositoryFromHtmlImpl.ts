@@ -1,4 +1,4 @@
-import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
+import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -27,12 +27,12 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
             const keirinPlaceEntity =
                 MechanicalRacingPlaceEntity.createWithoutId(
                     RaceType.KEIRIN,
-                    MechanicalRacingPlaceData.create(
+                    PlaceData.create(
                         RaceType.KEIRIN,
                         new Date(currentDate),
                         '川崎',
-                        'GⅠ',
                     ),
+                    'GⅠ',
                     getJSTDate(new Date()),
                 );
             placeEntityList.push(keirinPlaceEntity);

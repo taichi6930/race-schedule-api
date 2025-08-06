@@ -1,6 +1,6 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { MechanicalRacingPlaceData } from '../../../../lib/src/domain/mechanicalRacingPlaceData';
 import { MechanicalRacingRaceData } from '../../../../lib/src/domain/mechanicalRacingRaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
@@ -33,11 +33,10 @@ const baseKeirinRaceNumber = 11;
 const baseKeirinRaceStage: RaceStage = 'S級グランプリ';
 const baseKeirinRaceUpdateDate = getJSTDate(new Date('2025-10-01 16:30'));
 
-export const baseKeirinPlaceData = MechanicalRacingPlaceData.create(
+export const baseKeirinPlaceData = PlaceData.create(
     RaceType.KEIRIN,
     baseKeirinPlaceDateTime,
     baseKeirinPlaceCourse,
-    baseKeirinPlaceGrade,
 );
 
 export const baseKeirinRaceData = MechanicalRacingRaceData.create(
@@ -80,6 +79,7 @@ export const baseKeirinPlaceEntity =
     MechanicalRacingPlaceEntity.createWithoutId(
         RaceType.KEIRIN,
         baseKeirinPlaceData,
+        baseKeirinPlaceGrade,
         baseKeirinRaceUpdateDate,
     );
 

@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
+import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
@@ -23,6 +24,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      * コンストラクタ
      * @param id - ID
      * @param raceData - レースデータ
+     * @param conditionData
      * @param updateDate - 更新日時
      * @remarks
      * レース開催データを生成する
@@ -30,6 +32,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     private constructor(
         public readonly id: RaceId,
         public readonly raceData: RaceData,
+        public readonly conditionData: HorseRaceConditionData,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -37,16 +40,19 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      * インスタンス生成メソッド
      * @param id - ID
      * @param raceData - レースデータ
+     * @param conditionData
      * @param updateDate - 更新日時
      */
     public static create(
         id: string,
         raceData: RaceData,
+        conditionData: HorseRaceConditionData,
         updateDate: Date,
     ): WorldRaceEntity {
         return new WorldRaceEntity(
             id,
             raceData,
+            conditionData,
             validateUpdateDate(updateDate),
         );
     }
@@ -54,10 +60,12 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     /**
      * idがない場合でのcreate
      * @param raceData
+     * @param conditionData
      * @param updateDate
      */
     public static createWithoutId(
         raceData: RaceData,
+        conditionData: HorseRaceConditionData,
         updateDate: Date,
     ): WorldRaceEntity {
         return WorldRaceEntity.create(
@@ -68,6 +76,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
                 raceData.number,
             ),
             raceData,
+            conditionData,
             updateDate,
         );
     }
@@ -80,6 +89,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
         return new WorldRaceEntity(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
+            partial.conditionData ?? this.conditionData,
             partial.updateDate ?? this.updateDate,
         );
     }
@@ -93,8 +103,8 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
             this.raceData.name,
             this.raceData.dateTime,
             this.raceData.location,
-            this.raceData.surfaceType,
-            this.raceData.distance,
+            this.conditionData.surfaceType,
+            this.conditionData.distance,
             this.raceData.grade,
             this.raceData.number,
             this.updateDate,
@@ -138,7 +148,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
             },
             colorId: getWorldGoogleCalendarColorId(this.raceData.grade),
             description:
-                `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
+                `距離: ${this.conditionData.surfaceType}${this.conditionData.distance.toString()}m
                 発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
                 更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}
             `.replace(/\n\s+/g, '\n'),
@@ -148,8 +158,8 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
                     name: this.raceData.name,
                     dateTime: this.raceData.dateTime.toISOString(),
                     location: this.raceData.location,
-                    distance: this.raceData.distance.toString(),
-                    surfaceType: this.raceData.surfaceType,
+                    distance: this.conditionData.distance.toString(),
+                    surfaceType: this.conditionData.surfaceType,
                     grade: this.raceData.grade,
                     number: this.raceData.number.toString(),
                     updateDate: this.updateDate.toISOString(),

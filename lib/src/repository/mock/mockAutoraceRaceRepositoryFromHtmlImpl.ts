@@ -35,7 +35,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
                                     i + 9,
                                 ),
                                 placeEntity.placeData.location,
-                                placeEntity.placeData.grade,
+                                placeEntity.grade,
                                 i,
                             ),
                             [],

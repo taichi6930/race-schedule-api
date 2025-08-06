@@ -1,4 +1,4 @@
-import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
+import { PlaceData } from '../../domain/placeData';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
@@ -97,12 +97,8 @@ export class MechanicalRacingPlaceRecord
         return MechanicalRacingPlaceEntity.create(
             this.id,
             this.raceType,
-            MechanicalRacingPlaceData.create(
-                this.raceType,
-                this.dateTime,
-                this.location,
-                this.grade,
-            ),
+            PlaceData.create(this.raceType, this.dateTime, this.location),
+            this.grade,
             this.updateDate,
         );
     }
