@@ -3,8 +3,11 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
+import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { MechanicalRacingPlaceRecord } from '../../gateway/record/mechanicalRacingPlaceRecord';
+import { PlaceGradeRecord } from '../../gateway/record/placeGradeRecord';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -37,12 +40,26 @@ export class KeirinPlaceRepositoryFromStorageImpl
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<MechanicalRacingPlaceEntity[]> {
         // ファイル名リストから開催データを取得する
-        const placeRecordList: MechanicalRacingPlaceRecord[] =
-            await this.getPlaceRecordListFromS3();
+        const placeRecordList: {
+            placeRecord: PlaceRecord;
+            placeGradeRecord: PlaceGradeRecord;
+        }[] = await this.getPlaceRecordListFromS3();
 
         // KeirinPlaceRecordをKeirinPlaceEntityに変換
         const placeEntityList: MechanicalRacingPlaceEntity[] =
-            placeRecordList.map((placeRecord) => placeRecord.toEntity());
+            placeRecordList.map((record) =>
+                MechanicalRacingPlaceEntity.create(
+                    record.placeRecord.id,
+                    record.placeRecord.raceType,
+                    MechanicalRacingPlaceData.create(
+                        record.placeRecord.raceType,
+                        record.placeRecord.dateTime,
+                        record.placeRecord.location,
+                        record.placeGradeRecord.grade,
+                    ),
+                    record.placeRecord.updateDate,
+                ),
+            );
 
         // 日付の範囲でフィルタリング
         const filteredPlaceEntityList: MechanicalRacingPlaceEntity[] =
@@ -61,7 +78,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
     ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: MechanicalRacingPlaceRecord[] =
-            await this.getPlaceRecordListFromS3();
+            await this.getOldPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
         const placeRecordList: MechanicalRacingPlaceRecord[] =
@@ -95,7 +112,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
      * 開催場データをS3から取得する
      */
     @Logger
-    private async getPlaceRecordListFromS3(): Promise<
+    private async getOldPlaceRecordListFromS3(): Promise<
         MechanicalRacingPlaceRecord[]
     > {
         // S3からデータを取得する
@@ -146,6 +163,76 @@ export class KeirinPlaceRepositoryFromStorageImpl
                     return [];
                 }
             });
+
+        return placeRecordList;
+    }
+
+    /**
+     * 開催場データをS3から取得する
+     */
+    @Logger
+    private async getPlaceRecordListFromS3(): Promise<
+        { placeRecord: PlaceRecord; placeGradeRecord: PlaceGradeRecord }[]
+    > {
+        // S3からデータを取得する
+        const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
+
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
+
+        // CSVを行ごとに分割
+        const lines = csv.split('\n');
+
+        // ヘッダー行を解析
+        const headers = lines[0].split(',');
+
+        // ヘッダーに基づいてインデックスを取得
+        const indices = {
+            id: headers.indexOf('id'),
+            dateTime: headers.indexOf('dateTime'),
+            location: headers.indexOf('location'),
+            grade: headers.indexOf('grade'),
+            updateDate: headers.indexOf('updateDate'),
+        };
+
+        const placeRecordList: {
+            placeRecord: PlaceRecord;
+            placeGradeRecord: PlaceGradeRecord;
+        }[] = [];
+
+        for (const line of lines.slice(1)) {
+            try {
+                const columns = line.split(',');
+
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
+                const placeRecord = PlaceRecord.create(
+                    columns[indices.id],
+                    RaceType.KEIRIN,
+                    new Date(columns[indices.dateTime]),
+                    columns[indices.location],
+                    updateDate,
+                );
+
+                const placeGradeRecord = PlaceGradeRecord.create(
+                    columns[indices.id],
+                    RaceType.KEIRIN,
+                    columns[indices.grade],
+                    updateDate,
+                );
+
+                placeRecordList.push({
+                    placeRecord,
+                    placeGradeRecord,
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
         return placeRecordList;
     }
