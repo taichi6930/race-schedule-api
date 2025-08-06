@@ -6,7 +6,7 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
@@ -14,6 +14,7 @@ import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEnti
 import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { NarRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('NarRaceRepositoryFromStorageImpl', () => {
@@ -95,7 +96,8 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, (__, j) =>
                 NarRaceEntity.createWithoutId(
-                    NarRaceData.create(
+                    RaceData.create(
+                        RaceType.NAR,
                         `raceName${format(date, 'yyyyMMdd')}`,
                         date,
                         '大井',

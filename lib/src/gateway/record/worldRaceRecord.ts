@@ -1,6 +1,6 @@
 import '../../utility/format';
 
-import { WorldRaceData } from '../../domain/worldRaceData';
+import { RaceData } from '../../domain/raceData';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
@@ -117,7 +117,8 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     public toEntity(): WorldRaceEntity {
         return WorldRaceEntity.create(
             this.id,
-            WorldRaceData.create(
+            RaceData.create(
+                RaceType.WORLD,
                 this.name,
                 this.dateTime,
                 this.location,

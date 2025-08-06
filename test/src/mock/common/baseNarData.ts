@@ -1,8 +1,8 @@
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
 import { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
@@ -32,7 +32,8 @@ export const baseNarPlaceData = PlaceData.create(
     baseNarPlaceCourse,
 );
 
-export const baseNarRaceData = NarRaceData.create(
+export const baseNarRaceData = RaceData.create(
+    RaceType.NAR,
     baseNarRaceName,
     baseRaceDateTime,
     baseNarPlaceCourse,
@@ -140,7 +141,8 @@ export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatM
             '地方重賞',
         ].map((grade, index) => {
             return NarRaceEntity.createWithoutId(
-                NarRaceData.create(
+                RaceData.create(
+                    RaceType.NAR,
                     `テスト${location}${grade}${(index + 1).toString()}レース`,
                     new Date(2024, 6 - 1, 1, 7 + index, 0),
                     location,

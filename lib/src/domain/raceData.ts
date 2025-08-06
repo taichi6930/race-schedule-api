@@ -22,13 +22,18 @@ import {
 } from '../utility/data/common/raceName';
 import type { RaceNumber } from '../utility/data/common/raceNumber';
 import { validateRaceNumber } from '../utility/data/common/raceNumber';
-import { RaceType } from '../utility/raceType';
+import type { RaceType } from '../utility/raceType';
 import type { IPlaceData } from './iPlaceData';
 
 /**
- * 地方競馬のレース開催データ
+ * 競馬のレース開催データ
  */
-export class NarRaceData implements IPlaceData<NarRaceData> {
+export class RaceData implements IPlaceData<RaceData> {
+    /**
+     * レース種別
+     * @type {RaceType}
+     */
+    public readonly raceType: RaceType;
     /**
      * レース名
      * @type {RaceName}
@@ -67,6 +72,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
 
     /**
      * コンストラクタ
+     * @param raceType - レース種別
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -78,6 +84,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * レース開催データを生成する
      */
     private constructor(
+        raceType: RaceType,
         name: RaceName,
         dateTime: RaceDateTime,
         location: RaceCourse,
@@ -86,6 +93,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
         grade: GradeType,
         number: RaceNumber,
     ) {
+        this.raceType = raceType;
         this.name = name;
         this.dateTime = dateTime;
         this.location = location;
@@ -98,6 +106,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
     /**
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
+     * @param raceType - レース種別
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -107,6 +116,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * @param number - レース番号
      */
     public static create(
+        raceType: RaceType,
         name: string,
         dateTime: Date,
         location: string,
@@ -114,14 +124,15 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
         distance: number,
         grade: string,
         number: number,
-    ): NarRaceData {
-        return new NarRaceData(
+    ): RaceData {
+        return new RaceData(
+            raceType,
             validateRaceName(name),
             validateRaceDateTime(dateTime),
-            validateRaceCourse(RaceType.NAR, location),
+            validateRaceCourse(raceType, location),
             validateRaceCourseType(surfaceType),
             validateRaceDistance(distance),
-            validateGradeType(RaceType.NAR, grade),
+            validateGradeType(raceType, grade),
             validateRaceNumber(number),
         );
     }
@@ -130,8 +141,9 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<NarRaceData> = {}): NarRaceData {
-        return NarRaceData.create(
+    public copy(partial: Partial<RaceData> = {}): RaceData {
+        return RaceData.create(
+            partial.raceType ?? this.raceType,
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

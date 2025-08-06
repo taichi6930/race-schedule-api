@@ -1,6 +1,6 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
-import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
 import { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
@@ -27,7 +27,8 @@ export const baseWorldPlaceData = PlaceData.create(
     baseWorldPlaceCourse,
 );
 
-export const baseWorldRaceData = WorldRaceData.create(
+export const baseWorldRaceData = RaceData.create(
+    RaceType.WORLD,
     baseWorldRaceName,
     baseRaceDateTime,
     baseWorldPlaceCourse,
@@ -81,7 +82,8 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
         '格付けなし',
     ].map((grade, index) => {
         return WorldRaceEntity.createWithoutId(
-            WorldRaceData.create(
+            RaceData.create(
+                RaceType.WORLD,
                 `テスト${location}${grade}${(index + 1).toString()}レース`,
                 new Date(2024, 10 - 1, 1, 7 + index, 0),
                 location,

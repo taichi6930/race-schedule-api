@@ -2,8 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { JraRaceData } from '../../domain/jraRaceData';
 import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
-import { NarRaceData } from '../../domain/narRaceData';
-import { WorldRaceData } from '../../domain/worldRaceData';
+import { RaceData } from '../../domain/raceData';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
@@ -98,8 +97,8 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         },
     ): Promise<{
         jra: JraRaceData[];
-        nar: NarRaceData[];
-        world: WorldRaceData[];
+        nar: RaceData[];
+        world: RaceData[];
         keirin: MechanicalRacingRaceData[];
         autorace: MechanicalRacingRaceData[];
         boatrace: MechanicalRacingRaceData[];
@@ -455,8 +454,8 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
     @Logger
     public async upsertRaceDataList(raceDataList: {
         jra?: JraRaceData[];
-        nar?: NarRaceData[];
-        world?: WorldRaceData[];
+        nar?: RaceData[];
+        world?: RaceData[];
         keirin?: MechanicalRacingRaceData[];
         autorace?: MechanicalRacingRaceData[];
         boatrace?: MechanicalRacingRaceData[];

@@ -1,6 +1,7 @@
-import { WorldRaceData } from '../../domain/worldRaceData';
+import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
@@ -21,7 +22,8 @@ export class MockWorldRaceRepositoryFromHtmlImpl
             for (let i = 1; i <= 12; i++) {
                 raceEntityList.push(
                     WorldRaceEntity.createWithoutId(
-                        WorldRaceData.create(
+                        RaceData.create(
+                            RaceType.WORLD,
                             `第${i.toString()}R`,
                             new Date(
                                 currentDate.getFullYear(),

@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
-import type { NarRaceData } from '../../domain/narRaceData';
+import type { RaceData } from '../../domain/raceData';
 import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
 import { NarBabacodeMap } from '../../utility/data/common/raceCourse';
 import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
@@ -35,7 +35,7 @@ export class NarRaceEntity {
      */
     private constructor(
         public readonly id: RaceId,
-        public readonly raceData: NarRaceData,
+        public readonly raceData: RaceData,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -47,7 +47,7 @@ export class NarRaceEntity {
      */
     public static create(
         id: string,
-        raceData: NarRaceData,
+        raceData: RaceData,
         updateDate: Date,
     ): NarRaceEntity {
         return new NarRaceEntity(
@@ -63,7 +63,7 @@ export class NarRaceEntity {
      * @param updateDate
      */
     public static createWithoutId(
-        raceData: NarRaceData,
+        raceData: RaceData,
         updateDate: Date,
     ): NarRaceEntity {
         return NarRaceEntity.create(

@@ -1,6 +1,7 @@
-import { NarRaceData } from '../../domain/narRaceData';
+import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -22,7 +23,8 @@ export class MockNarRaceRepositoryFromHtmlImpl
                 for (let i = 1; i <= 12; i++) {
                     raceEntityList.push(
                         NarRaceEntity.createWithoutId(
-                            NarRaceData.create(
+                            RaceData.create(
+                                RaceType.NAR,
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
                                 new Date(
                                     placeEntity.placeData.dateTime.getFullYear(),
