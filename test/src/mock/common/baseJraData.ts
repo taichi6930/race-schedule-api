@@ -1,8 +1,9 @@
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
+import { JraHeldDayData } from '../../../../lib/src/domain/jraHeldDayData';
 import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
 import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
@@ -33,12 +34,13 @@ const baseJraRaceHeldTimes = 5;
 const baseJraRaceHeldDayTimes = 8;
 const baseJraRaceUpdateDate = new Date('2024-12-01 00:00');
 
-export const baseJraPlaceData = JraPlaceData.create(
+export const baseJraPlaceData = PlaceData.create(
+    RaceType.JRA,
     baseJraPlaceDateTime,
     baseJraPlaceCourse,
-    1,
-    1,
 );
+
+export const baseJraHeldDayData = JraHeldDayData.create(1, 1);
 
 export const baseJraRaceData = JraRaceData.create(
     baseJraRaceName,
@@ -82,6 +84,7 @@ export const baseJraRaceRecord = JraRaceRecord.create(
 
 export const baseJraPlaceEntity = JraPlaceEntity.createWithoutId(
     baseJraPlaceData,
+    baseJraHeldDayData,
     baseJraRaceUpdateDate,
 );
 

@@ -1,4 +1,5 @@
-import { JraPlaceData } from '../../domain/jraPlaceData';
+import { JraHeldDayData } from '../../domain/jraHeldDayData';
+import { PlaceData } from '../../domain/placeData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
@@ -98,12 +99,8 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     public toEntity(): JraPlaceEntity {
         return JraPlaceEntity.create(
             this.id,
-            JraPlaceData.create(
-                this.dateTime,
-                this.location,
-                this.heldTimes,
-                this.heldDayTimes,
-            ),
+            PlaceData.create(RaceType.JRA, this.dateTime, this.location),
+            JraHeldDayData.create(this.heldTimes, this.heldDayTimes),
             this.updateDate,
         );
     }

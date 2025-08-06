@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { JraPlaceData } from '../../domain/jraPlaceData';
 import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
@@ -29,7 +28,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
         startDate: Date,
         finishDate: Date,
         raceTypeList: string[],
-    ): Promise<(JraPlaceData | PlaceData | MechanicalRacingPlaceData)[]> {
+    ): Promise<(PlaceData | MechanicalRacingPlaceData)[]> {
         // 開催場データを取得
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
@@ -38,11 +37,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
                 raceTypeList,
                 DataLocation.Storage,
             );
-        const placeDataList: (
-            | PlaceData
-            | JraPlaceData
-            | MechanicalRacingPlaceData
-        )[] = [];
+        const placeDataList: (PlaceData | MechanicalRacingPlaceData)[] = [];
         // 全ての開催場データを結合して返す
         // それぞれのplaceDataを抽出して返す
         for (const placeEntityX of [

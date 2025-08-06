@@ -1,6 +1,8 @@
-import { JraPlaceData } from '../../domain/jraPlaceData';
+import { JraHeldDayData } from '../../domain/jraHeldDayData';
+import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -24,7 +26,8 @@ export class MockJraPlaceRepositoryFromHtmlImpl
         while (currentDate <= searchFilter.finishDate) {
             // 中央競馬場データを作成
             const jraPlaceEntity = JraPlaceEntity.createWithoutId(
-                JraPlaceData.create(new Date(currentDate), '東京', 1, 1),
+                PlaceData.create(RaceType.JRA, new Date(currentDate), '東京'),
+                JraHeldDayData.create(1, 1), // 仮の開催日データ
                 getJSTDate(new Date()),
             );
             placeEntityList.push(jraPlaceEntity);
