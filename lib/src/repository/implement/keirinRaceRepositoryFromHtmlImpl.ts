@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
 import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
+import { PlaceData } from '../../domain/placeData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { GradeType } from '../../utility/data/common/gradeType';
@@ -44,6 +44,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 keirinRaceDataList.push(
                     ...(await this.fetchRaceListFromHtmlWithKeirinPlace(
                         placeEntity.placeData,
+                        placeEntity.grade,
                     )),
                 );
                 console.debug('0.8秒待ちます');
@@ -56,7 +57,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
 
     @Logger
     public async fetchRaceListFromHtmlWithKeirinPlace(
-        placeData: MechanicalRacingPlaceData,
+        placeData: PlaceData,
+        grade: GradeType,
     ): Promise<KeirinRaceEntity[]> {
         try {
             const [year, month, day] = [
@@ -75,7 +77,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
             const content = $('#content');
             const seriesRaceName = (
                 content.find('h2').text().split('\n').filter(Boolean)[1] ??
-                `${placeData.location}${placeData.grade}`
+                `${placeData.location}${grade}`
             )
                 .replace(/[！-～]/g, (s: string) =>
                     String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
@@ -111,7 +113,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         );
                         const raceGrade = this.extractRaceGrade(
                             raceName,
-                            placeData.grade,
+                            grade,
                             raceStage ?? '',
                             new Date(year, month - 1, day),
                         );

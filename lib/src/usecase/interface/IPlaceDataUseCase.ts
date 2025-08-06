@@ -1,4 +1,3 @@
-import type { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
 import type { PlaceData } from '../../domain/placeData';
 
 /**
@@ -14,7 +13,7 @@ export interface IPlaceDataUseCase {
         startDate: Date,
         finishDate: Date,
         raceTypeList: string[],
-    ) => Promise<(PlaceData | MechanicalRacingPlaceData)[]>;
+    ) => Promise<PlaceData[]>;
     /**
      * 開催場データを更新する
      * @param startDate

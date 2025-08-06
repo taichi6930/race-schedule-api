@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
 import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
+import { PlaceData } from '../../domain/placeData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { GradeType } from '../../utility/data/common/gradeType';
@@ -47,6 +47,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                 boatraceRaceDataList.push(
                     ...(await this.fetchRaceListFromHtmlWithBoatracePlace(
                         placeEntity.placeData,
+                        placeEntity.grade,
                     )),
                 );
                 console.debug('0.8秒待ちます');
@@ -59,7 +60,8 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 
     @Logger
     public async fetchRaceListFromHtmlWithBoatracePlace(
-        placeData: MechanicalRacingPlaceData,
+        placeData: PlaceData,
+        grade: GradeType,
     ): Promise<BoatraceRaceEntity[]> {
         try {
             const [year, month, day] = [
@@ -90,7 +92,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 
             const raceName = this.extractRaceName(raceNameText, raceStage, 12);
 
-            const raceGrade = this.extractRaceGrade(raceName, placeData.grade);
+            const raceGrade = this.extractRaceGrade(raceName, grade);
 
             // contentsFrame1_innerのクラスを持つ要素を取得
             const raceSummaryInfo = $('.contentsFrame1_inner');

@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { MechanicalRacingPlaceData } from '../../../../lib/src/domain/mechanicalRacingPlaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
@@ -44,12 +44,12 @@ describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
                         [
                             MechanicalRacingPlaceEntity.createWithoutId(
                                 RaceType.AUTORACE,
-                                MechanicalRacingPlaceData.create(
+                                PlaceData.create(
                                     RaceType.AUTORACE,
                                     new Date('2024-11-04'),
                                     '川口',
-                                    'SG',
                                 ),
+                                'SG',
                                 getJSTDate(new Date()),
                             ),
                         ],

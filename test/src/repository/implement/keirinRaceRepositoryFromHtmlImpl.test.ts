@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { MechanicalRacingPlaceData } from '../../../../lib/src/domain/mechanicalRacingPlaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
@@ -43,12 +43,12 @@ describe('KeirinRaceRepositoryFromHtmlImpl', () => {
                         [
                             MechanicalRacingPlaceEntity.createWithoutId(
                                 RaceType.KEIRIN,
-                                MechanicalRacingPlaceData.create(
+                                PlaceData.create(
                                     RaceType.KEIRIN,
                                     new Date('2024-10-20'),
                                     '弥彦',
-                                    'GⅠ',
                                 ),
+                                'GⅠ',
                                 getJSTDate(new Date()),
                             ),
                         ],

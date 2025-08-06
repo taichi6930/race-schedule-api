@@ -3,9 +3,10 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
 import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
+import { PlaceData } from '../../domain/placeData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
+import { GradeType } from '../../utility/data/common/gradeType';
 import {
     AutoraceStageMap,
     RaceStage,
@@ -77,6 +78,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
             const raceName = this.extractRaceName(
                 content.find('h3').text(),
                 placeEntity.placeData,
+                placeEntity.grade,
             );
             // <div div class="section clearfix">を取得
             const section = content.find('.section');
@@ -114,7 +116,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                             console.log(`notRaceStage: ${rowRaceStage}`);
                         }
 
-                        const raceGrade = placeEntity.placeData.grade;
+                        const raceGrade = placeEntity.grade;
                         if (raceStage !== null && raceStage.trim() !== '') {
                             autoraceRaceDataList.push(
                                 AutoraceRaceEntity.createWithoutId(
@@ -151,7 +153,8 @@ export class AutoraceRaceRepositoryFromHtmlImpl
 
     private extractRaceName(
         raceSummaryInfoChild: string,
-        placeData: MechanicalRacingPlaceData,
+        placeData: PlaceData,
+        grade: GradeType,
     ): string {
         const raceConditions = [
             {
@@ -189,13 +192,13 @@ export class AutoraceRaceRepositoryFromHtmlImpl
         for (const condition of raceConditions) {
             if (
                 raceSummaryInfoChild.includes(condition.keyword) &&
-                placeData.grade === condition.grade
+                grade === condition.grade
             ) {
                 return condition.name;
             }
         }
 
-        return `${placeData.location}${placeData.grade}`;
+        return `${placeData.location}${grade}`;
     }
 
     /**

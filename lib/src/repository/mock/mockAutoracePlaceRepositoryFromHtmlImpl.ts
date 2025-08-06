@@ -1,4 +1,4 @@
-import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
+import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -29,12 +29,8 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
             const autoracePlaceEntity =
                 MechanicalRacingPlaceEntity.createWithoutId(
                     RaceType.AUTORACE,
-                    MechanicalRacingPlaceData.create(
-                        RaceType.AUTORACE,
-                        datetime,
-                        place,
-                        'SG',
-                    ),
+                    PlaceData.create(RaceType.AUTORACE, datetime, place),
+                    'SG',
                     getJSTDate(new Date()),
                 );
             placeEntityList.push(autoracePlaceEntity);

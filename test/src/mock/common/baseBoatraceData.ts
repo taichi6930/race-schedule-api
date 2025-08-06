@@ -1,6 +1,6 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { MechanicalRacingPlaceData } from '../../../../lib/src/domain/mechanicalRacingPlaceData';
 import { MechanicalRacingRaceData } from '../../../../lib/src/domain/mechanicalRacingRaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
@@ -32,11 +32,10 @@ const baseBoatraceRaceNumber = 11;
 const baseBoatraceRaceStage = '優勝戦';
 const baseBoatraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
-export const baseBoatracePlaceData = MechanicalRacingPlaceData.create(
+export const baseBoatracePlaceData = PlaceData.create(
     RaceType.BOATRACE,
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,
-    baseBoatracePlaceGrade,
 );
 
 export const baseBoatraceRaceData = MechanicalRacingRaceData.create(
@@ -79,6 +78,7 @@ export const baseBoatracePlaceEntity =
     MechanicalRacingPlaceEntity.createWithoutId(
         RaceType.BOATRACE,
         baseBoatracePlaceData,
+        baseBoatracePlaceGrade,
         baseBoatraceRaceUpdateDate,
     );
 

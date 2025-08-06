@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
+import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -160,12 +160,12 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 const boatracePlaceEntity =
                     MechanicalRacingPlaceEntity.createWithoutId(
                         RaceType.BOATRACE,
-                        MechanicalRacingPlaceData.create(
+                        PlaceData.create(
                             RaceType.BOATRACE,
                             new Date(currentDate),
                             place,
-                            grade,
                         ),
+                        grade,
                         getJSTDate(new Date()),
                     );
                 boatracePlaceEntityList.push(boatracePlaceEntity);

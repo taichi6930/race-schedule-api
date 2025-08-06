@@ -361,7 +361,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 .filter((placeEntity) => {
                     if (searchList?.keirin?.gradeList) {
                         return searchList.keirin.gradeList.includes(
-                            placeEntity.placeData.grade,
+                            placeEntity.grade,
                         );
                     }
                     return true;
@@ -378,7 +378,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 .filter((placeEntity) => {
                     if (searchList?.autorace?.gradeList) {
                         return searchList.autorace.gradeList.includes(
-                            placeEntity.placeData.grade,
+                            placeEntity.grade,
                         );
                     }
                     return true;
@@ -395,7 +395,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 .filter((placeEntity) => {
                     if (searchList?.boatrace?.gradeList) {
                         return searchList.boatrace.gradeList.includes(
-                            placeEntity.placeData.grade,
+                            placeEntity.grade,
                         );
                     }
                     return true;

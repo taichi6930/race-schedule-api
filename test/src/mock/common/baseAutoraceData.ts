@@ -1,6 +1,6 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { MechanicalRacingPlaceData } from '../../../../lib/src/domain/mechanicalRacingPlaceData';
 import { MechanicalRacingRaceData } from '../../../../lib/src/domain/mechanicalRacingRaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
@@ -33,11 +33,10 @@ const baseAutoraceRaceNumber = 11;
 const baseAutoraceRaceStage: RaceStage = '優勝戦';
 const baseAutoraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
-export const baseAutoracePlaceData = MechanicalRacingPlaceData.create(
+export const baseAutoracePlaceData = PlaceData.create(
     RaceType.AUTORACE,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
-    baseAutoracePlaceGrade,
 );
 
 export const baseAutoraceRaceData = MechanicalRacingRaceData.create(
@@ -80,6 +79,7 @@ export const baseAutoracePlaceEntity =
     MechanicalRacingPlaceEntity.createWithoutId(
         RaceType.AUTORACE,
         baseAutoracePlaceData,
+        baseAutoracePlaceGrade,
         baseAutoraceRaceUpdateDate,
     );
 
