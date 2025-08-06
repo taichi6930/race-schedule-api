@@ -28,7 +28,9 @@ import type { IPlaceData } from './iPlaceData';
 /**
  * オートレースのレース開催データ
  */
-export class RaceData implements IPlaceData<RaceData> {
+export class MechanicalRacingRaceData
+    implements IPlaceData<MechanicalRacingRaceData>
+{
     /**
      * レース種別
      * @type {RaceType}
@@ -114,8 +116,8 @@ export class RaceData implements IPlaceData<RaceData> {
         location: string,
         grade: string,
         number: number,
-    ): RaceData {
-        return new RaceData(
+    ): MechanicalRacingRaceData {
+        return new MechanicalRacingRaceData(
             raceType,
             validateRaceName(name),
             validateRaceStage(raceType, stage),
@@ -130,8 +132,10 @@ export class RaceData implements IPlaceData<RaceData> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<RaceData> = {}): RaceData {
-        return RaceData.create(
+    public copy(
+        partial: Partial<MechanicalRacingRaceData> = {},
+    ): MechanicalRacingRaceData {
+        return MechanicalRacingRaceData.create(
             partial.raceType ?? this.raceType,
             partial.name ?? this.name,
             partial.stage ?? this.stage,

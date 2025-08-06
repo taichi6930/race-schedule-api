@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { RaceData } from '../../domain/raceData';
+import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
@@ -66,7 +66,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                         );
                     });
                 // KeirinRaceDataを生成
-                const raceData = RaceData.create(
+                const raceData = MechanicalRacingRaceData.create(
                     RaceType.KEIRIN,
                     raceRecord.name,
                     raceRecord.stage,

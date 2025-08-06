@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
-import type { RaceData } from '../../domain/raceData';
+import type { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import { RaceRecord } from '../../gateway/record/raceRecord';
@@ -32,7 +32,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
      */
     private constructor(
         public readonly id: RaceId,
-        public readonly raceData: RaceData,
+        public readonly raceData: MechanicalRacingRaceData,
         public readonly racePlayerDataList: RacePlayerData[],
         public readonly updateDate: UpdateDate,
     ) {}
@@ -46,7 +46,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
      */
     public static create(
         id: string,
-        raceData: RaceData,
+        raceData: MechanicalRacingRaceData,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): BoatraceRaceEntity {
@@ -65,7 +65,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
      * @param updateDate
      */
     public static createWithoutId(
-        raceData: RaceData,
+        raceData: MechanicalRacingRaceData,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): BoatraceRaceEntity {

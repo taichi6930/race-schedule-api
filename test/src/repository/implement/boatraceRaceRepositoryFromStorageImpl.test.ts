@@ -6,7 +6,7 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { RaceData } from '../../../../lib/src/domain/raceData';
+import { MechanicalRacingRaceData } from '../../../../lib/src/domain/mechanicalRacingRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import type { RaceRecord } from '../../../../lib/src/gateway/record/raceRecord';
@@ -91,7 +91,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from({ length: 12 }, (__, j) =>
                         BoatraceRaceEntity.createWithoutId(
-                            RaceData.create(
+                            MechanicalRacingRaceData.create(
                                 RaceType.BOATRACE,
                                 `raceName${format(date, 'yyyyMMdd')}`,
                                 `優勝戦`,
@@ -124,7 +124,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                 date.setDate(date.getDate() + day);
                 return Array.from({ length: 12 }, (__, j) =>
                     BoatraceRaceEntity.createWithoutId(
-                        RaceData.create(
+                        MechanicalRacingRaceData.create(
                             RaceType.BOATRACE,
                             `raceName${format(date, 'yyyyMMdd')}`,
                             `優勝戦`,

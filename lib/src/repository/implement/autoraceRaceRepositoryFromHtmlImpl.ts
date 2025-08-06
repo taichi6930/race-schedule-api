@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { MechanicalRacingPlaceData } from '../../domain/mechanicalRacingPlaceData';
-import { RaceData } from '../../domain/raceData';
+import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import {
     AutoraceStageMap,
@@ -118,7 +118,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                         if (raceStage !== null && raceStage.trim() !== '') {
                             autoraceRaceDataList.push(
                                 AutoraceRaceEntity.createWithoutId(
-                                    RaceData.create(
+                                    MechanicalRacingRaceData.create(
                                         RaceType.AUTORACE,
                                         raceName,
                                         raceStage,

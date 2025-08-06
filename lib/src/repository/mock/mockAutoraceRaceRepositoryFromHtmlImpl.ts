@@ -1,4 +1,4 @@
-import { RaceData } from '../../domain/raceData';
+import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -24,7 +24,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
                     const raceStage = i === 12 ? '優勝戦' : '予選';
                     raceEntityList.push(
                         AutoraceRaceEntity.createWithoutId(
-                            RaceData.create(
+                            MechanicalRacingRaceData.create(
                                 RaceType.AUTORACE,
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
                                 raceStage,
