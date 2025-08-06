@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { JraHeldDayData } from '../../domain/jraHeldDayData';
 import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { processJraRaceName } from '../../utility/createRaceName';
@@ -185,6 +186,7 @@ export class JraRaceRepositoryFromHtmlImpl
 
                         const jraRaceData = JraRaceEntity.createWithoutId(
                             RaceData.create(
+                                RaceType.JRA,
                                 raceName,
                                 raceDateTime,
                                 raceCourse,
@@ -192,9 +194,8 @@ export class JraRaceRepositoryFromHtmlImpl
                                 raceDistance,
                                 raceGrade,
                                 raceNumber,
-                                raceHeld,
-                                raceHeldDay,
                             ),
+                            JraHeldDayData.create(raceHeld, raceHeldDay),
                             getJSTDate(new Date()),
                         );
                         jraRaceDataList.push(jraRaceData);
