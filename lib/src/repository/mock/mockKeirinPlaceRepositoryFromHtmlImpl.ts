@@ -31,8 +31,8 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
                         RaceType.KEIRIN,
                         new Date(currentDate),
                         '川崎',
-                        'GⅠ',
                     ),
+                    'GⅠ',
                     getJSTDate(new Date()),
                 );
             placeEntityList.push(keirinPlaceEntity);

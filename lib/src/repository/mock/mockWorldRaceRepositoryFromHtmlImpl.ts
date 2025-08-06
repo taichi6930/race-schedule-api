@@ -1,3 +1,4 @@
+import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -32,11 +33,10 @@ export class MockWorldRaceRepositoryFromHtmlImpl
                                 i + 9,
                             ),
                             'ロンシャン',
-                            '芝',
-                            2400,
                             'GⅠ',
                             i,
                         ),
+                        HorseRaceConditionData.create('芝', 2400),
                         getJSTDate(new Date()),
                     ),
                 );
