@@ -1,7 +1,6 @@
-import type { WorldPlaceData } from '../../domain/worldPlaceData';
+import type { PlaceData } from '../../domain/placeData';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { generatePlaceId } from '../../utility/raceId';
-import { RaceType } from '../../utility/raceType';
 import type { IPlaceEntity } from './iPlaceEntity';
 
 /**
@@ -17,7 +16,7 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
      */
     private constructor(
         public readonly id: PlaceId,
-        public readonly placeData: WorldPlaceData,
+        public readonly placeData: PlaceData,
     ) {}
 
     /**
@@ -26,10 +25,10 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
      * @remarks
      * レース開催場所データを生成する
      */
-    public static createWithoutId(placeData: WorldPlaceData): WorldPlaceEntity {
+    public static createWithoutId(placeData: PlaceData): WorldPlaceEntity {
         return new WorldPlaceEntity(
             generatePlaceId(
-                RaceType.WORLD,
+                placeData.raceType,
                 placeData.dateTime,
                 placeData.location,
             ),

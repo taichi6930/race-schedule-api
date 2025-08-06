@@ -60,7 +60,11 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
         updateDate: Date,
     ): PlaceEntity {
         return PlaceEntity.create(
-            generatePlaceId(raceType, placeData.dateTime, placeData.location),
+            generatePlaceId(
+                placeData.raceType,
+                placeData.dateTime,
+                placeData.location,
+            ),
             raceType,
             placeData,
             updateDate,

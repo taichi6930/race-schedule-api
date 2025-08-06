@@ -3,7 +3,6 @@ import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import { generatePlaceId } from '../../utility/raceId';
-import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
@@ -37,7 +36,7 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
         updateDate: Date,
     ): NarPlaceEntity {
         return new NarPlaceEntity(
-            validatePlaceId(RaceType.NAR, id),
+            validatePlaceId(placeData.raceType, id),
             placeData,
             validateUpdateDate(updateDate),
         );
@@ -54,7 +53,7 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
     ): NarPlaceEntity {
         return NarPlaceEntity.create(
             generatePlaceId(
-                RaceType.NAR,
+                placeData.raceType,
                 placeData.dateTime,
                 placeData.location,
             ),

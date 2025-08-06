@@ -1,5 +1,5 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { WorldPlaceData } from '../../../../lib/src/domain/worldPlaceData';
+import { PlaceData } from '../../../../lib/src/domain/placeData';
 import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
 import { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
@@ -21,7 +21,8 @@ const baseRaceDistance = 2400;
 const baseWorldRaceGrade: GradeType = 'GⅠ';
 const baseWorldRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
-export const baseWorldPlaceData = WorldPlaceData.create(
+export const baseWorldPlaceData = PlaceData.create(
+    RaceType.WORLD,
     baseWorldPlaceDateTime,
     baseWorldPlaceCourse,
 );
