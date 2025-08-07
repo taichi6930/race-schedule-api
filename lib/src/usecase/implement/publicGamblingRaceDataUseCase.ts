@@ -329,6 +329,10 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 raceTypeList,
                 DataLocation.Storage,
             );
+        console.log(
+            'PublicGamblingRaceDataUseCase: updateRaceEntityList executed',
+            placeEntityList,
+        );
 
         const filteredPlaceEntityList = {
             jra: placeEntityList.jra.filter((placeEntity) => {

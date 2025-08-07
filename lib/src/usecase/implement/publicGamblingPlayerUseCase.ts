@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { PlayerData } from '../../domain/playerData';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { Logger } from '../../utility/logger';
-import { isRaceType } from '../../utility/raceType';
+import { RaceType } from '../../utility/raceType';
 import { IPlayerDataUseCase } from '../interface/IPlayerDataUseCase';
 
 /**
@@ -20,12 +20,8 @@ export class PublicGamblingPlayerUseCase implements IPlayerDataUseCase {
     public async fetchPlayerDataList(
         raceTypeList: RaceType[],
     ): Promise<PlayerData[]> {
-        const [raceType] = raceTypeList;
-        if (!isRaceType(raceType)) {
-            throw new Error(`Invalid race type: ${raceType}`);
-        }
         const playerDataList: PlayerData[] =
-            await this.playerDataService.fetchPlayerDataList(raceType);
+            await this.playerDataService.fetchPlayerDataList(raceTypeList[0]);
         console.log(
             'PublicGamblingPlayerUseCase: fetchPlayerDataList executed',
             playerDataList[0],

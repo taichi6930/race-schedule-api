@@ -610,9 +610,40 @@ export class PublicGamblingController {
                 return;
             }
 
+            const modifiedRaceTypeList: RaceType[] = raceTypeList
+                .map((type) => {
+                    // RaceTypeに変更
+                    switch (type.toLowerCase()) {
+                        case 'jra': {
+                            return RaceType.JRA;
+                        }
+                        case 'nar': {
+                            return RaceType.NAR;
+                        }
+                        case 'world': {
+                            return RaceType.WORLD;
+                        }
+                        case 'keirin': {
+                            return RaceType.KEIRIN;
+                        }
+                        case 'autorace': {
+                            return RaceType.AUTORACE;
+                        }
+                        case 'boatrace': {
+                            return RaceType.BOATRACE;
+                        }
+                        default: {
+                            return 'undefined'; // 未知のレースタイプは除外
+                        }
+                    }
+                })
+                .filter((type): type is RaceType => type !== 'undefined');
+
             // レース情報を取得する
             const players =
-                await this.playerUseCase.fetchPlayerDataList(raceTypeList);
+                await this.playerUseCase.fetchPlayerDataList(
+                    modifiedRaceTypeList,
+                );
             res.json(players);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
