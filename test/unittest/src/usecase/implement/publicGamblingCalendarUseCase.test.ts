@@ -249,8 +249,8 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 RaceType.NAR,
                 RaceType.WORLD,
                 RaceType.KEIRIN,
-                RaceType.BOATRACE,
                 RaceType.AUTORACE,
+                RaceType.BOATRACE,
             ],
         );
 
