@@ -14,6 +14,7 @@ import {
     WorldSpecifiedGradeList,
 } from '../utility/data/common/gradeType';
 import { Logger } from '../utility/logger';
+import { RaceType } from '../utility/raceType';
 
 /**
  * 公営競技のレース情報コントローラー
@@ -348,11 +349,40 @@ export class PublicGamblingController {
                 return;
             }
 
+            const modifiedRaceTypeList: RaceType[] = raceTypeList
+                .map((type) => {
+                    // RaceTypeに変更
+                    switch (type.toLowerCase()) {
+                        case 'jra': {
+                            return RaceType.JRA;
+                        }
+                        case 'nar': {
+                            return RaceType.NAR;
+                        }
+                        case 'world': {
+                            return RaceType.WORLD;
+                        }
+                        case 'keirin': {
+                            return RaceType.KEIRIN;
+                        }
+                        case 'autorace': {
+                            return RaceType.AUTORACE;
+                        }
+                        case 'boatrace': {
+                            return RaceType.BOATRACE;
+                        }
+                        default: {
+                            return 'undefined'; // 未知のレースタイプは除外
+                        }
+                    }
+                })
+                .filter((type): type is RaceType => type !== 'undefined');
+
             // レース情報を取得する
             const races = await this.raceDataUseCase.fetchRaceEntityList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
-                raceTypeList,
+                modifiedRaceTypeList,
                 {
                     jra: {
                         gradeList,
@@ -445,10 +475,39 @@ export class PublicGamblingController {
                 };
             }
 
+            const modifiedRaceTypeList: RaceType[] = raceTypeList
+                .map((type) => {
+                    // RaceTypeに変更
+                    switch (type.toLowerCase()) {
+                        case 'jra': {
+                            return RaceType.JRA;
+                        }
+                        case 'nar': {
+                            return RaceType.NAR;
+                        }
+                        case 'world': {
+                            return RaceType.WORLD;
+                        }
+                        case 'keirin': {
+                            return RaceType.KEIRIN;
+                        }
+                        case 'autorace': {
+                            return RaceType.AUTORACE;
+                        }
+                        case 'boatrace': {
+                            return RaceType.BOATRACE;
+                        }
+                        default: {
+                            return 'undefined'; // 未知のレースタイプは除外
+                        }
+                    }
+                })
+                .filter((type): type is RaceType => type !== 'undefined');
+
             await this.raceDataUseCase.updateRaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
-                raceTypeList,
+                modifiedRaceTypeList,
                 raceTypeParams,
             );
             res.status(200).send();
