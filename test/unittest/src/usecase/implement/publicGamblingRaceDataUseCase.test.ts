@@ -1,4 +1,4 @@
-import 'reflect-metadata'; // reflect-metadataをインポート
+import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
@@ -28,8 +28,8 @@ import {
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
 import { baseWorldRaceEntityList } from '../../mock/common/baseWorldData';
-import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import type { UseCaseTestSetup } from './testSetupHelper';
+import { clearMocks, setupUseCaseTest } from './testSetupHelper';
 
 describe('PublicGamblingRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<IRaceDataService>;
@@ -37,22 +37,13 @@ describe('PublicGamblingRaceDataUseCase', () => {
     let useCase: IRaceDataUseCase;
 
     beforeEach(() => {
-        raceDataService = raceDataServiceMock();
-        container.registerInstance<IRaceDataService>(
-            'PublicGamblingRaceDataService',
-            raceDataService,
-        );
-        placeDataService = placeDataServiceMock();
-        container.registerInstance<IPlaceDataService>(
-            'PublicGamblingPlaceDataService',
-            placeDataService,
-        );
-
+        const setup: UseCaseTestSetup = setupUseCaseTest();
+        ({ raceDataService, placeDataService } = setup);
         useCase = container.resolve(PublicGamblingRaceDataUseCase);
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     describe('fetchRaceEntityList', () => {

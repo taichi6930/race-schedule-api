@@ -1,10 +1,11 @@
-import 'reflect-metadata'; // reflect-metadataをインポート
+import 'reflect-metadata';
+
+import { afterEach } from 'node:test';
 
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
-import type { IPlayerDataService } from '../../../../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingCalendarUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingCalendarUseCase';
 import type { IRaceCalendarUseCase } from '../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
@@ -41,40 +42,22 @@ import {
     baseWorldCalendarData,
     baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
-import { calendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { playerDataServiceMock } from '../../mock/service/playerDataServiceMock';
-import { raceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import type { UseCaseTestSetup } from './testSetupHelper';
+import { clearMocks, setupUseCaseTest } from './testSetupHelper';
 
 describe('PublicGamblingRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
     let raceDataService: jest.Mocked<IRaceDataService>;
-    let playerDataService: jest.Mocked<IPlayerDataService>;
     let useCase: IRaceCalendarUseCase;
 
     beforeEach(() => {
-        calendarService = calendarServiceMock();
-        container.registerInstance<ICalendarService>(
-            'PublicGamblingCalendarService',
-            calendarService,
-        );
-
-        raceDataService = raceDataServiceMock();
-        container.registerInstance<IRaceDataService>(
-            'PublicGamblingRaceDataService',
-            raceDataService,
-        );
-
-        playerDataService = playerDataServiceMock();
-        container.registerInstance<IPlayerDataService>(
-            'PlayerDataService',
-            playerDataService,
-        );
-
+        const setup: UseCaseTestSetup = setupUseCaseTest();
+        ({ calendarService, raceDataService } = setup);
         useCase = container.resolve(PublicGamblingCalendarUseCase);
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     describe('getRacesFromCalendar', () => {
