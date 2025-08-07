@@ -9,7 +9,6 @@ describe('KeirinRaceDataクラスのテスト', () => {
         // インスタンスのプロパティが正しいか確認
         expect(raceData.name).toBe('KEIRINグランプリ');
         expect(raceData.dateTime).toEqual(new Date('2025-12-30 16:30'));
-        expect(raceData.stage).toBe('S級グランプリ');
         expect(raceData.location).toBe('平塚');
         expect(raceData.grade).toBe('GP');
         expect(raceData.number).toBe(11);

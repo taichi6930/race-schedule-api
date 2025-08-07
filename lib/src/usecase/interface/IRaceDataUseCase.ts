@@ -1,4 +1,3 @@
-import type { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import type { RaceData } from '../../domain/raceData';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import type { RaceCourse } from '../../utility/data/common/raceCourse';
@@ -52,9 +51,9 @@ export interface IRaceDataUseCase {
         jra: RaceData[];
         nar: RaceData[];
         world: RaceData[];
-        keirin: MechanicalRacingRaceData[];
-        autorace: MechanicalRacingRaceData[];
-        boatrace: MechanicalRacingRaceData[];
+        keirin: RaceData[];
+        autorace: RaceData[];
+        boatrace: RaceData[];
     }>;
 
     /**

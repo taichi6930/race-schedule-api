@@ -301,7 +301,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                             raceGradeList.grade.includes(
                                 raceEntity.raceData.grade,
                             ) &&
-                            raceGradeList.stage === raceEntity.raceData.stage
+                            raceGradeList.stage === raceEntity.stage
                         );
                     })?.priority ?? 0;
 
@@ -350,7 +350,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                             raceGradeList.grade.includes(
                                 raceEntity.raceData.grade,
                             ) &&
-                            raceGradeList.stage === raceEntity.raceData.stage
+                            raceGradeList.stage === raceEntity.stage
                         );
                     })?.priority ?? 0;
 
@@ -399,7 +399,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                             raceGradeList.grade.includes(
                                 raceEntity.raceData.grade,
                             ) &&
-                            raceGradeList.stage === raceEntity.raceData.stage
+                            raceGradeList.stage === raceEntity.stage
                         );
                     })?.priority ?? 0;
 

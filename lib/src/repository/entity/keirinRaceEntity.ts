@@ -4,13 +4,14 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
-import type { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
+import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import { RaceRecord } from '../../gateway/record/raceRecord';
 import { KeirinPlaceCodeMap } from '../../utility/data/common/raceCourse';
 import type { RaceId } from '../../utility/data/common/raceId';
 import { validateRaceId } from '../../utility/data/common/raceId';
+import type { RaceStage } from '../../utility/data/common/raceStage';
 import {
     getYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
@@ -31,6 +32,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      * コンストラクタ
      * @param id - ID
      * @param raceData - レースデータ
+     * @param stage - 開催ステージ
      * @param racePlayerDataList - レースの選手データ
      * @param updateDate - 更新日時
      * @remarks
@@ -38,7 +40,8 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      */
     private constructor(
         public readonly id: RaceId,
-        public readonly raceData: MechanicalRacingRaceData,
+        public readonly raceData: RaceData,
+        public readonly stage: RaceStage,
         public readonly racePlayerDataList: RacePlayerData[],
         public readonly updateDate: UpdateDate,
     ) {}
@@ -47,18 +50,21 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      * インスタンス生成メソッド
      * @param id - ID
      * @param raceData - レースデータ
+     * @param stage - 開催ステージ
      * @param racePlayerDataList - レースの選手データ
      * @param updateDate - 更新日時
      */
     public static create(
         id: string,
-        raceData: MechanicalRacingRaceData,
+        raceData: RaceData,
+        stage: RaceStage,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): KeirinRaceEntity {
         return new KeirinRaceEntity(
             validateRaceId(raceData.raceType, id),
             raceData,
+            stage,
             racePlayerDataList,
             validateUpdateDate(updateDate),
         );
@@ -67,11 +73,13 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     /**
      * idがない場合でのcreate
      * @param raceData
+     * @param stage
      * @param racePlayerDataList
      * @param updateDate
      */
     public static createWithoutId(
-        raceData: MechanicalRacingRaceData,
+        raceData: RaceData,
+        stage: RaceStage,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): KeirinRaceEntity {
@@ -83,6 +91,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
                 raceData.number,
             ),
             raceData,
+            stage,
             racePlayerDataList,
             updateDate,
         );
@@ -96,6 +105,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
         return KeirinRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
+            partial.stage ?? this.stage,
             partial.racePlayerDataList ?? this.racePlayerDataList,
             partial.updateDate ?? this.updateDate,
         );
@@ -109,7 +119,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
             this.id,
             this.raceData.raceType,
             this.raceData.name,
-            this.raceData.stage,
+            this.stage,
             this.raceData.dateTime,
             this.raceData.location,
             this.raceData.grade,
@@ -132,7 +142,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
                 this.raceData.location,
                 this.raceData.number,
             ),
-            summary: `${this.raceData.stage} ${this.raceData.name}`,
+            summary: `${this.stage} ${this.raceData.name}`,
             location: `${this.raceData.location}競輪場`,
             start: {
                 dateTime: formatDate(this.raceData.dateTime),
@@ -156,7 +166,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
                 private: {
                     raceId: this.id,
                     name: this.raceData.name,
-                    stage: this.raceData.stage,
+                    stage: this.stage,
                     dateTime: formatDate(this.raceData.dateTime),
                     location: this.raceData.location,
                     grade: this.raceData.grade,

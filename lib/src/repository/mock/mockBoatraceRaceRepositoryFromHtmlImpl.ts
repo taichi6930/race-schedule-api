@@ -1,6 +1,6 @@
 import { baseBoatraceRacePlayerDataList } from '../../../../test/src/mock/common/baseBoatraceData';
-import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import { PlaceData } from '../../domain/placeData';
+import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -27,10 +27,9 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
                     const raceStage = i === 12 ? '優勝戦' : '一般戦';
                     raceEntityList.push(
                         BoatraceRaceEntity.createWithoutId(
-                            MechanicalRacingRaceData.create(
+                            RaceData.create(
                                 RaceType.BOATRACE,
                                 `${placeData.location}第${i.toString()}R`,
-                                raceStage,
                                 new Date(
                                     placeData.dateTime.getFullYear(),
                                     placeData.dateTime.getMonth(),
@@ -41,6 +40,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
                                 placeEntity.grade,
                                 i,
                             ),
+                            raceStage,
                             baseBoatraceRacePlayerDataList,
                             getJSTDate(new Date()),
                         ),

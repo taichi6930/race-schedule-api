@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import { RaceData } from '../../domain/raceData';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
@@ -91,9 +90,9 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         jra: RaceData[];
         nar: RaceData[];
         world: RaceData[];
-        keirin: MechanicalRacingRaceData[];
-        autorace: MechanicalRacingRaceData[];
-        boatrace: MechanicalRacingRaceData[];
+        keirin: RaceData[];
+        autorace: RaceData[];
+        boatrace: RaceData[];
     }> {
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
@@ -111,18 +110,10 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             placeEntityList,
         );
 
-        const raceDataList = {
-            jra: raceEntityList.jra.map(({ raceData }) => raceData),
-            nar: raceEntityList.nar.map(({ raceData }) => raceData),
-            world: raceEntityList.world.map(({ raceData }) => raceData),
-            keirin: raceEntityList.keirin.map(({ raceData }) => raceData),
-            autorace: raceEntityList.autorace.map(({ raceData }) => raceData),
-            boatrace: raceEntityList.boatrace.map(({ raceData }) => raceData),
-        };
-
         // フィルタリング処理
         return {
-            jra: raceDataList.jra
+            jra: raceEntityList.jra
+                .map(({ raceData }) => raceData)
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
                 .filter((raceData) => {
                     if (searchList?.jra?.gradeList) {
@@ -141,7 +132,8 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                     }
                     return true;
                 }),
-            nar: raceDataList.nar
+            nar: raceEntityList.nar
+                .map(({ raceData }) => raceData)
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
                 .filter((raceData) => {
                     if (searchList?.nar?.gradeList) {
@@ -160,7 +152,8 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                     }
                     return true;
                 }),
-            world: raceDataList.world
+            world: raceEntityList.world
+                .map(({ raceData }) => raceData)
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
                 .filter((raceData) => {
                     if (searchList?.world?.gradeList) {
@@ -179,90 +172,93 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                     }
                     return true;
                 }),
-            keirin: raceDataList.keirin
+            keirin: raceEntityList.keirin
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
-                .filter((raceData) => {
+                .filter((raceEntity) => {
                     if (searchList?.keirin?.gradeList) {
                         return searchList.keirin.gradeList.includes(
-                            raceData.grade,
+                            raceEntity.raceData.grade,
                         );
                     }
                     return true;
                 })
                 // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
-                .filter((raceData) => {
+                .filter((raceEntity) => {
                     if (searchList?.keirin?.locationList) {
                         return searchList.keirin.locationList.includes(
-                            raceData.location,
+                            raceEntity.raceData.location,
                         );
                     }
                     return true;
                 })
                 // レースステージが指定されている場合は、指定されたレースステージのレースのみを取得する
-                .filter((raceData) => {
+                .filter((raceEntity) => {
                     if (searchList?.keirin?.stageList) {
                         return searchList.keirin.stageList.includes(
-                            raceData.stage,
+                            raceEntity.stage,
                         );
                     }
                     return true;
-                }),
-            autorace: raceDataList.autorace
+                })
+                .map(({ raceData }) => raceData),
+            autorace: raceEntityList.autorace
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
-                .filter((raceData) => {
+                .filter((raceEntity) => {
                     if (searchList?.autorace?.gradeList) {
                         return searchList.autorace.gradeList.includes(
-                            raceData.grade,
+                            raceEntity.raceData.grade,
                         );
                     }
                     return true;
                 })
                 // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
-                .filter((raceData) => {
+                .filter((raceEntity) => {
                     if (searchList?.autorace?.locationList) {
                         return searchList.autorace.locationList.includes(
-                            raceData.location,
+                            raceEntity.raceData.location,
                         );
                     }
                     return true;
                 })
                 // レースステージが指定されている場合は、指定されたレースステージのレースのみを取得する
-                .filter((raceData) => {
+                .filter((raceEntity) => {
                     if (searchList?.autorace?.stageList) {
                         return searchList.autorace.stageList.includes(
-                            raceData.stage,
+                            raceEntity.stage,
                         );
                     }
                     return true;
-                }),
-            boatrace: raceDataList.boatrace
+                })
+                .map(({ raceData }) => raceData),
+            boatrace: raceEntityList.boatrace
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
-                .filter((raceData) => {
+                .filter((raceEntity) => {
                     if (searchList?.boatrace?.gradeList) {
                         return searchList.boatrace.gradeList.includes(
-                            raceData.grade,
+                            raceEntity.raceData.grade,
                         );
                     }
                     return true;
                 })
                 // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
-                .filter((raceData) => {
+                .filter((raceEntity) => {
                     if (searchList?.boatrace?.locationList) {
                         return searchList.boatrace.locationList.includes(
-                            raceData.location,
+                            raceEntity.raceData.location,
                         );
                     }
                     return true;
                 })
                 // レースステージが指定されている場合は、指定されたレースステージのレースのみを取得する
-                .filter((raceData) => {
+                .filter((raceEntity) => {
                     if (searchList?.boatrace?.stageList) {
                         return searchList.boatrace.stageList.includes(
-                            raceData.stage,
+                            raceEntity.stage,
                         );
                     }
                     return true;
-                }),
+                })
+                .map(({ raceData }) => raceData),
         };
     }
 

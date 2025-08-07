@@ -4,11 +4,12 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
-import type { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
+import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import { RaceRecord } from '../../gateway/record/raceRecord';
 import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
+import type { RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getAutoraceGoogleCalendarColorId } from '../../utility/googleCalendar';
@@ -25,6 +26,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
      * コンストラクタ
      * @param id - ID
      * @param raceData - レースデータ
+     * @param stage - 開催ステージ
      * @param racePlayerDataList - レースの選手データ
      * @param updateDate - 更新日時
      * @remarks
@@ -32,7 +34,8 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
      */
     private constructor(
         public readonly id: RaceId,
-        public readonly raceData: MechanicalRacingRaceData,
+        public readonly raceData: RaceData,
+        public readonly stage: RaceStage,
         public readonly racePlayerDataList: RacePlayerData[],
         public readonly updateDate: UpdateDate,
     ) {}
@@ -41,18 +44,21 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
      * インスタンス生成メソッド
      * @param id - ID
      * @param raceData - レースデータ
+     * @param stage - 開催ステージ
      * @param racePlayerDataList - レースの選手データ
      * @param updateDate - 更新日時
      */
     public static create(
         id: string,
-        raceData: MechanicalRacingRaceData,
+        raceData: RaceData,
+        stage: RaceStage,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): AutoraceRaceEntity {
         return new AutoraceRaceEntity(
             validateRaceId(raceData.raceType, id),
             raceData,
+            stage,
             racePlayerDataList,
             validateUpdateDate(updateDate),
         );
@@ -61,11 +67,13 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     /**
      * idがない場合でのcreate
      * @param raceData
+     * @param stage
      * @param racePlayerDataList
      * @param updateDate
      */
     public static createWithoutId(
-        raceData: MechanicalRacingRaceData,
+        raceData: RaceData,
+        stage: RaceStage,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
     ): AutoraceRaceEntity {
@@ -77,6 +85,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
                 raceData.number,
             ),
             raceData,
+            stage,
             racePlayerDataList,
             updateDate,
         );
@@ -90,6 +99,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
         return AutoraceRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
+            partial.stage ?? this.stage,
             partial.racePlayerDataList ?? this.racePlayerDataList,
             partial.updateDate ?? this.updateDate,
         );
@@ -103,7 +113,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
             this.id,
             this.raceData.raceType,
             this.raceData.name,
-            this.raceData.stage,
+            this.stage,
             this.raceData.dateTime,
             this.raceData.location,
             this.raceData.grade,
@@ -126,7 +136,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
                 this.raceData.location,
                 this.raceData.number,
             ),
-            summary: `${this.raceData.stage} ${this.raceData.name}`,
+            summary: `${this.stage} ${this.raceData.name}`,
             location: `${this.raceData.location}オートレース場`,
             start: {
                 dateTime: formatDate(this.raceData.dateTime),
