@@ -70,7 +70,7 @@ export class RacePlayerData {
      * @param partial
      */
     public copy(partial: Partial<RacePlayerData> = {}): RacePlayerData {
-        return new RacePlayerData(
+        return RacePlayerData.create(
             partial.raceType ?? this.raceType,
             partial.positionNumber ?? this.positionNumber,
             partial.playerNumber ?? this.playerNumber,
