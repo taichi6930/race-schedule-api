@@ -26,7 +26,7 @@ export interface IPlaceDataService {
     fetchPlaceEntityList: (
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
         type: DataLocationType,
     ) => Promise<{
         jra: JraPlaceEntity[];

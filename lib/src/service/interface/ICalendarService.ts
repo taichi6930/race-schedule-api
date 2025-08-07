@@ -21,7 +21,7 @@ export interface ICalendarService {
     fetchEvents: (
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
     ) => Promise<CalendarData[]>;
 
     /**

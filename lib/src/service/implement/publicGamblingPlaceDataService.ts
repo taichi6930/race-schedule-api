@@ -7,6 +7,7 @@ import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilt
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { IPlaceDataService } from '../interface/IPlaceDataService';
 
 /**
@@ -58,7 +59,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     public async fetchPlaceEntityList(
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
         type: DataLocationType,
     ): Promise<{
         jra: JraPlaceEntity[];
@@ -89,7 +90,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
             if (raceTypeList.length === 0 && type !== DataLocation.Storage) {
                 return result;
             }
-            if (raceTypeList.includes('jra')) {
+            if (raceTypeList.includes(RaceType.JRA)) {
                 const jraPlaceEntityList: JraPlaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.jraPlaceRepositoryFromStorage.fetchPlaceEntityList(
@@ -100,7 +101,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                           );
                 result.jra.push(...jraPlaceEntityList);
             }
-            if (raceTypeList.includes('nar')) {
+            if (raceTypeList.includes(RaceType.NAR)) {
                 const narPlaceEntityList: NarPlaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.narPlaceRepositoryFromStorage.fetchPlaceEntityList(
@@ -111,7 +112,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                           );
                 result.nar.push(...narPlaceEntityList);
             }
-            if (raceTypeList.includes('keirin')) {
+            if (raceTypeList.includes(RaceType.KEIRIN)) {
                 const keirinPlaceEntityList: MechanicalRacingPlaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.keirinPlaceRepositoryFromStorage.fetchPlaceEntityList(
@@ -122,7 +123,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                           );
                 result.keirin.push(...keirinPlaceEntityList);
             }
-            if (raceTypeList.includes('autorace')) {
+            if (raceTypeList.includes(RaceType.AUTORACE)) {
                 const autoracePlaceEntityList: MechanicalRacingPlaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.autoracePlaceRepositoryFromStorage.fetchPlaceEntityList(
@@ -133,7 +134,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                           );
                 result.autorace.push(...autoracePlaceEntityList);
             }
-            if (raceTypeList.includes('boatrace')) {
+            if (raceTypeList.includes(RaceType.BOATRACE)) {
                 const boatracePlaceEntityList: MechanicalRacingPlaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.boatracePlaceRepositoryFromStorage.fetchPlaceEntityList(

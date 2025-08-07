@@ -41,7 +41,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
     public async fetchRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
     ): Promise<CalendarData[]> {
         const calendarDataList: CalendarData[] = [];
         calendarDataList.push(

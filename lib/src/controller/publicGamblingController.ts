@@ -209,11 +209,40 @@ export class PublicGamblingController {
                 return;
             }
 
+            const modifiedRaceTypeList: RaceType[] = raceTypeList
+                .map((type) => {
+                    // RaceTypeに変更
+                    switch (type.toLowerCase()) {
+                        case 'jra': {
+                            return RaceType.JRA;
+                        }
+                        case 'nar': {
+                            return RaceType.NAR;
+                        }
+                        case 'world': {
+                            return RaceType.WORLD;
+                        }
+                        case 'keirin': {
+                            return RaceType.KEIRIN;
+                        }
+                        case 'autorace': {
+                            return RaceType.AUTORACE;
+                        }
+                        case 'boatrace': {
+                            return RaceType.BOATRACE;
+                        }
+                        default: {
+                            return 'undefined'; // 未知のレースタイプは除外
+                        }
+                    }
+                })
+                .filter((type): type is RaceType => type !== 'undefined');
+
             // 競馬場情報を取得する
             const placeList = await this.placeUseCase.fetchPlaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
-                raceTypeList,
+                modifiedRaceTypeList,
             );
             res.json(placeList);
         } catch (error) {
@@ -263,11 +292,40 @@ export class PublicGamblingController {
                 return;
             }
 
+            const modifiedRaceTypeList: RaceType[] = raceTypeList
+                .map((type) => {
+                    // RaceTypeに変更
+                    switch (type.toLowerCase()) {
+                        case 'jra': {
+                            return RaceType.JRA;
+                        }
+                        case 'nar': {
+                            return RaceType.NAR;
+                        }
+                        case 'world': {
+                            return RaceType.WORLD;
+                        }
+                        case 'keirin': {
+                            return RaceType.KEIRIN;
+                        }
+                        case 'autorace': {
+                            return RaceType.AUTORACE;
+                        }
+                        case 'boatrace': {
+                            return RaceType.BOATRACE;
+                        }
+                        default: {
+                            return 'undefined'; // 未知のレースタイプは除外
+                        }
+                    }
+                })
+                .filter((type): type is RaceType => type !== 'undefined');
+
             // 競馬場情報を取得する
             await this.placeUseCase.updatePlaceDataList(
                 new Date(startDate),
                 new Date(finishDate),
-                raceTypeList,
+                modifiedRaceTypeList,
             );
             res.status(200).send();
         } catch (error) {

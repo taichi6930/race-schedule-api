@@ -15,6 +15,7 @@ import {
     NarSpecifiedGradeList,
     WorldSpecifiedGradeList,
 } from '../../../../lib/src/utility/data/common/gradeType';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import {
     baseAutoraceCalendarData,
     baseAutoraceRaceEntity,
@@ -88,13 +89,27 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             const result = await useCase.fetchRacesFromCalendar(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.WORLD,
+                    RaceType.KEIRIN,
+                    RaceType.BOATRACE,
+                    RaceType.AUTORACE,
+                ],
             );
 
             expect(calendarService.fetchEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'world', 'keirin', 'boatrace', 'autorace'],
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.WORLD,
+                    RaceType.KEIRIN,
+                    RaceType.BOATRACE,
+                    RaceType.AUTORACE,
+                ],
             );
             expect(result).toEqual(mockCalendarData);
         });

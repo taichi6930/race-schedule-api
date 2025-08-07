@@ -18,7 +18,7 @@ export class PublicGamblingPlayerUseCase implements IPlayerDataUseCase {
 
     @Logger
     public async fetchPlayerDataList(
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
     ): Promise<PlayerData[]> {
         const [raceType] = raceTypeList;
         if (!isRaceType(raceType)) {
