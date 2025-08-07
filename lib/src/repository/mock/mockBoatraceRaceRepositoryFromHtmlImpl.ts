@@ -1,4 +1,4 @@
-import { baseBoatraceRacePlayerDataList } from '../../../../test/src/mock/common/baseBoatraceData';
+import { baseBoatraceRacePlayerDataList } from '../../../../test/unittest/src/mock/common/baseBoatraceData';
 import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';

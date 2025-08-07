@@ -24,11 +24,6 @@ export class PlayerDataService implements IPlayerDataService {
     @Logger
     public async fetchPlayerDataList(_type: RaceType): Promise<PlayerData[]> {
         const allPlayers = await this.repository.findAll();
-        console.log(
-            _type,
-            'PlayerDataService: fetchPlayerDataList executed',
-            allPlayers[0],
-        );
         return allPlayers
             .filter((p) => {
                 const raceTypeStr = p.race_type.toUpperCase();

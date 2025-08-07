@@ -1,4 +1,5 @@
 import type { PlayerData } from '../../domain/playerData';
+import type { RaceType } from '../../utility/raceType';
 
 /**
  * IPlayerDataUseCase
@@ -9,5 +10,5 @@ export interface IPlayerDataUseCase {
      * @param startDate
      * @param finishDate
      */
-    fetchPlayerDataList: (raceTypeList: string[]) => Promise<PlayerData[]>;
+    fetchPlayerDataList: (raceTypeList: RaceType[]) => Promise<PlayerData[]>;
 }

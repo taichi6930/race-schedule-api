@@ -1,5 +1,6 @@
 import type { CalendarData } from '../../domain/calendarData';
 import type { GradeType } from '../../utility/data/common/gradeType';
+import type { RaceType } from '../../utility/raceType';
 
 export interface IRaceCalendarUseCase {
     /**
@@ -10,7 +11,7 @@ export interface IRaceCalendarUseCase {
     fetchRacesFromCalendar: (
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
     ) => Promise<CalendarData[]>;
     /**
      * カレンダーの更新を行う

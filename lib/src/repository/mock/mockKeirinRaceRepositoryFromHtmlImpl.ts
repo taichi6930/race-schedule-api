@@ -1,4 +1,4 @@
-import { baseKeirinRacePlayerDataList } from '../../../../test/src/mock/common/baseKeirinData';
+import { baseKeirinRacePlayerDataList } from '../../../../test/unittest/src/mock/common/baseKeirinData';
 import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';

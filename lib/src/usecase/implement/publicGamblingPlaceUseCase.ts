@@ -4,6 +4,7 @@ import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 /**
@@ -26,7 +27,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
     public async fetchPlaceDataList(
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
     ): Promise<PlaceData[]> {
         // 開催場データを取得
         const placeEntityList =
@@ -63,7 +64,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
     public async updatePlaceDataList(
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
     ): Promise<void> {
         // startDateは月の1日に設定する
         const modifyStartDate = new Date(
@@ -82,7 +83,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
                 modifyStartDate,
                 modifyFinishDate,
                 // raceTypeListからjraを除外して取得
-                raceTypeList.filter((type) => type !== 'jra'),
+                raceTypeList.filter((type) => type !== RaceType.JRA),
                 DataLocation.Web,
             );
         // JRAの開催場データは別途処理するため、ここでは除外
@@ -101,7 +102,7 @@ export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
             await this.placeDataService.fetchPlaceEntityList(
                 modifyJraStartDate,
                 modifyJraFinishDate,
-                raceTypeList.filter((type) => type === 'jra'),
+                raceTypeList.filter((type) => type === RaceType.JRA),
                 DataLocation.Web,
             );
 

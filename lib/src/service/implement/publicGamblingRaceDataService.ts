@@ -14,6 +14,7 @@ import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { IRaceDataService } from '../interface/IRaceDataService';
 
 /**
@@ -95,7 +96,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * 提供する重要な役割を持ちます。
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（この日を含む）
-     * @param raceType
+     * @param raceTypeList
      * @param type - データ取得元の指定（storage/web）
      * @param placeEntityList
      * @param placeEntityList.jra
@@ -112,7 +113,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     public async fetchRaceEntityList(
         startDate: Date,
         finishDate: Date,
-        raceType: string[],
+        raceTypeList: RaceType[],
         type: DataLocationType,
         placeEntityList?: {
             jra?: JraPlaceEntity[];
@@ -148,7 +149,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
 
         try {
             if (
-                raceType.includes('jra') ||
+                raceTypeList.includes(RaceType.JRA) ||
                 (placeEntityList?.jra !== undefined &&
                     placeEntityList.jra.length > 0)
             ) {
@@ -168,7 +169,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 result.jra.push(...jraRaceEntityList);
             }
             if (
-                raceType.includes('nar') ||
+                raceTypeList.includes(RaceType.NAR) ||
                 (placeEntityList?.nar !== undefined &&
                     placeEntityList.nar.length > 0)
             ) {
@@ -187,7 +188,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                           );
                 result.nar.push(...narRaceEntityList);
             }
-            if (raceType.includes('world')) {
+            if (raceTypeList.includes(RaceType.WORLD)) {
                 const searchFilter =
                     new SearchRaceFilterEntity<WorldPlaceEntity>(
                         startDate,
@@ -204,7 +205,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 result.world.push(...worldRaceEntityList);
             }
             if (
-                raceType.includes('keirin') ||
+                raceTypeList.includes(RaceType.KEIRIN) ||
                 (placeEntityList?.keirin !== undefined &&
                     placeEntityList.keirin.length > 0)
             ) {
@@ -225,7 +226,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 result.keirin.push(...keirinRaceEntityList);
             }
             if (
-                raceType.includes('autorace') ||
+                raceTypeList.includes(RaceType.AUTORACE) ||
                 (placeEntityList?.autorace !== undefined &&
                     placeEntityList.autorace.length > 0)
             ) {
@@ -246,7 +247,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 result.autorace.push(...autoraceRaceEntityList);
             }
             if (
-                raceType.includes('boatrace') ||
+                raceTypeList.includes(RaceType.BOATRACE) ||
                 (placeEntityList?.boatrace !== undefined &&
                     placeEntityList.boatrace.length > 0)
             ) {

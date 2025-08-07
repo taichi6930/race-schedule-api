@@ -2,6 +2,7 @@ import type { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import type { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import type { DataLocationType } from '../../utility/dataType';
+import type { RaceType } from '../../utility/raceType';
 
 /**
  * 開催場所データを管理するサービスのインターフェース
@@ -26,7 +27,7 @@ export interface IPlaceDataService {
     fetchPlaceEntityList: (
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
         type: DataLocationType,
     ) => Promise<{
         jra: JraPlaceEntity[];

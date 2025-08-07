@@ -1,7 +1,13 @@
-import type { RaceData } from '../../domain/raceData';
+import type { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
+import type { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
+import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
+import type { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
+import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import type { RaceCourse } from '../../utility/data/common/raceCourse';
 import type { RaceStage } from '../../utility/data/common/raceStage';
+import type { RaceType } from '../../utility/raceType';
 
 /**
  * レースデータUseCaseのインターフェース
@@ -13,10 +19,10 @@ export interface IRaceDataUseCase {
      * @param finishDate
      * @param searchList
      */
-    fetchRaceDataList: (
+    fetchRaceEntityList: (
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
         // Optional parameters
         searchList?: {
             jra?: {
@@ -48,12 +54,12 @@ export interface IRaceDataUseCase {
             };
         },
     ) => Promise<{
-        jra: RaceData[];
-        nar: RaceData[];
-        world: RaceData[];
-        keirin: RaceData[];
-        autorace: RaceData[];
-        boatrace: RaceData[];
+        jra: JraRaceEntity[];
+        nar: NarRaceEntity[];
+        world: WorldRaceEntity[];
+        keirin: KeirinRaceEntity[];
+        autorace: AutoraceRaceEntity[];
+        boatrace: BoatraceRaceEntity[];
     }>;
 
     /**
@@ -65,7 +71,7 @@ export interface IRaceDataUseCase {
     updateRaceEntityList: (
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
         searchList?: {
             jra?: {
                 locationList?: RaceCourse[];

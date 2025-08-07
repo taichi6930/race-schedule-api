@@ -8,7 +8,6 @@ import {
     validatePositionNumber,
 } from '../utility/data/common/positionNumber';
 import type { RaceType } from '../utility/raceType';
-import { isRaceType } from '../utility/raceType';
 
 /**
  * レースの選手データ
@@ -55,13 +54,10 @@ export class RacePlayerData {
      * @param playerNumber - 選手番号
      */
     public static create(
-        raceType: string,
+        raceType: RaceType,
         positionNumber: number,
         playerNumber: number,
     ): RacePlayerData {
-        if (!isRaceType(raceType)) {
-            throw new Error(`Invalid raceType: ${raceType}`);
-        }
         return new RacePlayerData(
             raceType,
             validatePositionNumber(raceType, positionNumber),
@@ -74,7 +70,7 @@ export class RacePlayerData {
      * @param partial
      */
     public copy(partial: Partial<RacePlayerData> = {}): RacePlayerData {
-        return new RacePlayerData(
+        return RacePlayerData.create(
             partial.raceType ?? this.raceType,
             partial.positionNumber ?? this.positionNumber,
             partial.playerNumber ?? this.playerNumber,

@@ -1,4 +1,5 @@
 import type { PlaceData } from '../../domain/placeData';
+import type { RaceType } from '../../utility/raceType';
 
 /**
  * IPlaceDataUseCase
@@ -12,7 +13,7 @@ export interface IPlaceDataUseCase {
     fetchPlaceDataList: (
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
     ) => Promise<PlaceData[]>;
     /**
      * 開催場データを更新する
@@ -22,6 +23,6 @@ export interface IPlaceDataUseCase {
     updatePlaceDataList: (
         startDate: Date,
         finishDate: Date,
-        raceTypeList: string[],
+        raceTypeList: RaceType[],
     ) => Promise<void>;
 }
