@@ -12,6 +12,7 @@ import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/en
 import type { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
+import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import {
     baseAutoraceCalendarData,
@@ -40,7 +41,7 @@ import {
 import { mockCalendarRepository } from '../../mock/repository/mockCalendarRepository';
 
 describe('PublicGamblingCalendarService', () => {
-    let service: PublicGamblingCalendarService;
+    let service: ICalendarService;
     let jraCalendarRepository: jest.Mocked<ICalendarRepository<JraRaceEntity>>;
     let narCalendarRepository: jest.Mocked<ICalendarRepository<NarRaceEntity>>;
     let worldCalendarRepository: jest.Mocked<

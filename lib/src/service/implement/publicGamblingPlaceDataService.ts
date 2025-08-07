@@ -88,6 +88,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 finishDate,
             );
             if (raceTypeList.length === 0 && type !== DataLocation.Storage) {
+                console.warn('raceTypeListが空の場合、空を返します');
                 return result;
             }
             if (raceTypeList.includes(RaceType.JRA)) {

@@ -4,6 +4,7 @@ import { container } from 'tsyringe';
 
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
 import { PublicGamblingPlaceUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingPlaceUseCase';
+import type { IPlaceDataUseCase } from '../../../../../lib/src/usecase/interface/IPlaceDataUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import {
     baseAutoracePlaceData,
@@ -29,7 +30,7 @@ import { placeDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('PublicGamblingPlaceUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService>;
-    let useCase: PublicGamblingPlaceUseCase;
+    let useCase: IPlaceDataUseCase;
 
     beforeEach(() => {
         placeDataService = placeDataServiceMock();

@@ -15,6 +15,7 @@ import type { WorldRaceEntity } from '../../../../../lib/src/repository/entity/w
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { PublicGamblingRaceDataService } from '../../../../../lib/src/service/implement/publicGamblingRaceDataService';
+import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
@@ -66,7 +67,7 @@ describe('PublicGamblingRaceDataService', () => {
     let placeRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
-    let service: PublicGamblingRaceDataService;
+    let service: IRaceDataService;
 
     beforeEach(() => {
         jraRaceRepositoryFromStorageImpl = mockRaceRepository<

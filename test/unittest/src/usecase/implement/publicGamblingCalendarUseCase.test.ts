@@ -7,6 +7,7 @@ import type { ICalendarService } from '../../../../../lib/src/service/interface/
 import type { IPlayerDataService } from '../../../../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingCalendarUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingCalendarUseCase';
+import type { IRaceCalendarUseCase } from '../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
 import {
     AutoraceSpecifiedGradeList,
     BoatraceSpecifiedGradeList,
@@ -48,7 +49,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
     let raceDataService: jest.Mocked<IRaceDataService>;
     let playerDataService: jest.Mocked<IPlayerDataService>;
-    let useCase: PublicGamblingCalendarUseCase;
+    let useCase: IRaceCalendarUseCase;
 
     beforeEach(() => {
         calendarService = calendarServiceMock();
