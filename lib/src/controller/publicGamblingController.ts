@@ -92,10 +92,39 @@ export class PublicGamblingController {
                 return;
             }
 
+            const modifiedRaceTypeList: RaceType[] = raceTypeList
+                .map((type) => {
+                    // RaceTypeに変更
+                    switch (type.toLowerCase()) {
+                        case 'jra': {
+                            return RaceType.JRA;
+                        }
+                        case 'nar': {
+                            return RaceType.NAR;
+                        }
+                        case 'world': {
+                            return RaceType.WORLD;
+                        }
+                        case 'keirin': {
+                            return RaceType.KEIRIN;
+                        }
+                        case 'autorace': {
+                            return RaceType.AUTORACE;
+                        }
+                        case 'boatrace': {
+                            return RaceType.BOATRACE;
+                        }
+                        default: {
+                            return 'undefined'; // 未知のレースタイプは除外
+                        }
+                    }
+                })
+                .filter((type): type is RaceType => type !== 'undefined');
+
             const races = await this.calendarUseCase.fetchRacesFromCalendar(
                 new Date(startDate as string),
                 new Date(finishDate as string),
-                raceTypeList,
+                modifiedRaceTypeList,
             );
             res.json(races);
         } catch (error) {
