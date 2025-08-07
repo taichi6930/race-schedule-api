@@ -10,7 +10,6 @@ import type { RacePlayerId } from '../../utility/data/common/racePlayerId';
 import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
-import { isRaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -49,15 +48,12 @@ export class RacePlayerRecord implements IRecord<RacePlayerRecord> {
      */
     public static create(
         id: string,
-        raceType: string,
+        raceType: RaceType,
         raceId: string,
         positionNumber: number,
         playerNumber: number,
         updateDate: Date,
     ): RacePlayerRecord {
-        if (!isRaceType(raceType)) {
-            throw new Error(`Invalid raceType: ${raceType}`);
-        }
         try {
             return new RacePlayerRecord(
                 validateRacePlayerId(raceType, id),
