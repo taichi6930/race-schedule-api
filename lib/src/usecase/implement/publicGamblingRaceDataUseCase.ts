@@ -130,6 +130,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                         );
                     }
                     return true;
+                })
                 .map(({ raceData }) => raceData),
             nar: raceEntityList.nar
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
@@ -169,6 +170,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                         );
                     }
                     return true;
+                })
                 .map(({ raceData }) => raceData),
             keirin: raceEntityList.keirin
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
