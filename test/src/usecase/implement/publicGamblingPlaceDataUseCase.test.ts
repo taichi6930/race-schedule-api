@@ -4,6 +4,7 @@ import { container } from 'tsyringe';
 
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import { PublicGamblingPlaceUseCase } from '../../../../lib/src/usecase/implement/publicGamblingPlaceUseCase';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import {
     baseAutoracePlaceData,
     baseAutoracePlaceEntity,
@@ -69,7 +70,13 @@ describe('PublicGamblingPlaceUseCase', () => {
             const result = await useCase.fetchPlaceDataList(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'keirin', 'autorace', 'boatrace'],
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.KEIRIN,
+                    RaceType.AUTORACE,
+                    RaceType.BOATRACE,
+                ],
             );
 
             expect(result).toEqual(mockPlaceData);
@@ -91,11 +98,11 @@ describe('PublicGamblingPlaceUseCase', () => {
             });
 
             await useCase.updatePlaceDataList(startDate, finishDate, [
-                'jra',
-                'nar',
-                'keirin',
-                'boatrace',
-                'autorace',
+                RaceType.JRA,
+                RaceType.NAR,
+                RaceType.KEIRIN,
+                RaceType.AUTORACE,
+                RaceType.BOATRACE,
             ]);
 
             expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();

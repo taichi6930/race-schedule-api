@@ -142,12 +142,12 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
             await this.calendarService.fetchEvents(startDate, finishDate, [
-                'jra',
-                'nar',
-                'world',
-                'keirin',
-                'autorace',
-                'boatrace',
+                RaceType.JRA,
+                RaceType.NAR,
+                RaceType.WORLD,
+                RaceType.KEIRIN,
+                RaceType.AUTORACE,
+                RaceType.BOATRACE,
             ]);
 
         // 1. raceEntityListのIDに存在しないcalendarDataListを取得

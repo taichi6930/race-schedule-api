@@ -8,6 +8,7 @@ import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPl
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/implement/publicGamblingPlaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
 import { baseBoatracePlaceEntity } from '../../mock/common/baseBoatraceData';
 import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
@@ -162,7 +163,13 @@ describe('PublicGamblingPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'keirin', 'boatrace', 'autorace'],
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.KEIRIN,
+                    RaceType.AUTORACE,
+                    RaceType.BOATRACE,
+                ],
                 DataLocation.Storage,
             );
 
@@ -201,7 +208,13 @@ describe('PublicGamblingPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'keirin', 'boatrace', 'autorace'],
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.KEIRIN,
+                    RaceType.AUTORACE,
+                    RaceType.BOATRACE,
+                ],
                 DataLocation.Web,
             );
 
@@ -224,7 +237,13 @@ describe('PublicGamblingPlaceDataService', () => {
             await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                ['jra', 'nar', 'keirin', 'boatrace', 'autorace'],
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.KEIRIN,
+                    RaceType.AUTORACE,
+                    RaceType.BOATRACE,
+                ],
                 DataLocation.Storage,
             );
 
