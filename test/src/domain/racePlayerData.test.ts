@@ -1,13 +1,14 @@
 /**
  * RacePlayerData ディシジョンテーブル
- * |No|raceType|positionNumber|playerNumber|期待結果|備考|
- * |--|--------|-------------|-----------|--------|----|
- * |1 |有効    |有効         |有効       |OK      |正常系|
- * |2 |有効    |無効         |有効       |Error   |positionNumberバリデーション|
- * |3 |有効    |有効         |無効       |Error   |playerNumberバリデーション|
- * |4 |有効    |無効         |無効       |Error   |両方バリデーション|
- * |5 |有効    |有効         |有効       |copyで値変更OK|copy正常系|
- * |6 |有効    |有効         |有効       |copyで不正値→Error|copy異常系|
+ * |No|raceType|positionNumber|playerNumber|partialの内容|期待結果|備考|
+ * |--|--------|-------------|-----------|-------------|--------|----|
+ * |1 |有効    |有効         |有効       | -           |OK      |正常系|
+ * |2 |有効    |無効         |有効       | -           |Error   |positionNumberバリデーション|
+ * |3 |有効    |有効         |無効       | -           |Error   |playerNumberバリデーション|
+ * |4 |有効    |無効         |無効       | -           |Error   |両方バリデーション|
+ * |5 |有効    |有効         |有効       |{ positionNumber: 2, playerNumber: 20000 }|copyで値変更OK|copy正常系|
+ * |6 |有効    |有効         |有効       |{ positionNumber: 0 }, { playerNumber: 0 }|copyで不正値→Error|copy異常系|
+ * |7 |有効    |有効         |有効       |{} または undefined|全プロパティ同値|copyでpartial空|
  */
 
 import { RacePlayerData } from '../../../lib/src/domain/racePlayerData';
@@ -91,5 +92,25 @@ describe('RacePlayerDataクラスのテスト', () => {
         expect(() =>
             data.copy({ playerNumber: invalidPlayerNumber }),
         ).toThrow();
+    });
+
+    // 7. copyでpartialが空
+    it('|7|有効|有効|有効|copyでpartial空→全プロパティ同値|', () => {
+        const data = RacePlayerData.create(
+            validRaceType,
+            validPositionNumber,
+            validPlayerNumber,
+        );
+        // partial: undefined
+        const copied1 = data.copy();
+        expect(copied1.raceType).toBe(validRaceType);
+        expect(copied1.positionNumber).toBe(validPositionNumber);
+        expect(copied1.playerNumber).toBe(validPlayerNumber);
+
+        // partial: {}
+        const copied2 = data.copy({});
+        expect(copied2.raceType).toBe(validRaceType);
+        expect(copied2.positionNumber).toBe(validPositionNumber);
+        expect(copied2.playerNumber).toBe(validPlayerNumber);
     });
 });

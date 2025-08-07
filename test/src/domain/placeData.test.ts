@@ -1,12 +1,14 @@
 /**
  * PlaceData ディシジョンテーブル
- * |No|raceType|dateTime|location|期待結果|備考|
- * |--|--------|-------|--------|--------|----|
- * |1 |有効    |有効   |有効   |OK      |正常系|
- * |2 |有効    |有効   |無効   |Error   |locationバリデーション|
- * |3 |有効    |無効   |有効   |Error   |dateTimeバリデーション|
- * |4 |有効    |有効   |有効   |copyで値変更OK|copy正常系|
- * |5 |有効    |有効   |有効   |copyで不正値→Error|copy異常系|
+ * |No|raceType|dateTime      |location      |partialの内容                |期待結果                |備考                              |
+ * |--|--------|--------------|--------------|----------------------------|------------------------|-----------------------------------|
+ * |1 |有効    |有効          |有効          | -                         |OK                     |正常系                            |
+ * |2 |有効    |有効          |無効          | -                         |Error                  |locationバリデーション             |
+ * |3 |有効    |無効          |有効          | -                         |Error                  |dateTimeバリデーション             |
+ * |4 |有効    |有効          |有効          |{ location: '京都' }        |copyで値変更OK         |copy正常系                         |
+ * |5 |有効    |有効          |有効          |{ location: '大井' }        |copyで不正値→Error      |copy異常系（location）             |
+ * |6 |有効    |有効          |有効          |{ dateTime: invalidDateTime }|copyで不正値→Error      |copy異常系（dateTime）             |
+ * |7 |有効    |有効          |有効          |{} または undefined         |全プロパティ同値        |copyでpartial空                    |
  */
 import { PlaceData } from '../../../lib/src/domain/placeData';
 import { RaceType } from '../../../lib/src/utility/raceType';
@@ -66,5 +68,25 @@ describe('PlaceDataクラスのテスト', () => {
         );
         expect(() => data.copy({ location: invalidLocation })).toThrow();
         expect(() => data.copy({ dateTime: invalidDateTime })).toThrow();
+    });
+
+    // 6. copyでpartialが空
+    it('|6|有効|有効|有効|copyでpartial空→全プロパティ同値|', () => {
+        const data = PlaceData.create(
+            validRaceType,
+            validDateTime,
+            validLocation,
+        );
+        // partial: undefined
+        const copied1 = data.copy();
+        expect(copied1.raceType).toBe(validRaceType);
+        expect(copied1.dateTime).toStrictEqual(validDateTime);
+        expect(copied1.location).toBe(validLocation);
+
+        // partial: {}
+        const copied2 = data.copy({});
+        expect(copied2.raceType).toBe(validRaceType);
+        expect(copied2.dateTime).toStrictEqual(validDateTime);
+        expect(copied2.location).toBe(validLocation);
     });
 });
