@@ -7,6 +7,11 @@ import type { IRaceDataService } from '../../../../../lib/src/service/interface/
 import { PublicGamblingRaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingRaceDataUseCase';
 import type { IRaceDataUseCase } from '../../../../../lib/src/usecase/interface/IRaceDataUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import type { UseCaseTestSetup } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupUseCaseTest,
+} from '../../../../utility/testSetupHelper';
 import {
     baseAutoracePlaceEntity,
     baseAutoraceRaceEntityList,
@@ -28,8 +33,6 @@ import {
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
 import { baseWorldRaceEntityList } from '../../mock/common/baseWorldData';
-import type { UseCaseTestSetup } from './testSetupHelper';
-import { clearMocks, setupUseCaseTest } from './testSetupHelper';
 
 describe('PublicGamblingRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<IRaceDataService>;

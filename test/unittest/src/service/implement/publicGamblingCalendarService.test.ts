@@ -14,6 +14,8 @@ import type { ICalendarRepository } from '../../../../../lib/src/repository/inte
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import type { ServiceTestSetup } from '../../../../utility/testSetupHelper';
+import { setupServiceTest } from '../../../../utility/testSetupHelper';
 import {
     baseAutoraceCalendarData,
     baseAutoraceRaceEntityList,
@@ -38,7 +40,6 @@ import {
     baseWorldCalendarData,
     baseWorldRaceEntityList,
 } from '../../mock/common/baseWorldData';
-import { mockCalendarRepository } from '../../mock/repository/mockCalendarRepository';
 
 describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
@@ -58,38 +59,15 @@ describe('PublicGamblingCalendarService', () => {
     >;
 
     beforeEach(() => {
-        jraCalendarRepository = mockCalendarRepository<JraRaceEntity>();
-        container.registerInstance(
-            'JraCalendarRepository',
+        const setup: ServiceTestSetup = setupServiceTest();
+        ({
             jraCalendarRepository,
-        );
-        narCalendarRepository = mockCalendarRepository<NarRaceEntity>();
-        container.registerInstance(
-            'NarCalendarRepository',
             narCalendarRepository,
-        );
-        worldCalendarRepository = mockCalendarRepository<WorldRaceEntity>();
-        container.registerInstance(
-            'WorldCalendarRepository',
             worldCalendarRepository,
-        );
-        keirinCalendarRepository = mockCalendarRepository<KeirinRaceEntity>();
-        container.registerInstance(
-            'KeirinCalendarRepository',
             keirinCalendarRepository,
-        );
-        boatraceCalendarRepository =
-            mockCalendarRepository<BoatraceRaceEntity>();
-        container.registerInstance(
-            'BoatraceCalendarRepository',
             boatraceCalendarRepository,
-        );
-        autoraceCalendarRepository =
-            mockCalendarRepository<AutoraceRaceEntity>();
-        container.registerInstance(
-            'AutoraceCalendarRepository',
             autoraceCalendarRepository,
-        );
+        } = setup);
         service = container.resolve(PublicGamblingCalendarService);
     });
 
