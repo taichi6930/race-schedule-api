@@ -11,7 +11,6 @@ describe('AutoraceRaceDataクラスのテスト', () => {
         // インスタンスのプロパティが正しいか確認
         expect(raceData.name).toBe('スーパースター王座決定戦');
         expect(raceData.dateTime).toEqual(new Date('2024-12-31 16:30'));
-        expect(raceData.stage).toBe('優勝戦');
         expect(raceData.location).toBe('飯塚');
         expect(raceData.grade).toBe('SG');
         expect(raceData.number).toBe(11);

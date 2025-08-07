@@ -1,6 +1,6 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { MechanicalRacingRaceData } from '../../../../lib/src/domain/mechanicalRacingRaceData';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
@@ -39,10 +39,9 @@ export const baseKeirinPlaceData = PlaceData.create(
     baseKeirinPlaceCourse,
 );
 
-export const baseKeirinRaceData = MechanicalRacingRaceData.create(
+export const baseKeirinRaceData = RaceData.create(
     RaceType.KEIRIN,
     baseKeirinRaceName,
-    baseKeirinRaceStage,
     baseRaceDateTime,
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
@@ -92,6 +91,7 @@ export const baseKeirinRacePlayerDataList = Array.from(
 
 export const baseKeirinRaceEntity = KeirinRaceEntity.createWithoutId(
     baseKeirinRaceData,
+    baseKeirinRaceStage,
     baseKeirinRacePlayerDataList,
     baseKeirinRaceUpdateDate,
 );
@@ -119,10 +119,9 @@ export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
         'S級特別優秀',
         'S級決勝',
     ].map((stage, index) => {
-        const raceData = MechanicalRacingRaceData.create(
+        const raceData = RaceData.create(
             RaceType.KEIRIN,
             `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
-            stage,
             new Date(2025, 12 - 1, 30, 7 + index, 0),
             location,
             grade,
@@ -133,6 +132,7 @@ export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
         });
         return KeirinRaceEntity.createWithoutId(
             raceData,
+            stage,
             racePlayerDataList,
             baseKeirinRaceUpdateDate,
         );
