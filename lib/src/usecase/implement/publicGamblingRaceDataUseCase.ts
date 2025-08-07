@@ -1,6 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 
-import { RaceData } from '../../domain/raceData';
+import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
+import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
+import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
+import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
+import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { GradeType } from '../../utility/data/common/gradeType';
@@ -53,7 +58,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
      * @param searchList
      */
     @Logger
-    public async fetchRaceDataList(
+    public async fetchRaceEntityList(
         startDate: Date,
         finishDate: Date,
         raceTypeList: string[],
@@ -87,12 +92,12 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             };
         },
     ): Promise<{
-        jra: RaceData[];
-        nar: RaceData[];
-        world: RaceData[];
-        keirin: RaceData[];
-        autorace: RaceData[];
-        boatrace: RaceData[];
+        jra: JraRaceEntity[];
+        nar: NarRaceEntity[];
+        world: WorldRaceEntity[];
+        keirin: KeirinRaceEntity[];
+        autorace: AutoraceRaceEntity[];
+        boatrace: BoatraceRaceEntity[];
     }> {
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
@@ -130,8 +135,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                         );
                     }
                     return true;
-                })
-                .map(({ raceData }) => raceData),
+                }),
             nar: raceEntityList.nar
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
                 .filter((raceEntity) => {
@@ -150,8 +154,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                         );
                     }
                     return true;
-                })
-                .map(({ raceData }) => raceData),
+                }),
             world: raceEntityList.world
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
                 .filter((raceEntity) => {
@@ -170,8 +173,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                         );
                     }
                     return true;
-                })
-                .map(({ raceData }) => raceData),
+                }),
             keirin: raceEntityList.keirin
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
                 .filter((raceEntity) => {
@@ -199,8 +201,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                         );
                     }
                     return true;
-                })
-                .map(({ raceData }) => raceData),
+                }),
             autorace: raceEntityList.autorace
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
                 .filter((raceEntity) => {
@@ -228,8 +229,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                         );
                     }
                     return true;
-                })
-                .map(({ raceData }) => raceData),
+                }),
             boatrace: raceEntityList.boatrace
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
                 .filter((raceEntity) => {
@@ -257,8 +257,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                         );
                     }
                     return true;
-                })
-                .map(({ raceData }) => raceData),
+                }),
         };
     }
 

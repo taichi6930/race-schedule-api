@@ -286,7 +286,7 @@ describe('PublicGamblingRaceDataService', () => {
         });
     });
 
-    describe('updateRaceDataList', () => {
+    describe('updateRaceEntityList', () => {
         it('正常にレース開催データが更新されること', async () => {
             // モックの戻り値を設定
             jraRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(

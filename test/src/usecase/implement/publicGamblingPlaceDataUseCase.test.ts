@@ -44,7 +44,7 @@ describe('PublicGamblingPlaceUseCase', () => {
         jest.clearAllMocks();
     });
 
-    describe('fetchRaceDataList', () => {
+    describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること', async () => {
             const mockPlaceData = [
                 baseJraPlaceData,

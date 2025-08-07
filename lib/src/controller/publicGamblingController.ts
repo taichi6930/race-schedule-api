@@ -46,7 +46,7 @@ export class PublicGamblingController {
         this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
         // RaceData関連のAPI
         this.router.get('/race', this.getRaceDataList.bind(this));
-        this.router.post('/race', this.updateRaceDataList.bind(this));
+        this.router.post('/race', this.updateRaceEntityList.bind(this));
         // PlaceData関連のAPI
         this.router.get('/place', this.getPlaceDataList.bind(this));
         this.router.post('/place', this.updatePlaceDataList.bind(this));
@@ -349,7 +349,7 @@ export class PublicGamblingController {
             }
 
             // レース情報を取得する
-            const races = await this.raceDataUseCase.fetchRaceDataList(
+            const races = await this.raceDataUseCase.fetchRaceEntityList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
                 raceTypeList,
@@ -401,7 +401,7 @@ export class PublicGamblingController {
      * @param res - レスポンス
      */
     @Logger
-    private async updateRaceDataList(
+    private async updateRaceEntityList(
         req: Request,
         res: Response,
     ): Promise<void> {
