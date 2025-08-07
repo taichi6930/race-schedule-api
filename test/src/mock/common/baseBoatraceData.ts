@@ -1,6 +1,6 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { MechanicalRacingRaceData } from '../../../../lib/src/domain/mechanicalRacingRaceData';
 import { PlaceData } from '../../../../lib/src/domain/placeData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
@@ -38,10 +38,9 @@ export const baseBoatracePlaceData = PlaceData.create(
     baseBoatracePlaceCourse,
 );
 
-export const baseBoatraceRaceData = MechanicalRacingRaceData.create(
+export const baseBoatraceRaceData = RaceData.create(
     RaceType.BOATRACE,
     baseBoatraceRaceName,
-    baseBoatraceRaceStage,
     baseRaceDateTime,
     baseBoatracePlaceCourse,
     baseBoatracePlaceGrade,
@@ -97,6 +96,7 @@ export const baseBoatraceRacePlayerDataList = Array.from(
 
 export const baseBoatraceRaceEntity = BoatraceRaceEntity.createWithoutId(
     baseBoatraceRaceData,
+    baseBoatraceRaceStage,
     baseBoatraceRacePlayerDataList,
     baseBoatraceRaceUpdateDate,
 );
@@ -143,10 +143,9 @@ export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
         '一般戦',
         '優勝戦',
     ].map((stage, index) => {
-        const raceData = MechanicalRacingRaceData.create(
+        const raceData = RaceData.create(
             RaceType.BOATRACE,
             `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
-            stage,
             new Date(2025, 12 - 1, 30, 7 + index, 0),
             location,
             grade,
@@ -157,6 +156,7 @@ export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
         });
         return BoatraceRaceEntity.createWithoutId(
             raceData,
+            stage,
             racePlayerDataList,
             baseBoatraceRaceUpdateDate,
         );

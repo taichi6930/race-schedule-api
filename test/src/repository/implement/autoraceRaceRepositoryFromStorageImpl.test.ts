@@ -6,7 +6,7 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { MechanicalRacingRaceData } from '../../../../lib/src/domain/mechanicalRacingRaceData';
+import { RaceData } from '../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { RacePlayerRecord } from '../../../../lib/src/gateway/record/racePlayerRecord';
 import type { RaceRecord } from '../../../../lib/src/gateway/record/raceRecord';
@@ -91,15 +91,15 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from({ length: 12 }, (__, j) =>
                         AutoraceRaceEntity.createWithoutId(
-                            MechanicalRacingRaceData.create(
+                            RaceData.create(
                                 RaceType.AUTORACE,
                                 `raceName${format(date, 'yyyyMMdd')}`,
-                                `優勝戦`,
                                 date,
                                 '飯塚',
                                 'GⅠ',
                                 j + 1,
                             ),
+                            '優勝戦',
                             baseAutoraceRacePlayerDataList,
                             getJSTDate(new Date()),
                         ),
@@ -124,15 +124,15 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                 date.setDate(date.getDate() + day);
                 return Array.from({ length: 12 }, (__, j) =>
                     AutoraceRaceEntity.createWithoutId(
-                        MechanicalRacingRaceData.create(
+                        RaceData.create(
                             RaceType.AUTORACE,
                             `raceName${format(date, 'yyyyMMdd')}`,
-                            `優勝戦`,
                             date,
                             '飯塚',
                             'GⅠ',
                             j + 1,
                         ),
+                        '優勝戦',
                         baseAutoraceRacePlayerDataList,
                         getJSTDate(new Date()),
                     ),

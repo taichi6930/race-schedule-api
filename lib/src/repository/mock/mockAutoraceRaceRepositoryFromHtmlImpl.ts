@@ -1,4 +1,4 @@
-import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
+import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -24,10 +24,9 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
                     const raceStage = i === 12 ? '優勝戦' : '予選';
                     raceEntityList.push(
                         AutoraceRaceEntity.createWithoutId(
-                            MechanicalRacingRaceData.create(
+                            RaceData.create(
                                 RaceType.AUTORACE,
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
-                                raceStage,
                                 new Date(
                                     placeEntity.placeData.dateTime.getFullYear(),
                                     placeEntity.placeData.dateTime.getMonth(),
@@ -38,6 +37,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
                                 placeEntity.grade,
                                 i,
                             ),
+                            raceStage,
                             [],
                             getJSTDate(new Date()),
                         ),

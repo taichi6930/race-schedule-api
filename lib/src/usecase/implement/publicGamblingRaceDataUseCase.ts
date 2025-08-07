@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { MechanicalRacingRaceData } from '../../domain/mechanicalRacingRaceData';
 import { RaceData } from '../../domain/raceData';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
@@ -91,9 +90,9 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         jra: RaceData[];
         nar: RaceData[];
         world: RaceData[];
-        keirin: MechanicalRacingRaceData[];
-        autorace: MechanicalRacingRaceData[];
-        boatrace: MechanicalRacingRaceData[];
+        keirin: RaceData[];
+        autorace: RaceData[];
+        boatrace: RaceData[];
     }> {
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
@@ -131,7 +130,6 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                         );
                     }
                     return true;
-                })
                 .map(({ raceData }) => raceData),
             nar: raceEntityList.nar
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
@@ -171,7 +169,6 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                         );
                     }
                     return true;
-                })
                 .map(({ raceData }) => raceData),
             keirin: raceEntityList.keirin
                 // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
@@ -196,7 +193,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 .filter((raceEntity) => {
                     if (searchList?.keirin?.stageList) {
                         return searchList.keirin.stageList.includes(
-                            raceEntity.raceData.stage,
+                            raceEntity.stage,
                         );
                     }
                     return true;
@@ -225,7 +222,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 .filter((raceEntity) => {
                     if (searchList?.autorace?.stageList) {
                         return searchList.autorace.stageList.includes(
-                            raceEntity.raceData.stage,
+                            raceEntity.stage,
                         );
                     }
                     return true;
@@ -254,7 +251,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 .filter((raceEntity) => {
                     if (searchList?.boatrace?.stageList) {
                         return searchList.boatrace.stageList.includes(
-                            raceEntity.raceData.stage,
+                            raceEntity.stage,
                         );
                     }
                     return true;
