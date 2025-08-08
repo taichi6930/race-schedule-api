@@ -241,6 +241,12 @@ export default [
         },
     },
     {
+        files: ['**/lib/src/utility/raceType.ts'],
+        rules: {
+            '@typescript-eslint/no-redeclare': 'off', // TypeScriptの再宣言を許可
+        },
+    },
+    {
         files: ['**/lib/src/gateway/mock/mockS3Gateway.ts'],
         rules: {
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
