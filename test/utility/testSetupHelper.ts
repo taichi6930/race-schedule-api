@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import type { ICalendarGateway } from '../../lib/src/gateway/interface/iCalendarGateway';
 import type { AutoraceRaceEntity } from '../../lib/src/repository/entity/autoraceRaceEntity';
 import type { BoatraceRaceEntity } from '../../lib/src/repository/entity/boatraceRaceEntity';
 import type { JraPlaceEntity } from '../../lib/src/repository/entity/jraPlaceEntity';
@@ -10,15 +11,19 @@ import type { KeirinRaceEntity } from '../../lib/src/repository/entity/keirinRac
 import type { MechanicalRacingPlaceEntity } from '../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { NarPlaceEntity } from '../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../lib/src/repository/entity/narRaceEntity';
+import type { WorldPlaceEntity } from '../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../lib/src/repository/entity/worldRaceEntity';
 import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
+import type { IRaceRepository } from '../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../lib/src/service/interface/ICalendarService';
 import type { IPlaceDataService } from '../../lib/src/service/interface/IPlaceDataService';
 import type { IPlayerDataService } from '../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../lib/src/service/interface/IRaceDataService';
+import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
 import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
+import { mockRaceRepository } from '../unittest/src/mock/repository/mockRaceRepository';
 import { calendarServiceMock } from '../unittest/src/mock/service/calendarServiceMock';
 import { placeDataServiceMock } from '../unittest/src/mock/service/placeDataServiceMock';
 import { playerDataServiceMock } from '../unittest/src/mock/service/playerDataServiceMock';
@@ -32,56 +37,11 @@ export function clearMocks(): void {
 }
 
 /**
- * ユースケーステスト用のセットアップ
+ * テスト用のセットアップ
  */
-export interface UseCaseTestSetup {
-    calendarService: jest.Mocked<ICalendarService>;
-    raceDataService: jest.Mocked<IRaceDataService>;
-    placeDataService: jest.Mocked<IPlaceDataService>;
-    playerDataService: jest.Mocked<IPlayerDataService>;
-}
+export interface TestSetup {
+    googleCalendarGateway: jest.Mocked<ICalendarGateway>;
 
-/**
- * UseCaseテスト用のセットアップ
- * @returns セットアップ済みのサービスとユースケース
- */
-export function setupUseCaseTest(): UseCaseTestSetup {
-    const calendarService = calendarServiceMock();
-    container.registerInstance<ICalendarService>(
-        'PublicGamblingCalendarService',
-        calendarService,
-    );
-
-    const raceDataService = raceDataServiceMock();
-    container.registerInstance<IRaceDataService>(
-        'PublicGamblingRaceDataService',
-        raceDataService,
-    );
-
-    const placeDataService = placeDataServiceMock();
-    container.registerInstance<IPlaceDataService>(
-        'PublicGamblingPlaceDataService',
-        placeDataService,
-    );
-
-    const playerDataService = playerDataServiceMock();
-    container.registerInstance<IPlayerDataService>(
-        'PlayerDataService',
-        playerDataService,
-    );
-
-    return {
-        calendarService,
-        raceDataService,
-        placeDataService,
-        playerDataService,
-    };
-}
-
-/**
- * サービステスト用のセットアップ
- */
-export interface ServiceTestSetup {
     jraCalendarRepository: jest.Mocked<ICalendarRepository<JraRaceEntity>>;
     narCalendarRepository: jest.Mocked<ICalendarRepository<NarRaceEntity>>;
     worldCalendarRepository: jest.Mocked<ICalendarRepository<WorldRaceEntity>>;
@@ -124,13 +84,160 @@ export interface ServiceTestSetup {
     autoracePlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
+    jraRaceRepositoryFromStorageImpl: jest.Mocked<
+        IRaceRepository<JraRaceEntity, JraPlaceEntity>
+    >;
+    jraRaceRepositoryFromHtmlImpl: jest.Mocked<
+        IRaceRepository<JraRaceEntity, JraPlaceEntity>
+    >;
+    narRaceRepositoryFromStorageImpl: jest.Mocked<
+        IRaceRepository<NarRaceEntity, NarPlaceEntity>
+    >;
+    narRaceRepositoryFromHtmlImpl: jest.Mocked<
+        IRaceRepository<NarRaceEntity, NarPlaceEntity>
+    >;
+    worldRaceRepositoryFromStorageImpl: jest.Mocked<
+        IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
+    >;
+    worldRaceRepositoryFromHtmlImpl: jest.Mocked<
+        IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
+    >;
+    keirinRaceRepositoryFromStorageImpl: jest.Mocked<
+        IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
+    >;
+    keirinRaceRepositoryFromHtmlImpl: jest.Mocked<
+        IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
+    >;
+    boatraceRaceRepositoryFromStorageImpl: jest.Mocked<
+        IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
+    >;
+    boatraceRaceRepositoryFromHtmlImpl: jest.Mocked<
+        IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
+    >;
+    autoraceRaceRepositoryFromStorageImpl: jest.Mocked<
+        IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
+    >;
+    autoraceRaceRepositoryFromHtmlImpl: jest.Mocked<
+        IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
+    >;
+    calendarService: jest.Mocked<ICalendarService>;
+    raceDataService: jest.Mocked<IRaceDataService>;
+    placeDataService: jest.Mocked<IPlaceDataService>;
+    playerDataService: jest.Mocked<IPlayerDataService>;
 }
 
 /**
- * Serviceテスト用のセットアップ
+ * テスト用のセットアップ
  * @returns セットアップ済みのサービス
  */
-export function setupServiceTest(): ServiceTestSetup {
+export function setupTestMock(): TestSetup {
+    const googleCalendarGateway = mockGoogleCalendarGateway();
+    container.registerInstance(
+        'AutoraceGoogleCalendarGateway',
+        googleCalendarGateway,
+    );
+    const jraRaceRepositoryFromStorageImpl = mockRaceRepository<
+        JraRaceEntity,
+        JraPlaceEntity
+    >();
+    container.registerInstance<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
+        'JraRaceRepositoryFromStorage',
+        jraRaceRepositoryFromStorageImpl,
+    );
+    const jraRaceRepositoryFromHtmlImpl = mockRaceRepository<
+        JraRaceEntity,
+        JraPlaceEntity
+    >();
+    container.registerInstance<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
+        'JraRaceRepositoryFromHtml',
+        jraRaceRepositoryFromHtmlImpl,
+    );
+    const narRaceRepositoryFromStorageImpl = mockRaceRepository<
+        NarRaceEntity,
+        NarPlaceEntity
+    >();
+    container.registerInstance<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
+        'NarRaceRepositoryFromStorage',
+        narRaceRepositoryFromStorageImpl,
+    );
+
+    const narRaceRepositoryFromHtmlImpl = mockRaceRepository<
+        NarRaceEntity,
+        NarPlaceEntity
+    >();
+    container.registerInstance<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
+        'NarRaceRepositoryFromHtml',
+        narRaceRepositoryFromHtmlImpl,
+    );
+    // world
+    const worldRaceRepositoryFromStorageImpl = mockRaceRepository<
+        WorldRaceEntity,
+        WorldPlaceEntity
+    >();
+    container.registerInstance<
+        IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
+    >('WorldRaceRepositoryFromStorage', worldRaceRepositoryFromStorageImpl);
+    const worldRaceRepositoryFromHtmlImpl = mockRaceRepository<
+        WorldRaceEntity,
+        WorldPlaceEntity
+    >();
+    container.registerInstance<
+        IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
+    >('WorldRaceRepositoryFromHtml', worldRaceRepositoryFromHtmlImpl);
+
+    // keirin
+    const keirinRaceRepositoryFromStorageImpl = mockRaceRepository<
+        KeirinRaceEntity,
+        MechanicalRacingPlaceEntity
+    >();
+    container.registerInstance<
+        IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
+    >('KeirinRaceRepositoryFromStorage', keirinRaceRepositoryFromStorageImpl);
+    const keirinRaceRepositoryFromHtmlImpl = mockRaceRepository<
+        KeirinRaceEntity,
+        MechanicalRacingPlaceEntity
+    >();
+    container.registerInstance<
+        IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
+    >('KeirinRaceRepositoryFromHtml', keirinRaceRepositoryFromHtmlImpl);
+
+    // boatrace
+    const boatraceRaceRepositoryFromStorageImpl = mockRaceRepository<
+        BoatraceRaceEntity,
+        MechanicalRacingPlaceEntity
+    >();
+    container.registerInstance<
+        IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
+    >(
+        'BoatraceRaceRepositoryFromStorage',
+        boatraceRaceRepositoryFromStorageImpl,
+    );
+    const boatraceRaceRepositoryFromHtmlImpl = mockRaceRepository<
+        BoatraceRaceEntity,
+        MechanicalRacingPlaceEntity
+    >();
+    container.registerInstance<
+        IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
+    >('BoatraceRaceRepositoryFromHtml', boatraceRaceRepositoryFromHtmlImpl);
+
+    const autoraceRaceRepositoryFromStorageImpl = mockRaceRepository<
+        AutoraceRaceEntity,
+        MechanicalRacingPlaceEntity
+    >();
+    container.registerInstance<
+        IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
+    >(
+        'AutoraceRaceRepositoryFromStorage',
+        autoraceRaceRepositoryFromStorageImpl,
+    );
+    const autoraceRaceRepositoryFromHtmlImpl = mockRaceRepository<
+        AutoraceRaceEntity,
+        MechanicalRacingPlaceEntity
+    >();
+    container.registerInstance<
+        IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
+    >('AutoraceRaceRepositoryFromHtml', autoraceRaceRepositoryFromHtmlImpl);
+
     const jraCalendarRepository = mockCalendarRepository<JraRaceEntity>();
     container.registerInstance('JraCalendarRepository', jraCalendarRepository);
     const narCalendarRepository = mockCalendarRepository<NarRaceEntity>();
@@ -226,7 +333,32 @@ export function setupServiceTest(): ServiceTestSetup {
         autoracePlaceRepositoryFromHtmlImpl,
     );
 
+    const calendarService = calendarServiceMock();
+    container.registerInstance<ICalendarService>(
+        'PublicGamblingCalendarService',
+        calendarService,
+    );
+
+    const raceDataService = raceDataServiceMock();
+    container.registerInstance<IRaceDataService>(
+        'PublicGamblingRaceDataService',
+        raceDataService,
+    );
+
+    const placeDataService = placeDataServiceMock();
+    container.registerInstance<IPlaceDataService>(
+        'PublicGamblingPlaceDataService',
+        placeDataService,
+    );
+
+    const playerDataService = playerDataServiceMock();
+    container.registerInstance<IPlayerDataService>(
+        'PlayerDataService',
+        playerDataService,
+    );
+
     return {
+        googleCalendarGateway,
         jraCalendarRepository,
         narCalendarRepository,
         worldCalendarRepository,
@@ -243,5 +375,21 @@ export function setupServiceTest(): ServiceTestSetup {
         boatracePlaceRepositoryFromHtmlImpl,
         autoracePlaceRepositoryFromStorageImpl,
         autoracePlaceRepositoryFromHtmlImpl,
+        jraRaceRepositoryFromStorageImpl,
+        jraRaceRepositoryFromHtmlImpl,
+        narRaceRepositoryFromStorageImpl,
+        narRaceRepositoryFromHtmlImpl,
+        worldRaceRepositoryFromStorageImpl,
+        worldRaceRepositoryFromHtmlImpl,
+        keirinRaceRepositoryFromStorageImpl,
+        keirinRaceRepositoryFromHtmlImpl,
+        boatraceRaceRepositoryFromStorageImpl,
+        boatraceRaceRepositoryFromHtmlImpl,
+        autoraceRaceRepositoryFromStorageImpl,
+        autoraceRaceRepositoryFromHtmlImpl,
+        calendarService,
+        raceDataService,
+        placeDataService,
+        playerDataService,
     };
 }

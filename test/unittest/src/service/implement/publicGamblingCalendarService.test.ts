@@ -14,8 +14,8 @@ import type { ICalendarRepository } from '../../../../../lib/src/repository/inte
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import type { ServiceTestSetup } from '../../../../utility/testSetupHelper';
-import { setupServiceTest } from '../../../../utility/testSetupHelper';
+import type { TestSetup } from '../../../../utility/testSetupHelper';
+import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     baseAutoraceCalendarData,
     baseAutoraceRaceEntityList,
@@ -59,7 +59,7 @@ describe('PublicGamblingCalendarService', () => {
     >;
 
     beforeEach(() => {
-        const setup: ServiceTestSetup = setupServiceTest();
+        const setup: TestSetup = setupTestMock();
         ({
             jraCalendarRepository,
             narCalendarRepository,

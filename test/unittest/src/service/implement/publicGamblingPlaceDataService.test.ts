@@ -10,8 +10,8 @@ import { PublicGamblingPlaceDataService } from '../../../../../lib/src/service/i
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import type { ServiceTestSetup } from '../../../../utility/testSetupHelper';
-import { setupServiceTest } from '../../../../utility/testSetupHelper';
+import type { TestSetup } from '../../../../utility/testSetupHelper';
+import { setupTestMock } from '../../../../utility/testSetupHelper';
 import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
 import { baseBoatracePlaceEntity } from '../../mock/common/baseBoatraceData';
 import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
@@ -52,7 +52,7 @@ describe('PublicGamblingPlaceDataService', () => {
     let service: IPlaceDataService;
 
     beforeEach(() => {
-        const setup: ServiceTestSetup = setupServiceTest();
+        const setup: TestSetup = setupTestMock();
         ({
             jraPlaceRepositoryFromStorageImpl,
             jraPlaceRepositoryFromHtmlImpl,
