@@ -131,10 +131,10 @@ export interface TestSetup {
  * @returns セットアップ済みのサービス
  */
 export function setupTestMock(): TestSetup {
-    const googleCalendarGateway = mockGoogleCalendarGateway();
+    const autoraceGoogleCalendarGateway = mockGoogleCalendarGateway();
     container.registerInstance(
         'AutoraceGoogleCalendarGateway',
-        googleCalendarGateway,
+        autoraceGoogleCalendarGateway,
     );
     const jraRaceRepositoryFromStorageImpl = mockRaceRepository<
         JraRaceEntity,
@@ -358,7 +358,7 @@ export function setupTestMock(): TestSetup {
     );
 
     return {
-        googleCalendarGateway,
+        googleCalendarGateway: autoraceGoogleCalendarGateway,
         jraCalendarRepository,
         narCalendarRepository,
         worldCalendarRepository,
