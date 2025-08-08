@@ -1,3 +1,4 @@
+import { RaceCourseType } from '../../../../../lib/src/utility/data/common/raceCourseType';
 import { baseJraRaceRecord } from '../../mock/common/baseJraData';
 
 describe('JraRaceRecordクラスのテスト', () => {
@@ -8,7 +9,7 @@ describe('JraRaceRecordクラスのテスト', () => {
         expect(raceRecord.name).toBe('有馬記念');
         expect(raceRecord.dateTime).toEqual(new Date('2024-12-22 15:40'));
         expect(raceRecord.location).toBe('中山');
-        expect(raceRecord.surfaceType).toBe('芝');
+        expect(raceRecord.surfaceType).toBe(RaceCourseType.TURF);
         expect(raceRecord.distance).toBe(2500);
         expect(raceRecord.grade).toBe('GⅠ');
         expect(raceRecord.number).toBe(11);
@@ -25,7 +26,7 @@ describe('JraRaceRecordクラスのテスト', () => {
         expect(copiedRaceRecord.name).toBe('有馬記念');
         expect(copiedRaceRecord.dateTime).toEqual(new Date('2024-12-22 15:40'));
         expect(copiedRaceRecord.location).toBe('東京');
-        expect(copiedRaceRecord.surfaceType).toBe('芝');
+        expect(copiedRaceRecord.surfaceType).toBe(RaceCourseType.TURF);
         expect(copiedRaceRecord.distance).toBe(2500);
         expect(copiedRaceRecord.grade).toBe('GⅠ');
         expect(copiedRaceRecord.number).toBe(11);

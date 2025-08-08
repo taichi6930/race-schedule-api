@@ -2,6 +2,7 @@ import {
     processJraRaceName,
     processNarRaceName,
 } from '../../../../lib/src/utility/createRaceName';
+import { RaceCourseType } from '../../../../lib/src/utility/data/common/raceCourseType';
 describe('processJraRaceName', () => {
     it('should return 阪神JF for Hanshin Juvenile Fillies', () => {
         const raceInfo = {
@@ -9,7 +10,7 @@ describe('processJraRaceName', () => {
             place: '阪神',
             grade: 'GⅠ',
             date: new Date('2023-12-10'),
-            surfaceType: '芝',
+            surfaceType: RaceCourseType.TURF,
             distance: 1600,
         };
         expect(processJraRaceName(raceInfo)).toBe('阪神JF');
@@ -21,7 +22,7 @@ describe('processJraRaceName', () => {
             place: '阪神',
             grade: 'GⅠ',
             date: new Date('2023-12-17'),
-            surfaceType: '芝',
+            surfaceType: RaceCourseType.TURF,
             distance: 1600,
         };
         expect(processJraRaceName(raceInfo)).toBe('朝日杯FS');
@@ -33,7 +34,7 @@ describe('processJraRaceName', () => {
             place: '京都',
             grade: 'GⅠ',
             date: new Date('2023-11-19'),
-            surfaceType: '芝',
+            surfaceType: RaceCourseType.TURF,
             distance: 1600,
         };
         expect(processJraRaceName(raceInfo)).toBe('マイルCS');
@@ -45,7 +46,7 @@ describe('processJraRaceName', () => {
             place: '中山',
             grade: 'GⅡ',
             date: new Date('2023-01-22'),
-            surfaceType: '芝',
+            surfaceType: RaceCourseType.TURF,
             distance: 2200,
         };
         expect(processJraRaceName(raceInfo)).toBe('AJCC');
@@ -57,7 +58,7 @@ describe('processJraRaceName', () => {
             place: '東京',
             grade: 'GⅡ',
             date: new Date('2023-10-14'),
-            surfaceType: '芝',
+            surfaceType: RaceCourseType.TURF,
             distance: 1800,
         };
         expect(processJraRaceName(raceInfo)).toBe('府中牝馬S');
@@ -69,7 +70,7 @@ describe('processJraRaceName', () => {
             place: '新潟',
             grade: 'GⅢ',
             date: new Date('2023-07-30'),
-            surfaceType: '芝',
+            surfaceType: RaceCourseType.TURF,
             distance: 1000,
         };
         expect(processJraRaceName(raceInfo)).toBe('アイビスサマーD');
@@ -81,7 +82,7 @@ describe('processJraRaceName', () => {
             place: '中山',
             grade: 'GⅢ',
             date: new Date('2023-09-10'),
-            surfaceType: '芝',
+            surfaceType: RaceCourseType.TURF,
             distance: 1600,
         };
         expect(processJraRaceName(raceInfo)).toBe('京成杯オータムH');
@@ -93,7 +94,7 @@ describe('processJraRaceName', () => {
             place: '東京',
             grade: 'GⅢ',
             date: new Date('2023-10-07'),
-            surfaceType: '芝',
+            surfaceType: RaceCourseType.TURF,
             distance: 1600,
         };
         expect(processJraRaceName(raceInfo)).toBe('サウジアラビアRC');
@@ -105,7 +106,7 @@ describe('processJraRaceName', () => {
             place: '新潟',
             grade: 'Listed',
             date: new Date('2023-10-29'),
-            surfaceType: '芝',
+            surfaceType: RaceCourseType.TURF,
             distance: 1000,
         };
         expect(processJraRaceName(raceInfo)).toBe('ルミエールオータムD');
@@ -117,7 +118,7 @@ describe('processJraRaceName', () => {
             place: '東京',
             grade: 'GⅢ',
             date: new Date('2023-10-07'),
-            surfaceType: '芝',
+            surfaceType: RaceCourseType.TURF,
             distance: 1600,
         };
         expect(processJraRaceName(raceInfo)).toBe('その他のレース');
@@ -131,7 +132,7 @@ describe('processNarRaceName', () => {
             place: '帯広ば',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe('');
@@ -143,7 +144,7 @@ describe('processNarRaceName', () => {
             place: '門別',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe('');
@@ -155,7 +156,7 @@ describe('processNarRaceName', () => {
             place: '水沢',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe('岩手県知事杯OROカップ');
@@ -167,7 +168,7 @@ describe('processNarRaceName', () => {
             place: '浦和',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe('');
@@ -179,7 +180,7 @@ describe('processNarRaceName', () => {
             place: '川崎',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe('川崎記念');
@@ -191,7 +192,7 @@ describe('processNarRaceName', () => {
             place: '大井',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe('ゴールドジュニア（大井）');
@@ -203,7 +204,7 @@ describe('processNarRaceName', () => {
             place: '金沢',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe(
@@ -217,7 +218,7 @@ describe('processNarRaceName', () => {
             place: '名古屋',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe('スプリングC（名古屋）');
@@ -229,7 +230,7 @@ describe('processNarRaceName', () => {
             place: '笠松',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe('ゴールドジュニア（笠松）');
@@ -241,7 +242,7 @@ describe('processNarRaceName', () => {
             place: '笠松',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe('東海ゴールドC');
@@ -253,7 +254,7 @@ describe('processNarRaceName', () => {
             place: '園田',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe('');
@@ -265,7 +266,7 @@ describe('processNarRaceName', () => {
             place: '高知',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe('');
@@ -277,7 +278,7 @@ describe('processNarRaceName', () => {
             place: '佐賀',
             grade: '地方重賞',
             date: new Date('2023-07-30'),
-            surfaceType: 'ダート',
+            surfaceType: RaceCourseType.DIRT,
             distance: 2000,
         };
         expect(processNarRaceName(raceInfo)).toBe('九州産グランプリ');

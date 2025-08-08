@@ -11,9 +11,10 @@
  */
 
 import { HorseRaceConditionData } from '../../../../lib/src/domain/houseRaceConditionData';
+import { RaceCourseType } from '../../../../lib/src/utility/data/common/raceCourseType';
 
 describe('HorseRaceConditionDataクラスのテスト', () => {
-    const validSurfaceType = '芝';
+    const validSurfaceType = RaceCourseType.TURF;
     const invalidSurfaceType = 'ウッド';
     const validDistance = 2500;
     const invalidDistance = 0;

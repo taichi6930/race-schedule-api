@@ -1,5 +1,6 @@
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
+import { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -37,7 +38,10 @@ export class MockNarRaceRepositoryFromHtmlImpl
                                 'GⅠ',
                                 i,
                             ),
-                            HorseRaceConditionData.create('ダート', 2000),
+                            HorseRaceConditionData.create(
+                                RaceCourseType.DIRT,
+                                2000,
+                            ),
                             getJSTDate(new Date()),
                         ),
                     );

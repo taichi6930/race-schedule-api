@@ -7,6 +7,7 @@ import { WorldPlaceEntity } from '../../../../../lib/src/repository/entity/world
 import { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
+import { RaceCourseType } from '../../../../../lib/src/utility/data/common/raceCourseType';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { generateRaceId } from '../../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -17,7 +18,7 @@ const baseWorldPlaceDateTime = new Date('2024-10-01');
 const baseWorldRaceName = '凱旋門賞';
 const baseRaceDateTime = new Date('2024-10-01 16:30');
 const baseWorldRaceNumber = 11;
-const baseWorldRaceSurfaceType = '芝';
+const baseWorldRaceSurfaceType = RaceCourseType.TURF;
 const baseRaceDistance = 2400;
 const baseWorldRaceGrade: GradeType = 'GⅠ';
 const baseWorldRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
@@ -95,7 +96,7 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
                 grade,
                 index + 1,
             ),
-            HorseRaceConditionData.create('芝', 2400),
+            HorseRaceConditionData.create(RaceCourseType.TURF, 2400),
             getJSTDate(baseWorldRaceUpdateDate),
         );
     });

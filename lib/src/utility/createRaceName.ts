@@ -2,7 +2,7 @@ import './format';
 
 import type { GradeType } from './data/common/gradeType';
 import type { RaceCourse } from './data/common/raceCourse';
-import type { RaceCourseType } from './data/common/raceCourseType';
+import { RaceCourseType } from './data/common/raceCourseType';
 import type { RaceDateTime } from './data/common/raceDateTime';
 import type { RaceDistance } from './data/common/raceDistance';
 import type { RaceName } from './data/common/raceName';
@@ -85,7 +85,7 @@ const isMileChampionship = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['阪神', '京都'].includes(raceInfo.place) &&
     raceInfo.grade === 'GⅠ' &&
     [11 - 1].includes(raceInfo.date.getMonth()) &&
-    raceInfo.surfaceType === '芝' &&
+    raceInfo.surfaceType === RaceCourseType.TURF &&
     raceInfo.name.includes('マイル');
 
 /**
@@ -98,7 +98,7 @@ const isAmericanJockeyClubCup = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['中山', '東京'].includes(raceInfo.place) &&
     raceInfo.grade === 'GⅡ' &&
     [1 - 1, 2 - 1].includes(raceInfo.date.getMonth()) &&
-    raceInfo.surfaceType === '芝' &&
+    raceInfo.surfaceType === RaceCourseType.TURF &&
     raceInfo.name.includes('アメリカ') &&
     (raceInfo.name.includes('J') || raceInfo.name.includes('ジョッキー')) &&
     (raceInfo.name.includes('C') || raceInfo.name.includes('クラブ'));
@@ -113,7 +113,7 @@ const isFuchuHimbaStakes = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['中山', '東京'].includes(raceInfo.place) &&
     raceInfo.grade === 'GⅡ' &&
     [10 - 1].includes(raceInfo.date.getMonth()) &&
-    raceInfo.surfaceType === '芝' &&
+    raceInfo.surfaceType === RaceCourseType.TURF &&
     raceInfo.name.includes('府中牝馬');
 
 /**
@@ -125,7 +125,7 @@ const isFuchuHimbaStakes = (raceInfo: JraRaceDataForRaceName): boolean =>
 const isIbisSummerDash = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['新潟'].includes(raceInfo.place) &&
     raceInfo.grade === 'GⅢ' &&
-    raceInfo.surfaceType === '芝' &&
+    raceInfo.surfaceType === RaceCourseType.TURF &&
     raceInfo.name.includes('アイビス') &&
     raceInfo.distance === 1000;
 
@@ -139,7 +139,7 @@ const isKeiseiHaiAutumnHandicap = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['中山'].includes(raceInfo.place) &&
     raceInfo.grade === 'GⅢ' &&
     [9 - 1].includes(raceInfo.date.getMonth()) &&
-    raceInfo.surfaceType === '芝' &&
+    raceInfo.surfaceType === RaceCourseType.TURF &&
     raceInfo.name.includes('京成杯') &&
     raceInfo.distance === 1600;
 
@@ -153,7 +153,7 @@ const isSaudiArabiaRoyalCup = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['東京'].includes(raceInfo.place) &&
     raceInfo.grade === 'GⅢ' &&
     [10 - 1].includes(raceInfo.date.getMonth()) &&
-    raceInfo.surfaceType === '芝' &&
+    raceInfo.surfaceType === RaceCourseType.TURF &&
     raceInfo.name.includes('サウジ') &&
     raceInfo.distance === 1600;
 
@@ -167,7 +167,7 @@ const isLumiereAutumnDash = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['新潟'].includes(raceInfo.place) &&
     raceInfo.grade === 'Listed' &&
     [10 - 1, 11 - 1].includes(raceInfo.date.getMonth()) &&
-    raceInfo.surfaceType === '芝' &&
+    raceInfo.surfaceType === RaceCourseType.TURF &&
     raceInfo.name.includes('ルミエール') &&
     raceInfo.distance === 1000;
 

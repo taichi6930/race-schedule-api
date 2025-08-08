@@ -10,6 +10,7 @@ import { NarPlaceEntity } from '../../../../../lib/src/repository/entity/narPlac
 import { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
+import { RaceCourseType } from '../../../../../lib/src/utility/data/common/raceCourseType';
 import {
     generatePlaceId,
     generateRaceId,
@@ -22,7 +23,7 @@ const baseNarPlaceDateTime = new Date('2024-12-29');
 const baseNarRaceName = '東京大賞典';
 const baseRaceDateTime = new Date('2024-12-29 15:40');
 const baseNarRaceNumber = 11;
-const baseNarRaceSurfaceType = 'ダート';
+const baseNarRaceSurfaceType = RaceCourseType.DIRT;
 const baseNarRaceDistance = 2000;
 const baseNarRaceGrade: GradeType = 'GⅠ';
 const baseNarRaceUpdateDate = new Date('2024-12-01 00:00');
@@ -154,7 +155,7 @@ export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatM
                     grade,
                     index + 1,
                 ),
-                HorseRaceConditionData.create('ダート', 1600),
+                HorseRaceConditionData.create(RaceCourseType.DIRT, 1600),
                 baseNarRaceUpdateDate,
             );
         });

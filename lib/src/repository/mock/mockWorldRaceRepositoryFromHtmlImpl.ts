@@ -1,5 +1,6 @@
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
+import { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -36,7 +37,10 @@ export class MockWorldRaceRepositoryFromHtmlImpl
                             'GⅠ',
                             i,
                         ),
-                        HorseRaceConditionData.create('芝', 2400),
+                        HorseRaceConditionData.create(
+                            RaceCourseType.TURF,
+                            2400,
+                        ),
                         getJSTDate(new Date()),
                     ),
                 );

@@ -15,6 +15,7 @@ import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jr
 import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { JraRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromStorageImpl';
+import { RaceCourseType } from '../../../../../lib/src/utility/data/common/raceCourseType';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -107,7 +108,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         j + 1,
                     ),
                     HeldDayData.create(1, 1),
-                    HorseRaceConditionData.create('ダート', 1200),
+                    HorseRaceConditionData.create(RaceCourseType.DIRT, 1200),
                     getJSTDate(new Date()),
                 ),
             );

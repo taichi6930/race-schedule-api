@@ -1,3 +1,4 @@
+import { RaceCourseType } from '../../../../../lib/src/utility/data/common/raceCourseType';
 import {
     baseWorldRaceEntity,
     baseWorldRaceRecord,
@@ -10,7 +11,7 @@ describe('WorldRaceRecordクラスのテスト', () => {
         expect(raceRecord.name).toBe('凱旋門賞');
         expect(raceRecord.dateTime).toEqual(new Date('2024-10-01 16:30'));
         expect(raceRecord.location).toBe('パリロンシャン');
-        expect(raceRecord.surfaceType).toBe('芝');
+        expect(raceRecord.surfaceType).toBe(RaceCourseType.TURF);
         expect(raceRecord.distance).toBe(2400);
         expect(raceRecord.grade).toBe('GⅠ');
         expect(raceRecord.number).toBe(11);
@@ -26,7 +27,7 @@ describe('WorldRaceRecordクラスのテスト', () => {
         expect(copiedRaceRecord.name).toBe('凱旋門賞');
         expect(copiedRaceRecord.dateTime).toEqual(new Date('2024-10-01 16:30'));
         expect(copiedRaceRecord.location).toBe('シャティン');
-        expect(copiedRaceRecord.surfaceType).toBe('芝');
+        expect(copiedRaceRecord.surfaceType).toBe(RaceCourseType.TURF);
         expect(copiedRaceRecord.distance).toBe(2400);
         expect(copiedRaceRecord.grade).toBe('GⅠ');
         expect(copiedRaceRecord.number).toBe(11);

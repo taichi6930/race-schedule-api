@@ -14,6 +14,7 @@ import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity
 import type { WorldPlaceEntity } from '../../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/worldRaceRepositoryFromStorageImpl';
+import { RaceCourseType } from '../../../../../lib/src/utility/data/common/raceCourseType';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -105,7 +106,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         j + 1,
                     ),
-                    HorseRaceConditionData.create('芝', 2400),
+                    HorseRaceConditionData.create(RaceCourseType.TURF, 2400),
                     getJSTDate(new Date()),
                 ),
             );

@@ -13,7 +13,7 @@ import {
     RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
+import { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -144,11 +144,19 @@ export class WorldRaceRepositoryFromHtmlImpl
                                 .text()
                                 .trim(); // テキストをトリムして不要な空白を削除
 
-                            const surfaceType: string = this.extractSurfaceType(
-                                ['芝', 'ダート', '障害', 'AW'].filter((type) =>
-                                    surfaceTypeAndDistanceText.includes(type),
-                                ),
-                            );
+                            const surfaceType: RaceCourseType =
+                                this.extractSurfaceType(
+                                    [
+                                        RaceCourseType.TURF,
+                                        RaceCourseType.DIRT,
+                                        RaceCourseType.JUMP,
+                                        RaceCourseType.ALLWEATHER,
+                                    ].filter((type) =>
+                                        surfaceTypeAndDistanceText.includes(
+                                            type,
+                                        ),
+                                    ),
+                                );
                             const distanceMatch = /\d+/.exec(
                                 surfaceTypeAndDistanceText,
                             );
@@ -260,10 +268,15 @@ export class WorldRaceRepositoryFromHtmlImpl
     }
 
     private extractSurfaceType(race: string[]): RaceCourseType {
-        const types = ['芝', 'ダート', '障害', 'AW'];
+        const types = [
+            RaceCourseType.TURF,
+            RaceCourseType.DIRT,
+            RaceCourseType.JUMP,
+            RaceCourseType.ALLWEATHER,
+        ];
         const found = types.find((type) =>
             race.some((item) => item.includes(type)),
         );
-        return found ?? '芝';
+        return found ?? RaceCourseType.TURF;
     }
 }

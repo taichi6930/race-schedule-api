@@ -313,12 +313,12 @@ export class JraRaceRepositoryFromHtmlImpl
     ): RaceCourseType | null => {
         // ダ である場合には ダート に、障 である場合には 障害 に変換する
         const surfaceType: string = (surfaceTypeMatch?.[0] ?? '')
-            .replace('ダ', 'ダート')
-            .replace('障', '障害');
+            .replace('ダ', RaceCourseType.DIRT)
+            .replace('障', RaceCourseType.JUMP);
         if (
-            surfaceType !== '芝' &&
-            surfaceType !== 'ダート' &&
-            surfaceType !== '障害'
+            surfaceType !== RaceCourseType.TURF &&
+            surfaceType !== RaceCourseType.DIRT &&
+            surfaceType !== RaceCourseType.JUMP
         ) {
             return null;
         }
@@ -339,15 +339,15 @@ export class JraRaceRepositoryFromHtmlImpl
         let raceGrade: GradeType | null = null;
 
         if (rowRaceName.includes('(GⅠ)')) {
-            raceGrade = raceSurfaceType === '障害' ? 'J.GⅠ' : 'GⅠ';
+            raceGrade = raceSurfaceType === RaceCourseType.JUMP ? 'J.GⅠ' : 'GⅠ';
             rowRaceName = rowRaceName.replace('(GⅠ)', '');
         }
         if (rowRaceName.includes('(GⅡ)')) {
-            raceGrade = raceSurfaceType === '障害' ? 'J.GⅡ' : 'GⅡ';
+            raceGrade = raceSurfaceType === RaceCourseType.JUMP ? 'J.GⅡ' : 'GⅡ';
             rowRaceName = rowRaceName.replace('(GⅡ)', '');
         }
         if (rowRaceName.includes('(GⅢ)')) {
-            raceGrade = raceSurfaceType === '障害' ? 'J.GⅢ' : 'GⅢ';
+            raceGrade = raceSurfaceType === RaceCourseType.JUMP ? 'J.GⅢ' : 'GⅢ';
             rowRaceName = rowRaceName.replace('(GⅢ)', '');
         }
         if (rowRaceName.includes('(L)')) {

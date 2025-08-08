@@ -14,6 +14,7 @@ import type { NarPlaceEntity } from '../../../../../lib/src/repository/entity/na
 import { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { NarRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromStorageImpl';
+import { RaceCourseType } from '../../../../../lib/src/utility/data/common/raceCourseType';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -105,7 +106,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         j + 1,
                     ),
-                    HorseRaceConditionData.create('ダート', 1200),
+                    HorseRaceConditionData.create(RaceCourseType.DIRT, 1200),
                     getJSTDate(new Date()),
                 ),
             );

@@ -9,7 +9,7 @@ import {
     GradeType,
     validateGradeType,
 } from '../../utility/data/common/gradeType';
-import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
+import { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -175,9 +175,9 @@ export class NarRaceRepositoryFromHtmlImpl
         const regex = /(芝)[右左直]+\d+m/;
         const trackType = race.find((item) => regex.test(item));
         if (!trackType) {
-            return 'ダート';
+            return RaceCourseType.DIRT;
         }
-        return '芝';
+        return RaceCourseType.TURF;
     }
 
     private extractGrade(race: string[]): GradeType {

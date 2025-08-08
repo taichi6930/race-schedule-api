@@ -11,6 +11,7 @@ import { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlac
 import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
+import { RaceCourseType } from '../../../../../lib/src/utility/data/common/raceCourseType';
 import {
     generatePlaceId,
     generateRaceId,
@@ -28,7 +29,7 @@ const baseJraPlaceId = generatePlaceId(
 const baseJraRaceName = '有馬記念';
 const baseRaceDateTime = new Date('2024-12-22 15:40');
 const baseJraRaceNumber = 11;
-const baseJraRaceSurfaceType = '芝';
+const baseJraRaceSurfaceType = RaceCourseType.TURF;
 const baseJraRaceDistance = 2500;
 const baseJraRaceGrade: GradeType = 'GⅠ';
 const baseJraRaceHeldTimes = 5;
@@ -172,7 +173,7 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
                     index + 1,
                 ),
                 HeldDayData.create(1, 1),
-                HorseRaceConditionData.create('芝', 1600),
+                HorseRaceConditionData.create(RaceCourseType.TURF, 1600),
                 baseJraRaceUpdateDate,
             );
         });

@@ -5,6 +5,7 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { injectable } from 'tsyringe';
 
+import { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import { generatePlaceId, generateRaceId } from '../../utility/raceId';
@@ -255,7 +256,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         `凱旋門賞`,
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
                         'パリロンシャン',
-                        '芝',
+                        RaceCourseType.TURF,
                         '2400',
                         'GⅠ',
                         raceNumber,
@@ -297,7 +298,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         `東京大賞典`,
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
                         '大井',
-                        'ダート',
+                        RaceCourseType.DIRT,
                         '2000',
                         'GⅠ',
                         raceNumber,
@@ -375,7 +376,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         `日本ダービー`,
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
                         '東京',
-                        '芝',
+                        RaceCourseType.TURF,
                         '2400',
                         'GⅠ',
                         raceNumber,
