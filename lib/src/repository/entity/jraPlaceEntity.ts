@@ -1,4 +1,4 @@
-import type { JraHeldDayData } from '../../domain/jraHeldDayData';
+import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
@@ -24,7 +24,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
     private constructor(
         public readonly id: PlaceId,
         public readonly placeData: PlaceData,
-        public readonly heldDayData: JraHeldDayData,
+        public readonly heldDayData: HeldDayData,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -38,7 +38,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
     public static create(
         id: string,
         placeData: PlaceData,
-        heldDayData: JraHeldDayData,
+        heldDayData: HeldDayData,
         updateDate: Date,
     ): JraPlaceEntity {
         return new JraPlaceEntity(
@@ -57,7 +57,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
      */
     public static createWithoutId(
         placeData: PlaceData,
-        heldDayData: JraHeldDayData,
+        heldDayData: HeldDayData,
         updateDate: Date,
     ): JraPlaceEntity {
         return JraPlaceEntity.create(

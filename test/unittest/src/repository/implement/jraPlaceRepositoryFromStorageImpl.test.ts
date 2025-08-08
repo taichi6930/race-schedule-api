@@ -5,7 +5,7 @@ import path from 'node:path';
 
 import { container } from 'tsyringe';
 
-import { JraHeldDayData } from '../../../../../lib/src/domain/jraHeldDayData';
+import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import type { JraPlaceRecord } from '../../../../../lib/src/gateway/record/jraPlaceRecord';
@@ -78,7 +78,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
             return Array.from({ length: 12 }, () =>
                 JraPlaceEntity.createWithoutId(
                     PlaceData.create(RaceType.JRA, date, '東京'),
-                    JraHeldDayData.create(1, 1),
+                    HeldDayData.create(1, 1),
                     getJSTDate(new Date()),
                 ),
             );

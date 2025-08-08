@@ -4,8 +4,8 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
+import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
-import type { JraHeldDayData } from '../../domain/jraHeldDayData';
 import type { RaceData } from '../../domain/raceData';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
@@ -41,7 +41,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     private constructor(
         public readonly id: RaceId,
         public readonly raceData: RaceData,
-        public readonly heldDayData: JraHeldDayData,
+        public readonly heldDayData: HeldDayData,
         public readonly conditionData: HorseRaceConditionData,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -57,7 +57,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     public static create(
         id: string,
         raceData: RaceData,
-        heldDayData: JraHeldDayData,
+        heldDayData: HeldDayData,
         conditionData: HorseRaceConditionData,
         updateDate: Date,
     ): JraRaceEntity {
@@ -79,7 +79,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      */
     public static createWithoutId(
         raceData: RaceData,
-        heldDayData: JraHeldDayData,
+        heldDayData: HeldDayData,
         conditionData: HorseRaceConditionData,
         updateDate: Date,
     ): JraRaceEntity {

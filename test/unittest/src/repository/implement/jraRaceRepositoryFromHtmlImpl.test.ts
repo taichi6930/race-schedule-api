@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { JraHeldDayData } from '../../../../../lib/src/domain/jraHeldDayData';
+import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
@@ -49,7 +49,7 @@ describe('JraRaceRepositoryFromHtmlImpl', () => {
                                     new Date('2024-05-26'),
                                     '東京',
                                 ),
-                                JraHeldDayData.create(1, 1),
+                                HeldDayData.create(1, 1),
                                 getJSTDate(new Date()),
                             ),
                         ],

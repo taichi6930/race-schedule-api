@@ -6,8 +6,8 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
+import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
-import { JraHeldDayData } from '../../../../../lib/src/domain/jraHeldDayData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import type { JraRaceRecord } from '../../../../../lib/src/gateway/record/jraRaceRecord';
@@ -106,7 +106,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         j + 1,
                     ),
-                    JraHeldDayData.create(1, 1),
+                    HeldDayData.create(1, 1),
                     HorseRaceConditionData.create('ダート', 1200),
                     getJSTDate(new Date()),
                 ),
