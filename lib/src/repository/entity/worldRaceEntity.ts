@@ -9,6 +9,7 @@ import type { RaceData } from '../../domain/raceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
+import { getVenueTypeLabel } from '../../utility/etc';
 import { formatDate } from '../../utility/format';
 import { getWorldGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateRaceId } from '../../utility/raceId';
@@ -134,7 +135,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
                 .replace(/z/g, 's')
                 .replace(/-/g, ''),
             summary: this.raceData.name,
-            location: `${this.raceData.location}競馬場`,
+            location: `${this.raceData.location}${getVenueTypeLabel(this.raceData.raceType)}`,
             start: {
                 dateTime: formatDate(this.raceData.dateTime),
                 timeZone: 'Asia/Tokyo',

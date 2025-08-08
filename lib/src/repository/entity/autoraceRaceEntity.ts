@@ -11,6 +11,7 @@ import { RaceRecord } from '../../gateway/record/raceRecord';
 import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import type { RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
+import { getVenueTypeLabel } from '../../utility/etc';
 import { formatDate } from '../../utility/format';
 import { getAutoraceGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateRaceId, generateRacePlayerId } from '../../utility/raceId';
@@ -137,7 +138,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
                 this.raceData.number,
             ),
             summary: `${this.stage} ${this.raceData.name}`,
-            location: `${this.raceData.location}オートレース場`,
+            location: `${this.raceData.location}${getVenueTypeLabel(this.raceData.raceType)}`,
             start: {
                 dateTime: formatDate(this.raceData.dateTime),
                 timeZone: 'Asia/Tokyo',

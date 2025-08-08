@@ -15,6 +15,7 @@ import {
 } from '../../utility/data/movie';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
+import { getVenueTypeLabel } from '../../utility/etc';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getNarGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateRaceId } from '../../utility/raceId';
@@ -132,7 +133,7 @@ export class NarRaceEntity {
                 this.raceData.number,
             ),
             summary: this.raceData.name,
-            location: `${this.raceData.location}競馬場`,
+            location: `${this.raceData.location}${getVenueTypeLabel(this.raceData.raceType)}`,
             start: {
                 dateTime: formatDate(this.raceData.dateTime),
                 timeZone: 'Asia/Tokyo',

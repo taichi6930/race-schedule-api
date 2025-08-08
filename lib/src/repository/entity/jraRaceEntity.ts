@@ -16,6 +16,7 @@ import {
     createNetkeibaJraShutubaUrl,
 } from '../../utility/data/url';
 import { getJSTDate } from '../../utility/date';
+import { getVenueTypeLabel } from '../../utility/etc';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getJraGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateRaceId } from '../../utility/raceId';
@@ -146,7 +147,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
                 this.raceData.number,
             ),
             summary: this.raceData.name,
-            location: `${this.raceData.location}競馬場`,
+            location: `${this.raceData.location}${getVenueTypeLabel(this.raceData.raceType)}`,
             start: {
                 dateTime: formatDate(this.raceData.dateTime),
                 timeZone: 'Asia/Tokyo',

@@ -17,6 +17,7 @@ import {
     KeirinYoutubeUserIdMap,
 } from '../../utility/data/movie';
 import { getJSTDate } from '../../utility/date';
+import { getVenueTypeLabel } from '../../utility/etc';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getKeirinGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateRaceId, generateRacePlayerId } from '../../utility/raceId';
@@ -143,7 +144,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
                 this.raceData.number,
             ),
             summary: `${this.stage} ${this.raceData.name}`,
-            location: `${this.raceData.location}競輪場`,
+            location: `${this.raceData.location}${getVenueTypeLabel(this.raceData.raceType)}`,
             start: {
                 dateTime: formatDate(this.raceData.dateTime),
                 timeZone: 'Asia/Tokyo',
