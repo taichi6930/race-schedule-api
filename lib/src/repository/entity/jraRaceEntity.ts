@@ -102,7 +102,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      * @param partial
      */
     public copy(partial: Partial<JraRaceEntity> = {}): JraRaceEntity {
-        return new JraRaceEntity(
+        return JraRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.heldDayData ?? this.heldDayData,
