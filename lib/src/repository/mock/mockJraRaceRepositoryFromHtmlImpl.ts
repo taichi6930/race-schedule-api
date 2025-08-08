@@ -1,5 +1,5 @@
+import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
-import { JraHeldDayData } from '../../domain/jraHeldDayData';
 import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -38,7 +38,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
                                 'GⅠ',
                                 i,
                             ),
-                            JraHeldDayData.create(1, 1),
+                            HeldDayData.create(1, 1),
                             HorseRaceConditionData.create('芝', 2000),
                             getJSTDate(new Date()),
                         ),

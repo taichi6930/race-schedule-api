@@ -1,6 +1,12 @@
-import { JraHeldDayData } from '../../domain/jraHeldDayData';
+import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
+import {
+    type heldDayTimes,
+    validateHeldDayTimes,
+} from '../../utility/data/common/heldDayTimes';
+import type { HeldTimes } from '../../utility/data/common/heldTimes';
+import { validateHeldTimes } from '../../utility/data/common/heldTimes';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import {
@@ -9,12 +15,6 @@ import {
 } from '../../utility/data/common/raceCourse';
 import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../../utility/data/common/raceDateTime';
-import {
-    type JraHeldDayTimes,
-    validateJraHeldDayTimes,
-} from '../../utility/data/jra/jraHeldDayTimes';
-import type { JraHeldTimes } from '../../utility/data/jra/jraHeldTimes';
-import { validateJraHeldTimes } from '../../utility/data/jra/jraHeldTimes';
 import { createErrorMessage } from '../../utility/error';
 import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
@@ -40,8 +40,8 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
         public readonly id: PlaceId,
         public readonly dateTime: RaceDateTime,
         public readonly location: RaceCourse,
-        public readonly heldTimes: JraHeldTimes,
-        public readonly heldDayTimes: JraHeldDayTimes,
+        public readonly heldTimes: HeldTimes,
+        public readonly heldDayTimes: heldDayTimes,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -67,8 +67,8 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
                 validatePlaceId(RaceType.JRA, id),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(RaceType.JRA, location),
-                validateJraHeldTimes(heldTimes),
-                validateJraHeldDayTimes(heldDayTimes),
+                validateHeldTimes(heldTimes),
+                validateHeldDayTimes(heldDayTimes),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
@@ -100,7 +100,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
         return JraPlaceEntity.create(
             this.id,
             PlaceData.create(RaceType.JRA, this.dateTime, this.location),
-            JraHeldDayData.create(this.heldTimes, this.heldDayTimes),
+            HeldDayData.create(this.heldTimes, this.heldDayTimes),
             this.updateDate,
         );
     }

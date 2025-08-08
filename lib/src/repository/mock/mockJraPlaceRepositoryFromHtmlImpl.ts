@@ -1,4 +1,4 @@
-import { JraHeldDayData } from '../../domain/jraHeldDayData';
+import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -27,7 +27,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
             // 中央競馬場データを作成
             const jraPlaceEntity = JraPlaceEntity.createWithoutId(
                 PlaceData.create(RaceType.JRA, new Date(currentDate), '東京'),
-                JraHeldDayData.create(1, 1), // 仮の開催日データ
+                HeldDayData.create(1, 1), // 仮の開催日データ
                 getJSTDate(new Date()),
             );
             placeEntityList.push(jraPlaceEntity);

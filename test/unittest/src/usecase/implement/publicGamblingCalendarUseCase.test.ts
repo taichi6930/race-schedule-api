@@ -18,6 +18,8 @@ import {
     WorldSpecifiedGradeList,
 } from '../../../../../lib/src/utility/data/common/gradeType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import type { TestSetup } from '../../../../utility/testSetupHelper';
+import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     baseAutoraceCalendarData,
     baseAutoraceRaceEntity,
@@ -42,8 +44,6 @@ import {
     baseWorldCalendarData,
     baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
-import type { UseCaseTestSetup } from './testSetupHelper';
-import { clearMocks, setupUseCaseTest } from './testSetupHelper';
 
 describe('PublicGamblingRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
@@ -51,7 +51,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
     let useCase: IRaceCalendarUseCase;
 
     beforeEach(() => {
-        const setup: UseCaseTestSetup = setupUseCaseTest();
+        const setup: TestSetup = setupTestMock();
         ({ calendarService, raceDataService } = setup);
         useCase = container.resolve(PublicGamblingCalendarUseCase);
     });

@@ -1,8 +1,8 @@
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../../../../lib/src/domain/calendarData';
+import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
-import { JraHeldDayData } from '../../../../../lib/src/domain/jraHeldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { JraPlaceRecord } from '../../../../../lib/src/gateway/record/jraPlaceRecord';
@@ -41,7 +41,7 @@ export const baseJraPlaceData = PlaceData.create(
     baseJraPlaceCourse,
 );
 
-export const baseJraHeldDayData = JraHeldDayData.create(5, 8);
+const baseJraHeldDayData = HeldDayData.create(5, 8);
 
 export const baseJraRaceData = RaceData.create(
     RaceType.JRA,
@@ -52,7 +52,7 @@ export const baseJraRaceData = RaceData.create(
     baseJraRaceNumber,
 );
 
-export const baseJraConditionData = HorseRaceConditionData.create(
+const baseJraConditionData = HorseRaceConditionData.create(
     baseJraRaceSurfaceType,
     baseJraRaceDistance,
 );
@@ -171,16 +171,12 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
                     grade,
                     index + 1,
                 ),
-                JraHeldDayData.create(1, 1),
+                HeldDayData.create(1, 1),
                 HorseRaceConditionData.create('芝', 1600),
                 baseJraRaceUpdateDate,
             );
         });
     },
-);
-
-export const baseJraRaceDataList = baseJraRaceEntityList.map(
-    (raceEntity) => raceEntity.raceData,
 );
 
 export const baseJraCalendarData = CalendarData.create(

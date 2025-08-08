@@ -1,11 +1,19 @@
 import '../../utility/format';
 
+import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
-import { JraHeldDayData } from '../../domain/jraHeldDayData';
 import { RaceData } from '../../domain/raceData';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
+import {
+    type heldDayTimes,
+    validateHeldDayTimes,
+} from '../../utility/data/common/heldDayTimes';
+import {
+    type HeldTimes,
+    validateHeldTimes,
+} from '../../utility/data/common/heldTimes';
 import {
     type RaceCourse,
     validateRaceCourse,
@@ -28,14 +36,6 @@ import {
     type RaceNumber,
     validateRaceNumber,
 } from '../../utility/data/common/raceNumber';
-import {
-    type JraHeldDayTimes,
-    validateJraHeldDayTimes,
-} from '../../utility/data/jra/jraHeldDayTimes';
-import {
-    type JraHeldTimes,
-    validateJraHeldTimes,
-} from '../../utility/data/jra/jraHeldTimes';
 import { createErrorMessage } from '../../utility/error';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
@@ -70,8 +70,8 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
         public readonly distance: RaceDistance,
         public readonly grade: GradeType,
         public readonly number: RaceNumber,
-        public readonly heldTimes: JraHeldTimes,
-        public readonly heldDayTimes: JraHeldDayTimes,
+        public readonly heldTimes: HeldTimes,
+        public readonly heldDayTimes: heldDayTimes,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -112,8 +112,8 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
                 validateRaceDistance(distance),
                 validateGradeType(RaceType.JRA, grade),
                 validateRaceNumber(number),
-                validateJraHeldTimes(heldTimes),
-                validateJraHeldDayTimes(heldDayTimes),
+                validateHeldTimes(heldTimes),
+                validateHeldDayTimes(heldDayTimes),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
@@ -157,7 +157,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
                 this.grade,
                 this.number,
             ),
-            JraHeldDayData.create(this.heldTimes, this.heldDayTimes),
+            HeldDayData.create(this.heldTimes, this.heldDayTimes),
             HorseRaceConditionData.create(this.surfaceType, this.distance),
             this.updateDate,
         );

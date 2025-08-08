@@ -86,7 +86,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      * @param partial
      */
     public copy(partial: Partial<WorldRaceEntity> = {}): WorldRaceEntity {
-        return new WorldRaceEntity(
+        return WorldRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.conditionData ?? this.conditionData,

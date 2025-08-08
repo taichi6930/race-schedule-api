@@ -6,6 +6,8 @@ import type { IPlaceDataService } from '../../../../../lib/src/service/interface
 import { PublicGamblingPlaceUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingPlaceUseCase';
 import type { IPlaceDataUseCase } from '../../../../../lib/src/usecase/interface/IPlaceDataUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import type { TestSetup } from '../../../../utility/testSetupHelper';
+import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     baseAutoracePlaceData,
     baseAutoracePlaceEntity,
@@ -26,15 +28,12 @@ import {
     baseNarPlaceData,
     baseNarPlaceEntity,
 } from '../../mock/common/baseNarData';
-import type { UseCaseTestSetup } from './testSetupHelper';
-import { clearMocks, setupUseCaseTest } from './testSetupHelper';
-
 describe('PublicGamblingPlaceUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService>;
     let useCase: IPlaceDataUseCase;
 
     beforeEach(() => {
-        const setup: UseCaseTestSetup = setupUseCaseTest();
+        const setup: TestSetup = setupTestMock();
         ({ placeDataService } = setup);
         useCase = container.resolve(PublicGamblingPlaceUseCase);
     });

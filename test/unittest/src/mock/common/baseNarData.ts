@@ -42,7 +42,7 @@ export const baseNarRaceData = RaceData.create(
     baseNarRaceNumber,
 );
 
-export const baseNarConditionData = HorseRaceConditionData.create(
+const baseNarConditionData = HorseRaceConditionData.create(
     baseNarRaceSurfaceType,
     baseNarRaceDistance,
 );
@@ -159,10 +159,6 @@ export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatM
             );
         });
     },
-);
-
-export const baseNarRaceDataList = baseNarRaceEntityList.map(
-    (raceEntity) => raceEntity.raceData,
 );
 
 export const baseNarCalendarData = CalendarData.create(
