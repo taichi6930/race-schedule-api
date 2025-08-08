@@ -1,20 +1,15 @@
-import { z } from 'zod';
-/**
- * RaceCourseTypeのzod型定義
- */
-const RaceCourseTypeList = new Set(['芝', 'ダート', '障害', 'AW']);
+export const RaceCourseType = {
+    TURF: '芝',
+    DIRT: 'ダート',
+    JUMP: '障害',
+    ALLWEATHER: 'AW',
+} as const;
 
 /**
  * RaceCourseTypeの型定義
  */
-const RaceCourseTypeSchema = z.string().refine((value) => {
-    return RaceCourseTypeList.has(value);
-}, '有効な競馬場種別ではありません');
-
-/**
- * RaceCourseTypeの型定義
- */
-export type RaceCourseType = z.infer<typeof RaceCourseTypeSchema>;
+export type RaceCourseType =
+    (typeof RaceCourseType)[keyof typeof RaceCourseType];
 
 /**
  * 競馬場種別のバリデーション
@@ -22,5 +17,9 @@ export type RaceCourseType = z.infer<typeof RaceCourseTypeSchema>;
  * @returns - バリデーション済みの競馬場種別
  */
 export const validateRaceCourseType = (type: string): RaceCourseType => {
-    return RaceCourseTypeSchema.parse(type);
+    if ((Object.values(RaceCourseType) as string[]).includes(type)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+        return type as RaceCourseType;
+    }
+    throw new Error('無効な競馬場種別です');
 };
