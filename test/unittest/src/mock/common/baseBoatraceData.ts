@@ -81,12 +81,6 @@ export const baseBoatracePlaceEntity =
         baseBoatraceRaceUpdateDate,
     );
 
-export const baseBoatraceRacePlayerData = RacePlayerData.create(
-    RaceType.BOATRACE,
-    1,
-    10000,
-);
-
 export const baseBoatraceRacePlayerDataList = Array.from(
     { length: 6 },
     (_, i) => {
@@ -162,10 +156,6 @@ export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
         );
     });
 });
-
-export const baseBoatraceRaceDataList = baseBoatraceRaceEntityList.map(
-    (raceEntity) => raceEntity.raceData,
-);
 
 export const baseBoatraceCalendarData = CalendarData.create(
     'test202412310511',

@@ -116,12 +116,6 @@ export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoraceRacePlayerData = RacePlayerData.create(
-    RaceType.AUTORACE,
-    1,
-    10000,
-);
-
 export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
     { location: '飯塚', grade: 'SG' },
     { location: '川口', grade: 'GⅠ' },
@@ -159,10 +153,6 @@ export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
         );
     });
 });
-
-export const baseAutoraceRaceDataList = baseAutoraceRaceEntityList.map(
-    (raceEntity) => raceEntity.raceData,
-);
 
 export const baseAutoraceCalendarData = CalendarData.create(
     'autorace202412310511',

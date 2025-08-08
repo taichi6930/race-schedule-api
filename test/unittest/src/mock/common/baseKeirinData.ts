@@ -159,16 +159,6 @@ export const baseKeirinRacePlayerRecord = RacePlayerRecord.create(
     baseKeirinRaceUpdateDate,
 );
 
-export const baseKeirinRacePlayerData = RacePlayerData.create(
-    RaceType.KEIRIN,
-    1,
-    10000,
-);
-
-export const baseKeirinRaceDataList = baseKeirinRaceEntityList.map(
-    (raceEntity) => raceEntity.raceData,
-);
-
 export const baseKeirinCalendarData = CalendarData.create(
     'test202512303511',
     RaceType.KEIRIN,

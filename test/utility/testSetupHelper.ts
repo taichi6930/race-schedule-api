@@ -40,7 +40,7 @@ export function clearMocks(): void {
  * テスト用のセットアップ
  */
 export interface TestSetup {
-    googleCalendarGateway: jest.Mocked<ICalendarGateway>;
+    autoraceGoogleCalendarGateway: jest.Mocked<ICalendarGateway>;
 
     jraCalendarRepository: jest.Mocked<ICalendarRepository<JraRaceEntity>>;
     narCalendarRepository: jest.Mocked<ICalendarRepository<NarRaceEntity>>;
@@ -358,7 +358,7 @@ export function setupTestMock(): TestSetup {
     );
 
     return {
-        googleCalendarGateway: autoraceGoogleCalendarGateway,
+        autoraceGoogleCalendarGateway,
         jraCalendarRepository,
         narCalendarRepository,
         worldCalendarRepository,

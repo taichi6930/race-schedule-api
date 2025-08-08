@@ -37,7 +37,7 @@ export const baseWorldRaceData = RaceData.create(
     baseWorldRaceNumber,
 );
 
-export const baseWorldConditionData = HorseRaceConditionData.create(
+const baseWorldConditionData = HorseRaceConditionData.create(
     baseWorldRaceSurfaceType,
     baseRaceDistance,
 );
@@ -100,10 +100,6 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
         );
     });
 });
-
-export const baseWorldRaceDataList = baseWorldRaceEntityList.map(
-    (raceEntity) => raceEntity.raceData,
-);
 
 export const baseWorldCalendarData = CalendarData.create(
     'test20241001longchamp01',

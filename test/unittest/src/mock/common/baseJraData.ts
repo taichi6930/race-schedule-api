@@ -41,7 +41,7 @@ export const baseJraPlaceData = PlaceData.create(
     baseJraPlaceCourse,
 );
 
-export const baseJraHeldDayData = JraHeldDayData.create(5, 8);
+const baseJraHeldDayData = JraHeldDayData.create(5, 8);
 
 export const baseJraRaceData = RaceData.create(
     RaceType.JRA,
@@ -52,7 +52,7 @@ export const baseJraRaceData = RaceData.create(
     baseJraRaceNumber,
 );
 
-export const baseJraConditionData = HorseRaceConditionData.create(
+const baseJraConditionData = HorseRaceConditionData.create(
     baseJraRaceSurfaceType,
     baseJraRaceDistance,
 );
@@ -177,10 +177,6 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
             );
         });
     },
-);
-
-export const baseJraRaceDataList = baseJraRaceEntityList.map(
-    (raceEntity) => raceEntity.raceData,
 );
 
 export const baseJraCalendarData = CalendarData.create(
