@@ -241,7 +241,10 @@ export default [
         },
     },
     {
-        files: ['**/lib/src/utility/raceType.ts', '**/lib/src/utility/data/common/raceCourseType.ts'],
+        files: [
+            '**/lib/src/utility/raceType.ts',
+            '**/lib/src/utility/data/common/raceCourseType.ts',
+        ],
         rules: {
             '@typescript-eslint/no-redeclare': 'off', // TypeScriptの再宣言を許可
         },
