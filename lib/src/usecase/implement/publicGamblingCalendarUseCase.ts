@@ -58,6 +58,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * カレンダーの更新を行う
      * @param startDate
      * @param finishDate
+     * @param raceTypeList
      * @param displayGradeList
      * @param displayGradeList.jra
      * @param displayGradeList.nar
@@ -70,6 +71,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
     public async updateRacesToCalendar(
         startDate: Date,
         finishDate: Date,
+        raceTypeList: RaceType[],
         displayGradeList: {
             jra: GradeType[];
             nar: GradeType[];

@@ -22,6 +22,7 @@ export interface IRaceCalendarUseCase {
     updateRacesToCalendar: (
         startDate: Date,
         finishDate: Date,
+        raceTypeList: RaceType[],
         displayGradeList: {
             jra: GradeType[];
             nar: GradeType[];

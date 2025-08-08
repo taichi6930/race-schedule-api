@@ -215,14 +215,25 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         const startDate = new Date('2024-02-01');
         const finishDate = new Date('2024-12-31');
 
-        await useCase.updateRacesToCalendar(startDate, finishDate, {
-            jra: JraSpecifiedGradeList,
-            nar: NarSpecifiedGradeList,
-            world: WorldSpecifiedGradeList,
-            keirin: KeirinSpecifiedGradeList,
-            autorace: AutoraceSpecifiedGradeList,
-            boatrace: BoatraceSpecifiedGradeList,
-        });
+        await useCase.updateRacesToCalendar(
+            startDate,
+            finishDate,
+            [
+                RaceType.JRA,
+                RaceType.NAR,
+                RaceType.WORLD,
+                RaceType.KEIRIN,
+                RaceType.BOATRACE,
+            ],
+            {
+                jra: JraSpecifiedGradeList,
+                nar: NarSpecifiedGradeList,
+                world: WorldSpecifiedGradeList,
+                keirin: KeirinSpecifiedGradeList,
+                autorace: AutoraceSpecifiedGradeList,
+                boatrace: BoatraceSpecifiedGradeList,
+            },
+        );
 
         // モックが呼び出されたことを確認
         expect(calendarService.fetchEvents).toHaveBeenCalledWith(
