@@ -20,7 +20,7 @@ import type { calendar_v3 } from 'googleapis';
  * - 認証情報の適切な管理が必要です
  * - タイムゾーンの正確な処理が重要です
  */
-export interface ICalendarGateway {
+export interface IOldCalendarGateway {
     /**
      * 指定された期間のカレンダーイベントを一括取得します
      *

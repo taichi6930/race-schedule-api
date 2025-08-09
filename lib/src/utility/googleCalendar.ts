@@ -1,4 +1,36 @@
+export const getGoogleCalendarColorId = (
+    raceType: RaceType,
+    gradeType: GradeType,
+): GoogleCalendarColorIdType => {
+    return (
+        GoogleCalendarColorIdMap[raceType][gradeType] ??
+        GoogleCalendarColorId.GRAPHITE
+    );
+};
+import { format } from 'date-fns';
+import type { calendar_v3 } from 'googleapis';
+
+import { AutoraceRaceEntity } from '../repository/entity/autoraceRaceEntity';
+import { BoatraceRaceEntity } from '../repository/entity/boatraceRaceEntity';
+import { JraRaceEntity } from '../repository/entity/jraRaceEntity';
+import { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
+import { NarRaceEntity } from '../repository/entity/narRaceEntity';
+import { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
 import type { GradeType } from './data/common/gradeType';
+import { KeirinPlaceCodeMap, NarBabacodeMap } from './data/common/raceCourse';
+import {
+    ChihoKeibaYoutubeUserIdMap,
+    getYoutubeLiveUrl,
+    KeirinYoutubeUserIdMap,
+} from './data/movie';
+import { NetkeibaBabacodeMap } from './data/netkeiba';
+import {
+    createNetkeibaJraRaceVideoUrl,
+    createNetkeibaJraShutubaUrl,
+} from './data/url';
+import { getJSTDate } from './date';
+import { createAnchorTag, formatDate } from './format';
+import type { RaceType } from './raceType';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール
@@ -46,254 +78,224 @@ type GoogleCalendarColorIdType =
  *
  * 中央競馬の特徴的なグレード体系に対応
  */
-const JraGoogleCalendarColorIdMap: Record<
-    GradeType,
-    GoogleCalendarColorIdType
-> = {
-    'GⅠ': GoogleCalendarColorId.BLUEBERRY,
-    'GⅡ': GoogleCalendarColorId.TOMATO,
-    'GⅢ': GoogleCalendarColorId.BASIL,
-    'J.GⅠ': GoogleCalendarColorId.BLUEBERRY,
-    'J.GⅡ': GoogleCalendarColorId.TOMATO,
-    'J.GⅢ': GoogleCalendarColorId.BASIL,
-    'JpnⅠ': GoogleCalendarColorId.LAVENDER,
-    'JpnⅡ': GoogleCalendarColorId.FLAMINGO,
-    'JpnⅢ': GoogleCalendarColorId.SAGE,
-    '重賞': GoogleCalendarColorId.BANANA,
-    'Listed': GoogleCalendarColorId.BANANA,
-    'オープン': GoogleCalendarColorId.TANGERINE,
-    'オープン特別': GoogleCalendarColorId.TANGERINE,
-};
 
 /**
- * 中央競馬（JRA）のレースグレードに応じた表示色を取得します
- *
- * このメソッドは、JRAのレースグレードに基づいて適切な
- * カレンダー表示色を決定します
- * @param raceGrade - JRAのレースグレード
- * @returns カレンダーイベントの色ID
- * @example
- * ```typescript
- * const colorId = getJraGoogleCalendarColorId('GⅠ');
- * // returns '9' (青色)
- * ```
+ * 各競技ごとのグレード→色IDマップをRaceTypeでまとめる
  */
-export const getJraGoogleCalendarColorId = (
-    raceGrade: GradeType,
-): GoogleCalendarColorIdType => {
-    return (
-        JraGoogleCalendarColorIdMap[raceGrade] ?? GoogleCalendarColorId.GRAPHITE
-    );
-};
+// ...existing code...
+const GoogleCalendarColorIdMap = {
+    JRA: {
+        'GⅠ': GoogleCalendarColorId.BLUEBERRY,
+        'GⅡ': GoogleCalendarColorId.TOMATO,
+        'GⅢ': GoogleCalendarColorId.BASIL,
+        'J.GⅠ': GoogleCalendarColorId.BLUEBERRY,
+        'J.GⅡ': GoogleCalendarColorId.TOMATO,
+        'J.GⅢ': GoogleCalendarColorId.BASIL,
+        'JpnⅠ': GoogleCalendarColorId.LAVENDER,
+        'JpnⅡ': GoogleCalendarColorId.FLAMINGO,
+        'JpnⅢ': GoogleCalendarColorId.SAGE,
+        '重賞': GoogleCalendarColorId.BANANA,
+        'Listed': GoogleCalendarColorId.BANANA,
+        'オープン': GoogleCalendarColorId.TANGERINE,
+        'オープン特別': GoogleCalendarColorId.TANGERINE,
+    },
+    NAR: {
+        GⅠ: GoogleCalendarColorId.BLUEBERRY,
+        GⅡ: GoogleCalendarColorId.TOMATO,
+        GⅢ: GoogleCalendarColorId.BASIL,
+        JpnⅠ: GoogleCalendarColorId.LAVENDER,
+        JpnⅡ: GoogleCalendarColorId.FLAMINGO,
+        JpnⅢ: GoogleCalendarColorId.SAGE,
+        重賞: GoogleCalendarColorId.BANANA,
+        Listed: GoogleCalendarColorId.BANANA,
+        オープン: GoogleCalendarColorId.TANGERINE,
+        オープン特別: GoogleCalendarColorId.TANGERINE,
+        地方重賞: GoogleCalendarColorId.GRAPE,
+    },
+    WORLD: {
+        GⅠ: GoogleCalendarColorId.BLUEBERRY,
+        GⅡ: GoogleCalendarColorId.TOMATO,
+        GⅢ: GoogleCalendarColorId.BASIL,
+        Listed: GoogleCalendarColorId.BANANA,
+        格付けなし: GoogleCalendarColorId.GRAPHITE,
+    },
+    KEIRIN: {
+        GP: GoogleCalendarColorId.BLUEBERRY,
+        GⅠ: GoogleCalendarColorId.BLUEBERRY,
+        GⅡ: GoogleCalendarColorId.TOMATO,
+        GⅢ: GoogleCalendarColorId.BASIL,
+        FⅠ: GoogleCalendarColorId.GRAPHITE,
+        FⅡ: GoogleCalendarColorId.GRAPHITE,
+    },
+    BOATRACE: {
+        SG: GoogleCalendarColorId.BLUEBERRY,
+        GⅠ: GoogleCalendarColorId.BLUEBERRY,
+        GⅡ: GoogleCalendarColorId.TOMATO,
+        GⅢ: GoogleCalendarColorId.BASIL,
+        一般: GoogleCalendarColorId.GRAPHITE,
+    },
+    AUTORACE: {
+        SG: GoogleCalendarColorId.BLUEBERRY,
+        特GⅠ: GoogleCalendarColorId.BLUEBERRY,
+        GⅠ: GoogleCalendarColorId.BLUEBERRY,
+        GⅡ: GoogleCalendarColorId.TOMATO,
+        開催: GoogleCalendarColorId.GRAPHITE,
+    },
+} as Record<RaceType, Record<GradeType, GoogleCalendarColorIdType>>;
 
-/**
- * 地方競馬（NAR）のグレードごとの色設定
- *
- * 地方競馬特有の格付けに対応
- */
-const NarGoogleCalendarColorIdMap: Record<
-    GradeType,
-    GoogleCalendarColorIdType
-> = {
-    GⅠ: GoogleCalendarColorId.BLUEBERRY,
-    GⅡ: GoogleCalendarColorId.TOMATO,
-    GⅢ: GoogleCalendarColorId.BASIL,
-    JpnⅠ: GoogleCalendarColorId.LAVENDER,
-    JpnⅡ: GoogleCalendarColorId.FLAMINGO,
-    JpnⅢ: GoogleCalendarColorId.SAGE,
-    重賞: GoogleCalendarColorId.BANANA,
-    Listed: GoogleCalendarColorId.BANANA,
-    オープン: GoogleCalendarColorId.TANGERINE,
-    オープン特別: GoogleCalendarColorId.TANGERINE,
-    地方重賞: GoogleCalendarColorId.GRAPE,
-};
+export function toGoogleCalendarData(
+    raceEntity:
+        | JraRaceEntity
+        | NarRaceEntity
+        | WorldRaceEntity
+        | KeirinRaceEntity
+        | AutoraceRaceEntity
+        | BoatraceRaceEntity,
+    updateDate: Date = new Date(),
+): calendar_v3.Schema$Event {
+    function createSummary(): string {
+        return `${createStage()} ${raceEntity.raceData.name}`;
+    }
 
-/**
- * 地方競馬（NAR）のレースグレードに応じた表示色を取得します
- *
- * このメソッドは、NARのレースグレードに基づいて適切な
- * カレンダー表示色を決定します：
- * @param raceGrade - NARのレースグレード
- * @returns カレンダーイベントの色ID
- * @exampleGradeType
- * ```typescript
- * const colorId = getNarGoogleCalendarColorId('JpnⅠ');
- * // returns '1' (薄紫色)
- * ```
- */
-export const getNarGoogleCalendarColorId = (
-    raceGrade: GradeType,
-): GoogleCalendarColorIdType => {
-    return (
-        NarGoogleCalendarColorIdMap[raceGrade] ?? GoogleCalendarColorId.GRAPHITE
-    );
-};
+    function createLocation(): string {
+        if (raceEntity instanceof JraRaceEntity) {
+            return `${raceEntity.raceData.location}競馬場`;
+        }
+        if (raceEntity instanceof NarRaceEntity) {
+            return `${raceEntity.raceData.location}競馬場`;
+        }
+        if (raceEntity instanceof WorldRaceEntity) {
+            return `${raceEntity.raceData.location}競馬場`;
+        }
+        if (raceEntity instanceof KeirinRaceEntity) {
+            return `${raceEntity.raceData.location}競輪場`;
+        }
+        if (raceEntity instanceof AutoraceRaceEntity) {
+            return `${raceEntity.raceData.location}オートレース場`;
+        }
+        if (raceEntity instanceof BoatraceRaceEntity) {
+            return `${raceEntity.raceData.location}ボートレース場`;
+        }
+        throw new Error(`Unknown race type`);
+    }
 
-/**
- * 海外競馬のグレードごとの色設定
- *
- * 国際競馬の格付けに対応：
- * - GⅠ: 青色
- * - GⅡ: 赤色
- * - GⅢ: 緑色
- * - Listed: 黄色
- * - 格付けなし: グレー
- */
-const WorldGoogleCalendarColorIdMap: Record<
-    GradeType,
-    GoogleCalendarColorIdType
-> = {
-    GⅠ: GoogleCalendarColorId.BLUEBERRY,
-    GⅡ: GoogleCalendarColorId.TOMATO,
-    GⅢ: GoogleCalendarColorId.BASIL,
-    Listed: GoogleCalendarColorId.BANANA,
-    格付けなし: GoogleCalendarColorId.GRAPHITE,
-};
+    function createStage(): string {
+        if (raceEntity instanceof JraRaceEntity) {
+            return '';
+        }
+        if (raceEntity instanceof NarRaceEntity) {
+            return '';
+        }
+        if (raceEntity instanceof WorldRaceEntity) {
+            return '';
+        }
+        if (raceEntity instanceof KeirinRaceEntity) {
+            return raceEntity.stage;
+        }
+        if (raceEntity instanceof AutoraceRaceEntity) {
+            return raceEntity.stage;
+        }
+        if (raceEntity instanceof BoatraceRaceEntity) {
+            return raceEntity.stage;
+        }
+        throw new Error(`Unknown race type`);
+    }
 
-/**
- * 海外競馬のレースグレードに応じた表示色を取得します
- *
- * このメソッドは、国際格付けに基づいて適切な
- * カレンダー表示色を決定します：
- * @param raceGrade - 国際グレード
- * @returns カレンダーイベントの色ID
- * @example
- * ```typescript
- * const colorId = getWorldGoogleCalendarColorId('GⅠ');
- * // returns '9' (青色)
- * ```
- */
-export const getWorldGoogleCalendarColorId = (
-    raceGrade: GradeType,
-): GoogleCalendarColorIdType => {
-    return WorldGoogleCalendarColorIdMap[raceGrade];
-};
+    /**
+     * レースデータをGoogleカレンダーのイベントに変換する
+     * @param raceEntity
+     * @param updateDate - 更新日時
+     */
+    function createDescription(): string {
+        const raceTimeStr = `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}`;
+        const updateStr = `更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}`;
+        if (raceEntity instanceof BoatraceRaceEntity) {
+            return `${raceTimeStr}
+                    ${updateStr}
+                    `.replace(/\n\s+/g, '\n');
+        }
+        if (raceEntity instanceof AutoraceRaceEntity) {
+            return `${raceTimeStr}
+                    ${updateStr}
+                    `.replace(/\n\s+/g, '\n');
+        }
+        if (raceEntity instanceof KeirinRaceEntity) {
+            return `${raceTimeStr}
+                    ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${KeirinPlaceCodeMap[raceEntity.raceData.location]}${raceEntity.raceData.number.toXDigits(2)}`)}
+                    ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
+                    ${updateStr}
+                    `.replace(/\n\s+/g, '\n');
+        }
+        if (raceEntity instanceof JraRaceEntity) {
+            const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
+            return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
+                    ${raceTimeStr}
+                    ${createAnchorTag(
+                        'レース情報',
+                        `https://netkeiba.page.link/?link=${encodeURIComponent(
+                            createNetkeibaJraShutubaUrl(raceIdForNetkeiba),
+                        )}`,
+                    )}
+                    ${createAnchorTag(
+                        'レース動画',
+                        `https://netkeiba.page.link/?link=${encodeURIComponent(
+                            createNetkeibaJraRaceVideoUrl(raceIdForNetkeiba),
+                        )}`,
+                    )}
+                    ${updateStr}
+                    `.replace(/\n\s+/g, '\n');
+        }
+        if (raceEntity instanceof NarRaceEntity) {
+            return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
+                    ${raceTimeStr}
+                    ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[raceEntity.raceData.location]))}
+                    ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${(raceEntity.raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`)}
+                    ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_RaceDateTime=${raceEntity.raceData.dateTime.getFullYear().toString()}%2f${raceEntity.raceData.dateTime.getXDigitMonth(2)}%2f${raceEntity.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${raceEntity.raceData.number.toXDigits(2)}&k_babaCode=${NarBabacodeMap[raceEntity.raceData.location]}`)}
+                    ${updateStr}
+                    `.replace(/\n\s+/g, '\n');
+        }
+        if (raceEntity instanceof WorldRaceEntity) {
+            return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
+                    ${raceTimeStr}
+                    ${updateStr}
+                    `.replace(/\n\s+/g, '\n');
+        }
+        return '';
+    }
 
-/**
- * 競輪のグレードごとの色設定
- *
- * 競輪特有のグレード体系に対応：
- * - GP/GⅠ: 青色
- * - GⅡ: 赤色
- * - GⅢ: 緑色
- * - FⅠ/FⅡ: グレー
- */
-const KeirinGoogleCalendarColorIdMap: Record<
-    GradeType,
-    GoogleCalendarColorIdType
-> = {
-    GP: GoogleCalendarColorId.BLUEBERRY,
-    GⅠ: GoogleCalendarColorId.BLUEBERRY,
-    GⅡ: GoogleCalendarColorId.TOMATO,
-    GⅢ: GoogleCalendarColorId.BASIL,
-    FⅠ: GoogleCalendarColorId.GRAPHITE,
-    FⅡ: GoogleCalendarColorId.GRAPHITE,
-};
-
-/**
- * 競輪のレースグレードに応じた表示色を取得します
- *
- * このメソッドは、競輪のグレードに基づいて適切な
- * カレンダー表示色を決定します：
- * - GP/GⅠ: 青色
- * - GⅡ: 赤色
- * - GⅢ: 緑色
- * - FⅠ/FⅡ: グレー
- * @param raceGrade - 競輪のグレード
- * @returns カレンダーイベントの色ID
- * @example
- * ```typescript
- * const colorId = getKeirinGoogleCalendarColorId('GP');
- * // returns '9' (青色)
- * ```
- */
-export const getKeirinGoogleCalendarColorId = (
-    raceGrade: GradeType,
-): GoogleCalendarColorIdType => {
-    return KeirinGoogleCalendarColorIdMap[raceGrade];
-};
-
-/**
- * 競艇（ボートレース）のグレードごとの色設定
- *
- * 競艇特有のグレード体系に対応：
- * - SG: 青色
- * - GⅠ：青色
- * - GⅡ: 赤色
- * - GⅢ: 緑色
- * - 一般戦: グレー
- */
-const BoatraceGoogleCalendarColorIdMap: Record<
-    GradeType,
-    GoogleCalendarColorIdType
-> = {
-    SG: GoogleCalendarColorId.BLUEBERRY,
-    GⅠ: GoogleCalendarColorId.BLUEBERRY,
-    GⅡ: GoogleCalendarColorId.TOMATO,
-    GⅢ: GoogleCalendarColorId.BASIL,
-    一般: GoogleCalendarColorId.GRAPHITE,
-};
-
-/**
- * 競艇（ボートレース）のレースグレードに応じた表示色を取得します
- *
- * このメソッドは、競艇のグレードに基づいて適切な
- * カレンダー表示色を決定します：
- * - SG/GⅠ: 青色
- * - GⅡ：赤色
- * - GⅢ: 緑色
- * - 一般: グレー
- * @param raceGrade - 競艇のグレード
- * @returns カレンダーイベントの色ID
- * @example
- * ```typescript
- * const colorId = getBoatraceGoogleCalendarColorId('SG');
- * // returns '9' (青色)
- * ```
- */
-export const getBoatraceGoogleCalendarColorId = (
-    raceGrade: GradeType,
-): GoogleCalendarColorIdType => {
-    return BoatraceGoogleCalendarColorIdMap[raceGrade];
-};
-
-/**
- * オートレースのグレードごとの色設定
- *
- * オートレース特有のグレード体系に対応：
- * - SG/特GI: 青色
- * - GⅠ/GⅡ: 赤色
- * - 一般開催: グレー
- */
-const AutoraceGoogleCalendarColorIdMap: Record<
-    GradeType,
-    GoogleCalendarColorIdType
-> = {
-    SG: GoogleCalendarColorId.BLUEBERRY,
-    特GⅠ: GoogleCalendarColorId.BLUEBERRY,
-    GⅠ: GoogleCalendarColorId.BLUEBERRY,
-    GⅡ: GoogleCalendarColorId.TOMATO,
-    開催: GoogleCalendarColorId.GRAPHITE,
-};
-
-/**
- * オートレースのレースグレードに応じた表示色を取得します
- *
- * このメソッドは、オートレースのグレードに基づいて適切な
- * カレンダー表示色を決定します：
- * - SG/特GI/GⅠ: 青色
- * - GⅡ: 赤色
- * - 開催: グレー
- * @param raceGrade - オートレースのグレード
- * @returns カレンダーイベントの色ID
- * @example
- * ```typescript
- * const colorId = getAutoraceGoogleCalendarColorId('SG');
- * // returns '9' (青色)
- * ```
- */
-export const getAutoraceGoogleCalendarColorId = (
-    raceGrade: GradeType,
-): GoogleCalendarColorIdType => {
-    return AutoraceGoogleCalendarColorIdMap[raceGrade];
-};
+    return {
+        id: raceEntity.id,
+        summary: createSummary(),
+        location: createLocation(),
+        start: {
+            dateTime: formatDate(raceEntity.raceData.dateTime),
+            timeZone: 'Asia/Tokyo',
+        },
+        end: {
+            // 終了時刻は発走時刻から10分後とする
+            dateTime: formatDate(
+                new Date(
+                    raceEntity.raceData.dateTime.getTime() + 10 * 60 * 1000,
+                ),
+            ),
+            timeZone: 'Asia/Tokyo',
+        },
+        colorId: getGoogleCalendarColorId(
+            raceEntity.raceData.raceType,
+            raceEntity.raceData.grade,
+        ),
+        description: createDescription(),
+        extendedProperties: {
+            private: {
+                raceId: raceEntity.id,
+                name: raceEntity.raceData.name,
+                stage: createStage(),
+                dateTime: formatDate(raceEntity.raceData.dateTime),
+                location: raceEntity.raceData.location,
+                grade: raceEntity.raceData.grade,
+                number: raceEntity.raceData.number.toString(),
+                updateDate: formatDate(updateDate),
+            },
+        },
+    };
+}

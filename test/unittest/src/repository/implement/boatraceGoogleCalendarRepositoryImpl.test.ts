@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { ICalendarGateway } from '../../../../../lib/src/gateway/interface/iCalendarGateway';
+import type { IOldCalendarGateway } from '../../../../../lib/src/gateway/interface/iCalendarGateway';
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { BoatraceGoogleCalendarRepositoryImpl } from '../../../../../lib/src/repository/implement/boatraceGoogleCalendarRepositoryImpl';
 import {
@@ -10,14 +10,14 @@ import {
     baseBoatraceCalendarDataFromGoogleCalendar,
     baseBoatraceRaceEntity,
 } from '../../mock/common/baseBoatraceData';
-import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
+import { mockOldGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
 describe('BoatraceGoogleCalendarRepositoryImpl', () => {
     let repository: BoatraceGoogleCalendarRepositoryImpl;
-    let googleCalendarGateway: jest.Mocked<ICalendarGateway>;
+    let googleCalendarGateway: jest.Mocked<IOldCalendarGateway>;
 
     beforeEach(() => {
-        googleCalendarGateway = mockGoogleCalendarGateway();
+        googleCalendarGateway = mockOldGoogleCalendarGateway();
         container.registerInstance(
             'BoatraceGoogleCalendarGateway',
             googleCalendarGateway,

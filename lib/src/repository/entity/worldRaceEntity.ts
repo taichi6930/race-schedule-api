@@ -10,7 +10,7 @@ import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
-import { getWorldGoogleCalendarColorId } from '../../utility/googleCalendar';
+import { getGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateRaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
@@ -146,7 +146,10 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: getWorldGoogleCalendarColorId(this.raceData.grade),
+            colorId: getGoogleCalendarColorId(
+                this.raceData.raceType,
+                this.raceData.grade,
+            ),
             description:
                 `距離: ${this.conditionData.surfaceType}${this.conditionData.distance.toString()}m
                 発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}

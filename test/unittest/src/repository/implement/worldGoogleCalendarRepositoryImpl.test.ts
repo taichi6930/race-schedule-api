@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { ICalendarGateway } from '../../../../../lib/src/gateway/interface/iCalendarGateway';
+import type { IOldCalendarGateway } from '../../../../../lib/src/gateway/interface/iCalendarGateway';
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { WorldGoogleCalendarRepositoryImpl } from '../../../../../lib/src/repository/implement/worldGoogleCalendarRepositoryImpl';
 import {
@@ -10,14 +10,14 @@ import {
     baseWorldCalendarDataFromGoogleCalendar,
     baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
-import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
+import { mockOldGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
 describe('WorldGoogleCalendarRepositoryImpl', () => {
     let repository: WorldGoogleCalendarRepositoryImpl;
-    let googleCalendarGateway: jest.Mocked<ICalendarGateway>;
+    let googleCalendarGateway: jest.Mocked<IOldCalendarGateway>;
 
     beforeEach(() => {
-        googleCalendarGateway = mockGoogleCalendarGateway();
+        googleCalendarGateway = mockOldGoogleCalendarGateway();
         container.registerInstance(
             'WorldGoogleCalendarGateway',
             googleCalendarGateway,

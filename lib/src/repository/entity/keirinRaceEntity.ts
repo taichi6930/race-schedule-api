@@ -18,7 +18,7 @@ import {
 } from '../../utility/data/movie';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
-import { getKeirinGoogleCalendarColorId } from '../../utility/googleCalendar';
+import { getGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateRaceId, generateRacePlayerId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
@@ -155,7 +155,10 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: getKeirinGoogleCalendarColorId(this.raceData.grade),
+            colorId: getGoogleCalendarColorId(
+                this.raceData.raceType,
+                this.raceData.grade,
+            ),
             description:
                 `発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
                 ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(this.raceData.dateTime, 'yyyyMMdd')}${KeirinPlaceCodeMap[this.raceData.location]}${this.raceData.number.toXDigits(2)}`)}
