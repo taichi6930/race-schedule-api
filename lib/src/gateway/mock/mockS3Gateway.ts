@@ -59,6 +59,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
             await this.setPlaceMockData();
             await this.setRaceMockData();
+            await this.setRacePlayerMockData();
         })();
     }
 
@@ -203,6 +204,46 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                     'keirin/raceList.csv', // keirin
                     'autorace/raceList.csv', // autorace
                     'boatrace/raceList.csv', // boatrace
+                ];
+
+                for (const csvPath of csvPathList) {
+                    try {
+                        const _csvPath = path.join(
+                            __dirname,
+                            `../mockData/csv/${csvPath}`,
+                        );
+                        const data = await fs.readFile(_csvPath, 'utf8');
+                        MockS3Gateway.mockStorage.set(csvPath, data);
+                    } catch (error) {
+                        console.error(
+                            `Error reading CSV from ${csvPath}:`,
+                            error,
+                        );
+                    }
+                }
+                return;
+            }
+            default: {
+                throw new Error('Invalid ENV value');
+            }
+        }
+    }
+
+    /**
+     * モックデータを作成する
+     */
+    @Logger
+    private async setRacePlayerMockData() {
+        switch (ENV) {
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData: {
+                return;
+            }
+            case allowedEnvs.local: {
+                const csvPathList = [
+                    'keirin/racePlayerList.csv', // keirin
+                    'autorace/racePlayerList.csv', // autorace
+                    'boatrace/racePlayerList.csv', // boatrace
                 ];
 
                 for (const csvPath of csvPathList) {

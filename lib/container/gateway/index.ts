@@ -1,30 +1,28 @@
+import './calendarGatewayConfig';
 import './htmlGatewayConfig';
 import './s3GatewayConfig';
-import './calendarGatewayConfig';
-
-import path from 'node:path';
 
 import { container } from 'tsyringe';
 
-import { SQLiteGateway } from '../../src/gateway/implement/SQLiteGateway';
 import type { ISQLiteGateway } from '../../src/gateway/interface/ISQLiteGateway';
 import { MockSQLiteGateway } from '../../src/gateway/mock/mockSQLiteGateway';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
 // SQLiteGateway
 switch (ENV) {
-    case allowedEnvs.local: {
-        container.register<ISQLiteGateway>('SQLiteGateway', {
-            useFactory: () => {
-                const dbPath = path.resolve(
-                    __dirname,
-                    '../../../volume/app.db',
-                );
-                return new SQLiteGateway(dbPath);
-            },
-        });
-        break;
-    }
+    // case allowedEnvs.local: {
+    //     container.register<ISQLiteGateway>('SQLiteGateway', {
+    //         useFactory: () => {
+    //             const dbPath = path.resolve(
+    //                 __dirname,
+    //                 '../../../volume/app.db',
+    //             );
+    //             return new SQLiteGateway(dbPath);
+    //         },
+    //     });
+    //     break;
+    // }
+    case allowedEnvs.local:
     case allowedEnvs.production:
     case allowedEnvs.test:
     case allowedEnvs.localNoInitData:
