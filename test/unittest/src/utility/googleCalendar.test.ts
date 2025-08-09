@@ -1,76 +1,45 @@
 import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
-import {
-    getAutoraceGoogleCalendarColorId,
-    getBoatraceGoogleCalendarColorId,
-    getJraGoogleCalendarColorId,
-    getKeirinGoogleCalendarColorId,
-    getNarGoogleCalendarColorId,
-    getWorldGoogleCalendarColorId,
-} from '../../../../lib/src/utility/googleCalendar';
-describe('getGoogleJraCalendarColorId', () => {
-    it('リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
+import { getGoogleCalendarColorId } from '../../../../lib/src/utility/googleCalendar';
+import { RaceType } from '../../../../lib/src/utility/raceType';
+describe('getGoogleCalendarColorId', () => {
+    it('JRA: リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
         const raceGrade: GradeType = 'GⅠ';
-        const result = getJraGoogleCalendarColorId(raceGrade);
-
+        const result = getGoogleCalendarColorId(RaceType.JRA, raceGrade);
         expect(result).toBe('9');
     });
-
-    it('リストに入っていない場合、Googleカレンダーの色IDを返す', () => {
+    it('JRA: リストに入っていない場合、Googleカレンダーの色IDを返す', () => {
         const raceGrade: GradeType = 'GⅣ';
-        const result = getJraGoogleCalendarColorId(raceGrade);
-
+        const result = getGoogleCalendarColorId(RaceType.JRA, raceGrade);
         expect(result).toBe('8');
     });
-});
-
-describe('getGoogleNarCalendarColorId', () => {
-    it('リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
+    it('NAR: リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
         const raceGrade: GradeType = 'GⅠ';
-        const result = getNarGoogleCalendarColorId(raceGrade);
-
+        const result = getGoogleCalendarColorId(RaceType.NAR, raceGrade);
         expect(result).toBe('9');
     });
-
-    it('リストに入っていない場合、Googleカレンダーの色IDを返す', () => {
+    it('NAR: リストに入っていない場合、Googleカレンダーの色IDを返す', () => {
         const raceGrade: GradeType = 'GⅣ';
-        const result = getNarGoogleCalendarColorId(raceGrade);
-
+        const result = getGoogleCalendarColorId(RaceType.NAR, raceGrade);
         expect(result).toBe('8');
     });
-});
-
-describe('getGoogleWorldCalendarColorId', () => {
-    it('リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
+    it('WORLD: リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
         const raceGrade: GradeType = 'GⅠ';
-        const result = getWorldGoogleCalendarColorId(raceGrade);
-
+        const result = getGoogleCalendarColorId(RaceType.WORLD, raceGrade);
         expect(result).toBe('9');
     });
-});
-
-describe('getKeirinGoogleCalendarColorId', () => {
-    it('リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
+    it('KEIRIN: リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
         const raceGrade: GradeType = 'GⅠ';
-        const result = getKeirinGoogleCalendarColorId(raceGrade);
-
+        const result = getGoogleCalendarColorId(RaceType.KEIRIN, raceGrade);
         expect(result).toBe('9');
     });
-});
-
-describe('getAutoraceGoogleCalendarColorId', () => {
-    it('リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
+    it('AUTORACE: リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
         const raceGrade: GradeType = 'GⅠ';
-        const result = getAutoraceGoogleCalendarColorId(raceGrade);
-
+        const result = getGoogleCalendarColorId(RaceType.AUTORACE, raceGrade);
         expect(result).toBe('9');
     });
-});
-
-describe('getBoatraceGoogleCalendarColorId', () => {
-    it('リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
+    it('BOATRACE: リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
         const raceGrade: GradeType = 'GⅠ';
-        const result = getBoatraceGoogleCalendarColorId(raceGrade);
-
+        const result = getGoogleCalendarColorId(RaceType.BOATRACE, raceGrade);
         expect(result).toBe('9');
     });
 });
