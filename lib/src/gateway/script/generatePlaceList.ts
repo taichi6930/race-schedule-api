@@ -1,68 +1,64 @@
+import '../../utility/format';
+
 import fs from 'node:fs';
 import path from 'node:path';
+
+import { generatePlaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/raceType';
+import { MechanicalRacingPlaceRecord } from '../record/mechanicalRacingPlaceRecord';
 
 // 出力先CSVファイルパス
 const OUTPUT_PATH = path.join(
     __dirname,
     '../mockData/csv/autorace/placeList.csv',
 );
+function generatePlaceData(): MechanicalRacingPlaceRecord[] {
+    // 2000年から2026年までのIDを生成
+    const startDate = new Date('2000-01-01');
+    const endDate = new Date('2026-01-01');
 
-// ダミーの開催地リスト
-const LOCATIONS = ['川口', '浜松', '伊勢崎', '山陽', '飯塚'];
-// ダミーのグレードリスト
-const GRADES = ['G1', 'G2', 'G3', '一般'];
+    const rows: MechanicalRacingPlaceRecord[] = [];
 
-// 30日分の日付を生成
-function getDateList(days: number): string[] {
-    const today = new Date();
-    return Array.from({ length: days }, (_, i) => {
-        const d = new Date(today);
-        d.setDate(today.getDate() + i);
-        return d.toISOString().slice(0, 10); // YYYY-MM-DD
-    });
-}
+    // 1日ずつ増やしていく
+    for (
+        let currentDate = new Date(startDate);
+        currentDate < endDate;
+        currentDate.setDate(currentDate.getDate() + 1)
+    ) {
+        // レースIDを生成
+        const id = generatePlaceId(RaceType.AUTORACE, currentDate, '飯塚');
 
-// レースデータ生成
-interface RaceRow {
-    id: number;
-    dateTime: string;
-    location: string;
-    grade: string;
-    updateDate: string;
-}
+        // 開催地とグレードをランダムに選択
+        const location = '飯塚';
+        const grade = 'SG';
 
-function generateRaceData(days: number): RaceRow[] {
-    const dateList = getDateList(days);
-    let id = 1;
-    const updateDate = new Date().toISOString();
-    const rows: RaceRow[] = [];
-    for (const date of dateList) {
-        for (const location of LOCATIONS) {
-            const grade = GRADES[Math.floor(Math.random() * GRADES.length)];
-            rows.push({
-                id: id++,
-                dateTime: date,
+        rows.push(
+            MechanicalRacingPlaceRecord.create(
+                id,
+                RaceType.AUTORACE,
+                currentDate,
                 location,
                 grade,
-                updateDate,
-            });
-        }
+                new Date(),
+            ),
+        );
     }
     return rows;
 }
 
 // CSV出力
-function writeCsv(rows: RaceRow[], filePath: string): void {
+function writeCsv(rows: MechanicalRacingPlaceRecord[], filePath: string): void {
     const header = 'id,dateTime,location,grade,updateDate';
     const lines = rows.map(
-        (r) => `${r.id},${r.dateTime},${r.location},${r.grade},${r.updateDate}`,
+        (r) =>
+            `${r.id},${r.dateTime.toISOString()},${r.location},${r.grade},${r.updateDate.toISOString()}`,
     );
     fs.writeFileSync(filePath, [header, ...lines].join('\n'), 'utf8');
     console.log(`CSVファイルを出力しました: ${filePath}`);
 }
 
 function main(): void {
-    const rows = generateRaceData(30);
+    const rows = generatePlaceData();
     writeCsv(rows, OUTPUT_PATH);
 }
 
