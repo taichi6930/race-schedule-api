@@ -1,6 +1,6 @@
 import type { IOldCalendarGateway } from '../../../../../lib/src/gateway/interface/iCalendarGateway';
 
-export const mockGoogleCalendarGateway =
+export const mockOldGoogleCalendarGateway =
     (): jest.Mocked<IOldCalendarGateway> => {
         return {
             fetchCalendarDataList: jest.fn(),

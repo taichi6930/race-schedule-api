@@ -5,7 +5,7 @@ import { createErrorMessage } from '../../utility/error';
 import { Logger } from '../../utility/logger';
 import type { IOldCalendarGateway } from '../interface/iCalendarGateway';
 
-export class GoogleCalendarGateway implements IOldCalendarGateway {
+export class OldGoogleCalendarGateway implements IOldCalendarGateway {
     private readonly calendar: calendar_v3.Calendar;
     private readonly calendarId: string;
 

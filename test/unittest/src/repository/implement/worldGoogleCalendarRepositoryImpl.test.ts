@@ -10,14 +10,14 @@ import {
     baseWorldCalendarDataFromGoogleCalendar,
     baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
-import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
+import { mockOldGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
 describe('WorldGoogleCalendarRepositoryImpl', () => {
     let repository: WorldGoogleCalendarRepositoryImpl;
     let googleCalendarGateway: jest.Mocked<IOldCalendarGateway>;
 
     beforeEach(() => {
-        googleCalendarGateway = mockGoogleCalendarGateway();
+        googleCalendarGateway = mockOldGoogleCalendarGateway();
         container.registerInstance(
             'WorldGoogleCalendarGateway',
             googleCalendarGateway,

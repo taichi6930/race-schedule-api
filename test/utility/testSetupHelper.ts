@@ -20,7 +20,7 @@ import type { ICalendarService } from '../../lib/src/service/interface/ICalendar
 import type { IPlaceDataService } from '../../lib/src/service/interface/IPlaceDataService';
 import type { IPlayerDataService } from '../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../lib/src/service/interface/IRaceDataService';
-import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
+import { mockOldGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
 import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../unittest/src/mock/repository/mockRaceRepository';
@@ -131,7 +131,7 @@ export interface TestSetup {
  * @returns セットアップ済みのサービス
  */
 export function setupTestMock(): TestSetup {
-    const autoraceGoogleCalendarGateway = mockGoogleCalendarGateway();
+    const autoraceGoogleCalendarGateway = mockOldGoogleCalendarGateway();
     container.registerInstance(
         'AutoraceGoogleCalendarGateway',
         autoraceGoogleCalendarGateway,
