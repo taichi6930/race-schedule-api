@@ -3,9 +3,9 @@ import { google } from 'googleapis';
 
 import { createErrorMessage } from '../../utility/error';
 import { Logger } from '../../utility/logger';
-import type { ICalendarGateway } from '../interface/iCalendarGateway';
+import type { IOldCalendarGateway } from '../interface/iCalendarGateway';
 
-export class GoogleCalendarGateway implements ICalendarGateway {
+export class GoogleCalendarGateway implements IOldCalendarGateway {
     private readonly calendar: calendar_v3.Calendar;
     private readonly calendarId: string;
 

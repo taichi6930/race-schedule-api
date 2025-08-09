@@ -5,13 +5,13 @@ import { WorldPlaceCodeMap } from '../../utility/data/common/raceCourse';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
-import type { ICalendarGateway } from '../interface/iCalendarGateway';
+import type { IOldCalendarGateway } from '../interface/iCalendarGateway';
 
 type RaceType = 'autorace' | 'boatrace' | 'jra' | 'keirin' | 'nar' | 'world';
 /**
  * Googleカレンダーのモックサービス
  */
-export class MockGoogleCalendarGateway implements ICalendarGateway {
+export class MockGoogleCalendarGateway implements IOldCalendarGateway {
     public constructor(private readonly raceType: RaceType) {
         this.setCalendarData();
     }

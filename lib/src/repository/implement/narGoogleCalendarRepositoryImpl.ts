@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
+import { IOldCalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import { BaseGoogleCalendarRepository } from './baseGoogleCalendarRepository';
 
@@ -14,7 +14,7 @@ import { BaseGoogleCalendarRepository } from './baseGoogleCalendarRepository';
 export class NarGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepository<NarRaceEntity> {
     public constructor(
         @inject('NarGoogleCalendarGateway')
-        protected readonly googleCalendarGateway: ICalendarGateway,
+        protected readonly googleCalendarGateway: IOldCalendarGateway,
     ) {
         super();
     }

@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { ICalendarGateway } from '../../lib/src/gateway/interface/iCalendarGateway';
+import type { IOldCalendarGateway } from '../../lib/src/gateway/interface/iCalendarGateway';
 import type { AutoraceRaceEntity } from '../../lib/src/repository/entity/autoraceRaceEntity';
 import type { BoatraceRaceEntity } from '../../lib/src/repository/entity/boatraceRaceEntity';
 import type { JraPlaceEntity } from '../../lib/src/repository/entity/jraPlaceEntity';
@@ -40,7 +40,7 @@ export function clearMocks(): void {
  * テスト用のセットアップ
  */
 export interface TestSetup {
-    autoraceGoogleCalendarGateway: jest.Mocked<ICalendarGateway>;
+    autoraceGoogleCalendarGateway: jest.Mocked<IOldCalendarGateway>;
 
     jraCalendarRepository: jest.Mocked<ICalendarRepository<JraRaceEntity>>;
     narCalendarRepository: jest.Mocked<ICalendarRepository<NarRaceEntity>>;

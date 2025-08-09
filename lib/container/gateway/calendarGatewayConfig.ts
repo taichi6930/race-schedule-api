@@ -1,11 +1,11 @@
 import { container } from 'tsyringe';
 
 import { GoogleCalendarGateway } from '../../src/gateway/implement/googleCalendarGateway';
-import type { ICalendarGateway } from '../../src/gateway/interface/iCalendarGateway';
+import type { IOldCalendarGateway } from '../../src/gateway/interface/iCalendarGateway';
 import { MockGoogleCalendarGateway } from '../../src/gateway/mock/mockGoogleCalendarGateway';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
-container.register<ICalendarGateway>('JraGoogleCalendarGateway', {
+container.register<IOldCalendarGateway>('JraGoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
@@ -31,7 +31,7 @@ container.register<ICalendarGateway>('JraGoogleCalendarGateway', {
     },
 });
 
-container.register<ICalendarGateway>('NarGoogleCalendarGateway', {
+container.register<IOldCalendarGateway>('NarGoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
@@ -58,7 +58,7 @@ container.register<ICalendarGateway>('NarGoogleCalendarGateway', {
 });
 
 // Keirin
-container.register<ICalendarGateway>('KeirinGoogleCalendarGateway', {
+container.register<IOldCalendarGateway>('KeirinGoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
@@ -84,7 +84,7 @@ container.register<ICalendarGateway>('KeirinGoogleCalendarGateway', {
     },
 });
 
-container.register<ICalendarGateway>('BoatraceGoogleCalendarGateway', {
+container.register<IOldCalendarGateway>('BoatraceGoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
@@ -110,7 +110,7 @@ container.register<ICalendarGateway>('BoatraceGoogleCalendarGateway', {
     },
 });
 
-container.register<ICalendarGateway>('AutoraceGoogleCalendarGateway', {
+container.register<IOldCalendarGateway>('AutoraceGoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
@@ -136,7 +136,7 @@ container.register<ICalendarGateway>('AutoraceGoogleCalendarGateway', {
     },
 });
 
-container.register<ICalendarGateway>('WorldGoogleCalendarGateway', {
+container.register<IOldCalendarGateway>('WorldGoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
