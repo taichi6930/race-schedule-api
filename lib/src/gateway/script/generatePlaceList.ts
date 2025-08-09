@@ -67,7 +67,9 @@ const createGrade = (raceType: RaceType): string => {
     }
 };
 
-function generatePlaceData(raceType: RaceType): MechanicalRacingPlaceRecord[] {
+function generateMechanicalRacingPlaceData(
+    raceType: RaceType,
+): MechanicalRacingPlaceRecord[] {
     // 2000年から2026年までのIDを生成
     const startDate = new Date('2000-01-01');
     const endDate = new Date('2026-01-01');
@@ -102,7 +104,10 @@ function generatePlaceData(raceType: RaceType): MechanicalRacingPlaceRecord[] {
 }
 
 // CSV出力
-function writeCsv(rows: MechanicalRacingPlaceRecord[], filePath: string): void {
+function writePlaceCsv(
+    rows: MechanicalRacingPlaceRecord[],
+    filePath: string,
+): void {
     const header = 'id,dateTime,location,grade,updateDate';
     const lines = rows.map(
         (r) =>
@@ -118,8 +123,8 @@ function main(): void {
         RaceType.KEIRIN,
         RaceType.BOATRACE,
     ]) {
-        const rows = generatePlaceData(raceType);
-        writeCsv(rows, outputPath(raceType));
+        const rows = generateMechanicalRacingPlaceData(raceType);
+        writePlaceCsv(rows, outputPath(raceType));
     }
 }
 
