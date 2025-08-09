@@ -173,7 +173,6 @@ export class KeirinRaceRepositoryFromStorageImpl
         const csv = await this.raceS3Gateway.fetchDataFromS3(
             this.raceListFileName,
         );
-
         // ファイルが空の場合は空のリストを返す
         if (!csv) {
             return [];
@@ -204,6 +203,10 @@ export class KeirinRaceRepositoryFromStorageImpl
                 const columns = line.split(',');
                 const dateTime = new Date(columns[indices.dateTime]);
                 if (borderDate && borderDate > dateTime) {
+                    console.log(
+                        'borderDateより前のデータはスキップします',
+                        dateTime,
+                    );
                     break;
                 }
                 const updateDate = columns[indices.updateDate]
@@ -228,6 +231,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                 // continue
             }
         }
+        console.log('レースデータの取得件数:', result.length);
         return result;
     }
 

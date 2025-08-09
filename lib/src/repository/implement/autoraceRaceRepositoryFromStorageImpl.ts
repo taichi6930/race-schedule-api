@@ -43,10 +43,15 @@ export class AutoraceRaceRepositoryFromStorageImpl
         // ファイル名リストからオートレース選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
+        console.log(
+            'レースプレイヤーデータの取得件数:',
+            racePlayerRecordList.length,
+        );
 
         // レースデータを取得する
         const raceRaceRecordList: RaceRecord[] =
             await this.getRaceRecordListFromS3();
+        console.log('レースデータの取得件数:', raceRaceRecordList.length);
 
         // RaceEntityに変換
         const raceEntityList: AutoraceRaceEntity[] = raceRaceRecordList.map(
@@ -83,6 +88,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                 );
             },
         );
+        console.log('レースエンティティの取得件数:', raceEntityList.length);
         // フィルタリング処理（日付の範囲指定）
         const filteredRaceEntityList: AutoraceRaceEntity[] =
             raceEntityList.filter(
@@ -90,6 +96,10 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     raceEntity.raceData.dateTime >= searchFilter.startDate &&
                     raceEntity.raceData.dateTime <= searchFilter.finishDate,
             );
+        console.log(
+            'フィルタリング後のレースエンティティの取得件数:',
+            filteredRaceEntityList.length,
+        );
 
         return filteredRaceEntityList;
     }
