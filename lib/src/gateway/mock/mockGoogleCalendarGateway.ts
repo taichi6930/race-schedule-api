@@ -11,7 +11,7 @@ import type { IOldCalendarGateway } from '../interface/iCalendarGateway';
 /**
  * Googleカレンダーのモックサービス
  */
-export class MockGoogleCalendarGateway implements IOldCalendarGateway {
+export class MockOldGoogleCalendarGateway implements IOldCalendarGateway {
     public constructor(private readonly raceType: RaceType) {
         this.setCalendarData();
     }
@@ -30,10 +30,10 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
     private static isInitialized = false;
 
     private setCalendarData(): void {
-        if (MockGoogleCalendarGateway.isInitialized) {
+        if (MockOldGoogleCalendarGateway.isInitialized) {
             return;
         }
-        MockGoogleCalendarGateway.isInitialized = true;
+        MockOldGoogleCalendarGateway.isInitialized = true;
         switch (ENV) {
             case allowedEnvs.production: // ENV が production の場合、GoogleCalendarGateway を使用
             case allowedEnvs.test:
@@ -105,7 +105,7 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
                                 colorId: '8',
                                 description: 'testDescription',
                             };
-                            MockGoogleCalendarGateway.mockCalendarData[
+                            MockOldGoogleCalendarGateway.mockCalendarData[
                                 this.raceType
                             ].push(calendarData);
                         }
@@ -125,10 +125,12 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
         startDate: Date,
         finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
-        console.log(MockGoogleCalendarGateway.mockCalendarData[this.raceType]);
+        console.log(
+            MockOldGoogleCalendarGateway.mockCalendarData[this.raceType],
+        );
         console.log(startDate);
         console.log(finishDate);
-        const raceData = MockGoogleCalendarGateway.mockCalendarData[
+        const raceData = MockOldGoogleCalendarGateway.mockCalendarData[
             this.raceType
         ]
             .filter(
@@ -149,7 +151,7 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
     public async fetchCalendarData(
         eventId: string,
     ): Promise<calendar_v3.Schema$Event> {
-        const raceData = MockGoogleCalendarGateway.mockCalendarData[
+        const raceData = MockOldGoogleCalendarGateway.mockCalendarData[
             this.raceType
         ].find((data) => data.id === eventId);
         if (!raceData) {
@@ -165,15 +167,16 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
     ): Promise<void> {
         try {
             // mockCalendarDataに存在するかどうかの判定
-            const index = MockGoogleCalendarGateway.mockCalendarData[
+            const index = MockOldGoogleCalendarGateway.mockCalendarData[
                 this.raceType
             ].findIndex((data) => data.id === calendarData.id);
             // 存在しない場合は新規追加
             if (index === -1) {
                 throw new Error('Event already exists');
             }
-            MockGoogleCalendarGateway.mockCalendarData[this.raceType][index] =
-                calendarData;
+            MockOldGoogleCalendarGateway.mockCalendarData[this.raceType][
+                index
+            ] = calendarData;
         } catch (error) {
             console.error(
                 'Google Calendar APIからのイベント取得に失敗しました',
@@ -188,14 +191,14 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
     ): Promise<void> {
         try {
             // mockCalendarDataに存在するかどうかの判定
-            const index = MockGoogleCalendarGateway.mockCalendarData[
+            const index = MockOldGoogleCalendarGateway.mockCalendarData[
                 this.raceType
             ].findIndex((data) => data.id === calendarData.id);
             // 存在しない場合は新規追加
             if (index !== -1) {
                 throw new Error('Not found');
             }
-            MockGoogleCalendarGateway.mockCalendarData[this.raceType].push(
+            MockOldGoogleCalendarGateway.mockCalendarData[this.raceType].push(
                 calendarData,
             );
         } catch (error) {
@@ -210,14 +213,14 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
     public async deleteCalendarData(eventId: string): Promise<void> {
         try {
             // mockCalendarDataに存在するかどうかの判定
-            const index = MockGoogleCalendarGateway.mockCalendarData[
+            const index = MockOldGoogleCalendarGateway.mockCalendarData[
                 this.raceType
             ].findIndex((data) => data.id === eventId);
             // 存在しない場合はエラー
             if (index === -1) {
                 throw new Error('Not found');
             }
-            MockGoogleCalendarGateway.mockCalendarData[this.raceType].splice(
+            MockOldGoogleCalendarGateway.mockCalendarData[this.raceType].splice(
                 index,
                 1,
             );
