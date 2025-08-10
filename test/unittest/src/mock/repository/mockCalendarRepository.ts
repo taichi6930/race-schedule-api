@@ -1,18 +1,4 @@
-import type { IRaceEntity } from '../../../../../lib/src/repository/entity/iRaceEntity';
-import type {
-    ICalendarRepository,
-    IOldCalendarRepository,
-} from '../../../../../lib/src/repository/interface/ICalendarRepository';
-
-export const mockOldCalendarRepository = <
-    R extends IRaceEntity<R>,
->(): jest.Mocked<IOldCalendarRepository<R>> => {
-    return {
-        getEvents: jest.fn(),
-        upsertEvents: jest.fn(),
-        deleteEvents: jest.fn(),
-    };
-};
+import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 
 export const mockCalendarRepository = (): jest.Mocked<ICalendarRepository> => {
     return {

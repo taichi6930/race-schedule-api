@@ -1,4 +1,7 @@
-import type { IOldCalendarGateway } from '../../../../../lib/src/gateway/interface/iCalendarGateway';
+import type {
+    ICalendarGateway,
+    IOldCalendarGateway,
+} from '../../../../../lib/src/gateway/interface/iCalendarGateway';
 
 export const mockOldGoogleCalendarGateway =
     (): jest.Mocked<IOldCalendarGateway> => {
@@ -10,3 +13,13 @@ export const mockOldGoogleCalendarGateway =
             deleteCalendarData: jest.fn(),
         };
     };
+
+export const mockGoogleCalendarGateway = (): jest.Mocked<ICalendarGateway> => {
+    return {
+        fetchCalendarDataList: jest.fn(),
+        fetchCalendarData: jest.fn(),
+        insertCalendarData: jest.fn(),
+        updateCalendarData: jest.fn(),
+        deleteCalendarData: jest.fn(),
+    };
+};
