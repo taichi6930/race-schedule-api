@@ -8,11 +8,15 @@ import type { NarRaceEntity } from '../../src/repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../../src/repository/entity/worldRaceEntity';
 import { AutoraceGoogleCalendarRepositoryImpl } from '../../src/repository/implement/autoraceGoogleCalendarRepositoryImpl';
 import { BoatraceGoogleCalendarRepositoryImpl } from '../../src/repository/implement/boatraceGoogleCalendarRepositoryImpl';
+import { GoogleCalendarRepository } from '../../src/repository/implement/googleCalendarRepository';
 import { JraGoogleCalendarRepositoryImpl } from '../../src/repository/implement/jraGoogleCalendarRepositoryImpl';
 import { KeirinGoogleCalendarRepositoryImpl } from '../../src/repository/implement/keirinGoogleCalendarRepositoryImpl';
 import { NarGoogleCalendarRepositoryImpl } from '../../src/repository/implement/narGoogleCalendarRepositoryImpl';
 import { WorldGoogleCalendarRepositoryImpl } from '../../src/repository/implement/worldGoogleCalendarRepositoryImpl';
-import type { IOldCalendarRepository } from '../../src/repository/interface/ICalendarRepository';
+import type {
+    ICalendarRepository,
+    IOldCalendarRepository,
+} from '../../src/repository/interface/ICalendarRepository';
 
 container.register<IOldCalendarRepository<JraRaceEntity>>(
     'JraCalendarRepository',
@@ -43,3 +47,7 @@ container.register<IOldCalendarRepository<BoatraceRaceEntity>>(
     'BoatraceCalendarRepository',
     { useClass: BoatraceGoogleCalendarRepositoryImpl },
 );
+
+container.register<ICalendarRepository>('CalendarRepository', {
+    useClass: GoogleCalendarRepository,
+});

@@ -5,6 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import type { CalendarData } from '../../domain/calendarData';
 import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import { fromGoogleCalendarDataToCalendarData } from '../../utility/googleCalendar';
+import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
@@ -25,6 +26,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
      * @param raceType
      * @param searchFilter
      */
+    @Logger
     public async getEvents(
         raceType: RaceType,
         searchFilter: SearchPlaceFilterEntity,
@@ -54,6 +56,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
      * @param raceType
      * @param raceEntityList
      */
+    @Logger
     public async upsertEvents(
         raceType: RaceType,
         raceEntityList: AutoraceRaceEntity[],
@@ -102,6 +105,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
      * @param raceType
      * @param calendarDataList
      */
+    @Logger
     public async deleteEvents(
         raceType: RaceType,
         calendarDataList: CalendarData[],
