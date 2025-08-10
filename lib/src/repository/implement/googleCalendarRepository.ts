@@ -4,7 +4,9 @@ import { inject, injectable } from 'tsyringe';
 
 import type { CalendarData } from '../../domain/calendarData';
 import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
+import { fromGoogleCalendarDataToCalendarData } from '../../utility/googleCalendar';
 import { RaceType } from '../../utility/raceType';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 
 /**
@@ -17,35 +19,34 @@ export class GoogleCalendarRepository implements ICalendarRepository {
         protected readonly googleCalendarGateway: ICalendarGateway,
     ) {}
 
-    // protected abstract fromGoogleCalendarDataToCalendarData(
-    //     event: object,
-    // ): CalendarData;
-
-    // /**
-    //  * カレンダーのイベントの取得を行う
-    //  * @param searchFilter
-    //  */
-    // public async getEvents(
-    //     searchFilter: SearchPlaceFilterEntity,
-    // ): Promise<CalendarData[]> {
-    //     // GoogleカレンダーAPIからイベントを取得
-    //     try {
-    //         const calendarDataList =
-    //             await this.googleCalendarGateway.fetchCalendarDataList(
-    //                 searchFilter.startDate,
-    //                 searchFilter.finishDate,
-    //             );
-    //         return calendarDataList.map((calendarData) =>
-    //             this.fromGoogleCalendarDataToCalendarData(calendarData),
-    //         );
-    //     } catch (error) {
-    //         console.error(
-    //             'Google Calendar APIからのイベント取得に失敗しました',
-    //             error,
-    //         );
-    //         return [];
-    //     }
-    // }
+    /**
+     * カレンダーのイベントの取得を行う
+     * @param raceType
+     * @param searchFilter
+     */
+    public async getEvents(
+        raceType: RaceType,
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<CalendarData[]> {
+        // GoogleカレンダーAPIからイベントを取得
+        try {
+            const calendarDataList =
+                await this.googleCalendarGateway.fetchCalendarDataList(
+                    raceType,
+                    searchFilter.startDate,
+                    searchFilter.finishDate,
+                );
+            return calendarDataList.map((calendarData) =>
+                fromGoogleCalendarDataToCalendarData(raceType, calendarData),
+            );
+        } catch (error) {
+            console.error(
+                'Google Calendar APIからのイベント取得に失敗しました',
+                error,
+            );
+            return [];
+        }
+    }
 
     // /**
     //  * カレンダーのイベントの更新を行う
