@@ -1,10 +1,39 @@
 import { container } from 'tsyringe';
 
-import { OldGoogleCalendarGateway } from '../../src/gateway/implement/googleCalendarGateway';
-import type { IOldCalendarGateway } from '../../src/gateway/interface/iCalendarGateway';
+import {
+    GoogleCalendarGateway,
+    OldGoogleCalendarGateway,
+} from '../../src/gateway/implement/googleCalendarGateway';
+import type {
+    ICalendarGateway,
+    IOldCalendarGateway,
+} from '../../src/gateway/interface/iCalendarGateway';
+import { MockGoogleCalendarGateway } from '../../src/gateway/mock/mockGoogleCalendarGateway';
 import { MockOldGoogleCalendarGateway } from '../../src/gateway/mock/mockOldGoogleCalendarGateway';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 import { RaceType } from '../../src/utility/raceType';
+
+container.register<ICalendarGateway>('GoogleCalendarGateway', {
+    useFactory: () => {
+        switch (ENV) {
+            case allowedEnvs.production: {
+                return new GoogleCalendarGateway();
+            }
+            case allowedEnvs.test: {
+                return new GoogleCalendarGateway();
+            }
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi:
+            case allowedEnvs.local: {
+                return new MockGoogleCalendarGateway();
+            }
+            default: {
+                throw new Error('Invalid ENV value');
+            }
+        }
+    },
+});
 
 container.register<IOldCalendarGateway>('JraGoogleCalendarGateway', {
     useFactory: () => {
