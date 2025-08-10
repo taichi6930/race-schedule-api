@@ -4,6 +4,7 @@ import { OldGoogleCalendarGateway } from '../../src/gateway/implement/googleCale
 import type { IOldCalendarGateway } from '../../src/gateway/interface/iCalendarGateway';
 import { MockGoogleCalendarGateway } from '../../src/gateway/mock/mockGoogleCalendarGateway';
 import { allowedEnvs, ENV } from '../../src/utility/env';
+import { RaceType } from '../../src/utility/raceType';
 
 container.register<IOldCalendarGateway>('JraGoogleCalendarGateway', {
     useFactory: () => {
@@ -22,7 +23,7 @@ container.register<IOldCalendarGateway>('JraGoogleCalendarGateway', {
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
-                return new MockGoogleCalendarGateway('jra');
+                return new MockGoogleCalendarGateway(RaceType.JRA);
             }
             default: {
                 throw new Error('Invalid ENV value');
@@ -48,7 +49,7 @@ container.register<IOldCalendarGateway>('NarGoogleCalendarGateway', {
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
-                return new MockGoogleCalendarGateway('nar');
+                return new MockGoogleCalendarGateway(RaceType.NAR);
             }
             default: {
                 throw new Error('Invalid ENV value');
@@ -75,7 +76,7 @@ container.register<IOldCalendarGateway>('KeirinGoogleCalendarGateway', {
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
-                return new MockGoogleCalendarGateway('keirin');
+                return new MockGoogleCalendarGateway(RaceType.KEIRIN);
             }
             default: {
                 throw new Error('Invalid ENV value');
@@ -101,7 +102,7 @@ container.register<IOldCalendarGateway>('BoatraceGoogleCalendarGateway', {
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
-                return new MockGoogleCalendarGateway('boatrace');
+                return new MockGoogleCalendarGateway(RaceType.BOATRACE);
             }
             default: {
                 throw new Error('Invalid ENV value');
@@ -127,7 +128,7 @@ container.register<IOldCalendarGateway>('AutoraceGoogleCalendarGateway', {
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
-                return new MockGoogleCalendarGateway('autorace');
+                return new MockGoogleCalendarGateway(RaceType.AUTORACE);
             }
             default: {
                 throw new Error('Invalid ENV value');
@@ -153,7 +154,7 @@ container.register<IOldCalendarGateway>('WorldGoogleCalendarGateway', {
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi:
             case allowedEnvs.local: {
-                return new MockGoogleCalendarGateway('world');
+                return new MockGoogleCalendarGateway(RaceType.WORLD);
             }
             default: {
                 throw new Error('Invalid ENV value');

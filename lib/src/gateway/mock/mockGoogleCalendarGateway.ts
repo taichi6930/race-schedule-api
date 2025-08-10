@@ -5,9 +5,9 @@ import { WorldPlaceCodeMap } from '../../utility/data/common/raceCourse';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import type { IOldCalendarGateway } from '../interface/iCalendarGateway';
 
-type RaceType = 'autorace' | 'boatrace' | 'jra' | 'keirin' | 'nar' | 'world';
 /**
  * Googleカレンダーのモックサービス
  */
@@ -19,12 +19,12 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
         string,
         calendar_v3.Schema$Event[]
     > = {
-        jra: [],
-        nar: [],
-        world: [],
-        keirin: [],
-        autorace: [],
-        boatrace: [],
+        JRA: [],
+        NAR: [],
+        WORLD: [],
+        KEIRIN: [],
+        AUTORACE: [],
+        BOATRACE: [],
     };
 
     private static isInitialized = false;
@@ -57,16 +57,16 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
                             let raceId = '';
 
                             switch (this.raceType) {
-                                case 'world': {
+                                case RaceType.WORLD: {
                                     location = 'パリロンシャン';
                                     raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${WorldPlaceCodeMap[location]}${(i + 1).toXDigits(2)}`;
                                     break;
                                 }
-                                case 'jra':
-                                case 'nar':
-                                case 'keirin':
-                                case 'autorace':
-                                case 'boatrace': {
+                                case RaceType.JRA:
+                                case RaceType.NAR:
+                                case RaceType.KEIRIN:
+                                case RaceType.AUTORACE:
+                                case RaceType.BOATRACE: {
                                     break;
                                 }
                                 default: {
