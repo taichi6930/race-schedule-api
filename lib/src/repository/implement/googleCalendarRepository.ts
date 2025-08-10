@@ -6,6 +6,7 @@ import type { CalendarData } from '../../domain/calendarData';
 import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import { fromGoogleCalendarDataToCalendarData } from '../../utility/googleCalendar';
 import { RaceType } from '../../utility/raceType';
+import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 
@@ -48,47 +49,53 @@ export class GoogleCalendarRepository implements ICalendarRepository {
         }
     }
 
-    // /**
-    //  * カレンダーのイベントの更新を行う
-    //  * @param raceEntityList
-    //  */
-    // public async upsertEvents(raceEntityList: R[]): Promise<void> {
-    //     // Googleカレンダーから取得する
-    //     await Promise.all(
-    //         raceEntityList.map(async (raceEntity) => {
-    //             try {
-    //                 // 既に登録されているかどうか判定
-    //                 let isExist = false;
-    //                 try {
-    //                     await this.googleCalendarGateway
-    //                         .fetchCalendarData(raceEntity.id)
-    //                         .then((calendarData) => {
-    //                             console.debug('calendarData', calendarData);
-    //                         });
-    //                     isExist = true;
-    //                 } catch (error) {
-    //                     console.error(
-    //                         'Google Calendar APIからのイベント取得に失敗しました',
-    //                         error,
-    //                     );
-    //                 }
-    //                 // 既存のデータがあれば更新、なければ新規登録
-    //                 await (isExist
-    //                     ? this.googleCalendarGateway.updateCalendarData(
-    //                           raceEntity.toGoogleCalendarData(),
-    //                       )
-    //                     : this.googleCalendarGateway.insertCalendarData(
-    //                           raceEntity.toGoogleCalendarData(),
-    //                       ));
-    //             } catch (error) {
-    //                 console.error(
-    //                     'Google Calendar APIへのイベント登録に失敗しました',
-    //                     error,
-    //                 );
-    //             }
-    //         }),
-    //     );
-    // }
+    /**
+     * カレンダーのイベントの更新を行う
+     * @param raceType
+     * @param raceEntityList
+     */
+    public async upsertEvents(
+        raceType: RaceType,
+        raceEntityList: AutoraceRaceEntity[],
+    ): Promise<void> {
+        // Googleカレンダーから取得する
+        await Promise.all(
+            raceEntityList.map(async (raceEntity) => {
+                try {
+                    // 既に登録されているかどうか判定
+                    let isExist = false;
+                    try {
+                        await this.googleCalendarGateway
+                            .fetchCalendarData(raceType, raceEntity.id)
+                            .then((calendarData) => {
+                                console.debug('calendarData', calendarData);
+                            });
+                        isExist = true;
+                    } catch (error) {
+                        console.error(
+                            'Google Calendar APIからのイベント取得に失敗しました',
+                            error,
+                        );
+                    }
+                    // 既存のデータがあれば更新、なければ新規登録
+                    await (isExist
+                        ? this.googleCalendarGateway.updateCalendarData(
+                              raceType,
+                              raceEntity.toGoogleCalendarData(),
+                          )
+                        : this.googleCalendarGateway.insertCalendarData(
+                              raceType,
+                              raceEntity.toGoogleCalendarData(),
+                          ));
+                } catch (error) {
+                    console.error(
+                        'Google Calendar APIへのイベント登録に失敗しました',
+                        error,
+                    );
+                }
+            }),
+        );
+    }
 
     /**
      * カレンダーのイベントの削除を行う

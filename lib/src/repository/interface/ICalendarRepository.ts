@@ -1,5 +1,6 @@
 import type { CalendarData } from '../../domain/calendarData';
 import type { RaceType } from '../../utility/raceType';
+import type { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import type { IRaceEntity } from '../entity/iRaceEntity';
 import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 
@@ -76,42 +77,46 @@ export interface IOldCalendarRepository<R extends IRaceEntity<R>> {
 }
 
 export interface ICalendarRepository {
-    // /**
-    //  * 指定された条件に基づいてカレンダーイベントを取得します
-    //  *
-    //  * このメソッドは以下の処理を行います：
-    //  * 1. 検索フィルターに基づいてクエリを構築
-    //  * 2. 外部カレンダーサービスにクエリを実行
-    //  * 3. 取得したイベントをCalendarData形式に変換
-    //  * @param searchFilter - 検索条件を指定するフィルターエンティティ
-    //  * - 開始日・終了日による期間指定
-    //  * - 開催場所による絞り込み
-    //  * - その他の検索条件
-    //  * @returns カレンダーイベントの配列。イベントが存在しない場合は空配列
-    //  * @throws Error 以下の場合にエラーが発生：
-    //  *               - 外部サービスとの通信に失敗
-    //  *               - APIのレート制限に到達
-    //  *               - 認証/認可エラー
-    //  */
-    // getEvents: (
-    //     searchFilter: SearchPlaceFilterEntity,
-    // ) => Promise<CalendarData[]>;
+    /**
+     * 指定された条件に基づいてカレンダーイベントを取得します
+     *
+     * このメソッドは以下の処理を行います：
+     * 1. 検索フィルターに基づいてクエリを構築
+     * 2. 外部カレンダーサービスにクエリを実行
+     * 3. 取得したイベントをCalendarData形式に変換
+     * @param searchFilter - 検索条件を指定するフィルターエンティティ
+     * - 開始日・終了日による期間指定
+     * - 開催場所による絞り込み
+     * - その他の検索条件
+     * @returns カレンダーイベントの配列。イベントが存在しない場合は空配列
+     * @throws Error 以下の場合にエラーが発生：
+     *               - 外部サービスとの通信に失敗
+     *               - APIのレート制限に到達
+     *               - 認証/認可エラー
+     */
+    getEvents: (
+        raceType: RaceType,
+        searchFilter: SearchPlaceFilterEntity,
+    ) => Promise<CalendarData[]>;
 
-    // /**
-    //  * レース情報をカレンダーイベントとして一括登録/更新します
-    //  *
-    //  * このメソッドは以下の処理を行います：
-    //  * 1. レースエンティティをカレンダーイベント形式に変換
-    //  * 2. 既存イベントとの重複チェック
-    //  * 3. バッチ処理による一括登録/更新
-    //  * @param raceEntityList - 登録/更新するレース開催エンティティの配列
-    //  * @throws Error 以下の場合にエラーが発生：
-    //  *               - イベントの重複が検出
-    //  *               - 外部サービスとの通信に失敗
-    //  *               - APIのレート制限に到達
-    //  *               - 認証/認可エラー
-    //  */
-    // upsertEvents: (raceEntityList: R[]) => Promise<void>;
+    /**
+     * レース情報をカレンダーイベントとして一括登録/更新します
+     *
+     * このメソッドは以下の処理を行います：
+     * 1. レースエンティティをカレンダーイベント形式に変換
+     * 2. 既存イベントとの重複チェック
+     * 3. バッチ処理による一括登録/更新
+     * @param raceEntityList - 登録/更新するレース開催エンティティの配列
+     * @throws Error 以下の場合にエラーが発生：
+     *               - イベントの重複が検出
+     *               - 外部サービスとの通信に失敗
+     *               - APIのレート制限に到達
+     *               - 認証/認可エラー
+     */
+    upsertEvents: (
+        raceType: RaceType,
+        raceEntityList: AutoraceRaceEntity[],
+    ) => Promise<void>;
 
     /**
      * 指定されたカレンダーイベントを一括削除します
