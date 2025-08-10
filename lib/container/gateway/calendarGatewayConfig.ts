@@ -2,7 +2,7 @@ import { container } from 'tsyringe';
 
 import { OldGoogleCalendarGateway } from '../../src/gateway/implement/googleCalendarGateway';
 import type { IOldCalendarGateway } from '../../src/gateway/interface/iCalendarGateway';
-import { MockOldGoogleCalendarGateway } from '../../src/gateway/mock/mockGoogleCalendarGateway';
+import { MockOldGoogleCalendarGateway } from '../../src/gateway/mock/mockOldGoogleCalendarGateway';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 import { RaceType } from '../../src/utility/raceType';
 
