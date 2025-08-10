@@ -11,7 +11,10 @@ import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import { IOldCalendarRepository } from '../../repository/interface/ICalendarRepository';
+import {
+    ICalendarRepository,
+    IOldCalendarRepository,
+} from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { ICalendarService } from '../interface/ICalendarService';
@@ -53,8 +56,8 @@ export class PublicGamblingCalendarService implements ICalendarService {
         protected readonly worldCalendarRepository: IOldCalendarRepository<WorldRaceEntity>,
         @inject('BoatraceCalendarRepository')
         protected readonly boatraceCalendarRepository: IOldCalendarRepository<BoatraceRaceEntity>,
-        @inject('AutoraceCalendarRepository')
-        protected readonly autoraceRaceCalendarRepository: IOldCalendarRepository<AutoraceRaceEntity>,
+        @inject('CalendarRepository')
+        protected readonly calendarRepository: ICalendarRepository,
     ) {}
     /**
      * 指定された期間のカレンダーイベントを取得します
@@ -111,7 +114,8 @@ export class PublicGamblingCalendarService implements ICalendarService {
         }
         if (raceTypeList.includes(RaceType.AUTORACE)) {
             calendarDataList.push(
-                ...(await this.autoraceRaceCalendarRepository.getEvents(
+                ...(await this.calendarRepository.getEvents(
+                    RaceType.AUTORACE,
                     searchFilter,
                 )),
             );
@@ -192,7 +196,8 @@ export class PublicGamblingCalendarService implements ICalendarService {
             raceEntityList.autorace !== undefined &&
             raceEntityList.autorace.length > 0
         ) {
-            await this.autoraceRaceCalendarRepository.upsertEvents(
+            await this.calendarRepository.upsertEvents(
+                RaceType.AUTORACE,
                 raceEntityList.autorace,
             );
         }
@@ -259,7 +264,8 @@ export class PublicGamblingCalendarService implements ICalendarService {
             );
         }
         if (calendarDataList.autorace && calendarDataList.autorace.length > 0) {
-            await this.autoraceRaceCalendarRepository.deleteEvents(
+            await this.calendarRepository.deleteEvents(
+                RaceType.AUTORACE,
                 calendarDataList.autorace,
             );
         }
