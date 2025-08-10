@@ -67,11 +67,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-endpoint: [
-          "jra/place",
-          "nar/place",
-          "keirin/place",
-          "autorace/place"
+        raceType: [
+          "jra",
+          "nar",
+          "keirin",
+          "autorace"
         ]
     steps:
       - name: Check out repository
@@ -85,12 +85,13 @@ jobs:
 
           # レースデータの更新
           update_place_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/${{ matrix.api-endpoint }}" \
+            "${API_PRODUCTION_URL}/api/races/all/place" \
             -H "accept: */*" \
             -H "Content-Type: application/json" \
             -d "{
                   \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
+                  \"finishDate\": \"$finishDate\",
+                  \"raceType\": \"${{ matrix.raceType }}\"
                 }")
 
           # レスポンスチェック
