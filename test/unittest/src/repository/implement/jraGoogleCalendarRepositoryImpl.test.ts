@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { ICalendarGateway } from '../../../../../lib/src/gateway/interface/iCalendarGateway';
+import type { IOldCalendarGateway } from '../../../../../lib/src/gateway/interface/iCalendarGateway';
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { JraGoogleCalendarRepositoryImpl } from '../../../../../lib/src/repository/implement/jraGoogleCalendarRepositoryImpl';
 import {
@@ -10,14 +10,14 @@ import {
     baseJraCalendarDataFromGoogleCalendar,
     baseJraRaceEntity,
 } from '../../mock/common/baseJraData';
-import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
+import { mockOldGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
 describe('JraGoogleCalendarRepositoryImpl', () => {
     let repository: JraGoogleCalendarRepositoryImpl;
-    let googleCalendarGateway: jest.Mocked<ICalendarGateway>;
+    let googleCalendarGateway: jest.Mocked<IOldCalendarGateway>;
 
     beforeEach(() => {
-        googleCalendarGateway = mockGoogleCalendarGateway();
+        googleCalendarGateway = mockOldGoogleCalendarGateway();
         container.registerInstance(
             'JraGoogleCalendarGateway',
             googleCalendarGateway,

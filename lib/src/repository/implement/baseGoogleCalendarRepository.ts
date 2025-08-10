@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
 import type { CalendarData } from '../../domain/calendarData';
-import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
+import type { IOldCalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import type { IRaceEntity } from '../entity/iRaceEntity';
 import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
@@ -12,7 +12,7 @@ import type { ICalendarRepository } from '../interface/ICalendarRepository';
 export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
     implements ICalendarRepository<R>
 {
-    protected abstract googleCalendarGateway: ICalendarGateway;
+    protected abstract googleCalendarGateway: IOldCalendarGateway;
     protected abstract fromGoogleCalendarDataToCalendarData(
         event: object,
     ): CalendarData;

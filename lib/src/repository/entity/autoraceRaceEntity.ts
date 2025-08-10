@@ -12,7 +12,7 @@ import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import type { RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
-import { getAutoraceGoogleCalendarColorId } from '../../utility/googleCalendar';
+import { getGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateRaceId, generateRacePlayerId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
@@ -149,7 +149,10 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: getAutoraceGoogleCalendarColorId(this.raceData.grade),
+            colorId: getGoogleCalendarColorId(
+                this.raceData.raceType,
+                this.raceData.grade,
+            ),
             description:
                 `発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
                           更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}

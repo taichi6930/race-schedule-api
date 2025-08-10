@@ -17,7 +17,7 @@ import {
 } from '../../utility/data/url';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
-import { getJraGoogleCalendarColorId } from '../../utility/googleCalendar';
+import { getGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateRaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
@@ -158,7 +158,10 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: getJraGoogleCalendarColorId(this.raceData.grade),
+            colorId: getGoogleCalendarColorId(
+                this.raceData.raceType,
+                this.raceData.grade,
+            ),
             description:
                 `距離: ${this.conditionData.surfaceType}${this.conditionData.distance.toString()}m
                     発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}

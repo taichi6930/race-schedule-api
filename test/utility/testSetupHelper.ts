@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { ICalendarGateway } from '../../lib/src/gateway/interface/iCalendarGateway';
+import type { IOldCalendarGateway } from '../../lib/src/gateway/interface/iCalendarGateway';
 import type { AutoraceRaceEntity } from '../../lib/src/repository/entity/autoraceRaceEntity';
 import type { BoatraceRaceEntity } from '../../lib/src/repository/entity/boatraceRaceEntity';
 import type { JraPlaceEntity } from '../../lib/src/repository/entity/jraPlaceEntity';
@@ -20,7 +20,7 @@ import type { ICalendarService } from '../../lib/src/service/interface/ICalendar
 import type { IPlaceDataService } from '../../lib/src/service/interface/IPlaceDataService';
 import type { IPlayerDataService } from '../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../lib/src/service/interface/IRaceDataService';
-import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
+import { mockOldGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
 import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../unittest/src/mock/repository/mockRaceRepository';
@@ -40,7 +40,7 @@ export function clearMocks(): void {
  * テスト用のセットアップ
  */
 export interface TestSetup {
-    autoraceGoogleCalendarGateway: jest.Mocked<ICalendarGateway>;
+    autoraceGoogleCalendarGateway: jest.Mocked<IOldCalendarGateway>;
 
     jraCalendarRepository: jest.Mocked<ICalendarRepository<JraRaceEntity>>;
     narCalendarRepository: jest.Mocked<ICalendarRepository<NarRaceEntity>>;
@@ -131,7 +131,7 @@ export interface TestSetup {
  * @returns セットアップ済みのサービス
  */
 export function setupTestMock(): TestSetup {
-    const autoraceGoogleCalendarGateway = mockGoogleCalendarGateway();
+    const autoraceGoogleCalendarGateway = mockOldGoogleCalendarGateway();
     container.registerInstance(
         'AutoraceGoogleCalendarGateway',
         autoraceGoogleCalendarGateway,
