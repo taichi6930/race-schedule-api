@@ -120,3 +120,45 @@ export interface IOldCalendarGateway {
      */
     deleteCalendarData: (eventId: string) => Promise<void>;
 }
+
+export interface ICalendarGateway {
+    /**
+     * 指定された期間のカレンダーイベントを一括取得します
+     *
+     * このメソッドは以下の処理を行います：
+     * 1. 指定された期間のイベントをクエリ
+     * 2. ページネーション処理による全イベントの取得
+     * 3. タイムゾーンの正規化
+     * @param startDate - 取得開始日（この日を含む）
+     * @param finishDate - 取得終了日（この日を含む）
+     * @returns イベントオブジェクトの配列。イベントが存在しない場合は空配列
+     * @throws Error 以下の場合にエラーが発生：
+     *               - API呼び出しに失敗
+     *               - レート制限に到達
+     *               - 認証/認可エラー
+     */
+    fetchCalendarDataList: (
+        raceType: string,
+        calendarId: string,
+        startDate: Date,
+        finishDate: Date,
+    ) => Promise<calendar_v3.Schema$Event[]>;
+
+    /**
+     * 指定されたIDのカレンダーイベントを取得します
+     *
+     * このメソッドは、個別のイベントの詳細情報が必要な場合に使用します。
+     * イベントが存在しない場合はエラーとなります。
+     * @param eventId - 取得するイベントの一意識別子
+     * @returns イベントオブジェクト
+     * @throws Error 以下の場合にエラーが発生：
+     *               - 指定されたイベントが存在しない
+     *               - API呼び出しに失敗
+     *               - 認証/認可エラー
+     */
+    fetchCalendarData: (
+        raceType: string,
+        calendarId: string,
+        eventId: string,
+    ) => Promise<calendar_v3.Schema$Event>;
+}
