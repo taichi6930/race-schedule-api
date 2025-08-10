@@ -4,13 +4,13 @@ import type { CalendarData } from '../../domain/calendarData';
 import type { IOldCalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import type { IRaceEntity } from '../entity/iRaceEntity';
 import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
-import type { ICalendarRepository } from '../interface/ICalendarRepository';
+import type { IOldCalendarRepository } from '../interface/ICalendarRepository';
 
 /**
  * 開催データリポジトリの基底クラス
  */
 export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
-    implements ICalendarRepository<R>
+    implements IOldCalendarRepository<R>
 {
     protected abstract googleCalendarGateway: IOldCalendarGateway;
     protected abstract fromGoogleCalendarDataToCalendarData(

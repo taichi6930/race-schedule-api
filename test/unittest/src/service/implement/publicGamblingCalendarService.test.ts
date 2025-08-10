@@ -10,7 +10,7 @@ import type { KeirinRaceEntity } from '../../../../../lib/src/repository/entity/
 import type { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import type { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
-import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
+import type { IOldCalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -43,19 +43,23 @@ import {
 
 describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
-    let jraCalendarRepository: jest.Mocked<ICalendarRepository<JraRaceEntity>>;
-    let narCalendarRepository: jest.Mocked<ICalendarRepository<NarRaceEntity>>;
+    let jraCalendarRepository: jest.Mocked<
+        IOldCalendarRepository<JraRaceEntity>
+    >;
+    let narCalendarRepository: jest.Mocked<
+        IOldCalendarRepository<NarRaceEntity>
+    >;
     let worldCalendarRepository: jest.Mocked<
-        ICalendarRepository<WorldRaceEntity>
+        IOldCalendarRepository<WorldRaceEntity>
     >;
     let keirinCalendarRepository: jest.Mocked<
-        ICalendarRepository<KeirinRaceEntity>
+        IOldCalendarRepository<KeirinRaceEntity>
     >;
     let boatraceCalendarRepository: jest.Mocked<
-        ICalendarRepository<BoatraceRaceEntity>
+        IOldCalendarRepository<BoatraceRaceEntity>
     >;
     let autoraceCalendarRepository: jest.Mocked<
-        ICalendarRepository<AutoraceRaceEntity>
+        IOldCalendarRepository<AutoraceRaceEntity>
     >;
 
     beforeEach(() => {

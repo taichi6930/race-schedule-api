@@ -11,7 +11,7 @@ import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
+import { IOldCalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { ICalendarService } from '../interface/ICalendarService';
@@ -44,17 +44,17 @@ import { ICalendarService } from '../interface/ICalendarService';
 export class PublicGamblingCalendarService implements ICalendarService {
     public constructor(
         @inject('JraCalendarRepository')
-        protected readonly jraCalendarRepository: ICalendarRepository<JraRaceEntity>,
+        protected readonly jraCalendarRepository: IOldCalendarRepository<JraRaceEntity>,
         @inject('NarCalendarRepository')
-        protected readonly narCalendarRepository: ICalendarRepository<NarRaceEntity>,
+        protected readonly narCalendarRepository: IOldCalendarRepository<NarRaceEntity>,
         @inject('KeirinCalendarRepository')
-        protected readonly keirinCalendarRepository: ICalendarRepository<KeirinRaceEntity>,
+        protected readonly keirinCalendarRepository: IOldCalendarRepository<KeirinRaceEntity>,
         @inject('WorldCalendarRepository')
-        protected readonly worldCalendarRepository: ICalendarRepository<WorldRaceEntity>,
+        protected readonly worldCalendarRepository: IOldCalendarRepository<WorldRaceEntity>,
         @inject('BoatraceCalendarRepository')
-        protected readonly boatraceCalendarRepository: ICalendarRepository<BoatraceRaceEntity>,
+        protected readonly boatraceCalendarRepository: IOldCalendarRepository<BoatraceRaceEntity>,
         @inject('AutoraceCalendarRepository')
-        protected readonly autoraceRaceCalendarRepository: ICalendarRepository<AutoraceRaceEntity>,
+        protected readonly autoraceRaceCalendarRepository: IOldCalendarRepository<AutoraceRaceEntity>,
     ) {}
     /**
      * 指定された期間のカレンダーイベントを取得します

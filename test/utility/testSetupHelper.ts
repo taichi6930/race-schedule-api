@@ -13,7 +13,7 @@ import type { NarPlaceEntity } from '../../lib/src/repository/entity/narPlaceEnt
 import type { NarRaceEntity } from '../../lib/src/repository/entity/narRaceEntity';
 import type { WorldPlaceEntity } from '../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../lib/src/repository/entity/worldRaceEntity';
-import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
+import type { IOldCalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../lib/src/service/interface/ICalendarService';
@@ -42,17 +42,19 @@ export function clearMocks(): void {
 export interface TestSetup {
     autoraceGoogleCalendarGateway: jest.Mocked<IOldCalendarGateway>;
 
-    jraCalendarRepository: jest.Mocked<ICalendarRepository<JraRaceEntity>>;
-    narCalendarRepository: jest.Mocked<ICalendarRepository<NarRaceEntity>>;
-    worldCalendarRepository: jest.Mocked<ICalendarRepository<WorldRaceEntity>>;
+    jraCalendarRepository: jest.Mocked<IOldCalendarRepository<JraRaceEntity>>;
+    narCalendarRepository: jest.Mocked<IOldCalendarRepository<NarRaceEntity>>;
+    worldCalendarRepository: jest.Mocked<
+        IOldCalendarRepository<WorldRaceEntity>
+    >;
     keirinCalendarRepository: jest.Mocked<
-        ICalendarRepository<KeirinRaceEntity>
+        IOldCalendarRepository<KeirinRaceEntity>
     >;
     boatraceCalendarRepository: jest.Mocked<
-        ICalendarRepository<BoatraceRaceEntity>
+        IOldCalendarRepository<BoatraceRaceEntity>
     >;
     autoraceCalendarRepository: jest.Mocked<
-        ICalendarRepository<AutoraceRaceEntity>
+        IOldCalendarRepository<AutoraceRaceEntity>
     >;
     jraPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<JraPlaceEntity>

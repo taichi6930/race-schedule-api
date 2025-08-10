@@ -12,34 +12,34 @@ import { JraGoogleCalendarRepositoryImpl } from '../../src/repository/implement/
 import { KeirinGoogleCalendarRepositoryImpl } from '../../src/repository/implement/keirinGoogleCalendarRepositoryImpl';
 import { NarGoogleCalendarRepositoryImpl } from '../../src/repository/implement/narGoogleCalendarRepositoryImpl';
 import { WorldGoogleCalendarRepositoryImpl } from '../../src/repository/implement/worldGoogleCalendarRepositoryImpl';
-import type { ICalendarRepository } from '../../src/repository/interface/ICalendarRepository';
+import type { IOldCalendarRepository } from '../../src/repository/interface/ICalendarRepository';
 
-container.register<ICalendarRepository<JraRaceEntity>>(
+container.register<IOldCalendarRepository<JraRaceEntity>>(
     'JraCalendarRepository',
     { useClass: JraGoogleCalendarRepositoryImpl },
 );
 
-container.register<ICalendarRepository<NarRaceEntity>>(
+container.register<IOldCalendarRepository<NarRaceEntity>>(
     'NarCalendarRepository',
     { useClass: NarGoogleCalendarRepositoryImpl },
 );
 
-container.register<ICalendarRepository<WorldRaceEntity>>(
+container.register<IOldCalendarRepository<WorldRaceEntity>>(
     'WorldCalendarRepository',
     { useClass: WorldGoogleCalendarRepositoryImpl },
 );
 
-container.register<ICalendarRepository<KeirinRaceEntity>>(
+container.register<IOldCalendarRepository<KeirinRaceEntity>>(
     'KeirinCalendarRepository',
     { useClass: KeirinGoogleCalendarRepositoryImpl },
 );
 
-container.register<ICalendarRepository<AutoraceRaceEntity>>(
+container.register<IOldCalendarRepository<AutoraceRaceEntity>>(
     'AutoraceCalendarRepository',
     { useClass: AutoraceGoogleCalendarRepositoryImpl },
 );
 
-container.register<ICalendarRepository<BoatraceRaceEntity>>(
+container.register<IOldCalendarRepository<BoatraceRaceEntity>>(
     'BoatraceCalendarRepository',
     { useClass: BoatraceGoogleCalendarRepositoryImpl },
 );
