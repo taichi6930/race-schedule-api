@@ -8,7 +8,7 @@ import { fromGoogleCalendarDataToCalendarData } from '../../utility/googleCalend
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
-import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
+import { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 
 /**
@@ -29,7 +29,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
     @Logger
     public async getEvents(
         raceType: RaceType,
-        searchFilter: SearchPlaceFilterEntity,
+        searchFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
         // GoogleカレンダーAPIからイベントを取得
         try {

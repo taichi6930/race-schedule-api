@@ -3,14 +3,16 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../../lib/src/domain/calendarData';
-import type { AutoraceRaceEntity } from '../../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { BoatraceRaceEntity } from '../../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
 import type { KeirinRaceEntity } from '../../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import type { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
-import type { IOldCalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
+import type {
+    ICalendarRepository,
+    IOldCalendarRepository,
+} from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -58,9 +60,7 @@ describe('PublicGamblingCalendarService', () => {
     let boatraceCalendarRepository: jest.Mocked<
         IOldCalendarRepository<BoatraceRaceEntity>
     >;
-    let autoraceCalendarRepository: jest.Mocked<
-        IOldCalendarRepository<AutoraceRaceEntity>
-    >;
+    let calendarRepository: jest.Mocked<ICalendarRepository>;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -70,7 +70,7 @@ describe('PublicGamblingCalendarService', () => {
             worldCalendarRepository,
             keirinCalendarRepository,
             boatraceCalendarRepository,
-            autoraceCalendarRepository,
+            calendarRepository,
         } = setup);
         service = container.resolve(PublicGamblingCalendarService);
     });
@@ -107,9 +107,38 @@ describe('PublicGamblingCalendarService', () => {
             boatraceCalendarRepository.getEvents.mockResolvedValue([
                 baseBoatraceCalendarData,
             ]);
-            autoraceCalendarRepository.getEvents.mockResolvedValue([
+            calendarRepository.getEvents.mockResolvedValue([
                 baseAutoraceCalendarData,
             ]);
+            calendarRepository.getEvents.mockImplementation(
+                async (raceType: RaceType) => {
+                    // searchFilterの引数も追加
+                    switch (raceType) {
+                        case RaceType.JRA: {
+                            return [baseJraCalendarData];
+                        }
+                        case RaceType.NAR: {
+                            return [baseNarCalendarData];
+                        }
+                        case RaceType.WORLD: {
+                            return [baseWorldCalendarData];
+                        }
+                        case RaceType.KEIRIN: {
+                            return [baseKeirinCalendarData];
+                        }
+                        case RaceType.AUTORACE: {
+                            return [baseAutoraceCalendarData];
+                        }
+                        case RaceType.BOATRACE: {
+                            return [baseBoatraceCalendarData];
+                        }
+                        default: {
+                            throw new Error(`Unsupported race type`);
+                        }
+                    }
+                },
+            );
+
             const result = await service.fetchEvents(startDate, finishDate, [
                 RaceType.JRA,
                 RaceType.NAR,
@@ -134,7 +163,8 @@ describe('PublicGamblingCalendarService', () => {
             expect(boatraceCalendarRepository.getEvents).toHaveBeenCalledWith(
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
-            expect(autoraceCalendarRepository.getEvents).toHaveBeenCalledWith(
+            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
+                RaceType.AUTORACE,
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
             expect(result).toEqual(calendarDataList);
@@ -167,9 +197,10 @@ describe('PublicGamblingCalendarService', () => {
             expect(
                 boatraceCalendarRepository.deleteEvents,
             ).toHaveBeenCalledWith([baseBoatraceCalendarData]);
-            expect(
-                autoraceCalendarRepository.deleteEvents,
-            ).toHaveBeenCalledWith([baseAutoraceCalendarData]);
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
+                RaceType.AUTORACE,
+                [baseAutoraceCalendarData],
+            );
         });
 
         it('削除対象のイベントが見つからない場合、削除処理が行われないこと', async () => {
@@ -189,9 +220,7 @@ describe('PublicGamblingCalendarService', () => {
             expect(consoleSpy).toHaveBeenCalledWith(
                 '削除対象のイベントが見つかりませんでした。',
             );
-            expect(
-                autoraceCalendarRepository.deleteEvents,
-            ).not.toHaveBeenCalled();
+            expect(calendarRepository.deleteEvents).not.toHaveBeenCalled();
 
             consoleSpy.mockRestore();
         });
@@ -223,9 +252,10 @@ describe('PublicGamblingCalendarService', () => {
             expect(
                 boatraceCalendarRepository.upsertEvents,
             ).toHaveBeenCalledWith(baseBoatraceRaceEntityList);
-            expect(
-                autoraceCalendarRepository.upsertEvents,
-            ).toHaveBeenCalledWith(baseAutoraceRaceEntityList);
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                RaceType.AUTORACE,
+                baseAutoraceRaceEntityList,
+            );
         });
 
         it('更新対象のイベントが見つからない場合、更新処理が行われないこと', async () => {
@@ -254,9 +284,7 @@ describe('PublicGamblingCalendarService', () => {
             expect(
                 boatraceCalendarRepository.upsertEvents,
             ).not.toHaveBeenCalled();
-            expect(
-                autoraceCalendarRepository.upsertEvents,
-            ).not.toHaveBeenCalled();
+            expect(calendarRepository.upsertEvents).not.toHaveBeenCalled();
 
             consoleSpy.mockRestore();
         });

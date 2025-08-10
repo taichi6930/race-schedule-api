@@ -2,7 +2,7 @@ import type { CalendarData } from '../../domain/calendarData';
 import type { RaceType } from '../../utility/raceType';
 import type { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import type { IRaceEntity } from '../entity/iRaceEntity';
-import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
+import type { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 
 /**
  * 外部カレンダーサービスとの連携を担当するリポジトリインターフェース
@@ -40,7 +40,7 @@ export interface IOldCalendarRepository<R extends IRaceEntity<R>> {
      *               - 認証/認可エラー
      */
     getEvents: (
-        searchFilter: SearchPlaceFilterEntity,
+        searchFilter: SearchCalendarFilterEntity,
     ) => Promise<CalendarData[]>;
 
     /**
@@ -96,7 +96,7 @@ export interface ICalendarRepository {
      */
     getEvents: (
         raceType: RaceType,
-        searchFilter: SearchPlaceFilterEntity,
+        searchFilter: SearchCalendarFilterEntity,
     ) => Promise<CalendarData[]>;
 
     /**

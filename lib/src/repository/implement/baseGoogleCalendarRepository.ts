@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import type { CalendarData } from '../../domain/calendarData';
 import type { IOldCalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import type { IRaceEntity } from '../entity/iRaceEntity';
-import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
+import type { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 import type { IOldCalendarRepository } from '../interface/ICalendarRepository';
 
 /**
@@ -22,7 +22,7 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
      * @param searchFilter
      */
     public async getEvents(
-        searchFilter: SearchPlaceFilterEntity,
+        searchFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
         // GoogleカレンダーAPIからイベントを取得
         try {
