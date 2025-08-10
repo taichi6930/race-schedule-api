@@ -1,8 +1,13 @@
 import type { CalendarData } from '../../domain/calendarData';
 import type { RaceType } from '../../utility/raceType';
 import type { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
+import type { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import type { IRaceEntity } from '../entity/iRaceEntity';
+import type { JraRaceEntity } from '../entity/jraRaceEntity';
+import type { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import type { NarRaceEntity } from '../entity/narRaceEntity';
 import type { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
+import type { WorldRaceEntity } from '../entity/worldRaceEntity';
 
 /**
  * 外部カレンダーサービスとの連携を担当するリポジトリインターフェース
@@ -115,7 +120,13 @@ export interface ICalendarRepository {
      */
     upsertEvents: (
         raceType: RaceType,
-        raceEntityList: AutoraceRaceEntity[],
+        raceEntityList:
+            | JraRaceEntity[]
+            | NarRaceEntity[]
+            | WorldRaceEntity[]
+            | KeirinRaceEntity[]
+            | AutoraceRaceEntity[]
+            | BoatraceRaceEntity[],
     ) => Promise<void>;
 
     /**

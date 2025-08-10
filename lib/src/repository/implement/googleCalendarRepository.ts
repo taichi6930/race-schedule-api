@@ -8,7 +8,12 @@ import { fromGoogleCalendarDataToCalendarData } from '../../utility/googleCalend
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
+import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
+import { JraRaceEntity } from '../entity/jraRaceEntity';
+import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import { NarRaceEntity } from '../entity/narRaceEntity';
 import { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
+import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 
 /**
@@ -59,7 +64,13 @@ export class GoogleCalendarRepository implements ICalendarRepository {
     @Logger
     public async upsertEvents(
         raceType: RaceType,
-        raceEntityList: AutoraceRaceEntity[],
+        raceEntityList:
+            | JraRaceEntity[]
+            | NarRaceEntity[]
+            | WorldRaceEntity[]
+            | KeirinRaceEntity[]
+            | AutoraceRaceEntity[]
+            | BoatraceRaceEntity[],
     ): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(

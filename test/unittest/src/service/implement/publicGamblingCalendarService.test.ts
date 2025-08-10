@@ -3,16 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../../lib/src/domain/calendarData';
-import type { BoatraceRaceEntity } from '../../../../../lib/src/repository/entity/boatraceRaceEntity';
-import type { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
-import type { KeirinRaceEntity } from '../../../../../lib/src/repository/entity/keirinRaceEntity';
-import type { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
-import type { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
-import type {
-    ICalendarRepository,
-    IOldCalendarRepository,
-} from '../../../../../lib/src/repository/interface/ICalendarRepository';
+import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -45,33 +37,11 @@ import {
 
 describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
-    let jraCalendarRepository: jest.Mocked<
-        IOldCalendarRepository<JraRaceEntity>
-    >;
-    let narCalendarRepository: jest.Mocked<
-        IOldCalendarRepository<NarRaceEntity>
-    >;
-    let worldCalendarRepository: jest.Mocked<
-        IOldCalendarRepository<WorldRaceEntity>
-    >;
-    let keirinCalendarRepository: jest.Mocked<
-        IOldCalendarRepository<KeirinRaceEntity>
-    >;
-    let boatraceCalendarRepository: jest.Mocked<
-        IOldCalendarRepository<BoatraceRaceEntity>
-    >;
     let calendarRepository: jest.Mocked<ICalendarRepository>;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
-        ({
-            jraCalendarRepository,
-            narCalendarRepository,
-            worldCalendarRepository,
-            keirinCalendarRepository,
-            boatraceCalendarRepository,
-            calendarRepository,
-        } = setup);
+        ({ calendarRepository } = setup);
         service = container.resolve(PublicGamblingCalendarService);
     });
 
@@ -92,24 +62,6 @@ describe('PublicGamblingCalendarService', () => {
                 baseAutoraceCalendarData,
             ];
 
-            jraCalendarRepository.getEvents.mockResolvedValue([
-                baseJraCalendarData,
-            ]);
-            narCalendarRepository.getEvents.mockResolvedValue([
-                baseNarCalendarData,
-            ]);
-            worldCalendarRepository.getEvents.mockResolvedValue([
-                baseWorldCalendarData,
-            ]);
-            keirinCalendarRepository.getEvents.mockResolvedValue([
-                baseKeirinCalendarData,
-            ]);
-            boatraceCalendarRepository.getEvents.mockResolvedValue([
-                baseBoatraceCalendarData,
-            ]);
-            calendarRepository.getEvents.mockResolvedValue([
-                baseAutoraceCalendarData,
-            ]);
             calendarRepository.getEvents.mockImplementation(
                 async (raceType: RaceType) => {
                     // searchFilterの引数も追加
@@ -148,19 +100,24 @@ describe('PublicGamblingCalendarService', () => {
                 RaceType.BOATRACE,
             ]);
 
-            expect(jraCalendarRepository.getEvents).toHaveBeenCalledWith(
+            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
+                RaceType.JRA,
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
-            expect(narCalendarRepository.getEvents).toHaveBeenCalledWith(
+            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
+                RaceType.NAR,
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
-            expect(worldCalendarRepository.getEvents).toHaveBeenCalledWith(
+            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
+                RaceType.WORLD,
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
-            expect(keirinCalendarRepository.getEvents).toHaveBeenCalledWith(
+            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
+                RaceType.KEIRIN,
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
-            expect(boatraceCalendarRepository.getEvents).toHaveBeenCalledWith(
+            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
+                RaceType.BOATRACE,
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
             expect(calendarRepository.getEvents).toHaveBeenCalledWith(
@@ -182,21 +139,26 @@ describe('PublicGamblingCalendarService', () => {
                 autorace: [baseAutoraceCalendarData],
             });
 
-            expect(jraCalendarRepository.deleteEvents).toHaveBeenCalledWith([
-                baseJraCalendarData,
-            ]);
-            expect(narCalendarRepository.deleteEvents).toHaveBeenCalledWith([
-                baseNarCalendarData,
-            ]);
-            expect(worldCalendarRepository.deleteEvents).toHaveBeenCalledWith([
-                baseWorldCalendarData,
-            ]);
-            expect(keirinCalendarRepository.deleteEvents).toHaveBeenCalledWith([
-                baseKeirinCalendarData,
-            ]);
-            expect(
-                boatraceCalendarRepository.deleteEvents,
-            ).toHaveBeenCalledWith([baseBoatraceCalendarData]);
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
+                RaceType.JRA,
+                [baseJraCalendarData],
+            );
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
+                RaceType.NAR,
+                [baseNarCalendarData],
+            );
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
+                RaceType.WORLD,
+                [baseWorldCalendarData],
+            );
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
+                RaceType.KEIRIN,
+                [baseKeirinCalendarData],
+            );
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
+                RaceType.BOATRACE,
+                [baseBoatraceCalendarData],
+            );
             expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
                 RaceType.AUTORACE,
                 [baseAutoraceCalendarData],
@@ -237,21 +199,26 @@ describe('PublicGamblingCalendarService', () => {
                 autorace: baseAutoraceRaceEntityList,
             });
 
-            expect(jraCalendarRepository.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                RaceType.JRA,
                 baseJraRaceEntityList,
             );
-            expect(narCalendarRepository.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                RaceType.NAR,
                 baseNarRaceEntityList,
             );
-            expect(worldCalendarRepository.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                RaceType.WORLD,
                 baseWorldRaceEntityList,
             );
-            expect(keirinCalendarRepository.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                RaceType.KEIRIN,
                 baseKeirinRaceEntityList,
             );
-            expect(
-                boatraceCalendarRepository.upsertEvents,
-            ).toHaveBeenCalledWith(baseBoatraceRaceEntityList);
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                RaceType.BOATRACE,
+                baseBoatraceRaceEntityList,
+            );
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
                 RaceType.AUTORACE,
                 baseAutoraceRaceEntityList,
@@ -275,15 +242,6 @@ describe('PublicGamblingCalendarService', () => {
             expect(consoleSpy).toHaveBeenCalledWith(
                 '更新対象のイベントが見つかりませんでした。',
             );
-            expect(jraCalendarRepository.upsertEvents).not.toHaveBeenCalled();
-            expect(narCalendarRepository.upsertEvents).not.toHaveBeenCalled();
-            expect(worldCalendarRepository.upsertEvents).not.toHaveBeenCalled();
-            expect(
-                keirinCalendarRepository.upsertEvents,
-            ).not.toHaveBeenCalled();
-            expect(
-                boatraceCalendarRepository.upsertEvents,
-            ).not.toHaveBeenCalled();
             expect(calendarRepository.upsertEvents).not.toHaveBeenCalled();
 
             consoleSpy.mockRestore();
