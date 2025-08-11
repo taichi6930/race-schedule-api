@@ -467,13 +467,6 @@ const WorldRaceCourseSchema = createRaceCourseSchema(
 );
 
 /**
- * 海外の競馬場のレース場名とコードの対応表
- */
-export const WorldPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
-    RaceType.WORLD,
-);
-
-/**
  * AutoraceRaceCourseのzod型定義
  */
 const AutoraceRaceCourseSchema = createRaceCourseSchema(

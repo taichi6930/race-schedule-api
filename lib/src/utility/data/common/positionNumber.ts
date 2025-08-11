@@ -47,21 +47,11 @@ const PositionNumberSchema: (min: number, max: number) => z.ZodNumber = (
 /** AutoracePositionNumber zod型定義 */
 const AutoracePositionNumberSchema = PositionNumberSchema(1, 8);
 
-export type AutoracePositionNumber = z.infer<
-    typeof AutoracePositionNumberSchema
->;
-
 /** BoatracePositionNumber zod型定義 */
 const BoatracePositionNumberSchema = PositionNumberSchema(1, 6);
 
-export type BoatracePositionNumber = z.infer<
-    typeof BoatracePositionNumberSchema
->;
-
 /** KeirinPositionNumber zod型定義 */
 const KeirinPositionNumberSchema = PositionNumberSchema(1, 9);
-
-export type KeirinPositionNumber = z.infer<typeof KeirinPositionNumberSchema>;
 
 /**
  * 共通のPositionNumber zod型定義
