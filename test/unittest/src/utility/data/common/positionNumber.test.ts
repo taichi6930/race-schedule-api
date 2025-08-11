@@ -5,19 +5,22 @@ import { RaceType } from '../../../../../../lib/src/utility/raceType';
  * PositionNumberのテスト
  */
 describe('PositionNumber', () => {
-    it('正常系: 枠番が正常な場合', () => {
-        const positionNumber = 1;
-        const result = validatePositionNumber(
-            RaceType.AUTORACE,
-            positionNumber,
-        );
-        expect(result).toBe(positionNumber);
-    });
+    for (const { raceType } of [
+        { raceType: RaceType.KEIRIN },
+        { raceType: RaceType.AUTORACE },
+        { raceType: RaceType.BOATRACE },
+    ]) {
+        it(`正常系: 枠番が正常な場合(${raceType})`, () => {
+            const positionNumber = 1;
+            const result = validatePositionNumber(raceType, positionNumber);
+            expect(result).toBe(positionNumber);
+        });
 
-    it('異常系: 枠番が異常な場合', () => {
-        const positionNumber = -1;
-        expect(() =>
-            validatePositionNumber(RaceType.AUTORACE, positionNumber),
-        ).toThrow('枠番は1以上である必要があります');
-    });
+        it(`異常系: 枠番が異常な場合(${raceType})`, () => {
+            const positionNumber = -1;
+            expect(() =>
+                validatePositionNumber(raceType, positionNumber),
+            ).toThrow('枠番は1以上である必要があります');
+        });
+    }
 });
