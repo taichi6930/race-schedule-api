@@ -28,32 +28,40 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの取得を行う
-     * @param raceType
+     * @param raceTypeList
      * @param searchFilter
      */
     @Logger
     public async getEvents(
-        raceType: RaceType,
+        raceTypeList: RaceType[],
         searchFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
-        // GoogleカレンダーAPIからイベントを取得
-        try {
-            const calendarDataList =
-                await this.googleCalendarGateway.fetchCalendarDataList(
-                    raceType,
-                    searchFilter.startDate,
-                    searchFilter.finishDate,
+        const calendarDataList: CalendarData[] = [];
+        for (const raceType of raceTypeList) {
+            // GoogleカレンダーAPIからイベントを取得
+            try {
+                const _calendarDataList =
+                    await this.googleCalendarGateway.fetchCalendarDataList(
+                        raceType,
+                        searchFilter.startDate,
+                        searchFilter.finishDate,
+                    );
+                calendarDataList.push(
+                    ..._calendarDataList.map((calendarData) =>
+                        fromGoogleCalendarDataToCalendarData(
+                            raceType,
+                            calendarData,
+                        ),
+                    ),
                 );
-            return calendarDataList.map((calendarData) =>
-                fromGoogleCalendarDataToCalendarData(raceType, calendarData),
-            );
-        } catch (error) {
-            console.error(
-                'Google Calendar APIからのイベント取得に失敗しました',
-                error,
-            );
-            return [];
+            } catch (error) {
+                console.error(
+                    'Google Calendar APIからのイベント取得に失敗しました',
+                    error,
+                );
+            }
         }
+        return calendarDataList;
     }
 
     /**

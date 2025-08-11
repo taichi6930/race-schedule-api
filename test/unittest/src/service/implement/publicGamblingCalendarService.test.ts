@@ -63,31 +63,27 @@ describe('PublicGamblingCalendarService', () => {
             ];
 
             calendarRepository.getEvents.mockImplementation(
-                async (raceType: RaceType) => {
-                    // searchFilterの引数も追加
-                    switch (raceType) {
-                        case RaceType.JRA: {
-                            return [baseJraCalendarData];
-                        }
-                        case RaceType.NAR: {
-                            return [baseNarCalendarData];
-                        }
-                        case RaceType.WORLD: {
-                            return [baseWorldCalendarData];
-                        }
-                        case RaceType.KEIRIN: {
-                            return [baseKeirinCalendarData];
-                        }
-                        case RaceType.AUTORACE: {
-                            return [baseAutoraceCalendarData];
-                        }
-                        case RaceType.BOATRACE: {
-                            return [baseBoatraceCalendarData];
-                        }
-                        default: {
-                            throw new Error(`Unsupported race type`);
-                        }
+                async (raceTypeList: RaceType[]) => {
+                    const CalendarDataList: CalendarData[] = [];
+                    if (raceTypeList.includes(RaceType.JRA)) {
+                        CalendarDataList.push(baseJraCalendarData);
                     }
+                    if (raceTypeList.includes(RaceType.NAR)) {
+                        CalendarDataList.push(baseNarCalendarData);
+                    }
+                    if (raceTypeList.includes(RaceType.WORLD)) {
+                        CalendarDataList.push(baseWorldCalendarData);
+                    }
+                    if (raceTypeList.includes(RaceType.KEIRIN)) {
+                        CalendarDataList.push(baseKeirinCalendarData);
+                    }
+                    if (raceTypeList.includes(RaceType.BOATRACE)) {
+                        CalendarDataList.push(baseBoatraceCalendarData);
+                    }
+                    if (raceTypeList.includes(RaceType.AUTORACE)) {
+                        CalendarDataList.push(baseAutoraceCalendarData);
+                    }
+                    return CalendarDataList;
                 },
             );
 

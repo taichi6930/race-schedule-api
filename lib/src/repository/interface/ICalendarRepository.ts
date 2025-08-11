@@ -44,7 +44,7 @@ export interface ICalendarRepository {
      *               - 認証/認可エラー
      */
     getEvents: (
-        raceType: RaceType,
+        raceTypeList: RaceType[],
         searchFilter: SearchCalendarFilterEntity,
     ) => Promise<CalendarData[]>;
 
