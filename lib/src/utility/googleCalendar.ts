@@ -264,7 +264,15 @@ export function toGoogleCalendarData(
     }
 
     return {
-        id: raceEntity.id,
+        id: raceEntity.id
+            // GoogleカレンダーのIDにwxyzは入れられない
+            // そのため、wxyzを置換する
+            // TODO: 正しい置換方法を検討する
+            .replace(/w/g, 'vv')
+            .replace(/x/g, 'cs')
+            .replace(/y/g, 'v')
+            .replace(/z/g, 's')
+            .replace(/-/g, ''),
         summary: createSummary(),
         location: createLocation(),
         start: {

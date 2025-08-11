@@ -1,5 +1,3 @@
-import type { calendar_v3 } from 'googleapis';
-
 /**
  * レース開催エンティティの基本インターフェース
  *
@@ -54,17 +52,4 @@ export interface IRaceEntity<T extends IRaceEntity<T>> {
      * @returns ストレージ用のプレーンオブジェクト
      */
     toRaceRecord: () => object;
-
-    /**
-     * エンティティをGoogleカレンダーのイベント形式に変換します
-     *
-     * このメソッドは、レース情報をGoogleカレンダーに登録する際の
-     * フォーマットに変換します。変換される情報には以下が含まれます：
-     * - イベントのタイトル（レース名）
-     * - 開催日時
-     * - 場所
-     * - 説明（レースの詳細情報）
-     * @returns Googleカレンダーのイベントデータ
-     */
-    toGoogleCalendarData: () => calendar_v3.Schema$Event;
 }
