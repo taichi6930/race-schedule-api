@@ -217,14 +217,16 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             jra: filteredRaceEntityList.jra.filter((raceEntity) => {
                 return !deleteCalendarDataList.jra.some(
                     (deleteCalendarData) =>
-                        deleteCalendarData.id === raceEntity.id,
+                        deleteCalendarData.id === raceEntity.id &&
+                        deleteCalendarData.raceType === RaceType.JRA,
                 );
             }),
             nar: filteredRaceEntityList.nar.filter(
                 (raceEntity) =>
                     !deleteCalendarDataList.nar.some(
                         (deleteCalendarData) =>
-                            deleteCalendarData.id === raceEntity.id,
+                            deleteCalendarData.id === raceEntity.id &&
+                            deleteCalendarData.raceType === RaceType.NAR,
                     ),
             ),
             world: filteredRaceEntityList.world.filter(
