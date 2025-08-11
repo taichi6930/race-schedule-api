@@ -148,24 +148,61 @@ describe('GoogleCalendarRepository', () => {
     });
 
     it('カレンダー情報が正常に削除できること', async () => {
-        googleCalendarGateway.deleteCalendarData.mockResolvedValue();
+        for (const { raceType, baseCalendarData } of [
+            { raceType: RaceType.JRA, baseCalendarData: baseJraCalendarData },
+            { raceType: RaceType.NAR, baseCalendarData: baseNarCalendarData },
+            {
+                raceType: RaceType.WORLD,
+                baseCalendarData: baseWorldCalendarData,
+            },
+            {
+                raceType: RaceType.KEIRIN,
+                baseCalendarData: baseKeirinCalendarData,
+            },
+            {
+                raceType: RaceType.AUTORACE,
+                baseCalendarData: baseAutoraceCalendarData,
+            },
+            {
+                raceType: RaceType.BOATRACE,
+                baseCalendarData: baseBoatraceCalendarData,
+            },
+        ]) {
+            googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-        await repository.deleteEvents(RaceType.AUTORACE, [
-            baseAutoraceCalendarData,
-        ]);
-
-        expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
+            await repository.deleteEvents(raceType, [baseCalendarData]);
+            expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
+        }
     });
 
     it('カレンダー情報が正常に削除できないこと', async () => {
-        googleCalendarGateway.deleteCalendarData.mockRejectedValue(
-            new Error('API Error'),
-        );
+        for (const { raceType, baseCalendarData } of [
+            { raceType: RaceType.JRA, baseCalendarData: baseJraCalendarData },
+            { raceType: RaceType.NAR, baseCalendarData: baseNarCalendarData },
+            {
+                raceType: RaceType.WORLD,
+                baseCalendarData: baseWorldCalendarData,
+            },
+            {
+                raceType: RaceType.KEIRIN,
+                baseCalendarData: baseKeirinCalendarData,
+            },
+            {
+                raceType: RaceType.AUTORACE,
+                baseCalendarData: baseAutoraceCalendarData,
+            },
+            {
+                raceType: RaceType.BOATRACE,
+                baseCalendarData: baseBoatraceCalendarData,
+            },
+        ]) {
+            googleCalendarGateway.deleteCalendarData.mockRejectedValue(
+                new Error('API Error'),
+            );
 
-        await repository.deleteEvents(RaceType.AUTORACE, [
-            baseAutoraceCalendarData,
-        ]);
-        expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
+            await repository.deleteEvents(raceType, [baseCalendarData]);
+            expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
+        }
     });
 
     it('カレンダー情報が正常に登録できること', async () => {
@@ -200,25 +237,86 @@ describe('GoogleCalendarRepository', () => {
     });
 
     it('カレンダー情報が正常に更新できること', async () => {
-        googleCalendarGateway.fetchCalendarData.mockResolvedValue(
-            baseAutoraceCalendarDataFromGoogleCalendar,
-        );
+        for (const {
+            raceType,
+            baseRaceEntityList,
+            baseCalendarDataFromGoogleCalendar,
+        } of [
+            {
+                raceType: RaceType.JRA,
+                baseRaceEntityList: [baseJraRaceEntity],
+                baseCalendarDataFromGoogleCalendar:
+                    baseJraCalendarDataFromGoogleCalendar,
+            },
+            {
+                raceType: RaceType.NAR,
+                baseRaceEntityList: [baseNarRaceEntity],
+                baseCalendarDataFromGoogleCalendar:
+                    baseNarCalendarDataFromGoogleCalendar,
+                baseNarCalendarDataFromGoogleCalendar,
+            },
+            {
+                raceType: RaceType.WORLD,
+                baseRaceEntityList: [baseWorldRaceEntity],
+                baseCalendarDataFromGoogleCalendar:
+                    baseWorldCalendarDataFromGoogleCalendar,
+            },
+            {
+                raceType: RaceType.KEIRIN,
+                baseRaceEntityList: [baseKeirinRaceEntity],
+                baseCalendarDataFromGoogleCalendar:
+                    baseKeirinCalendarDataFromGoogleCalendar,
+            },
+            {
+                raceType: RaceType.AUTORACE,
+                baseRaceEntityList: [baseAutoraceRaceEntity],
+                baseCalendarDataFromGoogleCalendar:
+                    baseAutoraceCalendarDataFromGoogleCalendar,
+            },
+            {
+                raceType: RaceType.BOATRACE,
+                baseRaceEntityList: [baseBoatraceRaceEntity],
+                baseCalendarDataFromGoogleCalendar:
+                    baseBoatraceCalendarDataFromGoogleCalendar,
+            },
+        ]) {
+            googleCalendarGateway.fetchCalendarData.mockResolvedValue(
+                baseCalendarDataFromGoogleCalendar,
+            );
 
-        await repository.upsertEvents(RaceType.AUTORACE, [
-            baseAutoraceRaceEntity,
-        ]);
+            await repository.upsertEvents(raceType, baseRaceEntityList);
 
-        expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
+            expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
+        }
     });
 
     it('カレンダー情報が正常に更新できないこと', async () => {
-        googleCalendarGateway.insertCalendarData.mockRejectedValue(
-            new Error('API Error'),
-        );
+        for (const { raceType, baseRaceEntityList } of [
+            { raceType: RaceType.JRA, baseRaceEntityList: [baseJraRaceEntity] },
+            { raceType: RaceType.NAR, baseRaceEntityList: [baseNarRaceEntity] },
+            {
+                raceType: RaceType.WORLD,
+                baseRaceEntityList: [baseWorldRaceEntity],
+            },
+            {
+                raceType: RaceType.KEIRIN,
+                baseRaceEntityList: [baseKeirinRaceEntity],
+            },
+            {
+                raceType: RaceType.AUTORACE,
+                baseRaceEntityList: [baseAutoraceRaceEntity],
+            },
+            {
+                raceType: RaceType.BOATRACE,
+                baseRaceEntityList: [baseBoatraceRaceEntity],
+            },
+        ]) {
+            googleCalendarGateway.insertCalendarData.mockRejectedValue(
+                new Error('API Error'),
+            );
+            await repository.upsertEvents(raceType, baseRaceEntityList);
 
-        await repository.upsertEvents(RaceType.AUTORACE, [
-            baseAutoraceRaceEntity,
-        ]);
-        expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
+            expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
+        }
     });
 });
