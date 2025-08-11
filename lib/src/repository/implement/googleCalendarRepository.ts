@@ -17,7 +17,7 @@ import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 
 /**
- * 開催データリポジトリの基底クラス
+ * Googleカレンダーリポジトリの実装
  */
 @injectable()
 export class GoogleCalendarRepository implements ICalendarRepository {
