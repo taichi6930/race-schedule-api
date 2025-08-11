@@ -73,7 +73,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         if (raceTypeList.includes(RaceType.JRA)) {
             calendarDataList.push(
                 ...(await this.calendarRepository.getEvents(
-                    RaceType.JRA,
+                    [RaceType.JRA],
                     searchFilter,
                 )),
             );
@@ -81,7 +81,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         if (raceTypeList.includes(RaceType.NAR)) {
             calendarDataList.push(
                 ...(await this.calendarRepository.getEvents(
-                    RaceType.NAR,
+                    [RaceType.NAR],
                     searchFilter,
                 )),
             );
@@ -89,7 +89,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         if (raceTypeList.includes(RaceType.WORLD)) {
             calendarDataList.push(
                 ...(await this.calendarRepository.getEvents(
-                    RaceType.WORLD,
+                    [RaceType.WORLD],
                     searchFilter,
                 )),
             );
@@ -97,7 +97,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         if (raceTypeList.includes(RaceType.KEIRIN)) {
             calendarDataList.push(
                 ...(await this.calendarRepository.getEvents(
-                    RaceType.KEIRIN,
+                    [RaceType.KEIRIN],
                     searchFilter,
                 )),
             );
@@ -105,7 +105,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         if (raceTypeList.includes(RaceType.BOATRACE)) {
             calendarDataList.push(
                 ...(await this.calendarRepository.getEvents(
-                    RaceType.BOATRACE,
+                    [RaceType.BOATRACE],
                     searchFilter,
                 )),
             );
@@ -113,7 +113,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         if (raceTypeList.includes(RaceType.AUTORACE)) {
             calendarDataList.push(
                 ...(await this.calendarRepository.getEvents(
-                    RaceType.AUTORACE,
+                    [RaceType.AUTORACE],
                     searchFilter,
                 )),
             );
