@@ -15,22 +15,27 @@ import {
 import {
     baseBoatraceCalendarData,
     baseBoatraceCalendarDataFromGoogleCalendar,
+    baseBoatraceRaceEntity,
 } from '../../mock/common/baseBoatraceData';
 import {
     baseJraCalendarData,
     baseJraCalendarDataFromGoogleCalendar,
+    baseJraRaceEntity,
 } from '../../mock/common/baseJraData';
 import {
     baseKeirinCalendarData,
     baseKeirinCalendarDataFromGoogleCalendar,
+    baseKeirinRaceEntity,
 } from '../../mock/common/baseKeirinData';
 import {
     baseNarCalendarData,
     baseNarCalendarDataFromGoogleCalendar,
+    baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
 import {
     baseWorldCalendarData,
     baseWorldCalendarDataFromGoogleCalendar,
+    baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
@@ -114,7 +119,6 @@ describe('GoogleCalendarRepository', () => {
             expect(calendarDataList).toContainEqual(data);
         }
 
-        // expect(calendarDataList).toContainEqual(baseAutoraceCalendarData);
         expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
     });
 
@@ -165,15 +169,34 @@ describe('GoogleCalendarRepository', () => {
     });
 
     it('カレンダー情報が正常に登録できること', async () => {
-        googleCalendarGateway.fetchCalendarData.mockRejectedValue(
-            new Error('API Error'),
-        );
+        for (const { raceType, baseRaceEntityList } of [
+            { raceType: RaceType.JRA, baseRaceEntityList: [baseJraRaceEntity] },
+            { raceType: RaceType.NAR, baseRaceEntityList: [baseNarRaceEntity] },
+            {
+                raceType: RaceType.WORLD,
+                baseRaceEntityList: [baseWorldRaceEntity],
+            },
+            {
+                raceType: RaceType.KEIRIN,
+                baseRaceEntityList: [baseKeirinRaceEntity],
+            },
+            {
+                raceType: RaceType.AUTORACE,
+                baseRaceEntityList: [baseAutoraceRaceEntity],
+            },
+            {
+                raceType: RaceType.BOATRACE,
+                baseRaceEntityList: [baseBoatraceRaceEntity],
+            },
+        ]) {
+            googleCalendarGateway.fetchCalendarData.mockRejectedValue(
+                new Error('API Error'),
+            );
 
-        await repository.upsertEvents(RaceType.AUTORACE, [
-            baseAutoraceRaceEntity,
-        ]);
+            await repository.upsertEvents(raceType, baseRaceEntityList);
 
-        expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
+            expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
+        }
     });
 
     it('カレンダー情報が正常に更新できること', async () => {
