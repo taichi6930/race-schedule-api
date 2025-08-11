@@ -11,14 +11,26 @@ import {
     baseAutoraceCalendarData,
     baseAutoraceCalendarDataFromGoogleCalendar,
 } from '../../mock/common/baseAutoraceData';
-import { baseBoatraceCalendarDataFromGoogleCalendar } from '../../mock/common/baseBoatraceData';
+import {
+    baseBoatraceCalendarData,
+    baseBoatraceCalendarDataFromGoogleCalendar,
+} from '../../mock/common/baseBoatraceData';
 import {
     baseJraCalendarData,
     baseJraCalendarDataFromGoogleCalendar,
 } from '../../mock/common/baseJraData';
-import { baseKeirinCalendarDataFromGoogleCalendar } from '../../mock/common/baseKeirinData';
-import { baseNarCalendarDataFromGoogleCalendar } from '../../mock/common/baseNarData';
-import { baseWorldCalendarDataFromGoogleCalendar } from '../../mock/common/baseWorldData';
+import {
+    baseKeirinCalendarData,
+    baseKeirinCalendarDataFromGoogleCalendar,
+} from '../../mock/common/baseKeirinData';
+import {
+    baseNarCalendarData,
+    baseNarCalendarDataFromGoogleCalendar,
+} from '../../mock/common/baseNarData';
+import {
+    baseWorldCalendarData,
+    baseWorldCalendarDataFromGoogleCalendar,
+} from '../../mock/common/baseWorldData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
 describe('GoogleCalendarRepository', () => {
@@ -76,19 +88,26 @@ describe('GoogleCalendarRepository', () => {
             new Date('2023-12-31'),
         );
         const calendarDataList = await repository.getEvents(
-            [RaceType.JRA, RaceType.AUTORACE],
+            [
+                RaceType.JRA,
+                RaceType.NAR,
+                RaceType.WORLD,
+                RaceType.KEIRIN,
+                RaceType.AUTORACE,
+                RaceType.BOATRACE,
+            ],
             searchFilter,
         );
 
-        expect(calendarDataList).toHaveLength(2);
+        expect(calendarDataList).toHaveLength(6);
         // calendarDataListの中に、baseAutoraceCalendarDataが含まれていることを確認
         const expectedData = [
             baseJraCalendarData,
-            // baseNarCalendarData,
-            // baseWorldCalendarData,
-            // baseKeirinCalendarData,
+            baseNarCalendarData,
+            baseWorldCalendarData,
+            baseKeirinCalendarData,
             baseAutoraceCalendarData,
-            // baseBoatraceCalendarData,
+            baseBoatraceCalendarData,
         ];
         for (const data of expectedData) {
             expect(calendarDataList).toContainEqual(data);
