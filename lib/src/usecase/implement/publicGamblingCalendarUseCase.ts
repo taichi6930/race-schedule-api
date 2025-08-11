@@ -141,6 +141,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 displayGradeList.boatrace.includes(raceEntity.raceData.grade),
             ),
         };
+
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
             await this.calendarService.fetchEvents(startDate, finishDate, [
@@ -214,13 +215,14 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList = {
-            jra: filteredRaceEntityList.jra.filter((raceEntity) => {
-                return !deleteCalendarDataList.jra.some(
-                    (deleteCalendarData) =>
-                        deleteCalendarData.id === raceEntity.id &&
-                        deleteCalendarData.raceType === RaceType.JRA,
-                );
-            }),
+            jra: filteredRaceEntityList.jra.filter(
+                (raceEntity) =>
+                    !deleteCalendarDataList.jra.some(
+                        (deleteCalendarData) =>
+                            deleteCalendarData.id === raceEntity.id &&
+                            deleteCalendarData.raceType === RaceType.JRA,
+                    ),
+            ),
             nar: filteredRaceEntityList.nar.filter(
                 (raceEntity) =>
                     !deleteCalendarDataList.nar.some(
