@@ -1,30 +1,30 @@
-import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import { WorldPlaceCodeMap } from '../../utility/data/common/raceCourse';
+import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
-import type { IOldCalendarGateway } from '../interface/iCalendarGateway';
+import { generateRaceId } from '../../utility/raceId';
+import { RaceType } from '../../utility/raceType';
+import { ICalendarGateway } from '../interface/iCalendarGateway';
 
-type RaceType = 'autorace' | 'boatrace' | 'jra' | 'keirin' | 'nar' | 'world';
 /**
  * Googleカレンダーのモックサービス
  */
-export class MockGoogleCalendarGateway implements IOldCalendarGateway {
-    public constructor(private readonly raceType: RaceType) {
+export class MockGoogleCalendarGateway implements ICalendarGateway {
+    public constructor() {
         this.setCalendarData();
     }
     private static readonly mockCalendarData: Record<
         string,
         calendar_v3.Schema$Event[]
     > = {
-        jra: [],
-        nar: [],
-        world: [],
-        keirin: [],
-        autorace: [],
-        boatrace: [],
+        JRA: [],
+        NAR: [],
+        WORLD: [],
+        KEIRIN: [],
+        AUTORACE: [],
+        BOATRACE: [],
     };
 
     private static isInitialized = false;
@@ -52,62 +52,62 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
                     while (
                         currentDate.getFullYear() === startDate.getFullYear()
                     ) {
-                        for (let i = 1; i <= 12; i++) {
-                            let location = '';
-                            let raceId = '';
-
-                            switch (this.raceType) {
-                                case 'world': {
-                                    location = 'パリロンシャン';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${WorldPlaceCodeMap[location]}${(i + 1).toXDigits(2)}`;
-                                    break;
-                                }
-                                case 'jra':
-                                case 'nar':
-                                case 'keirin':
-                                case 'autorace':
-                                case 'boatrace': {
-                                    break;
-                                }
-                                default: {
-                                    break;
-                                }
+                        for (const raceType of [
+                            RaceType.JRA,
+                            RaceType.NAR,
+                            RaceType.KEIRIN,
+                            RaceType.AUTORACE,
+                            RaceType.BOATRACE,
+                            RaceType.WORLD,
+                        ]) {
+                            const location = this.createLocation(raceType);
+                            for (
+                                let raceNumber = 1;
+                                raceNumber <= 12;
+                                raceNumber++
+                            ) {
+                                const raceId = generateRaceId(
+                                    raceType,
+                                    currentDate,
+                                    location,
+                                    raceNumber,
+                                );
+                                const calendarData: calendar_v3.Schema$Event = {
+                                    id: raceId,
+                                    summary: `テストレース${raceId}`,
+                                    location: location,
+                                    start: {
+                                        dateTime: formatDate(
+                                            new Date(
+                                                currentDate.getFullYear(),
+                                                currentDate.getMonth(),
+                                                currentDate.getDate(),
+                                                raceNumber + 6,
+                                                0,
+                                            ),
+                                        ),
+                                        timeZone: 'Asia/Tokyo',
+                                    },
+                                    end: {
+                                        // 終了時刻は発走時刻から10分後とする
+                                        dateTime: formatDate(
+                                            new Date(
+                                                currentDate.getFullYear(),
+                                                currentDate.getMonth(),
+                                                currentDate.getDate(),
+                                                raceNumber + 6,
+                                                10,
+                                            ),
+                                        ),
+                                        timeZone: 'Asia/Tokyo',
+                                    },
+                                    colorId: '8',
+                                    description: 'testDescription',
+                                };
+                                MockGoogleCalendarGateway.mockCalendarData[
+                                    raceType
+                                ].push(calendarData);
                             }
-                            const calendarData: calendar_v3.Schema$Event = {
-                                id: raceId,
-                                summary: `テストレース${raceId}`,
-                                location,
-                                start: {
-                                    dateTime: formatDate(
-                                        new Date(
-                                            currentDate.getFullYear(),
-                                            currentDate.getMonth(),
-                                            currentDate.getDate(),
-                                            i + 6,
-                                            0,
-                                        ),
-                                    ),
-                                    timeZone: 'Asia/Tokyo',
-                                },
-                                end: {
-                                    // 終了時刻は発走時刻から10分後とする
-                                    dateTime: formatDate(
-                                        new Date(
-                                            currentDate.getFullYear(),
-                                            currentDate.getMonth(),
-                                            currentDate.getDate(),
-                                            i + 6,
-                                            10,
-                                        ),
-                                    ),
-                                    timeZone: 'Asia/Tokyo',
-                                },
-                                colorId: '8',
-                                description: 'testDescription',
-                            };
-                            MockGoogleCalendarGateway.mockCalendarData[
-                                this.raceType
-                            ].push(calendarData);
                         }
                         currentDate.setDate(currentDate.getDate() + 1);
                     }
@@ -120,17 +120,42 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
         }
     }
 
+    private createLocation(raceType: RaceType): RaceCourse {
+        switch (raceType) {
+            case RaceType.JRA: {
+                return '東京';
+            }
+            case RaceType.NAR: {
+                return '大井';
+            }
+            case RaceType.KEIRIN: {
+                return '平塚';
+            }
+            case RaceType.AUTORACE: {
+                return '川口';
+            }
+            case RaceType.BOATRACE: {
+                return '浜名湖';
+            }
+            case RaceType.WORLD: {
+                return 'パリロンシャン';
+            }
+            default: {
+                throw new Error(`Unknown race type`);
+            }
+        }
+    }
+
     @Logger
     public async fetchCalendarDataList(
+        raceType: RaceType,
         startDate: Date,
         finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
-        console.log(MockGoogleCalendarGateway.mockCalendarData[this.raceType]);
+        console.log(MockGoogleCalendarGateway.mockCalendarData[raceType]);
         console.log(startDate);
         console.log(finishDate);
-        const raceData = MockGoogleCalendarGateway.mockCalendarData[
-            this.raceType
-        ]
+        const raceData = MockGoogleCalendarGateway.mockCalendarData[raceType]
             .filter(
                 (data) =>
                     new Date(data.start?.dateTime ?? '') >= startDate &&
@@ -147,10 +172,11 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
     }
 
     public async fetchCalendarData(
+        raceType: RaceType,
         eventId: string,
     ): Promise<calendar_v3.Schema$Event> {
         const raceData = MockGoogleCalendarGateway.mockCalendarData[
-            this.raceType
+            raceType
         ].find((data) => data.id === eventId);
         if (!raceData) {
             throw new Error('Not found');
@@ -161,18 +187,19 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
 
     @Logger
     public async updateCalendarData(
+        raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
         try {
             // mockCalendarDataに存在するかどうかの判定
             const index = MockGoogleCalendarGateway.mockCalendarData[
-                this.raceType
+                raceType
             ].findIndex((data) => data.id === calendarData.id);
             // 存在しない場合は新規追加
             if (index === -1) {
                 throw new Error('Event already exists');
             }
-            MockGoogleCalendarGateway.mockCalendarData[this.raceType][index] =
+            MockGoogleCalendarGateway.mockCalendarData[raceType][index] =
                 calendarData;
         } catch (error) {
             console.error(
@@ -184,18 +211,19 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
     }
 
     public async insertCalendarData(
+        raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
         try {
             // mockCalendarDataに存在するかどうかの判定
             const index = MockGoogleCalendarGateway.mockCalendarData[
-                this.raceType
+                raceType
             ].findIndex((data) => data.id === calendarData.id);
             // 存在しない場合は新規追加
             if (index !== -1) {
                 throw new Error('Not found');
             }
-            MockGoogleCalendarGateway.mockCalendarData[this.raceType].push(
+            MockGoogleCalendarGateway.mockCalendarData[raceType].push(
                 calendarData,
             );
         } catch (error) {
@@ -207,17 +235,20 @@ export class MockGoogleCalendarGateway implements IOldCalendarGateway {
         await Promise.resolve();
     }
 
-    public async deleteCalendarData(eventId: string): Promise<void> {
+    public async deleteCalendarData(
+        raceType: RaceType,
+        eventId: string,
+    ): Promise<void> {
         try {
             // mockCalendarDataに存在するかどうかの判定
             const index = MockGoogleCalendarGateway.mockCalendarData[
-                this.raceType
+                raceType
             ].findIndex((data) => data.id === eventId);
             // 存在しない場合はエラー
             if (index === -1) {
                 throw new Error('Not found');
             }
-            MockGoogleCalendarGateway.mockCalendarData[this.raceType].splice(
+            MockGoogleCalendarGateway.mockCalendarData[raceType].splice(
                 index,
                 1,
             );

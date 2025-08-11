@@ -1,6 +1,12 @@
 import type { CalendarData } from '../../domain/calendarData';
-import type { IRaceEntity } from '../entity/iRaceEntity';
-import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
+import type { RaceType } from '../../utility/raceType';
+import type { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
+import type { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
+import type { JraRaceEntity } from '../entity/jraRaceEntity';
+import type { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import type { NarRaceEntity } from '../entity/narRaceEntity';
+import type { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
+import type { WorldRaceEntity } from '../entity/worldRaceEntity';
 
 /**
  * 外部カレンダーサービスとの連携を担当するリポジトリインターフェース
@@ -19,7 +25,7 @@ import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity'
  * @typeParam R - レース開催エンティティの型。IRaceEntityを実装している必要があります。
  *               このエンティティの情報がカレンダーイベントに変換されます。
  */
-export interface ICalendarRepository<R extends IRaceEntity<R>> {
+export interface ICalendarRepository {
     /**
      * 指定された条件に基づいてカレンダーイベントを取得します
      *
@@ -38,7 +44,8 @@ export interface ICalendarRepository<R extends IRaceEntity<R>> {
      *               - 認証/認可エラー
      */
     getEvents: (
-        searchFilter: SearchPlaceFilterEntity,
+        raceType: RaceType,
+        searchFilter: SearchCalendarFilterEntity,
     ) => Promise<CalendarData[]>;
 
     /**
@@ -55,7 +62,16 @@ export interface ICalendarRepository<R extends IRaceEntity<R>> {
      *               - APIのレート制限に到達
      *               - 認証/認可エラー
      */
-    upsertEvents: (raceEntityList: R[]) => Promise<void>;
+    upsertEvents: (
+        raceType: RaceType,
+        raceEntityList:
+            | JraRaceEntity[]
+            | NarRaceEntity[]
+            | WorldRaceEntity[]
+            | KeirinRaceEntity[]
+            | AutoraceRaceEntity[]
+            | BoatraceRaceEntity[],
+    ) => Promise<void>;
 
     /**
      * 指定されたカレンダーイベントを一括削除します
@@ -71,5 +87,8 @@ export interface ICalendarRepository<R extends IRaceEntity<R>> {
      *               - APIのレート制限に到達
      *               - 認証/認可エラー
      */
-    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
+    deleteEvents: (
+        raceType: RaceType,
+        calendarDataList: CalendarData[],
+    ) => Promise<void>;
 }

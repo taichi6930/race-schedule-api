@@ -1,5 +1,7 @@
 import type { calendar_v3 } from 'googleapis';
 
+import type { RaceType } from '../../utility/raceType';
+
 /**
  * Googleカレンダーとの連携を担当するゲートウェイインターフェース
  *
@@ -20,7 +22,7 @@ import type { calendar_v3 } from 'googleapis';
  * - 認証情報の適切な管理が必要です
  * - タイムゾーンの正確な処理が重要です
  */
-export interface IOldCalendarGateway {
+export interface ICalendarGateway {
     /**
      * 指定された期間のカレンダーイベントを一括取得します
      *
@@ -28,6 +30,7 @@ export interface IOldCalendarGateway {
      * 1. 指定された期間のイベントをクエリ
      * 2. ページネーション処理による全イベントの取得
      * 3. タイムゾーンの正規化
+     * @param raceType - レースの種類
      * @param startDate - 取得開始日（この日を含む）
      * @param finishDate - 取得終了日（この日を含む）
      * @returns イベントオブジェクトの配列。イベントが存在しない場合は空配列
@@ -37,6 +40,7 @@ export interface IOldCalendarGateway {
      *               - 認証/認可エラー
      */
     fetchCalendarDataList: (
+        raceType: RaceType,
         startDate: Date,
         finishDate: Date,
     ) => Promise<calendar_v3.Schema$Event[]>;
@@ -46,6 +50,7 @@ export interface IOldCalendarGateway {
      *
      * このメソッドは、個別のイベントの詳細情報が必要な場合に使用します。
      * イベントが存在しない場合はエラーとなります。
+     * @param raceType - レースの種類
      * @param eventId - 取得するイベントの一意識別子
      * @returns イベントオブジェクト
      * @throws Error 以下の場合にエラーが発生：
@@ -53,7 +58,10 @@ export interface IOldCalendarGateway {
      *               - API呼び出しに失敗
      *               - 認証/認可エラー
      */
-    fetchCalendarData: (eventId: string) => Promise<calendar_v3.Schema$Event>;
+    fetchCalendarData: (
+        raceType: RaceType,
+        eventId: string,
+    ) => Promise<calendar_v3.Schema$Event>;
 
     /**
      * 既存のカレンダーイベントを更新します
@@ -66,6 +74,7 @@ export interface IOldCalendarGateway {
      * - 開始・終了日時
      * - 場所情報
      * - イベントの説明
+     * @param raceType - レースの種類
      * @param calendarData - 更新するイベントの完全なデータ
      * eventIdを含む必要があります
      * @throws Error 以下の場合にエラーが発生：
@@ -75,6 +84,7 @@ export interface IOldCalendarGateway {
      *               - 認証/認可エラー
      */
     updateCalendarData: (
+        raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
     ) => Promise<void>;
 
@@ -90,6 +100,7 @@ export interface IOldCalendarGateway {
      * - 終了日時（必須）
      * - 場所情報（推奨）
      * - イベントの説明（推奨）
+     * @param raceType - レースの種類
      * @param calendarData - 作成するイベントのデータ
      * eventIdは指定しないでください
      * @throws Error 以下の場合にエラーが発生：
@@ -99,6 +110,7 @@ export interface IOldCalendarGateway {
      *               - 認証/認可エラー
      */
     insertCalendarData: (
+        raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
     ) => Promise<void>;
 
@@ -112,53 +124,12 @@ export interface IOldCalendarGateway {
      * - レースが中止になった場合
      * - イベント情報が誤っていた場合
      * - 重複したイベントを整理する場合
+     * @param raceType - レースの種類
      * @param eventId - 削除するイベントの一意識別子
      * @throws Error 以下の場合にエラーが発生：
      *               - 指定されたイベントが存在しない
      *               - API呼び出しに失敗
      *               - 認証/認可エラー
      */
-    deleteCalendarData: (eventId: string) => Promise<void>;
-}
-
-export interface ICalendarGateway {
-    /**
-     * 指定された期間のカレンダーイベントを一括取得します
-     *
-     * このメソッドは以下の処理を行います：
-     * 1. 指定された期間のイベントをクエリ
-     * 2. ページネーション処理による全イベントの取得
-     * 3. タイムゾーンの正規化
-     * @param startDate - 取得開始日（この日を含む）
-     * @param finishDate - 取得終了日（この日を含む）
-     * @returns イベントオブジェクトの配列。イベントが存在しない場合は空配列
-     * @throws Error 以下の場合にエラーが発生：
-     *               - API呼び出しに失敗
-     *               - レート制限に到達
-     *               - 認証/認可エラー
-     */
-    fetchCalendarDataList: (
-        raceType: string,
-        calendarId: string,
-        startDate: Date,
-        finishDate: Date,
-    ) => Promise<calendar_v3.Schema$Event[]>;
-
-    /**
-     * 指定されたIDのカレンダーイベントを取得します
-     *
-     * このメソッドは、個別のイベントの詳細情報が必要な場合に使用します。
-     * イベントが存在しない場合はエラーとなります。
-     * @param eventId - 取得するイベントの一意識別子
-     * @returns イベントオブジェクト
-     * @throws Error 以下の場合にエラーが発生：
-     *               - 指定されたイベントが存在しない
-     *               - API呼び出しに失敗
-     *               - 認証/認可エラー
-     */
-    fetchCalendarData: (
-        raceType: string,
-        calendarId: string,
-        eventId: string,
-    ) => Promise<calendar_v3.Schema$Event>;
+    deleteCalendarData: (raceType: RaceType, eventId: string) => Promise<void>;
 }

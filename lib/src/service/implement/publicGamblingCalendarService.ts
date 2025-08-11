@@ -43,18 +43,8 @@ import { ICalendarService } from '../interface/ICalendarService';
 @injectable()
 export class PublicGamblingCalendarService implements ICalendarService {
     public constructor(
-        @inject('JraCalendarRepository')
-        protected readonly jraCalendarRepository: ICalendarRepository<JraRaceEntity>,
-        @inject('NarCalendarRepository')
-        protected readonly narCalendarRepository: ICalendarRepository<NarRaceEntity>,
-        @inject('KeirinCalendarRepository')
-        protected readonly keirinCalendarRepository: ICalendarRepository<KeirinRaceEntity>,
-        @inject('WorldCalendarRepository')
-        protected readonly worldCalendarRepository: ICalendarRepository<WorldRaceEntity>,
-        @inject('BoatraceCalendarRepository')
-        protected readonly boatraceCalendarRepository: ICalendarRepository<BoatraceRaceEntity>,
-        @inject('AutoraceCalendarRepository')
-        protected readonly autoraceRaceCalendarRepository: ICalendarRepository<AutoraceRaceEntity>,
+        @inject('CalendarRepository')
+        protected readonly calendarRepository: ICalendarRepository,
     ) {}
     /**
      * 指定された期間のカレンダーイベントを取得します
@@ -82,36 +72,48 @@ export class PublicGamblingCalendarService implements ICalendarService {
         const calendarDataList: CalendarData[] = [];
         if (raceTypeList.includes(RaceType.JRA)) {
             calendarDataList.push(
-                ...(await this.jraCalendarRepository.getEvents(searchFilter)),
+                ...(await this.calendarRepository.getEvents(
+                    RaceType.JRA,
+                    searchFilter,
+                )),
             );
         }
         if (raceTypeList.includes(RaceType.NAR)) {
             calendarDataList.push(
-                ...(await this.narCalendarRepository.getEvents(searchFilter)),
+                ...(await this.calendarRepository.getEvents(
+                    RaceType.NAR,
+                    searchFilter,
+                )),
             );
         }
         if (raceTypeList.includes(RaceType.WORLD)) {
             calendarDataList.push(
-                ...(await this.worldCalendarRepository.getEvents(searchFilter)),
+                ...(await this.calendarRepository.getEvents(
+                    RaceType.WORLD,
+                    searchFilter,
+                )),
             );
         }
         if (raceTypeList.includes(RaceType.KEIRIN)) {
             calendarDataList.push(
-                ...(await this.keirinCalendarRepository.getEvents(
+                ...(await this.calendarRepository.getEvents(
+                    RaceType.KEIRIN,
                     searchFilter,
                 )),
             );
         }
         if (raceTypeList.includes(RaceType.BOATRACE)) {
             calendarDataList.push(
-                ...(await this.boatraceCalendarRepository.getEvents(
+                ...(await this.calendarRepository.getEvents(
+                    RaceType.BOATRACE,
                     searchFilter,
                 )),
             );
         }
         if (raceTypeList.includes(RaceType.AUTORACE)) {
             calendarDataList.push(
-                ...(await this.autoraceRaceCalendarRepository.getEvents(
+                ...(await this.calendarRepository.getEvents(
+                    RaceType.AUTORACE,
                     searchFilter,
                 )),
             );
@@ -159,16 +161,23 @@ export class PublicGamblingCalendarService implements ICalendarService {
             return;
         }
         if (raceEntityList.jra !== undefined && raceEntityList.jra.length > 0) {
-            await this.jraCalendarRepository.upsertEvents(raceEntityList.jra);
+            await this.calendarRepository.upsertEvents(
+                RaceType.JRA,
+                raceEntityList.jra,
+            );
         }
         if (raceEntityList.nar !== undefined && raceEntityList.nar.length > 0) {
-            await this.narCalendarRepository.upsertEvents(raceEntityList.nar);
+            await this.calendarRepository.upsertEvents(
+                RaceType.NAR,
+                raceEntityList.nar,
+            );
         }
         if (
             raceEntityList.keirin !== undefined &&
             raceEntityList.keirin.length > 0
         ) {
-            await this.keirinCalendarRepository.upsertEvents(
+            await this.calendarRepository.upsertEvents(
+                RaceType.KEIRIN,
                 raceEntityList.keirin,
             );
         }
@@ -176,7 +185,8 @@ export class PublicGamblingCalendarService implements ICalendarService {
             raceEntityList.world !== undefined &&
             raceEntityList.world.length > 0
         ) {
-            await this.worldCalendarRepository.upsertEvents(
+            await this.calendarRepository.upsertEvents(
+                RaceType.WORLD,
                 raceEntityList.world,
             );
         }
@@ -184,7 +194,8 @@ export class PublicGamblingCalendarService implements ICalendarService {
             raceEntityList.boatrace !== undefined &&
             raceEntityList.boatrace.length > 0
         ) {
-            await this.boatraceCalendarRepository.upsertEvents(
+            await this.calendarRepository.upsertEvents(
+                RaceType.BOATRACE,
                 raceEntityList.boatrace,
             );
         }
@@ -192,7 +203,8 @@ export class PublicGamblingCalendarService implements ICalendarService {
             raceEntityList.autorace !== undefined &&
             raceEntityList.autorace.length > 0
         ) {
-            await this.autoraceRaceCalendarRepository.upsertEvents(
+            await this.calendarRepository.upsertEvents(
+                RaceType.AUTORACE,
                 raceEntityList.autorace,
             );
         }
@@ -238,28 +250,38 @@ export class PublicGamblingCalendarService implements ICalendarService {
             return;
         }
         if (calendarDataList.jra && calendarDataList.jra.length > 0) {
-            await this.jraCalendarRepository.deleteEvents(calendarDataList.jra);
+            await this.calendarRepository.deleteEvents(
+                RaceType.JRA,
+                calendarDataList.jra,
+            );
         }
         if (calendarDataList.nar && calendarDataList.nar.length > 0) {
-            await this.narCalendarRepository.deleteEvents(calendarDataList.nar);
+            await this.calendarRepository.deleteEvents(
+                RaceType.NAR,
+                calendarDataList.nar,
+            );
         }
         if (calendarDataList.keirin && calendarDataList.keirin.length > 0) {
-            await this.keirinCalendarRepository.deleteEvents(
+            await this.calendarRepository.deleteEvents(
+                RaceType.KEIRIN,
                 calendarDataList.keirin,
             );
         }
         if (calendarDataList.world && calendarDataList.world.length > 0) {
-            await this.worldCalendarRepository.deleteEvents(
+            await this.calendarRepository.deleteEvents(
+                RaceType.WORLD,
                 calendarDataList.world,
             );
         }
         if (calendarDataList.boatrace && calendarDataList.boatrace.length > 0) {
-            await this.boatraceCalendarRepository.deleteEvents(
+            await this.calendarRepository.deleteEvents(
+                RaceType.BOATRACE,
                 calendarDataList.boatrace,
             );
         }
         if (calendarDataList.autorace && calendarDataList.autorace.length > 0) {
-            await this.autoraceRaceCalendarRepository.deleteEvents(
+            await this.calendarRepository.deleteEvents(
+                RaceType.AUTORACE,
                 calendarDataList.autorace,
             );
         }

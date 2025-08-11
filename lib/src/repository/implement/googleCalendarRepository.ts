@@ -1,38 +1,51 @@
 import 'reflect-metadata';
 
+import { inject, injectable } from 'tsyringe';
+
 import type { CalendarData } from '../../domain/calendarData';
-import type { IOldCalendarGateway } from '../../gateway/interface/iCalendarGateway';
-import type { IRaceEntity } from '../entity/iRaceEntity';
-import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
+import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
+import { fromGoogleCalendarDataToCalendarData } from '../../utility/googleCalendar';
+import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
+import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
+import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
+import { JraRaceEntity } from '../entity/jraRaceEntity';
+import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import { NarRaceEntity } from '../entity/narRaceEntity';
+import { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
+import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 
 /**
  * 開催データリポジトリの基底クラス
  */
-export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
-    implements ICalendarRepository<R>
-{
-    protected abstract googleCalendarGateway: IOldCalendarGateway;
-    protected abstract fromGoogleCalendarDataToCalendarData(
-        event: object,
-    ): CalendarData;
+@injectable()
+export class GoogleCalendarRepository implements ICalendarRepository {
+    public constructor(
+        @inject('GoogleCalendarGateway')
+        protected readonly googleCalendarGateway: ICalendarGateway,
+    ) {}
 
     /**
      * カレンダーのイベントの取得を行う
+     * @param raceType
      * @param searchFilter
      */
+    @Logger
     public async getEvents(
-        searchFilter: SearchPlaceFilterEntity,
+        raceType: RaceType,
+        searchFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
         // GoogleカレンダーAPIからイベントを取得
         try {
             const calendarDataList =
                 await this.googleCalendarGateway.fetchCalendarDataList(
+                    raceType,
                     searchFilter.startDate,
                     searchFilter.finishDate,
                 );
             return calendarDataList.map((calendarData) =>
-                this.fromGoogleCalendarDataToCalendarData(calendarData),
+                fromGoogleCalendarDataToCalendarData(raceType, calendarData),
             );
         } catch (error) {
             console.error(
@@ -45,9 +58,20 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
 
     /**
      * カレンダーのイベントの更新を行う
+     * @param raceType
      * @param raceEntityList
      */
-    public async upsertEvents(raceEntityList: R[]): Promise<void> {
+    @Logger
+    public async upsertEvents(
+        raceType: RaceType,
+        raceEntityList:
+            | JraRaceEntity[]
+            | NarRaceEntity[]
+            | WorldRaceEntity[]
+            | KeirinRaceEntity[]
+            | AutoraceRaceEntity[]
+            | BoatraceRaceEntity[],
+    ): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(
             raceEntityList.map(async (raceEntity) => {
@@ -56,7 +80,7 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
                     let isExist = false;
                     try {
                         await this.googleCalendarGateway
-                            .fetchCalendarData(raceEntity.id)
+                            .fetchCalendarData(raceType, raceEntity.id)
                             .then((calendarData) => {
                                 console.debug('calendarData', calendarData);
                             });
@@ -70,9 +94,11 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
                     // 既存のデータがあれば更新、なければ新規登録
                     await (isExist
                         ? this.googleCalendarGateway.updateCalendarData(
+                              raceType,
                               raceEntity.toGoogleCalendarData(),
                           )
                         : this.googleCalendarGateway.insertCalendarData(
+                              raceType,
                               raceEntity.toGoogleCalendarData(),
                           ));
                 } catch (error) {
@@ -87,13 +113,19 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
 
     /**
      * カレンダーのイベントの削除を行う
+     * @param raceType
      * @param calendarDataList
      */
-    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
+    @Logger
+    public async deleteEvents(
+        raceType: RaceType,
+        calendarDataList: CalendarData[],
+    ): Promise<void> {
         await Promise.all(
             calendarDataList.map(async (calendarData) => {
                 try {
                     await this.googleCalendarGateway.deleteCalendarData(
+                        raceType,
                         calendarData.id,
                     );
                 } catch (error) {

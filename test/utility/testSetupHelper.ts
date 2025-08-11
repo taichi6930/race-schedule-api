@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IOldCalendarGateway } from '../../lib/src/gateway/interface/iCalendarGateway';
 import type { AutoraceRaceEntity } from '../../lib/src/repository/entity/autoraceRaceEntity';
 import type { BoatraceRaceEntity } from '../../lib/src/repository/entity/boatraceRaceEntity';
 import type { JraPlaceEntity } from '../../lib/src/repository/entity/jraPlaceEntity';
@@ -20,7 +19,6 @@ import type { ICalendarService } from '../../lib/src/service/interface/ICalendar
 import type { IPlaceDataService } from '../../lib/src/service/interface/IPlaceDataService';
 import type { IPlayerDataService } from '../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../lib/src/service/interface/IRaceDataService';
-import { mockOldGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
 import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../unittest/src/mock/repository/mockRaceRepository';
@@ -40,20 +38,7 @@ export function clearMocks(): void {
  * テスト用のセットアップ
  */
 export interface TestSetup {
-    autoraceGoogleCalendarGateway: jest.Mocked<IOldCalendarGateway>;
-
-    jraCalendarRepository: jest.Mocked<ICalendarRepository<JraRaceEntity>>;
-    narCalendarRepository: jest.Mocked<ICalendarRepository<NarRaceEntity>>;
-    worldCalendarRepository: jest.Mocked<ICalendarRepository<WorldRaceEntity>>;
-    keirinCalendarRepository: jest.Mocked<
-        ICalendarRepository<KeirinRaceEntity>
-    >;
-    boatraceCalendarRepository: jest.Mocked<
-        ICalendarRepository<BoatraceRaceEntity>
-    >;
-    autoraceCalendarRepository: jest.Mocked<
-        ICalendarRepository<AutoraceRaceEntity>
-    >;
+    calendarRepository: jest.Mocked<ICalendarRepository>;
     jraPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<JraPlaceEntity>
     >;
@@ -131,11 +116,6 @@ export interface TestSetup {
  * @returns セットアップ済みのサービス
  */
 export function setupTestMock(): TestSetup {
-    const autoraceGoogleCalendarGateway = mockOldGoogleCalendarGateway();
-    container.registerInstance(
-        'AutoraceGoogleCalendarGateway',
-        autoraceGoogleCalendarGateway,
-    );
     const jraRaceRepositoryFromStorageImpl = mockRaceRepository<
         JraRaceEntity,
         JraPlaceEntity
@@ -238,39 +218,15 @@ export function setupTestMock(): TestSetup {
         IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
     >('AutoraceRaceRepositoryFromHtml', autoraceRaceRepositoryFromHtmlImpl);
 
-    const jraCalendarRepository = mockCalendarRepository<JraRaceEntity>();
-    container.registerInstance('JraCalendarRepository', jraCalendarRepository);
-    const narCalendarRepository = mockCalendarRepository<NarRaceEntity>();
-    container.registerInstance('NarCalendarRepository', narCalendarRepository);
-    const worldCalendarRepository = mockCalendarRepository<WorldRaceEntity>();
-    container.registerInstance(
-        'WorldCalendarRepository',
-        worldCalendarRepository,
-    );
-    const keirinCalendarRepository = mockCalendarRepository<KeirinRaceEntity>();
-    container.registerInstance(
-        'KeirinCalendarRepository',
-        keirinCalendarRepository,
-    );
-    const boatraceCalendarRepository =
-        mockCalendarRepository<BoatraceRaceEntity>();
-    container.registerInstance(
-        'BoatraceCalendarRepository',
-        boatraceCalendarRepository,
-    );
-    const autoraceCalendarRepository =
-        mockCalendarRepository<AutoraceRaceEntity>();
-    container.registerInstance(
-        'AutoraceCalendarRepository',
-        autoraceCalendarRepository,
-    );
+    const calendarRepository = mockCalendarRepository();
+    container.registerInstance('CalendarRepository', calendarRepository);
+
     const jraPlaceRepositoryFromStorageImpl =
         mockPlaceRepository<JraPlaceEntity>();
     container.registerInstance<IPlaceRepository<JraPlaceEntity>>(
         'JraPlaceRepositoryFromStorage',
         jraPlaceRepositoryFromStorageImpl,
     );
-
     const jraPlaceRepositoryFromHtmlImpl =
         mockPlaceRepository<JraPlaceEntity>();
     container.registerInstance<IPlaceRepository<JraPlaceEntity>>(
@@ -283,74 +239,63 @@ export function setupTestMock(): TestSetup {
         'NarPlaceRepositoryFromStorage',
         narPlaceRepositoryFromStorageImpl,
     );
-
     const narPlaceRepositoryFromHtmlImpl =
         mockPlaceRepository<NarPlaceEntity>();
     container.registerInstance<IPlaceRepository<NarPlaceEntity>>(
         'NarPlaceRepositoryFromHtml',
         narPlaceRepositoryFromHtmlImpl,
     );
-
     const keirinPlaceRepositoryFromStorageImpl =
         mockPlaceRepository<MechanicalRacingPlaceEntity>();
     container.registerInstance<IPlaceRepository<MechanicalRacingPlaceEntity>>(
         'KeirinPlaceRepositoryFromStorage',
         keirinPlaceRepositoryFromStorageImpl,
     );
-
     const keirinPlaceRepositoryFromHtmlImpl =
         mockPlaceRepository<MechanicalRacingPlaceEntity>();
     container.registerInstance<IPlaceRepository<MechanicalRacingPlaceEntity>>(
         'KeirinPlaceRepositoryFromHtml',
         keirinPlaceRepositoryFromHtmlImpl,
     );
-
     const boatracePlaceRepositoryFromStorageImpl =
         mockPlaceRepository<MechanicalRacingPlaceEntity>();
     container.registerInstance<IPlaceRepository<MechanicalRacingPlaceEntity>>(
         'BoatracePlaceRepositoryFromStorage',
         boatracePlaceRepositoryFromStorageImpl,
     );
-
     const boatracePlaceRepositoryFromHtmlImpl =
         mockPlaceRepository<MechanicalRacingPlaceEntity>();
     container.registerInstance<IPlaceRepository<MechanicalRacingPlaceEntity>>(
         'BoatracePlaceRepositoryFromHtml',
         boatracePlaceRepositoryFromHtmlImpl,
     );
-
     const autoracePlaceRepositoryFromStorageImpl =
         mockPlaceRepository<MechanicalRacingPlaceEntity>();
     container.registerInstance<IPlaceRepository<MechanicalRacingPlaceEntity>>(
         'AutoracePlaceRepositoryFromStorage',
         autoracePlaceRepositoryFromStorageImpl,
     );
-
     const autoracePlaceRepositoryFromHtmlImpl =
         mockPlaceRepository<MechanicalRacingPlaceEntity>();
     container.registerInstance<IPlaceRepository<MechanicalRacingPlaceEntity>>(
         'AutoracePlaceRepositoryFromHtml',
         autoracePlaceRepositoryFromHtmlImpl,
     );
-
     const calendarService = calendarServiceMock();
     container.registerInstance<ICalendarService>(
         'PublicGamblingCalendarService',
         calendarService,
     );
-
     const raceDataService = raceDataServiceMock();
     container.registerInstance<IRaceDataService>(
         'PublicGamblingRaceDataService',
         raceDataService,
     );
-
     const placeDataService = placeDataServiceMock();
     container.registerInstance<IPlaceDataService>(
         'PublicGamblingPlaceDataService',
         placeDataService,
     );
-
     const playerDataService = playerDataServiceMock();
     container.registerInstance<IPlayerDataService>(
         'PlayerDataService',
@@ -358,13 +303,7 @@ export function setupTestMock(): TestSetup {
     );
 
     return {
-        autoraceGoogleCalendarGateway,
-        jraCalendarRepository,
-        narCalendarRepository,
-        worldCalendarRepository,
-        keirinCalendarRepository,
-        boatraceCalendarRepository,
-        autoraceCalendarRepository,
+        calendarRepository,
         jraPlaceRepositoryFromStorageImpl,
         jraPlaceRepositoryFromHtmlImpl,
         narPlaceRepositoryFromStorageImpl,

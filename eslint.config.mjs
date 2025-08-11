@@ -292,6 +292,12 @@ export default [
         },
     },
     {
+        files: ['**/**/publicGamblingCalendarService.test.ts'],
+        rules: {
+            '@typescript-eslint/require-await': 'off', // ✅ 非同期関数でのawaitを強制
+        },
+    },
+    {
         files: ['**/lib/src/usecase/implement/**CalendarUseCase.ts'],
         rules: {
             'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可

@@ -3,14 +3,13 @@ import { google } from 'googleapis';
 
 import { createErrorMessage } from '../../utility/error';
 import { Logger } from '../../utility/logger';
-import type { IOldCalendarGateway } from '../interface/iCalendarGateway';
+import { RaceType } from '../../utility/raceType';
+import type { ICalendarGateway } from '../interface/iCalendarGateway';
 
-export class OldGoogleCalendarGateway implements IOldCalendarGateway {
+export class GoogleCalendarGateway implements ICalendarGateway {
     private readonly calendar: calendar_v3.Calendar;
-    private readonly calendarId: string;
 
-    public constructor(calendarId: string) {
-        // googleapis v150.0.1 に対応するためにGoogleAuth -> authを使用
+    public constructor() {
         const auth = new google.auth.GoogleAuth({
             credentials: {
                 client_email: process.env.GOOGLE_CLIENT_EMAIL,
@@ -23,18 +22,18 @@ export class OldGoogleCalendarGateway implements IOldCalendarGateway {
             version: 'v3',
             auth,
         });
-        this.calendarId = calendarId;
     }
 
     @Logger
     public async fetchCalendarDataList(
+        raceType: RaceType,
         startDate: Date,
         finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
         try {
             // orderBy: 'startTime'で開始時刻順に取得
             const response = await this.calendar.events.list({
-                calendarId: this.calendarId,
+                calendarId: this.getCalendarId(raceType),
                 timeMin: startDate.toISOString(),
                 timeMax: finishDate.toISOString(),
                 singleEvents: true,
@@ -50,11 +49,12 @@ export class OldGoogleCalendarGateway implements IOldCalendarGateway {
 
     @Logger
     public async fetchCalendarData(
+        raceType: RaceType,
         eventId: string,
     ): Promise<calendar_v3.Schema$Event> {
         try {
             const response = await this.calendar.events.get({
-                calendarId: this.calendarId,
+                calendarId: this.getCalendarId(raceType),
                 eventId,
             });
             return response.data;
@@ -67,6 +67,7 @@ export class OldGoogleCalendarGateway implements IOldCalendarGateway {
 
     @Logger
     public async updateCalendarData(
+        raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
         try {
@@ -75,7 +76,7 @@ export class OldGoogleCalendarGateway implements IOldCalendarGateway {
                 throw new Error('イベントIDが指定されていません');
             }
             await this.calendar.events.update({
-                calendarId: this.calendarId,
+                calendarId: this.getCalendarId(raceType),
                 eventId,
                 requestBody: calendarData,
             });
@@ -88,11 +89,12 @@ export class OldGoogleCalendarGateway implements IOldCalendarGateway {
 
     @Logger
     public async insertCalendarData(
+        raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
         try {
             await this.calendar.events.insert({
-                calendarId: this.calendarId,
+                calendarId: this.getCalendarId(raceType),
                 requestBody: calendarData,
             });
         } catch (error) {
@@ -103,16 +105,46 @@ export class OldGoogleCalendarGateway implements IOldCalendarGateway {
     }
 
     @Logger
-    public async deleteCalendarData(eventId: string): Promise<void> {
+    public async deleteCalendarData(
+        raceType: RaceType,
+        eventId: string,
+    ): Promise<void> {
         try {
             await this.calendar.events.delete({
-                calendarId: this.calendarId,
+                calendarId: this.getCalendarId(raceType),
                 eventId,
             });
         } catch (error) {
             throw new Error(
                 createErrorMessage('Failed to delete calendar event', error),
             );
+        }
+    }
+
+    @Logger
+    private getCalendarId(raceType: RaceType): string {
+        switch (raceType) {
+            case RaceType.JRA: {
+                return process.env.JRA_CALENDAR_ID ?? '';
+            }
+            case RaceType.NAR: {
+                return process.env.NAR_CALENDAR_ID ?? '';
+            }
+            case RaceType.WORLD: {
+                return process.env.WORLD_CALENDAR_ID ?? '';
+            }
+            case RaceType.KEIRIN: {
+                return process.env.KEIRIN_CALENDAR_ID ?? '';
+            }
+            case RaceType.AUTORACE: {
+                return process.env.AUTORACE_CALENDAR_ID ?? '';
+            }
+            case RaceType.BOATRACE: {
+                return process.env.BOATRACE_CALENDAR_ID ?? '';
+            }
+            default: {
+                throw new Error('Unknown race type');
+            }
         }
     }
 }
