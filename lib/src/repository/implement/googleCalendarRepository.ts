@@ -4,7 +4,10 @@ import { inject, injectable } from 'tsyringe';
 
 import type { CalendarData } from '../../domain/calendarData';
 import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
-import { fromGoogleCalendarDataToCalendarData } from '../../utility/googleCalendar';
+import {
+    fromGoogleCalendarDataToCalendarData,
+    toGoogleCalendarData,
+} from '../../utility/googleCalendar';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
@@ -103,11 +106,11 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                     await (isExist
                         ? this.googleCalendarGateway.updateCalendarData(
                               raceType,
-                              raceEntity.toGoogleCalendarData(),
+                              toGoogleCalendarData(raceEntity),
                           )
                         : this.googleCalendarGateway.insertCalendarData(
                               raceType,
-                              raceEntity.toGoogleCalendarData(),
+                              toGoogleCalendarData(raceEntity),
                           ));
                 } catch (error) {
                     console.error(
