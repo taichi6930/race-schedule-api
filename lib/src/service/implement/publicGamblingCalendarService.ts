@@ -69,56 +69,8 @@ export class PublicGamblingCalendarService implements ICalendarService {
             startDate,
             finishDate,
         );
-        const calendarDataList: CalendarData[] = [];
-        if (raceTypeList.includes(RaceType.JRA)) {
-            calendarDataList.push(
-                ...(await this.calendarRepository.getEvents(
-                    [RaceType.JRA],
-                    searchFilter,
-                )),
-            );
-        }
-        if (raceTypeList.includes(RaceType.NAR)) {
-            calendarDataList.push(
-                ...(await this.calendarRepository.getEvents(
-                    [RaceType.NAR],
-                    searchFilter,
-                )),
-            );
-        }
-        if (raceTypeList.includes(RaceType.WORLD)) {
-            calendarDataList.push(
-                ...(await this.calendarRepository.getEvents(
-                    [RaceType.WORLD],
-                    searchFilter,
-                )),
-            );
-        }
-        if (raceTypeList.includes(RaceType.KEIRIN)) {
-            calendarDataList.push(
-                ...(await this.calendarRepository.getEvents(
-                    [RaceType.KEIRIN],
-                    searchFilter,
-                )),
-            );
-        }
-        if (raceTypeList.includes(RaceType.BOATRACE)) {
-            calendarDataList.push(
-                ...(await this.calendarRepository.getEvents(
-                    [RaceType.BOATRACE],
-                    searchFilter,
-                )),
-            );
-        }
-        if (raceTypeList.includes(RaceType.AUTORACE)) {
-            calendarDataList.push(
-                ...(await this.calendarRepository.getEvents(
-                    [RaceType.AUTORACE],
-                    searchFilter,
-                )),
-            );
-        }
-        return calendarDataList;
+
+        return this.calendarRepository.getEvents(raceTypeList, searchFilter);
     }
 
     /**
