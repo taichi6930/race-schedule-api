@@ -97,27 +97,14 @@ describe('PublicGamblingCalendarService', () => {
             ]);
 
             expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RaceType.JRA,
-                new SearchCalendarFilterEntity(startDate, finishDate),
-            );
-            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RaceType.NAR,
-                new SearchCalendarFilterEntity(startDate, finishDate),
-            );
-            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RaceType.WORLD,
-                new SearchCalendarFilterEntity(startDate, finishDate),
-            );
-            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RaceType.KEIRIN,
-                new SearchCalendarFilterEntity(startDate, finishDate),
-            );
-            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RaceType.BOATRACE,
-                new SearchCalendarFilterEntity(startDate, finishDate),
-            );
-            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RaceType.AUTORACE,
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.WORLD,
+                    RaceType.KEIRIN,
+                    RaceType.AUTORACE,
+                    RaceType.BOATRACE,
+                ],
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
             expect(result).toEqual(calendarDataList);
