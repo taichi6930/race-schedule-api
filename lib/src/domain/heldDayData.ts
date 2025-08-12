@@ -6,12 +6,11 @@ import {
     type HeldTimes,
     validateHeldTimes,
 } from '../utility/data/common/heldTimes';
-import type { IPlaceData } from './iPlaceData';
 
 /**
  * 競馬の開催日データ
  */
-export class HeldDayData implements IPlaceData<HeldDayData> {
+export class HeldDayData {
     /**
      * 開催回数
      * @type {HeldTimes}

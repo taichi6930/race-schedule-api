@@ -15,12 +15,11 @@ import {
 import type { RaceNumber } from '../utility/data/common/raceNumber';
 import { validateRaceNumber } from '../utility/data/common/raceNumber';
 import type { RaceType } from '../utility/raceType';
-import type { IRaceData } from './iRaceData';
 
 /**
  * 競馬のレース開催データ
  */
-export class RaceData implements IRaceData<RaceData> {
+export class RaceData {
     /**
      * レース種別
      * @type {RaceType}
