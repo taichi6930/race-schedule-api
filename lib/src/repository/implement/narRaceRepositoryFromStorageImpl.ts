@@ -6,14 +6,14 @@ import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 @injectable()
 export class NarRaceRepositoryFromStorageImpl
-    implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
+    implements IRaceRepository<NarRaceEntity, PlaceEntity>
 {
     private readonly fileName = 'raceList.csv';
 
@@ -28,7 +28,7 @@ export class NarRaceRepositoryFromStorageImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<NarRaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const raceRecordList: NarRaceRecord[] =

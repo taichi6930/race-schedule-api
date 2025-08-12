@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
-import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
+import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/implement/publicGamblingPlaceDataService';
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
@@ -43,10 +43,10 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
         IPlaceRepository<JraPlaceEntity>
     >;
     let narPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<NarPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<NarPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>

@@ -6,8 +6,8 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { NarPlaceRecord } from '../../../../../lib/src/gateway/record/narPlaceRecord';
 import { NarRaceRecord } from '../../../../../lib/src/gateway/record/narRaceRecord';
-import { NarPlaceEntity } from '../../../../../lib/src/repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import {
@@ -71,7 +71,8 @@ export const baseNarRaceRecord = NarRaceRecord.create(
     baseNarRaceUpdateDate,
 );
 
-export const baseNarPlaceEntity = NarPlaceEntity.createWithoutId(
+export const baseNarPlaceEntity = PlaceEntity.createWithoutId(
+    RaceType.NAR,
     baseNarPlaceData,
     baseNarRaceUpdateDate,
 );

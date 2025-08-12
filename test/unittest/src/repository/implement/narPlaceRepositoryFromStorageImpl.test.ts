@@ -8,7 +8,7 @@ import { container } from 'tsyringe';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import type { NarPlaceRecord } from '../../../../../lib/src/gateway/record/narPlaceRecord';
-import { NarPlaceEntity } from '../../../../../lib/src/repository/entity/narPlaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { NarPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/narPlaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
@@ -73,13 +73,14 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
     });
 
     // 1年間の開催場データを登録する
-    const placeEntityList: NarPlaceEntity[] = Array.from(
+    const placeEntityList: PlaceEntity[] = Array.from(
         { length: 60 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
-                NarPlaceEntity.createWithoutId(
+                PlaceEntity.createWithoutId(
+                    RaceType.NAR,
                     PlaceData.create(RaceType.NAR, date, '大井'),
                     getJSTDate(new Date()),
                 ),

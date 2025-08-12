@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
-import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
+import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
@@ -21,9 +21,9 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         @inject('JraPlaceRepositoryFromHtml')
         protected jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
         @inject('NarPlaceRepositoryFromStorage')
-        protected narPlaceRepositoryFromStorage: IPlaceRepository<NarPlaceEntity>,
+        protected narPlaceRepositoryFromStorage: IPlaceRepository<PlaceEntity>,
         @inject('NarPlaceRepositoryFromHtml')
-        protected narPlaceRepositoryFromHtml: IPlaceRepository<NarPlaceEntity>,
+        protected narPlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
         @inject('MechanicalRacingPlaceRepositoryFromStorage')
         protected mechanicalRacingPlaceRepositoryFromStorage: IPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('KeirinPlaceRepositoryFromHtml')
@@ -59,14 +59,14 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         type: DataLocationType,
     ): Promise<{
         jra: JraPlaceEntity[];
-        nar: NarPlaceEntity[];
+        nar: PlaceEntity[];
         keirin: MechanicalRacingPlaceEntity[];
         autorace: MechanicalRacingPlaceEntity[];
         boatrace: MechanicalRacingPlaceEntity[];
     }> {
         const result: {
             jra: JraPlaceEntity[];
-            nar: NarPlaceEntity[];
+            nar: PlaceEntity[];
             keirin: MechanicalRacingPlaceEntity[];
             autorace: MechanicalRacingPlaceEntity[];
             boatrace: MechanicalRacingPlaceEntity[];
@@ -105,7 +105,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                     finishDate,
                     RaceType.NAR,
                 );
-                const narPlaceEntityList: NarPlaceEntity[] =
+                const narPlaceEntityList: PlaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.narPlaceRepositoryFromStorage.fetchPlaceEntityList(
                               searchFilter,
@@ -186,7 +186,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     @Logger
     public async updatePlaceEntityList(placeEntityList: {
         jra: JraPlaceEntity[];
-        nar: NarPlaceEntity[];
+        nar: PlaceEntity[];
         keirin: MechanicalRacingPlaceEntity[];
         autorace: MechanicalRacingPlaceEntity[];
         boatrace: MechanicalRacingPlaceEntity[];

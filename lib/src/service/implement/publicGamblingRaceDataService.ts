@@ -4,8 +4,8 @@ import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
-import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
+import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
 import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
@@ -34,12 +34,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         @inject('NarRaceRepositoryFromStorage')
         protected narRaceRepositoryFromStorage: IRaceRepository<
             NarRaceEntity,
-            NarPlaceEntity
+            PlaceEntity
         >,
         @inject('NarRaceRepositoryFromHtml')
         protected narRaceRepositoryFromHtml: IRaceRepository<
             NarRaceEntity,
-            NarPlaceEntity
+            PlaceEntity
         >,
         @inject('WorldRaceRepositoryFromStorage')
         protected readonly worldRaceRepositoryFromStorage: IRaceRepository<
@@ -115,7 +115,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         type: DataLocationType,
         placeEntityList?: {
             jra?: JraPlaceEntity[];
-            nar?: NarPlaceEntity[];
+            nar?: PlaceEntity[];
             world?: WorldPlaceEntity[];
             keirin?: MechanicalRacingPlaceEntity[];
             autorace?: MechanicalRacingPlaceEntity[];
@@ -171,7 +171,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 (placeEntityList?.nar !== undefined &&
                     placeEntityList.nar.length > 0)
             ) {
-                const searchFilter = new SearchRaceFilterEntity<NarPlaceEntity>(
+                const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
                     startDate,
                     finishDate,
                     placeEntityList?.nar,

@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import { NarPlaceEntity } from '../../../../../lib/src/repository/entity/narPlaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { NarRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromHtmlImpl';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
@@ -38,11 +38,12 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<NarPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         [
-                            NarPlaceEntity.createWithoutId(
+                            PlaceEntity.createWithoutId(
+                                RaceType.NAR,
                                 PlaceData.create(
                                     RaceType.NAR,
                                     new Date('2024-10-02'),
@@ -61,11 +62,12 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<NarPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2023-10-08'),
                         new Date('2023-10-08'),
                         [
-                            NarPlaceEntity.createWithoutId(
+                            PlaceEntity.createWithoutId(
+                                RaceType.NAR,
                                 PlaceData.create(
                                     RaceType.NAR,
                                     new Date('2023-10-08'),
@@ -84,11 +86,12 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<NarPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         [
-                            NarPlaceEntity.createWithoutId(
+                            PlaceEntity.createWithoutId(
+                                RaceType.NAR,
                                 PlaceData.create(
                                     RaceType.NAR,
                                     new Date('2024-10-02'),
@@ -107,11 +110,12 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<NarPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-09-01'),
                         new Date('2024-09-02'),
                         [
-                            NarPlaceEntity.createWithoutId(
+                            PlaceEntity.createWithoutId(
+                                RaceType.NAR,
                                 PlaceData.create(
                                     RaceType.NAR,
                                     new Date('2024-09-02'),
