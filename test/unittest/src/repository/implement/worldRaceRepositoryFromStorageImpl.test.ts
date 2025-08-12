@@ -52,6 +52,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
             const searchFilter = new SearchRaceFilterEntity<WorldPlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
+                RaceType.WORLD,
             );
             // テスト実行
             const raceEntityList =
@@ -74,7 +75,10 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
             // テスト実行
-            await repository.registerRaceEntityList(raceEntityList);
+            await repository.registerRaceEntityList(
+                RaceType.WORLD,
+                raceEntityList,
+            );
 
             // uploadDataToS3が1回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
@@ -82,7 +86,10 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
 
         test('正しいレース開催データを登録できる（既存データなし）', async () => {
             // テスト実行
-            await repository.registerRaceEntityList(raceEntityList);
+            await repository.registerRaceEntityList(
+                RaceType.WORLD,
+                raceEntityList,
+            );
 
             // uploadDataToS3が1回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

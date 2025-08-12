@@ -6,6 +6,7 @@ import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -117,10 +118,12 @@ export class JraRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
+     * @param raceType
      * @param raceEntityList
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: JraRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する

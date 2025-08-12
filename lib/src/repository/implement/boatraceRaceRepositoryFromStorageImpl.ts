@@ -96,10 +96,12 @@ export class BoatraceRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
+     * @param raceType
      * @param raceEntityList
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する

@@ -436,10 +436,12 @@ export class JraRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
+     * @param raceType
      * @param raceEntityList
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: JraRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

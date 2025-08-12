@@ -41,6 +41,7 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
+                        RaceType.NAR,
                         [
                             HorseRacingPlaceEntity.createWithoutId(
                                 RaceType.NAR,
@@ -65,6 +66,7 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2023-10-08'),
                         new Date('2023-10-08'),
+                        RaceType.NAR,
                         [
                             HorseRacingPlaceEntity.createWithoutId(
                                 RaceType.NAR,
@@ -89,6 +91,7 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
+                        RaceType.NAR,
                         [
                             HorseRacingPlaceEntity.createWithoutId(
                                 RaceType.NAR,
@@ -113,6 +116,7 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2024-09-01'),
                         new Date('2024-09-02'),
+                        RaceType.NAR,
                         [
                             HorseRacingPlaceEntity.createWithoutId(
                                 RaceType.NAR,
@@ -140,7 +144,7 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
             async () => {
                 // テスト実行
                 await expect(
-                    repository.registerRaceEntityList([]),
+                    repository.registerRaceEntityList(RaceType.NAR, []),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             },
         );

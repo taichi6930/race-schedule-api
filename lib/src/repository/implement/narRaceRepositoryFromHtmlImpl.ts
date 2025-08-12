@@ -226,10 +226,12 @@ export class NarRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
+     * @param raceType
      * @param raceEntityList
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: HorseRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

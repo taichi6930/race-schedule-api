@@ -41,6 +41,7 @@ describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
+                        RaceType.AUTORACE,
                         [
                             MechanicalRacingPlaceEntity.createWithoutId(
                                 RaceType.AUTORACE,
@@ -67,7 +68,7 @@ describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
             async () => {
                 // テスト実行
                 await expect(
-                    repository.registerRaceEntityList([]),
+                    repository.registerRaceEntityList(RaceType.AUTORACE, []),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             },
         );

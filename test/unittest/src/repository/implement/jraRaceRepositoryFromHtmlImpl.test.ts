@@ -42,6 +42,7 @@ describe('JraRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<JraPlaceEntity>(
                         new Date('2024-05-26'),
                         new Date('2024-05-26'),
+                        RaceType.JRA,
                         [
                             JraPlaceEntity.createWithoutId(
                                 PlaceData.create(
@@ -67,7 +68,7 @@ describe('JraRaceRepositoryFromHtmlImpl', () => {
             async () => {
                 // テスト実行
                 await expect(
-                    repository.registerRaceEntityList([]),
+                    repository.registerRaceEntityList(RaceType.JRA, []),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             },
         );

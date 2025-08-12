@@ -52,6 +52,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
 
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: JraRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

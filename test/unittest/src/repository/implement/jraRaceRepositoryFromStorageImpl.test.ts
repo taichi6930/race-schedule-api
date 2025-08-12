@@ -53,6 +53,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             const searchFilter = new SearchRaceFilterEntity<JraPlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
+                RaceType.JRA,
             );
             // テスト実行
             const raceEntityList =
@@ -66,7 +67,10 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
     describe('registerRaceList', () => {
         test('DBが空データのところに、正しいレース開催データを登録できる', async () => {
             // テスト実行
-            await repository.registerRaceEntityList(raceEntityList);
+            await repository.registerRaceEntityList(
+                RaceType.JRA,
+                raceEntityList,
+            );
 
             // uploadDataToS3が366回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
@@ -83,7 +87,10 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
             // テスト実行
-            await repository.registerRaceEntityList(raceEntityList);
+            await repository.registerRaceEntityList(
+                RaceType.JRA,
+                raceEntityList,
+            );
 
             // uploadDataToS3が366回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

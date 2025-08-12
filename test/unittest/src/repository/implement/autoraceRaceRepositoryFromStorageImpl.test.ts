@@ -71,6 +71,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                 new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                     new Date('2024-01-01'),
                     new Date('2024-02-01'),
+                    RaceType.AUTORACE,
                 );
             // テスト実行
             const raceEntityList =
@@ -108,7 +109,10 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
             ).flat();
 
             // テスト実行
-            await repository.registerRaceEntityList(raceEntityList);
+            await repository.registerRaceEntityList(
+                RaceType.AUTORACE,
+                raceEntityList,
+            );
 
             // uploadDataToS3が1回呼ばれることを検証
             expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
@@ -161,7 +165,10 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
         );
 
         // テスト実行
-        await repository.registerRaceEntityList(raceEntityList);
+        await repository.registerRaceEntityList(
+            RaceType.AUTORACE,
+            raceEntityList,
+        );
 
         // uploadDataToS3が1回呼ばれることを検証
         expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

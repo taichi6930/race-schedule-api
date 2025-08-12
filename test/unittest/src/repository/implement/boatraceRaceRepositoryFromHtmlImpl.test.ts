@@ -40,6 +40,7 @@ describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
+                        RaceType.BOATRACE,
                         [
                             MechanicalRacingPlaceEntity.createWithoutId(
                                 RaceType.BOATRACE,
@@ -66,7 +67,7 @@ describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
             async () => {
                 // テスト実行
                 await expect(
-                    repository.registerRaceEntityList([]),
+                    repository.registerRaceEntityList(RaceType.BOATRACE, []),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             },
         );

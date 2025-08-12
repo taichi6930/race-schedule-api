@@ -243,22 +243,28 @@ describe('PublicGamblingRaceDataService', () => {
 
             expect(
                 jraRaceRepositoryFromStorageImpl.registerRaceEntityList,
-            ).toHaveBeenCalledWith(baseJraRaceEntityList);
+            ).toHaveBeenCalledWith(RaceType.JRA, baseJraRaceEntityList);
             expect(
                 narRaceRepositoryFromStorageImpl.registerRaceEntityList,
-            ).toHaveBeenCalledWith(baseNarRaceEntityList);
+            ).toHaveBeenCalledWith(RaceType.NAR, baseNarRaceEntityList);
             expect(
                 worldRaceRepositoryFromStorageImpl.registerRaceEntityList,
-            ).toHaveBeenCalledWith(baseWorldRaceEntityList);
+            ).toHaveBeenCalledWith(RaceType.WORLD, baseWorldRaceEntityList);
             expect(
                 keirinRaceRepositoryFromStorageImpl.registerRaceEntityList,
-            ).toHaveBeenCalledWith(baseKeirinRaceEntityList);
+            ).toHaveBeenCalledWith(RaceType.KEIRIN, baseKeirinRaceEntityList);
             expect(
                 boatraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
-            ).toHaveBeenCalledWith(baseBoatraceRaceEntityList);
+            ).toHaveBeenCalledWith(
+                RaceType.BOATRACE,
+                baseBoatraceRaceEntityList,
+            );
             expect(
                 autoraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
-            ).toHaveBeenCalled();
+            ).toHaveBeenCalledWith(
+                RaceType.AUTORACE,
+                baseAutoraceRaceEntityList,
+            );
         });
 
         it('レース開催データが0件の場合、更新処理が実行されないこと', async () => {

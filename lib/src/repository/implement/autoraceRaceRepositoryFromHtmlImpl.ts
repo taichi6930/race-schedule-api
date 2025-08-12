@@ -205,10 +205,12 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
+     * @param raceType
      * @param raceEntityList
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

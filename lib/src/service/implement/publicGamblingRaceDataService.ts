@@ -154,6 +154,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 const searchFilter = new SearchRaceFilterEntity<JraPlaceEntity>(
                     startDate,
                     finishDate,
+                    RaceType.JRA,
                     placeEntityList?.jra,
                 );
                 const jraRaceEntityList: JraRaceEntity[] =
@@ -175,6 +176,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         startDate,
                         finishDate,
+                        RaceType.NAR,
                         placeEntityList?.nar,
                     );
                 const narRaceEntityList: HorseRacingRaceEntity[] =
@@ -192,6 +194,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     new SearchRaceFilterEntity<WorldPlaceEntity>(
                         startDate,
                         finishDate,
+                        RaceType.WORLD,
                     );
                 const worldRaceEntityList: WorldRaceEntity[] =
                     type === DataLocation.Storage
@@ -212,6 +215,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         startDate,
                         finishDate,
+                        RaceType.KEIRIN,
                         placeEntityList?.keirin,
                     );
                 const keirinRaceEntityList: MechanicalRacingRaceEntity[] =
@@ -233,6 +237,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         startDate,
                         finishDate,
+                        RaceType.AUTORACE,
                         placeEntityList?.autorace,
                     );
                 const autoraceRaceEntityList: MechanicalRacingRaceEntity[] =
@@ -254,6 +259,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         startDate,
                         finishDate,
+                        RaceType.BOATRACE,
                         placeEntityList?.boatrace,
                     );
                 const boatraceRaceEntityList: MechanicalRacingRaceEntity[] =
@@ -303,6 +309,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 raceEntityList.jra.length > 0
             ) {
                 await this.jraRaceRepositoryFromStorage.registerRaceEntityList(
+                    RaceType.JRA,
                     raceEntityList.jra,
                 );
             }
@@ -311,6 +318,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 raceEntityList.nar.length > 0
             ) {
                 await this.narRaceRepositoryFromStorage.registerRaceEntityList(
+                    RaceType.NAR,
                     raceEntityList.nar,
                 );
             }
@@ -319,6 +327,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 raceEntityList.world.length > 0
             ) {
                 await this.worldRaceRepositoryFromStorage.registerRaceEntityList(
+                    RaceType.WORLD,
                     raceEntityList.world,
                 );
             }
@@ -327,6 +336,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 raceEntityList.keirin.length > 0
             ) {
                 await this.keirinRaceRepositoryFromStorage.registerRaceEntityList(
+                    RaceType.KEIRIN,
                     raceEntityList.keirin,
                 );
             }
@@ -335,6 +345,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 raceEntityList.autorace.length > 0
             ) {
                 await this.autoraceRaceRepositoryFromStorage.registerRaceEntityList(
+                    RaceType.AUTORACE,
                     raceEntityList.autorace,
                 );
             }
@@ -343,6 +354,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 raceEntityList.boatrace.length > 0
             ) {
                 await this.boatraceRaceRepositoryFromStorage.registerRaceEntityList(
+                    RaceType.BOATRACE,
                     raceEntityList.boatrace,
                 );
             }
