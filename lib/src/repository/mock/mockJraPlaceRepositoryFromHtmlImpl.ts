@@ -41,10 +41,12 @@ export class MockJraPlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
+     * @param raceType
      * @param placeEntityList
      */
     @Logger
     public async registerPlaceEntityList(
+        raceType: RaceType,
         placeEntityList: JraPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
