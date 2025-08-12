@@ -3,23 +3,24 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
+import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { NarRaceEntity } from '../entity/narRaceEntity';
-import { PlaceEntity } from '../entity/placeEntity';
+import { RaceType } from '../../utility/raceType';
+import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
+import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 @injectable()
 export class NarRaceRepositoryFromStorageImpl
-    implements IRaceRepository<NarRaceEntity, PlaceEntity>
+    implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
 {
     private readonly fileName = 'raceList.csv';
 
     public constructor(
         @inject('NarRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<NarRaceRecord>,
+        private readonly s3Gateway: IS3Gateway<HorseRacingRaceRecord>,
     ) {}
 
     /**
@@ -28,23 +29,24 @@ export class NarRaceRepositoryFromStorageImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<NarRaceEntity[]> {
+        searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
+    ): Promise<HorseRacingRaceEntity[]> {
         // ファイル名リストから開催データを取得する
-        const raceRecordList: NarRaceRecord[] =
+        const raceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
         // RaceRecordをRaceEntityに変換
-        const raceEntityList: NarRaceEntity[] = raceRecordList.map(
+        const raceEntityList: HorseRacingRaceEntity[] = raceRecordList.map(
             (raceRecord) => raceRecord.toEntity(),
         );
 
         // フィルタリング処理（日付の範囲指定）
-        const filteredRaceEntityList: NarRaceEntity[] = raceEntityList.filter(
-            (raceEntity) =>
-                raceEntity.raceData.dateTime >= searchFilter.startDate &&
-                raceEntity.raceData.dateTime <= searchFilter.finishDate,
-        );
+        const filteredRaceEntityList: HorseRacingRaceEntity[] =
+            raceEntityList.filter(
+                (raceEntity) =>
+                    raceEntity.raceData.dateTime >= searchFilter.startDate &&
+                    raceEntity.raceData.dateTime <= searchFilter.finishDate,
+            );
         return filteredRaceEntityList;
     }
 
@@ -52,7 +54,7 @@ export class NarRaceRepositoryFromStorageImpl
      * レースデータをS3から取得する
      */
     @Logger
-    private async getRaceRecordListFromS3(): Promise<NarRaceRecord[]> {
+    private async getRaceRecordListFromS3(): Promise<HorseRacingRaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
 
@@ -92,7 +94,7 @@ export class NarRaceRepositoryFromStorageImpl
         // 並列で処理を実行
         const results = await Promise.all(
             chunks.map((chunk) =>
-                chunk.flatMap((line: string): NarRaceRecord[] => {
+                chunk.flatMap((line: string): HorseRacingRaceRecord[] => {
                     try {
                         const columns = line.split('\r').join('').split(',');
 
@@ -101,8 +103,9 @@ export class NarRaceRepositoryFromStorageImpl
                             : getJSTDate(new Date());
 
                         return [
-                            NarRaceRecord.create(
+                            HorseRacingRaceRecord.create(
                                 columns[indices.id],
+                                RaceType.NAR,
                                 columns[indices.name],
                                 new Date(columns[indices.dateTime]),
                                 columns[indices.location],
@@ -131,19 +134,19 @@ export class NarRaceRepositoryFromStorageImpl
      */
     @Logger
     public async registerRaceEntityList(
-        raceEntityList: NarRaceEntity[],
+        raceEntityList: HorseRacingRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchRaceRecordList: NarRaceRecord[] =
+        const existFetchRaceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
-        const raceRecordList: NarRaceRecord[] = raceEntityList.map(
+        const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(
             (raceEntity) => raceEntity.toRaceRecord(),
         );
 
         // idをキーとしたMapを作成し、既存データを上書きまたは追加する
-        const raceRecordMap = new Map<string, NarRaceRecord>(
+        const raceRecordMap = new Map<string, HorseRacingRaceRecord>(
             existFetchRaceRecordList.map((record) => [record.id, record]),
         );
 

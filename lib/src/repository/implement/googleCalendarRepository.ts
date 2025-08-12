@@ -10,9 +10,9 @@ import {
 } from '../../utility/googleCalendar';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
-import { NarRaceEntity } from '../entity/narRaceEntity';
 import { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
@@ -75,7 +75,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
         raceType: RaceType,
         raceEntityList:
             | JraRaceEntity[]
-            | NarRaceEntity[]
+            | HorseRacingRaceEntity[]
             | WorldRaceEntity[]
             | MechanicalRacingRaceEntity[],
     ): Promise<void> {

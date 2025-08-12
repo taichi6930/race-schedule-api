@@ -5,8 +5,8 @@ import { inject, injectable } from 'tsyringe';
 import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
+import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
-import { RaceRecord } from '../../gateway/record/raceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -28,7 +28,7 @@ export class KeirinRaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('KeirinRaceS3Gateway')
-        private readonly raceS3Gateway: IS3Gateway<RaceRecord>,
+        private readonly raceS3Gateway: IS3Gateway<MechanicalRacingRaceRecord>,
         @inject('KeirinRacePlayerS3Gateway')
         private readonly racePlayerS3Gateway: IS3Gateway<RacePlayerRecord>,
     ) {}
@@ -46,7 +46,7 @@ export class KeirinRaceRepositoryFromStorageImpl
             await this.getRacePlayerRecordListFromS3();
 
         // レースデータを取得する
-        const raceRaceRecordList: RaceRecord[] =
+        const raceRaceRecordList: MechanicalRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(searchFilter.startDate);
 
         // RaceEntityに変換
@@ -103,15 +103,15 @@ export class KeirinRaceRepositoryFromStorageImpl
         raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchRaceRecordList: RaceRecord[] =
+        const existFetchRaceRecordList: MechanicalRacingRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
         const existFetchRacePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
-        const raceRecordList: RaceRecord[] = raceEntityList.map((raceEntity) =>
-            raceEntity.toRaceRecord(),
+        const raceRecordList: MechanicalRacingRaceRecord[] = raceEntityList.map(
+            (raceEntity) => raceEntity.toRaceRecord(),
         );
 
         // RaceEntityをRacePlayerRecordに変換する
@@ -168,7 +168,7 @@ export class KeirinRaceRepositoryFromStorageImpl
     @Logger
     private async getRaceRecordListFromS3(
         borderDate?: Date,
-    ): Promise<RaceRecord[]> {
+    ): Promise<MechanicalRacingRaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.raceS3Gateway.fetchDataFromS3(
             this.raceListFileName,
@@ -197,7 +197,7 @@ export class KeirinRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してRaceDataのリストを生成
-        const result: RaceRecord[] = [];
+        const result: MechanicalRacingRaceRecord[] = [];
         for (const line of lines.slice(1)) {
             try {
                 const columns = line.split(',');
@@ -214,7 +214,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 result.push(
-                    RaceRecord.create(
+                    MechanicalRacingRaceRecord.create(
                         columns[indices.id],
                         RaceType.KEIRIN,
                         columns[indices.name],

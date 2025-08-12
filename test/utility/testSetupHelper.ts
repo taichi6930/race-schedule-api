@@ -2,12 +2,12 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import type { HorseRacingPlaceEntity } from '../../lib/src/repository/entity/horseRacingPlaceEntity';
+import type { HorseRacingRaceEntity } from '../../lib/src/repository/entity/horseRacingRaceEntity';
 import type { JraPlaceEntity } from '../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../lib/src/repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../lib/src/repository/entity/mechanicalRacingRaceEntity';
-import type { NarRaceEntity } from '../../lib/src/repository/entity/narRaceEntity';
-import type { PlaceEntity } from '../../lib/src/repository/entity/placeEntity';
 import type { WorldPlaceEntity } from '../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../lib/src/repository/entity/worldRaceEntity';
 import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
@@ -44,9 +44,11 @@ export interface TestSetup {
         IPlaceRepository<JraPlaceEntity>
     >;
     narPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<PlaceEntity>
+        IPlaceRepository<HorseRacingPlaceEntity>
     >;
-    narPlaceRepositoryFromHtmlImpl: jest.Mocked<IPlaceRepository<PlaceEntity>>;
+    narPlaceRepositoryFromHtmlImpl: jest.Mocked<
+        IPlaceRepository<HorseRacingPlaceEntity>
+    >;
     mechanicalRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
@@ -66,10 +68,10 @@ export interface TestSetup {
         IRaceRepository<JraRaceEntity, JraPlaceEntity>
     >;
     narRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<NarRaceEntity, PlaceEntity>
+        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >;
     narRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<NarRaceEntity, PlaceEntity>
+        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >;
     worldRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
@@ -123,22 +125,20 @@ export function setupTestMock(): TestSetup {
         jraRaceRepositoryFromHtmlImpl,
     );
     const narRaceRepositoryFromStorageImpl = mockRaceRepository<
-        NarRaceEntity,
-        PlaceEntity
+        HorseRacingRaceEntity,
+        HorseRacingPlaceEntity
     >();
-    container.registerInstance<IRaceRepository<NarRaceEntity, PlaceEntity>>(
-        'NarRaceRepositoryFromStorage',
-        narRaceRepositoryFromStorageImpl,
-    );
+    container.registerInstance<
+        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
+    >('NarRaceRepositoryFromStorage', narRaceRepositoryFromStorageImpl);
 
     const narRaceRepositoryFromHtmlImpl = mockRaceRepository<
-        NarRaceEntity,
-        PlaceEntity
+        HorseRacingRaceEntity,
+        HorseRacingPlaceEntity
     >();
-    container.registerInstance<IRaceRepository<NarRaceEntity, PlaceEntity>>(
-        'NarRaceRepositoryFromHtml',
-        narRaceRepositoryFromHtmlImpl,
-    );
+    container.registerInstance<
+        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
+    >('NarRaceRepositoryFromHtml', narRaceRepositoryFromHtmlImpl);
     // world
     const worldRaceRepositoryFromStorageImpl = mockRaceRepository<
         WorldRaceEntity,
@@ -224,13 +224,14 @@ export function setupTestMock(): TestSetup {
         jraPlaceRepositoryFromHtmlImpl,
     );
     const narPlaceRepositoryFromStorageImpl =
-        mockPlaceRepository<PlaceEntity>();
-    container.registerInstance<IPlaceRepository<PlaceEntity>>(
+        mockPlaceRepository<HorseRacingPlaceEntity>();
+    container.registerInstance<IPlaceRepository<HorseRacingPlaceEntity>>(
         'NarPlaceRepositoryFromStorage',
         narPlaceRepositoryFromStorageImpl,
     );
-    const narPlaceRepositoryFromHtmlImpl = mockPlaceRepository<PlaceEntity>();
-    container.registerInstance<IPlaceRepository<PlaceEntity>>(
+    const narPlaceRepositoryFromHtmlImpl =
+        mockPlaceRepository<HorseRacingPlaceEntity>();
+    container.registerInstance<IPlaceRepository<HorseRacingPlaceEntity>>(
         'NarPlaceRepositoryFromHtml',
         narPlaceRepositoryFromHtmlImpl,
     );

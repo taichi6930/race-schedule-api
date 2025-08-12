@@ -1,8 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 
+import { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
-import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
@@ -92,7 +92,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         },
     ): Promise<{
         jra: JraRaceEntity[];
-        nar: NarRaceEntity[];
+        nar: HorseRacingRaceEntity[];
         world: WorldRaceEntity[];
         keirin: MechanicalRacingRaceEntity[];
         autorace: MechanicalRacingRaceEntity[];

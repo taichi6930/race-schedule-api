@@ -2,7 +2,7 @@ import '../../utility/format';
 
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
-import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
+import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
 import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import { generateRaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
@@ -12,7 +12,7 @@ import { validateUpdateDate } from '../../utility/updateDate';
 /**
  * 地方競馬のレース開催データ
  */
-export class NarRaceEntity {
+export class HorseRacingRaceEntity {
     /**
      * コンストラクタ
      * @param id - ID
@@ -41,8 +41,8 @@ export class NarRaceEntity {
         raceData: RaceData,
         conditionData: HorseRaceConditionData,
         updateDate: Date,
-    ): NarRaceEntity {
-        return new NarRaceEntity(
+    ): HorseRacingRaceEntity {
+        return new HorseRacingRaceEntity(
             validateRaceId(RaceType.NAR, id),
             raceData,
             conditionData,
@@ -60,8 +60,8 @@ export class NarRaceEntity {
         raceData: RaceData,
         conditionData: HorseRaceConditionData,
         updateDate: Date,
-    ): NarRaceEntity {
-        return NarRaceEntity.create(
+    ): HorseRacingRaceEntity {
+        return HorseRacingRaceEntity.create(
             generateRaceId(
                 RaceType.NAR,
                 raceData.dateTime,
@@ -78,8 +78,10 @@ export class NarRaceEntity {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<NarRaceEntity> = {}): NarRaceEntity {
-        return NarRaceEntity.create(
+    public copy(
+        partial: Partial<HorseRacingRaceEntity> = {},
+    ): HorseRacingRaceEntity {
+        return HorseRacingRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.conditionData ?? this.conditionData,
@@ -90,9 +92,10 @@ export class NarRaceEntity {
     /**
      * NarRaceRecordに変換する
      */
-    public toRaceRecord(): NarRaceRecord {
-        return NarRaceRecord.create(
+    public toRaceRecord(): HorseRacingRaceRecord {
+        return HorseRacingRaceRecord.create(
             this.id,
+            this.raceData.raceType,
             this.raceData.name,
             this.raceData.dateTime,
             this.raceData.location,

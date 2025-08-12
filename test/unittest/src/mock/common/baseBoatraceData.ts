@@ -3,8 +3,8 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
+import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
-import { RaceRecord } from '../../../../../lib/src/gateway/record/raceRecord';
 import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
@@ -56,7 +56,7 @@ export const baseBoatracePlaceRecord = MechanicalRacingPlaceRecord.create(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatraceRaceRecord = RaceRecord.create(
+export const baseBoatraceRaceRecord = MechanicalRacingRaceRecord.create(
     generateRaceId(
         RaceType.BOATRACE,
         baseBoatracePlaceDateTime,

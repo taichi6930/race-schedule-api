@@ -13,8 +13,8 @@ import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { NarRaceEntity } from '../entity/narRaceEntity';
-import { PlaceEntity } from '../entity/placeEntity';
+import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
+import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -23,7 +23,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class NarRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<NarRaceEntity, PlaceEntity>
+    implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -36,9 +36,9 @@ export class NarRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<NarRaceEntity[]> {
-        const narRaceDataList: NarRaceEntity[] = [];
+        searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
+    ): Promise<HorseRacingRaceEntity[]> {
+        const narRaceDataList: HorseRacingRaceEntity[] = [];
         const { placeEntityList } = searchFilter;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
@@ -54,15 +54,15 @@ export class NarRaceRepositoryFromHtmlImpl
 
     @Logger
     public async fetchRaceListFromHtmlWithNarPlace(
-        placeEntity: PlaceEntity,
-    ): Promise<NarRaceEntity[]> {
+        placeEntity: HorseRacingPlaceEntity,
+    ): Promise<HorseRacingRaceEntity[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
                 RaceType.NAR,
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
-            const narRaceDataList: NarRaceEntity[] = [];
+            const narRaceDataList: HorseRacingRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             const raceTable = $('section.raceTable');
             const trs = raceTable.find('tr.data');
@@ -109,7 +109,7 @@ export class NarRaceRepositoryFromHtmlImpl
                         grade,
                     });
                     narRaceDataList.push(
-                        NarRaceEntity.createWithoutId(
+                        HorseRacingRaceEntity.createWithoutId(
                             RaceData.create(
                                 RaceType.NAR,
                                 processedRaceName,
@@ -230,7 +230,7 @@ export class NarRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async registerRaceEntityList(
-        raceEntityList: NarRaceEntity[],
+        raceEntityList: HorseRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

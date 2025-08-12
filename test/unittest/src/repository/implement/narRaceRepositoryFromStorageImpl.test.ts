@@ -9,9 +9,9 @@ import { container } from 'tsyringe';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { NarRaceRecord } from '../../../../../lib/src/gateway/record/narRaceRecord';
-import { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
-import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import type { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
+import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
+import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { NarRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
@@ -19,12 +19,12 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('NarRaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<NarRaceRecord>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
     let repository: NarRaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3Gateway<NarRaceRecord>();
+        s3Gateway = mockS3Gateway<HorseRacingRaceRecord>();
 
         // DIコンテナにモックを登録
         container.registerInstance('NarRaceS3Gateway', s3Gateway);
@@ -49,10 +49,11 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
             // リクエストの作成
-            const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
-                new Date('2024-01-01'),
-                new Date('2024-02-01'),
-            );
+            const searchFilter =
+                new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
+                    new Date('2024-01-01'),
+                    new Date('2024-02-01'),
+                );
             // テスト実行
             const raceEntityList =
                 await repository.fetchRaceEntityList(searchFilter);
@@ -90,13 +91,13 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
     });
 
     // 1年間のレース開催データを登録する
-    const raceEntityList: NarRaceEntity[] = Array.from(
+    const raceEntityList: HorseRacingRaceEntity[] = Array.from(
         { length: 60 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, (__, j) =>
-                NarRaceEntity.createWithoutId(
+                HorseRacingRaceEntity.createWithoutId(
                     RaceData.create(
                         RaceType.NAR,
                         `raceName${format(date, 'yyyyMMdd')}`,

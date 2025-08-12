@@ -7,8 +7,8 @@ import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { NarPlaceRecord } from '../../../../../lib/src/gateway/record/narPlaceRecord';
-import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import type { HorseRacingPlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
+import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { NarPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/narPlaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
@@ -16,12 +16,12 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('NarPlaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<NarPlaceRecord>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<HorseRacingPlaceRecord>>;
     let repository: NarPlaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3Gateway<NarPlaceRecord>();
+        s3Gateway = mockS3Gateway<HorseRacingPlaceRecord>();
 
         // DIコンテナにモックを登録
         container.registerInstance('NarPlaceS3Gateway', s3Gateway);
@@ -73,13 +73,13 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
     });
 
     // 1年間の開催場データを登録する
-    const placeEntityList: PlaceEntity[] = Array.from(
+    const placeEntityList: HorseRacingPlaceEntity[] = Array.from(
         { length: 60 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
-                PlaceEntity.createWithoutId(
+                HorseRacingPlaceEntity.createWithoutId(
                     RaceType.NAR,
                     PlaceData.create(RaceType.NAR, date, '大井'),
                     getJSTDate(new Date()),

@@ -1,7 +1,7 @@
 import type { CalendarData } from '../../domain/calendarData';
+import type { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
-import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { RaceType } from '../../utility/raceType';
 
@@ -44,7 +44,7 @@ export interface ICalendarService {
      */
     upsertEvents: (raceEntityList: {
         jra?: JraRaceEntity[];
-        nar?: NarRaceEntity[];
+        nar?: HorseRacingRaceEntity[];
         keirin?: MechanicalRacingRaceEntity[];
         world?: WorldRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];

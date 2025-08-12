@@ -49,6 +49,7 @@ export const baseWorldRaceRecord = WorldRaceRecord.create(
         baseWorldPlaceCourse,
         baseWorldRaceNumber,
     ),
+    RaceType.WORLD,
     baseWorldRaceName,
     baseRaceDateTime,
     baseWorldPlaceCourse,

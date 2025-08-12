@@ -8,6 +8,7 @@ import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -139,6 +140,7 @@ export class WorldRaceRepositoryFromStorageImpl
                 return [
                     WorldRaceRecord.create(
                         columns[indices.id],
+                        RaceType.WORLD,
                         columns[indices.name],
                         new Date(columns[indices.dateTime]),
                         columns[indices.location],

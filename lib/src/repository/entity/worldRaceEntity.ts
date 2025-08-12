@@ -93,6 +93,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     public toRaceRecord(): WorldRaceRecord {
         return WorldRaceRecord.create(
             this.id,
+            this.raceData.raceType,
             this.raceData.name,
             this.raceData.dateTime,
             this.raceData.location,

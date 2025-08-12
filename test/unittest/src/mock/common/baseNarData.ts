@@ -4,10 +4,10 @@ import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { NarPlaceRecord } from '../../../../../lib/src/gateway/record/narPlaceRecord';
-import { NarRaceRecord } from '../../../../../lib/src/gateway/record/narRaceRecord';
-import { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
-import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { HorseRacingPlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
+import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
+import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
+import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import {
@@ -47,20 +47,22 @@ const baseNarConditionData = HorseRaceConditionData.create(
     baseNarRaceDistance,
 );
 
-export const baseNarPlaceRecord = NarPlaceRecord.create(
+export const baseNarPlaceRecord = HorseRacingPlaceRecord.create(
     generatePlaceId(RaceType.NAR, baseNarPlaceDateTime, baseNarPlaceCourse),
+    RaceType.NAR,
     baseNarPlaceDateTime,
     baseNarPlaceCourse,
     baseNarRaceUpdateDate,
 );
 
-export const baseNarRaceRecord = NarRaceRecord.create(
+export const baseNarRaceRecord = HorseRacingRaceRecord.create(
     generateRaceId(
         RaceType.NAR,
         baseNarPlaceDateTime,
         baseNarPlaceCourse,
         baseNarRaceNumber,
     ),
+    RaceType.NAR,
     baseNarRaceName,
     baseRaceDateTime,
     baseNarPlaceCourse,
@@ -71,13 +73,13 @@ export const baseNarRaceRecord = NarRaceRecord.create(
     baseNarRaceUpdateDate,
 );
 
-export const baseNarPlaceEntity = PlaceEntity.createWithoutId(
+export const baseNarPlaceEntity = HorseRacingPlaceEntity.createWithoutId(
     RaceType.NAR,
     baseNarPlaceData,
     baseNarRaceUpdateDate,
 );
 
-export const baseNarRaceEntity = NarRaceEntity.createWithoutId(
+export const baseNarRaceEntity = HorseRacingRaceEntity.createWithoutId(
     baseNarRaceData,
     baseNarConditionData,
     baseNarRaceUpdateDate,
@@ -129,37 +131,38 @@ export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
     },
 };
 
-export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatMap(
-    (location) => {
-        return [
-            '一般',
-            '一般',
-            '一般',
-            'オープン特別',
-            'Listed',
-            'JpnⅢ',
-            'JpnⅡ',
-            'JpnⅠ',
-            'GⅢ',
-            'GⅡ',
-            'GⅠ',
-            '地方重賞',
-        ].map((grade, index) => {
-            return NarRaceEntity.createWithoutId(
-                RaceData.create(
-                    RaceType.NAR,
-                    `テスト${location}${grade}${(index + 1).toString()}レース`,
-                    new Date(2024, 6 - 1, 1, 7 + index, 0),
-                    location,
-                    grade,
-                    index + 1,
-                ),
-                HorseRaceConditionData.create('ダート', 1600),
-                baseNarRaceUpdateDate,
-            );
-        });
-    },
-);
+export const baseNarRaceEntityList: HorseRacingRaceEntity[] = [
+    '大井',
+    '高知',
+].flatMap((location) => {
+    return [
+        '一般',
+        '一般',
+        '一般',
+        'オープン特別',
+        'Listed',
+        'JpnⅢ',
+        'JpnⅡ',
+        'JpnⅠ',
+        'GⅢ',
+        'GⅡ',
+        'GⅠ',
+        '地方重賞',
+    ].map((grade, index) => {
+        return HorseRacingRaceEntity.createWithoutId(
+            RaceData.create(
+                RaceType.NAR,
+                `テスト${location}${grade}${(index + 1).toString()}レース`,
+                new Date(2024, 6 - 1, 1, 7 + index, 0),
+                location,
+                grade,
+                index + 1,
+            ),
+            HorseRaceConditionData.create('ダート', 1600),
+            baseNarRaceUpdateDate,
+        );
+    });
+});
 
 export const baseNarCalendarData = CalendarData.create(
     'test202412292011',
