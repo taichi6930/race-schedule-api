@@ -1,7 +1,7 @@
-import type { MechanicalRacingRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import type { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
+import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import type { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import type { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
