@@ -5,6 +5,7 @@ import { container } from 'tsyringe';
 import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { NarPlaceEntity } from '../../../../../lib/src/repository/entity/narPlaceEntity';
+import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { PublicGamblingPlaceDataService } from '../../../../../lib/src/service/implement/publicGamblingPlaceDataService';
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
@@ -49,6 +50,9 @@ describe('PublicGamblingPlaceDataService', () => {
     let autoracePlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
+    let mechanicalRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
+        IPlaceRepository<MechanicalRacingPlaceEntity>
+    >;
     let service: IPlaceDataService;
 
     beforeEach(() => {
@@ -64,6 +68,7 @@ describe('PublicGamblingPlaceDataService', () => {
             boatracePlaceRepositoryFromHtmlImpl,
             autoracePlaceRepositoryFromStorageImpl,
             autoracePlaceRepositoryFromHtmlImpl,
+            mechanicalRacingPlaceRepositoryFromStorageImpl,
         } = setup);
 
         service = container.resolve(PublicGamblingPlaceDataService);
@@ -90,14 +95,38 @@ describe('PublicGamblingPlaceDataService', () => {
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
             );
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseKeirinPlaceEntity],
-            );
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseAutoracePlaceEntity],
-            );
-            boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseBoatracePlaceEntity],
+            mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
+                async (searchFilter: SearchPlaceFilterEntity) => {
+                    switch (searchFilter.raceType) {
+                        case RaceType.JRA: {
+                            throw new Error(
+                                'JRAのデータはStorageから取得できません',
+                            );
+                        }
+                        case RaceType.NAR: {
+                            throw new Error(
+                                'NARのデータはStorageから取得できません',
+                            );
+                        }
+                        case RaceType.WORLD: {
+                            throw new Error(
+                                'WORLDのデータはStorageから取得できません',
+                            );
+                        }
+                        case RaceType.KEIRIN: {
+                            return [baseKeirinPlaceEntity];
+                        }
+                        case RaceType.BOATRACE: {
+                            return [baseBoatracePlaceEntity];
+                        }
+                        case RaceType.AUTORACE: {
+                            return [baseAutoracePlaceEntity];
+                        }
+                        default: {
+                            return [];
+                        }
+                    }
+                },
             );
 
             const startDate = new Date('2024-06-01');
@@ -166,7 +195,7 @@ describe('PublicGamblingPlaceDataService', () => {
 
         it('開催場データが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
+            mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
                 new Error('開催場データの取得に失敗しました'),
             );
 
@@ -211,20 +240,44 @@ describe('PublicGamblingPlaceDataService', () => {
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
             );
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseKeirinPlaceEntity],
-            );
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseAutoracePlaceEntity],
-            );
-            boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseBoatracePlaceEntity],
+            mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
+                async (searchFilter: SearchPlaceFilterEntity) => {
+                    switch (searchFilter.raceType) {
+                        case RaceType.JRA: {
+                            throw new Error(
+                                'JRAのデータはStorageから取得できません',
+                            );
+                        }
+                        case RaceType.NAR: {
+                            throw new Error(
+                                'NARのデータはStorageから取得できません',
+                            );
+                        }
+                        case RaceType.WORLD: {
+                            throw new Error(
+                                'WORLDのデータはStorageから取得できません',
+                            );
+                        }
+                        case RaceType.KEIRIN: {
+                            return [baseKeirinPlaceEntity];
+                        }
+                        case RaceType.BOATRACE: {
+                            return [baseBoatracePlaceEntity];
+                        }
+                        case RaceType.AUTORACE: {
+                            return [baseAutoracePlaceEntity];
+                        }
+                        default: {
+                            return [];
+                        }
+                    }
+                },
             );
 
             await service.updatePlaceEntityList(mockPlaceEntity);
 
             expect(
-                autoracePlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
 

@@ -7,9 +7,14 @@ import { AutoracePlaceRepositoryFromStorageImpl } from '../../src/repository/imp
 import { BoatracePlaceRepositoryFromStorageImpl } from '../../src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
 import { JraPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { KeirinPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
+import { MechanicalRacingPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/mechanicalRacingPlaceRepositoryFromStorageImpl';
 import { NarPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/narPlaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 
+container.register<IPlaceRepository<MechanicalRacingPlaceEntity>>(
+    'MechanicalRacingPlaceRepositoryFromStorage',
+    { useClass: MechanicalRacingPlaceRepositoryFromStorageImpl },
+);
 container.register<IPlaceRepository<NarPlaceEntity>>(
     'NarPlaceRepositoryFromStorage',
     { useClass: NarPlaceRepositoryFromStorageImpl },
