@@ -2,8 +2,8 @@ import type { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
-import type { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
+import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { DataLocationType } from '../../utility/dataType';
@@ -44,7 +44,7 @@ export interface IRaceDataService {
         type: DataLocationType,
         placeEntityList?: {
             jra?: JraPlaceEntity[];
-            nar?: NarPlaceEntity[];
+            nar?: PlaceEntity[];
             world?: WorldPlaceEntity[];
             keirin?: MechanicalRacingPlaceEntity[];
             autorace?: MechanicalRacingPlaceEntity[];

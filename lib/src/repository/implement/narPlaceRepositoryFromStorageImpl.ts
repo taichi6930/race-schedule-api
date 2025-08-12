@@ -3,24 +3,24 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { NarPlaceEntity } from '../entity/narPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
 export class NarPlaceRepositoryFromStorageImpl
-    implements IPlaceRepository<NarPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
     public constructor(
         @inject('NarPlaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<NarPlaceRecord>,
+        private readonly s3Gateway: IS3Gateway<PlaceRecord>,
     ) {}
 
     /**
@@ -31,13 +31,13 @@ export class NarPlaceRepositoryFromStorageImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<NarPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // 年ごとの開催データを取得
-        const placeRecordList: NarPlaceRecord[] =
+        const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // Entityに変換
-        const placeEntityList: NarPlaceEntity[] = placeRecordList.map(
+        const placeEntityList: PlaceEntity[] = placeRecordList.map(
             (placeRecord) => placeRecord.toEntity(),
         );
 
@@ -54,14 +54,14 @@ export class NarPlaceRepositoryFromStorageImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: NarPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchPlaceRecordList: NarPlaceRecord[] =
+        const existFetchPlaceRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: NarPlaceRecord[] = placeEntityList.map(
+        const placeRecordList: PlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
         );
 
@@ -93,7 +93,7 @@ export class NarPlaceRepositoryFromStorageImpl
      * 開催場データをS3から取得する
      */
     @Logger
-    private async getPlaceRecordListFromS3(): Promise<NarPlaceRecord[]> {
+    private async getPlaceRecordListFromS3(): Promise<PlaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
 
@@ -117,9 +117,9 @@ export class NarPlaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してPlaceDataのリストを生成
-        const placeRecordList: NarPlaceRecord[] = lines
+        const placeRecordList: PlaceRecord[] = lines
             .slice(1)
-            .flatMap((line: string): NarPlaceRecord[] => {
+            .flatMap((line: string): PlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -128,8 +128,9 @@ export class NarPlaceRepositoryFromStorageImpl
                         : getJSTDate(new Date());
 
                     return [
-                        NarPlaceRecord.create(
+                        PlaceRecord.create(
                             columns[indices.id],
+                            RaceType.NAR,
                             new Date(columns[indices.dateTime]),
                             columns[indices.location],
                             updateDate,

@@ -9,7 +9,7 @@ import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGat
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { NarPlaceEntity } from '../entity/narPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -18,7 +18,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  */
 @injectable()
 export class NarPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<NarPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     public constructor(
         @inject('PlaceDataHtmlGateway')
@@ -33,7 +33,7 @@ export class NarPlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<NarPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,
             searchFilter.finishDate,
@@ -43,15 +43,14 @@ export class NarPlaceRepositoryFromHtmlImpl
                 this.fetchMonthPlaceEntityList(month),
             ),
         );
-        const placeEntityList: NarPlaceEntity[] = monthPlaceEntityLists.flat();
+        const placeEntityList: PlaceEntity[] = monthPlaceEntityLists.flat();
 
         // startDateからfinishDateまでの中でのデータを取得
-        const filteredPlaceEntityList: NarPlaceEntity[] =
-            placeEntityList.filter(
-                (placeEntity) =>
-                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
-            );
+        const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
+            (placeEntity) =>
+                placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                placeEntity.placeData.dateTime <= searchFilter.finishDate,
+        );
 
         return filteredPlaceEntityList;
     }
@@ -88,7 +87,7 @@ export class NarPlaceRepositoryFromHtmlImpl
     @Logger
     private async fetchMonthPlaceEntityList(
         date: Date,
-    ): Promise<NarPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         console.log(`S3から${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
@@ -134,11 +133,12 @@ export class NarPlaceRepositoryFromHtmlImpl
             });
         });
 
-        const narPlaceDataList: NarPlaceEntity[] = [];
+        const narPlaceDataList: PlaceEntity[] = [];
         for (const [place, raceDays] of Object.entries(narPlaceDataDict)) {
             for (const raceDay of raceDays) {
                 narPlaceDataList.push(
-                    NarPlaceEntity.createWithoutId(
+                    PlaceEntity.createWithoutId(
+                        RaceType.NAR,
                         PlaceData.create(
                             RaceType.NAR,
                             new Date(
@@ -165,7 +165,7 @@ export class NarPlaceRepositoryFromHtmlImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: NarPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

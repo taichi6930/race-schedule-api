@@ -1,6 +1,6 @@
 import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
-import type { NarPlaceEntity } from '../../../../../lib/src/repository/entity/narPlaceEntity';
+import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
 
 /**
@@ -14,7 +14,7 @@ export const placeDataServiceMock = (): jest.Mocked<IPlaceDataService> => {
             .mockResolvedValue(
                 [] as
                     | JraPlaceEntity[]
-                    | NarPlaceEntity[]
+                    | PlaceEntity[]
                     | MechanicalRacingPlaceEntity[],
             ),
         updatePlaceEntityList: jest.fn().mockResolvedValue([]),

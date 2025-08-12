@@ -10,8 +10,8 @@ import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceC
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import type { NarRaceRecord } from '../../../../../lib/src/gateway/record/narRaceRecord';
-import type { NarPlaceEntity } from '../../../../../lib/src/repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
+import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { NarRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
@@ -49,7 +49,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
             // リクエストの作成
-            const searchFilter = new SearchRaceFilterEntity<NarPlaceEntity>(
+            const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );

@@ -2,13 +2,13 @@ import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { NarPlaceEntity } from '../entity/narPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
 export class MockNarPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<NarPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     /**
      * 地方競馬場データを取得する
@@ -17,14 +17,15 @@ export class MockNarPlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<NarPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの地方競馬場データを取得する
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
             // 地方競馬場データを作成
-            const narPlaceEntity = NarPlaceEntity.createWithoutId(
+            const narPlaceEntity = PlaceEntity.createWithoutId(
+                RaceType.NAR,
                 PlaceData.create(RaceType.NAR, new Date(currentDate), '大井'),
                 getJSTDate(new Date()),
             );
@@ -45,7 +46,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: NarPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

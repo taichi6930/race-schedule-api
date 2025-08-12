@@ -6,8 +6,8 @@ import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jr
 import type { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
-import type { NarPlaceEntity } from '../../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
+import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { WorldPlaceEntity } from '../../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -32,10 +32,10 @@ describe('PublicGamblingRaceDataService', () => {
         IRaceRepository<JraRaceEntity, JraPlaceEntity>
     >;
     let narRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<NarRaceEntity, NarPlaceEntity>
+        IRaceRepository<NarRaceEntity, PlaceEntity>
     >;
     let narRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<NarRaceEntity, NarPlaceEntity>
+        IRaceRepository<NarRaceEntity, PlaceEntity>
     >;
     let worldRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
