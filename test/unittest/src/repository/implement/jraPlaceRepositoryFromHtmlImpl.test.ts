@@ -6,6 +6,7 @@ import type { IPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/inter
 import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { allowedEnvs, SkipEnv } from '../../../../utility/testDecorators';
 
 describe('JraPlaceRepositoryFromHtmlImpl', () => {
@@ -39,6 +40,7 @@ describe('JraPlaceRepositoryFromHtmlImpl', () => {
                     new SearchPlaceFilterEntity(
                         new Date('2024-01-01'),
                         new Date('2024-12-31'),
+                        RaceType.JRA,
                     ),
                 );
                 expect(placeEntityList).toHaveLength(288);
@@ -53,7 +55,7 @@ describe('JraPlaceRepositoryFromHtmlImpl', () => {
             async () => {
                 // テスト実行
                 await expect(
-                    repository.registerPlaceEntityList([]),
+                    repository.registerPlaceEntityList(RaceType.JRA, []),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             },
         );

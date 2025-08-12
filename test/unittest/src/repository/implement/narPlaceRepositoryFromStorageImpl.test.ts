@@ -50,6 +50,7 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
                 new SearchPlaceFilterEntity(
                     new Date('2024-01-01'),
                     new Date('2024-02-01'),
+                    RaceType.NAR,
                 ),
             );
 
@@ -61,7 +62,10 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
     describe('registerPlaceList', () => {
         test('正しい開催場データを登録できる', async () => {
             // テスト実行
-            await repository.registerPlaceEntityList(placeEntityList);
+            await repository.registerPlaceEntityList(
+                RaceType.NAR,
+                placeEntityList,
+            );
 
             // uploadDataToS3が12回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

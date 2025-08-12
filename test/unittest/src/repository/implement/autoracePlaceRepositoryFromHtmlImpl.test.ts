@@ -7,6 +7,7 @@ import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mo
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { AutoracePlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
 
 describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
@@ -40,6 +41,7 @@ describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
                     new SearchPlaceFilterEntity(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
+                        RaceType.AUTORACE,
                     ),
                 );
                 expect(placeEntityList).toHaveLength(60);
@@ -54,7 +56,7 @@ describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
             async () => {
                 // テスト実行
                 await expect(
-                    repository.registerPlaceEntityList([]),
+                    repository.registerPlaceEntityList(RaceType.AUTORACE, []),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             },
         );
