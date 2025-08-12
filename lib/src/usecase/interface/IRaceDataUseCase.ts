@@ -1,5 +1,5 @@
-import type { MechanicalRacingRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
+import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
