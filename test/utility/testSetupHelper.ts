@@ -79,6 +79,9 @@ export interface TestSetup {
     worldRaceRepositoryFromHtmlImpl: jest.Mocked<
         IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
     >;
+    mechanicalRacingRaceRepositoryFromStorageImpl: jest.Mocked<
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
+    >;
     keirinRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
     >;
@@ -155,6 +158,16 @@ export function setupTestMock(): TestSetup {
         IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
     >('WorldRaceRepositoryFromHtml', worldRaceRepositoryFromHtmlImpl);
 
+    const mechanicalRacingRaceRepositoryFromStorageImpl = mockRaceRepository<
+        MechanicalRacingRaceEntity,
+        MechanicalRacingPlaceEntity
+    >();
+    container.registerInstance<
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
+    >(
+        'MechanicalRacingRaceRepositoryFromStorage',
+        mechanicalRacingRaceRepositoryFromStorageImpl,
+    );
     // keirin
     const keirinRaceRepositoryFromStorageImpl = mockRaceRepository<
         MechanicalRacingRaceEntity,
@@ -296,6 +309,7 @@ export function setupTestMock(): TestSetup {
         narRaceRepositoryFromHtmlImpl,
         worldRaceRepositoryFromStorageImpl,
         worldRaceRepositoryFromHtmlImpl,
+        mechanicalRacingRaceRepositoryFromStorageImpl,
         keirinRaceRepositoryFromStorageImpl,
         keirinRaceRepositoryFromHtmlImpl,
         boatraceRaceRepositoryFromStorageImpl,

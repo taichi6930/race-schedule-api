@@ -81,6 +81,11 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             MechanicalRacingRaceEntity,
             MechanicalRacingPlaceEntity
         >,
+        @inject('MechanicalRacingRaceRepositoryFromStorage')
+        protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepository<
+            MechanicalRacingRaceEntity,
+            MechanicalRacingPlaceEntity
+        >,
     ) {}
 
     /**

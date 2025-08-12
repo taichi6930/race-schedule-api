@@ -12,6 +12,7 @@ import { AutoraceRaceRepositoryFromStorageImpl } from '../../src/repository/impl
 import { BoatraceRaceRepositoryFromStorageImpl } from '../../src/repository/implement/boatraceRaceRepositoryFromStorageImpl';
 import { JraRaceRepositoryFromStorageImpl } from '../../src/repository/implement/jraRaceRepositoryFromStorageImpl';
 import { KeirinRaceRepositoryFromStorageImpl } from '../../src/repository/implement/keirinRaceRepositoryFromStorageImpl';
+import { MechanicalRacingRaceRepositoryFromStorageImpl } from '../../src/repository/implement/mechanicalRacingRaceRepositoryFromStorageImpl';
 import { NarRaceRepositoryFromStorageImpl } from '../../src/repository/implement/narRaceRepositoryFromStorageImpl';
 import { WorldRaceRepositoryFromStorageImpl } from '../../src/repository/implement/worldRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
@@ -43,4 +44,9 @@ container.register<
     IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 >('BoatraceRaceRepositoryFromStorage', {
     useClass: BoatraceRaceRepositoryFromStorageImpl,
+});
+container.register<
+    IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
+>('MechanicalRacingRaceRepositoryFromStorage', {
+    useClass: MechanicalRacingRaceRepositoryFromStorageImpl,
 });
