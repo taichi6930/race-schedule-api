@@ -51,28 +51,13 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             WorldRaceEntity,
             WorldPlaceEntity
         >,
-        @inject('KeirinRaceRepositoryFromStorage')
-        protected keirinRaceRepositoryFromStorage: IRaceRepository<
-            MechanicalRacingRaceEntity,
-            MechanicalRacingPlaceEntity
-        >,
         @inject('KeirinRaceRepositoryFromHtml')
         protected keirinRaceRepositoryFromHtml: IRaceRepository<
             MechanicalRacingRaceEntity,
             MechanicalRacingPlaceEntity
         >,
-        @inject('AutoraceRaceRepositoryFromStorage')
-        protected autoraceRaceRepositoryFromStorage: IRaceRepository<
-            MechanicalRacingRaceEntity,
-            MechanicalRacingPlaceEntity
-        >,
         @inject('AutoraceRaceRepositoryFromHtml')
         protected autoraceRaceRepositoryFromHtml: IRaceRepository<
-            MechanicalRacingRaceEntity,
-            MechanicalRacingPlaceEntity
-        >,
-        @inject('BoatraceRaceRepositoryFromStorage')
-        protected boatraceRaceRepositoryFromStorage: IRaceRepository<
             MechanicalRacingRaceEntity,
             MechanicalRacingPlaceEntity
         >,
@@ -225,7 +210,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     );
                 const keirinRaceEntityList: MechanicalRacingRaceEntity[] =
                     type === DataLocation.Storage
-                        ? await this.keirinRaceRepositoryFromStorage.fetchRaceEntityList(
+                        ? await this.mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList(
                               searchFilter,
                           )
                         : await this.keirinRaceRepositoryFromHtml.fetchRaceEntityList(
@@ -247,7 +232,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     );
                 const autoraceRaceEntityList: MechanicalRacingRaceEntity[] =
                     type === DataLocation.Storage
-                        ? await this.autoraceRaceRepositoryFromStorage.fetchRaceEntityList(
+                        ? await this.mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList(
                               searchFilter,
                           )
                         : await this.autoraceRaceRepositoryFromHtml.fetchRaceEntityList(
@@ -269,7 +254,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     );
                 const boatraceRaceEntityList: MechanicalRacingRaceEntity[] =
                     type === DataLocation.Storage
-                        ? await this.boatraceRaceRepositoryFromStorage.fetchRaceEntityList(
+                        ? await this.mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList(
                               searchFilter,
                           )
                         : await this.boatraceRaceRepositoryFromHtml.fetchRaceEntityList(
@@ -340,7 +325,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 raceEntityList.keirin !== undefined &&
                 raceEntityList.keirin.length > 0
             ) {
-                await this.keirinRaceRepositoryFromStorage.registerRaceEntityList(
+                await this.mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList(
                     RaceType.KEIRIN,
                     raceEntityList.keirin,
                 );
@@ -349,7 +334,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 raceEntityList.autorace !== undefined &&
                 raceEntityList.autorace.length > 0
             ) {
-                await this.autoraceRaceRepositoryFromStorage.registerRaceEntityList(
+                await this.mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList(
                     RaceType.AUTORACE,
                     raceEntityList.autorace,
                 );
@@ -358,7 +343,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 raceEntityList.boatrace !== undefined &&
                 raceEntityList.boatrace.length > 0
             ) {
-                await this.boatraceRaceRepositoryFromStorage.registerRaceEntityList(
+                await this.mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList(
                     RaceType.BOATRACE,
                     raceEntityList.boatrace,
                 );
