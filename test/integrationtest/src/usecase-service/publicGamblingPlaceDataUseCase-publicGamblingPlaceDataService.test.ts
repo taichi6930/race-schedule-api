@@ -31,7 +31,8 @@ import {
     baseNarPlaceData,
     baseNarPlaceEntity,
 } from '../../../unittest/src/mock/common/baseNarData';
-import { mockPlaceRepository } from '../../../unittest/src/mock/repository/mockPlaceRepository';
+import type { TestSetup } from '../../../utility/testSetupHelper';
+import { setupTestMock } from '../../../utility/testSetupHelper';
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 
 describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => {
@@ -63,59 +64,17 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     let useCase: IPlaceDataUseCase;
 
     beforeEach(() => {
-        jraPlaceRepositoryFromStorageImpl =
-            mockPlaceRepository<JraPlaceEntity>();
-        container.registerInstance<IPlaceRepository<JraPlaceEntity>>(
-            'JraPlaceRepositoryFromStorage',
+        const setup: TestSetup = setupTestMock();
+        ({
             jraPlaceRepositoryFromStorageImpl,
-        );
-
-        jraPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.registerInstance<IPlaceRepository<JraPlaceEntity>>(
-            'JraPlaceRepositoryFromHtml',
             jraPlaceRepositoryFromHtmlImpl,
-        );
-        narPlaceRepositoryFromStorageImpl =
-            mockPlaceRepository<NarPlaceEntity>();
-        container.registerInstance<IPlaceRepository<NarPlaceEntity>>(
-            'NarPlaceRepositoryFromStorage',
             narPlaceRepositoryFromStorageImpl,
-        );
-
-        narPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.registerInstance<IPlaceRepository<NarPlaceEntity>>(
-            'NarPlaceRepositoryFromHtml',
             narPlaceRepositoryFromHtmlImpl,
-        );
-        keirinPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
-        >('KeirinPlaceRepositoryFromHtml', keirinPlaceRepositoryFromHtmlImpl);
-
-        boatracePlaceRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
-        >(
-            'BoatracePlaceRepositoryFromHtml',
+            keirinPlaceRepositoryFromHtmlImpl,
             boatracePlaceRepositoryFromHtmlImpl,
-        );
-
-        autoracePlaceRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
-        >(
-            'AutoracePlaceRepositoryFromHtml',
             autoracePlaceRepositoryFromHtmlImpl,
-        );
-
-        mechanicalRacingPlaceRepositoryFromStorageImpl =
-            mockPlaceRepository<MechanicalRacingPlaceEntity>();
-        container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
-        >(
-            'MechanicalRacingPlaceRepositoryFromStorage',
             mechanicalRacingPlaceRepositoryFromStorageImpl,
-        );
+        } = setup);
 
         service = container.resolve(PublicGamblingPlaceDataService);
         container.registerInstance<IPlaceDataService>(
