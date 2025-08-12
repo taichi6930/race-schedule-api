@@ -25,6 +25,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
                 for (let i = 1; i <= 12; i++) {
                     raceEntityList.push(
                         JraRaceEntity.createWithoutId(
+                            RaceType.JRA,
                             RaceData.create(
                                 RaceType.JRA,
                                 `${placeEntity.placeData.location}第${i.toString()}R`,

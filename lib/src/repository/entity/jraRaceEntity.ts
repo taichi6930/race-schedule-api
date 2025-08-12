@@ -19,6 +19,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     /**
      * コンストラクタ
      * @param id - ID
+     * @param raceType - レース種別
      * @param raceData - レースデータ
      * @param heldDayData - 開催日データ
      * @param conditionData - コンディションデータ
@@ -28,6 +29,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      */
     private constructor(
         public readonly id: RaceId,
+        public readonly raceType: RaceType,
         public readonly raceData: RaceData,
         public readonly heldDayData: HeldDayData,
         public readonly conditionData: HorseRaceConditionData,
@@ -37,6 +39,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     /**
      * インスタンス生成メソッド
      * @param id - ID
+     * @param raceType
      * @param raceData - レースデータ
      * @param heldDayData
      * @param conditionData
@@ -44,6 +47,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      */
     public static create(
         id: string,
+        raceType: RaceType,
         raceData: RaceData,
         heldDayData: HeldDayData,
         conditionData: HorseRaceConditionData,
@@ -51,6 +55,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     ): JraRaceEntity {
         return new JraRaceEntity(
             validateRaceId(RaceType.JRA, id),
+            raceType,
             raceData,
             heldDayData,
             conditionData,
@@ -60,12 +65,14 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
 
     /**
      * idがない場合でのcreate
+     * @param raceType
      * @param raceData
      * @param heldDayData
      * @param conditionData
      * @param updateDate
      */
     public static createWithoutId(
+        raceType: RaceType,
         raceData: RaceData,
         heldDayData: HeldDayData,
         conditionData: HorseRaceConditionData,
@@ -78,6 +85,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
                 raceData.location,
                 raceData.number,
             ),
+            raceType,
             raceData,
             heldDayData,
             conditionData,
@@ -92,6 +100,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     public copy(partial: Partial<JraRaceEntity> = {}): JraRaceEntity {
         return JraRaceEntity.create(
             partial.id ?? this.id,
+            partial.raceType ?? this.raceType,
             partial.raceData ?? this.raceData,
             partial.heldDayData ?? this.heldDayData,
             partial.conditionData ?? this.conditionData,
