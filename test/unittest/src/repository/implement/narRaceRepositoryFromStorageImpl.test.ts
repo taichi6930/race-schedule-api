@@ -14,13 +14,17 @@ import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/e
 import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { NarRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromStorageImpl';
+import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('NarRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
-    let repository: NarRaceRepositoryFromStorageImpl;
+    let repository: IRaceRepository<
+        HorseRacingRaceEntity,
+        HorseRacingPlaceEntity
+    >;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成

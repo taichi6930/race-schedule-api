@@ -7,8 +7,10 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
+import type { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { JraRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl';
+import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -16,7 +18,7 @@ import { SkipEnv } from '../../../../utility/testDecorators';
 
 describe('JraRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
-    let repository: JraRaceRepositoryFromHtmlImpl;
+    let repository: IRaceRepository<JraRaceEntity, JraPlaceEntity>;
 
     beforeEach(() => {
         // gatewayのモックを作成

@@ -14,13 +14,14 @@ import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity
 import type { WorldPlaceEntity } from '../../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/worldRaceRepositoryFromStorageImpl';
+import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('WorldRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<WorldRaceRecord>>;
-    let repository: WorldRaceRepositoryFromStorageImpl;
+    let repository: IRaceRepository<WorldRaceEntity, WorldPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成

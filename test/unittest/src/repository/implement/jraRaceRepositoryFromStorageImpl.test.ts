@@ -15,13 +15,14 @@ import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jr
 import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { JraRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromStorageImpl';
+import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('JraRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<JraRaceRecord>>;
-    let repository: JraRaceRepositoryFromStorageImpl;
+    let repository: IRaceRepository<JraRaceEntity, JraPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成

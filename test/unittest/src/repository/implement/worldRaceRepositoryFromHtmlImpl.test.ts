@@ -6,14 +6,16 @@ import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interf
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import type { WorldPlaceEntity } from '../../../../../lib/src/repository/entity/worldPlaceEntity';
+import type { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl';
+import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
 
 describe('WorldRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
-    let repository: WorldRaceRepositoryFromHtmlImpl;
+    let repository: IRaceRepository<WorldRaceEntity, WorldPlaceEntity>;
 
     beforeEach(() => {
         // gatewayのモックを作成
