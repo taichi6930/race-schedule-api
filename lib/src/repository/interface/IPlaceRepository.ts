@@ -1,3 +1,4 @@
+import type { RaceType } from '../../utility/raceType';
 import type { IPlaceEntity } from '../entity/iPlaceEntity';
 import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 
@@ -53,5 +54,8 @@ export interface IPlaceRepository<P extends IPlaceEntity<P>> {
      *               - データストアへの書き込みに失敗
      *               - 一意制約違反が発生
      */
-    registerPlaceEntityList: (placeEntityList: P[]) => Promise<void>;
+    registerPlaceEntityList: (
+        raceType: RaceType,
+        placeEntityList: P[],
+    ) => Promise<void>;
 }

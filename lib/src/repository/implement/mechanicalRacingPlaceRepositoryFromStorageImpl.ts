@@ -13,18 +13,22 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
- * オートレースデータリポジトリの実装
+ * メカニカルレースデータリポジトリの実装
  */
 @injectable()
-export class AutoracePlaceRepositoryFromStorageImpl
+export class MechanicalRacingPlaceRepositoryFromStorageImpl
     implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
     public constructor(
+        @inject('KeirinPlaceS3Gateway')
+        private readonly s3GatewayForKeirin: IS3Gateway<MechanicalRacingPlaceRecord>,
         @inject('AutoracePlaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<MechanicalRacingPlaceRecord>,
+        private readonly s3GatewayForAutorace: IS3Gateway<MechanicalRacingPlaceRecord>,
+        @inject('BoatracePlaceS3Gateway')
+        private readonly s3GatewayForBoatrace: IS3Gateway<MechanicalRacingPlaceRecord>,
     ) {}
 
     /**
@@ -39,7 +43,9 @@ export class AutoracePlaceRepositoryFromStorageImpl
     ): Promise<MechanicalRacingPlaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const placeRecordList: MechanicalRacingPlaceRecord[] =
-            await this.getPlaceRecordListFromS3();
+            await this.getPlaceRecordListFromS3(
+                searchFilter.raceType, // ここでは最初のレースタイプを使用
+            );
 
         const placeEntityList: MechanicalRacingPlaceEntity[] =
             placeRecordList.map((placeRecord) => placeRecord.toEntity());
@@ -62,7 +68,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
     ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: MechanicalRacingPlaceRecord[] =
-            await this.getPlaceRecordListFromS3();
+            await this.getPlaceRecordListFromS3(raceType);
 
         // PlaceEntityをPlaceRecordに変換する
         const placeRecordList: MechanicalRacingPlaceRecord[] =
@@ -86,7 +92,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
 
-        await this.s3Gateway.uploadDataToS3(
+        await this.s3GatewayForAutorace.uploadDataToS3(
             existFetchPlaceRecordList,
             this.fileName,
         );
@@ -94,13 +100,15 @@ export class AutoracePlaceRepositoryFromStorageImpl
 
     /**
      * 開催場データをS3から取得する
+     * @param raceType
      */
     @Logger
-    private async getPlaceRecordListFromS3(): Promise<
-        MechanicalRacingPlaceRecord[]
-    > {
+    private async getPlaceRecordListFromS3(
+        raceType: RaceType,
+    ): Promise<MechanicalRacingPlaceRecord[]> {
         // S3からデータを取得する
-        const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
+        const s3Gateway = this.setS3Gateway(raceType);
+        const csv = await s3Gateway.fetchDataFromS3(this.fileName);
 
         // ファイルが空の場合は空のリストを返す
         if (!csv) {
@@ -149,5 +157,31 @@ export class AutoracePlaceRepositoryFromStorageImpl
             });
 
         return placeRecordList;
+    }
+
+    private setS3Gateway(
+        raceType: RaceType,
+    ): IS3Gateway<MechanicalRacingPlaceRecord> {
+        switch (raceType) {
+            case RaceType.KEIRIN: {
+                return this.s3GatewayForKeirin;
+            }
+            case RaceType.AUTORACE: {
+                return this.s3GatewayForAutorace;
+            }
+            case RaceType.BOATRACE: {
+                return this.s3GatewayForBoatrace;
+            }
+            case RaceType.JRA:
+            case RaceType.NAR: {
+                throw new Error(`まだ未定義のレースタイプです: ${raceType}`);
+            }
+            case RaceType.WORLD: {
+                throw new Error(`WORLDはサポートされていません: ${raceType}`);
+            }
+            default: {
+                throw new Error(`Unsupported race type`);
+            }
+        }
     }
 }

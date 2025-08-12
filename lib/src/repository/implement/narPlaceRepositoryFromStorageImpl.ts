@@ -6,6 +6,7 @@ import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -52,6 +53,7 @@ export class NarPlaceRepositoryFromStorageImpl
 
     @Logger
     public async registerPlaceEntityList(
+        raceType: RaceType,
         placeEntityList: NarPlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する

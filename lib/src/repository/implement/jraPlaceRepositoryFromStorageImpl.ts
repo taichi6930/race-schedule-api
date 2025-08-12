@@ -6,6 +6,7 @@ import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -51,6 +52,7 @@ export class JraPlaceRepositoryFromStorageImpl
 
     @Logger
     public async registerPlaceEntityList(
+        raceType: RaceType,
         placeEntityList: JraPlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
