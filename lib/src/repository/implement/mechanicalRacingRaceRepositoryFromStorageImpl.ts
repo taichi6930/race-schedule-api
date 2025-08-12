@@ -57,6 +57,9 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         const raceRaceRecordList: MechanicalRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(searchFilter.raceType);
 
+        console.log(racePlayerRecordList.length, '選手データの取得件数');
+        console.log(raceRaceRecordList.length, 'レースデータの取得件数');
+
         // RaceEntityに変換
         const raceEntityList: MechanicalRacingRaceEntity[] =
             raceRaceRecordList.map((raceRecord) => {
@@ -184,9 +187,6 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         borderDate?: Date,
     ): Promise<MechanicalRacingRaceRecord[]> {
         // S3からデータを取得する
-        // const csv = await this.raceS3GatewayForKeirin.fetchDataFromS3(
-        //     this.raceListFileName,
-        // );
         const csv = await this.fetchDataFromRaceS3Gateway(
             raceType,
             this.raceListFileName,
@@ -234,7 +234,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
                 result.push(
                     MechanicalRacingRaceRecord.create(
                         columns[indices.id],
-                        RaceType.KEIRIN,
+                        raceType,
                         columns[indices.name],
                         columns[indices.stage],
                         dateTime,
@@ -300,7 +300,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
                     return [
                         RacePlayerRecord.create(
                             columns[indices.id],
-                            RaceType.KEIRIN,
+                            raceType,
                             columns[indices.raceId],
                             Number.parseInt(columns[indices.positionNumber]),
                             Number.parseInt(columns[indices.playerNumber]),
