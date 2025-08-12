@@ -23,14 +23,12 @@ import { NarRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/na
 import { WorldRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/worldRaceRepositoryFromHtmlImpl';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
-import { MockAutoracePlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockAutoracePlaceRepositoryFromHtmlImpl';
 import { MockAutoraceRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockAutoraceRaceRepositoryFromHtmlImpl';
-import { MockBoatracePlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockBoatracePlaceRepositoryFromHtmlImpl';
 import { MockBoatraceRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockBoatraceRaceRepositoryFromHtmlImpl';
 import { MockJraPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockJraPlaceRepositoryFromHtmlImpl';
 import { MockJraRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockJraRaceRepositoryFromHtmlImpl';
-import { MockKeirinPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockKeirinPlaceRepositoryFromHtmlImpl';
 import { MockKeirinRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockKeirinRaceRepositoryFromHtmlImpl';
+import { MockMechanicalRacingPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockMechanicalRacingPlaceRepositoryFromHtmlImpl';
 import { MockNarPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockNarPlaceRepositoryFromHtmlImpl';
 import { MockNarRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockNarRaceRepositoryFromHtmlImpl';
 import { MockWorldRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockWorldRaceRepositoryFromHtmlImpl';
@@ -122,7 +120,7 @@ switch (ENV) {
         });
         container.register<IPlaceRepository<MechanicalRacingPlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
-            { useClass: MockKeirinPlaceRepositoryFromHtmlImpl },
+            { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },
         );
         container.register<
             IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
@@ -131,7 +129,7 @@ switch (ENV) {
         });
         container.register<IPlaceRepository<MechanicalRacingPlaceEntity>>(
             'AutoracePlaceRepositoryFromHtml',
-            { useClass: MockAutoracePlaceRepositoryFromHtmlImpl },
+            { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },
         );
         container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
             'WorldRaceRepositoryFromHtml',
@@ -139,7 +137,7 @@ switch (ENV) {
         );
         container.register<IPlaceRepository<MechanicalRacingPlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',
-            { useClass: MockBoatracePlaceRepositoryFromHtmlImpl },
+            { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },
         );
         container.register<
             IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
