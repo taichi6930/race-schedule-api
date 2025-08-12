@@ -11,9 +11,11 @@ import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
 /**
- * オートレースのレース開催データ
+ * メカニカルレースのレース開催データ
  */
-export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
+export class MechanicalRacingRaceEntity
+    implements IRaceEntity<MechanicalRacingRaceEntity>
+{
     /**
      * コンストラクタ
      * @param id - ID
@@ -46,8 +48,8 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
         stage: RaceStage,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
-    ): AutoraceRaceEntity {
-        return new AutoraceRaceEntity(
+    ): MechanicalRacingRaceEntity {
+        return new MechanicalRacingRaceEntity(
             validateRaceId(raceData.raceType, id),
             raceData,
             stage,
@@ -68,8 +70,8 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
         stage: RaceStage,
         racePlayerDataList: RacePlayerData[],
         updateDate: Date,
-    ): AutoraceRaceEntity {
-        return AutoraceRaceEntity.create(
+    ): MechanicalRacingRaceEntity {
+        return MechanicalRacingRaceEntity.create(
             generateRaceId(
                 raceData.raceType,
                 raceData.dateTime,
@@ -87,8 +89,10 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<AutoraceRaceEntity> = {}): AutoraceRaceEntity {
-        return AutoraceRaceEntity.create(
+    public copy(
+        partial: Partial<MechanicalRacingRaceEntity> = {},
+    ): MechanicalRacingRaceEntity {
+        return MechanicalRacingRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.stage ?? this.stage,
@@ -98,7 +102,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     }
 
     /**
-     * AutoraceRaceRecordに変換する
+     * RaceRecordに変換する
      */
     public toRaceRecord(): RaceRecord {
         return RaceRecord.create(
@@ -115,7 +119,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     }
 
     /**
-     * AutoraceRacePlayerRecordに変換する
+     * RacePlayerRecordに変換する
      */
     public toPlayerRecordList(): RacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>

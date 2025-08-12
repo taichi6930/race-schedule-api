@@ -15,8 +15,8 @@ import {
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
+import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -25,7 +25,8 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class BoatraceRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
+    implements
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -39,8 +40,8 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
-    ): Promise<BoatraceRaceEntity[]> {
-        const boatraceRaceDataList: BoatraceRaceEntity[] = [];
+    ): Promise<MechanicalRacingRaceEntity[]> {
+        const boatraceRaceDataList: MechanicalRacingRaceEntity[] = [];
         const { placeEntityList } = searchFilter;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
@@ -62,7 +63,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     public async fetchRaceListFromHtmlWithBoatracePlace(
         placeData: PlaceData,
         grade: GradeType,
-    ): Promise<BoatraceRaceEntity[]> {
+    ): Promise<MechanicalRacingRaceEntity[]> {
         try {
             const [year, month, day] = [
                 placeData.dateTime.getFullYear(),
@@ -77,7 +78,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                 placeData.location,
                 raceNumber,
             );
-            const boatraceRaceEntityList: BoatraceRaceEntity[] = [];
+            const boatraceRaceEntityList: MechanicalRacingRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
 
             // raceNameを取得 class="heading2_titleName"のtext
@@ -112,7 +113,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             const racePlayerDataList: RacePlayerData[] = [];
 
             boatraceRaceEntityList.push(
-                BoatraceRaceEntity.createWithoutId(
+                MechanicalRacingRaceEntity.createWithoutId(
                     RaceData.create(
                         RaceType.BOATRACE,
                         raceName,
@@ -185,7 +186,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async registerRaceEntityList(
-        raceEntityList: BoatraceRaceEntity[],
+        raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

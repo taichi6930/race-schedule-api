@@ -12,8 +12,8 @@ import { KeirinStageMap, RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
+import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -22,7 +22,8 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class KeirinRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
+    implements
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -36,8 +37,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
-    ): Promise<KeirinRaceEntity[]> {
-        const keirinRaceDataList: KeirinRaceEntity[] = [];
+    ): Promise<MechanicalRacingRaceEntity[]> {
+        const keirinRaceDataList: MechanicalRacingRaceEntity[] = [];
         const { placeEntityList } = searchFilter;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
@@ -59,7 +60,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
     public async fetchRaceListFromHtmlWithKeirinPlace(
         placeData: PlaceData,
         grade: GradeType,
-    ): Promise<KeirinRaceEntity[]> {
+    ): Promise<MechanicalRacingRaceEntity[]> {
         try {
             const [year, month, day] = [
                 placeData.dateTime.getFullYear(),
@@ -71,7 +72,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 placeData.dateTime,
                 placeData.location,
             );
-            const keirinRaceEntityList: KeirinRaceEntity[] = [];
+            const keirinRaceEntityList: MechanicalRacingRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
@@ -173,7 +174,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                             raceStage != null
                         ) {
                             keirinRaceEntityList.push(
-                                KeirinRaceEntity.createWithoutId(
+                                MechanicalRacingRaceEntity.createWithoutId(
                                     keirinRaceData,
                                     raceStage,
                                     racePlayerDataList,
@@ -298,7 +299,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async registerRaceEntityList(
-        raceEntityList: KeirinRaceEntity[],
+        raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

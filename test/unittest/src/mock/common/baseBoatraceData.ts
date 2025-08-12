@@ -5,8 +5,8 @@ import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
 import { RaceRecord } from '../../../../../lib/src/gateway/record/raceRecord';
-import { BoatraceRaceEntity } from '../../../../../lib/src/repository/entity/boatraceRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
+import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
@@ -88,12 +88,13 @@ export const baseBoatraceRacePlayerDataList = Array.from(
     },
 );
 
-export const baseBoatraceRaceEntity = BoatraceRaceEntity.createWithoutId(
-    baseBoatraceRaceData,
-    baseBoatraceRaceStage,
-    baseBoatraceRacePlayerDataList,
-    baseBoatraceRaceUpdateDate,
-);
+export const baseBoatraceRaceEntity =
+    MechanicalRacingRaceEntity.createWithoutId(
+        baseBoatraceRaceData,
+        baseBoatraceRaceStage,
+        baseBoatraceRacePlayerDataList,
+        baseBoatraceRaceUpdateDate,
+    );
 
 export const baseBoatraceRacePlayerRecord = RacePlayerRecord.create(
     generateRacePlayerId(
@@ -115,7 +116,7 @@ export const baseBoatraceRacePlayerRecord = RacePlayerRecord.create(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
+export const baseBoatraceRaceEntityList: MechanicalRacingRaceEntity[] = [
     { location: '平和島', grade: 'SG' },
     { location: '戸田', grade: 'GⅠ' },
     { location: '江戸川', grade: 'GⅡ' },
@@ -148,7 +149,7 @@ export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
         const racePlayerDataList = Array.from({ length: 6 }, (_, i) => {
             return RacePlayerData.create(RaceType.BOATRACE, i + 1, i + 1);
         });
-        return BoatraceRaceEntity.createWithoutId(
+        return MechanicalRacingRaceEntity.createWithoutId(
             raceData,
             stage,
             racePlayerDataList,

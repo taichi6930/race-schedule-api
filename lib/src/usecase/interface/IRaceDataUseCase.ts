@@ -1,7 +1,5 @@
-import type { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import type { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import type { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
@@ -57,9 +55,9 @@ export interface IRaceDataUseCase {
         jra: JraRaceEntity[];
         nar: NarRaceEntity[];
         world: WorldRaceEntity[];
-        keirin: KeirinRaceEntity[];
-        autorace: AutoraceRaceEntity[];
-        boatrace: BoatraceRaceEntity[];
+        keirin: MechanicalRacingRaceEntity[];
+        autorace: MechanicalRacingRaceEntity[];
+        boatrace: MechanicalRacingRaceEntity[];
     }>;
 
     /**

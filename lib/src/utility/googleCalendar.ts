@@ -11,10 +11,8 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../domain/calendarData';
-import { AutoraceRaceEntity } from '../repository/entity/autoraceRaceEntity';
-import { BoatraceRaceEntity } from '../repository/entity/boatraceRaceEntity';
 import { JraRaceEntity } from '../repository/entity/jraRaceEntity';
-import { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
+import { MechanicalRacingRaceEntity } from '../repository/entity/mechanicalRacingRaceEntity';
 import { NarRaceEntity } from '../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
 import type { GradeType } from './data/common/gradeType';
@@ -31,7 +29,7 @@ import {
 } from './data/url';
 import { getJSTDate } from './date';
 import { createAnchorTag, formatDate } from './format';
-import type { RaceType } from './raceType';
+import { RaceType } from './raceType';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール
@@ -149,9 +147,8 @@ export function toGoogleCalendarData(
         | JraRaceEntity
         | NarRaceEntity
         | WorldRaceEntity
-        | KeirinRaceEntity
-        | AutoraceRaceEntity
-        | BoatraceRaceEntity,
+        | MechanicalRacingRaceEntity,
+
     updateDate: Date = new Date(),
 ): calendar_v3.Schema$Event {
     function createSummary(): string {
@@ -168,14 +165,16 @@ export function toGoogleCalendarData(
         if (raceEntity instanceof WorldRaceEntity) {
             return `${raceEntity.raceData.location}競馬場`;
         }
-        if (raceEntity instanceof KeirinRaceEntity) {
-            return `${raceEntity.raceData.location}競輪場`;
-        }
-        if (raceEntity instanceof AutoraceRaceEntity) {
-            return `${raceEntity.raceData.location}オートレース場`;
-        }
-        if (raceEntity instanceof BoatraceRaceEntity) {
-            return `${raceEntity.raceData.location}ボートレース場`;
+        if (raceEntity instanceof MechanicalRacingRaceEntity) {
+            if (raceEntity.raceData.raceType === RaceType.KEIRIN) {
+                return `${raceEntity.raceData.location}競輪場`;
+            }
+            if (raceEntity.raceData.raceType === RaceType.AUTORACE) {
+                return `${raceEntity.raceData.location}オートレース場`;
+            }
+            if (raceEntity.raceData.raceType === RaceType.BOATRACE) {
+                return `${raceEntity.raceData.location}ボートレース場`;
+            }
         }
         throw new Error(`Unknown race type`);
     }
@@ -190,13 +189,7 @@ export function toGoogleCalendarData(
         if (raceEntity instanceof WorldRaceEntity) {
             return '';
         }
-        if (raceEntity instanceof KeirinRaceEntity) {
-            return raceEntity.stage;
-        }
-        if (raceEntity instanceof AutoraceRaceEntity) {
-            return raceEntity.stage;
-        }
-        if (raceEntity instanceof BoatraceRaceEntity) {
+        if (raceEntity instanceof MechanicalRacingRaceEntity) {
             return raceEntity.stage;
         }
         throw new Error(`Unknown race type`);
@@ -210,17 +203,17 @@ export function toGoogleCalendarData(
     function createDescription(): string {
         const raceTimeStr = `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}`;
         const updateStr = `更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}`;
-        if (raceEntity instanceof BoatraceRaceEntity) {
+        if (raceEntity instanceof MechanicalRacingRaceEntity) {
             return `${raceTimeStr}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof AutoraceRaceEntity) {
+        if (raceEntity instanceof MechanicalRacingRaceEntity) {
             return `${raceTimeStr}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof KeirinRaceEntity) {
+        if (raceEntity instanceof MechanicalRacingRaceEntity) {
             return `${raceTimeStr}
                     ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${KeirinPlaceCodeMap[raceEntity.raceData.location]}${raceEntity.raceData.number.toXDigits(2)}`)}
                     ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}

@@ -10,8 +10,8 @@ import { RaceRecord } from '../../gateway/record/raceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
+import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -20,7 +20,8 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class KeirinRaceRepositoryFromStorageImpl
-    implements IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
+    implements
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
     private readonly raceListFileName = 'raceList.csv';
     private readonly racePlayerListFileName = 'racePlayerList.csv';
@@ -39,7 +40,7 @@ export class KeirinRaceRepositoryFromStorageImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
-    ): Promise<KeirinRaceEntity[]> {
+    ): Promise<MechanicalRacingRaceEntity[]> {
         // ファイル名リストから選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
@@ -49,8 +50,8 @@ export class KeirinRaceRepositoryFromStorageImpl
             await this.getRaceRecordListFromS3(searchFilter.startDate);
 
         // RaceEntityに変換
-        const raceEntityList: KeirinRaceEntity[] = raceRaceRecordList.map(
-            (raceRecord) => {
+        const raceEntityList: MechanicalRacingRaceEntity[] =
+            raceRaceRecordList.map((raceRecord) => {
                 // raceIdに対応したracePlayerRecordListを取得
                 const filteredRacePlayerRecordList: RacePlayerRecord[] =
                     racePlayerRecordList.filter((racePlayerRecord) => {
@@ -74,17 +75,16 @@ export class KeirinRaceRepositoryFromStorageImpl
                     raceRecord.grade,
                     raceRecord.number,
                 );
-                return KeirinRaceEntity.create(
+                return MechanicalRacingRaceEntity.create(
                     raceRecord.id,
                     raceData,
                     raceRecord.stage,
                     racePlayerDataList,
                     raceRecord.updateDate,
                 );
-            },
-        );
+            });
         // フィルタリング処理（日付の範囲指定）
-        const filteredRaceEntityList: KeirinRaceEntity[] =
+        const filteredRaceEntityList: MechanicalRacingRaceEntity[] =
             raceEntityList.filter(
                 (raceEntity) =>
                     raceEntity.raceData.dateTime >= searchFilter.startDate &&
@@ -100,7 +100,7 @@ export class KeirinRaceRepositoryFromStorageImpl
      */
     @Logger
     public async registerRaceEntityList(
-        raceEntityList: KeirinRaceEntity[],
+        raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: RaceRecord[] =

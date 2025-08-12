@@ -4,10 +4,8 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
@@ -96,10 +94,10 @@ export class PublicGamblingCalendarService implements ICalendarService {
     public async upsertEvents(raceEntityList: {
         jra?: JraRaceEntity[];
         nar?: NarRaceEntity[];
-        keirin?: KeirinRaceEntity[];
+        keirin?: MechanicalRacingRaceEntity[];
         world?: WorldRaceEntity[];
-        boatrace?: BoatraceRaceEntity[];
-        autorace?: AutoraceRaceEntity[];
+        boatrace?: MechanicalRacingRaceEntity[];
+        autorace?: MechanicalRacingRaceEntity[];
     }): Promise<void> {
         if (
             raceEntityList.jra?.length === 0 &&

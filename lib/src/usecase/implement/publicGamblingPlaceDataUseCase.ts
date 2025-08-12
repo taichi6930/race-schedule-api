@@ -11,7 +11,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
  * 公開用開催場データユースケース
  */
 @injectable()
-export class PublicGamblingPlaceUseCase implements IPlaceDataUseCase {
+export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
     public constructor(
         @inject('PublicGamblingPlaceDataService')
         private readonly placeDataService: IPlaceDataService,

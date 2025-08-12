@@ -1,11 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 
-import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
+import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
@@ -55,32 +53,32 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         >,
         @inject('KeirinRaceRepositoryFromStorage')
         protected keirinRaceRepositoryFromStorage: IRaceRepository<
-            KeirinRaceEntity,
+            MechanicalRacingRaceEntity,
             MechanicalRacingPlaceEntity
         >,
         @inject('KeirinRaceRepositoryFromHtml')
         protected keirinRaceRepositoryFromHtml: IRaceRepository<
-            KeirinRaceEntity,
+            MechanicalRacingRaceEntity,
             MechanicalRacingPlaceEntity
         >,
         @inject('AutoraceRaceRepositoryFromStorage')
         protected autoraceRaceRepositoryFromStorage: IRaceRepository<
-            AutoraceRaceEntity,
+            MechanicalRacingRaceEntity,
             MechanicalRacingPlaceEntity
         >,
         @inject('AutoraceRaceRepositoryFromHtml')
         protected autoraceRaceRepositoryFromHtml: IRaceRepository<
-            AutoraceRaceEntity,
+            MechanicalRacingRaceEntity,
             MechanicalRacingPlaceEntity
         >,
         @inject('BoatraceRaceRepositoryFromStorage')
         protected boatraceRaceRepositoryFromStorage: IRaceRepository<
-            BoatraceRaceEntity,
+            MechanicalRacingRaceEntity,
             MechanicalRacingPlaceEntity
         >,
         @inject('BoatraceRaceRepositoryFromHtml')
         protected boatraceRaceRepositoryFromHtml: IRaceRepository<
-            BoatraceRaceEntity,
+            MechanicalRacingRaceEntity,
             MechanicalRacingPlaceEntity
         >,
     ) {}
@@ -127,17 +125,17 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         jra: JraRaceEntity[];
         nar: NarRaceEntity[];
         world: WorldRaceEntity[];
-        keirin: KeirinRaceEntity[];
-        autorace: AutoraceRaceEntity[];
-        boatrace: BoatraceRaceEntity[];
+        keirin: MechanicalRacingRaceEntity[];
+        autorace: MechanicalRacingRaceEntity[];
+        boatrace: MechanicalRacingRaceEntity[];
     }> {
         const result: {
             jra: JraRaceEntity[];
             nar: NarRaceEntity[];
             world: WorldRaceEntity[];
-            keirin: KeirinRaceEntity[];
-            autorace: AutoraceRaceEntity[];
-            boatrace: BoatraceRaceEntity[];
+            keirin: MechanicalRacingRaceEntity[];
+            autorace: MechanicalRacingRaceEntity[];
+            boatrace: MechanicalRacingRaceEntity[];
         } = {
             jra: [],
             nar: [],
@@ -215,7 +213,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                         finishDate,
                         placeEntityList?.keirin,
                     );
-                const keirinRaceEntityList: KeirinRaceEntity[] =
+                const keirinRaceEntityList: MechanicalRacingRaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.keirinRaceRepositoryFromStorage.fetchRaceEntityList(
                               searchFilter,
@@ -236,7 +234,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                         finishDate,
                         placeEntityList?.autorace,
                     );
-                const autoraceRaceEntityList: AutoraceRaceEntity[] =
+                const autoraceRaceEntityList: MechanicalRacingRaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.autoraceRaceRepositoryFromStorage.fetchRaceEntityList(
                               searchFilter,
@@ -257,7 +255,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                         finishDate,
                         placeEntityList?.boatrace,
                     );
-                const boatraceRaceEntityList: BoatraceRaceEntity[] =
+                const boatraceRaceEntityList: MechanicalRacingRaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.boatraceRaceRepositoryFromStorage.fetchRaceEntityList(
                               searchFilter,
@@ -294,9 +292,9 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         jra?: JraRaceEntity[];
         nar?: NarRaceEntity[];
         world?: WorldRaceEntity[];
-        keirin?: KeirinRaceEntity[];
-        autorace?: AutoraceRaceEntity[];
-        boatrace?: BoatraceRaceEntity[];
+        keirin?: MechanicalRacingRaceEntity[];
+        autorace?: MechanicalRacingRaceEntity[];
+        boatrace?: MechanicalRacingRaceEntity[];
     }): Promise<void> {
         try {
             if (

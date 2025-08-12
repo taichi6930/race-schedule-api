@@ -1,8 +1,6 @@
 import type { CalendarData } from '../../domain/calendarData';
-import type { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import type { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import type { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { RaceType } from '../../utility/raceType';
@@ -47,10 +45,10 @@ export interface ICalendarService {
     upsertEvents: (raceEntityList: {
         jra?: JraRaceEntity[];
         nar?: NarRaceEntity[];
-        keirin?: KeirinRaceEntity[];
+        keirin?: MechanicalRacingRaceEntity[];
         world?: WorldRaceEntity[];
-        boatrace?: BoatraceRaceEntity[];
-        autorace?: AutoraceRaceEntity[];
+        boatrace?: MechanicalRacingRaceEntity[];
+        autorace?: MechanicalRacingRaceEntity[];
     }) => Promise<void>;
 
     /**

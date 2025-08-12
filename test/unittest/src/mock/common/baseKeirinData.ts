@@ -5,8 +5,8 @@ import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
 import { RaceRecord } from '../../../../../lib/src/gateway/record/raceRecord';
-import { KeirinRaceEntity } from '../../../../../lib/src/repository/entity/keirinRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
+import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import type { RaceStage } from '../../../../../lib/src/utility/data/common/raceStage';
@@ -89,14 +89,14 @@ export const baseKeirinRacePlayerDataList = Array.from(
     },
 );
 
-export const baseKeirinRaceEntity = KeirinRaceEntity.createWithoutId(
+export const baseKeirinRaceEntity = MechanicalRacingRaceEntity.createWithoutId(
     baseKeirinRaceData,
     baseKeirinRaceStage,
     baseKeirinRacePlayerDataList,
     baseKeirinRaceUpdateDate,
 );
 
-export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
+export const baseKeirinRaceEntityList: MechanicalRacingRaceEntity[] = [
     { location: '平塚', grade: 'GP' },
     { location: '立川', grade: 'GⅠ' },
     { location: '函館', grade: 'GⅡ' },
@@ -130,7 +130,7 @@ export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
         const racePlayerDataList = Array.from({ length: 9 }, (_, i) => {
             return RacePlayerData.create(RaceType.KEIRIN, i + 1, i + 1);
         });
-        return KeirinRaceEntity.createWithoutId(
+        return MechanicalRacingRaceEntity.createWithoutId(
             raceData,
             stage,
             racePlayerDataList,

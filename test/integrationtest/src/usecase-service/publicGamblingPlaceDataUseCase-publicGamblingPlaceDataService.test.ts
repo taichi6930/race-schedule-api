@@ -8,7 +8,7 @@ import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPl
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/implement/publicGamblingPlaceDataService';
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
-import { PublicGamblingPlaceUseCase } from '../../../../lib/src/usecase/implement/publicGamblingPlaceUseCase';
+import { PublicGamblingPlaceDataUseCase } from '../../../../lib/src/usecase/implement/publicGamblingPlaceDataUseCase';
 import type { IPlaceDataUseCase } from '../../../../lib/src/usecase/interface/IPlaceDataUseCase';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 import {
@@ -81,7 +81,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             'PublicGamblingPlaceDataService',
             service,
         );
-        useCase = container.resolve(PublicGamblingPlaceUseCase);
+        useCase = container.resolve(PublicGamblingPlaceDataUseCase);
     });
 
     afterEach(() => {

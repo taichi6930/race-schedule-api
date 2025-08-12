@@ -4,21 +4,22 @@ import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
+import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
 export class MockKeirinRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
+    implements
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
-    ): Promise<KeirinRaceEntity[]> {
+    ): Promise<MechanicalRacingRaceEntity[]> {
         const { placeEntityList } = searchFilter;
-        const raceEntityList: KeirinRaceEntity[] = [];
+        const raceEntityList: MechanicalRacingRaceEntity[] = [];
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 const placeData: PlaceData = placeEntity.placeData;
@@ -26,7 +27,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
                 for (let i = 1; i <= 12; i++) {
                     const raceStage = i === 12 ? 'S級決勝' : 'S級予選';
                     raceEntityList.push(
-                        KeirinRaceEntity.createWithoutId(
+                        MechanicalRacingRaceEntity.createWithoutId(
                             RaceData.create(
                                 RaceType.KEIRIN,
                                 `keirin第${i.toString()}R`,
@@ -54,7 +55,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
 
     @Logger
     public async registerRaceEntityList(
-        raceEntityList: KeirinRaceEntity[],
+        raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

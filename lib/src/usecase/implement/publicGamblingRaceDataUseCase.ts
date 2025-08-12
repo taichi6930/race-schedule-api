@@ -1,9 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
-import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
@@ -96,9 +94,9 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         jra: JraRaceEntity[];
         nar: NarRaceEntity[];
         world: WorldRaceEntity[];
-        keirin: KeirinRaceEntity[];
-        autorace: AutoraceRaceEntity[];
-        boatrace: BoatraceRaceEntity[];
+        keirin: MechanicalRacingRaceEntity[];
+        autorace: MechanicalRacingRaceEntity[];
+        boatrace: MechanicalRacingRaceEntity[];
     }> {
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
@@ -460,21 +458,21 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
     //             ),
     //         ),
     //         keirin: (raceDataList.keirin ?? []).map((raceData) =>
-    //             KeirinRaceEntity.createWithoutId(
+    //             MechanicalRacingRaceEntity.createWithoutId(
     //                 raceData,
     //                 [],
     //                 getJSTDate(new Date()),
     //             ),
     //         ),
     //         autorace: (raceDataList.autorace ?? []).map((raceData) =>
-    //             AutoraceRaceEntity.createWithoutId(
+    //             MechanicalRacingRaceEntity.createWithoutId(
     //                 raceData,
     //                 [],
     //                 getJSTDate(new Date()),
     //             ),
     //         ),
     //         boatrace: (raceDataList.boatrace ?? []).map((raceData) =>
-    //             BoatraceRaceEntity.createWithoutId(
+    //             MechanicalRacingRaceEntity.createWithoutId(
     //                 raceData,
     //                 [],
     //                 getJSTDate(new Date()),
