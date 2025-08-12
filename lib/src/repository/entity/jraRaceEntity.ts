@@ -1,8 +1,5 @@
 import '../../utility/format';
 
-import type { calendar_v3 } from 'googleapis';
-
-import { CalendarData } from '../../domain/calendarData';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
@@ -120,38 +117,4 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
             this.updateDate,
         );
     }
-
-    public static fromGoogleCalendarDataToCalendarData(
-        event: calendar_v3.Schema$Event,
-    ): CalendarData {
-        return CalendarData.create(
-            event.id,
-            RaceType.JRA,
-            event.summary,
-            event.start?.dateTime,
-            event.end?.dateTime,
-            event.location,
-            event.description,
-        );
-    }
-
-    // public static fromGoogleCalendarDataToRaceEntity(
-    //     event: calendar_v3.Schema$Event,
-    // ): JraRaceEntity {
-    //     return new JraRaceEntity(
-    //         validateRaceId(RaceType.JRA,event.extendedProperties?.private?.raceId ?? ''),
-    //         JraRaceData.create(
-    //             event.extendedProperties?.private?.name ?? '',
-    //             new Date(event.extendedProperties?.private?.dateTime ?? ''),
-    //             event.extendedProperties?.private?.location ?? '',
-    //             event.extendedProperties?.private?.surfaceType ?? '',
-    //             Number(event.extendedProperties?.private?.distance),
-    //             event.extendedProperties?.private?.grade ?? '',
-    //             Number(event.extendedProperties?.private?.number),
-    //             Number(event.extendedProperties?.private?.heldTimes),
-    //             Number(event.extendedProperties?.private?.heldDayTimes),
-    //         ),
-    //         validateUpdateDate(event.extendedProperties?.private?.updateDate),
-    //     );
-    // }
 }

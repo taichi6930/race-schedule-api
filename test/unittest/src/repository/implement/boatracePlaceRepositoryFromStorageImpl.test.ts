@@ -50,6 +50,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
                 new SearchPlaceFilterEntity(
                     new Date('2024-01-01'),
                     new Date('2024-02-01'),
+                    RaceType.BOATRACE,
                 ),
             );
 
@@ -61,7 +62,10 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
     describe('registerPlaceList', () => {
         test('正しい開催場データを登録できる', async () => {
             // テスト実行
-            await repository.registerPlaceEntityList(placeEntityList);
+            await repository.registerPlaceEntityList(
+                RaceType.BOATRACE,
+                placeEntityList,
+            );
 
             // uploadDataToS3が1回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
