@@ -159,10 +159,12 @@ export class NarPlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
+     * @param raceType
      * @param placeEntityList
      */
     @Logger
     public async registerPlaceEntityList(
+        raceType: RaceType,
         placeEntityList: NarPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);

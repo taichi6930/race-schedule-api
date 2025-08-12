@@ -194,10 +194,12 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
+     * @param raceType
      * @param placeEntityList
      */
     @Logger
     public async registerPlaceEntityList(
+        raceType: RaceType,
         placeEntityList: MechanicalRacingPlaceEntity[],
     ): Promise<void> {
         console.debug(placeEntityList);

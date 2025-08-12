@@ -1,26 +1,34 @@
+import 'reflect-metadata';
 import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
+import { MechanicalRacingPlaceRecord } from '../../gateway/record/mechanicalRacingPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { JraPlaceEntity } from '../entity/jraPlaceEntity';
+import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
+/**
+ * データリポジトリの実装
+ */
 @injectable()
-export class JraPlaceRepositoryFromStorageImpl
-    implements IPlaceRepository<JraPlaceEntity>
+export class MechanicalRacingPlaceRepositoryFromStorageImpl
+    implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
     public constructor(
-        @inject('JraPlaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<JraPlaceRecord>,
+        @inject('KeirinPlaceS3Gateway')
+        private readonly s3GatewayForKeirin: IS3Gateway<MechanicalRacingPlaceRecord>,
+        @inject('AutoracePlaceS3Gateway')
+        private readonly s3GatewayForAutorace: IS3Gateway<MechanicalRacingPlaceRecord>,
+        @inject('BoatracePlaceS3Gateway')
+        private readonly s3GatewayForBoatrace: IS3Gateway<MechanicalRacingPlaceRecord>,
     ) {}
 
     /**
@@ -31,21 +39,22 @@ export class JraPlaceRepositoryFromStorageImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<JraPlaceEntity[]> {
-        // 開催データを取得
-        const placeRecordList: JraPlaceRecord[] =
-            await this.getPlaceRecordListFromS3();
+    ): Promise<MechanicalRacingPlaceEntity[]> {
+        // ファイル名リストから開催データを取得する
+        const placeRecordList: MechanicalRacingPlaceRecord[] =
+            await this.getPlaceRecordListFromS3(searchFilter.raceType);
 
-        const placeEntityList: JraPlaceEntity[] = placeRecordList.map(
-            (placeRecord) => placeRecord.toEntity(),
-        );
+        // KeirinPlaceRecordをKeirinPlaceEntityに変換
+        const placeEntityList: MechanicalRacingPlaceEntity[] =
+            placeRecordList.map((placeRecord) => placeRecord.toEntity());
 
-        // filterで日付の範囲を指定
-        const filteredPlaceEntityList = placeEntityList.filter(
-            (placeEntity) =>
-                placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                placeEntity.placeData.dateTime <= searchFilter.finishDate,
-        );
+        // 日付の範囲でフィルタリング
+        const filteredPlaceEntityList: MechanicalRacingPlaceEntity[] =
+            placeEntityList.filter(
+                (placeEntity) =>
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
+            );
 
         return filteredPlaceEntityList;
     }
@@ -53,15 +62,15 @@ export class JraPlaceRepositoryFromStorageImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: JraPlaceEntity[],
+        placeEntityList: MechanicalRacingPlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchPlaceRecordList: JraPlaceRecord[] =
-            await this.getPlaceRecordListFromS3();
+        const existFetchPlaceRecordList: MechanicalRacingPlaceRecord[] =
+            await this.getPlaceRecordListFromS3(raceType);
 
-        const placeRecordList: JraPlaceRecord[] = placeEntityList.map(
-            (placeEntity) => placeEntity.toRecord(),
-        );
+        // PlaceEntityをPlaceRecordに変換する
+        const placeRecordList: MechanicalRacingPlaceRecord[] =
+            placeEntityList.map((placeEntity) => placeEntity.toRecord());
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
         for (const placeRecord of placeRecordList) {
@@ -81,7 +90,7 @@ export class JraPlaceRepositoryFromStorageImpl
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
 
-        await this.s3Gateway.uploadDataToS3(
+        await this.setS3Gateway(raceType).uploadDataToS3(
             existFetchPlaceRecordList,
             this.fileName,
         );
@@ -89,11 +98,16 @@ export class JraPlaceRepositoryFromStorageImpl
 
     /**
      * 開催場データをS3から取得する
+     * @param raceType
      */
     @Logger
-    private async getPlaceRecordListFromS3(): Promise<JraPlaceRecord[]> {
+    private async getPlaceRecordListFromS3(
+        raceType: RaceType,
+    ): Promise<MechanicalRacingPlaceRecord[]> {
         // S3からデータを取得する
-        const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
+        const csv = await this.setS3Gateway(raceType).fetchDataFromS3(
+            this.fileName,
+        );
 
         // ファイルが空の場合は空のリストを返す
         if (!csv) {
@@ -111,15 +125,13 @@ export class JraPlaceRepositoryFromStorageImpl
             id: headers.indexOf('id'),
             dateTime: headers.indexOf('dateTime'),
             location: headers.indexOf('location'),
-            heldTimes: headers.indexOf('heldTimes'),
-            heldDayTimes: headers.indexOf('heldDayTimes'),
+            grade: headers.indexOf('grade'),
             updateDate: headers.indexOf('updateDate'),
         };
 
-        // データ行を解析して PlaceData のリストを生成
-        const placeRecordList: JraPlaceRecord[] = lines
+        const placeRecordList: MechanicalRacingPlaceRecord[] = lines
             .slice(1)
-            .flatMap((line: string): JraPlaceRecord[] => {
+            .flatMap((line: string): MechanicalRacingPlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -128,12 +140,12 @@ export class JraPlaceRepositoryFromStorageImpl
                         : getJSTDate(new Date());
 
                     return [
-                        JraPlaceRecord.create(
+                        MechanicalRacingPlaceRecord.create(
                             columns[indices.id],
+                            RaceType.KEIRIN,
                             new Date(columns[indices.dateTime]),
                             columns[indices.location],
-                            Number.parseInt(columns[indices.heldTimes], 10),
-                            Number.parseInt(columns[indices.heldDayTimes], 10),
+                            columns[indices.grade],
                             updateDate,
                         ),
                     ];
@@ -142,6 +154,32 @@ export class JraPlaceRepositoryFromStorageImpl
                     return [];
                 }
             });
+
         return placeRecordList;
+    }
+
+    @Logger
+    private setS3Gateway(
+        raceType: RaceType,
+    ): IS3Gateway<MechanicalRacingPlaceRecord> {
+        switch (raceType) {
+            case RaceType.KEIRIN: {
+                return this.s3GatewayForKeirin;
+            }
+            case RaceType.BOATRACE: {
+                return this.s3GatewayForBoatrace;
+            }
+            case RaceType.AUTORACE: {
+                return this.s3GatewayForAutorace;
+            }
+            case RaceType.JRA:
+            case RaceType.NAR:
+            case RaceType.WORLD: {
+                throw new Error('Unsupported race type');
+            }
+            default: {
+                throw new Error('Unsupported race type');
+            }
+        }
     }
 }

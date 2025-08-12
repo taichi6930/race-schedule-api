@@ -57,6 +57,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
 
     @Logger
     public async registerPlaceEntityList(
+        raceType: RaceType,
         placeEntityList: MechanicalRacingPlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
