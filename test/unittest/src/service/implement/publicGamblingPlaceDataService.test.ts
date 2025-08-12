@@ -32,9 +32,6 @@ describe('PublicGamblingPlaceDataService', () => {
     let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<NarPlaceEntity>
     >;
-    let keirinPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
-    >;
     let keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
@@ -59,7 +56,6 @@ describe('PublicGamblingPlaceDataService', () => {
             jraPlaceRepositoryFromHtmlImpl,
             narPlaceRepositoryFromStorageImpl,
             narPlaceRepositoryFromHtmlImpl,
-            keirinPlaceRepositoryFromStorageImpl,
             keirinPlaceRepositoryFromHtmlImpl,
             boatracePlaceRepositoryFromHtmlImpl,
             autoracePlaceRepositoryFromStorageImpl,
@@ -90,9 +86,6 @@ describe('PublicGamblingPlaceDataService', () => {
             );
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
-            );
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseKeirinPlaceEntity],
             );
             autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseAutoracePlaceEntity],
@@ -232,9 +225,6 @@ describe('PublicGamblingPlaceDataService', () => {
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
             );
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseKeirinPlaceEntity],
-            );
             autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseAutoracePlaceEntity],
             );
@@ -296,9 +286,6 @@ describe('PublicGamblingPlaceDataService', () => {
                 new Error('開催場データの登録に失敗しました'),
             );
             narPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
-                new Error('開催場データの登録に失敗しました'),
-            );
-            keirinPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('開催場データの登録に失敗しました'),
             );
             mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(

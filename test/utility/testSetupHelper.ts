@@ -54,9 +54,6 @@ export interface TestSetup {
     mechanicalRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
-    keirinPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
-    >;
     keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
@@ -245,12 +242,6 @@ export function setupTestMock(): TestSetup {
         'NarPlaceRepositoryFromHtml',
         narPlaceRepositoryFromHtmlImpl,
     );
-    const keirinPlaceRepositoryFromStorageImpl =
-        mockPlaceRepository<MechanicalRacingPlaceEntity>();
-    container.registerInstance<IPlaceRepository<MechanicalRacingPlaceEntity>>(
-        'KeirinPlaceRepositoryFromStorage',
-        keirinPlaceRepositoryFromStorageImpl,
-    );
     const keirinPlaceRepositoryFromHtmlImpl =
         mockPlaceRepository<MechanicalRacingPlaceEntity>();
     container.registerInstance<IPlaceRepository<MechanicalRacingPlaceEntity>>(
@@ -309,7 +300,6 @@ export function setupTestMock(): TestSetup {
         narPlaceRepositoryFromStorageImpl,
         narPlaceRepositoryFromHtmlImpl,
         mechanicalRacingPlaceRepositoryFromStorageImpl,
-        keirinPlaceRepositoryFromStorageImpl,
         keirinPlaceRepositoryFromHtmlImpl,
         boatracePlaceRepositoryFromHtmlImpl,
         autoracePlaceRepositoryFromStorageImpl,

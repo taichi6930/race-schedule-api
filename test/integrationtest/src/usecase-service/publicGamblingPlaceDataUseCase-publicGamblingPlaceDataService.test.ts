@@ -47,9 +47,6 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<NarPlaceEntity>
     >;
-    let keirinPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
-    >;
     let keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
@@ -93,16 +90,6 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             'NarPlaceRepositoryFromHtml',
             narPlaceRepositoryFromHtmlImpl,
         );
-
-        keirinPlaceRepositoryFromStorageImpl =
-            mockPlaceRepository<MechanicalRacingPlaceEntity>();
-        container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
-        >(
-            'KeirinPlaceRepositoryFromStorage',
-            keirinPlaceRepositoryFromStorageImpl,
-        );
-
         keirinPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
         container.registerInstance<
             IPlaceRepository<MechanicalRacingPlaceEntity>
@@ -162,9 +149,6 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             );
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
-            );
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseKeirinPlaceEntity],
             );
             autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseAutoracePlaceEntity],
@@ -226,9 +210,6 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             );
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
-            );
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseKeirinPlaceEntity],
             );
             autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseAutoracePlaceEntity],

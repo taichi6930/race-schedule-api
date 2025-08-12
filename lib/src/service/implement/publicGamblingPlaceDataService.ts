@@ -26,8 +26,6 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         protected narPlaceRepositoryFromHtml: IPlaceRepository<NarPlaceEntity>,
         @inject('MechanicalRacingPlaceRepositoryFromStorage')
         protected mechanicalRacingPlaceRepositoryFromStorage: IPlaceRepository<MechanicalRacingPlaceEntity>,
-        @inject('KeirinPlaceRepositoryFromStorage')
-        protected keirinPlaceRepositoryFromStorage: IPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('KeirinPlaceRepositoryFromHtml')
         protected keirinPlaceRepositoryFromHtml: IPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('AutoracePlaceRepositoryFromStorage')
@@ -127,7 +125,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 );
                 const keirinPlaceEntityList: MechanicalRacingPlaceEntity[] =
                     type === DataLocation.Storage
-                        ? await this.keirinPlaceRepositoryFromStorage.fetchPlaceEntityList(
+                        ? await this.mechanicalRacingPlaceRepositoryFromStorage.fetchPlaceEntityList(
                               searchFilter,
                           )
                         : await this.keirinPlaceRepositoryFromHtml.fetchPlaceEntityList(
@@ -216,7 +214,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 );
 
             if (placeEntityList.keirin.length > 0)
-                await this.keirinPlaceRepositoryFromStorage.registerPlaceEntityList(
+                await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
                     RaceType.KEIRIN,
                     placeEntityList.keirin,
                 );
