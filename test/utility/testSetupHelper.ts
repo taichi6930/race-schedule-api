@@ -82,19 +82,10 @@ export interface TestSetup {
     mechanicalRacingRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
     >;
-    keirinRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
-    >;
     keirinRaceRepositoryFromHtmlImpl: jest.Mocked<
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
     >;
-    boatraceRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
-    >;
     boatraceRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
-    >;
-    autoraceRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
     >;
     autoraceRaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -168,14 +159,7 @@ export function setupTestMock(): TestSetup {
         'MechanicalRacingRaceRepositoryFromStorage',
         mechanicalRacingRaceRepositoryFromStorageImpl,
     );
-    // keirin
-    const keirinRaceRepositoryFromStorageImpl = mockRaceRepository<
-        MechanicalRacingRaceEntity,
-        MechanicalRacingPlaceEntity
-    >();
-    container.registerInstance<
-        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
-    >('KeirinRaceRepositoryFromStorage', keirinRaceRepositoryFromStorageImpl);
+
     const keirinRaceRepositoryFromHtmlImpl = mockRaceRepository<
         MechanicalRacingRaceEntity,
         MechanicalRacingPlaceEntity
@@ -184,17 +168,6 @@ export function setupTestMock(): TestSetup {
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
     >('KeirinRaceRepositoryFromHtml', keirinRaceRepositoryFromHtmlImpl);
 
-    // boatrace
-    const boatraceRaceRepositoryFromStorageImpl = mockRaceRepository<
-        MechanicalRacingRaceEntity,
-        MechanicalRacingPlaceEntity
-    >();
-    container.registerInstance<
-        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
-    >(
-        'BoatraceRaceRepositoryFromStorage',
-        boatraceRaceRepositoryFromStorageImpl,
-    );
     const boatraceRaceRepositoryFromHtmlImpl = mockRaceRepository<
         MechanicalRacingRaceEntity,
         MechanicalRacingPlaceEntity
@@ -203,16 +176,6 @@ export function setupTestMock(): TestSetup {
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
     >('BoatraceRaceRepositoryFromHtml', boatraceRaceRepositoryFromHtmlImpl);
 
-    const autoraceRaceRepositoryFromStorageImpl = mockRaceRepository<
-        MechanicalRacingRaceEntity,
-        MechanicalRacingPlaceEntity
-    >();
-    container.registerInstance<
-        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
-    >(
-        'AutoraceRaceRepositoryFromStorage',
-        autoraceRaceRepositoryFromStorageImpl,
-    );
     const autoraceRaceRepositoryFromHtmlImpl = mockRaceRepository<
         MechanicalRacingRaceEntity,
         MechanicalRacingPlaceEntity
@@ -310,11 +273,8 @@ export function setupTestMock(): TestSetup {
         worldRaceRepositoryFromStorageImpl,
         worldRaceRepositoryFromHtmlImpl,
         mechanicalRacingRaceRepositoryFromStorageImpl,
-        keirinRaceRepositoryFromStorageImpl,
         keirinRaceRepositoryFromHtmlImpl,
-        boatraceRaceRepositoryFromStorageImpl,
         boatraceRaceRepositoryFromHtmlImpl,
-        autoraceRaceRepositoryFromStorageImpl,
         autoraceRaceRepositoryFromHtmlImpl,
         calendarService,
         raceDataService,
