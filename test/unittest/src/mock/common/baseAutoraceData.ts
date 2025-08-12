@@ -21,7 +21,7 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
 const baseAutoracePlaceCourse: RaceCourse = '飯塚';
 const baseAutoracePlaceDateTime = new Date('2024-12-31');
 const baseAutoracePlaceGrade: GradeType = 'SG';
-const baseAutoracePlaceId = generatePlaceId(
+export const baseAutoracePlaceId = generatePlaceId(
     RaceType.AUTORACE,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
