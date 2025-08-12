@@ -44,7 +44,6 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
         const placeRecordList: MechanicalRacingPlaceRecord[] =
             await this.getPlaceRecordListFromS3(searchFilter.raceType);
 
-        // KeirinPlaceRecordをKeirinPlaceEntityに変換
         const placeEntityList: MechanicalRacingPlaceEntity[] =
             placeRecordList.map((placeRecord) => placeRecord.toEntity());
 
@@ -142,7 +141,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
                     return [
                         MechanicalRacingPlaceRecord.create(
                             columns[indices.id],
-                            RaceType.KEIRIN,
+                            raceType,
                             new Date(columns[indices.dateTime]),
                             columns[indices.location],
                             columns[indices.grade],

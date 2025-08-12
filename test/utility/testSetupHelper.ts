@@ -51,13 +51,13 @@ export interface TestSetup {
     narPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<NarPlaceEntity>
     >;
+    mechanicalRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
+        IPlaceRepository<MechanicalRacingPlaceEntity>
+    >;
     keirinPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
-    >;
-    boatracePlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     boatracePlaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -257,12 +257,6 @@ export function setupTestMock(): TestSetup {
         'KeirinPlaceRepositoryFromHtml',
         keirinPlaceRepositoryFromHtmlImpl,
     );
-    const boatracePlaceRepositoryFromStorageImpl =
-        mockPlaceRepository<MechanicalRacingPlaceEntity>();
-    container.registerInstance<IPlaceRepository<MechanicalRacingPlaceEntity>>(
-        'BoatracePlaceRepositoryFromStorage',
-        boatracePlaceRepositoryFromStorageImpl,
-    );
     const boatracePlaceRepositoryFromHtmlImpl =
         mockPlaceRepository<MechanicalRacingPlaceEntity>();
     container.registerInstance<IPlaceRepository<MechanicalRacingPlaceEntity>>(
@@ -280,6 +274,12 @@ export function setupTestMock(): TestSetup {
     container.registerInstance<IPlaceRepository<MechanicalRacingPlaceEntity>>(
         'AutoracePlaceRepositoryFromHtml',
         autoracePlaceRepositoryFromHtmlImpl,
+    );
+    const mechanicalRacingPlaceRepositoryFromStorageImpl =
+        mockPlaceRepository<MechanicalRacingPlaceEntity>();
+    container.registerInstance<IPlaceRepository<MechanicalRacingPlaceEntity>>(
+        'MechanicalRacingPlaceRepositoryFromStorage',
+        mechanicalRacingPlaceRepositoryFromStorageImpl,
     );
     const calendarService = calendarServiceMock();
     container.registerInstance<ICalendarService>(
@@ -308,9 +308,9 @@ export function setupTestMock(): TestSetup {
         jraPlaceRepositoryFromHtmlImpl,
         narPlaceRepositoryFromStorageImpl,
         narPlaceRepositoryFromHtmlImpl,
+        mechanicalRacingPlaceRepositoryFromStorageImpl,
         keirinPlaceRepositoryFromStorageImpl,
         keirinPlaceRepositoryFromHtmlImpl,
-        boatracePlaceRepositoryFromStorageImpl,
         boatracePlaceRepositoryFromHtmlImpl,
         autoracePlaceRepositoryFromStorageImpl,
         autoracePlaceRepositoryFromHtmlImpl,

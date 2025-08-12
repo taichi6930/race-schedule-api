@@ -4,9 +4,9 @@ import type { JraPlaceEntity } from '../../src/repository/entity/jraPlaceEntity'
 import type { MechanicalRacingPlaceEntity } from '../../src/repository/entity/mechanicalRacingPlaceEntity';
 import type { NarPlaceEntity } from '../../src/repository/entity/narPlaceEntity';
 import { AutoracePlaceRepositoryFromStorageImpl } from '../../src/repository/implement/autoracePlaceRepositoryFromStorageImpl';
-import { BoatracePlaceRepositoryFromStorageImpl } from '../../src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
 import { JraPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { KeirinPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
+import { MechanicalRacingPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/mechanicalRacingPlaceRepositoryFromStorageImpl';
 import { NarPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/narPlaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 
@@ -27,6 +27,6 @@ container.register<IPlaceRepository<MechanicalRacingPlaceEntity>>(
     { useClass: AutoracePlaceRepositoryFromStorageImpl },
 );
 container.register<IPlaceRepository<MechanicalRacingPlaceEntity>>(
-    'BoatracePlaceRepositoryFromStorage',
-    { useClass: BoatracePlaceRepositoryFromStorageImpl },
+    'MechanicalRacingPlaceRepositoryFromStorage',
+    { useClass: MechanicalRacingPlaceRepositoryFromStorageImpl },
 );
