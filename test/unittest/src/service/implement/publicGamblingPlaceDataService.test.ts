@@ -5,6 +5,7 @@ import { container } from 'tsyringe';
 import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { NarPlaceEntity } from '../../../../../lib/src/repository/entity/narPlaceEntity';
+import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { PublicGamblingPlaceDataService } from '../../../../../lib/src/service/implement/publicGamblingPlaceDataService';
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
@@ -31,19 +32,13 @@ describe('PublicGamblingPlaceDataService', () => {
     let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<NarPlaceEntity>
     >;
-    let keirinPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
-    >;
     let keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
-    let boatracePlaceRepositoryFromStorageImpl: jest.Mocked<
+    let mechanicalRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     let boatracePlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
-    >;
-    let autoracePlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     let autoracePlaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -58,12 +53,10 @@ describe('PublicGamblingPlaceDataService', () => {
             jraPlaceRepositoryFromHtmlImpl,
             narPlaceRepositoryFromStorageImpl,
             narPlaceRepositoryFromHtmlImpl,
-            keirinPlaceRepositoryFromStorageImpl,
             keirinPlaceRepositoryFromHtmlImpl,
-            boatracePlaceRepositoryFromStorageImpl,
             boatracePlaceRepositoryFromHtmlImpl,
-            autoracePlaceRepositoryFromStorageImpl,
             autoracePlaceRepositoryFromHtmlImpl,
+            mechanicalRacingPlaceRepositoryFromStorageImpl,
         } = setup);
 
         service = container.resolve(PublicGamblingPlaceDataService);
@@ -90,14 +83,28 @@ describe('PublicGamblingPlaceDataService', () => {
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
             );
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseKeirinPlaceEntity],
-            );
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseAutoracePlaceEntity],
-            );
-            boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseBoatracePlaceEntity],
+            mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
+                async (searchFilter: SearchPlaceFilterEntity) => {
+                    switch (searchFilter.raceType) {
+                        case RaceType.JRA:
+                        case RaceType.NAR:
+                        case RaceType.WORLD: {
+                            throw new Error('World race type is not supported');
+                        }
+                        case RaceType.KEIRIN: {
+                            return [baseKeirinPlaceEntity];
+                        }
+                        case RaceType.BOATRACE: {
+                            return [baseBoatracePlaceEntity];
+                        }
+                        case RaceType.AUTORACE: {
+                            return [baseAutoracePlaceEntity];
+                        }
+                        default: {
+                            throw new Error('Unsupported race type');
+                        }
+                    }
+                },
             );
 
             const startDate = new Date('2024-06-01');
@@ -166,7 +173,7 @@ describe('PublicGamblingPlaceDataService', () => {
 
         it('開催場データが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
+            mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
                 new Error('開催場データの取得に失敗しました'),
             );
 
@@ -211,20 +218,34 @@ describe('PublicGamblingPlaceDataService', () => {
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
             );
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseKeirinPlaceEntity],
-            );
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseAutoracePlaceEntity],
-            );
-            boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseBoatracePlaceEntity],
+            mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
+                async (searchFilter: SearchPlaceFilterEntity) => {
+                    switch (searchFilter.raceType) {
+                        case RaceType.JRA:
+                        case RaceType.NAR:
+                        case RaceType.WORLD: {
+                            throw new Error('World race type is not supported');
+                        }
+                        case RaceType.KEIRIN: {
+                            return [baseKeirinPlaceEntity];
+                        }
+                        case RaceType.BOATRACE: {
+                            return [baseBoatracePlaceEntity];
+                        }
+                        case RaceType.AUTORACE: {
+                            return [baseAutoracePlaceEntity];
+                        }
+                        default: {
+                            throw new Error('Unsupported race type');
+                        }
+                    }
+                },
             );
 
             await service.updatePlaceEntityList(mockPlaceEntity);
 
             expect(
-                autoracePlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -238,7 +259,7 @@ describe('PublicGamblingPlaceDataService', () => {
             });
 
             expect(
-                autoracePlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
             ).not.toHaveBeenCalled();
         });
 
@@ -257,13 +278,7 @@ describe('PublicGamblingPlaceDataService', () => {
             narPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('開催場データの登録に失敗しました'),
             );
-            keirinPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
-                new Error('開催場データの登録に失敗しました'),
-            );
-            boatracePlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
-                new Error('開催場データの登録に失敗しました'),
-            );
-            autoracePlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
+            mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('開催場データの登録に失敗しました'),
             );
 

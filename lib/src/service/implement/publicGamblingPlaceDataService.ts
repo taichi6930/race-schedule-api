@@ -24,16 +24,12 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         protected narPlaceRepositoryFromStorage: IPlaceRepository<NarPlaceEntity>,
         @inject('NarPlaceRepositoryFromHtml')
         protected narPlaceRepositoryFromHtml: IPlaceRepository<NarPlaceEntity>,
-        @inject('KeirinPlaceRepositoryFromStorage')
-        protected keirinPlaceRepositoryFromStorage: IPlaceRepository<MechanicalRacingPlaceEntity>,
+        @inject('MechanicalRacingPlaceRepositoryFromStorage')
+        protected mechanicalRacingPlaceRepositoryFromStorage: IPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('KeirinPlaceRepositoryFromHtml')
         protected keirinPlaceRepositoryFromHtml: IPlaceRepository<MechanicalRacingPlaceEntity>,
-        @inject('AutoracePlaceRepositoryFromStorage')
-        protected autoracePlaceRepositoryFromStorage: IPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('AutoracePlaceRepositoryFromHtml')
         protected autoracePlaceRepositoryFromHtml: IPlaceRepository<MechanicalRacingPlaceEntity>,
-        @inject('BoatracePlaceRepositoryFromStorage')
-        protected boatracePlaceRepositoryFromStorage: IPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('BoatracePlaceRepositoryFromHtml')
         protected boatracePlaceRepositoryFromHtml: IPlaceRepository<MechanicalRacingPlaceEntity>,
     ) {}
@@ -127,7 +123,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 );
                 const keirinPlaceEntityList: MechanicalRacingPlaceEntity[] =
                     type === DataLocation.Storage
-                        ? await this.keirinPlaceRepositoryFromStorage.fetchPlaceEntityList(
+                        ? await this.mechanicalRacingPlaceRepositoryFromStorage.fetchPlaceEntityList(
                               searchFilter,
                           )
                         : await this.keirinPlaceRepositoryFromHtml.fetchPlaceEntityList(
@@ -143,7 +139,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 );
                 const autoracePlaceEntityList: MechanicalRacingPlaceEntity[] =
                     type === DataLocation.Storage
-                        ? await this.autoracePlaceRepositoryFromStorage.fetchPlaceEntityList(
+                        ? await this.mechanicalRacingPlaceRepositoryFromStorage.fetchPlaceEntityList(
                               searchFilter,
                           )
                         : await this.autoracePlaceRepositoryFromHtml.fetchPlaceEntityList(
@@ -159,7 +155,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 );
                 const boatracePlaceEntityList: MechanicalRacingPlaceEntity[] =
                     type === DataLocation.Storage
-                        ? await this.boatracePlaceRepositoryFromStorage.fetchPlaceEntityList(
+                        ? await this.mechanicalRacingPlaceRepositoryFromStorage.fetchPlaceEntityList(
                               searchFilter,
                           )
                         : await this.boatracePlaceRepositoryFromHtml.fetchPlaceEntityList(
@@ -216,17 +212,17 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 );
 
             if (placeEntityList.keirin.length > 0)
-                await this.keirinPlaceRepositoryFromStorage.registerPlaceEntityList(
+                await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
                     RaceType.KEIRIN,
                     placeEntityList.keirin,
                 );
             if (placeEntityList.autorace.length > 0)
-                await this.autoracePlaceRepositoryFromStorage.registerPlaceEntityList(
+                await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
                     RaceType.AUTORACE,
                     placeEntityList.autorace,
                 );
             if (placeEntityList.boatrace.length > 0)
-                await this.boatracePlaceRepositoryFromStorage.registerPlaceEntityList(
+                await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
                     RaceType.BOATRACE,
                     placeEntityList.boatrace,
                 );

@@ -292,10 +292,7 @@ export default [
         },
     },
     {
-        files: [
-            '**/**/publicGamblingCalendarService.test.ts',
-            '**/**/googleCalendarRepository.test.ts',
-        ],
+        files: ['**/**/*.test.ts'],
         rules: {
             '@typescript-eslint/require-await': 'off', // ✅ 非同期関数でのawaitを強制
         },
