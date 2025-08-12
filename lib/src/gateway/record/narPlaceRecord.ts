@@ -79,7 +79,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
     public toEntity(): PlaceEntity {
         return PlaceEntity.create(
             this.id,
-　　　　　　　　RaceType.NAR,
+            RaceType.NAR,
             PlaceData.create(RaceType.NAR, this.dateTime, this.location),
             this.updateDate,
         );
