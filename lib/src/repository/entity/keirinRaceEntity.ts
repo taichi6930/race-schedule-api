@@ -1,8 +1,5 @@
 import '../../utility/format';
 
-import type { calendar_v3 } from 'googleapis';
-
-import { CalendarData } from '../../domain/calendarData';
 import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
@@ -11,7 +8,6 @@ import type { RaceId } from '../../utility/data/common/raceId';
 import { validateRaceId } from '../../utility/data/common/raceId';
 import type { RaceStage } from '../../utility/data/common/raceStage';
 import { generateRaceId, generateRacePlayerId } from '../../utility/raceId';
-import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
@@ -116,20 +112,6 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
             this.raceData.grade,
             this.raceData.number,
             this.updateDate,
-        );
-    }
-
-    public static fromGoogleCalendarDataToCalendarData(
-        event: calendar_v3.Schema$Event,
-    ): CalendarData {
-        return CalendarData.create(
-            event.id,
-            RaceType.KEIRIN,
-            event.summary,
-            event.start?.dateTime,
-            event.end?.dateTime,
-            event.location,
-            event.description,
         );
     }
 

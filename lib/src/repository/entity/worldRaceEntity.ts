@@ -1,8 +1,5 @@
 import '../../utility/format';
 
-import type { calendar_v3 } from 'googleapis';
-
-import { CalendarData } from '../../domain/calendarData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
@@ -104,20 +101,6 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
             this.raceData.grade,
             this.raceData.number,
             this.updateDate,
-        );
-    }
-
-    public static fromGoogleCalendarDataToCalendarData(
-        event: calendar_v3.Schema$Event,
-    ): CalendarData {
-        return CalendarData.create(
-            event.id,
-            RaceType.WORLD,
-            event.summary,
-            event.start?.dateTime,
-            event.end?.dateTime,
-            event.location,
-            event.description,
         );
     }
 }
