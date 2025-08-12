@@ -7,7 +7,7 @@ import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
 import { validateRaceId } from '../../utility/data/common/raceId';
 import { generateRaceId } from '../../utility/raceId';
-import { RaceType } from '../../utility/raceType';
+import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
@@ -54,7 +54,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         updateDate: Date,
     ): JraRaceEntity {
         return new JraRaceEntity(
-            validateRaceId(RaceType.JRA, id),
+            validateRaceId(raceType, id),
             raceType,
             raceData,
             heldDayData,
@@ -80,7 +80,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     ): JraRaceEntity {
         return JraRaceEntity.create(
             generateRaceId(
-                RaceType.JRA,
+                raceType,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -114,6 +114,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     public toRaceRecord(): JraRaceRecord {
         return JraRaceRecord.create(
             this.id,
+            this.raceType,
             this.raceData.name,
             this.raceData.dateTime,
             this.raceData.location,

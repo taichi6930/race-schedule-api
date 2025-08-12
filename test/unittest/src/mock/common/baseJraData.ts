@@ -17,10 +17,11 @@ import {
 } from '../../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 
+const baseJraRaceType: RaceType = RaceType.JRA;
 const baseJraPlaceCourse: RaceCourse = '中山';
 const baseJraPlaceDateTime = new Date('2024-12-22');
 const baseJraPlaceId = generatePlaceId(
-    RaceType.JRA,
+    baseJraRaceType,
     baseJraPlaceDateTime,
     baseJraPlaceCourse,
 );
@@ -36,7 +37,7 @@ const baseJraRaceHeldDayTimes = 8;
 const baseJraRaceUpdateDate = new Date('2024-12-01 00:00');
 
 export const baseJraPlaceData = PlaceData.create(
-    RaceType.JRA,
+    baseJraRaceType,
     baseJraPlaceDateTime,
     baseJraPlaceCourse,
 );
@@ -44,7 +45,7 @@ export const baseJraPlaceData = PlaceData.create(
 const baseJraHeldDayData = HeldDayData.create(5, 8);
 
 export const baseJraRaceData = RaceData.create(
-    RaceType.JRA,
+    baseJraRaceType,
     baseJraRaceName,
     baseRaceDateTime,
     baseJraPlaceCourse,
@@ -59,6 +60,7 @@ const baseJraConditionData = HorseRaceConditionData.create(
 
 export const baseJraPlaceRecord = JraPlaceRecord.create(
     baseJraPlaceId,
+    baseJraRaceType,
     baseJraPlaceDateTime,
     baseJraPlaceCourse,
     baseJraRaceHeldTimes,
@@ -68,11 +70,12 @@ export const baseJraPlaceRecord = JraPlaceRecord.create(
 
 export const baseJraRaceRecord = JraRaceRecord.create(
     generateRaceId(
-        RaceType.JRA,
+        baseJraRaceType,
         baseJraPlaceDateTime,
         baseJraPlaceCourse,
         baseJraRaceNumber,
     ),
+    baseJraRaceType,
     baseJraRaceName,
     baseRaceDateTime,
     baseJraPlaceCourse,

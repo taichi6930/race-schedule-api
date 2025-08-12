@@ -86,6 +86,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
     public toRecord(): JraPlaceRecord {
         return JraPlaceRecord.create(
             this.id,
+            this.raceType,
             this.placeData.dateTime,
             this.placeData.location,
             this.heldDayData.heldTimes,

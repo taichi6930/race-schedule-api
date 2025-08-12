@@ -18,6 +18,8 @@ export class JraRaceRepositoryFromStorageImpl
 {
     private readonly fileName = 'raceList.csv';
 
+    private readonly raceType: RaceType = RaceType.JRA;
+
     public constructor(
         @inject('JraRaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<JraRaceRecord>,
@@ -97,6 +99,7 @@ export class JraRaceRepositoryFromStorageImpl
                 return [
                     JraRaceRecord.create(
                         columns[indices.id],
+                        this.raceType,
                         columns[indices.name],
                         new Date(columns[indices.dateTime]),
                         columns[indices.location],

@@ -177,6 +177,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                                     ),
                                     place,
                                 ),
+                                this.raceType,
                                 new Date(date.getFullYear(), month - 1, day),
                                 getPlaceName(placeInitial),
                                 heldTimes,
