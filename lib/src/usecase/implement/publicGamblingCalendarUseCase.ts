@@ -4,9 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
-import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
-import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
+import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
@@ -283,11 +281,11 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * @param playerDataList
      */
     private filterRaceEntityForKeirin(
-        raceEntityList: KeirinRaceEntity[],
+        raceEntityList: MechanicalRacingRaceEntity[],
         displayGradeList: GradeType[],
         playerDataList: PlayerData[],
-    ): KeirinRaceEntity[] {
-        const filteredRaceEntityList: KeirinRaceEntity[] =
+    ): MechanicalRacingRaceEntity[] {
+        const filteredRaceEntityList: MechanicalRacingRaceEntity[] =
             raceEntityList.filter((raceEntity) => {
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {
@@ -332,11 +330,11 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * @param playerDataList
      */
     private filterRaceEntityForAutorace(
-        raceEntityList: AutoraceRaceEntity[],
+        raceEntityList: MechanicalRacingRaceEntity[],
         displayGradeList: GradeType[],
         playerDataList: PlayerData[],
-    ): AutoraceRaceEntity[] {
-        const filteredRaceEntityList: AutoraceRaceEntity[] =
+    ): MechanicalRacingRaceEntity[] {
+        const filteredRaceEntityList: MechanicalRacingRaceEntity[] =
             raceEntityList.filter((raceEntity) => {
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {
@@ -381,11 +379,11 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * @param playerDataList
      */
     private filterRaceEntityForBoatrace(
-        raceEntityList: BoatraceRaceEntity[],
+        raceEntityList: MechanicalRacingRaceEntity[],
         displayGradeList: GradeType[],
         playerDataList: PlayerData[],
-    ): BoatraceRaceEntity[] {
-        const filteredRaceEntityList: BoatraceRaceEntity[] =
+    ): MechanicalRacingRaceEntity[] {
+        const filteredRaceEntityList: MechanicalRacingRaceEntity[] =
             raceEntityList.filter((raceEntity) => {
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {

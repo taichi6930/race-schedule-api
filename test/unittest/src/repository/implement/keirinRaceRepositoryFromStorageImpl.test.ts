@@ -10,8 +10,8 @@ import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import type { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
 import type { RaceRecord } from '../../../../../lib/src/gateway/record/raceRecord';
-import { KeirinRaceEntity } from '../../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
+import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
@@ -84,13 +84,13 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
     describe('registerRaceList', () => {
         test('DBが空データのところに、正しいレース開催データを登録できる', async () => {
             // 1年間のレース開催データを登録する
-            const raceEntityList: KeirinRaceEntity[] = Array.from(
+            const raceEntityList: MechanicalRacingRaceEntity[] = Array.from(
                 { length: 60 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
                     date.setDate(date.getDate() + day);
                     return Array.from({ length: 12 }, (__, j) =>
-                        KeirinRaceEntity.createWithoutId(
+                        MechanicalRacingRaceEntity.createWithoutId(
                             RaceData.create(
                                 RaceType.KEIRIN,
                                 `raceName${format(date, 'yyyyMMdd')}`,
@@ -117,13 +117,13 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
 
     test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
         // 1年間のレース開催データを登録する
-        const raceEntityList: KeirinRaceEntity[] = Array.from(
+        const raceEntityList: MechanicalRacingRaceEntity[] = Array.from(
             { length: 10 },
             (_, day) => {
                 const date = new Date('2024-01-01');
                 date.setDate(date.getDate() + day);
                 return Array.from({ length: 12 }, (__, j) =>
-                    KeirinRaceEntity.createWithoutId(
+                    MechanicalRacingRaceEntity.createWithoutId(
                         RaceData.create(
                             RaceType.KEIRIN,
                             `raceName${format(date, 'yyyyMMdd')}`,

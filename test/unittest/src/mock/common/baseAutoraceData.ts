@@ -5,8 +5,8 @@ import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
 import { RaceRecord } from '../../../../../lib/src/gateway/record/raceRecord';
-import { AutoraceRaceEntity } from '../../../../../lib/src/repository/entity/autoraceRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
+import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import type { RaceStage } from '../../../../../lib/src/utility/data/common/raceStage';
@@ -89,12 +89,13 @@ export const baseAutoraceRacePlayerDataList = Array.from(
     },
 );
 
-export const baseAutoraceRaceEntity = AutoraceRaceEntity.createWithoutId(
-    baseAutoraceRaceData,
-    baseAutoraceRaceStage,
-    baseAutoraceRacePlayerDataList,
-    baseAutoraceRaceUpdateDate,
-);
+export const baseAutoraceRaceEntity =
+    MechanicalRacingRaceEntity.createWithoutId(
+        baseAutoraceRaceData,
+        baseAutoraceRaceStage,
+        baseAutoraceRacePlayerDataList,
+        baseAutoraceRaceUpdateDate,
+    );
 
 export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
     generateRacePlayerId(
@@ -116,7 +117,7 @@ export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
+export const baseAutoraceRaceEntityList: MechanicalRacingRaceEntity[] = [
     { location: '飯塚', grade: 'SG' },
     { location: '川口', grade: 'GⅠ' },
     { location: '山陽', grade: '特GⅠ' },
@@ -138,7 +139,7 @@ export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
         '一般戦',
         '優勝戦',
     ].map((stage, index) => {
-        return AutoraceRaceEntity.createWithoutId(
+        return MechanicalRacingRaceEntity.createWithoutId(
             RaceData.create(
                 RaceType.AUTORACE,
                 `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,

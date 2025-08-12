@@ -1,11 +1,9 @@
 import { container } from 'tsyringe';
 
-import type { AutoraceRaceEntity } from '../../src/repository/entity/autoraceRaceEntity';
-import type { BoatraceRaceEntity } from '../../src/repository/entity/boatraceRaceEntity';
 import type { JraPlaceEntity } from '../../src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../src/repository/entity/jraRaceEntity';
-import type { KeirinRaceEntity } from '../../src/repository/entity/keirinRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../src/repository/entity/mechanicalRacingPlaceEntity';
+import type { MechanicalRacingRaceEntity } from '../../src/repository/entity/mechanicalRacingRaceEntity';
 import type { NarPlaceEntity } from '../../src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../src/repository/entity/narRaceEntity';
 import type { WorldPlaceEntity } from '../../src/repository/entity/worldPlaceEntity';
@@ -26,12 +24,12 @@ container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
     { useClass: JraRaceRepositoryFromStorageImpl },
 );
 container.register<
-    IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
+    IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 >('KeirinRaceRepositoryFromStorage', {
     useClass: KeirinRaceRepositoryFromStorageImpl,
 });
 container.register<
-    IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
+    IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 >('AutoraceRaceRepositoryFromStorage', {
     useClass: AutoraceRaceRepositoryFromStorageImpl,
 });
@@ -40,7 +38,7 @@ container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
     { useClass: WorldRaceRepositoryFromStorageImpl },
 );
 container.register<
-    IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
+    IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 >('BoatraceRaceRepositoryFromStorage', {
     useClass: BoatraceRaceRepositoryFromStorageImpl,
 });

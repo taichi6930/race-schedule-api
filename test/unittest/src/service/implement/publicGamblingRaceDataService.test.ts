@@ -2,12 +2,10 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { AutoraceRaceEntity } from '../../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type { BoatraceRaceEntity } from '../../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
-import type { KeirinRaceEntity } from '../../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
+import type { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import type { NarPlaceEntity } from '../../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
 import type { WorldPlaceEntity } from '../../../../../lib/src/repository/entity/worldPlaceEntity';
@@ -46,22 +44,22 @@ describe('PublicGamblingRaceDataService', () => {
         IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
     >;
     let keirinRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let keirinRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<KeirinRaceEntity, MechanicalRacingPlaceEntity>
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let boatraceRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let boatraceRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<BoatraceRaceEntity, MechanicalRacingPlaceEntity>
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let autoraceRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let autoraceRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
     >;
     let service: IRaceDataService;
 

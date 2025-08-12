@@ -10,10 +10,8 @@ import {
 } from '../../utility/googleCalendar';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
-import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
-import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
@@ -79,9 +77,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
             | JraRaceEntity[]
             | NarRaceEntity[]
             | WorldRaceEntity[]
-            | KeirinRaceEntity[]
-            | AutoraceRaceEntity[]
-            | BoatraceRaceEntity[],
+            | MechanicalRacingRaceEntity[],
     ): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(

@@ -2,28 +2,29 @@ import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
+import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // AutoraceRaceRepositoryFromHtmlImplのモックを作成
 export class MockAutoraceRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<AutoraceRaceEntity, MechanicalRacingPlaceEntity>
+    implements
+        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
-    ): Promise<AutoraceRaceEntity[]> {
+    ): Promise<MechanicalRacingRaceEntity[]> {
         const { placeEntityList } = searchFilter;
-        const raceEntityList: AutoraceRaceEntity[] = [];
+        const raceEntityList: MechanicalRacingRaceEntity[] = [];
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
                     const raceStage = i === 12 ? '優勝戦' : '予選';
                     raceEntityList.push(
-                        AutoraceRaceEntity.createWithoutId(
+                        MechanicalRacingRaceEntity.createWithoutId(
                             RaceData.create(
                                 RaceType.AUTORACE,
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
@@ -51,7 +52,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
 
     @Logger
     public async registerRaceEntityList(
-        raceEntityList: AutoraceRaceEntity[],
+        raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

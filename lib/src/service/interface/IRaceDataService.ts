@@ -1,8 +1,6 @@
-import type { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import type { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
+import type { MechanicalRacingRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import type { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import type { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import type { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
@@ -56,9 +54,9 @@ export interface IRaceDataService {
         jra: JraRaceEntity[];
         nar: NarRaceEntity[];
         world: WorldRaceEntity[];
-        keirin: KeirinRaceEntity[];
-        autorace: AutoraceRaceEntity[];
-        boatrace: BoatraceRaceEntity[];
+        keirin: MechanicalRacingRaceEntity[];
+        autorace: MechanicalRacingRaceEntity[];
+        boatrace: MechanicalRacingRaceEntity[];
     }>;
 
     /**
@@ -73,8 +71,8 @@ export interface IRaceDataService {
         jra?: JraRaceEntity[];
         nar?: NarRaceEntity[];
         world?: WorldRaceEntity[];
-        keirin?: KeirinRaceEntity[];
-        autorace?: AutoraceRaceEntity[];
-        boatrace?: BoatraceRaceEntity[];
+        keirin?: MechanicalRacingRaceEntity[];
+        autorace?: MechanicalRacingRaceEntity[];
+        boatrace?: MechanicalRacingRaceEntity[];
     }) => Promise<void>;
 }
