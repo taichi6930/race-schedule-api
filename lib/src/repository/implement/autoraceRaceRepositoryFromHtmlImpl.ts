@@ -27,6 +27,8 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     implements
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
+    private readonly raceType: RaceType = RaceType.AUTORACE;
+
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -68,7 +70,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                 placeEntity.placeData.dateTime.getDate(),
             ];
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                RaceType.AUTORACE,
+                this.raceType,
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
@@ -122,7 +124,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                             autoraceRaceDataList.push(
                                 MechanicalRacingRaceEntity.createWithoutId(
                                     RaceData.create(
-                                        RaceType.AUTORACE,
+                                        this.raceType,
                                         raceName,
                                         raceDate,
                                         placeEntity.placeData.location,

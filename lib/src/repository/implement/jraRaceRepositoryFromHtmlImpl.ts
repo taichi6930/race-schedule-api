@@ -24,6 +24,8 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class JraRaceRepositoryFromHtmlImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
+    private readonly raceType: RaceType = RaceType.JRA;
+
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -61,7 +63,7 @@ export class JraRaceRepositoryFromHtmlImpl
             // レース情報を取得
             const htmlText: string =
                 await this.raceDataHtmlGateway.getRaceDataHtml(
-                    RaceType.JRA,
+                    this.raceType,
                     raceDate,
                 );
             const jraRaceDataList: JraRaceEntity[] = [];
@@ -187,7 +189,7 @@ export class JraRaceRepositoryFromHtmlImpl
 
                         const jraRaceData = JraRaceEntity.createWithoutId(
                             RaceData.create(
-                                RaceType.JRA,
+                                this.raceType,
                                 raceName,
                                 raceDateTime,
                                 raceCourse,
@@ -221,7 +223,7 @@ export class JraRaceRepositoryFromHtmlImpl
         const placeString: string = theadElementMatch[2];
         // placeStringがJraRaceCourseに変換できるかを確認して、OKであればキャストする
         const place: RaceCourse = placeString;
-        return validateRaceCourse(RaceType.JRA, place);
+        return validateRaceCourse(this.raceType, place);
     };
 
     /**

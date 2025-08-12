@@ -21,6 +21,8 @@ export class WorldRaceRepositoryFromStorageImpl
 {
     private readonly fileName = 'raceList.csv';
 
+    private readonly raceType: RaceType = RaceType.WORLD;
+
     public constructor(
         @inject('WorldRaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<WorldRaceRecord>,
@@ -142,7 +144,7 @@ export class WorldRaceRepositoryFromStorageImpl
                 return [
                     WorldRaceRecord.create(
                         columns[indices.id],
-                        RaceType.WORLD,
+                        this.raceType,
                         columns[indices.name],
                         new Date(columns[indices.dateTime]),
                         columns[indices.location],

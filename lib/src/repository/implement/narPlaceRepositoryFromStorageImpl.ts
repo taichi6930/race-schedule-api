@@ -18,6 +18,8 @@ export class NarPlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
+    private readonly raceType: RaceType = RaceType.NAR;
+
     public constructor(
         @inject('NarPlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<HorseRacingPlaceRecord>,
@@ -132,7 +134,7 @@ export class NarPlaceRepositoryFromStorageImpl
                     return [
                         HorseRacingPlaceRecord.create(
                             columns[indices.id],
-                            RaceType.NAR,
+                            this.raceType,
                             new Date(columns[indices.dateTime]),
                             columns[indices.location],
                             updateDate,
