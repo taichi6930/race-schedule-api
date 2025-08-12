@@ -89,7 +89,8 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
 
-        await this.setS3Gateway(raceType).uploadDataToS3(
+        await this.uploadDataToS3(
+            raceType,
             existFetchPlaceRecordList,
             this.fileName,
         );
@@ -103,10 +104,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
     private async getPlaceRecordListFromS3(
         raceType: RaceType,
     ): Promise<MechanicalRacingPlaceRecord[]> {
-        // S3からデータを取得する
-        const csv = await this.setS3Gateway(raceType).fetchDataFromS3(
-            this.fileName,
-        );
+        const csv = await this.fetchDataFromS3(raceType, this.fileName);
 
         // ファイルが空の場合は空のリストを返す
         if (!csv) {
@@ -158,18 +156,55 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    private setS3Gateway(
+    private async fetchDataFromS3(
         raceType: RaceType,
-    ): IS3Gateway<MechanicalRacingPlaceRecord> {
+        fileName: string,
+    ): Promise<string> {
         switch (raceType) {
             case RaceType.KEIRIN: {
-                return this.s3GatewayForKeirin;
+                return this.s3GatewayForKeirin.fetchDataFromS3(fileName);
             }
             case RaceType.BOATRACE: {
-                return this.s3GatewayForBoatrace;
+                return this.s3GatewayForBoatrace.fetchDataFromS3(fileName);
             }
             case RaceType.AUTORACE: {
-                return this.s3GatewayForAutorace;
+                return this.s3GatewayForAutorace.fetchDataFromS3(fileName);
+            }
+            case RaceType.JRA:
+            case RaceType.NAR:
+            case RaceType.WORLD: {
+                throw new Error('Unsupported race type');
+            }
+            default: {
+                throw new Error('Unsupported race type');
+            }
+        }
+    }
+
+    @Logger
+    private async uploadDataToS3(
+        raceType: RaceType,
+        record: MechanicalRacingPlaceRecord[],
+        fileName: string,
+    ): Promise<void> {
+        switch (raceType) {
+            case RaceType.KEIRIN: {
+                await this.s3GatewayForKeirin.uploadDataToS3(record, fileName);
+                break;
+            }
+            case RaceType.BOATRACE: {
+                await this.s3GatewayForBoatrace.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.AUTORACE: {
+                await this.s3GatewayForAutorace.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
             }
             case RaceType.JRA:
             case RaceType.NAR:
