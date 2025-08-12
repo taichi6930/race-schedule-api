@@ -53,9 +53,6 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     let boatracePlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
-    let autoracePlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
-    >;
     let autoracePlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
@@ -103,15 +100,6 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             boatracePlaceRepositoryFromHtmlImpl,
         );
 
-        autoracePlaceRepositoryFromStorageImpl =
-            mockPlaceRepository<MechanicalRacingPlaceEntity>();
-        container.registerInstance<
-            IPlaceRepository<MechanicalRacingPlaceEntity>
-        >(
-            'AutoracePlaceRepositoryFromStorage',
-            autoracePlaceRepositoryFromStorageImpl,
-        );
-
         autoracePlaceRepositoryFromHtmlImpl = mockPlaceRepository();
         container.registerInstance<
             IPlaceRepository<MechanicalRacingPlaceEntity>
@@ -149,9 +137,6 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             );
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
-            );
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseAutoracePlaceEntity],
             );
             mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
@@ -211,9 +196,6 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
             );
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseAutoracePlaceEntity],
-            );
             mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
@@ -267,7 +249,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             ]);
 
             expect(
-                autoracePlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
     });

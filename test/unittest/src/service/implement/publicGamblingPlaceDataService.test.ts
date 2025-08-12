@@ -41,9 +41,6 @@ describe('PublicGamblingPlaceDataService', () => {
     let boatracePlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
-    let autoracePlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
-    >;
     let autoracePlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
@@ -58,7 +55,6 @@ describe('PublicGamblingPlaceDataService', () => {
             narPlaceRepositoryFromHtmlImpl,
             keirinPlaceRepositoryFromHtmlImpl,
             boatracePlaceRepositoryFromHtmlImpl,
-            autoracePlaceRepositoryFromStorageImpl,
             autoracePlaceRepositoryFromHtmlImpl,
             mechanicalRacingPlaceRepositoryFromStorageImpl,
         } = setup);
@@ -86,9 +82,6 @@ describe('PublicGamblingPlaceDataService', () => {
             );
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
-            );
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseAutoracePlaceEntity],
             );
             mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
@@ -180,7 +173,7 @@ describe('PublicGamblingPlaceDataService', () => {
 
         it('開催場データが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
+            mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
                 new Error('開催場データの取得に失敗しました'),
             );
 
@@ -225,9 +218,6 @@ describe('PublicGamblingPlaceDataService', () => {
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
             );
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseAutoracePlaceEntity],
-            );
             mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
@@ -255,7 +245,7 @@ describe('PublicGamblingPlaceDataService', () => {
             await service.updatePlaceEntityList(mockPlaceEntity);
 
             expect(
-                autoracePlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -269,7 +259,7 @@ describe('PublicGamblingPlaceDataService', () => {
             });
 
             expect(
-                autoracePlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
             ).not.toHaveBeenCalled();
         });
 
@@ -289,9 +279,6 @@ describe('PublicGamblingPlaceDataService', () => {
                 new Error('開催場データの登録に失敗しました'),
             );
             mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
-                new Error('開催場データの登録に失敗しました'),
-            );
-            autoracePlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('開催場データの登録に失敗しました'),
             );
 
