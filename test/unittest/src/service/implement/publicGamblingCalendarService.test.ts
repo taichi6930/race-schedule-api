@@ -62,31 +62,6 @@ describe('PublicGamblingCalendarService', () => {
                 baseAutoraceCalendarData,
             ];
 
-            calendarRepository.getEvents.mockImplementation(
-                async (raceTypeList: RaceType[]) => {
-                    const CalendarDataList: CalendarData[] = [];
-                    if (raceTypeList.includes(RaceType.JRA)) {
-                        CalendarDataList.push(baseJraCalendarData);
-                    }
-                    if (raceTypeList.includes(RaceType.NAR)) {
-                        CalendarDataList.push(baseNarCalendarData);
-                    }
-                    if (raceTypeList.includes(RaceType.WORLD)) {
-                        CalendarDataList.push(baseWorldCalendarData);
-                    }
-                    if (raceTypeList.includes(RaceType.KEIRIN)) {
-                        CalendarDataList.push(baseKeirinCalendarData);
-                    }
-                    if (raceTypeList.includes(RaceType.BOATRACE)) {
-                        CalendarDataList.push(baseBoatraceCalendarData);
-                    }
-                    if (raceTypeList.includes(RaceType.AUTORACE)) {
-                        CalendarDataList.push(baseAutoraceCalendarData);
-                    }
-                    return CalendarDataList;
-                },
-            );
-
             const result = await service.fetchEvents(startDate, finishDate, [
                 RaceType.JRA,
                 RaceType.NAR,
