@@ -30,9 +30,16 @@ export const baseAutoracePlaceId = generatePlaceId(
 const baseAutoraceRaceName = 'スーパースター王座決定戦';
 const baseRaceDateTime = new Date('2024-12-31 16:30');
 const baseAutoraceRaceNumber = 11;
-const baseAutoraceRaceStage: RaceStage = '優勝戦';
+export const baseAutoraceRaceStage: RaceStage = '優勝戦';
 export const baseAutoraceRaceUpdateDate = getJSTDate(
     new Date('2024-10-01 16:30'),
+);
+
+export const baseAutoraceRaceId = generateRaceId(
+    RaceType.AUTORACE,
+    baseAutoracePlaceDateTime,
+    baseAutoracePlaceCourse,
+    baseAutoraceRaceNumber,
 );
 
 export const baseAutoracePlaceData = PlaceData.create(
