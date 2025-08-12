@@ -4,7 +4,7 @@ import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { NarRaceRecord } from '../../../../../lib/src/gateway/record/narRaceRecord';
+import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
@@ -55,13 +55,14 @@ export const baseNarPlaceRecord = PlaceRecord.create(
     baseNarRaceUpdateDate,
 );
 
-export const baseNarRaceRecord = NarRaceRecord.create(
+export const baseNarRaceRecord = HorseRacingRaceRecord.create(
     generateRaceId(
         RaceType.NAR,
         baseNarPlaceDateTime,
         baseNarPlaceCourse,
         baseNarRaceNumber,
     ),
+    RaceType.NAR,
     baseNarRaceName,
     baseRaceDateTime,
     baseNarPlaceCourse,

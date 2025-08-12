@@ -2,7 +2,7 @@ import '../../utility/format';
 
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
-import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
+import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
 import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import { generateRaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
@@ -90,9 +90,10 @@ export class NarRaceEntity {
     /**
      * NarRaceRecordに変換する
      */
-    public toRaceRecord(): NarRaceRecord {
-        return NarRaceRecord.create(
+    public toRaceRecord(): HorseRacingRaceRecord {
+        return HorseRacingRaceRecord.create(
             this.id,
+            this.raceData.raceType,
             this.raceData.name,
             this.raceData.dateTime,
             this.raceData.location,

@@ -28,18 +28,19 @@ import {
 } from '../../utility/data/common/raceName';
 import type { RaceNumber } from '../../utility/data/common/raceNumber';
 import { validateRaceNumber } from '../../utility/data/common/raceNumber';
-import { RaceType } from '../../utility/raceType';
+import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
 /**
- * 地方競馬のレース開催データ
+ * 競馬のレース開催データ
  */
-export class NarRaceRecord implements IRecord<NarRaceRecord> {
+export class HorseRacingRaceRecord implements IRecord<HorseRacingRaceRecord> {
     /**
      * コンストラクタ
      * @param id - ID
+     * @param raceType - レース種別
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -53,6 +54,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
      */
     private constructor(
         public readonly id: RaceId,
+        public readonly raceType: RaceType,
         public readonly name: RaceName,
         public readonly dateTime: RaceDateTime,
         public readonly location: RaceCourse,
@@ -66,6 +68,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
     /**
      * インスタンス生成メソッド
      * @param id - ID
+     * @param raceType - レース種別
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -77,6 +80,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
      */
     public static create(
         id: string,
+        raceType: RaceType,
         name: string,
         dateTime: Date,
         location: string,
@@ -85,16 +89,17 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
         grade: string,
         number: number,
         updateDate: Date,
-    ): NarRaceRecord {
+    ): HorseRacingRaceRecord {
         try {
-            return new NarRaceRecord(
-                validateRaceId(RaceType.NAR, id),
+            return new HorseRacingRaceRecord(
+                validateRaceId(raceType, id),
+                raceType,
                 validateRaceName(name),
                 validateRaceDateTime(dateTime),
-                validateRaceCourse(RaceType.NAR, location),
+                validateRaceCourse(raceType, location),
                 validateRaceCourseType(surfaceType),
                 validateRaceDistance(distance),
-                validateGradeType(RaceType.NAR, grade),
+                validateGradeType(raceType, grade),
                 validateRaceNumber(number),
                 validateUpdateDate(updateDate),
             );
@@ -108,9 +113,12 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<NarRaceRecord> = {}): NarRaceRecord {
-        return NarRaceRecord.create(
+    public copy(
+        partial: Partial<HorseRacingRaceRecord> = {},
+    ): HorseRacingRaceRecord {
+        return HorseRacingRaceRecord.create(
             partial.id ?? this.id,
+            partial.raceType ?? this.raceType,
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
@@ -129,7 +137,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
         return NarRaceEntity.create(
             this.id,
             RaceData.create(
-                RaceType.NAR,
+                this.raceType,
                 this.name,
                 this.dateTime,
                 this.location,

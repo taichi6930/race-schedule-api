@@ -3,9 +3,10 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
+import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -19,7 +20,7 @@ export class NarRaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('NarRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<NarRaceRecord>,
+        private readonly s3Gateway: IS3Gateway<HorseRacingRaceRecord>,
     ) {}
 
     /**
@@ -31,7 +32,7 @@ export class NarRaceRepositoryFromStorageImpl
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<NarRaceEntity[]> {
         // ファイル名リストから開催データを取得する
-        const raceRecordList: NarRaceRecord[] =
+        const raceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
         // RaceRecordをRaceEntityに変換
@@ -52,7 +53,7 @@ export class NarRaceRepositoryFromStorageImpl
      * レースデータをS3から取得する
      */
     @Logger
-    private async getRaceRecordListFromS3(): Promise<NarRaceRecord[]> {
+    private async getRaceRecordListFromS3(): Promise<HorseRacingRaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
 
@@ -92,7 +93,7 @@ export class NarRaceRepositoryFromStorageImpl
         // 並列で処理を実行
         const results = await Promise.all(
             chunks.map((chunk) =>
-                chunk.flatMap((line: string): NarRaceRecord[] => {
+                chunk.flatMap((line: string): HorseRacingRaceRecord[] => {
                     try {
                         const columns = line.split('\r').join('').split(',');
 
@@ -101,8 +102,9 @@ export class NarRaceRepositoryFromStorageImpl
                             : getJSTDate(new Date());
 
                         return [
-                            NarRaceRecord.create(
+                            HorseRacingRaceRecord.create(
                                 columns[indices.id],
+                                RaceType.NAR,
                                 columns[indices.name],
                                 new Date(columns[indices.dateTime]),
                                 columns[indices.location],
@@ -134,16 +136,16 @@ export class NarRaceRepositoryFromStorageImpl
         raceEntityList: NarRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchRaceRecordList: NarRaceRecord[] =
+        const existFetchRaceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
-        const raceRecordList: NarRaceRecord[] = raceEntityList.map(
+        const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(
             (raceEntity) => raceEntity.toRaceRecord(),
         );
 
         // idをキーとしたMapを作成し、既存データを上書きまたは追加する
-        const raceRecordMap = new Map<string, NarRaceRecord>(
+        const raceRecordMap = new Map<string, HorseRacingRaceRecord>(
             existFetchRaceRecordList.map((record) => [record.id, record]),
         );
 
