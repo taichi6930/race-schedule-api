@@ -20,8 +20,8 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      * コンストラクタ
      * @param id - ID
      * @param raceData - レースデータ
-     * @param heldDayData
-     * @param conditionData
+     * @param heldDayData - 開催日データ
+     * @param conditionData - コンディションデータ
      * @param updateDate - 更新日時
      * @remarks
      * レース開催データを生成する
