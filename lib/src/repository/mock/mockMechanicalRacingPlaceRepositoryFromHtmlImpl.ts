@@ -84,7 +84,7 @@ export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
     private createGrade(raceType: RaceType): GradeType {
         switch (raceType) {
             case RaceType.KEIRIN: {
-                return 'GP';
+                return 'GⅠ';
             }
             case RaceType.BOATRACE: {
                 return 'SG';
