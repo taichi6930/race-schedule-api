@@ -4,8 +4,8 @@ import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
+import { HorseRacingPlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
-import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
@@ -47,7 +47,7 @@ const baseNarConditionData = HorseRaceConditionData.create(
     baseNarRaceDistance,
 );
 
-export const baseNarPlaceRecord = PlaceRecord.create(
+export const baseNarPlaceRecord = HorseRacingPlaceRecord.create(
     generatePlaceId(RaceType.NAR, baseNarPlaceDateTime, baseNarPlaceCourse),
     RaceType.NAR,
     baseNarPlaceDateTime,

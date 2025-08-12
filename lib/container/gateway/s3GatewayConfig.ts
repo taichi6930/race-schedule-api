@@ -3,12 +3,12 @@ import { container } from 'tsyringe';
 import { S3Gateway } from '../../src/gateway/implement/s3Gateway';
 import type { IS3Gateway } from '../../src/gateway/interface/iS3Gateway';
 import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
+import type { HorseRacingPlaceRecord } from '../../src/gateway/record/horseRacingPlaceRecord';
 import type { HorseRacingRaceRecord } from '../../src/gateway/record/horseRacingRaceRecord';
 import type { JraPlaceRecord } from '../../src/gateway/record/jraPlaceRecord';
 import type { JraRaceRecord } from '../../src/gateway/record/jraRaceRecord';
 import type { MechanicalRacingPlaceRecord } from '../../src/gateway/record/mechanicalRacingPlaceRecord';
 import type { MechanicalRacingRaceRecord } from '../../src/gateway/record/mechanicalRacingRaceRecord';
-import type { PlaceRecord } from '../../src/gateway/record/placeRecord';
 import type { RacePlayerRecord } from '../../src/gateway/record/racePlayerRecord';
 import type { WorldRaceRecord } from '../../src/gateway/record/worldRaceRecord';
 import { allowedEnvs, ENV } from '../../src/utility/env';
@@ -175,17 +175,17 @@ container.register<IS3Gateway<HorseRacingRaceRecord>>('NarRaceS3Gateway', {
         }
     },
 });
-container.register<IS3Gateway<PlaceRecord>>('NarPlaceS3Gateway', {
+container.register<IS3Gateway<HorseRacingPlaceRecord>>('NarPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new S3Gateway<PlaceRecord>(
+                return new S3Gateway<HorseRacingPlaceRecord>(
                     'race-schedule-bucket',
                     'nar/',
                 );
             }
             case allowedEnvs.test: {
-                return new S3Gateway<PlaceRecord>(
+                return new S3Gateway<HorseRacingPlaceRecord>(
                     'race-schedule-bucket-test',
                     'nar/',
                 );
@@ -194,7 +194,7 @@ container.register<IS3Gateway<PlaceRecord>>('NarPlaceS3Gateway', {
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<PlaceRecord>(
+                return new MockS3Gateway<HorseRacingPlaceRecord>(
                     'race-schedule-bucket',
                     'nar/',
                 );
