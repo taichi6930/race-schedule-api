@@ -46,13 +46,15 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
+     * @param raceType
      * @param placeEntityList
      */
     @Logger
     public async registerPlaceEntityList(
+        raceType: RaceType,
         placeEntityList: MechanicalRacingPlaceEntity[],
     ): Promise<void> {
-        console.debug(placeEntityList);
+        console.debug(raceType, placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
