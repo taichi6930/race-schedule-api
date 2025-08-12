@@ -35,6 +35,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     /**
      * コンストラクタ
      * @param id - ID
+     * @param raceType
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -48,6 +49,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
      */
     private constructor(
         public readonly id: RaceId,
+        public readonly raceType: RaceType,
         public readonly name: RaceName,
         public readonly dateTime: RaceDateTime,
         public readonly location: RaceCourse,
@@ -61,6 +63,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     /**
      * インスタンス生成メソッド
      * @param id - ID
+     * @param raceType
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -72,6 +75,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
      */
     public static create(
         id: RaceId,
+        raceType: RaceType,
         name: RaceName,
         dateTime: RaceDateTime,
         location: RaceCourse,
@@ -83,6 +87,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     ): WorldRaceRecord {
         return new WorldRaceRecord(
             id,
+            raceType,
             validateRaceName(name),
             validateRaceDateTime(dateTime),
             validateRaceCourse(RaceType.WORLD, location),
@@ -101,6 +106,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     public copy(partial: Partial<WorldRaceRecord> = {}): WorldRaceRecord {
         return WorldRaceRecord.create(
             partial.id ?? this.id,
+            partial.raceType ?? this.raceType,
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
@@ -119,7 +125,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
         return WorldRaceEntity.create(
             this.id,
             RaceData.create(
-                RaceType.WORLD,
+                this.raceType,
                 this.name,
                 this.dateTime,
                 this.location,
