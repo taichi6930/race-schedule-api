@@ -82,6 +82,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
                 JraPlaceEntity.createWithoutId(
+                    RaceType.JRA,
                     PlaceData.create(RaceType.JRA, date, '東京'),
                     HeldDayData.create(1, 1),
                     getJSTDate(new Date()),

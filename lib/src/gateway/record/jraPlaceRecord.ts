@@ -99,6 +99,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     public toEntity(): JraPlaceEntity {
         return JraPlaceEntity.create(
             this.id,
+            RaceType.JRA,
             PlaceData.create(RaceType.JRA, this.dateTime, this.location),
             HeldDayData.create(this.heldTimes, this.heldDayTimes),
             this.updateDate,

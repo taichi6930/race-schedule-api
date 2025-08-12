@@ -15,6 +15,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
     /**
      * コンストラクタ
      * @param id - ID
+     * @param raceType - レース種別
      * @param placeData - レース開催場所データ
      * @param heldDayData - 開催日データ
      * @param updateDate - 更新日時
@@ -23,6 +24,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
      */
     private constructor(
         public readonly id: PlaceId,
+        public readonly raceType: RaceType,
         public readonly placeData: PlaceData,
         public readonly heldDayData: HeldDayData,
         public readonly updateDate: UpdateDate,
@@ -31,18 +33,21 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
     /**
      * インスタンス生成メソッド
      * @param id - ID
+     * @param raceType - レース種別
      * @param placeData - レース開催場所データ
      * @param heldDayData - 開催日データ
      * @param updateDate - 更新日時
      */
     public static create(
         id: string,
+        raceType: RaceType,
         placeData: PlaceData,
         heldDayData: HeldDayData,
         updateDate: Date,
     ): JraPlaceEntity {
         return new JraPlaceEntity(
             validatePlaceId(RaceType.JRA, id),
+            raceType,
             placeData,
             heldDayData,
             validateUpdateDate(updateDate),
@@ -51,11 +56,13 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
 
     /**
      * idがない場合でのcreate
+     * @param raceType
      * @param placeData
      * @param heldDayData
      * @param updateDate
      */
     public static createWithoutId(
+        raceType: RaceType,
         placeData: PlaceData,
         heldDayData: HeldDayData,
         updateDate: Date,
@@ -66,6 +73,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
                 placeData.dateTime,
                 placeData.location,
             ),
+            raceType,
             placeData,
             heldDayData,
             updateDate,
@@ -93,6 +101,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
     public copy(partial: Partial<JraPlaceEntity> = {}): JraPlaceEntity {
         return JraPlaceEntity.create(
             partial.id ?? this.id,
+            partial.raceType ?? this.raceType,
             partial.placeData ?? this.placeData,
             partial.heldDayData ?? this.heldDayData,
             partial.updateDate ?? this.updateDate,

@@ -47,6 +47,7 @@ describe('JraRaceRepositoryFromHtmlImpl', () => {
                         RaceType.JRA,
                         [
                             JraPlaceEntity.createWithoutId(
+                                RaceType.JRA,
                                 PlaceData.create(
                                     RaceType.JRA,
                                     new Date('2024-05-26'),
