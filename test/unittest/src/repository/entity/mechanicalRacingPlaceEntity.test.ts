@@ -9,7 +9,6 @@
  * | 4   | toRecordでレコード変換                                                     | toRecord()を呼ぶ                                                                             | MechanicalRacingPlaceRecord.createが正しく呼ばれる      |
  * | 5   | createでバリデーションエラー（id, grade, updateDateの各パターン）          | 不正なid/grade/updateDateを渡してcreateを呼ぶ                                                | それぞれ例外がthrowされる                              |
  * | 6   | createWithoutIdでid自動生成                                                | createWithoutIdを呼ぶ                                                                        | idが自動生成され、他プロパティも正しくセット            |
- * | 7   | createWithoutIdでplaceData不正時に例外                                     | 不正なplaceData（dateTime, location）でcreateWithoutIdを呼ぶ                                 | 例外がthrowされる                                      |
  */
 
 import { ZodError } from 'zod';
@@ -19,8 +18,10 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
 import {
     baseAutoracePlaceData,
     baseAutoracePlaceEntity,
+    baseAutoracePlaceGrade,
     baseAutoracePlaceId,
     baseAutoracePlaceRecord,
+    baseAutoraceRaceUpdateDate,
 } from '../../mock/common/baseAutoraceData';
 import {
     baseBoatracePlaceData,
@@ -178,5 +179,15 @@ describe('MechanicalRacingPlaceEntity', () => {
                 fail('ZodError以外がthrowされました');
             }
         }
+    });
+
+    it('createWithoutIdでid自動生成', () => {
+        const placeEntity = MechanicalRacingPlaceEntity.createWithoutId(
+            RaceType.AUTORACE,
+            baseAutoracePlaceData,
+            baseAutoracePlaceGrade,
+            baseAutoraceRaceUpdateDate,
+        );
+        expect(placeEntity).toEqual(baseAutoracePlaceEntity);
     });
 });
