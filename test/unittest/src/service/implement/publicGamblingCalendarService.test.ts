@@ -63,31 +63,27 @@ describe('PublicGamblingCalendarService', () => {
             ];
 
             calendarRepository.getEvents.mockImplementation(
-                async (raceType: RaceType) => {
-                    // searchFilterの引数も追加
-                    switch (raceType) {
-                        case RaceType.JRA: {
-                            return [baseJraCalendarData];
-                        }
-                        case RaceType.NAR: {
-                            return [baseNarCalendarData];
-                        }
-                        case RaceType.WORLD: {
-                            return [baseWorldCalendarData];
-                        }
-                        case RaceType.KEIRIN: {
-                            return [baseKeirinCalendarData];
-                        }
-                        case RaceType.AUTORACE: {
-                            return [baseAutoraceCalendarData];
-                        }
-                        case RaceType.BOATRACE: {
-                            return [baseBoatraceCalendarData];
-                        }
-                        default: {
-                            throw new Error(`Unsupported race type`);
-                        }
+                async (raceTypeList: RaceType[]) => {
+                    const CalendarDataList: CalendarData[] = [];
+                    if (raceTypeList.includes(RaceType.JRA)) {
+                        CalendarDataList.push(baseJraCalendarData);
                     }
+                    if (raceTypeList.includes(RaceType.NAR)) {
+                        CalendarDataList.push(baseNarCalendarData);
+                    }
+                    if (raceTypeList.includes(RaceType.WORLD)) {
+                        CalendarDataList.push(baseWorldCalendarData);
+                    }
+                    if (raceTypeList.includes(RaceType.KEIRIN)) {
+                        CalendarDataList.push(baseKeirinCalendarData);
+                    }
+                    if (raceTypeList.includes(RaceType.BOATRACE)) {
+                        CalendarDataList.push(baseBoatraceCalendarData);
+                    }
+                    if (raceTypeList.includes(RaceType.AUTORACE)) {
+                        CalendarDataList.push(baseAutoraceCalendarData);
+                    }
+                    return CalendarDataList;
                 },
             );
 
@@ -101,27 +97,14 @@ describe('PublicGamblingCalendarService', () => {
             ]);
 
             expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RaceType.JRA,
-                new SearchCalendarFilterEntity(startDate, finishDate),
-            );
-            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RaceType.NAR,
-                new SearchCalendarFilterEntity(startDate, finishDate),
-            );
-            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RaceType.WORLD,
-                new SearchCalendarFilterEntity(startDate, finishDate),
-            );
-            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RaceType.KEIRIN,
-                new SearchCalendarFilterEntity(startDate, finishDate),
-            );
-            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RaceType.BOATRACE,
-                new SearchCalendarFilterEntity(startDate, finishDate),
-            );
-            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RaceType.AUTORACE,
+                [
+                    RaceType.JRA,
+                    RaceType.NAR,
+                    RaceType.WORLD,
+                    RaceType.KEIRIN,
+                    RaceType.AUTORACE,
+                    RaceType.BOATRACE,
+                ],
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
             expect(result).toEqual(calendarDataList);

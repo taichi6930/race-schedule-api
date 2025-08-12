@@ -1,6 +1,5 @@
 import '../../utility/format';
 
-import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
@@ -10,14 +9,6 @@ import type { RaceData } from '../../domain/raceData';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
 import { validateRaceId } from '../../utility/data/common/raceId';
-import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
-import {
-    createNetkeibaJraRaceVideoUrl,
-    createNetkeibaJraShutubaUrl,
-} from '../../utility/data/url';
-import { getJSTDate } from '../../utility/date';
-import { createAnchorTag, formatDate } from '../../utility/format';
-import { getGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateRaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
@@ -128,73 +119,6 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
             this.heldDayData.heldDayTimes,
             this.updateDate,
         );
-    }
-
-    /**
-     * レースデータをGoogleカレンダーのイベントに変換する
-     * @param updateDate - 更新日時
-     */
-    public toGoogleCalendarData(
-        updateDate: Date = new Date(),
-    ): calendar_v3.Schema$Event {
-        const raceIdForNetkeiba = `${this.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[this.raceData.location]}${this.heldDayData.heldTimes.toXDigits(2)}${this.heldDayData.heldDayTimes.toXDigits(2)}${this.raceData.number.toXDigits(2)}`;
-        return {
-            id: generateRaceId(
-                RaceType.JRA,
-                this.raceData.dateTime,
-                this.raceData.location,
-                this.raceData.number,
-            ),
-            summary: this.raceData.name,
-            location: `${this.raceData.location}競馬場`,
-            start: {
-                dateTime: formatDate(this.raceData.dateTime),
-                timeZone: 'Asia/Tokyo',
-            },
-            end: {
-                // 終了時刻は発走時刻から10分後とする
-                dateTime: formatDate(
-                    new Date(this.raceData.dateTime.getTime() + 10 * 60 * 1000),
-                ),
-                timeZone: 'Asia/Tokyo',
-            },
-            colorId: getGoogleCalendarColorId(
-                this.raceData.raceType,
-                this.raceData.grade,
-            ),
-            description:
-                `距離: ${this.conditionData.surfaceType}${this.conditionData.distance.toString()}m
-                    発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
-                    ${createAnchorTag(
-                        'レース情報',
-                        `https://netkeiba.page.link/?link=${encodeURIComponent(
-                            createNetkeibaJraShutubaUrl(raceIdForNetkeiba),
-                        )}`,
-                    )}
-                    ${createAnchorTag(
-                        'レース動画',
-                        `https://netkeiba.page.link/?link=${encodeURIComponent(
-                            createNetkeibaJraRaceVideoUrl(raceIdForNetkeiba),
-                        )}`,
-                    )}
-                    更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}
-                `.replace(/\n\s+/g, '\n'),
-            extendedProperties: {
-                private: {
-                    raceId: this.id,
-                    name: this.raceData.name,
-                    dateTime: this.raceData.dateTime.toISOString(),
-                    location: this.raceData.location,
-                    distance: this.conditionData.distance.toString(),
-                    surfaceType: this.conditionData.surfaceType,
-                    grade: this.raceData.grade,
-                    number: this.raceData.number.toString(),
-                    heldTimes: this.heldDayData.heldTimes.toString(),
-                    heldDayTimes: this.heldDayData.heldDayTimes.toString(),
-                    updateDate: this.updateDate.toISOString(),
-                },
-            },
-        };
     }
 
     public static fromGoogleCalendarDataToCalendarData(

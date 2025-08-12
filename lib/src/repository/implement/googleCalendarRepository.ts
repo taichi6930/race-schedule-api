@@ -4,7 +4,10 @@ import { inject, injectable } from 'tsyringe';
 
 import type { CalendarData } from '../../domain/calendarData';
 import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
-import { fromGoogleCalendarDataToCalendarData } from '../../utility/googleCalendar';
+import {
+    fromGoogleCalendarDataToCalendarData,
+    toGoogleCalendarData,
+} from '../../utility/googleCalendar';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
@@ -17,7 +20,7 @@ import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 
 /**
- * 開催データリポジトリの基底クラス
+ * Googleカレンダーリポジトリの実装
  */
 @injectable()
 export class GoogleCalendarRepository implements ICalendarRepository {
@@ -28,32 +31,40 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの取得を行う
-     * @param raceType
+     * @param raceTypeList
      * @param searchFilter
      */
     @Logger
     public async getEvents(
-        raceType: RaceType,
+        raceTypeList: RaceType[],
         searchFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
-        // GoogleカレンダーAPIからイベントを取得
-        try {
-            const calendarDataList =
-                await this.googleCalendarGateway.fetchCalendarDataList(
-                    raceType,
-                    searchFilter.startDate,
-                    searchFilter.finishDate,
+        const calendarDataList: CalendarData[] = [];
+        for (const raceType of raceTypeList) {
+            // GoogleカレンダーAPIからイベントを取得
+            try {
+                const _calendarDataList =
+                    await this.googleCalendarGateway.fetchCalendarDataList(
+                        raceType,
+                        searchFilter.startDate,
+                        searchFilter.finishDate,
+                    );
+                calendarDataList.push(
+                    ..._calendarDataList.map((calendarData) =>
+                        fromGoogleCalendarDataToCalendarData(
+                            raceType,
+                            calendarData,
+                        ),
+                    ),
                 );
-            return calendarDataList.map((calendarData) =>
-                fromGoogleCalendarDataToCalendarData(raceType, calendarData),
-            );
-        } catch (error) {
-            console.error(
-                'Google Calendar APIからのイベント取得に失敗しました',
-                error,
-            );
-            return [];
+            } catch (error) {
+                console.error(
+                    'Google Calendar APIからのイベント取得に失敗しました',
+                    error,
+                );
+            }
         }
+        return calendarDataList;
     }
 
     /**
@@ -95,11 +106,11 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                     await (isExist
                         ? this.googleCalendarGateway.updateCalendarData(
                               raceType,
-                              raceEntity.toGoogleCalendarData(),
+                              toGoogleCalendarData(raceEntity),
                           )
                         : this.googleCalendarGateway.insertCalendarData(
                               raceType,
-                              raceEntity.toGoogleCalendarData(),
+                              toGoogleCalendarData(raceEntity),
                           ));
                 } catch (error) {
                     console.error(

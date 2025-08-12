@@ -1,22 +1,12 @@
 import '../../utility/format';
 
-import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
 import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
-import { NarBabacodeMap } from '../../utility/data/common/raceCourse';
 import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
-import {
-    ChihoKeibaYoutubeUserIdMap,
-    getYoutubeLiveUrl,
-} from '../../utility/data/movie';
-import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
-import { getJSTDate } from '../../utility/date';
-import { createAnchorTag, formatDate } from '../../utility/format';
-import { getGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateRaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
@@ -115,61 +105,6 @@ export class NarRaceEntity {
             this.raceData.number,
             this.updateDate,
         );
-    }
-
-    /**
-     * レースデータをGoogleカレンダーのイベントに変換する
-     * @param updateDate - 更新日時
-     */
-    public toGoogleCalendarData(
-        updateDate: Date = new Date(),
-    ): calendar_v3.Schema$Event {
-        return {
-            id: generateRaceId(
-                RaceType.NAR,
-                this.raceData.dateTime,
-                this.raceData.location,
-                this.raceData.number,
-            ),
-            summary: this.raceData.name,
-            location: `${this.raceData.location}競馬場`,
-            start: {
-                dateTime: formatDate(this.raceData.dateTime),
-                timeZone: 'Asia/Tokyo',
-            },
-            end: {
-                // 終了時刻は発走時刻から10分後とする
-                dateTime: formatDate(
-                    new Date(this.raceData.dateTime.getTime() + 10 * 60 * 1000),
-                ),
-                timeZone: 'Asia/Tokyo',
-            },
-            colorId: getGoogleCalendarColorId(
-                this.raceData.raceType,
-                this.raceData.grade,
-            ),
-            description:
-                `距離: ${this.conditionData.surfaceType}${this.conditionData.distance.toString()}m
-                発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
-                ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[this.raceData.location]))}
-                ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${this.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[this.raceData.location]}${(this.raceData.dateTime.getMonth() + 1).toXDigits(2)}${this.raceData.dateTime.getDate().toXDigits(2)}${this.raceData.number.toXDigits(2)}`)}
-                ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_RaceDateTime=${this.raceData.dateTime.getFullYear().toString()}%2f${this.raceData.dateTime.getXDigitMonth(2)}%2f${this.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${this.raceData.number.toXDigits(2)}&k_babaCode=${NarBabacodeMap[this.raceData.location]}`)}
-                更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}
-            `.replace(/\n\s+/g, '\n'),
-            extendedProperties: {
-                private: {
-                    raceId: this.id,
-                    name: this.raceData.name,
-                    dateTime: this.raceData.dateTime.toISOString(),
-                    location: this.raceData.location,
-                    distance: this.conditionData.distance.toString(),
-                    surfaceType: this.conditionData.surfaceType,
-                    grade: this.raceData.grade,
-                    number: this.raceData.number.toString(),
-                    updateDate: this.updateDate.toISOString(),
-                },
-            },
-        };
     }
 
     public static fromGoogleCalendarDataToCalendarData(

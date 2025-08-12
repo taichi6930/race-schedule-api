@@ -18,7 +18,7 @@ import { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
 import { NarRaceEntity } from '../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
 import type { GradeType } from './data/common/gradeType';
-import { KeirinPlaceCodeMap, NarBabacodeMap } from './data/common/raceCourse';
+import { KeirinPlaceCodeMap } from './data/common/raceCourse';
 import {
     ChihoKeibaYoutubeUserIdMap,
     getYoutubeLiveUrl,
@@ -251,7 +251,6 @@ export function toGoogleCalendarData(
                     ${raceTimeStr}
                     ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[raceEntity.raceData.location]))}
                     ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${(raceEntity.raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`)}
-                    ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_RaceDateTime=${raceEntity.raceData.dateTime.getFullYear().toString()}%2f${raceEntity.raceData.dateTime.getXDigitMonth(2)}%2f${raceEntity.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${raceEntity.raceData.number.toXDigits(2)}&k_babaCode=${NarBabacodeMap[raceEntity.raceData.location]}`)}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
@@ -265,7 +264,15 @@ export function toGoogleCalendarData(
     }
 
     return {
-        id: raceEntity.id,
+        id: raceEntity.id
+            // GoogleカレンダーのIDにwxyzは入れられない
+            // そのため、wxyzを置換する
+            // TODO: 正しい置換方法を検討する
+            .replace(/w/g, 'vv')
+            .replace(/x/g, 'cs')
+            .replace(/y/g, 'v')
+            .replace(/z/g, 's')
+            .replace(/-/g, ''),
         summary: createSummary(),
         location: createLocation(),
         start: {
