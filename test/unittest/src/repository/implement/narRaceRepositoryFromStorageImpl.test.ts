@@ -11,7 +11,7 @@ import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import type { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
-import { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
+import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { NarRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
@@ -91,13 +91,13 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
     });
 
     // 1年間のレース開催データを登録する
-    const raceEntityList: NarRaceEntity[] = Array.from(
+    const raceEntityList: HorseRacingRaceEntity[] = Array.from(
         { length: 60 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, (__, j) =>
-                NarRaceEntity.createWithoutId(
+                HorseRacingRaceEntity.createWithoutId(
                     RaceData.create(
                         RaceType.NAR,
                         `raceName${format(date, 'yyyyMMdd')}`,

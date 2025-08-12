@@ -4,26 +4,26 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
-import { NarRaceEntity } from '../entity/narRaceEntity';
+import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
 export class MockNarRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<NarRaceEntity, HorseRacingPlaceEntity>
+    implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
-    ): Promise<NarRaceEntity[]> {
+    ): Promise<HorseRacingRaceEntity[]> {
         const { placeEntityList } = searchFilter;
-        const raceEntityList: NarRaceEntity[] = [];
+        const raceEntityList: HorseRacingRaceEntity[] = [];
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
                     raceEntityList.push(
-                        NarRaceEntity.createWithoutId(
+                        HorseRacingRaceEntity.createWithoutId(
                             RaceData.create(
                                 RaceType.NAR,
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
@@ -50,7 +50,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
 
     @Logger
     public async registerRaceEntityList(
-        raceEntityList: NarRaceEntity[],
+        raceEntityList: HorseRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

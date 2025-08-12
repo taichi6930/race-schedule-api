@@ -1,11 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 
 import { HorseRacingPlaceEntity } from '../../repository/entity/horseRacingPlaceEntity';
+import { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
-import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
 import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
@@ -33,12 +33,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         >,
         @inject('NarRaceRepositoryFromStorage')
         protected narRaceRepositoryFromStorage: IRaceRepository<
-            NarRaceEntity,
+            HorseRacingRaceEntity,
             HorseRacingPlaceEntity
         >,
         @inject('NarRaceRepositoryFromHtml')
         protected narRaceRepositoryFromHtml: IRaceRepository<
-            NarRaceEntity,
+            HorseRacingRaceEntity,
             HorseRacingPlaceEntity
         >,
         @inject('WorldRaceRepositoryFromStorage')
@@ -123,7 +123,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         },
     ): Promise<{
         jra: JraRaceEntity[];
-        nar: NarRaceEntity[];
+        nar: HorseRacingRaceEntity[];
         world: WorldRaceEntity[];
         keirin: MechanicalRacingRaceEntity[];
         autorace: MechanicalRacingRaceEntity[];
@@ -131,7 +131,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     }> {
         const result: {
             jra: JraRaceEntity[];
-            nar: NarRaceEntity[];
+            nar: HorseRacingRaceEntity[];
             world: WorldRaceEntity[];
             keirin: MechanicalRacingRaceEntity[];
             autorace: MechanicalRacingRaceEntity[];
@@ -177,7 +177,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                         finishDate,
                         placeEntityList?.nar,
                     );
-                const narRaceEntityList: NarRaceEntity[] =
+                const narRaceEntityList: HorseRacingRaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.narRaceRepositoryFromStorage.fetchRaceEntityList(
                               searchFilter,
@@ -291,7 +291,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     @Logger
     public async updateRaceEntityList(raceEntityList: {
         jra?: JraRaceEntity[];
-        nar?: NarRaceEntity[];
+        nar?: HorseRacingRaceEntity[];
         world?: WorldRaceEntity[];
         keirin?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];

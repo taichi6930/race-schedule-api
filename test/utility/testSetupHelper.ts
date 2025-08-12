@@ -3,11 +3,11 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { HorseRacingPlaceEntity } from '../../lib/src/repository/entity/horseRacingPlaceEntity';
+import type { HorseRacingRaceEntity } from '../../lib/src/repository/entity/horseRacingRaceEntity';
 import type { JraPlaceEntity } from '../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../lib/src/repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../lib/src/repository/entity/mechanicalRacingRaceEntity';
-import type { NarRaceEntity } from '../../lib/src/repository/entity/narRaceEntity';
 import type { WorldPlaceEntity } from '../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../lib/src/repository/entity/worldRaceEntity';
 import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
@@ -68,10 +68,10 @@ export interface TestSetup {
         IRaceRepository<JraRaceEntity, JraPlaceEntity>
     >;
     narRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<NarRaceEntity, HorseRacingPlaceEntity>
+        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >;
     narRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<NarRaceEntity, HorseRacingPlaceEntity>
+        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >;
     worldRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
@@ -125,19 +125,19 @@ export function setupTestMock(): TestSetup {
         jraRaceRepositoryFromHtmlImpl,
     );
     const narRaceRepositoryFromStorageImpl = mockRaceRepository<
-        NarRaceEntity,
+        HorseRacingRaceEntity,
         HorseRacingPlaceEntity
     >();
     container.registerInstance<
-        IRaceRepository<NarRaceEntity, HorseRacingPlaceEntity>
+        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >('NarRaceRepositoryFromStorage', narRaceRepositoryFromStorageImpl);
 
     const narRaceRepositoryFromHtmlImpl = mockRaceRepository<
-        NarRaceEntity,
+        HorseRacingRaceEntity,
         HorseRacingPlaceEntity
     >();
     container.registerInstance<
-        IRaceRepository<NarRaceEntity, HorseRacingPlaceEntity>
+        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >('NarRaceRepositoryFromHtml', narRaceRepositoryFromHtmlImpl);
     // world
     const worldRaceRepositoryFromStorageImpl = mockRaceRepository<

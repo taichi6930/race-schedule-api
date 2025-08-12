@@ -4,9 +4,9 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
+import { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
-import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
@@ -93,7 +93,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
     @Logger
     public async upsertEvents(raceEntityList: {
         jra?: JraRaceEntity[];
-        nar?: NarRaceEntity[];
+        nar?: HorseRacingRaceEntity[];
         keirin?: MechanicalRacingRaceEntity[];
         world?: WorldRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];

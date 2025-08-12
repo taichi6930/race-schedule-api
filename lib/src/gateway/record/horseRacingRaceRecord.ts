@@ -2,7 +2,7 @@ import '../../utility/format';
 
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
-import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
+import { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import {
@@ -133,8 +133,8 @@ export class HorseRacingRaceRecord implements IRecord<HorseRacingRaceRecord> {
     /**
      * NarRaceEntityに変換する
      */
-    public toEntity(): NarRaceEntity {
-        return NarRaceEntity.create(
+    public toEntity(): HorseRacingRaceEntity {
+        return HorseRacingRaceEntity.create(
             this.id,
             RaceData.create(
                 this.raceType,

@@ -11,9 +11,9 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../domain/calendarData';
+import { HorseRacingRaceEntity } from '../repository/entity/horseRacingRaceEntity';
 import { JraRaceEntity } from '../repository/entity/jraRaceEntity';
 import { MechanicalRacingRaceEntity } from '../repository/entity/mechanicalRacingRaceEntity';
-import { NarRaceEntity } from '../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
 import type { GradeType } from './data/common/gradeType';
 import { KeirinPlaceCodeMap } from './data/common/raceCourse';
@@ -145,7 +145,7 @@ const GoogleCalendarColorIdMap = {
 export function toGoogleCalendarData(
     raceEntity:
         | JraRaceEntity
-        | NarRaceEntity
+        | HorseRacingRaceEntity
         | WorldRaceEntity
         | MechanicalRacingRaceEntity,
 
@@ -159,7 +159,7 @@ export function toGoogleCalendarData(
         if (raceEntity instanceof JraRaceEntity) {
             return `${raceEntity.raceData.location}競馬場`;
         }
-        if (raceEntity instanceof NarRaceEntity) {
+        if (raceEntity instanceof HorseRacingRaceEntity) {
             return `${raceEntity.raceData.location}競馬場`;
         }
         if (raceEntity instanceof WorldRaceEntity) {
@@ -183,7 +183,7 @@ export function toGoogleCalendarData(
         if (raceEntity instanceof JraRaceEntity) {
             return '';
         }
-        if (raceEntity instanceof NarRaceEntity) {
+        if (raceEntity instanceof HorseRacingRaceEntity) {
             return '';
         }
         if (raceEntity instanceof WorldRaceEntity) {
@@ -239,7 +239,7 @@ export function toGoogleCalendarData(
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof NarRaceEntity) {
+        if (raceEntity instanceof HorseRacingRaceEntity) {
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
                     ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[raceEntity.raceData.location]))}
