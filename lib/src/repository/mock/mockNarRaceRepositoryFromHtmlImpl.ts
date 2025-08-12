@@ -3,18 +3,18 @@ import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
-import { PlaceEntity } from '../entity/placeEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
 export class MockNarRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<NarRaceEntity, PlaceEntity>
+    implements IRaceRepository<NarRaceEntity, HorseRacingPlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
     ): Promise<NarRaceEntity[]> {
         const { placeEntityList } = searchFilter;
         const raceEntityList: NarRaceEntity[] = [];

@@ -6,8 +6,8 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { HorseRacingPlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
+import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { NarRaceEntity } from '../../../../../lib/src/repository/entity/narRaceEntity';
-import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import {
@@ -73,7 +73,7 @@ export const baseNarRaceRecord = HorseRacingRaceRecord.create(
     baseNarRaceUpdateDate,
 );
 
-export const baseNarPlaceEntity = PlaceEntity.createWithoutId(
+export const baseNarPlaceEntity = HorseRacingPlaceEntity.createWithoutId(
     RaceType.NAR,
     baseNarPlaceData,
     baseNarRaceUpdateDate,

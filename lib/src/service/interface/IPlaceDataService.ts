@@ -1,6 +1,6 @@
+import type { HorseRacingPlaceEntity } from '../../repository/entity/horseRacingPlaceEntity';
 import type { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
-import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { DataLocationType } from '../../utility/dataType';
 import type { RaceType } from '../../utility/raceType';
 
@@ -31,7 +31,7 @@ export interface IPlaceDataService {
         type: DataLocationType,
     ) => Promise<{
         jra: JraPlaceEntity[];
-        nar: PlaceEntity[];
+        nar: HorseRacingPlaceEntity[];
         keirin: MechanicalRacingPlaceEntity[];
         autorace: MechanicalRacingPlaceEntity[];
         boatrace: MechanicalRacingPlaceEntity[];
@@ -47,7 +47,7 @@ export interface IPlaceDataService {
      */
     updatePlaceEntityList: (placeEntityList: {
         jra: JraPlaceEntity[];
-        nar: PlaceEntity[];
+        nar: HorseRacingPlaceEntity[];
         keirin: MechanicalRacingPlaceEntity[];
         autorace: MechanicalRacingPlaceEntity[];
         boatrace: MechanicalRacingPlaceEntity[];

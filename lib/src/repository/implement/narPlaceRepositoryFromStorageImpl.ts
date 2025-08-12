@@ -7,13 +7,13 @@ import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRec
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { PlaceEntity } from '../entity/placeEntity';
+import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
 export class NarPlaceRepositoryFromStorageImpl
-    implements IPlaceRepository<PlaceEntity>
+    implements IPlaceRepository<HorseRacingPlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
@@ -31,13 +31,13 @@ export class NarPlaceRepositoryFromStorageImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<HorseRacingPlaceEntity[]> {
         // 年ごとの開催データを取得
         const placeRecordList: HorseRacingPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // Entityに変換
-        const placeEntityList: PlaceEntity[] = placeRecordList.map(
+        const placeEntityList: HorseRacingPlaceEntity[] = placeRecordList.map(
             (placeRecord) => placeRecord.toEntity(),
         );
 
@@ -54,7 +54,7 @@ export class NarPlaceRepositoryFromStorageImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: PlaceEntity[],
+        placeEntityList: HorseRacingPlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: HorseRacingPlaceRecord[] =

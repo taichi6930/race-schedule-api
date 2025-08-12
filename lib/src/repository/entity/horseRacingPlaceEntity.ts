@@ -10,7 +10,9 @@ import type { IPlaceEntity } from './iPlaceEntity';
 /**
  * Repository層のEntity レース開催場所データ
  */
-export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
+export class HorseRacingPlaceEntity
+    implements IPlaceEntity<HorseRacingPlaceEntity>
+{
     /**
      * コンストラクタ
      * @param id - ID
@@ -39,8 +41,8 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
         raceType: RaceType,
         placeData: PlaceData,
         updateDate: Date,
-    ): PlaceEntity {
-        return new PlaceEntity(
+    ): HorseRacingPlaceEntity {
+        return new HorseRacingPlaceEntity(
             validatePlaceId(raceType, id),
             raceType,
             placeData,
@@ -58,8 +60,8 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
         raceType: RaceType,
         placeData: PlaceData,
         updateDate: Date,
-    ): PlaceEntity {
-        return PlaceEntity.create(
+    ): HorseRacingPlaceEntity {
+        return HorseRacingPlaceEntity.create(
             generatePlaceId(
                 placeData.raceType,
                 placeData.dateTime,
@@ -75,8 +77,10 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<PlaceEntity> = {}): PlaceEntity {
-        return PlaceEntity.create(
+    public copy(
+        partial: Partial<HorseRacingPlaceEntity> = {},
+    ): HorseRacingPlaceEntity {
+        return HorseRacingPlaceEntity.create(
             partial.id ?? this.id,
             partial.raceType ?? this.raceType,
             partial.placeData ?? this.placeData,

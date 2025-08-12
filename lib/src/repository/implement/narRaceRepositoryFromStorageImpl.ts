@@ -7,14 +7,14 @@ import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecor
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
-import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 @injectable()
 export class NarRaceRepositoryFromStorageImpl
-    implements IRaceRepository<NarRaceEntity, PlaceEntity>
+    implements IRaceRepository<NarRaceEntity, HorseRacingPlaceEntity>
 {
     private readonly fileName = 'raceList.csv';
 
@@ -29,7 +29,7 @@ export class NarRaceRepositoryFromStorageImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
     ): Promise<NarRaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const raceRecordList: HorseRacingRaceRecord[] =

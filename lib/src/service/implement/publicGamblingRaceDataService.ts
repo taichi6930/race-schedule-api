@@ -1,11 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 
+import { HorseRacingPlaceEntity } from '../../repository/entity/horseRacingPlaceEntity';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
-import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
 import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
@@ -34,12 +34,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         @inject('NarRaceRepositoryFromStorage')
         protected narRaceRepositoryFromStorage: IRaceRepository<
             NarRaceEntity,
-            PlaceEntity
+            HorseRacingPlaceEntity
         >,
         @inject('NarRaceRepositoryFromHtml')
         protected narRaceRepositoryFromHtml: IRaceRepository<
             NarRaceEntity,
-            PlaceEntity
+            HorseRacingPlaceEntity
         >,
         @inject('WorldRaceRepositoryFromStorage')
         protected readonly worldRaceRepositoryFromStorage: IRaceRepository<
@@ -115,7 +115,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         type: DataLocationType,
         placeEntityList?: {
             jra?: JraPlaceEntity[];
-            nar?: PlaceEntity[];
+            nar?: HorseRacingPlaceEntity[];
             world?: WorldPlaceEntity[];
             keirin?: MechanicalRacingPlaceEntity[];
             autorace?: MechanicalRacingPlaceEntity[];
@@ -171,11 +171,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 (placeEntityList?.nar !== undefined &&
                     placeEntityList.nar.length > 0)
             ) {
-                const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
-                    startDate,
-                    finishDate,
-                    placeEntityList?.nar,
-                );
+                const searchFilter =
+                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
+                        startDate,
+                        finishDate,
+                        placeEntityList?.nar,
+                    );
                 const narRaceEntityList: NarRaceEntity[] =
                     type === DataLocation.Storage
                         ? await this.narRaceRepositoryFromStorage.fetchRaceEntityList(
