@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
-import { PublicGamblingPlaceUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingPlaceUseCase';
+import { PublicGamblingPlaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingPlaceDataUseCase';
 import type { IPlaceDataUseCase } from '../../../../../lib/src/usecase/interface/IPlaceDataUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
@@ -35,7 +35,7 @@ describe('PublicGamblingPlaceUseCase', () => {
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({ placeDataService } = setup);
-        useCase = container.resolve(PublicGamblingPlaceUseCase);
+        useCase = container.resolve(PublicGamblingPlaceDataUseCase);
     });
 
     afterEach(() => {
