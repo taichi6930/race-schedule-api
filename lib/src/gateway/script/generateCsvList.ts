@@ -11,8 +11,8 @@ import {
 } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { MechanicalRacingPlaceRecord } from '../record/mechanicalRacingPlaceRecord';
+import { MechanicalRacingRaceRecord } from '../record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../record/racePlayerRecord';
-import { RaceRecord } from '../record/raceRecord';
 
 // 出力先CSVファイルパス
 const outputPath = (raceType: RaceType, listType: string): string =>
@@ -117,7 +117,7 @@ const createPlayerNumber = (raceType: RaceType): number => {
 
 function generateMechanicalRacingData(raceType: RaceType): {
     placeRecord: MechanicalRacingPlaceRecord[];
-    raceRecord: RaceRecord[];
+    raceRecord: MechanicalRacingRaceRecord[];
     racePlayerRecord: RacePlayerRecord[];
 } {
     // 2022年から2026年までのIDを生成
@@ -125,7 +125,7 @@ function generateMechanicalRacingData(raceType: RaceType): {
     const endDate = new Date('2026-01-01');
 
     const placeRecordList: MechanicalRacingPlaceRecord[] = [];
-    const raceRecordList: RaceRecord[] = [];
+    const raceRecordList: MechanicalRacingRaceRecord[] = [];
     const racePlayerList: RacePlayerRecord[] = [];
 
     // 1日ずつ増やしていく
@@ -161,7 +161,7 @@ function generateMechanicalRacingData(raceType: RaceType): {
                 raceNumber,
             );
             raceRecordList.push(
-                RaceRecord.create(
+                MechanicalRacingRaceRecord.create(
                     raceId,
                     raceType,
                     `レース${raceNumber}`,
@@ -222,7 +222,10 @@ function writePlaceCsv(
 }
 
 // CSV出力
-function writeRaceCsv(rows: RaceRecord[], filePath: string): void {
+function writeRaceCsv(
+    rows: MechanicalRacingRaceRecord[],
+    filePath: string,
+): void {
     const header = 'id,name,stage,dateTime,location,grade,number,updateDate';
     const lines = rows.map(
         (r) =>

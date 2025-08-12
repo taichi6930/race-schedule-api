@@ -5,8 +5,8 @@ import { inject, injectable } from 'tsyringe';
 import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
+import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
-import { RaceRecord } from '../../gateway/record/raceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -28,7 +28,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('BoatraceRaceS3Gateway')
-        private readonly raceS3Gateway: IS3Gateway<RaceRecord>,
+        private readonly raceS3Gateway: IS3Gateway<MechanicalRacingRaceRecord>,
         @inject('BoatraceRacePlayerS3Gateway')
         private readonly racePlayerS3Gateway: IS3Gateway<RacePlayerRecord>,
     ) {}
@@ -46,7 +46,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
             await this.getRacePlayerRecordListFromS3();
 
         // レースデータを取得する
-        const raceRaceRecordList: RaceRecord[] =
+        const raceRaceRecordList: MechanicalRacingRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
         // RaceEntityに変換
@@ -103,15 +103,15 @@ export class BoatraceRaceRepositoryFromStorageImpl
         raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchRaceRecordList: RaceRecord[] =
+        const existFetchRaceRecordList: MechanicalRacingRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
         const existFetchRacePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
-        const raceRecordList: RaceRecord[] = raceEntityList.map((raceEntity) =>
-            raceEntity.toRaceRecord(),
+        const raceRecordList: MechanicalRacingRaceRecord[] = raceEntityList.map(
+            (raceEntity) => raceEntity.toRaceRecord(),
         );
 
         // RaceEntityをRacePlayerRecordに変換する
@@ -165,7 +165,9 @@ export class BoatraceRaceRepositoryFromStorageImpl
      * レースデータをS3から取得する
      */
     @Logger
-    private async getRaceRecordListFromS3(): Promise<RaceRecord[]> {
+    private async getRaceRecordListFromS3(): Promise<
+        MechanicalRacingRaceRecord[]
+    > {
         // S3からデータを取得する
         const csv = await this.raceS3Gateway.fetchDataFromS3(
             this.raceListFileName,
@@ -195,32 +197,34 @@ export class BoatraceRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してRaceDataのリストを生成
-        return lines.slice(1).flatMap((line: string): RaceRecord[] => {
-            try {
-                const columns = line.split(',');
+        return lines
+            .slice(1)
+            .flatMap((line: string): MechanicalRacingRaceRecord[] => {
+                try {
+                    const columns = line.split(',');
 
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
 
-                return [
-                    RaceRecord.create(
-                        columns[indices.id],
-                        RaceType.BOATRACE,
-                        columns[indices.name],
-                        columns[indices.stage],
-                        new Date(columns[indices.dateTime]),
-                        columns[indices.location],
-                        columns[indices.grade],
-                        Number.parseInt(columns[indices.number]),
-                        updateDate,
-                    ),
-                ];
-            } catch (error) {
-                console.error('RaceRecord create error', error);
-                return [];
-            }
-        });
+                    return [
+                        MechanicalRacingRaceRecord.create(
+                            columns[indices.id],
+                            RaceType.BOATRACE,
+                            columns[indices.name],
+                            columns[indices.stage],
+                            new Date(columns[indices.dateTime]),
+                            columns[indices.location],
+                            columns[indices.grade],
+                            Number.parseInt(columns[indices.number]),
+                            updateDate,
+                        ),
+                    ];
+                } catch (error) {
+                    console.error('RaceRecord create error', error);
+                    return [];
+                }
+            });
     }
 
     /**

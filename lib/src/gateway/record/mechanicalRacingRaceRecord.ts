@@ -32,7 +32,9 @@ import type { IRecord } from './iRecord';
 /**
  * レース開催データ
  */
-export class RaceRecord implements IRecord<RaceRecord> {
+export class MechanicalRacingRaceRecord
+    implements IRecord<MechanicalRacingRaceRecord>
+{
     /**
      * コンストラクタ
      * @param id - ID
@@ -81,9 +83,9 @@ export class RaceRecord implements IRecord<RaceRecord> {
         grade: string,
         number: number,
         updateDate: Date,
-    ): RaceRecord {
+    ): MechanicalRacingRaceRecord {
         try {
-            return new RaceRecord(
+            return new MechanicalRacingRaceRecord(
                 validateRaceId(raceType, id),
                 raceType,
                 validateRaceName(name),
@@ -103,8 +105,10 @@ export class RaceRecord implements IRecord<RaceRecord> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<RaceRecord> = {}): RaceRecord {
-        return RaceRecord.create(
+    public copy(
+        partial: Partial<MechanicalRacingRaceRecord> = {},
+    ): MechanicalRacingRaceRecord {
+        return MechanicalRacingRaceRecord.create(
             partial.id ?? this.id,
             partial.raceType ?? this.raceType,
             partial.name ?? this.name,

@@ -2,8 +2,8 @@ import '../../utility/format';
 
 import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
+import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
-import { RaceRecord } from '../../gateway/record/raceRecord';
 import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import type { RaceStage } from '../../utility/data/common/raceStage';
 import { generateRaceId, generateRacePlayerId } from '../../utility/raceId';
@@ -104,8 +104,8 @@ export class MechanicalRacingRaceEntity
     /**
      * RaceRecordに変換する
      */
-    public toRaceRecord(): RaceRecord {
-        return RaceRecord.create(
+    public toRaceRecord(): MechanicalRacingRaceRecord {
+        return MechanicalRacingRaceRecord.create(
             this.id,
             this.raceData.raceType,
             this.raceData.name,
