@@ -223,6 +223,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 RaceType.NAR,
                 RaceType.WORLD,
                 RaceType.KEIRIN,
+                RaceType.AUTORACE,
                 RaceType.BOATRACE,
             ],
             {
