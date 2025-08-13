@@ -9,8 +9,8 @@ import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
-// KeirinRaceRepositoryFromHtmlImplのモックを作成
-export class MockKeirinRaceRepositoryFromHtmlImpl
+// MechanicalRacingRaceRepositoryFromHtmlImplのモックを作成
+export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
     implements
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
