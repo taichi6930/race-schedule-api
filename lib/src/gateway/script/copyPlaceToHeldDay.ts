@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { RaceType } from '../../utility/raceType';
+
 // 入出力ファイルパス
 const placeListPath = path.resolve(
     __dirname,
@@ -26,8 +28,8 @@ if ([idIdx, heldTimesIdx, heldDayTimesIdx, updateDateIdx].includes(-1)) {
     throw new Error('placeList.csvのヘッダーに必要なカラムがありません');
 }
 
-// 新しいCSVデータを作成
-const outputLines = ['id,heldTimes,heldDayTimes,updateDate'];
+// 新しいCSVデータを作成（raceTypeをRaceType.JRAで固定）
+const outputLines = ['id,raceType,heldTimes,heldDayTimes,updateDate'];
 for (let i = 1; i < lines.length; i++) {
     const cols = lines[i].split(',');
     if (cols.length < header.length) {
@@ -36,6 +38,7 @@ for (let i = 1; i < lines.length; i++) {
     outputLines.push(
         [
             cols[idIdx],
+            RaceType.JRA,
             cols[heldTimesIdx],
             cols[heldDayTimesIdx],
             cols[updateDateIdx],
