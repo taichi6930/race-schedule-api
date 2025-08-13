@@ -25,8 +25,6 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class NarRaceRepositoryFromHtmlImpl
     implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
 {
-    private readonly raceType: RaceType = RaceType.NAR;
-
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -60,7 +58,7 @@ export class NarRaceRepositoryFromHtmlImpl
     ): Promise<HorseRacingRaceEntity[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                this.raceType,
+                placeEntity.raceType,
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
@@ -82,6 +80,7 @@ export class NarRaceRepositoryFromHtmlImpl
                         [...tds].map((td) => $(td).text()),
                     );
                     const grade = this.extractGrade(
+                        placeEntity.raceType,
                         [...tds].map((td) => $(td).text()),
                     );
                     const surfaceType = this.extractSurfaceType(
@@ -113,7 +112,7 @@ export class NarRaceRepositoryFromHtmlImpl
                     narRaceDataList.push(
                         HorseRacingRaceEntity.createWithoutId(
                             RaceData.create(
-                                this.raceType,
+                                placeEntity.raceType,
                                 processedRaceName,
                                 raceDateTime,
                                 placeEntity.placeData.location,
@@ -182,7 +181,7 @@ export class NarRaceRepositoryFromHtmlImpl
         return '芝';
     }
 
-    private extractGrade(race: string[]): GradeType {
+    private extractGrade(raceType: RaceType, race: string[]): GradeType {
         let grade: GradeType = '一般';
         if (race.includes('準重賞')) {
             return '地方準重賞';
@@ -204,7 +203,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 break;
             }
         }
-        return validateGradeType(this.raceType, grade);
+        return validateGradeType(raceType, grade);
     }
 
     private extractRaceName(race: string[]): string {
