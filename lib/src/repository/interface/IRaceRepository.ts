@@ -1,3 +1,4 @@
+import type { RaceType } from '../../utility/raceType';
 import type { IPlaceEntity } from '../entity/iPlaceEntity';
 import type { IRaceEntity } from '../entity/iRaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -65,5 +66,8 @@ export interface IRaceRepository<
      *               - データストアへの書き込みに失敗
      *               - 一意制約違反が発生（重複するレースIDなど）
      */
-    registerRaceEntityList: (raceEntityList: R[]) => Promise<void>;
+    registerRaceEntityList: (
+        raceType: RaceType,
+        raceEntityList: R[],
+    ) => Promise<void>;
 }

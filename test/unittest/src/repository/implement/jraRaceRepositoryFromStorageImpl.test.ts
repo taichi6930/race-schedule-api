@@ -15,13 +15,14 @@ import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jr
 import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { JraRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromStorageImpl';
+import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('JraRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<JraRaceRecord>>;
-    let repository: JraRaceRepositoryFromStorageImpl;
+    let repository: IRaceRepository<JraRaceEntity, JraPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
@@ -53,6 +54,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             const searchFilter = new SearchRaceFilterEntity<JraPlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
+                RaceType.JRA,
             );
             // テスト実行
             const raceEntityList =
@@ -66,7 +68,10 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
     describe('registerRaceList', () => {
         test('DBが空データのところに、正しいレース開催データを登録できる', async () => {
             // テスト実行
-            await repository.registerRaceEntityList(raceEntityList);
+            await repository.registerRaceEntityList(
+                RaceType.JRA,
+                raceEntityList,
+            );
 
             // uploadDataToS3が366回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
@@ -83,7 +88,10 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
             // テスト実行
-            await repository.registerRaceEntityList(raceEntityList);
+            await repository.registerRaceEntityList(
+                RaceType.JRA,
+                raceEntityList,
+            );
 
             // uploadDataToS3が366回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
@@ -98,6 +106,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, (__, j) =>
                 JraRaceEntity.createWithoutId(
+                    RaceType.JRA,
                     RaceData.create(
                         RaceType.JRA,
                         `raceName${format(date, 'yyyyMMdd')}`,

@@ -25,6 +25,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
     implements
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
+    private readonly raceType: RaceType = RaceType.KEIRIN;
+
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -68,7 +70,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 placeData.dateTime.getDate(),
             ];
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                RaceType.KEIRIN,
+                this.raceType,
                 placeData.dateTime,
                 placeData.location,
             );
@@ -144,7 +146,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                 if (positionNumber && playerNumber !== null) {
                                     racePlayerDataList.push(
                                         RacePlayerData.create(
-                                            RaceType.KEIRIN,
+                                            this.raceType,
                                             Number(positionNumber),
                                             Number(playerNumber),
                                         ),
@@ -155,7 +157,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                             raceStage === null
                                 ? null
                                 : RaceData.create(
-                                      RaceType.KEIRIN,
+                                      this.raceType,
                                       raceName,
                                       new Date(
                                           year,
@@ -295,10 +297,12 @@ export class KeirinRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
+     * @param raceType
      * @param raceEntityList
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

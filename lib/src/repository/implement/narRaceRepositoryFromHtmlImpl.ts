@@ -25,6 +25,8 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class NarRaceRepositoryFromHtmlImpl
     implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
 {
+    private readonly raceType: RaceType = RaceType.NAR;
+
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -58,7 +60,7 @@ export class NarRaceRepositoryFromHtmlImpl
     ): Promise<HorseRacingRaceEntity[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                RaceType.NAR,
+                this.raceType,
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
@@ -111,7 +113,7 @@ export class NarRaceRepositoryFromHtmlImpl
                     narRaceDataList.push(
                         HorseRacingRaceEntity.createWithoutId(
                             RaceData.create(
-                                RaceType.NAR,
+                                this.raceType,
                                 processedRaceName,
                                 raceDateTime,
                                 placeEntity.placeData.location,
@@ -202,7 +204,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 break;
             }
         }
-        return validateGradeType(RaceType.NAR, grade);
+        return validateGradeType(this.raceType, grade);
     }
 
     private extractRaceName(race: string[]): string {
@@ -226,10 +228,12 @@ export class NarRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
+     * @param raceType
      * @param raceEntityList
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: HorseRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

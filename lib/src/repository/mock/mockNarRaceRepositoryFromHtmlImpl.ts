@@ -50,6 +50,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
 
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: HorseRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

@@ -14,13 +14,17 @@ import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/e
 import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { NarRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromStorageImpl';
+import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('NarRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
-    let repository: NarRaceRepositoryFromStorageImpl;
+    let repository: IRaceRepository<
+        HorseRacingRaceEntity,
+        HorseRacingPlaceEntity
+    >;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
@@ -53,6 +57,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
                 new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                     new Date('2024-01-01'),
                     new Date('2024-02-01'),
+                    RaceType.NAR,
                 );
             // テスト実行
             const raceEntityList =
@@ -66,7 +71,10 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
     describe('registerRaceList', () => {
         test('DBが空データのところに、正しいレース開催データを登録できる', async () => {
             // テスト実行
-            await repository.registerRaceEntityList(raceEntityList);
+            await repository.registerRaceEntityList(
+                RaceType.NAR,
+                raceEntityList,
+            );
 
             // uploadDataToS3が366回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
@@ -84,7 +92,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
         s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
         // テスト実行
-        await repository.registerRaceEntityList(raceEntityList);
+        await repository.registerRaceEntityList(RaceType.NAR, raceEntityList);
 
         // uploadDataToS3が366回呼ばれることを検証
         expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

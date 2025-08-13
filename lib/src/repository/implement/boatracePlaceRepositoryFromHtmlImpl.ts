@@ -20,6 +20,8 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class BoatracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
+    private readonly raceType: RaceType = RaceType.BOATRACE;
+
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
@@ -106,7 +108,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(
-                RaceType.BOATRACE,
+                this.raceType,
                 date,
             );
 
@@ -159,9 +161,9 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             ) {
                 const boatracePlaceEntity =
                     MechanicalRacingPlaceEntity.createWithoutId(
-                        RaceType.BOATRACE,
+                        this.raceType,
                         PlaceData.create(
-                            RaceType.BOATRACE,
+                            this.raceType,
                             new Date(currentDate),
                             place,
                         ),

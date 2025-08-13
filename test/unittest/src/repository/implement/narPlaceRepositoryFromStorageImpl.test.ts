@@ -11,13 +11,14 @@ import type { HorseRacingPlaceRecord } from '../../../../../lib/src/gateway/reco
 import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { NarPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/narPlaceRepositoryFromStorageImpl';
+import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('NarPlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<HorseRacingPlaceRecord>>;
-    let repository: NarPlaceRepositoryFromStorageImpl;
+    let repository: IPlaceRepository<HorseRacingPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成

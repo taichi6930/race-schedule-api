@@ -4,15 +4,17 @@ import { container } from 'tsyringe';
 
 import type { IPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
+import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { BoatracePlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
+import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
 
 describe('BoatracePlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: IPlaceDataHtmlGateway;
-    let repository: BoatracePlaceRepositoryFromHtmlImpl;
+    let repository: IPlaceRepository<MechanicalRacingPlaceEntity>;
 
     beforeEach(() => {
         // gatewayのモックを作成

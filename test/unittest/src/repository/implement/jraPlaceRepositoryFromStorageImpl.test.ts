@@ -12,13 +12,14 @@ import type { JraPlaceRecord } from '../../../../../lib/src/gateway/record/jraPl
 import { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromStorageImpl';
+import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('JraPlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<JraPlaceRecord>>;
-    let repository: JraPlaceRepositoryFromStorageImpl;
+    let repository: IPlaceRepository<JraPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
@@ -81,6 +82,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
                 JraPlaceEntity.createWithoutId(
+                    RaceType.JRA,
                     PlaceData.create(RaceType.JRA, date, '東京'),
                     HeldDayData.create(1, 1),
                     getJSTDate(new Date()),

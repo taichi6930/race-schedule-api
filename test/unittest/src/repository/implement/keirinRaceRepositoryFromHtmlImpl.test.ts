@@ -6,15 +6,20 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
+import type { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
+import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { allowedEnvs, SkipEnv } from '../../../../utility/testDecorators';
 
 describe('KeirinRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
-    let repository: KeirinRaceRepositoryFromHtmlImpl;
+    let repository: IRaceRepository<
+        MechanicalRacingRaceEntity,
+        MechanicalRacingPlaceEntity
+    >;
 
     beforeEach(() => {
         // gatewayのモックを作成
@@ -40,6 +45,7 @@ describe('KeirinRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         new Date('2024-10-20'),
                         new Date('2024-10-20'),
+                        RaceType.KEIRIN,
                         [
                             MechanicalRacingPlaceEntity.createWithoutId(
                                 RaceType.KEIRIN,
@@ -66,7 +72,7 @@ describe('KeirinRaceRepositoryFromHtmlImpl', () => {
             async () => {
                 // テスト実行
                 await expect(
-                    repository.registerRaceEntityList([]),
+                    repository.registerRaceEntityList(RaceType.KEIRIN, []),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             },
         );

@@ -18,6 +18,8 @@ export class NarRaceRepositoryFromStorageImpl
 {
     private readonly fileName = 'raceList.csv';
 
+    private readonly raceType: RaceType = RaceType.NAR;
+
     public constructor(
         @inject('NarRaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<HorseRacingRaceRecord>,
@@ -105,7 +107,7 @@ export class NarRaceRepositoryFromStorageImpl
                         return [
                             HorseRacingRaceRecord.create(
                                 columns[indices.id],
-                                RaceType.NAR,
+                                this.raceType,
                                 columns[indices.name],
                                 new Date(columns[indices.dateTime]),
                                 columns[indices.location],
@@ -130,10 +132,12 @@ export class NarRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
+     * @param raceType
      * @param raceEntityList
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: HorseRacingRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する

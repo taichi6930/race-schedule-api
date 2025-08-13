@@ -20,6 +20,8 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class NarPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<HorseRacingPlaceEntity>
 {
+    private readonly raceType: RaceType = RaceType.NAR;
+
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
@@ -94,7 +96,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(
-                RaceType.NAR,
+                this.raceType,
                 date,
             );
 
@@ -140,9 +142,9 @@ export class NarPlaceRepositoryFromHtmlImpl
             for (const raceDay of raceDays) {
                 narPlaceDataList.push(
                     HorseRacingPlaceEntity.createWithoutId(
-                        RaceType.NAR,
+                        this.raceType,
                         PlaceData.create(
-                            RaceType.NAR,
+                            this.raceType,
                             new Date(
                                 date.getFullYear(),
                                 date.getMonth(),

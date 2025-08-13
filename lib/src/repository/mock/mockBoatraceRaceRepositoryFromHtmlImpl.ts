@@ -55,6 +55,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
 
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

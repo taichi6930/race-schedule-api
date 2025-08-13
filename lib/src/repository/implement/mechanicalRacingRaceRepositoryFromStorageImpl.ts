@@ -19,7 +19,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  * 競輪場開催データリポジトリの実装
  */
 @injectable()
-export class KeirinRaceRepositoryFromStorageImpl
+export class MechanicalRacingRaceRepositoryFromStorageImpl
     implements
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
@@ -28,9 +28,17 @@ export class KeirinRaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('KeirinRaceS3Gateway')
-        private readonly raceS3Gateway: IS3Gateway<MechanicalRacingRaceRecord>,
+        private readonly raceS3GatewayForKeirin: IS3Gateway<MechanicalRacingRaceRecord>,
         @inject('KeirinRacePlayerS3Gateway')
-        private readonly racePlayerS3Gateway: IS3Gateway<RacePlayerRecord>,
+        private readonly racePlayerS3GatewayForKeirin: IS3Gateway<RacePlayerRecord>,
+        @inject('AutoraceRaceS3Gateway')
+        private readonly raceS3GatewayForAutorace: IS3Gateway<MechanicalRacingRaceRecord>,
+        @inject('AutoraceRacePlayerS3Gateway')
+        private readonly racePlayerS3GatewayForAutorace: IS3Gateway<RacePlayerRecord>,
+        @inject('BoatraceRaceS3Gateway')
+        private readonly raceS3GatewayForBoatrace: IS3Gateway<MechanicalRacingRaceRecord>,
+        @inject('BoatraceRacePlayerS3Gateway')
+        private readonly racePlayerS3GatewayForBoatrace: IS3Gateway<RacePlayerRecord>,
     ) {}
 
     /**
@@ -43,11 +51,14 @@ export class KeirinRaceRepositoryFromStorageImpl
     ): Promise<MechanicalRacingRaceEntity[]> {
         // ファイル名リストから選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =
-            await this.getRacePlayerRecordListFromS3();
+            await this.getRacePlayerRecordListFromS3(searchFilter.raceType);
 
         // レースデータを取得する
         const raceRaceRecordList: MechanicalRacingRaceRecord[] =
-            await this.getRaceRecordListFromS3(searchFilter.startDate);
+            await this.getRaceRecordListFromS3(searchFilter.raceType);
+
+        console.log(racePlayerRecordList.length, '選手データの取得件数');
+        console.log(raceRaceRecordList.length, 'レースデータの取得件数');
 
         // RaceEntityに変換
         const raceEntityList: MechanicalRacingRaceEntity[] =
@@ -57,18 +68,18 @@ export class KeirinRaceRepositoryFromStorageImpl
                     racePlayerRecordList.filter((racePlayerRecord) => {
                         return racePlayerRecord.raceId === raceRecord.id;
                     });
-                // KeirinRacePlayerDataのリストを生成
+                // RacePlayerDataのリストを生成
                 const racePlayerDataList: RacePlayerData[] =
                     filteredRacePlayerRecordList.map((racePlayerRecord) => {
                         return RacePlayerData.create(
-                            RaceType.KEIRIN,
+                            searchFilter.raceType,
                             racePlayerRecord.positionNumber,
                             racePlayerRecord.playerNumber,
                         );
                     });
-                // KeirinRaceDataを生成
+                // RaceDataを生成
                 const raceData = RaceData.create(
-                    RaceType.KEIRIN,
+                    searchFilter.raceType,
                     raceRecord.name,
                     raceRecord.dateTime,
                     raceRecord.location,
@@ -96,18 +107,20 @@ export class KeirinRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
+     * @param raceType
      * @param raceEntityList
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: MechanicalRacingRaceRecord[] =
-            await this.getRaceRecordListFromS3();
+            await this.getRaceRecordListFromS3(raceType);
 
         const existFetchRacePlayerRecordList: RacePlayerRecord[] =
-            await this.getRacePlayerRecordListFromS3();
+            await this.getRacePlayerRecordListFromS3(raceType);
 
         // RaceEntityをRaceRecordに変換する
         const raceRecordList: MechanicalRacingRaceRecord[] = raceEntityList.map(
@@ -151,11 +164,13 @@ export class KeirinRaceRepositoryFromStorageImpl
         );
 
         // raceDataをS3にアップロードする
-        await this.raceS3Gateway.uploadDataToS3(
+        await this.uploadDataToRaceS3Gateway(
+            raceType,
             existFetchRaceRecordList,
             this.raceListFileName,
         );
-        await this.racePlayerS3Gateway.uploadDataToS3(
+        await this.uploadDataToRacePlayerS3Gateway(
+            raceType,
             existFetchRacePlayerRecordList,
             this.racePlayerListFileName,
         );
@@ -163,14 +178,17 @@ export class KeirinRaceRepositoryFromStorageImpl
 
     /**
      * レースデータをS3から取得する
+     * @param raceType
      * @param borderDate
      */
     @Logger
     private async getRaceRecordListFromS3(
+        raceType: RaceType,
         borderDate?: Date,
     ): Promise<MechanicalRacingRaceRecord[]> {
         // S3からデータを取得する
-        const csv = await this.raceS3Gateway.fetchDataFromS3(
+        const csv = await this.fetchDataFromRaceS3Gateway(
+            raceType,
             this.raceListFileName,
         );
         // ファイルが空の場合は空のリストを返す
@@ -216,7 +234,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                 result.push(
                     MechanicalRacingRaceRecord.create(
                         columns[indices.id],
-                        RaceType.KEIRIN,
+                        raceType,
                         columns[indices.name],
                         columns[indices.stage],
                         dateTime,
@@ -237,11 +255,15 @@ export class KeirinRaceRepositoryFromStorageImpl
 
     /**
      * レースプレイヤーデータをS3から取得する
+     * @param raceType
      */
     @Logger
-    private async getRacePlayerRecordListFromS3(): Promise<RacePlayerRecord[]> {
+    private async getRacePlayerRecordListFromS3(
+        raceType: RaceType,
+    ): Promise<RacePlayerRecord[]> {
         // S3からデータを取得する
-        const csv = await this.racePlayerS3Gateway.fetchDataFromS3(
+        const csv = await this.fetchDataFromRacePlayerS3Gateway(
+            raceType,
             this.racePlayerListFileName,
         );
 
@@ -278,7 +300,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     return [
                         RacePlayerRecord.create(
                             columns[indices.id],
-                            RaceType.KEIRIN,
+                            raceType,
                             columns[indices.raceId],
                             Number.parseInt(columns[indices.positionNumber]),
                             Number.parseInt(columns[indices.playerNumber]),
@@ -291,5 +313,141 @@ export class KeirinRaceRepositoryFromStorageImpl
                 }
             });
         return keirinRacePlayerRecordList;
+    }
+
+    @Logger
+    private async fetchDataFromRaceS3Gateway(
+        raceType: RaceType,
+        fileName: string,
+    ): Promise<string> {
+        switch (raceType) {
+            case RaceType.KEIRIN: {
+                return this.raceS3GatewayForKeirin.fetchDataFromS3(fileName);
+            }
+            case RaceType.BOATRACE: {
+                return this.raceS3GatewayForBoatrace.fetchDataFromS3(fileName);
+            }
+            case RaceType.AUTORACE: {
+                return this.raceS3GatewayForAutorace.fetchDataFromS3(fileName);
+            }
+            case RaceType.JRA:
+            case RaceType.NAR:
+            case RaceType.WORLD: {
+                throw new Error('Unsupported race type');
+            }
+            default: {
+                throw new Error('Unsupported race type');
+            }
+        }
+    }
+
+    @Logger
+    private async uploadDataToRaceS3Gateway(
+        raceType: RaceType,
+        record: MechanicalRacingRaceRecord[],
+        fileName: string,
+    ): Promise<void> {
+        switch (raceType) {
+            case RaceType.KEIRIN: {
+                await this.raceS3GatewayForKeirin.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.BOATRACE: {
+                await this.raceS3GatewayForBoatrace.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.AUTORACE: {
+                await this.raceS3GatewayForAutorace.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.JRA:
+            case RaceType.NAR:
+            case RaceType.WORLD: {
+                throw new Error('Unsupported race type');
+            }
+            default: {
+                throw new Error('Unsupported race type');
+            }
+        }
+    }
+
+    @Logger
+    private async fetchDataFromRacePlayerS3Gateway(
+        raceType: RaceType,
+        fileName: string,
+    ): Promise<string> {
+        switch (raceType) {
+            case RaceType.KEIRIN: {
+                return this.racePlayerS3GatewayForKeirin.fetchDataFromS3(
+                    fileName,
+                );
+            }
+            case RaceType.BOATRACE: {
+                return this.racePlayerS3GatewayForBoatrace.fetchDataFromS3(
+                    fileName,
+                );
+            }
+            case RaceType.AUTORACE: {
+                return this.racePlayerS3GatewayForAutorace.fetchDataFromS3(
+                    fileName,
+                );
+            }
+            case RaceType.JRA:
+            case RaceType.NAR:
+            case RaceType.WORLD: {
+                throw new Error('Unsupported race type');
+            }
+            default: {
+                throw new Error('Unsupported race type');
+            }
+        }
+    }
+
+    @Logger
+    private async uploadDataToRacePlayerS3Gateway(
+        raceType: RaceType,
+        record: RacePlayerRecord[],
+        fileName: string,
+    ): Promise<void> {
+        switch (raceType) {
+            case RaceType.KEIRIN: {
+                await this.racePlayerS3GatewayForKeirin.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.BOATRACE: {
+                await this.racePlayerS3GatewayForBoatrace.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.AUTORACE: {
+                await this.racePlayerS3GatewayForAutorace.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.JRA:
+            case RaceType.NAR:
+            case RaceType.WORLD: {
+                throw new Error('Unsupported race type');
+            }
+            default: {
+                throw new Error('Unsupported race type');
+            }
+        }
     }
 }

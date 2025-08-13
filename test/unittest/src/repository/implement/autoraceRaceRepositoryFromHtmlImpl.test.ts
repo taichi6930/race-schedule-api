@@ -6,8 +6,10 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
+import type { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
+import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -15,7 +17,10 @@ import { SkipEnv } from '../../../../utility/testDecorators';
 
 describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
-    let repository: AutoraceRaceRepositoryFromHtmlImpl;
+    let repository: IRaceRepository<
+        MechanicalRacingRaceEntity,
+        MechanicalRacingPlaceEntity
+    >;
 
     beforeEach(() => {
         // gatewayのモックを作成
@@ -41,6 +46,7 @@ describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
+                        RaceType.AUTORACE,
                         [
                             MechanicalRacingPlaceEntity.createWithoutId(
                                 RaceType.AUTORACE,
@@ -67,7 +73,7 @@ describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
             async () => {
                 // テスト実行
                 await expect(
-                    repository.registerRaceEntityList([]),
+                    repository.registerRaceEntityList(RaceType.AUTORACE, []),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             },
         );
