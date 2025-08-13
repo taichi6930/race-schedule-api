@@ -22,8 +22,6 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class AutoracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
-    private readonly raceType: RaceType = RaceType.AUTORACE;
-
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
@@ -54,7 +52,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         // 各月のデータを取得して結合
         const monthPlaceEntityLists = await Promise.all(
             monthList.map(async (month) =>
-                this.fetchMonthPlaceEntityList(month),
+                this.fetchMonthPlaceEntityList(searchFilter.raceType, month),
             ),
         );
 
@@ -97,20 +95,19 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * S3から開催データを取得する
      * ファイル名を利用してS3から開催データを取得する
      * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * @param raceType
      * @param date
      */
     @Logger
     private async fetchMonthPlaceEntityList(
+        raceType: RaceType,
         date: Date,
     ): Promise<MechanicalRacingPlaceEntity[]> {
         const autoracePlaceEntityList: MechanicalRacingPlaceEntity[] = [];
         console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(
-                this.raceType,
-                date,
-            );
+            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
         const $ = cheerio.load(htmlText);
 
@@ -176,12 +173,8 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                     if (grade) {
                         autoracePlaceEntityList.push(
                             MechanicalRacingPlaceEntity.createWithoutId(
-                                this.raceType,
-                                PlaceData.create(
-                                    this.raceType,
-                                    datetime,
-                                    place,
-                                ),
+                                raceType,
+                                PlaceData.create(raceType, datetime, place),
                                 grade,
                                 getJSTDate(new Date()),
                             ),
