@@ -8,8 +8,8 @@ import { container } from 'tsyringe';
 import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
+import type { heldDayRecord } from '../../../../../lib/src/gateway/record/heldDayRecord';
 import type { HorseRacingPlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
-import type { JraHeldDayRecord } from '../../../../../lib/src/gateway/record/jraHeldDayRecord';
 import { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromStorageImpl';
@@ -20,13 +20,13 @@ import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('JraPlaceRepositoryFromStorageImpl', () => {
     let placeS3Gateway: jest.Mocked<IS3Gateway<HorseRacingPlaceRecord>>;
-    let heldDayS3Gateway: jest.Mocked<IS3Gateway<JraHeldDayRecord>>;
+    let heldDayS3Gateway: jest.Mocked<IS3Gateway<heldDayRecord>>;
     let repository: IPlaceRepository<JraPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
         placeS3Gateway = mockS3Gateway<HorseRacingPlaceRecord>();
-        heldDayS3Gateway = mockS3Gateway<JraHeldDayRecord>();
+        heldDayS3Gateway = mockS3Gateway<heldDayRecord>();
 
         // DIコンテナにモックを登録
         container.registerInstance('JraPlaceS3Gateway', placeS3Gateway);

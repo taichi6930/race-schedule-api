@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
+import { heldDayRecord } from '../../gateway/record/heldDayRecord';
 import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
@@ -13,7 +14,6 @@ import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { JraHeldDayRecord } from './../../gateway/record/jraHeldDayRecord';
 
 @injectable()
 export class JraPlaceRepositoryFromHtmlImpl
@@ -48,7 +48,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         const placeRecordResults = await Promise.all(placeRecordPromises);
         const placeRecordList: {
             horseRacingPlaceRecord: HorseRacingPlaceRecord;
-            jraHeldDayRecord: JraHeldDayRecord;
+            jraHeldDayRecord: heldDayRecord;
         }[] = placeRecordResults.flat();
 
         // Entityに変換
@@ -118,7 +118,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     private async fetchYearPlaceRecordList(date: Date): Promise<
         {
             horseRacingPlaceRecord: HorseRacingPlaceRecord;
-            jraHeldDayRecord: JraHeldDayRecord;
+            jraHeldDayRecord: heldDayRecord;
         }[]
     > {
         // レースHTMLを取得
@@ -131,7 +131,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         // 競馬場開催レコードはここに追加
         const jraRecordList: {
             horseRacingPlaceRecord: HorseRacingPlaceRecord;
-            jraHeldDayRecord: JraHeldDayRecord;
+            jraHeldDayRecord: heldDayRecord;
         }[] = [];
 
         // 競馬場のイニシャルと名前のマッピング
@@ -210,7 +210,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                             // heldDayTimes,
                             getJSTDate(new Date()),
                         );
-                        const jraHeldDayRecord = JraHeldDayRecord.create(
+                        const jraHeldDayRecord = heldDayRecord.create(
                             generatePlaceId(
                                 this.raceType,
                                 new Date(date.getFullYear(), month - 1, day),

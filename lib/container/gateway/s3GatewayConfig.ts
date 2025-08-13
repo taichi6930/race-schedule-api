@@ -3,9 +3,9 @@ import { container } from 'tsyringe';
 import { S3Gateway } from '../../src/gateway/implement/s3Gateway';
 import type { IS3Gateway } from '../../src/gateway/interface/iS3Gateway';
 import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
+import type { heldDayRecord } from '../../src/gateway/record/heldDayRecord';
 import type { HorseRacingPlaceRecord } from '../../src/gateway/record/horseRacingPlaceRecord';
 import type { HorseRacingRaceRecord } from '../../src/gateway/record/horseRacingRaceRecord';
-import type { JraHeldDayRecord } from '../../src/gateway/record/jraHeldDayRecord';
 import type { JraRaceRecord } from '../../src/gateway/record/jraRaceRecord';
 import type { MechanicalRacingPlaceRecord } from '../../src/gateway/record/mechanicalRacingPlaceRecord';
 import type { MechanicalRacingRaceRecord } from '../../src/gateway/record/mechanicalRacingRaceRecord';
@@ -268,18 +268,18 @@ container.register<IS3Gateway<HorseRacingPlaceRecord>>('JraPlaceS3Gateway', {
         }
     },
 });
-container.register<IS3Gateway<JraHeldDayRecord>>('JraHeldDayS3Gateway', {
+container.register<IS3Gateway<heldDayRecord>>('JraHeldDayS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new S3Gateway<JraHeldDayRecord>(
+                return new S3Gateway<heldDayRecord>(
                     'race-schedule-bucket',
                     'jra/',
                 );
             }
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<JraHeldDayRecord>(
+                return new S3Gateway<heldDayRecord>(
                     'race-schedule-bucket-test',
                     'jra/',
                 );
@@ -288,7 +288,7 @@ container.register<IS3Gateway<JraHeldDayRecord>>('JraHeldDayS3Gateway', {
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<JraHeldDayRecord>(
+                return new MockS3Gateway<heldDayRecord>(
                     'race-schedule-bucket',
                     'jra/',
                 );
