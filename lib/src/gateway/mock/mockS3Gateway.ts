@@ -60,6 +60,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
             await this.setPlaceMockData();
             await this.setRaceMockData();
             await this.setRacePlayerMockData();
+            await this.setHeldDayMockData();
         })();
     }
 
@@ -710,6 +711,91 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                             format(currentDate, 'yyyy-MM-dd'),
                             '平和島',
                             'SG',
+                        ].join(','),
+                    );
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+            }
+        }
+        MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
+    }
+
+    /**
+     * モックデータを作成する
+     */
+    @Logger
+    private async setHeldDayMockData() {
+        switch (ENV) {
+            case allowedEnvs.localNoInitData: {
+                return;
+            }
+            case allowedEnvs.localInitMadeData: {
+                // 最初にmockStorageに値を入れておく
+                // 2024年のデータ366日分を作成
+                await Promise.all([this.setJraHeldDayMockData()]);
+                return;
+            }
+            case allowedEnvs.local: {
+                const csvPathList = [
+                    'jra/heldDayList.csv', // jra
+                ];
+
+                for (const csvPath of csvPathList) {
+                    try {
+                        const _csvPath = path.join(
+                            __dirname,
+                            `../mockData/csv/${csvPath}`,
+                        );
+                        const data = await fs.readFile(_csvPath, 'utf8');
+                        MockS3Gateway.mockStorage.set(csvPath, data);
+                        console.log(
+                            `MockS3Gateway: ${csvPath}のデータを読み込みました`,
+                        );
+                    } catch (error) {
+                        console.error(
+                            `Error reading CSV from ${csvPath}:`,
+                            error,
+                        );
+                    }
+                }
+                return;
+            }
+            default: {
+                throw new Error('Invalid ENV value');
+            }
+        }
+    }
+
+    @Logger
+    private async setJraHeldDayMockData() {
+        const fileName = `jra/placeList.csv`;
+        const mockDataHeader = [
+            'id',
+            'raceType',
+            'heldTimes',
+            'heldDayTimes',
+        ].join(',');
+        const mockData = [mockDataHeader];
+        // 2024年のデータ12ヶ月分を作成
+        for (
+            let year = 2001;
+            year <= this.finishDate.getFullYear() - 1;
+            year++
+        ) {
+            // 2024年のデータ12ヶ月分を作成
+            for (let month = 1; month <= 12; month++) {
+                const startDate = new Date(year, month - 1, 1);
+                // 1ヶ月分のデータ（28~31日）を作成
+                // 2024年のデータ366日分を作成
+                const currentDate = new Date(this.startDate);
+                // whileで回していって、最初の日付の年数と異なったら終了
+                while (currentDate.getMonth() === startDate.getMonth()) {
+                    mockData.push(
+                        [
+                            generatePlaceId(RaceType.JRA, currentDate, '東京'),
+                            RaceType.JRA,
+                            '1',
+                            '1',
                         ].join(','),
                     );
                     currentDate.setDate(currentDate.getDate() + 1);
