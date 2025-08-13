@@ -24,15 +24,17 @@ export class MockJraPlaceRepositoryFromHtmlImpl
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
-            // 中央競馬場データを作成
-            const jraPlaceEntity = JraPlaceEntity.createWithoutId(
-                RaceType.JRA,
-                PlaceData.create(RaceType.JRA, new Date(currentDate), '東京'),
+            const placeEntity = JraPlaceEntity.createWithoutId(
+                searchFilter.raceType,
+                PlaceData.create(
+                    searchFilter.raceType,
+                    new Date(currentDate),
+                    '東京',
+                ),
                 HeldDayData.create(1, 1), // 仮の開催日データ
                 getJSTDate(new Date()),
             );
-            placeEntityList.push(jraPlaceEntity);
-            // 日付を1日進める
+            placeEntityList.push(placeEntity);
             currentDate.setDate(currentDate.getDate() + 1);
         }
         await new Promise((resolve) => setTimeout(resolve, 0));
