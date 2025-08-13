@@ -77,9 +77,9 @@ export class JraPlaceRepositoryFromStorageImpl
             ({ placeRecord, heldDayRecord }) => {
                 return JraPlaceEntity.create(
                     placeRecord.id,
-                    heldDayRecord.raceType,
+                    searchFilter.raceType,
                     PlaceData.create(
-                        heldDayRecord.raceType,
+                        searchFilter.raceType,
                         placeRecord.dateTime,
                         placeRecord.location,
                     ),
