@@ -23,14 +23,16 @@ export class MockNarPlaceRepositoryFromHtmlImpl
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
-            // 地方競馬場データを作成
-            const narPlaceEntity = HorseRacingPlaceEntity.createWithoutId(
-                RaceType.NAR,
-                PlaceData.create(RaceType.NAR, new Date(currentDate), '大井'),
+            const placeEntity = HorseRacingPlaceEntity.createWithoutId(
+                searchFilter.raceType,
+                PlaceData.create(
+                    searchFilter.raceType,
+                    new Date(currentDate),
+                    '大井',
+                ),
                 getJSTDate(new Date()),
             );
-            placeEntityList.push(narPlaceEntity);
-            // 日付を1日進める
+            placeEntityList.push(placeEntity);
             currentDate.setDate(currentDate.getDate() + 1);
         }
         await new Promise((resolve) => setTimeout(resolve, 0));

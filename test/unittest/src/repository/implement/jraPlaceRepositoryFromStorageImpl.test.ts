@@ -8,7 +8,8 @@ import { container } from 'tsyringe';
 import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { JraPlaceRecord } from '../../../../../lib/src/gateway/record/jraPlaceRecord';
+import type { HorseRacingPlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
+import type { JraHeldDayRecord } from '../../../../../lib/src/gateway/record/jraHeldDayRecord';
 import { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromStorageImpl';
@@ -18,15 +19,18 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('JraPlaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<JraPlaceRecord>>;
+    let placeS3Gateway: jest.Mocked<IS3Gateway<HorseRacingPlaceRecord>>;
+    let heldDayS3Gateway: jest.Mocked<IS3Gateway<JraHeldDayRecord>>;
     let repository: IPlaceRepository<JraPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3Gateway<JraPlaceRecord>();
+        placeS3Gateway = mockS3Gateway<HorseRacingPlaceRecord>();
+        heldDayS3Gateway = mockS3Gateway<JraHeldDayRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('JraPlaceS3Gateway', s3Gateway);
+        container.registerInstance('JraPlaceS3Gateway', placeS3Gateway);
+        container.registerInstance('JraHeldDayS3Gateway', heldDayS3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(JraPlaceRepositoryFromStorageImpl);
@@ -39,13 +43,24 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
     describe('fetchPlaceList', () => {
         test('正しい開催場データを取得できる', async () => {
             // モックの戻り値を設定
-            const csvFilePath = path.resolve(
-                __dirname,
-                '../../mock/repository/csv/jra/placeList.csv',
+            placeS3Gateway.fetchDataFromS3.mockResolvedValue(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname,
+                        '../../mock/repository/csv/jra/placeList.csv',
+                    ),
+                    'utf8',
+                ),
             );
-            const csvData = fs.readFileSync(csvFilePath, 'utf8');
-
-            s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
+            heldDayS3Gateway.fetchDataFromS3.mockResolvedValue(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname,
+                        '../../mock/repository/csv/jra/heldDayList.csv',
+                    ),
+                    'utf8',
+                ),
+            );
 
             // テスト実行
             const placeEntityList = await repository.fetchPlaceEntityList(
@@ -70,7 +85,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
             );
 
             // uploadDataToS3が12回呼ばれることを検証
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
+            expect(placeS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
 

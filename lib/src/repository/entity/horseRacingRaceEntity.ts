@@ -17,7 +17,7 @@ export class HorseRacingRaceEntity {
      * コンストラクタ
      * @param id - ID
      * @param raceData - レースデータ
-     * @param conditionData
+     * @param conditionData - レース条件データ
      * @param updateDate - 更新日時
      * @remarks
      * レース開催データを生成する
@@ -33,7 +33,7 @@ export class HorseRacingRaceEntity {
      * インスタンス生成メソッド
      * @param id - ID
      * @param raceData - レースデータ
-     * @param conditionData
+     * @param conditionData - レース条件データ
      * @param updateDate - 更新日時
      */
     public static create(
@@ -52,9 +52,9 @@ export class HorseRacingRaceEntity {
 
     /**
      * idがない場合でのcreate
-     * @param raceData
-     * @param conditionData
-     * @param updateDate
+     * @param raceData - レースデータ
+     * @param conditionData - レース条件データ
+     * @param updateDate - 更新日時
      */
     public static createWithoutId(
         raceData: RaceData,

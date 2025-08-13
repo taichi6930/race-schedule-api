@@ -1,8 +1,10 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { HeldDayData } from '../../domain/heldDayData';
+import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
+import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -11,6 +13,7 @@ import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { JraHeldDayRecord } from './../../gateway/record/jraHeldDayRecord';
 
 @injectable()
 export class JraPlaceRepositoryFromHtmlImpl
@@ -43,11 +46,34 @@ export class JraPlaceRepositoryFromHtmlImpl
             this.fetchYearPlaceRecordList(year),
         );
         const placeRecordResults = await Promise.all(placeRecordPromises);
-        const placeRecordList: JraPlaceRecord[] = placeRecordResults.flat();
+        const placeRecordList: {
+            horseRacingPlaceRecord: HorseRacingPlaceRecord;
+            jraHeldDayRecord: JraHeldDayRecord;
+        }[] = placeRecordResults.flat();
 
         // Entityに変換
         const placeEntityList: JraPlaceEntity[] = placeRecordList.map(
-            (placeRecord) => placeRecord.toEntity(),
+            ({ horseRacingPlaceRecord, jraHeldDayRecord }) => {
+                return JraPlaceEntity.create(
+                    horseRacingPlaceRecord.id,
+                    searchFilter.raceType,
+                    PlaceData.create(
+                        horseRacingPlaceRecord.raceType,
+                        horseRacingPlaceRecord.dateTime,
+                        horseRacingPlaceRecord.location,
+                    ),
+                    HeldDayData.create(
+                        jraHeldDayRecord.heldTimes,
+                        jraHeldDayRecord.heldDayTimes,
+                    ),
+                    new Date(
+                        Math.min(
+                            horseRacingPlaceRecord.updateDate.getTime(),
+                            jraHeldDayRecord.updateDate.getTime(),
+                        ),
+                    ),
+                );
+            },
         );
 
         // filterで日付の範囲を指定
@@ -89,9 +115,12 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @param date
      */
     @Logger
-    private async fetchYearPlaceRecordList(
-        date: Date,
-    ): Promise<JraPlaceRecord[]> {
+    private async fetchYearPlaceRecordList(date: Date): Promise<
+        {
+            horseRacingPlaceRecord: HorseRacingPlaceRecord;
+            jraHeldDayRecord: JraHeldDayRecord;
+        }[]
+    > {
         // レースHTMLを取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(
@@ -100,7 +129,10 @@ export class JraPlaceRepositoryFromHtmlImpl
             );
 
         // 競馬場開催レコードはここに追加
-        const jraPlaceRecordList: JraPlaceRecord[] = [];
+        const jraRecordList: {
+            horseRacingPlaceRecord: HorseRacingPlaceRecord;
+            jraHeldDayRecord: JraHeldDayRecord;
+        }[] = [];
 
         // 競馬場のイニシャルと名前のマッピング
         const placeMap: Record<string, RaceCourse> = {
@@ -165,30 +197,38 @@ export class JraPlaceRepositoryFromHtmlImpl
                         const heldDayTimes: number =
                             placeHeldDayTimesCountMap[place][heldTimes];
 
-                        // 競馬場開催レコードを追加
-                        jraPlaceRecordList.push(
-                            JraPlaceRecord.create(
-                                generatePlaceId(
-                                    this.raceType,
-                                    new Date(
-                                        date.getFullYear(),
-                                        month - 1,
-                                        day,
-                                    ),
-                                    place,
-                                ),
+                        const jraPlaceRecord = HorseRacingPlaceRecord.create(
+                            generatePlaceId(
                                 this.raceType,
                                 new Date(date.getFullYear(), month - 1, day),
-                                getPlaceName(placeInitial),
-                                heldTimes,
-                                heldDayTimes,
-                                getJSTDate(new Date()),
+                                place,
                             ),
+                            this.raceType,
+                            new Date(date.getFullYear(), month - 1, day),
+                            getPlaceName(placeInitial),
+                            // heldTimes,
+                            // heldDayTimes,
+                            getJSTDate(new Date()),
                         );
+                        const jraHeldDayRecord = JraHeldDayRecord.create(
+                            generatePlaceId(
+                                this.raceType,
+                                new Date(date.getFullYear(), month - 1, day),
+                                place,
+                            ),
+                            this.raceType,
+                            heldTimes,
+                            heldDayTimes,
+                            getJSTDate(new Date()),
+                        );
+                        jraRecordList.push({
+                            horseRacingPlaceRecord: jraPlaceRecord,
+                            jraHeldDayRecord: jraHeldDayRecord,
+                        });
                     });
             }
         }
-        return jraPlaceRecordList;
+        return jraRecordList;
     }
 
     /**

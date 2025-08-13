@@ -2,27 +2,33 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
+import { HeldDayData } from '../../domain/heldDayData';
+import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
+import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { JraHeldDayRecord } from './../../gateway/record/jraHeldDayRecord';
 
 @injectable()
 export class JraPlaceRepositoryFromStorageImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
     // S3にアップロードするファイル名
-    private readonly fileName = 'placeList.csv';
+    private readonly placeFileName = 'placeList.csv';
+    private readonly heldDayFileName = 'heldDayList.csv';
 
     private readonly raceType: RaceType = RaceType.JRA;
 
     public constructor(
         @inject('JraPlaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<JraPlaceRecord>,
+        private readonly placeS3Gateway: IS3Gateway<HorseRacingPlaceRecord>,
+        @inject('JraHeldDayS3Gateway')
+        private readonly heldDayS3Gateway: IS3Gateway<JraHeldDayRecord>,
     ) {}
 
     /**
@@ -35,21 +41,63 @@ export class JraPlaceRepositoryFromStorageImpl
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // 開催データを取得
-        const placeRecordList: JraPlaceRecord[] =
+        const placeRecordList: HorseRacingPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
-        const placeEntityList: JraPlaceEntity[] = placeRecordList.map(
-            (placeRecord) => placeRecord.toEntity(),
-        );
+        const heldDayRecordList: JraHeldDayRecord[] =
+            await this.getHeldDayRecordListFromS3(searchFilter.raceType);
 
-        // filterで日付の範囲を指定
-        const filteredPlaceEntityList = placeEntityList.filter(
-            (placeEntity) =>
-                placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                placeEntity.placeData.dateTime <= searchFilter.finishDate,
-        );
+        // placeRecordListのidと、heldDayRecordListのidが一致するものを取得
+        const recordMap = new Map<
+            string,
+            {
+                placeRecord: HorseRacingPlaceRecord;
+                heldDayRecord: JraHeldDayRecord;
+            }
+        >();
 
-        return filteredPlaceEntityList;
+        // 量を減らすために、日付の範囲でフィルタリング
+        for (const placeRecord of placeRecordList.filter(
+            (_placeRecord) =>
+                _placeRecord.dateTime >= searchFilter.startDate &&
+                _placeRecord.dateTime <= searchFilter.finishDate,
+        )) {
+            const heldDayRecord = heldDayRecordList.find(
+                (record) => record.id === placeRecord.id,
+            );
+            if (!heldDayRecord) {
+                // heldDayRecordが見つからない場合はスキップ
+                continue;
+            }
+            recordMap.set(placeRecord.id, { placeRecord, heldDayRecord });
+        }
+
+        // raceEntityListに変換
+        const placeEntityList: JraPlaceEntity[] = [...recordMap.values()].map(
+            ({ placeRecord, heldDayRecord }) => {
+                return JraPlaceEntity.create(
+                    placeRecord.id,
+                    searchFilter.raceType,
+                    PlaceData.create(
+                        searchFilter.raceType,
+                        placeRecord.dateTime,
+                        placeRecord.location,
+                    ),
+                    HeldDayData.create(
+                        heldDayRecord.heldTimes,
+                        heldDayRecord.heldDayTimes,
+                    ),
+                    // placeRecordとheldDayRecordのupdateDateの早い方を使用
+                    new Date(
+                        Math.min(
+                            placeRecord.updateDate.getTime(),
+                            heldDayRecord.updateDate.getTime(),
+                        ),
+                    ),
+                );
+            },
+        );
+        return placeEntityList;
     }
 
     @Logger
@@ -58,10 +106,10 @@ export class JraPlaceRepositoryFromStorageImpl
         placeEntityList: JraPlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchPlaceRecordList: JraPlaceRecord[] =
+        const existFetchPlaceRecordList: HorseRacingPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
-        const placeRecordList: JraPlaceRecord[] = placeEntityList.map(
+        const placeRecordList: HorseRacingPlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
         );
 
@@ -83,9 +131,46 @@ export class JraPlaceRepositoryFromStorageImpl
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
 
-        await this.s3Gateway.uploadDataToS3(
+        await this.placeS3Gateway.uploadDataToS3(
             existFetchPlaceRecordList,
-            this.fileName,
+            this.placeFileName,
+        );
+
+        const existFetchHeldDayRecordList: JraHeldDayRecord[] =
+            await this.getHeldDayRecordListFromS3(raceType);
+
+        const heldDayRecordList: JraHeldDayRecord[] = placeEntityList.map(
+            (placeEntity) =>
+                JraHeldDayRecord.create(
+                    placeEntity.id,
+                    placeEntity.raceType,
+                    placeEntity.heldDayData.heldTimes,
+                    placeEntity.heldDayData.heldDayTimes,
+                    placeEntity.updateDate,
+                ),
+        );
+
+        // idが重複しているデータは上書きをし、新規のデータは追加する
+        for (const heldDayRecord of heldDayRecordList) {
+            // 既に登録されているデータがある場合は上書きする
+            const index = existFetchHeldDayRecordList.findIndex(
+                (record) => record.id === heldDayRecord.id,
+            );
+            if (index === -1) {
+                existFetchHeldDayRecordList.push(heldDayRecord);
+            } else {
+                existFetchHeldDayRecordList[index] = heldDayRecord;
+            }
+        }
+
+        // 日付の最新順にソート
+        existFetchHeldDayRecordList.sort(
+            (a, b) => b.updateDate.getTime() - a.updateDate.getTime(),
+        );
+
+        await this.heldDayS3Gateway.uploadDataToS3(
+            existFetchHeldDayRecordList,
+            this.heldDayFileName,
         );
     }
 
@@ -93,9 +178,13 @@ export class JraPlaceRepositoryFromStorageImpl
      * 開催場データをS3から取得する
      */
     @Logger
-    private async getPlaceRecordListFromS3(): Promise<JraPlaceRecord[]> {
+    private async getPlaceRecordListFromS3(): Promise<
+        HorseRacingPlaceRecord[]
+    > {
         // S3からデータを取得する
-        const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
+        const csv = await this.placeS3Gateway.fetchDataFromS3(
+            this.placeFileName,
+        );
 
         // ファイルが空の場合は空のリストを返す
         if (!csv) {
@@ -113,15 +202,13 @@ export class JraPlaceRepositoryFromStorageImpl
             id: headers.indexOf('id'),
             dateTime: headers.indexOf('dateTime'),
             location: headers.indexOf('location'),
-            heldTimes: headers.indexOf('heldTimes'),
-            heldDayTimes: headers.indexOf('heldDayTimes'),
             updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析して PlaceData のリストを生成
-        const placeRecordList: JraPlaceRecord[] = lines
+        const placeRecordList: HorseRacingPlaceRecord[] = lines
             .slice(1)
-            .flatMap((line: string): JraPlaceRecord[] => {
+            .flatMap((line: string): HorseRacingPlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -130,11 +217,74 @@ export class JraPlaceRepositoryFromStorageImpl
                         : getJSTDate(new Date());
 
                     return [
-                        JraPlaceRecord.create(
+                        HorseRacingPlaceRecord.create(
                             columns[indices.id],
                             this.raceType,
                             new Date(columns[indices.dateTime]),
                             columns[indices.location],
+                            updateDate,
+                        ),
+                    ];
+                } catch (error) {
+                    console.error(error);
+                    return [];
+                }
+            });
+        return placeRecordList;
+    }
+
+    /**
+     * 開催場データをS3から取得する
+     * @param raceType
+     */
+    @Logger
+    private async getHeldDayRecordListFromS3(
+        raceType: RaceType,
+    ): Promise<JraHeldDayRecord[]> {
+        // S3からデータを取得する
+        const csv = await this.heldDayS3Gateway.fetchDataFromS3(
+            this.heldDayFileName,
+        );
+
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
+
+        // CSVを行ごとに分割
+        const lines = csv.split('\n');
+        console.log('lines:', lines);
+        // ヘッダー行を解析
+        const headers = lines[0].split(',');
+
+        // ヘッダーに基づいてインデックスを取得
+        const indices = {
+            id: headers.indexOf('id'),
+            raceType: headers.indexOf('raceType'),
+            heldTimes: headers.indexOf('heldTimes'),
+            heldDayTimes: headers.indexOf('heldDayTimes'),
+            updateDate: headers.indexOf('updateDate'),
+        };
+
+        // データ行を解析して JraHeldDayRecord のリストを生成
+        const heldDayRecordList: JraHeldDayRecord[] = lines
+            .slice(1)
+            .flatMap((line: string): JraHeldDayRecord[] => {
+                try {
+                    const columns = line.split(',');
+
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
+
+                    if (columns[indices.raceType] !== raceType) {
+                        return [];
+                    }
+
+                    return [
+                        JraHeldDayRecord.create(
+                            columns[indices.id],
+                            this.raceType,
                             Number.parseInt(columns[indices.heldTimes], 10),
                             Number.parseInt(columns[indices.heldDayTimes], 10),
                             updateDate,
@@ -145,6 +295,6 @@ export class JraPlaceRepositoryFromStorageImpl
                     return [];
                 }
             });
-        return placeRecordList;
+        return heldDayRecordList;
     }
 }
