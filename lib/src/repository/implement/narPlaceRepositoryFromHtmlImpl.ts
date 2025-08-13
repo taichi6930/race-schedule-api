@@ -152,6 +152,7 @@ export class NarPlaceRepositoryFromHtmlImpl
                             ),
                             place,
                         ),
+                        undefined,
                         getJSTDate(new Date()),
                     ),
                 );

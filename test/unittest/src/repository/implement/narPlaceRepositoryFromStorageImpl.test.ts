@@ -83,6 +83,7 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
                 HorseRacingPlaceEntity.createWithoutId(
                     RaceType.NAR,
                     PlaceData.create(RaceType.NAR, date, '大井'),
+                    undefined,
                     getJSTDate(new Date()),
                 ),
             );

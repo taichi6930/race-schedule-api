@@ -30,6 +30,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
                     new Date(currentDate),
                     '大井',
                 ),
+                undefined,
                 getJSTDate(new Date()),
             );
             placeEntityList.push(placeEntity);

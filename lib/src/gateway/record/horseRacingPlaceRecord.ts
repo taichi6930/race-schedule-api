@@ -1,5 +1,3 @@
-import { PlaceData } from '../../domain/placeData';
-import { HorseRacingPlaceEntity } from '../../repository/entity/horseRacingPlaceEntity';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import type { RaceCourse } from '../../utility/data/common/raceCourse';
@@ -77,18 +75,6 @@ export class HorseRacingPlaceRecord implements IRecord<HorseRacingPlaceRecord> {
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
             partial.updateDate ?? this.updateDate,
-        );
-    }
-
-    /**
-     * PlaceEntityに変換する
-     */
-    public toEntity(): HorseRacingPlaceEntity {
-        return HorseRacingPlaceEntity.create(
-            this.id,
-            this.raceType,
-            PlaceData.create(this.raceType, this.dateTime, this.location),
-            this.updateDate,
         );
     }
 }

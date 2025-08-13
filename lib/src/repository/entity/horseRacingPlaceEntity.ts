@@ -1,9 +1,10 @@
+import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import { generatePlaceId } from '../../utility/raceId';
-import type { RaceType } from '../../utility/raceType';
+import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
@@ -18,6 +19,7 @@ export class HorseRacingPlaceEntity
      * @param id - ID
      * @param raceType - レース種別
      * @param placeData - レース開催場所データ
+     * @param heldDayData - 開催日データ
      * @param updateDate - 更新日時
      * @remarks
      * レース開催場所データを生成する
@@ -26,6 +28,7 @@ export class HorseRacingPlaceEntity
         public readonly id: PlaceId,
         public readonly raceType: RaceType,
         public readonly placeData: PlaceData,
+        public readonly heldDayData: HeldDayData | undefined,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -34,31 +37,51 @@ export class HorseRacingPlaceEntity
      * @param id - ID
      * @param raceType - レース種別
      * @param placeData - レース開催場所データ
+     * @param heldDayData
      * @param updateDate - 更新日時
      */
     public static create(
         id: string,
         raceType: RaceType,
         placeData: PlaceData,
+        heldDayData: HeldDayData | undefined,
         updateDate: Date,
     ): HorseRacingPlaceEntity {
-        return new HorseRacingPlaceEntity(
-            validatePlaceId(raceType, id),
-            raceType,
-            placeData,
-            validateUpdateDate(updateDate),
-        );
+        if (raceType === RaceType.JRA && heldDayData === undefined) {
+            throw new Error(
+                'JRA以外のレース種別ではheldDayDataを指定する必要があります',
+            );
+        }
+        if (raceType !== RaceType.JRA && heldDayData !== undefined) {
+            throw new Error(
+                'JRA以外のレース種別ではheldDayDataを指定することはできません',
+            );
+        }
+        try {
+            return new HorseRacingPlaceEntity(
+                validatePlaceId(raceType, id),
+                raceType,
+                placeData,
+                heldDayData,
+                validateUpdateDate(updateDate),
+            );
+        } catch (error) {
+            console.error(error);
+            throw new Error('HorseRacingPlaceEntityの生成に失敗しました');
+        }
     }
 
     /**
      * idがない場合でのcreate
      * @param raceType
      * @param placeData
+     * @param heldDayData
      * @param updateDate
      */
     public static createWithoutId(
         raceType: RaceType,
         placeData: PlaceData,
+        heldDayData: HeldDayData | undefined,
         updateDate: Date,
     ): HorseRacingPlaceEntity {
         return HorseRacingPlaceEntity.create(
@@ -69,6 +92,7 @@ export class HorseRacingPlaceEntity
             ),
             raceType,
             placeData,
+            heldDayData,
             updateDate,
         );
     }
@@ -84,6 +108,7 @@ export class HorseRacingPlaceEntity
             partial.id ?? this.id,
             partial.raceType ?? this.raceType,
             partial.placeData ?? this.placeData,
+            partial.heldDayData ?? this.heldDayData,
             partial.updateDate ?? this.updateDate,
         );
     }

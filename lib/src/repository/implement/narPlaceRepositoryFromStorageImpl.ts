@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
+import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import { getJSTDate } from '../../utility/date';
@@ -40,7 +41,18 @@ export class NarPlaceRepositoryFromStorageImpl
 
         // Entityに変換
         const placeEntityList: HorseRacingPlaceEntity[] = placeRecordList.map(
-            (placeRecord) => placeRecord.toEntity(),
+            (placeRecord) =>
+                HorseRacingPlaceEntity.create(
+                    placeRecord.id,
+                    placeRecord.raceType,
+                    PlaceData.create(
+                        placeRecord.raceType,
+                        placeRecord.dateTime,
+                        placeRecord.location,
+                    ),
+                    undefined,
+                    placeRecord.updateDate,
+                ),
         );
 
         // filterで日付の範囲を指定
