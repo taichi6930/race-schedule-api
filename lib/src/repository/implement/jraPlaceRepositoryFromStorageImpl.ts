@@ -5,7 +5,6 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { JraHeldDayRecord } from '../../gateway/record/jraHeldDayRecord';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -13,6 +12,7 @@ import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { JraHeldDayRecord } from './../../gateway/record/jraHeldDayRecord';
 
 @injectable()
 export class JraPlaceRepositoryFromStorageImpl
@@ -134,6 +134,43 @@ export class JraPlaceRepositoryFromStorageImpl
         await this.placeS3Gateway.uploadDataToS3(
             existFetchPlaceRecordList,
             this.placeFileName,
+        );
+
+        const existFetchHeldDayRecordList: JraHeldDayRecord[] =
+            await this.getHeldDayRecordListFromS3(raceType);
+
+        const heldDayRecordList: JraHeldDayRecord[] = placeEntityList.map(
+            (placeEntity) =>
+                JraHeldDayRecord.create(
+                    placeEntity.id,
+                    placeEntity.raceType,
+                    placeEntity.heldDayData.heldTimes,
+                    placeEntity.heldDayData.heldDayTimes,
+                    placeEntity.updateDate,
+                ),
+        );
+
+        // idが重複しているデータは上書きをし、新規のデータは追加する
+        for (const heldDayRecord of heldDayRecordList) {
+            // 既に登録されているデータがある場合は上書きする
+            const index = existFetchHeldDayRecordList.findIndex(
+                (record) => record.id === heldDayRecord.id,
+            );
+            if (index === -1) {
+                existFetchHeldDayRecordList.push(heldDayRecord);
+            } else {
+                existFetchHeldDayRecordList[index] = heldDayRecord;
+            }
+        }
+
+        // 日付の最新順にソート
+        existFetchHeldDayRecordList.sort(
+            (a, b) => b.updateDate.getTime() - a.updateDate.getTime(),
+        );
+
+        await this.heldDayS3Gateway.uploadDataToS3(
+            existFetchHeldDayRecordList,
+            this.heldDayFileName,
         );
     }
 
