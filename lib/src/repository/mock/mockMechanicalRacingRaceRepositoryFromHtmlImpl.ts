@@ -1,5 +1,5 @@
+import { baseRacePlayerDataList } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
-import { RacePlayerData } from '../../domain/racePlayerData';
 import { RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -41,7 +41,7 @@ export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
                             raceNumber,
                         ),
                         this.createStage(raceType, raceNumber),
-                        this.createRacePlayerDataList(raceType),
+                        baseRacePlayerDataList(raceType),
                         getJSTDate(new Date()),
                     ),
                 );
@@ -85,19 +85,5 @@ export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
                 return '不明';
             }
         }
-    }
-
-    private createRacePlayerDataList(raceType: RaceType): RacePlayerData[] {
-        const playerCount =
-            raceType === RaceType.KEIRIN
-                ? 9
-                : raceType === RaceType.BOATRACE
-                  ? 6
-                  : raceType === RaceType.AUTORACE
-                    ? 8
-                    : 0;
-        return Array.from({ length: playerCount }, (_, i) =>
-            RacePlayerData.create(raceType, i + 1, i + 1),
-        );
     }
 }

@@ -1,7 +1,6 @@
 import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
@@ -17,6 +16,7 @@ import {
     generateRacePlayerId,
 } from '../../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { baseRacePlayerDataList } from './baseCommonData';
 
 const baseAutoracePlaceCourse: RaceCourse = '飯塚';
 const baseAutoracePlaceDateTime = new Date('2024-12-31');
@@ -91,11 +91,8 @@ export const baseAutoracePlaceEntity =
         baseAutoraceRaceUpdateDate,
     );
 
-export const baseAutoraceRacePlayerDataList = Array.from(
-    { length: 8 },
-    (_, i) => {
-        return RacePlayerData.create(RaceType.AUTORACE, i + 1, i + 1);
-    },
+export const baseAutoraceRacePlayerDataList = baseRacePlayerDataList(
+    RaceType.AUTORACE,
 );
 
 export const baseAutoraceRaceEntity =

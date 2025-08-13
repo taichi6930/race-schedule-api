@@ -1,7 +1,6 @@
 import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
@@ -16,6 +15,7 @@ import {
     generateRacePlayerId,
 } from '../../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { baseRacePlayerDataList } from './baseCommonData';
 
 const baseBoatracePlaceCourse: RaceCourse = '平和島';
 const baseBoatracePlaceDateTime = new Date('2024-12-31');
@@ -81,11 +81,8 @@ export const baseBoatracePlaceEntity =
         baseBoatraceRaceUpdateDate,
     );
 
-export const baseBoatraceRacePlayerDataList = Array.from(
-    { length: 6 },
-    (_, i) => {
-        return RacePlayerData.create(RaceType.BOATRACE, i + 1, i + 1);
-    },
+export const baseBoatraceRacePlayerDataList = baseRacePlayerDataList(
+    RaceType.BOATRACE,
 );
 
 export const baseBoatraceRaceEntity =
@@ -146,9 +143,7 @@ export const baseBoatraceRaceEntityList: MechanicalRacingRaceEntity[] = [
             grade,
             index + 1,
         );
-        const racePlayerDataList = Array.from({ length: 6 }, (_, i) => {
-            return RacePlayerData.create(RaceType.BOATRACE, i + 1, i + 1);
-        });
+        const racePlayerDataList = baseBoatraceRacePlayerDataList;
         return MechanicalRacingRaceEntity.createWithoutId(
             raceData,
             stage,
