@@ -6,7 +6,6 @@ import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
 import type { HorseRacingPlaceRecord } from '../../src/gateway/record/horseRacingPlaceRecord';
 import type { HorseRacingRaceRecord } from '../../src/gateway/record/horseRacingRaceRecord';
 import type { JraHeldDayRecord } from '../../src/gateway/record/jraHeldDayRecord';
-import type { JraPlaceRecord } from '../../src/gateway/record/jraPlaceRecord';
 import type { JraRaceRecord } from '../../src/gateway/record/jraRaceRecord';
 import type { MechanicalRacingPlaceRecord } from '../../src/gateway/record/mechanicalRacingPlaceRecord';
 import type { MechanicalRacingRaceRecord } from '../../src/gateway/record/mechanicalRacingRaceRecord';
@@ -238,18 +237,18 @@ container.register<IS3Gateway<JraRaceRecord>>('JraRaceS3Gateway', {
         }
     },
 });
-container.register<IS3Gateway<JraPlaceRecord>>('JraPlaceS3Gateway', {
+container.register<IS3Gateway<HorseRacingPlaceRecord>>('JraPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new S3Gateway<JraPlaceRecord>(
+                return new S3Gateway<HorseRacingPlaceRecord>(
                     'race-schedule-bucket',
                     'jra/',
                 );
             }
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<JraPlaceRecord>(
+                return new S3Gateway<HorseRacingPlaceRecord>(
                     'race-schedule-bucket-test',
                     'jra/',
                 );
@@ -258,7 +257,7 @@ container.register<IS3Gateway<JraPlaceRecord>>('JraPlaceS3Gateway', {
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<JraPlaceRecord>(
+                return new MockS3Gateway<HorseRacingPlaceRecord>(
                     'race-schedule-bucket',
                     'jra/',
                 );

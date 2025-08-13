@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
+import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -26,7 +26,7 @@ export class JraPlaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('JraPlaceS3Gateway')
-        private readonly placeS3Gateway: IS3Gateway<JraPlaceRecord>,
+        private readonly placeS3Gateway: IS3Gateway<HorseRacingPlaceRecord>,
         @inject('JraHeldDayS3Gateway')
         private readonly heldDayS3Gateway: IS3Gateway<JraHeldDayRecord>,
     ) {}
@@ -41,7 +41,7 @@ export class JraPlaceRepositoryFromStorageImpl
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // 開催データを取得
-        const placeRecordList: JraPlaceRecord[] =
+        const placeRecordList: HorseRacingPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         const heldDayRecordList: JraHeldDayRecord[] =
@@ -51,7 +51,7 @@ export class JraPlaceRepositoryFromStorageImpl
         const recordMap = new Map<
             string,
             {
-                placeRecord: JraPlaceRecord;
+                placeRecord: HorseRacingPlaceRecord;
                 heldDayRecord: JraHeldDayRecord;
             }
         >();
@@ -106,10 +106,10 @@ export class JraPlaceRepositoryFromStorageImpl
         placeEntityList: JraPlaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchPlaceRecordList: JraPlaceRecord[] =
+        const existFetchPlaceRecordList: HorseRacingPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
-        const placeRecordList: JraPlaceRecord[] = placeEntityList.map(
+        const placeRecordList: HorseRacingPlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
         );
 
@@ -178,7 +178,9 @@ export class JraPlaceRepositoryFromStorageImpl
      * 開催場データをS3から取得する
      */
     @Logger
-    private async getPlaceRecordListFromS3(): Promise<JraPlaceRecord[]> {
+    private async getPlaceRecordListFromS3(): Promise<
+        HorseRacingPlaceRecord[]
+    > {
         // S3からデータを取得する
         const csv = await this.placeS3Gateway.fetchDataFromS3(
             this.placeFileName,
@@ -200,15 +202,13 @@ export class JraPlaceRepositoryFromStorageImpl
             id: headers.indexOf('id'),
             dateTime: headers.indexOf('dateTime'),
             location: headers.indexOf('location'),
-            heldTimes: headers.indexOf('heldTimes'),
-            heldDayTimes: headers.indexOf('heldDayTimes'),
             updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析して PlaceData のリストを生成
-        const placeRecordList: JraPlaceRecord[] = lines
+        const placeRecordList: HorseRacingPlaceRecord[] = lines
             .slice(1)
-            .flatMap((line: string): JraPlaceRecord[] => {
+            .flatMap((line: string): HorseRacingPlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -217,13 +217,11 @@ export class JraPlaceRepositoryFromStorageImpl
                         : getJSTDate(new Date());
 
                     return [
-                        JraPlaceRecord.create(
+                        HorseRacingPlaceRecord.create(
                             columns[indices.id],
                             this.raceType,
                             new Date(columns[indices.dateTime]),
                             columns[indices.location],
-                            Number.parseInt(columns[indices.heldTimes], 10),
-                            Number.parseInt(columns[indices.heldDayTimes], 10),
                             updateDate,
                         ),
                     ];
