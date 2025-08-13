@@ -31,9 +31,10 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
         try {
+            const calendarId = this.getCalendarId(raceType);
             // orderBy: 'startTime'で開始時刻順に取得
             const response = await this.calendar.events.list({
-                calendarId: this.getCalendarId(raceType),
+                calendarId,
                 timeMin: startDate.toISOString(),
                 timeMax: finishDate.toISOString(),
                 singleEvents: true,
@@ -41,8 +42,13 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             });
             return response.data.items ?? [];
         } catch (error) {
+            const calendarId = this.getCalendarId(raceType);
+            const clientEmail = process.env.GOOGLE_CLIENT_EMAIL ?? 'unknown';
             throw new Error(
-                createErrorMessage('Failed to get calendar list', error),
+                createErrorMessage(
+                    `Failed to get calendar list (calendarId: ${calendarId}, client_email: ${clientEmail})`,
+                    error,
+                ),
             );
         }
     }
@@ -53,14 +59,20 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         eventId: string,
     ): Promise<calendar_v3.Schema$Event> {
         try {
+            const calendarId = this.getCalendarId(raceType);
             const response = await this.calendar.events.get({
-                calendarId: this.getCalendarId(raceType),
+                calendarId,
                 eventId,
             });
             return response.data;
         } catch (error) {
+            const calendarId = this.getCalendarId(raceType);
+            const clientEmail = process.env.GOOGLE_CLIENT_EMAIL ?? 'unknown';
             throw new Error(
-                createErrorMessage('Failed to get calendar', error),
+                createErrorMessage(
+                    `Failed to get calendar (calendarId: ${calendarId}, client_email: ${clientEmail})`,
+                    error,
+                ),
             );
         }
     }
@@ -122,29 +134,42 @@ export class GoogleCalendarGateway implements ICalendarGateway {
     }
 
     @Logger
-    private getCalendarId(raceType: RaceType): string {
+    public getCalendarId(raceType: RaceType): string {
+        let calendarId = '';
         switch (raceType) {
             case RaceType.JRA: {
-                return process.env.JRA_CALENDAR_ID ?? '';
+                calendarId = process.env.JRA_CALENDAR_ID ?? '';
+                break;
             }
             case RaceType.NAR: {
-                return process.env.NAR_CALENDAR_ID ?? '';
+                calendarId = process.env.NAR_CALENDAR_ID ?? '';
+                break;
             }
             case RaceType.WORLD: {
-                return process.env.WORLD_CALENDAR_ID ?? '';
+                calendarId = process.env.WORLD_CALENDAR_ID ?? '';
+                break;
             }
             case RaceType.KEIRIN: {
-                return process.env.KEIRIN_CALENDAR_ID ?? '';
+                calendarId = process.env.KEIRIN_CALENDAR_ID ?? '';
+                break;
             }
             case RaceType.AUTORACE: {
-                return process.env.AUTORACE_CALENDAR_ID ?? '';
+                calendarId = process.env.AUTORACE_CALENDAR_ID ?? '';
+                break;
             }
             case RaceType.BOATRACE: {
-                return process.env.BOATRACE_CALENDAR_ID ?? '';
+                calendarId = process.env.BOATRACE_CALENDAR_ID ?? '';
+                break;
             }
             default: {
                 throw new Error('Unknown race type');
             }
         }
+        if (!calendarId.includes('@group.calendar.google.com')) {
+            throw new Error(
+                `Invalid or empty calendarId for raceType: ${raceType}`,
+            );
+        }
+        return calendarId;
     }
 }
