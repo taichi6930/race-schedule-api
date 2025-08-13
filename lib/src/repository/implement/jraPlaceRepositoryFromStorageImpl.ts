@@ -22,8 +22,6 @@ export class JraPlaceRepositoryFromStorageImpl
     private readonly placeFileName = 'placeList.csv';
     private readonly heldDayFileName = 'heldDayList.csv';
 
-    private readonly raceType: RaceType = RaceType.JRA;
-
     public constructor(
         @inject('JraPlaceS3Gateway')
         private readonly placeS3Gateway: IS3Gateway<HorseRacingPlaceRecord>,
@@ -42,7 +40,7 @@ export class JraPlaceRepositoryFromStorageImpl
     ): Promise<JraPlaceEntity[]> {
         // 開催データを取得
         const placeRecordList: HorseRacingPlaceRecord[] =
-            await this.getPlaceRecordListFromS3();
+            await this.getPlaceRecordListFromS3(searchFilter.raceType);
 
         const heldDayRecordList: heldDayRecord[] =
             await this.getHeldDayRecordListFromS3(searchFilter.raceType);
@@ -110,7 +108,7 @@ export class JraPlaceRepositoryFromStorageImpl
     ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: HorseRacingPlaceRecord[] =
-            await this.getPlaceRecordListFromS3();
+            await this.getPlaceRecordListFromS3(raceType);
 
         const placeRecordList: HorseRacingPlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
@@ -179,11 +177,12 @@ export class JraPlaceRepositoryFromStorageImpl
 
     /**
      * 開催場データをS3から取得する
+     * @param raceType
      */
     @Logger
-    private async getPlaceRecordListFromS3(): Promise<
-        HorseRacingPlaceRecord[]
-    > {
+    private async getPlaceRecordListFromS3(
+        raceType: RaceType,
+    ): Promise<HorseRacingPlaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.placeS3Gateway.fetchDataFromS3(
             this.placeFileName,
@@ -222,7 +221,7 @@ export class JraPlaceRepositoryFromStorageImpl
                     return [
                         HorseRacingPlaceRecord.create(
                             columns[indices.id],
-                            this.raceType,
+                            raceType,
                             new Date(columns[indices.dateTime]),
                             columns[indices.location],
                             updateDate,
@@ -287,7 +286,7 @@ export class JraPlaceRepositoryFromStorageImpl
                     return [
                         heldDayRecord.create(
                             columns[indices.id],
-                            this.raceType,
+                            raceType,
                             Number.parseInt(columns[indices.heldTimes], 10),
                             Number.parseInt(columns[indices.heldDayTimes], 10),
                             updateDate,

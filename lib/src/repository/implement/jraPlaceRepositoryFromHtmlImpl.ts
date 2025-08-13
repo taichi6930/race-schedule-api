@@ -19,8 +19,6 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class JraPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
-    private readonly raceType: RaceType = RaceType.JRA;
-
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
@@ -43,7 +41,7 @@ export class JraPlaceRepositoryFromHtmlImpl
 
         // 年ごとの開催データを取得
         const placeRecordPromises = yearList.map(async (year) =>
-            this.fetchYearPlaceRecordList(year),
+            this.fetchYearPlaceRecordList(searchFilter.raceType, year),
         );
         const placeRecordResults = await Promise.all(placeRecordPromises);
         const placeRecordList: {
@@ -112,10 +110,14 @@ export class JraPlaceRepositoryFromHtmlImpl
      * S3から開催データを取得する
      * ファイル名を利用してS3から開催データを取得する
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
+     * @param raceType
      * @param date
      */
     @Logger
-    private async fetchYearPlaceRecordList(date: Date): Promise<
+    private async fetchYearPlaceRecordList(
+        raceType: RaceType,
+        date: Date,
+    ): Promise<
         {
             horseRacingPlaceRecord: HorseRacingPlaceRecord;
             jraHeldDayRecord: heldDayRecord;
@@ -123,10 +125,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     > {
         // レースHTMLを取得
         const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(
-                this.raceType,
-                date,
-            );
+            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
         // 競馬場開催レコードはここに追加
         const jraRecordList: {
@@ -199,11 +198,11 @@ export class JraPlaceRepositoryFromHtmlImpl
 
                         const jraPlaceRecord = HorseRacingPlaceRecord.create(
                             generatePlaceId(
-                                this.raceType,
+                                raceType,
                                 new Date(date.getFullYear(), month - 1, day),
                                 place,
                             ),
-                            this.raceType,
+                            raceType,
                             new Date(date.getFullYear(), month - 1, day),
                             getPlaceName(placeInitial),
                             // heldTimes,
@@ -212,11 +211,11 @@ export class JraPlaceRepositoryFromHtmlImpl
                         );
                         const jraHeldDayRecord = heldDayRecord.create(
                             generatePlaceId(
-                                this.raceType,
+                                raceType,
                                 new Date(date.getFullYear(), month - 1, day),
                                 place,
                             ),
-                            this.raceType,
+                            raceType,
                             heldTimes,
                             heldDayTimes,
                             getJSTDate(new Date()),
