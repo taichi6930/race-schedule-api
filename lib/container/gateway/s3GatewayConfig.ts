@@ -5,6 +5,7 @@ import type { IS3Gateway } from '../../src/gateway/interface/iS3Gateway';
 import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
 import type { HorseRacingPlaceRecord } from '../../src/gateway/record/horseRacingPlaceRecord';
 import type { HorseRacingRaceRecord } from '../../src/gateway/record/horseRacingRaceRecord';
+import type { JraHeldDayRecord } from '../../src/gateway/record/jraHeldDayRecord';
 import type { JraPlaceRecord } from '../../src/gateway/record/jraPlaceRecord';
 import type { JraRaceRecord } from '../../src/gateway/record/jraRaceRecord';
 import type { MechanicalRacingPlaceRecord } from '../../src/gateway/record/mechanicalRacingPlaceRecord';
@@ -258,6 +259,37 @@ container.register<IS3Gateway<JraPlaceRecord>>('JraPlaceS3Gateway', {
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<JraPlaceRecord>(
+                    'race-schedule-bucket',
+                    'jra/',
+                );
+            }
+            default: {
+                throw new Error('Invalid ENV value');
+            }
+        }
+    },
+});
+container.register<IS3Gateway<JraHeldDayRecord>>('JraHeldDayS3Gateway', {
+    useFactory: () => {
+        switch (ENV) {
+            case allowedEnvs.production: {
+                return new S3Gateway<JraHeldDayRecord>(
+                    'race-schedule-bucket',
+                    'jra/',
+                );
+            }
+            case allowedEnvs.test: {
+                // ENV が production の場合、S3Gateway を使用
+                return new S3Gateway<JraHeldDayRecord>(
+                    'race-schedule-bucket-test',
+                    'jra/',
+                );
+            }
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
+                return new MockS3Gateway<JraHeldDayRecord>(
                     'race-schedule-bucket',
                     'jra/',
                 );
