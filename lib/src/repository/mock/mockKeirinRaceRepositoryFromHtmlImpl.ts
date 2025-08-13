@@ -1,6 +1,6 @@
-import { baseKeirinRacePlayerDataList } from '../../../../test/unittest/src/mock/common/baseKeirinData';
-import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';
+import { RacePlayerData } from '../../domain/racePlayerData';
+import { RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -18,35 +18,33 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
     ): Promise<MechanicalRacingRaceEntity[]> {
-        const { placeEntityList } = searchFilter;
+        const { placeEntityList, raceType } = searchFilter;
         const raceEntityList: MechanicalRacingRaceEntity[] = [];
-        if (placeEntityList) {
-            for (const placeEntity of placeEntityList) {
-                const placeData: PlaceData = placeEntity.placeData;
-                // 1から12までのレースを作成
-                for (let i = 1; i <= 12; i++) {
-                    const raceStage = i === 12 ? 'S級決勝' : 'S級予選';
-                    raceEntityList.push(
-                        MechanicalRacingRaceEntity.createWithoutId(
-                            RaceData.create(
-                                RaceType.KEIRIN,
-                                `keirin第${i.toString()}R`,
-                                new Date(
-                                    placeData.dateTime.getFullYear(),
-                                    placeData.dateTime.getMonth(),
-                                    placeData.dateTime.getDate(),
-                                    i + 9,
-                                ),
-                                placeData.location,
-                                placeEntity.grade,
-                                i,
+        for (const placeEntity of placeEntityList ?? []) {
+            const { placeData, grade } = placeEntity;
+            const { location, dateTime } = placeData;
+            // 1から12までのレースを作成
+            for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                raceEntityList.push(
+                    MechanicalRacingRaceEntity.createWithoutId(
+                        RaceData.create(
+                            raceType,
+                            `${raceType}${location}第${raceNumber.toString()}R`,
+                            new Date(
+                                dateTime.getFullYear(),
+                                dateTime.getMonth(),
+                                dateTime.getDate(),
+                                raceNumber + 9,
                             ),
-                            raceStage,
-                            baseKeirinRacePlayerDataList,
-                            getJSTDate(new Date()),
+                            location,
+                            grade,
+                            raceNumber,
                         ),
-                    );
-                }
+                        this.createStage(raceType, raceNumber),
+                        this.createRacePlayerDataList(raceType),
+                        getJSTDate(new Date()),
+                    ),
+                );
             }
         }
         await new Promise((resolve) => setTimeout(resolve, 0));
@@ -61,5 +59,45 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
+    }
+
+    private createStage(raceType: RaceType, raceNumber: number): RaceStage {
+        switch (raceType) {
+            case RaceType.KEIRIN: {
+                return raceNumber === 12 ? 'S級決勝' : 'S級予選';
+            }
+            case RaceType.BOATRACE: {
+                return raceNumber === 12 ? '優勝戦' : '予選';
+            }
+            case RaceType.AUTORACE: {
+                return raceNumber === 12 ? '優勝戦' : '予選';
+            }
+            case RaceType.JRA: {
+                return '不明';
+            }
+            case RaceType.NAR: {
+                return '不明';
+            }
+            case RaceType.WORLD: {
+                return '不明';
+            }
+            default: {
+                return '不明';
+            }
+        }
+    }
+
+    private createRacePlayerDataList(raceType: RaceType): RacePlayerData[] {
+        const playerCount =
+            raceType === RaceType.KEIRIN
+                ? 9
+                : raceType === RaceType.BOATRACE
+                  ? 6
+                  : raceType === RaceType.AUTORACE
+                    ? 8
+                    : 0;
+        return Array.from({ length: playerCount }, (_, i) =>
+            RacePlayerData.create(raceType, i + 1, i + 1),
+        );
     }
 }
