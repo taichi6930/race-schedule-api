@@ -18,6 +18,8 @@ export class JraPlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
+    private readonly raceType: RaceType = RaceType.JRA;
+
     public constructor(
         @inject('JraPlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<JraPlaceRecord>,
@@ -130,6 +132,7 @@ export class JraPlaceRepositoryFromStorageImpl
                     return [
                         JraPlaceRecord.create(
                             columns[indices.id],
+                            this.raceType,
                             new Date(columns[indices.dateTime]),
                             columns[indices.location],
                             Number.parseInt(columns[indices.heldTimes], 10),

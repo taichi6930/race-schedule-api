@@ -5,12 +5,11 @@ import {
     validateRaceDateTime,
 } from '../utility/data/common/raceDateTime';
 import type { RaceType } from '../utility/raceType';
-import type { IPlaceData } from './iPlaceData';
 
 /**
  * レース開催場所データ
  */
-export class PlaceData implements IPlaceData<PlaceData> {
+export class PlaceData {
     /**
      * レース種別
      * @type {RaceType}

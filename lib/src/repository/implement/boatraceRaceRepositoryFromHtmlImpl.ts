@@ -28,6 +28,8 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     implements
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
+    private readonly raceType: RaceType = RaceType.BOATRACE;
+
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -73,7 +75,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             // TODO: 全レースを取りたいが、12レースのみ取得するので、後で修正する
             const raceNumber = 12;
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                RaceType.BOATRACE,
+                this.raceType,
                 placeData.dateTime,
                 placeData.location,
                 raceNumber,
@@ -115,7 +117,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             boatraceRaceEntityList.push(
                 MechanicalRacingRaceEntity.createWithoutId(
                     RaceData.create(
-                        RaceType.BOATRACE,
+                        this.raceType,
                         raceName,
                         new Date(year, month - 1, day, hour, minute),
                         placeData.location,
@@ -182,10 +184,12 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
+     * @param raceType
      * @param raceEntityList
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: MechanicalRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

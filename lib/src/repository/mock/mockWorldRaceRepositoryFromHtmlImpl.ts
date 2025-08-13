@@ -49,6 +49,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
 
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: WorldRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);

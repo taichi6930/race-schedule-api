@@ -16,6 +16,8 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class JraPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
+    private readonly raceType: RaceType = RaceType.JRA;
+
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
@@ -93,7 +95,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         // レースHTMLを取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(
-                RaceType.JRA,
+                this.raceType,
                 date,
             );
 
@@ -167,7 +169,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                         jraPlaceRecordList.push(
                             JraPlaceRecord.create(
                                 generatePlaceId(
-                                    RaceType.JRA,
+                                    this.raceType,
                                     new Date(
                                         date.getFullYear(),
                                         month - 1,
@@ -175,6 +177,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                                     ),
                                     place,
                                 ),
+                                this.raceType,
                                 new Date(date.getFullYear(), month - 1, day),
                                 getPlaceName(placeInitial),
                                 heldTimes,

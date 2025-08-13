@@ -16,7 +16,7 @@ import {
 import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
 import { validateRaceDateTime } from '../../utility/data/common/raceDateTime';
 import { createErrorMessage } from '../../utility/error';
-import { RaceType } from '../../utility/raceType';
+import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -28,6 +28,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     /**
      * コンストラクタ
      * @param id - ID
+     * @param raceType - レース種別
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param heldTimes - 開催回数
@@ -38,6 +39,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
      */
     private constructor(
         public readonly id: PlaceId,
+        public readonly raceType: RaceType,
         public readonly dateTime: RaceDateTime,
         public readonly location: RaceCourse,
         public readonly heldTimes: HeldTimes,
@@ -48,6 +50,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     /**
      * インスタンス生成メソッド
      * @param id - ID
+     * @param raceType - レース種別
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param heldTimes - 開催回数
@@ -56,6 +59,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
      */
     public static create(
         id: string,
+        raceType: RaceType,
         dateTime: Date,
         location: string,
         heldTimes: number,
@@ -64,9 +68,10 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     ): JraPlaceRecord {
         try {
             return new JraPlaceRecord(
-                validatePlaceId(RaceType.JRA, id),
+                validatePlaceId(raceType, id),
+                raceType,
                 validateRaceDateTime(dateTime),
-                validateRaceCourse(RaceType.JRA, location),
+                validateRaceCourse(raceType, location),
                 validateHeldTimes(heldTimes),
                 validateHeldDayTimes(heldDayTimes),
                 validateUpdateDate(updateDate),
@@ -85,6 +90,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     public copy(partial: Partial<JraPlaceRecord> = {}): JraPlaceRecord {
         return JraPlaceRecord.create(
             partial.id ?? this.id,
+            partial.raceType ?? this.raceType,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
             partial.heldTimes ?? this.heldTimes,
@@ -99,7 +105,8 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     public toEntity(): JraPlaceEntity {
         return JraPlaceEntity.create(
             this.id,
-            PlaceData.create(RaceType.JRA, this.dateTime, this.location),
+            this.raceType,
+            PlaceData.create(this.raceType, this.dateTime, this.location),
             HeldDayData.create(this.heldTimes, this.heldDayTimes),
             this.updateDate,
         );

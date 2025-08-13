@@ -6,6 +6,7 @@ import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
@@ -16,6 +17,8 @@ export class JraRaceRepositoryFromStorageImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
     private readonly fileName = 'raceList.csv';
+
+    private readonly raceType: RaceType = RaceType.JRA;
 
     public constructor(
         @inject('JraRaceS3Gateway')
@@ -96,6 +99,7 @@ export class JraRaceRepositoryFromStorageImpl
                 return [
                     JraRaceRecord.create(
                         columns[indices.id],
+                        this.raceType,
                         columns[indices.name],
                         new Date(columns[indices.dateTime]),
                         columns[indices.location],
@@ -117,10 +121,12 @@ export class JraRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
+     * @param raceType
      * @param raceEntityList
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
         raceEntityList: JraRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する

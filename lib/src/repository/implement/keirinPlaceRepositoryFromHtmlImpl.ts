@@ -25,6 +25,8 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class KeirinPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
+    private readonly raceType: RaceType = RaceType.KEIRIN;
+
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
@@ -100,7 +102,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(
-                RaceType.KEIRIN,
+                this.raceType,
                 date,
             );
 
@@ -126,7 +128,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         return;
                     }
                     const place: RaceCourse = validateRaceCourse(
-                        RaceType.KEIRIN,
+                        this.raceType,
                         th.text(),
                     );
 
@@ -152,9 +154,9 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         if (grade) {
                             keirinPlaceEntityList.push(
                                 MechanicalRacingPlaceEntity.createWithoutId(
-                                    RaceType.KEIRIN,
+                                    this.raceType,
                                     PlaceData.create(
-                                        RaceType.KEIRIN,
+                                        this.raceType,
                                         datetime,
                                         place,
                                     ),
