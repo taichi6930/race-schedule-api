@@ -24,166 +24,160 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
  * |-----|----------|------------|--------------------|-------------------------|
  * | 10  | toEntity | 正常値     | Entity生成できる    | Entityの値が一致        |
  */
-describe('MechanicalRacingPlaceRecord.create', () => {
+describe('MechanicalRacingPlaceRecord', () => {
     const validRaceType = RaceType.KEIRIN;
     const validDate = new Date('2026-01-01T00:00:00Z');
     const validLocation = '立川';
-    const validId = generatePlaceId(validRaceType, validDate, validLocation);
+    const validPlaceId = generatePlaceId(
+        validRaceType,
+        validDate,
+        validLocation,
+    );
     const validGrade = 'GⅠ';
     const validUpdateDate = new Date('2026-01-01T12:00:00Z');
 
-    it('正常値ですべて生成できる', () => {
-        const record = MechanicalRacingPlaceRecord.create(
-            validId,
+    describe('MechanicalRacingPlaceRecord.create', () => {
+        it('正常値ですべて生成できる', () => {
+            const record = MechanicalRacingPlaceRecord.create(
+                validPlaceId,
+                validRaceType,
+                validDate,
+                validLocation,
+                validGrade,
+                validUpdateDate,
+            );
+            expect(record).toBeInstanceOf(MechanicalRacingPlaceRecord);
+            expect(record.id).toBe(validPlaceId);
+            expect(record.raceType).toBe(validRaceType);
+            expect(record.dateTime).toBe(validDate);
+            expect(record.location).toBe(validLocation);
+            expect(record.grade).toBe(validGrade);
+            expect(record.updateDate).toBe(validUpdateDate);
+        });
+
+        it('idバリデーション失敗で例外', () => {
+            expect(() =>
+                MechanicalRacingPlaceRecord.create(
+                    'bad-id',
+                    validRaceType,
+                    validDate,
+                    validLocation,
+                    validGrade,
+                    validUpdateDate,
+                ),
+            ).toThrow('Failed to create PlaceRecord');
+        });
+
+        it('dateTimeバリデーション失敗で例外', () => {
+            expect(() =>
+                MechanicalRacingPlaceRecord.create(
+                    validPlaceId,
+                    validRaceType,
+                    new Date('bad-date'),
+                    validLocation,
+                    validGrade,
+                    validUpdateDate,
+                ),
+            ).toThrow('Failed to create PlaceRecord');
+        });
+
+        it('locationバリデーション失敗で例外', () => {
+            expect(() =>
+                MechanicalRacingPlaceRecord.create(
+                    validPlaceId,
+                    validRaceType,
+                    validDate,
+                    'bad-location',
+                    validGrade,
+                    validUpdateDate,
+                ),
+            ).toThrow('Failed to create PlaceRecord');
+        });
+
+        it('gradeバリデーション失敗で例外', () => {
+            expect(() =>
+                MechanicalRacingPlaceRecord.create(
+                    validPlaceId,
+                    validRaceType,
+                    validDate,
+                    validLocation,
+                    'bad-grade',
+                    validUpdateDate,
+                ),
+            ).toThrow('Failed to create PlaceRecord');
+        });
+
+        it('updateDateバリデーション失敗で例外', () => {
+            expect(() =>
+                MechanicalRacingPlaceRecord.create(
+                    validPlaceId,
+                    validRaceType,
+                    validDate,
+                    validLocation,
+                    validGrade,
+                    new Date('bad-date'),
+                ),
+            ).toThrow('Failed to create PlaceRecord');
+        });
+    });
+
+    describe('MechanicalRacingPlaceRecord.copy', () => {
+        const base = MechanicalRacingPlaceRecord.create(
+            validPlaceId,
             validRaceType,
             validDate,
             validLocation,
             validGrade,
             validUpdateDate,
         );
-        expect(record).toBeInstanceOf(MechanicalRacingPlaceRecord);
-        expect(record.id).toBe(validId);
-        expect(record.raceType).toBe(validRaceType);
-        expect(record.dateTime).toBe(validDate);
-        expect(record.location).toBe(validLocation);
-        expect(record.grade).toBe(validGrade);
-        expect(record.updateDate).toBe(validUpdateDate);
+
+        it('全項目コピー（partial未指定）', () => {
+            const copied = base.copy();
+            expect(copied).not.toBe(base);
+            expect(copied).toEqual(base);
+        });
+
+        it('gradeのみ変更', () => {
+            const grade = 'GP';
+            const copied = base.copy({ grade: grade });
+            expect(copied.id).toBe(base.id);
+            expect(copied.raceType).toBe(base.raceType);
+            expect(copied.dateTime).toBe(base.dateTime);
+            expect(copied.location).toBe(base.location);
+            expect(copied.grade).toBe(grade);
+            expect(copied.updateDate).toBe(base.updateDate);
+        });
+
+        it('dateTimeバリデーション失敗で例外', () => {
+            expect(() => base.copy({ dateTime: new Date('bad-date') })).toThrow(
+                'Failed to create PlaceRecord',
+            );
+        });
     });
 
-    it('idバリデーション失敗で例外', () => {
-        expect(() =>
-            MechanicalRacingPlaceRecord.create(
-                'bad-id',
-                validRaceType,
-                validDate,
-                validLocation,
-                validGrade,
-                validUpdateDate,
-            ),
-        ).toThrow('Failed to create PlaceRecord');
-    });
-
-    it('dateTimeバリデーション失敗で例外', () => {
-        expect(() =>
-            MechanicalRacingPlaceRecord.create(
-                validId,
-                validRaceType,
-                new Date('bad-date'),
-                validLocation,
-                validGrade,
-                validUpdateDate,
-            ),
-        ).toThrow('Failed to create PlaceRecord');
-    });
-
-    it('locationバリデーション失敗で例外', () => {
-        expect(() =>
-            MechanicalRacingPlaceRecord.create(
-                validId,
-                validRaceType,
-                validDate,
-                'bad-location',
-                validGrade,
-                validUpdateDate,
-            ),
-        ).toThrow('Failed to create PlaceRecord');
-    });
-
-    it('gradeバリデーション失敗で例外', () => {
-        expect(() =>
-            MechanicalRacingPlaceRecord.create(
-                validId,
-                validRaceType,
-                validDate,
-                validLocation,
-                'bad-grade',
-                validUpdateDate,
-            ),
-        ).toThrow('Failed to create PlaceRecord');
-    });
-
-    it('updateDateバリデーション失敗で例外', () => {
-        expect(() =>
-            MechanicalRacingPlaceRecord.create(
-                validId,
-                validRaceType,
-                validDate,
-                validLocation,
-                validGrade,
-                new Date('bad-date'),
-            ),
-        ).toThrow('Failed to create PlaceRecord');
-    });
-});
-
-describe('MechanicalRacingPlaceRecord.copy', () => {
-    const validRaceType = RaceType.KEIRIN;
-    const validDate = new Date('2026-01-01T00:00:00Z');
-    const validLocation = '立川';
-    const validId = generatePlaceId(validRaceType, validDate, validLocation);
-    const validGrade = 'GⅠ';
-    const validUpdateDate = new Date('2026-01-01T12:00:00Z');
-    const base = MechanicalRacingPlaceRecord.create(
-        validId,
-        validRaceType,
-        validDate,
-        validLocation,
-        validGrade,
-        validUpdateDate,
-    );
-
-    it('全項目コピー（partial未指定）', () => {
-        const copied = base.copy();
-        expect(copied).not.toBe(base);
-        expect(copied).toEqual(base);
-    });
-
-    it('gradeのみ変更', () => {
-        const grade = 'GP';
-        const copied = base.copy({ grade: grade });
-        expect(copied.id).toBe(base.id);
-        expect(copied.raceType).toBe(base.raceType);
-        expect(copied.dateTime).toBe(base.dateTime);
-        expect(copied.location).toBe(base.location);
-        expect(copied.grade).toBe(grade);
-        expect(copied.updateDate).toBe(base.updateDate);
-    });
-
-    it('dateTimeバリデーション失敗で例外', () => {
-        expect(() => base.copy({ dateTime: new Date('bad-date') })).toThrow(
-            'Failed to create PlaceRecord',
+    describe('MechanicalRacingPlaceRecord.toEntity', () => {
+        const base = MechanicalRacingPlaceRecord.create(
+            validPlaceId,
+            validRaceType,
+            validDate,
+            validLocation,
+            validGrade,
+            validUpdateDate,
         );
-    });
-});
 
-describe('MechanicalRacingPlaceRecord.toEntity', () => {
-    const validRaceType = RaceType.KEIRIN;
-    const validDate = new Date('2026-01-01T00:00:00Z');
-    const validLocation = '立川';
-    const validId = generatePlaceId(validRaceType, validDate, validLocation);
-    const validGrade = 'GⅠ';
-    const validUpdateDate = new Date('2026-01-01T12:00:00Z');
-    const base = MechanicalRacingPlaceRecord.create(
-        validId,
-        validRaceType,
-        validDate,
-        validLocation,
-        validGrade,
-        validUpdateDate,
-    );
-
-    it('エンティティへの変換', () => {
-        const entity = base.toEntity();
-        expect(entity).toEqual({
-            id: base.id,
-            raceType: base.raceType,
-            placeData: PlaceData.create(
-                base.raceType,
-                base.dateTime,
-                base.location,
-            ),
-            grade: base.grade,
-            updateDate: base.updateDate,
+        it('エンティティへの変換', () => {
+            const entity = base.toEntity();
+            expect(entity).toEqual({
+                id: base.id,
+                raceType: base.raceType,
+                placeData: PlaceData.create(
+                    base.raceType,
+                    base.dateTime,
+                    base.location,
+                ),
+                grade: base.grade,
+                updateDate: base.updateDate,
+            });
         });
     });
 });
