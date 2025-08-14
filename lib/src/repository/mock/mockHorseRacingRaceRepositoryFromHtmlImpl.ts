@@ -8,8 +8,7 @@ import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
-// NarRaceRepositoryFromHtmlImplのモックを作成
-export class MockNarRaceRepositoryFromHtmlImpl
+export class MockHorseRacingRaceRepositoryFromHtmlImpl
     implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
 {
     @Logger
