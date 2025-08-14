@@ -116,21 +116,21 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
 
         // 共通フィルタ関数で簡潔に
         return {
-            jra: this.filterRaceEntities(raceEntityList.jra, searchList?.jra),
-            nar: this.filterRaceEntities(raceEntityList.nar, searchList?.nar),
-            world: this.filterRaceEntities(
+            jra: this.filterRaceEntityList(raceEntityList.jra, searchList?.jra),
+            nar: this.filterRaceEntityList(raceEntityList.nar, searchList?.nar),
+            world: this.filterRaceEntityList(
                 raceEntityList.world,
                 searchList?.world,
             ),
-            keirin: this.filterRaceEntities(
+            keirin: this.filterRaceEntityList(
                 raceEntityList.keirin,
                 searchList?.keirin,
             ),
-            autorace: this.filterRaceEntities(
+            autorace: this.filterRaceEntityList(
                 raceEntityList.autorace,
                 searchList?.autorace,
             ),
-            boatrace: this.filterRaceEntities(
+            boatrace: this.filterRaceEntityList(
                 raceEntityList.boatrace,
                 searchList?.boatrace,
             ),
@@ -206,17 +206,23 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             );
 
         const filteredPlaceEntityList = {
-            jra: this.filterPlaceEntities(placeEntityList.jra, searchList?.jra),
-            nar: this.filterPlaceEntities(placeEntityList.nar, searchList?.nar),
-            keirin: this.filterPlaceEntities(
+            jra: this.filterPlaceEntityList(
+                placeEntityList.jra,
+                searchList?.jra,
+            ),
+            nar: this.filterPlaceEntityList(
+                placeEntityList.nar,
+                searchList?.nar,
+            ),
+            keirin: this.filterPlaceEntityList(
                 placeEntityList.keirin,
                 searchList?.keirin,
             ),
-            autorace: this.filterPlaceEntities(
+            autorace: this.filterPlaceEntityList(
                 placeEntityList.autorace,
                 searchList?.autorace,
             ),
-            boatrace: this.filterPlaceEntities(
+            boatrace: this.filterPlaceEntityList(
                 placeEntityList.boatrace,
                 searchList?.boatrace,
             ),
@@ -297,7 +303,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         );
     }
 
-    private filterRaceEntities<
+    private filterRaceEntityList<
         T extends {
             raceData?: { grade?: GradeType; location?: RaceCourse };
             stage?: RaceStage;
@@ -316,7 +322,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         return result;
     }
 
-    private filterPlaceEntities<
+    private filterPlaceEntityList<
         T extends { grade?: GradeType; placeData?: { location?: RaceCourse } },
     >(
         list: T[],
