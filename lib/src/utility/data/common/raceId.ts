@@ -33,36 +33,6 @@ const RaceIdSchema = (raceType: RaceType): z.ZodString => {
 };
 
 /**
- * KeirinRaceIdのzod型定義
- */
-const KeirinRaceIdSchema = RaceIdSchema(RaceType.KEIRIN);
-
-/**
- * BoatraceRaceIdのzod型定義
- */
-const BoatraceRaceIdSchema = RaceIdSchema(RaceType.BOATRACE);
-
-/**
- * BoatraceRaceIdのzod型定義
- */
-const NarRaceIdSchema = RaceIdSchema(RaceType.NAR);
-
-/**
- * JraRaceIdのzod型定義
- */
-const JraRaceIdSchema = RaceIdSchema(RaceType.JRA);
-
-/**
- * AutoraceRaceIdのzod型定義
- */
-const AutoraceRaceIdSchema = RaceIdSchema(RaceType.AUTORACE);
-
-/**
- * WorldRaceIdのzod型定義
- */
-const WorldRaceIdSchema = RaceIdSchema(RaceType.WORLD);
-
-/**
  * RaceIdのzod型定義
  */
 export type RaceId = z.infer<typeof UnionRaceIdSchema>;
@@ -73,37 +43,17 @@ export type RaceId = z.infer<typeof UnionRaceIdSchema>;
  * @param value - バリデーション対象
  * @returns バリデーション済みのRaceId
  */
-export const validateRaceId = (raceType: RaceType, value: string): RaceId => {
-    switch (raceType) {
-        case RaceType.WORLD: {
-            return WorldRaceIdSchema.parse(value);
-        }
-        case RaceType.BOATRACE: {
-            return BoatraceRaceIdSchema.parse(value);
-        }
-        case RaceType.KEIRIN: {
-            return KeirinRaceIdSchema.parse(value);
-        }
-        case RaceType.AUTORACE: {
-            return AutoraceRaceIdSchema.parse(value);
-        }
-        case RaceType.NAR: {
-            return NarRaceIdSchema.parse(value);
-        }
-        case RaceType.JRA: {
-            return JraRaceIdSchema.parse(value);
-        }
-    }
-};
+export const validateRaceId = (raceType: RaceType, value: string): RaceId =>
+    RaceIdSchema(raceType).parse(value);
 
 /**
  * RaceIdのzod型定義
  */
 export const UnionRaceIdSchema = z.union([
-    KeirinRaceIdSchema,
-    AutoraceRaceIdSchema,
-    BoatraceRaceIdSchema,
-    NarRaceIdSchema,
-    JraRaceIdSchema,
-    WorldRaceIdSchema,
+    RaceIdSchema(RaceType.JRA),
+    RaceIdSchema(RaceType.NAR),
+    RaceIdSchema(RaceType.WORLD),
+    RaceIdSchema(RaceType.KEIRIN),
+    RaceIdSchema(RaceType.AUTORACE),
+    RaceIdSchema(RaceType.BOATRACE),
 ]);
