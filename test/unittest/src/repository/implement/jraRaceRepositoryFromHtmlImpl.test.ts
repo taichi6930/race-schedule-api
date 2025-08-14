@@ -20,6 +20,8 @@ describe('JraRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
     let repository: IRaceRepository<JraRaceEntity, JraPlaceEntity>;
 
+    const raceType: RaceType = RaceType.JRA;
+
     beforeEach(() => {
         // gatewayのモックを作成
         raceDataHtmlGateway = new MockRaceDataHtmlGateway();
@@ -44,12 +46,12 @@ describe('JraRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<JraPlaceEntity>(
                         new Date('2024-05-26'),
                         new Date('2024-05-26'),
-                        RaceType.JRA,
+                        raceType,
                         [
                             JraPlaceEntity.createWithoutId(
-                                RaceType.JRA,
+                                raceType,
                                 PlaceData.create(
-                                    RaceType.JRA,
+                                    raceType,
                                     new Date('2024-05-26'),
                                     '東京',
                                 ),
@@ -65,15 +67,11 @@ describe('JraRaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('registerRaceList', () => {
-        SkipEnv(
-            'htmlなので登録できない',
-            [allowedEnvs.githubActionsCi],
-            async () => {
-                // テスト実行
-                await expect(
-                    repository.registerRaceEntityList(RaceType.JRA, []),
-                ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            },
-        );
+        it('HTMLにはデータを登録できないこと', async () => {
+            // テスト実行
+            await expect(
+                repository.registerRaceEntityList(raceType, []),
+            ).rejects.toThrow('HTMLにはデータを登録出来ません');
+        });
     });
 });

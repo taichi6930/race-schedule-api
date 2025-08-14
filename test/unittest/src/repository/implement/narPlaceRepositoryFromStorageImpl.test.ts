@@ -20,6 +20,8 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<HorseRacingPlaceRecord>>;
     let repository: IPlaceRepository<HorseRacingPlaceEntity>;
 
+    const raceType: RaceType = RaceType.NAR;
+
     beforeEach(() => {
         // S3Gatewayのモックを作成
         s3Gateway = mockS3Gateway<HorseRacingPlaceRecord>();
@@ -51,7 +53,7 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
                 new SearchPlaceFilterEntity(
                     new Date('2024-01-01'),
                     new Date('2024-02-01'),
-                    RaceType.NAR,
+                    raceType,
                 ),
             );
 
@@ -63,12 +65,16 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
     describe('registerPlaceList', () => {
         test('正しい開催場データを登録できる', async () => {
             // テスト実行
-            await repository.registerPlaceEntityList(
-                RaceType.NAR,
-                placeEntityList,
-            );
+            await expect(
+                repository.registerPlaceEntityList(raceType, placeEntityList),
+            ).resolves.toEqual({
+                code: 200,
+                message: 'データの保存に成功しました',
+                successData: placeEntityList,
+                failureData: [],
+            });
 
-            // uploadDataToS3が12回呼ばれることを検証
+            // uploadDataToS3が1回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
@@ -81,8 +87,8 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
                 HorseRacingPlaceEntity.createWithoutId(
-                    RaceType.NAR,
-                    PlaceData.create(RaceType.NAR, date, '大井'),
+                    raceType,
+                    PlaceData.create(raceType, date, '大井'),
                     getJSTDate(new Date()),
                 ),
             );

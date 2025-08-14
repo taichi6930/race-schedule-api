@@ -23,6 +23,8 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
     let heldDayS3Gateway: jest.Mocked<IS3Gateway<heldDayRecord>>;
     let repository: IPlaceRepository<JraPlaceEntity>;
 
+    const raceType: RaceType = RaceType.JRA;
+
     beforeEach(() => {
         // S3Gatewayのモックを作成
         placeS3Gateway = mockS3Gateway<HorseRacingPlaceRecord>();
@@ -67,7 +69,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
                 new SearchPlaceFilterEntity(
                     new Date('2024-01-01'),
                     new Date('2024-02-01'),
-                    RaceType.JRA,
+                    raceType,
                 ),
             );
 
@@ -79,13 +81,18 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
     describe('registerPlaceList', () => {
         test('正しい開催場データを登録できる', async () => {
             // テスト実行
-            await repository.registerPlaceEntityList(
-                RaceType.JRA,
-                placeEntityList,
-            );
+            await expect(
+                repository.registerPlaceEntityList(raceType, placeEntityList),
+            ).resolves.toEqual({
+                code: 200,
+                message: 'データの保存に成功しました',
+                successData: placeEntityList,
+                failureData: [],
+            });
 
-            // uploadDataToS3が12回呼ばれることを検証
+            // uploadDataToS3が1回呼ばれることを検証
             expect(placeS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
+            expect(heldDayS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -97,8 +104,8 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
                 JraPlaceEntity.createWithoutId(
-                    RaceType.JRA,
-                    PlaceData.create(RaceType.JRA, date, '東京'),
+                    raceType,
+                    PlaceData.create(raceType, date, '東京'),
                     HeldDayData.create(1, 1),
                     getJSTDate(new Date()),
                 ),
