@@ -25,7 +25,6 @@ export class MockJraPlaceRepositoryFromHtmlImpl
 
         while (currentDate <= searchFilter.finishDate) {
             const placeEntity = JraPlaceEntity.createWithoutId(
-                searchFilter.raceType,
                 PlaceData.create(
                     searchFilter.raceType,
                     new Date(currentDate),

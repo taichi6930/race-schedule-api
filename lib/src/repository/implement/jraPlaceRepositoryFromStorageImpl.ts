@@ -78,7 +78,6 @@ export class JraPlaceRepositoryFromStorageImpl
             ({ placeRecord, heldDayRecord: heldDayRecordItem }) => {
                 return JraPlaceEntity.create(
                     placeRecord.id,
-                    searchFilter.raceType,
                     PlaceData.create(
                         searchFilter.raceType,
                         placeRecord.dateTime,
@@ -149,7 +148,7 @@ export class JraPlaceRepositoryFromStorageImpl
                 (placeEntity) =>
                     heldDayRecord.create(
                         placeEntity.id,
-                        placeEntity.raceType,
+                        placeEntity.placeData.raceType,
                         placeEntity.heldDayData.heldTimes,
                         placeEntity.heldDayData.heldDayTimes,
                         placeEntity.updateDate,

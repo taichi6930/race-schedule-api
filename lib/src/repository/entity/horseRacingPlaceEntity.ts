@@ -5,7 +5,6 @@ import {
     generatePlaceId,
     validatePlaceId,
 } from '../../utility/data/common/placeId';
-import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
@@ -18,7 +17,6 @@ export class HorseRacingPlaceEntity
     /**
      * コンストラクタ
      * @param id - ID
-     * @param raceType - レース種別
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      * @remarks
@@ -26,7 +24,6 @@ export class HorseRacingPlaceEntity
      */
     private constructor(
         public readonly id: PlaceId,
-        public readonly raceType: RaceType,
         public readonly placeData: PlaceData,
         public readonly updateDate: UpdateDate,
     ) {}
@@ -34,20 +31,17 @@ export class HorseRacingPlaceEntity
     /**
      * インスタンス生成メソッド
      * @param id - ID
-     * @param raceType - レース種別
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
     public static create(
         id: string,
-        raceType: RaceType,
         placeData: PlaceData,
         updateDate: Date,
     ): HorseRacingPlaceEntity {
         console.log(id);
         return new HorseRacingPlaceEntity(
-            validatePlaceId(raceType, id),
-            raceType,
+            validatePlaceId(placeData.raceType, id),
             placeData,
             validateUpdateDate(updateDate),
         );
@@ -55,12 +49,10 @@ export class HorseRacingPlaceEntity
 
     /**
      * idがない場合でのcreate
-     * @param raceType - レース種別
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
     public static createWithoutId(
-        raceType: RaceType,
         placeData: PlaceData,
         updateDate: Date,
     ): HorseRacingPlaceEntity {
@@ -70,7 +62,6 @@ export class HorseRacingPlaceEntity
                 placeData.dateTime,
                 placeData.location,
             ),
-            raceType,
             placeData,
             updateDate,
         );
@@ -85,7 +76,6 @@ export class HorseRacingPlaceEntity
     ): HorseRacingPlaceEntity {
         return HorseRacingPlaceEntity.create(
             partial.id ?? this.id,
-            partial.raceType ?? this.raceType,
             partial.placeData ?? this.placeData,
             partial.updateDate ?? this.updateDate,
         );
@@ -97,7 +87,7 @@ export class HorseRacingPlaceEntity
     public toRecord(): HorseRacingPlaceRecord {
         return HorseRacingPlaceRecord.create(
             this.id,
-            this.raceType,
+            this.placeData.raceType,
             this.placeData.dateTime,
             this.placeData.location,
             this.updateDate,

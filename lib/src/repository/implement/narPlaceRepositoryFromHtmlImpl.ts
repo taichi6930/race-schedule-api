@@ -139,7 +139,6 @@ export class NarPlaceRepositoryFromHtmlImpl
             for (const raceDay of raceDays) {
                 narPlaceDataList.push(
                     HorseRacingPlaceEntity.createWithoutId(
-                        raceType,
                         PlaceData.create(
                             raceType,
                             new Date(

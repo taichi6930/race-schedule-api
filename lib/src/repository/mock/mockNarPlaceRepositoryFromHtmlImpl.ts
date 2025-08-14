@@ -24,7 +24,6 @@ export class MockNarPlaceRepositoryFromHtmlImpl
 
         while (currentDate <= searchFilter.finishDate) {
             const placeEntity = HorseRacingPlaceEntity.createWithoutId(
-                searchFilter.raceType,
                 PlaceData.create(
                     searchFilter.raceType,
                     new Date(currentDate),

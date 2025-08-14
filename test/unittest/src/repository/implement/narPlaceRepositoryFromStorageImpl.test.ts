@@ -87,7 +87,6 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
                 HorseRacingPlaceEntity.createWithoutId(
-                    raceType,
                     PlaceData.create(raceType, date, '大井'),
                     getJSTDate(new Date()),
                 ),

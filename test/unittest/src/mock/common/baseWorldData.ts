@@ -61,7 +61,6 @@ export const baseWorldRaceRecord = WorldRaceRecord.create(
 );
 
 export const baseWorldPlaceEntity = HorseRacingPlaceEntity.createWithoutId(
-    RaceType.WORLD,
     baseWorldPlaceData,
     baseWorldRaceUpdateDate,
 );

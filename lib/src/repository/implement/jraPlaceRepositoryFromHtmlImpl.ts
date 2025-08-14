@@ -54,7 +54,6 @@ export class JraPlaceRepositoryFromHtmlImpl
             ({ horseRacingPlaceRecord, jraHeldDayRecord }) => {
                 return JraPlaceEntity.create(
                     horseRacingPlaceRecord.id,
-                    searchFilter.raceType,
                     PlaceData.create(
                         horseRacingPlaceRecord.raceType,
                         horseRacingPlaceRecord.dateTime,

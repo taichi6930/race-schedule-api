@@ -72,7 +72,6 @@ export const baseNarRaceRecord = HorseRacingRaceRecord.create(
 );
 
 export const baseNarPlaceEntity = HorseRacingPlaceEntity.createWithoutId(
-    RaceType.NAR,
     baseNarPlaceData,
     baseNarRaceUpdateDate,
 );
