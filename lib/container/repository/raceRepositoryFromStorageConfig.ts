@@ -17,12 +17,7 @@ container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
 );
 container.register<
     IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
->('NarRaceRepositoryFromStorage', {
-    useClass: HorseRacingRaceRepositoryFromStorageImpl,
-});
-container.register<
-    IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
->('WorldRaceRepositoryFromStorage', {
+>('HorseRacingRaceRepositoryFromStorage', {
     useClass: HorseRacingRaceRepositoryFromStorageImpl,
 });
 container.register<

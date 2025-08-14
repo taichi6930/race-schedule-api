@@ -83,13 +83,10 @@ export interface TestSetup {
     jraRaceRepositoryFromHtmlImpl: jest.Mocked<
         IRaceRepository<JraRaceEntity, JraPlaceEntity>
     >;
-    narRaceRepositoryFromStorageImpl: jest.Mocked<
+    horseRacingRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >;
     narRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
-    >;
-    worldRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >;
     worldRaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -170,13 +167,16 @@ export function setupTestMock(): TestSetup {
         'JraRaceRepositoryFromHtml',
         jraRaceRepositoryFromHtmlImpl,
     );
-    const narRaceRepositoryFromStorageImpl = mockRaceRepository<
+    const horseRacingRaceRepositoryFromStorageImpl = mockRaceRepository<
         HorseRacingRaceEntity,
         HorseRacingPlaceEntity
     >();
     container.registerInstance<
         IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
-    >('NarRaceRepositoryFromStorage', narRaceRepositoryFromStorageImpl);
+    >(
+        'HorseRacingRaceRepositoryFromStorage',
+        horseRacingRaceRepositoryFromStorageImpl,
+    );
 
     const narRaceRepositoryFromHtmlImpl = mockRaceRepository<
         HorseRacingRaceEntity,
@@ -185,14 +185,6 @@ export function setupTestMock(): TestSetup {
     container.registerInstance<
         IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >('NarRaceRepositoryFromHtml', narRaceRepositoryFromHtmlImpl);
-    // world
-    const worldRaceRepositoryFromStorageImpl = mockRaceRepository<
-        HorseRacingRaceEntity,
-        HorseRacingPlaceEntity
-    >();
-    container.registerInstance<
-        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
-    >('WorldRaceRepositoryFromStorage', worldRaceRepositoryFromStorageImpl);
     const worldRaceRepositoryFromHtmlImpl = mockRaceRepository<
         HorseRacingRaceEntity,
         HorseRacingPlaceEntity
@@ -328,9 +320,8 @@ export function setupTestMock(): TestSetup {
         autoracePlaceRepositoryFromHtmlImpl,
         jraRaceRepositoryFromStorageImpl,
         jraRaceRepositoryFromHtmlImpl,
-        narRaceRepositoryFromStorageImpl,
+        horseRacingRaceRepositoryFromStorageImpl,
         narRaceRepositoryFromHtmlImpl,
-        worldRaceRepositoryFromStorageImpl,
         worldRaceRepositoryFromHtmlImpl,
         mechanicalRacingRaceRepositoryFromStorageImpl,
         keirinRaceRepositoryFromHtmlImpl,

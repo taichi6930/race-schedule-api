@@ -31,18 +31,13 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             JraRaceEntity,
             JraPlaceEntity
         >,
-        @inject('NarRaceRepositoryFromStorage')
-        protected narRaceRepositoryFromStorage: IRaceRepository<
-            HorseRacingRaceEntity,
-            HorseRacingPlaceEntity
-        >,
         @inject('NarRaceRepositoryFromHtml')
         protected narRaceRepositoryFromHtml: IRaceRepository<
             HorseRacingRaceEntity,
             HorseRacingPlaceEntity
         >,
-        @inject('WorldRaceRepositoryFromStorage')
-        protected readonly worldRaceRepositoryFromStorage: IRaceRepository<
+        @inject('HorseRacingRaceRepositoryFromStorage')
+        protected readonly horseRacingRaceRepositoryFromStorage: IRaceRepository<
             HorseRacingRaceEntity,
             HorseRacingPlaceEntity
         >,
@@ -173,7 +168,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     );
                 const repo =
                     type === DataLocation.Storage
-                        ? this.narRaceRepositoryFromStorage
+                        ? this.horseRacingRaceRepositoryFromStorage
                         : this.narRaceRepositoryFromHtml;
                 const narRaceEntityList = await this.fetchRaceEntities(
                     repo,
@@ -191,7 +186,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     );
                 const repo =
                     type === DataLocation.Storage
-                        ? this.worldRaceRepositoryFromStorage
+                        ? this.horseRacingRaceRepositoryFromStorage
                         : this.worldRaceRepositoryFromHtml;
                 const worldRaceEntityList = await this.fetchRaceEntities(
                     repo,
@@ -307,12 +302,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     raceEntityList.jra,
                 ),
                 this.saveRaceEntities(
-                    this.narRaceRepositoryFromStorage,
+                    this.horseRacingRaceRepositoryFromStorage,
                     RaceType.NAR,
                     raceEntityList.nar,
                 ),
                 this.saveRaceEntities(
-                    this.worldRaceRepositoryFromStorage,
+                    this.horseRacingRaceRepositoryFromStorage,
                     RaceType.WORLD,
                     raceEntityList.world,
                 ),
