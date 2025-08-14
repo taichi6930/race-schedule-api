@@ -260,28 +260,15 @@ describe('PublicGamblingPlaceDataService', () => {
                     raceType: RaceType,
                     placeEntityList: MechanicalRacingPlaceEntity[],
                 ) => {
-                    console.log(placeEntityList);
-                    if (raceType === RaceType.KEIRIN) {
+                    if (
+                        raceType === RaceType.KEIRIN ||
+                        raceType === RaceType.AUTORACE ||
+                        raceType === RaceType.BOATRACE
+                    ) {
                         return {
                             code: 200,
                             message: '',
-                            successData: [baseKeirinPlaceEntity],
-                            failureData: [],
-                        };
-                    }
-                    if (raceType === RaceType.AUTORACE) {
-                        return {
-                            code: 200,
-                            message: '',
-                            successData: [baseAutoracePlaceEntity],
-                            failureData: [],
-                        };
-                    }
-                    if (raceType === RaceType.BOATRACE) {
-                        return {
-                            code: 200,
-                            message: '',
-                            successData: [baseBoatracePlaceEntity],
+                            successData: placeEntityList,
                             failureData: [],
                         };
                     }
