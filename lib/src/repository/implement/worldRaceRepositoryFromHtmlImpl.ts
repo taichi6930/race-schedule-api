@@ -254,7 +254,7 @@ export class WorldRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
-     * @param raceType
+     * @param raceType - レース種別
      * @param raceEntityList
      */
     @Logger

@@ -8,10 +8,7 @@ import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { GradeType } from '../../utility/data/common/gradeType';
-import {
-    BoatraceStageMap,
-    RaceStage,
-} from '../../utility/data/common/raceStage';
+import { RaceStage, StageMap } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
@@ -134,7 +131,9 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         }
     }
     private extractRaceStage(raceSummaryInfoChild: string): RaceStage | null {
-        for (const [pattern, stage] of Object.entries(BoatraceStageMap)) {
+        for (const [pattern, stage] of Object.entries(
+            StageMap(RaceType.BOATRACE),
+        )) {
             if (new RegExp(pattern).test(raceSummaryInfoChild)) {
                 return stage;
             }
@@ -182,7 +181,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
-     * @param raceType
+     * @param raceType - レース種別
      * @param raceEntityList
      */
     @Logger

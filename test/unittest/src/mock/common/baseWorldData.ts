@@ -7,8 +7,8 @@ import { WorldPlaceEntity } from '../../../../../lib/src/repository/entity/world
 import { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
+import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
-import { generateRaceId } from '../../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 
 const baseWorldPlaceCourse: RaceCourse = 'パリロンシャン';

@@ -6,10 +6,10 @@ import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { heldDayRecord } from '../../gateway/record/heldDayRecord';
 import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
+import { generatePlaceId } from '../../utility/data/common/placeId';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { generatePlaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
@@ -110,7 +110,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      * S3から開催データを取得する
      * ファイル名を利用してS3から開催データを取得する
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
-     * @param raceType
+     * @param raceType - レース種別
      * @param date
      */
     @Logger
@@ -233,7 +233,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
-     * @param raceType
+     * @param raceType - レース種別
      * @param placeEntityList
      */
     @Logger

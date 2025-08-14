@@ -4,7 +4,7 @@ import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData
 import type { RaceData } from '../../domain/raceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
-import { generateRaceId } from '../../utility/raceId';
+import { generateRaceId } from '../../utility/data/common/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
@@ -17,7 +17,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      * コンストラクタ
      * @param id - ID
      * @param raceData - レースデータ
-     * @param conditionData
+     * @param conditionData - レース条件データ
      * @param updateDate - 更新日時
      * @remarks
      * レース開催データを生成する
@@ -33,7 +33,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
      * インスタンス生成メソッド
      * @param id - ID
      * @param raceData - レースデータ
-     * @param conditionData
+     * @param conditionData - レース条件データ
      * @param updateDate - 更新日時
      */
     public static create(
@@ -52,9 +52,9 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
 
     /**
      * idがない場合でのcreate
-     * @param raceData
-     * @param conditionData
-     * @param updateDate
+     * @param raceData - レースデータ
+     * @param conditionData - レース条件データ
+     * @param updateDate - 更新日時
      */
     public static createWithoutId(
         raceData: RaceData,
@@ -76,7 +76,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<WorldRaceEntity> = {}): WorldRaceEntity {
         return WorldRaceEntity.create(

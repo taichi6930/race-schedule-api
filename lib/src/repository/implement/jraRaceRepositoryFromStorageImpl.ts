@@ -53,7 +53,7 @@ export class JraRaceRepositoryFromStorageImpl
 
     /**
      * レースデータをS3から取得する
-     * @param raceType
+     * @param raceType - レース種別
      */
     @Logger
     private async getRaceRecordListFromS3(
@@ -122,7 +122,7 @@ export class JraRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
-     * @param raceType
+     * @param raceType - レース種別
      * @param raceEntityList
      */
     @Logger

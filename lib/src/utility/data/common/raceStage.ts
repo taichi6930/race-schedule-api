@@ -737,38 +737,18 @@ export const RaceGradeAndStageList: {
 
 /**
  * ステージ のバリデーション
- * @param raceType
- * @param stage - ステージ
+ * @param raceType - レース種別
+ * @param stage - 開催ステージ
  * @returns - バリデーション済みのステージ
  */
 export const validateRaceStage = (
     raceType: RaceType,
     stage: string,
-): RaceStage => {
-    switch (raceType) {
-        case RaceType.KEIRIN: {
-            return KeirinRaceStageSchema.parse(stage);
-        }
-        case RaceType.AUTORACE: {
-            return AutoraceRaceStageSchema.parse(stage);
-        }
-        case RaceType.BOATRACE: {
-            return BoatraceRaceStageSchema.parse(stage);
-        }
-        case RaceType.JRA:
-        case RaceType.NAR:
-        case RaceType.WORLD: {
-            throw new Error(`Unsupported race type: ${raceType}`);
-        }
-        default: {
-            throw new Error(`Unknown race type`);
-        }
-    }
-};
+): RaceStage => createRaceStageSchema(raceType).parse(stage);
 
 /**
  * ステージ リスト
- * @param raceType
+ * @param raceType - レース種別
  */
 const RaceStageList: (raceType: RaceType) => Set<string> = (raceType) =>
     new Set(
@@ -779,9 +759,9 @@ const RaceStageList: (raceType: RaceType) => Set<string> = (raceType) =>
 
 /**
  * HTML表記・oddspark表記の両方をカバーするステージ名マップ
- * @param raceType
+ * @param raceType - レース種別
  */
-const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
+export const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
     raceType,
 ) =>
     Object.fromEntries(
@@ -796,55 +776,22 @@ const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
     );
 
 /**
- * KeirinRaceStageのzod型定義
+ * RaceCourseのzod型定義
+ * @param raceType - レース種別
  */
-const KeirinRaceStageSchema = z.string().refine((value) => {
-    return RaceStageList(RaceType.KEIRIN).has(value);
-}, '競輪のステージではありません');
-
-/**
- * HTML表記・oddspark表記の両方をカバーする競輪ステージ名マップ
- */
-export const KeirinStageMap: Record<string, RaceStage> = StageMap(
-    RaceType.KEIRIN,
-);
-
-/**
- * AutoraceRaceStageのzod型定義
- */
-const AutoraceRaceStageSchema = z.string().refine((value) => {
-    return RaceStageList(RaceType.AUTORACE).has(value);
-}, 'オートレースのステージではありません');
-
-/**
- * HTMLのステージ名を正式名称に変換するためのマップ
- */
-export const AutoraceStageMap: Record<string, RaceStage> = StageMap(
-    RaceType.AUTORACE,
-);
-
-/**
- * BoatraceRaceStageのzod型定義
- */
-const BoatraceRaceStageSchema = z.string().refine((value) => {
-    return RaceStageList(RaceType.BOATRACE).has(value);
-}, 'ボートレースのステージではありません');
-
-/**
- * HTMLのステージ名を正式名称に変換するためのマップ
- */
-export const BoatraceStageMap: Record<string, RaceStage> = StageMap(
-    RaceType.BOATRACE,
-);
+const createRaceStageSchema = (raceType: RaceType): z.ZodString =>
+    z.string().refine((value) => {
+        return RaceStageList(raceType).has(value);
+    }, `${raceType}の開催ステージではありません`);
 
 /**
  * RaceStageのzod型定義
  */
 
 export const RaceStageSchema = z.union([
-    KeirinRaceStageSchema,
-    AutoraceRaceStageSchema,
-    BoatraceRaceStageSchema,
+    createRaceStageSchema(RaceType.KEIRIN),
+    createRaceStageSchema(RaceType.AUTORACE),
+    createRaceStageSchema(RaceType.BOATRACE),
 ]);
 /**
  * RaceStageの型定義

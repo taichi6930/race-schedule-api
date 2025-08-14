@@ -220,7 +220,7 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * 開催競馬場を取得
-     * @param raceType
+     * @param raceType - レース種別
      * @param theadElementMatch
      */
     private readonly extractRaceCourse = (
@@ -445,7 +445,7 @@ export class JraRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
-     * @param raceType
+     * @param raceType - レース種別
      * @param raceEntityList
      */
     @Logger

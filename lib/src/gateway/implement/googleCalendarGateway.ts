@@ -1,12 +1,3 @@
-// Promise-like判定の型ガード関数
-function isPromiseLike(obj: unknown): obj is Promise<unknown> {
-    return (
-        (typeof obj === 'object' &&
-            obj !== null &&
-            typeof (obj as { then?: unknown }).then === 'function') ||
-        Object.prototype.toString.call(obj) === '[object Promise]'
-    );
-}
 import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
 
@@ -41,21 +32,6 @@ export class GoogleCalendarGateway implements ICalendarGateway {
     ): Promise<calendar_v3.Schema$Event[]> {
         try {
             const calendarId = await this.getCalendarId(raceType);
-            // 型・内容をデバッグ出力
-            console.error(
-                '[DEBUG] calendarId type:',
-                typeof calendarId,
-                'toString:',
-                Object.prototype.toString.call(calendarId),
-                'value:',
-                calendarId,
-            );
-            // Promise型の値が入っていないか再チェック
-            if (isPromiseLike(calendarId)) {
-                throw new TypeError(
-                    `calendarId is Promise (APIリクエスト直前). type: ${typeof calendarId}, toString: ${Object.prototype.toString.call(calendarId)}, value: ${String(calendarId)}`,
-                );
-            }
             // orderBy: 'startTime'で開始時刻順に取得
             const response = await this.calendar.events.list({
                 calendarId,
@@ -90,13 +66,8 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             });
             return response.data;
         } catch (error) {
-            const calendarId = await this.getCalendarId(raceType);
-            const clientEmail = process.env.GOOGLE_CLIENT_EMAIL ?? 'unknown';
             throw new Error(
-                createErrorMessage(
-                    `Failed to get calendar (calendarId: ${calendarId}, client_email: ${clientEmail})`,
-                    error,
-                ),
+                createErrorMessage('Failed to get calendar event', error),
             );
         }
     }

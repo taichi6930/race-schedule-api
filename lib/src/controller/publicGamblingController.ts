@@ -5,16 +5,9 @@ import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IPlayerDataUseCase } from '../usecase/interface/IPlayerDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import {
-    AutoraceSpecifiedGradeList,
-    BoatraceSpecifiedGradeList,
-    JraSpecifiedGradeList,
-    KeirinSpecifiedGradeList,
-    NarSpecifiedGradeList,
-    WorldSpecifiedGradeList,
-} from '../utility/data/common/gradeType';
+import { SpecifiedGradeList } from '../utility/data/common/gradeType';
 import { Logger } from '../utility/logger';
-import { convertRaceTypeList } from '../utility/raceType';
+import { convertRaceTypeList, RaceType } from '../utility/raceType';
 
 /**
  * 公営競技のレース情報コントローラー
@@ -160,12 +153,12 @@ export class PublicGamblingController {
                 new Date(finishDate),
                 raceTypeList,
                 {
-                    jra: JraSpecifiedGradeList,
-                    nar: NarSpecifiedGradeList,
-                    world: WorldSpecifiedGradeList,
-                    keirin: KeirinSpecifiedGradeList,
-                    autorace: AutoraceSpecifiedGradeList,
-                    boatrace: BoatraceSpecifiedGradeList,
+                    jra: SpecifiedGradeList(RaceType.JRA),
+                    nar: SpecifiedGradeList(RaceType.NAR),
+                    world: SpecifiedGradeList(RaceType.WORLD),
+                    keirin: SpecifiedGradeList(RaceType.KEIRIN),
+                    autorace: SpecifiedGradeList(RaceType.AUTORACE),
+                    boatrace: SpecifiedGradeList(RaceType.BOATRACE),
                 },
             );
             res.status(200).send();

@@ -13,7 +13,7 @@ export interface ICalendarService {
      * レース関連のイベントをすべて取得します。
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（この日を含む）
-     * @param raceTypeList - 取得するレースの種類リスト
+     * @param raceTypeList - レース種別のリスト
      * @returns カレンダーイベントの配列。イベントが存在しない場合は空配列
      * @throws Error 外部カレンダーサービスとの通信に失敗した場合
      */

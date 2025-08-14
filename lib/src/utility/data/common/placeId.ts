@@ -1,10 +1,34 @@
+import { format } from 'date-fns';
 import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
+import { NetkeibaBabacodeMap } from '../netkeiba';
+import { createPlaceCodeMap, type RaceCourse } from './raceCourse';
+
+/**
+ * placeIdを作成する
+ * @param raceType - レース種別
+ * @param dateTime - 開催日時
+ * @param location - 開催場所
+ */
+export const generatePlaceId = (
+    raceType: RaceType,
+    dateTime: Date,
+    location: RaceCourse,
+): PlaceId => {
+    const dateCode = format(dateTime, 'yyyyMMdd');
+
+    const locationCode =
+        raceType === RaceType.JRA || raceType === RaceType.NAR
+            ? NetkeibaBabacodeMap[location]
+            : createPlaceCodeMap(raceType)[location];
+    const raceTypePrefix = raceType.toLowerCase();
+    return `${raceTypePrefix}${dateCode}${locationCode}`;
+};
 
 /**
  * PlaceIdのzod型定義
- * @param raceType
+ * @param raceType - レース種別
  */
 const PlaceIdSchema = (raceType: RaceType): z.ZodString => {
     const lowerCaseRaceType = raceType.toLowerCase();
@@ -22,76 +46,27 @@ const PlaceIdSchema = (raceType: RaceType): z.ZodString => {
 };
 
 /**
- * JraPlaceIdのzod型定義
- */
-const JraPlaceIdSchema = PlaceIdSchema(RaceType.JRA);
-/**
- * NarPlaceIdのzod型定義
- */
-const NarPlaceIdSchema = PlaceIdSchema(RaceType.NAR);
-/**
- * WorldPlaceIdのzod型定義
- */
-const WorldPlaceIdSchema = PlaceIdSchema(RaceType.WORLD);
-/**
- * KeirinPlaceIdのzod型定義
- */
-const KeirinPlaceIdSchema = PlaceIdSchema(RaceType.KEIRIN);
-/**
- * AutoracePlaceIdのzod型定義
- */
-const AutoracePlaceIdSchema = PlaceIdSchema(RaceType.AUTORACE);
-/**
- * BoatracePlaceIdのzod型定義
- */
-const BoatracePlaceIdSchema = PlaceIdSchema(RaceType.BOATRACE);
-
-/**
  * PlaceIdのzod型定義
  */
 export type PlaceId = z.infer<typeof UnionPlaceIdSchema>;
 
 /**
  * PlaceIdのバリデーション
- * @param raceType
+ * @param raceType - レース種別
  * @param value - バリデーション対象
  * @returns バリデーション済みのPlaceId
  */
-export const validatePlaceId = (raceType: RaceType, value: string): PlaceId => {
-    switch (raceType) {
-        case RaceType.WORLD: {
-            return WorldPlaceIdSchema.parse(value);
-        }
-        case RaceType.BOATRACE: {
-            return BoatracePlaceIdSchema.parse(value);
-        }
-        case RaceType.KEIRIN: {
-            return KeirinPlaceIdSchema.parse(value);
-        }
-        case RaceType.AUTORACE: {
-            return AutoracePlaceIdSchema.parse(value);
-        }
-        case RaceType.NAR: {
-            return NarPlaceIdSchema.parse(value);
-        }
-        case RaceType.JRA: {
-            return JraPlaceIdSchema.parse(value);
-        }
-
-        default: {
-            throw new Error(`PlaceId validation is not supported`);
-        }
-    }
-};
+export const validatePlaceId = (raceType: RaceType, value: string): PlaceId =>
+    PlaceIdSchema(raceType).parse(value);
 
 /**
  * PlaceIdのzod型定義
  */
 export const UnionPlaceIdSchema = z.union([
-    KeirinPlaceIdSchema,
-    AutoracePlaceIdSchema,
-    BoatracePlaceIdSchema,
-    NarPlaceIdSchema,
-    JraPlaceIdSchema,
-    WorldPlaceIdSchema,
+    PlaceIdSchema(RaceType.JRA),
+    PlaceIdSchema(RaceType.NAR),
+    PlaceIdSchema(RaceType.WORLD),
+    PlaceIdSchema(RaceType.KEIRIN),
+    PlaceIdSchema(RaceType.AUTORACE),
+    PlaceIdSchema(RaceType.BOATRACE),
 ]);

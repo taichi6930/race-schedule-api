@@ -98,7 +98,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
 
     /**
      * 開催場データをS3から取得する
-     * @param raceType
+     * @param raceType - レース種別
      */
     @Logger
     private async getPlaceRecordListFromS3(
@@ -175,9 +175,6 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
             case RaceType.WORLD: {
                 throw new Error('Unsupported race type');
             }
-            default: {
-                throw new Error('Unsupported race type');
-            }
         }
     }
 
@@ -209,9 +206,6 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
             case RaceType.JRA:
             case RaceType.NAR:
             case RaceType.WORLD: {
-                throw new Error('Unsupported race type');
-            }
-            default: {
                 throw new Error('Unsupported race type');
             }
         }

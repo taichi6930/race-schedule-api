@@ -20,10 +20,8 @@ import {
     type RaceName,
     validateRaceName,
 } from '../../utility/data/common/raceName';
-import {
-    validateWorldRaceNumber,
-    type WorldRaceNumber,
-} from '../../utility/data/world/worldRaceNumber';
+import type { RaceNumber } from '../../utility/data/common/raceNumber';
+import { validateRaceNumber } from '../../utility/data/common/raceNumber';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -35,7 +33,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     /**
      * コンストラクタ
      * @param id - ID
-     * @param raceType
+     * @param raceType - レース種別
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -56,14 +54,14 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
         public readonly surfaceType: RaceCourseType,
         public readonly distance: RaceDistance,
         public readonly grade: GradeType,
-        public readonly number: WorldRaceNumber,
+        public readonly number: RaceNumber,
         public readonly updateDate: UpdateDate,
     ) {}
 
     /**
      * インスタンス生成メソッド
      * @param id - ID
-     * @param raceType
+     * @param raceType - レース種別
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -82,7 +80,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
         surfaceType: RaceCourseType,
         distance: RaceDistance,
         grade: GradeType,
-        number: WorldRaceNumber,
+        number: RaceNumber,
         updateDate: Date,
     ): WorldRaceRecord {
         return new WorldRaceRecord(
@@ -94,14 +92,14 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
             validateRaceCourseType(surfaceType),
             validateRaceDistance(distance),
             validateGradeType(RaceType.WORLD, grade),
-            validateWorldRaceNumber(number),
+            validateRaceNumber(number),
             validateUpdateDate(updateDate),
         );
     }
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<WorldRaceRecord> = {}): WorldRaceRecord {
         return WorldRaceRecord.create(

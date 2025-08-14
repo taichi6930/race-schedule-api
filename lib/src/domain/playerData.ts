@@ -7,7 +7,7 @@ import type { RaceType } from '../utility/raceType';
 export class PlayerData {
     /**
      * コンストラクタ
-     * @param raceType - レースタイプ（競輪・競艇・オートレース）
+     * @param raceType - レース種別
      * @param playerNumber - 選手番号
      * @param name - 選手名
      * @param priority - 優先度
@@ -22,7 +22,7 @@ export class PlayerData {
     /**
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
-     * @param raceType - レースタイプ（競輪・競艇・オートレース）
+     * @param raceType - レース種別
      * @param playerNumber - 選手番号
      * @param name - 選手名
      * @param priority - 優先度

@@ -2,8 +2,10 @@ import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
-import { validatePlaceId } from '../../utility/data/common/placeId';
-import { generatePlaceId } from '../../utility/raceId';
+import {
+    generatePlaceId,
+    validatePlaceId,
+} from '../../utility/data/common/placeId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
@@ -56,10 +58,10 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
 
     /**
      * idがない場合でのcreate
-     * @param raceType
-     * @param placeData
+     * @param raceType - レース種別
+     * @param placeData - レース開催場所データ
      * @param heldDayData
-     * @param updateDate
+     * @param updateDate - 更新日時
      */
     public static createWithoutId(
         raceType: RaceType,
@@ -95,7 +97,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<JraPlaceEntity> = {}): JraPlaceEntity {
         return JraPlaceEntity.create(

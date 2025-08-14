@@ -44,15 +44,15 @@ describe('RaceStage', () => {
         });
 
         it('異常系', () => {
-            expect(() =>
-                validateRaceStage(RaceType.KEIRIN, '不正なステージ'),
-            ).toThrow('競輪のステージではありません');
-            expect(() =>
-                validateRaceStage(RaceType.AUTORACE, '不正なステージ'),
-            ).toThrow('オートレースのステージではありません');
-            expect(() =>
-                validateRaceStage(RaceType.BOATRACE, '不正なステージ'),
-            ).toThrow('ボートレースのステージではありません');
+            for (const raceType of [
+                RaceType.KEIRIN,
+                RaceType.AUTORACE,
+                RaceType.BOATRACE,
+            ]) {
+                expect(() =>
+                    validateRaceStage(raceType, '不正なステージ'),
+                ).toThrow(`${raceType}の開催ステージではありません`);
+            }
         });
     });
 });

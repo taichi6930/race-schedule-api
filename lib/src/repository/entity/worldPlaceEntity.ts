@@ -1,6 +1,6 @@
 import type { PlaceData } from '../../domain/placeData';
 import type { PlaceId } from '../../utility/data/common/placeId';
-import { generatePlaceId } from '../../utility/raceId';
+import { generatePlaceId } from '../../utility/data/common/placeId';
 import type { IPlaceEntity } from './iPlaceEntity';
 
 /**
@@ -38,7 +38,7 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<WorldPlaceEntity> = {}): WorldPlaceEntity {
         return new WorldPlaceEntity(

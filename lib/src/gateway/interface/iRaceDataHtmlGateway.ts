@@ -7,7 +7,7 @@ import type { RaceType } from '../../utility/raceType';
 export interface IRaceDataHtmlGateway {
     /**
      * レースデータのHTMLを取得する
-     * @param raceType - レースの種類
+     * @param raceType - レース種別
      * @param date - 日付
      * @param place - 開催場
      * @returns レースデータのHTML

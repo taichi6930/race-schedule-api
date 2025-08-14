@@ -114,9 +114,6 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                         case RaceType.AUTORACE: {
                             return [baseAutoracePlaceEntity];
                         }
-                        default: {
-                            throw new Error('Unsupported race type');
-                        }
                     }
                 },
             );
@@ -171,9 +168,6 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                         }
                         case RaceType.AUTORACE: {
                             return [baseAutoracePlaceEntity];
-                        }
-                        default: {
-                            throw new Error('Unsupported race type');
                         }
                     }
                 },

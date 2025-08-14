@@ -52,7 +52,7 @@ export class NarRaceRepositoryFromStorageImpl
 
     /**
      * レースデータをS3から取得する
-     * @param raceType
+     * @param raceType - レース種別
      */
     @Logger
     private async getRaceRecordListFromS3(
@@ -133,7 +133,7 @@ export class NarRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
-     * @param raceType
+     * @param raceType - レース種別
      * @param raceEntityList
      */
     @Logger

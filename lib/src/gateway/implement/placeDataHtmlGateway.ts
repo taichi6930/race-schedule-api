@@ -40,15 +40,12 @@ export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
                 // WORLDは未対応
                 throw new Error('未対応のraceTypeです');
             }
-            default: {
-                throw new Error('未対応のraceTypeです');
-            }
         }
     }
 
     /**
      * 開催場データのHTMLを取得する
-     * @param raceType
+     * @param raceType - レース種別
      * @param date - 取得する年月
      */
     @Logger

@@ -9,11 +9,9 @@ import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/hor
 import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
+import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
-import {
-    generatePlaceId,
-    generateRaceId,
-} from '../../../../../lib/src/utility/raceId';
+import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 
 const baseNarPlaceCourse: RaceCourse = '大井';

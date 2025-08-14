@@ -107,7 +107,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
-     * @param raceType
+     * @param raceType - レース種別
      * @param raceEntityList
      */
     @Logger
@@ -178,7 +178,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
 
     /**
      * レースデータをS3から取得する
-     * @param raceType
+     * @param raceType - レース種別
      * @param borderDate
      */
     @Logger
@@ -255,7 +255,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
 
     /**
      * レースプレイヤーデータをS3から取得する
-     * @param raceType
+     * @param raceType - レース種別
      */
     @Logger
     private async getRacePlayerRecordListFromS3(
@@ -335,9 +335,6 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.WORLD: {
                 throw new Error('Unsupported race type');
             }
-            default: {
-                throw new Error('Unsupported race type');
-            }
         }
     }
 
@@ -374,9 +371,6 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.WORLD: {
                 throw new Error('Unsupported race type');
             }
-            default: {
-                throw new Error('Unsupported race type');
-            }
         }
     }
 
@@ -404,9 +398,6 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.JRA:
             case RaceType.NAR:
             case RaceType.WORLD: {
-                throw new Error('Unsupported race type');
-            }
-            default: {
                 throw new Error('Unsupported race type');
             }
         }
@@ -443,9 +434,6 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.JRA:
             case RaceType.NAR:
             case RaceType.WORLD: {
-                throw new Error('Unsupported race type');
-            }
-            default: {
                 throw new Error('Unsupported race type');
             }
         }

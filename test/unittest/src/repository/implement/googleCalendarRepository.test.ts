@@ -83,9 +83,6 @@ describe('GoogleCalendarRepository', () => {
                     case RaceType.BOATRACE: {
                         return [baseBoatraceCalendarDataFromGoogleCalendar];
                     }
-                    default: {
-                        throw new Error(`Unsupported race type`);
-                    }
                 }
             },
         );

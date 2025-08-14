@@ -3,8 +3,11 @@ import '../../utility/format';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
 import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
-import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
-import { generateRaceId } from '../../utility/raceId';
+import {
+    generateRaceId,
+    type RaceId,
+    validateRaceId,
+} from '../../utility/data/common/raceId';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 
@@ -75,7 +78,7 @@ export class HorseRacingRaceEntity {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(
         partial: Partial<HorseRacingRaceEntity> = {},

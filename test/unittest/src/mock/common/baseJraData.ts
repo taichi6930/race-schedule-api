@@ -10,11 +10,9 @@ import { JraRaceRecord } from '../../../../../lib/src/gateway/record/jraRaceReco
 import { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
+import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
-import {
-    generatePlaceId,
-    generateRaceId,
-} from '../../../../../lib/src/utility/raceId';
+import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 
 const baseJraRaceType: RaceType = RaceType.JRA;

@@ -59,6 +59,13 @@ describe('PlaceDataHtmlGateway', () => {
             expect(html).toBe(expectedHtml);
         });
 
+        it(`未対応のraceTypeの場合、エラーがスローされること`, async () => {
+            const testDate = new Date('2024-10-01');
+            await expect(
+                gateway.getPlaceDataHtml(RaceType.WORLD, testDate),
+            ).rejects.toThrow('未対応のraceTypeです');
+        });
+
         it('fetchのエラーが発生した場合、エラーメッセージがスローされること', async () => {
             const testDate = new Date('2024-11-01');
             fetchMock.mockRejectedValue(new Error('Fetch error'));

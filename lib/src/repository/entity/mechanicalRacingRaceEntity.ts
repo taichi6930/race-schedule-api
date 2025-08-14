@@ -4,9 +4,16 @@ import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
 import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
-import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
-import type { RaceStage } from '../../utility/data/common/raceStage';
-import { generateRaceId, generateRacePlayerId } from '../../utility/raceId';
+import {
+    generateRaceId,
+    type RaceId,
+    validateRaceId,
+} from '../../utility/data/common/raceId';
+import { generateRacePlayerId } from '../../utility/data/common/racePlayerId';
+import {
+    type RaceStage,
+    validateRaceStage,
+} from '../../utility/data/common/raceStage';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
@@ -52,7 +59,7 @@ export class MechanicalRacingRaceEntity
         return new MechanicalRacingRaceEntity(
             validateRaceId(raceData.raceType, id),
             raceData,
-            stage,
+            validateRaceStage(raceData.raceType, stage),
             racePlayerDataList,
             validateUpdateDate(updateDate),
         );
@@ -60,10 +67,10 @@ export class MechanicalRacingRaceEntity
 
     /**
      * idがない場合でのcreate
-     * @param raceData
-     * @param stage
-     * @param racePlayerDataList
-     * @param updateDate
+     * @param raceData - レースデータ
+     * @param stage - 開催ステージ
+     * @param racePlayerDataList - レースの選手データ
+     * @param updateDate - 更新日時
      */
     public static createWithoutId(
         raceData: RaceData,
@@ -87,7 +94,7 @@ export class MechanicalRacingRaceEntity
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(
         partial: Partial<MechanicalRacingRaceEntity> = {},

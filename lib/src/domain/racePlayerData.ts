@@ -28,7 +28,7 @@ export class RacePlayerData {
 
     /**
      * コンストラクタ
-     * @param raceType - レースの種類
+     * @param raceType - レース種別
      * @param positionNumber - 枠番
      * @param playerNumber - 選手番号
      * @remarks
@@ -46,7 +46,7 @@ export class RacePlayerData {
 
     /**
      * インスタンス生成メソッド
-     * @param raceType - レースの種類
+     * @param raceType - レース種別
      * @param positionNumber - 枠番
      * @param playerNumber - 選手番号
      */
@@ -64,7 +64,7 @@ export class RacePlayerData {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<RacePlayerData> = {}): RacePlayerData {
         return RacePlayerData.create(

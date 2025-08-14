@@ -3,12 +3,11 @@ import '../../utility/format';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { generatePlaceId } from '../../utility/data/common/placeId';
+import { createMaxFrameNumber } from '../../utility/data/common/positionNumber';
 import type { RaceCourse } from '../../utility/data/common/raceCourse';
-import {
-    generatePlaceId,
-    generateRaceId,
-    generateRacePlayerId,
-} from '../../utility/raceId';
+import { generateRaceId } from '../../utility/data/common/raceId';
+import { generateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import { RaceType } from '../../utility/raceType';
 import { MechanicalRacingPlaceRecord } from '../record/mechanicalRacingPlaceRecord';
 import { MechanicalRacingRaceRecord } from '../record/mechanicalRacingRaceRecord';
@@ -41,9 +40,6 @@ const createPlace = (raceType: RaceType): RaceCourse => {
         case RaceType.WORLD: {
             return 'ロンシャン';
         }
-        default: {
-            throw new Error(`Unsupported race type`);
-        }
     }
 };
 
@@ -67,9 +63,6 @@ const createGrade = (raceType: RaceType): string => {
         case RaceType.WORLD: {
             return 'GⅠ';
         }
-        default: {
-            throw new Error(`Unsupported race type`);
-        }
     }
 };
 
@@ -86,31 +79,6 @@ const createStage = (raceType: RaceType): string => {
         case RaceType.NAR:
         case RaceType.WORLD: {
             throw new Error(`Stage is not supported for ${raceType}`);
-        }
-        default: {
-            throw new Error(`Unsupported stage`);
-        }
-    }
-};
-
-const createPlayerNumber = (raceType: RaceType): number => {
-    switch (raceType) {
-        case RaceType.AUTORACE: {
-            return 8;
-        }
-        case RaceType.BOATRACE: {
-            return 6;
-        }
-        case RaceType.KEIRIN: {
-            return 9;
-        }
-        case RaceType.JRA:
-        case RaceType.NAR:
-        case RaceType.WORLD: {
-            throw new Error(`PlayerNumber is not supported for ${raceType}`);
-        }
-        default: {
-            throw new Error(`Unsupported stage`);
         }
     }
 };
@@ -177,7 +145,7 @@ function generateMechanicalRacingData(raceType: RaceType): {
             // 選手データを追加
             for (
                 let playerNumber = 1;
-                playerNumber <= createPlayerNumber(raceType);
+                playerNumber <= createMaxFrameNumber(raceType);
                 playerNumber++
             ) {
                 const playerId = generateRacePlayerId(

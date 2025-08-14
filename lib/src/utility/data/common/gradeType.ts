@@ -202,7 +202,7 @@ const GradeMasterList: {
 
 /**
  * グレードのバリデーション
- * @param raceType - レースの種類
+ * @param raceType - レース種別
  * @param grade - バリデーション対象のグレード
  * @returns バリデーション済みのグレード
  * @throws エラー - 対応するレースタイプがない場合
@@ -211,49 +211,22 @@ const GradeMasterList: {
 export const validateGradeType = (
     raceType: RaceType,
     grade: string,
-): GradeType => {
-    switch (raceType) {
-        case RaceType.JRA: {
-            return JraGradeTypeSchema.parse(grade);
-        }
-        case RaceType.NAR: {
-            return NarGradeTypeSchema.parse(grade);
-        }
-        case RaceType.WORLD: {
-            return WorldGradeTypeSchema.parse(grade);
-        }
-        case RaceType.KEIRIN: {
-            return KeirinGradeTypeSchema.parse(grade);
-        }
-        case RaceType.BOATRACE: {
-            return BoatraceGradeTypeSchema.parse(grade);
-        }
-        case RaceType.AUTORACE: {
-            return AutoraceGradeTypeSchema.parse(grade);
-        }
-        default: {
-            throw new Error(`Unsupported race type`);
-        }
-    }
-};
+): GradeType => createGradeSchema(raceType).parse(grade);
 
 /**
  * グレードのバリデーションスキーマを生成する
- * @param allowed - 許可されているグレードのセット
+ * @param raceType - レース種別
  * @param errorMessage - エラーメッセージ
  * @returns ZodString
  */
-const createGradeSchema = (
-    allowed: ReadonlySet<string>,
-    errorMessage: string,
-): ZodString =>
+const createGradeSchema = (raceType: RaceType): ZodString =>
     z.string().refine((value): value is string => {
-        return allowed.has(value);
-    }, errorMessage);
+        return GradeTypeList(raceType).has(value);
+    }, `${raceType}のグレードではありません`);
 
 /**
  * グレード リスト
- * @param raceType
+ * @param raceType - レース種別
  */
 const GradeTypeList: (raceType: RaceType) => Set<string> = (raceType) =>
     new Set<string>(
@@ -264,9 +237,11 @@ const GradeTypeList: (raceType: RaceType) => Set<string> = (raceType) =>
 
 /**
  * 指定グレードリスト
- * @param raceType
+ * @param raceType - レース種別
  */
-const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (raceType) =>
+export const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (
+    raceType,
+) =>
     GradeMasterList.filter((grade) =>
         grade.detail.some(
             (detail) => detail.raceType === raceType && detail.isSpecified,
@@ -274,105 +249,15 @@ const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (raceType) =>
     ).map((grade) => grade.gradeName);
 
 /**
- * AutoraceGradeTypeのzod型定義
- */
-const AutoraceGradeTypeSchema = createGradeSchema(
-    GradeTypeList(RaceType.AUTORACE),
-    'オートレースのグレードではありません',
-);
-
-/**
- * JraGradeTypeのzod型定義
- */
-const JraGradeTypeSchema = createGradeSchema(
-    GradeTypeList(RaceType.JRA),
-    'JRAのグレードではありません',
-);
-
-/**
- * JRAの指定グレードリスト
- */
-export const JraSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
-    RaceType.JRA,
-);
-
-/**
- * WorldGradeTypeのzod型定義
- */
-const WorldGradeTypeSchema = createGradeSchema(
-    GradeTypeList(RaceType.WORLD),
-    '海外競馬のグレードではありません',
-);
-
-/**
- * KeirinGradeTypeのzod型定義
- */
-const KeirinGradeTypeSchema = createGradeSchema(
-    GradeTypeList(RaceType.KEIRIN),
-    '競輪のグレードではありません',
-);
-
-/**
- * NarGradeTypeのzod型定義
- */
-const NarGradeTypeSchema = createGradeSchema(
-    GradeTypeList(RaceType.NAR),
-    '地方競馬のグレードではありません',
-);
-
-/**
- * 地方競馬の指定グレードリスト
- */
-export const NarSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
-    RaceType.NAR,
-);
-
-/**
- * BoatraceGradeTypeのzod型定義
- */
-const BoatraceGradeTypeSchema = createGradeSchema(
-    GradeTypeList(RaceType.BOATRACE),
-    'ボートレースのグレードではありません',
-);
-
-/**
- * ボートレースの指定グレード リスト
- */
-export const BoatraceSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
-    RaceType.BOATRACE,
-);
-
-/**
- * 海外競馬の指定グレード リスト
- */
-export const WorldSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
-    RaceType.WORLD,
-);
-
-/**
- * 競輪の指定グレードリスト
- */
-export const KeirinSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
-    RaceType.KEIRIN,
-);
-
-/**
- * オートレースの指定グレードリスト
- */
-export const AutoraceSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
-    RaceType.AUTORACE,
-);
-
-/**
  * GradeTypeのzod型定義
  */
 export const GradeTypeSchema = z.union([
-    JraGradeTypeSchema,
-    NarGradeTypeSchema,
-    WorldGradeTypeSchema,
-    KeirinGradeTypeSchema,
-    AutoraceGradeTypeSchema,
-    BoatraceGradeTypeSchema,
+    createGradeSchema(RaceType.JRA),
+    createGradeSchema(RaceType.NAR),
+    createGradeSchema(RaceType.WORLD),
+    createGradeSchema(RaceType.KEIRIN),
+    createGradeSchema(RaceType.AUTORACE),
+    createGradeSchema(RaceType.BOATRACE),
 ]);
 
 /**

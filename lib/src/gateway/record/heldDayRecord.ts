@@ -66,7 +66,7 @@ export class heldDayRecord implements IRecord<heldDayRecord> {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<heldDayRecord> = {}): heldDayRecord {
         return heldDayRecord.create(

@@ -1,11 +1,31 @@
 import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
-import { validateRaceNumber } from './raceNumber';
+import { generatePlaceId } from './placeId';
+import type { RaceCourse } from './raceCourse';
+import { type RaceNumber, validateRaceNumber } from './raceNumber';
+
+/**
+ * raceIdを作成する
+ * @param raceType - レース種別
+ * @param dateTime - 開催日時
+ * @param location - 開催場所
+ * @param number - レース番号
+ */
+
+export const generateRaceId = (
+    raceType: RaceType,
+    dateTime: Date,
+    location: RaceCourse,
+    number: RaceNumber,
+): RaceId => {
+    const numberCode = number.toXDigits(2);
+    return `${generatePlaceId(raceType, dateTime, location)}${numberCode}`;
+};
 
 /**
  * RaceIdのzod型定義
- * @param raceType
+ * @param raceType - レース種別
  */
 const RaceIdSchema = (raceType: RaceType): z.ZodString => {
     const lowerCaseRaceType = raceType.toLowerCase();
@@ -33,81 +53,27 @@ const RaceIdSchema = (raceType: RaceType): z.ZodString => {
 };
 
 /**
- * KeirinRaceIdのzod型定義
- */
-const KeirinRaceIdSchema = RaceIdSchema(RaceType.KEIRIN);
-
-/**
- * BoatraceRaceIdのzod型定義
- */
-const BoatraceRaceIdSchema = RaceIdSchema(RaceType.BOATRACE);
-
-/**
- * BoatraceRaceIdのzod型定義
- */
-const NarRaceIdSchema = RaceIdSchema(RaceType.NAR);
-
-/**
- * JraRaceIdのzod型定義
- */
-const JraRaceIdSchema = RaceIdSchema(RaceType.JRA);
-
-/**
- * AutoraceRaceIdのzod型定義
- */
-const AutoraceRaceIdSchema = RaceIdSchema(RaceType.AUTORACE);
-
-/**
- * WorldRaceIdのzod型定義
- */
-const WorldRaceIdSchema = RaceIdSchema(RaceType.WORLD);
-
-/**
  * RaceIdのzod型定義
  */
 export type RaceId = z.infer<typeof UnionRaceIdSchema>;
 
 /**
  * RaceIdのバリデーション
- * @param raceType
+ * @param raceType - レース種別
  * @param value - バリデーション対象
  * @returns バリデーション済みのRaceId
  */
-export const validateRaceId = (raceType: RaceType, value: string): RaceId => {
-    switch (raceType) {
-        case RaceType.WORLD: {
-            return WorldRaceIdSchema.parse(value);
-        }
-        case RaceType.BOATRACE: {
-            return BoatraceRaceIdSchema.parse(value);
-        }
-        case RaceType.KEIRIN: {
-            return KeirinRaceIdSchema.parse(value);
-        }
-        case RaceType.AUTORACE: {
-            return AutoraceRaceIdSchema.parse(value);
-        }
-        case RaceType.NAR: {
-            return NarRaceIdSchema.parse(value);
-        }
-        case RaceType.JRA: {
-            return JraRaceIdSchema.parse(value);
-        }
-
-        default: {
-            throw new Error(`RaceId validation is not supported`);
-        }
-    }
-};
+export const validateRaceId = (raceType: RaceType, value: string): RaceId =>
+    RaceIdSchema(raceType).parse(value);
 
 /**
  * RaceIdのzod型定義
  */
 export const UnionRaceIdSchema = z.union([
-    KeirinRaceIdSchema,
-    AutoraceRaceIdSchema,
-    BoatraceRaceIdSchema,
-    NarRaceIdSchema,
-    JraRaceIdSchema,
-    WorldRaceIdSchema,
+    RaceIdSchema(RaceType.JRA),
+    RaceIdSchema(RaceType.NAR),
+    RaceIdSchema(RaceType.WORLD),
+    RaceIdSchema(RaceType.KEIRIN),
+    RaceIdSchema(RaceType.AUTORACE),
+    RaceIdSchema(RaceType.BOATRACE),
 ]);

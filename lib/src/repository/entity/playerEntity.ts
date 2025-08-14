@@ -2,7 +2,7 @@ import type { PlayerData } from '../../domain/playerData';
 
 /**
  * playerIdを作成する
- * @param raceType - 選手の競技タイプ
+ * @param raceType - レース種別
  * @param playerNumber - 選手番号
  */
 export const generatePlayerId = (
@@ -43,7 +43,7 @@ export class PlayerEntity {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<PlayerEntity> = {}): PlayerEntity {
         return new PlayerEntity(

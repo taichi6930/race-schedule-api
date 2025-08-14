@@ -5,9 +5,10 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { injectable } from 'tsyringe';
 
+import { generatePlaceId } from '../../utility/data/common/placeId';
+import { generateRaceId } from '../../utility/data/common/raceId';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
-import { generatePlaceId, generateRaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { IS3Gateway } from '../interface/iS3Gateway';
 import { IRecord } from '../record/iRecord';

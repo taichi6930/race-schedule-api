@@ -5,8 +5,10 @@ import {
     validateGradeType,
 } from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
-import { validatePlaceId } from '../../utility/data/common/placeId';
-import { generatePlaceId } from '../../utility/raceId';
+import {
+    generatePlaceId,
+    validatePlaceId,
+} from '../../utility/data/common/placeId';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
@@ -24,7 +26,6 @@ export class MechanicalRacingPlaceEntity
      * @param placeData - レース開催場所データ
      * @param grade - グレード
      * @param updateDate - 更新日時
-     * @grade - グレード
      * @remarks
      * レース開催場所データを生成する
      */
@@ -62,10 +63,10 @@ export class MechanicalRacingPlaceEntity
 
     /**
      * idがない場合でのcreate
-     * @param raceType
-     * @param placeData
-     * @param grade
-     * @param updateDate
+     * @param raceType - レース種別
+     * @param placeData - レース開催場所データ
+     * @param grade - グレード
+     * @param updateDate - 更新日時
      */
     public static createWithoutId(
         raceType: RaceType,
@@ -84,7 +85,7 @@ export class MechanicalRacingPlaceEntity
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(
         partial: Partial<MechanicalRacingPlaceEntity> = {},

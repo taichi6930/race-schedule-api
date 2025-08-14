@@ -42,7 +42,7 @@ export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
-     * @param raceType
+     * @param raceType - レース種別
      * @param placeEntityList
      */
     @Logger
@@ -75,9 +75,6 @@ export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
             case RaceType.WORLD: {
                 return '不明';
             }
-            default: {
-                return '不明';
-            }
         }
     }
 
@@ -99,9 +96,6 @@ export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
                 return '不明';
             }
             case RaceType.WORLD: {
-                return '不明';
-            }
-            default: {
                 return '不明';
             }
         }

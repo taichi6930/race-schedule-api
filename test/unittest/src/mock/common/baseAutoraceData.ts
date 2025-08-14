@@ -7,14 +7,12 @@ import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlay
 import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
+import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
+import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
+import { generateRacePlayerId } from '../../../../../lib/src/utility/data/common/racePlayerId';
 import type { RaceStage } from '../../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
-import {
-    generatePlaceId,
-    generateRaceId,
-    generateRacePlayerId,
-} from '../../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { baseRacePlayerDataList } from './baseCommonData';
 

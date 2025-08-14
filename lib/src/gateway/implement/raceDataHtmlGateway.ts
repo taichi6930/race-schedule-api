@@ -3,10 +3,7 @@ import '../../utility/format';
 import { format } from 'date-fns';
 
 import {
-    AutoracePlaceCodeMap,
-    BoatracePlaceCodeMap,
-    KeirinPlaceCodeMap,
-    NarBabacodeMap,
+    createPlaceCodeMap,
     RaceCourse,
 } from '../../utility/data/common/raceCourse';
 import { Logger } from '../../utility/logger';
@@ -41,9 +38,6 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
             case RaceType.BOATRACE: {
                 return this.buildBoatraceUrl(date, place, number);
             }
-            default: {
-                throw new Error('未対応のraceTypeです');
-            }
         }
     }
 
@@ -57,7 +51,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
             throw new Error('NARレースの開催場が指定されていません');
         }
         const raceDate = `${date.getFullYear()}%2f${date.getXDigitMonth(2)}%2f${date.getXDigitDays(2)}`;
-        const babacode = NarBabacodeMap[place];
+        const babacode = createPlaceCodeMap(RaceType.NAR)[place];
         return `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/RaceList?k_raceDate=${raceDate}&k_babaCode=${babacode}`;
     }
 
@@ -70,7 +64,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
             throw new Error('競輪レースの開催場が指定されていません');
         }
         const raceDate = format(date, 'yyyyMMdd');
-        const babacode = KeirinPlaceCodeMap[place];
+        const babacode = createPlaceCodeMap(RaceType.KEIRIN)[place];
         return `https://www.oddspark.com/keirin/AllRaceList.do?joCode=${babacode}&kaisaiBi=${raceDate}`;
     }
 
@@ -79,7 +73,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
             throw new Error('オートレースの開催場が指定されていません');
         }
         const raceDate = format(date, 'yyyyMMdd');
-        const babacode = AutoracePlaceCodeMap[place];
+        const babacode = createPlaceCodeMap(RaceType.AUTORACE)[place];
         return `https://www.oddspark.com/autorace/OneDayRaceList.do?raceDy=${raceDate}&placeCd=${babacode}`;
     }
 
@@ -95,16 +89,16 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
             throw new Error('ボートレースのレース番号が指定されていません');
         }
         const raceDate = format(date, 'yyyyMMdd');
-        const babacode = BoatracePlaceCodeMap[place];
+        const babacode = createPlaceCodeMap(RaceType.BOATRACE)[place];
         return `https://www.boatrace.jp/owpc/pc/race/racelist?rno=${number}&hd=${raceDate}&jcd=${babacode}`;
     }
 
     /**
      * レースデータのHTMLを取得する
-     * @param raceType
+     * @param raceType - レース種別
      * @param date - 取得する年月
      * @param place - 開催場
-     * @param number
+     * @param number - レース番号
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger
@@ -120,9 +114,12 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
             const html = await fetch(url);
             const htmlText = await html.text();
             return htmlText;
-        } catch (error) {
-            console.debug('HTMLの取得に失敗しました', error);
-            throw new Error('HTMLの取得に失敗しました');
+        } catch (error: unknown) {
+            throw new TypeError(
+                error instanceof Error
+                    ? error.message
+                    : 'HTMLの取得に失敗しました',
+            );
         }
     }
 }

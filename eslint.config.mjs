@@ -158,6 +158,7 @@ export default [
             '@typescript-eslint/no-magic-numbers': 'off', // ✅ マジックナンバーを禁止
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
+            '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
             'unused-imports/no-unused-vars': [
                 'error',
                 {
@@ -313,15 +314,6 @@ export default [
         files: ['**/calendarData.test.ts'],
         rules: {
             'unicorn/no-useless-undefined': 'off', // ✅ 不要なundefinedの使用を許可
-        },
-    },
-    {
-        files: [
-            '**/lib/src/service/implement/basePlaceDataService.ts',
-            '**/lib/src/service/implement/baseRaceDataService.ts',
-        ],
-        rules: {
-            '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
         },
     },
 ];

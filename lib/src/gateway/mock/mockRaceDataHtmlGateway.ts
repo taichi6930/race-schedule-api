@@ -4,10 +4,7 @@ import path from 'node:path';
 import { format } from 'date-fns';
 
 import {
-    AutoracePlaceCodeMap,
-    BoatracePlaceCodeMap,
-    KeirinPlaceCodeMap,
-    NarBabacodeMap,
+    createPlaceCodeMap,
     RaceCourse,
 } from '../../utility/data/common/raceCourse';
 import { Logger } from '../../utility/logger';
@@ -42,9 +39,6 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
             case RaceType.BOATRACE: {
                 return this.buildBoatraceUrl(date, place, number);
             }
-            default: {
-                throw new Error('未対応のraceTypeです');
-            }
         }
     }
 
@@ -56,7 +50,9 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         if (place === undefined) {
             throw new Error('NARレースの開催場が指定されていません');
         }
-        return `../mockData/html/nar/race/${format(date, 'yyyyMMdd')}${NarBabacodeMap[place]}.html`;
+        return `../mockData/html/nar/race/${format(date, 'yyyyMMdd')}${
+            createPlaceCodeMap(RaceType.NAR)[place]
+        }.html`;
     }
 
     private buildWorldUrl(date: Date): string {
@@ -67,14 +63,14 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         if (place === undefined) {
             throw new Error('競輪レースの開催場が指定されていません');
         }
-        return `../mockData/html/keirin/race/${format(date, 'yyyyMMdd')}${KeirinPlaceCodeMap[place]}.html`;
+        return `../mockData/html/keirin/race/${format(date, 'yyyyMMdd')}${createPlaceCodeMap(RaceType.KEIRIN)[place]}.html`;
     }
 
     private buildAutoraceUrl(date: Date, place?: RaceCourse): string {
         if (place === undefined) {
             throw new Error('オートレースの開催場が指定されていません');
         }
-        return `../mockData/html/autorace/race/${format(date, 'yyyyMMdd')}${AutoracePlaceCodeMap[place]}.html`;
+        return `../mockData/html/autorace/race/${format(date, 'yyyyMMdd')}${createPlaceCodeMap(RaceType.AUTORACE)[place]}.html`;
     }
 
     private buildBoatraceUrl(
@@ -88,15 +84,17 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         if (number === undefined) {
             throw new Error('ボートレースのレース番号が指定されていません');
         }
-        return `../mockData/html/boatrace/race/${format(date, 'yyyyMMdd')}${BoatracePlaceCodeMap[place]}${number.toString()}.html`;
+        return `../mockData/html/boatrace/race/${format(date, 'yyyyMMdd')}${
+            createPlaceCodeMap(RaceType.BOATRACE)[place]
+        }${number.toString()}.html`;
         // lib/src/gateway/mockData/html/boatrace/placeの中にあるhtmlを取得
     }
     /**
      * レースデータのHTMLを取得する
-     * @param raceType
+     * @param raceType - レース種別
      * @param date - 取得する年月
      * @param place - 開催場
-     * @param number
+     * @param number - レース番号
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger

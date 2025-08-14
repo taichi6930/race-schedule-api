@@ -335,7 +335,7 @@ const RaceCourseMasterList: {
 
 /**
  * 場リスト
- * @param raceType
+ * @param raceType - レース種別
  */
 const RaceCourseList = (raceType: RaceType): Set<string> =>
     new Set(
@@ -346,7 +346,8 @@ const RaceCourseList = (raceType: RaceType): Set<string> =>
 
 /**
  * RaceCourseMasterListからraceTypeごとのPlaceCodeMapを生成するユーティリティ
- * @param raceType - 生成対象のレース種別
+ * レース場名とコードの対応表
+ * @param raceType - レース種別
  * @returns placeName をキー、placeCode を値とするマップ
  */
 export const createPlaceCodeMap = (
@@ -367,138 +368,34 @@ export const createPlaceCodeMap = (
 };
 
 /**
- * JraRaceCourseのzod型定義
- * @param raceType
- * @param errorMessage
+ * RaceCourseのzod型定義
+ * @param raceType - レース種別
  */
-const createRaceCourseSchema = (
-    raceType: RaceType,
-    errorMessage: string,
-): z.ZodString =>
+const createRaceCourseSchema = (raceType: RaceType): z.ZodString =>
     z.string().refine((value) => {
         return RaceCourseList(raceType).has(value);
-    }, errorMessage);
+    }, `${raceType}の開催場ではありません`);
 
 /**
  * 開催場のバリデーション
- * @param raceType
- * @param course
+ * @param raceType - レース種別
+ * @param location - 開催場所
  */
 export const validateRaceCourse = (
     raceType: RaceType,
-    course: string,
-): RaceCourse => {
-    switch (raceType) {
-        case RaceType.JRA: {
-            return JraRaceCourseSchema.parse(course);
-        }
-        case RaceType.NAR: {
-            return NarRaceCourseSchema.parse(course);
-        }
-        case RaceType.WORLD: {
-            return WorldRaceCourseSchema.parse(course);
-        }
-        case RaceType.KEIRIN: {
-            return KeirinRaceCourseSchema.parse(course);
-        }
-        case RaceType.AUTORACE: {
-            return AutoraceRaceCourseSchema.parse(course);
-        }
-        case RaceType.BOATRACE: {
-            return BoatraceRaceCourseSchema.parse(course);
-        }
-        default: {
-            throw new Error('未対応のraceTypeです');
-        }
-    }
-};
-
-/**
- * オートレースのレース場名とコードの対応表（RaceCourseMasterListから自動生成）
- */
-export const AutoracePlaceCodeMap: Record<string, string> = createPlaceCodeMap(
-    RaceType.AUTORACE,
-);
-
-/**
- * JraRaceCourseのzod型定義
- */
-const JraRaceCourseSchema = createRaceCourseSchema(
-    RaceType.JRA,
-    '中央の競馬場ではありません',
-);
-
-/**
- * 競輪のレース場名とコードの対応表
- */
-export const KeirinPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
-    RaceType.KEIRIN,
-);
-
-/**
- * KeirinRaceCourseのzod型定義
- */
-const KeirinRaceCourseSchema = createRaceCourseSchema(
-    RaceType.KEIRIN,
-    '競輪場ではありません',
-);
-
-/**
- * NarRaceCourseのzod型定義
- */
-const NarRaceCourseSchema = createRaceCourseSchema(
-    RaceType.NAR,
-    '地方の競馬場ではありません',
-);
-
-/**
- * 地方競馬のレース場名とコードの対応表
- */
-export const NarBabacodeMap: Record<string, string> = createPlaceCodeMap(
-    RaceType.NAR,
-);
-
-/**
- * WorldRaceCourseのzod型定義
- */
-const WorldRaceCourseSchema = createRaceCourseSchema(
-    RaceType.WORLD,
-    '海外の競馬場ではありません',
-);
-
-/**
- * AutoraceRaceCourseのzod型定義
- */
-const AutoraceRaceCourseSchema = createRaceCourseSchema(
-    RaceType.AUTORACE,
-    'オートレース場ではありません',
-);
-
-/**
- * BoatraceRaceCourseのzod型定義
- */
-const BoatraceRaceCourseSchema = createRaceCourseSchema(
-    RaceType.BOATRACE,
-    'ボートレース場ではありません',
-);
-
-/**
- * ボートレースのレース場名とコードの対応表
- */
-export const BoatracePlaceCodeMap: Record<string, string> = createPlaceCodeMap(
-    RaceType.BOATRACE,
-);
+    location: string,
+): RaceCourse => createRaceCourseSchema(raceType).parse(location);
 
 /**
  * RaceCourseのzod型定義
  */
 export const UnionRaceCourseSchema = z.union([
-    JraRaceCourseSchema,
-    NarRaceCourseSchema,
-    WorldRaceCourseSchema,
-    KeirinRaceCourseSchema,
-    AutoraceRaceCourseSchema,
-    BoatraceRaceCourseSchema,
+    createRaceCourseSchema(RaceType.JRA),
+    createRaceCourseSchema(RaceType.NAR),
+    createRaceCourseSchema(RaceType.WORLD),
+    createRaceCourseSchema(RaceType.KEIRIN),
+    createRaceCourseSchema(RaceType.AUTORACE),
+    createRaceCourseSchema(RaceType.BOATRACE),
 ]);
 
 /**

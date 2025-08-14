@@ -1,8 +1,10 @@
 import type { PlaceData } from '../../domain/placeData';
 import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
-import { validatePlaceId } from '../../utility/data/common/placeId';
-import { generatePlaceId } from '../../utility/raceId';
+import {
+    generatePlaceId,
+    validatePlaceId,
+} from '../../utility/data/common/placeId';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
@@ -52,9 +54,9 @@ export class HorseRacingPlaceEntity
 
     /**
      * idがない場合でのcreate
-     * @param raceType
-     * @param placeData
-     * @param updateDate
+     * @param raceType - レース種別
+     * @param placeData - レース開催場所データ
+     * @param updateDate - 更新日時
      */
     public static createWithoutId(
         raceType: RaceType,
@@ -75,7 +77,7 @@ export class HorseRacingPlaceEntity
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(
         partial: Partial<HorseRacingPlaceEntity> = {},

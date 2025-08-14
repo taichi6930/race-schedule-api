@@ -30,8 +30,8 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
      * レース開催データを取得する
      * @param startDate
      * @param finishDate
-     * @param searchList.gradeList
-     * @param searchList.locationList
+     * @param raceTypeList - レース種別のリスト
+     * @param searchList
      * @param searchList.jra
      * @param searchList.jra.gradeList
      * @param searchList.jra.locationList
@@ -53,8 +53,6 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
      * @param searchList.boatrace.gradeList
      * @param searchList.boatrace.locationList
      * @param searchList.boatrace.stageList
-     * @param raceTypeList
-     * @param searchList
      */
     @Logger
     public async fetchRaceEntityList(
@@ -114,149 +112,26 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             placeEntityList,
         );
 
-        // フィルタリング処理
+        // 共通フィルタ関数で簡潔に
         return {
-            jra: raceEntityList.jra
-                // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.jra?.gradeList) {
-                        return searchList.jra.gradeList.includes(
-                            raceEntity.raceData.grade,
-                        );
-                    }
-                    return true;
-                })
-                // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.jra?.locationList) {
-                        return searchList.jra.locationList.includes(
-                            raceEntity.raceData.location,
-                        );
-                    }
-                    return true;
-                }),
-            nar: raceEntityList.nar
-                // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.nar?.gradeList) {
-                        return searchList.nar.gradeList.includes(
-                            raceEntity.raceData.grade,
-                        );
-                    }
-                    return true;
-                })
-                // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.nar?.locationList) {
-                        return searchList.nar.locationList.includes(
-                            raceEntity.raceData.location,
-                        );
-                    }
-                    return true;
-                }),
-            world: raceEntityList.world
-                // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.world?.gradeList) {
-                        return searchList.world.gradeList.includes(
-                            raceEntity.raceData.grade,
-                        );
-                    }
-                    return true;
-                })
-                // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.world?.locationList) {
-                        return searchList.world.locationList.includes(
-                            raceEntity.raceData.location,
-                        );
-                    }
-                    return true;
-                }),
-            keirin: raceEntityList.keirin
-                // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.keirin?.gradeList) {
-                        return searchList.keirin.gradeList.includes(
-                            raceEntity.raceData.grade,
-                        );
-                    }
-                    return true;
-                })
-                // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.keirin?.locationList) {
-                        return searchList.keirin.locationList.includes(
-                            raceEntity.raceData.location,
-                        );
-                    }
-                    return true;
-                })
-                // レースステージが指定されている場合は、指定されたレースステージのレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.keirin?.stageList) {
-                        return searchList.keirin.stageList.includes(
-                            raceEntity.stage,
-                        );
-                    }
-                    return true;
-                }),
-            autorace: raceEntityList.autorace
-                // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.autorace?.gradeList) {
-                        return searchList.autorace.gradeList.includes(
-                            raceEntity.raceData.grade,
-                        );
-                    }
-                    return true;
-                })
-                // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.autorace?.locationList) {
-                        return searchList.autorace.locationList.includes(
-                            raceEntity.raceData.location,
-                        );
-                    }
-                    return true;
-                })
-                // レースステージが指定されている場合は、指定されたレースステージのレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.autorace?.stageList) {
-                        return searchList.autorace.stageList.includes(
-                            raceEntity.stage,
-                        );
-                    }
-                    return true;
-                }),
-            boatrace: raceEntityList.boatrace
-                // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.boatrace?.gradeList) {
-                        return searchList.boatrace.gradeList.includes(
-                            raceEntity.raceData.grade,
-                        );
-                    }
-                    return true;
-                })
-                // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.boatrace?.locationList) {
-                        return searchList.boatrace.locationList.includes(
-                            raceEntity.raceData.location,
-                        );
-                    }
-                    return true;
-                })
-                // レースステージが指定されている場合は、指定されたレースステージのレースのみを取得する
-                .filter((raceEntity) => {
-                    if (searchList?.boatrace?.stageList) {
-                        return searchList.boatrace.stageList.includes(
-                            raceEntity.stage,
-                        );
-                    }
-                    return true;
-                }),
+            jra: this.filterRaceEntityList(raceEntityList.jra, searchList?.jra),
+            nar: this.filterRaceEntityList(raceEntityList.nar, searchList?.nar),
+            world: this.filterRaceEntityList(
+                raceEntityList.world,
+                searchList?.world,
+            ),
+            keirin: this.filterRaceEntityList(
+                raceEntityList.keirin,
+                searchList?.keirin,
+            ),
+            autorace: this.filterRaceEntityList(
+                raceEntityList.autorace,
+                searchList?.autorace,
+            ),
+            boatrace: this.filterRaceEntityList(
+                raceEntityList.boatrace,
+                searchList?.boatrace,
+            ),
         };
     }
 
@@ -264,31 +139,23 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
      * レース開催データを更新する
      * @param startDate
      * @param finishDate
-     * @param searchList.gradeList
-     * @param searchList.locationList
+     * @param raceTypeList - レース種別のリスト
+     * @param searchList
      * @param searchList.jra
-     * @param searchList.jra.gradeList
      * @param searchList.jra.locationList
      * @param searchList.nar
-     * @param searchList.nar.gradeList
      * @param searchList.nar.locationList
      * @param searchList.world
-     * @param searchList.world.gradeList
      * @param searchList.world.locationList
      * @param searchList.keirin
      * @param searchList.keirin.gradeList
      * @param searchList.keirin.locationList
-     * @param searchList.keirin.stageList
      * @param searchList.autorace
      * @param searchList.autorace.gradeList
      * @param searchList.autorace.locationList
-     * @param searchList.autorace.stageList
      * @param searchList.boatrace
      * @param searchList.boatrace.gradeList
      * @param searchList.boatrace.locationList
-     * @param searchList.boatrace.stageList
-     * @param raceTypeList
-     * @param searchList
      */
     @Logger
     public async updateRaceEntityList(
@@ -329,73 +196,26 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             );
 
         const filteredPlaceEntityList = {
-            jra: placeEntityList.jra.filter((placeEntity) => {
-                if (searchList?.jra?.locationList) {
-                    return searchList.jra.locationList.includes(
-                        placeEntity.placeData.location,
-                    );
-                }
-                return true;
-            }),
-            nar: placeEntityList.nar.filter((placeEntity) => {
-                if (searchList?.nar?.locationList) {
-                    return searchList.nar.locationList.includes(
-                        placeEntity.placeData.location,
-                    );
-                }
-                return true;
-            }),
-            keirin: placeEntityList.keirin
-                .filter((placeEntity) => {
-                    if (searchList?.keirin?.gradeList) {
-                        return searchList.keirin.gradeList.includes(
-                            placeEntity.grade,
-                        );
-                    }
-                    return true;
-                })
-                .filter((placeEntity) => {
-                    if (searchList?.keirin?.locationList) {
-                        return searchList.keirin.locationList.includes(
-                            placeEntity.placeData.location,
-                        );
-                    }
-                    return true;
-                }),
-            autorace: placeEntityList.autorace
-                .filter((placeEntity) => {
-                    if (searchList?.autorace?.gradeList) {
-                        return searchList.autorace.gradeList.includes(
-                            placeEntity.grade,
-                        );
-                    }
-                    return true;
-                })
-                .filter((placeEntity) => {
-                    if (searchList?.autorace?.locationList) {
-                        return searchList.autorace.locationList.includes(
-                            placeEntity.placeData.location,
-                        );
-                    }
-                    return true;
-                }),
-            boatrace: placeEntityList.boatrace
-                .filter((placeEntity) => {
-                    if (searchList?.boatrace?.gradeList) {
-                        return searchList.boatrace.gradeList.includes(
-                            placeEntity.grade,
-                        );
-                    }
-                    return true;
-                })
-                .filter((placeEntity) => {
-                    if (searchList?.boatrace?.locationList) {
-                        return searchList.boatrace.locationList.includes(
-                            placeEntity.placeData.location,
-                        );
-                    }
-                    return true;
-                }),
+            jra: this.filterPlaceEntityList(
+                placeEntityList.jra,
+                searchList?.jra,
+            ),
+            nar: this.filterPlaceEntityList(
+                placeEntityList.nar,
+                searchList?.nar,
+            ),
+            keirin: this.filterPlaceEntityList(
+                placeEntityList.keirin,
+                searchList?.keirin,
+            ),
+            autorace: this.filterPlaceEntityList(
+                placeEntityList.autorace,
+                searchList?.autorace,
+            ),
+            boatrace: this.filterPlaceEntityList(
+                placeEntityList.boatrace,
+                searchList?.boatrace,
+            ),
         };
 
         // placeEntityListが空の場合は処理を終了する
@@ -437,48 +257,72 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         });
     }
 
-    // @Logger
-    // public async upsertRaceDataList(raceDataList: {
-    //     jra?: RaceData[];
-    //     nar?: RaceData[];
-    //     world?: RaceData[];
-    //     keirin?: MechanicalRacingRaceData[];
-    //     autorace?: MechanicalRacingRaceData[];
-    //     boatrace?: MechanicalRacingRaceData[];
-    // }): Promise<void> {
-    //     const raceEntityList = {
-    //         jra: [],
-    //         nar: (raceDataList.nar ?? []).map((raceData) =>
-    //             NarRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
-    //         ),
-    //         world: (raceDataList.world ?? []).map((raceData) =>
-    //             WorldRaceEntity.createWithoutId(
-    //                 raceData,
-    //                 getJSTDate(new Date()),
-    //             ),
-    //         ),
-    //         keirin: (raceDataList.keirin ?? []).map((raceData) =>
-    //             MechanicalRacingRaceEntity.createWithoutId(
-    //                 raceData,
-    //                 [],
-    //                 getJSTDate(new Date()),
-    //             ),
-    //         ),
-    //         autorace: (raceDataList.autorace ?? []).map((raceData) =>
-    //             MechanicalRacingRaceEntity.createWithoutId(
-    //                 raceData,
-    //                 [],
-    //                 getJSTDate(new Date()),
-    //             ),
-    //         ),
-    //         boatrace: (raceDataList.boatrace ?? []).map((raceData) =>
-    //             MechanicalRacingRaceEntity.createWithoutId(
-    //                 raceData,
-    //                 [],
-    //                 getJSTDate(new Date()),
-    //             ),
-    //         ),
-    //     };
-    //     await this.raceDataService.updateRaceEntityList(raceEntityList);
-    // }
+    // 共通フィルタ関数
+    private filterByGrade<
+        T extends { raceData?: { grade?: GradeType }; grade?: GradeType },
+    >(list: T[], gradeList?: GradeType[]): T[] {
+        if (!gradeList) return list;
+        return list.filter((item) => {
+            const grade = item.raceData?.grade ?? item.grade;
+            return grade !== undefined && gradeList.includes(grade);
+        });
+    }
+
+    private filterByLocation<
+        T extends {
+            raceData?: { location?: RaceCourse };
+            placeData?: { location?: RaceCourse };
+        },
+    >(list: T[], locationList?: RaceCourse[]): T[] {
+        if (!locationList) return list;
+        return list.filter((item) => {
+            const location =
+                item.raceData?.location ?? item.placeData?.location;
+            return location !== undefined && locationList.includes(location);
+        });
+    }
+
+    private filterByStage<T extends { stage?: RaceStage }>(
+        list: T[],
+        stageList?: RaceStage[],
+    ): T[] {
+        if (!stageList) return list;
+        return list.filter(
+            (item) =>
+                item.stage !== undefined && stageList.includes(item.stage),
+        );
+    }
+
+    private filterRaceEntityList<
+        T extends {
+            raceData?: { grade?: GradeType; location?: RaceCourse };
+            stage?: RaceStage;
+        },
+    >(
+        list: T[],
+        filter: {
+            gradeList?: GradeType[];
+            locationList?: RaceCourse[];
+            stageList?: RaceStage[];
+        } = {},
+    ): T[] {
+        let result = this.filterByGrade(list, filter.gradeList);
+        result = this.filterByLocation(result, filter.locationList);
+        result = this.filterByStage(result, filter.stageList);
+        return result;
+    }
+
+    private filterPlaceEntityList<
+        T extends { grade?: GradeType; placeData?: { location?: RaceCourse } },
+    >(
+        list: T[],
+        filter: {
+            gradeList?: GradeType[];
+            locationList?: RaceCourse[];
+        } = {},
+    ): T[] {
+        let result = this.filterByGrade(list, filter.gradeList);
+        result = this.filterByLocation(result, filter.locationList);
+        return result;
+    }
 }

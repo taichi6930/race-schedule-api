@@ -16,7 +16,7 @@ import { JraRaceEntity } from '../repository/entity/jraRaceEntity';
 import { MechanicalRacingRaceEntity } from '../repository/entity/mechanicalRacingRaceEntity';
 import { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
 import type { GradeType } from './data/common/gradeType';
-import { KeirinPlaceCodeMap } from './data/common/raceCourse';
+import { createPlaceCodeMap } from './data/common/raceCourse';
 import {
     ChihoKeibaYoutubeUserIdMap,
     getYoutubeLiveUrl,
@@ -217,7 +217,14 @@ export function toGoogleCalendarData(
             raceEntity.raceData.raceType === RaceType.KEIRIN
         ) {
             return `${raceTimeStr}
-                    ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${KeirinPlaceCodeMap[raceEntity.raceData.location]}${raceEntity.raceData.number.toXDigits(2)}`)}
+                    ${createAnchorTag(
+                        'レース情報（netkeirin）',
+                        `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${
+                            createPlaceCodeMap(RaceType.KEIRIN)[
+                                raceEntity.raceData.location
+                            ]
+                        }${raceEntity.raceData.number.toXDigits(2)}`,
+                    )}
                     ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');

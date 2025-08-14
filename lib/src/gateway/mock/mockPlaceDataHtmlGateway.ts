@@ -14,7 +14,7 @@ import { IPlaceDataHtmlGateway } from '../interface/iPlaceDataHtmlGateway';
 export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
     /**
      * raceTypeとdateからURLを生成
-     * @param raceType
+     * @param raceType - レース種別
      * @param date
      */
     private buildUrl(raceType: RaceType, date: Date): string {
@@ -41,15 +41,12 @@ export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
                 // WORLDは未対応
                 throw new Error('未対応のraceTypeです');
             }
-            default: {
-                throw new Error('未対応のraceTypeです');
-            }
         }
     }
 
     /**
      * 開催データのHTMLを取得する
-     * @param raceType
+     * @param raceType - レース種別
      * @param date - 取得する年月
      * @returns Promise<string> - 開催データのHTML
      */
