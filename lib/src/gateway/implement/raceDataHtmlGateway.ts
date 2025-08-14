@@ -114,9 +114,12 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
             const html = await fetch(url);
             const htmlText = await html.text();
             return htmlText;
-        } catch (error) {
-            console.debug('HTMLの取得に失敗しました', error);
-            throw new Error('HTMLの取得に失敗しました');
+        } catch (error: unknown) {
+            throw new TypeError(
+                error instanceof Error
+                    ? error.message
+                    : 'HTMLの取得に失敗しました',
+            );
         }
     }
 }

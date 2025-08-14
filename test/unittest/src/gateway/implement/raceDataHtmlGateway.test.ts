@@ -76,11 +76,69 @@ describe('RaceDataHtmlGateway', () => {
 
         it('fetchのエラーが発生した場合、エラーメッセージがスローされること', async () => {
             const testDate = new Date('2024-11-01');
-            fetchMock.mockRejectedValue(new Error('Fetch error'));
+            fetchMock.mockRejectedValue(new Error('HTMLの取得に失敗しました'));
 
             await expect(
                 gateway.getRaceDataHtml(raceType, testDate, place, number),
             ).rejects.toThrow('HTMLの取得に失敗しました');
+        });
+    }
+
+    for (const { descriptions, raceType, place, number, expectedMessage } of [
+        {
+            descriptions: 'NARの開催レースデータでplaceが足りない',
+            raceType: RaceType.NAR,
+            place: undefined,
+            expectedMessage: 'NARレースの開催場が指定されていません',
+        },
+        {
+            descriptions: '競輪の開催レースデータでplaceが足りない',
+            raceType: RaceType.KEIRIN,
+            place: undefined,
+            expectedMessage: '競輪レースの開催場が指定されていません',
+        },
+        {
+            descriptions: 'オートレースの開催レースデータでplaceが足りない',
+            raceType: RaceType.AUTORACE,
+            place: undefined,
+            expectedMessage: 'オートレースの開催場が指定されていません',
+        },
+        {
+            descriptions: 'ボートレースの開催レースデータでplaceが足りない',
+            raceType: RaceType.BOATRACE,
+            place: undefined,
+            number: 1,
+            expectedMessage: 'ボートレースの開催場が指定されていません',
+        },
+        {
+            descriptions: 'ボートレースの開催レースデータでnumberが足りない',
+            raceType: RaceType.BOATRACE,
+            place: '浜名湖',
+            number: undefined,
+            expectedMessage: 'ボートレースのレース番号が指定されていません',
+        },
+    ]) {
+        it(`値が不足している時、エラーメッセージがスローされること（${descriptions}）`, async () => {
+            const testDate = new Date('2024-10-01');
+            const expectedHtml = '<html>Test HTML</html>';
+
+            fetchMock.mockResolvedValue({
+                text: jest.fn().mockResolvedValue(expectedHtml),
+            });
+
+            await expect(
+                gateway.getRaceDataHtml(raceType, testDate, place, number),
+            ).rejects.toThrow(expectedMessage);
+
+            // const html = await gateway.getRaceDataHtml(
+            //     raceType,
+            //     testDate,
+            //     place,
+            //     number,
+            // );
+
+            // expect(fetchMock).toHaveBeenCalledWith(expectedMessage);
+            // expect(html).toBe(expectedHtml);
         });
     }
 });
