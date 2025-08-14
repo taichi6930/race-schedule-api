@@ -173,12 +173,14 @@ describe('PublicGamblingRaceDataService', () => {
                 DataLocation.Web,
             );
 
-            expect(result.jra).toEqual(baseJraRaceEntityList);
-            expect(result.nar).toEqual(baseNarRaceEntityList);
-            expect(result.world).toEqual(baseWorldRaceEntityList);
-            expect(result.keirin).toEqual(baseKeirinRaceEntityList);
-            expect(result.boatrace).toEqual(baseBoatraceRaceEntityList);
-            expect(result.autorace).toEqual(baseAutoraceRaceEntityList);
+            expect(result).toEqual({
+                jra: baseJraRaceEntityList,
+                nar: baseNarRaceEntityList,
+                world: baseWorldRaceEntityList,
+                keirin: baseKeirinRaceEntityList,
+                boatrace: baseBoatraceRaceEntityList,
+                autorace: baseAutoraceRaceEntityList,
+            });
         });
 
         it('レース開催データが取得できない場合、エラーが発生すること', async () => {

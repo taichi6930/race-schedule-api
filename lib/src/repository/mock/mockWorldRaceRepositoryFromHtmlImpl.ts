@@ -16,32 +16,35 @@ export class MockWorldRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
     ): Promise<HorseRacingRaceEntity[]> {
+        const { placeEntityList } = searchFilter;
         const raceEntityList: HorseRacingRaceEntity[] = [];
-        const currentDate = new Date(searchFilter.startDate);
-        while (currentDate.getMonth() === searchFilter.startDate.getMonth()) {
-            // 1から12までのレースを作成
-            for (let i = 1; i <= 12; i++) {
-                raceEntityList.push(
-                    HorseRacingRaceEntity.createWithoutId(
-                        RaceData.create(
-                            RaceType.WORLD,
-                            `第${i.toString()}R`,
-                            new Date(
-                                currentDate.getFullYear(),
-                                currentDate.getMonth(),
-                                currentDate.getDate(),
-                                i + 9,
+        if (placeEntityList) {
+            const { raceType } = searchFilter;
+            for (const placeEntity of placeEntityList) {
+                const { location, dateTime } = placeEntity.placeData;
+                // 1から12までのレースを作成
+                for (let i = 1; i <= 12; i++) {
+                    raceEntityList.push(
+                        HorseRacingRaceEntity.createWithoutId(
+                            RaceData.create(
+                                raceType,
+                                `${location}第${i.toString()}R`,
+                                new Date(
+                                    dateTime.getFullYear(),
+                                    dateTime.getMonth(),
+                                    dateTime.getDate(),
+                                    i + 9,
+                                ),
+                                location,
+                                'GⅠ',
+                                i,
                             ),
-                            'ロンシャン',
-                            'GⅠ',
-                            i,
+                            HorseRaceConditionData.create('芝', 2400),
+                            getJSTDate(new Date()),
                         ),
-                        HorseRaceConditionData.create('芝', 2400),
-                        getJSTDate(new Date()),
-                    ),
-                );
+                    );
+                }
             }
-            currentDate.setDate(currentDate.getDate() + 1);
         }
         await new Promise((resolve) => setTimeout(resolve, 0));
         return raceEntityList;

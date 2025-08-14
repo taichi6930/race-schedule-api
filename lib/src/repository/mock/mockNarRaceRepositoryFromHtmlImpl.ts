@@ -23,21 +23,18 @@ export class MockNarRaceRepositoryFromHtmlImpl
             for (const placeEntity of placeEntityList) {
                 const { location, dateTime } = placeEntity.placeData;
                 // 1から12までのレースを作成
-                for (let i = 1; i <= 12; i++) {
+                for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                    const raceDate = new Date(dateTime);
+                    raceDate.setHours(raceNumber + 9, 0, 0, 0);
                     raceEntityList.push(
                         HorseRacingRaceEntity.createWithoutId(
                             RaceData.create(
                                 raceType,
-                                `${location}第${i.toString()}R`,
-                                new Date(
-                                    dateTime.getFullYear(),
-                                    dateTime.getMonth(),
-                                    dateTime.getDate(),
-                                    i + 9,
-                                ),
+                                `${location}第${raceNumber.toString()}R`,
+                                raceDate,
                                 location,
                                 'GⅠ',
-                                i,
+                                raceNumber,
                             ),
                             HorseRaceConditionData.create('ダート', 2000),
                             getJSTDate(new Date()),

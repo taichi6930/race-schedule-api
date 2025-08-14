@@ -25,17 +25,14 @@ export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
             const { location, dateTime } = placeData;
             // 1から12までのレースを作成
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                const raceDate = new Date(dateTime);
+                raceDate.setHours(raceNumber + 9, 0, 0, 0);
                 raceEntityList.push(
                     MechanicalRacingRaceEntity.createWithoutId(
                         RaceData.create(
                             raceType,
                             `${raceType}${location}第${raceNumber.toString()}R`,
-                            new Date(
-                                dateTime.getFullYear(),
-                                dateTime.getMonth(),
-                                dateTime.getDate(),
-                                raceNumber + 9,
-                            ),
+                            raceDate,
                             location,
                             grade,
                             raceNumber,
