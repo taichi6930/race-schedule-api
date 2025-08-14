@@ -167,9 +167,19 @@ export class NarPlaceRepositoryFromHtmlImpl
     public async registerPlaceEntityList(
         raceType: RaceType,
         placeEntityList: HorseRacingPlaceEntity[],
-    ): Promise<void> {
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: HorseRacingPlaceEntity[];
+        failureData: HorseRacingPlaceEntity[];
+    }> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
-        throw new Error('HTMLにはデータを登録出来ません');
+        return {
+            code: 500,
+            message: 'HTMLにはデータを登録出来ません',
+            successData: [],
+            failureData: placeEntityList,
+        };
     }
 }

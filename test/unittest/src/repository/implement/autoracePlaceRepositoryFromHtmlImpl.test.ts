@@ -11,6 +11,7 @@ import type { IPlaceRepository } from '../../../../../lib/src/repository/interfa
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
+import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
 
 describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: IPlaceDataHtmlGateway;
@@ -52,15 +53,18 @@ describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('registerPlaceList', () => {
-        SkipEnv(
-            'htmlなので登録できない',
-            [allowedEnvs.githubActionsCi],
-            async () => {
-                // テスト実行
-                await expect(
-                    repository.registerPlaceEntityList(RaceType.AUTORACE, []),
-                ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            },
-        );
+        it('htmlなので登録できない', async () => {
+            // テスト実行
+            await expect(
+                repository.registerPlaceEntityList(RaceType.AUTORACE, [
+                    baseAutoracePlaceEntity,
+                ]),
+            ).resolves.toEqual({
+                code: 500,
+                message: 'HTMLにはデータを登録出来ません',
+                successData: [],
+                failureData: [baseAutoracePlaceEntity],
+            });
+        });
     });
 });

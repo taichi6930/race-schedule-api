@@ -62,38 +62,59 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
     public async registerPlaceEntityList(
         raceType: RaceType,
         placeEntityList: MechanicalRacingPlaceEntity[],
-    ): Promise<void> {
-        // 既に登録されているデータを取得する
-        const existFetchPlaceRecordList: MechanicalRacingPlaceRecord[] =
-            await this.getPlaceRecordListFromS3(raceType);
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: MechanicalRacingPlaceEntity[];
+        failureData: MechanicalRacingPlaceEntity[];
+    }> {
+        try {
+            // 既に登録されているデータを取得する
+            const existFetchPlaceRecordList: MechanicalRacingPlaceRecord[] =
+                await this.getPlaceRecordListFromS3(raceType);
 
-        // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: MechanicalRacingPlaceRecord[] =
-            placeEntityList.map((placeEntity) => placeEntity.toRecord());
+            // PlaceEntityをPlaceRecordに変換する
+            const placeRecordList: MechanicalRacingPlaceRecord[] =
+                placeEntityList.map((placeEntity) => placeEntity.toRecord());
 
-        // idが重複しているデータは上書きをし、新規のデータは追加する
-        for (const placeRecord of placeRecordList) {
-            // 既に登録されているデータがある場合は上書きする
-            const index = existFetchPlaceRecordList.findIndex(
-                (record) => record.id === placeRecord.id,
-            );
-            if (index === -1) {
-                existFetchPlaceRecordList.push(placeRecord);
-            } else {
-                existFetchPlaceRecordList[index] = placeRecord;
+            // idが重複しているデータは上書きをし、新規のデータは追加する
+            for (const placeRecord of placeRecordList) {
+                // 既に登録されているデータがある場合は上書きする
+                const index = existFetchPlaceRecordList.findIndex(
+                    (record) => record.id === placeRecord.id,
+                );
+                if (index === -1) {
+                    existFetchPlaceRecordList.push(placeRecord);
+                } else {
+                    existFetchPlaceRecordList[index] = placeRecord;
+                }
             }
+
+            // 日付の最新順にソート
+            existFetchPlaceRecordList.sort(
+                (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
+            );
+
+            await this.uploadDataToS3(
+                raceType,
+                existFetchPlaceRecordList,
+                this.fileName,
+            );
+            return {
+                code: 200,
+                message: 'データの保存に成功しました',
+                successData: placeEntityList,
+                failureData: [],
+            };
+        } catch (error) {
+            console.error(error);
+            return {
+                code: 500,
+                message: 'Internal Server Error',
+                successData: [],
+                failureData: placeEntityList,
+            };
         }
-
-        // 日付の最新順にソート
-        existFetchPlaceRecordList.sort(
-            (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
-        );
-
-        await this.uploadDataToS3(
-            raceType,
-            existFetchPlaceRecordList,
-            this.fileName,
-        );
     }
 
     /**

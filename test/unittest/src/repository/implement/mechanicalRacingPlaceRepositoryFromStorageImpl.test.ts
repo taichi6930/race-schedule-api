@@ -113,11 +113,19 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
                 RaceType.AUTORACE,
                 RaceType.BOATRACE,
             ]) {
+                const _placeEntityList = placeEntityList(raceType);
                 // テスト実行
-                await repository.registerPlaceEntityList(
-                    raceType,
-                    placeEntityList(raceType),
-                );
+                await expect(
+                    repository.registerPlaceEntityList(
+                        raceType,
+                        _placeEntityList,
+                    ),
+                ).resolves.toEqual({
+                    code: 200,
+                    message: 'データの保存に成功しました',
+                    successData: _placeEntityList,
+                    failureData: [],
+                });
             }
 
             // uploadDataToS3が1回呼ばれることを検証

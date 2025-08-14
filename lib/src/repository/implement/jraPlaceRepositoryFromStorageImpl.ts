@@ -105,74 +105,94 @@ export class JraPlaceRepositoryFromStorageImpl
     public async registerPlaceEntityList(
         raceType: RaceType,
         placeEntityList: JraPlaceEntity[],
-    ): Promise<void> {
-        // 既に登録されているデータを取得する
-        const existFetchPlaceRecordList: HorseRacingPlaceRecord[] =
-            await this.getPlaceRecordListFromS3(raceType);
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: JraPlaceEntity[];
+        failureData: JraPlaceEntity[];
+    }> {
+        try {
+            // 既に登録されているデータを取得する
+            const existFetchPlaceRecordList: HorseRacingPlaceRecord[] =
+                await this.getPlaceRecordListFromS3(raceType);
 
-        const placeRecordList: HorseRacingPlaceRecord[] = placeEntityList.map(
-            (placeEntity) => placeEntity.toRecord(),
-        );
+            const placeRecordList: HorseRacingPlaceRecord[] =
+                placeEntityList.map((placeEntity) => placeEntity.toRecord());
 
-        // idが重複しているデータは上書きをし、新規のデータは追加する
-        for (const placeRecord of placeRecordList) {
-            // 既に登録されているデータがある場合は上書きする
-            const index = existFetchPlaceRecordList.findIndex(
-                (record) => record.id === placeRecord.id,
-            );
-            if (index === -1) {
-                existFetchPlaceRecordList.push(placeRecord);
-            } else {
-                existFetchPlaceRecordList[index] = placeRecord;
+            // idが重複しているデータは上書きをし、新規のデータは追加する
+            for (const placeRecord of placeRecordList) {
+                // 既に登録されているデータがある場合は上書きする
+                const index = existFetchPlaceRecordList.findIndex(
+                    (record) => record.id === placeRecord.id,
+                );
+                if (index === -1) {
+                    existFetchPlaceRecordList.push(placeRecord);
+                } else {
+                    existFetchPlaceRecordList[index] = placeRecord;
+                }
             }
-        }
 
-        // 日付の最新順にソート
-        existFetchPlaceRecordList.sort(
-            (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
-        );
-
-        await this.placeS3Gateway.uploadDataToS3(
-            existFetchPlaceRecordList,
-            this.placeFileName,
-        );
-
-        const existFetchHeldDayRecordList: heldDayRecord[] =
-            await this.getHeldDayRecordListFromS3(raceType);
-
-        const heldDayRecordList: heldDayRecord[] = placeEntityList.map(
-            (placeEntity) =>
-                heldDayRecord.create(
-                    placeEntity.id,
-                    placeEntity.raceType,
-                    placeEntity.heldDayData.heldTimes,
-                    placeEntity.heldDayData.heldDayTimes,
-                    placeEntity.updateDate,
-                ),
-        );
-
-        // idが重複しているデータは上書きをし、新規のデータは追加する
-        for (const heldDayRecordItem of heldDayRecordList) {
-            // 既に登録されているデータがある場合は上書きする
-            const index = existFetchHeldDayRecordList.findIndex(
-                (record) => record.id === heldDayRecordItem.id,
+            // 日付の最新順にソート
+            existFetchPlaceRecordList.sort(
+                (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );
-            if (index === -1) {
-                existFetchHeldDayRecordList.push(heldDayRecordItem);
-            } else {
-                existFetchHeldDayRecordList[index] = heldDayRecordItem;
+
+            await this.placeS3Gateway.uploadDataToS3(
+                existFetchPlaceRecordList,
+                this.placeFileName,
+            );
+
+            const existFetchHeldDayRecordList: heldDayRecord[] =
+                await this.getHeldDayRecordListFromS3(raceType);
+
+            const heldDayRecordList: heldDayRecord[] = placeEntityList.map(
+                (placeEntity) =>
+                    heldDayRecord.create(
+                        placeEntity.id,
+                        placeEntity.raceType,
+                        placeEntity.heldDayData.heldTimes,
+                        placeEntity.heldDayData.heldDayTimes,
+                        placeEntity.updateDate,
+                    ),
+            );
+
+            // idが重複しているデータは上書きをし、新規のデータは追加する
+            for (const heldDayRecordItem of heldDayRecordList) {
+                // 既に登録されているデータがある場合は上書きする
+                const index = existFetchHeldDayRecordList.findIndex(
+                    (record) => record.id === heldDayRecordItem.id,
+                );
+                if (index === -1) {
+                    existFetchHeldDayRecordList.push(heldDayRecordItem);
+                } else {
+                    existFetchHeldDayRecordList[index] = heldDayRecordItem;
+                }
             }
+
+            // 日付の最新順にソート
+            existFetchHeldDayRecordList.sort(
+                (a, b) => b.updateDate.getTime() - a.updateDate.getTime(),
+            );
+
+            await this.heldDayS3Gateway.uploadDataToS3(
+                existFetchHeldDayRecordList,
+                this.heldDayFileName,
+            );
+            return {
+                code: 200,
+                message: 'データの保存に成功しました',
+                successData: placeEntityList,
+                failureData: [],
+            };
+        } catch (error) {
+            console.error(error);
+            return {
+                code: 500,
+                message: 'Internal Server Error',
+                successData: [],
+                failureData: placeEntityList,
+            };
         }
-
-        // 日付の最新順にソート
-        existFetchHeldDayRecordList.sort(
-            (a, b) => b.updateDate.getTime() - a.updateDate.getTime(),
-        );
-
-        await this.heldDayS3Gateway.uploadDataToS3(
-            existFetchHeldDayRecordList,
-            this.heldDayFileName,
-        );
     }
 
     /**
