@@ -192,7 +192,6 @@ export class JraRaceRepositoryFromHtmlImpl
                         });
 
                         const jraRaceData = JraRaceEntity.createWithoutId(
-                            raceType,
                             RaceData.create(
                                 raceType,
                                 raceName,

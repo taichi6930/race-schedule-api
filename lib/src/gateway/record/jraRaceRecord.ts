@@ -155,7 +155,6 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
     public toEntity(): JraRaceEntity {
         return JraRaceEntity.create(
             this.id,
-            this.raceType,
             RaceData.create(
                 this.raceType,
                 this.name,

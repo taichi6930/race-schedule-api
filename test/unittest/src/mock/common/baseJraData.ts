@@ -91,7 +91,6 @@ export const baseJraPlaceEntity = JraPlaceEntity.createWithoutId(
 );
 
 export const baseJraRaceEntity = JraRaceEntity.createWithoutId(
-    RaceType.JRA,
     baseJraRaceData,
     baseJraHeldDayData,
     baseJraConditionData,
@@ -163,7 +162,6 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
             '2勝クラス',
         ].map((grade, index) => {
             return JraRaceEntity.createWithoutId(
-                RaceType.JRA,
                 RaceData.create(
                     RaceType.JRA,
                     `テスト${location}${grade}${(index + 1).toString()}レース`,

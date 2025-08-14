@@ -106,7 +106,6 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, (__, j) =>
                 JraRaceEntity.createWithoutId(
-                    RaceType.JRA,
                     RaceData.create(
                         RaceType.JRA,
                         `raceName${format(date, 'yyyyMMdd')}`,
