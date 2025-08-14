@@ -60,8 +60,8 @@ importers:
         specifier: ^10.2.1
         version: 10.2.1
       googleapis:
-        specifier: ^155.0.1
-        version: 155.0.1
+        specifier: ^156.0.0
+        version: 156.0.0
       jest-html-reporters:
         specifier: ^3.1.7
         version: 3.1.7
@@ -142,8 +142,8 @@ importers:
         specifier: ^9.33.0
         version: 9.33.0
       eslint-plugin-jsdoc:
-        specifier: ^53.0.1
-        version: 53.0.1(eslint@9.33.0)
+        specifier: ^54.0.0
+        version: 54.0.0(eslint@9.33.0)
       eslint-plugin-promise:
         specifier: ^7.2.1
         version: 7.2.1(eslint@9.33.0)
@@ -2131,8 +2131,8 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-plugin-jsdoc@53.0.1:
-    resolution: {integrity: sha512-9gYQy6pXAHnJXPFMATQS56O3js39okRrve61VlaXhKyaa9dZuuvTlReStF3eQ+ygG5vybFl7YTw6MkYkrf2GUQ==}
+  eslint-plugin-jsdoc@54.0.0:
+    resolution: {integrity: sha512-8w5c8OmmD5WD5MNQy1AhmYbiyV4IlSscXUyg5MwvN3BI/bLUmRpeEXc+Mj37y2UZsLhzvHyCscQenUzvbLxQ7Q==}
     engines: {node: '>=20.11.0'}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -2466,8 +2466,8 @@ packages:
     resolution: {integrity: sha512-66if47It7y+Sab3HMkwEXx1kCq9qUC9px8ZXoj1CMrmLmUw81GpbnsNlXnlyZyGbGPGcj+tDD9XsZ23m7GLaJQ==}
     engines: {node: '>=18.0.0'}
 
-  googleapis@155.0.1:
-    resolution: {integrity: sha512-8FRHMufEkXqoLeqxF6CTezxIupvHuAGWHfBz3KzRgBrha6R8nf1ed1TPmk3/N8GYkCxueRmUziLPiqpshBlSxQ==}
+  googleapis@156.0.0:
+    resolution: {integrity: sha512-Th401jKVdtrIaAc/b5iv8dfNVN2O7EgU/32Zvb2zxK3hiRrBU8hNbF7wMmOAEsvqnEKssq6XlXMaCBKazrvakw==}
     engines: {node: '>=18'}
 
   gopd@1.2.0:
@@ -6443,7 +6443,7 @@ snapshots:
     dependencies:
       eslint: 9.33.0
 
-  eslint-plugin-jsdoc@53.0.1(eslint@9.33.0):
+  eslint-plugin-jsdoc@54.0.0(eslint@9.33.0):
     dependencies:
       '@es-joy/jsdoccomment': 0.52.0
       are-docs-informative: 0.0.2
@@ -6886,7 +6886,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  googleapis@155.0.1:
+  googleapis@156.0.0:
     dependencies:
       google-auth-library: 10.2.1
       googleapis-common: 8.0.0
