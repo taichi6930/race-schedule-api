@@ -2,6 +2,38 @@ import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
 
+/**
+ * 枠順の最高値を取得します。
+ * @param playerDataList
+ * @param raceType
+ */
+export const createMaxFrameNumber = (raceType: RaceType): number => {
+    switch (raceType) {
+        case RaceType.BOATRACE: {
+            return 6;
+        }
+        case RaceType.AUTORACE: {
+            return 8;
+        }
+        case RaceType.KEIRIN: {
+            return 9;
+        }
+        case RaceType.JRA: {
+            return 18;
+        }
+        case RaceType.NAR: {
+            return 16;
+        }
+        case RaceType.WORLD: {
+            // 一旦大きめに48にする
+            return 48;
+        }
+        default: {
+            return 0;
+        }
+    }
+};
+
 export const validatePositionNumber = (
     raceType: RaceType,
     positionNumber: number,
@@ -53,35 +85,3 @@ export const CommonPositionNumberSchema = z.union([
  * 共通のPositionNumber型定義
  */
 export type PositionNumber = z.infer<typeof CommonPositionNumberSchema>;
-
-/**
- * 枠順の最高値を取得します。
- * @param playerDataList
- * @param raceType
- */
-export const createMaxFrameNumber = (raceType: RaceType): number => {
-    switch (raceType) {
-        case RaceType.BOATRACE: {
-            return 6;
-        }
-        case RaceType.AUTORACE: {
-            return 8;
-        }
-        case RaceType.KEIRIN: {
-            return 9;
-        }
-        case RaceType.JRA: {
-            return 18;
-        }
-        case RaceType.NAR: {
-            return 16;
-        }
-        case RaceType.WORLD: {
-            // 一旦大きめに48にする
-            return 48;
-        }
-        default: {
-            return 0;
-        }
-    }
-};
