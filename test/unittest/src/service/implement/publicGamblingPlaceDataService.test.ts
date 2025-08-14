@@ -236,6 +236,63 @@ describe('PublicGamblingPlaceDataService', () => {
                 },
             );
 
+            // registerPlaceEntityList の戻り値を正しい型でモック
+            jraPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
+                {
+                    code: 200,
+                    message: '',
+                    successData: [baseJraPlaceEntity],
+                    failureData: [],
+                },
+            );
+
+            narPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
+                {
+                    code: 200,
+                    message: '',
+                    successData: [baseNarPlaceEntity],
+                    failureData: [],
+                },
+            );
+
+            mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockImplementation(
+                async (
+                    raceType: RaceType,
+                    placeEntityList: MechanicalRacingPlaceEntity[],
+                ) => {
+                    console.log(placeEntityList);
+                    if (raceType === RaceType.KEIRIN) {
+                        return {
+                            code: 200,
+                            message: '',
+                            successData: [baseKeirinPlaceEntity],
+                            failureData: [],
+                        };
+                    }
+                    if (raceType === RaceType.AUTORACE) {
+                        return {
+                            code: 200,
+                            message: '',
+                            successData: [baseAutoracePlaceEntity],
+                            failureData: [],
+                        };
+                    }
+                    if (raceType === RaceType.BOATRACE) {
+                        return {
+                            code: 200,
+                            message: '',
+                            successData: [baseBoatracePlaceEntity],
+                            failureData: [],
+                        };
+                    }
+                    return {
+                        code: 200,
+                        message: '',
+                        successData: [],
+                        failureData: [],
+                    };
+                },
+            );
             await service.updatePlaceEntityList(mockPlaceEntity);
 
             expect(

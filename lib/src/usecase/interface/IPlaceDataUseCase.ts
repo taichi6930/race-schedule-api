@@ -24,5 +24,10 @@ export interface IPlaceDataUseCase {
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
-    ) => Promise<void>;
+    ) => Promise<{
+        code: number;
+        message: string;
+        successDataCount: number;
+        failureDataCount: number;
+    }>;
 }

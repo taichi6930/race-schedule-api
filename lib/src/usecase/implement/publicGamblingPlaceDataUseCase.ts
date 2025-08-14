@@ -65,7 +65,12 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
-    ): Promise<void> {
+    ): Promise<{
+        code: number;
+        message: string;
+        successDataCount: number;
+        failureDataCount: number;
+    }> {
         // startDateは月の1日に設定する
         const modifyStartDate = new Date(
             startDate.getFullYear(),
@@ -86,6 +91,6 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
                 DataLocation.Web,
             );
         // 開催場データを更新
-        await this.placeDataService.updatePlaceEntityList(placeEntityList);
+        return this.placeDataService.updatePlaceEntityList(placeEntityList);
     }
 }
