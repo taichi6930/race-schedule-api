@@ -4,9 +4,13 @@ import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
 import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
-import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
+import {
+    generateRaceId,
+    type RaceId,
+    validateRaceId,
+} from '../../utility/data/common/raceId';
+import { generateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import type { RaceStage } from '../../utility/data/common/raceStage';
-import { generateRaceId, generateRacePlayerId } from '../../utility/raceId';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 

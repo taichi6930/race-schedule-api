@@ -1,10 +1,10 @@
 import type { calendar_v3 } from 'googleapis';
 
 import { RaceCourse } from '../../utility/data/common/raceCourse';
+import { generateRaceId } from '../../utility/data/common/raceId';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
-import { generateRaceId } from '../../utility/raceId';
 import { RaceType } from '../../utility/raceType';
 import { ICalendarGateway } from '../interface/iCalendarGateway';
 

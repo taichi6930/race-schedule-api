@@ -16,10 +16,8 @@
  */
 
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
-import {
-    generateRaceId,
-    generateRacePlayerId,
-} from '../../../../../lib/src/utility/raceId';
+import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
+import { generateRacePlayerId } from '../../../../../lib/src/utility/data/common/racePlayerId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 
 describe('RacePlayerRecord', () => {

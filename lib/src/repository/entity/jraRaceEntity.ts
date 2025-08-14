@@ -5,8 +5,10 @@ import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData
 import type { RaceData } from '../../domain/raceData';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
-import { validateRaceId } from '../../utility/data/common/raceId';
-import { generateRaceId } from '../../utility/raceId';
+import {
+    generateRaceId,
+    validateRaceId,
+} from '../../utility/data/common/raceId';
 import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';

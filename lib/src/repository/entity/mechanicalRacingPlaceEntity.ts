@@ -5,8 +5,10 @@ import {
     validateGradeType,
 } from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
-import { validatePlaceId } from '../../utility/data/common/placeId';
-import { generatePlaceId } from '../../utility/raceId';
+import {
+    generatePlaceId,
+    validatePlaceId,
+} from '../../utility/data/common/placeId';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';

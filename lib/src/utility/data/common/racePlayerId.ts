@@ -1,8 +1,30 @@
 import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
-import { validatePositionNumber } from './positionNumber';
-import { validateRaceNumber } from './raceNumber';
+import { type PositionNumber, validatePositionNumber } from './positionNumber';
+import type { RaceCourse } from './raceCourse';
+import { generateRaceId } from './raceId';
+import { type RaceNumber, validateRaceNumber } from './raceNumber';
+
+/**
+ * racePlayerIdを作成する
+ * @param raceType - レース種別
+ * @param dateTime - 開催日時
+ * @param location - 開催場所
+ * @param number - レース番号
+ * @param positionNumber - 枠番
+ */
+
+export const generateRacePlayerId = (
+    raceType: RaceType,
+    dateTime: Date,
+    location: RaceCourse,
+    number: RaceNumber,
+    positionNumber: PositionNumber,
+): RacePlayerId => {
+    const positionNumberCode = positionNumber.toXDigits(2);
+    return `${generateRaceId(raceType, dateTime, location, number)}${positionNumberCode}`;
+};
 
 /**
  * RacePlayerIdのzod型定義

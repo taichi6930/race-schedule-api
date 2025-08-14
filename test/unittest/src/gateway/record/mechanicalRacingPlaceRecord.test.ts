@@ -1,6 +1,6 @@
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { MechanicalRacingPlaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
-import { generatePlaceId } from '../../../../../lib/src/utility/raceId';
+import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 
 /**

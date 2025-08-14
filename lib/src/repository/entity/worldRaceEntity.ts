@@ -4,7 +4,7 @@ import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData
 import type { RaceData } from '../../domain/raceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
-import { generateRaceId } from '../../utility/raceId';
+import { generateRaceId } from '../../utility/data/common/raceId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';

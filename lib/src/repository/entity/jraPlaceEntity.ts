@@ -2,8 +2,10 @@ import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
-import { validatePlaceId } from '../../utility/data/common/placeId';
-import { generatePlaceId } from '../../utility/raceId';
+import {
+    generatePlaceId,
+    validatePlaceId,
+} from '../../utility/data/common/placeId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';

@@ -3,13 +3,11 @@ import '../../utility/format';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { generatePlaceId } from '../../utility/data/common/placeId';
 import { createMaxFrameNumber } from '../../utility/data/common/positionNumber';
 import type { RaceCourse } from '../../utility/data/common/raceCourse';
-import {
-    generatePlaceId,
-    generateRaceId,
-    generateRacePlayerId,
-} from '../../utility/raceId';
+import { generateRaceId } from '../../utility/data/common/raceId';
+import { generateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import { RaceType } from '../../utility/raceType';
 import { MechanicalRacingPlaceRecord } from '../record/mechanicalRacingPlaceRecord';
 import { MechanicalRacingRaceRecord } from '../record/mechanicalRacingRaceRecord';

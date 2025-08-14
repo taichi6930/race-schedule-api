@@ -1,6 +1,30 @@
+import { format } from 'date-fns';
 import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
+import { NetkeibaBabacodeMap } from '../netkeiba';
+import { createPlaceCodeMap, type RaceCourse } from './raceCourse';
+
+/**
+ * placeIdを作成する
+ * @param raceType - レース種別
+ * @param dateTime - 開催日時
+ * @param location - 開催場所
+ */
+export const generatePlaceId = (
+    raceType: RaceType,
+    dateTime: Date,
+    location: RaceCourse,
+): PlaceId => {
+    const dateCode = format(dateTime, 'yyyyMMdd');
+
+    const locationCode =
+        raceType === RaceType.JRA || raceType === RaceType.NAR
+            ? NetkeibaBabacodeMap[location]
+            : createPlaceCodeMap(raceType)[location];
+    const raceTypePrefix = raceType.toLowerCase();
+    return `${raceTypePrefix}${dateCode}${locationCode}`;
+};
 
 /**
  * PlaceIdのzod型定義
