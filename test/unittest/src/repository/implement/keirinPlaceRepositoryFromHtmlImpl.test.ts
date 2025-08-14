@@ -17,6 +17,8 @@ describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: IPlaceDataHtmlGateway;
     let repository: IPlaceRepository<MechanicalRacingPlaceEntity>;
 
+    const raceType: RaceType = RaceType.KEIRIN;
+
     beforeEach(() => {
         // gatewayのモックを作成
         placeDataHtmlgateway = new MockPlaceDataHtmlGateway();
@@ -44,7 +46,7 @@ describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
                     new SearchPlaceFilterEntity(
                         new Date('2024-10-01'),
                         new Date('2024-10-31'),
-                        RaceType.KEIRIN,
+                        raceType,
                     ),
                 );
                 expect(placeEntityList).toHaveLength(233);
@@ -56,7 +58,7 @@ describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
         it('htmlなので登録できない', async () => {
             // テスト実行
             await expect(
-                repository.registerPlaceEntityList(RaceType.KEIRIN, [
+                repository.registerPlaceEntityList(raceType, [
                     baseKeirinPlaceEntity,
                 ]),
             ).resolves.toEqual({

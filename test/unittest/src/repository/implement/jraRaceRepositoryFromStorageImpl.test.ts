@@ -24,6 +24,8 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<JraRaceRecord>>;
     let repository: IRaceRepository<JraRaceEntity, JraPlaceEntity>;
 
+    const raceType: RaceType = RaceType.JRA;
+
     beforeEach(() => {
         // S3Gatewayのモックを作成
         s3Gateway = mockS3Gateway<JraRaceRecord>();
@@ -54,7 +56,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             const searchFilter = new SearchRaceFilterEntity<JraPlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
-                RaceType.JRA,
+                raceType,
             );
             // テスト実行
             const raceEntityList =
@@ -68,10 +70,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
     describe('registerRaceList', () => {
         test('DBが空データのところに、正しいレース開催データを登録できる', async () => {
             // テスト実行
-            await repository.registerRaceEntityList(
-                RaceType.JRA,
-                raceEntityList,
-            );
+            await repository.registerRaceEntityList(raceType, raceEntityList);
 
             // uploadDataToS3が366回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
@@ -88,10 +87,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
             // テスト実行
-            await repository.registerRaceEntityList(
-                RaceType.JRA,
-                raceEntityList,
-            );
+            await repository.registerRaceEntityList(raceType, raceEntityList);
 
             // uploadDataToS3が366回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
@@ -107,7 +103,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             return Array.from({ length: 12 }, (__, j) =>
                 JraRaceEntity.createWithoutId(
                     RaceData.create(
-                        RaceType.JRA,
+                        raceType,
                         `raceName${format(date, 'yyyyMMdd')}`,
                         date,
                         '東京',

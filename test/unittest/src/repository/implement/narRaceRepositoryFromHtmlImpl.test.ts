@@ -22,6 +22,8 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
         HorseRacingPlaceEntity
     >;
 
+    const raceType: RaceType = RaceType.NAR;
+
     beforeEach(() => {
         // gatewayのモックを作成
         raceDataHtmlGateway = new MockRaceDataHtmlGateway();
@@ -46,11 +48,11 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
-                        RaceType.NAR,
+                        raceType,
                         [
                             HorseRacingPlaceEntity.createWithoutId(
                                 PlaceData.create(
-                                    RaceType.NAR,
+                                    raceType,
                                     new Date('2024-10-02'),
                                     '大井',
                                 ),
@@ -70,11 +72,11 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2023-10-08'),
                         new Date('2023-10-08'),
-                        RaceType.NAR,
+                        raceType,
                         [
                             HorseRacingPlaceEntity.createWithoutId(
                                 PlaceData.create(
-                                    RaceType.NAR,
+                                    raceType,
                                     new Date('2023-10-08'),
                                     '盛岡',
                                 ),
@@ -94,11 +96,11 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
-                        RaceType.NAR,
+                        raceType,
                         [
                             HorseRacingPlaceEntity.createWithoutId(
                                 PlaceData.create(
-                                    RaceType.NAR,
+                                    raceType,
                                     new Date('2024-10-02'),
                                     '大井',
                                 ),
@@ -118,11 +120,11 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2024-09-01'),
                         new Date('2024-09-02'),
-                        RaceType.NAR,
+                        raceType,
                         [
                             HorseRacingPlaceEntity.createWithoutId(
                                 PlaceData.create(
-                                    RaceType.NAR,
+                                    raceType,
                                     new Date('2024-09-02'),
                                     '大井',
                                 ),
@@ -139,15 +141,11 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('registerRaceList', () => {
-        SkipEnv(
-            'htmlなので登録できない',
-            [allowedEnvs.githubActionsCi],
-            async () => {
-                // テスト実行
-                await expect(
-                    repository.registerRaceEntityList(RaceType.NAR, []),
-                ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            },
-        );
+        it('HTMLにはデータを登録できないこと', async () => {
+            // テスト実行
+            await expect(
+                repository.registerRaceEntityList(raceType, []),
+            ).rejects.toThrow('HTMLにはデータを登録出来ません');
+        });
     });
 });

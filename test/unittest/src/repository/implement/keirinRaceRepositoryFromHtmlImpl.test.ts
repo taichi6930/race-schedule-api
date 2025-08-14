@@ -21,6 +21,8 @@ describe('KeirinRaceRepositoryFromHtmlImpl', () => {
         MechanicalRacingPlaceEntity
     >;
 
+    const raceType: RaceType = RaceType.KEIRIN;
+
     beforeEach(() => {
         // gatewayのモックを作成
         raceDataHtmlGateway = new MockRaceDataHtmlGateway();
@@ -45,11 +47,11 @@ describe('KeirinRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         new Date('2024-10-20'),
                         new Date('2024-10-20'),
-                        RaceType.KEIRIN,
+                        raceType,
                         [
                             MechanicalRacingPlaceEntity.createWithoutId(
                                 PlaceData.create(
-                                    RaceType.KEIRIN,
+                                    raceType,
                                     new Date('2024-10-20'),
                                     '弥彦',
                                 ),
@@ -65,15 +67,11 @@ describe('KeirinRaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('registerRaceList', () => {
-        SkipEnv(
-            'htmlなので登録できない',
-            [allowedEnvs.githubActionsCi],
-            async () => {
-                // テスト実行
-                await expect(
-                    repository.registerRaceEntityList(RaceType.KEIRIN, []),
-                ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            },
-        );
+        it('HTMLにはデータを登録できないこと', async () => {
+            // テスト実行
+            await expect(
+                repository.registerRaceEntityList(raceType, []),
+            ).rejects.toThrow('HTMLにはデータを登録出来ません');
+        });
     });
 });
