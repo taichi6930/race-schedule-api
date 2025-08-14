@@ -43,10 +43,12 @@ describe('PublicGamblingRaceDataUseCase', () => {
         const setup: TestSetup = setupTestMock();
         ({ raceDataService, placeDataService } = setup);
         useCase = container.resolve(PublicGamblingRaceDataUseCase);
+        jest.spyOn(console, 'log').mockImplementation();
     });
 
     afterEach(() => {
         clearMocks();
+        jest.restoreAllMocks();
     });
 
     describe('fetchRaceEntityList', () => {
@@ -789,20 +791,45 @@ describe('PublicGamblingRaceDataUseCase', () => {
             expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
             expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
+
+        it('placeEntityListが空の場合は処理を終了する', async () => {
+            const startDate = new Date('2024-06-01');
+            const finishDate = new Date('2024-06-30');
+
+            placeDataService.fetchPlaceEntityList.mockResolvedValue({
+                jra: [],
+                nar: [],
+                keirin: [],
+                autorace: [],
+                boatrace: [],
+            });
+
+            // モックの戻り値を設定
+            raceDataService.fetchRaceEntityList.mockResolvedValue({
+                jra: baseJraRaceEntityList,
+                nar: baseNarRaceEntityList,
+                world: baseWorldRaceEntityList,
+                keirin: baseKeirinRaceEntityList,
+                autorace: baseAutoraceRaceEntityList,
+                boatrace: baseBoatraceRaceEntityList,
+            });
+
+            await useCase.updateRaceEntityList(startDate, finishDate, [
+                RaceType.JRA,
+                RaceType.NAR,
+                RaceType.KEIRIN,
+                RaceType.BOATRACE,
+                RaceType.AUTORACE,
+            ]);
+
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            //raceDataService.fetchRaceEntityListは呼ばれていないことを確認
+            expect(raceDataService.fetchRaceEntityList).not.toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).not.toHaveBeenCalled();
+
+            expect(console.log).toHaveBeenCalledWith(
+                '指定された条件に合致する開催場所が存在しません。レースデータの更新をスキップします。',
+            );
+        });
     });
-
-    // describe('upsertRaceDataList', () => {
-    //     it('正常にレース開催データが更新されること', async () => {
-    //         await useCase.upsertRaceDataList({
-    //             jra: baseJraRaceDataList,
-    //             nar: baseNarRaceDataList,
-    //             world: baseWorldRaceDataList,
-    //             keirin: baseKeirinRaceDataList,
-    //             autorace: baseAutoraceRaceDataList,
-    //             boatrace: baseBoatraceRaceDataList,
-    //         });
-
-    //         expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
-    //     });
-    // });
 });
