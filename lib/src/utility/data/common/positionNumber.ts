@@ -5,7 +5,7 @@ import { RaceType } from '../../raceType';
 /**
  * 枠順の最高値を取得します。
  * @param playerDataList
- * @param raceType
+ * @param raceType - レース種別
  */
 export const createMaxFrameNumber = (raceType: RaceType): number => {
     switch (raceType) {
@@ -59,7 +59,7 @@ export const validatePositionNumber = (
 
 /**
  * PositionNumber zod型定義
- * @param raceType
+ * @param raceType - レース種別
  */
 const PositionNumberSchema: (raceType: RaceType) => z.ZodNumber = (
     raceType,

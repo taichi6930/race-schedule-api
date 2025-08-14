@@ -110,7 +110,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      * S3から開催データを取得する
      * ファイル名を利用してS3から開催データを取得する
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
-     * @param raceType
+     * @param raceType - レース種別
      * @param date
      */
     @Logger
@@ -233,7 +233,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
-     * @param raceType
+     * @param raceType - レース種別
      * @param placeEntityList
      */
     @Logger

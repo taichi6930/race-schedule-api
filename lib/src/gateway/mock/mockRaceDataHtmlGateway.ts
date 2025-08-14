@@ -93,10 +93,10 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
     }
     /**
      * レースデータのHTMLを取得する
-     * @param raceType
+     * @param raceType - レース種別
      * @param date - 取得する年月
      * @param place - 開催場
-     * @param number
+     * @param number - レース番号
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger

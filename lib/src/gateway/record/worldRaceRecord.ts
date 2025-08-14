@@ -35,7 +35,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     /**
      * コンストラクタ
      * @param id - ID
-     * @param raceType
+     * @param raceType - レース種別
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -63,7 +63,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     /**
      * インスタンス生成メソッド
      * @param id - ID
-     * @param raceType
+     * @param raceType - レース種別
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -101,7 +101,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<WorldRaceRecord> = {}): WorldRaceRecord {
         return WorldRaceRecord.create(

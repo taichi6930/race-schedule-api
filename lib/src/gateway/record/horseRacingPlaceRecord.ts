@@ -66,7 +66,7 @@ export class HorseRacingPlaceRecord implements IRecord<HorseRacingPlaceRecord> {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(
         partial: Partial<HorseRacingPlaceRecord> = {},

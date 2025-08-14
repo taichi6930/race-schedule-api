@@ -202,7 +202,7 @@ const GradeMasterList: {
 
 /**
  * グレードのバリデーション
- * @param raceType - レースの種類
+ * @param raceType - レース種別
  * @param grade - バリデーション対象のグレード
  * @returns バリデーション済みのグレード
  * @throws エラー - 対応するレースタイプがない場合
@@ -215,7 +215,7 @@ export const validateGradeType = (
 
 /**
  * グレードのバリデーションスキーマを生成する
- * @param raceType - レースの種別
+ * @param raceType - レース種別
  * @param errorMessage - エラーメッセージ
  * @returns ZodString
  */
@@ -226,7 +226,7 @@ const createGradeSchema = (raceType: RaceType): ZodString =>
 
 /**
  * グレード リスト
- * @param raceType
+ * @param raceType - レース種別
  */
 const GradeTypeList: (raceType: RaceType) => Set<string> = (raceType) =>
     new Set<string>(
@@ -237,7 +237,7 @@ const GradeTypeList: (raceType: RaceType) => Set<string> = (raceType) =>
 
 /**
  * 指定グレードリスト
- * @param raceType
+ * @param raceType - レース種別
  */
 export const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (
     raceType,

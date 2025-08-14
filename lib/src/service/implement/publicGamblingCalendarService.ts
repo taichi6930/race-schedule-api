@@ -52,7 +52,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
      * アプリケーション固有のCalendarData形式に変換されます。
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（この日を含む）
-     * @param raceTypeList
+     * @param raceTypeList - レース種別のリスト
      * @returns カレンダーイベントの配列
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます

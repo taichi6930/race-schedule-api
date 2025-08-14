@@ -335,7 +335,7 @@ const RaceCourseMasterList: {
 
 /**
  * 場リスト
- * @param raceType
+ * @param raceType - レース種別
  */
 const RaceCourseList = (raceType: RaceType): Set<string> =>
     new Set(
@@ -346,7 +346,7 @@ const RaceCourseList = (raceType: RaceType): Set<string> =>
 
 /**
  * RaceCourseMasterListからraceTypeごとのPlaceCodeMapを生成するユーティリティ
- * @param raceType - 生成対象のレース種別
+ * @param raceType - レース種別
  * @returns placeName をキー、placeCode を値とするマップ
  */
 export const createPlaceCodeMap = (
@@ -368,7 +368,7 @@ export const createPlaceCodeMap = (
 
 /**
  * JraRaceCourseのzod型定義
- * @param raceType
+ * @param raceType - レース種別
  * @param errorMessage
  */
 const createRaceCourseSchema = (
@@ -381,7 +381,7 @@ const createRaceCourseSchema = (
 
 /**
  * 開催場のバリデーション
- * @param raceType
+ * @param raceType - レース種別
  * @param course
  */
 export const validateRaceCourse = (

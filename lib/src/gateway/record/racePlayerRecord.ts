@@ -72,7 +72,7 @@ export class RacePlayerRecord implements IRecord<RacePlayerRecord> {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<RacePlayerRecord> = {}): RacePlayerRecord {
         return RacePlayerRecord.create(

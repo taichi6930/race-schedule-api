@@ -30,8 +30,8 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
      * レース開催データを取得する
      * @param startDate
      * @param finishDate
-     * @param searchList.gradeList
-     * @param searchList.locationList
+     * @param raceTypeList - レース種別のリスト
+     * @param searchList
      * @param searchList.jra
      * @param searchList.jra.gradeList
      * @param searchList.jra.locationList
@@ -53,8 +53,6 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
      * @param searchList.boatrace.gradeList
      * @param searchList.boatrace.locationList
      * @param searchList.boatrace.stageList
-     * @param raceTypeList
-     * @param searchList
      */
     @Logger
     public async fetchRaceEntityList(
@@ -141,31 +139,23 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
      * レース開催データを更新する
      * @param startDate
      * @param finishDate
-     * @param searchList.gradeList
-     * @param searchList.locationList
+     * @param raceTypeList - レース種別のリスト
+     * @param searchList
      * @param searchList.jra
-     * @param searchList.jra.gradeList
      * @param searchList.jra.locationList
      * @param searchList.nar
-     * @param searchList.nar.gradeList
      * @param searchList.nar.locationList
      * @param searchList.world
-     * @param searchList.world.gradeList
      * @param searchList.world.locationList
      * @param searchList.keirin
      * @param searchList.keirin.gradeList
      * @param searchList.keirin.locationList
-     * @param searchList.keirin.stageList
      * @param searchList.autorace
      * @param searchList.autorace.gradeList
      * @param searchList.autorace.locationList
-     * @param searchList.autorace.stageList
      * @param searchList.boatrace
      * @param searchList.boatrace.gradeList
      * @param searchList.boatrace.locationList
-     * @param searchList.boatrace.stageList
-     * @param raceTypeList
-     * @param searchList
      */
     @Logger
     public async updateRaceEntityList(

@@ -56,10 +56,10 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
 
     /**
      * idがない場合でのcreate
-     * @param raceType
-     * @param placeData
+     * @param raceType - レース種別
+     * @param placeData - レース開催場所データ
      * @param heldDayData
-     * @param updateDate
+     * @param updateDate - 更新日時
      */
     public static createWithoutId(
         raceType: RaceType,
@@ -95,7 +95,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<JraPlaceEntity> = {}): JraPlaceEntity {
         return JraPlaceEntity.create(

@@ -21,7 +21,7 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
      * 開催場データを取得する
      * @param startDate
      * @param finishDate
-     * @param raceTypeList
+     * @param raceTypeList - レース種別のリスト
      */
     @Logger
     public async fetchPlaceDataList(
@@ -58,7 +58,7 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
      * 開催場データを更新する
      * @param startDate
      * @param finishDate
-     * @param raceTypeList
+     * @param raceTypeList - レース種別のリスト
      */
     @Logger
     public async updatePlaceDataList(

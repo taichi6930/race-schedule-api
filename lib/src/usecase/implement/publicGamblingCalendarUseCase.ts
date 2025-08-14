@@ -33,7 +33,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * カレンダーからレース情報の取得を行う
      * @param startDate
      * @param finishDate
-     * @param raceTypeList
+     * @param raceTypeList - レース種別のリスト
      */
     @Logger
     public async fetchRacesFromCalendar(
@@ -56,7 +56,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * カレンダーの更新を行う
      * @param startDate
      * @param finishDate
-     * @param raceTypeList
+     * @param raceTypeList - レース種別のリスト
      * @param displayGradeList
      * @param displayGradeList.jra
      * @param displayGradeList.nar

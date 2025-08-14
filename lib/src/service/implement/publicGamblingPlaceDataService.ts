@@ -45,7 +45,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
      * 提供する重要な役割を持ちます。
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（この日を含む）
-     * @param raceTypeList
+     * @param raceTypeList - レース種別のリスト
      * @param type - データ取得元の指定（storage/web）
      * @returns 開催場所エンティティの配列。エラー時は空配列
      * @throws エラーはキャッチされログ出力されます

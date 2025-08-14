@@ -98,7 +98,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
 
     /**
      * 開催場データをS3から取得する
-     * @param raceType
+     * @param raceType - レース種別
      */
     @Logger
     private async getPlaceRecordListFromS3(

@@ -60,10 +60,10 @@ export class MechanicalRacingRaceEntity
 
     /**
      * idがない場合でのcreate
-     * @param raceData
-     * @param stage
-     * @param racePlayerDataList
-     * @param updateDate
+     * @param raceData - レースデータ
+     * @param stage - 開催ステージ
+     * @param racePlayerDataList - レースの選手データ
+     * @param updateDate - 更新日時
      */
     public static createWithoutId(
         raceData: RaceData,
@@ -87,7 +87,7 @@ export class MechanicalRacingRaceEntity
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(
         partial: Partial<MechanicalRacingRaceEntity> = {},

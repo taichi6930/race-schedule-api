@@ -55,7 +55,7 @@ export class WorldRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
-     * @param raceType
+     * @param raceType - レース種別
      * @param raceEntityList
      */
     @Logger
@@ -99,7 +99,7 @@ export class WorldRaceRepositoryFromStorageImpl
 
     /**
      * レースデータをS3から取得する
-     * @param raceType
+     * @param raceType - レース種別
      */
     @Logger
     private async getRaceRecordListFromS3(

@@ -7,7 +7,7 @@ export class CalendarData {
     /**
      * コンストラクタ
      * @param id - イベントID
-     * @param raceType - レースの種類
+     * @param raceType - レース種別
      * @param title - イベントタイトル
      * @param startTime - イベント開始時間
      * @param endTime - イベント終了時間
@@ -28,13 +28,13 @@ export class CalendarData {
 
     /**
      * インスタンスを生成する
-     * @param id
-     * @param raceType
-     * @param title
-     * @param startTime
-     * @param endTime
-     * @param location
-     * @param description
+     * @param id - イベントID
+     * @param raceType - レース種別
+     * @param title - イベントタイトル
+     * @param startTime - イベント開始時間
+     * @param endTime - イベント終了時間
+     * @param location - イベント場所
+     * @param description - イベント説明
      */
     public static create(
         id: string | null | undefined,
@@ -58,7 +58,7 @@ export class CalendarData {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<CalendarData> = {}): CalendarData {
         return new CalendarData(

@@ -108,7 +108,7 @@ export class RaceData {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<RaceData> = {}): RaceData {
         return RaceData.create(

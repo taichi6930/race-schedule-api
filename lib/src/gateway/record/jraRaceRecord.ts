@@ -130,7 +130,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<JraRaceRecord> = {}): JraRaceRecord {
         return JraRaceRecord.create(

@@ -44,7 +44,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
-     * @param raceType
+     * @param raceType - レース種別
      * @param placeEntityList
      */
     @Logger

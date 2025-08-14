@@ -4,7 +4,7 @@ import type { RaceType } from '../../../../../lib/src/utility/raceType';
 
 /**
  * 基本的なレースプレイヤーデータのリストを生成します。
- * @param raceType
+ * @param raceType - レース種別
  */
 export const baseRacePlayerDataList = (raceType: RaceType): RacePlayerData[] =>
     Array.from({ length: createMaxFrameNumber(raceType) }, (_, i) => {

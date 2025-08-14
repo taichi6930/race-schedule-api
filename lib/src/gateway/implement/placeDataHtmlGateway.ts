@@ -48,7 +48,7 @@ export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
 
     /**
      * 開催場データのHTMLを取得する
-     * @param raceType
+     * @param raceType - レース種別
      * @param date - 取得する年月
      */
     @Logger

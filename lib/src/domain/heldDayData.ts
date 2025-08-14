@@ -49,7 +49,7 @@ export class HeldDayData {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<HeldDayData> = {}): HeldDayData {
         return HeldDayData.create(

@@ -4,7 +4,7 @@ import { RaceType } from '../../raceType';
 
 /**
  * PlaceIdのzod型定義
- * @param raceType
+ * @param raceType - レース種別
  */
 const PlaceIdSchema = (raceType: RaceType): z.ZodString => {
     const lowerCaseRaceType = raceType.toLowerCase();
@@ -28,7 +28,7 @@ export type PlaceId = z.infer<typeof UnionPlaceIdSchema>;
 
 /**
  * PlaceIdのバリデーション
- * @param raceType
+ * @param raceType - レース種別
  * @param value - バリデーション対象
  * @returns バリデーション済みのPlaceId
  */

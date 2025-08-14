@@ -29,7 +29,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの取得を行う
-     * @param raceTypeList
+     * @param raceTypeList - レース種別のリスト
      * @param searchFilter
      */
     @Logger
@@ -67,7 +67,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの更新を行う
-     * @param raceType
+     * @param raceType - レース種別
      * @param raceEntityList
      */
     @Logger
@@ -120,7 +120,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの削除を行う
-     * @param raceType
+     * @param raceType - レース種別
      * @param calendarDataList
      */
     @Logger

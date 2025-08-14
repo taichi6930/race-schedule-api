@@ -14,7 +14,7 @@ import { IPlaceDataHtmlGateway } from '../interface/iPlaceDataHtmlGateway';
 export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
     /**
      * raceTypeとdateからURLを生成
-     * @param raceType
+     * @param raceType - レース種別
      * @param date
      */
     private buildUrl(raceType: RaceType, date: Date): string {
@@ -49,7 +49,7 @@ export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
 
     /**
      * 開催データのHTMLを取得する
-     * @param raceType
+     * @param raceType - レース種別
      * @param date - 取得する年月
      * @returns Promise<string> - 開催データのHTML
      */

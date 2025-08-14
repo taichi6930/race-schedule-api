@@ -22,7 +22,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      * @param raceType - レース種別
      * @param raceData - レースデータ
      * @param heldDayData - 開催日データ
-     * @param conditionData - コンディションデータ
+     * @param conditionData - レース条件データ
      * @param updateDate - 更新日時
      * @remarks
      * レース開催データを生成する
@@ -39,10 +39,10 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     /**
      * インスタンス生成メソッド
      * @param id - ID
-     * @param raceType
+     * @param raceType - レース種別
      * @param raceData - レースデータ
-     * @param heldDayData
-     * @param conditionData
+     * @param heldDayData - 開催日データ
+     * @param conditionData - レース条件データ
      * @param updateDate - 更新日時
      */
     public static create(
@@ -65,11 +65,11 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
 
     /**
      * idがない場合でのcreate
-     * @param raceType
-     * @param raceData
-     * @param heldDayData
-     * @param conditionData
-     * @param updateDate
+     * @param raceType - レース種別
+     * @param raceData - レースデータ
+     * @param heldDayData - 開催日データ
+     * @param conditionData - レース条件データ
+     * @param updateDate - 更新日時
      */
     public static createWithoutId(
         raceType: RaceType,
@@ -95,7 +95,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
 
     /**
      * データのコピー
-     * @param partial
+     * @param partial - 上書きする部分データ
      */
     public copy(partial: Partial<JraRaceEntity> = {}): JraRaceEntity {
         return JraRaceEntity.create(

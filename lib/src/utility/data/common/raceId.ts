@@ -5,7 +5,7 @@ import { validateRaceNumber } from './raceNumber';
 
 /**
  * RaceIdのzod型定義
- * @param raceType
+ * @param raceType - レース種別
  */
 const RaceIdSchema = (raceType: RaceType): z.ZodString => {
     const lowerCaseRaceType = raceType.toLowerCase();
@@ -69,7 +69,7 @@ export type RaceId = z.infer<typeof UnionRaceIdSchema>;
 
 /**
  * RaceIdのバリデーション
- * @param raceType
+ * @param raceType - レース種別
  * @param value - バリデーション対象
  * @returns バリデーション済みのRaceId
  */

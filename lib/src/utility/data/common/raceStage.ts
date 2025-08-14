@@ -737,8 +737,8 @@ export const RaceGradeAndStageList: {
 
 /**
  * ステージ のバリデーション
- * @param raceType
- * @param stage - ステージ
+ * @param raceType - レース種別
+ * @param stage - 開催ステージ
  * @returns - バリデーション済みのステージ
  */
 export const validateRaceStage = (
@@ -768,7 +768,7 @@ export const validateRaceStage = (
 
 /**
  * ステージ リスト
- * @param raceType
+ * @param raceType - レース種別
  */
 const RaceStageList: (raceType: RaceType) => Set<string> = (raceType) =>
     new Set(
@@ -779,7 +779,7 @@ const RaceStageList: (raceType: RaceType) => Set<string> = (raceType) =>
 
 /**
  * HTML表記・oddspark表記の両方をカバーするステージ名マップ
- * @param raceType
+ * @param raceType - レース種別
  */
 const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
     raceType,
