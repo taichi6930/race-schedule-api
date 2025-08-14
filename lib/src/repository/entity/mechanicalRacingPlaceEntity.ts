@@ -26,7 +26,6 @@ export class MechanicalRacingPlaceEntity
      * @param placeData - レース開催場所データ
      * @param grade - グレード
      * @param updateDate - 更新日時
-     * @grade - グレード
      * @remarks
      * レース開催場所データを生成する
      */
