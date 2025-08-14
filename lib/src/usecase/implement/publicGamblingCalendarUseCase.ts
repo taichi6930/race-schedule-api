@@ -110,21 +110,21 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             world: raceEntityList.world.filter((raceEntity) =>
                 displayGradeList.world.includes(raceEntity.raceData.grade),
             ),
-            keirin: this.filterRaceEntityForKeirin(
+            keirin: this.filterRaceEntity(
                 raceEntityList.keirin,
                 displayGradeList.keirin,
                 playerList.keirin,
             ).filter((raceEntity) =>
                 displayGradeList.keirin.includes(raceEntity.raceData.grade),
             ),
-            autorace: this.filterRaceEntityForAutorace(
+            autorace: this.filterRaceEntity(
                 raceEntityList.autorace,
                 displayGradeList.autorace,
                 playerList.autorace,
             ).filter((raceEntity) =>
                 displayGradeList.autorace.includes(raceEntity.raceData.grade),
             ),
-            boatrace: this.filterRaceEntityForBoatrace(
+            boatrace: this.filterRaceEntity(
                 raceEntityList.boatrace,
                 displayGradeList.boatrace,
                 playerList.boatrace,
@@ -270,105 +270,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * @param displayGradeList
      * @param playerDataList
      */
-    private filterRaceEntityForKeirin(
-        raceEntityList: MechanicalRacingRaceEntity[],
-        displayGradeList: GradeType[],
-        playerDataList: PlayerData[],
-    ): MechanicalRacingRaceEntity[] {
-        const filteredRaceEntityList: MechanicalRacingRaceEntity[] =
-            raceEntityList.filter((raceEntity) => {
-                const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
-                    (maxPriority, playerData) => {
-                        const playerPriority =
-                            playerDataList.find(
-                                (player) =>
-                                    playerData.playerNumber ===
-                                    player.playerNumber,
-                            )?.priority ?? 0;
-                        return Math.max(maxPriority, playerPriority);
-                    },
-                    0,
-                );
-
-                const racePriority: number =
-                    RaceGradeAndStageList.filter(
-                        (raceGradeList) =>
-                            raceGradeList.raceType === RaceType.KEIRIN,
-                    ).find((raceGradeList) => {
-                        return (
-                            displayGradeList.includes(
-                                raceEntity.raceData.grade,
-                            ) &&
-                            raceGradeList.grade.includes(
-                                raceEntity.raceData.grade,
-                            ) &&
-                            raceGradeList.stage === raceEntity.stage
-                        );
-                    })?.priority ?? 0;
-
-                return racePriority + maxPlayerPriority >= 6;
-            });
-        return filteredRaceEntityList;
-    }
-
-    /**
-     * 表示対象のレースデータのみに絞り込む
-     * - 6以上の優先度を持つレースデータを表示対象とする
-     * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
-     * @param raceEntityList
-     * @param displayGradeList
-     * @param playerDataList
-     */
-    private filterRaceEntityForAutorace(
-        raceEntityList: MechanicalRacingRaceEntity[],
-        displayGradeList: GradeType[],
-        playerDataList: PlayerData[],
-    ): MechanicalRacingRaceEntity[] {
-        const filteredRaceEntityList: MechanicalRacingRaceEntity[] =
-            raceEntityList.filter((raceEntity) => {
-                const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
-                    (maxPriority, playerData) => {
-                        const playerPriority =
-                            playerDataList.find(
-                                (player) =>
-                                    playerData.playerNumber ===
-                                    player.playerNumber,
-                            )?.priority ?? 0;
-                        return Math.max(maxPriority, playerPriority);
-                    },
-                    0,
-                );
-
-                const racePriority: number =
-                    RaceGradeAndStageList.filter(
-                        (raceGradeList) =>
-                            raceGradeList.raceType === RaceType.AUTORACE,
-                    ).find((raceGradeList) => {
-                        return (
-                            displayGradeList.includes(
-                                raceEntity.raceData.grade,
-                            ) &&
-                            raceGradeList.grade.includes(
-                                raceEntity.raceData.grade,
-                            ) &&
-                            raceGradeList.stage === raceEntity.stage
-                        );
-                    })?.priority ?? 0;
-
-                return racePriority + maxPlayerPriority >= 6;
-            });
-        return filteredRaceEntityList;
-    }
-
-    /**
-     * 表示対象のレースデータのみに絞り込む
-     * - 6以上の優先度を持つレースデータを表示対象とする
-     * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
-     * @param raceEntityList
-     * @param displayGradeList
-     * @param playerDataList
-     */
-    private filterRaceEntityForBoatrace(
+    private filterRaceEntity(
         raceEntityList: MechanicalRacingRaceEntity[],
         displayGradeList: GradeType[],
         playerDataList: PlayerData[],
