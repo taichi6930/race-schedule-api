@@ -151,7 +151,6 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         if (grade) {
                             keirinPlaceEntityList.push(
                                 MechanicalRacingPlaceEntity.createWithoutId(
-                                    raceType,
                                     PlaceData.create(raceType, datetime, place),
                                     grade,
                                     getJSTDate(new Date()),

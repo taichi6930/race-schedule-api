@@ -169,7 +169,6 @@ describe('MechanicalRacingPlaceRecord', () => {
             const entity = base.toEntity();
             expect(entity).toEqual({
                 id: base.id,
-                raceType: base.raceType,
                 placeData: PlaceData.create(
                     base.raceType,
                     base.dateTime,

@@ -96,7 +96,6 @@ export class MechanicalRacingPlaceRecord
     public toEntity(): MechanicalRacingPlaceEntity {
         return MechanicalRacingPlaceEntity.create(
             this.id,
-            this.raceType,
             PlaceData.create(this.raceType, this.dateTime, this.location),
             this.grade,
             this.updateDate,

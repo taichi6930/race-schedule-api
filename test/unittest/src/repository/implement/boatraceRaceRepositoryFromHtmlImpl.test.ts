@@ -50,7 +50,6 @@ describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
                         raceType,
                         [
                             MechanicalRacingPlaceEntity.createWithoutId(
-                                raceType,
                                 PlaceData.create(
                                     raceType,
                                     new Date('2024-11-24'),

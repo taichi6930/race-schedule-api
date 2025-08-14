@@ -23,7 +23,6 @@ export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
 
         while (currentDate <= searchFilter.finishDate) {
             const placeEntity = MechanicalRacingPlaceEntity.createWithoutId(
-                searchFilter.raceType,
                 PlaceData.create(
                     searchFilter.raceType,
                     new Date(currentDate),

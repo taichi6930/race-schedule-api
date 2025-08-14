@@ -161,7 +161,6 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             ) {
                 const boatracePlaceEntity =
                     MechanicalRacingPlaceEntity.createWithoutId(
-                        raceType,
                         PlaceData.create(
                             raceType,
                             new Date(currentDate),

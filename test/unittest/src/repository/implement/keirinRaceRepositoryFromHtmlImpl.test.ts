@@ -48,7 +48,6 @@ describe('KeirinRaceRepositoryFromHtmlImpl', () => {
                         RaceType.KEIRIN,
                         [
                             MechanicalRacingPlaceEntity.createWithoutId(
-                                RaceType.KEIRIN,
                                 PlaceData.create(
                                     RaceType.KEIRIN,
                                     new Date('2024-10-20'),

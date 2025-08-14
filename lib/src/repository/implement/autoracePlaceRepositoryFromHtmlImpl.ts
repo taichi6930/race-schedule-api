@@ -173,7 +173,6 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                     if (grade) {
                         autoracePlaceEntityList.push(
                             MechanicalRacingPlaceEntity.createWithoutId(
-                                raceType,
                                 PlaceData.create(raceType, datetime, place),
                                 grade,
                                 getJSTDate(new Date()),

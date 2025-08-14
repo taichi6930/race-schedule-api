@@ -154,7 +154,6 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
                 MechanicalRacingPlaceEntity.createWithoutId(
-                    raceType,
                     PlaceData.create(raceType, date, location),
                     'GⅠ',
                     getJSTDate(new Date()),
