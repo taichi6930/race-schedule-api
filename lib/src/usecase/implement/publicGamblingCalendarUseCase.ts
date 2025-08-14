@@ -111,6 +111,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 displayGradeList.world.includes(raceEntity.raceData.grade),
             ),
             keirin: this.filterRaceEntity(
+                RaceType.KEIRIN,
                 raceEntityList.keirin,
                 displayGradeList.keirin,
                 playerList.keirin,
@@ -118,6 +119,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 displayGradeList.keirin.includes(raceEntity.raceData.grade),
             ),
             autorace: this.filterRaceEntity(
+                RaceType.AUTORACE,
                 raceEntityList.autorace,
                 displayGradeList.autorace,
                 playerList.autorace,
@@ -125,6 +127,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 displayGradeList.autorace.includes(raceEntity.raceData.grade),
             ),
             boatrace: this.filterRaceEntity(
+                RaceType.BOATRACE,
                 raceEntityList.boatrace,
                 displayGradeList.boatrace,
                 playerList.boatrace,
@@ -266,11 +269,13 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * 表示対象のレースデータのみに絞り込む
      * - 6以上の優先度を持つレースデータを表示対象とする
      * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
+     * @param raceType
      * @param raceEntityList
      * @param displayGradeList
      * @param playerDataList
      */
     private filterRaceEntity(
+        raceType: RaceType,
         raceEntityList: MechanicalRacingRaceEntity[],
         displayGradeList: GradeType[],
         playerDataList: PlayerData[],
@@ -292,8 +297,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
 
                 const racePriority: number =
                     RaceGradeAndStageList.filter(
-                        (raceGradeList) =>
-                            raceGradeList.raceType === RaceType.BOATRACE,
+                        (raceGradeList) => raceGradeList.raceType === raceType,
                     ).find((raceGradeList) => {
                         return (
                             displayGradeList.includes(
