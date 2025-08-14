@@ -158,7 +158,7 @@ export default [
             '@typescript-eslint/no-magic-numbers': 'off', // ✅ マジックナンバーを禁止
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
-             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
+            '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
             'unused-imports/no-unused-vars': [
                 'error',
                 {
