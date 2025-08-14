@@ -10,7 +10,6 @@ import type { JraRaceRecord } from '../../src/gateway/record/jraRaceRecord';
 import type { MechanicalRacingPlaceRecord } from '../../src/gateway/record/mechanicalRacingPlaceRecord';
 import type { MechanicalRacingRaceRecord } from '../../src/gateway/record/mechanicalRacingRaceRecord';
 import type { RacePlayerRecord } from '../../src/gateway/record/racePlayerRecord';
-import type { WorldRaceRecord } from '../../src/gateway/record/worldRaceRecord';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
 // s3Gatewayの実装クラスをDIコンテナに登錄する
@@ -299,19 +298,19 @@ container.register<IS3Gateway<heldDayRecord>>('JraHeldDayS3Gateway', {
         }
     },
 });
-container.register<IS3Gateway<WorldRaceRecord>>('WorldRaceS3Gateway', {
+container.register<IS3Gateway<HorseRacingRaceRecord>>('WorldRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<WorldRaceRecord>(
+                return new S3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket',
                     'world/',
                 );
             }
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<WorldRaceRecord>(
+                return new S3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket-test',
                     'world/',
                 );
@@ -320,7 +319,7 @@ container.register<IS3Gateway<WorldRaceRecord>>('WorldRaceS3Gateway', {
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<WorldRaceRecord>(
+                return new MockS3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket',
                     'world/',
                 );

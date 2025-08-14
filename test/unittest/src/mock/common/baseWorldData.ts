@@ -2,7 +2,7 @@ import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { WorldRaceRecord } from '../../../../../lib/src/gateway/record/worldRaceRecord';
+import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
@@ -42,7 +42,7 @@ const baseWorldConditionData = HorseRaceConditionData.create(
     baseRaceDistance,
 );
 
-export const baseWorldRaceRecord = WorldRaceRecord.create(
+export const baseWorldRaceRecord = HorseRacingRaceRecord.create(
     generateRaceId(
         RaceType.WORLD,
         baseWorldPlaceDateTime,

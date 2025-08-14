@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
+import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -23,7 +23,7 @@ export class WorldRaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('WorldRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<WorldRaceRecord>,
+        private readonly s3Gateway: IS3Gateway<HorseRacingRaceRecord>,
     ) {}
 
     /**
@@ -35,7 +35,7 @@ export class WorldRaceRepositoryFromStorageImpl
         searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
     ): Promise<WorldRaceEntity[]> {
         // ファイル名リストから開催データを取得する
-        const raceRecordList: WorldRaceRecord[] =
+        const raceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(searchFilter.raceType);
 
         // RaceRecordをRaceEntityに変換
@@ -64,11 +64,11 @@ export class WorldRaceRepositoryFromStorageImpl
         raceEntityList: WorldRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
-        const existFetchRaceRecordList: WorldRaceRecord[] =
+        const existFetchRaceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(raceType);
 
         // RaceEntityをRaceRecordに変換する
-        const raceRecordList: WorldRaceRecord[] = raceEntityList.map(
+        const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(
             (raceEntity) => raceEntity.toRaceRecord(),
         );
 
@@ -104,7 +104,7 @@ export class WorldRaceRepositoryFromStorageImpl
     @Logger
     private async getRaceRecordListFromS3(
         raceType: RaceType,
-    ): Promise<WorldRaceRecord[]> {
+    ): Promise<HorseRacingRaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
 
@@ -133,33 +133,35 @@ export class WorldRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してRaceDataのリストを生成
-        return lines.slice(1).flatMap((line: string): WorldRaceRecord[] => {
-            try {
-                const columns = line.split(',');
+        return lines
+            .slice(1)
+            .flatMap((line: string): HorseRacingRaceRecord[] => {
+                try {
+                    const columns = line.split(',');
 
-                // updateDateが存在しない場合は現在時刻を設定
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
+                    // updateDateが存在しない場合は現在時刻を設定
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
 
-                return [
-                    WorldRaceRecord.create(
-                        columns[indices.id],
-                        raceType,
-                        columns[indices.name],
-                        new Date(columns[indices.dateTime]),
-                        columns[indices.location],
-                        columns[indices.surfaceType],
-                        Number.parseInt(columns[indices.distance]),
-                        columns[indices.grade],
-                        Number.parseInt(columns[indices.number]),
-                        updateDate,
-                    ),
-                ];
-            } catch (error) {
-                console.error(error);
-                return [];
-            }
-        });
+                    return [
+                        HorseRacingRaceRecord.create(
+                            columns[indices.id],
+                            raceType,
+                            columns[indices.name],
+                            new Date(columns[indices.dateTime]),
+                            columns[indices.location],
+                            columns[indices.surfaceType],
+                            Number.parseInt(columns[indices.distance]),
+                            columns[indices.grade],
+                            Number.parseInt(columns[indices.number]),
+                            updateDate,
+                        ),
+                    ];
+                } catch (error) {
+                    console.error(error);
+                    return [];
+                }
+            });
     }
 }

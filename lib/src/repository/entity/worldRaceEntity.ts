@@ -2,10 +2,9 @@ import '../../utility/format';
 
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
-import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
+import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
 import { generateRaceId } from '../../utility/data/common/raceId';
-import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
@@ -63,7 +62,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     ): WorldRaceEntity {
         return WorldRaceEntity.create(
             generateRaceId(
-                RaceType.WORLD,
+                raceData.raceType,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -90,8 +89,8 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     /**
      * WorldRaceRecordに変換する
      */
-    public toRaceRecord(): WorldRaceRecord {
-        return WorldRaceRecord.create(
+    public toRaceRecord(): HorseRacingRaceRecord {
+        return HorseRacingRaceRecord.create(
             this.id,
             this.raceData.raceType,
             this.raceData.name,
