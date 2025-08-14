@@ -7,10 +7,7 @@ import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { GradeType } from '../../utility/data/common/gradeType';
-import {
-    AutoraceStageMap,
-    RaceStage,
-} from '../../utility/data/common/raceStage';
+import { RaceStage, StageMap } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -144,7 +141,9 @@ export class AutoraceRaceRepositoryFromHtmlImpl
         }
     }
     private extractRaceStage(raceSummaryInfoChild: string): RaceStage | null {
-        for (const [pattern, stage] of Object.entries(AutoraceStageMap)) {
+        for (const [pattern, stage] of Object.entries(
+            StageMap(RaceType.AUTORACE),
+        )) {
             if (new RegExp(pattern).test(raceSummaryInfoChild)) {
                 return stage;
             }

@@ -346,6 +346,7 @@ const RaceCourseList = (raceType: RaceType): Set<string> =>
 
 /**
  * RaceCourseMasterListからraceTypeごとのPlaceCodeMapを生成するユーティリティ
+ * レース場名とコードの対応表
  * @param raceType - レース種別
  * @returns placeName をキー、placeCode を値とするマップ
  */
@@ -367,7 +368,7 @@ export const createPlaceCodeMap = (
 };
 
 /**
- * JraRaceCourseのzod型定義
+ * RaceCourseのzod型定義
  * @param raceType - レース種別
  */
 const createRaceCourseSchema = (raceType: RaceType): z.ZodString =>
@@ -384,34 +385,6 @@ export const validateRaceCourse = (
     raceType: RaceType,
     location: string,
 ): RaceCourse => createRaceCourseSchema(raceType).parse(location);
-
-/**
- * オートレースのレース場名とコードの対応表（RaceCourseMasterListから自動生成）
- */
-export const AutoracePlaceCodeMap: Record<string, string> = createPlaceCodeMap(
-    RaceType.AUTORACE,
-);
-
-/**
- * 競輪のレース場名とコードの対応表
- */
-export const KeirinPlaceCodeMap: Record<string, string> = createPlaceCodeMap(
-    RaceType.KEIRIN,
-);
-
-/**
- * 地方競馬のレース場名とコードの対応表
- */
-export const NarBabacodeMap: Record<string, string> = createPlaceCodeMap(
-    RaceType.NAR,
-);
-
-/**
- * ボートレースのレース場名とコードの対応表
- */
-export const BoatracePlaceCodeMap: Record<string, string> = createPlaceCodeMap(
-    RaceType.BOATRACE,
-);
 
 /**
  * RaceCourseのzod型定義
