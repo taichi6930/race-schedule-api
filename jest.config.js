@@ -6,6 +6,8 @@ module.exports = {
     coveragePathIgnorePatterns: [
         'logger.ts',
         'lib/src/utility/env.ts',
+        'lib/src/gateway/mock/mockPlaceDataHtmlGateway.ts',
+        'lib/src/gateway/mock/mockRaceDataHtmlGateway.ts',
         // TODO: データ用意が大変なので一旦除外、どこかでテストしたい
         'lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl.ts',
@@ -13,8 +15,6 @@ module.exports = {
         'lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl.ts',
         'lib/src/utility/sqlite.ts',
-        'lib/src/gateway/mock/mockPlaceDataHtmlGateway.ts',
-        'lib/src/gateway/mock/mockRaceDataHtmlGateway.ts',
     ],
     coverageReporters: ['text', 'lcov'],
     testEnvironment: 'node',
