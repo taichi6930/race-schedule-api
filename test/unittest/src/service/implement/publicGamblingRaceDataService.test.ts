@@ -57,11 +57,11 @@ describe('PublicGamblingRaceDataService', () => {
         const setup: TestSetup = setupTestMock();
         ({
             jraRaceRepositoryFromStorageImpl,
+            horseRacingRaceRepositoryFromStorageImpl,
+            mechanicalRacingRaceRepositoryFromStorageImpl,
             jraRaceRepositoryFromHtmlImpl,
             narRaceRepositoryFromHtmlImpl,
-            horseRacingRaceRepositoryFromStorageImpl,
             worldRaceRepositoryFromHtmlImpl,
-            mechanicalRacingRaceRepositoryFromStorageImpl,
             keirinRaceRepositoryFromHtmlImpl,
             boatraceRaceRepositoryFromHtmlImpl,
             autoraceRaceRepositoryFromHtmlImpl,
@@ -319,15 +319,6 @@ describe('PublicGamblingRaceDataService', () => {
             ).not.toHaveBeenCalled();
             expect(
                 horseRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
-            ).not.toHaveBeenCalled();
-            expect(
-                horseRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
-            ).not.toHaveBeenCalled();
-            expect(
-                mechanicalRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
-            ).not.toHaveBeenCalled();
-            expect(
-                mechanicalRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).not.toHaveBeenCalled();
             expect(
                 mechanicalRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
