@@ -107,7 +107,7 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
 export const baseWorldCalendarData = CalendarData.create(
     'test20241001longchamp01',
     RaceType.WORLD,
-    '凱旋門賞',
+    baseWorldRaceName,
     '2024-10-01T16:30:00Z',
     '2024-10-01T16:40:00Z',
     'パリロンシャン競馬場',
@@ -116,7 +116,7 @@ export const baseWorldCalendarData = CalendarData.create(
 
 export const baseWorldCalendarDataFromGoogleCalendar = {
     id: 'test20241001longchamp01',
-    summary: '凱旋門賞',
+    summary: baseWorldRaceName,
     start: {
         dateTime: '2024-10-01T16:30:00Z',
     },
