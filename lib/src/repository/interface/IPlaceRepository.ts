@@ -57,5 +57,10 @@ export interface IPlaceRepository<P extends IPlaceEntity<P>> {
     registerPlaceEntityList: (
         raceType: RaceType,
         placeEntityList: P[],
-    ) => Promise<void>;
+    ) => Promise<{
+        code: number;
+        message: string;
+        successData: P[];
+        failureData: P[];
+    }>;
 }

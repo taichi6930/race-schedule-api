@@ -74,7 +74,6 @@ export const baseKeirinRaceRecord = MechanicalRacingRaceRecord.create(
 
 export const baseKeirinPlaceEntity =
     MechanicalRacingPlaceEntity.createWithoutId(
-        RaceType.KEIRIN,
         baseKeirinPlaceData,
         baseKeirinPlaceGrade,
         baseKeirinRaceUpdateDate,

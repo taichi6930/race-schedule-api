@@ -14,7 +14,6 @@
 import { ZodError } from 'zod';
 
 import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
 import {
     baseAutoracePlaceData,
     baseAutoracePlaceEntity,
@@ -128,7 +127,6 @@ describe('MechanicalRacingPlaceEntity', () => {
         try {
             MechanicalRacingPlaceEntity.create(
                 '',
-                RaceType.AUTORACE,
                 baseAutoracePlaceData,
                 'GP',
                 new Date(),
@@ -159,7 +157,6 @@ describe('MechanicalRacingPlaceEntity', () => {
         try {
             MechanicalRacingPlaceEntity.create(
                 baseAutoracePlaceId, // autoracePlaceIdの正しい形式
-                RaceType.AUTORACE,
                 baseAutoracePlaceData,
                 '嘘のグレード',
                 new Date(),
@@ -181,7 +178,6 @@ describe('MechanicalRacingPlaceEntity', () => {
 
     it('createWithoutIdでid自動生成', () => {
         const placeEntity = MechanicalRacingPlaceEntity.createWithoutId(
-            RaceType.AUTORACE,
             baseAutoracePlaceData,
             baseAutoracePlaceGrade,
             baseAutoraceRaceUpdateDate,

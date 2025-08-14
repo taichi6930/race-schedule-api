@@ -73,7 +73,6 @@ export const baseBoatraceRaceRecord = MechanicalRacingRaceRecord.create(
 
 export const baseBoatracePlaceEntity =
     MechanicalRacingPlaceEntity.createWithoutId(
-        RaceType.BOATRACE,
         baseBoatracePlaceData,
         baseBoatracePlaceGrade,
         baseBoatraceRaceUpdateDate,

@@ -65,7 +65,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                 placeEntity.placeData.dateTime.getDate(),
             ];
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                placeEntity.raceType,
+                placeEntity.placeData.raceType,
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
@@ -119,7 +119,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                             autoraceRaceDataList.push(
                                 MechanicalRacingRaceEntity.createWithoutId(
                                     RaceData.create(
-                                        placeEntity.raceType,
+                                        placeEntity.placeData.raceType,
                                         raceName,
                                         raceDate,
                                         placeEntity.placeData.location,

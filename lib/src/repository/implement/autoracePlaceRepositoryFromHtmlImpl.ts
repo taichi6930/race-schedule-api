@@ -173,7 +173,6 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                     if (grade) {
                         autoracePlaceEntityList.push(
                             MechanicalRacingPlaceEntity.createWithoutId(
-                                raceType,
                                 PlaceData.create(raceType, datetime, place),
                                 grade,
                                 getJSTDate(new Date()),
@@ -196,9 +195,19 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     public async registerPlaceEntityList(
         raceType: RaceType,
         placeEntityList: MechanicalRacingPlaceEntity[],
-    ): Promise<void> {
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: MechanicalRacingPlaceEntity[];
+        failureData: MechanicalRacingPlaceEntity[];
+    }> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
-        throw new Error('HTMLにはデータを登録出来ません');
+        return {
+            code: 500,
+            message: 'HTMLにはデータを登録出来ません',
+            successData: [],
+            failureData: placeEntityList,
+        };
     }
 }

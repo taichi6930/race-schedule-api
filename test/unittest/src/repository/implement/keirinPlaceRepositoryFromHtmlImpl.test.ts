@@ -11,6 +11,7 @@ import type { IPlaceRepository } from '../../../../../lib/src/repository/interfa
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
+import { baseKeirinPlaceEntity } from '../../mock/common/baseKeirinData';
 
 describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: IPlaceDataHtmlGateway;
@@ -52,15 +53,18 @@ describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('registerPlaceList', () => {
-        SkipEnv(
-            'htmlなので登録できない',
-            [allowedEnvs.githubActionsCi],
-            async () => {
-                // テスト実行
-                await expect(
-                    repository.registerPlaceEntityList(RaceType.KEIRIN, []),
-                ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            },
-        );
+        it('htmlなので登録できない', async () => {
+            // テスト実行
+            await expect(
+                repository.registerPlaceEntityList(RaceType.KEIRIN, [
+                    baseKeirinPlaceEntity,
+                ]),
+            ).resolves.toEqual({
+                code: 500,
+                message: 'HTMLにはデータを登録出来ません',
+                successData: [],
+                failureData: [baseKeirinPlaceEntity],
+            });
+        });
     });
 });

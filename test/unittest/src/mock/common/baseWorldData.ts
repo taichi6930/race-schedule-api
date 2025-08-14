@@ -3,7 +3,7 @@ import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceC
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { WorldRaceRecord } from '../../../../../lib/src/gateway/record/worldRaceRecord';
-import { WorldPlaceEntity } from '../../../../../lib/src/repository/entity/worldPlaceEntity';
+import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
@@ -60,8 +60,10 @@ export const baseWorldRaceRecord = WorldRaceRecord.create(
     baseWorldRaceUpdateDate,
 );
 
-export const baseWorldPlaceEntity =
-    WorldPlaceEntity.createWithoutId(baseWorldPlaceData);
+export const baseWorldPlaceEntity = HorseRacingPlaceEntity.createWithoutId(
+    baseWorldPlaceData,
+    baseWorldRaceUpdateDate,
+);
 
 export const baseWorldRaceEntity = WorldRaceEntity.createWithoutId(
     baseWorldRaceData,

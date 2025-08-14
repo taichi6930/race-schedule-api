@@ -3,18 +3,18 @@ import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
-import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // WorldRaceRepositoryFromHtmlImplのモックを作成
 export class MockWorldRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
+    implements IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
     ): Promise<WorldRaceEntity[]> {
         const raceEntityList: WorldRaceEntity[] = [];
         const currentDate = new Date(searchFilter.startDate);

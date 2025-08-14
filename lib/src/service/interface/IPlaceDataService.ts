@@ -51,5 +51,10 @@ export interface IPlaceDataService {
         keirin: MechanicalRacingPlaceEntity[];
         autorace: MechanicalRacingPlaceEntity[];
         boatrace: MechanicalRacingPlaceEntity[];
-    }) => Promise<void>;
+    }) => Promise<{
+        code: number;
+        message: string;
+        successDataCount: number;
+        failureDataCount: number;
+    }>;
 }

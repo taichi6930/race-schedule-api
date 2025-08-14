@@ -6,7 +6,6 @@ import type { JraPlaceEntity } from '../../src/repository/entity/jraPlaceEntity'
 import type { JraRaceEntity } from '../../src/repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../src/repository/entity/mechanicalRacingPlaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../src/repository/entity/mechanicalRacingRaceEntity';
-import type { WorldPlaceEntity } from '../../src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../src/repository/entity/worldRaceEntity';
 import { AutoracePlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
@@ -76,10 +75,11 @@ switch (ENV) {
             'AutoracePlaceRepositoryFromHtml',
             { useClass: AutoracePlaceRepositoryFromHtmlImpl },
         );
-        container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
-            'WorldRaceRepositoryFromHtml',
-            { useClass: WorldRaceRepositoryFromHtmlImpl },
-        );
+        container.register<
+            IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>
+        >('WorldRaceRepositoryFromHtml', {
+            useClass: WorldRaceRepositoryFromHtmlImpl,
+        });
         container.register<
             IRaceRepository<
                 MechanicalRacingRaceEntity,
@@ -147,10 +147,11 @@ switch (ENV) {
             'AutoracePlaceRepositoryFromHtml',
             { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },
         );
-        container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
-            'WorldRaceRepositoryFromHtml',
-            { useClass: MockWorldRaceRepositoryFromHtmlImpl },
-        );
+        container.register<
+            IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>
+        >('WorldRaceRepositoryFromHtml', {
+            useClass: MockWorldRaceRepositoryFromHtmlImpl,
+        });
         container.register<IPlaceRepository<MechanicalRacingPlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',
             { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },

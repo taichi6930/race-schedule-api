@@ -145,6 +145,34 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
 
     describe('updatePlaceDataList', () => {
         it('正常に開催場データが更新されること', async () => {
+            jraPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
+                {
+                    code: 200,
+                    message: '',
+                    successData: [baseJraPlaceEntity],
+                    failureData: [],
+                },
+            );
+            narPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
+                {
+                    code: 200,
+                    message: '',
+                    successData: [baseNarPlaceEntity],
+                    failureData: [],
+                },
+            );
+            mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
+                {
+                    code: 200,
+                    message: '',
+                    successData: [
+                        baseKeirinPlaceEntity,
+                        baseBoatracePlaceEntity,
+                        baseAutoracePlaceEntity,
+                    ],
+                    failureData: [],
+                },
+            );
             // モックの戻り値を設定
             jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseJraPlaceEntity],

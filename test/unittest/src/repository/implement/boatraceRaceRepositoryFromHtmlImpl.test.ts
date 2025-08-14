@@ -21,6 +21,8 @@ describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
         MechanicalRacingPlaceEntity
     >;
 
+    const raceType: RaceType = RaceType.BOATRACE;
+
     beforeEach(() => {
         // gatewayのモックを作成
         raceDataHtmlGateway = new MockRaceDataHtmlGateway();
@@ -45,12 +47,11 @@ describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
-                        RaceType.BOATRACE,
+                        raceType,
                         [
                             MechanicalRacingPlaceEntity.createWithoutId(
-                                RaceType.BOATRACE,
                                 PlaceData.create(
-                                    RaceType.BOATRACE,
+                                    raceType,
                                     new Date('2024-11-24'),
                                     '下関',
                                 ),
@@ -66,15 +67,11 @@ describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('registerRaceList', () => {
-        SkipEnv(
-            'htmlなので登録できない',
-            [allowedEnvs.githubActionsCi],
-            async () => {
-                // テスト実行
-                await expect(
-                    repository.registerRaceEntityList(RaceType.BOATRACE, []),
-                ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            },
-        );
+        it('HTMLにはデータを登録できないこと', async () => {
+            // テスト実行
+            await expect(
+                repository.registerRaceEntityList(raceType, []),
+            ).rejects.toThrow('HTMLにはデータを登録出来ません');
+        });
     });
 });

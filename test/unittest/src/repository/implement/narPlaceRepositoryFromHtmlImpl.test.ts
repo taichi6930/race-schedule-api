@@ -11,6 +11,7 @@ import type { IPlaceRepository } from '../../../../../lib/src/repository/interfa
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
+import { baseNarPlaceEntity } from '../../mock/common/baseNarData';
 
 describe('NarPlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: IPlaceDataHtmlGateway;
@@ -52,15 +53,18 @@ describe('NarPlaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('registerPlaceList', () => {
-        SkipEnv(
-            'htmlなので登録できない',
-            [allowedEnvs.githubActionsCi],
-            async () => {
-                // テスト実行
-                await expect(
-                    repository.registerPlaceEntityList(RaceType.NAR, []),
-                ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            },
-        );
+        it('htmlなので登録できない', async () => {
+            // テスト実行
+            await expect(
+                repository.registerPlaceEntityList(RaceType.NAR, [
+                    baseNarPlaceEntity,
+                ]),
+            ).resolves.toEqual({
+                code: 500,
+                message: 'HTMLにはデータを登録出来ません',
+                successData: [],
+                failureData: [baseNarPlaceEntity],
+            });
+        });
     });
 });

@@ -85,7 +85,6 @@ export const baseJraRaceRecord = JraRaceRecord.create(
 );
 
 export const baseJraPlaceEntity = JraPlaceEntity.createWithoutId(
-    RaceType.JRA,
     baseJraPlaceData,
     baseJraHeldDayData,
     baseJraRaceUpdateDate,

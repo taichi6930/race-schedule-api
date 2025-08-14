@@ -236,6 +236,50 @@ describe('PublicGamblingPlaceDataService', () => {
                 },
             );
 
+            // registerPlaceEntityList の戻り値を正しい型でモック
+            jraPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
+                {
+                    code: 200,
+                    message: '',
+                    successData: [baseJraPlaceEntity],
+                    failureData: [],
+                },
+            );
+
+            narPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
+                {
+                    code: 200,
+                    message: '',
+                    successData: [baseNarPlaceEntity],
+                    failureData: [],
+                },
+            );
+
+            mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockImplementation(
+                async (
+                    raceType: RaceType,
+                    placeEntityList: MechanicalRacingPlaceEntity[],
+                ) => {
+                    if (
+                        raceType === RaceType.KEIRIN ||
+                        raceType === RaceType.AUTORACE ||
+                        raceType === RaceType.BOATRACE
+                    ) {
+                        return {
+                            code: 200,
+                            message: '',
+                            successData: placeEntityList,
+                            failureData: [],
+                        };
+                    }
+                    return {
+                        code: 200,
+                        message: '',
+                        successData: [],
+                        failureData: [],
+                    };
+                },
+            );
             await service.updatePlaceEntityList(mockPlaceEntity);
 
             expect(

@@ -86,7 +86,6 @@ export class HorseRacingPlaceRecord implements IRecord<HorseRacingPlaceRecord> {
     public toEntity(): HorseRacingPlaceEntity {
         return HorseRacingPlaceEntity.create(
             this.id,
-            this.raceType,
             PlaceData.create(this.raceType, this.dateTime, this.location),
             this.updateDate,
         );

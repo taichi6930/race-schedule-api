@@ -49,7 +49,6 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                         RaceType.NAR,
                         [
                             HorseRacingPlaceEntity.createWithoutId(
-                                RaceType.NAR,
                                 PlaceData.create(
                                     RaceType.NAR,
                                     new Date('2024-10-02'),
@@ -74,7 +73,6 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                         RaceType.NAR,
                         [
                             HorseRacingPlaceEntity.createWithoutId(
-                                RaceType.NAR,
                                 PlaceData.create(
                                     RaceType.NAR,
                                     new Date('2023-10-08'),
@@ -99,7 +97,6 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                         RaceType.NAR,
                         [
                             HorseRacingPlaceEntity.createWithoutId(
-                                RaceType.NAR,
                                 PlaceData.create(
                                     RaceType.NAR,
                                     new Date('2024-10-02'),
@@ -124,7 +121,6 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                         RaceType.NAR,
                         [
                             HorseRacingPlaceEntity.createWithoutId(
-                                RaceType.NAR,
                                 PlaceData.create(
                                     RaceType.NAR,
                                     new Date('2024-09-02'),

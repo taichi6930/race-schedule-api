@@ -38,8 +38,14 @@ const PlaceIdSchema = (raceType: RaceType): z.ZodString => {
             .refine((value) => {
                 return value.startsWith(lowerCaseRaceType);
             }, `${lowerCaseRaceType}から始まる必要があります`)
-            // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）
+            // RaceType.WORLD以外は raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）
+            // RaceType.WORLDは raceTypeの後に8桁の数字（開催日） + 英語の開催場所名（2文字から20文字）
             .refine((value) => {
+                if (raceType === RaceType.WORLD) {
+                    return new RegExp(
+                        `^${lowerCaseRaceType}\\d{8}[a-zA-Z]{2,20}$`,
+                    ).test(value);
+                }
                 return new RegExp(`^${lowerCaseRaceType}\\d{10}$`).test(value);
             }, `${lowerCaseRaceType}PlaceIdの形式ではありません`)
     );

@@ -10,6 +10,7 @@ import { JraPlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repositor
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { allowedEnvs, SkipEnv } from '../../../../utility/testDecorators';
+import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
 
 describe('JraPlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: IPlaceDataHtmlGateway;
@@ -51,15 +52,18 @@ describe('JraPlaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('registerPlaceList', () => {
-        SkipEnv(
-            'htmlなので登録できない',
-            [allowedEnvs.githubActionsCi],
-            async () => {
-                // テスト実行
-                await expect(
-                    repository.registerPlaceEntityList(RaceType.JRA, []),
-                ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            },
-        );
+        it('htmlなので登録できない', async () => {
+            // テスト実行
+            await expect(
+                repository.registerPlaceEntityList(RaceType.JRA, [
+                    baseJraPlaceEntity,
+                ]),
+            ).resolves.toEqual({
+                code: 500,
+                message: 'HTMLにはデータを登録出来ません',
+                successData: [],
+                failureData: [baseJraPlaceEntity],
+            });
+        });
     });
 });

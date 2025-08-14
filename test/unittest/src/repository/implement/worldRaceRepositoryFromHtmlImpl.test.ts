@@ -4,8 +4,8 @@ import { container } from 'tsyringe';
 
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
+import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import type { WorldPlaceEntity } from '../../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -15,7 +15,7 @@ import { SkipEnv } from '../../../../utility/testDecorators';
 
 describe('WorldRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
-    let repository: IRaceRepository<WorldRaceEntity, WorldPlaceEntity>;
+    let repository: IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>;
 
     beforeEach(() => {
         // gatewayのモックを作成
@@ -38,7 +38,7 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<WorldPlaceEntity>(
+                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2025-05-01'),
                         new Date('2025-06-30'),
                         RaceType.WORLD,
@@ -54,7 +54,7 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<WorldPlaceEntity>(
+                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2025-06-01'),
                         new Date('2025-07-31'),
                         RaceType.WORLD,

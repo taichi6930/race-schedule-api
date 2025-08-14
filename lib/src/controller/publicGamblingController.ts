@@ -270,12 +270,16 @@ export class PublicGamblingController {
             }
 
             // 競馬場情報を取得する
-            await this.placeUseCase.updatePlaceDataList(
+            const response = await this.placeUseCase.updatePlaceDataList(
                 new Date(startDate),
                 new Date(finishDate),
                 raceTypeList,
             );
-            res.status(200).send();
+            res.status(response.code).send({
+                message: response.message,
+                successDataCount: response.successDataCount,
+                failureDataCount: response.failureDataCount,
+            });
         } catch (error) {
             console.error('競馬場情報の更新中にエラーが発生しました:', error);
             const errorMessage =

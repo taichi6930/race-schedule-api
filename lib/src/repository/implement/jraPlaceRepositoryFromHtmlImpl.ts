@@ -54,7 +54,6 @@ export class JraPlaceRepositoryFromHtmlImpl
             ({ horseRacingPlaceRecord, jraHeldDayRecord }) => {
                 return JraPlaceEntity.create(
                     horseRacingPlaceRecord.id,
-                    searchFilter.raceType,
                     PlaceData.create(
                         horseRacingPlaceRecord.raceType,
                         horseRacingPlaceRecord.dateTime,
@@ -240,9 +239,19 @@ export class JraPlaceRepositoryFromHtmlImpl
     public async registerPlaceEntityList(
         raceType: RaceType,
         placeEntityList: JraPlaceEntity[],
-    ): Promise<void> {
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: JraPlaceEntity[];
+        failureData: JraPlaceEntity[];
+    }> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
-        throw new Error('HTMLにはデータを登録出来ません');
+        return {
+            code: 500,
+            message: 'HTMLにはデータを登録出来ません',
+            successData: [],
+            failureData: placeEntityList,
+        };
     }
 }

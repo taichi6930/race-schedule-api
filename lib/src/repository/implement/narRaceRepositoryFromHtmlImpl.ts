@@ -58,7 +58,7 @@ export class NarRaceRepositoryFromHtmlImpl
     ): Promise<HorseRacingRaceEntity[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                placeEntity.raceType,
+                placeEntity.placeData.raceType,
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
@@ -80,7 +80,7 @@ export class NarRaceRepositoryFromHtmlImpl
                         [...tds].map((td) => $(td).text()),
                     );
                     const grade = this.extractGrade(
-                        placeEntity.raceType,
+                        placeEntity.placeData.raceType,
                         [...tds].map((td) => $(td).text()),
                     );
                     const surfaceType = this.extractSurfaceType(
@@ -112,7 +112,7 @@ export class NarRaceRepositoryFromHtmlImpl
                     narRaceDataList.push(
                         HorseRacingRaceEntity.createWithoutId(
                             RaceData.create(
-                                placeEntity.raceType,
+                                placeEntity.placeData.raceType,
                                 processedRaceName,
                                 raceDateTime,
                                 placeEntity.placeData.location,
