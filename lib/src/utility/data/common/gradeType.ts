@@ -239,17 +239,14 @@ export const validateGradeType = (
 
 /**
  * グレードのバリデーションスキーマを生成する
- * @param allowed - 許可されているグレードのセット
+ * @param raceType - レースの種別
  * @param errorMessage - エラーメッセージ
  * @returns ZodString
  */
-const createGradeSchema = (
-    allowed: ReadonlySet<string>,
-    errorMessage: string,
-): ZodString =>
+const createGradeSchema = (raceType: RaceType): ZodString =>
     z.string().refine((value): value is string => {
-        return allowed.has(value);
-    }, errorMessage);
+        return GradeTypeList(raceType).has(value);
+    }, `${raceType}のグレードではありません`);
 
 /**
  * グレード リスト
@@ -276,18 +273,12 @@ const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (raceType) =>
 /**
  * AutoraceGradeTypeのzod型定義
  */
-const AutoraceGradeTypeSchema = createGradeSchema(
-    GradeTypeList(RaceType.AUTORACE),
-    'オートレースのグレードではありません',
-);
+const AutoraceGradeTypeSchema = createGradeSchema(RaceType.AUTORACE);
 
 /**
  * JraGradeTypeのzod型定義
  */
-const JraGradeTypeSchema = createGradeSchema(
-    GradeTypeList(RaceType.JRA),
-    'JRAのグレードではありません',
-);
+const JraGradeTypeSchema = createGradeSchema(RaceType.JRA);
 
 /**
  * JRAの指定グレードリスト
@@ -299,26 +290,17 @@ export const JraSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
 /**
  * WorldGradeTypeのzod型定義
  */
-const WorldGradeTypeSchema = createGradeSchema(
-    GradeTypeList(RaceType.WORLD),
-    '海外競馬のグレードではありません',
-);
+const WorldGradeTypeSchema = createGradeSchema(RaceType.WORLD);
 
 /**
  * KeirinGradeTypeのzod型定義
  */
-const KeirinGradeTypeSchema = createGradeSchema(
-    GradeTypeList(RaceType.KEIRIN),
-    '競輪のグレードではありません',
-);
+const KeirinGradeTypeSchema = createGradeSchema(RaceType.KEIRIN);
 
 /**
  * NarGradeTypeのzod型定義
  */
-const NarGradeTypeSchema = createGradeSchema(
-    GradeTypeList(RaceType.NAR),
-    '地方競馬のグレードではありません',
-);
+const NarGradeTypeSchema = createGradeSchema(RaceType.NAR);
 
 /**
  * 地方競馬の指定グレードリスト
@@ -330,10 +312,7 @@ export const NarSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
 /**
  * BoatraceGradeTypeのzod型定義
  */
-const BoatraceGradeTypeSchema = createGradeSchema(
-    GradeTypeList(RaceType.BOATRACE),
-    'ボートレースのグレードではありません',
-);
+const BoatraceGradeTypeSchema = createGradeSchema(RaceType.BOATRACE);
 
 /**
  * ボートレースの指定グレード リスト

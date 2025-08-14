@@ -167,12 +167,10 @@ describe('MechanicalRacingPlaceEntity', () => {
             fail('バリデーションエラーがthrowされるべき');
         } catch (error) {
             if (error instanceof ZodError) {
-                // エラー内容に「オートレースのグレードではありません」が含まれること
+                // エラー内容に「AUTORACEのグレードではありません」が含まれること
                 expect(
                     error.issues.some(
-                        (e) =>
-                            e.message ===
-                            'オートレースのグレードではありません',
+                        (e) => e.message === 'AUTORACEのグレードではありません',
                     ),
                 ).toBe(true);
             } else {
