@@ -21,8 +21,8 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
  */
 
 describe('heldDayRecord', () => {
-    const validRaceType = RaceType.JRA;
-    const validId = 'jra2024122205';
+    const validRaceType = RaceType.KEIRIN;
+    const validId = 'keirin2024122205';
     const validHeldTimes = 1;
     const validHeldDayTimes = 1;
     const validUpdateDate = new Date('2024-01-01T12:00:00Z');
@@ -112,7 +112,7 @@ describe('heldDayRecord', () => {
             validHeldDayTimes,
             validUpdateDate,
         );
-        const nextId = 'jra2024122206';
+        const nextId = 'keirin2024122206';
         const copied = base.copy({ id: nextId });
         expect(copied.id).toBe(nextId);
         expect(copied.raceType).toBe(base.raceType);
