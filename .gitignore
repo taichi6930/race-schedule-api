@@ -3,7 +3,8 @@
 !prettier.config.js
 *.d.ts
 node_modules
-.dist/
+dist/
+*.tsbuildinfo
 
 # CDK asset staging directory
 .cdk.staging
