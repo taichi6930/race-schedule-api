@@ -247,16 +247,6 @@ const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (raceType) =>
     ).map((grade) => grade.gradeName);
 
 /**
- * AutoraceGradeTypeのzod型定義
- */
-const AutoraceGradeTypeSchema = createGradeSchema(RaceType.AUTORACE);
-
-/**
- * JraGradeTypeのzod型定義
- */
-const JraGradeTypeSchema = createGradeSchema(RaceType.JRA);
-
-/**
  * JRAの指定グレードリスト
  */
 export const JraSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
@@ -264,31 +254,11 @@ export const JraSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
 );
 
 /**
- * WorldGradeTypeのzod型定義
- */
-const WorldGradeTypeSchema = createGradeSchema(RaceType.WORLD);
-
-/**
- * KeirinGradeTypeのzod型定義
- */
-const KeirinGradeTypeSchema = createGradeSchema(RaceType.KEIRIN);
-
-/**
- * NarGradeTypeのzod型定義
- */
-const NarGradeTypeSchema = createGradeSchema(RaceType.NAR);
-
-/**
  * 地方競馬の指定グレードリスト
  */
 export const NarSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
     RaceType.NAR,
 );
-
-/**
- * BoatraceGradeTypeのzod型定義
- */
-const BoatraceGradeTypeSchema = createGradeSchema(RaceType.BOATRACE);
 
 /**
  * ボートレースの指定グレード リスト
@@ -322,12 +292,12 @@ export const AutoraceSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
  * GradeTypeのzod型定義
  */
 export const GradeTypeSchema = z.union([
-    JraGradeTypeSchema,
-    NarGradeTypeSchema,
-    WorldGradeTypeSchema,
-    KeirinGradeTypeSchema,
-    AutoraceGradeTypeSchema,
-    BoatraceGradeTypeSchema,
+    createGradeSchema(RaceType.JRA),
+    createGradeSchema(RaceType.NAR),
+    createGradeSchema(RaceType.WORLD),
+    createGradeSchema(RaceType.KEIRIN),
+    createGradeSchema(RaceType.AUTORACE),
+    createGradeSchema(RaceType.BOATRACE),
 ]);
 
 /**
