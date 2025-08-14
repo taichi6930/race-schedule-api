@@ -9,7 +9,6 @@ import type { MechanicalRacingRaceEntity } from '../../src/repository/entity/mec
 import { HorseRacingRaceRepositoryFromStorageImpl } from '../../src/repository/implement/horseRacingRaceRepositoryFromStorageImpl';
 import { JraRaceRepositoryFromStorageImpl } from '../../src/repository/implement/jraRaceRepositoryFromStorageImpl';
 import { MechanicalRacingRaceRepositoryFromStorageImpl } from '../../src/repository/implement/mechanicalRacingRaceRepositoryFromStorageImpl';
-import { WorldRaceRepositoryFromStorageImpl } from '../../src/repository/implement/worldRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
 
 container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
@@ -24,7 +23,7 @@ container.register<
 container.register<
     IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
 >('WorldRaceRepositoryFromStorage', {
-    useClass: WorldRaceRepositoryFromStorageImpl,
+    useClass: HorseRacingRaceRepositoryFromStorageImpl,
 });
 container.register<
     IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
