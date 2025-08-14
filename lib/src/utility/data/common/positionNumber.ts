@@ -7,14 +7,10 @@ export const validatePositionNumber = (
     positionNumber: number,
 ): PositionNumber => {
     switch (raceType) {
-        case RaceType.AUTORACE: {
-            return AutoracePositionNumberSchema.parse(positionNumber);
-        }
-        case RaceType.BOATRACE: {
-            return BoatracePositionNumberSchema.parse(positionNumber);
-        }
+        case RaceType.AUTORACE:
+        case RaceType.BOATRACE:
         case RaceType.KEIRIN: {
-            return KeirinPositionNumberSchema.parse(positionNumber);
+            return PositionNumberSchema(raceType).parse(positionNumber);
         }
         case RaceType.JRA:
         case RaceType.NAR:
@@ -31,38 +27,61 @@ export const validatePositionNumber = (
 
 /**
  * PositionNumber zod型定義
- * @param min
- * @param max
+ * @param raceType
  */
-const PositionNumberSchema: (min: number, max: number) => z.ZodNumber = (
-    min,
-    max,
-) =>
-    z
+const PositionNumberSchema: (raceType: RaceType) => z.ZodNumber = (
+    raceType,
+) => {
+    const max = createMaxFrameNumber(raceType);
+    return z
         .number()
         .int()
-        .min(min, `枠番は${min}以上である必要があります`)
+        .min(1, `枠番は1以上である必要があります`)
         .max(max, `枠番は${max}以下である必要があります`);
-
-/** AutoracePositionNumber zod型定義 */
-const AutoracePositionNumberSchema = PositionNumberSchema(1, 8);
-
-/** BoatracePositionNumber zod型定義 */
-const BoatracePositionNumberSchema = PositionNumberSchema(1, 6);
-
-/** KeirinPositionNumber zod型定義 */
-const KeirinPositionNumberSchema = PositionNumberSchema(1, 9);
+};
 
 /**
  * 共通のPositionNumber zod型定義
  */
 export const CommonPositionNumberSchema = z.union([
-    KeirinPositionNumberSchema,
-    AutoracePositionNumberSchema,
-    BoatracePositionNumberSchema,
+    PositionNumberSchema(RaceType.KEIRIN),
+    PositionNumberSchema(RaceType.AUTORACE),
+    PositionNumberSchema(RaceType.BOATRACE),
 ]);
 
 /**
  * 共通のPositionNumber型定義
  */
 export type PositionNumber = z.infer<typeof CommonPositionNumberSchema>;
+
+/**
+ * 枠順の最高値を取得します。
+ * @param playerDataList
+ * @param raceType
+ */
+export const createMaxFrameNumber = (raceType: RaceType): number => {
+    switch (raceType) {
+        case RaceType.BOATRACE: {
+            return 6;
+        }
+        case RaceType.AUTORACE: {
+            return 8;
+        }
+        case RaceType.KEIRIN: {
+            return 9;
+        }
+        case RaceType.JRA: {
+            return 18;
+        }
+        case RaceType.NAR: {
+            return 16;
+        }
+        case RaceType.WORLD: {
+            // 一旦大きめに48にする
+            return 48;
+        }
+        default: {
+            return 0;
+        }
+    }
+};
