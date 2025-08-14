@@ -48,7 +48,7 @@ describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
-                        RaceType.AUTORACE,
+                        raceType,
                         [
                             MechanicalRacingPlaceEntity.createWithoutId(
                                 PlaceData.create(
