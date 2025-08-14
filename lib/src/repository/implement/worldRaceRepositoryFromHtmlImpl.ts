@@ -18,8 +18,8 @@ import { validateRaceDistance } from '../../utility/data/common/raceDistance';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
-import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -28,7 +28,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class WorldRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
+    implements IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -41,7 +41,7 @@ export class WorldRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
     ): Promise<WorldRaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,

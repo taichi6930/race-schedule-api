@@ -4,11 +4,11 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
-import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -17,7 +17,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class WorldRaceRepositoryFromStorageImpl
-    implements IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
+    implements IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>
 {
     private readonly fileName = 'raceList.csv';
 
@@ -32,7 +32,7 @@ export class WorldRaceRepositoryFromStorageImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
     ): Promise<WorldRaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const raceRecordList: WorldRaceRecord[] =

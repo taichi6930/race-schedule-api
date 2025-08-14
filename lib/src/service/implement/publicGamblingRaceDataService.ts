@@ -9,7 +9,6 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
-import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
@@ -46,12 +45,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         @inject('WorldRaceRepositoryFromStorage')
         protected readonly worldRaceRepositoryFromStorage: IRaceRepository<
             WorldRaceEntity,
-            WorldPlaceEntity
+            HorseRacingPlaceEntity
         >,
         @inject('WorldRaceRepositoryFromHtml')
         protected readonly worldRaceRepositoryFromHtml: IRaceRepository<
             WorldRaceEntity,
-            WorldPlaceEntity
+            HorseRacingPlaceEntity
         >,
         @inject('KeirinRaceRepositoryFromHtml')
         protected keirinRaceRepositoryFromHtml: IRaceRepository<
@@ -108,7 +107,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         placeEntityList?: {
             jra?: JraPlaceEntity[];
             nar?: HorseRacingPlaceEntity[];
-            world?: WorldPlaceEntity[];
+            world?: HorseRacingPlaceEntity[];
             keirin?: MechanicalRacingPlaceEntity[];
             autorace?: MechanicalRacingPlaceEntity[];
             boatrace?: MechanicalRacingPlaceEntity[];
@@ -186,7 +185,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             // WORLD
             if (raceTypeList.includes(RaceType.WORLD)) {
                 const searchFilter =
-                    new SearchRaceFilterEntity<WorldPlaceEntity>(
+                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         startDate,
                         finishDate,
                         RaceType.WORLD,

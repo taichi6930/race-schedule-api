@@ -10,8 +10,8 @@ import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceC
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import type { WorldRaceRecord } from '../../../../../lib/src/gateway/record/worldRaceRecord';
+import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import type { WorldPlaceEntity } from '../../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/worldRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -21,7 +21,7 @@ import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('WorldRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<WorldRaceRecord>>;
-    let repository: IRaceRepository<WorldRaceEntity, WorldPlaceEntity>;
+    let repository: IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
@@ -50,11 +50,12 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
             // リクエストの作成
-            const searchFilter = new SearchRaceFilterEntity<WorldPlaceEntity>(
-                new Date('2024-01-01'),
-                new Date('2024-02-01'),
-                RaceType.WORLD,
-            );
+            const searchFilter =
+                new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
+                    new Date('2024-01-01'),
+                    new Date('2024-02-01'),
+                    RaceType.WORLD,
+                );
             // テスト実行
             const raceEntityList =
                 await repository.fetchRaceEntityList(searchFilter);
