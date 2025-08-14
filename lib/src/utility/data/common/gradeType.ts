@@ -211,31 +211,7 @@ const GradeMasterList: {
 export const validateGradeType = (
     raceType: RaceType,
     grade: string,
-): GradeType => {
-    switch (raceType) {
-        case RaceType.JRA: {
-            return JraGradeTypeSchema.parse(grade);
-        }
-        case RaceType.NAR: {
-            return NarGradeTypeSchema.parse(grade);
-        }
-        case RaceType.WORLD: {
-            return WorldGradeTypeSchema.parse(grade);
-        }
-        case RaceType.KEIRIN: {
-            return KeirinGradeTypeSchema.parse(grade);
-        }
-        case RaceType.BOATRACE: {
-            return BoatraceGradeTypeSchema.parse(grade);
-        }
-        case RaceType.AUTORACE: {
-            return AutoraceGradeTypeSchema.parse(grade);
-        }
-        default: {
-            throw new Error(`Unsupported race type`);
-        }
-    }
-};
+): GradeType => createGradeSchema(raceType).parse(grade);
 
 /**
  * グレードのバリデーションスキーマを生成する
