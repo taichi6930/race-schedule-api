@@ -9,14 +9,7 @@ import type { ICalendarService } from '../../../../../lib/src/service/interface/
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingCalendarUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingCalendarUseCase';
 import type { IRaceCalendarUseCase } from '../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
-import {
-    AutoraceSpecifiedGradeList,
-    BoatraceSpecifiedGradeList,
-    JraSpecifiedGradeList,
-    KeirinSpecifiedGradeList,
-    NarSpecifiedGradeList,
-    WorldSpecifiedGradeList,
-} from '../../../../../lib/src/utility/data/common/gradeType';
+import { SpecifiedGradeList } from '../../../../../lib/src/utility/data/common/gradeType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
@@ -227,12 +220,12 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 RaceType.BOATRACE,
             ],
             {
-                jra: JraSpecifiedGradeList,
-                nar: NarSpecifiedGradeList,
-                world: WorldSpecifiedGradeList,
-                keirin: KeirinSpecifiedGradeList,
-                autorace: AutoraceSpecifiedGradeList,
-                boatrace: BoatraceSpecifiedGradeList,
+                jra: SpecifiedGradeList(RaceType.JRA),
+                nar: SpecifiedGradeList(RaceType.NAR),
+                world: SpecifiedGradeList(RaceType.WORLD),
+                keirin: SpecifiedGradeList(RaceType.KEIRIN),
+                autorace: SpecifiedGradeList(RaceType.AUTORACE),
+                boatrace: SpecifiedGradeList(RaceType.BOATRACE),
             },
         );
 

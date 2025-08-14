@@ -239,54 +239,14 @@ const GradeTypeList: (raceType: RaceType) => Set<string> = (raceType) =>
  * 指定グレードリスト
  * @param raceType
  */
-const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (raceType) =>
+export const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (
+    raceType,
+) =>
     GradeMasterList.filter((grade) =>
         grade.detail.some(
             (detail) => detail.raceType === raceType && detail.isSpecified,
         ),
     ).map((grade) => grade.gradeName);
-
-/**
- * JRAの指定グレードリスト
- */
-export const JraSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
-    RaceType.JRA,
-);
-
-/**
- * 地方競馬の指定グレードリスト
- */
-export const NarSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
-    RaceType.NAR,
-);
-
-/**
- * ボートレースの指定グレード リスト
- */
-export const BoatraceSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
-    RaceType.BOATRACE,
-);
-
-/**
- * 海外競馬の指定グレード リスト
- */
-export const WorldSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
-    RaceType.WORLD,
-);
-
-/**
- * 競輪の指定グレードリスト
- */
-export const KeirinSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
-    RaceType.KEIRIN,
-);
-
-/**
- * オートレースの指定グレードリスト
- */
-export const AutoraceSpecifiedGradeList: GradeType[] = SpecifiedGradeList(
-    RaceType.AUTORACE,
-);
 
 /**
  * GradeTypeのzod型定義
