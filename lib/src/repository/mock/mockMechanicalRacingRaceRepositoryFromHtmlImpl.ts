@@ -81,9 +81,6 @@ export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
             case RaceType.WORLD: {
                 return '不明';
             }
-            default: {
-                return '不明';
-            }
         }
     }
 }

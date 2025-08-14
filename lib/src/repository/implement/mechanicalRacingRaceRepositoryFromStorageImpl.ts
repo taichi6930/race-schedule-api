@@ -335,9 +335,6 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.WORLD: {
                 throw new Error('Unsupported race type');
             }
-            default: {
-                throw new Error('Unsupported race type');
-            }
         }
     }
 
@@ -374,9 +371,6 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.WORLD: {
                 throw new Error('Unsupported race type');
             }
-            default: {
-                throw new Error('Unsupported race type');
-            }
         }
     }
 
@@ -404,9 +398,6 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.JRA:
             case RaceType.NAR:
             case RaceType.WORLD: {
-                throw new Error('Unsupported race type');
-            }
-            default: {
                 throw new Error('Unsupported race type');
             }
         }
@@ -443,9 +434,6 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.JRA:
             case RaceType.NAR:
             case RaceType.WORLD: {
-                throw new Error('Unsupported race type');
-            }
-            default: {
                 throw new Error('Unsupported race type');
             }
         }

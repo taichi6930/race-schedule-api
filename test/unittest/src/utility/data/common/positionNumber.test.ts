@@ -6,6 +6,9 @@ import { RaceType } from '../../../../../../lib/src/utility/raceType';
  */
 describe('PositionNumber', () => {
     for (const { raceType } of [
+        { raceType: RaceType.JRA },
+        { raceType: RaceType.NAR },
+        { raceType: RaceType.WORLD },
         { raceType: RaceType.KEIRIN },
         { raceType: RaceType.AUTORACE },
         { raceType: RaceType.BOATRACE },

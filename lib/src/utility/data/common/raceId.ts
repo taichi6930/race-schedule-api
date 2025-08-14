@@ -93,10 +93,6 @@ export const validateRaceId = (raceType: RaceType, value: string): RaceId => {
         case RaceType.JRA: {
             return JraRaceIdSchema.parse(value);
         }
-
-        default: {
-            throw new Error(`RaceId validation is not supported`);
-        }
     }
 };
 

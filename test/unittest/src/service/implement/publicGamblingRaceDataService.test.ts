@@ -109,9 +109,6 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.AUTORACE: {
                             return baseAutoraceRaceEntityList;
                         }
-                        default: {
-                            throw new Error('Unsupported race type');
-                        }
                     }
                 },
             );
@@ -245,9 +242,6 @@ describe('PublicGamblingRaceDataService', () => {
                         }
                         case RaceType.AUTORACE: {
                             return baseAutoraceRaceEntityList;
-                        }
-                        default: {
-                            throw new Error('Unsupported race type');
                         }
                     }
                 },

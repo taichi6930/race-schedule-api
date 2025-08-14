@@ -38,9 +38,6 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
             case RaceType.BOATRACE: {
                 return this.buildBoatraceUrl(date, place, number);
             }
-            default: {
-                throw new Error('未対応のraceTypeです');
-            }
         }
     }
 

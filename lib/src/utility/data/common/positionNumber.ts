@@ -28,34 +28,13 @@ export const createMaxFrameNumber = (raceType: RaceType): number => {
             // 一旦大きめに48にする
             return 48;
         }
-        default: {
-            return 0;
-        }
     }
 };
 
 export const validatePositionNumber = (
     raceType: RaceType,
     positionNumber: number,
-): PositionNumber => {
-    switch (raceType) {
-        case RaceType.AUTORACE:
-        case RaceType.BOATRACE:
-        case RaceType.KEIRIN: {
-            return PositionNumberSchema(raceType).parse(positionNumber);
-        }
-        case RaceType.JRA:
-        case RaceType.NAR:
-        case RaceType.WORLD: {
-            throw new Error(
-                `Position number validation is not supported for race type: ${raceType}`,
-            );
-        }
-        default: {
-            throw new Error('Invalid race type');
-        }
-    }
-};
+): PositionNumber => PositionNumberSchema(raceType).parse(positionNumber);
 
 /**
  * PositionNumber zod型定義

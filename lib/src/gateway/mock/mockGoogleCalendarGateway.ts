@@ -140,9 +140,6 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
             case RaceType.WORLD: {
                 return 'パリロンシャン';
             }
-            default: {
-                throw new Error(`Unknown race type`);
-            }
         }
     }
 

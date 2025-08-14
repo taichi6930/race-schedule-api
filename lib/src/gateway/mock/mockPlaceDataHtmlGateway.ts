@@ -41,9 +41,6 @@ export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
                 // WORLDは未対応
                 throw new Error('未対応のraceTypeです');
             }
-            default: {
-                throw new Error('未対応のraceTypeです');
-            }
         }
     }
 
