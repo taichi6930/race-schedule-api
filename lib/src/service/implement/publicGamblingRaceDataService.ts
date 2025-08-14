@@ -2,6 +2,8 @@ import { inject, injectable } from 'tsyringe';
 
 import { HorseRacingPlaceEntity } from '../../repository/entity/horseRacingPlaceEntity';
 import { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
+import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
+import { IRaceEntity } from '../../repository/entity/iRaceEntity';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
@@ -136,6 +138,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         };
 
         try {
+            // JRA
             if (
                 raceTypeList.includes(RaceType.JRA) ||
                 (placeEntityList?.jra !== undefined &&
@@ -147,16 +150,17 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     RaceType.JRA,
                     placeEntityList?.jra,
                 );
-                const jraRaceEntityList: JraRaceEntity[] =
+                const repo =
                     type === DataLocation.Storage
-                        ? await this.jraRaceRepositoryFromStorage.fetchRaceEntityList(
-                              searchFilter,
-                          )
-                        : await this.jraRaceRepositoryFromHtml.fetchRaceEntityList(
-                              searchFilter,
-                          );
+                        ? this.jraRaceRepositoryFromStorage
+                        : this.jraRaceRepositoryFromHtml;
+                const jraRaceEntityList = await this.fetchRaceEntities(
+                    repo,
+                    searchFilter,
+                );
                 result.jra.push(...jraRaceEntityList);
             }
+            // NAR
             if (
                 raceTypeList.includes(RaceType.NAR) ||
                 (placeEntityList?.nar !== undefined &&
@@ -169,16 +173,17 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                         RaceType.NAR,
                         placeEntityList?.nar,
                     );
-                const narRaceEntityList: HorseRacingRaceEntity[] =
+                const repo =
                     type === DataLocation.Storage
-                        ? await this.narRaceRepositoryFromStorage.fetchRaceEntityList(
-                              searchFilter,
-                          )
-                        : await this.narRaceRepositoryFromHtml.fetchRaceEntityList(
-                              searchFilter,
-                          );
+                        ? this.narRaceRepositoryFromStorage
+                        : this.narRaceRepositoryFromHtml;
+                const narRaceEntityList = await this.fetchRaceEntities(
+                    repo,
+                    searchFilter,
+                );
                 result.nar.push(...narRaceEntityList);
             }
+            // WORLD
             if (raceTypeList.includes(RaceType.WORLD)) {
                 const searchFilter =
                     new SearchRaceFilterEntity<WorldPlaceEntity>(
@@ -186,16 +191,17 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                         finishDate,
                         RaceType.WORLD,
                     );
-                const worldRaceEntityList: WorldRaceEntity[] =
+                const repo =
                     type === DataLocation.Storage
-                        ? await this.worldRaceRepositoryFromStorage.fetchRaceEntityList(
-                              searchFilter,
-                          )
-                        : await this.worldRaceRepositoryFromHtml.fetchRaceEntityList(
-                              searchFilter,
-                          );
+                        ? this.worldRaceRepositoryFromStorage
+                        : this.worldRaceRepositoryFromHtml;
+                const worldRaceEntityList = await this.fetchRaceEntities(
+                    repo,
+                    searchFilter,
+                );
                 result.world.push(...worldRaceEntityList);
             }
+            // KEIRIN
             if (
                 raceTypeList.includes(RaceType.KEIRIN) ||
                 (placeEntityList?.keirin !== undefined &&
@@ -208,16 +214,17 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                         RaceType.KEIRIN,
                         placeEntityList?.keirin,
                     );
-                const keirinRaceEntityList: MechanicalRacingRaceEntity[] =
+                const repo =
                     type === DataLocation.Storage
-                        ? await this.mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList(
-                              searchFilter,
-                          )
-                        : await this.keirinRaceRepositoryFromHtml.fetchRaceEntityList(
-                              searchFilter,
-                          );
+                        ? this.mechanicalRacingRaceRepositoryFromStorage
+                        : this.keirinRaceRepositoryFromHtml;
+                const keirinRaceEntityList = await this.fetchRaceEntities(
+                    repo,
+                    searchFilter,
+                );
                 result.keirin.push(...keirinRaceEntityList);
             }
+            // AUTORACE
             if (
                 raceTypeList.includes(RaceType.AUTORACE) ||
                 (placeEntityList?.autorace !== undefined &&
@@ -230,16 +237,17 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                         RaceType.AUTORACE,
                         placeEntityList?.autorace,
                     );
-                const autoraceRaceEntityList: MechanicalRacingRaceEntity[] =
+                const repo =
                     type === DataLocation.Storage
-                        ? await this.mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList(
-                              searchFilter,
-                          )
-                        : await this.autoraceRaceRepositoryFromHtml.fetchRaceEntityList(
-                              searchFilter,
-                          );
+                        ? this.mechanicalRacingRaceRepositoryFromStorage
+                        : this.autoraceRaceRepositoryFromHtml;
+                const autoraceRaceEntityList = await this.fetchRaceEntities(
+                    repo,
+                    searchFilter,
+                );
                 result.autorace.push(...autoraceRaceEntityList);
             }
+            // BOATRACE
             if (
                 raceTypeList.includes(RaceType.BOATRACE) ||
                 (placeEntityList?.boatrace !== undefined &&
@@ -252,14 +260,14 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                         RaceType.BOATRACE,
                         placeEntityList?.boatrace,
                     );
-                const boatraceRaceEntityList: MechanicalRacingRaceEntity[] =
+                const repo =
                     type === DataLocation.Storage
-                        ? await this.mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList(
-                              searchFilter,
-                          )
-                        : await this.boatraceRaceRepositoryFromHtml.fetchRaceEntityList(
-                              searchFilter,
-                          );
+                        ? this.mechanicalRacingRaceRepositoryFromStorage
+                        : this.boatraceRaceRepositoryFromHtml;
+                const boatraceRaceEntityList = await this.fetchRaceEntities(
+                    repo,
+                    searchFilter,
+                );
                 result.boatrace.push(...boatraceRaceEntityList);
             }
 
@@ -294,63 +302,75 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         boatrace?: MechanicalRacingRaceEntity[];
     }): Promise<void> {
         try {
-            if (
-                raceEntityList.jra !== undefined &&
-                raceEntityList.jra.length > 0
-            ) {
-                await this.jraRaceRepositoryFromStorage.registerRaceEntityList(
+            await Promise.all([
+                this.saveRaceEntities(
+                    this.jraRaceRepositoryFromStorage,
                     RaceType.JRA,
                     raceEntityList.jra,
-                );
-            }
-            if (
-                raceEntityList.nar !== undefined &&
-                raceEntityList.nar.length > 0
-            ) {
-                await this.narRaceRepositoryFromStorage.registerRaceEntityList(
+                ),
+                this.saveRaceEntities(
+                    this.narRaceRepositoryFromStorage,
                     RaceType.NAR,
                     raceEntityList.nar,
-                );
-            }
-            if (
-                raceEntityList.world !== undefined &&
-                raceEntityList.world.length > 0
-            ) {
-                await this.worldRaceRepositoryFromStorage.registerRaceEntityList(
+                ),
+                this.saveRaceEntities(
+                    this.worldRaceRepositoryFromStorage,
                     RaceType.WORLD,
                     raceEntityList.world,
-                );
-            }
-            if (
-                raceEntityList.keirin !== undefined &&
-                raceEntityList.keirin.length > 0
-            ) {
-                await this.mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList(
+                ),
+                this.saveRaceEntities(
+                    this.mechanicalRacingRaceRepositoryFromStorage,
                     RaceType.KEIRIN,
                     raceEntityList.keirin,
-                );
-            }
-            if (
-                raceEntityList.autorace !== undefined &&
-                raceEntityList.autorace.length > 0
-            ) {
-                await this.mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList(
+                ),
+                this.saveRaceEntities(
+                    this.mechanicalRacingRaceRepositoryFromStorage,
                     RaceType.AUTORACE,
                     raceEntityList.autorace,
-                );
-            }
-            if (
-                raceEntityList.boatrace !== undefined &&
-                raceEntityList.boatrace.length > 0
-            ) {
-                await this.mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList(
+                ),
+                this.saveRaceEntities(
+                    this.mechanicalRacingRaceRepositoryFromStorage,
                     RaceType.BOATRACE,
                     raceEntityList.boatrace,
-                );
-            }
+                ),
+            ]);
         } catch (error) {
             console.error('開催場データの保存/更新に失敗しました', error);
             throw error;
         }
+    }
+
+    /**
+     * レース種別ごとの保存処理を共通化
+     * @param repo
+     * @param raceType
+     * @param entities
+     */
+    private async saveRaceEntities<
+        TRace extends IRaceEntity<TRace>,
+        TPlace extends IPlaceEntity<TPlace>,
+    >(
+        repo: IRaceRepository<TRace, TPlace>,
+        raceType: RaceType,
+        entities?: TRace[],
+    ): Promise<void> {
+        if (entities !== undefined && entities.length > 0) {
+            await repo.registerRaceEntityList(raceType, entities);
+        }
+    }
+
+    /**
+     * レース種別ごとの取得処理を共通化
+     * @param repo
+     * @param searchFilter
+     */
+    private async fetchRaceEntities<
+        TPlace extends IPlaceEntity<TPlace>,
+        TRace extends IRaceEntity<TRace>,
+    >(
+        repo: IRaceRepository<TRace, TPlace>,
+        searchFilter: SearchRaceFilterEntity<TPlace>,
+    ): Promise<TRace[]> {
+        return repo.fetchRaceEntityList(searchFilter);
     }
 }
