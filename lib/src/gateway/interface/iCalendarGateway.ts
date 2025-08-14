@@ -24,10 +24,6 @@ import type { RaceType } from '../../utility/raceType';
  */
 export interface ICalendarGateway {
     /**
-     * raceTypeに対応するカレンダーIDを返す
-     */
-    getCalendarId: (raceType: RaceType) => string;
-    /**
      * 指定された期間のカレンダーイベントを一括取得します
      *
      * このメソッドは以下の処理を行います：
