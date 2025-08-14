@@ -10,7 +10,10 @@ import {
     validateRaceId,
 } from '../../utility/data/common/raceId';
 import { generateRacePlayerId } from '../../utility/data/common/racePlayerId';
-import type { RaceStage } from '../../utility/data/common/raceStage';
+import {
+    type RaceStage,
+    validateRaceStage,
+} from '../../utility/data/common/raceStage';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
@@ -56,7 +59,7 @@ export class MechanicalRacingRaceEntity
         return new MechanicalRacingRaceEntity(
             validateRaceId(raceData.raceType, id),
             raceData,
-            stage,
+            validateRaceStage(raceData.raceType, stage),
             racePlayerDataList,
             validateUpdateDate(updateDate),
         );
