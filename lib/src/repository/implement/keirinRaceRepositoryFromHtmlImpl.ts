@@ -25,8 +25,6 @@ export class KeirinRaceRepositoryFromHtmlImpl
     implements
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
-    private readonly raceType: RaceType = RaceType.KEIRIN;
-
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -70,7 +68,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 placeData.dateTime.getDate(),
             ];
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                this.raceType,
+                placeData.raceType,
                 placeData.dateTime,
                 placeData.location,
             );
@@ -146,7 +144,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                 if (positionNumber && playerNumber !== null) {
                                     racePlayerDataList.push(
                                         RacePlayerData.create(
-                                            this.raceType,
+                                            placeData.raceType,
                                             Number(positionNumber),
                                             Number(playerNumber),
                                         ),
@@ -157,7 +155,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                             raceStage === null
                                 ? null
                                 : RaceData.create(
-                                      this.raceType,
+                                      placeData.raceType,
                                       raceName,
                                       new Date(
                                           year,

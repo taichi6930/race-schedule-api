@@ -24,8 +24,6 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class JraRaceRepositoryFromHtmlImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
-    private readonly raceType: RaceType = RaceType.JRA;
-
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -40,7 +38,7 @@ export class JraRaceRepositoryFromHtmlImpl
         searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
         const jraRaceEntityList: JraRaceEntity[] = [];
-        const { placeEntityList } = searchFilter;
+        const { placeEntityList, raceType } = searchFilter;
         // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
         const dateList = placeEntityList
             ?.map((place) => place.placeData.dateTime)
@@ -48,7 +46,10 @@ export class JraRaceRepositoryFromHtmlImpl
         if (dateList) {
             for (const date of dateList) {
                 jraRaceEntityList.push(
-                    ...(await this.fetchRaceListFromHtmlWithJraPlace(date)),
+                    ...(await this.fetchRaceListFromHtmlWithJraPlace(
+                        raceType,
+                        date,
+                    )),
                 );
             }
         }
@@ -57,13 +58,14 @@ export class JraRaceRepositoryFromHtmlImpl
 
     @Logger
     public async fetchRaceListFromHtmlWithJraPlace(
+        raceType: RaceType,
         raceDate: Date,
     ): Promise<JraRaceEntity[]> {
         try {
             // レース情報を取得
             const htmlText: string =
                 await this.raceDataHtmlGateway.getRaceDataHtml(
-                    this.raceType,
+                    raceType,
                     raceDate,
                 );
             const jraRaceDataList: JraRaceEntity[] = [];
@@ -90,8 +92,10 @@ export class JraRaceRepositoryFromHtmlImpl
                     return;
                 }
                 // 競馬場を取得
-                const raceCourse: RaceCourse =
-                    this.extractRaceCourse(theadElementMatch);
+                const raceCourse: RaceCourse = this.extractRaceCourse(
+                    raceType,
+                    theadElementMatch,
+                );
                 // 開催回数を取得
                 const raceHeld: number | null =
                     this.extractRaceHeld(theadElementMatch);
@@ -188,9 +192,9 @@ export class JraRaceRepositoryFromHtmlImpl
                         });
 
                         const jraRaceData = JraRaceEntity.createWithoutId(
-                            this.raceType,
+                            raceType,
                             RaceData.create(
-                                this.raceType,
+                                raceType,
                                 raceName,
                                 raceDateTime,
                                 raceCourse,
@@ -216,15 +220,17 @@ export class JraRaceRepositoryFromHtmlImpl
 
     /**
      * 開催競馬場を取得
+     * @param raceType
      * @param theadElementMatch
      */
     private readonly extractRaceCourse = (
+        raceType: RaceType,
         theadElementMatch: RegExpExecArray,
     ): RaceCourse => {
         const placeString: string = theadElementMatch[2];
         // placeStringがJraRaceCourseに変換できるかを確認して、OKであればキャストする
         const place: RaceCourse = placeString;
-        return validateRaceCourse(this.raceType, place);
+        return validateRaceCourse(raceType, place);
     };
 
     /**

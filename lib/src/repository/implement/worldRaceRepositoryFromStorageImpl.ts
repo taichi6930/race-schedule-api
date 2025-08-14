@@ -21,8 +21,6 @@ export class WorldRaceRepositoryFromStorageImpl
 {
     private readonly fileName = 'raceList.csv';
 
-    private readonly raceType: RaceType = RaceType.WORLD;
-
     public constructor(
         @inject('WorldRaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<WorldRaceRecord>,
@@ -38,7 +36,7 @@ export class WorldRaceRepositoryFromStorageImpl
     ): Promise<WorldRaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const raceRecordList: WorldRaceRecord[] =
-            await this.getRaceRecordListFromS3();
+            await this.getRaceRecordListFromS3(searchFilter.raceType);
 
         // RaceRecordをRaceEntityに変換
         const raceEntityList: WorldRaceEntity[] = raceRecordList.map(
@@ -67,7 +65,7 @@ export class WorldRaceRepositoryFromStorageImpl
     ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: WorldRaceRecord[] =
-            await this.getRaceRecordListFromS3();
+            await this.getRaceRecordListFromS3(raceType);
 
         // RaceEntityをRaceRecordに変換する
         const raceRecordList: WorldRaceRecord[] = raceEntityList.map(
@@ -101,9 +99,12 @@ export class WorldRaceRepositoryFromStorageImpl
 
     /**
      * レースデータをS3から取得する
+     * @param raceType
      */
     @Logger
-    private async getRaceRecordListFromS3(): Promise<WorldRaceRecord[]> {
+    private async getRaceRecordListFromS3(
+        raceType: RaceType,
+    ): Promise<WorldRaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
 
@@ -144,7 +145,7 @@ export class WorldRaceRepositoryFromStorageImpl
                 return [
                     WorldRaceRecord.create(
                         columns[indices.id],
-                        this.raceType,
+                        raceType,
                         columns[indices.name],
                         new Date(columns[indices.dateTime]),
                         columns[indices.location],

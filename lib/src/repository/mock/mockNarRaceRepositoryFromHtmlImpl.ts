@@ -19,21 +19,23 @@ export class MockNarRaceRepositoryFromHtmlImpl
         const { placeEntityList } = searchFilter;
         const raceEntityList: HorseRacingRaceEntity[] = [];
         if (placeEntityList) {
+            const { raceType } = searchFilter;
             for (const placeEntity of placeEntityList) {
+                const { location, dateTime } = placeEntity.placeData;
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
                     raceEntityList.push(
                         HorseRacingRaceEntity.createWithoutId(
                             RaceData.create(
-                                RaceType.NAR,
-                                `${placeEntity.placeData.location}第${i.toString()}R`,
+                                raceType,
+                                `${location}第${i.toString()}R`,
                                 new Date(
-                                    placeEntity.placeData.dateTime.getFullYear(),
-                                    placeEntity.placeData.dateTime.getMonth(),
-                                    placeEntity.placeData.dateTime.getDate(),
+                                    dateTime.getFullYear(),
+                                    dateTime.getMonth(),
+                                    dateTime.getDate(),
                                     i + 9,
                                 ),
-                                placeEntity.placeData.location,
+                                location,
                                 'GⅠ',
                                 i,
                             ),

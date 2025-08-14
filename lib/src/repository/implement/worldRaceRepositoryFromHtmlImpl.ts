@@ -30,8 +30,6 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class WorldRaceRepositoryFromHtmlImpl
     implements IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
 {
-    private readonly raceType: RaceType = RaceType.WORLD;
-
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -52,7 +50,10 @@ export class WorldRaceRepositoryFromHtmlImpl
         const worldRaceDataList: WorldRaceEntity[] = [];
         for (const month of monthList) {
             worldRaceDataList.push(
-                ...(await this.fetchRaceListFromHtml(month)),
+                ...(await this.fetchRaceListFromHtml(
+                    searchFilter.raceType,
+                    month,
+                )),
             );
             console.debug('0.8秒待ちます');
             await new Promise((resolve) => setTimeout(resolve, 800));
@@ -85,10 +86,13 @@ export class WorldRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    public async fetchRaceListFromHtml(date: Date): Promise<WorldRaceEntity[]> {
+    public async fetchRaceListFromHtml(
+        raceType: RaceType,
+        date: Date,
+    ): Promise<WorldRaceEntity[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                this.raceType,
+                raceType,
                 date,
             );
             const worldRaceDataList: WorldRaceEntity[] = [];
@@ -131,7 +135,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                                 .text();
 
                             const location: RaceCourse = validateRaceCourse(
-                                this.raceType,
+                                raceType,
                                 $(raceElement)
                                     .find('.racelist__race__sub')
                                     .find('.course')
@@ -218,7 +222,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                             worldRaceDataList.push(
                                 WorldRaceEntity.createWithoutId(
                                     RaceData.create(
-                                        this.raceType,
+                                        raceType,
                                         raceName,
                                         raceDate,
                                         location,

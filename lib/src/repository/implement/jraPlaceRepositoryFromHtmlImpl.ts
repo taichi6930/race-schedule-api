@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
+import { heldDayRecord } from '../../gateway/record/heldDayRecord';
 import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
@@ -13,14 +14,11 @@ import { RaceType } from '../../utility/raceType';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { JraHeldDayRecord } from './../../gateway/record/jraHeldDayRecord';
 
 @injectable()
 export class JraPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
-    private readonly raceType: RaceType = RaceType.JRA;
-
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
@@ -43,12 +41,12 @@ export class JraPlaceRepositoryFromHtmlImpl
 
         // 年ごとの開催データを取得
         const placeRecordPromises = yearList.map(async (year) =>
-            this.fetchYearPlaceRecordList(year),
+            this.fetchYearPlaceRecordList(searchFilter.raceType, year),
         );
         const placeRecordResults = await Promise.all(placeRecordPromises);
         const placeRecordList: {
             horseRacingPlaceRecord: HorseRacingPlaceRecord;
-            jraHeldDayRecord: JraHeldDayRecord;
+            jraHeldDayRecord: heldDayRecord;
         }[] = placeRecordResults.flat();
 
         // Entityに変換
@@ -112,26 +110,27 @@ export class JraPlaceRepositoryFromHtmlImpl
      * S3から開催データを取得する
      * ファイル名を利用してS3から開催データを取得する
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
+     * @param raceType
      * @param date
      */
     @Logger
-    private async fetchYearPlaceRecordList(date: Date): Promise<
+    private async fetchYearPlaceRecordList(
+        raceType: RaceType,
+        date: Date,
+    ): Promise<
         {
             horseRacingPlaceRecord: HorseRacingPlaceRecord;
-            jraHeldDayRecord: JraHeldDayRecord;
+            jraHeldDayRecord: heldDayRecord;
         }[]
     > {
         // レースHTMLを取得
         const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(
-                this.raceType,
-                date,
-            );
+            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
         // 競馬場開催レコードはここに追加
         const jraRecordList: {
             horseRacingPlaceRecord: HorseRacingPlaceRecord;
-            jraHeldDayRecord: JraHeldDayRecord;
+            jraHeldDayRecord: heldDayRecord;
         }[] = [];
 
         // 競馬場のイニシャルと名前のマッピング
@@ -199,24 +198,24 @@ export class JraPlaceRepositoryFromHtmlImpl
 
                         const jraPlaceRecord = HorseRacingPlaceRecord.create(
                             generatePlaceId(
-                                this.raceType,
+                                raceType,
                                 new Date(date.getFullYear(), month - 1, day),
                                 place,
                             ),
-                            this.raceType,
+                            raceType,
                             new Date(date.getFullYear(), month - 1, day),
                             getPlaceName(placeInitial),
                             // heldTimes,
                             // heldDayTimes,
                             getJSTDate(new Date()),
                         );
-                        const jraHeldDayRecord = JraHeldDayRecord.create(
+                        const jraHeldDayRecord = heldDayRecord.create(
                             generatePlaceId(
-                                this.raceType,
+                                raceType,
                                 new Date(date.getFullYear(), month - 1, day),
                                 place,
                             ),
-                            this.raceType,
+                            raceType,
                             heldTimes,
                             heldDayTimes,
                             getJSTDate(new Date()),

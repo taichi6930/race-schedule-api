@@ -20,8 +20,6 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class NarPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<HorseRacingPlaceEntity>
 {
-    private readonly raceType: RaceType = RaceType.NAR;
-
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
@@ -42,7 +40,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         );
         const monthPlaceEntityLists = await Promise.all(
             monthList.map(async (month) =>
-                this.fetchMonthPlaceEntityList(month),
+                this.fetchMonthPlaceEntityList(searchFilter.raceType, month),
             ),
         );
         const placeEntityList: HorseRacingPlaceEntity[] =
@@ -86,19 +84,18 @@ export class NarPlaceRepositoryFromHtmlImpl
      * S3から開催データを取得する
      * ファイル名を利用してS3から開催データを取得する
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
+     * @param raceType
      * @param date
      */
     @Logger
     private async fetchMonthPlaceEntityList(
+        raceType: RaceType,
         date: Date,
     ): Promise<HorseRacingPlaceEntity[]> {
         console.log(`S3から${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(
-                this.raceType,
-                date,
-            );
+            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
         const $ = cheerio.load(htmlText);
         // <div class="chartWrapprer">を取得
@@ -142,9 +139,9 @@ export class NarPlaceRepositoryFromHtmlImpl
             for (const raceDay of raceDays) {
                 narPlaceDataList.push(
                     HorseRacingPlaceEntity.createWithoutId(
-                        this.raceType,
+                        raceType,
                         PlaceData.create(
-                            this.raceType,
+                            raceType,
                             new Date(
                                 date.getFullYear(),
                                 date.getMonth(),

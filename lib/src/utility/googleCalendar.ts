@@ -203,17 +203,19 @@ export function toGoogleCalendarData(
     function createDescription(): string {
         const raceTimeStr = `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}`;
         const updateStr = `更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}`;
-        if (raceEntity instanceof MechanicalRacingRaceEntity) {
+        if (
+            raceEntity instanceof MechanicalRacingRaceEntity &&
+            (raceEntity.raceData.raceType === RaceType.AUTORACE ||
+                raceEntity.raceData.raceType === RaceType.BOATRACE)
+        ) {
             return `${raceTimeStr}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof MechanicalRacingRaceEntity) {
-            return `${raceTimeStr}
-                    ${updateStr}
-                    `.replace(/\n\s+/g, '\n');
-        }
-        if (raceEntity instanceof MechanicalRacingRaceEntity) {
+        if (
+            raceEntity instanceof MechanicalRacingRaceEntity &&
+            raceEntity.raceData.raceType === RaceType.KEIRIN
+        ) {
             return `${raceTimeStr}
                     ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${KeirinPlaceCodeMap[raceEntity.raceData.location]}${raceEntity.raceData.number.toXDigits(2)}`)}
                     ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}

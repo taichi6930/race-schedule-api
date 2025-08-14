@@ -15,7 +15,7 @@ import type { IRecord } from './iRecord';
 /**
  * Repository層のRecord
  */
-export class JraHeldDayRecord implements IRecord<JraHeldDayRecord> {
+export class heldDayRecord implements IRecord<heldDayRecord> {
     /**
      * コンストラクタ
      * @param id - ID
@@ -48,9 +48,9 @@ export class JraHeldDayRecord implements IRecord<JraHeldDayRecord> {
         heldTimes: number,
         heldDayTimes: number,
         updateDate: Date,
-    ): JraHeldDayRecord {
+    ): heldDayRecord {
         try {
-            return new JraHeldDayRecord(
+            return new heldDayRecord(
                 validatePlaceId(raceType, id),
                 raceType,
                 validateHeldTimes(heldTimes),
@@ -68,8 +68,8 @@ export class JraHeldDayRecord implements IRecord<JraHeldDayRecord> {
      * データのコピー
      * @param partial
      */
-    public copy(partial: Partial<JraHeldDayRecord> = {}): JraHeldDayRecord {
-        return JraHeldDayRecord.create(
+    public copy(partial: Partial<heldDayRecord> = {}): heldDayRecord {
+        return heldDayRecord.create(
             partial.id ?? this.id,
             partial.raceType ?? this.raceType,
             partial.heldTimes ?? this.heldTimes,

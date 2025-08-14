@@ -5,7 +5,6 @@ import type { RaceData } from '../../domain/raceData';
 import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
 import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import { generateRaceId } from '../../utility/raceId';
-import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 
@@ -43,7 +42,7 @@ export class HorseRacingRaceEntity {
         updateDate: Date,
     ): HorseRacingRaceEntity {
         return new HorseRacingRaceEntity(
-            validateRaceId(RaceType.NAR, id),
+            validateRaceId(raceData.raceType, id),
             raceData,
             conditionData,
             validateUpdateDate(updateDate),
@@ -63,7 +62,7 @@ export class HorseRacingRaceEntity {
     ): HorseRacingRaceEntity {
         return HorseRacingRaceEntity.create(
             generateRaceId(
-                RaceType.NAR,
+                raceData.raceType,
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,

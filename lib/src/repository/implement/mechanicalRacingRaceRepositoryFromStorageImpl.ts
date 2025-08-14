@@ -55,10 +55,10 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
 
         // レースデータを取得する
         const raceRaceRecordList: MechanicalRacingRaceRecord[] =
-            await this.getRaceRecordListFromS3(searchFilter.raceType);
-
-        console.log(racePlayerRecordList.length, '選手データの取得件数');
-        console.log(raceRaceRecordList.length, 'レースデータの取得件数');
+            await this.getRaceRecordListFromS3(
+                searchFilter.raceType,
+                searchFilter.startDate,
+            );
 
         // RaceEntityに変換
         const raceEntityList: MechanicalRacingRaceEntity[] =

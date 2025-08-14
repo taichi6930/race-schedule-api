@@ -1,7 +1,6 @@
 import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
 import { MechanicalRacingPlaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
@@ -17,6 +16,7 @@ import {
     generateRacePlayerId,
 } from '../../../../../lib/src/utility/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { baseRacePlayerDataList } from './baseCommonData';
 
 const baseKeirinPlaceCourse: RaceCourse = '平塚';
 const baseKeirinPlaceDateTime = new Date('2025-12-30');
@@ -82,11 +82,8 @@ export const baseKeirinPlaceEntity =
         baseKeirinRaceUpdateDate,
     );
 
-export const baseKeirinRacePlayerDataList = Array.from(
-    { length: 9 },
-    (_, i) => {
-        return RacePlayerData.create(RaceType.KEIRIN, i + 1, i + 1);
-    },
+export const baseKeirinRacePlayerDataList = baseRacePlayerDataList(
+    RaceType.KEIRIN,
 );
 
 export const baseKeirinRaceEntity = MechanicalRacingRaceEntity.createWithoutId(
@@ -127,9 +124,7 @@ export const baseKeirinRaceEntityList: MechanicalRacingRaceEntity[] = [
             grade,
             index + 1,
         );
-        const racePlayerDataList = Array.from({ length: 9 }, (_, i) => {
-            return RacePlayerData.create(RaceType.KEIRIN, i + 1, i + 1);
-        });
+        const racePlayerDataList = baseKeirinRacePlayerDataList;
         return MechanicalRacingRaceEntity.createWithoutId(
             raceData,
             stage,

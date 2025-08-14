@@ -18,8 +18,6 @@ export class NarRaceRepositoryFromStorageImpl
 {
     private readonly fileName = 'raceList.csv';
 
-    private readonly raceType: RaceType = RaceType.NAR;
-
     public constructor(
         @inject('NarRaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<HorseRacingRaceRecord>,
@@ -35,7 +33,7 @@ export class NarRaceRepositoryFromStorageImpl
     ): Promise<HorseRacingRaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const raceRecordList: HorseRacingRaceRecord[] =
-            await this.getRaceRecordListFromS3();
+            await this.getRaceRecordListFromS3(searchFilter.raceType);
 
         // RaceRecordをRaceEntityに変換
         const raceEntityList: HorseRacingRaceEntity[] = raceRecordList.map(
@@ -54,9 +52,12 @@ export class NarRaceRepositoryFromStorageImpl
 
     /**
      * レースデータをS3から取得する
+     * @param raceType
      */
     @Logger
-    private async getRaceRecordListFromS3(): Promise<HorseRacingRaceRecord[]> {
+    private async getRaceRecordListFromS3(
+        raceType: RaceType,
+    ): Promise<HorseRacingRaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
 
@@ -107,7 +108,7 @@ export class NarRaceRepositoryFromStorageImpl
                         return [
                             HorseRacingRaceRecord.create(
                                 columns[indices.id],
-                                this.raceType,
+                                raceType,
                                 columns[indices.name],
                                 new Date(columns[indices.dateTime]),
                                 columns[indices.location],
@@ -142,7 +143,7 @@ export class NarRaceRepositoryFromStorageImpl
     ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: HorseRacingRaceRecord[] =
-            await this.getRaceRecordListFromS3();
+            await this.getRaceRecordListFromS3(raceType);
 
         // RaceEntityをRaceRecordに変換する
         const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(

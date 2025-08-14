@@ -18,8 +18,6 @@ export class NarPlaceRepositoryFromStorageImpl
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
-    private readonly raceType: RaceType = RaceType.NAR;
-
     public constructor(
         @inject('NarPlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<HorseRacingPlaceRecord>,
@@ -36,7 +34,7 @@ export class NarPlaceRepositoryFromStorageImpl
     ): Promise<HorseRacingPlaceEntity[]> {
         // 年ごとの開催データを取得
         const placeRecordList: HorseRacingPlaceRecord[] =
-            await this.getPlaceRecordListFromS3();
+            await this.getPlaceRecordListFromS3(searchFilter.raceType);
 
         // Entityに変換
         const placeEntityList: HorseRacingPlaceEntity[] = placeRecordList.map(
@@ -60,7 +58,7 @@ export class NarPlaceRepositoryFromStorageImpl
     ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: HorseRacingPlaceRecord[] =
-            await this.getPlaceRecordListFromS3();
+            await this.getPlaceRecordListFromS3(raceType);
 
         // PlaceEntityをPlaceRecordに変換する
         const placeRecordList: HorseRacingPlaceRecord[] = placeEntityList.map(
@@ -93,11 +91,12 @@ export class NarPlaceRepositoryFromStorageImpl
 
     /**
      * 開催場データをS3から取得する
+     * @param raceType
      */
     @Logger
-    private async getPlaceRecordListFromS3(): Promise<
-        HorseRacingPlaceRecord[]
-    > {
+    private async getPlaceRecordListFromS3(
+        raceType: RaceType,
+    ): Promise<HorseRacingPlaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
 
@@ -134,7 +133,7 @@ export class NarPlaceRepositoryFromStorageImpl
                     return [
                         HorseRacingPlaceRecord.create(
                             columns[indices.id],
-                            this.raceType,
+                            raceType,
                             new Date(columns[indices.dateTime]),
                             columns[indices.location],
                             updateDate,

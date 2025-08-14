@@ -25,8 +25,6 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class KeirinPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
-    private readonly raceType: RaceType = RaceType.KEIRIN;
-
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
@@ -47,7 +45,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         );
         const monthPlaceEntityLists = await Promise.all(
             monthList.map(async (month) =>
-                this.fetchMonthPlaceEntityList(month),
+                this.fetchMonthPlaceEntityList(searchFilter.raceType, month),
             ),
         );
         const placeEntityList: MechanicalRacingPlaceEntity[] =
@@ -91,20 +89,19 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      * S3から開催データを取得する
      * ファイル名を利用してS3から開催データを取得する
      * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * @param raceType
      * @param date
      */
     @Logger
     private async fetchMonthPlaceEntityList(
+        raceType: RaceType,
         date: Date,
     ): Promise<MechanicalRacingPlaceEntity[]> {
         const keirinPlaceEntityList: MechanicalRacingPlaceEntity[] = [];
         console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(
-                this.raceType,
-                date,
-            );
+            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
         const $ = cheerio.load(htmlText);
 
@@ -128,7 +125,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         return;
                     }
                     const place: RaceCourse = validateRaceCourse(
-                        this.raceType,
+                        raceType,
                         th.text(),
                     );
 
@@ -154,12 +151,8 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         if (grade) {
                             keirinPlaceEntityList.push(
                                 MechanicalRacingPlaceEntity.createWithoutId(
-                                    this.raceType,
-                                    PlaceData.create(
-                                        this.raceType,
-                                        datetime,
-                                        place,
-                                    ),
+                                    raceType,
+                                    PlaceData.create(raceType, datetime, place),
                                     grade,
                                     getJSTDate(new Date()),
                                 ),

@@ -20,8 +20,6 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class BoatracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
-    private readonly raceType: RaceType = RaceType.BOATRACE;
-
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
@@ -44,7 +42,10 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         // quartersの月リストを取得
         const placeEntityArray = await Promise.all(
             quarters.map(async (quarterDate) =>
-                this.fetchMonthPlaceEntityList(quarterDate),
+                this.fetchMonthPlaceEntityList(
+                    searchFilter.raceType,
+                    quarterDate,
+                ),
             ),
         );
         const placeEntityList: MechanicalRacingPlaceEntity[] =
@@ -97,20 +98,19 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * S3から開催データを取得する
      * ファイル名を利用してS3から開催データを取得する
      * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * @param raceType
      * @param date
      */
     @Logger
     private async fetchMonthPlaceEntityList(
+        raceType: RaceType,
         date: Date,
     ): Promise<MechanicalRacingPlaceEntity[]> {
         const boatracePlaceEntityList: MechanicalRacingPlaceEntity[] = [];
         console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(
-                this.raceType,
-                date,
-            );
+            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
         const $ = cheerio.load(htmlText);
 
@@ -161,9 +161,9 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             ) {
                 const boatracePlaceEntity =
                     MechanicalRacingPlaceEntity.createWithoutId(
-                        this.raceType,
+                        raceType,
                         PlaceData.create(
-                            this.raceType,
+                            raceType,
                             new Date(currentDate),
                             place,
                         ),

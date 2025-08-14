@@ -83,14 +83,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         const raceEntityList = await this.raceDataService.fetchRaceEntityList(
             startDate,
             finishDate,
-            [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.WORLD,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ],
+            raceTypeList,
             DataLocation.Storage,
         );
 
@@ -142,14 +135,11 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
 
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
-            await this.calendarService.fetchEvents(startDate, finishDate, [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.WORLD,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ]);
+            await this.calendarService.fetchEvents(
+                startDate,
+                finishDate,
+                raceTypeList,
+            );
 
         // 1. raceEntityListのIDに存在しないcalendarDataListを取得
         const deleteCalendarDataList = {

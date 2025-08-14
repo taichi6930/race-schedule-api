@@ -14,11 +14,11 @@ import {
 } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
+import { RaceType } from './../../utility/raceType';
 
 /**
  * ボートレース場開催データリポジトリの実装
@@ -28,8 +28,6 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     implements
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
-    private readonly raceType: RaceType = RaceType.BOATRACE;
-
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -75,7 +73,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             // TODO: 全レースを取りたいが、12レースのみ取得するので、後で修正する
             const raceNumber = 12;
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                this.raceType,
+                placeData.raceType,
                 placeData.dateTime,
                 placeData.location,
                 raceNumber,
@@ -117,7 +115,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             boatraceRaceEntityList.push(
                 MechanicalRacingRaceEntity.createWithoutId(
                     RaceData.create(
-                        this.raceType,
+                        placeData.raceType,
                         raceName,
                         new Date(year, month - 1, day, hour, minute),
                         placeData.location,
