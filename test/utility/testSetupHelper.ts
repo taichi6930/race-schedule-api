@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
+import type { HorseRacingRaceRecord } from '../../lib/src/gateway/record/horseRacingRaceRecord';
 import type { MechanicalRacingRaceRecord } from '../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import type { RacePlayerRecord } from '../../lib/src/gateway/record/racePlayerRecord';
 import type { HorseRacingPlaceEntity } from '../../lib/src/repository/entity/horseRacingPlaceEntity';
@@ -38,6 +39,8 @@ export function clearMocks(): void {
  * テスト用のセットアップ
  */
 export interface TestSetup {
+    raceS3GatewayForNar: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
+    raceS3GatewayForWorld: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
     raceS3GatewayForKeirin: jest.Mocked<IS3Gateway<MechanicalRacingRaceRecord>>;
     raceS3GatewayForAutorace: jest.Mocked<
         IS3Gateway<MechanicalRacingRaceRecord>
@@ -115,6 +118,11 @@ export interface TestSetup {
  * @returns セットアップ済みのサービス
  */
 export function setupTestMock(): TestSetup {
+    const raceS3GatewayForNar = mockS3Gateway<HorseRacingRaceRecord>();
+    container.registerInstance('NarRaceS3Gateway', raceS3GatewayForNar);
+    const raceS3GatewayForWorld = mockS3Gateway<HorseRacingRaceRecord>();
+    container.registerInstance('WorldRaceS3Gateway', raceS3GatewayForWorld);
+
     const raceS3GatewayForKeirin = mockS3Gateway<MechanicalRacingRaceRecord>();
     container.registerInstance('KeirinRaceS3Gateway', raceS3GatewayForKeirin);
     const racePlayerS3GatewayForKeirin = mockS3Gateway<RacePlayerRecord>();
@@ -301,6 +309,8 @@ export function setupTestMock(): TestSetup {
     );
 
     return {
+        raceS3GatewayForNar,
+        raceS3GatewayForWorld,
         raceS3GatewayForKeirin,
         raceS3GatewayForAutorace,
         raceS3GatewayForBoatrace,
