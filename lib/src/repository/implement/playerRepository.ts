@@ -41,7 +41,6 @@ export class PlayerRepository implements IPlayerRepository {
     public async findAll(): Promise<Player[]> {
         const query = 'SELECT * FROM players';
         const result = await this.gateway.all<Player>(query);
-        console.log('findAll result:', result);
         return Array.isArray(result)
             ? Promise.resolve(result)
             : Promise.resolve([]);
