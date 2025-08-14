@@ -14,7 +14,6 @@ import { CalendarData } from '../domain/calendarData';
 import { HorseRacingRaceEntity } from '../repository/entity/horseRacingRaceEntity';
 import { JraRaceEntity } from '../repository/entity/jraRaceEntity';
 import { MechanicalRacingRaceEntity } from '../repository/entity/mechanicalRacingRaceEntity';
-import { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
 import type { GradeType } from './data/common/gradeType';
 import { createPlaceCodeMap } from './data/common/raceCourse';
 import {
@@ -146,7 +145,6 @@ export function toGoogleCalendarData(
     raceEntity:
         | JraRaceEntity
         | HorseRacingRaceEntity
-        | WorldRaceEntity
         | MechanicalRacingRaceEntity,
 
     updateDate: Date = new Date(),
@@ -162,7 +160,7 @@ export function toGoogleCalendarData(
         if (raceEntity instanceof HorseRacingRaceEntity) {
             return `${raceEntity.raceData.location}競馬場`;
         }
-        if (raceEntity instanceof WorldRaceEntity) {
+        if (raceEntity instanceof HorseRacingRaceEntity) {
             return `${raceEntity.raceData.location}競馬場`;
         }
         if (raceEntity instanceof MechanicalRacingRaceEntity) {
@@ -186,7 +184,7 @@ export function toGoogleCalendarData(
         if (raceEntity instanceof HorseRacingRaceEntity) {
             return '';
         }
-        if (raceEntity instanceof WorldRaceEntity) {
+        if (raceEntity instanceof HorseRacingRaceEntity) {
             return '';
         }
         if (raceEntity instanceof MechanicalRacingRaceEntity) {
@@ -256,7 +254,7 @@ export function toGoogleCalendarData(
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof WorldRaceEntity) {
+        if (raceEntity instanceof HorseRacingRaceEntity) {
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
                     ${updateStr}

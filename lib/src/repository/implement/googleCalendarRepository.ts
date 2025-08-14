@@ -14,7 +14,6 @@ import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
-import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 
 /**
@@ -76,7 +75,6 @@ export class GoogleCalendarRepository implements ICalendarRepository {
         raceEntityList:
             | JraRaceEntity[]
             | HorseRacingRaceEntity[]
-            | WorldRaceEntity[]
             | MechanicalRacingRaceEntity[],
     ): Promise<void> {
         // Googleカレンダーから取得する

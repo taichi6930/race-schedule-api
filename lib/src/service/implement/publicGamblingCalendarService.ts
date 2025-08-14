@@ -8,7 +8,6 @@ import { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEn
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
-import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -95,7 +94,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         jra?: JraRaceEntity[];
         nar?: HorseRacingRaceEntity[];
         keirin?: MechanicalRacingRaceEntity[];
-        world?: WorldRaceEntity[];
+        world?: HorseRacingRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];
     }): Promise<void> {

@@ -4,25 +4,25 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
+import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
-import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // WorldRaceRepositoryFromHtmlImplのモックを作成
 export class MockWorldRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>
+    implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
-    ): Promise<WorldRaceEntity[]> {
-        const raceEntityList: WorldRaceEntity[] = [];
+    ): Promise<HorseRacingRaceEntity[]> {
+        const raceEntityList: HorseRacingRaceEntity[] = [];
         const currentDate = new Date(searchFilter.startDate);
         while (currentDate.getMonth() === searchFilter.startDate.getMonth()) {
             // 1から12までのレースを作成
             for (let i = 1; i <= 12; i++) {
                 raceEntityList.push(
-                    WorldRaceEntity.createWithoutId(
+                    HorseRacingRaceEntity.createWithoutId(
                         RaceData.create(
                             RaceType.WORLD,
                             `第${i.toString()}R`,
@@ -50,7 +50,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: WorldRaceEntity[],
+        raceEntityList: HorseRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

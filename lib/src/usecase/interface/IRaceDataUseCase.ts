@@ -1,7 +1,6 @@
 import type { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
-import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import type { RaceCourse } from '../../utility/data/common/raceCourse';
 import type { RaceStage } from '../../utility/data/common/raceStage';
@@ -54,7 +53,7 @@ export interface IRaceDataUseCase {
     ) => Promise<{
         jra: JraRaceEntity[];
         nar: HorseRacingRaceEntity[];
-        world: WorldRaceEntity[];
+        world: HorseRacingRaceEntity[];
         keirin: MechanicalRacingRaceEntity[];
         autorace: MechanicalRacingRaceEntity[];
         boatrace: MechanicalRacingRaceEntity[];

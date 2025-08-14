@@ -4,11 +4,11 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
-import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
+import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -17,7 +17,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class WorldRaceRepositoryFromStorageImpl
-    implements IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>
+    implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
 {
     private readonly fileName = 'raceList.csv';
 
@@ -33,22 +33,23 @@ export class WorldRaceRepositoryFromStorageImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
-    ): Promise<WorldRaceEntity[]> {
+    ): Promise<HorseRacingRaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const raceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(searchFilter.raceType);
 
         // RaceRecordをRaceEntityに変換
-        const raceEntityList: WorldRaceEntity[] = raceRecordList.map(
+        const raceEntityList: HorseRacingRaceEntity[] = raceRecordList.map(
             (raceRecord) => raceRecord.toEntity(),
         );
 
         // フィルタリング処理（日付の範囲指定）
-        const filteredRaceEntityList: WorldRaceEntity[] = raceEntityList.filter(
-            (raceEntity) =>
-                raceEntity.raceData.dateTime >= searchFilter.startDate &&
-                raceEntity.raceData.dateTime <= searchFilter.finishDate,
-        );
+        const filteredRaceEntityList: HorseRacingRaceEntity[] =
+            raceEntityList.filter(
+                (raceEntity) =>
+                    raceEntity.raceData.dateTime >= searchFilter.startDate &&
+                    raceEntity.raceData.dateTime <= searchFilter.finishDate,
+            );
 
         return filteredRaceEntityList;
     }
@@ -61,7 +62,7 @@ export class WorldRaceRepositoryFromStorageImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: WorldRaceEntity[],
+        raceEntityList: HorseRacingRaceEntity[],
     ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: HorseRacingRaceRecord[] =

@@ -2,7 +2,6 @@ import type { CalendarData } from '../../domain/calendarData';
 import type { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
-import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { RaceType } from '../../utility/raceType';
 
 export interface ICalendarService {
@@ -46,7 +45,7 @@ export interface ICalendarService {
         jra?: JraRaceEntity[];
         nar?: HorseRacingRaceEntity[];
         keirin?: MechanicalRacingRaceEntity[];
-        world?: WorldRaceEntity[];
+        world?: HorseRacingRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];
     }) => Promise<void>;

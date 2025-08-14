@@ -4,7 +4,7 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
-import { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
+import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
@@ -65,13 +65,13 @@ export const baseWorldPlaceEntity = HorseRacingPlaceEntity.createWithoutId(
     baseWorldRaceUpdateDate,
 );
 
-export const baseWorldRaceEntity = WorldRaceEntity.createWithoutId(
+export const baseWorldRaceEntity = HorseRacingRaceEntity.createWithoutId(
     baseWorldRaceData,
     baseWorldConditionData,
     baseWorldRaceUpdateDate,
 );
 
-export const baseWorldRaceEntityList: WorldRaceEntity[] = [
+export const baseWorldRaceEntityList: HorseRacingRaceEntity[] = [
     'パリロンシャン',
     'シャティン',
 ].flatMap((location) => {
@@ -89,7 +89,7 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
         'GⅠ',
         '格付けなし',
     ].map((grade, index) => {
-        return WorldRaceEntity.createWithoutId(
+        return HorseRacingRaceEntity.createWithoutId(
             RaceData.create(
                 RaceType.WORLD,
                 `テスト${location}${grade}${(index + 1).toString()}レース`,

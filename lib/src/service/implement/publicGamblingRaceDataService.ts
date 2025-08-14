@@ -9,7 +9,6 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
-import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -44,12 +43,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         >,
         @inject('WorldRaceRepositoryFromStorage')
         protected readonly worldRaceRepositoryFromStorage: IRaceRepository<
-            WorldRaceEntity,
+            HorseRacingRaceEntity,
             HorseRacingPlaceEntity
         >,
         @inject('WorldRaceRepositoryFromHtml')
         protected readonly worldRaceRepositoryFromHtml: IRaceRepository<
-            WorldRaceEntity,
+            HorseRacingRaceEntity,
             HorseRacingPlaceEntity
         >,
         @inject('KeirinRaceRepositoryFromHtml')
@@ -115,7 +114,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     ): Promise<{
         jra: JraRaceEntity[];
         nar: HorseRacingRaceEntity[];
-        world: WorldRaceEntity[];
+        world: HorseRacingRaceEntity[];
         keirin: MechanicalRacingRaceEntity[];
         autorace: MechanicalRacingRaceEntity[];
         boatrace: MechanicalRacingRaceEntity[];
@@ -123,7 +122,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         const result: {
             jra: JraRaceEntity[];
             nar: HorseRacingRaceEntity[];
-            world: WorldRaceEntity[];
+            world: HorseRacingRaceEntity[];
             keirin: MechanicalRacingRaceEntity[];
             autorace: MechanicalRacingRaceEntity[];
             boatrace: MechanicalRacingRaceEntity[];
@@ -295,7 +294,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     public async updateRaceEntityList(raceEntityList: {
         jra?: JraRaceEntity[];
         nar?: HorseRacingRaceEntity[];
-        world?: WorldRaceEntity[];
+        world?: HorseRacingRaceEntity[];
         keirin?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];

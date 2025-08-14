@@ -11,8 +11,8 @@ import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import type { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
+import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/worldRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
@@ -21,7 +21,10 @@ import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('WorldRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
-    let repository: IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>;
+    let repository: IRaceRepository<
+        HorseRacingRaceEntity,
+        HorseRacingPlaceEntity
+    >;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
@@ -99,13 +102,13 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
     });
 
     // 1年間のレース開催データを登録する
-    const raceEntityList: WorldRaceEntity[] = Array.from(
+    const raceEntityList: HorseRacingRaceEntity[] = Array.from(
         { length: 60 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, (__, j) =>
-                WorldRaceEntity.createWithoutId(
+                HorseRacingRaceEntity.createWithoutId(
                     RaceData.create(
                         RaceType.WORLD,
                         `raceName${format(date, 'yyyyMMdd')}`,

@@ -6,7 +6,6 @@ import type { JraPlaceEntity } from '../../src/repository/entity/jraPlaceEntity'
 import type { JraRaceEntity } from '../../src/repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../src/repository/entity/mechanicalRacingPlaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../src/repository/entity/mechanicalRacingRaceEntity';
-import type { WorldRaceEntity } from '../../src/repository/entity/worldRaceEntity';
 import { AutoracePlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
 import { BoatracePlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
@@ -76,7 +75,7 @@ switch (ENV) {
             { useClass: AutoracePlaceRepositoryFromHtmlImpl },
         );
         container.register<
-            IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>
+            IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
         >('WorldRaceRepositoryFromHtml', {
             useClass: WorldRaceRepositoryFromHtmlImpl,
         });
@@ -148,7 +147,7 @@ switch (ENV) {
             { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },
         );
         container.register<
-            IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>
+            IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
         >('WorldRaceRepositoryFromHtml', {
             useClass: MockWorldRaceRepositoryFromHtmlImpl,
         });
