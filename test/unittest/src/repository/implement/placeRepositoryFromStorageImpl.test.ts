@@ -7,51 +7,53 @@ import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { MechanicalRacingPlaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
-import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
+import type { HorseRacingPlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
+import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { MechanicalRacingPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/mechanicalRacingPlaceRepositoryFromStorageImpl';
+import { PlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
+import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
-describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
-    let s3GatewayForKeirin: jest.Mocked<
-        IS3Gateway<MechanicalRacingPlaceRecord>
+describe('PlaceRepositoryFromStorageImpl', () => {
+    let placeS3GatewayForNar: jest.Mocked<IS3Gateway<HorseRacingPlaceRecord>>;
+    let placeS3GatewayForKeirin: jest.Mocked<
+        IS3Gateway<HorseRacingPlaceRecord>
     >;
-    let s3GatewayForAutorace: jest.Mocked<
-        IS3Gateway<MechanicalRacingPlaceRecord>
+    let placeS3GatewayForAutorace: jest.Mocked<
+        IS3Gateway<HorseRacingPlaceRecord>
     >;
-    let s3GatewayForBoatrace: jest.Mocked<
-        IS3Gateway<MechanicalRacingPlaceRecord>
+    let placeS3GatewayForBoatrace: jest.Mocked<
+        IS3Gateway<HorseRacingPlaceRecord>
     >;
-    let repository: IPlaceRepository<MechanicalRacingPlaceEntity>;
+    let repository: IPlaceRepository<HorseRacingPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3GatewayForKeirin = mockS3Gateway<MechanicalRacingPlaceRecord>();
-        s3GatewayForAutorace = mockS3Gateway<MechanicalRacingPlaceRecord>();
-        s3GatewayForBoatrace = mockS3Gateway<MechanicalRacingPlaceRecord>();
+        placeS3GatewayForNar = mockS3Gateway<HorseRacingPlaceRecord>();
+        placeS3GatewayForKeirin = mockS3Gateway<HorseRacingPlaceRecord>();
+        placeS3GatewayForAutorace = mockS3Gateway<HorseRacingPlaceRecord>();
+        placeS3GatewayForBoatrace = mockS3Gateway<HorseRacingPlaceRecord>();
 
         // DIコンテナにモックを登録
+        container.registerInstance('NarPlaceS3Gateway', placeS3GatewayForNar);
         container.registerInstance(
-            'KeirinPlaceS3GatewayWithGrade',
-            s3GatewayForKeirin,
+            'KeirinPlaceS3Gateway',
+            placeS3GatewayForKeirin,
         );
         container.registerInstance(
-            'AutoracePlaceS3GatewayWithGrade',
-            s3GatewayForAutorace,
+            'AutoracePlaceS3Gateway',
+            placeS3GatewayForAutorace,
         );
         container.registerInstance(
-            'BoatracePlaceS3GatewayWithGrade',
-            s3GatewayForBoatrace,
+            'BoatracePlaceS3Gateway',
+            placeS3GatewayForBoatrace,
         );
 
         // テスト対象のリポジトリを生成
-        repository = container.resolve(
-            MechanicalRacingPlaceRepositoryFromStorageImpl,
-        );
+        repository = container.resolve(PlaceRepositoryFromStorageImpl);
     });
 
     afterEach(() => {
@@ -60,8 +62,16 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
 
     describe('fetchPlaceList', () => {
         test('正しい開催場データを取得できる', async () => {
-            // モックの戻り値を設定
-            s3GatewayForKeirin.fetchDataFromS3.mockResolvedValue(
+            placeS3GatewayForNar.fetchDataFromS3.mockResolvedValue(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname,
+                        '../../mock/repository/csv/nar/placeList.csv',
+                    ),
+                    'utf8',
+                ),
+            );
+            placeS3GatewayForKeirin.fetchDataFromS3.mockResolvedValue(
                 fs.readFileSync(
                     path.resolve(
                         __dirname,
@@ -70,7 +80,7 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
                     'utf8',
                 ),
             );
-            s3GatewayForAutorace.fetchDataFromS3.mockResolvedValue(
+            placeS3GatewayForAutorace.fetchDataFromS3.mockResolvedValue(
                 fs.readFileSync(
                     path.resolve(
                         __dirname,
@@ -79,7 +89,7 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
                     'utf8',
                 ),
             );
-            s3GatewayForBoatrace.fetchDataFromS3.mockResolvedValue(
+            placeS3GatewayForBoatrace.fetchDataFromS3.mockResolvedValue(
                 fs.readFileSync(
                     path.resolve(
                         __dirname,
@@ -91,6 +101,7 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
 
             // テスト実行
             for (const raceType of [
+                RaceType.NAR,
                 RaceType.KEIRIN,
                 RaceType.AUTORACE,
                 RaceType.BOATRACE,
@@ -112,6 +123,7 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
     describe('registerPlaceList', () => {
         test('正しい開催場データを登録できる', async () => {
             for (const raceType of [
+                RaceType.NAR,
                 RaceType.KEIRIN,
                 RaceType.AUTORACE,
                 RaceType.BOATRACE,
@@ -132,35 +144,56 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
             }
 
             // uploadDataToS3が1回呼ばれることを検証
-            expect(s3GatewayForKeirin.uploadDataToS3).toHaveBeenCalledTimes(1);
-            expect(s3GatewayForAutorace.uploadDataToS3).toHaveBeenCalledTimes(
+            expect(placeS3GatewayForNar.uploadDataToS3).toHaveBeenCalledTimes(
                 1,
             );
-            expect(s3GatewayForBoatrace.uploadDataToS3).toHaveBeenCalledTimes(
-                1,
-            );
+            expect(
+                placeS3GatewayForKeirin.uploadDataToS3,
+            ).toHaveBeenCalledTimes(1);
+            expect(
+                placeS3GatewayForAutorace.uploadDataToS3,
+            ).toHaveBeenCalledTimes(1);
+            expect(
+                placeS3GatewayForBoatrace.uploadDataToS3,
+            ).toHaveBeenCalledTimes(1);
         });
     });
 
+    // // 1年間の開催場データを登録する
     // 1年間の開催場データを登録する
-    const placeEntityList = (
-        raceType: RaceType,
-    ): MechanicalRacingPlaceEntity[] =>
+    const placeEntityList = (raceType: RaceType): HorseRacingPlaceEntity[] =>
         Array.from({ length: 60 }, (_, day) => {
-            const location =
-                raceType === RaceType.KEIRIN
-                    ? '平塚'
-                    : raceType === RaceType.AUTORACE
-                      ? '飯塚'
-                      : '平和島';
+            const location = createLocation(raceType);
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
-                MechanicalRacingPlaceEntity.createWithoutId(
+                HorseRacingPlaceEntity.createWithoutId(
                     PlaceData.create(raceType, date, location),
-                    'GⅠ',
                     getJSTDate(new Date()),
                 ),
             );
         }).flat();
 });
+
+const createLocation = (raceType: RaceType): RaceCourse => {
+    switch (raceType) {
+        case RaceType.JRA: {
+            return '東京';
+        }
+        case RaceType.NAR: {
+            return '大井';
+        }
+        case RaceType.KEIRIN: {
+            return '平塚';
+        }
+        case RaceType.AUTORACE: {
+            return '川口';
+        }
+        case RaceType.BOATRACE: {
+            return '浜名湖';
+        }
+        case RaceType.OVERSEAS: {
+            return 'パリロンシャン';
+        }
+    }
+};
