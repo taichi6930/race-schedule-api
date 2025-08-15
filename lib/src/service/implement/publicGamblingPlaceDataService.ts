@@ -20,7 +20,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         protected jraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
         @inject('JraPlaceRepositoryFromHtml')
         protected jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
-        @inject('NarPlaceRepositoryFromStorage')
+        @inject('PlaceRepositoryFromStorage')
         protected narPlaceRepositoryFromStorage: IPlaceRepository<HorseRacingPlaceEntity>,
         @inject('NarPlaceRepositoryFromHtml')
         protected narPlaceRepositoryFromHtml: IPlaceRepository<HorseRacingPlaceEntity>,

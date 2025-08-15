@@ -9,7 +9,7 @@ import { MechanicalRacingPlaceRepositoryFromStorageImpl } from '../../src/reposi
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 
 container.register<IPlaceRepository<HorseRacingPlaceEntity>>(
-    'NarPlaceRepositoryFromStorage',
+    'PlaceRepositoryFromStorage',
     {
         useClass: HorseRacingPlaceRepositoryFromStorageImpl,
     },
