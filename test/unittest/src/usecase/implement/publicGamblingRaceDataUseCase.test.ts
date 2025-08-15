@@ -750,7 +750,6 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 } else {
                     throw new Error(`Unexpected raceType: ${key}`);
                 }
-                expect(1).toBe(1); // 期待値がないため、常に成功するように
             });
         }
     });
