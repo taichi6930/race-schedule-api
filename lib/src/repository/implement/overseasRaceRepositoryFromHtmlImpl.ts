@@ -13,7 +13,10 @@ import {
     RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
+import {
+    type RaceCourseType,
+    validateRaceCourseType,
+} from '../../utility/data/common/raceCourseType';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -150,11 +153,15 @@ export class OverseasRaceRepositoryFromHtmlImpl
                                 .text()
                                 .trim(); // テキストをトリムして不要な空白を削除
 
-                            const surfaceType: string = this.extractSurfaceType(
-                                ['芝', 'ダート', '障害', 'AW'].filter((type) =>
-                                    surfaceTypeAndDistanceText.includes(type),
-                                ),
-                            );
+                            const surfaceType: RaceCourseType =
+                                this.extractSurfaceType(
+                                    ['芝', 'ダート', '障害', 'AW'].filter(
+                                        (type) =>
+                                            surfaceTypeAndDistanceText.includes(
+                                                type,
+                                            ),
+                                    ),
+                                );
                             const distanceMatch = /\d+/.exec(
                                 surfaceTypeAndDistanceText,
                             );
@@ -272,6 +279,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
         const found = types.find((type) =>
             race.some((item) => item.includes(type)),
         );
-        return found ?? '芝';
+        // return found ?? '芝';
+        return validateRaceCourseType(found);
     }
 }
