@@ -1,4 +1,4 @@
-name: Race Schedule WORLD
+name: Race Schedule OVERSEAS
 
 on:
   schedule:
@@ -62,7 +62,7 @@ jobs:
               exit 1
             fi
 
-  update-world-race-data:
+  update-overseas-race-data:
     needs: [set-dates, health-check]
     runs-on: ubuntu-latest
     steps:
@@ -83,7 +83,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": [\"world\"]
+                  \"raceType\": [\"overseas\"]
                 }")
 
           # レスポンスチェック
@@ -92,8 +92,8 @@ jobs:
             exit 1
           fi
 
-  update-world-race-calendar:
-    needs: [set-dates, update-world-race-data]
+  update-overseas-race-calendar:
+    needs: [set-dates, update-overseas-race-data]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -112,7 +112,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": [\"world\"]
+                  \"raceType\": [\"overseas\"]
                 }")
 
             # レスポンスチェック

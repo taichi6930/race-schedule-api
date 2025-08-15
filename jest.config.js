@@ -12,7 +12,7 @@ module.exports = {
         'lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl.ts',
-        'lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl.ts',
+        'lib/src/repository/implement/overseasRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl.ts',
         'lib/src/utility/sqlite.ts',
     ],

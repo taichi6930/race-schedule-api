@@ -71,13 +71,13 @@ jobs:
       - name: Run ITA Tests For Nar
         uses: ./.github/actions/test/ita/nar
 
-  call-ita-test-world:
+  call-ita-test-overseas:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
-      - name: Run ITA Tests For World
-        uses: ./.github/actions/test/ita/world
+      - name: Run ITA Tests For Overseas
+        uses: ./.github/actions/test/ita/overseas
 
   call-ita-test-keirin:
     runs-on: ubuntu-latest
