@@ -14,7 +14,7 @@ import { generateRacePlayerId } from '../../../../../lib/src/utility/data/common
 import type { RaceStage } from '../../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import { baseRacePlayerDataList } from './baseCommonData';
+import { baseRaceNumber, baseRacePlayerDataList } from './baseCommonData';
 
 const baseKeirinPlaceCourse: RaceCourse = '平塚';
 const baseKeirinPlaceDateTime = new Date('2025-12-30');
@@ -27,7 +27,6 @@ const baseKeirinPlaceId = generatePlaceId(
 
 const baseKeirinRaceName = 'KEIRINグランプリ';
 const baseRaceDateTime = new Date('2025-12-30 16:30');
-const baseKeirinRaceNumber = 11;
 const baseKeirinRaceStage: RaceStage = 'S級グランプリ';
 const baseKeirinRaceUpdateDate = getJSTDate(new Date('2025-10-01 16:30'));
 
@@ -43,7 +42,7 @@ export const baseKeirinRaceData = RaceData.create(
     baseRaceDateTime,
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
-    baseKeirinRaceNumber,
+    baseRaceNumber,
 );
 
 export const baseKeirinPlaceRecord = MechanicalRacingPlaceRecord.create(
@@ -60,7 +59,7 @@ export const baseKeirinRaceRecord = MechanicalRacingRaceRecord.create(
         RaceType.KEIRIN,
         baseKeirinPlaceDateTime,
         baseKeirinPlaceCourse,
-        baseKeirinRaceNumber,
+        baseRaceNumber,
     ),
     RaceType.KEIRIN,
     baseKeirinRaceName,
@@ -68,7 +67,7 @@ export const baseKeirinRaceRecord = MechanicalRacingRaceRecord.create(
     baseRaceDateTime,
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
-    baseKeirinRaceNumber,
+    baseRaceNumber,
     baseKeirinRaceUpdateDate,
 );
 
@@ -136,7 +135,7 @@ export const baseKeirinRacePlayerRecord = RacePlayerRecord.create(
         RaceType.KEIRIN,
         baseKeirinPlaceDateTime,
         baseKeirinPlaceCourse,
-        baseKeirinRaceNumber,
+        baseRaceNumber,
         1,
     ),
     RaceType.KEIRIN,
@@ -144,7 +143,7 @@ export const baseKeirinRacePlayerRecord = RacePlayerRecord.create(
         RaceType.KEIRIN,
         baseRaceDateTime,
         baseKeirinPlaceCourse,
-        baseKeirinRaceNumber,
+        baseRaceNumber,
     ),
     1,
     10000,

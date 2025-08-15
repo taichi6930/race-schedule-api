@@ -13,7 +13,7 @@ import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceI
 import { generateRacePlayerId } from '../../../../../lib/src/utility/data/common/racePlayerId';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import { baseRacePlayerDataList } from './baseCommonData';
+import { baseRaceNumber, baseRacePlayerDataList } from './baseCommonData';
 
 const baseBoatracePlaceCourse: RaceCourse = '平和島';
 const baseBoatracePlaceDateTime = new Date('2024-12-31');
@@ -26,7 +26,6 @@ const baseBoatracePlaceId = generatePlaceId(
 
 const baseBoatraceRaceName = 'グランプリ';
 const baseRaceDateTime = new Date('2024-12-31 16:30');
-const baseBoatraceRaceNumber = 11;
 const baseBoatraceRaceStage = '優勝戦';
 const baseBoatraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
@@ -42,7 +41,7 @@ export const baseBoatraceRaceData = RaceData.create(
     baseRaceDateTime,
     baseBoatracePlaceCourse,
     baseBoatracePlaceGrade,
-    baseBoatraceRaceNumber,
+    baseRaceNumber,
 );
 
 export const baseBoatracePlaceRecord = MechanicalRacingPlaceRecord.create(
@@ -59,7 +58,7 @@ export const baseBoatraceRaceRecord = MechanicalRacingRaceRecord.create(
         RaceType.BOATRACE,
         baseBoatracePlaceDateTime,
         baseBoatracePlaceCourse,
-        baseBoatraceRaceNumber,
+        baseRaceNumber,
     ),
     RaceType.BOATRACE,
     baseBoatraceRaceName,
@@ -67,7 +66,7 @@ export const baseBoatraceRaceRecord = MechanicalRacingRaceRecord.create(
     baseRaceDateTime,
     baseBoatracePlaceCourse,
     baseBoatracePlaceGrade,
-    baseBoatraceRaceNumber,
+    baseRaceNumber,
     baseBoatraceRaceUpdateDate,
 );
 
@@ -95,7 +94,7 @@ export const baseBoatraceRacePlayerRecord = RacePlayerRecord.create(
         RaceType.BOATRACE,
         baseBoatracePlaceDateTime,
         baseBoatracePlaceCourse,
-        baseBoatraceRaceNumber,
+        baseRaceNumber,
         1,
     ),
     RaceType.BOATRACE,
@@ -103,7 +102,7 @@ export const baseBoatraceRacePlayerRecord = RacePlayerRecord.create(
         RaceType.BOATRACE,
         baseRaceDateTime,
         baseBoatracePlaceCourse,
-        baseBoatraceRaceNumber,
+        baseRaceNumber,
     ),
     1,
     10000,

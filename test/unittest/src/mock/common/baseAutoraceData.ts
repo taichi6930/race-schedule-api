@@ -14,7 +14,7 @@ import { generateRacePlayerId } from '../../../../../lib/src/utility/data/common
 import type { RaceStage } from '../../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import { baseRacePlayerDataList } from './baseCommonData';
+import { baseRaceNumber, baseRacePlayerDataList } from './baseCommonData';
 
 const baseAutoracePlaceCourse: RaceCourse = '飯塚';
 const baseAutoracePlaceDateTime = new Date('2024-12-31');
@@ -27,7 +27,6 @@ export const baseAutoracePlaceId = generatePlaceId(
 
 const baseAutoraceRaceName = 'スーパースター王座決定戦';
 const baseRaceDateTime = new Date('2024-12-31 16:30');
-const baseAutoraceRaceNumber = 11;
 export const baseAutoraceRaceStage: RaceStage = '優勝戦';
 export const baseAutoraceRaceUpdateDate = getJSTDate(
     new Date('2024-10-01 16:30'),
@@ -37,7 +36,7 @@ export const baseAutoraceRaceId = generateRaceId(
     RaceType.AUTORACE,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
-    baseAutoraceRaceNumber,
+    baseRaceNumber,
 );
 
 export const baseAutoracePlaceData = PlaceData.create(
@@ -52,7 +51,7 @@ export const baseAutoraceRaceData = RaceData.create(
     baseRaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
-    baseAutoraceRaceNumber,
+    baseRaceNumber,
 );
 
 export const baseAutoracePlaceRecord = MechanicalRacingPlaceRecord.create(
@@ -69,7 +68,7 @@ export const baseAutoraceRaceRecord = MechanicalRacingRaceRecord.create(
         RaceType.AUTORACE,
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,
-        baseAutoraceRaceNumber,
+        baseRaceNumber,
     ),
     RaceType.AUTORACE,
     baseAutoraceRaceName,
@@ -77,7 +76,7 @@ export const baseAutoraceRaceRecord = MechanicalRacingRaceRecord.create(
     baseRaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
-    baseAutoraceRaceNumber,
+    baseRaceNumber,
     baseAutoraceRaceUpdateDate,
 );
 
@@ -105,7 +104,7 @@ export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
         RaceType.AUTORACE,
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,
-        baseAutoraceRaceNumber,
+        baseRaceNumber,
         1,
     ),
     RaceType.AUTORACE,
@@ -113,7 +112,7 @@ export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
         RaceType.AUTORACE,
         baseRaceDateTime,
         baseAutoracePlaceCourse,
-        baseAutoraceRaceNumber,
+        baseRaceNumber,
     ),
     1,
     10000,

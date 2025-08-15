@@ -13,13 +13,13 @@ import { generatePlaceId } from '../../../../../lib/src/utility/data/common/plac
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { baseRaceNumber } from './baseCommonData';
 
 const baseNarPlaceCourse: RaceCourse = '大井';
 const baseNarPlaceDateTime = new Date('2024-12-29');
 
 const baseNarRaceName = '東京大賞典';
 const baseRaceDateTime = new Date('2024-12-29 15:40');
-const baseNarRaceNumber = 11;
 const baseNarRaceSurfaceType = 'ダート';
 const baseNarRaceDistance = 2000;
 const baseNarRaceGrade: GradeType = 'GⅠ';
@@ -37,7 +37,7 @@ export const baseNarRaceData = RaceData.create(
     baseRaceDateTime,
     baseNarPlaceCourse,
     baseNarRaceGrade,
-    baseNarRaceNumber,
+    baseRaceNumber,
 );
 
 const baseNarConditionData = HorseRaceConditionData.create(
@@ -58,7 +58,7 @@ export const baseNarRaceRecord = HorseRacingRaceRecord.create(
         RaceType.NAR,
         baseNarPlaceDateTime,
         baseNarPlaceCourse,
-        baseNarRaceNumber,
+        baseRaceNumber,
     ),
     RaceType.NAR,
     baseNarRaceName,
@@ -67,7 +67,7 @@ export const baseNarRaceRecord = HorseRacingRaceRecord.create(
     baseNarRaceSurfaceType,
     baseNarRaceDistance,
     baseNarRaceGrade,
-    baseNarRaceNumber,
+    baseRaceNumber,
     baseNarRaceUpdateDate,
 );
 
@@ -87,7 +87,7 @@ export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
         RaceType.NAR,
         baseNarPlaceDateTime,
         baseNarPlaceCourse,
-        baseNarRaceNumber,
+        baseRaceNumber,
     ),
     summary: baseNarRaceName,
     start: {
@@ -115,12 +115,12 @@ export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
             grade: baseNarRaceGrade,
             location: baseNarPlaceCourse,
             name: baseNarRaceName,
-            number: baseNarRaceNumber.toString(),
+            number: baseRaceNumber.toString(),
             raceId: generateRaceId(
                 RaceType.NAR,
                 baseNarPlaceDateTime,
                 baseNarPlaceCourse,
-                baseNarRaceNumber,
+                baseRaceNumber,
             ),
             surfaceType: baseNarRaceSurfaceType,
             updateDate: baseNarRaceUpdateDate.toISOString(),

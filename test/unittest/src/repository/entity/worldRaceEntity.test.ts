@@ -12,7 +12,7 @@ describe('WorldRaceEntityクラスのテスト', () => {
     it('正しい入力でWorldRaceEntityのインスタンスを作成できることを確認', () => {
         const raceEntity = baseRaceEntity;
         // インスタンスのプロパティが正しいか確認
-        expect(raceEntity.id).toBe('world20241001longchamp11');
+        expect(raceEntity.id).toBe('world20241001longchamp12');
         expect(raceEntity.raceData).toBe(baseWorldRaceData);
     });
 

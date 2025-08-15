@@ -13,7 +13,7 @@ describe('NarRaceEntityクラスのテスト', () => {
     it('正しい入力でNarRaceEntityのインスタンスを作成できることを確認', () => {
         const raceEntity = baseRaceEntity;
         // インスタンスのプロパティが正しいか確認
-        expect(raceEntity.id).toBe('nar202412294411');
+        expect(raceEntity.id).toBe('nar202412294412');
         expect(raceEntity.raceData).toBe(baseNarRaceData);
     });
 

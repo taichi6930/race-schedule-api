@@ -10,3 +10,8 @@ export const baseRacePlayerDataList = (raceType: RaceType): RacePlayerData[] =>
     Array.from({ length: createMaxFrameNumber(raceType) }, (_, i) => {
         return RacePlayerData.create(raceType, i + 1, i + 1);
     });
+
+/**
+ * 基本的なレース番号を定義します。
+ */
+export const baseRaceNumber = 12;

@@ -14,6 +14,7 @@ import { generatePlaceId } from '../../../../../lib/src/utility/data/common/plac
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { baseRaceNumber } from './baseCommonData';
 
 const baseJraRaceType: RaceType = RaceType.JRA;
 const baseJraPlaceCourse: RaceCourse = '中山';
@@ -26,7 +27,6 @@ const baseJraPlaceId = generatePlaceId(
 
 const baseJraRaceName = '有馬記念';
 const baseRaceDateTime = new Date('2024-12-22 15:40');
-const baseJraRaceNumber = 11;
 const baseJraRaceSurfaceType = '芝';
 const baseJraRaceDistance = 2500;
 const baseJraRaceGrade: GradeType = 'GⅠ';
@@ -48,7 +48,7 @@ export const baseJraRaceData = RaceData.create(
     baseRaceDateTime,
     baseJraPlaceCourse,
     baseJraRaceGrade,
-    baseJraRaceNumber,
+    baseRaceNumber,
 );
 
 const baseJraConditionData = HorseRaceConditionData.create(
@@ -69,7 +69,7 @@ export const baseJraRaceRecord = JraRaceRecord.create(
         baseJraRaceType,
         baseJraPlaceDateTime,
         baseJraPlaceCourse,
-        baseJraRaceNumber,
+        baseRaceNumber,
     ),
     baseJraRaceType,
     baseJraRaceName,
@@ -78,7 +78,7 @@ export const baseJraRaceRecord = JraRaceRecord.create(
     baseJraRaceSurfaceType,
     baseJraRaceDistance,
     baseJraRaceGrade,
-    baseJraRaceNumber,
+    baseRaceNumber,
     baseJraRaceHeldTimes,
     baseJraRaceHeldDayTimes,
     baseJraRaceUpdateDate,
@@ -102,7 +102,7 @@ export const baseJraGoogleCalendarData: calendar_v3.Schema$Event = {
         RaceType.JRA,
         baseJraPlaceDateTime,
         baseJraPlaceCourse,
-        baseJraRaceNumber,
+        baseRaceNumber,
     ),
     summary: baseJraRaceName,
     start: {
@@ -132,12 +132,12 @@ export const baseJraGoogleCalendarData: calendar_v3.Schema$Event = {
             heldTimes: baseJraRaceHeldTimes.toString(),
             location: baseJraPlaceCourse,
             name: baseJraRaceName,
-            number: baseJraRaceNumber.toString(),
+            number: baseRaceNumber.toString(),
             raceId: generateRaceId(
                 RaceType.JRA,
                 baseJraPlaceDateTime,
                 baseJraPlaceCourse,
-                baseJraRaceNumber,
+                baseRaceNumber,
             ),
             surfaceType: baseJraRaceSurfaceType,
             updateDate: baseJraRaceUpdateDate.toISOString(),

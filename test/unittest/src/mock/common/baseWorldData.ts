@@ -10,13 +10,13 @@ import type { RaceCourse } from '../../../../../lib/src/utility/data/common/race
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { baseRaceNumber } from './baseCommonData';
 
 const baseWorldPlaceCourse: RaceCourse = 'パリロンシャン';
 const baseWorldPlaceDateTime = new Date('2024-10-01');
 
 const baseWorldRaceName = '凱旋門賞';
 const baseRaceDateTime = new Date('2024-10-01 16:30');
-const baseWorldRaceNumber = 11;
 const baseWorldRaceSurfaceType = '芝';
 const baseRaceDistance = 2400;
 const baseWorldRaceGrade: GradeType = 'GⅠ';
@@ -34,7 +34,7 @@ export const baseWorldRaceData = RaceData.create(
     baseRaceDateTime,
     baseWorldPlaceCourse,
     baseWorldRaceGrade,
-    baseWorldRaceNumber,
+    baseRaceNumber,
 );
 
 const baseWorldConditionData = HorseRaceConditionData.create(
@@ -47,7 +47,7 @@ export const baseWorldRaceRecord = HorseRacingRaceRecord.create(
         RaceType.WORLD,
         baseWorldPlaceDateTime,
         baseWorldPlaceCourse,
-        baseWorldRaceNumber,
+        baseRaceNumber,
     ),
     RaceType.WORLD,
     baseWorldRaceName,
@@ -56,7 +56,7 @@ export const baseWorldRaceRecord = HorseRacingRaceRecord.create(
     baseWorldRaceSurfaceType,
     baseRaceDistance,
     baseWorldRaceGrade,
-    baseWorldRaceNumber,
+    baseRaceNumber,
     baseWorldRaceUpdateDate,
 );
 
