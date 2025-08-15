@@ -26,7 +26,7 @@ describe('PublicGamblingPlaceDataService', () => {
     let jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<JraPlaceEntity>
     >;
-    let narPlaceRepositoryFromStorageImpl: jest.Mocked<
+    let horseRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<HorseRacingPlaceEntity>
     >;
     let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -51,7 +51,7 @@ describe('PublicGamblingPlaceDataService', () => {
         ({
             jraPlaceRepositoryFromStorageImpl,
             jraPlaceRepositoryFromHtmlImpl,
-            narPlaceRepositoryFromStorageImpl,
+            horseRacingPlaceRepositoryFromStorageImpl,
             narPlaceRepositoryFromHtmlImpl,
             keirinPlaceRepositoryFromHtmlImpl,
             boatracePlaceRepositoryFromHtmlImpl,
@@ -80,7 +80,7 @@ describe('PublicGamblingPlaceDataService', () => {
             jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseJraPlaceEntity],
             );
-            narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
             );
             mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
@@ -212,7 +212,7 @@ describe('PublicGamblingPlaceDataService', () => {
             jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseJraPlaceEntity],
             );
-            narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
             );
             mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
@@ -246,7 +246,7 @@ describe('PublicGamblingPlaceDataService', () => {
                 },
             );
 
-            narPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
+            horseRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
                 {
                     code: 200,
                     message: '',
@@ -313,7 +313,7 @@ describe('PublicGamblingPlaceDataService', () => {
             jraPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('開催場データの登録に失敗しました'),
             );
-            narPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
+            horseRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('開催場データの登録に失敗しました'),
             );
             mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(

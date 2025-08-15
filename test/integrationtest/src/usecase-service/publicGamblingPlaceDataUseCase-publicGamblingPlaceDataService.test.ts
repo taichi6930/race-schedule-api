@@ -42,7 +42,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     let jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<JraPlaceEntity>
     >;
-    let narPlaceRepositoryFromStorageImpl: jest.Mocked<
+    let horseRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<HorseRacingPlaceEntity>
     >;
     let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -68,7 +68,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
         ({
             jraPlaceRepositoryFromStorageImpl,
             jraPlaceRepositoryFromHtmlImpl,
-            narPlaceRepositoryFromStorageImpl,
+            horseRacingPlaceRepositoryFromStorageImpl,
             narPlaceRepositoryFromHtmlImpl,
             keirinPlaceRepositoryFromHtmlImpl,
             boatracePlaceRepositoryFromHtmlImpl,
@@ -94,7 +94,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseJraPlaceEntity],
             );
-            narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
             );
             mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
@@ -153,7 +153,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                     failureData: [],
                 },
             );
-            narPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
+            horseRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
                 {
                     code: 200,
                     message: '',
@@ -177,7 +177,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseJraPlaceEntity],
             );
-            narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
             );
             mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(

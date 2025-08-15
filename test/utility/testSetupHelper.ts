@@ -59,7 +59,7 @@ export interface TestSetup {
     jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<JraPlaceEntity>
     >;
-    narPlaceRepositoryFromStorageImpl: jest.Mocked<
+    horseRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<HorseRacingPlaceEntity>
     >;
     narPlaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -246,11 +246,11 @@ export function setupTestMock(): TestSetup {
         'JraPlaceRepositoryFromHtml',
         jraPlaceRepositoryFromHtmlImpl,
     );
-    const narPlaceRepositoryFromStorageImpl =
+    const horseRacingPlaceRepositoryFromStorageImpl =
         mockPlaceRepository<HorseRacingPlaceEntity>();
     container.registerInstance<IPlaceRepository<HorseRacingPlaceEntity>>(
         'NarPlaceRepositoryFromStorage',
-        narPlaceRepositoryFromStorageImpl,
+        horseRacingPlaceRepositoryFromStorageImpl,
     );
     const narPlaceRepositoryFromHtmlImpl =
         mockPlaceRepository<HorseRacingPlaceEntity>();
@@ -315,7 +315,7 @@ export function setupTestMock(): TestSetup {
         calendarRepository,
         jraPlaceRepositoryFromStorageImpl,
         jraPlaceRepositoryFromHtmlImpl,
-        narPlaceRepositoryFromStorageImpl,
+        horseRacingPlaceRepositoryFromStorageImpl,
         narPlaceRepositoryFromHtmlImpl,
         mechanicalRacingPlaceRepositoryFromStorageImpl,
         keirinPlaceRepositoryFromHtmlImpl,
