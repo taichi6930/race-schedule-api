@@ -39,7 +39,9 @@ switch (ENV) {
         });
         container.register<IPlaceRepository<HorseRacingPlaceEntity>>(
             'NarPlaceRepositoryFromHtml',
-            { useClass: NarPlaceRepositoryFromHtmlImpl },
+            {
+                useClass: NarPlaceRepositoryFromHtmlImpl,
+            },
         );
         container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
             'JraRaceRepositoryFromHtml',
@@ -47,7 +49,9 @@ switch (ENV) {
         );
         container.register<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
-            { useClass: JraPlaceRepositoryFromHtmlImpl },
+            {
+                useClass: JraPlaceRepositoryFromHtmlImpl,
+            },
         );
         container.register<
             IRaceRepository<
@@ -121,7 +125,9 @@ switch (ENV) {
         );
         container.register<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
-            { useClass: MockJraPlaceRepositoryFromHtmlImpl },
+            {
+                useClass: MockJraPlaceRepositoryFromHtmlImpl,
+            },
         );
         container.register<
             IRaceRepository<

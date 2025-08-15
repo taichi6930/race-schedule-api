@@ -13,7 +13,9 @@ import type { IRaceRepository } from '../../src/repository/interface/IRaceReposi
 
 container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
     'JraRaceRepositoryFromStorage',
-    { useClass: JraRaceRepositoryFromStorageImpl },
+    {
+        useClass: JraRaceRepositoryFromStorageImpl,
+    },
 );
 container.register<
     IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
