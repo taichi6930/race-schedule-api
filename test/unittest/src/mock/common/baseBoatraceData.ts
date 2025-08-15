@@ -15,11 +15,13 @@ import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { baseRaceNumber, baseRacePlayerDataList } from './baseCommonData';
 
+const raceType: RaceType = RaceType.BOATRACE;
+
 const baseBoatracePlaceCourse: RaceCourse = '平和島';
 const baseBoatracePlaceDateTime = new Date('2024-12-31');
 const baseBoatracePlaceGrade: GradeType = 'SG';
 const baseBoatracePlaceId = generatePlaceId(
-    RaceType.BOATRACE,
+    raceType,
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,
 );
@@ -30,13 +32,13 @@ const baseBoatraceRaceStage = '優勝戦';
 const baseBoatraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
 export const baseBoatracePlaceData = PlaceData.create(
-    RaceType.BOATRACE,
+    raceType,
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,
 );
 
 export const baseBoatraceRaceData = RaceData.create(
-    RaceType.BOATRACE,
+    raceType,
     baseBoatraceRaceName,
     baseRaceDateTime,
     baseBoatracePlaceCourse,
@@ -46,7 +48,7 @@ export const baseBoatraceRaceData = RaceData.create(
 
 export const baseBoatracePlaceRecord = MechanicalRacingPlaceRecord.create(
     baseBoatracePlaceId,
-    RaceType.BOATRACE,
+    raceType,
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,
     baseBoatracePlaceGrade,
@@ -55,12 +57,12 @@ export const baseBoatracePlaceRecord = MechanicalRacingPlaceRecord.create(
 
 export const baseBoatraceRaceRecord = MechanicalRacingRaceRecord.create(
     generateRaceId(
-        RaceType.BOATRACE,
+        raceType,
         baseBoatracePlaceDateTime,
         baseBoatracePlaceCourse,
         baseRaceNumber,
     ),
-    RaceType.BOATRACE,
+    raceType,
     baseBoatraceRaceName,
     baseBoatraceRaceStage,
     baseRaceDateTime,
@@ -77,9 +79,7 @@ export const baseBoatracePlaceEntity =
         baseBoatraceRaceUpdateDate,
     );
 
-export const baseBoatraceRacePlayerDataList = baseRacePlayerDataList(
-    RaceType.BOATRACE,
-);
+export const baseBoatraceRacePlayerDataList = baseRacePlayerDataList(raceType);
 
 export const baseBoatraceRaceEntity =
     MechanicalRacingRaceEntity.createWithoutId(
@@ -91,15 +91,15 @@ export const baseBoatraceRaceEntity =
 
 export const baseBoatraceRacePlayerRecord = RacePlayerRecord.create(
     generateRacePlayerId(
-        RaceType.BOATRACE,
+        raceType,
         baseBoatracePlaceDateTime,
         baseBoatracePlaceCourse,
         baseRaceNumber,
         1,
     ),
-    RaceType.BOATRACE,
+    raceType,
     generateRaceId(
-        RaceType.BOATRACE,
+        raceType,
         baseRaceDateTime,
         baseBoatracePlaceCourse,
         baseRaceNumber,
@@ -132,7 +132,7 @@ export const baseBoatraceRaceEntityList: MechanicalRacingRaceEntity[] = [
         '優勝戦',
     ].map((stage, index) => {
         const raceData = RaceData.create(
-            RaceType.BOATRACE,
+            raceType,
             `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
             new Date(2025, 12 - 1, 30, 7 + index, 0),
             location,
@@ -151,23 +151,23 @@ export const baseBoatraceRaceEntityList: MechanicalRacingRaceEntity[] = [
 
 export const baseBoatraceCalendarData = CalendarData.create(
     'test202412310511',
-    RaceType.BOATRACE,
-    '優勝戦 グランプリ',
+    raceType,
+    `${baseBoatraceRaceStage} ${baseBoatraceRaceName}`,
     '2024-12-31T16:30:00Z',
     '2024-12-31T16:40:00Z',
-    '平和島ボートレース場',
+    `${baseBoatracePlaceCourse}ボートレース場`,
     'テスト',
 );
 
 export const baseBoatraceCalendarDataFromGoogleCalendar = {
     id: 'test202412310511',
-    summary: '優勝戦 グランプリ',
+    summary: `${baseBoatraceRaceStage} ${baseBoatraceRaceName}`,
     start: {
         dateTime: '2024-12-31T16:30:00Z',
     },
     end: {
         dateTime: '2024-12-31T16:40:00Z',
     },
-    location: '平和島ボートレース場',
+    location: `${baseBoatracePlaceCourse}ボートレース場`,
     description: 'テスト',
 };

@@ -15,6 +15,8 @@ import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceI
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { baseRaceNumber } from './baseCommonData';
 
+const raceType: RaceType = RaceType.NAR;
+
 const baseNarPlaceCourse: RaceCourse = '大井';
 const baseNarPlaceDateTime = new Date('2024-12-29');
 
@@ -26,13 +28,13 @@ const baseNarRaceGrade: GradeType = 'GⅠ';
 const baseNarRaceUpdateDate = new Date('2024-12-01 00:00');
 
 export const baseNarPlaceData = PlaceData.create(
-    RaceType.NAR,
+    raceType,
     baseNarPlaceDateTime,
     baseNarPlaceCourse,
 );
 
 export const baseNarRaceData = RaceData.create(
-    RaceType.NAR,
+    raceType,
     baseNarRaceName,
     baseRaceDateTime,
     baseNarPlaceCourse,
@@ -46,8 +48,8 @@ const baseNarConditionData = HorseRaceConditionData.create(
 );
 
 export const baseNarPlaceRecord = HorseRacingPlaceRecord.create(
-    generatePlaceId(RaceType.NAR, baseNarPlaceDateTime, baseNarPlaceCourse),
-    RaceType.NAR,
+    generatePlaceId(raceType, baseNarPlaceDateTime, baseNarPlaceCourse),
+    raceType,
     baseNarPlaceDateTime,
     baseNarPlaceCourse,
     baseNarRaceUpdateDate,
@@ -55,12 +57,12 @@ export const baseNarPlaceRecord = HorseRacingPlaceRecord.create(
 
 export const baseNarRaceRecord = HorseRacingRaceRecord.create(
     generateRaceId(
-        RaceType.NAR,
+        raceType,
         baseNarPlaceDateTime,
         baseNarPlaceCourse,
         baseRaceNumber,
     ),
-    RaceType.NAR,
+    raceType,
     baseNarRaceName,
     baseRaceDateTime,
     baseNarPlaceCourse,
@@ -84,7 +86,7 @@ export const baseNarRaceEntity = HorseRacingRaceEntity.createWithoutId(
 
 export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
     id: generateRaceId(
-        RaceType.NAR,
+        raceType,
         baseNarPlaceDateTime,
         baseNarPlaceCourse,
         baseRaceNumber,
@@ -117,7 +119,7 @@ export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
             name: baseNarRaceName,
             number: baseRaceNumber.toString(),
             raceId: generateRaceId(
-                RaceType.NAR,
+                raceType,
                 baseNarPlaceDateTime,
                 baseNarPlaceCourse,
                 baseRaceNumber,
@@ -148,7 +150,7 @@ export const baseNarRaceEntityList: HorseRacingRaceEntity[] = [
     ].map((grade, index) => {
         return HorseRacingRaceEntity.createWithoutId(
             RaceData.create(
-                RaceType.NAR,
+                raceType,
                 `テスト${location}${grade}${(index + 1).toString()}レース`,
                 new Date(2024, 6 - 1, 1, 7 + index, 0),
                 location,
@@ -163,23 +165,23 @@ export const baseNarRaceEntityList: HorseRacingRaceEntity[] = [
 
 export const baseNarCalendarData = CalendarData.create(
     'test202412292011',
-    RaceType.NAR,
-    '東京大賞典',
+    raceType,
+    baseNarRaceName,
     '2024-12-29T15:40:00Z',
     '2024-12-29T15:50:00Z',
-    '大井競馬場',
+    `${baseNarPlaceCourse}競馬場`,
     'テスト',
 );
 
 export const baseNarCalendarDataFromGoogleCalendar = {
     id: 'test202412292011',
-    summary: '東京大賞典',
+    summary: baseNarRaceName,
     start: {
         dateTime: '2024-12-29T15:40:00Z',
     },
     end: {
         dateTime: '2024-12-29T15:50:00Z',
     },
-    location: '大井競馬場',
+    location: `${baseNarPlaceCourse}競馬場`,
     description: 'テスト',
 };

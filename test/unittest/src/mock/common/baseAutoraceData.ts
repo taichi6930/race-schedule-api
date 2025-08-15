@@ -16,11 +16,13 @@ import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { baseRaceNumber, baseRacePlayerDataList } from './baseCommonData';
 
+const raceType: RaceType = RaceType.AUTORACE;
+
 const baseAutoracePlaceCourse: RaceCourse = '飯塚';
 const baseAutoracePlaceDateTime = new Date('2024-12-31');
 export const baseAutoracePlaceGrade: GradeType = 'SG';
 export const baseAutoracePlaceId = generatePlaceId(
-    RaceType.AUTORACE,
+    raceType,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
 );
@@ -33,20 +35,20 @@ export const baseAutoraceRaceUpdateDate = getJSTDate(
 );
 
 export const baseAutoraceRaceId = generateRaceId(
-    RaceType.AUTORACE,
+    raceType,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
     baseRaceNumber,
 );
 
 export const baseAutoracePlaceData = PlaceData.create(
-    RaceType.AUTORACE,
+    raceType,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
 );
 
 export const baseAutoraceRaceData = RaceData.create(
-    RaceType.AUTORACE,
+    raceType,
     baseAutoraceRaceName,
     baseRaceDateTime,
     baseAutoracePlaceCourse,
@@ -56,7 +58,7 @@ export const baseAutoraceRaceData = RaceData.create(
 
 export const baseAutoracePlaceRecord = MechanicalRacingPlaceRecord.create(
     baseAutoracePlaceId,
-    RaceType.AUTORACE,
+    raceType,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
@@ -65,12 +67,12 @@ export const baseAutoracePlaceRecord = MechanicalRacingPlaceRecord.create(
 
 export const baseAutoraceRaceRecord = MechanicalRacingRaceRecord.create(
     generateRaceId(
-        RaceType.AUTORACE,
+        raceType,
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,
         baseRaceNumber,
     ),
-    RaceType.AUTORACE,
+    raceType,
     baseAutoraceRaceName,
     baseAutoraceRaceStage,
     baseRaceDateTime,
@@ -87,9 +89,7 @@ export const baseAutoracePlaceEntity =
         baseAutoraceRaceUpdateDate,
     );
 
-export const baseAutoraceRacePlayerDataList = baseRacePlayerDataList(
-    RaceType.AUTORACE,
-);
+export const baseAutoraceRacePlayerDataList = baseRacePlayerDataList(raceType);
 
 export const baseAutoraceRaceEntity =
     MechanicalRacingRaceEntity.createWithoutId(
@@ -101,15 +101,15 @@ export const baseAutoraceRaceEntity =
 
 export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
     generateRacePlayerId(
-        RaceType.AUTORACE,
+        raceType,
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,
         baseRaceNumber,
         1,
     ),
-    RaceType.AUTORACE,
+    raceType,
     generateRaceId(
-        RaceType.AUTORACE,
+        raceType,
         baseRaceDateTime,
         baseAutoracePlaceCourse,
         baseRaceNumber,
@@ -143,7 +143,7 @@ export const baseAutoraceRaceEntityList: MechanicalRacingRaceEntity[] = [
     ].map((stage, index) => {
         return MechanicalRacingRaceEntity.createWithoutId(
             RaceData.create(
-                RaceType.AUTORACE,
+                raceType,
                 `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
                 new Date(2025, 12 - 1, 31, 7 + index, 0),
                 location,
@@ -159,23 +159,23 @@ export const baseAutoraceRaceEntityList: MechanicalRacingRaceEntity[] = [
 
 export const baseAutoraceCalendarData = CalendarData.create(
     'autorace202412310511',
-    RaceType.AUTORACE,
-    '優勝戦 スーパースター王座決定戦',
+    raceType,
+    `${baseAutoraceRaceStage} ${baseAutoraceRaceName}`,
     '2024-12-31T16:30:00Z',
     '2024-12-31T16:40:00Z',
-    '飯塚オートレース場',
+    `${baseAutoracePlaceCourse}オートレース場`,
     'テスト',
 );
 
 export const baseAutoraceCalendarDataFromGoogleCalendar = {
     id: 'autorace202412310511',
-    summary: '優勝戦 スーパースター王座決定戦',
+    summary: `${baseAutoraceRaceStage} ${baseAutoraceRaceName}`,
     start: {
         dateTime: '2024-12-31T16:30:00Z',
     },
     end: {
         dateTime: '2024-12-31T16:40:00Z',
     },
-    location: '飯塚オートレース場',
+    location: `${baseAutoracePlaceCourse}オートレース場`,
     description: 'テスト',
 };

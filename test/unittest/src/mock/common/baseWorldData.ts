@@ -12,6 +12,8 @@ import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { baseRaceNumber } from './baseCommonData';
 
+const raceType: RaceType = RaceType.WORLD;
+
 const baseWorldPlaceCourse: RaceCourse = 'パリロンシャン';
 const baseWorldPlaceDateTime = new Date('2024-10-01');
 
@@ -23,13 +25,13 @@ const baseWorldRaceGrade: GradeType = 'GⅠ';
 const baseWorldRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
 export const baseWorldPlaceData = PlaceData.create(
-    RaceType.WORLD,
+    raceType,
     baseWorldPlaceDateTime,
     baseWorldPlaceCourse,
 );
 
 export const baseWorldRaceData = RaceData.create(
-    RaceType.WORLD,
+    raceType,
     baseWorldRaceName,
     baseRaceDateTime,
     baseWorldPlaceCourse,
@@ -44,12 +46,12 @@ const baseWorldConditionData = HorseRaceConditionData.create(
 
 export const baseWorldRaceRecord = HorseRacingRaceRecord.create(
     generateRaceId(
-        RaceType.WORLD,
+        raceType,
         baseWorldPlaceDateTime,
         baseWorldPlaceCourse,
         baseRaceNumber,
     ),
-    RaceType.WORLD,
+    raceType,
     baseWorldRaceName,
     baseRaceDateTime,
     baseWorldPlaceCourse,
@@ -91,7 +93,7 @@ export const baseWorldRaceEntityList: HorseRacingRaceEntity[] = [
     ].map((grade, index) => {
         return HorseRacingRaceEntity.createWithoutId(
             RaceData.create(
-                RaceType.WORLD,
+                raceType,
                 `テスト${location}${grade}${(index + 1).toString()}レース`,
                 new Date(2024, 10 - 1, 1, 7 + index, 0),
                 location,
@@ -106,11 +108,11 @@ export const baseWorldRaceEntityList: HorseRacingRaceEntity[] = [
 
 export const baseWorldCalendarData = CalendarData.create(
     'test20241001longchamp01',
-    RaceType.WORLD,
+    raceType,
     baseWorldRaceName,
     '2024-10-01T16:30:00Z',
     '2024-10-01T16:40:00Z',
-    'パリロンシャン競馬場',
+    `${baseWorldPlaceCourse}競馬場`,
     'テスト',
 );
 
@@ -123,6 +125,6 @@ export const baseWorldCalendarDataFromGoogleCalendar = {
     end: {
         dateTime: '2024-10-01T16:40:00Z',
     },
-    location: 'パリロンシャン競馬場',
+    location: `${baseWorldPlaceCourse}競馬場`,
     description: 'テスト',
 };
