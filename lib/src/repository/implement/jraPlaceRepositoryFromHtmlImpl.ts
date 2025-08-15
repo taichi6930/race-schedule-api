@@ -5,7 +5,7 @@ import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { heldDayRecord } from '../../gateway/record/heldDayRecord';
-import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
+import { PlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import { generatePlaceId } from '../../utility/data/common/placeId';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
@@ -45,7 +45,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         );
         const placeRecordResults = await Promise.all(placeRecordPromises);
         const placeRecordList: {
-            horseRacingPlaceRecord: HorseRacingPlaceRecord;
+            horseRacingPlaceRecord: PlaceRecord;
             jraHeldDayRecord: heldDayRecord;
         }[] = placeRecordResults.flat();
 
@@ -118,7 +118,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         date: Date,
     ): Promise<
         {
-            horseRacingPlaceRecord: HorseRacingPlaceRecord;
+            horseRacingPlaceRecord: PlaceRecord;
             jraHeldDayRecord: heldDayRecord;
         }[]
     > {
@@ -128,7 +128,7 @@ export class JraPlaceRepositoryFromHtmlImpl
 
         // 競馬場開催レコードはここに追加
         const jraRecordList: {
-            horseRacingPlaceRecord: HorseRacingPlaceRecord;
+            horseRacingPlaceRecord: PlaceRecord;
             jraHeldDayRecord: heldDayRecord;
         }[] = [];
 
@@ -195,7 +195,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                         const heldDayTimes: number =
                             placeHeldDayTimesCountMap[place][heldTimes];
 
-                        const jraPlaceRecord = HorseRacingPlaceRecord.create(
+                        const jraPlaceRecord = PlaceRecord.create(
                             generatePlaceId(
                                 raceType,
                                 new Date(date.getFullYear(), month - 1, day),

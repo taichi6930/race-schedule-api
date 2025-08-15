@@ -15,7 +15,7 @@ import type { IRecord } from './iRecord';
 /**
  * Repository層のRecord レース開催場所データ
  */
-export class HorseRacingPlaceRecord implements IRecord<HorseRacingPlaceRecord> {
+export class PlaceRecord implements IRecord<PlaceRecord> {
     /**
      * コンストラクタ
      * @param id - ID
@@ -48,9 +48,9 @@ export class HorseRacingPlaceRecord implements IRecord<HorseRacingPlaceRecord> {
         dateTime: Date,
         location: string,
         updateDate: Date,
-    ): HorseRacingPlaceRecord {
+    ): PlaceRecord {
         try {
-            return new HorseRacingPlaceRecord(
+            return new PlaceRecord(
                 validatePlaceId(raceType, id),
                 raceType,
                 validateRaceDateTime(dateTime),
@@ -68,10 +68,8 @@ export class HorseRacingPlaceRecord implements IRecord<HorseRacingPlaceRecord> {
      * データのコピー
      * @param partial - 上書きする部分データ
      */
-    public copy(
-        partial: Partial<HorseRacingPlaceRecord> = {},
-    ): HorseRacingPlaceRecord {
-        return HorseRacingPlaceRecord.create(
+    public copy(partial: Partial<PlaceRecord> = {}): PlaceRecord {
+        return PlaceRecord.create(
             partial.id ?? this.id,
             partial.raceType ?? this.raceType,
             partial.dateTime ?? this.dateTime,

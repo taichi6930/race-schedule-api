@@ -4,7 +4,7 @@ import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { HorseRacingPlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
+import { PlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
@@ -47,7 +47,7 @@ const baseNarConditionData = HorseRaceConditionData.create(
     baseNarRaceDistance,
 );
 
-export const baseNarPlaceRecord = HorseRacingPlaceRecord.create(
+export const baseNarPlaceRecord = PlaceRecord.create(
     generatePlaceId(raceType, baseNarPlaceDateTime, baseNarPlaceCourse),
     raceType,
     baseNarPlaceDateTime,
