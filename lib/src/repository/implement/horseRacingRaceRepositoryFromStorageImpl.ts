@@ -165,7 +165,7 @@ export class HorseRacingRaceRepositoryFromStorageImpl
         const updatedRaceRecordList = [...raceRecordMap.values()].sort(
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
-
+        console.log(updatedRaceRecordList);
         // 月毎に分けられたplaceをS3にアップロードする
         await this.uploadDataToS3(
             raceType,

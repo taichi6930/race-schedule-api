@@ -347,6 +347,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         raceType: RaceType,
         entities?: TRace[],
     ): Promise<void> {
+        console.log(`entities (${raceType}):`, entities);
         if (entities !== undefined && entities.length > 0) {
             await repo.registerRaceEntityList(raceType, entities);
         }

@@ -15,11 +15,10 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
     ): Promise<HorseRacingRaceEntity[]> {
-        console.log(searchFilter);
         const { placeEntityList } = searchFilter;
         const raceEntityList: HorseRacingRaceEntity[] = [];
-        if (placeEntityList) {
-            const { raceType } = searchFilter;
+        const { raceType, startDate } = searchFilter;
+        if (placeEntityList && raceType === RaceType.NAR) {
             for (const placeEntity of placeEntityList) {
                 const { location, dateTime } = placeEntity.placeData;
                 // 1から12までのレースを作成
@@ -32,9 +31,7 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
                                 raceType,
                                 `${location}第${raceNumber.toString()}R`,
                                 raceDate,
-                                raceType === RaceType.OVERSEAS
-                                    ? 'ロンシャン'
-                                    : location,
+                                location,
                                 'GⅠ',
                                 raceNumber,
                             ),
@@ -43,6 +40,33 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
                         ),
                     );
                 }
+            }
+        } else if (raceType === RaceType.OVERSEAS) {
+            const currentDate = new Date(startDate);
+            while (currentDate.getMonth() === startDate.getMonth()) {
+                // 1から12までのレースを作成
+                for (let i = 1; i <= 12; i++) {
+                    raceEntityList.push(
+                        HorseRacingRaceEntity.createWithoutId(
+                            RaceData.create(
+                                raceType,
+                                `第${i.toString()}R`,
+                                new Date(
+                                    currentDate.getFullYear(),
+                                    currentDate.getMonth(),
+                                    currentDate.getDate(),
+                                    i + 9,
+                                ),
+                                'ロンシャン',
+                                'GⅠ',
+                                i,
+                            ),
+                            HorseRaceConditionData.create('芝', 2400),
+                            getJSTDate(new Date()),
+                        ),
+                    );
+                }
+                currentDate.setDate(currentDate.getDate() + 1);
             }
         }
         await new Promise((resolve) => setTimeout(resolve, 0));
