@@ -15,6 +15,7 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
     ): Promise<HorseRacingRaceEntity[]> {
+        console.log(searchFilter);
         const { placeEntityList } = searchFilter;
         const raceEntityList: HorseRacingRaceEntity[] = [];
         if (placeEntityList) {
@@ -31,7 +32,9 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
                                 raceType,
                                 `${location}第${raceNumber.toString()}R`,
                                 raceDate,
-                                location,
+                                raceType === RaceType.OVERSEAS
+                                    ? 'ロンシャン'
+                                    : location,
                                 'GⅠ',
                                 raceNumber,
                             ),
