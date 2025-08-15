@@ -10,7 +10,7 @@ import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gat
 import type { HorseRacingPlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
 import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { HorseRacingPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/horseRacingPlaceRepositoryFromStorageImpl';
+import { PlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/horseRacingPlaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -30,9 +30,7 @@ describe('HorseRacingPlaceRepositoryFromStorageImpl', () => {
         container.registerInstance('NarPlaceS3Gateway', placeS3Gateway);
 
         // テスト対象のリポジトリを生成
-        repository = container.resolve(
-            HorseRacingPlaceRepositoryFromStorageImpl,
-        );
+        repository = container.resolve(PlaceRepositoryFromStorageImpl);
     });
 
     afterEach(() => {

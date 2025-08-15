@@ -12,7 +12,7 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
-export class HorseRacingPlaceRepositoryFromStorageImpl
+export class PlaceRepositoryFromStorageImpl
     implements IPlaceRepository<HorseRacingPlaceEntity>
 {
     // S3にアップロードするファイル名
