@@ -70,7 +70,6 @@ describe('raceIdSchema', () => {
             invalidRaceId: 'nar202108010113',
             message: 'レース番号は1~12の範囲である必要があります',
         },
-        // WORLD
         {
             raceType: RaceType.OVERSEAS,
             invalidRaceId: 'overseasabc2021080101',
@@ -246,7 +245,6 @@ for (const { raceType, invalidRaceId, message } of [
         invalidRaceId: 'nar202108010113',
         message: 'レース番号は1~12の範囲である必要があります',
     },
-    // WORLD
     {
         raceType: RaceType.OVERSEAS,
         invalidRaceId: 'overseasabc2021080101',

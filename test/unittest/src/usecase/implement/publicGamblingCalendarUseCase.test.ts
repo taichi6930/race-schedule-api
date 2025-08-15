@@ -34,9 +34,9 @@ import {
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
 import {
-    baseWorldCalendarData,
-    baseWorldRaceEntity,
-} from '../../mock/common/baseWorldData';
+    baseOverseasCalendarData,
+    baseOverseasRaceEntity,
+} from '../../mock/common/baseOverseasData';
 
 describe('PublicGamblingRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
@@ -105,8 +105,8 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 }),
             ),
             ...Array.from({ length: 0 }, (_, i: number) =>
-                baseWorldCalendarData.copy({
-                    id: `world2024122920${(i + 1).toXDigits(2)}`,
+                baseOverseasCalendarData.copy({
+                    id: `overseas2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
             ...Array.from({ length: 0 }, (_, i: number) =>
@@ -138,8 +138,8 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 }),
             ),
             overseas: Array.from({ length: 0 }, (_, i: number) =>
-                baseWorldRaceEntity.copy({
-                    id: `world2024122920${(i + 1).toXDigits(2)}`,
+                baseOverseasRaceEntity.copy({
+                    id: `overseas2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
             keirin: Array.from({ length: 0 }, (_, i: number) =>
@@ -171,8 +171,8 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 }),
             ),
             overseas: Array.from({ length: 0 }, (_, i: number) =>
-                baseWorldCalendarData.copy({
-                    id: `world2024122920${(i + 6).toXDigits(2)}`,
+                baseOverseasCalendarData.copy({
+                    id: `overseas2024122920${(i + 6).toXDigits(2)}`,
                 }),
             ),
             keirin: Array.from({ length: 0 }, (_, i: number) =>

@@ -40,7 +40,7 @@ export function clearMocks(): void {
  */
 export interface TestSetup {
     raceS3GatewayForNar: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
-    raceS3GatewayForWorld: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
+    raceS3GatewayForOverseas: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
     raceS3GatewayForKeirin: jest.Mocked<IS3Gateway<MechanicalRacingRaceRecord>>;
     raceS3GatewayForAutorace: jest.Mocked<
         IS3Gateway<MechanicalRacingRaceRecord>
@@ -89,7 +89,7 @@ export interface TestSetup {
     narRaceRepositoryFromHtmlImpl: jest.Mocked<
         IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >;
-    worldRaceRepositoryFromHtmlImpl: jest.Mocked<
+    overseasRaceRepositoryFromHtmlImpl: jest.Mocked<
         IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >;
     mechanicalRacingRaceRepositoryFromStorageImpl: jest.Mocked<
@@ -117,8 +117,11 @@ export interface TestSetup {
 export function setupTestMock(): TestSetup {
     const raceS3GatewayForNar = mockS3Gateway<HorseRacingRaceRecord>();
     container.registerInstance('NarRaceS3Gateway', raceS3GatewayForNar);
-    const raceS3GatewayForWorld = mockS3Gateway<HorseRacingRaceRecord>();
-    container.registerInstance('WorldRaceS3Gateway', raceS3GatewayForWorld);
+    const raceS3GatewayForOverseas = mockS3Gateway<HorseRacingRaceRecord>();
+    container.registerInstance(
+        'OverseasRaceS3Gateway',
+        raceS3GatewayForOverseas,
+    );
 
     const raceS3GatewayForKeirin = mockS3Gateway<MechanicalRacingRaceRecord>();
     container.registerInstance('KeirinRaceS3Gateway', raceS3GatewayForKeirin);
@@ -185,13 +188,13 @@ export function setupTestMock(): TestSetup {
     container.registerInstance<
         IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >('NarRaceRepositoryFromHtml', narRaceRepositoryFromHtmlImpl);
-    const worldRaceRepositoryFromHtmlImpl = mockRaceRepository<
+    const overseasRaceRepositoryFromHtmlImpl = mockRaceRepository<
         HorseRacingRaceEntity,
         HorseRacingPlaceEntity
     >();
     container.registerInstance<
         IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
-    >('WorldRaceRepositoryFromHtml', worldRaceRepositoryFromHtmlImpl);
+    >('OverseasRaceRepositoryFromHtml', overseasRaceRepositoryFromHtmlImpl);
 
     const mechanicalRacingRaceRepositoryFromStorageImpl = mockRaceRepository<
         MechanicalRacingRaceEntity,
@@ -302,7 +305,7 @@ export function setupTestMock(): TestSetup {
 
     return {
         raceS3GatewayForNar,
-        raceS3GatewayForWorld,
+        raceS3GatewayForOverseas,
         raceS3GatewayForKeirin,
         raceS3GatewayForAutorace,
         raceS3GatewayForBoatrace,
@@ -322,7 +325,7 @@ export function setupTestMock(): TestSetup {
         jraRaceRepositoryFromHtmlImpl,
         horseRacingRaceRepositoryFromStorageImpl,
         narRaceRepositoryFromHtmlImpl,
-        worldRaceRepositoryFromHtmlImpl,
+        overseasRaceRepositoryFromHtmlImpl,
         mechanicalRacingRaceRepositoryFromStorageImpl,
         keirinRaceRepositoryFromHtmlImpl,
         boatraceRaceRepositoryFromHtmlImpl,

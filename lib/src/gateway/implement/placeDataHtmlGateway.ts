@@ -37,7 +37,7 @@ export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
                 return `https://sports.yahoo.co.jp/boatrace/schedule/?quarter=${quarter}`;
             }
             case RaceType.OVERSEAS: {
-                // WORLDは未対応
+                // OVERSEASは未対応
                 throw new Error('未対応のraceTypeです');
             }
         }

@@ -89,7 +89,7 @@ describe('PublicGamblingPlaceDataService', () => {
                         case RaceType.JRA:
                         case RaceType.NAR:
                         case RaceType.OVERSEAS: {
-                            throw new Error('World race type is not supported');
+                            throw new Error('race type is not supported');
                         }
                         case RaceType.KEIRIN: {
                             return [baseKeirinPlaceEntity];
@@ -221,7 +221,7 @@ describe('PublicGamblingPlaceDataService', () => {
                         case RaceType.JRA:
                         case RaceType.NAR:
                         case RaceType.OVERSEAS: {
-                            throw new Error('World race type is not supported');
+                            throw new Error('race type is not supported');
                         }
                         case RaceType.KEIRIN: {
                             return [baseKeirinPlaceEntity];

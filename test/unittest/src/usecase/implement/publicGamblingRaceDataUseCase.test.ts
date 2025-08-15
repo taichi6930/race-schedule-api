@@ -32,7 +32,7 @@ import {
     baseNarPlaceEntity,
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
-import { baseWorldRaceEntityList } from '../../mock/common/baseWorldData';
+import { baseOverseasRaceEntityList } from '../../mock/common/baseOverseasData';
 
 describe('PublicGamblingRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<IRaceDataService>;
@@ -151,7 +151,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 returnedRaceList: {
                     jra: [],
                     nar: [],
-                    overseas: baseWorldRaceEntityList,
+                    overseas: baseOverseasRaceEntityList,
                     keirin: [],
                     autorace: [],
                     boatrace: [],
@@ -169,7 +169,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 returnedRaceList: {
                     jra: [],
                     nar: [],
-                    overseas: baseWorldRaceEntityList,
+                    overseas: baseOverseasRaceEntityList,
                     keirin: [],
                     autorace: [],
                     boatrace: [],
@@ -188,7 +188,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 returnedRaceList: {
                     jra: [],
                     nar: [],
-                    overseas: baseWorldRaceEntityList,
+                    overseas: baseOverseasRaceEntityList,
                     keirin: [],
                     autorace: [],
                     boatrace: [],
@@ -207,7 +207,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 returnedRaceList: {
                     jra: [],
                     nar: [],
-                    overseas: baseWorldRaceEntityList,
+                    overseas: baseOverseasRaceEntityList,
                     keirin: [],
                     autorace: [],
                     boatrace: [],
@@ -221,7 +221,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 returnedRaceList: {
                     jra: [],
                     nar: [],
-                    overseas: baseWorldRaceEntityList,
+                    overseas: baseOverseasRaceEntityList,
                     keirin: [],
                     autorace: [],
                     boatrace: [],
@@ -772,7 +772,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             raceDataService.fetchRaceEntityList.mockResolvedValue({
                 jra: baseJraRaceEntityList,
                 nar: baseNarRaceEntityList,
-                overseas: baseWorldRaceEntityList,
+                overseas: baseOverseasRaceEntityList,
                 keirin: baseKeirinRaceEntityList,
                 autorace: baseAutoraceRaceEntityList,
                 boatrace: baseBoatraceRaceEntityList,
@@ -808,7 +808,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             raceDataService.fetchRaceEntityList.mockResolvedValue({
                 jra: baseJraRaceEntityList,
                 nar: baseNarRaceEntityList,
-                overseas: baseWorldRaceEntityList,
+                overseas: baseOverseasRaceEntityList,
                 keirin: baseKeirinRaceEntityList,
                 autorace: baseAutoraceRaceEntityList,
                 boatrace: baseBoatraceRaceEntityList,

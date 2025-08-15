@@ -27,7 +27,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
                 return this.buildNarUrl(date, place);
             }
             case RaceType.OVERSEAS: {
-                return this.buildWorldUrl(date);
+                return this.buildOverseasUrl(date);
             }
             case RaceType.KEIRIN: {
                 return this.buildKeirinUrl(date, place);
@@ -55,7 +55,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
         return `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/RaceList?k_raceDate=${raceDate}&k_babaCode=${babacode}`;
     }
 
-    private buildWorldUrl(date: Date): string {
+    private buildOverseasUrl(date: Date): string {
         return `https://world.jra-van.jp/schedule/?year=${date.getFullYear()}&month=${date.getMonth() + 1}`;
     }
 

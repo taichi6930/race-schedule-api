@@ -21,7 +21,7 @@ import { baseBoatraceRaceEntityList } from '../../mock/common/baseBoatraceData';
 import { baseJraRaceEntityList } from '../../mock/common/baseJraData';
 import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
 import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
-import { baseWorldRaceEntityList } from '../../mock/common/baseWorldData';
+import { baseOverseasRaceEntityList } from '../../mock/common/baseOverseasData';
 
 describe('PublicGamblingRaceDataService', () => {
     let jraRaceRepositoryFromStorageImpl: jest.Mocked<
@@ -36,7 +36,7 @@ describe('PublicGamblingRaceDataService', () => {
     let horseRacingRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >;
-    let worldRaceRepositoryFromHtmlImpl: jest.Mocked<
+    let overseasRaceRepositoryFromHtmlImpl: jest.Mocked<
         IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
     >;
     let mechanicalRacingRaceRepositoryFromStorageImpl: jest.Mocked<
@@ -61,7 +61,7 @@ describe('PublicGamblingRaceDataService', () => {
             mechanicalRacingRaceRepositoryFromStorageImpl,
             jraRaceRepositoryFromHtmlImpl,
             narRaceRepositoryFromHtmlImpl,
-            worldRaceRepositoryFromHtmlImpl,
+            overseasRaceRepositoryFromHtmlImpl,
             keirinRaceRepositoryFromHtmlImpl,
             boatraceRaceRepositoryFromHtmlImpl,
             autoraceRaceRepositoryFromHtmlImpl,
@@ -93,7 +93,7 @@ describe('PublicGamblingRaceDataService', () => {
                             return baseNarRaceEntityList;
                         }
                         case RaceType.OVERSEAS: {
-                            return baseWorldRaceEntityList;
+                            return baseOverseasRaceEntityList;
                         }
                     }
                 },
@@ -138,7 +138,7 @@ describe('PublicGamblingRaceDataService', () => {
             expect(result).toEqual({
                 jra: baseJraRaceEntityList,
                 nar: baseNarRaceEntityList,
-                overseas: baseWorldRaceEntityList,
+                overseas: baseOverseasRaceEntityList,
                 keirin: baseKeirinRaceEntityList,
                 boatrace: baseBoatraceRaceEntityList,
                 autorace: baseAutoraceRaceEntityList,
@@ -153,8 +153,8 @@ describe('PublicGamblingRaceDataService', () => {
             narRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
                 baseNarRaceEntityList,
             );
-            worldRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
-                baseWorldRaceEntityList,
+            overseasRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+                baseOverseasRaceEntityList,
             );
             keirinRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
                 baseKeirinRaceEntityList,
@@ -186,7 +186,7 @@ describe('PublicGamblingRaceDataService', () => {
             expect(result).toEqual({
                 jra: baseJraRaceEntityList,
                 nar: baseNarRaceEntityList,
-                overseas: baseWorldRaceEntityList,
+                overseas: baseOverseasRaceEntityList,
                 keirin: baseKeirinRaceEntityList,
                 boatrace: baseBoatraceRaceEntityList,
                 autorace: baseAutoraceRaceEntityList,
@@ -237,13 +237,13 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.KEIRIN:
                         case RaceType.BOATRACE:
                         case RaceType.AUTORACE: {
-                            throw new Error('World race type is not supported');
+                            throw new Error('race type is not supported');
                         }
                         case RaceType.NAR: {
                             return baseNarRaceEntityList;
                         }
                         case RaceType.OVERSEAS: {
-                            return baseWorldRaceEntityList;
+                            return baseOverseasRaceEntityList;
                         }
                     }
                 },
@@ -254,7 +254,7 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.JRA:
                         case RaceType.NAR:
                         case RaceType.OVERSEAS: {
-                            throw new Error('World race type is not supported');
+                            throw new Error('race type is not supported');
                         }
                         case RaceType.KEIRIN: {
                             return baseKeirinRaceEntityList;
@@ -272,7 +272,7 @@ describe('PublicGamblingRaceDataService', () => {
             await service.updateRaceEntityList({
                 jra: baseJraRaceEntityList,
                 nar: baseNarRaceEntityList,
-                overseas: baseWorldRaceEntityList,
+                overseas: baseOverseasRaceEntityList,
                 keirin: baseKeirinRaceEntityList,
                 boatrace: baseBoatraceRaceEntityList,
                 autorace: baseAutoraceRaceEntityList,
@@ -286,7 +286,10 @@ describe('PublicGamblingRaceDataService', () => {
             ).toHaveBeenCalledWith(RaceType.NAR, baseNarRaceEntityList);
             expect(
                 horseRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
-            ).toHaveBeenCalledWith(RaceType.OVERSEAS, baseWorldRaceEntityList);
+            ).toHaveBeenCalledWith(
+                RaceType.OVERSEAS,
+                baseOverseasRaceEntityList,
+            );
             expect(
                 mechanicalRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalledWith(RaceType.KEIRIN, baseKeirinRaceEntityList);

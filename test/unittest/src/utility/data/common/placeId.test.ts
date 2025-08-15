@@ -66,16 +66,16 @@ describe('NarPlaceIdSchema', () => {
     });
 });
 
-describe('WorldPlaceIdSchema', () => {
-    it('異常系: 不正なWorldPlaceId', () => {
-        const invalidWorldPlaceIdAndMessage = [
+describe('OverseasPlaceIdSchema', () => {
+    it('異常系: 不正なOverseasPlaceId', () => {
+        const invalidOverseasPlaceIdAndMessage = [
             ['abc2021080101', 'overseasから始まる必要があります'],
             ['2021overseas080101', 'overseasから始まる必要があります'],
             ['overseas202108010', 'overseasPlaceIdの形式ではありません'],
             ['jra2021080101', 'overseasから始まる必要があります'],
             ['world021080101', 'overseasから始まる必要があります'],
         ];
-        for (const [invalidId, message] of invalidWorldPlaceIdAndMessage) {
+        for (const [invalidId, message] of invalidOverseasPlaceIdAndMessage) {
             expect(() => validatePlaceId(RaceType.OVERSEAS, invalidId)).toThrow(
                 message,
             );

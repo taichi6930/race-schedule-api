@@ -298,7 +298,7 @@ container.register<IS3Gateway<heldDayRecord>>('JraHeldDayS3Gateway', {
         }
     },
 });
-container.register<IS3Gateway<HorseRacingRaceRecord>>('WorldRaceS3Gateway', {
+container.register<IS3Gateway<HorseRacingRaceRecord>>('OverseasRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {

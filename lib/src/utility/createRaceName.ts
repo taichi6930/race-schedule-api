@@ -305,7 +305,7 @@ export const processNarRaceName = (
     return tempRaceName;
 };
 
-interface WorldRaceDataForRaceName {
+interface OverseasRaceDataForRaceName {
     name: RaceName;
     location: RaceCourse;
     grade: GradeType;
@@ -314,8 +314,8 @@ interface WorldRaceDataForRaceName {
     distance: RaceDistance;
 }
 
-export const processWorldRaceName = (
-    raceInfo: WorldRaceDataForRaceName,
+export const processOverseasRaceName = (
+    raceInfo: OverseasRaceDataForRaceName,
 ): string => {
     return raceInfo.name
         .replaceFromCodePoint(

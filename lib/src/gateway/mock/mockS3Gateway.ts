@@ -194,13 +194,13 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                     this.setKeirinRaceMockData(),
                     this.setAutoraceRaceMockData(),
                     this.setBoatraceRaceMockData(),
-                    this.setWorldRaceMockData(),
+                    this.setOverseasRaceMockData(),
                 ]);
                 return;
             }
             case allowedEnvs.local: {
                 const csvPathList = [
-                    'world/raceList.csv', // world
+                    'overseas/raceList.csv', // overseas
                     'nar/raceList.csv', // nar
                     'jra/raceList.csv', // jra
                     'keirin/raceList.csv', // keirin
@@ -272,13 +272,13 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     }
 
     /**
-     * WorldRaceのモックデータを作成する
+     * OverseasRaceのモックデータを作成する
      */
     @Logger
-    private async setWorldRaceMockData() {
+    private async setOverseasRaceMockData() {
         // 2024年のデータ366日分を作成
         const currentDate = new Date(this.startDate);
-        const fileName = `world/raceList.csv`;
+        const fileName = `overseas/raceList.csv`;
         const mockDataHeader = [
             'name',
             'dateTime',

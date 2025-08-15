@@ -14,66 +14,66 @@ import { baseRaceNumber } from './baseCommonData';
 
 const raceType: RaceType = RaceType.OVERSEAS;
 
-const baseWorldPlaceCourse: RaceCourse = 'パリロンシャン';
-const baseWorldPlaceDateTime = new Date('2024-10-01');
+const baseOverseasPlaceCourse: RaceCourse = 'パリロンシャン';
+const baseOverseasPlaceDateTime = new Date('2024-10-01');
 
-const baseWorldRaceName = '凱旋門賞';
+const baseOverseasRaceName = '凱旋門賞';
 const baseRaceDateTime = new Date('2024-10-01 16:30');
-const baseWorldRaceSurfaceType = '芝';
+const baseOverseasRaceSurfaceType = '芝';
 const baseRaceDistance = 2400;
-const baseWorldRaceGrade: GradeType = 'GⅠ';
-const baseWorldRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
+const baseOverseasRaceGrade: GradeType = 'GⅠ';
+const baseOverseasRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
-export const baseWorldPlaceData = PlaceData.create(
+export const baseOverseasPlaceData = PlaceData.create(
     raceType,
-    baseWorldPlaceDateTime,
-    baseWorldPlaceCourse,
+    baseOverseasPlaceDateTime,
+    baseOverseasPlaceCourse,
 );
 
-export const baseWorldRaceData = RaceData.create(
+export const baseOverseasRaceData = RaceData.create(
     raceType,
-    baseWorldRaceName,
+    baseOverseasRaceName,
     baseRaceDateTime,
-    baseWorldPlaceCourse,
-    baseWorldRaceGrade,
+    baseOverseasPlaceCourse,
+    baseOverseasRaceGrade,
     baseRaceNumber,
 );
 
-const baseWorldConditionData = HorseRaceConditionData.create(
-    baseWorldRaceSurfaceType,
+const baseOverseasConditionData = HorseRaceConditionData.create(
+    baseOverseasRaceSurfaceType,
     baseRaceDistance,
 );
 
-export const baseWorldRaceRecord = HorseRacingRaceRecord.create(
+export const baseOverseasRaceRecord = HorseRacingRaceRecord.create(
     generateRaceId(
         raceType,
-        baseWorldPlaceDateTime,
-        baseWorldPlaceCourse,
+        baseOverseasPlaceDateTime,
+        baseOverseasPlaceCourse,
         baseRaceNumber,
     ),
     raceType,
-    baseWorldRaceName,
+    baseOverseasRaceName,
     baseRaceDateTime,
-    baseWorldPlaceCourse,
-    baseWorldRaceSurfaceType,
+    baseOverseasPlaceCourse,
+    baseOverseasRaceSurfaceType,
     baseRaceDistance,
-    baseWorldRaceGrade,
+    baseOverseasRaceGrade,
     baseRaceNumber,
-    baseWorldRaceUpdateDate,
+    baseOverseasRaceUpdateDate,
 );
 
-export const baseWorldPlaceEntity = HorseRacingPlaceEntity.createWithoutId(
-    baseWorldPlaceData,
-    baseWorldRaceUpdateDate,
+export const baseOverseasPlaceEntity = HorseRacingPlaceEntity.createWithoutId(
+    baseOverseasPlaceData,
+    baseOverseasRaceUpdateDate,
 );
 
-export const baseWorldRaceEntity = HorseRacingRaceEntity.createWithoutId(
-    baseWorldRaceData,
-    baseWorldConditionData,
-    baseWorldRaceUpdateDate,
+export const baseOverseasRaceEntity = HorseRacingRaceEntity.createWithoutId(
+    baseOverseasRaceData,
+    baseOverseasConditionData,
+    baseOverseasRaceUpdateDate,
 );
 
-export const baseWorldRaceEntityList: HorseRacingRaceEntity[] = [
+export const baseOverseasRaceEntityList: HorseRacingRaceEntity[] = [
     'パリロンシャン',
     'シャティン',
 ].flatMap((location) => {
@@ -101,30 +101,30 @@ export const baseWorldRaceEntityList: HorseRacingRaceEntity[] = [
                 index + 1,
             ),
             HorseRaceConditionData.create('芝', 2400),
-            getJSTDate(baseWorldRaceUpdateDate),
+            getJSTDate(baseOverseasRaceUpdateDate),
         );
     });
 });
 
-export const baseWorldCalendarData = CalendarData.create(
+export const baseOverseasCalendarData = CalendarData.create(
     'test202410010101',
     raceType,
-    baseWorldRaceName,
+    baseOverseasRaceName,
     '2024-10-01T16:30:00Z',
     '2024-10-01T16:40:00Z',
-    `${baseWorldPlaceCourse}競馬場`,
+    `${baseOverseasPlaceCourse}競馬場`,
     'テスト',
 );
 
-export const baseWorldCalendarDataFromGoogleCalendar = {
+export const baseOverseasCalendarDataFromGoogleCalendar = {
     id: 'test202410010101',
-    summary: baseWorldRaceName,
+    summary: baseOverseasRaceName,
     start: {
         dateTime: '2024-10-01T16:30:00Z',
     },
     end: {
         dateTime: '2024-10-01T16:40:00Z',
     },
-    location: `${baseWorldPlaceCourse}競馬場`,
+    location: `${baseOverseasPlaceCourse}競馬場`,
     description: 'テスト',
 };

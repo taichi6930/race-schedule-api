@@ -41,8 +41,8 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             HorseRacingRaceEntity,
             HorseRacingPlaceEntity
         >,
-        @inject('WorldRaceRepositoryFromHtml')
-        protected readonly worldRaceRepositoryFromHtml: IRaceRepository<
+        @inject('OverseasRaceRepositoryFromHtml')
+        protected readonly overseasRaceRepositoryFromHtml: IRaceRepository<
             HorseRacingRaceEntity,
             HorseRacingPlaceEntity
         >,
@@ -176,7 +176,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 );
                 result.nar.push(...narRaceEntityList);
             }
-            // WORLD
+            // OVERSEAS
             if (raceTypeList.includes(RaceType.OVERSEAS)) {
                 const searchFilter =
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
@@ -187,12 +187,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 const repo =
                     type === DataLocation.Storage
                         ? this.horseRacingRaceRepositoryFromStorage
-                        : this.worldRaceRepositoryFromHtml;
-                const worldRaceEntityList = await this.fetchRaceEntities(
+                        : this.overseasRaceRepositoryFromHtml;
+                const overseasRaceEntityList = await this.fetchRaceEntities(
                     repo,
                     searchFilter,
                 );
-                result.overseas.push(...worldRaceEntityList);
+                result.overseas.push(...overseasRaceEntityList);
             }
             // KEIRIN
             if (

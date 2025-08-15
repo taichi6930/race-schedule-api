@@ -7,13 +7,13 @@ import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/moc
 import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import type { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import { WorldRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl';
+import { OverseasRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/overseasRaceRepositoryFromHtmlImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
 
-describe('WorldRaceRepositoryFromHtmlImpl', () => {
+describe('OverseasRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
     let repository: IRaceRepository<
         HorseRacingRaceEntity,
@@ -30,7 +30,7 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
         container.registerInstance('RaceDataHtmlGateway', raceDataHtmlGateway);
 
         // テスト対象のリポジトリを生成
-        repository = container.resolve(WorldRaceRepositoryFromHtmlImpl);
+        repository = container.resolve(OverseasRaceRepositoryFromHtmlImpl);
     });
 
     afterEach(() => {

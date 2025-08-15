@@ -1,11 +1,11 @@
 import {
-    baseWorldRaceEntity,
-    baseWorldRaceRecord,
-} from '../../mock/common/baseWorldData';
+    baseOverseasRaceEntity,
+    baseOverseasRaceRecord,
+} from '../../mock/common/baseOverseasData';
 
-describe('WorldRaceRecordクラスのテスト', () => {
-    it('正しい入力でWorldRaceRecordのインスタンスを作成できることを確認', () => {
-        const raceRecord = baseWorldRaceRecord;
+describe('OverseasRaceRecordクラスのテスト', () => {
+    it('正しい入力でOverseasRaceRecordのインスタンスを作成できることを確認', () => {
+        const raceRecord = baseOverseasRaceRecord;
         expect(raceRecord.id).toEqual('overseas202410010212');
         expect(raceRecord.name).toBe('凱旋門賞');
         expect(raceRecord.dateTime).toEqual(new Date('2024-10-01 16:30'));
@@ -16,8 +16,8 @@ describe('WorldRaceRecordクラスのテスト', () => {
         expect(raceRecord.number).toBe(12);
     });
 
-    it('日付を変更したWorldRaceRecordのインスタンスを作成できることを確認', () => {
-        const raceRecord = baseWorldRaceRecord;
+    it('日付を変更したOverseasRaceRecordのインスタンスを作成できることを確認', () => {
+        const raceRecord = baseOverseasRaceRecord;
         const copiedRaceRecord = raceRecord.copy({
             location: 'シャティン',
         });
@@ -32,17 +32,17 @@ describe('WorldRaceRecordクラスのテスト', () => {
         expect(copiedRaceRecord.number).toBe(12);
     });
 
-    it('何も変更せずWorldRaceRecordのインスタンスを作成できることを確認', () => {
-        const raceRecord = baseWorldRaceRecord;
+    it('何も変更せずOverseasRaceRecordのインスタンスを作成できることを確認', () => {
+        const raceRecord = baseOverseasRaceRecord;
         const copiedRaceRecord = raceRecord.copy();
 
         expect(copiedRaceRecord).toEqual(raceRecord);
     });
 
-    it('WorldRaceEntityに変換できることを確認', () => {
-        const raceRecord = baseWorldRaceRecord;
+    it('OverseasRaceEntityに変換できることを確認', () => {
+        const raceRecord = baseOverseasRaceRecord;
         const raceEntity = raceRecord.toEntity();
 
-        expect(raceEntity).toEqual(baseWorldRaceEntity);
+        expect(raceEntity).toEqual(baseOverseasRaceEntity);
     });
 });

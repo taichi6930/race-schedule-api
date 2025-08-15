@@ -33,10 +33,10 @@ import {
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
 import {
-    baseWorldCalendarData,
-    baseWorldCalendarDataFromGoogleCalendar,
-    baseWorldRaceEntity,
-} from '../../mock/common/baseWorldData';
+    baseOverseasCalendarData,
+    baseOverseasCalendarDataFromGoogleCalendar,
+    baseOverseasRaceEntity,
+} from '../../mock/common/baseOverseasData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
 describe('GoogleCalendarRepository', () => {
@@ -72,7 +72,7 @@ describe('GoogleCalendarRepository', () => {
                         return [baseNarCalendarDataFromGoogleCalendar];
                     }
                     case RaceType.OVERSEAS: {
-                        return [baseWorldCalendarDataFromGoogleCalendar];
+                        return [baseOverseasCalendarDataFromGoogleCalendar];
                     }
                     case RaceType.KEIRIN: {
                         return [baseKeirinCalendarDataFromGoogleCalendar];
@@ -107,7 +107,7 @@ describe('GoogleCalendarRepository', () => {
         const expectedData = [
             baseJraCalendarData,
             baseNarCalendarData,
-            baseWorldCalendarData,
+            baseOverseasCalendarData,
             baseKeirinCalendarData,
             baseAutoraceCalendarData,
             baseBoatraceCalendarData,
@@ -150,7 +150,7 @@ describe('GoogleCalendarRepository', () => {
             { raceType: RaceType.NAR, baseCalendarData: baseNarCalendarData },
             {
                 raceType: RaceType.OVERSEAS,
-                baseCalendarData: baseWorldCalendarData,
+                baseCalendarData: baseOverseasCalendarData,
             },
             {
                 raceType: RaceType.KEIRIN,
@@ -178,7 +178,7 @@ describe('GoogleCalendarRepository', () => {
             { raceType: RaceType.NAR, baseCalendarData: baseNarCalendarData },
             {
                 raceType: RaceType.OVERSEAS,
-                baseCalendarData: baseWorldCalendarData,
+                baseCalendarData: baseOverseasCalendarData,
             },
             {
                 raceType: RaceType.KEIRIN,
@@ -208,7 +208,7 @@ describe('GoogleCalendarRepository', () => {
             { raceType: RaceType.NAR, baseRaceEntityList: [baseNarRaceEntity] },
             {
                 raceType: RaceType.OVERSEAS,
-                baseRaceEntityList: [baseWorldRaceEntity],
+                baseRaceEntityList: [baseOverseasRaceEntity],
             },
             {
                 raceType: RaceType.KEIRIN,
@@ -254,9 +254,9 @@ describe('GoogleCalendarRepository', () => {
             },
             {
                 raceType: RaceType.OVERSEAS,
-                baseRaceEntityList: [baseWorldRaceEntity],
+                baseRaceEntityList: [baseOverseasRaceEntity],
                 baseCalendarDataFromGoogleCalendar:
-                    baseWorldCalendarDataFromGoogleCalendar,
+                    baseOverseasCalendarDataFromGoogleCalendar,
             },
             {
                 raceType: RaceType.KEIRIN,
@@ -293,7 +293,7 @@ describe('GoogleCalendarRepository', () => {
             { raceType: RaceType.NAR, baseRaceEntityList: [baseNarRaceEntity] },
             {
                 raceType: RaceType.OVERSEAS,
-                baseRaceEntityList: [baseWorldRaceEntity],
+                baseRaceEntityList: [baseOverseasRaceEntity],
             },
             {
                 raceType: RaceType.KEIRIN,

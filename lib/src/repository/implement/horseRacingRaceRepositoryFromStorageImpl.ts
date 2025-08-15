@@ -21,8 +21,8 @@ export class HorseRacingRaceRepositoryFromStorageImpl
     public constructor(
         @inject('NarRaceS3Gateway')
         private readonly raceS3GatewayForNar: IS3Gateway<HorseRacingRaceRecord>,
-        @inject('WorldRaceS3Gateway')
-        private readonly raceS3GatewayForWorld: IS3Gateway<HorseRacingRaceRecord>,
+        @inject('OverseasRaceS3Gateway')
+        private readonly raceS3GatewayForOverseas: IS3Gateway<HorseRacingRaceRecord>,
     ) {}
 
     /**
@@ -184,7 +184,7 @@ export class HorseRacingRaceRepositoryFromStorageImpl
                 return this.raceS3GatewayForNar.fetchDataFromS3(fileName);
             }
             case RaceType.OVERSEAS: {
-                return this.raceS3GatewayForWorld.fetchDataFromS3(fileName);
+                return this.raceS3GatewayForOverseas.fetchDataFromS3(fileName);
             }
             case RaceType.JRA:
             case RaceType.KEIRIN:
@@ -207,7 +207,7 @@ export class HorseRacingRaceRepositoryFromStorageImpl
                 break;
             }
             case RaceType.OVERSEAS: {
-                await this.raceS3GatewayForWorld.uploadDataToS3(
+                await this.raceS3GatewayForOverseas.uploadDataToS3(
                     record,
                     fileName,
                 );

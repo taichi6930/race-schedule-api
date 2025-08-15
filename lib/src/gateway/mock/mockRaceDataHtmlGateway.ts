@@ -28,7 +28,7 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
                 return this.buildNarUrl(date, place);
             }
             case RaceType.OVERSEAS: {
-                return this.buildWorldUrl(date);
+                return this.buildOverseasUrl(date);
             }
             case RaceType.KEIRIN: {
                 return this.buildKeirinUrl(date, place);
@@ -55,8 +55,8 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         }.html`;
     }
 
-    private buildWorldUrl(date: Date): string {
-        return `../mockData/html/world/race/${format(date, 'yyyyMM')}.html`;
+    private buildOverseasUrl(date: Date): string {
+        return `../mockData/html/overseas/race/${format(date, 'yyyyMM')}.html`;
     }
 
     private buildKeirinUrl(date: Date, place?: RaceCourse): string {

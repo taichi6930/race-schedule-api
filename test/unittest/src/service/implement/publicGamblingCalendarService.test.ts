@@ -31,9 +31,9 @@ import {
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
 import {
-    baseWorldCalendarData,
-    baseWorldRaceEntityList,
-} from '../../mock/common/baseWorldData';
+    baseOverseasCalendarData,
+    baseOverseasRaceEntityList,
+} from '../../mock/common/baseOverseasData';
 
 describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
@@ -56,7 +56,7 @@ describe('PublicGamblingCalendarService', () => {
             const calendarDataList: CalendarData[] = [
                 baseJraCalendarData,
                 baseNarCalendarData,
-                baseWorldCalendarData,
+                baseOverseasCalendarData,
                 baseKeirinCalendarData,
                 baseBoatraceCalendarData,
                 baseAutoraceCalendarData,
@@ -91,7 +91,7 @@ describe('PublicGamblingCalendarService', () => {
             await service.deleteEvents({
                 jra: [baseJraCalendarData],
                 nar: [baseNarCalendarData],
-                overseas: [baseWorldCalendarData],
+                overseas: [baseOverseasCalendarData],
                 keirin: [baseKeirinCalendarData],
                 boatrace: [baseBoatraceCalendarData],
                 autorace: [baseAutoraceCalendarData],
@@ -107,7 +107,7 @@ describe('PublicGamblingCalendarService', () => {
             );
             expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
                 RaceType.OVERSEAS,
-                [baseWorldCalendarData],
+                [baseOverseasCalendarData],
             );
             expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
                 RaceType.KEIRIN,
@@ -151,7 +151,7 @@ describe('PublicGamblingCalendarService', () => {
             await service.upsertEvents({
                 jra: baseJraRaceEntityList,
                 nar: baseNarRaceEntityList,
-                overseas: baseWorldRaceEntityList,
+                overseas: baseOverseasRaceEntityList,
                 keirin: baseKeirinRaceEntityList,
                 boatrace: baseBoatraceRaceEntityList,
                 autorace: baseAutoraceRaceEntityList,
@@ -167,7 +167,7 @@ describe('PublicGamblingCalendarService', () => {
             );
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
                 RaceType.OVERSEAS,
-                baseWorldRaceEntityList,
+                baseOverseasRaceEntityList,
             );
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
                 RaceType.KEIRIN,

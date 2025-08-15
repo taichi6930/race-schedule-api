@@ -22,7 +22,9 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
     let raceS3GatewayForNar: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
-    let raceS3GatewayForWorld: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
+    let raceS3GatewayForOverseas: jest.Mocked<
+        IS3Gateway<HorseRacingRaceRecord>
+    >;
     let repository: IRaceRepository<
         HorseRacingRaceEntity,
         HorseRacingPlaceEntity
@@ -30,7 +32,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
-        ({ raceS3GatewayForNar, raceS3GatewayForWorld } = setup);
+        ({ raceS3GatewayForNar, raceS3GatewayForOverseas } = setup);
         // テスト対象のリポジトリを生成
         repository = container.resolve(
             HorseRacingRaceRepositoryFromStorageImpl,
@@ -53,7 +55,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                     'utf8',
                 ),
             );
-            raceS3GatewayForWorld.fetchDataFromS3.mockResolvedValue(
+            raceS3GatewayForOverseas.fetchDataFromS3.mockResolvedValue(
                 fs.readFileSync(
                     path.resolve(
                         __dirname,
@@ -92,7 +94,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                     raceType: RaceType.OVERSEAS,
                     location: 'ベルモントパーク',
                     grade: 'GⅠ',
-                    raceS3Gateway: raceS3GatewayForWorld,
+                    raceS3Gateway: raceS3GatewayForOverseas,
                 },
             ]) {
                 // 1年間のレース開催データを登録する
@@ -142,7 +144,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                 raceType: RaceType.OVERSEAS,
                 location: 'ベルモントパーク',
                 grade: 'GⅠ',
-                raceS3Gateway: raceS3GatewayForWorld,
+                raceS3Gateway: raceS3GatewayForOverseas,
             },
         ]) {
             // 1年間のレース開催データを登録する
