@@ -21,7 +21,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         @inject('JraPlaceRepositoryFromHtml')
         protected jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
         @inject('PlaceRepositoryFromStorage')
-        protected narPlaceRepositoryFromStorage: IPlaceRepository<HorseRacingPlaceEntity>,
+        protected placeRepositoryFromStorage: IPlaceRepository<HorseRacingPlaceEntity>,
         @inject('NarPlaceRepositoryFromHtml')
         protected narPlaceRepositoryFromHtml: IPlaceRepository<HorseRacingPlaceEntity>,
         @inject('MechanicalRacingPlaceRepositoryFromStorage')
@@ -107,7 +107,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 );
                 const narPlaceEntityList: HorseRacingPlaceEntity[] =
                     type === DataLocation.Storage
-                        ? await this.narPlaceRepositoryFromStorage.fetchPlaceEntityList(
+                        ? await this.placeRepositoryFromStorage.fetchPlaceEntityList(
                               searchFilter,
                           )
                         : await this.narPlaceRepositoryFromHtml.fetchPlaceEntityList(
@@ -224,7 +224,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                       };
             const narRes =
                 placeEntityList.nar.length > 0
-                    ? await this.narPlaceRepositoryFromStorage.registerPlaceEntityList(
+                    ? await this.placeRepositoryFromStorage.registerPlaceEntityList(
                           RaceType.NAR,
                           placeEntityList.nar,
                       )
