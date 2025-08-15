@@ -4,7 +4,6 @@ import type { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import type { JraRaceEntity } from '../entity/jraRaceEntity';
 import type { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import type { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
-import type { WorldRaceEntity } from '../entity/worldRaceEntity';
 
 /**
  * 外部カレンダーサービスとの連携を担当するリポジトリインターフェース
@@ -65,7 +64,6 @@ export interface ICalendarRepository {
         raceEntityList:
             | JraRaceEntity[]
             | HorseRacingRaceEntity[]
-            | WorldRaceEntity[]
             | MechanicalRacingRaceEntity[],
     ) => Promise<void>;
 

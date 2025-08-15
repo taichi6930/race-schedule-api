@@ -33,10 +33,10 @@ import {
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
 import {
-    baseWorldCalendarData,
-    baseWorldCalendarDataFromGoogleCalendar,
-    baseWorldRaceEntity,
-} from '../../mock/common/baseWorldData';
+    baseOverseasCalendarData,
+    baseOverseasCalendarDataFromGoogleCalendar,
+    baseOverseasRaceEntity,
+} from '../../mock/common/baseOverseasData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
 describe('GoogleCalendarRepository', () => {
@@ -71,8 +71,8 @@ describe('GoogleCalendarRepository', () => {
                     case RaceType.NAR: {
                         return [baseNarCalendarDataFromGoogleCalendar];
                     }
-                    case RaceType.WORLD: {
-                        return [baseWorldCalendarDataFromGoogleCalendar];
+                    case RaceType.OVERSEAS: {
+                        return [baseOverseasCalendarDataFromGoogleCalendar];
                     }
                     case RaceType.KEIRIN: {
                         return [baseKeirinCalendarDataFromGoogleCalendar];
@@ -94,7 +94,7 @@ describe('GoogleCalendarRepository', () => {
             [
                 RaceType.JRA,
                 RaceType.NAR,
-                RaceType.WORLD,
+                RaceType.OVERSEAS,
                 RaceType.KEIRIN,
                 RaceType.AUTORACE,
                 RaceType.BOATRACE,
@@ -107,7 +107,7 @@ describe('GoogleCalendarRepository', () => {
         const expectedData = [
             baseJraCalendarData,
             baseNarCalendarData,
-            baseWorldCalendarData,
+            baseOverseasCalendarData,
             baseKeirinCalendarData,
             baseAutoraceCalendarData,
             baseBoatraceCalendarData,
@@ -132,7 +132,7 @@ describe('GoogleCalendarRepository', () => {
             [
                 RaceType.JRA,
                 RaceType.NAR,
-                RaceType.WORLD,
+                RaceType.OVERSEAS,
                 RaceType.KEIRIN,
                 RaceType.AUTORACE,
                 RaceType.BOATRACE,
@@ -149,8 +149,8 @@ describe('GoogleCalendarRepository', () => {
             { raceType: RaceType.JRA, baseCalendarData: baseJraCalendarData },
             { raceType: RaceType.NAR, baseCalendarData: baseNarCalendarData },
             {
-                raceType: RaceType.WORLD,
-                baseCalendarData: baseWorldCalendarData,
+                raceType: RaceType.OVERSEAS,
+                baseCalendarData: baseOverseasCalendarData,
             },
             {
                 raceType: RaceType.KEIRIN,
@@ -177,8 +177,8 @@ describe('GoogleCalendarRepository', () => {
             { raceType: RaceType.JRA, baseCalendarData: baseJraCalendarData },
             { raceType: RaceType.NAR, baseCalendarData: baseNarCalendarData },
             {
-                raceType: RaceType.WORLD,
-                baseCalendarData: baseWorldCalendarData,
+                raceType: RaceType.OVERSEAS,
+                baseCalendarData: baseOverseasCalendarData,
             },
             {
                 raceType: RaceType.KEIRIN,
@@ -207,8 +207,8 @@ describe('GoogleCalendarRepository', () => {
             { raceType: RaceType.JRA, baseRaceEntityList: [baseJraRaceEntity] },
             { raceType: RaceType.NAR, baseRaceEntityList: [baseNarRaceEntity] },
             {
-                raceType: RaceType.WORLD,
-                baseRaceEntityList: [baseWorldRaceEntity],
+                raceType: RaceType.OVERSEAS,
+                baseRaceEntityList: [baseOverseasRaceEntity],
             },
             {
                 raceType: RaceType.KEIRIN,
@@ -253,10 +253,10 @@ describe('GoogleCalendarRepository', () => {
                 baseNarCalendarDataFromGoogleCalendar,
             },
             {
-                raceType: RaceType.WORLD,
-                baseRaceEntityList: [baseWorldRaceEntity],
+                raceType: RaceType.OVERSEAS,
+                baseRaceEntityList: [baseOverseasRaceEntity],
                 baseCalendarDataFromGoogleCalendar:
-                    baseWorldCalendarDataFromGoogleCalendar,
+                    baseOverseasCalendarDataFromGoogleCalendar,
             },
             {
                 raceType: RaceType.KEIRIN,
@@ -292,8 +292,8 @@ describe('GoogleCalendarRepository', () => {
             { raceType: RaceType.JRA, baseRaceEntityList: [baseJraRaceEntity] },
             { raceType: RaceType.NAR, baseRaceEntityList: [baseNarRaceEntity] },
             {
-                raceType: RaceType.WORLD,
-                baseRaceEntityList: [baseWorldRaceEntity],
+                raceType: RaceType.OVERSEAS,
+                baseRaceEntityList: [baseOverseasRaceEntity],
             },
             {
                 raceType: RaceType.KEIRIN,

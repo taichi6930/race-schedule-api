@@ -60,7 +60,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * @param displayGradeList
      * @param displayGradeList.jra
      * @param displayGradeList.nar
-     * @param displayGradeList.world
+     * @param displayGradeList.overseas
      * @param displayGradeList.keirin
      * @param displayGradeList.autorace
      * @param displayGradeList.boatrace
@@ -73,7 +73,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         displayGradeList: {
             jra: GradeType[];
             nar: GradeType[];
-            world: GradeType[];
+            overseas: GradeType[];
             keirin: GradeType[];
             autorace: GradeType[];
             boatrace: GradeType[];
@@ -107,8 +107,8 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             nar: raceEntityList.nar.filter((raceEntity) =>
                 displayGradeList.nar.includes(raceEntity.raceData.grade),
             ),
-            world: raceEntityList.world.filter((raceEntity) =>
-                displayGradeList.world.includes(raceEntity.raceData.grade),
+            overseas: raceEntityList.overseas.filter((raceEntity) =>
+                displayGradeList.overseas.includes(raceEntity.raceData.grade),
             ),
             keirin: this.filterRaceEntity(
                 RaceType.KEIRIN,
@@ -162,11 +162,11 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 );
             }),
-            world: calendarDataList.filter((calendarData) => {
-                if (calendarData.raceType !== RaceType.WORLD) {
+            overseas: calendarDataList.filter((calendarData) => {
+                if (calendarData.raceType !== RaceType.OVERSEAS) {
                     return false;
                 }
-                return !filteredRaceEntityList.world.some(
+                return !filteredRaceEntityList.overseas.some(
                     (raceEntity) => raceEntity.id === calendarData.id,
                 );
             }),
@@ -198,7 +198,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         await this.calendarService.deleteEvents({
             jra: deleteCalendarDataList.jra,
             nar: deleteCalendarDataList.nar,
-            world: deleteCalendarDataList.world,
+            overseas: deleteCalendarDataList.overseas,
             keirin: deleteCalendarDataList.keirin,
             autorace: deleteCalendarDataList.autorace,
             boatrace: deleteCalendarDataList.boatrace,
@@ -222,12 +222,12 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                             deleteCalendarData.raceType === RaceType.NAR,
                     ),
             ),
-            world: filteredRaceEntityList.world.filter(
+            overseas: filteredRaceEntityList.overseas.filter(
                 (raceEntity) =>
-                    !deleteCalendarDataList.world.some(
+                    !deleteCalendarDataList.overseas.some(
                         (deleteCalendarData) =>
                             deleteCalendarData.id === raceEntity.id &&
-                            deleteCalendarData.raceType === RaceType.WORLD,
+                            deleteCalendarData.raceType === RaceType.OVERSEAS,
                     ),
             ),
             keirin: filteredRaceEntityList.keirin.filter(
@@ -258,7 +258,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         await this.calendarService.upsertEvents({
             jra: upsertRaceEntityList.jra,
             nar: upsertRaceEntityList.nar,
-            world: upsertRaceEntityList.world,
+            overseas: upsertRaceEntityList.overseas,
             keirin: upsertRaceEntityList.keirin,
             autorace: upsertRaceEntityList.autorace,
             boatrace: upsertRaceEntityList.boatrace,

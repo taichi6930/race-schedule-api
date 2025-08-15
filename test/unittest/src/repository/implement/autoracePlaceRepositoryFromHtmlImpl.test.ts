@@ -17,6 +17,8 @@ describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: IPlaceDataHtmlGateway;
     let repository: IPlaceRepository<MechanicalRacingPlaceEntity>;
 
+    const raceType: RaceType = RaceType.AUTORACE;
+
     beforeEach(() => {
         // gatewayのモックを作成
         placeDataHtmlgateway = new MockPlaceDataHtmlGateway();
@@ -44,7 +46,7 @@ describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
                     new SearchPlaceFilterEntity(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
-                        RaceType.AUTORACE,
+                        raceType,
                     ),
                 );
                 expect(placeEntityList).toHaveLength(60);
@@ -56,7 +58,7 @@ describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
         it('htmlなので登録できない', async () => {
             // テスト実行
             await expect(
-                repository.registerPlaceEntityList(RaceType.AUTORACE, [
+                repository.registerPlaceEntityList(raceType, [
                     baseAutoracePlaceEntity,
                 ]),
             ).resolves.toEqual({

@@ -14,41 +14,42 @@ import { generateRacePlayerId } from '../../../../../lib/src/utility/data/common
 import type { RaceStage } from '../../../../../lib/src/utility/data/common/raceStage';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import { baseRacePlayerDataList } from './baseCommonData';
+import { baseRaceNumber, baseRacePlayerDataList } from './baseCommonData';
+
+const raceType: RaceType = RaceType.KEIRIN;
 
 const baseKeirinPlaceCourse: RaceCourse = '平塚';
 const baseKeirinPlaceDateTime = new Date('2025-12-30');
 const baseKeirinPlaceGrade: GradeType = 'GP';
 const baseKeirinPlaceId = generatePlaceId(
-    RaceType.KEIRIN,
+    raceType,
     baseKeirinPlaceDateTime,
     baseKeirinPlaceCourse,
 );
 
 const baseKeirinRaceName = 'KEIRINグランプリ';
 const baseRaceDateTime = new Date('2025-12-30 16:30');
-const baseKeirinRaceNumber = 11;
 const baseKeirinRaceStage: RaceStage = 'S級グランプリ';
 const baseKeirinRaceUpdateDate = getJSTDate(new Date('2025-10-01 16:30'));
 
 export const baseKeirinPlaceData = PlaceData.create(
-    RaceType.KEIRIN,
+    raceType,
     baseKeirinPlaceDateTime,
     baseKeirinPlaceCourse,
 );
 
 export const baseKeirinRaceData = RaceData.create(
-    RaceType.KEIRIN,
+    raceType,
     baseKeirinRaceName,
     baseRaceDateTime,
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
-    baseKeirinRaceNumber,
+    baseRaceNumber,
 );
 
 export const baseKeirinPlaceRecord = MechanicalRacingPlaceRecord.create(
     baseKeirinPlaceId,
-    RaceType.KEIRIN,
+    raceType,
     baseKeirinPlaceDateTime,
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
@@ -57,18 +58,18 @@ export const baseKeirinPlaceRecord = MechanicalRacingPlaceRecord.create(
 
 export const baseKeirinRaceRecord = MechanicalRacingRaceRecord.create(
     generateRaceId(
-        RaceType.KEIRIN,
+        raceType,
         baseKeirinPlaceDateTime,
         baseKeirinPlaceCourse,
-        baseKeirinRaceNumber,
+        baseRaceNumber,
     ),
-    RaceType.KEIRIN,
+    raceType,
     baseKeirinRaceName,
     baseKeirinRaceStage,
     baseRaceDateTime,
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
-    baseKeirinRaceNumber,
+    baseRaceNumber,
     baseKeirinRaceUpdateDate,
 );
 
@@ -79,9 +80,7 @@ export const baseKeirinPlaceEntity =
         baseKeirinRaceUpdateDate,
     );
 
-export const baseKeirinRacePlayerDataList = baseRacePlayerDataList(
-    RaceType.KEIRIN,
-);
+export const baseKeirinRacePlayerDataList = baseRacePlayerDataList(raceType);
 
 export const baseKeirinRaceEntity = MechanicalRacingRaceEntity.createWithoutId(
     baseKeirinRaceData,
@@ -114,7 +113,7 @@ export const baseKeirinRaceEntityList: MechanicalRacingRaceEntity[] = [
         'S級決勝',
     ].map((stage, index) => {
         const raceData = RaceData.create(
-            RaceType.KEIRIN,
+            raceType,
             `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
             new Date(2025, 12 - 1, 30, 7 + index, 0),
             location,
@@ -133,18 +132,18 @@ export const baseKeirinRaceEntityList: MechanicalRacingRaceEntity[] = [
 
 export const baseKeirinRacePlayerRecord = RacePlayerRecord.create(
     generateRacePlayerId(
-        RaceType.KEIRIN,
+        raceType,
         baseKeirinPlaceDateTime,
         baseKeirinPlaceCourse,
-        baseKeirinRaceNumber,
+        baseRaceNumber,
         1,
     ),
-    RaceType.KEIRIN,
+    raceType,
     generateRaceId(
-        RaceType.KEIRIN,
+        raceType,
         baseRaceDateTime,
         baseKeirinPlaceCourse,
-        baseKeirinRaceNumber,
+        baseRaceNumber,
     ),
     1,
     10000,
@@ -153,23 +152,23 @@ export const baseKeirinRacePlayerRecord = RacePlayerRecord.create(
 
 export const baseKeirinCalendarData = CalendarData.create(
     'test202512303511',
-    RaceType.KEIRIN,
-    'S級グランプリ KEIRINグランプリ',
+    raceType,
+    `${baseKeirinRaceStage} ${baseKeirinRaceName}`,
     '2024-12-31T16:30:00Z',
     '2024-12-31T16:40:00Z',
-    '平塚競輪場',
+    `${baseKeirinPlaceCourse}競輪場`,
     'テスト',
 );
 
 export const baseKeirinCalendarDataFromGoogleCalendar = {
     id: 'test202512303511',
-    summary: 'S級グランプリ KEIRINグランプリ',
+    summary: `${baseKeirinRaceStage} ${baseKeirinRaceName}`,
     start: {
         dateTime: '2024-12-31T16:30:00Z',
     },
     end: {
         dateTime: '2024-12-31T16:40:00Z',
     },
-    location: '平塚競輪場',
+    location: `${baseKeirinPlaceCourse}競輪場`,
     description: 'テスト',
 };

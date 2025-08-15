@@ -7,7 +7,7 @@ import { inject, injectable } from 'tsyringe';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { processWorldRaceName } from '../../utility/createRaceName';
+import { processOverseasRaceName } from '../../utility/createRaceName';
 import { GradeType } from '../../utility/data/common/gradeType';
 import {
     RaceCourse,
@@ -19,16 +19,16 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
+import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
-import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 /**
  * 競馬場開催データリポジトリの実装
  */
 @injectable()
-export class WorldRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>
+export class OverseasRaceRepositoryFromHtmlImpl
+    implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -42,14 +42,14 @@ export class WorldRaceRepositoryFromHtmlImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
-    ): Promise<WorldRaceEntity[]> {
+    ): Promise<HorseRacingRaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,
             searchFilter.finishDate,
         );
-        const worldRaceDataList: WorldRaceEntity[] = [];
+        const overseasRaceDataList: HorseRacingRaceEntity[] = [];
         for (const month of monthList) {
-            worldRaceDataList.push(
+            overseasRaceDataList.push(
                 ...(await this.fetchRaceListFromHtml(
                     searchFilter.raceType,
                     month,
@@ -59,7 +59,7 @@ export class WorldRaceRepositoryFromHtmlImpl
             await new Promise((resolve) => setTimeout(resolve, 800));
             console.debug('0.8秒経ちました');
         }
-        return worldRaceDataList;
+        return overseasRaceDataList;
     }
 
     /**
@@ -89,13 +89,13 @@ export class WorldRaceRepositoryFromHtmlImpl
     public async fetchRaceListFromHtml(
         raceType: RaceType,
         date: Date,
-    ): Promise<WorldRaceEntity[]> {
+    ): Promise<HorseRacingRaceEntity[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
                 raceType,
                 date,
             );
-            const worldRaceDataList: WorldRaceEntity[] = [];
+            const overseasRaceDataList: HorseRacingRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             const content = $('.racelist');
             // class="racelist__day"が複数あるのでeachで回す
@@ -211,16 +211,16 @@ export class WorldRaceRepositoryFromHtmlImpl
                                 minute,
                             );
 
-                            const raceName = processWorldRaceName({
+                            const raceName = processOverseasRaceName({
                                 name: rowRaceName,
-                                place: location,
+                                location,
                                 grade,
                                 date: raceDate,
                                 surfaceType,
                                 distance,
                             });
-                            worldRaceDataList.push(
-                                WorldRaceEntity.createWithoutId(
+                            overseasRaceDataList.push(
+                                HorseRacingRaceEntity.createWithoutId(
                                     RaceData.create(
                                         raceType,
                                         raceName,
@@ -244,7 +244,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                         }
                     });
             });
-            return worldRaceDataList;
+            return overseasRaceDataList;
         } catch (error) {
             console.error('HTMLの取得に失敗しました', error);
             return [];
@@ -260,7 +260,7 @@ export class WorldRaceRepositoryFromHtmlImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: WorldRaceEntity[],
+        raceEntityList: HorseRacingRaceEntity[],
     ): Promise<void> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

@@ -5,17 +5,22 @@ import { container } from 'tsyringe';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
+import type { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import type { WorldRaceEntity } from '../../../../../lib/src/repository/entity/worldRaceEntity';
-import { WorldRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl';
+import { OverseasRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/overseasRaceRepositoryFromHtmlImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
 
-describe('WorldRaceRepositoryFromHtmlImpl', () => {
+describe('OverseasRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
-    let repository: IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>;
+    let repository: IRaceRepository<
+        HorseRacingRaceEntity,
+        HorseRacingPlaceEntity
+    >;
+
+    const raceType: RaceType = RaceType.OVERSEAS;
 
     beforeEach(() => {
         // gatewayのモックを作成
@@ -25,7 +30,7 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
         container.registerInstance('RaceDataHtmlGateway', raceDataHtmlGateway);
 
         // テスト対象のリポジトリを生成
-        repository = container.resolve(WorldRaceRepositoryFromHtmlImpl);
+        repository = container.resolve(OverseasRaceRepositoryFromHtmlImpl);
     });
 
     afterEach(() => {
@@ -41,7 +46,7 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2025-05-01'),
                         new Date('2025-06-30'),
-                        RaceType.WORLD,
+                        raceType,
                         [],
                     ),
                 );
@@ -57,7 +62,7 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2025-06-01'),
                         new Date('2025-07-31'),
-                        RaceType.WORLD,
+                        raceType,
                         [],
                     ),
                 );
@@ -67,15 +72,11 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
     });
 
     describe('registerRaceList', () => {
-        SkipEnv(
-            'htmlなので登録できない',
-            [allowedEnvs.githubActionsCi],
-            async () => {
-                // テスト実行
-                await expect(
-                    repository.registerRaceEntityList(RaceType.WORLD, []),
-                ).rejects.toThrow('HTMLにはデータを登録出来ません');
-            },
-        );
+        it('HTMLにはデータを登録できないこと', async () => {
+            // テスト実行
+            await expect(
+                repository.registerRaceEntityList(raceType, []),
+            ).rejects.toThrow('HTMLにはデータを登録出来ません');
+        });
     });
 });

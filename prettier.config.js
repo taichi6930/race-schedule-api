@@ -8,6 +8,7 @@ module.exports = {
     quoteProps: 'consistent',
     trailingComma: 'all',
     arrowParens: 'always',
+    printWidth: 80, // 追加: 80文字で改行
     overrides: [
         {
             files: '*.yaml',

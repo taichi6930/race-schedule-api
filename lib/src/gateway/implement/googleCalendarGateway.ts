@@ -140,7 +140,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
                 calendarId = process.env.NAR_CALENDAR_ID;
                 break;
             }
-            case RaceType.WORLD: {
+            case RaceType.OVERSEAS: {
                 calendarId = process.env.WORLD_CALENDAR_ID;
                 break;
             }

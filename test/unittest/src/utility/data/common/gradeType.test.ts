@@ -16,7 +16,7 @@ describe('GradeType', () => {
         },
         {
             okPattern: 'GⅠ',
-            raceType: RaceType.WORLD,
+            raceType: RaceType.OVERSEAS,
         },
         {
             okPattern: 'GⅠ',

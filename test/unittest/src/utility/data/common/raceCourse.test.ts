@@ -16,7 +16,7 @@ describe('RaceCourse', () => {
         },
         {
             okCourse: 'ロンシャン',
-            raceType: RaceType.WORLD,
+            raceType: RaceType.OVERSEAS,
         },
         {
             okCourse: '平塚',

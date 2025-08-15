@@ -8,8 +8,7 @@ import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
-// NarRaceRepositoryFromHtmlImplのモックを作成
-export class MockNarRaceRepositoryFromHtmlImpl
+export class MockHorseRacingRaceRepositoryFromHtmlImpl
     implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
 {
     @Logger
@@ -18,32 +17,56 @@ export class MockNarRaceRepositoryFromHtmlImpl
     ): Promise<HorseRacingRaceEntity[]> {
         const { placeEntityList } = searchFilter;
         const raceEntityList: HorseRacingRaceEntity[] = [];
-        if (placeEntityList) {
-            const { raceType } = searchFilter;
+        const { raceType, startDate } = searchFilter;
+        if (placeEntityList && raceType === RaceType.NAR) {
             for (const placeEntity of placeEntityList) {
                 const { location, dateTime } = placeEntity.placeData;
                 // 1から12までのレースを作成
-                for (let i = 1; i <= 12; i++) {
+                for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                    const raceDate = new Date(dateTime);
+                    raceDate.setHours(raceNumber + 9, 0, 0, 0);
                     raceEntityList.push(
                         HorseRacingRaceEntity.createWithoutId(
                             RaceData.create(
                                 raceType,
-                                `${location}第${i.toString()}R`,
-                                new Date(
-                                    dateTime.getFullYear(),
-                                    dateTime.getMonth(),
-                                    dateTime.getDate(),
-                                    i + 9,
-                                ),
+                                `${location}第${raceNumber.toString()}R`,
+                                raceDate,
                                 location,
                                 'GⅠ',
-                                i,
+                                raceNumber,
                             ),
                             HorseRaceConditionData.create('ダート', 2000),
                             getJSTDate(new Date()),
                         ),
                     );
                 }
+            }
+        } else if (raceType === RaceType.OVERSEAS) {
+            const currentDate = new Date(startDate);
+            while (currentDate.getMonth() === startDate.getMonth()) {
+                // 1から12までのレースを作成
+                for (let i = 1; i <= 12; i++) {
+                    raceEntityList.push(
+                        HorseRacingRaceEntity.createWithoutId(
+                            RaceData.create(
+                                raceType,
+                                `第${i.toString()}R`,
+                                new Date(
+                                    currentDate.getFullYear(),
+                                    currentDate.getMonth(),
+                                    currentDate.getDate(),
+                                    i + 9,
+                                ),
+                                'ロンシャン',
+                                'GⅠ',
+                                i,
+                            ),
+                            HorseRaceConditionData.create('芝', 2400),
+                            getJSTDate(new Date()),
+                        ),
+                    );
+                }
+                currentDate.setDate(currentDate.getDate() + 1);
             }
         }
         await new Promise((resolve) => setTimeout(resolve, 0));

@@ -6,8 +6,7 @@ import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
-// NarRaceRepositoryFromHtmlImplのモックを作成
-export class MockNarPlaceRepositoryFromHtmlImpl
+export class MockHorseRacingPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<HorseRacingPlaceEntity>
 {
     /**
@@ -18,7 +17,6 @@ export class MockNarPlaceRepositoryFromHtmlImpl
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<HorseRacingPlaceEntity[]> {
-        // request.startDateからrequest.finishDateまでの地方競馬場データを取得する
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 

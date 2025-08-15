@@ -9,7 +9,6 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
-import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -32,24 +31,19 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             JraRaceEntity,
             JraPlaceEntity
         >,
-        @inject('NarRaceRepositoryFromStorage')
-        protected narRaceRepositoryFromStorage: IRaceRepository<
-            HorseRacingRaceEntity,
-            HorseRacingPlaceEntity
-        >,
         @inject('NarRaceRepositoryFromHtml')
         protected narRaceRepositoryFromHtml: IRaceRepository<
             HorseRacingRaceEntity,
             HorseRacingPlaceEntity
         >,
-        @inject('WorldRaceRepositoryFromStorage')
-        protected readonly worldRaceRepositoryFromStorage: IRaceRepository<
-            WorldRaceEntity,
+        @inject('HorseRacingRaceRepositoryFromStorage')
+        protected readonly horseRacingRaceRepositoryFromStorage: IRaceRepository<
+            HorseRacingRaceEntity,
             HorseRacingPlaceEntity
         >,
-        @inject('WorldRaceRepositoryFromHtml')
-        protected readonly worldRaceRepositoryFromHtml: IRaceRepository<
-            WorldRaceEntity,
+        @inject('OverseasRaceRepositoryFromHtml')
+        protected readonly overseasRaceRepositoryFromHtml: IRaceRepository<
+            HorseRacingRaceEntity,
             HorseRacingPlaceEntity
         >,
         @inject('KeirinRaceRepositoryFromHtml')
@@ -90,7 +84,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * @param placeEntityList
      * @param placeEntityList.jra
      * @param placeEntityList.nar
-     * @param placeEntityList.world
+     * @param placeEntityList.overseas
      * @param placeEntityList.keirin
      * @param placeEntityList.autorace
      * @param placeEntityList.boatrace
@@ -107,7 +101,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         placeEntityList?: {
             jra?: JraPlaceEntity[];
             nar?: HorseRacingPlaceEntity[];
-            world?: HorseRacingPlaceEntity[];
+            overseas?: HorseRacingPlaceEntity[];
             keirin?: MechanicalRacingPlaceEntity[];
             autorace?: MechanicalRacingPlaceEntity[];
             boatrace?: MechanicalRacingPlaceEntity[];
@@ -115,7 +109,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     ): Promise<{
         jra: JraRaceEntity[];
         nar: HorseRacingRaceEntity[];
-        world: WorldRaceEntity[];
+        overseas: HorseRacingRaceEntity[];
         keirin: MechanicalRacingRaceEntity[];
         autorace: MechanicalRacingRaceEntity[];
         boatrace: MechanicalRacingRaceEntity[];
@@ -123,14 +117,14 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         const result: {
             jra: JraRaceEntity[];
             nar: HorseRacingRaceEntity[];
-            world: WorldRaceEntity[];
+            overseas: HorseRacingRaceEntity[];
             keirin: MechanicalRacingRaceEntity[];
             autorace: MechanicalRacingRaceEntity[];
             boatrace: MechanicalRacingRaceEntity[];
         } = {
             jra: [],
             nar: [],
-            world: [],
+            overseas: [],
             keirin: [],
             autorace: [],
             boatrace: [],
@@ -174,7 +168,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     );
                 const repo =
                     type === DataLocation.Storage
-                        ? this.narRaceRepositoryFromStorage
+                        ? this.horseRacingRaceRepositoryFromStorage
                         : this.narRaceRepositoryFromHtml;
                 const narRaceEntityList = await this.fetchRaceEntities(
                     repo,
@@ -182,23 +176,23 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 );
                 result.nar.push(...narRaceEntityList);
             }
-            // WORLD
-            if (raceTypeList.includes(RaceType.WORLD)) {
+            // OVERSEAS
+            if (raceTypeList.includes(RaceType.OVERSEAS)) {
                 const searchFilter =
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         startDate,
                         finishDate,
-                        RaceType.WORLD,
+                        RaceType.OVERSEAS,
                     );
                 const repo =
                     type === DataLocation.Storage
-                        ? this.worldRaceRepositoryFromStorage
-                        : this.worldRaceRepositoryFromHtml;
-                const worldRaceEntityList = await this.fetchRaceEntities(
+                        ? this.horseRacingRaceRepositoryFromStorage
+                        : this.overseasRaceRepositoryFromHtml;
+                const overseasRaceEntityList = await this.fetchRaceEntities(
                     repo,
                     searchFilter,
                 );
-                result.world.push(...worldRaceEntityList);
+                result.overseas.push(...overseasRaceEntityList);
             }
             // KEIRIN
             if (
@@ -285,7 +279,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * @param raceEntityList
      * @param raceEntityList.jra
      * @param raceEntityList.nar
-     * @param raceEntityList.world
+     * @param raceEntityList.overseas
      * @param raceEntityList.keirin
      * @param raceEntityList.autorace
      * @param raceEntityList.boatrace
@@ -295,7 +289,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     public async updateRaceEntityList(raceEntityList: {
         jra?: JraRaceEntity[];
         nar?: HorseRacingRaceEntity[];
-        world?: WorldRaceEntity[];
+        overseas?: HorseRacingRaceEntity[];
         keirin?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];
@@ -308,14 +302,14 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     raceEntityList.jra,
                 ),
                 this.saveRaceEntities(
-                    this.narRaceRepositoryFromStorage,
+                    this.horseRacingRaceRepositoryFromStorage,
                     RaceType.NAR,
                     raceEntityList.nar,
                 ),
                 this.saveRaceEntities(
-                    this.worldRaceRepositoryFromStorage,
-                    RaceType.WORLD,
-                    raceEntityList.world,
+                    this.horseRacingRaceRepositoryFromStorage,
+                    RaceType.OVERSEAS,
+                    raceEntityList.overseas,
                 ),
                 this.saveRaceEntities(
                     this.mechanicalRacingRaceRepositoryFromStorage,
@@ -353,6 +347,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         raceType: RaceType,
         entities?: TRace[],
     ): Promise<void> {
+        console.log(`entities (${raceType}):`, entities);
         if (entities !== undefined && entities.length > 0) {
             await repo.registerRaceEntityList(raceType, entities);
         }

@@ -5,22 +5,16 @@ import { RaceData } from '../../domain/raceData';
 import { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
-import {
-    type RaceCourse,
-    validateRaceCourse,
-} from '../../utility/data/common/raceCourse';
+import type { RaceCourse } from '../../utility/data/common/raceCourse';
+import { validateRaceCourse } from '../../utility/data/common/raceCourse';
 import {
     type RaceCourseType,
     validateRaceCourseType,
 } from '../../utility/data/common/raceCourseType';
-import {
-    type RaceDateTime,
-    validateRaceDateTime,
-} from '../../utility/data/common/raceDateTime';
-import {
-    type RaceDistance,
-    validateRaceDistance,
-} from '../../utility/data/common/raceDistance';
+import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
+import { validateRaceDateTime } from '../../utility/data/common/raceDateTime';
+import type { RaceDistance } from '../../utility/data/common/raceDistance';
+import { validateRaceDistance } from '../../utility/data/common/raceDistance';
 import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
 import {
     type RaceName,
@@ -29,8 +23,7 @@ import {
 import type { RaceNumber } from '../../utility/data/common/raceNumber';
 import { validateRaceNumber } from '../../utility/data/common/raceNumber';
 import type { RaceType } from '../../utility/raceType';
-import type { UpdateDate } from '../../utility/updateDate';
-import { validateUpdateDate } from '../../utility/updateDate';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
 /**
@@ -131,7 +124,7 @@ export class HorseRacingRaceRecord implements IRecord<HorseRacingRaceRecord> {
     }
 
     /**
-     * NarRaceEntityに変換する
+     * Entityに変換する
      */
     public toEntity(): HorseRacingRaceEntity {
         return HorseRacingRaceEntity.create(

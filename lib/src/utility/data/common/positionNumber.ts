@@ -24,7 +24,7 @@ export const createMaxFrameNumber = (raceType: RaceType): number => {
         case RaceType.NAR: {
             return 16;
         }
-        case RaceType.WORLD: {
+        case RaceType.OVERSEAS: {
             // 一旦大きめに48にする
             return 48;
         }

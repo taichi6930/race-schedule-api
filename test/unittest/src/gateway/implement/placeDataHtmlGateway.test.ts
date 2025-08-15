@@ -62,7 +62,7 @@ describe('PlaceDataHtmlGateway', () => {
         it(`未対応のraceTypeの場合、エラーがスローされること`, async () => {
             const testDate = new Date('2024-10-01');
             await expect(
-                gateway.getPlaceDataHtml(RaceType.WORLD, testDate),
+                gateway.getPlaceDataHtml(RaceType.OVERSEAS, testDate),
             ).rejects.toThrow('未対応のraceTypeです');
         });
 

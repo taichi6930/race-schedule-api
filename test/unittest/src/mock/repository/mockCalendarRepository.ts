@@ -6,7 +6,7 @@ import { baseBoatraceCalendarData } from '../common/baseBoatraceData';
 import { baseJraCalendarData } from '../common/baseJraData';
 import { baseKeirinCalendarData } from '../common/baseKeirinData';
 import { baseNarCalendarData } from '../common/baseNarData';
-import { baseWorldCalendarData } from '../common/baseWorldData';
+import { baseOverseasCalendarData } from '../common/baseOverseasData';
 
 export const mockCalendarRepository = (): jest.Mocked<ICalendarRepository> => {
     return {
@@ -20,8 +20,8 @@ export const mockCalendarRepository = (): jest.Mocked<ICalendarRepository> => {
                 if (raceTypeList.includes(RaceType.NAR)) {
                     CalendarDataList.push(baseNarCalendarData);
                 }
-                if (raceTypeList.includes(RaceType.WORLD)) {
-                    CalendarDataList.push(baseWorldCalendarData);
+                if (raceTypeList.includes(RaceType.OVERSEAS)) {
+                    CalendarDataList.push(baseOverseasCalendarData);
                 }
                 if (raceTypeList.includes(RaceType.KEIRIN)) {
                     CalendarDataList.push(baseKeirinCalendarData);

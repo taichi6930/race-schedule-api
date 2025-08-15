@@ -17,6 +17,8 @@ describe('NarPlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: IPlaceDataHtmlGateway;
     let repository: IPlaceRepository<HorseRacingPlaceEntity>;
 
+    const raceType: RaceType = RaceType.NAR;
+
     beforeEach(() => {
         // gatewayのモックを作成
         placeDataHtmlgateway = new MockPlaceDataHtmlGateway();
@@ -44,7 +46,7 @@ describe('NarPlaceRepositoryFromHtmlImpl', () => {
                     new SearchPlaceFilterEntity(
                         new Date('2024-10-01'),
                         new Date('2024-10-31'),
-                        RaceType.NAR,
+                        raceType,
                     ),
                 );
                 expect(placeEntityList).toHaveLength(120);
@@ -56,7 +58,7 @@ describe('NarPlaceRepositoryFromHtmlImpl', () => {
         it('htmlなので登録できない', async () => {
             // テスト実行
             await expect(
-                repository.registerPlaceEntityList(RaceType.NAR, [
+                repository.registerPlaceEntityList(raceType, [
                     baseNarPlaceEntity,
                 ]),
             ).resolves.toEqual({

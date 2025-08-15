@@ -16,6 +16,8 @@ describe('JraPlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: IPlaceDataHtmlGateway;
     let repository: IPlaceRepository<JraPlaceEntity>;
 
+    const raceType: RaceType = RaceType.JRA;
+
     beforeEach(() => {
         // gatewayのモックを作成
         placeDataHtmlgateway = new MockPlaceDataHtmlGateway();
@@ -43,7 +45,7 @@ describe('JraPlaceRepositoryFromHtmlImpl', () => {
                     new SearchPlaceFilterEntity(
                         new Date('2024-01-01'),
                         new Date('2024-12-31'),
-                        RaceType.JRA,
+                        raceType,
                     ),
                 );
                 expect(placeEntityList).toHaveLength(288);
@@ -55,7 +57,7 @@ describe('JraPlaceRepositoryFromHtmlImpl', () => {
         it('htmlなので登録できない', async () => {
             // テスト実行
             await expect(
-                repository.registerPlaceEntityList(RaceType.JRA, [
+                repository.registerPlaceEntityList(raceType, [
                     baseJraPlaceEntity,
                 ]),
             ).resolves.toEqual({

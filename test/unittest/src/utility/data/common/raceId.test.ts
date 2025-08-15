@@ -6,7 +6,7 @@ describe('raceIdSchema', () => {
     for (const { raceType, raceId } of [
         { raceType: RaceType.JRA, raceId: 'jra202108010101' },
         { raceType: RaceType.NAR, raceId: 'nar202108010101' },
-        { raceType: RaceType.WORLD, raceId: 'world202108010101' },
+        { raceType: RaceType.OVERSEAS, raceId: 'overseas202108010101' },
         { raceType: RaceType.KEIRIN, raceId: 'keirin202108010101' },
         { raceType: RaceType.BOATRACE, raceId: 'boatrace202108010101' },
         { raceType: RaceType.AUTORACE, raceId: 'autorace202108010101' },
@@ -70,26 +70,25 @@ describe('raceIdSchema', () => {
             invalidRaceId: 'nar202108010113',
             message: 'レース番号は1~12の範囲である必要があります',
         },
-        // WORLD
         {
-            raceType: RaceType.WORLD,
-            invalidRaceId: 'worldabc2021080101',
-            message: 'worldRaceIdの形式ではありません',
+            raceType: RaceType.OVERSEAS,
+            invalidRaceId: 'overseasabc2021080101',
+            message: 'overseasRaceIdの形式ではありません',
         },
         {
-            raceType: RaceType.WORLD,
-            invalidRaceId: 'world2021world080101',
-            message: 'worldRaceIdの形式ではありません',
+            raceType: RaceType.OVERSEAS,
+            invalidRaceId: 'overseas2021overseas080101',
+            message: 'overseasRaceIdの形式ではありません',
         },
         {
-            raceType: RaceType.WORLD,
-            invalidRaceId: 'world202108010',
-            message: 'worldRaceIdの形式ではありません',
+            raceType: RaceType.OVERSEAS,
+            invalidRaceId: 'overseas202108010',
+            message: 'overseasRaceIdの形式ではありません',
         },
         {
-            raceType: RaceType.WORLD,
+            raceType: RaceType.OVERSEAS,
             invalidRaceId: 'jra202108010101',
-            message: 'worldから始まる必要があります',
+            message: 'overseasから始まる必要があります',
         },
         // KEIRIN
         {
@@ -182,7 +181,7 @@ describe('raceIdSchema', () => {
 for (const { raceType, raceId } of [
     { raceType: RaceType.JRA, raceId: 'jra202108010101' },
     { raceType: RaceType.NAR, raceId: 'nar202108010101' },
-    { raceType: RaceType.WORLD, raceId: 'world202108010101' },
+    { raceType: RaceType.OVERSEAS, raceId: 'overseas202108010101' },
     { raceType: RaceType.KEIRIN, raceId: 'keirin202108010101' },
     { raceType: RaceType.BOATRACE, raceId: 'boatrace202108010101' },
     { raceType: RaceType.AUTORACE, raceId: 'autorace202108010101' },
@@ -246,26 +245,25 @@ for (const { raceType, invalidRaceId, message } of [
         invalidRaceId: 'nar202108010113',
         message: 'レース番号は1~12の範囲である必要があります',
     },
-    // WORLD
     {
-        raceType: RaceType.WORLD,
-        invalidRaceId: 'worldabc2021080101',
-        message: 'worldRaceIdの形式ではありません',
+        raceType: RaceType.OVERSEAS,
+        invalidRaceId: 'overseasabc2021080101',
+        message: 'overseasRaceIdの形式ではありません',
     },
     {
-        raceType: RaceType.WORLD,
-        invalidRaceId: 'world2021world080101',
-        message: 'worldRaceIdの形式ではありません',
+        raceType: RaceType.OVERSEAS,
+        invalidRaceId: 'overseas2021overseas080101',
+        message: 'overseasRaceIdの形式ではありません',
     },
     {
-        raceType: RaceType.WORLD,
-        invalidRaceId: 'world202108010',
-        message: 'worldRaceIdの形式ではありません',
+        raceType: RaceType.OVERSEAS,
+        invalidRaceId: 'overseas202108010',
+        message: 'overseasRaceIdの形式ではありません',
     },
     {
-        raceType: RaceType.WORLD,
+        raceType: RaceType.OVERSEAS,
         invalidRaceId: 'jra202108010101',
-        message: 'worldから始まる必要があります',
+        message: 'overseasから始まる必要があります',
     },
     // KEIRIN
     {

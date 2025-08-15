@@ -6,7 +6,6 @@ import type { JraPlaceEntity } from '../../src/repository/entity/jraPlaceEntity'
 import type { JraRaceEntity } from '../../src/repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../src/repository/entity/mechanicalRacingPlaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../src/repository/entity/mechanicalRacingRaceEntity';
-import type { WorldRaceEntity } from '../../src/repository/entity/worldRaceEntity';
 import { AutoracePlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
 import { BoatracePlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
@@ -17,16 +16,15 @@ import { KeirinPlaceRepositoryFromHtmlImpl } from '../../src/repository/implemen
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
 import { NarPlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/narPlaceRepositoryFromHtmlImpl';
 import { NarRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/narRaceRepositoryFromHtmlImpl';
-import { WorldRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/worldRaceRepositoryFromHtmlImpl';
+import { OverseasRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/overseasRaceRepositoryFromHtmlImpl';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
+import { MockHorseRacingRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockHorseRacingRaceRepositoryFromHtmlImpl';
 import { MockJraPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockJraPlaceRepositoryFromHtmlImpl';
 import { MockJraRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockJraRaceRepositoryFromHtmlImpl';
 import { MockMechanicalRacingPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockMechanicalRacingPlaceRepositoryFromHtmlImpl';
 import { MockMechanicalRacingRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockMechanicalRacingRaceRepositoryFromHtmlImpl';
-import { MockNarPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockNarPlaceRepositoryFromHtmlImpl';
-import { MockNarRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockNarRaceRepositoryFromHtmlImpl';
-import { MockWorldRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockWorldRaceRepositoryFromHtmlImpl';
+import { MockHorseRacingPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockMockHorseRacingPlaceRepositoryFromHtmlImpl';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 // Repositoryの実装クラスをDIコンテナに登録する
 
@@ -41,7 +39,9 @@ switch (ENV) {
         });
         container.register<IPlaceRepository<HorseRacingPlaceEntity>>(
             'NarPlaceRepositoryFromHtml',
-            { useClass: NarPlaceRepositoryFromHtmlImpl },
+            {
+                useClass: NarPlaceRepositoryFromHtmlImpl,
+            },
         );
         container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
             'JraRaceRepositoryFromHtml',
@@ -49,7 +49,9 @@ switch (ENV) {
         );
         container.register<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
-            { useClass: JraPlaceRepositoryFromHtmlImpl },
+            {
+                useClass: JraPlaceRepositoryFromHtmlImpl,
+            },
         );
         container.register<
             IRaceRepository<
@@ -76,9 +78,9 @@ switch (ENV) {
             { useClass: AutoracePlaceRepositoryFromHtmlImpl },
         );
         container.register<
-            IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>
-        >('WorldRaceRepositoryFromHtml', {
-            useClass: WorldRaceRepositoryFromHtmlImpl,
+            IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
+        >('OverseasRaceRepositoryFromHtml', {
+            useClass: OverseasRaceRepositoryFromHtmlImpl,
         });
         container.register<
             IRaceRepository<
@@ -109,11 +111,13 @@ switch (ENV) {
         container.register<
             IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
         >('NarRaceRepositoryFromHtml', {
-            useClass: MockNarRaceRepositoryFromHtmlImpl,
+            useClass: MockHorseRacingRaceRepositoryFromHtmlImpl,
         });
         container.register<IPlaceRepository<HorseRacingPlaceEntity>>(
             'NarPlaceRepositoryFromHtml',
-            { useClass: MockNarPlaceRepositoryFromHtmlImpl },
+            {
+                useClass: MockHorseRacingPlaceRepositoryFromHtmlImpl,
+            },
         );
         container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
             'JraRaceRepositoryFromHtml',
@@ -121,7 +125,9 @@ switch (ENV) {
         );
         container.register<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
-            { useClass: MockJraPlaceRepositoryFromHtmlImpl },
+            {
+                useClass: MockJraPlaceRepositoryFromHtmlImpl,
+            },
         );
         container.register<
             IRaceRepository<
@@ -148,9 +154,9 @@ switch (ENV) {
             { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },
         );
         container.register<
-            IRaceRepository<WorldRaceEntity, HorseRacingPlaceEntity>
-        >('WorldRaceRepositoryFromHtml', {
-            useClass: MockWorldRaceRepositoryFromHtmlImpl,
+            IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
+        >('OverseasRaceRepositoryFromHtml', {
+            useClass: MockHorseRacingRaceRepositoryFromHtmlImpl,
         });
         container.register<IPlaceRepository<MechanicalRacingPlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',

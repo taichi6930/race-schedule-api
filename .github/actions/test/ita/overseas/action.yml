@@ -27,16 +27,16 @@ runs:
         done
       shell: bash
 
-    - name: Curl API for World Race
+    - name: Curl API for Overseas Race
       run: |
         # Initial GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/all/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=world' \
+          'http://localhost:3000/api/races/all/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas' \
           -H 'accept: application/json')
 
         # Initial GET Response Check
-        world_items=$(echo "$response" | jq 'if type=="object" and has("world") then .world else . end')
-        if [[ "$world_items" != "[]" ]]; then
+        overseas_items=$(echo "$response" | jq 'if type=="object" and has("overseas") then .overseas else . end')
+        if [[ "$overseas_items" != "[]" ]]; then
           echo "❌ Initial GET request failed. Expected [], but got $response"
           exit 1
         fi
@@ -49,7 +49,7 @@ runs:
           -d '{
                 "startDate": "2024-10-01",
                 "finishDate": "2024-11-01",
-                "raceType": ["world"]
+                "raceType": ["overseas"]
               }')
 
         # POST Response Check
@@ -60,11 +60,11 @@ runs:
 
         # Updated GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/all/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=world' \
+          'http://localhost:3000/api/races/all/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas' \
           -H 'accept: application/json')
 
         # Final GET Response Check: 要素数が372個であることを確認
-        item_count=$(echo "$response" | jq 'if type=="object" and has("world") then .world | length else length end')
+        item_count=$(echo "$response" | jq 'if type=="object" and has("overseas") then .overseas | length else length end')
         if [[ "$item_count" -ne 372 ]]; then
           echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
           exit 1
@@ -73,16 +73,16 @@ runs:
         echo "✅ All checks passed successfully."
       shell: bash
 
-    - name: Curl API for World Calendar
+    - name: Curl API for Overseas Calendar
       run: |
         # Initial GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=world' \
+          'http://localhost:3000/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas' \
           -H 'accept: application/json')
 
         # Initial GET Response Check
-        world_items=$(echo "$response" | jq 'if type=="object" and has("world") then .world else . end')
-        if [[ "$world_items" != "[]" ]]; then
+        overseas_items=$(echo "$response" | jq 'if type=="object" and has("overseas") then .overseas else . end')
+        if [[ "$overseas_items" != "[]" ]]; then
           echo "❌ Initial GET request failed. Expected [], but got $response"
           exit 1
         fi
@@ -95,7 +95,7 @@ runs:
           -d '{
                 "startDate": "2024-10-01",
                 "finishDate": "2024-11-01",
-                "raceType": ["world"]
+                "raceType": ["overseas"]
               }')
 
         # POST Response Check
@@ -106,11 +106,11 @@ runs:
 
         # Updated GET request
         response=$(curl -s -X 'GET' \
-          'http://localhost:3000/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=world' \
+          'http://localhost:3000/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas' \
           -H 'accept: application/json')
 
         # Final GET Response Check: 要素数が372個であることを確認
-        item_count=$(echo "$response" | jq 'if type=="object" and has("world") then .world | length else length end')
+        item_count=$(echo "$response" | jq 'if type=="object" and has("overseas") then .overseas | length else length end')
         if [[ "$item_count" -ne 372 ]]; then
           echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
           exit 1

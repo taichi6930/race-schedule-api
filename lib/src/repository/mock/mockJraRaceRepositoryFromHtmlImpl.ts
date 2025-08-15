@@ -20,23 +20,21 @@ export class MockJraRaceRepositoryFromHtmlImpl
         const { placeEntityList } = searchFilter;
         const raceEntityList: JraRaceEntity[] = [];
         if (placeEntityList) {
+            const { raceType } = searchFilter;
             for (const placeEntity of placeEntityList) {
                 // 1から12までのレースを作成
-                for (let i = 1; i <= 12; i++) {
+                for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                    const raceDate = new Date(placeEntity.placeData.dateTime);
+                    raceDate.setHours(raceNumber + 9, 0, 0, 0);
                     raceEntityList.push(
                         JraRaceEntity.createWithoutId(
                             RaceData.create(
-                                RaceType.JRA,
-                                `${placeEntity.placeData.location}第${i.toString()}R`,
-                                new Date(
-                                    placeEntity.placeData.dateTime.getFullYear(),
-                                    placeEntity.placeData.dateTime.getMonth(),
-                                    placeEntity.placeData.dateTime.getDate(),
-                                    i + 9,
-                                ),
+                                raceType,
+                                `${placeEntity.placeData.location}第${raceNumber.toString()}R`,
+                                raceDate,
                                 placeEntity.placeData.location,
                                 'GⅠ',
-                                i,
+                                raceNumber,
                             ),
                             HeldDayData.create(1, 1),
                             HorseRaceConditionData.create('芝', 2000),

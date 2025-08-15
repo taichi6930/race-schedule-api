@@ -1,0 +1,191 @@
+import 'reflect-metadata';
+
+import * as fs from 'node:fs';
+import path from 'node:path';
+
+import { format } from 'date-fns';
+import { container } from 'tsyringe';
+
+import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
+import { RaceData } from '../../../../../lib/src/domain/raceData';
+import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
+import type { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
+import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
+import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
+import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
+import { HorseRacingRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorageImpl';
+import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
+import { getJSTDate } from '../../../../../lib/src/utility/date';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
+import type { TestSetup } from '../../../../utility/testSetupHelper';
+import { setupTestMock } from '../../../../utility/testSetupHelper';
+
+describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
+    let raceS3GatewayForNar: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
+    let raceS3GatewayForOverseas: jest.Mocked<
+        IS3Gateway<HorseRacingRaceRecord>
+    >;
+    let repository: IRaceRepository<
+        HorseRacingRaceEntity,
+        HorseRacingPlaceEntity
+    >;
+
+    beforeEach(() => {
+        const setup: TestSetup = setupTestMock();
+        ({ raceS3GatewayForNar, raceS3GatewayForOverseas } = setup);
+        // テスト対象のリポジトリを生成
+        repository = container.resolve(
+            HorseRacingRaceRepositoryFromStorageImpl,
+        );
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    describe('fetchRaceList', () => {
+        test('レース開催データを正常に取得できる', async () => {
+            // モックの戻り値を設定
+            raceS3GatewayForNar.fetchDataFromS3.mockResolvedValue(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname,
+                        '../../mock/repository/csv/nar/raceList.csv',
+                    ),
+                    'utf8',
+                ),
+            );
+            raceS3GatewayForOverseas.fetchDataFromS3.mockResolvedValue(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname,
+                        '../../mock/repository/csv/overseas/raceList.csv',
+                    ),
+                    'utf8',
+                ),
+            );
+
+            // テスト実行
+            for (const raceType of [RaceType.NAR, RaceType.OVERSEAS]) {
+                const raceEntityList = await repository.fetchRaceEntityList(
+                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
+                        new Date('2024-01-01'),
+                        new Date('2024-02-01'),
+                        raceType,
+                    ),
+                );
+
+                // レスポンスの検証
+                expect(raceEntityList).toHaveLength(1);
+            }
+        });
+    });
+
+    describe('registerRaceList', () => {
+        test('DBが空データのところに、正しいレース開催データを登録できる', async () => {
+            for (const { raceType, location, grade, raceS3Gateway } of [
+                {
+                    raceType: RaceType.NAR,
+                    location: '大井',
+                    grade: 'GⅠ',
+                    raceS3Gateway: raceS3GatewayForNar,
+                },
+                {
+                    raceType: RaceType.OVERSEAS,
+                    location: 'ベルモントパーク',
+                    grade: 'GⅠ',
+                    raceS3Gateway: raceS3GatewayForOverseas,
+                },
+            ]) {
+                // 1年間のレース開催データを登録する
+                const raceEntityList: HorseRacingRaceEntity[] = Array.from(
+                    { length: 60 },
+                    (_, day) => {
+                        const date = new Date('2024-01-01');
+                        date.setDate(date.getDate() + day);
+                        return Array.from({ length: 12 }, (__, j) =>
+                            HorseRacingRaceEntity.createWithoutId(
+                                RaceData.create(
+                                    raceType,
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    date,
+                                    location,
+                                    grade,
+                                    j + 1,
+                                ),
+                                HorseRaceConditionData.create('ダート', 2000),
+                                getJSTDate(new Date()),
+                            ),
+                        );
+                    },
+                ).flat();
+
+                // テスト実行
+                await repository.registerRaceEntityList(
+                    raceType,
+                    raceEntityList,
+                );
+
+                // uploadDataToS3が1回呼ばれることを検証
+                expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
+            }
+        });
+    });
+
+    test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
+        for (const { raceType, location, grade, raceS3Gateway } of [
+            {
+                raceType: RaceType.NAR,
+                location: '大井',
+                grade: 'GⅠ',
+                raceS3Gateway: raceS3GatewayForNar,
+            },
+            {
+                raceType: RaceType.OVERSEAS,
+                location: 'ベルモントパーク',
+                grade: 'GⅠ',
+                raceS3Gateway: raceS3GatewayForOverseas,
+            },
+        ]) {
+            // 1年間のレース開催データを登録する
+            const raceEntityList: HorseRacingRaceEntity[] = Array.from(
+                { length: 60 },
+                (_, day) => {
+                    const date = new Date('2024-01-01');
+                    date.setDate(date.getDate() + day);
+                    return Array.from({ length: 12 }, (__, j) =>
+                        HorseRacingRaceEntity.createWithoutId(
+                            RaceData.create(
+                                raceType,
+                                `raceName${format(date, 'yyyyMMdd')}`,
+                                date,
+                                location,
+                                grade,
+                                j + 1,
+                            ),
+                            HorseRaceConditionData.create('ダート', 2000),
+                            getJSTDate(new Date()),
+                        ),
+                    );
+                },
+            ).flat();
+
+            // モックの戻り値を設定
+            raceS3Gateway.fetchDataFromS3.mockResolvedValue(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname,
+                        `../../mock/repository/csv/${raceType.toLowerCase()}/raceList.csv`,
+                    ),
+                    'utf8',
+                ),
+            );
+
+            // テスト実行
+            await repository.registerRaceEntityList(raceType, raceEntityList);
+
+            // uploadDataToS3が1回呼ばれることを検証
+            expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
+        }
+    });
+});

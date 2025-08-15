@@ -72,7 +72,7 @@ export const validateRaceId = (raceType: RaceType, value: string): RaceId =>
 export const UnionRaceIdSchema = z.union([
     RaceIdSchema(RaceType.JRA),
     RaceIdSchema(RaceType.NAR),
-    RaceIdSchema(RaceType.WORLD),
+    RaceIdSchema(RaceType.OVERSEAS),
     RaceIdSchema(RaceType.KEIRIN),
     RaceIdSchema(RaceType.AUTORACE),
     RaceIdSchema(RaceType.BOATRACE),

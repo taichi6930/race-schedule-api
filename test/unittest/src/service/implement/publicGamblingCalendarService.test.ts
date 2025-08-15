@@ -31,9 +31,9 @@ import {
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
 import {
-    baseWorldCalendarData,
-    baseWorldRaceEntityList,
-} from '../../mock/common/baseWorldData';
+    baseOverseasCalendarData,
+    baseOverseasRaceEntityList,
+} from '../../mock/common/baseOverseasData';
 
 describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
@@ -56,7 +56,7 @@ describe('PublicGamblingCalendarService', () => {
             const calendarDataList: CalendarData[] = [
                 baseJraCalendarData,
                 baseNarCalendarData,
-                baseWorldCalendarData,
+                baseOverseasCalendarData,
                 baseKeirinCalendarData,
                 baseBoatraceCalendarData,
                 baseAutoraceCalendarData,
@@ -65,7 +65,7 @@ describe('PublicGamblingCalendarService', () => {
             const result = await service.fetchEvents(startDate, finishDate, [
                 RaceType.JRA,
                 RaceType.NAR,
-                RaceType.WORLD,
+                RaceType.OVERSEAS,
                 RaceType.KEIRIN,
                 RaceType.AUTORACE,
                 RaceType.BOATRACE,
@@ -75,7 +75,7 @@ describe('PublicGamblingCalendarService', () => {
                 [
                     RaceType.JRA,
                     RaceType.NAR,
-                    RaceType.WORLD,
+                    RaceType.OVERSEAS,
                     RaceType.KEIRIN,
                     RaceType.AUTORACE,
                     RaceType.BOATRACE,
@@ -91,7 +91,7 @@ describe('PublicGamblingCalendarService', () => {
             await service.deleteEvents({
                 jra: [baseJraCalendarData],
                 nar: [baseNarCalendarData],
-                world: [baseWorldCalendarData],
+                overseas: [baseOverseasCalendarData],
                 keirin: [baseKeirinCalendarData],
                 boatrace: [baseBoatraceCalendarData],
                 autorace: [baseAutoraceCalendarData],
@@ -106,8 +106,8 @@ describe('PublicGamblingCalendarService', () => {
                 [baseNarCalendarData],
             );
             expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.WORLD,
-                [baseWorldCalendarData],
+                RaceType.OVERSEAS,
+                [baseOverseasCalendarData],
             );
             expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
                 RaceType.KEIRIN,
@@ -131,7 +131,7 @@ describe('PublicGamblingCalendarService', () => {
             await service.deleteEvents({
                 jra: [],
                 nar: [],
-                world: [],
+                overseas: [],
                 keirin: [],
                 boatrace: [],
                 autorace: [],
@@ -151,7 +151,7 @@ describe('PublicGamblingCalendarService', () => {
             await service.upsertEvents({
                 jra: baseJraRaceEntityList,
                 nar: baseNarRaceEntityList,
-                world: baseWorldRaceEntityList,
+                overseas: baseOverseasRaceEntityList,
                 keirin: baseKeirinRaceEntityList,
                 boatrace: baseBoatraceRaceEntityList,
                 autorace: baseAutoraceRaceEntityList,
@@ -166,8 +166,8 @@ describe('PublicGamblingCalendarService', () => {
                 baseNarRaceEntityList,
             );
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.WORLD,
-                baseWorldRaceEntityList,
+                RaceType.OVERSEAS,
+                baseOverseasRaceEntityList,
             );
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
                 RaceType.KEIRIN,
@@ -191,7 +191,7 @@ describe('PublicGamblingCalendarService', () => {
             await service.upsertEvents({
                 jra: [],
                 nar: [],
-                world: [],
+                overseas: [],
                 keirin: [],
                 boatrace: [],
                 autorace: [],

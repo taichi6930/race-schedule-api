@@ -2,7 +2,6 @@ import type { CalendarData } from '../../domain/calendarData';
 import type { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
-import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { RaceType } from '../../utility/raceType';
 
 export interface ICalendarService {
@@ -36,7 +35,7 @@ export interface ICalendarService {
      * @param raceEntityList.jra
      * @param raceEntityList.nar
      * @param raceEntityList.keirin
-     * @param raceEntityList.world
+     * @param raceEntityList.overseas
      * @param raceEntityList.boatrace
      * @param raceEntityList.autorace
      * @throws カレンダーAPIとの通信エラーなど
@@ -46,7 +45,7 @@ export interface ICalendarService {
         jra?: JraRaceEntity[];
         nar?: HorseRacingRaceEntity[];
         keirin?: MechanicalRacingRaceEntity[];
-        world?: WorldRaceEntity[];
+        overseas?: HorseRacingRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];
     }) => Promise<void>;
@@ -64,7 +63,7 @@ export interface ICalendarService {
      * @param calendarDataList.jra
      * @param calendarDataList.nar
      * @param calendarDataList.keirin
-     * @param calendarDataList.world
+     * @param calendarDataList.overseas
      * @param calendarDataList.boatrace
      * @param calendarDataList.autorace
      * @throws カレンダーAPIとの通信エラーなど
@@ -74,7 +73,7 @@ export interface ICalendarService {
         jra?: CalendarData[];
         nar?: CalendarData[];
         keirin?: CalendarData[];
-        world?: CalendarData[];
+        overseas?: CalendarData[];
         boatrace?: CalendarData[];
         autorace?: CalendarData[];
     }) => Promise<void>;

@@ -305,17 +305,17 @@ export const processNarRaceName = (
     return tempRaceName;
 };
 
-interface WorldRaceDataForRaceName {
+interface OverseasRaceDataForRaceName {
     name: RaceName;
-    place: RaceCourse;
+    location: RaceCourse;
     grade: GradeType;
     date: RaceDateTime;
     surfaceType: RaceCourseType;
     distance: RaceDistance;
 }
 
-export const processWorldRaceName = (
-    raceInfo: WorldRaceDataForRaceName,
+export const processOverseasRaceName = (
+    raceInfo: OverseasRaceDataForRaceName,
 ): string => {
     return raceInfo.name
         .replaceFromCodePoint(

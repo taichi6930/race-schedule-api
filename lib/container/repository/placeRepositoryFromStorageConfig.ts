@@ -10,11 +10,15 @@ import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepo
 
 container.register<IPlaceRepository<HorseRacingPlaceEntity>>(
     'NarPlaceRepositoryFromStorage',
-    { useClass: NarPlaceRepositoryFromStorageImpl },
+    {
+        useClass: NarPlaceRepositoryFromStorageImpl,
+    },
 );
 container.register<IPlaceRepository<JraPlaceEntity>>(
     'JraPlaceRepositoryFromStorage',
-    { useClass: JraPlaceRepositoryFromStorageImpl },
+    {
+        useClass: JraPlaceRepositoryFromStorageImpl,
+    },
 );
 container.register<IPlaceRepository<MechanicalRacingPlaceEntity>>(
     'MechanicalRacingPlaceRepositoryFromStorage',

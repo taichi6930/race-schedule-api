@@ -36,8 +36,8 @@ export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
                 // ボートレースのURLはquarterを使って生成
                 return `https://sports.yahoo.co.jp/boatrace/schedule/?quarter=${quarter}`;
             }
-            case RaceType.WORLD: {
-                // WORLDは未対応
+            case RaceType.OVERSEAS: {
+                // OVERSEASは未対応
                 throw new Error('未対応のraceTypeです');
             }
         }
