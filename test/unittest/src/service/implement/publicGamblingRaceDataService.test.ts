@@ -92,7 +92,7 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.NAR: {
                             return baseNarRaceEntityList;
                         }
-                        case RaceType.WORLD: {
+                        case RaceType.OVERSEAS: {
                             return baseWorldRaceEntityList;
                         }
                     }
@@ -103,7 +103,7 @@ describe('PublicGamblingRaceDataService', () => {
                     switch (searchFilter.raceType) {
                         case RaceType.JRA:
                         case RaceType.NAR:
-                        case RaceType.WORLD: {
+                        case RaceType.OVERSEAS: {
                             throw new Error('race type is not supported');
                         }
                         case RaceType.KEIRIN: {
@@ -128,7 +128,7 @@ describe('PublicGamblingRaceDataService', () => {
                 [
                     RaceType.JRA,
                     RaceType.NAR,
-                    RaceType.WORLD,
+                    RaceType.OVERSEAS,
                     RaceType.KEIRIN,
                     RaceType.BOATRACE,
                     RaceType.AUTORACE,
@@ -138,7 +138,7 @@ describe('PublicGamblingRaceDataService', () => {
             expect(result).toEqual({
                 jra: baseJraRaceEntityList,
                 nar: baseNarRaceEntityList,
-                world: baseWorldRaceEntityList,
+                overseas: baseWorldRaceEntityList,
                 keirin: baseKeirinRaceEntityList,
                 boatrace: baseBoatraceRaceEntityList,
                 autorace: baseAutoraceRaceEntityList,
@@ -175,7 +175,7 @@ describe('PublicGamblingRaceDataService', () => {
                 [
                     RaceType.JRA,
                     RaceType.NAR,
-                    RaceType.WORLD,
+                    RaceType.OVERSEAS,
                     RaceType.KEIRIN,
                     RaceType.BOATRACE,
                     RaceType.AUTORACE,
@@ -186,7 +186,7 @@ describe('PublicGamblingRaceDataService', () => {
             expect(result).toEqual({
                 jra: baseJraRaceEntityList,
                 nar: baseNarRaceEntityList,
-                world: baseWorldRaceEntityList,
+                overseas: baseWorldRaceEntityList,
                 keirin: baseKeirinRaceEntityList,
                 boatrace: baseBoatraceRaceEntityList,
                 autorace: baseAutoraceRaceEntityList,
@@ -212,7 +212,7 @@ describe('PublicGamblingRaceDataService', () => {
                 [
                     RaceType.JRA,
                     RaceType.NAR,
-                    RaceType.WORLD,
+                    RaceType.OVERSEAS,
                     RaceType.KEIRIN,
                     RaceType.BOATRACE,
                     RaceType.AUTORACE,
@@ -242,7 +242,7 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.NAR: {
                             return baseNarRaceEntityList;
                         }
-                        case RaceType.WORLD: {
+                        case RaceType.OVERSEAS: {
                             return baseWorldRaceEntityList;
                         }
                     }
@@ -253,7 +253,7 @@ describe('PublicGamblingRaceDataService', () => {
                     switch (searchFilter.raceType) {
                         case RaceType.JRA:
                         case RaceType.NAR:
-                        case RaceType.WORLD: {
+                        case RaceType.OVERSEAS: {
                             throw new Error('World race type is not supported');
                         }
                         case RaceType.KEIRIN: {
@@ -272,7 +272,7 @@ describe('PublicGamblingRaceDataService', () => {
             await service.updateRaceEntityList({
                 jra: baseJraRaceEntityList,
                 nar: baseNarRaceEntityList,
-                world: baseWorldRaceEntityList,
+                overseas: baseWorldRaceEntityList,
                 keirin: baseKeirinRaceEntityList,
                 boatrace: baseBoatraceRaceEntityList,
                 autorace: baseAutoraceRaceEntityList,
@@ -286,7 +286,7 @@ describe('PublicGamblingRaceDataService', () => {
             ).toHaveBeenCalledWith(RaceType.NAR, baseNarRaceEntityList);
             expect(
                 horseRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
-            ).toHaveBeenCalledWith(RaceType.WORLD, baseWorldRaceEntityList);
+            ).toHaveBeenCalledWith(RaceType.OVERSEAS, baseWorldRaceEntityList);
             expect(
                 mechanicalRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalledWith(RaceType.KEIRIN, baseKeirinRaceEntityList);
@@ -308,7 +308,7 @@ describe('PublicGamblingRaceDataService', () => {
             await service.updateRaceEntityList({
                 jra: [],
                 nar: [],
-                world: [],
+                overseas: [],
                 keirin: [],
                 autorace: [],
                 boatrace: [],

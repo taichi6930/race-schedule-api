@@ -37,7 +37,7 @@ export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
                 // ボートレースのURLはquarterを使って生成
                 return `../mockData/html/boatrace/place/${format(date, 'yyyy')}${quarter}.html`;
             }
-            case RaceType.WORLD: {
+            case RaceType.OVERSEAS: {
                 // WORLDは未対応
                 throw new Error('未対応のraceTypeです');
             }

@@ -75,7 +75,7 @@ export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
             case RaceType.NAR: {
                 return '不明';
             }
-            case RaceType.WORLD: {
+            case RaceType.OVERSEAS: {
                 return '不明';
             }
         }

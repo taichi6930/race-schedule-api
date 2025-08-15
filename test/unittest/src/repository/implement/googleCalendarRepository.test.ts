@@ -71,7 +71,7 @@ describe('GoogleCalendarRepository', () => {
                     case RaceType.NAR: {
                         return [baseNarCalendarDataFromGoogleCalendar];
                     }
-                    case RaceType.WORLD: {
+                    case RaceType.OVERSEAS: {
                         return [baseWorldCalendarDataFromGoogleCalendar];
                     }
                     case RaceType.KEIRIN: {
@@ -94,7 +94,7 @@ describe('GoogleCalendarRepository', () => {
             [
                 RaceType.JRA,
                 RaceType.NAR,
-                RaceType.WORLD,
+                RaceType.OVERSEAS,
                 RaceType.KEIRIN,
                 RaceType.AUTORACE,
                 RaceType.BOATRACE,
@@ -132,7 +132,7 @@ describe('GoogleCalendarRepository', () => {
             [
                 RaceType.JRA,
                 RaceType.NAR,
-                RaceType.WORLD,
+                RaceType.OVERSEAS,
                 RaceType.KEIRIN,
                 RaceType.AUTORACE,
                 RaceType.BOATRACE,
@@ -149,7 +149,7 @@ describe('GoogleCalendarRepository', () => {
             { raceType: RaceType.JRA, baseCalendarData: baseJraCalendarData },
             { raceType: RaceType.NAR, baseCalendarData: baseNarCalendarData },
             {
-                raceType: RaceType.WORLD,
+                raceType: RaceType.OVERSEAS,
                 baseCalendarData: baseWorldCalendarData,
             },
             {
@@ -177,7 +177,7 @@ describe('GoogleCalendarRepository', () => {
             { raceType: RaceType.JRA, baseCalendarData: baseJraCalendarData },
             { raceType: RaceType.NAR, baseCalendarData: baseNarCalendarData },
             {
-                raceType: RaceType.WORLD,
+                raceType: RaceType.OVERSEAS,
                 baseCalendarData: baseWorldCalendarData,
             },
             {
@@ -207,7 +207,7 @@ describe('GoogleCalendarRepository', () => {
             { raceType: RaceType.JRA, baseRaceEntityList: [baseJraRaceEntity] },
             { raceType: RaceType.NAR, baseRaceEntityList: [baseNarRaceEntity] },
             {
-                raceType: RaceType.WORLD,
+                raceType: RaceType.OVERSEAS,
                 baseRaceEntityList: [baseWorldRaceEntity],
             },
             {
@@ -253,7 +253,7 @@ describe('GoogleCalendarRepository', () => {
                 baseNarCalendarDataFromGoogleCalendar,
             },
             {
-                raceType: RaceType.WORLD,
+                raceType: RaceType.OVERSEAS,
                 baseRaceEntityList: [baseWorldRaceEntity],
                 baseCalendarDataFromGoogleCalendar:
                     baseWorldCalendarDataFromGoogleCalendar,
@@ -292,7 +292,7 @@ describe('GoogleCalendarRepository', () => {
             { raceType: RaceType.JRA, baseRaceEntityList: [baseJraRaceEntity] },
             { raceType: RaceType.NAR, baseRaceEntityList: [baseNarRaceEntity] },
             {
-                raceType: RaceType.WORLD,
+                raceType: RaceType.OVERSEAS,
                 baseRaceEntityList: [baseWorldRaceEntity],
             },
             {

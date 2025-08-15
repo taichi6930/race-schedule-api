@@ -30,7 +30,7 @@ export interface IRaceDataUseCase {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
-            world?: {
+            overseas?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
@@ -53,7 +53,7 @@ export interface IRaceDataUseCase {
     ) => Promise<{
         jra: JraRaceEntity[];
         nar: HorseRacingRaceEntity[];
-        world: HorseRacingRaceEntity[];
+        overseas: HorseRacingRaceEntity[];
         keirin: MechanicalRacingRaceEntity[];
         autorace: MechanicalRacingRaceEntity[];
         boatrace: MechanicalRacingRaceEntity[];
@@ -76,7 +76,7 @@ export interface IRaceDataUseCase {
             nar?: {
                 locationList?: RaceCourse[];
             };
-            world?: {
+            overseas?: {
                 locationList?: RaceCourse[];
             };
             keirin?: {
@@ -101,7 +101,7 @@ export interface IRaceDataUseCase {
     // upsertRaceDataList: (raceDataList: {
     //     jra?: RaceData[];
     //     nar?: RaceData[];
-    //     world?: RaceData[];
+    //     overseas?: RaceData[];
     //     keirin?: MechanicalRacingRaceData[];
     //     autorace?: MechanicalRacingRaceData[];
     //     boatrace?: MechanicalRacingRaceData[];

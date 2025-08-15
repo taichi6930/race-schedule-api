@@ -57,14 +57,14 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                 fs.readFileSync(
                     path.resolve(
                         __dirname,
-                        '../../mock/repository/csv/world/raceList.csv',
+                        '../../mock/repository/csv/overseas/raceList.csv',
                     ),
                     'utf8',
                 ),
             );
 
             // テスト実行
-            for (const raceType of [RaceType.NAR, RaceType.WORLD]) {
+            for (const raceType of [RaceType.NAR, RaceType.OVERSEAS]) {
                 const raceEntityList = await repository.fetchRaceEntityList(
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         new Date('2024-01-01'),
@@ -89,7 +89,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                     raceS3Gateway: raceS3GatewayForNar,
                 },
                 {
-                    raceType: RaceType.WORLD,
+                    raceType: RaceType.OVERSEAS,
                     location: 'ベルモントパーク',
                     grade: 'GⅠ',
                     raceS3Gateway: raceS3GatewayForWorld,
@@ -139,7 +139,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                 raceS3Gateway: raceS3GatewayForNar,
             },
             {
-                raceType: RaceType.WORLD,
+                raceType: RaceType.OVERSEAS,
                 location: 'ベルモントパーク',
                 grade: 'GⅠ',
                 raceS3Gateway: raceS3GatewayForWorld,

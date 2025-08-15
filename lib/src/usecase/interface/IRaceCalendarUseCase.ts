@@ -26,7 +26,7 @@ export interface IRaceCalendarUseCase {
         displayGradeList: {
             jra: GradeType[];
             nar: GradeType[];
-            world: GradeType[];
+            overseas: GradeType[];
             keirin: GradeType[];
             autorace: GradeType[];
             boatrace: GradeType[];

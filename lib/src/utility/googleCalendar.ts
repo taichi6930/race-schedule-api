@@ -110,7 +110,7 @@ const GoogleCalendarColorIdMap = {
         オープン特別: GoogleCalendarColorId.TANGERINE,
         地方重賞: GoogleCalendarColorId.GRAPE,
     },
-    WORLD: {
+    OVERSEAS: {
         GⅠ: GoogleCalendarColorId.BLUEBERRY,
         GⅡ: GoogleCalendarColorId.TOMATO,
         GⅢ: GoogleCalendarColorId.BASIL,

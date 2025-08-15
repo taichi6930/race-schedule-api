@@ -46,7 +46,7 @@ export class HorseRacingRaceEntity {
         updateDate: Date,
     ): HorseRacingRaceEntity {
         return new HorseRacingRaceEntity(
-            raceData.raceType === RaceType.WORLD
+            raceData.raceType === RaceType.OVERSEAS
                 ? id
                 : validateRaceId(raceData.raceType, id),
             raceData,

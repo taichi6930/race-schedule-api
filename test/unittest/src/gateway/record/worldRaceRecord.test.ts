@@ -6,7 +6,7 @@ import {
 describe('WorldRaceRecordクラスのテスト', () => {
     it('正しい入力でWorldRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseWorldRaceRecord;
-        expect(raceRecord.id).toEqual('world20241001longchamp12');
+        expect(raceRecord.id).toEqual('overseas202410010212');
         expect(raceRecord.name).toBe('凱旋門賞');
         expect(raceRecord.dateTime).toEqual(new Date('2024-10-01 16:30'));
         expect(raceRecord.location).toBe('パリロンシャン');
@@ -22,7 +22,7 @@ describe('WorldRaceRecordクラスのテスト', () => {
             location: 'シャティン',
         });
 
-        expect(copiedRaceRecord.id).toEqual('world20241001longchamp12');
+        expect(copiedRaceRecord.id).toEqual('overseas202410010212');
         expect(copiedRaceRecord.name).toBe('凱旋門賞');
         expect(copiedRaceRecord.dateTime).toEqual(new Date('2024-10-01 16:30'));
         expect(copiedRaceRecord.location).toBe('シャティン');

@@ -12,7 +12,7 @@ import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { baseRaceNumber } from './baseCommonData';
 
-const raceType: RaceType = RaceType.WORLD;
+const raceType: RaceType = RaceType.OVERSEAS;
 
 const baseWorldPlaceCourse: RaceCourse = 'パリロンシャン';
 const baseWorldPlaceDateTime = new Date('2024-10-01');
@@ -107,7 +107,7 @@ export const baseWorldRaceEntityList: HorseRacingRaceEntity[] = [
 });
 
 export const baseWorldCalendarData = CalendarData.create(
-    'test20241001longchamp01',
+    'test202410010101',
     raceType,
     baseWorldRaceName,
     '2024-10-01T16:30:00Z',
@@ -117,7 +117,7 @@ export const baseWorldCalendarData = CalendarData.create(
 );
 
 export const baseWorldCalendarDataFromGoogleCalendar = {
-    id: 'test20241001longchamp01',
+    id: 'test202410010101',
     summary: baseWorldRaceName,
     start: {
         dateTime: '2024-10-01T16:30:00Z',

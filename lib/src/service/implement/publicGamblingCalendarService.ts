@@ -83,7 +83,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
      * @param raceEntityList.jra
      * @param raceEntityList.nar
      * @param raceEntityList.keirin
-     * @param raceEntityList.world
+     * @param raceEntityList.overseas
      * @param raceEntityList.boatrace
      * @param raceEntityList.autorace
      * @throws カレンダーAPIとの通信エラーなど
@@ -94,7 +94,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         jra?: JraRaceEntity[];
         nar?: HorseRacingRaceEntity[];
         keirin?: MechanicalRacingRaceEntity[];
-        world?: HorseRacingRaceEntity[];
+        overseas?: HorseRacingRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];
     }): Promise<void> {
@@ -102,7 +102,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
             raceEntityList.jra?.length === 0 &&
             raceEntityList.nar?.length === 0 &&
             raceEntityList.keirin?.length === 0 &&
-            raceEntityList.world?.length === 0 &&
+            raceEntityList.overseas?.length === 0 &&
             raceEntityList.boatrace?.length === 0 &&
             raceEntityList.autorace?.length === 0
         ) {
@@ -131,12 +131,12 @@ export class PublicGamblingCalendarService implements ICalendarService {
             );
         }
         if (
-            raceEntityList.world !== undefined &&
-            raceEntityList.world.length > 0
+            raceEntityList.overseas !== undefined &&
+            raceEntityList.overseas.length > 0
         ) {
             await this.calendarRepository.upsertEvents(
-                RaceType.WORLD,
-                raceEntityList.world,
+                RaceType.OVERSEAS,
+                raceEntityList.overseas,
             );
         }
         if (
@@ -172,7 +172,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
      * @param calendarDataList.jra
      * @param calendarDataList.nar
      * @param calendarDataList.keirin
-     * @param calendarDataList.world
+     * @param calendarDataList.overseas
      * @param calendarDataList.boatrace
      * @param calendarDataList.autorace
      * @throws カレンダーAPIとの通信エラーなど
@@ -183,7 +183,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         jra?: CalendarData[];
         nar?: CalendarData[];
         keirin?: CalendarData[];
-        world?: CalendarData[];
+        overseas?: CalendarData[];
         boatrace?: CalendarData[];
         autorace?: CalendarData[];
     }): Promise<void> {
@@ -191,7 +191,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
             calendarDataList.jra?.length === 0 &&
             calendarDataList.nar?.length === 0 &&
             calendarDataList.keirin?.length === 0 &&
-            calendarDataList.world?.length === 0 &&
+            calendarDataList.overseas?.length === 0 &&
             calendarDataList.boatrace?.length === 0 &&
             calendarDataList.autorace?.length === 0
         ) {
@@ -216,10 +216,10 @@ export class PublicGamblingCalendarService implements ICalendarService {
                 calendarDataList.keirin,
             );
         }
-        if (calendarDataList.world && calendarDataList.world.length > 0) {
+        if (calendarDataList.overseas && calendarDataList.overseas.length > 0) {
             await this.calendarRepository.deleteEvents(
-                RaceType.WORLD,
-                calendarDataList.world,
+                RaceType.OVERSEAS,
+                calendarDataList.overseas,
             );
         }
         if (calendarDataList.boatrace && calendarDataList.boatrace.length > 0) {

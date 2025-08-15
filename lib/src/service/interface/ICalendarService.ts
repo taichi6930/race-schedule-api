@@ -35,7 +35,7 @@ export interface ICalendarService {
      * @param raceEntityList.jra
      * @param raceEntityList.nar
      * @param raceEntityList.keirin
-     * @param raceEntityList.world
+     * @param raceEntityList.overseas
      * @param raceEntityList.boatrace
      * @param raceEntityList.autorace
      * @throws カレンダーAPIとの通信エラーなど
@@ -45,7 +45,7 @@ export interface ICalendarService {
         jra?: JraRaceEntity[];
         nar?: HorseRacingRaceEntity[];
         keirin?: MechanicalRacingRaceEntity[];
-        world?: HorseRacingRaceEntity[];
+        overseas?: HorseRacingRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];
     }) => Promise<void>;
@@ -63,7 +63,7 @@ export interface ICalendarService {
      * @param calendarDataList.jra
      * @param calendarDataList.nar
      * @param calendarDataList.keirin
-     * @param calendarDataList.world
+     * @param calendarDataList.overseas
      * @param calendarDataList.boatrace
      * @param calendarDataList.autorace
      * @throws カレンダーAPIとの通信エラーなど
@@ -73,7 +73,7 @@ export interface ICalendarService {
         jra?: CalendarData[];
         nar?: CalendarData[];
         keirin?: CalendarData[];
-        world?: CalendarData[];
+        overseas?: CalendarData[];
         boatrace?: CalendarData[];
         autorace?: CalendarData[];
     }) => Promise<void>;

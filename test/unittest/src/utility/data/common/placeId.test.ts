@@ -12,8 +12,8 @@ describe('PlaceIdSchema', () => {
             placeId: 'nar2021080101',
         },
         {
-            raceType: RaceType.WORLD,
-            placeId: 'world20210801longchamp',
+            raceType: RaceType.OVERSEAS,
+            placeId: 'overseas2021080101',
         },
         {
             raceType: RaceType.KEIRIN,
@@ -69,13 +69,14 @@ describe('NarPlaceIdSchema', () => {
 describe('WorldPlaceIdSchema', () => {
     it('異常系: 不正なWorldPlaceId', () => {
         const invalidWorldPlaceIdAndMessage = [
-            ['abc2021080101', 'worldから始まる必要があります'],
-            ['2021world080101', 'worldから始まる必要があります'],
-            ['world202108010', 'worldPlaceIdの形式ではありません'],
-            ['jra2021080101', 'worldから始まる必要があります'],
+            ['abc2021080101', 'overseasから始まる必要があります'],
+            ['2021overseas080101', 'overseasから始まる必要があります'],
+            ['overseas202108010', 'overseasPlaceIdの形式ではありません'],
+            ['jra2021080101', 'overseasから始まる必要があります'],
+            ['world021080101', 'overseasから始まる必要があります'],
         ];
         for (const [invalidId, message] of invalidWorldPlaceIdAndMessage) {
-            expect(() => validatePlaceId(RaceType.WORLD, invalidId)).toThrow(
+            expect(() => validatePlaceId(RaceType.OVERSEAS, invalidId)).toThrow(
                 message,
             );
         }

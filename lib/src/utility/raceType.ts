@@ -5,7 +5,7 @@ export const RaceType = {
     JRA: 'JRA',
     NAR: 'NAR',
     KEIRIN: 'KEIRIN',
-    WORLD: 'WORLD',
+    OVERSEAS: 'OVERSEAS',
     AUTORACE: 'AUTORACE',
     BOATRACE: 'BOATRACE',
 } as const;
@@ -33,8 +33,8 @@ export const convertRaceTypeList = (
                 case 'nar': {
                     return RaceType.NAR;
                 }
-                case 'world': {
-                    return RaceType.WORLD;
+                case 'overseas': {
+                    return RaceType.OVERSEAS;
                 }
                 case 'keirin': {
                     return RaceType.KEIRIN;

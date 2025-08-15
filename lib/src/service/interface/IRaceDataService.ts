@@ -43,7 +43,7 @@ export interface IRaceDataService {
         placeEntityList?: {
             jra?: JraPlaceEntity[];
             nar?: HorseRacingPlaceEntity[];
-            world?: HorseRacingPlaceEntity[];
+            overseas?: HorseRacingPlaceEntity[];
             keirin?: MechanicalRacingPlaceEntity[];
             autorace?: MechanicalRacingPlaceEntity[];
             boatrace?: MechanicalRacingPlaceEntity[];
@@ -51,7 +51,7 @@ export interface IRaceDataService {
     ) => Promise<{
         jra: JraRaceEntity[];
         nar: HorseRacingRaceEntity[];
-        world: HorseRacingRaceEntity[];
+        overseas: HorseRacingRaceEntity[];
         keirin: MechanicalRacingRaceEntity[];
         autorace: MechanicalRacingRaceEntity[];
         boatrace: MechanicalRacingRaceEntity[];
@@ -68,7 +68,7 @@ export interface IRaceDataService {
     updateRaceEntityList: (raceEntityList: {
         jra?: JraRaceEntity[];
         nar?: HorseRacingRaceEntity[];
-        world?: HorseRacingRaceEntity[];
+        overseas?: HorseRacingRaceEntity[];
         keirin?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];

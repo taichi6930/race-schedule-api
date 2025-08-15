@@ -21,7 +21,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
     > = {
         JRA: [],
         NAR: [],
-        WORLD: [],
+        OVERSEAS: [],
         KEIRIN: [],
         AUTORACE: [],
         BOATRACE: [],
@@ -58,7 +58,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                             RaceType.KEIRIN,
                             RaceType.AUTORACE,
                             RaceType.BOATRACE,
-                            RaceType.WORLD,
+                            RaceType.OVERSEAS,
                         ]) {
                             const location = this.createLocation(raceType);
                             for (
@@ -137,7 +137,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
             case RaceType.BOATRACE: {
                 return '浜名湖';
             }
-            case RaceType.WORLD: {
+            case RaceType.OVERSEAS: {
                 return 'パリロンシャン';
             }
         }

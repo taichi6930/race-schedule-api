@@ -20,7 +20,7 @@ export const mockCalendarRepository = (): jest.Mocked<ICalendarRepository> => {
                 if (raceTypeList.includes(RaceType.NAR)) {
                     CalendarDataList.push(baseNarCalendarData);
                 }
-                if (raceTypeList.includes(RaceType.WORLD)) {
+                if (raceTypeList.includes(RaceType.OVERSEAS)) {
                     CalendarDataList.push(baseWorldCalendarData);
                 }
                 if (raceTypeList.includes(RaceType.KEIRIN)) {

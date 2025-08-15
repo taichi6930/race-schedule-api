@@ -69,7 +69,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 [
                     RaceType.JRA,
                     RaceType.NAR,
-                    RaceType.WORLD,
+                    RaceType.OVERSEAS,
                     RaceType.KEIRIN,
                     RaceType.BOATRACE,
                     RaceType.AUTORACE,
@@ -82,7 +82,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 [
                     RaceType.JRA,
                     RaceType.NAR,
-                    RaceType.WORLD,
+                    RaceType.OVERSEAS,
                     RaceType.KEIRIN,
                     RaceType.BOATRACE,
                     RaceType.AUTORACE,
@@ -137,7 +137,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                     id: `nar2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
-            world: Array.from({ length: 0 }, (_, i: number) =>
+            overseas: Array.from({ length: 0 }, (_, i: number) =>
                 baseWorldRaceEntity.copy({
                     id: `world2024122920${(i + 1).toXDigits(2)}`,
                 }),
@@ -170,7 +170,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                     id: `nar2024122920${(i + 6).toXDigits(2)}`,
                 }),
             ),
-            world: Array.from({ length: 0 }, (_, i: number) =>
+            overseas: Array.from({ length: 0 }, (_, i: number) =>
                 baseWorldCalendarData.copy({
                     id: `world2024122920${(i + 6).toXDigits(2)}`,
                 }),
@@ -199,7 +199,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         raceDataService.fetchRaceEntityList.mockResolvedValue({
             jra: mockRaceEntityList.jra,
             nar: mockRaceEntityList.nar,
-            world: mockRaceEntityList.world,
+            overseas: mockRaceEntityList.overseas,
             keirin: mockRaceEntityList.keirin,
             boatrace: mockRaceEntityList.boatrace,
             autorace: mockRaceEntityList.autorace,
@@ -214,7 +214,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             [
                 RaceType.JRA,
                 RaceType.NAR,
-                RaceType.WORLD,
+                RaceType.OVERSEAS,
                 RaceType.KEIRIN,
                 RaceType.AUTORACE,
                 RaceType.BOATRACE,
@@ -222,7 +222,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             {
                 jra: SpecifiedGradeList(RaceType.JRA),
                 nar: SpecifiedGradeList(RaceType.NAR),
-                world: SpecifiedGradeList(RaceType.WORLD),
+                overseas: SpecifiedGradeList(RaceType.OVERSEAS),
                 keirin: SpecifiedGradeList(RaceType.KEIRIN),
                 autorace: SpecifiedGradeList(RaceType.AUTORACE),
                 boatrace: SpecifiedGradeList(RaceType.BOATRACE),
@@ -236,7 +236,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             [
                 RaceType.JRA,
                 RaceType.NAR,
-                RaceType.WORLD,
+                RaceType.OVERSEAS,
                 RaceType.KEIRIN,
                 RaceType.AUTORACE,
                 RaceType.BOATRACE,

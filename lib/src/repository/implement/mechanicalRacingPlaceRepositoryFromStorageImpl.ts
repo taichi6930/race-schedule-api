@@ -193,7 +193,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
             }
             case RaceType.JRA:
             case RaceType.NAR:
-            case RaceType.WORLD: {
+            case RaceType.OVERSEAS: {
                 throw new Error('Unsupported race type');
             }
         }
@@ -226,7 +226,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
             }
             case RaceType.JRA:
             case RaceType.NAR:
-            case RaceType.WORLD: {
+            case RaceType.OVERSEAS: {
                 throw new Error('Unsupported race type');
             }
         }

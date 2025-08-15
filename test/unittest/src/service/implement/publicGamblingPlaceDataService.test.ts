@@ -88,7 +88,7 @@ describe('PublicGamblingPlaceDataService', () => {
                     switch (searchFilter.raceType) {
                         case RaceType.JRA:
                         case RaceType.NAR:
-                        case RaceType.WORLD: {
+                        case RaceType.OVERSEAS: {
                             throw new Error('World race type is not supported');
                         }
                         case RaceType.KEIRIN: {
@@ -220,7 +220,7 @@ describe('PublicGamblingPlaceDataService', () => {
                     switch (searchFilter.raceType) {
                         case RaceType.JRA:
                         case RaceType.NAR:
-                        case RaceType.WORLD: {
+                        case RaceType.OVERSEAS: {
                             throw new Error('World race type is not supported');
                         }
                         case RaceType.KEIRIN: {

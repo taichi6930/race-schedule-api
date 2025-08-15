@@ -183,7 +183,7 @@ export class HorseRacingRaceRepositoryFromStorageImpl
             case RaceType.NAR: {
                 return this.raceS3GatewayForNar.fetchDataFromS3(fileName);
             }
-            case RaceType.WORLD: {
+            case RaceType.OVERSEAS: {
                 return this.raceS3GatewayForWorld.fetchDataFromS3(fileName);
             }
             case RaceType.JRA:
@@ -206,7 +206,7 @@ export class HorseRacingRaceRepositoryFromStorageImpl
                 await this.raceS3GatewayForNar.uploadDataToS3(record, fileName);
                 break;
             }
-            case RaceType.WORLD: {
+            case RaceType.OVERSEAS: {
                 await this.raceS3GatewayForWorld.uploadDataToS3(
                     record,
                     fileName,

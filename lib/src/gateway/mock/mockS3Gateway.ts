@@ -303,7 +303,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         'GⅠ',
                         raceNumber,
                         generateRaceId(
-                            RaceType.WORLD,
+                            RaceType.OVERSEAS,
                             currentDate,
                             'パリロンシャン',
                             raceNumber,

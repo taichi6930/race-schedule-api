@@ -155,7 +155,7 @@ export class PublicGamblingController {
                 {
                     jra: SpecifiedGradeList(RaceType.JRA),
                     nar: SpecifiedGradeList(RaceType.NAR),
-                    world: SpecifiedGradeList(RaceType.WORLD),
+                    overseas: SpecifiedGradeList(RaceType.OVERSEAS),
                     keirin: SpecifiedGradeList(RaceType.KEIRIN),
                     autorace: SpecifiedGradeList(RaceType.AUTORACE),
                     boatrace: SpecifiedGradeList(RaceType.BOATRACE),
@@ -374,7 +374,7 @@ export class PublicGamblingController {
                         gradeList,
                         locationList,
                     },
-                    world: {
+                    overseas: {
                         gradeList,
                         locationList,
                     },

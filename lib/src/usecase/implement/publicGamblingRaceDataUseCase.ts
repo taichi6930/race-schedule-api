@@ -37,9 +37,9 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
      * @param searchList.nar
      * @param searchList.nar.gradeList
      * @param searchList.nar.locationList
-     * @param searchList.world
-     * @param searchList.world.gradeList
-     * @param searchList.world.locationList
+     * @param searchList.overseas
+     * @param searchList.overseas.gradeList
+     * @param searchList.overseas.locationList
      * @param searchList.keirin
      * @param searchList.keirin.gradeList
      * @param searchList.keirin.locationList
@@ -67,7 +67,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
-            world?: {
+            overseas?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
@@ -90,7 +90,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
     ): Promise<{
         jra: JraRaceEntity[];
         nar: HorseRacingRaceEntity[];
-        world: HorseRacingRaceEntity[];
+        overseas: HorseRacingRaceEntity[];
         keirin: MechanicalRacingRaceEntity[];
         autorace: MechanicalRacingRaceEntity[];
         boatrace: MechanicalRacingRaceEntity[];
@@ -115,9 +115,9 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         return {
             jra: this.filterRaceEntityList(raceEntityList.jra, searchList?.jra),
             nar: this.filterRaceEntityList(raceEntityList.nar, searchList?.nar),
-            world: this.filterRaceEntityList(
-                raceEntityList.world,
-                searchList?.world,
+            overseas: this.filterRaceEntityList(
+                raceEntityList.overseas,
+                searchList?.overseas,
             ),
             keirin: this.filterRaceEntityList(
                 raceEntityList.keirin,
@@ -144,8 +144,8 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
      * @param searchList.jra.locationList
      * @param searchList.nar
      * @param searchList.nar.locationList
-     * @param searchList.world
-     * @param searchList.world.locationList
+     * @param searchList.overseas
+     * @param searchList.overseas.locationList
      * @param searchList.keirin
      * @param searchList.keirin.gradeList
      * @param searchList.keirin.locationList
@@ -168,7 +168,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             nar?: {
                 locationList?: RaceCourse[];
             };
-            world?: {
+            overseas?: {
                 locationList?: RaceCourse[];
             };
             keirin?: {
@@ -219,7 +219,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
 
         // placeEntityListが空の場合は処理を終了する
         if (
-            !raceTypeList.includes(RaceType.WORLD) &&
+            !raceTypeList.includes(RaceType.OVERSEAS) &&
             filteredPlaceEntityList.jra.length === 0 &&
             filteredPlaceEntityList.nar.length === 0 &&
             filteredPlaceEntityList.keirin.length === 0 &&
@@ -249,7 +249,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         await this.raceDataService.updateRaceEntityList({
             jra: raceEntityList.jra,
             nar: raceEntityList.nar,
-            world: raceEntityList.world,
+            overseas: raceEntityList.overseas,
             keirin: raceEntityList.keirin,
             autorace: raceEntityList.autorace,
             boatrace: raceEntityList.boatrace,

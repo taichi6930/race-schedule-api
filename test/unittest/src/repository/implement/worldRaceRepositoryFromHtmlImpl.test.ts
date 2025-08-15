@@ -20,7 +20,7 @@ describe('WorldRaceRepositoryFromHtmlImpl', () => {
         HorseRacingPlaceEntity
     >;
 
-    const raceType: RaceType = RaceType.WORLD;
+    const raceType: RaceType = RaceType.OVERSEAS;
 
     beforeEach(() => {
         // gatewayのモックを作成

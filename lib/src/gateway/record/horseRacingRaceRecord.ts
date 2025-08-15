@@ -85,7 +85,9 @@ export class HorseRacingRaceRecord implements IRecord<HorseRacingRaceRecord> {
     ): HorseRacingRaceRecord {
         try {
             return new HorseRacingRaceRecord(
-                raceType === RaceType.WORLD ? id : validateRaceId(raceType, id),
+                raceType === RaceType.OVERSEAS
+                    ? id
+                    : validateRaceId(raceType, id),
                 raceType,
                 validateRaceName(name),
                 validateRaceDateTime(dateTime),

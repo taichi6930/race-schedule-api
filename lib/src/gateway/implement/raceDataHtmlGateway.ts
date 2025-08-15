@@ -26,7 +26,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
             case RaceType.NAR: {
                 return this.buildNarUrl(date, place);
             }
-            case RaceType.WORLD: {
+            case RaceType.OVERSEAS: {
                 return this.buildWorldUrl(date);
             }
             case RaceType.KEIRIN: {

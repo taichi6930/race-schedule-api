@@ -84,7 +84,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * @param placeEntityList
      * @param placeEntityList.jra
      * @param placeEntityList.nar
-     * @param placeEntityList.world
+     * @param placeEntityList.overseas
      * @param placeEntityList.keirin
      * @param placeEntityList.autorace
      * @param placeEntityList.boatrace
@@ -101,7 +101,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         placeEntityList?: {
             jra?: JraPlaceEntity[];
             nar?: HorseRacingPlaceEntity[];
-            world?: HorseRacingPlaceEntity[];
+            overseas?: HorseRacingPlaceEntity[];
             keirin?: MechanicalRacingPlaceEntity[];
             autorace?: MechanicalRacingPlaceEntity[];
             boatrace?: MechanicalRacingPlaceEntity[];
@@ -109,7 +109,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     ): Promise<{
         jra: JraRaceEntity[];
         nar: HorseRacingRaceEntity[];
-        world: HorseRacingRaceEntity[];
+        overseas: HorseRacingRaceEntity[];
         keirin: MechanicalRacingRaceEntity[];
         autorace: MechanicalRacingRaceEntity[];
         boatrace: MechanicalRacingRaceEntity[];
@@ -117,14 +117,14 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         const result: {
             jra: JraRaceEntity[];
             nar: HorseRacingRaceEntity[];
-            world: HorseRacingRaceEntity[];
+            overseas: HorseRacingRaceEntity[];
             keirin: MechanicalRacingRaceEntity[];
             autorace: MechanicalRacingRaceEntity[];
             boatrace: MechanicalRacingRaceEntity[];
         } = {
             jra: [],
             nar: [],
-            world: [],
+            overseas: [],
             keirin: [],
             autorace: [],
             boatrace: [],
@@ -177,12 +177,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 result.nar.push(...narRaceEntityList);
             }
             // WORLD
-            if (raceTypeList.includes(RaceType.WORLD)) {
+            if (raceTypeList.includes(RaceType.OVERSEAS)) {
                 const searchFilter =
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         startDate,
                         finishDate,
-                        RaceType.WORLD,
+                        RaceType.OVERSEAS,
                     );
                 const repo =
                     type === DataLocation.Storage
@@ -192,7 +192,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     repo,
                     searchFilter,
                 );
-                result.world.push(...worldRaceEntityList);
+                result.overseas.push(...worldRaceEntityList);
             }
             // KEIRIN
             if (
@@ -279,7 +279,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * @param raceEntityList
      * @param raceEntityList.jra
      * @param raceEntityList.nar
-     * @param raceEntityList.world
+     * @param raceEntityList.overseas
      * @param raceEntityList.keirin
      * @param raceEntityList.autorace
      * @param raceEntityList.boatrace
@@ -289,7 +289,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     public async updateRaceEntityList(raceEntityList: {
         jra?: JraRaceEntity[];
         nar?: HorseRacingRaceEntity[];
-        world?: HorseRacingRaceEntity[];
+        overseas?: HorseRacingRaceEntity[];
         keirin?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];
@@ -308,8 +308,8 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 ),
                 this.saveRaceEntities(
                     this.horseRacingRaceRepositoryFromStorage,
-                    RaceType.WORLD,
-                    raceEntityList.world,
+                    RaceType.OVERSEAS,
+                    raceEntityList.overseas,
                 ),
                 this.saveRaceEntities(
                     this.mechanicalRacingRaceRepositoryFromStorage,

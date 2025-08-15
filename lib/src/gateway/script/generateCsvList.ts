@@ -37,7 +37,7 @@ const createPlace = (raceType: RaceType): RaceCourse => {
         case RaceType.NAR: {
             return '大井';
         }
-        case RaceType.WORLD: {
+        case RaceType.OVERSEAS: {
             return 'ロンシャン';
         }
     }
@@ -60,7 +60,7 @@ const createGrade = (raceType: RaceType): string => {
         case RaceType.NAR: {
             return 'GⅠ';
         }
-        case RaceType.WORLD: {
+        case RaceType.OVERSEAS: {
             return 'GⅠ';
         }
     }
@@ -77,7 +77,7 @@ const createStage = (raceType: RaceType): string => {
         }
         case RaceType.JRA:
         case RaceType.NAR:
-        case RaceType.WORLD: {
+        case RaceType.OVERSEAS: {
             throw new Error(`Stage is not supported for ${raceType}`);
         }
     }

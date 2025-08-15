@@ -22,9 +22,9 @@ describe('getGoogleCalendarColorId', () => {
         const result = getGoogleCalendarColorId(RaceType.NAR, raceGrade);
         expect(result).toBe('8');
     });
-    it('WORLD: リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
+    it('OVERSEAS: リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
         const raceGrade: GradeType = 'GⅠ';
-        const result = getGoogleCalendarColorId(RaceType.WORLD, raceGrade);
+        const result = getGoogleCalendarColorId(RaceType.OVERSEAS, raceGrade);
         expect(result).toBe('9');
     });
     it('KEIRIN: リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {

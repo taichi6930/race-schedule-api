@@ -32,7 +32,7 @@ describe('RaceDataHtmlGateway', () => {
         },
         {
             descriptions: '海外競馬の開催レースデータ',
-            raceType: RaceType.WORLD,
+            raceType: RaceType.OVERSEAS,
             expectedUrl: `https://world.jra-van.jp/schedule/?year=2024&month=10`,
         },
         {

@@ -31,7 +31,7 @@ const GradeMasterList: {
             { raceType: RaceType.JRA, isSpecified: true },
             { raceType: RaceType.NAR, isSpecified: true },
             { raceType: RaceType.BOATRACE, isSpecified: false },
-            { raceType: RaceType.WORLD, isSpecified: true },
+            { raceType: RaceType.OVERSEAS, isSpecified: true },
             { raceType: RaceType.KEIRIN, isSpecified: true },
             { raceType: RaceType.AUTORACE, isSpecified: false },
         ],
@@ -42,7 +42,7 @@ const GradeMasterList: {
             { raceType: RaceType.JRA, isSpecified: true },
             { raceType: RaceType.NAR, isSpecified: true },
             { raceType: RaceType.BOATRACE, isSpecified: false },
-            { raceType: RaceType.WORLD, isSpecified: true },
+            { raceType: RaceType.OVERSEAS, isSpecified: true },
             { raceType: RaceType.KEIRIN, isSpecified: true },
             { raceType: RaceType.AUTORACE, isSpecified: false },
         ],
@@ -53,7 +53,7 @@ const GradeMasterList: {
             { raceType: RaceType.JRA, isSpecified: true },
             { raceType: RaceType.NAR, isSpecified: true },
             { raceType: RaceType.BOATRACE, isSpecified: false },
-            { raceType: RaceType.WORLD, isSpecified: true },
+            { raceType: RaceType.OVERSEAS, isSpecified: true },
             { raceType: RaceType.KEIRIN, isSpecified: true },
         ],
     },
@@ -103,7 +103,7 @@ const GradeMasterList: {
         detail: [
             { raceType: RaceType.JRA, isSpecified: true },
             { raceType: RaceType.NAR, isSpecified: true },
-            { raceType: RaceType.WORLD, isSpecified: true },
+            { raceType: RaceType.OVERSEAS, isSpecified: true },
         ],
     },
     {
@@ -144,7 +144,7 @@ const GradeMasterList: {
         detail: [
             { raceType: RaceType.JRA, isSpecified: false },
             { raceType: RaceType.NAR, isSpecified: false },
-            { raceType: RaceType.WORLD, isSpecified: true },
+            { raceType: RaceType.OVERSEAS, isSpecified: true },
         ],
     },
     {
@@ -254,7 +254,7 @@ export const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (
 export const GradeTypeSchema = z.union([
     createGradeSchema(RaceType.JRA),
     createGradeSchema(RaceType.NAR),
-    createGradeSchema(RaceType.WORLD),
+    createGradeSchema(RaceType.OVERSEAS),
     createGradeSchema(RaceType.KEIRIN),
     createGradeSchema(RaceType.AUTORACE),
     createGradeSchema(RaceType.BOATRACE),
