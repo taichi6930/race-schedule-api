@@ -10,27 +10,29 @@ import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gat
 import type { HorseRacingPlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
 import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { NarPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/narPlaceRepositoryFromStorageImpl';
+import { HorseRacingPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/horseRacingPlaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
-describe('NarPlaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<HorseRacingPlaceRecord>>;
+describe('HorseRacingPlaceRepositoryFromStorageImpl', () => {
+    let placeS3Gateway: jest.Mocked<IS3Gateway<HorseRacingPlaceRecord>>;
     let repository: IPlaceRepository<HorseRacingPlaceEntity>;
 
     const raceType: RaceType = RaceType.NAR;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3Gateway<HorseRacingPlaceRecord>();
+        placeS3Gateway = mockS3Gateway<HorseRacingPlaceRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('NarPlaceS3Gateway', s3Gateway);
+        container.registerInstance('NarPlaceS3Gateway', placeS3Gateway);
 
         // テスト対象のリポジトリを生成
-        repository = container.resolve(NarPlaceRepositoryFromStorageImpl);
+        repository = container.resolve(
+            HorseRacingPlaceRepositoryFromStorageImpl,
+        );
     });
 
     afterEach(() => {
@@ -39,14 +41,15 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
 
     describe('fetchPlaceList', () => {
         test('正しい開催場データを取得できる', async () => {
-            // モックの戻り値を設定
-            const csvFilePath = path.resolve(
-                __dirname,
-                '../../mock/repository/csv/nar/placeList.csv',
+            placeS3Gateway.fetchDataFromS3.mockResolvedValue(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname,
+                        '../../mock/repository/csv/nar/placeList.csv',
+                    ),
+                    'utf8',
+                ),
             );
-            const csvData = fs.readFileSync(csvFilePath, 'utf8');
-
-            s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
             // テスト実行
             const placeEntityList = await repository.fetchPlaceEntityList(
@@ -75,7 +78,7 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
             });
 
             // uploadDataToS3が1回呼ばれることを検証
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
+            expect(placeS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
 

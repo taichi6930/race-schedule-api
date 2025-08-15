@@ -12,7 +12,7 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
-export class NarPlaceRepositoryFromStorageImpl
+export class HorseRacingPlaceRepositoryFromStorageImpl
     implements IPlaceRepository<HorseRacingPlaceEntity>
 {
     // S3にアップロードするファイル名
@@ -20,7 +20,7 @@ export class NarPlaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('NarPlaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<HorseRacingPlaceRecord>,
+        private readonly placeS3Gateway: IS3Gateway<HorseRacingPlaceRecord>,
     ) {}
 
     /**
@@ -88,7 +88,7 @@ export class NarPlaceRepositoryFromStorageImpl
                 (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );
 
-            await this.s3Gateway.uploadDataToS3(
+            await this.placeS3Gateway.uploadDataToS3(
                 existFetchPlaceRecordList,
                 this.fileName,
             );
@@ -119,7 +119,7 @@ export class NarPlaceRepositoryFromStorageImpl
         raceType: RaceType,
     ): Promise<HorseRacingPlaceRecord[]> {
         // S3からデータを取得する
-        const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
+        const csv = await this.placeS3Gateway.fetchDataFromS3(this.fileName);
 
         // ファイルが空の場合は空のリストを返す
         if (!csv) {
