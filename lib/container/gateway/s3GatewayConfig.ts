@@ -305,14 +305,14 @@ container.register<IS3Gateway<HorseRacingRaceRecord>>('WorldRaceS3Gateway', {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket',
-                    'world/',
+                    'overseas/',
                 );
             }
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket-test',
-                    'world/',
+                    'overseas/',
                 );
             }
             case allowedEnvs.local:
@@ -321,7 +321,7 @@ container.register<IS3Gateway<HorseRacingRaceRecord>>('WorldRaceS3Gateway', {
             case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket',
-                    'world/',
+                    'overseas/',
                 );
             }
             default: {
