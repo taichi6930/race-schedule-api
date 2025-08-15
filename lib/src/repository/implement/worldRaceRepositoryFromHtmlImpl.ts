@@ -213,7 +213,7 @@ export class WorldRaceRepositoryFromHtmlImpl
 
                             const raceName = processWorldRaceName({
                                 name: rowRaceName,
-                                place: location,
+                                location,
                                 grade,
                                 date: raceDate,
                                 surfaceType,

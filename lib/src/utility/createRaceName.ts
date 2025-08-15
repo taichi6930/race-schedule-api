@@ -307,7 +307,7 @@ export const processNarRaceName = (
 
 interface WorldRaceDataForRaceName {
     name: RaceName;
-    place: RaceCourse;
+    location: RaceCourse;
     grade: GradeType;
     date: RaceDateTime;
     surfaceType: RaceCourseType;

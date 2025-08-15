@@ -8,7 +8,6 @@ import {
     type RaceId,
     validateRaceId,
 } from '../../utility/data/common/raceId';
-import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 
@@ -46,9 +45,7 @@ export class HorseRacingRaceEntity {
         updateDate: Date,
     ): HorseRacingRaceEntity {
         return new HorseRacingRaceEntity(
-            raceData.raceType === RaceType.OVERSEAS
-                ? id
-                : validateRaceId(raceData.raceType, id),
+            validateRaceId(raceData.raceType, id),
             raceData,
             conditionData,
             validateUpdateDate(updateDate),

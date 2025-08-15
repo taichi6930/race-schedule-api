@@ -35,7 +35,7 @@ runs:
           -H 'accept: application/json')
 
         # Initial GET Response Check
-        world_items=$(echo "$response" | jq 'if type=="object" and has("world") then .world else . end')
+        world_items=$(echo "$response" | jq 'if type=="object" and has("overseas") then .world else . end')
         if [[ "$world_items" != "[]" ]]; then
           echo "❌ Initial GET request failed. Expected [], but got $response"
           exit 1
@@ -49,7 +49,7 @@ runs:
           -d '{
                 "startDate": "2024-10-01",
                 "finishDate": "2024-11-01",
-                "raceType": ["world"]
+                "raceType": ["overseas"]
               }')
 
         # POST Response Check
@@ -64,7 +64,7 @@ runs:
           -H 'accept: application/json')
 
         # Final GET Response Check: 要素数が372個であることを確認
-        item_count=$(echo "$response" | jq 'if type=="object" and has("world") then .world | length else length end')
+        item_count=$(echo "$response" | jq 'if type=="object" and has("overseas") then .world | length else length end')
         if [[ "$item_count" -ne 372 ]]; then
           echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
           exit 1
@@ -81,7 +81,7 @@ runs:
           -H 'accept: application/json')
 
         # Initial GET Response Check
-        world_items=$(echo "$response" | jq 'if type=="object" and has("world") then .world else . end')
+        world_items=$(echo "$response" | jq 'if type=="object" and has("overseas") then .world else . end')
         if [[ "$world_items" != "[]" ]]; then
           echo "❌ Initial GET request failed. Expected [], but got $response"
           exit 1
@@ -95,7 +95,7 @@ runs:
           -d '{
                 "startDate": "2024-10-01",
                 "finishDate": "2024-11-01",
-                "raceType": ["world"]
+                "raceType": ["overseas"]
               }')
 
         # POST Response Check
@@ -110,7 +110,7 @@ runs:
           -H 'accept: application/json')
 
         # Final GET Response Check: 要素数が372個であることを確認
-        item_count=$(echo "$response" | jq 'if type=="object" and has("world") then .world | length else length end')
+        item_count=$(echo "$response" | jq 'if type=="object" and has("overseas") then .world | length else length end')
         if [[ "$item_count" -ne 372 ]]; then
           echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
           exit 1

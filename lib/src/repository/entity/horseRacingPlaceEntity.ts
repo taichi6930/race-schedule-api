@@ -39,7 +39,6 @@ export class HorseRacingPlaceEntity
         placeData: PlaceData,
         updateDate: Date,
     ): HorseRacingPlaceEntity {
-        console.log(id);
         return new HorseRacingPlaceEntity(
             validatePlaceId(placeData.raceType, id),
             placeData,
