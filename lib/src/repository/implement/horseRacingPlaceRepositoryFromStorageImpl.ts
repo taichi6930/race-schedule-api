@@ -20,7 +20,13 @@ export class PlaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('NarPlaceS3Gateway')
-        private readonly placeS3Gateway: IS3Gateway<HorseRacingPlaceRecord>,
+        private readonly placeS3GatewayForNar: IS3Gateway<HorseRacingPlaceRecord>,
+        @inject('KeirinPlaceS3Gateway')
+        private readonly placeS3GatewayForKeirin: IS3Gateway<HorseRacingPlaceRecord>,
+        @inject('AutoracePlaceS3Gateway')
+        private readonly placeS3GatewayForAutorace: IS3Gateway<HorseRacingPlaceRecord>,
+        @inject('BoatracePlaceS3Gateway')
+        private readonly placeS3GatewayForBoatrace: IS3Gateway<HorseRacingPlaceRecord>,
     ) {}
 
     /**
@@ -88,7 +94,8 @@ export class PlaceRepositoryFromStorageImpl
                 (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );
 
-            await this.placeS3Gateway.uploadDataToS3(
+            await this.uploadDataToS3(
+                raceType,
                 existFetchPlaceRecordList,
                 this.fileName,
             );
@@ -119,7 +126,7 @@ export class PlaceRepositoryFromStorageImpl
         raceType: RaceType,
     ): Promise<HorseRacingPlaceRecord[]> {
         // S3からデータを取得する
-        const csv = await this.placeS3Gateway.fetchDataFromS3(this.fileName);
+        const csv = await this.fetchDataFromS3(raceType, this.fileName);
 
         // ファイルが空の場合は空のリストを返す
         if (!csv) {
@@ -166,5 +173,72 @@ export class PlaceRepositoryFromStorageImpl
                 }
             });
         return placeRecordList;
+    }
+
+    @Logger
+    private async fetchDataFromS3(
+        raceType: RaceType,
+        fileName: string,
+    ): Promise<string> {
+        switch (raceType) {
+            case RaceType.NAR: {
+                return this.placeS3GatewayForNar.fetchDataFromS3(fileName);
+            }
+            case RaceType.KEIRIN: {
+                return this.placeS3GatewayForKeirin.fetchDataFromS3(fileName);
+            }
+            case RaceType.BOATRACE: {
+                return this.placeS3GatewayForBoatrace.fetchDataFromS3(fileName);
+            }
+            case RaceType.AUTORACE: {
+                return this.placeS3GatewayForAutorace.fetchDataFromS3(fileName);
+            }
+            case RaceType.JRA:
+            case RaceType.OVERSEAS: {
+                throw new Error('Unsupported race type');
+            }
+        }
+    }
+
+    @Logger
+    private async uploadDataToS3(
+        raceType: RaceType,
+        record: HorseRacingPlaceRecord[],
+        fileName: string,
+    ): Promise<void> {
+        switch (raceType) {
+            case RaceType.NAR: {
+                await this.placeS3GatewayForNar.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.KEIRIN: {
+                await this.placeS3GatewayForKeirin.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.BOATRACE: {
+                await this.placeS3GatewayForBoatrace.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.AUTORACE: {
+                await this.placeS3GatewayForAutorace.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.JRA:
+            case RaceType.OVERSEAS: {
+                throw new Error('Unsupported race type');
+            }
+        }
     }
 }
