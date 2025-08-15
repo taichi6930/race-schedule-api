@@ -22,6 +22,7 @@ import {
 } from '../../utility/data/common/raceName';
 import type { RaceNumber } from '../../utility/data/common/raceNumber';
 import { validateRaceNumber } from '../../utility/data/common/raceNumber';
+import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
@@ -97,8 +98,7 @@ export class HorseRacingRaceRecord implements IRecord<HorseRacingRaceRecord> {
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
-            console.error(error);
-            throw error;
+            throw new Error(createErrorMessage('RaceRecord', error));
         }
     }
 
