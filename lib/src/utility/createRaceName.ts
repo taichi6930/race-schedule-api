@@ -111,8 +111,8 @@ const isAmericanJockeyClubCup = (raceInfo: JraRaceDataForRaceName): boolean =>
  */
 const isFuchuHimbaStakes = (raceInfo: JraRaceDataForRaceName): boolean =>
     ['中山', '東京'].includes(raceInfo.place) &&
-    raceInfo.grade === 'GⅡ' &&
-    [10 - 1].includes(raceInfo.date.getMonth()) &&
+    ['GⅡ', 'GⅢ'].includes(raceInfo.grade) &&
+    [6 - 1, 10 - 1].includes(raceInfo.date.getMonth()) &&
     raceInfo.surfaceType === '芝' &&
     raceInfo.name.includes('府中牝馬');
 
