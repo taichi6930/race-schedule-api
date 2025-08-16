@@ -31,7 +31,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
         heldDayS3Gateway = mockS3Gateway<heldDayRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('JraPlaceS3Gateway', placeS3Gateway);
+        container.registerInstance('PlaceS3Gateway', placeS3Gateway);
         container.registerInstance('JraHeldDayS3Gateway', heldDayS3Gateway);
 
         // テスト対象のリポジトリを生成

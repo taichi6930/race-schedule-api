@@ -23,7 +23,7 @@ export class JraPlaceRepositoryFromStorageImpl
     private readonly heldDayFileName = 'heldDayList.csv';
 
     public constructor(
-        @inject('JraPlaceS3Gateway')
+        @inject('PlaceS3Gateway')
         private readonly placeS3Gateway: IS3Gateway<PlaceRecord>,
         @inject('JraHeldDayS3Gateway')
         private readonly heldDayS3Gateway: IS3Gateway<heldDayRecord>,

@@ -19,8 +19,8 @@ export class PlaceRepositoryFromStorageImpl
     private readonly fileName = 'placeList.csv';
 
     public constructor(
-        @inject('JraPlaceS3Gateway')
-        private readonly placeS3GatewayForJra: IS3Gateway<PlaceRecord>,
+        @inject('PlaceS3Gateway')
+        private readonly placeS3Gateway: IS3Gateway<PlaceRecord>,
         @inject('NarPlaceS3Gateway')
         private readonly placeS3GatewayForNar: IS3Gateway<PlaceRecord>,
         @inject('KeirinPlaceS3Gateway')
@@ -185,7 +185,7 @@ export class PlaceRepositoryFromStorageImpl
     ): Promise<string> {
         switch (raceType) {
             case RaceType.JRA: {
-                return this.placeS3GatewayForJra.fetchDataFromS3(
+                return this.placeS3Gateway.fetchDataFromS3(
                     `${raceType.toLowerCase()}/`,
                     fileName,
                 );
@@ -228,7 +228,7 @@ export class PlaceRepositoryFromStorageImpl
     ): Promise<void> {
         switch (raceType) {
             case RaceType.JRA: {
-                await this.placeS3GatewayForJra.uploadDataToS3(
+                await this.placeS3Gateway.uploadDataToS3(
                     record,
                     `${raceType.toLowerCase()}/`,
                     fileName,

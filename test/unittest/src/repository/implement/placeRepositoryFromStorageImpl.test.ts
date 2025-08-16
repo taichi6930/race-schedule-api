@@ -18,7 +18,7 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('PlaceRepositoryFromStorageImpl', () => {
-    let placeS3GatewayForJra: jest.Mocked<IS3Gateway<PlaceRecord>>;
+    let placeS3Gateway: jest.Mocked<IS3Gateway<PlaceRecord>>;
     let placeS3GatewayForNar: jest.Mocked<IS3Gateway<PlaceRecord>>;
     let placeS3GatewayForKeirin: jest.Mocked<IS3Gateway<PlaceRecord>>;
     let placeS3GatewayForAutorace: jest.Mocked<IS3Gateway<PlaceRecord>>;
@@ -27,14 +27,14 @@ describe('PlaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        placeS3GatewayForJra = mockS3Gateway<PlaceRecord>();
+        placeS3Gateway = mockS3Gateway<PlaceRecord>();
         placeS3GatewayForNar = mockS3Gateway<PlaceRecord>();
         placeS3GatewayForKeirin = mockS3Gateway<PlaceRecord>();
         placeS3GatewayForAutorace = mockS3Gateway<PlaceRecord>();
         placeS3GatewayForBoatrace = mockS3Gateway<PlaceRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('JraPlaceS3Gateway', placeS3GatewayForJra);
+        container.registerInstance('PlaceS3Gateway', placeS3Gateway);
         container.registerInstance('NarPlaceS3Gateway', placeS3GatewayForNar);
         container.registerInstance(
             'KeirinPlaceS3Gateway',
@@ -60,7 +60,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
     describe('fetchPlaceList', () => {
         test('正しい開催場データを取得できる', async () => {
             const fetchDataMocks = [
-                { gateway: placeS3GatewayForJra, raceType: RaceType.JRA },
+                { gateway: placeS3Gateway, raceType: RaceType.JRA },
                 { gateway: placeS3GatewayForNar, raceType: RaceType.NAR },
                 { gateway: placeS3GatewayForKeirin, raceType: RaceType.KEIRIN },
                 {
@@ -132,7 +132,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
 
             // uploadDataToS3が1回呼ばれることを検証（forでまとめる）
             const gateways = [
-                placeS3GatewayForJra,
+                placeS3Gateway,
                 placeS3GatewayForNar,
                 placeS3GatewayForKeirin,
                 placeS3GatewayForAutorace,

@@ -203,7 +203,7 @@ container.register<IS3Gateway<JraRaceRecord>>('JraRaceS3Gateway', {
         }
     },
 });
-container.register<IS3Gateway<PlaceRecord>>('JraPlaceS3Gateway', {
+container.register<IS3Gateway<PlaceRecord>>('PlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
