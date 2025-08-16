@@ -79,7 +79,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     ): Promise<void> {
         try {
             const csvContent = this.convertToCsv(data);
-            const key = `${this.folderPath}${fileName}`;
+            const key = `${bucketName}${fileName}`;
             MockS3Gateway.mockStorage.set(key, csvContent);
         } catch (error) {
             console.debug(error);
@@ -96,7 +96,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
         bucketName: string | undefined,
         fileName: string,
     ): Promise<string> {
-        const key = `${this.folderPath}${fileName}`;
+        const key = `${bucketName}${fileName}`;
         const data = MockS3Gateway.mockStorage.get(key);
         if (!data) {
             console.warn(`モックのファイルが存在しません: ${key}`);
@@ -608,8 +608,14 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     @Logger
     private async setAutoracePlaceMockData() {
-        const fileName = `autorace/gradeList.csv`;
-        const mockDataHeader = ['id', 'raceType', 'grade'].join(',');
+        const fileName = `autorace/placeList.csv`;
+        const mockDataHeader = [
+            'id',
+            'raceType',
+            'dateTime',
+            'location',
+            'grade',
+        ].join(',');
         const mockData = [mockDataHeader];
         for (
             let year = 2001;
@@ -632,6 +638,8 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                                 '飯塚',
                             ),
                             RaceType.AUTORACE,
+                            format(currentDate, 'yyyy-MM-dd'),
+                            '飯塚',
                             'SG',
                         ].join(','),
                     );
