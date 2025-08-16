@@ -232,7 +232,7 @@ export class HorseRacingRaceRepositoryFromStorageImpl
             case RaceType.NAR: {
                 await this.raceS3GatewayForNar.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;
@@ -240,7 +240,7 @@ export class HorseRacingRaceRepositoryFromStorageImpl
             case RaceType.OVERSEAS: {
                 await this.raceS3GatewayForOverseas.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;

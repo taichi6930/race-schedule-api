@@ -378,7 +378,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.KEIRIN: {
                 await this.raceS3GatewayForKeirin.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;
@@ -386,7 +386,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.BOATRACE: {
                 await this.raceS3GatewayForBoatrace.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;
@@ -394,7 +394,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.AUTORACE: {
                 await this.raceS3GatewayForAutorace.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;
@@ -449,7 +449,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.KEIRIN: {
                 await this.racePlayerS3GatewayForKeirin.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;
@@ -457,7 +457,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.BOATRACE: {
                 await this.racePlayerS3GatewayForBoatrace.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;
@@ -465,7 +465,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.AUTORACE: {
                 await this.racePlayerS3GatewayForAutorace.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;

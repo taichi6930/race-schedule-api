@@ -58,7 +58,7 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     @Logger
     public async uploadDataToS3(
         data: T[],
-        bucketName: string | undefined,
+        bucketName: string,
         fileName: string,
     ): Promise<void> {
         try {
@@ -85,7 +85,7 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
             const fileContent = fs.readFileSync(`/tmp/${fileName}`);
             const params = {
-                Bucket: bucketName ?? this.bucketName,
+                Bucket: bucketName,
                 Key: `${this.folderPath}${fileName}`,
                 Body: fileContent,
             };

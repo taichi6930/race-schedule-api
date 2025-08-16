@@ -73,7 +73,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     @Logger
     public async uploadDataToS3(
         data: IRecord<T>[],
-        bucketName: string | undefined,
+        bucketName: string,
         fileName: string,
     ): Promise<void> {
         try {

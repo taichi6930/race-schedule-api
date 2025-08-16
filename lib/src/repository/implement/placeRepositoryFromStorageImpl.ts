@@ -230,7 +230,7 @@ export class PlaceRepositoryFromStorageImpl
             case RaceType.JRA: {
                 await this.placeS3GatewayForJra.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;
@@ -238,7 +238,7 @@ export class PlaceRepositoryFromStorageImpl
             case RaceType.NAR: {
                 await this.placeS3GatewayForNar.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;
@@ -246,7 +246,7 @@ export class PlaceRepositoryFromStorageImpl
             case RaceType.KEIRIN: {
                 await this.placeS3GatewayForKeirin.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;
@@ -254,7 +254,7 @@ export class PlaceRepositoryFromStorageImpl
             case RaceType.BOATRACE: {
                 await this.placeS3GatewayForBoatrace.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;
@@ -262,7 +262,7 @@ export class PlaceRepositoryFromStorageImpl
             case RaceType.AUTORACE: {
                 await this.placeS3GatewayForAutorace.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;

@@ -39,7 +39,7 @@ export interface IS3Gateway<T extends IRecord<T>> {
      */
     uploadDataToS3: (
         data: T[],
-        bucketName: string | undefined,
+        bucketName: string,
         fileName: string,
     ) => Promise<void>;
     /**

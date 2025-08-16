@@ -218,7 +218,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
             case RaceType.KEIRIN: {
                 await this.s3GatewayForKeirin.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;
@@ -226,7 +226,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
             case RaceType.BOATRACE: {
                 await this.s3GatewayForBoatrace.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;
@@ -234,7 +234,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
             case RaceType.AUTORACE: {
                 await this.s3GatewayForAutorace.uploadDataToS3(
                     record,
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
                 break;

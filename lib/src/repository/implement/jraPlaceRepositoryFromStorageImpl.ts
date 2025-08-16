@@ -139,7 +139,7 @@ export class JraPlaceRepositoryFromStorageImpl
 
             await this.placeS3Gateway.uploadDataToS3(
                 existFetchPlaceRecordList,
-                undefined,
+                `${raceType.toLowerCase()}/`,
                 this.placeFileName,
             );
 
@@ -177,7 +177,7 @@ export class JraPlaceRepositoryFromStorageImpl
 
             await this.heldDayS3Gateway.uploadDataToS3(
                 existFetchHeldDayRecordList,
-                undefined,
+                `${raceType.toLowerCase()}/`,
                 this.heldDayFileName,
             );
             return {

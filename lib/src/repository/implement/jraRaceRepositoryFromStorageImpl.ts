@@ -168,7 +168,7 @@ export class JraRaceRepositoryFromStorageImpl
 
             await this.s3Gateway.uploadDataToS3(
                 existFetchRaceRecordList,
-                undefined,
+                `${raceType.toLowerCase()}/`,
                 this.fileName,
             );
 
