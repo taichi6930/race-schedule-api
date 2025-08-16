@@ -6,7 +6,7 @@ import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { heldDayRecord } from '../../gateway/record/heldDayRecord';
-import { PlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';

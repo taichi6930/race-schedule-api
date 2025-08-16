@@ -9,7 +9,7 @@ import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import type { heldDayRecord } from '../../../../../lib/src/gateway/record/heldDayRecord';
-import type { PlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
+import type { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromStorageImpl';

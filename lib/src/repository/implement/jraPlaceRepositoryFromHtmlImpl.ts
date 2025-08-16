@@ -5,7 +5,7 @@ import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { heldDayRecord } from '../../gateway/record/heldDayRecord';
-import { PlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { generatePlaceId } from '../../utility/data/common/placeId';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';

@@ -4,11 +4,11 @@ import { S3Gateway } from '../../src/gateway/implement/s3Gateway';
 import type { IS3Gateway } from '../../src/gateway/interface/iS3Gateway';
 import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
 import type { heldDayRecord } from '../../src/gateway/record/heldDayRecord';
-import type { PlaceRecord } from '../../src/gateway/record/horseRacingPlaceRecord';
 import type { HorseRacingRaceRecord } from '../../src/gateway/record/horseRacingRaceRecord';
 import type { JraRaceRecord } from '../../src/gateway/record/jraRaceRecord';
 import type { MechanicalRacingPlaceRecord } from '../../src/gateway/record/mechanicalRacingPlaceRecord';
 import type { MechanicalRacingRaceRecord } from '../../src/gateway/record/mechanicalRacingRaceRecord';
+import type { PlaceRecord } from '../../src/gateway/record/placeRecord';
 import type { RacePlayerRecord } from '../../src/gateway/record/racePlayerRecord';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 

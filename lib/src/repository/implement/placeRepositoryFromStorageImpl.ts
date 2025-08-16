@@ -3,7 +3,7 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { PlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
