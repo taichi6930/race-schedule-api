@@ -110,10 +110,10 @@ describe('PublicGamblingCalendarService', () => {
                 baseKeirinCalendarData,
             ]);
             expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
-                baseBoatraceCalendarData,
+                baseAutoraceCalendarData,
             ]);
             expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
-                baseAutoraceCalendarData,
+                baseBoatraceCalendarData,
             ]);
         });
 
@@ -146,9 +146,11 @@ describe('PublicGamblingCalendarService', () => {
                 jra: baseJraRaceEntityList,
                 nar: baseNarRaceEntityList,
                 overseas: baseOverseasRaceEntityList,
-                keirin: baseKeirinRaceEntityList,
-                boatrace: baseBoatraceRaceEntityList,
-                autorace: baseAutoraceRaceEntityList,
+                mechanicalRacing: [
+                    ...baseKeirinRaceEntityList,
+                    ...baseBoatraceRaceEntityList,
+                    ...baseAutoraceRaceEntityList,
+                ],
             });
 
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
@@ -160,37 +162,11 @@ describe('PublicGamblingCalendarService', () => {
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
                 baseOverseasRaceEntityList,
             );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                baseKeirinRaceEntityList,
-            );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                baseBoatraceRaceEntityList,
-            );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                baseAutoraceRaceEntityList,
-            );
-        });
-
-        it('更新対象のイベントが見つからない場合、更新処理が行われないこと', async () => {
-            const consoleSpy = jest
-                .spyOn(console, 'debug')
-                .mockImplementation();
-
-            await service.upsertEvents({
-                jra: [],
-                nar: [],
-                overseas: [],
-                keirin: [],
-                boatrace: [],
-                autorace: [],
-            });
-
-            expect(consoleSpy).toHaveBeenCalledWith(
-                '更新対象のイベントが見つかりませんでした。',
-            );
-            expect(calendarRepository.upsertEvents).not.toHaveBeenCalled();
-
-            consoleSpy.mockRestore();
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith([
+                ...baseKeirinRaceEntityList,
+                ...baseBoatraceRaceEntityList,
+                ...baseAutoraceRaceEntityList,
+            ]);
         });
     });
 });

@@ -259,9 +259,11 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             jra: upsertRaceEntityList.jra,
             nar: upsertRaceEntityList.nar,
             overseas: upsertRaceEntityList.overseas,
-            keirin: upsertRaceEntityList.keirin,
-            autorace: upsertRaceEntityList.autorace,
-            boatrace: upsertRaceEntityList.boatrace,
+            mechanicalRacing: [
+                ...upsertRaceEntityList.keirin,
+                ...upsertRaceEntityList.autorace,
+                ...upsertRaceEntityList.boatrace,
+            ],
         });
     }
 

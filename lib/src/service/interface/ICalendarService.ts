@@ -34,20 +34,14 @@ export interface ICalendarService {
      * @param raceEntityList - 登録・更新するレースエンティティの配列
      * @param raceEntityList.jra
      * @param raceEntityList.nar
-     * @param raceEntityList.keirin
-     * @param raceEntityList.overseas
-     * @param raceEntityList.boatrace
-     * @param raceEntityList.autorace
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     upsertEvents: (raceEntityList: {
-        jra?: JraRaceEntity[];
-        nar?: HorseRacingRaceEntity[];
-        keirin?: MechanicalRacingRaceEntity[];
-        overseas?: HorseRacingRaceEntity[];
-        boatrace?: MechanicalRacingRaceEntity[];
-        autorace?: MechanicalRacingRaceEntity[];
+        jra: JraRaceEntity[];
+        nar: HorseRacingRaceEntity[];
+        overseas: HorseRacingRaceEntity[];
+        mechanicalRacing: MechanicalRacingRaceEntity[];
     }) => Promise<void>;
 
     /**

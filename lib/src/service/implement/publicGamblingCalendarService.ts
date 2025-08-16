@@ -82,63 +82,24 @@ export class PublicGamblingCalendarService implements ICalendarService {
      * @param raceEntityList - 登録・更新するレースエンティティの配列
      * @param raceEntityList.jra
      * @param raceEntityList.nar
-     * @param raceEntityList.keirin
      * @param raceEntityList.overseas
-     * @param raceEntityList.boatrace
-     * @param raceEntityList.autorace
+     * @param raceEntityList.mechanicalRacing
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     @Logger
     public async upsertEvents(raceEntityList: {
-        jra?: JraRaceEntity[];
-        nar?: HorseRacingRaceEntity[];
-        overseas?: HorseRacingRaceEntity[];
-        keirin?: MechanicalRacingRaceEntity[];
-        boatrace?: MechanicalRacingRaceEntity[];
-        autorace?: MechanicalRacingRaceEntity[];
+        jra: JraRaceEntity[];
+        nar: HorseRacingRaceEntity[];
+        overseas: HorseRacingRaceEntity[];
+        mechanicalRacing: MechanicalRacingRaceEntity[];
     }): Promise<void> {
-        if (
-            raceEntityList.jra?.length === 0 &&
-            raceEntityList.nar?.length === 0 &&
-            raceEntityList.keirin?.length === 0 &&
-            raceEntityList.overseas?.length === 0 &&
-            raceEntityList.boatrace?.length === 0 &&
-            raceEntityList.autorace?.length === 0
-        ) {
-            console.debug('更新対象のイベントが見つかりませんでした。');
-            return;
-        }
-        if (raceEntityList.jra !== undefined && raceEntityList.jra.length > 0) {
-            await this.calendarRepository.upsertEvents(raceEntityList.jra);
-        }
-        if (raceEntityList.nar !== undefined && raceEntityList.nar.length > 0) {
-            await this.calendarRepository.upsertEvents(raceEntityList.nar);
-        }
-        if (
-            raceEntityList.keirin !== undefined &&
-            raceEntityList.keirin.length > 0
-        ) {
-            await this.calendarRepository.upsertEvents(raceEntityList.keirin);
-        }
-        if (
-            raceEntityList.overseas !== undefined &&
-            raceEntityList.overseas.length > 0
-        ) {
-            await this.calendarRepository.upsertEvents(raceEntityList.overseas);
-        }
-        if (
-            raceEntityList.boatrace !== undefined &&
-            raceEntityList.boatrace.length > 0
-        ) {
-            await this.calendarRepository.upsertEvents(raceEntityList.boatrace);
-        }
-        if (
-            raceEntityList.autorace !== undefined &&
-            raceEntityList.autorace.length > 0
-        ) {
-            await this.calendarRepository.upsertEvents(raceEntityList.autorace);
-        }
+        await this.calendarRepository.upsertEvents(raceEntityList.jra);
+        await this.calendarRepository.upsertEvents(raceEntityList.nar);
+        await this.calendarRepository.upsertEvents(raceEntityList.overseas);
+        await this.calendarRepository.upsertEvents(
+            raceEntityList.mechanicalRacing,
+        );
     }
 
     /**
@@ -186,13 +147,14 @@ export class PublicGamblingCalendarService implements ICalendarService {
         if (calendarDataList.nar && calendarDataList.nar.length > 0) {
             await this.calendarRepository.deleteEvents(calendarDataList.nar);
         }
-        if (calendarDataList.keirin && calendarDataList.keirin.length > 0) {
-            await this.calendarRepository.deleteEvents(calendarDataList.keirin);
-        }
+
         if (calendarDataList.overseas && calendarDataList.overseas.length > 0) {
             await this.calendarRepository.deleteEvents(
                 calendarDataList.overseas,
             );
+        }
+        if (calendarDataList.keirin && calendarDataList.keirin.length > 0) {
+            await this.calendarRepository.deleteEvents(calendarDataList.keirin);
         }
         if (calendarDataList.boatrace && calendarDataList.boatrace.length > 0) {
             await this.calendarRepository.deleteEvents(
