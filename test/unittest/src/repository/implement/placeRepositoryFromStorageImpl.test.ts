@@ -7,7 +7,7 @@ import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { PlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
+import type { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorageImpl';
@@ -18,36 +18,15 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('PlaceRepositoryFromStorageImpl', () => {
-    let placeS3GatewayForJra: jest.Mocked<IS3Gateway<PlaceRecord>>;
-    let placeS3GatewayForNar: jest.Mocked<IS3Gateway<PlaceRecord>>;
-    let placeS3GatewayForKeirin: jest.Mocked<IS3Gateway<PlaceRecord>>;
-    let placeS3GatewayForAutorace: jest.Mocked<IS3Gateway<PlaceRecord>>;
-    let placeS3GatewayForBoatrace: jest.Mocked<IS3Gateway<PlaceRecord>>;
+    let placeS3Gateway: jest.Mocked<IS3Gateway<PlaceRecord>>;
     let repository: IPlaceRepository<HorseRacingPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        placeS3GatewayForJra = mockS3Gateway<PlaceRecord>();
-        placeS3GatewayForNar = mockS3Gateway<PlaceRecord>();
-        placeS3GatewayForKeirin = mockS3Gateway<PlaceRecord>();
-        placeS3GatewayForAutorace = mockS3Gateway<PlaceRecord>();
-        placeS3GatewayForBoatrace = mockS3Gateway<PlaceRecord>();
+        placeS3Gateway = mockS3Gateway<PlaceRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('JraPlaceS3Gateway', placeS3GatewayForJra);
-        container.registerInstance('NarPlaceS3Gateway', placeS3GatewayForNar);
-        container.registerInstance(
-            'KeirinPlaceS3Gateway',
-            placeS3GatewayForKeirin,
-        );
-        container.registerInstance(
-            'AutoracePlaceS3Gateway',
-            placeS3GatewayForAutorace,
-        );
-        container.registerInstance(
-            'BoatracePlaceS3Gateway',
-            placeS3GatewayForBoatrace,
-        );
+        container.registerInstance('PlaceS3Gateway', placeS3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(PlaceRepositoryFromStorageImpl);
@@ -59,30 +38,18 @@ describe('PlaceRepositoryFromStorageImpl', () => {
 
     describe('fetchPlaceList', () => {
         test('正しい開催場データを取得できる', async () => {
-            const fetchDataMocks = [
-                { gateway: placeS3GatewayForJra, raceType: RaceType.JRA },
-                { gateway: placeS3GatewayForNar, raceType: RaceType.NAR },
-                { gateway: placeS3GatewayForKeirin, raceType: RaceType.KEIRIN },
-                {
-                    gateway: placeS3GatewayForAutorace,
-                    raceType: RaceType.AUTORACE,
-                },
-                {
-                    gateway: placeS3GatewayForBoatrace,
-                    raceType: RaceType.BOATRACE,
-                },
-            ];
-            for (const { gateway, raceType } of fetchDataMocks) {
-                gateway.fetchDataFromS3.mockResolvedValue(
-                    fs.readFileSync(
+            // モックの戻り値を設定
+            placeS3Gateway.fetchDataFromS3.mockImplementation(
+                async (bucketName, fileName) => {
+                    return fs.readFileSync(
                         path.resolve(
                             __dirname,
-                            `../../mock/repository/csv/${raceType.toLowerCase()}/placeList.csv`,
+                            `../../mock/repository/csv/${bucketName}${fileName}`,
                         ),
                         'utf8',
-                    ),
-                );
-            }
+                    );
+                },
+            );
 
             // テスト実行
             for (const raceType of [
@@ -130,17 +97,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
                 });
             }
 
-            // uploadDataToS3が1回呼ばれることを検証（forでまとめる）
-            const gateways = [
-                placeS3GatewayForJra,
-                placeS3GatewayForNar,
-                placeS3GatewayForKeirin,
-                placeS3GatewayForAutorace,
-                placeS3GatewayForBoatrace,
-            ];
-            for (const gateway of gateways) {
-                expect(gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
-            }
+            expect(placeS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(5);
         });
     });
 

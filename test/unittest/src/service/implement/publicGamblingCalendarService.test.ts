@@ -88,61 +88,23 @@ describe('PublicGamblingCalendarService', () => {
 
     describe('deleteEvents', () => {
         it('カレンダーのイベントの削除が正常に行われること', async () => {
-            await service.deleteEvents({
-                jra: [baseJraCalendarData],
-                nar: [baseNarCalendarData],
-                overseas: [baseOverseasCalendarData],
-                keirin: [baseKeirinCalendarData],
-                boatrace: [baseBoatraceCalendarData],
-                autorace: [baseAutoraceCalendarData],
-            });
+            await service.deleteEvents([
+                baseJraCalendarData,
+                baseNarCalendarData,
+                baseOverseasCalendarData,
+                baseKeirinCalendarData,
+                baseBoatraceCalendarData,
+                baseAutoraceCalendarData,
+            ]);
 
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.JRA,
-                [baseJraCalendarData],
-            );
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.NAR,
-                [baseNarCalendarData],
-            );
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.OVERSEAS,
-                [baseOverseasCalendarData],
-            );
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.KEIRIN,
-                [baseKeirinCalendarData],
-            );
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.BOATRACE,
-                [baseBoatraceCalendarData],
-            );
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.AUTORACE,
-                [baseAutoraceCalendarData],
-            );
-        });
-
-        it('削除対象のイベントが見つからない場合、削除処理が行われないこと', async () => {
-            const consoleSpy = jest
-                .spyOn(console, 'debug')
-                .mockImplementation();
-
-            await service.deleteEvents({
-                jra: [],
-                nar: [],
-                overseas: [],
-                keirin: [],
-                boatrace: [],
-                autorace: [],
-            });
-
-            expect(consoleSpy).toHaveBeenCalledWith(
-                '削除対象のイベントが見つかりませんでした。',
-            );
-            expect(calendarRepository.deleteEvents).not.toHaveBeenCalled();
-
-            consoleSpy.mockRestore();
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
+                baseJraCalendarData,
+                baseNarCalendarData,
+                baseOverseasCalendarData,
+                baseKeirinCalendarData,
+                baseBoatraceCalendarData,
+                baseAutoraceCalendarData,
+            ]);
         });
     });
 
@@ -152,57 +114,27 @@ describe('PublicGamblingCalendarService', () => {
                 jra: baseJraRaceEntityList,
                 nar: baseNarRaceEntityList,
                 overseas: baseOverseasRaceEntityList,
-                keirin: baseKeirinRaceEntityList,
-                boatrace: baseBoatraceRaceEntityList,
-                autorace: baseAutoraceRaceEntityList,
+                mechanicalRacing: [
+                    ...baseKeirinRaceEntityList,
+                    ...baseBoatraceRaceEntityList,
+                    ...baseAutoraceRaceEntityList,
+                ],
             });
 
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.JRA,
                 baseJraRaceEntityList,
             );
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.NAR,
                 baseNarRaceEntityList,
             );
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.OVERSEAS,
                 baseOverseasRaceEntityList,
             );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.KEIRIN,
-                baseKeirinRaceEntityList,
-            );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.BOATRACE,
-                baseBoatraceRaceEntityList,
-            );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.AUTORACE,
-                baseAutoraceRaceEntityList,
-            );
-        });
-
-        it('更新対象のイベントが見つからない場合、更新処理が行われないこと', async () => {
-            const consoleSpy = jest
-                .spyOn(console, 'debug')
-                .mockImplementation();
-
-            await service.upsertEvents({
-                jra: [],
-                nar: [],
-                overseas: [],
-                keirin: [],
-                boatrace: [],
-                autorace: [],
-            });
-
-            expect(consoleSpy).toHaveBeenCalledWith(
-                '更新対象のイベントが見つかりませんでした。',
-            );
-            expect(calendarRepository.upsertEvents).not.toHaveBeenCalled();
-
-            consoleSpy.mockRestore();
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith([
+                ...baseKeirinRaceEntityList,
+                ...baseBoatraceRaceEntityList,
+                ...baseAutoraceRaceEntityList,
+            ]);
         });
     });
 });

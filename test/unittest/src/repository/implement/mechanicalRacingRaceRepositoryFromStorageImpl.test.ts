@@ -24,20 +24,10 @@ import { baseBoatraceRacePlayerDataList } from '../../mock/common/baseBoatraceDa
 import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 
 describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
-    let raceS3GatewayForKeirin: jest.Mocked<
+    let mechanicalRacingRaceS3Gateway: jest.Mocked<
         IS3Gateway<MechanicalRacingRaceRecord>
     >;
-    let racePlayerS3GatewayForKeirin: jest.Mocked<IS3Gateway<RacePlayerRecord>>;
-    let raceS3GatewayForAutorace: jest.Mocked<
-        IS3Gateway<MechanicalRacingRaceRecord>
-    >;
-    let racePlayerS3GatewayForAutorace: jest.Mocked<
-        IS3Gateway<RacePlayerRecord>
-    >;
-    let raceS3GatewayForBoatrace: jest.Mocked<
-        IS3Gateway<MechanicalRacingRaceRecord>
-    >;
-    let racePlayerS3GatewayForBoatrace: jest.Mocked<
+    let mechanicalRacingRacePlayerS3Gateway: jest.Mocked<
         IS3Gateway<RacePlayerRecord>
     >;
     let repository: IRaceRepository<
@@ -48,12 +38,8 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({
-            raceS3GatewayForKeirin,
-            racePlayerS3GatewayForKeirin,
-            raceS3GatewayForAutorace,
-            racePlayerS3GatewayForAutorace,
-            raceS3GatewayForBoatrace,
-            racePlayerS3GatewayForBoatrace,
+            mechanicalRacingRaceS3Gateway,
+            mechanicalRacingRacePlayerS3Gateway,
         } = setup);
 
         // テスト対象のリポジトリを生成
@@ -69,61 +55,29 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('レース開催データを正常に取得できる', async () => {
             // モックの戻り値を設定
-            raceS3GatewayForKeirin.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/keirin/raceList.csv',
-                    ),
-                    'utf8',
-                ),
-            );
-            raceS3GatewayForAutorace.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/autorace/raceList.csv',
-                    ),
-                    'utf8',
-                ),
-            );
-            raceS3GatewayForBoatrace.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/boatrace/raceList.csv',
-                    ),
-                    'utf8',
-                ),
+            mechanicalRacingRaceS3Gateway.fetchDataFromS3.mockImplementation(
+                async (bucketName, fileName) => {
+                    return fs.readFileSync(
+                        path.resolve(
+                            __dirname,
+                            `../../mock/repository/csv/${bucketName}${fileName}`,
+                        ),
+                        'utf8',
+                    );
+                },
             );
 
             // モックの戻り値を設定
-            racePlayerS3GatewayForKeirin.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/keirin/racePlayerList.csv',
-                    ),
-                    'utf8',
-                ),
-            );
-            racePlayerS3GatewayForAutorace.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/autorace/racePlayerList.csv',
-                    ),
-                    'utf8',
-                ),
-            );
-            racePlayerS3GatewayForBoatrace.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/boatrace/racePlayerList.csv',
-                    ),
-                    'utf8',
-                ),
+            mechanicalRacingRacePlayerS3Gateway.fetchDataFromS3.mockImplementation(
+                async (bucketName, fileName) => {
+                    return fs.readFileSync(
+                        path.resolve(
+                            __dirname,
+                            `../../mock/repository/csv/${bucketName}${fileName}`,
+                        ),
+                        'utf8',
+                    );
+                },
             );
 
             // テスト実行
@@ -154,7 +108,6 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                 grade,
                 stage,
                 racePlayerDataList,
-                raceS3Gateway,
             } of [
                 {
                     raceType: RaceType.KEIRIN,
@@ -162,7 +115,6 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                     grade: 'GⅠ',
                     stage: 'S級決勝',
                     racePlayerDataList: baseKeirinRacePlayerDataList,
-                    raceS3Gateway: raceS3GatewayForKeirin,
                 },
                 {
                     raceType: RaceType.AUTORACE,
@@ -170,7 +122,6 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                     grade: 'GⅠ',
                     stage: '優勝戦',
                     racePlayerDataList: baseAutoraceRacePlayerDataList,
-                    raceS3Gateway: raceS3GatewayForAutorace,
                 },
                 {
                     raceType: RaceType.BOATRACE,
@@ -178,7 +129,6 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                     grade: 'GⅠ',
                     stage: '優勝戦',
                     racePlayerDataList: baseBoatraceRacePlayerDataList,
-                    raceS3Gateway: raceS3GatewayForBoatrace,
                 },
             ]) {
                 // 1年間のレース開催データを登録する
@@ -210,31 +160,21 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                     raceType,
                     raceEntityList,
                 );
-
-                // uploadDataToS3が1回呼ばれることを検証
-                expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
             }
+            expect(
+                mechanicalRacingRaceS3Gateway.uploadDataToS3,
+            ).toHaveBeenCalledTimes(3);
         });
     });
 
     test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
-        for (const {
-            raceType,
-            location,
-            grade,
-            stage,
-            racePlayerDataList,
-            raceS3Gateway,
-            racePlayerS3Gateway,
-        } of [
+        for (const { raceType, location, grade, stage, racePlayerDataList } of [
             {
                 raceType: RaceType.KEIRIN,
                 location: '立川',
                 grade: 'GⅠ',
                 stage: 'S級決勝',
                 racePlayerDataList: baseKeirinRacePlayerDataList,
-                raceS3Gateway: raceS3GatewayForKeirin,
-                racePlayerS3Gateway: racePlayerS3GatewayForKeirin,
             },
             {
                 raceType: RaceType.AUTORACE,
@@ -242,8 +182,6 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                 grade: 'GⅠ',
                 stage: '優勝戦',
                 racePlayerDataList: baseAutoraceRacePlayerDataList,
-                raceS3Gateway: raceS3GatewayForAutorace,
-                racePlayerS3Gateway: racePlayerS3GatewayForAutorace,
             },
             {
                 raceType: RaceType.BOATRACE,
@@ -251,8 +189,6 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                 grade: 'GⅠ',
                 stage: '優勝戦',
                 racePlayerDataList: baseBoatraceRacePlayerDataList,
-                raceS3Gateway: raceS3GatewayForBoatrace,
-                racePlayerS3Gateway: racePlayerS3GatewayForBoatrace,
             },
         ]) {
             // 1年間のレース開催データを登録する
@@ -280,7 +216,7 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
             ).flat();
 
             // モックの戻り値を設定
-            raceS3Gateway.fetchDataFromS3.mockResolvedValue(
+            mechanicalRacingRaceS3Gateway.fetchDataFromS3.mockResolvedValue(
                 fs.readFileSync(
                     path.resolve(
                         __dirname,
@@ -291,7 +227,7 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
             );
 
             // モックの戻り値を設定
-            racePlayerS3Gateway.fetchDataFromS3.mockResolvedValue(
+            mechanicalRacingRacePlayerS3Gateway.fetchDataFromS3.mockResolvedValue(
                 fs.readFileSync(
                     path.resolve(
                         __dirname,
@@ -303,9 +239,12 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
 
             // テスト実行
             await repository.registerRaceEntityList(raceType, raceEntityList);
-
-            // uploadDataToS3が1回呼ばれることを検証
-            expect(racePlayerS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         }
+        expect(
+            mechanicalRacingRaceS3Gateway.uploadDataToS3,
+        ).toHaveBeenCalledTimes(3);
+        expect(
+            mechanicalRacingRacePlayerS3Gateway.uploadDataToS3,
+        ).toHaveBeenCalledTimes(3);
     });
 });

@@ -21,8 +21,7 @@ import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
-    let raceS3GatewayForNar: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
-    let raceS3GatewayForOverseas: jest.Mocked<
+    let horseRacingRaceS3Gateway: jest.Mocked<
         IS3Gateway<HorseRacingRaceRecord>
     >;
     let repository: IRaceRepository<
@@ -32,7 +31,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
-        ({ raceS3GatewayForNar, raceS3GatewayForOverseas } = setup);
+        ({ horseRacingRaceS3Gateway } = setup);
         // テスト対象のリポジトリを生成
         repository = container.resolve(
             HorseRacingRaceRepositoryFromStorageImpl,
@@ -46,25 +45,17 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('レース開催データを正常に取得できる', async () => {
             // モックの戻り値を設定
-            raceS3GatewayForNar.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/nar/raceList.csv',
-                    ),
-                    'utf8',
-                ),
+            horseRacingRaceS3Gateway.fetchDataFromS3.mockImplementation(
+                async (bucketName, fileName) => {
+                    return fs.readFileSync(
+                        path.resolve(
+                            __dirname,
+                            `../../mock/repository/csv/${bucketName}${fileName}`,
+                        ),
+                        'utf8',
+                    );
+                },
             );
-            raceS3GatewayForOverseas.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/overseas/raceList.csv',
-                    ),
-                    'utf8',
-                ),
-            );
-
             // テスト実行
             for (const raceType of [RaceType.NAR, RaceType.OVERSEAS]) {
                 const raceEntityList = await repository.fetchRaceEntityList(
@@ -83,18 +74,16 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
 
     describe('registerRaceList', () => {
         test('DBが空データのところに、正しいレース開催データを登録できる', async () => {
-            for (const { raceType, location, grade, raceS3Gateway } of [
+            for (const { raceType, location, grade } of [
                 {
                     raceType: RaceType.NAR,
                     location: '大井',
                     grade: 'GⅠ',
-                    raceS3Gateway: raceS3GatewayForNar,
                 },
                 {
                     raceType: RaceType.OVERSEAS,
                     location: 'ベルモントパーク',
                     grade: 'GⅠ',
-                    raceS3Gateway: raceS3GatewayForOverseas,
                 },
             ]) {
                 // 1年間のレース開催データを登録する
@@ -119,73 +108,73 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                         );
                     },
                 ).flat();
-
                 // テスト実行
                 await repository.registerRaceEntityList(
                     raceType,
                     raceEntityList,
                 );
-
-                // uploadDataToS3が1回呼ばれることを検証
-                expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
             }
+            expect(
+                horseRacingRaceS3Gateway.uploadDataToS3,
+            ).toHaveBeenCalledTimes(2);
         });
-    });
 
-    test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
-        for (const { raceType, location, grade, raceS3Gateway } of [
-            {
-                raceType: RaceType.NAR,
-                location: '大井',
-                grade: 'GⅠ',
-                raceS3Gateway: raceS3GatewayForNar,
-            },
-            {
-                raceType: RaceType.OVERSEAS,
-                location: 'ベルモントパーク',
-                grade: 'GⅠ',
-                raceS3Gateway: raceS3GatewayForOverseas,
-            },
-        ]) {
-            // 1年間のレース開催データを登録する
-            const raceEntityList: HorseRacingRaceEntity[] = Array.from(
-                { length: 60 },
-                (_, day) => {
-                    const date = new Date('2024-01-01');
-                    date.setDate(date.getDate() + day);
-                    return Array.from({ length: 12 }, (__, j) =>
-                        HorseRacingRaceEntity.createWithoutId(
-                            RaceData.create(
-                                raceType,
-                                `raceName${format(date, 'yyyyMMdd')}`,
-                                date,
-                                location,
-                                grade,
-                                j + 1,
-                            ),
-                            HorseRaceConditionData.create('ダート', 2000),
-                            getJSTDate(new Date()),
-                        ),
-                    );
+        test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
+            for (const { raceType, location, grade } of [
+                {
+                    raceType: RaceType.NAR,
+                    location: '大井',
+                    grade: 'GⅠ',
                 },
-            ).flat();
-
-            // モックの戻り値を設定
-            raceS3Gateway.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        `../../mock/repository/csv/${raceType.toLowerCase()}/raceList.csv`,
-                    ),
-                    'utf8',
-                ),
-            );
-
-            // テスト実行
-            await repository.registerRaceEntityList(raceType, raceEntityList);
-
-            // uploadDataToS3が1回呼ばれることを検証
-            expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
-        }
+                {
+                    raceType: RaceType.OVERSEAS,
+                    location: 'ベルモントパーク',
+                    grade: 'GⅠ',
+                },
+            ]) {
+                // 1年間のレース開催データを登録する
+                const raceEntityList: HorseRacingRaceEntity[] = Array.from(
+                    { length: 60 },
+                    (_, day) => {
+                        const date = new Date('2024-01-01');
+                        date.setDate(date.getDate() + day);
+                        return Array.from({ length: 12 }, (__, j) =>
+                            HorseRacingRaceEntity.createWithoutId(
+                                RaceData.create(
+                                    raceType,
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    date,
+                                    location,
+                                    grade,
+                                    j + 1,
+                                ),
+                                HorseRaceConditionData.create('ダート', 2000),
+                                getJSTDate(new Date()),
+                            ),
+                        );
+                    },
+                ).flat();
+                // モックの戻り値を設定
+                horseRacingRaceS3Gateway.fetchDataFromS3.mockImplementation(
+                    async (bucketName, fileName) => {
+                        return fs.readFileSync(
+                            path.resolve(
+                                __dirname,
+                                `../../mock/repository/csv/${bucketName}${fileName}`,
+                            ),
+                            'utf8',
+                        );
+                    },
+                );
+                // テスト実行
+                await repository.registerRaceEntityList(
+                    raceType,
+                    raceEntityList,
+                );
+            }
+            expect(
+                horseRacingRaceS3Gateway.uploadDataToS3,
+            ).toHaveBeenCalledTimes(2);
+        });
     });
 });

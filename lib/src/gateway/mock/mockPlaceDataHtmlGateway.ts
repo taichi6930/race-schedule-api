@@ -20,22 +20,18 @@ export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
     private buildUrl(raceType: RaceType, date: Date): string {
         switch (raceType) {
             case RaceType.JRA: {
-                return `../mockData/html/jra/place/${format(date, 'yyyy')}.html`;
+                return `../mockData/html/${raceType.toLowerCase()}/place/${format(date, 'yyyy')}.html`;
             }
-            case RaceType.NAR: {
-                return `../mockData/html/nar/place/${format(date, 'yyyyMM')}.html`;
-            }
-            case RaceType.KEIRIN: {
-                return `../mockData/html/keirin/place/${format(date, 'yyyyMM')}.html`;
-            }
+            case RaceType.NAR:
+            case RaceType.KEIRIN:
             case RaceType.AUTORACE: {
-                return `../mockData/html/autorace/place/${format(date, 'yyyyMM')}.html`;
+                return `../mockData/html/${raceType.toLowerCase()}/place/${format(date, 'yyyyMM')}.html`;
             }
             case RaceType.BOATRACE: {
                 // 1~3月は1、4月~6月は2、7月~9月は3、10月~12月は4
                 const quarter = Math.ceil((date.getMonth() + 1) / 3).toString();
                 // ボートレースのURLはquarterを使って生成
-                return `../mockData/html/boatrace/place/${format(date, 'yyyy')}${quarter}.html`;
+                return `../mockData/html/${raceType.toLowerCase()}/place/${format(date, 'yyyy')}${quarter}.html`;
             }
             case RaceType.OVERSEAS: {
                 // OVERSEASでは未対応

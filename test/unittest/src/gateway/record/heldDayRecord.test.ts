@@ -1,4 +1,4 @@
-import { heldDayRecord } from '../../../../../lib/src/gateway/record/heldDayRecord';
+import { HeldDayRecord } from '../../../../../lib/src/gateway/record/heldDayRecord';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 
 /**
@@ -28,14 +28,14 @@ describe('heldDayRecord', () => {
     const validUpdateDate = new Date('2024-01-01T12:00:00Z');
 
     it('正常値ですべて生成できる', () => {
-        const record = heldDayRecord.create(
+        const record = HeldDayRecord.create(
             validId,
             validRaceType,
             validHeldTimes,
             validHeldDayTimes,
             validUpdateDate,
         );
-        expect(record).toBeInstanceOf(heldDayRecord);
+        expect(record).toBeInstanceOf(HeldDayRecord);
         expect(record.id).toBe(validId);
         expect(record.raceType).toBe(validRaceType);
         expect(record.heldTimes).toBe(validHeldTimes);
@@ -45,7 +45,7 @@ describe('heldDayRecord', () => {
 
     it('idバリデーション失敗で例外', () => {
         expect(() =>
-            heldDayRecord.create(
+            HeldDayRecord.create(
                 'bad-id',
                 validRaceType,
                 validHeldTimes,
@@ -57,7 +57,7 @@ describe('heldDayRecord', () => {
 
     it('heldTimesバリデーション失敗で例外', () => {
         expect(() =>
-            heldDayRecord.create(
+            HeldDayRecord.create(
                 validId,
                 validRaceType,
                 -1,
@@ -69,7 +69,7 @@ describe('heldDayRecord', () => {
 
     it('heldDayTimesバリデーション失敗で例外', () => {
         expect(() =>
-            heldDayRecord.create(
+            HeldDayRecord.create(
                 validId,
                 validRaceType,
                 validHeldTimes,
@@ -81,7 +81,7 @@ describe('heldDayRecord', () => {
 
     it('updateDateバリデーション失敗で例外', () => {
         expect(() =>
-            heldDayRecord.create(
+            HeldDayRecord.create(
                 validId,
                 validRaceType,
                 validHeldTimes,
@@ -92,7 +92,7 @@ describe('heldDayRecord', () => {
     });
 
     it('copy: 全項目コピー（partial未指定）', () => {
-        const base = heldDayRecord.create(
+        const base = HeldDayRecord.create(
             validId,
             validRaceType,
             validHeldTimes,
@@ -105,7 +105,7 @@ describe('heldDayRecord', () => {
     });
 
     it('copy: idのみ変更', () => {
-        const base = heldDayRecord.create(
+        const base = HeldDayRecord.create(
             validId,
             validRaceType,
             validHeldTimes,
@@ -122,7 +122,7 @@ describe('heldDayRecord', () => {
     });
 
     it('copy: heldTimesのみ変更', () => {
-        const base = heldDayRecord.create(
+        const base = HeldDayRecord.create(
             validId,
             validRaceType,
             validHeldTimes,
@@ -135,7 +135,7 @@ describe('heldDayRecord', () => {
     });
 
     it('copy: heldDayTimesのみ変更', () => {
-        const base = heldDayRecord.create(
+        const base = HeldDayRecord.create(
             validId,
             validRaceType,
             validHeldTimes,
@@ -148,7 +148,7 @@ describe('heldDayRecord', () => {
     });
 
     it('copy: updateDateのみ変更', () => {
-        const base = heldDayRecord.create(
+        const base = HeldDayRecord.create(
             validId,
             validRaceType,
             validHeldTimes,
@@ -161,7 +161,7 @@ describe('heldDayRecord', () => {
     });
 
     it('copy: heldTimesバリデーション失敗で例外', () => {
-        const base = heldDayRecord.create(
+        const base = HeldDayRecord.create(
             validId,
             validRaceType,
             validHeldTimes,
@@ -172,7 +172,7 @@ describe('heldDayRecord', () => {
     });
 
     it('copy: heldDayTimesバリデーション失敗で例外', () => {
-        const base = heldDayRecord.create(
+        const base = HeldDayRecord.create(
             validId,
             validRaceType,
             validHeldTimes,

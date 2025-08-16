@@ -145,51 +145,43 @@ describe('GoogleCalendarRepository', () => {
     });
 
     it('カレンダー情報が正常に削除できること', async () => {
-        for (const { raceType, baseCalendarData } of [
-            { raceType: RaceType.JRA, baseCalendarData: baseJraCalendarData },
-            { raceType: RaceType.NAR, baseCalendarData: baseNarCalendarData },
+        for (const { baseCalendarData } of [
+            { baseCalendarData: baseJraCalendarData },
+            { baseCalendarData: baseNarCalendarData },
             {
-                raceType: RaceType.OVERSEAS,
                 baseCalendarData: baseOverseasCalendarData,
             },
             {
-                raceType: RaceType.KEIRIN,
                 baseCalendarData: baseKeirinCalendarData,
             },
             {
-                raceType: RaceType.AUTORACE,
                 baseCalendarData: baseAutoraceCalendarData,
             },
             {
-                raceType: RaceType.BOATRACE,
                 baseCalendarData: baseBoatraceCalendarData,
             },
         ]) {
             googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-            await repository.deleteEvents(raceType, [baseCalendarData]);
+            await repository.deleteEvents([baseCalendarData]);
             expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
         }
     });
 
     it('カレンダー情報が正常に削除できないこと', async () => {
-        for (const { raceType, baseCalendarData } of [
-            { raceType: RaceType.JRA, baseCalendarData: baseJraCalendarData },
-            { raceType: RaceType.NAR, baseCalendarData: baseNarCalendarData },
+        for (const { baseCalendarData } of [
+            { baseCalendarData: baseJraCalendarData },
+            { baseCalendarData: baseNarCalendarData },
             {
-                raceType: RaceType.OVERSEAS,
                 baseCalendarData: baseOverseasCalendarData,
             },
             {
-                raceType: RaceType.KEIRIN,
                 baseCalendarData: baseKeirinCalendarData,
             },
             {
-                raceType: RaceType.AUTORACE,
                 baseCalendarData: baseAutoraceCalendarData,
             },
             {
-                raceType: RaceType.BOATRACE,
                 baseCalendarData: baseBoatraceCalendarData,
             },
         ]) {
@@ -197,29 +189,25 @@ describe('GoogleCalendarRepository', () => {
                 new Error('API Error'),
             );
 
-            await repository.deleteEvents(raceType, [baseCalendarData]);
+            await repository.deleteEvents([baseCalendarData]);
             expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
         }
     });
 
     it('カレンダー情報が正常に登録できること', async () => {
-        for (const { raceType, baseRaceEntityList } of [
-            { raceType: RaceType.JRA, baseRaceEntityList: [baseJraRaceEntity] },
-            { raceType: RaceType.NAR, baseRaceEntityList: [baseNarRaceEntity] },
+        for (const { baseRaceEntityList } of [
+            { baseRaceEntityList: [baseJraRaceEntity] },
+            { baseRaceEntityList: [baseNarRaceEntity] },
             {
-                raceType: RaceType.OVERSEAS,
                 baseRaceEntityList: [baseOverseasRaceEntity],
             },
             {
-                raceType: RaceType.KEIRIN,
                 baseRaceEntityList: [baseKeirinRaceEntity],
             },
             {
-                raceType: RaceType.AUTORACE,
                 baseRaceEntityList: [baseAutoraceRaceEntity],
             },
             {
-                raceType: RaceType.BOATRACE,
                 baseRaceEntityList: [baseBoatraceRaceEntity],
             },
         ]) {
@@ -227,7 +215,7 @@ describe('GoogleCalendarRepository', () => {
                 new Error('API Error'),
             );
 
-            await repository.upsertEvents(raceType, baseRaceEntityList);
+            await repository.upsertEvents(baseRaceEntityList);
 
             expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
         }
@@ -235,43 +223,36 @@ describe('GoogleCalendarRepository', () => {
 
     it('カレンダー情報が正常に更新できること', async () => {
         for (const {
-            raceType,
             baseRaceEntityList,
             baseCalendarDataFromGoogleCalendar,
         } of [
             {
-                raceType: RaceType.JRA,
                 baseRaceEntityList: [baseJraRaceEntity],
                 baseCalendarDataFromGoogleCalendar:
                     baseJraCalendarDataFromGoogleCalendar,
             },
             {
-                raceType: RaceType.NAR,
                 baseRaceEntityList: [baseNarRaceEntity],
                 baseCalendarDataFromGoogleCalendar:
                     baseNarCalendarDataFromGoogleCalendar,
                 baseNarCalendarDataFromGoogleCalendar,
             },
             {
-                raceType: RaceType.OVERSEAS,
                 baseRaceEntityList: [baseOverseasRaceEntity],
                 baseCalendarDataFromGoogleCalendar:
                     baseOverseasCalendarDataFromGoogleCalendar,
             },
             {
-                raceType: RaceType.KEIRIN,
                 baseRaceEntityList: [baseKeirinRaceEntity],
                 baseCalendarDataFromGoogleCalendar:
                     baseKeirinCalendarDataFromGoogleCalendar,
             },
             {
-                raceType: RaceType.AUTORACE,
                 baseRaceEntityList: [baseAutoraceRaceEntity],
                 baseCalendarDataFromGoogleCalendar:
                     baseAutoraceCalendarDataFromGoogleCalendar,
             },
             {
-                raceType: RaceType.BOATRACE,
                 baseRaceEntityList: [baseBoatraceRaceEntity],
                 baseCalendarDataFromGoogleCalendar:
                     baseBoatraceCalendarDataFromGoogleCalendar,
@@ -281,37 +262,33 @@ describe('GoogleCalendarRepository', () => {
                 baseCalendarDataFromGoogleCalendar,
             );
 
-            await repository.upsertEvents(raceType, baseRaceEntityList);
+            await repository.upsertEvents(baseRaceEntityList);
 
             expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
         }
     });
 
     it('カレンダー情報が正常に更新できないこと', async () => {
-        for (const { raceType, baseRaceEntityList } of [
-            { raceType: RaceType.JRA, baseRaceEntityList: [baseJraRaceEntity] },
-            { raceType: RaceType.NAR, baseRaceEntityList: [baseNarRaceEntity] },
+        for (const { baseRaceEntityList } of [
+            { baseRaceEntityList: [baseJraRaceEntity] },
+            { baseRaceEntityList: [baseNarRaceEntity] },
             {
-                raceType: RaceType.OVERSEAS,
                 baseRaceEntityList: [baseOverseasRaceEntity],
             },
             {
-                raceType: RaceType.KEIRIN,
                 baseRaceEntityList: [baseKeirinRaceEntity],
             },
             {
-                raceType: RaceType.AUTORACE,
                 baseRaceEntityList: [baseAutoraceRaceEntity],
             },
             {
-                raceType: RaceType.BOATRACE,
                 baseRaceEntityList: [baseBoatraceRaceEntity],
             },
         ]) {
             googleCalendarGateway.insertCalendarData.mockRejectedValue(
                 new Error('API Error'),
             );
-            await repository.upsertEvents(raceType, baseRaceEntityList);
+            await repository.upsertEvents(baseRaceEntityList);
 
             expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
         }

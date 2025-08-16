@@ -1,9 +1,5 @@
-import {
-    type heldDayTimes,
-    validateHeldDayTimes,
-} from '../../utility/data/common/heldDayTimes';
-import type { HeldTimes } from '../../utility/data/common/heldTimes';
-import { validateHeldTimes } from '../../utility/data/common/heldTimes';
+import type { GradeType } from '../../utility/data/common/gradeType';
+import { validateGradeType } from '../../utility/data/common/gradeType';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import { validatePlaceId } from '../../utility/data/common/placeId';
 import { createErrorMessage } from '../../utility/error';
@@ -13,15 +9,14 @@ import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
 /**
- * Repository層のRecord
+ * Repository層のRecord レース開催場所データ
  */
-export class HeldDayRecord implements IRecord<HeldDayRecord> {
+export class PlaceGradeRecord implements IRecord<PlaceGradeRecord> {
     /**
      * コンストラクタ
      * @param id - ID
      * @param raceType - レース種別
-     * @param heldTimes - 開催回数
-     * @param heldDayTimes - 開催日数
+     * @param grade - グレード
      * @param updateDate - 更新日時
      * @remarks
      * レース開催場所データを生成する
@@ -29,8 +24,7 @@ export class HeldDayRecord implements IRecord<HeldDayRecord> {
     private constructor(
         public readonly id: PlaceId,
         public readonly raceType: RaceType,
-        public readonly heldTimes: HeldTimes,
-        public readonly heldDayTimes: heldDayTimes,
+        public readonly grade: GradeType,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -38,28 +32,25 @@ export class HeldDayRecord implements IRecord<HeldDayRecord> {
      * インスタンス生成メソッド
      * @param id - ID
      * @param raceType - レース種別
-     * @param heldTimes - 開催回数
-     * @param heldDayTimes - 開催日数
+     * @param grade - グレード
      * @param updateDate - 更新日時
      */
     public static create(
-        id: string,
+        id: PlaceId,
         raceType: RaceType,
-        heldTimes: number,
-        heldDayTimes: number,
+        grade: string,
         updateDate: Date,
-    ): HeldDayRecord {
+    ): PlaceGradeRecord {
         try {
-            return new HeldDayRecord(
+            return new PlaceGradeRecord(
                 validatePlaceId(raceType, id),
                 raceType,
-                validateHeldTimes(heldTimes),
-                validateHeldDayTimes(heldDayTimes),
+                validateGradeType(raceType, grade),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
             throw new Error(
-                createErrorMessage('JraHeldDayRecord create error', error),
+                createErrorMessage('Failed to create PlaceRecord', error),
             );
         }
     }
@@ -68,12 +59,11 @@ export class HeldDayRecord implements IRecord<HeldDayRecord> {
      * データのコピー
      * @param partial - 上書きする部分データ
      */
-    public copy(partial: Partial<HeldDayRecord> = {}): HeldDayRecord {
-        return HeldDayRecord.create(
+    public copy(partial: Partial<PlaceGradeRecord> = {}): PlaceGradeRecord {
+        return PlaceGradeRecord.create(
             partial.id ?? this.id,
             partial.raceType ?? this.raceType,
-            partial.heldTimes ?? this.heldTimes,
-            partial.heldDayTimes ?? this.heldDayTimes,
+            partial.grade ?? this.grade,
             partial.updateDate ?? this.updateDate,
         );
     }

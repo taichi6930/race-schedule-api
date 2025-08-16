@@ -1,6 +1,6 @@
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
-import { PlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import {
     generatePlaceId,

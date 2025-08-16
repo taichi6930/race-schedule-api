@@ -25,12 +25,6 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      */
     private readonly s3Client: S3Client;
     /**
-     * バケット名 S3の中にあるデータの保存場所
-     * @type {string}
-     * @private
-     */
-    private readonly bucketName: string;
-    /**
      * フォルダのパス
      * @type {string}
      * @private
@@ -39,23 +33,26 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     /**
      * S3Gatewayのコンストラクタ
-     * @param {string} bucketName
      * @param {string} folderPath
      */
-    public constructor(bucketName: string, folderPath: string) {
+    public constructor(folderPath: string) {
         // S3Clientの初期化 東京リージョン
         this.s3Client = new S3Client({ region: 'ap-northeast-1' });
-        this.bucketName = bucketName;
         this.folderPath = folderPath;
     }
 
     /**
      * データをS3にアップロードする
      * @param data
+     * @param bucketName
      * @param fileName
      */
     @Logger
-    public async uploadDataToS3(data: T[], fileName: string): Promise<void> {
+    public async uploadDataToS3(
+        data: T[],
+        bucketName: string,
+        fileName: string,
+    ): Promise<void> {
         try {
             if (data.length === 0) {
                 // データが空の場合は何もしない
@@ -80,7 +77,7 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
             const fileContent = fs.readFileSync(`/tmp/${fileName}`);
             const params = {
-                Bucket: this.bucketName,
+                Bucket: bucketName,
                 Key: `${this.folderPath}${fileName}`,
                 Body: fileContent,
             };
@@ -99,12 +96,16 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     /**
      * データをS3から取得する
+     * @param bucketName
      * @param fileName
      */
     @Logger
-    public async fetchDataFromS3(fileName: string): Promise<string> {
+    public async fetchDataFromS3(
+        bucketName: string,
+        fileName: string,
+    ): Promise<string> {
         const params = {
-            Bucket: this.bucketName,
+            Bucket: bucketName,
             Key: `${this.folderPath}${fileName}`,
         };
 

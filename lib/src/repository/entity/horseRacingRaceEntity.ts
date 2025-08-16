@@ -12,7 +12,7 @@ import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 
 /**
- * 地方競馬のレース開催データ
+ * 競馬のレース開催データ
  */
 export class HorseRacingRaceEntity {
     /**

@@ -27,18 +27,10 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
     private readonly racePlayerListFileName = 'racePlayerList.csv';
 
     public constructor(
-        @inject('KeirinRaceS3Gateway')
-        private readonly raceS3GatewayForKeirin: IS3Gateway<MechanicalRacingRaceRecord>,
-        @inject('KeirinRacePlayerS3Gateway')
-        private readonly racePlayerS3GatewayForKeirin: IS3Gateway<RacePlayerRecord>,
-        @inject('AutoraceRaceS3Gateway')
-        private readonly raceS3GatewayForAutorace: IS3Gateway<MechanicalRacingRaceRecord>,
-        @inject('AutoraceRacePlayerS3Gateway')
-        private readonly racePlayerS3GatewayForAutorace: IS3Gateway<RacePlayerRecord>,
-        @inject('BoatraceRaceS3Gateway')
-        private readonly raceS3GatewayForBoatrace: IS3Gateway<MechanicalRacingRaceRecord>,
-        @inject('BoatraceRacePlayerS3Gateway')
-        private readonly racePlayerS3GatewayForBoatrace: IS3Gateway<RacePlayerRecord>,
+        @inject('MechanicalRacingRaceS3Gateway')
+        private readonly raceS3Gateway: IS3Gateway<MechanicalRacingRaceRecord>,
+        @inject('MechanicalRacingRacePlayerS3Gateway')
+        private readonly racePlayerS3Gateway: IS3Gateway<RacePlayerRecord>,
     ) {}
 
     /**
@@ -169,14 +161,14 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             );
 
             // raceDataをS3にアップロードする
-            await this.uploadDataToRaceS3Gateway(
-                raceType,
+            await this.raceS3Gateway.uploadDataToS3(
                 existFetchRaceRecordList,
+                `${raceType.toLowerCase()}/`,
                 this.raceListFileName,
             );
-            await this.uploadDataToRacePlayerS3Gateway(
-                raceType,
+            await this.racePlayerS3Gateway.uploadDataToS3(
                 existFetchRacePlayerRecordList,
+                `${raceType.toLowerCase()}/`,
                 this.racePlayerListFileName,
             );
 
@@ -208,8 +200,8 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         borderDate?: Date,
     ): Promise<MechanicalRacingRaceRecord[]> {
         // S3からデータを取得する
-        const csv = await this.fetchDataFromRaceS3Gateway(
-            raceType,
+        const csv = await this.raceS3Gateway.fetchDataFromS3(
+            `${raceType.toLowerCase()}/`,
             this.raceListFileName,
         );
         // ファイルが空の場合は空のリストを返す
@@ -283,8 +275,8 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         raceType: RaceType,
     ): Promise<RacePlayerRecord[]> {
         // S3からデータを取得する
-        const csv = await this.fetchDataFromRacePlayerS3Gateway(
-            raceType,
+        const csv = await this.racePlayerS3Gateway.fetchDataFromS3(
+            `${raceType.toLowerCase()}/`,
             this.racePlayerListFileName,
         );
 
@@ -334,129 +326,5 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
                 }
             });
         return keirinRacePlayerRecordList;
-    }
-
-    @Logger
-    private async fetchDataFromRaceS3Gateway(
-        raceType: RaceType,
-        fileName: string,
-    ): Promise<string> {
-        switch (raceType) {
-            case RaceType.KEIRIN: {
-                return this.raceS3GatewayForKeirin.fetchDataFromS3(fileName);
-            }
-            case RaceType.BOATRACE: {
-                return this.raceS3GatewayForBoatrace.fetchDataFromS3(fileName);
-            }
-            case RaceType.AUTORACE: {
-                return this.raceS3GatewayForAutorace.fetchDataFromS3(fileName);
-            }
-            case RaceType.JRA:
-            case RaceType.NAR:
-            case RaceType.OVERSEAS: {
-                throw new Error('Unsupported race type');
-            }
-        }
-    }
-
-    @Logger
-    private async uploadDataToRaceS3Gateway(
-        raceType: RaceType,
-        record: MechanicalRacingRaceRecord[],
-        fileName: string,
-    ): Promise<void> {
-        switch (raceType) {
-            case RaceType.KEIRIN: {
-                await this.raceS3GatewayForKeirin.uploadDataToS3(
-                    record,
-                    fileName,
-                );
-                break;
-            }
-            case RaceType.BOATRACE: {
-                await this.raceS3GatewayForBoatrace.uploadDataToS3(
-                    record,
-                    fileName,
-                );
-                break;
-            }
-            case RaceType.AUTORACE: {
-                await this.raceS3GatewayForAutorace.uploadDataToS3(
-                    record,
-                    fileName,
-                );
-                break;
-            }
-            case RaceType.JRA:
-            case RaceType.NAR:
-            case RaceType.OVERSEAS: {
-                throw new Error('Unsupported race type');
-            }
-        }
-    }
-
-    @Logger
-    private async fetchDataFromRacePlayerS3Gateway(
-        raceType: RaceType,
-        fileName: string,
-    ): Promise<string> {
-        switch (raceType) {
-            case RaceType.KEIRIN: {
-                return this.racePlayerS3GatewayForKeirin.fetchDataFromS3(
-                    fileName,
-                );
-            }
-            case RaceType.BOATRACE: {
-                return this.racePlayerS3GatewayForBoatrace.fetchDataFromS3(
-                    fileName,
-                );
-            }
-            case RaceType.AUTORACE: {
-                return this.racePlayerS3GatewayForAutorace.fetchDataFromS3(
-                    fileName,
-                );
-            }
-            case RaceType.JRA:
-            case RaceType.NAR:
-            case RaceType.OVERSEAS: {
-                throw new Error('Unsupported race type');
-            }
-        }
-    }
-
-    @Logger
-    private async uploadDataToRacePlayerS3Gateway(
-        raceType: RaceType,
-        record: RacePlayerRecord[],
-        fileName: string,
-    ): Promise<void> {
-        switch (raceType) {
-            case RaceType.KEIRIN: {
-                await this.racePlayerS3GatewayForKeirin.uploadDataToS3(
-                    record,
-                    fileName,
-                );
-                break;
-            }
-            case RaceType.BOATRACE: {
-                await this.racePlayerS3GatewayForBoatrace.uploadDataToS3(
-                    record,
-                    fileName,
-                );
-                break;
-            }
-            case RaceType.AUTORACE: {
-                await this.racePlayerS3GatewayForAutorace.uploadDataToS3(
-                    record,
-                    fileName,
-                );
-                break;
-            }
-            case RaceType.JRA:
-            case RaceType.NAR:
-            case RaceType.OVERSEAS: {
-                throw new Error('Unsupported race type');
-            }
-        }
     }
 }

@@ -34,20 +34,14 @@ export interface ICalendarService {
      * @param raceEntityList - 登録・更新するレースエンティティの配列
      * @param raceEntityList.jra
      * @param raceEntityList.nar
-     * @param raceEntityList.keirin
-     * @param raceEntityList.overseas
-     * @param raceEntityList.boatrace
-     * @param raceEntityList.autorace
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     upsertEvents: (raceEntityList: {
-        jra?: JraRaceEntity[];
-        nar?: HorseRacingRaceEntity[];
-        keirin?: MechanicalRacingRaceEntity[];
-        overseas?: HorseRacingRaceEntity[];
-        boatrace?: MechanicalRacingRaceEntity[];
-        autorace?: MechanicalRacingRaceEntity[];
+        jra: JraRaceEntity[];
+        nar: HorseRacingRaceEntity[];
+        overseas: HorseRacingRaceEntity[];
+        mechanicalRacing: MechanicalRacingRaceEntity[];
     }) => Promise<void>;
 
     /**
@@ -60,21 +54,8 @@ export interface ICalendarService {
      * 空の配列が渡された場合は早期リターンし、不要な
      * API呼び出しを防止します。
      * @param calendarDataList - 削除するカレンダーイベントの配列
-     * @param calendarDataList.jra
-     * @param calendarDataList.nar
-     * @param calendarDataList.keirin
-     * @param calendarDataList.overseas
-     * @param calendarDataList.boatrace
-     * @param calendarDataList.autorace
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
-    deleteEvents: (calendarDataList: {
-        jra?: CalendarData[];
-        nar?: CalendarData[];
-        keirin?: CalendarData[];
-        overseas?: CalendarData[];
-        boatrace?: CalendarData[];
-        autorace?: CalendarData[];
-    }) => Promise<void>;
+    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
 }
