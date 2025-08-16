@@ -19,6 +19,8 @@ export class PlaceRepositoryFromStorageImpl
     private readonly fileName = 'placeList.csv';
 
     public constructor(
+        @inject('JraPlaceS3Gateway')
+        private readonly placeS3GatewayForJra: IS3Gateway<PlaceRecord>,
         @inject('NarPlaceS3Gateway')
         private readonly placeS3GatewayForNar: IS3Gateway<PlaceRecord>,
         @inject('KeirinPlaceS3Gateway')
@@ -182,6 +184,9 @@ export class PlaceRepositoryFromStorageImpl
         fileName: string,
     ): Promise<string> {
         switch (raceType) {
+            case RaceType.JRA: {
+                return this.placeS3GatewayForJra.fetchDataFromS3(fileName);
+            }
             case RaceType.NAR: {
                 return this.placeS3GatewayForNar.fetchDataFromS3(fileName);
             }
@@ -194,7 +199,6 @@ export class PlaceRepositoryFromStorageImpl
             case RaceType.AUTORACE: {
                 return this.placeS3GatewayForAutorace.fetchDataFromS3(fileName);
             }
-            case RaceType.JRA:
             case RaceType.OVERSEAS: {
                 throw new Error('Unsupported race type');
             }
@@ -208,6 +212,13 @@ export class PlaceRepositoryFromStorageImpl
         fileName: string,
     ): Promise<void> {
         switch (raceType) {
+            case RaceType.JRA: {
+                await this.placeS3GatewayForJra.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
             case RaceType.NAR: {
                 await this.placeS3GatewayForNar.uploadDataToS3(
                     record,
@@ -236,7 +247,6 @@ export class PlaceRepositoryFromStorageImpl
                 );
                 break;
             }
-            case RaceType.JRA:
             case RaceType.OVERSEAS: {
                 throw new Error('Unsupported race type');
             }
