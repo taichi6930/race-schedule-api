@@ -184,7 +184,12 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 locationList?: RaceCourse[];
             };
         },
-    ): Promise<void> {
+    ): Promise<{
+        code: number;
+        message: string;
+        successDataCount: number;
+        failureDataCount: number;
+    }> {
         // フィルタリング処理
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
@@ -229,7 +234,12 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             console.log(
                 '指定された条件に合致する開催場所が存在しません。レースデータの更新をスキップします。',
             );
-            return;
+            return {
+                code: 404,
+                message: '指定された条件に合致する開催場所が存在しません。',
+                successDataCount: 0,
+                failureDataCount: 0,
+            };
         }
 
         const raceEntityList = await this.raceDataService.fetchRaceEntityList(
@@ -254,6 +264,15 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             autorace: raceEntityList.autorace,
             boatrace: raceEntityList.boatrace,
         });
+
+        return {
+            code: 200,
+            message: 'レースデータの更新が完了しました。',
+            successDataCount: Object.values(raceEntityList)
+                .map((list) => list.length)
+                .reduce((acc, cur) => acc + cur, 0),
+            failureDataCount: 0,
+        };
     }
 
     // 共通フィルタ関数
