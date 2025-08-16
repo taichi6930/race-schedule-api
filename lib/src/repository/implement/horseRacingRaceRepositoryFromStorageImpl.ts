@@ -203,13 +203,13 @@ export class HorseRacingRaceRepositoryFromStorageImpl
         switch (raceType) {
             case RaceType.NAR: {
                 return this.raceS3GatewayForNar.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }
             case RaceType.OVERSEAS: {
                 return this.raceS3GatewayForOverseas.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }

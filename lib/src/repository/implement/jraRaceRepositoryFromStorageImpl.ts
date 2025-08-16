@@ -61,7 +61,7 @@ export class JraRaceRepositoryFromStorageImpl
     ): Promise<JraRaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(
-            undefined,
+            `${raceType.toLowerCase()}/`,
             this.fileName,
         );
 

@@ -344,19 +344,19 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         switch (raceType) {
             case RaceType.KEIRIN: {
                 return this.raceS3GatewayForKeirin.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }
             case RaceType.BOATRACE: {
                 return this.raceS3GatewayForBoatrace.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }
             case RaceType.AUTORACE: {
                 return this.raceS3GatewayForAutorace.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }
@@ -415,19 +415,19 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         switch (raceType) {
             case RaceType.KEIRIN: {
                 return this.racePlayerS3GatewayForKeirin.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }
             case RaceType.BOATRACE: {
                 return this.racePlayerS3GatewayForBoatrace.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }
             case RaceType.AUTORACE: {
                 return this.racePlayerS3GatewayForAutorace.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }

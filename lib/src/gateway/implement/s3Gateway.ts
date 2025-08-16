@@ -109,11 +109,11 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      */
     @Logger
     public async fetchDataFromS3(
-        bucketName: string | undefined,
+        bucketName: string,
         fileName: string,
     ): Promise<string> {
         const params = {
-            Bucket: bucketName ?? this.bucketName,
+            Bucket: bucketName,
             Key: `${this.folderPath}${fileName}`,
         };
 

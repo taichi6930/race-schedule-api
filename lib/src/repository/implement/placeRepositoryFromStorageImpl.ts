@@ -186,31 +186,31 @@ export class PlaceRepositoryFromStorageImpl
         switch (raceType) {
             case RaceType.JRA: {
                 return this.placeS3GatewayForJra.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }
             case RaceType.NAR: {
                 return this.placeS3GatewayForNar.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }
             case RaceType.KEIRIN: {
                 return this.placeS3GatewayForKeirin.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }
             case RaceType.BOATRACE: {
                 return this.placeS3GatewayForBoatrace.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }
             case RaceType.AUTORACE: {
                 return this.placeS3GatewayForAutorace.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }

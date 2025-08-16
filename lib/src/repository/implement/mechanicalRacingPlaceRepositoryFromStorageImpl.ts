@@ -184,19 +184,19 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
         switch (raceType) {
             case RaceType.KEIRIN: {
                 return this.s3GatewayForKeirin.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }
             case RaceType.BOATRACE: {
                 return this.s3GatewayForBoatrace.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }
             case RaceType.AUTORACE: {
                 return this.s3GatewayForAutorace.fetchDataFromS3(
-                    undefined,
+                    `${raceType.toLowerCase()}/`,
                     fileName,
                 );
             }

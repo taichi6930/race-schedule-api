@@ -57,8 +57,5 @@ export interface IS3Gateway<T extends IRecord<T>> {
      *               - ファイルの読み込みに失敗
      *               - 認証/認可エラー
      */
-    fetchDataFromS3: (
-        bucketName: string | undefined,
-        fileName: string,
-    ) => Promise<string>;
+    fetchDataFromS3: (bucketName: string, fileName: string) => Promise<string>;
 }

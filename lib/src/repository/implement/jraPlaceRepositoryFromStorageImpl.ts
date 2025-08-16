@@ -207,7 +207,7 @@ export class JraPlaceRepositoryFromStorageImpl
     ): Promise<PlaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.placeS3Gateway.fetchDataFromS3(
-            undefined,
+            `${raceType.toLowerCase()}/`,
             this.placeFileName,
         );
 
@@ -268,7 +268,7 @@ export class JraPlaceRepositoryFromStorageImpl
     ): Promise<heldDayRecord[]> {
         // S3からデータを取得する
         const csv = await this.heldDayS3Gateway.fetchDataFromS3(
-            undefined,
+            `${raceType.toLowerCase()}/`,
             this.heldDayFileName,
         );
 
