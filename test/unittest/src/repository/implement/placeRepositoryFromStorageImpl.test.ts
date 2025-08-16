@@ -59,51 +59,30 @@ describe('PlaceRepositoryFromStorageImpl', () => {
 
     describe('fetchPlaceList', () => {
         test('正しい開催場データを取得できる', async () => {
-            placeS3GatewayForJra.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/jra/placeList.csv',
+            const fetchDataMocks = [
+                { gateway: placeS3GatewayForJra, raceType: RaceType.JRA },
+                { gateway: placeS3GatewayForNar, raceType: RaceType.NAR },
+                { gateway: placeS3GatewayForKeirin, raceType: RaceType.KEIRIN },
+                {
+                    gateway: placeS3GatewayForAutorace,
+                    raceType: RaceType.AUTORACE,
+                },
+                {
+                    gateway: placeS3GatewayForBoatrace,
+                    raceType: RaceType.BOATRACE,
+                },
+            ];
+            for (const { gateway, raceType } of fetchDataMocks) {
+                gateway.fetchDataFromS3.mockResolvedValue(
+                    fs.readFileSync(
+                        path.resolve(
+                            __dirname,
+                            `../../mock/repository/csv/${raceType.toLowerCase()}/placeList.csv`,
+                        ),
+                        'utf8',
                     ),
-                    'utf8',
-                ),
-            );
-            placeS3GatewayForNar.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/nar/placeList.csv',
-                    ),
-                    'utf8',
-                ),
-            );
-            placeS3GatewayForKeirin.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/keirin/placeList.csv',
-                    ),
-                    'utf8',
-                ),
-            );
-            placeS3GatewayForAutorace.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/autorace/placeList.csv',
-                    ),
-                    'utf8',
-                ),
-            );
-            placeS3GatewayForBoatrace.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/boatrace/placeList.csv',
-                    ),
-                    'utf8',
-                ),
-            );
+                );
+            }
 
             // テスト実行
             for (const raceType of [
@@ -151,22 +130,17 @@ describe('PlaceRepositoryFromStorageImpl', () => {
                 });
             }
 
-            // uploadDataToS3が1回呼ばれることを検証
-            expect(placeS3GatewayForJra.uploadDataToS3).toHaveBeenCalledTimes(
-                1,
-            );
-            expect(placeS3GatewayForNar.uploadDataToS3).toHaveBeenCalledTimes(
-                1,
-            );
-            expect(
-                placeS3GatewayForKeirin.uploadDataToS3,
-            ).toHaveBeenCalledTimes(1);
-            expect(
-                placeS3GatewayForAutorace.uploadDataToS3,
-            ).toHaveBeenCalledTimes(1);
-            expect(
-                placeS3GatewayForBoatrace.uploadDataToS3,
-            ).toHaveBeenCalledTimes(1);
+            // uploadDataToS3が1回呼ばれることを検証（forでまとめる）
+            const gateways = [
+                placeS3GatewayForJra,
+                placeS3GatewayForNar,
+                placeS3GatewayForKeirin,
+                placeS3GatewayForAutorace,
+                placeS3GatewayForBoatrace,
+            ];
+            for (const gateway of gateways) {
+                expect(gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
+            }
         });
     });
 
