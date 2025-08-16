@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { heldDayRecord } from '../../gateway/record/heldDayRecord';
+import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -26,7 +26,7 @@ export class JraPlaceRepositoryFromStorageImpl
         @inject('PlaceS3Gateway')
         private readonly placeS3Gateway: IS3Gateway<PlaceRecord>,
         @inject('HeldDayS3Gateway')
-        private readonly heldDayS3Gateway: IS3Gateway<heldDayRecord>,
+        private readonly heldDayS3Gateway: IS3Gateway<HeldDayRecord>,
     ) {}
 
     /**
@@ -42,7 +42,7 @@ export class JraPlaceRepositoryFromStorageImpl
         const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3(searchFilter.raceType);
 
-        const heldDayRecordList: heldDayRecord[] =
+        const heldDayRecordList: HeldDayRecord[] =
             await this.getHeldDayRecordListFromS3(searchFilter.raceType);
 
         // placeRecordListのidと、heldDayRecordListのidが一致するものを取得
@@ -50,7 +50,7 @@ export class JraPlaceRepositoryFromStorageImpl
             string,
             {
                 placeRecord: PlaceRecord;
-                heldDayRecord: heldDayRecord;
+                heldDayRecord: HeldDayRecord;
             }
         >();
 
@@ -143,12 +143,12 @@ export class JraPlaceRepositoryFromStorageImpl
                 this.placeFileName,
             );
 
-            const existFetchHeldDayRecordList: heldDayRecord[] =
+            const existFetchHeldDayRecordList: HeldDayRecord[] =
                 await this.getHeldDayRecordListFromS3(raceType);
 
-            const heldDayRecordList: heldDayRecord[] = placeEntityList.map(
+            const heldDayRecordList: HeldDayRecord[] = placeEntityList.map(
                 (placeEntity) =>
-                    heldDayRecord.create(
+                    HeldDayRecord.create(
                         placeEntity.id,
                         placeEntity.placeData.raceType,
                         placeEntity.heldDayData.heldTimes,
@@ -265,7 +265,7 @@ export class JraPlaceRepositoryFromStorageImpl
     @Logger
     private async getHeldDayRecordListFromS3(
         raceType: RaceType,
-    ): Promise<heldDayRecord[]> {
+    ): Promise<HeldDayRecord[]> {
         // S3からデータを取得する
         const csv = await this.heldDayS3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
@@ -293,9 +293,9 @@ export class JraPlaceRepositoryFromStorageImpl
         };
 
         // データ行を解析して JraHeldDayRecord のリストを生成
-        const heldDayRecordList: heldDayRecord[] = lines
+        const heldDayRecordList: HeldDayRecord[] = lines
             .slice(1)
-            .flatMap((line: string): heldDayRecord[] => {
+            .flatMap((line: string): HeldDayRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -308,7 +308,7 @@ export class JraPlaceRepositoryFromStorageImpl
                     }
 
                     return [
-                        heldDayRecord.create(
+                        HeldDayRecord.create(
                             columns[indices.id],
                             raceType,
                             Number.parseInt(columns[indices.heldTimes], 10),

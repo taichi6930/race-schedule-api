@@ -3,11 +3,12 @@ import { container } from 'tsyringe';
 import { S3Gateway } from '../../src/gateway/implement/s3Gateway';
 import type { IS3Gateway } from '../../src/gateway/interface/iS3Gateway';
 import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
-import type { heldDayRecord } from '../../src/gateway/record/heldDayRecord';
+import type { HeldDayRecord } from '../../src/gateway/record/heldDayRecord';
 import type { HorseRacingRaceRecord } from '../../src/gateway/record/horseRacingRaceRecord';
 import type { JraRaceRecord } from '../../src/gateway/record/jraRaceRecord';
 import type { MechanicalRacingPlaceRecord } from '../../src/gateway/record/mechanicalRacingPlaceRecord';
 import type { MechanicalRacingRaceRecord } from '../../src/gateway/record/mechanicalRacingRaceRecord';
+import type { PlaceGradeRecord } from '../../src/gateway/record/PlaceGradeRecord';
 import type { PlaceRecord } from '../../src/gateway/record/placeRecord';
 import type { RacePlayerRecord } from '../../src/gateway/record/racePlayerRecord';
 import { allowedEnvs, ENV } from '../../src/utility/env';
@@ -184,15 +185,15 @@ container.register<IS3Gateway<PlaceRecord>>('PlaceS3Gateway', {
         }
     },
 });
-container.register<IS3Gateway<heldDayRecord>>('HeldDayS3Gateway', {
+container.register<IS3Gateway<HeldDayRecord>>('HeldDayS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new S3Gateway<heldDayRecord>('race-schedule-bucket');
+                return new S3Gateway<HeldDayRecord>('race-schedule-bucket');
             }
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<heldDayRecord>(
+                return new S3Gateway<HeldDayRecord>(
                     'race-schedule-bucket-test',
                 );
             }
@@ -200,7 +201,33 @@ container.register<IS3Gateway<heldDayRecord>>('HeldDayS3Gateway', {
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<heldDayRecord>('race-schedule-bucket');
+                return new MockS3Gateway<HeldDayRecord>('race-schedule-bucket');
+            }
+            default: {
+                throw new Error('Invalid ENV value');
+            }
+        }
+    },
+});
+container.register<IS3Gateway<PlaceGradeRecord>>('PlaceGradeS3Gateway', {
+    useFactory: () => {
+        switch (ENV) {
+            case allowedEnvs.production: {
+                return new S3Gateway<PlaceGradeRecord>('race-schedule-bucket');
+            }
+            case allowedEnvs.test: {
+                // ENV が production の場合、S3Gateway を使用
+                return new S3Gateway<PlaceGradeRecord>(
+                    'race-schedule-bucket-test',
+                );
+            }
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
+            case allowedEnvs.githubActionsCi: {
+                return new MockS3Gateway<PlaceGradeRecord>(
+                    'race-schedule-bucket',
+                );
             }
             default: {
                 throw new Error('Invalid ENV value');
