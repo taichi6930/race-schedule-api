@@ -32,7 +32,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 
     /**
      * 開催データを取得する
-     * @param searchFilter
+     * @param searchFilter - レース検索フィルター
      */
     @Logger
     public async fetchRaceEntityList(
