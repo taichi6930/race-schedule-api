@@ -195,14 +195,14 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 );
             }),
         };
-        await this.calendarService.deleteEvents({
-            jra: deleteCalendarDataList.jra,
-            nar: deleteCalendarDataList.nar,
-            overseas: deleteCalendarDataList.overseas,
-            keirin: deleteCalendarDataList.keirin,
-            autorace: deleteCalendarDataList.autorace,
-            boatrace: deleteCalendarDataList.boatrace,
-        });
+        await this.calendarService.deleteEvents([
+            ...deleteCalendarDataList.jra,
+            ...deleteCalendarDataList.nar,
+            ...deleteCalendarDataList.overseas,
+            ...deleteCalendarDataList.keirin,
+            ...deleteCalendarDataList.autorace,
+            ...deleteCalendarDataList.boatrace,
+        ]);
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList = {

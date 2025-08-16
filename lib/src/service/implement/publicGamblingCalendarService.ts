@@ -112,59 +112,11 @@ export class PublicGamblingCalendarService implements ICalendarService {
      * 空の配列が渡された場合は早期リターンし、不要な
      * API呼び出しを防止します。
      * @param calendarDataList - 削除するカレンダーイベントの配列
-     * @param calendarDataList.jra
-     * @param calendarDataList.nar
-     * @param calendarDataList.keirin
-     * @param calendarDataList.overseas
-     * @param calendarDataList.boatrace
-     * @param calendarDataList.autorace
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     @Logger
-    public async deleteEvents(calendarDataList: {
-        jra?: CalendarData[];
-        nar?: CalendarData[];
-        keirin?: CalendarData[];
-        overseas?: CalendarData[];
-        boatrace?: CalendarData[];
-        autorace?: CalendarData[];
-    }): Promise<void> {
-        if (
-            calendarDataList.jra?.length === 0 &&
-            calendarDataList.nar?.length === 0 &&
-            calendarDataList.keirin?.length === 0 &&
-            calendarDataList.overseas?.length === 0 &&
-            calendarDataList.boatrace?.length === 0 &&
-            calendarDataList.autorace?.length === 0
-        ) {
-            console.debug('削除対象のイベントが見つかりませんでした。');
-            return;
-        }
-        if (calendarDataList.jra && calendarDataList.jra.length > 0) {
-            await this.calendarRepository.deleteEvents(calendarDataList.jra);
-        }
-        if (calendarDataList.nar && calendarDataList.nar.length > 0) {
-            await this.calendarRepository.deleteEvents(calendarDataList.nar);
-        }
-
-        if (calendarDataList.overseas && calendarDataList.overseas.length > 0) {
-            await this.calendarRepository.deleteEvents(
-                calendarDataList.overseas,
-            );
-        }
-        if (calendarDataList.keirin && calendarDataList.keirin.length > 0) {
-            await this.calendarRepository.deleteEvents(calendarDataList.keirin);
-        }
-        if (calendarDataList.boatrace && calendarDataList.boatrace.length > 0) {
-            await this.calendarRepository.deleteEvents(
-                calendarDataList.boatrace,
-            );
-        }
-        if (calendarDataList.autorace && calendarDataList.autorace.length > 0) {
-            await this.calendarRepository.deleteEvents(
-                calendarDataList.autorace,
-            );
-        }
+    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
+        await this.calendarRepository.deleteEvents(calendarDataList);
     }
 }

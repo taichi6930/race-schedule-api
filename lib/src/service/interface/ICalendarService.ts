@@ -54,21 +54,8 @@ export interface ICalendarService {
      * 空の配列が渡された場合は早期リターンし、不要な
      * API呼び出しを防止します。
      * @param calendarDataList - 削除するカレンダーイベントの配列
-     * @param calendarDataList.jra
-     * @param calendarDataList.nar
-     * @param calendarDataList.keirin
-     * @param calendarDataList.overseas
-     * @param calendarDataList.boatrace
-     * @param calendarDataList.autorace
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
-    deleteEvents: (calendarDataList: {
-        jra?: CalendarData[];
-        nar?: CalendarData[];
-        keirin?: CalendarData[];
-        overseas?: CalendarData[];
-        boatrace?: CalendarData[];
-        autorace?: CalendarData[];
-    }) => Promise<void>;
+    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
 }

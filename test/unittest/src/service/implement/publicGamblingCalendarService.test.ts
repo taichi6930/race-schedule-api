@@ -88,55 +88,23 @@ describe('PublicGamblingCalendarService', () => {
 
     describe('deleteEvents', () => {
         it('カレンダーのイベントの削除が正常に行われること', async () => {
-            await service.deleteEvents({
-                jra: [baseJraCalendarData],
-                nar: [baseNarCalendarData],
-                overseas: [baseOverseasCalendarData],
-                keirin: [baseKeirinCalendarData],
-                boatrace: [baseBoatraceCalendarData],
-                autorace: [baseAutoraceCalendarData],
-            });
+            await service.deleteEvents([
+                baseJraCalendarData,
+                baseNarCalendarData,
+                baseOverseasCalendarData,
+                baseKeirinCalendarData,
+                baseBoatraceCalendarData,
+                baseAutoraceCalendarData,
+            ]);
 
             expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
                 baseJraCalendarData,
-            ]);
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
                 baseNarCalendarData,
-            ]);
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
                 baseOverseasCalendarData,
-            ]);
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
                 baseKeirinCalendarData,
-            ]);
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
+                baseBoatraceCalendarData,
                 baseAutoraceCalendarData,
             ]);
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
-                baseBoatraceCalendarData,
-            ]);
-        });
-
-        it('削除対象のイベントが見つからない場合、削除処理が行われないこと', async () => {
-            const consoleSpy = jest
-                .spyOn(console, 'debug')
-                .mockImplementation();
-
-            await service.deleteEvents({
-                jra: [],
-                nar: [],
-                overseas: [],
-                keirin: [],
-                boatrace: [],
-                autorace: [],
-            });
-
-            expect(consoleSpy).toHaveBeenCalledWith(
-                '削除対象のイベントが見つかりませんでした。',
-            );
-            expect(calendarRepository.deleteEvents).not.toHaveBeenCalled();
-
-            consoleSpy.mockRestore();
         });
     });
 
