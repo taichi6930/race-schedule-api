@@ -97,30 +97,24 @@ describe('PublicGamblingCalendarService', () => {
                 autorace: [baseAutoraceCalendarData],
             });
 
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.JRA,
-                [baseJraCalendarData],
-            );
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.NAR,
-                [baseNarCalendarData],
-            );
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.OVERSEAS,
-                [baseOverseasCalendarData],
-            );
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.KEIRIN,
-                [baseKeirinCalendarData],
-            );
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.BOATRACE,
-                [baseBoatraceCalendarData],
-            );
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                RaceType.AUTORACE,
-                [baseAutoraceCalendarData],
-            );
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
+                baseJraCalendarData,
+            ]);
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
+                baseNarCalendarData,
+            ]);
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
+                baseOverseasCalendarData,
+            ]);
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
+                baseKeirinCalendarData,
+            ]);
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
+                baseBoatraceCalendarData,
+            ]);
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
+                baseAutoraceCalendarData,
+            ]);
         });
 
         it('削除対象のイベントが見つからない場合、削除処理が行われないこと', async () => {
@@ -158,27 +152,21 @@ describe('PublicGamblingCalendarService', () => {
             });
 
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.JRA,
                 baseJraRaceEntityList,
             );
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.NAR,
                 baseNarRaceEntityList,
             );
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.OVERSEAS,
                 baseOverseasRaceEntityList,
             );
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.KEIRIN,
                 baseKeirinRaceEntityList,
             );
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.BOATRACE,
                 baseBoatraceRaceEntityList,
             );
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                RaceType.AUTORACE,
                 baseAutoraceRaceEntityList,
             );
         });
