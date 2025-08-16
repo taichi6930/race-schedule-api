@@ -69,5 +69,10 @@ export interface IRaceRepository<
     registerRaceEntityList: (
         raceType: RaceType,
         raceEntityList: R[],
-    ) => Promise<void>;
+    ) => Promise<{
+        code: number;
+        message: string;
+        successData: R[];
+        failureData: R[];
+    }>;
 }

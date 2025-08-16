@@ -293,9 +293,14 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         keirin?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];
-    }): Promise<void> {
+    }): Promise<{
+        code: number;
+        message: string;
+        successDataCount: number;
+        failureDataCount: number;
+    }> {
         try {
-            await Promise.all([
+            const response = await Promise.all([
                 this.saveRaceEntities(
                     this.jraRaceRepositoryFromStorage,
                     RaceType.JRA,
@@ -327,6 +332,22 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     raceEntityList.boatrace,
                 ),
             ]);
+            return {
+                // 全てが200なら200を返す
+                code: response.every((res) => res.code === 200) ? 200 : 500,
+                // 全てのメッセージをsetで結合
+                message: [...new Set(response.map((res) => res.message))].join(
+                    ', ',
+                ),
+                successDataCount: response.reduce(
+                    (acc, res) => acc + res.successDataCount,
+                    0,
+                ),
+                failureDataCount: response.reduce(
+                    (acc, res) => acc + res.failureDataCount,
+                    0,
+                ),
+            };
         } catch (error) {
             console.error('開催場データの保存/更新に失敗しました', error);
             throw error;
@@ -346,11 +367,30 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         repo: IRaceRepository<TRace, TPlace>,
         raceType: RaceType,
         entities?: TRace[],
-    ): Promise<void> {
-        console.log(`entities (${raceType}):`, entities);
+    ): Promise<{
+        code: number;
+        message: string;
+        successDataCount: number;
+        failureDataCount: number;
+    }> {
         if (entities !== undefined && entities.length > 0) {
-            await repo.registerRaceEntityList(raceType, entities);
+            const response = await repo.registerRaceEntityList(
+                raceType,
+                entities,
+            );
+            return {
+                code: response.code,
+                message: response.message,
+                successDataCount: response.successData.length,
+                failureDataCount: response.failureData.length,
+            };
         }
+        return {
+            code: 200,
+            message: 'No entities to save',
+            successDataCount: 0,
+            failureDataCount: 0,
+        };
     }
 
     /**

@@ -451,7 +451,12 @@ export class JraRaceRepositoryFromHtmlImpl
     public async registerRaceEntityList(
         raceType: RaceType,
         raceEntityList: JraRaceEntity[],
-    ): Promise<void> {
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: JraRaceEntity[];
+        failureData: JraRaceEntity[];
+    }> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
