@@ -93,8 +93,8 @@ export class PublicGamblingCalendarService implements ICalendarService {
     public async upsertEvents(raceEntityList: {
         jra?: JraRaceEntity[];
         nar?: HorseRacingRaceEntity[];
-        keirin?: MechanicalRacingRaceEntity[];
         overseas?: HorseRacingRaceEntity[];
+        keirin?: MechanicalRacingRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];
     }): Promise<void> {
@@ -199,38 +199,26 @@ export class PublicGamblingCalendarService implements ICalendarService {
             return;
         }
         if (calendarDataList.jra && calendarDataList.jra.length > 0) {
-            await this.calendarRepository.deleteEvents(
-                RaceType.JRA,
-                calendarDataList.jra,
-            );
+            await this.calendarRepository.deleteEvents(calendarDataList.jra);
         }
         if (calendarDataList.nar && calendarDataList.nar.length > 0) {
-            await this.calendarRepository.deleteEvents(
-                RaceType.NAR,
-                calendarDataList.nar,
-            );
+            await this.calendarRepository.deleteEvents(calendarDataList.nar);
         }
         if (calendarDataList.keirin && calendarDataList.keirin.length > 0) {
-            await this.calendarRepository.deleteEvents(
-                RaceType.KEIRIN,
-                calendarDataList.keirin,
-            );
+            await this.calendarRepository.deleteEvents(calendarDataList.keirin);
         }
         if (calendarDataList.overseas && calendarDataList.overseas.length > 0) {
             await this.calendarRepository.deleteEvents(
-                RaceType.OVERSEAS,
                 calendarDataList.overseas,
             );
         }
         if (calendarDataList.boatrace && calendarDataList.boatrace.length > 0) {
             await this.calendarRepository.deleteEvents(
-                RaceType.BOATRACE,
                 calendarDataList.boatrace,
             );
         }
         if (calendarDataList.autorace && calendarDataList.autorace.length > 0) {
             await this.calendarRepository.deleteEvents(
-                RaceType.AUTORACE,
                 calendarDataList.autorace,
             );
         }

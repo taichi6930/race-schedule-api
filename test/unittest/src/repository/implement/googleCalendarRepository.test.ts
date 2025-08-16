@@ -145,51 +145,43 @@ describe('GoogleCalendarRepository', () => {
     });
 
     it('カレンダー情報が正常に削除できること', async () => {
-        for (const { raceType, baseCalendarData } of [
-            { raceType: RaceType.JRA, baseCalendarData: baseJraCalendarData },
-            { raceType: RaceType.NAR, baseCalendarData: baseNarCalendarData },
+        for (const { baseCalendarData } of [
+            { baseCalendarData: baseJraCalendarData },
+            { baseCalendarData: baseNarCalendarData },
             {
-                raceType: RaceType.OVERSEAS,
                 baseCalendarData: baseOverseasCalendarData,
             },
             {
-                raceType: RaceType.KEIRIN,
                 baseCalendarData: baseKeirinCalendarData,
             },
             {
-                raceType: RaceType.AUTORACE,
                 baseCalendarData: baseAutoraceCalendarData,
             },
             {
-                raceType: RaceType.BOATRACE,
                 baseCalendarData: baseBoatraceCalendarData,
             },
         ]) {
             googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-            await repository.deleteEvents(raceType, [baseCalendarData]);
+            await repository.deleteEvents([baseCalendarData]);
             expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
         }
     });
 
     it('カレンダー情報が正常に削除できないこと', async () => {
-        for (const { raceType, baseCalendarData } of [
-            { raceType: RaceType.JRA, baseCalendarData: baseJraCalendarData },
-            { raceType: RaceType.NAR, baseCalendarData: baseNarCalendarData },
+        for (const { baseCalendarData } of [
+            { baseCalendarData: baseJraCalendarData },
+            { baseCalendarData: baseNarCalendarData },
             {
-                raceType: RaceType.OVERSEAS,
                 baseCalendarData: baseOverseasCalendarData,
             },
             {
-                raceType: RaceType.KEIRIN,
                 baseCalendarData: baseKeirinCalendarData,
             },
             {
-                raceType: RaceType.AUTORACE,
                 baseCalendarData: baseAutoraceCalendarData,
             },
             {
-                raceType: RaceType.BOATRACE,
                 baseCalendarData: baseBoatraceCalendarData,
             },
         ]) {
@@ -197,7 +189,7 @@ describe('GoogleCalendarRepository', () => {
                 new Error('API Error'),
             );
 
-            await repository.deleteEvents(raceType, [baseCalendarData]);
+            await repository.deleteEvents([baseCalendarData]);
             expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
         }
     });

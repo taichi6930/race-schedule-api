@@ -81,8 +81,5 @@ export interface ICalendarRepository {
      *               - APIのレート制限に到達
      *               - 認証/認可エラー
      */
-    deleteEvents: (
-        raceType: RaceType,
-        calendarDataList: CalendarData[],
-    ) => Promise<void>;
+    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
 }

@@ -118,19 +118,15 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの削除を行う
-     * @param raceType - レース種別
      * @param calendarDataList
      */
     @Logger
-    public async deleteEvents(
-        raceType: RaceType,
-        calendarDataList: CalendarData[],
-    ): Promise<void> {
+    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
         await Promise.all(
             calendarDataList.map(async (calendarData) => {
                 try {
                     await this.googleCalendarGateway.deleteCalendarData(
-                        raceType,
+                        calendarData.raceType,
                         calendarData.id,
                     );
                 } catch (error) {
