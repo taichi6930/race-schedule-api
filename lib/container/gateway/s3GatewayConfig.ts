@@ -13,35 +13,8 @@ import type { RacePlayerRecord } from '../../src/gateway/record/racePlayerRecord
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
 // s3Gatewayの実装クラスをDIコンテナに登錄する
-container.register<IS3Gateway<MechanicalRacingPlaceRecord>>('PlaceS3Gateway', {
-    useFactory: () => {
-        switch (ENV) {
-            case allowedEnvs.production: {
-                return new S3Gateway<MechanicalRacingPlaceRecord>(
-                    process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
-                );
-            }
-            case allowedEnvs.test: {
-                return new S3Gateway<MechanicalRacingPlaceRecord>(
-                    process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket-test',
-                );
-            }
-            case allowedEnvs.local:
-            case allowedEnvs.localNoInitData:
-            case allowedEnvs.localInitMadeData:
-            case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<MechanicalRacingPlaceRecord>(
-                    process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
-                );
-            }
-            default: {
-                throw new Error('Invalid ENV value');
-            }
-        }
-    },
-});
 container.register<IS3Gateway<MechanicalRacingPlaceRecord>>(
-    'KeirinPlaceS3GatewayWithGrade',
+    'PlaceS3GatewayWithGrade',
     {
         useFactory: () => {
             switch (ENV) {
