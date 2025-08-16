@@ -48,7 +48,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * MockS3Gatewayのコンストラクタ
      * @param {string} folderPath
      */
-    public constructor(_: string, folderPath: string) {
+    public constructor(folderPath: string) {
         this.folderPath = folderPath;
         (async () => {
             // 既にmockStorageに値が入っている場合は何もしない

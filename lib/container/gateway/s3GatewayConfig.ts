@@ -19,13 +19,11 @@ container.register<IS3Gateway<MechanicalRacingPlaceRecord>>('PlaceS3Gateway', {
             case allowedEnvs.production: {
                 return new S3Gateway<MechanicalRacingPlaceRecord>(
                     process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
-                    'common/',
                 );
             }
             case allowedEnvs.test: {
                 return new S3Gateway<MechanicalRacingPlaceRecord>(
                     process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket-test',
-                    'common/',
                 );
             }
             case allowedEnvs.local:
@@ -34,7 +32,6 @@ container.register<IS3Gateway<MechanicalRacingPlaceRecord>>('PlaceS3Gateway', {
             case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<MechanicalRacingPlaceRecord>(
                     process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
-                    'common/',
                 );
             }
             default: {
@@ -51,14 +48,12 @@ container.register<IS3Gateway<MechanicalRacingPlaceRecord>>(
                 case allowedEnvs.production: {
                     return new S3Gateway<MechanicalRacingPlaceRecord>(
                         process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
-                        'keirin/',
                     );
                 }
                 case allowedEnvs.test: {
                     return new S3Gateway<MechanicalRacingPlaceRecord>(
                         process.env.S3_BUCKET_NAME ??
                             'race-schedule-bucket-test',
-                        'keirin/',
                     );
                 }
                 case allowedEnvs.local:
@@ -67,7 +62,6 @@ container.register<IS3Gateway<MechanicalRacingPlaceRecord>>(
                 case allowedEnvs.githubActionsCi: {
                     return new MockS3Gateway<MechanicalRacingPlaceRecord>(
                         process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
-                        'keirin/',
                     );
                 }
                 default: {
@@ -83,13 +77,11 @@ container.register<IS3Gateway<PlaceRecord>>('KeirinPlaceS3Gateway', {
             case allowedEnvs.production: {
                 return new S3Gateway<PlaceRecord>(
                     process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
-                    'keirin/',
                 );
             }
             case allowedEnvs.test: {
                 return new S3Gateway<PlaceRecord>(
                     process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket-test',
-                    'keirin/',
                 );
             }
             case allowedEnvs.local:
@@ -98,7 +90,6 @@ container.register<IS3Gateway<PlaceRecord>>('KeirinPlaceS3Gateway', {
             case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<PlaceRecord>(
                     process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
-                    'keirin/',
                 );
             }
             default: {
@@ -115,13 +106,11 @@ container.register<IS3Gateway<MechanicalRacingRaceRecord>>(
                 case allowedEnvs.production: {
                     return new S3Gateway<MechanicalRacingRaceRecord>(
                         'race-schedule-bucket',
-                        'keirin/',
                     );
                 }
                 case allowedEnvs.test: {
                     return new S3Gateway<MechanicalRacingRaceRecord>(
                         'race-schedule-bucket-test',
-                        'keirin/',
                     );
                 }
                 case allowedEnvs.local:
@@ -130,7 +119,6 @@ container.register<IS3Gateway<MechanicalRacingRaceRecord>>(
                 case allowedEnvs.githubActionsCi: {
                     return new MockS3Gateway<MechanicalRacingRaceRecord>(
                         'race-schedule-bucket',
-                        'keirin/',
                     );
                 }
                 default: {
@@ -145,15 +133,11 @@ container.register<IS3Gateway<RacePlayerRecord>>('KeirinRacePlayerS3Gateway', {
         switch (ENV) {
             case allowedEnvs.production: {
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<RacePlayerRecord>(
-                    'race-schedule-bucket',
-                    'keirin/',
-                );
+                return new S3Gateway<RacePlayerRecord>('race-schedule-bucket');
             }
             case allowedEnvs.test: {
                 return new S3Gateway<RacePlayerRecord>(
                     'race-schedule-bucket-test',
-                    'keirin/',
                 );
             }
             case allowedEnvs.local:
@@ -162,7 +146,6 @@ container.register<IS3Gateway<RacePlayerRecord>>('KeirinRacePlayerS3Gateway', {
             case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<RacePlayerRecord>(
                     'race-schedule-bucket',
-                    'keirin/',
                 );
             }
             default: {
@@ -179,14 +162,12 @@ container.register<IS3Gateway<HorseRacingRaceRecord>>('NarRaceS3Gateway', {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket',
-                    'nar/',
                 );
             }
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket-test',
-                    'nar/',
                 );
             }
             case allowedEnvs.local:
@@ -195,7 +176,6 @@ container.register<IS3Gateway<HorseRacingRaceRecord>>('NarRaceS3Gateway', {
             case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket',
-                    'nar/',
                 );
             }
             default: {
@@ -208,25 +188,16 @@ container.register<IS3Gateway<PlaceRecord>>('NarPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new S3Gateway<PlaceRecord>(
-                    'race-schedule-bucket',
-                    'nar/',
-                );
+                return new S3Gateway<PlaceRecord>('race-schedule-bucket');
             }
             case allowedEnvs.test: {
-                return new S3Gateway<PlaceRecord>(
-                    'race-schedule-bucket-test',
-                    'nar/',
-                );
+                return new S3Gateway<PlaceRecord>('race-schedule-bucket-test');
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<PlaceRecord>(
-                    'race-schedule-bucket',
-                    'nar/',
-                );
+                return new MockS3Gateway<PlaceRecord>('race-schedule-bucket');
             }
             default: {
                 throw new Error('Invalid ENV value');
@@ -239,26 +210,19 @@ container.register<IS3Gateway<JraRaceRecord>>('JraRaceS3Gateway', {
         switch (ENV) {
             case allowedEnvs.production: {
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<JraRaceRecord>(
-                    'race-schedule-bucket',
-                    'jra/',
-                );
+                return new S3Gateway<JraRaceRecord>('race-schedule-bucket');
             }
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<JraRaceRecord>(
                     'race-schedule-bucket-test',
-                    'jra/',
                 );
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<JraRaceRecord>(
-                    'race-schedule-bucket',
-                    'jra/',
-                );
+                return new MockS3Gateway<JraRaceRecord>('race-schedule-bucket');
             }
             default: {
                 throw new Error('Invalid ENV value');
@@ -270,26 +234,17 @@ container.register<IS3Gateway<PlaceRecord>>('JraPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new S3Gateway<PlaceRecord>(
-                    'race-schedule-bucket',
-                    'jra/',
-                );
+                return new S3Gateway<PlaceRecord>('race-schedule-bucket');
             }
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<PlaceRecord>(
-                    'race-schedule-bucket-test',
-                    'jra/',
-                );
+                return new S3Gateway<PlaceRecord>('race-schedule-bucket-test');
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<PlaceRecord>(
-                    'race-schedule-bucket',
-                    'jra/',
-                );
+                return new MockS3Gateway<PlaceRecord>('race-schedule-bucket');
             }
             default: {
                 throw new Error('Invalid ENV value');
@@ -301,26 +256,19 @@ container.register<IS3Gateway<heldDayRecord>>('JraHeldDayS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new S3Gateway<heldDayRecord>(
-                    'race-schedule-bucket',
-                    'jra/',
-                );
+                return new S3Gateway<heldDayRecord>('race-schedule-bucket');
             }
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<heldDayRecord>(
                     'race-schedule-bucket-test',
-                    'jra/',
                 );
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<heldDayRecord>(
-                    'race-schedule-bucket',
-                    'jra/',
-                );
+                return new MockS3Gateway<heldDayRecord>('race-schedule-bucket');
             }
             default: {
                 throw new Error('Invalid ENV value');
@@ -335,14 +283,12 @@ container.register<IS3Gateway<HorseRacingRaceRecord>>('OverseasRaceS3Gateway', {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket',
-                    'overseas/',
                 );
             }
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket-test',
-                    'overseas/',
                 );
             }
             case allowedEnvs.local:
@@ -351,7 +297,6 @@ container.register<IS3Gateway<HorseRacingRaceRecord>>('OverseasRaceS3Gateway', {
             case allowedEnvs.githubActionsCi: {
                 return new MockS3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket',
-                    'overseas/',
                 );
             }
             default: {
@@ -370,14 +315,12 @@ container.register<IS3Gateway<MechanicalRacingRaceRecord>>(
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<MechanicalRacingRaceRecord>(
                         'race-schedule-bucket',
-                        'autorace/',
                     );
                 }
                 case allowedEnvs.test: {
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<MechanicalRacingRaceRecord>(
                         'race-schedule-bucket-test',
-                        'autorace/',
                     );
                 }
                 case allowedEnvs.local:
@@ -386,7 +329,6 @@ container.register<IS3Gateway<MechanicalRacingRaceRecord>>(
                 case allowedEnvs.githubActionsCi: {
                     return new MockS3Gateway<MechanicalRacingRaceRecord>(
                         'race-schedule-bucket',
-                        'autorace/',
                     );
                 }
                 default: {
@@ -404,13 +346,11 @@ container.register<IS3Gateway<MechanicalRacingPlaceRecord>>(
                 case allowedEnvs.production: {
                     return new S3Gateway<MechanicalRacingPlaceRecord>(
                         'race-schedule-bucket',
-                        'autorace/',
                     );
                 }
                 case allowedEnvs.test: {
                     return new S3Gateway<MechanicalRacingPlaceRecord>(
                         'race-schedule-bucket-test',
-                        'autorace/',
                     );
                 }
                 case allowedEnvs.local:
@@ -419,7 +359,6 @@ container.register<IS3Gateway<MechanicalRacingPlaceRecord>>(
                 case allowedEnvs.githubActionsCi: {
                     return new MockS3Gateway<MechanicalRacingPlaceRecord>(
                         'race-schedule-bucket',
-                        'autorace/',
                     );
                 }
                 default: {
@@ -433,25 +372,16 @@ container.register<IS3Gateway<PlaceRecord>>('AutoracePlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new S3Gateway<PlaceRecord>(
-                    'race-schedule-bucket',
-                    'autorace/',
-                );
+                return new S3Gateway<PlaceRecord>('race-schedule-bucket');
             }
             case allowedEnvs.test: {
-                return new S3Gateway<PlaceRecord>(
-                    'race-schedule-bucket-test',
-                    'autorace/',
-                );
+                return new S3Gateway<PlaceRecord>('race-schedule-bucket-test');
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<PlaceRecord>(
-                    'race-schedule-bucket',
-                    'autorace/',
-                );
+                return new MockS3Gateway<PlaceRecord>('race-schedule-bucket');
             }
             default: {
                 throw new Error('Invalid ENV value');
@@ -468,14 +398,12 @@ container.register<IS3Gateway<RacePlayerRecord>>(
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<RacePlayerRecord>(
                         'race-schedule-bucket',
-                        'autorace/',
                     );
                 }
                 case allowedEnvs.test: {
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<RacePlayerRecord>(
                         'race-schedule-bucket-test',
-                        'autorace/',
                     );
                 }
                 case allowedEnvs.local:
@@ -484,7 +412,6 @@ container.register<IS3Gateway<RacePlayerRecord>>(
                 case allowedEnvs.githubActionsCi: {
                     return new MockS3Gateway<RacePlayerRecord>(
                         'race-schedule-bucket',
-                        'autorace/',
                     );
                 }
                 default: {
@@ -502,13 +429,11 @@ container.register<IS3Gateway<MechanicalRacingPlaceRecord>>(
                 case allowedEnvs.production: {
                     return new S3Gateway<MechanicalRacingPlaceRecord>(
                         'race-schedule-bucket',
-                        'boatrace/',
                     );
                 }
                 case allowedEnvs.test: {
                     return new S3Gateway<MechanicalRacingPlaceRecord>(
                         'race-schedule-bucket-test',
-                        'boatrace/',
                     );
                 }
                 case allowedEnvs.local:
@@ -517,7 +442,6 @@ container.register<IS3Gateway<MechanicalRacingPlaceRecord>>(
                 case allowedEnvs.githubActionsCi: {
                     return new MockS3Gateway<MechanicalRacingPlaceRecord>(
                         'race-schedule-bucket',
-                        'boatrace/',
                     );
                 }
                 default: {
@@ -531,25 +455,16 @@ container.register<IS3Gateway<PlaceRecord>>('BoatracePlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new S3Gateway<PlaceRecord>(
-                    'race-schedule-bucket',
-                    'boatrace/',
-                );
+                return new S3Gateway<PlaceRecord>('race-schedule-bucket');
             }
             case allowedEnvs.test: {
-                return new S3Gateway<PlaceRecord>(
-                    'race-schedule-bucket-test',
-                    'boatrace/',
-                );
+                return new S3Gateway<PlaceRecord>('race-schedule-bucket-test');
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<PlaceRecord>(
-                    'race-schedule-bucket',
-                    'boatrace/',
-                );
+                return new MockS3Gateway<PlaceRecord>('race-schedule-bucket');
             }
             default: {
                 throw new Error('Invalid ENV value');
@@ -566,14 +481,12 @@ container.register<IS3Gateway<MechanicalRacingRaceRecord>>(
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<MechanicalRacingRaceRecord>(
                         'race-schedule-bucket',
-                        'boatrace/',
                     );
                 }
                 case allowedEnvs.test: {
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<MechanicalRacingRaceRecord>(
                         'race-schedule-bucket-test',
-                        'boatrace/',
                     );
                 }
                 case allowedEnvs.local:
@@ -582,7 +495,6 @@ container.register<IS3Gateway<MechanicalRacingRaceRecord>>(
                 case allowedEnvs.githubActionsCi: {
                     return new MockS3Gateway<MechanicalRacingRaceRecord>(
                         'race-schedule-bucket',
-                        'boatrace/',
                     );
                 }
                 default: {
@@ -601,14 +513,12 @@ container.register<IS3Gateway<RacePlayerRecord>>(
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<RacePlayerRecord>(
                         'race-schedule-bucket',
-                        'boatrace/',
                     );
                 }
                 case allowedEnvs.test: {
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<RacePlayerRecord>(
                         'race-schedule-bucket-test',
-                        'boatrace/',
                     );
                 }
                 case allowedEnvs.local:
@@ -617,7 +527,6 @@ container.register<IS3Gateway<RacePlayerRecord>>(
                 case allowedEnvs.githubActionsCi: {
                     return new MockS3Gateway<RacePlayerRecord>(
                         'race-schedule-bucket',
-                        'boatrace/',
                     );
                 }
                 default: {

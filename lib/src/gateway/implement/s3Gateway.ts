@@ -25,12 +25,6 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      */
     private readonly s3Client: S3Client;
     /**
-     * バケット名 S3の中にあるデータの保存場所
-     * @type {string}
-     * @private
-     */
-    private readonly bucketName: string;
-    /**
      * フォルダのパス
      * @type {string}
      * @private
@@ -39,13 +33,11 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     /**
      * S3Gatewayのコンストラクタ
-     * @param {string} bucketName
      * @param {string} folderPath
      */
-    public constructor(bucketName: string, folderPath: string) {
+    public constructor(folderPath: string) {
         // S3Clientの初期化 東京リージョン
         this.s3Client = new S3Client({ region: 'ap-northeast-1' });
-        this.bucketName = bucketName;
         this.folderPath = folderPath;
     }
 
