@@ -32,7 +32,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
 
         // DIコンテナにモックを登録
         container.registerInstance('PlaceS3Gateway', placeS3Gateway);
-        container.registerInstance('JraHeldDayS3Gateway', heldDayS3Gateway);
+        container.registerInstance('HeldDayS3Gateway', heldDayS3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(JraPlaceRepositoryFromStorageImpl);
