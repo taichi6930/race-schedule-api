@@ -60,7 +60,6 @@ export interface ICalendarRepository {
      *               - 認証/認可エラー
      */
     upsertEvents: (
-        raceType: RaceType,
         raceEntityList:
             | JraRaceEntity[]
             | HorseRacingRaceEntity[]

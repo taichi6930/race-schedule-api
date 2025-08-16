@@ -110,52 +110,34 @@ export class PublicGamblingCalendarService implements ICalendarService {
             return;
         }
         if (raceEntityList.jra !== undefined && raceEntityList.jra.length > 0) {
-            await this.calendarRepository.upsertEvents(
-                RaceType.JRA,
-                raceEntityList.jra,
-            );
+            await this.calendarRepository.upsertEvents(raceEntityList.jra);
         }
         if (raceEntityList.nar !== undefined && raceEntityList.nar.length > 0) {
-            await this.calendarRepository.upsertEvents(
-                RaceType.NAR,
-                raceEntityList.nar,
-            );
+            await this.calendarRepository.upsertEvents(raceEntityList.nar);
         }
         if (
             raceEntityList.keirin !== undefined &&
             raceEntityList.keirin.length > 0
         ) {
-            await this.calendarRepository.upsertEvents(
-                RaceType.KEIRIN,
-                raceEntityList.keirin,
-            );
+            await this.calendarRepository.upsertEvents(raceEntityList.keirin);
         }
         if (
             raceEntityList.overseas !== undefined &&
             raceEntityList.overseas.length > 0
         ) {
-            await this.calendarRepository.upsertEvents(
-                RaceType.OVERSEAS,
-                raceEntityList.overseas,
-            );
+            await this.calendarRepository.upsertEvents(raceEntityList.overseas);
         }
         if (
             raceEntityList.boatrace !== undefined &&
             raceEntityList.boatrace.length > 0
         ) {
-            await this.calendarRepository.upsertEvents(
-                RaceType.BOATRACE,
-                raceEntityList.boatrace,
-            );
+            await this.calendarRepository.upsertEvents(raceEntityList.boatrace);
         }
         if (
             raceEntityList.autorace !== undefined &&
             raceEntityList.autorace.length > 0
         ) {
-            await this.calendarRepository.upsertEvents(
-                RaceType.AUTORACE,
-                raceEntityList.autorace,
-            );
+            await this.calendarRepository.upsertEvents(raceEntityList.autorace);
         }
     }
 
