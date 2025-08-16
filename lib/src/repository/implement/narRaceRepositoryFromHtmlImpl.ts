@@ -234,7 +234,12 @@ export class NarRaceRepositoryFromHtmlImpl
     public async registerRaceEntityList(
         raceType: RaceType,
         raceEntityList: HorseRacingRaceEntity[],
-    ): Promise<void> {
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: HorseRacingRaceEntity[];
+        failureData: HorseRacingRaceEntity[];
+    }> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');

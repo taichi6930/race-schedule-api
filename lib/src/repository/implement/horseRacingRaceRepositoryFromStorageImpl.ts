@@ -142,36 +142,57 @@ export class HorseRacingRaceRepositoryFromStorageImpl
     public async registerRaceEntityList(
         raceType: RaceType,
         raceEntityList: HorseRacingRaceEntity[],
-    ): Promise<void> {
-        // 既に登録されているデータを取得する
-        const existFetchRaceRecordList: HorseRacingRaceRecord[] =
-            await this.getRaceRecordListFromS3(raceType);
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: HorseRacingRaceEntity[];
+        failureData: HorseRacingRaceEntity[];
+    }> {
+        try {
+            // 既に登録されているデータを取得する
+            const existFetchRaceRecordList: HorseRacingRaceRecord[] =
+                await this.getRaceRecordListFromS3(raceType);
 
-        // RaceEntityをRaceRecordに変換する
-        const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(
-            (raceEntity) => raceEntity.toRaceRecord(),
-        );
+            // RaceEntityをRaceRecordに変換する
+            const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(
+                (raceEntity) => raceEntity.toRaceRecord(),
+            );
 
-        // idをキーとしたMapを作成し、既存データを上書きまたは追加する
-        const raceRecordMap = new Map<string, HorseRacingRaceRecord>(
-            existFetchRaceRecordList.map((record) => [record.id, record]),
-        );
+            // idをキーとしたMapを作成し、既存データを上書きまたは追加する
+            const raceRecordMap = new Map<string, HorseRacingRaceRecord>(
+                existFetchRaceRecordList.map((record) => [record.id, record]),
+            );
 
-        for (const raceRecord of raceRecordList) {
-            raceRecordMap.set(raceRecord.id, raceRecord);
+            for (const raceRecord of raceRecordList) {
+                raceRecordMap.set(raceRecord.id, raceRecord);
+            }
+
+            // Mapからリストに変換し、日付の最新順にソート
+            const updatedRaceRecordList = [...raceRecordMap.values()].sort(
+                (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
+            );
+            console.log(updatedRaceRecordList);
+            // 月毎に分けられたplaceをS3にアップロードする
+            await this.uploadDataToS3(
+                raceType,
+                updatedRaceRecordList,
+                this.fileName,
+            );
+            return {
+                code: 200,
+                message: 'Successfully registered race data',
+                successData: raceEntityList,
+                failureData: [],
+            };
+        } catch (error) {
+            console.error(error);
+            return {
+                code: 500,
+                message: 'Failed to register race data',
+                successData: [],
+                failureData: raceEntityList,
+            };
         }
-
-        // Mapからリストに変換し、日付の最新順にソート
-        const updatedRaceRecordList = [...raceRecordMap.values()].sort(
-            (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
-        );
-        console.log(updatedRaceRecordList);
-        // 月毎に分けられたplaceをS3にアップロードする
-        await this.uploadDataToS3(
-            raceType,
-            updatedRaceRecordList,
-            this.fileName,
-        );
     }
 
     @Logger

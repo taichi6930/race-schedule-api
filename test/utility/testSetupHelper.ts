@@ -249,7 +249,7 @@ export function setupTestMock(): TestSetup {
     const horseRacingPlaceRepositoryFromStorageImpl =
         mockPlaceRepository<HorseRacingPlaceEntity>();
     container.registerInstance<IPlaceRepository<HorseRacingPlaceEntity>>(
-        'NarPlaceRepositoryFromStorage',
+        'PlaceRepositoryFromStorage',
         horseRacingPlaceRepositoryFromStorageImpl,
     );
     const narPlaceRepositoryFromHtmlImpl =

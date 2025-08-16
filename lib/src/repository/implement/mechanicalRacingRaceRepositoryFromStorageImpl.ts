@@ -114,66 +114,87 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
     public async registerRaceEntityList(
         raceType: RaceType,
         raceEntityList: MechanicalRacingRaceEntity[],
-    ): Promise<void> {
-        // 既に登録されているデータを取得する
-        const existFetchRaceRecordList: MechanicalRacingRaceRecord[] =
-            await this.getRaceRecordListFromS3(raceType);
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: MechanicalRacingRaceEntity[];
+        failureData: MechanicalRacingRaceEntity[];
+    }> {
+        try {
+            // 既に登録されているデータを取得する
+            const existFetchRaceRecordList: MechanicalRacingRaceRecord[] =
+                await this.getRaceRecordListFromS3(raceType);
 
-        const existFetchRacePlayerRecordList: RacePlayerRecord[] =
-            await this.getRacePlayerRecordListFromS3(raceType);
+            const existFetchRacePlayerRecordList: RacePlayerRecord[] =
+                await this.getRacePlayerRecordListFromS3(raceType);
 
-        // RaceEntityをRaceRecordに変換する
-        const raceRecordList: MechanicalRacingRaceRecord[] = raceEntityList.map(
-            (raceEntity) => raceEntity.toRaceRecord(),
-        );
+            // RaceEntityをRaceRecordに変換する
+            const raceRecordList: MechanicalRacingRaceRecord[] =
+                raceEntityList.map((raceEntity) => raceEntity.toRaceRecord());
 
-        // RaceEntityをRacePlayerRecordに変換する
-        const racePlayerRecordList = raceEntityList.flatMap((raceEntity) =>
-            raceEntity.toPlayerRecordList(),
-        );
-
-        // raceデータでidが重複しているデータは上書きをし、新規のデータは追加する
-        for (const raceRecord of raceRecordList) {
-            // 既に登録されているデータがある場合は上書きする
-            const index = existFetchRaceRecordList.findIndex(
-                (record) => record.id === raceRecord.id,
+            // RaceEntityをRacePlayerRecordに変換する
+            const racePlayerRecordList = raceEntityList.flatMap((raceEntity) =>
+                raceEntity.toPlayerRecordList(),
             );
-            if (index === -1) {
-                existFetchRaceRecordList.push(raceRecord);
-            } else {
-                existFetchRaceRecordList[index] = raceRecord;
-            }
-        }
 
-        // racePlayerデータでidが重複しているデータは上書きをし、新規のデータは追加する
-        for (const racePlayerRecord of racePlayerRecordList) {
-            // 既に登録されているデータがある場合は上書きする
-            const index = existFetchRacePlayerRecordList.findIndex(
-                (record) => record.id === racePlayerRecord.id,
+            // raceデータでidが重複しているデータは上書きをし、新規のデータは追加する
+            for (const raceRecord of raceRecordList) {
+                // 既に登録されているデータがある場合は上書きする
+                const index = existFetchRaceRecordList.findIndex(
+                    (record) => record.id === raceRecord.id,
+                );
+                if (index === -1) {
+                    existFetchRaceRecordList.push(raceRecord);
+                } else {
+                    existFetchRaceRecordList[index] = raceRecord;
+                }
+            }
+
+            // racePlayerデータでidが重複しているデータは上書きをし、新規のデータは追加する
+            for (const racePlayerRecord of racePlayerRecordList) {
+                // 既に登録されているデータがある場合は上書きする
+                const index = existFetchRacePlayerRecordList.findIndex(
+                    (record) => record.id === racePlayerRecord.id,
+                );
+                if (index === -1) {
+                    existFetchRacePlayerRecordList.push(racePlayerRecord);
+                } else {
+                    existFetchRacePlayerRecordList[index] = racePlayerRecord;
+                }
+            }
+
+            // 日付の最新順にソート
+            existFetchRaceRecordList.sort(
+                (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );
-            if (index === -1) {
-                existFetchRacePlayerRecordList.push(racePlayerRecord);
-            } else {
-                existFetchRacePlayerRecordList[index] = racePlayerRecord;
-            }
+
+            // raceDataをS3にアップロードする
+            await this.uploadDataToRaceS3Gateway(
+                raceType,
+                existFetchRaceRecordList,
+                this.raceListFileName,
+            );
+            await this.uploadDataToRacePlayerS3Gateway(
+                raceType,
+                existFetchRacePlayerRecordList,
+                this.racePlayerListFileName,
+            );
+
+            return {
+                code: 200,
+                message: 'Successfully registered race data',
+                successData: raceEntityList,
+                failureData: [],
+            };
+        } catch (error) {
+            console.error(error);
+            return {
+                code: 500,
+                message: 'Failed to register race data',
+                successData: [],
+                failureData: raceEntityList,
+            };
         }
-
-        // 日付の最新順にソート
-        existFetchRaceRecordList.sort(
-            (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
-        );
-
-        // raceDataをS3にアップロードする
-        await this.uploadDataToRaceS3Gateway(
-            raceType,
-            existFetchRaceRecordList,
-            this.raceListFileName,
-        );
-        await this.uploadDataToRacePlayerS3Gateway(
-            raceType,
-            existFetchRacePlayerRecordList,
-            this.racePlayerListFileName,
-        );
     }
 
     /**

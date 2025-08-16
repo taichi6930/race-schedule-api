@@ -1,6 +1,6 @@
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
-import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
+import { PlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import type { PlaceId } from '../../utility/data/common/placeId';
 import {
     generatePlaceId,
@@ -76,8 +76,8 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
     /**
      * HorseRacingPlaceRecordに変換する
      */
-    public toRecord(): HorseRacingPlaceRecord {
-        return HorseRacingPlaceRecord.create(
+    public toRecord(): PlaceRecord {
+        return PlaceRecord.create(
             this.id,
             this.placeData.raceType,
             this.placeData.dateTime,

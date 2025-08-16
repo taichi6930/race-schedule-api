@@ -6,7 +6,7 @@ import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { heldDayRecord } from '../../gateway/record/heldDayRecord';
-import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
+import { PlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -24,7 +24,7 @@ export class JraPlaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('JraPlaceS3Gateway')
-        private readonly placeS3Gateway: IS3Gateway<HorseRacingPlaceRecord>,
+        private readonly placeS3Gateway: IS3Gateway<PlaceRecord>,
         @inject('JraHeldDayS3Gateway')
         private readonly heldDayS3Gateway: IS3Gateway<heldDayRecord>,
     ) {}
@@ -39,7 +39,7 @@ export class JraPlaceRepositoryFromStorageImpl
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // 開催データを取得
-        const placeRecordList: HorseRacingPlaceRecord[] =
+        const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3(searchFilter.raceType);
 
         const heldDayRecordList: heldDayRecord[] =
@@ -49,7 +49,7 @@ export class JraPlaceRepositoryFromStorageImpl
         const recordMap = new Map<
             string,
             {
-                placeRecord: HorseRacingPlaceRecord;
+                placeRecord: PlaceRecord;
                 heldDayRecord: heldDayRecord;
             }
         >();
@@ -112,11 +112,12 @@ export class JraPlaceRepositoryFromStorageImpl
     }> {
         try {
             // 既に登録されているデータを取得する
-            const existFetchPlaceRecordList: HorseRacingPlaceRecord[] =
+            const existFetchPlaceRecordList: PlaceRecord[] =
                 await this.getPlaceRecordListFromS3(raceType);
 
-            const placeRecordList: HorseRacingPlaceRecord[] =
-                placeEntityList.map((placeEntity) => placeEntity.toRecord());
+            const placeRecordList: PlaceRecord[] = placeEntityList.map(
+                (placeEntity) => placeEntity.toRecord(),
+            );
 
             // idが重複しているデータは上書きをし、新規のデータは追加する
             for (const placeRecord of placeRecordList) {
@@ -201,7 +202,7 @@ export class JraPlaceRepositoryFromStorageImpl
     @Logger
     private async getPlaceRecordListFromS3(
         raceType: RaceType,
-    ): Promise<HorseRacingPlaceRecord[]> {
+    ): Promise<PlaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.placeS3Gateway.fetchDataFromS3(
             this.placeFileName,
@@ -227,9 +228,9 @@ export class JraPlaceRepositoryFromStorageImpl
         };
 
         // データ行を解析して PlaceData のリストを生成
-        const placeRecordList: HorseRacingPlaceRecord[] = lines
+        const placeRecordList: PlaceRecord[] = lines
             .slice(1)
-            .flatMap((line: string): HorseRacingPlaceRecord[] => {
+            .flatMap((line: string): PlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -238,7 +239,7 @@ export class JraPlaceRepositoryFromStorageImpl
                         : getJSTDate(new Date());
 
                     return [
-                        HorseRacingPlaceRecord.create(
+                        PlaceRecord.create(
                             columns[indices.id],
                             raceType,
                             new Date(columns[indices.dateTime]),

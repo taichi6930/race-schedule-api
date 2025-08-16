@@ -35,13 +35,16 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
         s3GatewayForBoatrace = mockS3Gateway<MechanicalRacingPlaceRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('KeirinPlaceS3Gateway', s3GatewayForKeirin);
         container.registerInstance(
-            'AutoracePlaceS3Gateway',
+            'KeirinPlaceS3GatewayWithGrade',
+            s3GatewayForKeirin,
+        );
+        container.registerInstance(
+            'AutoracePlaceS3GatewayWithGrade',
             s3GatewayForAutorace,
         );
         container.registerInstance(
-            'BoatracePlaceS3Gateway',
+            'BoatracePlaceS3GatewayWithGrade',
             s3GatewayForBoatrace,
         );
 

@@ -32,7 +32,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 
     /**
      * 開催データを取得する
-     * @param searchFilter
+     * @param searchFilter - レース検索フィルター
      */
     @Logger
     public async fetchRaceEntityList(
@@ -188,7 +188,12 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     public async registerRaceEntityList(
         raceType: RaceType,
         raceEntityList: MechanicalRacingRaceEntity[],
-    ): Promise<void> {
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: MechanicalRacingRaceEntity[];
+        failureData: MechanicalRacingRaceEntity[];
+    }> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');

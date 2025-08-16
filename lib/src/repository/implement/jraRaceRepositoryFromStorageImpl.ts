@@ -129,37 +129,59 @@ export class JraRaceRepositoryFromStorageImpl
     public async registerRaceEntityList(
         raceType: RaceType,
         raceEntityList: JraRaceEntity[],
-    ): Promise<void> {
-        // 既に登録されているデータを取得する
-        const existFetchRaceRecordList: JraRaceRecord[] =
-            await this.getRaceRecordListFromS3(raceType);
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: JraRaceEntity[];
+        failureData: JraRaceEntity[];
+    }> {
+        try {
+            // 既に登録されているデータを取得する
+            const existFetchRaceRecordList: JraRaceRecord[] =
+                await this.getRaceRecordListFromS3(raceType);
 
-        // RaceEntityをRaceRecordに変換する
-        const raceRecordList: JraRaceRecord[] = raceEntityList.map(
-            (raceEntity) => raceEntity.toRaceRecord(),
-        );
-
-        // idが重複しているデータは上書きをし、新規のデータは追加する
-        for (const raceRecord of raceRecordList) {
-            // 既に登録されているデータがある場合は上書きする
-            const index = existFetchRaceRecordList.findIndex(
-                (record) => record.id === raceRecord.id,
+            // RaceEntityをRaceRecordに変換する
+            const raceRecordList: JraRaceRecord[] = raceEntityList.map(
+                (raceEntity) => raceEntity.toRaceRecord(),
             );
-            if (index === -1) {
-                existFetchRaceRecordList.push(raceRecord);
-            } else {
-                existFetchRaceRecordList[index] = raceRecord;
+
+            // idが重複しているデータは上書きをし、新規のデータは追加する
+            for (const raceRecord of raceRecordList) {
+                // 既に登録されているデータがある場合は上書きする
+                const index = existFetchRaceRecordList.findIndex(
+                    (record) => record.id === raceRecord.id,
+                );
+                if (index === -1) {
+                    existFetchRaceRecordList.push(raceRecord);
+                } else {
+                    existFetchRaceRecordList[index] = raceRecord;
+                }
             }
+
+            // 日付の最新順にソート
+            existFetchRaceRecordList.sort(
+                (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
+            );
+
+            await this.s3Gateway.uploadDataToS3(
+                existFetchRaceRecordList,
+                this.fileName,
+            );
+
+            return {
+                code: 200,
+                message: 'Successfully registered race data',
+                successData: raceEntityList,
+                failureData: [],
+            };
+        } catch (error) {
+            console.error(error);
+            return {
+                code: 500,
+                message: 'Failed to register race data',
+                successData: [],
+                failureData: raceEntityList,
+            };
         }
-
-        // 日付の最新順にソート
-        existFetchRaceRecordList.sort(
-            (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
-        );
-
-        await this.s3Gateway.uploadDataToS3(
-            existFetchRaceRecordList,
-            this.fileName,
-        );
     }
 }

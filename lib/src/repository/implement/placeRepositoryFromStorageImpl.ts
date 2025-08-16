@@ -3,7 +3,7 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { HorseRacingPlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
+import { PlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -12,15 +12,23 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
-export class HorseRacingPlaceRepositoryFromStorageImpl
+export class PlaceRepositoryFromStorageImpl
     implements IPlaceRepository<HorseRacingPlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly fileName = 'placeList.csv';
 
     public constructor(
+        @inject('JraPlaceS3Gateway')
+        private readonly placeS3GatewayForJra: IS3Gateway<PlaceRecord>,
         @inject('NarPlaceS3Gateway')
-        private readonly placeS3Gateway: IS3Gateway<HorseRacingPlaceRecord>,
+        private readonly placeS3GatewayForNar: IS3Gateway<PlaceRecord>,
+        @inject('KeirinPlaceS3Gateway')
+        private readonly placeS3GatewayForKeirin: IS3Gateway<PlaceRecord>,
+        @inject('AutoracePlaceS3Gateway')
+        private readonly placeS3GatewayForAutorace: IS3Gateway<PlaceRecord>,
+        @inject('BoatracePlaceS3Gateway')
+        private readonly placeS3GatewayForBoatrace: IS3Gateway<PlaceRecord>,
     ) {}
 
     /**
@@ -33,7 +41,7 @@ export class HorseRacingPlaceRepositoryFromStorageImpl
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<HorseRacingPlaceEntity[]> {
         // 年ごとの開催データを取得
-        const placeRecordList: HorseRacingPlaceRecord[] =
+        const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3(searchFilter.raceType);
 
         // Entityに変換
@@ -63,12 +71,13 @@ export class HorseRacingPlaceRepositoryFromStorageImpl
     }> {
         try {
             // 既に登録されているデータを取得する
-            const existFetchPlaceRecordList: HorseRacingPlaceRecord[] =
+            const existFetchPlaceRecordList: PlaceRecord[] =
                 await this.getPlaceRecordListFromS3(raceType);
 
             // PlaceEntityをPlaceRecordに変換する
-            const placeRecordList: HorseRacingPlaceRecord[] =
-                placeEntityList.map((placeEntity) => placeEntity.toRecord());
+            const placeRecordList: PlaceRecord[] = placeEntityList.map(
+                (placeEntity) => placeEntity.toRecord(),
+            );
 
             // idが重複しているデータは上書きをし、新規のデータは追加する
             for (const placeRecord of placeRecordList) {
@@ -88,7 +97,8 @@ export class HorseRacingPlaceRepositoryFromStorageImpl
                 (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );
 
-            await this.placeS3Gateway.uploadDataToS3(
+            await this.uploadDataToS3(
+                raceType,
                 existFetchPlaceRecordList,
                 this.fileName,
             );
@@ -117,9 +127,9 @@ export class HorseRacingPlaceRepositoryFromStorageImpl
     @Logger
     private async getPlaceRecordListFromS3(
         raceType: RaceType,
-    ): Promise<HorseRacingPlaceRecord[]> {
+    ): Promise<PlaceRecord[]> {
         // S3からデータを取得する
-        const csv = await this.placeS3Gateway.fetchDataFromS3(this.fileName);
+        const csv = await this.fetchDataFromS3(raceType, this.fileName);
 
         // ファイルが空の場合は空のリストを返す
         if (!csv) {
@@ -141,9 +151,9 @@ export class HorseRacingPlaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してPlaceDataのリストを生成
-        const placeRecordList: HorseRacingPlaceRecord[] = lines
+        const placeRecordList: PlaceRecord[] = lines
             .slice(1)
-            .flatMap((line: string): HorseRacingPlaceRecord[] => {
+            .flatMap((line: string): PlaceRecord[] => {
                 try {
                     const columns = line.split(',');
 
@@ -152,7 +162,7 @@ export class HorseRacingPlaceRepositoryFromStorageImpl
                         : getJSTDate(new Date());
 
                     return [
-                        HorseRacingPlaceRecord.create(
+                        PlaceRecord.create(
                             columns[indices.id],
                             raceType,
                             new Date(columns[indices.dateTime]),
@@ -166,5 +176,80 @@ export class HorseRacingPlaceRepositoryFromStorageImpl
                 }
             });
         return placeRecordList;
+    }
+
+    @Logger
+    private async fetchDataFromS3(
+        raceType: RaceType,
+        fileName: string,
+    ): Promise<string> {
+        switch (raceType) {
+            case RaceType.JRA: {
+                return this.placeS3GatewayForJra.fetchDataFromS3(fileName);
+            }
+            case RaceType.NAR: {
+                return this.placeS3GatewayForNar.fetchDataFromS3(fileName);
+            }
+            case RaceType.KEIRIN: {
+                return this.placeS3GatewayForKeirin.fetchDataFromS3(fileName);
+            }
+            case RaceType.BOATRACE: {
+                return this.placeS3GatewayForBoatrace.fetchDataFromS3(fileName);
+            }
+            case RaceType.AUTORACE: {
+                return this.placeS3GatewayForAutorace.fetchDataFromS3(fileName);
+            }
+            case RaceType.OVERSEAS: {
+                throw new Error('Unsupported race type');
+            }
+        }
+    }
+
+    @Logger
+    private async uploadDataToS3(
+        raceType: RaceType,
+        record: PlaceRecord[],
+        fileName: string,
+    ): Promise<void> {
+        switch (raceType) {
+            case RaceType.JRA: {
+                await this.placeS3GatewayForJra.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.NAR: {
+                await this.placeS3GatewayForNar.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.KEIRIN: {
+                await this.placeS3GatewayForKeirin.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.BOATRACE: {
+                await this.placeS3GatewayForBoatrace.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.AUTORACE: {
+                await this.placeS3GatewayForAutorace.uploadDataToS3(
+                    record,
+                    fileName,
+                );
+                break;
+            }
+            case RaceType.OVERSEAS: {
+                throw new Error('Unsupported race type');
+            }
+        }
     }
 }

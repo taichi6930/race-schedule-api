@@ -23,11 +23,11 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
     private readonly fileName = 'placeList.csv';
 
     public constructor(
-        @inject('KeirinPlaceS3Gateway')
+        @inject('KeirinPlaceS3GatewayWithGrade')
         private readonly s3GatewayForKeirin: IS3Gateway<MechanicalRacingPlaceRecord>,
-        @inject('AutoracePlaceS3Gateway')
+        @inject('AutoracePlaceS3GatewayWithGrade')
         private readonly s3GatewayForAutorace: IS3Gateway<MechanicalRacingPlaceRecord>,
-        @inject('BoatracePlaceS3Gateway')
+        @inject('BoatracePlaceS3GatewayWithGrade')
         private readonly s3GatewayForBoatrace: IS3Gateway<MechanicalRacingPlaceRecord>,
     ) {}
 

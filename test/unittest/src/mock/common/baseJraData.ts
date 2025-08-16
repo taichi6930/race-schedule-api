@@ -5,7 +5,7 @@ import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { HorseRacingPlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
+import { PlaceRecord } from '../../../../../lib/src/gateway/record/horseRacingPlaceRecord';
 import { JraRaceRecord } from '../../../../../lib/src/gateway/record/jraRaceRecord';
 import { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
@@ -57,7 +57,7 @@ const baseJraConditionData = HorseRaceConditionData.create(
     baseJraRaceDistance,
 );
 
-export const baseJraPlaceRecord = HorseRacingPlaceRecord.create(
+export const baseJraPlaceRecord = PlaceRecord.create(
     baseJraPlaceId,
     raceType,
     baseJraPlaceDateTime,

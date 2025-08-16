@@ -251,6 +251,14 @@ export class OverseasRaceRepositoryFromHtmlImpl
         }
     }
 
+    private extractSurfaceType(race: string[]): RaceCourseType {
+        const types = ['芝', 'ダート', '障害', 'AW'];
+        const found = types.find((type) =>
+            race.some((item) => item.includes(type)),
+        );
+        return found ?? '芝';
+    }
+
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
@@ -261,17 +269,14 @@ export class OverseasRaceRepositoryFromHtmlImpl
     public async registerRaceEntityList(
         raceType: RaceType,
         raceEntityList: HorseRacingRaceEntity[],
-    ): Promise<void> {
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: HorseRacingRaceEntity[];
+        failureData: HorseRacingRaceEntity[];
+    }> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
-    }
-
-    private extractSurfaceType(race: string[]): RaceCourseType {
-        const types = ['芝', 'ダート', '障害', 'AW'];
-        const found = types.find((type) =>
-            race.some((item) => item.includes(type)),
-        );
-        return found ?? '芝';
     }
 }

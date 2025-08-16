@@ -72,5 +72,10 @@ export interface IRaceDataService {
         keirin?: MechanicalRacingRaceEntity[];
         autorace?: MechanicalRacingRaceEntity[];
         boatrace?: MechanicalRacingRaceEntity[];
-    }) => Promise<void>;
+    }) => Promise<{
+        code: number;
+        message: string;
+        successDataCount: number;
+        failureDataCount: number;
+    }>;
 }

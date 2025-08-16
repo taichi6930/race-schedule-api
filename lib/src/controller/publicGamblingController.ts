@@ -458,13 +458,17 @@ export class PublicGamblingController {
                 };
             }
 
-            await this.raceDataUseCase.updateRaceEntityList(
+            const response = await this.raceDataUseCase.updateRaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
                 raceTypeList,
                 raceTypeParams,
             );
-            res.status(200).send();
+            res.status(response.code).send({
+                message: response.message,
+                successDataCount: response.successDataCount,
+                failureDataCount: response.failureDataCount,
+            });
         } catch (error) {
             console.error('レース情報の更新中にエラーが発生しました:', error);
             const errorMessage =

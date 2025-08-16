@@ -92,18 +92,10 @@ export interface IRaceDataUseCase {
                 locationList?: RaceCourse[];
             };
         },
-    ) => Promise<void>;
-
-    // /**
-    //  * レース開催データを更新する
-    //  * @param raceDataList
-    //  */
-    // upsertRaceDataList: (raceDataList: {
-    //     jra?: RaceData[];
-    //     nar?: RaceData[];
-    //     overseas?: RaceData[];
-    //     keirin?: MechanicalRacingRaceData[];
-    //     autorace?: MechanicalRacingRaceData[];
-    //     boatrace?: MechanicalRacingRaceData[];
-    // }) => Promise<void>;
+    ) => Promise<{
+        code: number;
+        message: string;
+        successDataCount: number;
+        failureDataCount: number;
+    }>;
 }
