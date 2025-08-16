@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { PlaceGradeRecord } from '../../gateway/record/PlaceGradeRecord';
+import { PlaceGradeRecord } from '../../gateway/record/placeGradeRecord';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';

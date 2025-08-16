@@ -1,5 +1,5 @@
 import type { PlaceData } from '../../domain/placeData';
-import { MechanicalRacingPlaceRecord } from '../../gateway/record/mechanicalRacingPlaceRecord';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
 import {
     type GradeType,
     validateGradeType,
@@ -96,13 +96,12 @@ export class MechanicalRacingPlaceEntity
     /**
      * PlaceRecordに変換する
      */
-    public toRecord(): MechanicalRacingPlaceRecord {
-        return MechanicalRacingPlaceRecord.create(
+    public toRecord(): PlaceRecord {
+        return PlaceRecord.create(
             this.id,
             this.placeData.raceType,
             this.placeData.dateTime,
             this.placeData.location,
-            this.grade,
             this.updateDate,
         );
     }

@@ -7,7 +7,7 @@ import type { HeldDayRecord } from '../../src/gateway/record/heldDayRecord';
 import type { HorseRacingRaceRecord } from '../../src/gateway/record/horseRacingRaceRecord';
 import type { JraRaceRecord } from '../../src/gateway/record/jraRaceRecord';
 import type { MechanicalRacingRaceRecord } from '../../src/gateway/record/mechanicalRacingRaceRecord';
-import type { PlaceGradeRecord } from '../../src/gateway/record/PlaceGradeRecord';
+import type { PlaceGradeRecord } from '../../src/gateway/record/placeGradeRecord';
 import type { PlaceRecord } from '../../src/gateway/record/placeRecord';
 import type { RacePlayerRecord } from '../../src/gateway/record/racePlayerRecord';
 import { allowedEnvs, ENV } from '../../src/utility/env';

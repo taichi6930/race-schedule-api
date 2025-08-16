@@ -1,8 +1,8 @@
 import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { MechanicalRacingPlaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
+import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
 import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
@@ -56,12 +56,11 @@ export const baseAutoraceRaceData = RaceData.create(
     baseRaceNumber,
 );
 
-export const baseAutoracePlaceRecord = MechanicalRacingPlaceRecord.create(
+export const baseAutoracePlaceRecord = PlaceRecord.create(
     baseAutoracePlaceId,
     raceType,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
-    baseAutoracePlaceGrade,
     baseAutoraceRaceUpdateDate,
 );
 

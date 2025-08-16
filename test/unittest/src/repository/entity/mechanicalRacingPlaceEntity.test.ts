@@ -6,7 +6,7 @@
  * | 1   | 正しい入力でMechanicalRacingPlaceEntityのインスタンス作成                  | モックデータでcreate/copyを呼ぶ                                                              | プロパティが正しくセットされている                     |
  * | 2   | placeDataの日付だけ変更してcopy                                            | placeData.dateTimeのみ変更したcopyを呼ぶ                                                     | dateTimeのみ変更され、他は元の値                       |
  * | 3   | 何も変更せずcopy                                                          | copy()を引数なしで呼ぶ                                                                       | 全プロパティが元のインスタンスと同じ                    |
- * | 4   | toRecordでレコード変換                                                     | toRecord()を呼ぶ                                                                             | MechanicalRacingPlaceRecord.createが正しく呼ばれる      |
+ * | 4   | toRecordでレコード変換                                                     | toRecord()を呼ぶ                                                                             | PlaceRecord.createが正しく呼ばれる      |
  * | 5   | createでバリデーションエラー（id, grade, updateDateの各パターン）          | 不正なid/grade/updateDateを渡してcreateを呼ぶ                                                | それぞれ例外がthrowされる                              |
  * | 6   | createWithoutIdでid自動生成                                                | createWithoutIdを呼ぶ                                                                        | idが自動生成され、他プロパティも正しくセット            |
  */

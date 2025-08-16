@@ -7,7 +7,7 @@ import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { PlaceGradeRecord } from '../../../../../lib/src/gateway/record/PlaceGradeRecord';
+import type { PlaceGradeRecord } from '../../../../../lib/src/gateway/record/placeGradeRecord';
 import type { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
