@@ -183,13 +183,22 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
     ): Promise<string> {
         switch (raceType) {
             case RaceType.KEIRIN: {
-                return this.s3GatewayForKeirin.fetchDataFromS3(fileName);
+                return this.s3GatewayForKeirin.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.BOATRACE: {
-                return this.s3GatewayForBoatrace.fetchDataFromS3(fileName);
+                return this.s3GatewayForBoatrace.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.AUTORACE: {
-                return this.s3GatewayForAutorace.fetchDataFromS3(fileName);
+                return this.s3GatewayForAutorace.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.JRA:
             case RaceType.NAR:
@@ -207,12 +216,17 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
     ): Promise<void> {
         switch (raceType) {
             case RaceType.KEIRIN: {
-                await this.s3GatewayForKeirin.uploadDataToS3(record, fileName);
+                await this.s3GatewayForKeirin.uploadDataToS3(
+                    record,
+                    undefined,
+                    fileName,
+                );
                 break;
             }
             case RaceType.BOATRACE: {
                 await this.s3GatewayForBoatrace.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;
@@ -220,6 +234,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
             case RaceType.AUTORACE: {
                 await this.s3GatewayForAutorace.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;

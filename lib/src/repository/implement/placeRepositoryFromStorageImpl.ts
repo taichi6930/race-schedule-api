@@ -185,19 +185,34 @@ export class PlaceRepositoryFromStorageImpl
     ): Promise<string> {
         switch (raceType) {
             case RaceType.JRA: {
-                return this.placeS3GatewayForJra.fetchDataFromS3(fileName);
+                return this.placeS3GatewayForJra.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.NAR: {
-                return this.placeS3GatewayForNar.fetchDataFromS3(fileName);
+                return this.placeS3GatewayForNar.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.KEIRIN: {
-                return this.placeS3GatewayForKeirin.fetchDataFromS3(fileName);
+                return this.placeS3GatewayForKeirin.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.BOATRACE: {
-                return this.placeS3GatewayForBoatrace.fetchDataFromS3(fileName);
+                return this.placeS3GatewayForBoatrace.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.AUTORACE: {
-                return this.placeS3GatewayForAutorace.fetchDataFromS3(fileName);
+                return this.placeS3GatewayForAutorace.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.OVERSEAS: {
                 throw new Error('Unsupported race type');
@@ -215,6 +230,7 @@ export class PlaceRepositoryFromStorageImpl
             case RaceType.JRA: {
                 await this.placeS3GatewayForJra.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;
@@ -222,6 +238,7 @@ export class PlaceRepositoryFromStorageImpl
             case RaceType.NAR: {
                 await this.placeS3GatewayForNar.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;
@@ -229,6 +246,7 @@ export class PlaceRepositoryFromStorageImpl
             case RaceType.KEIRIN: {
                 await this.placeS3GatewayForKeirin.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;
@@ -236,6 +254,7 @@ export class PlaceRepositoryFromStorageImpl
             case RaceType.BOATRACE: {
                 await this.placeS3GatewayForBoatrace.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;
@@ -243,6 +262,7 @@ export class PlaceRepositoryFromStorageImpl
             case RaceType.AUTORACE: {
                 await this.placeS3GatewayForAutorace.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;

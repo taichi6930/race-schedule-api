@@ -52,10 +52,15 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     /**
      * データをS3にアップロードする
      * @param data
+     * @param bucketName
      * @param fileName
      */
     @Logger
-    public async uploadDataToS3(data: T[], fileName: string): Promise<void> {
+    public async uploadDataToS3(
+        data: T[],
+        bucketName: string | undefined,
+        fileName: string,
+    ): Promise<void> {
         try {
             if (data.length === 0) {
                 // データが空の場合は何もしない
@@ -80,7 +85,7 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
             const fileContent = fs.readFileSync(`/tmp/${fileName}`);
             const params = {
-                Bucket: this.bucketName,
+                Bucket: bucketName ?? this.bucketName,
                 Key: `${this.folderPath}${fileName}`,
                 Body: fileContent,
             };
@@ -99,12 +104,16 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     /**
      * データをS3から取得する
+     * @param bucketName
      * @param fileName
      */
     @Logger
-    public async fetchDataFromS3(fileName: string): Promise<string> {
+    public async fetchDataFromS3(
+        bucketName: string | undefined,
+        fileName: string,
+    ): Promise<string> {
         const params = {
-            Bucket: this.bucketName,
+            Bucket: bucketName ?? this.bucketName,
             Key: `${this.folderPath}${fileName}`,
         };
 

@@ -60,7 +60,10 @@ export class JraRaceRepositoryFromStorageImpl
         raceType: RaceType,
     ): Promise<JraRaceRecord[]> {
         // S3からデータを取得する
-        const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
+        const csv = await this.s3Gateway.fetchDataFromS3(
+            undefined,
+            this.fileName,
+        );
 
         // ファイルが空の場合は空のリストを返す
         if (!csv) {
@@ -165,6 +168,7 @@ export class JraRaceRepositoryFromStorageImpl
 
             await this.s3Gateway.uploadDataToS3(
                 existFetchRaceRecordList,
+                undefined,
                 this.fileName,
             );
 

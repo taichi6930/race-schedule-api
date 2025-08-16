@@ -343,13 +343,22 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
     ): Promise<string> {
         switch (raceType) {
             case RaceType.KEIRIN: {
-                return this.raceS3GatewayForKeirin.fetchDataFromS3(fileName);
+                return this.raceS3GatewayForKeirin.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.BOATRACE: {
-                return this.raceS3GatewayForBoatrace.fetchDataFromS3(fileName);
+                return this.raceS3GatewayForBoatrace.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.AUTORACE: {
-                return this.raceS3GatewayForAutorace.fetchDataFromS3(fileName);
+                return this.raceS3GatewayForAutorace.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.JRA:
             case RaceType.NAR:
@@ -369,6 +378,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.KEIRIN: {
                 await this.raceS3GatewayForKeirin.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;
@@ -376,6 +386,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.BOATRACE: {
                 await this.raceS3GatewayForBoatrace.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;
@@ -383,6 +394,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.AUTORACE: {
                 await this.raceS3GatewayForAutorace.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;
@@ -403,16 +415,19 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         switch (raceType) {
             case RaceType.KEIRIN: {
                 return this.racePlayerS3GatewayForKeirin.fetchDataFromS3(
+                    undefined,
                     fileName,
                 );
             }
             case RaceType.BOATRACE: {
                 return this.racePlayerS3GatewayForBoatrace.fetchDataFromS3(
+                    undefined,
                     fileName,
                 );
             }
             case RaceType.AUTORACE: {
                 return this.racePlayerS3GatewayForAutorace.fetchDataFromS3(
+                    undefined,
                     fileName,
                 );
             }
@@ -434,6 +449,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.KEIRIN: {
                 await this.racePlayerS3GatewayForKeirin.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;
@@ -441,6 +457,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.BOATRACE: {
                 await this.racePlayerS3GatewayForBoatrace.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;
@@ -448,6 +465,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             case RaceType.AUTORACE: {
                 await this.racePlayerS3GatewayForAutorace.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;

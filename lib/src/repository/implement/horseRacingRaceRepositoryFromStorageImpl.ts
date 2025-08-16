@@ -202,10 +202,16 @@ export class HorseRacingRaceRepositoryFromStorageImpl
     ): Promise<string> {
         switch (raceType) {
             case RaceType.NAR: {
-                return this.raceS3GatewayForNar.fetchDataFromS3(fileName);
+                return this.raceS3GatewayForNar.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.OVERSEAS: {
-                return this.raceS3GatewayForOverseas.fetchDataFromS3(fileName);
+                return this.raceS3GatewayForOverseas.fetchDataFromS3(
+                    undefined,
+                    fileName,
+                );
             }
             case RaceType.JRA:
             case RaceType.KEIRIN:
@@ -224,12 +230,17 @@ export class HorseRacingRaceRepositoryFromStorageImpl
     ): Promise<void> {
         switch (raceType) {
             case RaceType.NAR: {
-                await this.raceS3GatewayForNar.uploadDataToS3(record, fileName);
+                await this.raceS3GatewayForNar.uploadDataToS3(
+                    record,
+                    undefined,
+                    fileName,
+                );
                 break;
             }
             case RaceType.OVERSEAS: {
                 await this.raceS3GatewayForOverseas.uploadDataToS3(
                     record,
+                    undefined,
                     fileName,
                 );
                 break;

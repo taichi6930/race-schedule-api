@@ -73,6 +73,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     @Logger
     public async uploadDataToS3(
         data: IRecord<T>[],
+        bucketName: string | undefined,
         fileName: string,
     ): Promise<void> {
         try {
@@ -90,7 +91,10 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * @param fileName
      */
     @Logger
-    public async fetchDataFromS3(fileName: string): Promise<string> {
+    public async fetchDataFromS3(
+        bucketName: string | undefined,
+        fileName: string,
+    ): Promise<string> {
         const key = `${this.folderPath}${fileName}`;
         const data = MockS3Gateway.mockStorage.get(key);
         if (!data) {
