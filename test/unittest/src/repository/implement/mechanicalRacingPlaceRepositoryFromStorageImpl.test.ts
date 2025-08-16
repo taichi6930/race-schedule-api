@@ -7,7 +7,8 @@ import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { MechanicalRacingPlaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
+import type { PlaceGradeRecord } from '../../../../../lib/src/gateway/record/PlaceGradeRecord';
+import type { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { MechanicalRacingPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/mechanicalRacingPlaceRepositoryFromStorageImpl';
@@ -17,15 +18,18 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
-    let placeS3Gateway: jest.Mocked<IS3Gateway<MechanicalRacingPlaceRecord>>;
+    let placeS3Gateway: jest.Mocked<IS3Gateway<PlaceRecord>>;
+    let placeGradeS3Gateway: jest.Mocked<IS3Gateway<PlaceGradeRecord>>;
     let repository: IPlaceRepository<MechanicalRacingPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        placeS3Gateway = mockS3Gateway<MechanicalRacingPlaceRecord>();
+        placeS3Gateway = mockS3Gateway<PlaceRecord>();
+        placeGradeS3Gateway = mockS3Gateway<PlaceGradeRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('PlaceS3GatewayWithGrade', placeS3Gateway);
+        container.registerInstance('PlaceS3Gateway', placeS3Gateway);
+        container.registerInstance('PlaceGradeS3Gateway', placeGradeS3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(
@@ -41,6 +45,17 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
         test('正しい開催場データを取得できる', async () => {
             // モックの戻り値を設定
             placeS3Gateway.fetchDataFromS3.mockImplementation(
+                async (bucketName, fileName) => {
+                    return fs.readFileSync(
+                        path.resolve(
+                            __dirname,
+                            `../../mock/repository/csv/${bucketName}${fileName}`,
+                        ),
+                        'utf8',
+                    );
+                },
+            );
+            placeGradeS3Gateway.fetchDataFromS3.mockImplementation(
                 async (bucketName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(

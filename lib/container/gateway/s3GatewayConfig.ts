@@ -6,7 +6,6 @@ import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
 import type { HeldDayRecord } from '../../src/gateway/record/heldDayRecord';
 import type { HorseRacingRaceRecord } from '../../src/gateway/record/horseRacingRaceRecord';
 import type { JraRaceRecord } from '../../src/gateway/record/jraRaceRecord';
-import type { MechanicalRacingPlaceRecord } from '../../src/gateway/record/mechanicalRacingPlaceRecord';
 import type { MechanicalRacingRaceRecord } from '../../src/gateway/record/mechanicalRacingRaceRecord';
 import type { PlaceGradeRecord } from '../../src/gateway/record/PlaceGradeRecord';
 import type { PlaceRecord } from '../../src/gateway/record/placeRecord';
@@ -14,37 +13,6 @@ import type { RacePlayerRecord } from '../../src/gateway/record/racePlayerRecord
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
 // s3Gatewayの実装クラスをDIコンテナに登錄する
-container.register<IS3Gateway<MechanicalRacingPlaceRecord>>(
-    'PlaceS3GatewayWithGrade',
-    {
-        useFactory: () => {
-            switch (ENV) {
-                case allowedEnvs.production: {
-                    return new S3Gateway<MechanicalRacingPlaceRecord>(
-                        process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
-                    );
-                }
-                case allowedEnvs.test: {
-                    return new S3Gateway<MechanicalRacingPlaceRecord>(
-                        process.env.S3_BUCKET_NAME ??
-                            'race-schedule-bucket-test',
-                    );
-                }
-                case allowedEnvs.local:
-                case allowedEnvs.localNoInitData:
-                case allowedEnvs.localInitMadeData:
-                case allowedEnvs.githubActionsCi: {
-                    return new MockS3Gateway<MechanicalRacingPlaceRecord>(
-                        process.env.S3_BUCKET_NAME ?? 'race-schedule-bucket',
-                    );
-                }
-                default: {
-                    throw new Error('Invalid ENV value');
-                }
-            }
-        },
-    },
-);
 container.register<IS3Gateway<MechanicalRacingRaceRecord>>(
     'MechanicalRacingRaceS3Gateway',
     {
