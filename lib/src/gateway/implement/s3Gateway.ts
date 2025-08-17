@@ -25,32 +25,32 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      */
     private readonly s3Client: S3Client;
     /**
-     * フォルダのパス
+     * バケット名 S3の中にあるデータの保存場所
      * @type {string}
      * @private
      */
-    private readonly folderPath: string;
+    private readonly bucketName: string;
 
     /**
      * S3Gatewayのコンストラクタ
-     * @param {string} folderPath
+     * @param {string} bucketName
      */
-    public constructor(folderPath: string) {
+    public constructor(bucketName: string) {
         // S3Clientの初期化 東京リージョン
         this.s3Client = new S3Client({ region: 'ap-northeast-1' });
-        this.folderPath = folderPath;
+        this.bucketName = bucketName;
     }
 
     /**
      * データをS3にアップロードする
      * @param data
-     * @param bucketName
+     * @param folderPath
      * @param fileName
      */
     @Logger
     public async uploadDataToS3(
         data: T[],
-        bucketName: string,
+        folderPath: string,
         fileName: string,
     ): Promise<void> {
         try {
@@ -77,8 +77,8 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
             const fileContent = fs.readFileSync(`/tmp/${fileName}`);
             const params = {
-                Bucket: bucketName,
-                Key: `${this.folderPath}${fileName}`,
+                Bucket: this.bucketName, // バケット名の末尾のスラッシュを削除
+                Key: `${folderPath}${fileName}`,
                 Body: fileContent,
             };
 
@@ -96,17 +96,17 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     /**
      * データをS3から取得する
-     * @param bucketName
+     * @param folderPath
      * @param fileName
      */
     @Logger
     public async fetchDataFromS3(
-        bucketName: string,
+        folderPath: string,
         fileName: string,
     ): Promise<string> {
         const params = {
-            Bucket: bucketName,
-            Key: `${this.folderPath}${fileName}`,
+            Bucket: this.bucketName, // バケット名の末尾のスラッシュを削除
+            Key: `${folderPath}${fileName}`,
         };
 
         try {

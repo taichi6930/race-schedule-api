@@ -33,11 +33,11 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     private static isInitialized = false;
 
     /**
-     * フォルダのパス
-     * @private
+     * バケット名 S3の中にあるデータの保存場所
      * @type {string}
+     * @private
      */
-    private folderPath: string = '';
+    private readonly bucketName: string;
 
     // スタートの年数
     private startDate = new Date('2001-01-01');
@@ -46,10 +46,10 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     /**
      * MockS3Gatewayのコンストラクタ
-     * @param {string} folderPath
+     * @param {string} bucketName
      */
-    public constructor(folderPath: string) {
-        this.folderPath = folderPath;
+    public constructor(bucketName: string) {
+        this.bucketName = bucketName;
         (async () => {
             // 既にmockStorageに値が入っている場合は何もしない
             if (MockS3Gateway.isInitialized) {
@@ -74,12 +74,12 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     @Logger
     public async uploadDataToS3(
         data: IRecord<T>[],
-        bucketName: string,
+        folderPath: string,
         fileName: string,
     ): Promise<void> {
         try {
             const csvContent = this.convertToCsv(data);
-            const key = `${bucketName}${fileName}`;
+            const key = `${folderPath}${fileName}`;
             MockS3Gateway.mockStorage.set(key, csvContent);
         } catch (error) {
             console.debug(error);
@@ -93,10 +93,10 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      */
     @Logger
     public async fetchDataFromS3(
-        bucketName: string,
+        folderPath: string,
         fileName: string,
     ): Promise<string> {
-        const key = `${bucketName}${fileName}`;
+        const key = `${folderPath}${fileName}`;
         const data = MockS3Gateway.mockStorage.get(key);
         if (!data) {
             console.warn(`モックのファイルが存在しません: ${key}`);
