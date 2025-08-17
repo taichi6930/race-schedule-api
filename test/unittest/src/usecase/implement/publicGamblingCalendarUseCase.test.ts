@@ -127,32 +127,32 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         ];
 
         const mockRaceEntityList = {
-            jra: Array.from({ length: 5 }, (_, i: number) =>
+            [RaceType.JRA]: Array.from({ length: 5 }, (_, i: number) =>
                 baseJraRaceEntity.copy({
                     id: `jra2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
-            nar: Array.from({ length: 5 }, (_, i: number) =>
+            [RaceType.NAR]: Array.from({ length: 5 }, (_, i: number) =>
                 baseNarRaceEntity.copy({
                     id: `nar2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
-            overseas: Array.from({ length: 5 }, (_, i: number) =>
+            [RaceType.OVERSEAS]: Array.from({ length: 5 }, (_, i: number) =>
                 baseOverseasRaceEntity.copy({
                     id: `overseas2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
-            boatrace: Array.from({ length: 5 }, (_, i: number) =>
+            [RaceType.BOATRACE]: Array.from({ length: 5 }, (_, i: number) =>
                 baseBoatraceRaceEntity.copy({
                     id: `boatrace2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
-            autorace: Array.from({ length: 5 }, (_, i: number) =>
+            [RaceType.AUTORACE]: Array.from({ length: 5 }, (_, i: number) =>
                 baseAutoraceRaceEntity.copy({
                     id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
-            keirin: Array.from({ length: 5 }, (_, i: number) =>
+            [RaceType.KEIRIN]: Array.from({ length: 5 }, (_, i: number) =>
                 baseKeirinRaceEntity.copy({
                     id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                 }),
@@ -192,15 +192,15 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             ),
         ];
         const expectRaceEntityList = {
-            jra: mockRaceEntityList.jra,
+            jra: mockRaceEntityList[RaceType.JRA],
             horseRacing: [
-                ...mockRaceEntityList.nar,
-                ...mockRaceEntityList.overseas,
+                ...mockRaceEntityList[RaceType.NAR],
+                ...mockRaceEntityList[RaceType.OVERSEAS],
             ],
             mechanicalRacing: [
-                ...mockRaceEntityList.keirin,
-                ...mockRaceEntityList.autorace,
-                ...mockRaceEntityList.boatrace,
+                ...mockRaceEntityList[RaceType.KEIRIN],
+                ...mockRaceEntityList[RaceType.AUTORACE],
+                ...mockRaceEntityList[RaceType.BOATRACE],
             ],
         };
 
@@ -208,12 +208,12 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
 
         raceDataService.fetchRaceEntityList.mockResolvedValue({
-            [RaceType.JRA]: mockRaceEntityList.jra,
-            [RaceType.NAR]: mockRaceEntityList.nar,
-            [RaceType.OVERSEAS]: mockRaceEntityList.overseas,
-            [RaceType.KEIRIN]: mockRaceEntityList.keirin,
-            [RaceType.AUTORACE]: mockRaceEntityList.autorace,
-            [RaceType.BOATRACE]: mockRaceEntityList.boatrace,
+            [RaceType.JRA]: mockRaceEntityList[RaceType.JRA],
+            [RaceType.NAR]: mockRaceEntityList[RaceType.NAR],
+            [RaceType.OVERSEAS]: mockRaceEntityList[RaceType.OVERSEAS],
+            [RaceType.KEIRIN]: mockRaceEntityList[RaceType.KEIRIN],
+            [RaceType.AUTORACE]: mockRaceEntityList[RaceType.AUTORACE],
+            [RaceType.BOATRACE]: mockRaceEntityList[RaceType.BOATRACE],
         });
 
         const startDate = new Date('2024-02-01');
@@ -222,7 +222,6 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         await useCase.updateRacesToCalendar(
             startDate,
             finishDate,
-
             [
                 RaceType.JRA,
                 RaceType.NAR,
