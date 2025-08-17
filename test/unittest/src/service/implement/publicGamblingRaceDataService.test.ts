@@ -136,12 +136,12 @@ describe('PublicGamblingRaceDataService', () => {
                 DataLocation.Storage,
             );
             expect(result).toEqual({
-                jra: baseJraRaceEntityList,
-                nar: baseNarRaceEntityList,
-                overseas: baseOverseasRaceEntityList,
-                keirin: baseKeirinRaceEntityList,
-                boatrace: baseBoatraceRaceEntityList,
-                autorace: baseAutoraceRaceEntityList,
+                [RaceType.JRA]: baseJraRaceEntityList,
+                [RaceType.NAR]: baseNarRaceEntityList,
+                [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
+                [RaceType.KEIRIN]: baseKeirinRaceEntityList,
+                [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
+                [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
             });
         });
 
@@ -184,12 +184,12 @@ describe('PublicGamblingRaceDataService', () => {
             );
 
             expect(result).toEqual({
-                jra: baseJraRaceEntityList,
-                nar: baseNarRaceEntityList,
-                overseas: baseOverseasRaceEntityList,
-                keirin: baseKeirinRaceEntityList,
-                boatrace: baseBoatraceRaceEntityList,
-                autorace: baseAutoraceRaceEntityList,
+                [RaceType.JRA]: baseJraRaceEntityList,
+                [RaceType.NAR]: baseNarRaceEntityList,
+                [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
+                [RaceType.KEIRIN]: baseKeirinRaceEntityList,
+                [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
+                [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
             });
         });
 
@@ -343,12 +343,12 @@ describe('PublicGamblingRaceDataService', () => {
             );
 
             await service.updateRaceEntityList({
-                jra: baseJraRaceEntityList,
-                nar: baseNarRaceEntityList,
-                overseas: baseOverseasRaceEntityList,
-                keirin: baseKeirinRaceEntityList,
-                boatrace: baseBoatraceRaceEntityList,
-                autorace: baseAutoraceRaceEntityList,
+                [RaceType.JRA]: baseJraRaceEntityList,
+                [RaceType.NAR]: baseNarRaceEntityList,
+                [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
+                [RaceType.KEIRIN]: baseKeirinRaceEntityList,
+                [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
+                [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
             });
 
             expect(
@@ -382,12 +382,12 @@ describe('PublicGamblingRaceDataService', () => {
 
         it('レース開催データが0件の場合、更新処理が実行されないこと', async () => {
             await service.updateRaceEntityList({
-                jra: [],
-                nar: [],
-                overseas: [],
-                keirin: [],
-                autorace: [],
-                boatrace: [],
+                [RaceType.JRA]: [],
+                [RaceType.NAR]: [],
+                [RaceType.OVERSEAS]: [],
+                [RaceType.KEIRIN]: [],
+                [RaceType.AUTORACE]: [],
+                [RaceType.BOATRACE]: [],
             });
 
             expect(

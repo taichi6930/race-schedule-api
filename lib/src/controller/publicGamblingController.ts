@@ -366,29 +366,29 @@ export class PublicGamblingController {
                 new Date(finishDate as string),
                 raceTypeList,
                 {
-                    jra: {
+                    [RaceType.JRA]: {
                         gradeList,
                         locationList,
                     },
-                    nar: {
+                    [RaceType.NAR]: {
                         gradeList,
                         locationList,
                     },
-                    overseas: {
+                    [RaceType.OVERSEAS]: {
                         gradeList,
                         locationList,
                     },
-                    keirin: {
-                        gradeList,
-                        locationList,
-                        stageList,
-                    },
-                    autorace: {
+                    [RaceType.KEIRIN]: {
                         gradeList,
                         locationList,
                         stageList,
                     },
-                    boatrace: {
+                    [RaceType.AUTORACE]: {
+                        gradeList,
+                        locationList,
+                        stageList,
+                    },
+                    [RaceType.BOATRACE]: {
                         gradeList,
                         locationList,
                         stageList,

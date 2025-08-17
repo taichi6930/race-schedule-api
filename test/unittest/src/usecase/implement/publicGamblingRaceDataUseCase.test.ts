@@ -61,7 +61,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
         } of [
             {
                 raceTypeList: [RaceType.NAR],
-                searchConditions: { nar: { gradeList: ['GⅠ'] } },
+                searchConditions: { [RaceType.NAR]: { gradeList: ['GⅠ'] } },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 2,
                 returnedRaceList: {
@@ -76,7 +76,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.NAR],
                 searchConditions: {
-                    nar: {
+                    [RaceType.NAR]: {
                         locationList: ['大井'],
                     },
                 },
@@ -94,7 +94,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.NAR],
                 searchConditions: {
-                    nar: {
+                    [RaceType.NAR]: {
                         gradeList: ['GⅠ'],
                         locationList: ['大井'],
                     },
@@ -113,7 +113,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.NAR],
                 searchConditions: {
-                    nar: {
+                    [RaceType.NAR]: {
                         gradeList: ['GⅠ'],
                         locationList: ['佐賀'],
                     },
@@ -145,7 +145,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.OVERSEAS],
-                searchConditions: { overseas: { gradeList: ['GⅠ'] } },
+                searchConditions: {
+                    [RaceType.OVERSEAS]: { gradeList: ['GⅠ'] },
+                },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 2,
                 returnedRaceList: {
@@ -160,7 +162,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.OVERSEAS],
                 searchConditions: {
-                    overseas: {
+                    [RaceType.OVERSEAS]: {
                         locationList: ['パリロンシャン'],
                     },
                 },
@@ -178,7 +180,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.OVERSEAS],
                 searchConditions: {
-                    overseas: {
+                    [RaceType.OVERSEAS]: {
                         gradeList: ['GⅠ'],
                         locationList: ['パリロンシャン'],
                     },
@@ -197,7 +199,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.OVERSEAS],
                 searchConditions: {
-                    overseas: {
+                    [RaceType.OVERSEAS]: {
                         gradeList: ['GⅠ'],
                         locationList: ['サンクルー'],
                     },
@@ -229,7 +231,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
-                searchConditions: { keirin: { gradeList: ['GP'] } },
+                searchConditions: { [RaceType.KEIRIN]: { gradeList: ['GP'] } },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 12,
                 returnedRaceList: {
@@ -243,7 +245,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
-                searchConditions: { keirin: { locationList: ['平塚'] } },
+                searchConditions: {
+                    [RaceType.KEIRIN]: { locationList: ['平塚'] },
+                },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
                 returnedRaceList: {
@@ -257,7 +261,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
-                searchConditions: { keirin: { stageList: ['S級決勝'] } },
+                searchConditions: {
+                    [RaceType.KEIRIN]: { stageList: ['S級決勝'] },
+                },
                 descriptions: 'stageを検索条件に入れて',
                 expectedLength: 6,
                 returnedRaceList: {
@@ -272,7 +278,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.KEIRIN],
                 searchConditions: {
-                    keirin: { gradeList: ['GP'], locationList: ['平塚'] },
+                    [RaceType.KEIRIN]: {
+                        gradeList: ['GP'],
+                        locationList: ['平塚'],
+                    },
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 12,
@@ -288,7 +297,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.KEIRIN],
                 searchConditions: {
-                    keirin: { gradeList: ['GP'], locationList: ['小倉'] },
+                    [RaceType.KEIRIN]: {
+                        gradeList: ['GP'],
+                        locationList: ['小倉'],
+                    },
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
@@ -304,7 +316,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.KEIRIN],
                 searchConditions: {
-                    keirin: { gradeList: ['GP'], stageList: ['S級決勝'] },
+                    [RaceType.KEIRIN]: {
+                        gradeList: ['GP'],
+                        stageList: ['S級決勝'],
+                    },
                 },
                 descriptions: 'gradeとstageを検索条件に入れて',
                 expectedLength: 1,
@@ -320,7 +335,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.KEIRIN],
                 searchConditions: {
-                    keirin: { locationList: ['平塚'], stageList: ['S級決勝'] },
+                    [RaceType.KEIRIN]: {
+                        locationList: ['平塚'],
+                        stageList: ['S級決勝'],
+                    },
                 },
                 descriptions: 'locationとstageを検索条件に入れて',
                 expectedLength: 1,
@@ -336,7 +354,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.KEIRIN],
                 searchConditions: {
-                    keirin: {
+                    [RaceType.KEIRIN]: {
                         gradeList: ['GP'],
                         locationList: ['平塚'],
                         stageList: ['S級決勝'],
@@ -355,7 +373,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
-                searchConditions: { keirin: {} },
+                searchConditions: { [RaceType.KEIRIN]: {} },
                 descriptions: '検索条件なし',
                 expectedLength: 72,
                 returnedRaceList: {
@@ -369,7 +387,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.JRA],
-                searchConditions: { jra: { gradeList: ['GⅠ'] } },
+                searchConditions: { [RaceType.JRA]: { gradeList: ['GⅠ'] } },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 2,
                 returnedRaceList: {
@@ -383,7 +401,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.JRA],
-                searchConditions: { jra: { locationList: ['東京'] } },
+                searchConditions: {
+                    [RaceType.JRA]: { locationList: ['東京'] },
+                },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
                 returnedRaceList: {
@@ -398,7 +418,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.JRA],
                 searchConditions: {
-                    jra: { gradeList: ['GⅠ'], locationList: ['東京'] },
+                    [RaceType.JRA]: {
+                        gradeList: ['GⅠ'],
+                        locationList: ['東京'],
+                    },
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 1,
@@ -414,7 +437,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.JRA],
                 searchConditions: {
-                    jra: { gradeList: ['GⅠ'], locationList: ['阪神'] },
+                    [RaceType.JRA]: {
+                        gradeList: ['GⅠ'],
+                        locationList: ['阪神'],
+                    },
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
@@ -429,7 +455,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.JRA],
-                searchConditions: { jra: {} },
+                searchConditions: { [RaceType.JRA]: {} },
                 descriptions: '検索条件なし',
                 expectedLength: 24,
                 returnedRaceList: {
@@ -443,7 +469,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
-                searchConditions: { boatrace: { gradeList: ['SG'] } },
+                searchConditions: {
+                    [RaceType.BOATRACE]: { gradeList: ['SG'] },
+                },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 12,
                 returnedRaceList: {
@@ -457,7 +485,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
-                searchConditions: { boatrace: { locationList: ['平和島'] } },
+                searchConditions: {
+                    [RaceType.BOATRACE]: { locationList: ['平和島'] },
+                },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
                 returnedRaceList: {
@@ -471,7 +501,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
-                searchConditions: { boatrace: { stageList: ['優勝戦'] } },
+                searchConditions: {
+                    [RaceType.BOATRACE]: { stageList: ['優勝戦'] },
+                },
                 descriptions: 'stageを検索条件に入れて',
                 expectedLength: 5,
                 returnedRaceList: {
@@ -486,7 +518,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.BOATRACE],
                 searchConditions: {
-                    boatrace: { gradeList: ['SG'], locationList: ['平和島'] },
+                    [RaceType.BOATRACE]: {
+                        gradeList: ['SG'],
+                        locationList: ['平和島'],
+                    },
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 12,
@@ -502,7 +537,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.BOATRACE],
                 searchConditions: {
-                    boatrace: { gradeList: ['SG'], locationList: ['桐生'] },
+                    [RaceType.BOATRACE]: {
+                        gradeList: ['SG'],
+                        locationList: ['桐生'],
+                    },
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
@@ -518,7 +556,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.BOATRACE],
                 searchConditions: {
-                    boatrace: { gradeList: ['SG'], stageList: ['優勝戦'] },
+                    [RaceType.BOATRACE]: {
+                        gradeList: ['SG'],
+                        stageList: ['優勝戦'],
+                    },
                 },
                 descriptions: 'gradeとstageを検索条件に入れて',
                 expectedLength: 1,
@@ -534,7 +575,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.BOATRACE],
                 searchConditions: {
-                    boatrace: {
+                    [RaceType.BOATRACE]: {
                         locationList: ['平和島'],
                         stageList: ['優勝戦'],
                     },
@@ -553,7 +594,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.BOATRACE],
                 searchConditions: {
-                    boatrace: {
+                    [RaceType.BOATRACE]: {
                         gradeList: ['SG'],
                         locationList: ['平和島'],
                         stageList: ['優勝戦'],
@@ -572,7 +613,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
-                searchConditions: { boatrace: {} },
+                searchConditions: { [RaceType.BOATRACE]: {} },
                 descriptions: '検索条件なし',
                 expectedLength: 60,
                 returnedRaceList: {
@@ -586,7 +627,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
-                searchConditions: { autorace: { gradeList: ['SG'] } },
+                searchConditions: {
+                    [RaceType.AUTORACE]: { gradeList: ['SG'] },
+                },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 12,
                 returnedRaceList: {
@@ -600,7 +643,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
-                searchConditions: { autorace: { locationList: ['飯塚'] } },
+                searchConditions: {
+                    [RaceType.AUTORACE]: { locationList: ['飯塚'] },
+                },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
                 returnedRaceList: {
@@ -614,7 +659,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
-                searchConditions: { autorace: { stageList: ['優勝戦'] } },
+                searchConditions: {
+                    [RaceType.AUTORACE]: { stageList: ['優勝戦'] },
+                },
                 descriptions: 'stageを検索条件に入れて',
                 expectedLength: 5,
                 returnedRaceList: {
@@ -629,7 +676,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.AUTORACE],
                 searchConditions: {
-                    autorace: { gradeList: ['SG'], locationList: ['飯塚'] },
+                    [RaceType.AUTORACE]: {
+                        gradeList: ['SG'],
+                        locationList: ['飯塚'],
+                    },
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 12,
@@ -645,7 +695,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.AUTORACE],
                 searchConditions: {
-                    autorace: { gradeList: ['SG'], locationList: ['川口'] },
+                    [RaceType.AUTORACE]: {
+                        gradeList: ['SG'],
+                        locationList: ['川口'],
+                    },
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
@@ -661,7 +714,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.AUTORACE],
                 searchConditions: {
-                    autorace: { gradeList: ['SG'], stageList: ['優勝戦'] },
+                    [RaceType.AUTORACE]: {
+                        gradeList: ['SG'],
+                        stageList: ['優勝戦'],
+                    },
                 },
                 descriptions: 'gradeとstageを検索条件に入れて',
                 expectedLength: 1,
@@ -677,7 +733,10 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.AUTORACE],
                 searchConditions: {
-                    autorace: { locationList: ['飯塚'], stageList: ['優勝戦'] },
+                    [RaceType.AUTORACE]: {
+                        locationList: ['飯塚'],
+                        stageList: ['優勝戦'],
+                    },
                 },
                 descriptions: 'locationとstageを検索条件に入れて',
                 expectedLength: 1,
@@ -693,7 +752,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             {
                 raceTypeList: [RaceType.AUTORACE],
                 searchConditions: {
-                    autorace: {
+                    [RaceType.AUTORACE]: {
                         gradeList: ['SG'],
                         locationList: ['飯塚'],
                         stageList: ['優勝戦'],
@@ -712,7 +771,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
-                searchConditions: { autorace: {} },
+                searchConditions: { [RaceType.AUTORACE]: {} },
                 descriptions: '検索条件なし',
                 expectedLength: 60,
                 returnedRaceList: {

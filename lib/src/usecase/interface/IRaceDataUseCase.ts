@@ -22,29 +22,29 @@ export interface IRaceDataUseCase {
         raceTypeList: RaceType[],
         // Optional parameters
         searchList?: {
-            jra?: {
+            [RaceType.JRA]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
-            nar?: {
+            [RaceType.NAR]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
-            overseas?: {
+            [RaceType.OVERSEAS]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
-            keirin?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-                stageList?: RaceStage[];
-            };
-            autorace?: {
+            [RaceType.KEIRIN]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
-            boatrace?: {
+            [RaceType.AUTORACE]?: {
+                gradeList?: GradeType[];
+                locationList?: RaceCourse[];
+                stageList?: RaceStage[];
+            };
+            [RaceType.BOATRACE]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
                 stageList?: RaceStage[];
@@ -70,24 +70,24 @@ export interface IRaceDataUseCase {
         finishDate: Date,
         raceTypeList: RaceType[],
         searchList?: {
-            jra?: {
+            [RaceType.JRA]?: {
                 locationList?: RaceCourse[];
             };
-            nar?: {
+            [RaceType.NAR]?: {
                 locationList?: RaceCourse[];
             };
-            overseas?: {
+            [RaceType.OVERSEAS]?: {
                 locationList?: RaceCourse[];
             };
-            keirin?: {
+            [RaceType.KEIRIN]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
-            autorace?: {
+            [RaceType.AUTORACE]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
-            boatrace?: {
+            [RaceType.BOATRACE]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
