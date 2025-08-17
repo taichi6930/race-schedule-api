@@ -14,6 +14,7 @@ import { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlac
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
+import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -49,7 +50,8 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
                 fs.readFileSync(
                     path.resolve(
                         __dirname,
-                        '../../mock/repository/csv/jra/placeList.csv',
+                        '../../mock/repository/csv/jra',
+                        CSV_FILE_NAME.PLACE_LIST,
                     ),
                     'utf8',
                 ),
@@ -58,7 +60,8 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
                 fs.readFileSync(
                     path.resolve(
                         __dirname,
-                        '../../mock/repository/csv/jra/heldDayList.csv',
+                        '../../mock/repository/csv/jra',
+                        CSV_FILE_NAME.HELD_DAY_LIST,
                     ),
                     'utf8',
                 ),

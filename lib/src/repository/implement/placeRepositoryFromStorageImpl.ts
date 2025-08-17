@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
+import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -16,7 +17,7 @@ export class PlaceRepositoryFromStorageImpl
     implements IPlaceRepository<HorseRacingPlaceEntity>
 {
     // S3にアップロードするファイル名
-    private readonly fileName = 'placeList.csv';
+    private readonly fileName: string = CSV_FILE_NAME.PLACE_LIST;
 
     public constructor(
         @inject('PlaceS3Gateway')
@@ -139,10 +140,10 @@ export class PlaceRepositoryFromStorageImpl
 
         // ヘッダーに基づいてインデックスを取得
         const indices = {
-            id: headers.indexOf('id'),
-            dateTime: headers.indexOf('dateTime'),
-            location: headers.indexOf('location'),
-            updateDate: headers.indexOf('updateDate'),
+            id: headers.indexOf(CSV_HEADER_KEYS.ID),
+            dateTime: headers.indexOf(CSV_HEADER_KEYS.DATE_TIME),
+            location: headers.indexOf(CSV_HEADER_KEYS.LOCATION),
+            updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
         // データ行を解析してPlaceDataのリストを生成

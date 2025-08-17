@@ -84,19 +84,18 @@ export class PublicGamblingCalendarService implements ICalendarService {
      * @param raceEntityList.nar
      * @param raceEntityList.overseas
      * @param raceEntityList.mechanicalRacing
+     * @param raceEntityList.horseRacing
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     @Logger
     public async upsertEvents(raceEntityList: {
         jra: JraRaceEntity[];
-        nar: HorseRacingRaceEntity[];
-        overseas: HorseRacingRaceEntity[];
+        horseRacing: HorseRacingRaceEntity[];
         mechanicalRacing: MechanicalRacingRaceEntity[];
     }): Promise<void> {
         await this.calendarRepository.upsertEvents(raceEntityList.jra);
-        await this.calendarRepository.upsertEvents(raceEntityList.nar);
-        await this.calendarRepository.upsertEvents(raceEntityList.overseas);
+        await this.calendarRepository.upsertEvents(raceEntityList.horseRacing);
         await this.calendarRepository.upsertEvents(
             raceEntityList.mechanicalRacing,
         );

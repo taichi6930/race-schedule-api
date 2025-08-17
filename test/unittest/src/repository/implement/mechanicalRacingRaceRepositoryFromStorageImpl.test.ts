@@ -15,6 +15,7 @@ import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/en
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { MechanicalRacingRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
+import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
@@ -56,11 +57,12 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
         test('レース開催データを正常に取得できる', async () => {
             // モックの戻り値を設定
             mechanicalRacingRaceS3Gateway.fetchDataFromS3.mockImplementation(
-                async (bucketName, fileName) => {
+                async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
                             __dirname,
-                            `../../mock/repository/csv/${bucketName}${fileName}`,
+                            '../../mock/repository/csv',
+                            `${folderName}${fileName}`,
                         ),
                         'utf8',
                     );
@@ -69,11 +71,11 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
 
             // モックの戻り値を設定
             mechanicalRacingRacePlayerS3Gateway.fetchDataFromS3.mockImplementation(
-                async (bucketName, fileName) => {
+                async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
                             __dirname,
-                            `../../mock/repository/csv/${bucketName}${fileName}`,
+                            `../../mock/repository/csv/${folderName}${fileName}`,
                         ),
                         'utf8',
                     );
@@ -220,7 +222,9 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                 fs.readFileSync(
                     path.resolve(
                         __dirname,
-                        `../../mock/repository/csv/${raceType.toLowerCase()}/raceList.csv`,
+                        '../../mock/repository/csv',
+                        raceType.toLowerCase(),
+                        CSV_FILE_NAME.RACE_LIST,
                     ),
                     'utf8',
                 ),
@@ -231,7 +235,9 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                 fs.readFileSync(
                     path.resolve(
                         __dirname,
-                        `../../mock/repository/csv/${raceType.toLowerCase()}/racePlayerList.csv`,
+                        '../../mock/repository/csv',
+                        raceType.toLowerCase(),
+                        CSV_FILE_NAME.RACE_PLAYER_LIST,
                     ),
                     'utf8',
                 ),

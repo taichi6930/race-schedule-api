@@ -56,9 +56,11 @@ describe('PublicGamblingPlaceUseCase', () => {
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
-                keirin: [baseKeirinPlaceEntity],
-                autorace: [baseAutoracePlaceEntity],
-                boatrace: [baseBoatracePlaceEntity],
+                mechanicalRacing: [
+                    baseKeirinPlaceEntity,
+                    baseAutoracePlaceEntity,
+                    baseBoatracePlaceEntity,
+                ],
             });
 
             const startDate = new Date('2024-06-01');
@@ -89,9 +91,11 @@ describe('PublicGamblingPlaceUseCase', () => {
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
-                keirin: [baseKeirinPlaceEntity],
-                autorace: [baseAutoracePlaceEntity],
-                boatrace: [baseBoatracePlaceEntity],
+                mechanicalRacing: [
+                    baseKeirinPlaceEntity,
+                    baseAutoracePlaceEntity,
+                    baseBoatracePlaceEntity,
+                ],
             });
 
             await useCase.updatePlaceDataList(startDate, finishDate, [
