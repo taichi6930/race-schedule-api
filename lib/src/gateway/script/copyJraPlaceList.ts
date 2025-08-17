@@ -1,9 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { CSV_FILE_NAME } from '../../utility/constants';
+
 // 入出力ファイルパス
 const inputPath = path.resolve(__dirname, '../mockData/csv/jra/_placeList.csv');
-const outputPath = path.resolve(__dirname, '../mockData/csv/jra/placeList.csv');
+const outputPath = path.resolve(
+    __dirname,
+    '../mockData/csv/jra',
+    CSV_FILE_NAME.PLACE_LIST,
+);
 
 // _placeList.csvの内容を読み込む
 const csv = fs.readFileSync(inputPath, 'utf8');

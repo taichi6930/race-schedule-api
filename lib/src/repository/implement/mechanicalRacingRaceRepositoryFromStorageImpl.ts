@@ -7,6 +7,7 @@ import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
+import { CSV_FILE_NAME } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -23,8 +24,8 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
     implements
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
-    private readonly raceListFileName = 'raceList.csv';
-    private readonly racePlayerListFileName = 'racePlayerList.csv';
+    private readonly raceListFileName = CSV_FILE_NAME.RACE_LIST;
+    private readonly racePlayerListFileName = CSV_FILE_NAME.RACE_PLAYER_LIST;
 
     public constructor(
         @inject('MechanicalRacingRaceS3Gateway')

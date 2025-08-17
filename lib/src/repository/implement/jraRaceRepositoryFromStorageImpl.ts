@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
+import { CSV_FILE_NAME } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -16,7 +17,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class JraRaceRepositoryFromStorageImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
-    private readonly fileName = 'raceList.csv';
+    private readonly fileName = CSV_FILE_NAME.RACE_LIST;
 
     public constructor(
         @inject('JraRaceS3Gateway')

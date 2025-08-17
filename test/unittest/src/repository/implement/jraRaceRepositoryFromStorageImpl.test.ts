@@ -16,6 +16,7 @@ import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceE
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { JraRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
+import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -46,7 +47,8 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             // モックの戻り値を設定
             const csvFilePath = path.resolve(
                 __dirname,
-                '../../mock/repository/csv/jra/raceList.csv',
+                '../../mock/repository/csv/jra',
+                CSV_FILE_NAME.RACE_LIST,
             );
             const csvData = fs.readFileSync(csvFilePath, 'utf8');
 
@@ -80,7 +82,8 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             // モックの戻り値を設定
             const csvFilePath = path.resolve(
                 __dirname,
-                '../../mock/repository/csv/jra/raceList.csv',
+                '../../mock/repository/csv/jra',
+                CSV_FILE_NAME.RACE_LIST,
             );
             const csvData = fs.readFileSync(csvFilePath, 'utf8');
 

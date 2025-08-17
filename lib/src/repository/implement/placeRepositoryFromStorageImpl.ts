@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
+import { CSV_FILE_NAME } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -15,13 +16,15 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class PlaceRepositoryFromStorageImpl
     implements IPlaceRepository<HorseRacingPlaceEntity>
 {
-    // S3にアップロードするファイル名
-    private readonly fileName = 'placeList.csv';
+    // S3にアップロードするファイル名（デフォルトは定数から）
+    private readonly fileName: string;
 
     public constructor(
         @inject('PlaceS3Gateway')
         private readonly placeS3Gateway: IS3Gateway<PlaceRecord>,
-    ) {}
+    ) {
+        this.fileName = CSV_FILE_NAME.PLACE_LIST;
+    }
 
     /**
      * 開催データを取得する

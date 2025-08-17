@@ -5,6 +5,7 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { injectable } from 'tsyringe';
 
+import { csvPath } from '../../utility/constants';
 import { GradeType } from '../../utility/data/common/gradeType';
 import { generatePlaceId } from '../../utility/data/common/placeId';
 import { generateRaceId } from '../../utility/data/common/raceId';
@@ -151,27 +152,27 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
             }
             case allowedEnvs.local: {
                 const csvPathList = [
-                    'nar/placeList.csv', // nar
-                    'jra/placeList.csv', // jra
-                    'keirin/placeList.csv', // keirin
-                    'autorace/placeList.csv', // autorace
-                    'boatrace/placeList.csv', // boatrace
+                    csvPath('PLACE_LIST', RaceType.NAR),
+                    csvPath('PLACE_LIST', RaceType.JRA),
+                    csvPath('PLACE_LIST', RaceType.KEIRIN),
+                    csvPath('PLACE_LIST', RaceType.AUTORACE),
+                    csvPath('PLACE_LIST', RaceType.BOATRACE),
                 ];
 
-                for (const csvPath of csvPathList) {
+                for (const csvPathItem of csvPathList) {
                     try {
                         const _csvPath = path.join(
                             __dirname,
-                            `../mockData/csv/${csvPath}`,
+                            `../mockData/csv/${csvPathItem}`,
                         );
                         const data = await fs.readFile(_csvPath, 'utf8');
-                        MockS3Gateway.mockStorage.set(csvPath, data);
+                        MockS3Gateway.mockStorage.set(csvPathItem, data);
                         console.log(
-                            `MockS3Gateway: ${csvPath}のデータを読み込みました`,
+                            `MockS3Gateway: ${csvPathItem}のデータを読み込みました`,
                         );
                     } catch (error) {
                         console.error(
-                            `Error reading CSV from ${csvPath}:`,
+                            `Error reading CSV from ${csvPathItem}:`,
                             error,
                         );
                     }
@@ -208,25 +209,25 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
             }
             case allowedEnvs.local: {
                 const csvPathList = [
-                    'overseas/raceList.csv', // overseas
-                    'nar/raceList.csv', // nar
-                    'jra/raceList.csv', // jra
-                    'keirin/raceList.csv', // keirin
-                    'autorace/raceList.csv', // autorace
-                    'boatrace/raceList.csv', // boatrace
+                    csvPath('RACE_LIST', RaceType.OVERSEAS),
+                    csvPath('RACE_LIST', RaceType.NAR),
+                    csvPath('RACE_LIST', RaceType.JRA),
+                    csvPath('RACE_LIST', RaceType.KEIRIN),
+                    csvPath('RACE_LIST', RaceType.AUTORACE),
+                    csvPath('RACE_LIST', RaceType.BOATRACE),
                 ];
 
-                for (const csvPath of csvPathList) {
+                for (const csvPathItem of csvPathList) {
                     try {
                         const _csvPath = path.join(
                             __dirname,
-                            `../mockData/csv/${csvPath}`,
+                            `../mockData/csv/${csvPathItem}`,
                         );
                         const data = await fs.readFile(_csvPath, 'utf8');
-                        MockS3Gateway.mockStorage.set(csvPath, data);
+                        MockS3Gateway.mockStorage.set(csvPathItem, data);
                     } catch (error) {
                         console.error(
-                            `Error reading CSV from ${csvPath}:`,
+                            `Error reading CSV from ${csvPathItem}:`,
                             error,
                         );
                     }
@@ -251,22 +252,22 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
             }
             case allowedEnvs.local: {
                 const csvPathList = [
-                    'keirin/racePlayerList.csv', // keirin
-                    'autorace/racePlayerList.csv', // autorace
-                    'boatrace/racePlayerList.csv', // boatrace
+                    csvPath('RACE_PLAYER_LIST', RaceType.KEIRIN),
+                    csvPath('RACE_PLAYER_LIST', RaceType.AUTORACE),
+                    csvPath('RACE_PLAYER_LIST', RaceType.BOATRACE),
                 ];
 
-                for (const csvPath of csvPathList) {
+                for (const csvPathItem of csvPathList) {
                     try {
                         const _csvPath = path.join(
                             __dirname,
-                            `../mockData/csv/${csvPath}`,
+                            `../mockData/csv/${csvPathItem}`,
                         );
                         const data = await fs.readFile(_csvPath, 'utf8');
-                        MockS3Gateway.mockStorage.set(csvPath, data);
+                        MockS3Gateway.mockStorage.set(csvPathItem, data);
                     } catch (error) {
                         console.error(
-                            `Error reading CSV from ${csvPath}:`,
+                            `Error reading CSV from ${csvPathItem}:`,
                             error,
                         );
                     }
@@ -282,7 +283,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     @Logger
     private async setHorseRacingRaceMockData(raceType: RaceType) {
         // 2024年のデータ366日分を作成
-        const fileName = `${raceType.toLowerCase()}/raceList.csv`;
+        const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
             'name',
             'dateTime',
@@ -325,7 +326,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     private async setJraRaceMockData() {
         const raceType: RaceType = RaceType.JRA;
         // 2024年のデータ366日分を作成
-        const fileName = `${raceType.toLowerCase()}/raceList.csv`;
+        const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
             'name',
             'dateTime',
@@ -373,7 +374,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     private async setMechanicalRacingRaceMockData(raceType: RaceType) {
         // 2024年のデータ366日分を作成
         const currentDate = new Date(this.startDate);
-        const fileName = `${raceType.toLowerCase()}/raceList.csv`;
+        const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
             'name',
             'stage',
@@ -411,7 +412,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     @Logger
     private async setRaceTypePlaceMockData(raceType: RaceType) {
-        const fileName = `${raceType.toLowerCase()}/placeList.csv`;
+        const fileName = csvPath('PLACE_LIST', raceType as RaceType);
         const mockDataHeader = [
             'id',
             'dateTime',
@@ -468,24 +469,22 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                 return;
             }
             case allowedEnvs.local: {
-                const csvPathList = [
-                    'jra/heldDayList.csv', // jra
-                ];
+                const csvPathList = [csvPath('HELD_DAY_LIST', RaceType.JRA)];
 
-                for (const csvPath of csvPathList) {
+                for (const csvPathItem of csvPathList) {
                     try {
                         const _csvPath = path.join(
                             __dirname,
-                            `../mockData/csv/${csvPath}`,
+                            `../mockData/csv/${csvPathItem}`,
                         );
                         const data = await fs.readFile(_csvPath, 'utf8');
-                        MockS3Gateway.mockStorage.set(csvPath, data);
+                        MockS3Gateway.mockStorage.set(csvPathItem, data);
                         console.log(
-                            `MockS3Gateway: ${csvPath}のデータを読み込みました`,
+                            `MockS3Gateway: ${csvPathItem}のデータを読み込みました`,
                         );
                     } catch (error) {
                         console.error(
-                            `Error reading CSV from ${csvPath}:`,
+                            `Error reading CSV from ${csvPathItem}:`,
                             error,
                         );
                     }
@@ -519,25 +518,25 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
             }
             case allowedEnvs.local: {
                 const csvPathList = [
-                    'keirin/gradeList.csv', // keirin
-                    'autorace/gradeList.csv', // autorace
-                    'boatrace/gradeList.csv', // boatrace
+                    csvPath('GRADE_LIST', RaceType.KEIRIN),
+                    csvPath('GRADE_LIST', RaceType.AUTORACE),
+                    csvPath('GRADE_LIST', RaceType.BOATRACE),
                 ];
 
-                for (const csvPath of csvPathList) {
+                for (const csvPathItem of csvPathList) {
                     try {
                         const _csvPath = path.join(
                             __dirname,
-                            `../mockData/csv/${csvPath}`,
+                            `../mockData/csv/${csvPathItem}`,
                         );
                         const data = await fs.readFile(_csvPath, 'utf8');
-                        MockS3Gateway.mockStorage.set(csvPath, data);
+                        MockS3Gateway.mockStorage.set(csvPathItem, data);
                         console.log(
-                            `MockS3Gateway: ${csvPath}のデータを読み込みました`,
+                            `MockS3Gateway: ${csvPathItem}のデータを読み込みました`,
                         );
                     } catch (error) {
                         console.error(
-                            `Error reading CSV from ${csvPath}:`,
+                            `Error reading CSV from ${csvPathItem}:`,
                             error,
                         );
                     }
@@ -554,7 +553,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     private async setJraHeldDayMockData() {
         const raceType: RaceType = RaceType.JRA;
 
-        const fileName = `${raceType.toLowerCase()}/placeList.csv`;
+        const fileName = csvPath('PLACE_LIST', raceType as RaceType);
         const mockDataHeader = [
             'id',
             'raceType',
@@ -597,7 +596,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     @Logger
     private async setRaceTypePlaceGradeMockData(raceType: RaceType) {
-        const fileName = `${raceType.toLowerCase()}/gradeList.csv`;
+        const fileName = csvPath('GRADE_LIST', raceType as RaceType);
         const mockDataHeader = ['id', 'raceType', 'grade', 'UpdateDate'].join(
             ',',
         );

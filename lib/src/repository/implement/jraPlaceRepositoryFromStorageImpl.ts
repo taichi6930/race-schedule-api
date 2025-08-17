@@ -7,6 +7,7 @@ import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
+import { CSV_FILE_NAME } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -19,8 +20,8 @@ export class JraPlaceRepositoryFromStorageImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
     // S3にアップロードするファイル名
-    private readonly placeFileName = 'placeList.csv';
-    private readonly heldDayFileName = 'heldDayList.csv';
+    private readonly placeFileName = CSV_FILE_NAME.PLACE_LIST;
+    private readonly heldDayFileName = CSV_FILE_NAME.HELD_DAY_LIST;
 
     public constructor(
         @inject('PlaceS3Gateway')

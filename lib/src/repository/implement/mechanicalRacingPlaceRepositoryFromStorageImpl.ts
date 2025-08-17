@@ -7,6 +7,7 @@ import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { PlaceGradeRecord } from '../../gateway/record/placeGradeRecord';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
+import { CSV_FILE_NAME } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -22,8 +23,8 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
     implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
     // S3にアップロードするファイル名
-    private readonly placeFileName = 'placeList.csv';
-    private readonly placeGradeFileName = 'gradeList.csv';
+    private readonly placeFileName = CSV_FILE_NAME.PLACE_LIST;
+    private readonly placeGradeFileName = CSV_FILE_NAME.GRADE_LIST;
 
     public constructor(
         @inject('PlaceS3Gateway')
