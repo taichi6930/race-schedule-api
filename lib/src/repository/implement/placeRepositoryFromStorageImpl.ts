@@ -16,15 +16,13 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class PlaceRepositoryFromStorageImpl
     implements IPlaceRepository<HorseRacingPlaceEntity>
 {
-    // S3にアップロードするファイル名（デフォルトは定数から）
-    private readonly fileName: string;
+    // S3にアップロードするファイル名
+    private readonly fileName: string = CSV_FILE_NAME.PLACE_LIST;
 
     public constructor(
         @inject('PlaceS3Gateway')
         private readonly placeS3Gateway: IS3Gateway<PlaceRecord>,
-    ) {
-        this.fileName = CSV_FILE_NAME.PLACE_LIST;
-    }
+    ) {}
 
     /**
      * 開催データを取得する
