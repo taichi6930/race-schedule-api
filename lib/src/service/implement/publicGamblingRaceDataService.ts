@@ -82,14 +82,6 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * @param raceTypeList - レース種別のリスト
      * @param type - データ取得元の指定（storage/web）
      * @param placeEntityList
-     * @param placeEntityList.jra
-     * @param placeEntityList.nar
-     * @param placeEntityList.overseas
-     * @param placeEntityList.keirin
-     * @param placeEntityList.autorace
-     * @param placeEntityList.boatrace
-     * @param placeEntityList.mechanicalRacing
-     * @param placeEntityList.horseRacing
      * @returns 開催場所エンティティの配列。エラー時は空配列
      * @throws エラーはキャッチされログ出力されます
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます

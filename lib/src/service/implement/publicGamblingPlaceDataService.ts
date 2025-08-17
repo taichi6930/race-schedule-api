@@ -179,9 +179,6 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
      * 既存のデータが存在する場合は上書き、存在しない場合は新規作成します。
      * このメソッドは一般的にWebから取得した最新データを保存する際に使用されます。
      * @param placeEntityList - 保存/更新する開催場所エンティティの配列
-     * @param placeEntityList.jra
-     * @param placeEntityList.nar
-     * @param placeEntityList.mechanicalRacing
      * @throws Error データの保存/更新に失敗した場合
      */
     @Logger

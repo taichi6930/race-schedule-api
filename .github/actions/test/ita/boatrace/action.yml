@@ -35,7 +35,7 @@ runs:
           -H 'accept: application/json')
 
         # Initial GET Response Check
-        boatrace_items=$(echo "$response" | jq 'if type=="object" and has("boatrace") then .boatrace else . end')
+        boatrace_items=$(echo "$response" | jq 'if type=="object" and has("BOATRACE") then .BOATRACE else . end')
         if [[ "$boatrace_items" != "[]" ]]; then
           echo "❌ Initial GET request failed. Expected [], but got $response"
           exit 1
@@ -64,7 +64,7 @@ runs:
           -H 'accept: application/json')
 
         # Final GET Response Check: boatraceキーのみ抜き出して要素数が31個であることを確認
-        item_count=$(echo "$response" | jq 'if type=="object" and has("boatrace") then .boatrace | length else length end')
+        item_count=$(echo "$response" | jq 'if type=="object" and has("BOATRACE") then .BOATRACE | length else length end')
         if [[ "$item_count" -ne 31 ]]; then
           echo "❌ Updated GET request failed. Expected 31 items but got $item_count items."
           exit 1
@@ -81,7 +81,7 @@ runs:
           -H 'accept: application/json')
 
         # Initial GET Response Check
-        boatrace_items=$(echo "$response" | jq 'if type=="object" and has("boatrace") then .boatrace else . end')
+        boatrace_items=$(echo "$response" | jq 'if type=="object" and has("BOATRACE") then .BOATRACE else . end')
         if [[ "$boatrace_items" != "[]" ]]; then
           echo "❌ Initial GET request failed. Expected [], but got $response"
           exit 1
@@ -110,7 +110,7 @@ runs:
           -H 'accept: application/json')
 
         # Final GET Response Check: boatraceキーのみ抜き出して要素数が372個であることを確認
-        item_count=$(echo "$response" | jq 'if type=="object" and has("boatrace") then .boatrace | length else length end')
+        item_count=$(echo "$response" | jq 'if type=="object" and has("BOATRACE") then .BOATRACE | length else length end')
         if [[ "$item_count" -ne 372 ]]; then
           echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
           exit 1
@@ -127,7 +127,7 @@ runs:
           -H 'accept: application/json')
 
         # Initial GET Response Check
-        boatrace_items=$(echo "$response" | jq 'if type=="object" and has("boatrace") then .boatrace else . end')
+        boatrace_items=$(echo "$response" | jq 'if type=="object" and has("BOATRACE") then .BOATRACE else . end')
         if [[ "$boatrace_items" != "[]" ]]; then
           echo "❌ Initial GET request failed. Expected [], but got $response"
           exit 1
@@ -156,7 +156,7 @@ runs:
           -H 'accept: application/json')
 
         # Final GET Response Check: boatraceキーのみ抜き出して要素数が31個であることを確認
-        item_count=$(echo "$response" | jq 'if type=="object" and has("boatrace") then .boatrace | length else length end')
+        item_count=$(echo "$response" | jq 'if type=="object" and has("BOATRACE") then .BOATRACE | length else length end')
         if [[ "$item_count" -ne 31 ]]; then
           echo "❌ Updated GET request failed. Expected 31 items but got $item_count items."
           exit 1
