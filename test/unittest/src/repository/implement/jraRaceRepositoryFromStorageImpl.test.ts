@@ -10,6 +10,7 @@ import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
+import type { HeldDayRecord } from '../../../../../lib/src/gateway/record/heldDayRecord';
 import type { JraRaceRecord } from '../../../../../lib/src/gateway/record/jraRaceRecord';
 import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
@@ -23,6 +24,7 @@ import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('JraRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<JraRaceRecord>>;
+    let heldDayS3Gateway: jest.Mocked<IS3Gateway<HeldDayRecord>>;
     let repository: IRaceRepository<JraRaceEntity, JraPlaceEntity>;
 
     const raceType: RaceType = RaceType.JRA;
@@ -30,9 +32,11 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
     beforeEach(() => {
         // S3Gatewayのモックを作成
         s3Gateway = mockS3Gateway<JraRaceRecord>();
+        heldDayS3Gateway = mockS3Gateway<HeldDayRecord>();
 
         // DIコンテナにモックを登録
         container.registerInstance('JraRaceS3Gateway', s3Gateway);
+        container.registerInstance('HeldDayS3Gateway', heldDayS3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(JraRaceRepositoryFromStorageImpl);
@@ -45,14 +49,26 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('正しいレース開催データを取得できる', async () => {
             // モックの戻り値を設定
-            const csvFilePath = path.resolve(
-                __dirname,
-                '../../mock/repository/csv/jra',
-                CSV_FILE_NAME.RACE_LIST,
+            s3Gateway.fetchDataFromS3.mockResolvedValue(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname,
+                        '../../mock/repository/csv/jra',
+                        CSV_FILE_NAME.RACE_LIST,
+                    ),
+                    'utf8',
+                ),
             );
-            const csvData = fs.readFileSync(csvFilePath, 'utf8');
-
-            s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
+            heldDayS3Gateway.fetchDataFromS3.mockResolvedValue(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname,
+                        '../../mock/repository/csv/jra',
+                        CSV_FILE_NAME.HELD_DAY_LIST,
+                    ),
+                    'utf8',
+                ),
+            );
 
             // リクエストの作成
             const searchFilter = new SearchRaceFilterEntity<JraPlaceEntity>(

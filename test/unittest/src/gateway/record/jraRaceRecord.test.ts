@@ -12,8 +12,6 @@ describe('JraRaceRecordクラスのテスト', () => {
         expect(raceRecord.distance).toBe(2500);
         expect(raceRecord.grade).toBe('GⅠ');
         expect(raceRecord.number).toBe(12);
-        expect(raceRecord.heldTimes).toBe(5);
-        expect(raceRecord.heldDayTimes).toBe(8);
     });
 
     it('日付を変更したJraRaceRecordのインスタンスを作成できることを確認', () => {
@@ -29,8 +27,6 @@ describe('JraRaceRecordクラスのテスト', () => {
         expect(copiedRaceRecord.distance).toBe(2500);
         expect(copiedRaceRecord.grade).toBe('GⅠ');
         expect(copiedRaceRecord.number).toBe(12);
-        expect(copiedRaceRecord.heldTimes).toBe(5);
-        expect(copiedRaceRecord.heldDayTimes).toBe(8);
     });
 
     it('何も変更せずJraRaceRecordのインスタンスを作成できることを確認', () => {
