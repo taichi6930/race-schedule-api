@@ -37,7 +37,7 @@ export const baseBoatracePlaceData = PlaceData.create(
     baseBoatracePlaceCourse,
 );
 
-export const baseBoatraceRaceData = RaceData.create(
+const baseBoatraceRaceData = RaceData.create(
     raceType,
     baseBoatraceRaceName,
     baseRaceDateTime,
