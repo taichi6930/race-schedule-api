@@ -762,9 +762,11 @@ describe('PublicGamblingRaceDataUseCase', () => {
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
-                keirin: [baseKeirinPlaceEntity],
-                autorace: [baseAutoracePlaceEntity],
-                boatrace: [baseBoatracePlaceEntity],
+                mechanicalRacing: [
+                    baseKeirinPlaceEntity,
+                    baseAutoracePlaceEntity,
+                    baseBoatracePlaceEntity,
+                ],
             });
 
             // モックの戻り値を設定
@@ -798,9 +800,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
                 jra: [],
                 nar: [],
-                keirin: [],
-                autorace: [],
-                boatrace: [],
+                mechanicalRacing: [],
             });
 
             // モックの戻り値を設定

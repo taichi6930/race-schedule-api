@@ -71,9 +71,11 @@ describe('PublicGamblingPlaceDataService', () => {
             const mockPlaceEntity = {
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
-                keirin: [baseKeirinPlaceEntity],
-                autorace: [baseAutoracePlaceEntity],
-                boatrace: [baseBoatracePlaceEntity],
+                mechanicalRacing: [
+                    baseKeirinPlaceEntity,
+                    baseAutoracePlaceEntity,
+                    baseBoatracePlaceEntity,
+                ],
             };
 
             // モックの戻り値を設定
@@ -127,9 +129,11 @@ describe('PublicGamblingPlaceDataService', () => {
             const mockPlaceEntity = {
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
-                keirin: [baseKeirinPlaceEntity],
-                autorace: [baseAutoracePlaceEntity],
-                boatrace: [baseBoatracePlaceEntity],
+                mechanicalRacing: [
+                    baseKeirinPlaceEntity,
+                    baseAutoracePlaceEntity,
+                    baseBoatracePlaceEntity,
+                ],
             };
 
             // モックの戻り値を設定
@@ -203,9 +207,11 @@ describe('PublicGamblingPlaceDataService', () => {
             const mockPlaceEntity = {
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
-                keirin: [baseKeirinPlaceEntity],
-                autorace: [baseAutoracePlaceEntity],
-                boatrace: [baseBoatracePlaceEntity],
+                mechanicalRacing: [
+                    baseKeirinPlaceEntity,
+                    baseAutoracePlaceEntity,
+                    baseBoatracePlaceEntity,
+                ],
             };
 
             // モックの戻り値を設定
@@ -291,9 +297,7 @@ describe('PublicGamblingPlaceDataService', () => {
             await service.updatePlaceEntityList({
                 jra: [],
                 nar: [],
-                keirin: [],
-                boatrace: [],
-                autorace: [],
+                mechanicalRacing: [],
             });
 
             expect(
@@ -305,9 +309,11 @@ describe('PublicGamblingPlaceDataService', () => {
             const mockPlaceEntity = {
                 jra: [baseJraPlaceEntity],
                 nar: [baseNarPlaceEntity],
-                keirin: [baseKeirinPlaceEntity],
-                autorace: [baseAutoracePlaceEntity],
-                boatrace: [baseBoatracePlaceEntity],
+                mechanicalRacing: [
+                    baseKeirinPlaceEntity,
+                    baseAutoracePlaceEntity,
+                    baseBoatracePlaceEntity,
+                ],
             };
             // モックの戻り値を設定（エラーが発生するように設定）
             jraPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(

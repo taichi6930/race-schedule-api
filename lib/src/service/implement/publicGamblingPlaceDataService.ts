@@ -60,22 +60,16 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     ): Promise<{
         jra: JraPlaceEntity[];
         nar: HorseRacingPlaceEntity[];
-        keirin: MechanicalRacingPlaceEntity[];
-        autorace: MechanicalRacingPlaceEntity[];
-        boatrace: MechanicalRacingPlaceEntity[];
+        mechanicalRacing: MechanicalRacingPlaceEntity[];
     }> {
         const result: {
             jra: JraPlaceEntity[];
             nar: HorseRacingPlaceEntity[];
-            keirin: MechanicalRacingPlaceEntity[];
-            autorace: MechanicalRacingPlaceEntity[];
-            boatrace: MechanicalRacingPlaceEntity[];
+            mechanicalRacing: MechanicalRacingPlaceEntity[];
         } = {
             jra: [],
             nar: [],
-            keirin: [],
-            autorace: [],
-            boatrace: [],
+            mechanicalRacing: [],
         };
 
         try {
@@ -129,7 +123,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                         : await this.keirinPlaceRepositoryFromHtml.fetchPlaceEntityList(
                               searchFilter,
                           );
-                result.keirin.push(...keirinPlaceEntityList);
+                result.mechanicalRacing.push(...keirinPlaceEntityList);
             }
             if (raceTypeList.includes(RaceType.AUTORACE)) {
                 const searchFilter = new SearchPlaceFilterEntity(
@@ -145,7 +139,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                         : await this.autoracePlaceRepositoryFromHtml.fetchPlaceEntityList(
                               searchFilter,
                           );
-                result.autorace.push(...autoracePlaceEntityList);
+                result.mechanicalRacing.push(...autoracePlaceEntityList);
             }
             if (raceTypeList.includes(RaceType.BOATRACE)) {
                 const searchFilter = new SearchPlaceFilterEntity(
@@ -161,7 +155,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                         : await this.boatracePlaceRepositoryFromHtml.fetchPlaceEntityList(
                               searchFilter,
                           );
-                result.boatrace.push(...boatracePlaceEntityList);
+                result.mechanicalRacing.push(...boatracePlaceEntityList);
             }
             return result;
         } catch (error) {
@@ -178,18 +172,14 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
      * @param placeEntityList - 保存/更新する開催場所エンティティの配列
      * @param placeEntityList.jra
      * @param placeEntityList.nar
-     * @param placeEntityList.keirin
-     * @param placeEntityList.autorace
-     * @param placeEntityList.boatrace
+     * @param placeEntityList.mechanicalRacing
      * @throws Error データの保存/更新に失敗した場合
      */
     @Logger
     public async updatePlaceEntityList(placeEntityList: {
         jra: JraPlaceEntity[];
         nar: HorseRacingPlaceEntity[];
-        keirin: MechanicalRacingPlaceEntity[];
-        autorace: MechanicalRacingPlaceEntity[];
-        boatrace: MechanicalRacingPlaceEntity[];
+        mechanicalRacing: MechanicalRacingPlaceEntity[];
     }): Promise<{
         code: number;
         message: string;
@@ -199,9 +189,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         if (
             placeEntityList.jra.length === 0 &&
             placeEntityList.nar.length === 0 &&
-            placeEntityList.keirin.length === 0 &&
-            placeEntityList.autorace.length === 0 &&
-            placeEntityList.boatrace.length === 0
+            placeEntityList.mechanicalRacing.length === 0
         )
             return {
                 code: 200,
@@ -236,10 +224,13 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                       };
 
             const keirinRes =
-                placeEntityList.keirin.length > 0
+                placeEntityList.mechanicalRacing.length > 0
                     ? await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
                           RaceType.KEIRIN,
-                          placeEntityList.keirin,
+                          placeEntityList.mechanicalRacing.filter(
+                              (item) =>
+                                  item.placeData.raceType === RaceType.KEIRIN,
+                          ),
                       )
                     : {
                           code: 200,
@@ -249,10 +240,13 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                       };
 
             const autoraceRes =
-                placeEntityList.autorace.length > 0
+                placeEntityList.mechanicalRacing.length > 0
                     ? await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
                           RaceType.AUTORACE,
-                          placeEntityList.autorace,
+                          placeEntityList.mechanicalRacing.filter(
+                              (item) =>
+                                  item.placeData.raceType === RaceType.AUTORACE,
+                          ),
                       )
                     : {
                           code: 200,
@@ -262,10 +256,13 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                       };
 
             const boatraceRes =
-                placeEntityList.boatrace.length > 0
+                placeEntityList.mechanicalRacing.length > 0
                     ? await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
                           RaceType.BOATRACE,
-                          placeEntityList.boatrace,
+                          placeEntityList.mechanicalRacing.filter(
+                              (item) =>
+                                  item.placeData.raceType === RaceType.BOATRACE,
+                          ),
                       )
                     : {
                           code: 200,

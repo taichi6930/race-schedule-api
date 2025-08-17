@@ -209,15 +209,21 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 searchList?.nar,
             ),
             keirin: this.filterPlaceEntityList(
-                placeEntityList.keirin,
+                placeEntityList.mechanicalRacing.filter(
+                    (item) => item.placeData.raceType === RaceType.KEIRIN,
+                ),
                 searchList?.keirin,
             ),
             autorace: this.filterPlaceEntityList(
-                placeEntityList.autorace,
+                placeEntityList.mechanicalRacing.filter(
+                    (item) => item.placeData.raceType === RaceType.AUTORACE,
+                ),
                 searchList?.autorace,
             ),
             boatrace: this.filterPlaceEntityList(
-                placeEntityList.boatrace,
+                placeEntityList.mechanicalRacing.filter(
+                    (item) => item.placeData.raceType === RaceType.BOATRACE,
+                ),
                 searchList?.boatrace,
             ),
         };
