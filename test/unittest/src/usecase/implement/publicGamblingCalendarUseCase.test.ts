@@ -192,16 +192,12 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             ),
         ];
         const expectRaceEntityList = {
-            jra: mockRaceEntityList[RaceType.JRA],
-            horseRacing: [
-                ...mockRaceEntityList[RaceType.NAR],
-                ...mockRaceEntityList[RaceType.OVERSEAS],
-            ],
-            mechanicalRacing: [
-                ...mockRaceEntityList[RaceType.KEIRIN],
-                ...mockRaceEntityList[RaceType.AUTORACE],
-                ...mockRaceEntityList[RaceType.BOATRACE],
-            ],
+            [RaceType.JRA]: mockRaceEntityList[RaceType.JRA],
+            [RaceType.NAR]: mockRaceEntityList[RaceType.NAR],
+            [RaceType.OVERSEAS]: mockRaceEntityList[RaceType.OVERSEAS],
+            [RaceType.KEIRIN]: mockRaceEntityList[RaceType.KEIRIN],
+            [RaceType.AUTORACE]: mockRaceEntityList[RaceType.AUTORACE],
+            [RaceType.BOATRACE]: mockRaceEntityList[RaceType.BOATRACE],
         };
 
         // モックの戻り値を設定
