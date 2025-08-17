@@ -184,27 +184,27 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             );
 
         const filteredPlaceEntityList = {
-            jra: this.filterPlaceEntityList(
+            [RaceType.JRA]: this.filterPlaceEntityList(
                 placeEntityList.jra,
                 searchList?.[RaceType.JRA],
             ),
-            nar: this.filterPlaceEntityList(
+            [RaceType.NAR]: this.filterPlaceEntityList(
                 placeEntityList.nar,
                 searchList?.[RaceType.NAR],
             ),
-            keirin: this.filterPlaceEntityList(
+            [RaceType.KEIRIN]: this.filterPlaceEntityList(
                 placeEntityList.mechanicalRacing.filter(
                     (item) => item.placeData.raceType === RaceType.KEIRIN,
                 ),
                 searchList?.[RaceType.KEIRIN],
             ),
-            autorace: this.filterPlaceEntityList(
+            [RaceType.AUTORACE]: this.filterPlaceEntityList(
                 placeEntityList.mechanicalRacing.filter(
                     (item) => item.placeData.raceType === RaceType.AUTORACE,
                 ),
                 searchList?.[RaceType.AUTORACE],
             ),
-            boatrace: this.filterPlaceEntityList(
+            [RaceType.BOATRACE]: this.filterPlaceEntityList(
                 placeEntityList.mechanicalRacing.filter(
                     (item) => item.placeData.raceType === RaceType.BOATRACE,
                 ),
@@ -215,11 +215,11 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         // placeEntityListが空の場合は処理を終了する
         if (
             !raceTypeList.includes(RaceType.OVERSEAS) &&
-            filteredPlaceEntityList.jra.length === 0 &&
-            filteredPlaceEntityList.nar.length === 0 &&
-            filteredPlaceEntityList.keirin.length === 0 &&
-            filteredPlaceEntityList.autorace.length === 0 &&
-            filteredPlaceEntityList.boatrace.length === 0
+            filteredPlaceEntityList[RaceType.JRA].length === 0 &&
+            filteredPlaceEntityList[RaceType.NAR].length === 0 &&
+            filteredPlaceEntityList[RaceType.KEIRIN].length === 0 &&
+            filteredPlaceEntityList[RaceType.AUTORACE].length === 0 &&
+            filteredPlaceEntityList[RaceType.BOATRACE].length === 0
         ) {
             console.log(
                 '指定された条件に合致する開催場所が存在しません。レースデータの更新をスキップします。',
@@ -238,12 +238,12 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             raceTypeList,
             DataLocation.Web,
             {
-                jra: filteredPlaceEntityList.jra,
-                horseRacing: filteredPlaceEntityList.nar,
+                jra: filteredPlaceEntityList[RaceType.JRA],
+                horseRacing: filteredPlaceEntityList[RaceType.NAR],
                 mechanicalRacing: [
-                    ...filteredPlaceEntityList.keirin,
-                    ...filteredPlaceEntityList.autorace,
-                    ...filteredPlaceEntityList.boatrace,
+                    ...filteredPlaceEntityList[RaceType.KEIRIN],
+                    ...filteredPlaceEntityList[RaceType.AUTORACE],
+                    ...filteredPlaceEntityList[RaceType.BOATRACE],
                 ],
             },
         );
