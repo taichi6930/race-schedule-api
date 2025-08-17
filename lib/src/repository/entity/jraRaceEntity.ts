@@ -114,8 +114,6 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
             this.conditionData.distance,
             this.raceData.grade,
             this.raceData.number,
-            this.heldDayData.heldTimes,
-            this.heldDayData.heldDayTimes,
             this.updateDate,
         );
     }

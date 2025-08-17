@@ -74,7 +74,7 @@ export class JraPlaceRepositoryFromStorageImpl
             });
         }
 
-        // raceEntityListに変換
+        // placeRecordをplaceEntityに変換
         const placeEntityList: JraPlaceEntity[] = [...recordMap.values()].map(
             ({ placeRecord, heldDayRecord: heldDayRecordItem }) => {
                 return JraPlaceEntity.create(

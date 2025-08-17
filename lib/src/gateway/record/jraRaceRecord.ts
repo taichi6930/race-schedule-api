@@ -1,17 +1,7 @@
 import '../../utility/format';
 
-import { HeldDayData } from '../../domain/heldDayData';
-import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
-import { RaceData } from '../../domain/raceData';
-import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
-import {
-    type heldDayTimes,
-    validateHeldDayTimes,
-} from '../../utility/data/common/heldDayTimes';
-import type { HeldTimes } from '../../utility/data/common/heldTimes';
-import { validateHeldTimes } from '../../utility/data/common/heldTimes';
 import {
     type RaceCourse,
     validateRaceCourse,
@@ -55,8 +45,6 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
      * @param distance - 距離
      * @param grade - グレード
      * @param number - レース番号
-     * @param heldTimes - 開催回数
-     * @param heldDayTimes - 開催日数
      * @param updateDate - 更新日時
      * @remarks
      * レース開催データを生成する
@@ -71,8 +59,6 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
         public readonly distance: RaceDistance,
         public readonly grade: GradeType,
         public readonly number: RaceNumber,
-        public readonly heldTimes: HeldTimes,
-        public readonly heldDayTimes: heldDayTimes,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -87,8 +73,6 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
      * @param distance - 距離
      * @param grade - グレード
      * @param number - レース番号
-     * @param heldTimes - 開催回数
-     * @param heldDayTimes - 開催日数
      * @param updateDate - 更新日時
      */
     public static create(
@@ -101,8 +85,6 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
         distance: number,
         grade: string,
         number: number,
-        heldTimes: number,
-        heldDayTimes: number,
         updateDate: Date,
     ): JraRaceRecord {
         try {
@@ -116,8 +98,6 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
                 validateRaceDistance(distance),
                 validateGradeType(raceType, grade),
                 validateRaceNumber(number),
-                validateHeldTimes(heldTimes),
-                validateHeldDayTimes(heldDayTimes),
                 validateUpdateDate(updateDate),
             );
         } catch (error) {
@@ -142,29 +122,7 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
             partial.distance ?? this.distance,
             partial.grade ?? this.grade,
             partial.number ?? this.number,
-            partial.heldTimes ?? this.heldTimes,
-            partial.heldDayTimes ?? this.heldDayTimes,
             partial.updateDate ?? this.updateDate,
-        );
-    }
-
-    /**
-     * JraRaceEntityに変換する
-     */
-    public toEntity(): JraRaceEntity {
-        return JraRaceEntity.create(
-            this.id,
-            RaceData.create(
-                this.raceType,
-                this.name,
-                this.dateTime,
-                this.location,
-                this.grade,
-                this.number,
-            ),
-            HeldDayData.create(this.heldTimes, this.heldDayTimes),
-            HorseRaceConditionData.create(this.surfaceType, this.distance),
-            this.updateDate,
         );
     }
 }

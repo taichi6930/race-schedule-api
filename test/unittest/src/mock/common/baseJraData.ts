@@ -80,8 +80,6 @@ export const baseJraRaceRecord = JraRaceRecord.create(
     baseJraRaceDistance,
     baseJraRaceGrade,
     baseRaceNumber,
-    baseJraRaceHeldTimes,
-    baseJraRaceHeldDayTimes,
     baseJraRaceUpdateDate,
 );
 
