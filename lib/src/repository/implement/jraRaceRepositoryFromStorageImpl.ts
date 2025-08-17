@@ -7,7 +7,7 @@ import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
-import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
+import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
 import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -26,7 +26,7 @@ export class JraRaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('JraRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<JraRaceRecord>,
+        private readonly s3Gateway: IS3Gateway<HorseRacingRaceRecord>,
         @inject('HeldDayS3Gateway')
         private readonly heldDayS3Gateway: IS3Gateway<HeldDayRecord>,
     ) {}
@@ -40,7 +40,7 @@ export class JraRaceRepositoryFromStorageImpl
         searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
         // ファイル名リストから開催データを取得する
-        const raceRecordList: JraRaceRecord[] =
+        const raceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(searchFilter.raceType);
 
         const heldDayRecordList: HeldDayRecord[] =
@@ -49,7 +49,7 @@ export class JraRaceRepositoryFromStorageImpl
         const recordMap = new Map<
             string,
             {
-                raceRecord: JraRaceRecord;
+                raceRecord: HorseRacingRaceRecord;
                 heldDayRecord: HeldDayRecord;
             }
         >();
@@ -115,7 +115,7 @@ export class JraRaceRepositoryFromStorageImpl
     @Logger
     private async getRaceRecordListFromS3(
         raceType: RaceType,
-    ): Promise<JraRaceRecord[]> {
+    ): Promise<HorseRacingRaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
@@ -147,33 +147,35 @@ export class JraRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してRaceDataのリストを生成
-        return lines.slice(1).flatMap((line: string): JraRaceRecord[] => {
-            try {
-                const columns = line.split('\r').join('').split(',');
+        return lines
+            .slice(1)
+            .flatMap((line: string): HorseRacingRaceRecord[] => {
+                try {
+                    const columns = line.split('\r').join('').split(',');
 
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
 
-                return [
-                    JraRaceRecord.create(
-                        columns[indices.id],
-                        raceType,
-                        columns[indices.name],
-                        new Date(columns[indices.dateTime]),
-                        columns[indices.location],
-                        columns[indices.surfaceType],
-                        Number.parseInt(columns[indices.distance]),
-                        columns[indices.grade],
-                        Number.parseInt(columns[indices.number]),
-                        updateDate,
-                    ),
-                ];
-            } catch (error) {
-                console.error(error);
-                return [];
-            }
-        });
+                    return [
+                        HorseRacingRaceRecord.create(
+                            columns[indices.id],
+                            raceType,
+                            columns[indices.name],
+                            new Date(columns[indices.dateTime]),
+                            columns[indices.location],
+                            columns[indices.surfaceType],
+                            Number.parseInt(columns[indices.distance]),
+                            columns[indices.grade],
+                            Number.parseInt(columns[indices.number]),
+                            updateDate,
+                        ),
+                    ];
+                } catch (error) {
+                    console.error(error);
+                    return [];
+                }
+            });
     }
 
     /**
@@ -258,11 +260,11 @@ export class JraRaceRepositoryFromStorageImpl
     }> {
         try {
             // 既に登録されているデータを取得する
-            const existFetchRaceRecordList: JraRaceRecord[] =
+            const existFetchRaceRecordList: HorseRacingRaceRecord[] =
                 await this.getRaceRecordListFromS3(raceType);
 
             // RaceEntityをRaceRecordに変換する
-            const raceRecordList: JraRaceRecord[] = raceEntityList.map(
+            const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(
                 (raceEntity) => raceEntity.toRaceRecord(),
             );
 

@@ -11,7 +11,7 @@ import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceC
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import type { HeldDayRecord } from '../../../../../lib/src/gateway/record/heldDayRecord';
-import type { JraRaceRecord } from '../../../../../lib/src/gateway/record/jraRaceRecord';
+import type { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
@@ -23,7 +23,7 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('JraRaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<JraRaceRecord>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
     let heldDayS3Gateway: jest.Mocked<IS3Gateway<HeldDayRecord>>;
     let repository: IRaceRepository<JraRaceEntity, JraPlaceEntity>;
 
@@ -31,7 +31,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3Gateway<JraRaceRecord>();
+        s3Gateway = mockS3Gateway<HorseRacingRaceRecord>();
         heldDayS3Gateway = mockS3Gateway<HeldDayRecord>();
 
         // DIコンテナにモックを登録

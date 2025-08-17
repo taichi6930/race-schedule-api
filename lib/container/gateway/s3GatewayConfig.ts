@@ -5,7 +5,6 @@ import type { IS3Gateway } from '../../src/gateway/interface/iS3Gateway';
 import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
 import type { HeldDayRecord } from '../../src/gateway/record/heldDayRecord';
 import type { HorseRacingRaceRecord } from '../../src/gateway/record/horseRacingRaceRecord';
-import type { JraRaceRecord } from '../../src/gateway/record/jraRaceRecord';
 import type { MechanicalRacingRaceRecord } from '../../src/gateway/record/mechanicalRacingRaceRecord';
 import type { PlaceGradeRecord } from '../../src/gateway/record/placeGradeRecord';
 import type { PlaceRecord } from '../../src/gateway/record/placeRecord';
@@ -106,16 +105,18 @@ container.register<IS3Gateway<HorseRacingRaceRecord>>(
         },
     },
 );
-container.register<IS3Gateway<JraRaceRecord>>('JraRaceS3Gateway', {
+container.register<IS3Gateway<HorseRacingRaceRecord>>('JraRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<JraRaceRecord>('race-schedule-bucket');
+                return new S3Gateway<HorseRacingRaceRecord>(
+                    'race-schedule-bucket',
+                );
             }
             case allowedEnvs.test: {
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<JraRaceRecord>(
+                return new S3Gateway<HorseRacingRaceRecord>(
                     'race-schedule-bucket-test',
                 );
             }
@@ -123,7 +124,9 @@ container.register<IS3Gateway<JraRaceRecord>>('JraRaceS3Gateway', {
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:
             case allowedEnvs.githubActionsCi: {
-                return new MockS3Gateway<JraRaceRecord>('race-schedule-bucket');
+                return new MockS3Gateway<HorseRacingRaceRecord>(
+                    'race-schedule-bucket',
+                );
             }
             default: {
                 throw new Error('Invalid ENV value');
