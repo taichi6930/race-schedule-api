@@ -30,32 +30,29 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * @private
      */
     private readonly bucketName: string;
-    /**
-     * フォルダのパス
-     * @type {string}
-     * @private
-     */
-    private readonly folderPath: string;
 
     /**
      * S3Gatewayのコンストラクタ
      * @param {string} bucketName
-     * @param {string} folderPath
      */
-    public constructor(bucketName: string, folderPath: string) {
+    public constructor(bucketName: string) {
         // S3Clientの初期化 東京リージョン
         this.s3Client = new S3Client({ region: 'ap-northeast-1' });
         this.bucketName = bucketName;
-        this.folderPath = folderPath;
     }
 
     /**
      * データをS3にアップロードする
      * @param data
+     * @param folderPath
      * @param fileName
      */
     @Logger
-    public async uploadDataToS3(data: T[], fileName: string): Promise<void> {
+    public async uploadDataToS3(
+        data: T[],
+        folderPath: string,
+        fileName: string,
+    ): Promise<void> {
         try {
             if (data.length === 0) {
                 // データが空の場合は何もしない
@@ -81,7 +78,7 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
             const fileContent = fs.readFileSync(`/tmp/${fileName}`);
             const params = {
                 Bucket: this.bucketName,
-                Key: `${this.folderPath}${fileName}`,
+                Key: `${folderPath}${fileName}`,
                 Body: fileContent,
             };
 
@@ -99,13 +96,17 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
     /**
      * データをS3から取得する
+     * @param folderPath
      * @param fileName
      */
     @Logger
-    public async fetchDataFromS3(fileName: string): Promise<string> {
+    public async fetchDataFromS3(
+        folderPath: string,
+        fileName: string,
+    ): Promise<string> {
         const params = {
             Bucket: this.bucketName,
-            Key: `${this.folderPath}${fileName}`,
+            Key: `${folderPath}${fileName}`,
         };
 
         try {

@@ -60,7 +60,6 @@ export interface ICalendarRepository {
      *               - 認証/認可エラー
      */
     upsertEvents: (
-        raceType: RaceType,
         raceEntityList:
             | JraRaceEntity[]
             | HorseRacingRaceEntity[]
@@ -81,8 +80,5 @@ export interface ICalendarRepository {
      *               - APIのレート制限に到達
      *               - 認証/認可エラー
      */
-    deleteEvents: (
-        raceType: RaceType,
-        calendarDataList: CalendarData[],
-    ) => Promise<void>;
+    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
 }

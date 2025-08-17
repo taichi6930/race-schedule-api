@@ -66,12 +66,10 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの更新を行う
-     * @param raceType - レース種別
      * @param raceEntityList
      */
     @Logger
     public async upsertEvents(
-        raceType: RaceType,
         raceEntityList:
             | JraRaceEntity[]
             | HorseRacingRaceEntity[]
@@ -85,7 +83,10 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                     let isExist = false;
                     try {
                         await this.googleCalendarGateway
-                            .fetchCalendarData(raceType, raceEntity.id)
+                            .fetchCalendarData(
+                                raceEntity.raceData.raceType,
+                                raceEntity.id,
+                            )
                             .then((calendarData) => {
                                 console.debug('calendarData', calendarData);
                             });
@@ -99,11 +100,11 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                     // 既存のデータがあれば更新、なければ新規登録
                     await (isExist
                         ? this.googleCalendarGateway.updateCalendarData(
-                              raceType,
+                              raceEntity.raceData.raceType,
                               toGoogleCalendarData(raceEntity),
                           )
                         : this.googleCalendarGateway.insertCalendarData(
-                              raceType,
+                              raceEntity.raceData.raceType,
                               toGoogleCalendarData(raceEntity),
                           ));
                 } catch (error) {
@@ -118,19 +119,15 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの削除を行う
-     * @param raceType - レース種別
      * @param calendarDataList
      */
     @Logger
-    public async deleteEvents(
-        raceType: RaceType,
-        calendarDataList: CalendarData[],
-    ): Promise<void> {
+    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
         await Promise.all(
             calendarDataList.map(async (calendarData) => {
                 try {
                     await this.googleCalendarGateway.deleteCalendarData(
-                        raceType,
+                        calendarData.raceType,
                         calendarData.id,
                     );
                 } catch (error) {

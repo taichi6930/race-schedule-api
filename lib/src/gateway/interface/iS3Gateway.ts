@@ -37,7 +37,11 @@ export interface IS3Gateway<T extends IRecord<T>> {
      *               - アップロード処理に失敗
      *               - 認証/認可エラー
      */
-    uploadDataToS3: (data: T[], fileName: string) => Promise<void>;
+    uploadDataToS3: (
+        data: T[],
+        folderPath: string,
+        fileName: string,
+    ) => Promise<void>;
     /**
      * S3バケットからデータを取得します
      *
@@ -53,5 +57,5 @@ export interface IS3Gateway<T extends IRecord<T>> {
      *               - ファイルの読み込みに失敗
      *               - 認証/認可エラー
      */
-    fetchDataFromS3: (fileName: string) => Promise<string>;
+    fetchDataFromS3: (folderPath: string, fileName: string) => Promise<string>;
 }

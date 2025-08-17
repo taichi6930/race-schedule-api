@@ -10,10 +10,8 @@ import {
     type heldDayTimes,
     validateHeldDayTimes,
 } from '../../utility/data/common/heldDayTimes';
-import {
-    type HeldTimes,
-    validateHeldTimes,
-} from '../../utility/data/common/heldTimes';
+import type { HeldTimes } from '../../utility/data/common/heldTimes';
+import { validateHeldTimes } from '../../utility/data/common/heldTimes';
 import {
     type RaceCourse,
     validateRaceCourse,
@@ -38,7 +36,8 @@ import {
 } from '../../utility/data/common/raceNumber';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
-import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { UpdateDate } from '../../utility/updateDate';
+import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
 /**

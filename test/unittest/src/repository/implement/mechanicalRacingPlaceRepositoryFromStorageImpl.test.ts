@@ -7,7 +7,8 @@ import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { MechanicalRacingPlaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingPlaceRecord';
+import type { PlaceGradeRecord } from '../../../../../lib/src/gateway/record/placeGradeRecord';
+import type { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { MechanicalRacingPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/mechanicalRacingPlaceRepositoryFromStorageImpl';
@@ -17,36 +18,18 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
-    let s3GatewayForKeirin: jest.Mocked<
-        IS3Gateway<MechanicalRacingPlaceRecord>
-    >;
-    let s3GatewayForAutorace: jest.Mocked<
-        IS3Gateway<MechanicalRacingPlaceRecord>
-    >;
-    let s3GatewayForBoatrace: jest.Mocked<
-        IS3Gateway<MechanicalRacingPlaceRecord>
-    >;
+    let placeS3Gateway: jest.Mocked<IS3Gateway<PlaceRecord>>;
+    let placeGradeS3Gateway: jest.Mocked<IS3Gateway<PlaceGradeRecord>>;
     let repository: IPlaceRepository<MechanicalRacingPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3GatewayForKeirin = mockS3Gateway<MechanicalRacingPlaceRecord>();
-        s3GatewayForAutorace = mockS3Gateway<MechanicalRacingPlaceRecord>();
-        s3GatewayForBoatrace = mockS3Gateway<MechanicalRacingPlaceRecord>();
+        placeS3Gateway = mockS3Gateway<PlaceRecord>();
+        placeGradeS3Gateway = mockS3Gateway<PlaceGradeRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance(
-            'KeirinPlaceS3GatewayWithGrade',
-            s3GatewayForKeirin,
-        );
-        container.registerInstance(
-            'AutoracePlaceS3GatewayWithGrade',
-            s3GatewayForAutorace,
-        );
-        container.registerInstance(
-            'BoatracePlaceS3GatewayWithGrade',
-            s3GatewayForBoatrace,
-        );
+        container.registerInstance('PlaceS3Gateway', placeS3Gateway);
+        container.registerInstance('PlaceGradeS3Gateway', placeGradeS3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(
@@ -61,34 +44,28 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
     describe('fetchPlaceList', () => {
         test('正しい開催場データを取得できる', async () => {
             // モックの戻り値を設定
-            s3GatewayForKeirin.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/keirin/placeList.csv',
-                    ),
-                    'utf8',
-                ),
+            placeS3Gateway.fetchDataFromS3.mockImplementation(
+                async (bucketName, fileName) => {
+                    return fs.readFileSync(
+                        path.resolve(
+                            __dirname,
+                            `../../mock/repository/csv/${bucketName}${fileName}`,
+                        ),
+                        'utf8',
+                    );
+                },
             );
-            s3GatewayForAutorace.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/autorace/placeList.csv',
-                    ),
-                    'utf8',
-                ),
+            placeGradeS3Gateway.fetchDataFromS3.mockImplementation(
+                async (bucketName, fileName) => {
+                    return fs.readFileSync(
+                        path.resolve(
+                            __dirname,
+                            `../../mock/repository/csv/${bucketName}${fileName}`,
+                        ),
+                        'utf8',
+                    );
+                },
             );
-            s3GatewayForBoatrace.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv/boatrace/placeList.csv',
-                    ),
-                    'utf8',
-                ),
-            );
-
             // テスト実行
             for (const raceType of [
                 RaceType.KEIRIN,
@@ -132,13 +109,7 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
             }
 
             // uploadDataToS3が1回呼ばれることを検証
-            expect(s3GatewayForKeirin.uploadDataToS3).toHaveBeenCalledTimes(1);
-            expect(s3GatewayForAutorace.uploadDataToS3).toHaveBeenCalledTimes(
-                1,
-            );
-            expect(s3GatewayForBoatrace.uploadDataToS3).toHaveBeenCalledTimes(
-                1,
-            );
+            expect(placeS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(3);
         });
     });
 

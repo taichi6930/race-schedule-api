@@ -82,81 +82,24 @@ export class PublicGamblingCalendarService implements ICalendarService {
      * @param raceEntityList - 登録・更新するレースエンティティの配列
      * @param raceEntityList.jra
      * @param raceEntityList.nar
-     * @param raceEntityList.keirin
      * @param raceEntityList.overseas
-     * @param raceEntityList.boatrace
-     * @param raceEntityList.autorace
+     * @param raceEntityList.mechanicalRacing
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     @Logger
     public async upsertEvents(raceEntityList: {
-        jra?: JraRaceEntity[];
-        nar?: HorseRacingRaceEntity[];
-        keirin?: MechanicalRacingRaceEntity[];
-        overseas?: HorseRacingRaceEntity[];
-        boatrace?: MechanicalRacingRaceEntity[];
-        autorace?: MechanicalRacingRaceEntity[];
+        jra: JraRaceEntity[];
+        nar: HorseRacingRaceEntity[];
+        overseas: HorseRacingRaceEntity[];
+        mechanicalRacing: MechanicalRacingRaceEntity[];
     }): Promise<void> {
-        if (
-            raceEntityList.jra?.length === 0 &&
-            raceEntityList.nar?.length === 0 &&
-            raceEntityList.keirin?.length === 0 &&
-            raceEntityList.overseas?.length === 0 &&
-            raceEntityList.boatrace?.length === 0 &&
-            raceEntityList.autorace?.length === 0
-        ) {
-            console.debug('更新対象のイベントが見つかりませんでした。');
-            return;
-        }
-        if (raceEntityList.jra !== undefined && raceEntityList.jra.length > 0) {
-            await this.calendarRepository.upsertEvents(
-                RaceType.JRA,
-                raceEntityList.jra,
-            );
-        }
-        if (raceEntityList.nar !== undefined && raceEntityList.nar.length > 0) {
-            await this.calendarRepository.upsertEvents(
-                RaceType.NAR,
-                raceEntityList.nar,
-            );
-        }
-        if (
-            raceEntityList.keirin !== undefined &&
-            raceEntityList.keirin.length > 0
-        ) {
-            await this.calendarRepository.upsertEvents(
-                RaceType.KEIRIN,
-                raceEntityList.keirin,
-            );
-        }
-        if (
-            raceEntityList.overseas !== undefined &&
-            raceEntityList.overseas.length > 0
-        ) {
-            await this.calendarRepository.upsertEvents(
-                RaceType.OVERSEAS,
-                raceEntityList.overseas,
-            );
-        }
-        if (
-            raceEntityList.boatrace !== undefined &&
-            raceEntityList.boatrace.length > 0
-        ) {
-            await this.calendarRepository.upsertEvents(
-                RaceType.BOATRACE,
-                raceEntityList.boatrace,
-            );
-        }
-        if (
-            raceEntityList.autorace !== undefined &&
-            raceEntityList.autorace.length > 0
-        ) {
-            await this.calendarRepository.upsertEvents(
-                RaceType.AUTORACE,
-                raceEntityList.autorace,
-            );
-        }
+        await this.calendarRepository.upsertEvents(raceEntityList.jra);
+        await this.calendarRepository.upsertEvents(raceEntityList.nar);
+        await this.calendarRepository.upsertEvents(raceEntityList.overseas);
+        await this.calendarRepository.upsertEvents(
+            raceEntityList.mechanicalRacing,
+        );
     }
 
     /**
@@ -169,70 +112,11 @@ export class PublicGamblingCalendarService implements ICalendarService {
      * 空の配列が渡された場合は早期リターンし、不要な
      * API呼び出しを防止します。
      * @param calendarDataList - 削除するカレンダーイベントの配列
-     * @param calendarDataList.jra
-     * @param calendarDataList.nar
-     * @param calendarDataList.keirin
-     * @param calendarDataList.overseas
-     * @param calendarDataList.boatrace
-     * @param calendarDataList.autorace
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     @Logger
-    public async deleteEvents(calendarDataList: {
-        jra?: CalendarData[];
-        nar?: CalendarData[];
-        keirin?: CalendarData[];
-        overseas?: CalendarData[];
-        boatrace?: CalendarData[];
-        autorace?: CalendarData[];
-    }): Promise<void> {
-        if (
-            calendarDataList.jra?.length === 0 &&
-            calendarDataList.nar?.length === 0 &&
-            calendarDataList.keirin?.length === 0 &&
-            calendarDataList.overseas?.length === 0 &&
-            calendarDataList.boatrace?.length === 0 &&
-            calendarDataList.autorace?.length === 0
-        ) {
-            console.debug('削除対象のイベントが見つかりませんでした。');
-            return;
-        }
-        if (calendarDataList.jra && calendarDataList.jra.length > 0) {
-            await this.calendarRepository.deleteEvents(
-                RaceType.JRA,
-                calendarDataList.jra,
-            );
-        }
-        if (calendarDataList.nar && calendarDataList.nar.length > 0) {
-            await this.calendarRepository.deleteEvents(
-                RaceType.NAR,
-                calendarDataList.nar,
-            );
-        }
-        if (calendarDataList.keirin && calendarDataList.keirin.length > 0) {
-            await this.calendarRepository.deleteEvents(
-                RaceType.KEIRIN,
-                calendarDataList.keirin,
-            );
-        }
-        if (calendarDataList.overseas && calendarDataList.overseas.length > 0) {
-            await this.calendarRepository.deleteEvents(
-                RaceType.OVERSEAS,
-                calendarDataList.overseas,
-            );
-        }
-        if (calendarDataList.boatrace && calendarDataList.boatrace.length > 0) {
-            await this.calendarRepository.deleteEvents(
-                RaceType.BOATRACE,
-                calendarDataList.boatrace,
-            );
-        }
-        if (calendarDataList.autorace && calendarDataList.autorace.length > 0) {
-            await this.calendarRepository.deleteEvents(
-                RaceType.AUTORACE,
-                calendarDataList.autorace,
-            );
-        }
+    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
+        await this.calendarRepository.deleteEvents(calendarDataList);
     }
 }

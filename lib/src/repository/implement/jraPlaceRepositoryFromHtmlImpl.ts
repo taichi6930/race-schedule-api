@@ -4,8 +4,8 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { heldDayRecord } from '../../gateway/record/heldDayRecord';
-import { PlaceRecord } from '../../gateway/record/horseRacingPlaceRecord';
+import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
+import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { generatePlaceId } from '../../utility/data/common/placeId';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
@@ -46,7 +46,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         const placeRecordResults = await Promise.all(placeRecordPromises);
         const placeRecordList: {
             horseRacingPlaceRecord: PlaceRecord;
-            jraHeldDayRecord: heldDayRecord;
+            jraHeldDayRecord: HeldDayRecord;
         }[] = placeRecordResults.flat();
 
         // Entityに変換
@@ -119,7 +119,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     ): Promise<
         {
             horseRacingPlaceRecord: PlaceRecord;
-            jraHeldDayRecord: heldDayRecord;
+            jraHeldDayRecord: HeldDayRecord;
         }[]
     > {
         // レースHTMLを取得
@@ -129,7 +129,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         // 競馬場開催レコードはここに追加
         const jraRecordList: {
             horseRacingPlaceRecord: PlaceRecord;
-            jraHeldDayRecord: heldDayRecord;
+            jraHeldDayRecord: HeldDayRecord;
         }[] = [];
 
         // 競馬場のイニシャルと名前のマッピング
@@ -208,7 +208,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                             // heldDayTimes,
                             getJSTDate(new Date()),
                         );
-                        const jraHeldDayRecord = heldDayRecord.create(
+                        const jraHeldDayRecord = HeldDayRecord.create(
                             generatePlaceId(
                                 raceType,
                                 new Date(date.getFullYear(), month - 1, day),
