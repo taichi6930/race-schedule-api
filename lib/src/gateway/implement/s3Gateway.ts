@@ -77,7 +77,7 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
             const fileContent = fs.readFileSync(`/tmp/${fileName}`);
             const params = {
-                Bucket: this.bucketName, // バケット名の末尾のスラッシュを削除
+                Bucket: this.bucketName,
                 Key: `${folderPath}${fileName}`,
                 Body: fileContent,
             };
@@ -105,7 +105,7 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
         fileName: string,
     ): Promise<string> {
         const params = {
-            Bucket: this.bucketName, // バケット名の末尾のスラッシュを削除
+            Bucket: this.bucketName,
             Key: `${folderPath}${fileName}`,
         };
 
