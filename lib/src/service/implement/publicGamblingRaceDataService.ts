@@ -107,27 +107,27 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             boatrace?: MechanicalRacingPlaceEntity[];
         },
     ): Promise<{
-        jra: JraRaceEntity[];
-        nar: HorseRacingRaceEntity[];
-        overseas: HorseRacingRaceEntity[];
-        keirin: MechanicalRacingRaceEntity[];
-        autorace: MechanicalRacingRaceEntity[];
-        boatrace: MechanicalRacingRaceEntity[];
+        [RaceType.JRA]: JraRaceEntity[];
+        [RaceType.NAR]: HorseRacingRaceEntity[];
+        [RaceType.OVERSEAS]: HorseRacingRaceEntity[];
+        [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
+        [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
+        [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
     }> {
         const result: {
-            jra: JraRaceEntity[];
-            nar: HorseRacingRaceEntity[];
-            overseas: HorseRacingRaceEntity[];
-            keirin: MechanicalRacingRaceEntity[];
-            autorace: MechanicalRacingRaceEntity[];
-            boatrace: MechanicalRacingRaceEntity[];
+            [RaceType.JRA]: JraRaceEntity[];
+            [RaceType.NAR]: HorseRacingRaceEntity[];
+            [RaceType.OVERSEAS]: HorseRacingRaceEntity[];
+            [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
+            [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
+            [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
         } = {
-            jra: [],
-            nar: [],
-            overseas: [],
-            keirin: [],
-            autorace: [],
-            boatrace: [],
+            [RaceType.JRA]: [],
+            [RaceType.NAR]: [],
+            [RaceType.OVERSEAS]: [],
+            [RaceType.KEIRIN]: [],
+            [RaceType.AUTORACE]: [],
+            [RaceType.BOATRACE]: [],
         };
 
         try {
@@ -151,7 +151,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     repo,
                     searchFilter,
                 );
-                result.jra.push(...jraRaceEntityList);
+                result[RaceType.JRA].push(...jraRaceEntityList);
             }
             // NAR
             if (
@@ -174,7 +174,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     repo,
                     searchFilter,
                 );
-                result.nar.push(...narRaceEntityList);
+                result[RaceType.NAR].push(...narRaceEntityList);
             }
             // OVERSEAS
             if (raceTypeList.includes(RaceType.OVERSEAS)) {
@@ -192,7 +192,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     repo,
                     searchFilter,
                 );
-                result.overseas.push(...overseasRaceEntityList);
+                result[RaceType.OVERSEAS].push(...overseasRaceEntityList);
             }
             // KEIRIN
             if (
@@ -215,7 +215,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     repo,
                     searchFilter,
                 );
-                result.keirin.push(...keirinRaceEntityList);
+                result[RaceType.KEIRIN].push(...keirinRaceEntityList);
             }
             // AUTORACE
             if (
@@ -238,7 +238,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     repo,
                     searchFilter,
                 );
-                result.autorace.push(...autoraceRaceEntityList);
+                result[RaceType.AUTORACE].push(...autoraceRaceEntityList);
             }
             // BOATRACE
             if (
@@ -261,7 +261,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                     repo,
                     searchFilter,
                 );
-                result.boatrace.push(...boatraceRaceEntityList);
+                result[RaceType.BOATRACE].push(...boatraceRaceEntityList);
             }
 
             return result;

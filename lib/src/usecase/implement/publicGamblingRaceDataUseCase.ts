@@ -114,27 +114,27 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         // 共通フィルタ関数で簡潔に
         return {
             [RaceType.JRA]: this.filterRaceEntityList(
-                raceEntityList.jra,
+                raceEntityList[RaceType.JRA],
                 searchList?.jra,
             ),
             [RaceType.NAR]: this.filterRaceEntityList(
-                raceEntityList.nar,
+                raceEntityList[RaceType.NAR],
                 searchList?.nar,
             ),
             [RaceType.OVERSEAS]: this.filterRaceEntityList(
-                raceEntityList.overseas,
+                raceEntityList[RaceType.OVERSEAS],
                 searchList?.overseas,
             ),
             [RaceType.KEIRIN]: this.filterRaceEntityList(
-                raceEntityList.keirin,
+                raceEntityList[RaceType.KEIRIN],
                 searchList?.keirin,
             ),
             [RaceType.AUTORACE]: this.filterRaceEntityList(
-                raceEntityList.autorace,
+                raceEntityList[RaceType.AUTORACE],
                 searchList?.autorace,
             ),
             [RaceType.BOATRACE]: this.filterRaceEntityList(
-                raceEntityList.boatrace,
+                raceEntityList[RaceType.BOATRACE],
                 searchList?.boatrace,
             ),
         };
@@ -269,12 +269,12 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         );
 
         await this.raceDataService.updateRaceEntityList({
-            jra: raceEntityList.jra,
-            nar: raceEntityList.nar,
-            overseas: raceEntityList.overseas,
-            keirin: raceEntityList.keirin,
-            autorace: raceEntityList.autorace,
-            boatrace: raceEntityList.boatrace,
+            jra: raceEntityList[RaceType.JRA],
+            nar: raceEntityList[RaceType.NAR],
+            overseas: raceEntityList[RaceType.OVERSEAS],
+            keirin: raceEntityList[RaceType.KEIRIN],
+            autorace: raceEntityList[RaceType.AUTORACE],
+            boatrace: raceEntityList[RaceType.BOATRACE],
         });
 
         return {

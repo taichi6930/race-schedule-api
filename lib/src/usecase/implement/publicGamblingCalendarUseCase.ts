@@ -103,24 +103,25 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
 
         // displayGradeListに含まれるレース情報のみを抽出
         const filteredRaceEntityList = {
-            [RaceType.JRA]: raceEntityList.jra.filter((raceEntity) =>
+            [RaceType.JRA]: raceEntityList[RaceType.JRA].filter((raceEntity) =>
                 displayGradeList[RaceType.JRA].includes(
                     raceEntity.raceData.grade,
                 ),
             ),
-            [RaceType.NAR]: raceEntityList.nar.filter((raceEntity) =>
+            [RaceType.NAR]: raceEntityList[RaceType.NAR].filter((raceEntity) =>
                 displayGradeList[RaceType.NAR].includes(
                     raceEntity.raceData.grade,
                 ),
             ),
-            [RaceType.OVERSEAS]: raceEntityList.overseas.filter((raceEntity) =>
-                displayGradeList[RaceType.OVERSEAS].includes(
-                    raceEntity.raceData.grade,
-                ),
+            [RaceType.OVERSEAS]: raceEntityList[RaceType.OVERSEAS].filter(
+                (raceEntity) =>
+                    displayGradeList[RaceType.OVERSEAS].includes(
+                        raceEntity.raceData.grade,
+                    ),
             ),
             [RaceType.KEIRIN]: this.filterRaceEntity(
                 RaceType.KEIRIN,
-                raceEntityList.keirin,
+                raceEntityList[RaceType.KEIRIN],
                 displayGradeList[RaceType.KEIRIN],
                 playerList[RaceType.KEIRIN],
             ).filter((raceEntity) =>
@@ -130,7 +131,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             ),
             [RaceType.AUTORACE]: this.filterRaceEntity(
                 RaceType.AUTORACE,
-                raceEntityList.autorace,
+                raceEntityList[RaceType.AUTORACE],
                 displayGradeList[RaceType.AUTORACE],
                 playerList[RaceType.AUTORACE],
             ).filter((raceEntity) =>
@@ -140,7 +141,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             ),
             [RaceType.BOATRACE]: this.filterRaceEntity(
                 RaceType.BOATRACE,
-                raceEntityList.boatrace,
+                raceEntityList[RaceType.BOATRACE],
                 displayGradeList[RaceType.BOATRACE],
                 playerList[RaceType.BOATRACE],
             ).filter((raceEntity) =>

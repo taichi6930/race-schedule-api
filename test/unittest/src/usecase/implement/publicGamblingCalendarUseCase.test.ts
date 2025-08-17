@@ -208,12 +208,12 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
 
         raceDataService.fetchRaceEntityList.mockResolvedValue({
-            jra: mockRaceEntityList.jra,
-            nar: mockRaceEntityList.nar,
-            overseas: mockRaceEntityList.overseas,
-            keirin: mockRaceEntityList.keirin,
-            autorace: mockRaceEntityList.autorace,
-            boatrace: mockRaceEntityList.boatrace,
+            [RaceType.JRA]: mockRaceEntityList.jra,
+            [RaceType.NAR]: mockRaceEntityList.nar,
+            [RaceType.OVERSEAS]: mockRaceEntityList.overseas,
+            [RaceType.KEIRIN]: mockRaceEntityList.keirin,
+            [RaceType.AUTORACE]: mockRaceEntityList.autorace,
+            [RaceType.BOATRACE]: mockRaceEntityList.boatrace,
         });
 
         const startDate = new Date('2024-02-01');
