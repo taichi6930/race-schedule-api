@@ -7,6 +7,7 @@ import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
+import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -19,8 +20,8 @@ export class JraPlaceRepositoryFromStorageImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
     // S3にアップロードするファイル名
-    private readonly placeFileName = 'placeList.csv';
-    private readonly heldDayFileName = 'heldDayList.csv';
+    private readonly placeFileName = CSV_FILE_NAME.PLACE_LIST;
+    private readonly heldDayFileName = CSV_FILE_NAME.HELD_DAY_LIST;
 
     public constructor(
         @inject('PlaceS3Gateway')
@@ -73,7 +74,7 @@ export class JraPlaceRepositoryFromStorageImpl
             });
         }
 
-        // raceEntityListに変換
+        // placeRecordをplaceEntityに変換
         const placeEntityList: JraPlaceEntity[] = [...recordMap.values()].map(
             ({ placeRecord, heldDayRecord: heldDayRecordItem }) => {
                 return JraPlaceEntity.create(
@@ -224,10 +225,10 @@ export class JraPlaceRepositoryFromStorageImpl
 
         // ヘッダーに基づいてインデックスを取得
         const indices = {
-            id: headers.indexOf('id'),
-            dateTime: headers.indexOf('dateTime'),
-            location: headers.indexOf('location'),
-            updateDate: headers.indexOf('updateDate'),
+            id: headers.indexOf(CSV_HEADER_KEYS.ID),
+            dateTime: headers.indexOf(CSV_HEADER_KEYS.DATE_TIME),
+            location: headers.indexOf(CSV_HEADER_KEYS.LOCATION),
+            updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
         // データ行を解析して PlaceData のリストを生成
@@ -279,17 +280,16 @@ export class JraPlaceRepositoryFromStorageImpl
 
         // CSVを行ごとに分割
         const lines = csv.split('\n');
-        console.log('lines:', lines);
         // ヘッダー行を解析
         const headers = lines[0].split(',');
 
         // ヘッダーに基づいてインデックスを取得
         const indices = {
-            id: headers.indexOf('id'),
-            raceType: headers.indexOf('raceType'),
-            heldTimes: headers.indexOf('heldTimes'),
-            heldDayTimes: headers.indexOf('heldDayTimes'),
-            updateDate: headers.indexOf('updateDate'),
+            id: headers.indexOf(CSV_HEADER_KEYS.ID),
+            raceType: headers.indexOf(CSV_HEADER_KEYS.RACE_TYPE),
+            heldTimes: headers.indexOf(CSV_HEADER_KEYS.HELD_TIMES),
+            heldDayTimes: headers.indexOf(CSV_HEADER_KEYS.HELD_DAY_TIMES),
+            updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
         // データ行を解析して JraHeldDayRecord のリストを生成

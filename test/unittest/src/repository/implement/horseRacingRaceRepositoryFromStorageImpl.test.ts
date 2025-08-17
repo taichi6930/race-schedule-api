@@ -46,11 +46,12 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
         test('レース開催データを正常に取得できる', async () => {
             // モックの戻り値を設定
             horseRacingRaceS3Gateway.fetchDataFromS3.mockImplementation(
-                async (bucketName, fileName) => {
+                async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
                             __dirname,
-                            `../../mock/repository/csv/${bucketName}${fileName}`,
+                            '../../mock/repository/csv',
+                            `${folderName}${fileName}`,
                         ),
                         'utf8',
                     );
@@ -156,11 +157,12 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                 ).flat();
                 // モックの戻り値を設定
                 horseRacingRaceS3Gateway.fetchDataFromS3.mockImplementation(
-                    async (bucketName, fileName) => {
+                    async (folderName, fileName) => {
                         return fs.readFileSync(
                             path.resolve(
                                 __dirname,
-                                `../../mock/repository/csv/${bucketName}${fileName}`,
+                                '../../mock/repository/csv',
+                                `${folderName}${fileName}`,
                             ),
                             'utf8',
                         );

@@ -43,9 +43,7 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
         for (const placeEntityX of [
             placeEntityList.jra,
             placeEntityList.nar,
-            placeEntityList.keirin,
-            placeEntityList.autorace,
-            placeEntityList.boatrace,
+            placeEntityList.mechanicalRacing,
         ]) {
             for (const placeEntity of placeEntityX) {
                 placeDataList.push(placeEntity.placeData);

@@ -7,6 +7,7 @@ import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { PlaceGradeRecord } from '../../gateway/record/placeGradeRecord';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
+import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -22,8 +23,8 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
     implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
     // S3にアップロードするファイル名
-    private readonly placeFileName = 'placeList.csv';
-    private readonly placeGradeFileName = 'gradeList.csv';
+    private readonly placeFileName = CSV_FILE_NAME.PLACE_LIST;
+    private readonly placeGradeFileName = CSV_FILE_NAME.GRADE_LIST;
 
     public constructor(
         @inject('PlaceS3Gateway')
@@ -233,10 +234,10 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
 
         // ヘッダーに基づいてインデックスを取得
         const indices = {
-            id: headers.indexOf('id'),
-            dateTime: headers.indexOf('dateTime'),
-            location: headers.indexOf('location'),
-            updateDate: headers.indexOf('updateDate'),
+            id: headers.indexOf(CSV_HEADER_KEYS.ID),
+            dateTime: headers.indexOf(CSV_HEADER_KEYS.DATE_TIME),
+            location: headers.indexOf(CSV_HEADER_KEYS.LOCATION),
+            updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
         const placeRecordList: PlaceRecord[] = lines
@@ -294,10 +295,10 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
 
         // ヘッダーに基づいてインデックスを取得
         const indices = {
-            id: headers.indexOf('id'),
-            raceType: headers.indexOf('raceType'),
-            grade: headers.indexOf('grade'),
-            updateDate: headers.indexOf('updateDate'),
+            id: headers.indexOf(CSV_HEADER_KEYS.ID),
+            raceType: headers.indexOf(CSV_HEADER_KEYS.RACE_TYPE),
+            grade: headers.indexOf(CSV_HEADER_KEYS.GRADE),
+            updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
         // データ行を解析して PlaceGradeRecord のリストを生成

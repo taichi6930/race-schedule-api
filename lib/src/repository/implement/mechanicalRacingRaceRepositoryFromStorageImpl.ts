@@ -7,6 +7,7 @@ import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
+import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -23,8 +24,8 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
     implements
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 {
-    private readonly raceListFileName = 'raceList.csv';
-    private readonly racePlayerListFileName = 'racePlayerList.csv';
+    private readonly raceListFileName = CSV_FILE_NAME.RACE_LIST;
+    private readonly racePlayerListFileName = CSV_FILE_NAME.RACE_PLAYER_LIST;
 
     public constructor(
         @inject('MechanicalRacingRaceS3Gateway')
@@ -217,14 +218,14 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
 
         // ヘッダーに基づいてインデックスを取得
         const indices = {
-            id: headers.indexOf('id'),
-            name: headers.indexOf('name'),
-            stage: headers.indexOf('stage'),
-            dateTime: headers.indexOf('dateTime'),
-            location: headers.indexOf('location'),
-            grade: headers.indexOf('grade'),
-            number: headers.indexOf('number'),
-            updateDate: headers.indexOf('updateDate'),
+            id: headers.indexOf(CSV_HEADER_KEYS.ID),
+            name: headers.indexOf(CSV_HEADER_KEYS.NAME),
+            stage: headers.indexOf(CSV_HEADER_KEYS.STAGE),
+            dateTime: headers.indexOf(CSV_HEADER_KEYS.DATE_TIME),
+            location: headers.indexOf(CSV_HEADER_KEYS.LOCATION),
+            grade: headers.indexOf(CSV_HEADER_KEYS.GRADE),
+            number: headers.indexOf(CSV_HEADER_KEYS.NUMBER),
+            updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
         // データ行を解析してRaceDataのリストを生成
@@ -262,7 +263,6 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
                 // continue
             }
         }
-        console.log('レースデータの取得件数:', result.length);
         return result;
     }
 
@@ -292,11 +292,11 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         const headers = lines[0].split(',');
 
         const indices = {
-            id: headers.indexOf('id'),
-            raceId: headers.indexOf('raceId'),
-            positionNumber: headers.indexOf('positionNumber'),
-            playerNumber: headers.indexOf('playerNumber'),
-            updateDate: headers.indexOf('updateDate'),
+            id: headers.indexOf(CSV_HEADER_KEYS.ID),
+            raceId: headers.indexOf(CSV_HEADER_KEYS.RACE_ID),
+            positionNumber: headers.indexOf(CSV_HEADER_KEYS.POSITION_NUMBER),
+            playerNumber: headers.indexOf(CSV_HEADER_KEYS.PLAYER_NUMBER),
+            updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
         // データ行を解析してKeirinRaceDataのリストを生成

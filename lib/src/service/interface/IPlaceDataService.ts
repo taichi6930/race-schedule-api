@@ -32,9 +32,7 @@ export interface IPlaceDataService {
     ) => Promise<{
         jra: JraPlaceEntity[];
         nar: HorseRacingPlaceEntity[];
-        keirin: MechanicalRacingPlaceEntity[];
-        autorace: MechanicalRacingPlaceEntity[];
-        boatrace: MechanicalRacingPlaceEntity[];
+        mechanicalRacing: MechanicalRacingPlaceEntity[];
     }>;
 
     /**
@@ -48,9 +46,7 @@ export interface IPlaceDataService {
     updatePlaceEntityList: (placeEntityList: {
         jra: JraPlaceEntity[];
         nar: HorseRacingPlaceEntity[];
-        keirin: MechanicalRacingPlaceEntity[];
-        autorace: MechanicalRacingPlaceEntity[];
-        boatrace: MechanicalRacingPlaceEntity[];
+        mechanicalRacing: MechanicalRacingPlaceEntity[];
     }) => Promise<{
         code: number;
         message: string;

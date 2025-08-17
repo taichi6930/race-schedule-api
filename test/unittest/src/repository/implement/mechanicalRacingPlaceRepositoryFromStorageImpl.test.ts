@@ -45,22 +45,24 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
         test('正しい開催場データを取得できる', async () => {
             // モックの戻り値を設定
             placeS3Gateway.fetchDataFromS3.mockImplementation(
-                async (bucketName, fileName) => {
+                async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
                             __dirname,
-                            `../../mock/repository/csv/${bucketName}${fileName}`,
+                            '../../mock/repository/csv',
+                            `${folderName}${fileName}`,
                         ),
                         'utf8',
                     );
                 },
             );
             placeGradeS3Gateway.fetchDataFromS3.mockImplementation(
-                async (bucketName, fileName) => {
+                async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
                             __dirname,
-                            `../../mock/repository/csv/${bucketName}${fileName}`,
+                            '../../mock/repository/csv',
+                            `${folderName}${fileName}`,
                         ),
                         'utf8',
                     );

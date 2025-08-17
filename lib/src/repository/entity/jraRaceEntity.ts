@@ -3,7 +3,7 @@ import '../../utility/format';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
-import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
+import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
 import {
     generateRaceId,
@@ -103,8 +103,8 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     /**
      * JraRaceRecordに変換する
      */
-    public toRaceRecord(): JraRaceRecord {
-        return JraRaceRecord.create(
+    public toRaceRecord(): HorseRacingRaceRecord {
+        return HorseRacingRaceRecord.create(
             this.id,
             this.raceData.raceType,
             this.raceData.name,
@@ -114,8 +114,6 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
             this.conditionData.distance,
             this.raceData.grade,
             this.raceData.number,
-            this.heldDayData.heldTimes,
-            this.heldDayData.heldDayTimes,
             this.updateDate,
         );
     }

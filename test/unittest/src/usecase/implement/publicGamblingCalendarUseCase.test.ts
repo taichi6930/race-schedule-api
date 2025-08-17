@@ -193,8 +193,10 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         ];
         const expectRaceEntityList = {
             jra: mockRaceEntityList.jra,
-            nar: mockRaceEntityList.nar,
-            overseas: mockRaceEntityList.overseas,
+            horseRacing: [
+                ...mockRaceEntityList.nar,
+                ...mockRaceEntityList.overseas,
+            ],
             mechanicalRacing: [
                 ...mockRaceEntityList.keirin,
                 ...mockRaceEntityList.autorace,
