@@ -303,7 +303,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                     [
                         this.createRaceName(raceType),
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
-                        this.createLocation(raceType),
+                        this.defaultLocation[raceType],
                         'ダート',
                         '2000',
                         this.createGrade(raceType),
@@ -311,7 +311,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         generateRaceId(
                             raceType,
                             currentDate,
-                            this.createLocation(raceType),
+                            this.defaultLocation[raceType],
                             raceNumber,
                         ),
                     ].join(','),
@@ -349,7 +349,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                     [
                         this.createRaceName(raceType),
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
-                        this.createLocation(raceType),
+                        this.defaultLocation[raceType],
                         '芝',
                         '2400',
                         this.createGrade(raceType),
@@ -359,7 +359,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         generateRaceId(
                             raceType,
                             currentDate,
-                            this.createLocation(raceType),
+                            this.defaultLocation[raceType],
                             raceNumber,
                         ),
                     ].join(','),
@@ -393,13 +393,13 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                         this.createRaceName(raceType),
                         this.createStage(raceType),
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
-                        this.createLocation(raceType),
+                        this.defaultLocation[raceType],
                         this.createGrade(raceType),
                         raceNumber,
                         generateRaceId(
                             raceType,
                             currentDate,
-                            this.createLocation(raceType),
+                            this.defaultLocation[raceType],
                             raceNumber,
                         ),
                     ].join(','),
@@ -439,10 +439,10 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                             generatePlaceId(
                                 raceType,
                                 currentDate,
-                                this.createLocation(raceType),
+                                this.defaultLocation[raceType],
                             ),
                             format(currentDate, 'yyyy-MM-dd'),
-                            this.createLocation(raceType),
+                            this.defaultLocation[raceType],
                             getJSTDate(new Date()),
                         ].join(','),
                     );
@@ -580,7 +580,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                             generatePlaceId(
                                 raceType,
                                 currentDate,
-                                this.createLocation(raceType),
+                                this.defaultLocation[raceType],
                             ),
                             raceType,
                             '1',
@@ -623,7 +623,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
                             generatePlaceId(
                                 raceType,
                                 currentDate,
-                                this.createLocation(raceType),
+                                this.defaultLocation[raceType],
                             ),
                             raceType,
                             this.createGrade(raceType),
@@ -637,28 +637,14 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
         MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
     }
 
-    private createLocation(raceType: RaceType): string {
-        switch (raceType) {
-            case RaceType.KEIRIN: {
-                return '川崎';
-            }
-            case RaceType.BOATRACE: {
-                return '平和島';
-            }
-            case RaceType.AUTORACE: {
-                return '飯塚';
-            }
-            case RaceType.JRA: {
-                return '東京';
-            }
-            case RaceType.NAR: {
-                return '大井';
-            }
-            case RaceType.OVERSEAS: {
-                return 'サンタアニタパーク';
-            }
-        }
-    }
+    private readonly defaultLocation = {
+        [RaceType.JRA]: '東京',
+        [RaceType.NAR]: '大井',
+        [RaceType.OVERSEAS]: 'パリロンシャン',
+        [RaceType.KEIRIN]: '平塚',
+        [RaceType.AUTORACE]: '川口',
+        [RaceType.BOATRACE]: '浜名湖',
+    };
 
     private createGrade(raceType: RaceType): GradeType {
         switch (raceType) {
