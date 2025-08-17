@@ -39,8 +39,7 @@ export interface ICalendarService {
      */
     upsertEvents: (raceEntityList: {
         jra: JraRaceEntity[];
-        nar: HorseRacingRaceEntity[];
-        overseas: HorseRacingRaceEntity[];
+        horseRacing: HorseRacingRaceEntity[];
         mechanicalRacing: MechanicalRacingRaceEntity[];
     }) => Promise<void>;
 

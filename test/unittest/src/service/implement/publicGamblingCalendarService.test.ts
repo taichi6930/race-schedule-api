@@ -112,8 +112,10 @@ describe('PublicGamblingCalendarService', () => {
         it('カレンダーのイベントの更新が正常に行われること', async () => {
             await service.upsertEvents({
                 jra: baseJraRaceEntityList,
-                nar: baseNarRaceEntityList,
-                overseas: baseOverseasRaceEntityList,
+                horseRacing: [
+                    ...baseNarRaceEntityList,
+                    ...baseOverseasRaceEntityList,
+                ],
                 mechanicalRacing: [
                     ...baseKeirinRaceEntityList,
                     ...baseBoatraceRaceEntityList,
@@ -124,12 +126,10 @@ describe('PublicGamblingCalendarService', () => {
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
                 baseJraRaceEntityList,
             );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                baseNarRaceEntityList,
-            );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                baseOverseasRaceEntityList,
-            );
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith([
+                ...baseNarRaceEntityList,
+                ...baseOverseasRaceEntityList,
+            ]);
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith([
                 ...baseKeirinRaceEntityList,
                 ...baseBoatraceRaceEntityList,

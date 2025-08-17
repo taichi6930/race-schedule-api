@@ -257,8 +257,10 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         };
         await this.calendarService.upsertEvents({
             jra: upsertRaceEntityList.jra,
-            nar: upsertRaceEntityList.nar,
-            overseas: upsertRaceEntityList.overseas,
+            horseRacing: [
+                ...upsertRaceEntityList.nar,
+                ...upsertRaceEntityList.overseas,
+            ],
             mechanicalRacing: [
                 ...upsertRaceEntityList.keirin,
                 ...upsertRaceEntityList.autorace,
