@@ -88,12 +88,12 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             };
         },
     ): Promise<{
-        jra: JraRaceEntity[];
-        nar: HorseRacingRaceEntity[];
-        overseas: HorseRacingRaceEntity[];
-        keirin: MechanicalRacingRaceEntity[];
-        autorace: MechanicalRacingRaceEntity[];
-        boatrace: MechanicalRacingRaceEntity[];
+        [RaceType.JRA]: JraRaceEntity[];
+        [RaceType.NAR]: HorseRacingRaceEntity[];
+        [RaceType.OVERSEAS]: HorseRacingRaceEntity[];
+        [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
+        [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
+        [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
     }> {
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
@@ -113,21 +113,27 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
 
         // 共通フィルタ関数で簡潔に
         return {
-            jra: this.filterRaceEntityList(raceEntityList.jra, searchList?.jra),
-            nar: this.filterRaceEntityList(raceEntityList.nar, searchList?.nar),
-            overseas: this.filterRaceEntityList(
+            [RaceType.JRA]: this.filterRaceEntityList(
+                raceEntityList.jra,
+                searchList?.jra,
+            ),
+            [RaceType.NAR]: this.filterRaceEntityList(
+                raceEntityList.nar,
+                searchList?.nar,
+            ),
+            [RaceType.OVERSEAS]: this.filterRaceEntityList(
                 raceEntityList.overseas,
                 searchList?.overseas,
             ),
-            keirin: this.filterRaceEntityList(
+            [RaceType.KEIRIN]: this.filterRaceEntityList(
                 raceEntityList.keirin,
                 searchList?.keirin,
             ),
-            autorace: this.filterRaceEntityList(
+            [RaceType.AUTORACE]: this.filterRaceEntityList(
                 raceEntityList.autorace,
                 searchList?.autorace,
             ),
-            boatrace: this.filterRaceEntityList(
+            [RaceType.BOATRACE]: this.filterRaceEntityList(
                 raceEntityList.boatrace,
                 searchList?.boatrace,
             ),

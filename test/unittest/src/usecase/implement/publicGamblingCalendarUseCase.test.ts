@@ -232,12 +232,12 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 RaceType.BOATRACE,
             ],
             {
-                jra: SpecifiedGradeList(RaceType.JRA),
-                nar: SpecifiedGradeList(RaceType.NAR),
-                overseas: SpecifiedGradeList(RaceType.OVERSEAS),
-                keirin: SpecifiedGradeList(RaceType.KEIRIN),
-                autorace: SpecifiedGradeList(RaceType.AUTORACE),
-                boatrace: SpecifiedGradeList(RaceType.BOATRACE),
+                [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
+                [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),
+                [RaceType.OVERSEAS]: SpecifiedGradeList(RaceType.OVERSEAS),
+                [RaceType.KEIRIN]: SpecifiedGradeList(RaceType.KEIRIN),
+                [RaceType.AUTORACE]: SpecifiedGradeList(RaceType.AUTORACE),
+                [RaceType.BOATRACE]: SpecifiedGradeList(RaceType.BOATRACE),
             },
         );
 
