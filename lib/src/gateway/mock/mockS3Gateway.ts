@@ -93,7 +93,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      */
     @Logger
     public async fetchDataFromS3(
-        bucketName: string | undefined,
+        bucketName: string,
         fileName: string,
     ): Promise<string> {
         const key = `${bucketName}${fileName}`;

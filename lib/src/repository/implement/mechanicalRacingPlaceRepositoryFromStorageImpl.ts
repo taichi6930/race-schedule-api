@@ -187,7 +187,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
             await this.placeGradeS3Gateway.uploadDataToS3(
                 existFetchPlaceGradeRecordList,
                 `${raceType.toLowerCase()}/`,
-                this.placeFileName,
+                this.placeGradeFileName,
             );
 
             return {
