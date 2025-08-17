@@ -5,7 +5,7 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { injectable } from 'tsyringe';
 
-import { csvPath } from '../../utility/constants';
+import { CSV_HEADER_KEYS, csvPath } from '../../utility/constants';
 import { GradeType } from '../../utility/data/common/gradeType';
 import { generatePlaceId } from '../../utility/data/common/placeId';
 import { generateRaceId } from '../../utility/data/common/raceId';
@@ -285,14 +285,14 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
         // 2024年のデータ366日分を作成
         const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
-            'name',
-            'dateTime',
-            'location',
-            'surfaceType',
-            'distance',
-            'grade',
-            'number',
-            'id',
+            CSV_HEADER_KEYS.NAME,
+            CSV_HEADER_KEYS.DATE_TIME,
+            CSV_HEADER_KEYS.LOCATION,
+            CSV_HEADER_KEYS.SURFACE_TYPE,
+            CSV_HEADER_KEYS.DISTANCE,
+            CSV_HEADER_KEYS.GRADE,
+            CSV_HEADER_KEYS.NUMBER,
+            CSV_HEADER_KEYS.ID,
         ].join(',');
         const mockData = [mockDataHeader];
         const currentDate = new Date(this.startDate);
@@ -328,16 +328,16 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
         // 2024年のデータ366日分を作成
         const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
-            'name',
-            'dateTime',
-            'location',
-            'surfaceType',
-            'distance',
-            'grade',
-            'number',
-            'heldTimes',
-            'heldDayTimes',
-            'id',
+            CSV_HEADER_KEYS.NAME,
+            CSV_HEADER_KEYS.DATE_TIME,
+            CSV_HEADER_KEYS.LOCATION,
+            CSV_HEADER_KEYS.SURFACE_TYPE,
+            CSV_HEADER_KEYS.DISTANCE,
+            CSV_HEADER_KEYS.GRADE,
+            CSV_HEADER_KEYS.NUMBER,
+            CSV_HEADER_KEYS.HELD_TIMES,
+            CSV_HEADER_KEYS.HELD_DAY_TIMES,
+            CSV_HEADER_KEYS.ID,
         ].join(',');
         const mockData = [mockDataHeader];
 
@@ -376,13 +376,13 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
         const currentDate = new Date(this.startDate);
         const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
-            'name',
-            'stage',
-            'dateTime',
-            'location',
-            'grade',
-            'number',
-            'id',
+            CSV_HEADER_KEYS.NAME,
+            CSV_HEADER_KEYS.STAGE,
+            CSV_HEADER_KEYS.DATE_TIME,
+            CSV_HEADER_KEYS.LOCATION,
+            CSV_HEADER_KEYS.GRADE,
+            CSV_HEADER_KEYS.NUMBER,
+            CSV_HEADER_KEYS.ID,
         ].join(',');
         const mockData = [mockDataHeader];
         // whileで回していって、最初の日付の年数と異なったら終了
@@ -414,10 +414,10 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     private async setRaceTypePlaceMockData(raceType: RaceType) {
         const fileName = csvPath('PLACE_LIST', raceType as RaceType);
         const mockDataHeader = [
-            'id',
-            'dateTime',
-            'location',
-            'updateDate',
+            CSV_HEADER_KEYS.ID,
+            CSV_HEADER_KEYS.DATE_TIME,
+            CSV_HEADER_KEYS.LOCATION,
+            CSV_HEADER_KEYS.UPDATE_DATE,
         ].join(',');
         const mockData = [mockDataHeader];
         // 2024年のデータ12ヶ月分を作成
@@ -555,10 +555,10 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
 
         const fileName = csvPath('PLACE_LIST', raceType as RaceType);
         const mockDataHeader = [
-            'id',
-            'raceType',
-            'heldTimes',
-            'heldDayTimes',
+            CSV_HEADER_KEYS.ID,
+            CSV_HEADER_KEYS.RACE_TYPE,
+            CSV_HEADER_KEYS.HELD_TIMES,
+            CSV_HEADER_KEYS.HELD_DAY_TIMES,
         ].join(',');
         const mockData = [mockDataHeader];
         // 2024年のデータ12ヶ月分を作成
@@ -597,9 +597,12 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
     @Logger
     private async setRaceTypePlaceGradeMockData(raceType: RaceType) {
         const fileName = csvPath('GRADE_LIST', raceType as RaceType);
-        const mockDataHeader = ['id', 'raceType', 'grade', 'UpdateDate'].join(
-            ',',
-        );
+        const mockDataHeader = [
+            CSV_HEADER_KEYS.ID,
+            CSV_HEADER_KEYS.RACE_TYPE,
+            CSV_HEADER_KEYS.GRADE,
+            CSV_HEADER_KEYS.UPDATE_DATE,
+        ].join(',');
         const mockData = [mockDataHeader];
         // 2024年のデータ12ヶ月分を作成
         for (

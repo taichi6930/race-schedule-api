@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
-import { CSV_FILE_NAME } from '../../utility/constants';
+import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -78,15 +78,15 @@ export class HorseRacingRaceRepositoryFromStorageImpl
 
         // ヘッダーに基づいてインデックスを取得
         const indices = {
-            id: headers.indexOf('id'),
-            name: headers.indexOf('name'),
-            dateTime: headers.indexOf('dateTime'),
-            location: headers.indexOf('location'),
-            surfaceType: headers.indexOf('surfaceType'),
-            distance: headers.indexOf('distance'),
-            grade: headers.indexOf('grade'),
-            number: headers.indexOf('number'),
-            updateDate: headers.indexOf('updateDate'),
+            id: headers.indexOf(CSV_HEADER_KEYS.ID),
+            name: headers.indexOf(CSV_HEADER_KEYS.NAME),
+            dateTime: headers.indexOf(CSV_HEADER_KEYS.DATE_TIME),
+            location: headers.indexOf(CSV_HEADER_KEYS.LOCATION),
+            surfaceType: headers.indexOf(CSV_HEADER_KEYS.SURFACE_TYPE),
+            distance: headers.indexOf(CSV_HEADER_KEYS.DISTANCE),
+            grade: headers.indexOf(CSV_HEADER_KEYS.GRADE),
+            number: headers.indexOf(CSV_HEADER_KEYS.NUMBER),
+            updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
         console.log('データ行を100件ずつ分割');

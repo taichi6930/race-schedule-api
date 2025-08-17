@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
-import { CSV_FILE_NAME } from '../../utility/constants';
+import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -79,17 +79,17 @@ export class JraRaceRepositoryFromStorageImpl
 
         // ヘッダーに基づいてインデックスを取得
         const indices = {
-            id: headers.indexOf('id'),
-            name: headers.indexOf('name'),
-            dateTime: headers.indexOf('dateTime'),
-            location: headers.indexOf('location'),
-            surfaceType: headers.indexOf('surfaceType'),
-            distance: headers.indexOf('distance'),
-            grade: headers.indexOf('grade'),
-            number: headers.indexOf('number'),
-            heldTimes: headers.indexOf('heldTimes'),
-            heldDayTimes: headers.indexOf('heldDayTimes'),
-            updateDate: headers.indexOf('updateDate'),
+            id: headers.indexOf(CSV_HEADER_KEYS.ID),
+            name: headers.indexOf(CSV_HEADER_KEYS.NAME),
+            dateTime: headers.indexOf(CSV_HEADER_KEYS.DATE_TIME),
+            location: headers.indexOf(CSV_HEADER_KEYS.LOCATION),
+            surfaceType: headers.indexOf(CSV_HEADER_KEYS.SURFACE_TYPE),
+            distance: headers.indexOf(CSV_HEADER_KEYS.DISTANCE),
+            grade: headers.indexOf(CSV_HEADER_KEYS.GRADE),
+            number: headers.indexOf(CSV_HEADER_KEYS.NUMBER),
+            heldTimes: headers.indexOf(CSV_HEADER_KEYS.HELD_TIMES),
+            heldDayTimes: headers.indexOf(CSV_HEADER_KEYS.HELD_DAY_TIMES),
+            updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
         // データ行を解析してRaceDataのリストを生成
