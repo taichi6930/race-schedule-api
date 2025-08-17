@@ -54,13 +54,12 @@ describe('PublicGamblingPlaceUseCase', () => {
 
             // モックの戻り値を設定
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
-                jra: [baseJraPlaceEntity],
-                nar: [baseNarPlaceEntity],
-                mechanicalRacing: [
-                    baseKeirinPlaceEntity,
-                    baseAutoracePlaceEntity,
-                    baseBoatracePlaceEntity,
-                ],
+                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.NAR]: [baseNarPlaceEntity],
+                [RaceType.OVERSEAS]: [],
+                [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
+                [RaceType.AUTORACE]: [baseAutoracePlaceEntity],
+                [RaceType.BOATRACE]: [baseBoatracePlaceEntity],
             });
 
             const startDate = new Date('2024-06-01');
@@ -89,13 +88,12 @@ describe('PublicGamblingPlaceUseCase', () => {
 
             // モックの戻り値を設定
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
-                jra: [baseJraPlaceEntity],
-                nar: [baseNarPlaceEntity],
-                mechanicalRacing: [
-                    baseKeirinPlaceEntity,
-                    baseAutoracePlaceEntity,
-                    baseBoatracePlaceEntity,
-                ],
+                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.NAR]: [baseNarPlaceEntity],
+                [RaceType.OVERSEAS]: [],
+                [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
+                [RaceType.AUTORACE]: [baseAutoracePlaceEntity],
+                [RaceType.BOATRACE]: [baseBoatracePlaceEntity],
             });
 
             await useCase.updatePlaceDataList(startDate, finishDate, [

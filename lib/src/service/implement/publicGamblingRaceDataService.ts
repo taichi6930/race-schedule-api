@@ -101,9 +101,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         raceTypeList: RaceType[],
         type: DataLocationType,
         placeEntityList?: {
-            jra?: JraPlaceEntity[];
-            horseRacing?: HorseRacingPlaceEntity[];
-            mechanicalRacing?: MechanicalRacingPlaceEntity[];
+            [RaceType.JRA]?: JraPlaceEntity[];
+            [RaceType.NAR]?: HorseRacingPlaceEntity[];
+            [RaceType.OVERSEAS]?: HorseRacingPlaceEntity[];
+            [RaceType.KEIRIN]?: MechanicalRacingPlaceEntity[];
+            [RaceType.AUTORACE]?: MechanicalRacingPlaceEntity[];
+            [RaceType.BOATRACE]?: MechanicalRacingPlaceEntity[];
         },
     ): Promise<{
         [RaceType.JRA]: JraRaceEntity[];
@@ -133,14 +136,13 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             // JRA
             if (
                 raceTypeList.includes(RaceType.JRA) ||
-                (placeEntityList?.jra !== undefined &&
-                    placeEntityList.jra.length > 0)
+                placeEntityList?.[RaceType.JRA] !== undefined
             ) {
                 const searchFilter = new SearchRaceFilterEntity<JraPlaceEntity>(
                     startDate,
                     finishDate,
                     RaceType.JRA,
-                    placeEntityList?.jra,
+                    placeEntityList?.[RaceType.JRA],
                 );
                 const repo =
                     type === DataLocation.Storage
@@ -155,15 +157,14 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             // NAR
             if (
                 raceTypeList.includes(RaceType.NAR) ||
-                (placeEntityList?.horseRacing !== undefined &&
-                    placeEntityList.horseRacing.length > 0)
+                placeEntityList?.[RaceType.NAR] !== undefined
             ) {
                 const searchFilter =
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
                         startDate,
                         finishDate,
                         RaceType.NAR,
-                        placeEntityList?.horseRacing?.filter(
+                        placeEntityList?.[RaceType.NAR]?.filter(
                             (place) =>
                                 place.placeData.raceType === RaceType.NAR,
                         ),
@@ -199,15 +200,14 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             // KEIRIN
             if (
                 raceTypeList.includes(RaceType.KEIRIN) ||
-                (placeEntityList?.mechanicalRacing !== undefined &&
-                    placeEntityList.mechanicalRacing.length > 0)
+                placeEntityList?.[RaceType.KEIRIN] !== undefined
             ) {
                 const searchFilter =
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         startDate,
                         finishDate,
                         RaceType.KEIRIN,
-                        placeEntityList?.mechanicalRacing?.filter(
+                        placeEntityList?.[RaceType.KEIRIN]?.filter(
                             (place) =>
                                 place.placeData.raceType === RaceType.KEIRIN,
                         ),
@@ -225,15 +225,14 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             // AUTORACE
             if (
                 raceTypeList.includes(RaceType.AUTORACE) ||
-                (placeEntityList?.mechanicalRacing !== undefined &&
-                    placeEntityList.mechanicalRacing.length > 0)
+                placeEntityList?.[RaceType.AUTORACE] !== undefined
             ) {
                 const searchFilter =
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         startDate,
                         finishDate,
                         RaceType.AUTORACE,
-                        placeEntityList?.mechanicalRacing?.filter(
+                        placeEntityList?.[RaceType.AUTORACE]?.filter(
                             (place) =>
                                 place.placeData.raceType === RaceType.AUTORACE,
                         ),
@@ -251,15 +250,14 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             // BOATRACE
             if (
                 raceTypeList.includes(RaceType.BOATRACE) ||
-                (placeEntityList?.mechanicalRacing !== undefined &&
-                    placeEntityList.mechanicalRacing.length > 0)
+                placeEntityList?.[RaceType.BOATRACE] !== undefined
             ) {
                 const searchFilter =
                     new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
                         startDate,
                         finishDate,
                         RaceType.BOATRACE,
-                        placeEntityList?.mechanicalRacing?.filter(
+                        placeEntityList?.[RaceType.BOATRACE]?.filter(
                             (place) =>
                                 place.placeData.raceType === RaceType.BOATRACE,
                         ),

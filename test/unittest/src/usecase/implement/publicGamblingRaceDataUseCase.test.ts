@@ -818,13 +818,12 @@ describe('PublicGamblingRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
-                jra: [baseJraPlaceEntity],
-                nar: [baseNarPlaceEntity],
-                mechanicalRacing: [
-                    baseKeirinPlaceEntity,
-                    baseAutoracePlaceEntity,
-                    baseBoatracePlaceEntity,
-                ],
+                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.NAR]: [baseNarPlaceEntity],
+                [RaceType.OVERSEAS]: [],
+                [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
+                [RaceType.AUTORACE]: [baseAutoracePlaceEntity],
+                [RaceType.BOATRACE]: [baseBoatracePlaceEntity],
             });
 
             // モックの戻り値を設定
@@ -856,9 +855,12 @@ describe('PublicGamblingRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
-                jra: [],
-                nar: [],
-                mechanicalRacing: [],
+                [RaceType.JRA]: [],
+                [RaceType.NAR]: [],
+                [RaceType.OVERSEAS]: [],
+                [RaceType.KEIRIN]: [],
+                [RaceType.AUTORACE]: [],
+                [RaceType.BOATRACE]: [],
             });
 
             // モックの戻り値を設定

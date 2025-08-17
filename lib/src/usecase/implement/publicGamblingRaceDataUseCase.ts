@@ -96,9 +96,12 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             raceTypeList,
             DataLocation.Storage,
             {
-                jra: placeEntityList.jra,
-                horseRacing: placeEntityList.nar,
-                mechanicalRacing: placeEntityList.mechanicalRacing,
+                [RaceType.JRA]: placeEntityList[RaceType.JRA],
+                [RaceType.NAR]: placeEntityList[RaceType.NAR],
+                [RaceType.OVERSEAS]: placeEntityList[RaceType.OVERSEAS],
+                [RaceType.KEIRIN]: placeEntityList[RaceType.KEIRIN],
+                [RaceType.AUTORACE]: placeEntityList[RaceType.AUTORACE],
+                [RaceType.BOATRACE]: placeEntityList[RaceType.BOATRACE],
             },
         );
 
@@ -185,27 +188,31 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
 
         const filteredPlaceEntityList = {
             [RaceType.JRA]: this.filterPlaceEntityList(
-                placeEntityList.jra,
+                placeEntityList[RaceType.JRA].filter(
+                    (item) => item.placeData.raceType === RaceType.JRA,
+                ),
                 searchList?.[RaceType.JRA],
             ),
             [RaceType.NAR]: this.filterPlaceEntityList(
-                placeEntityList.nar,
+                placeEntityList[RaceType.NAR].filter(
+                    (item) => item.placeData.raceType === RaceType.NAR,
+                ),
                 searchList?.[RaceType.NAR],
             ),
             [RaceType.KEIRIN]: this.filterPlaceEntityList(
-                placeEntityList.mechanicalRacing.filter(
+                placeEntityList[RaceType.KEIRIN].filter(
                     (item) => item.placeData.raceType === RaceType.KEIRIN,
                 ),
                 searchList?.[RaceType.KEIRIN],
             ),
             [RaceType.AUTORACE]: this.filterPlaceEntityList(
-                placeEntityList.mechanicalRacing.filter(
+                placeEntityList[RaceType.AUTORACE].filter(
                     (item) => item.placeData.raceType === RaceType.AUTORACE,
                 ),
                 searchList?.[RaceType.AUTORACE],
             ),
             [RaceType.BOATRACE]: this.filterPlaceEntityList(
-                placeEntityList.mechanicalRacing.filter(
+                placeEntityList[RaceType.BOATRACE].filter(
                     (item) => item.placeData.raceType === RaceType.BOATRACE,
                 ),
                 searchList?.[RaceType.BOATRACE],
@@ -238,13 +245,11 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             raceTypeList,
             DataLocation.Web,
             {
-                jra: filteredPlaceEntityList[RaceType.JRA],
-                horseRacing: filteredPlaceEntityList[RaceType.NAR],
-                mechanicalRacing: [
-                    ...filteredPlaceEntityList[RaceType.KEIRIN],
-                    ...filteredPlaceEntityList[RaceType.AUTORACE],
-                    ...filteredPlaceEntityList[RaceType.BOATRACE],
-                ],
+                [RaceType.JRA]: filteredPlaceEntityList[RaceType.JRA],
+                [RaceType.NAR]: filteredPlaceEntityList[RaceType.NAR],
+                [RaceType.KEIRIN]: filteredPlaceEntityList[RaceType.KEIRIN],
+                [RaceType.AUTORACE]: filteredPlaceEntityList[RaceType.AUTORACE],
+                [RaceType.BOATRACE]: filteredPlaceEntityList[RaceType.BOATRACE],
             },
         );
 
