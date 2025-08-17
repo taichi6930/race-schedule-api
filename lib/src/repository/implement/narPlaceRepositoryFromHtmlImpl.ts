@@ -92,7 +92,6 @@ export class NarPlaceRepositoryFromHtmlImpl
         raceType: RaceType,
         date: Date,
     ): Promise<HorseRacingPlaceEntity[]> {
-        console.log(`S3から${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);

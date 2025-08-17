@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 
 import * as cheerio from 'cheerio';
-import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { PlaceData } from '../../domain/placeData';
@@ -107,7 +106,6 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         date: Date,
     ): Promise<MechanicalRacingPlaceEntity[]> {
         const boatracePlaceEntityList: MechanicalRacingPlaceEntity[] = [];
-        console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);

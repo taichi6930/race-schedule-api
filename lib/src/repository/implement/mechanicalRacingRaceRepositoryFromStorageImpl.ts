@@ -263,7 +263,6 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
                 // continue
             }
         }
-        console.log('レースデータの取得件数:', result.length);
         return result;
     }
 

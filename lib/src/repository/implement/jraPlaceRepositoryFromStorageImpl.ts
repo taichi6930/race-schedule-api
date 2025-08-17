@@ -280,7 +280,6 @@ export class JraPlaceRepositoryFromStorageImpl
 
         // CSVを行ごとに分割
         const lines = csv.split('\n');
-        console.log('lines:', lines);
         // ヘッダー行を解析
         const headers = lines[0].split(',');
 

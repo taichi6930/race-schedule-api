@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 
 import * as cheerio from 'cheerio';
-import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { PlaceData } from '../../domain/placeData';
@@ -44,11 +43,6 @@ export class AutoracePlaceRepositoryFromHtmlImpl
             ),
         ];
 
-        console.log(
-            '月リスト:',
-            monthList.map((d) => d.toISOString()),
-        );
-
         // 各月のデータを取得して結合
         const monthPlaceEntityLists = await Promise.all(
             monthList.map(async (month) =>
@@ -83,11 +77,6 @@ export class AutoracePlaceRepositoryFromHtmlImpl
             );
             currentDate.setMonth(currentDate.getMonth() + 1);
         }
-
-        console.log(
-            `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
-        );
-
         return monthList;
     }
 
@@ -104,7 +93,6 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         date: Date,
     ): Promise<MechanicalRacingPlaceEntity[]> {
         const autoracePlaceEntityList: MechanicalRacingPlaceEntity[] = [];
-        console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
