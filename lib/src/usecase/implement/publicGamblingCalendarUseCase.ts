@@ -277,16 +277,12 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             ),
         };
         await this.calendarService.upsertEvents({
-            jra: upsertRaceEntityList[RaceType.JRA],
-            horseRacing: [
-                ...upsertRaceEntityList[RaceType.NAR],
-                ...upsertRaceEntityList[RaceType.OVERSEAS],
-            ],
-            mechanicalRacing: [
-                ...upsertRaceEntityList[RaceType.KEIRIN],
-                ...upsertRaceEntityList[RaceType.AUTORACE],
-                ...upsertRaceEntityList[RaceType.BOATRACE],
-            ],
+            [RaceType.JRA]: upsertRaceEntityList[RaceType.JRA],
+            [RaceType.NAR]: upsertRaceEntityList[RaceType.NAR],
+            [RaceType.OVERSEAS]: upsertRaceEntityList[RaceType.OVERSEAS],
+            [RaceType.KEIRIN]: upsertRaceEntityList[RaceType.KEIRIN],
+            [RaceType.AUTORACE]: upsertRaceEntityList[RaceType.AUTORACE],
+            [RaceType.BOATRACE]: upsertRaceEntityList[RaceType.BOATRACE],
         });
     }
 

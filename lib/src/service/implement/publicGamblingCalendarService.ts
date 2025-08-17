@@ -90,15 +90,26 @@ export class PublicGamblingCalendarService implements ICalendarService {
      */
     @Logger
     public async upsertEvents(raceEntityList: {
-        jra: JraRaceEntity[];
-        horseRacing: HorseRacingRaceEntity[];
-        mechanicalRacing: MechanicalRacingRaceEntity[];
+        [RaceType.JRA]: JraRaceEntity[];
+        [RaceType.NAR]: HorseRacingRaceEntity[];
+        [RaceType.OVERSEAS]: HorseRacingRaceEntity[];
+        [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
+        [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
+        [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
     }): Promise<void> {
-        await this.calendarRepository.upsertEvents(raceEntityList.jra);
-        await this.calendarRepository.upsertEvents(raceEntityList.horseRacing);
-        await this.calendarRepository.upsertEvents(
-            raceEntityList.mechanicalRacing,
-        );
+        const raceTypes = [
+            RaceType.JRA,
+            RaceType.NAR,
+            RaceType.OVERSEAS,
+            RaceType.KEIRIN,
+            RaceType.AUTORACE,
+            RaceType.BOATRACE,
+        ];
+        for (const raceType of raceTypes) {
+            await this.calendarRepository.upsertEvents(
+                raceEntityList[raceType],
+            );
+        }
     }
 
     /**
