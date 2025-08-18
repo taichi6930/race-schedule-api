@@ -18,12 +18,11 @@ import { NarRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/na
 import { OverseasRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/overseasRaceRepositoryFromHtmlImpl';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
-import { MockHorseRacingPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockHorseRacingPlaceRepositoryFromHtmlImpl';
 import { MockHorseRacingRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockHorseRacingRaceRepositoryFromHtmlImpl';
-import { MockJraPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockJraPlaceRepositoryFromHtmlImpl';
 import { MockJraRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockJraRaceRepositoryFromHtmlImpl';
 import { MockMechanicalRacingPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockMechanicalRacingPlaceRepositoryFromHtmlImpl';
 import { MockMechanicalRacingRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockMechanicalRacingRaceRepositoryFromHtmlImpl';
+import { MockPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockPlaceRepositoryFromHtmlImpl';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 // Repositoryの実装クラスをDIコンテナに登録する
 
@@ -118,7 +117,7 @@ switch (ENV) {
         container.register<IPlaceRepository<PlaceEntity>>(
             'NarPlaceRepositoryFromHtml',
             {
-                useClass: MockHorseRacingPlaceRepositoryFromHtmlImpl,
+                useClass: MockPlaceRepositoryFromHtmlImpl,
             },
         );
         container.register<IRaceRepository<JraRaceEntity, PlaceEntity>>(
@@ -128,7 +127,7 @@ switch (ENV) {
         container.register<IPlaceRepository<PlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
             {
-                useClass: MockJraPlaceRepositoryFromHtmlImpl,
+                useClass: MockPlaceRepositoryFromHtmlImpl,
             },
         );
         container.register<

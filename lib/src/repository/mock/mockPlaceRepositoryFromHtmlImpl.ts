@@ -7,19 +7,17 @@ import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
-// JraRaceRepositoryFromHtmlImplのモックを作成
-export class MockJraPlaceRepositoryFromHtmlImpl
+export class MockPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<PlaceEntity>
 {
     /**
-     * 中央競馬場データを取得する
+     * 地方競馬場データを取得する
      * @param searchFilter
      */
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
-        // request.startDateからrequest.finishDateまでの中央競馬場データを取得する
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
@@ -28,9 +26,10 @@ export class MockJraPlaceRepositoryFromHtmlImpl
                 PlaceData.create(
                     searchFilter.raceType,
                     new Date(currentDate),
-                    '東京',
+                    this.defaultLocation[searchFilter.raceType],
                 ),
-                HeldDayData.create(1, 1), // 仮の開催日データ
+                this.defaultHeldDayData[searchFilter.raceType],
+                this.defaultGrade[searchFilter.raceType],
                 getJSTDate(new Date()),
             );
             placeEntityList.push(placeEntity);
@@ -60,4 +59,31 @@ export class MockJraPlaceRepositoryFromHtmlImpl
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
+
+    private readonly defaultLocation = {
+        [RaceType.JRA]: '東京',
+        [RaceType.NAR]: '大井',
+        [RaceType.OVERSEAS]: 'パリロンシャン',
+        [RaceType.KEIRIN]: '平塚',
+        [RaceType.AUTORACE]: '川口',
+        [RaceType.BOATRACE]: '浜名湖',
+    };
+
+    private readonly defaultHeldDayData = {
+        [RaceType.JRA]: HeldDayData.create(1, 1),
+        [RaceType.NAR]: undefined,
+        [RaceType.OVERSEAS]: undefined,
+        [RaceType.KEIRIN]: undefined,
+        [RaceType.AUTORACE]: undefined,
+        [RaceType.BOATRACE]: undefined,
+    };
+
+    private readonly defaultGrade = {
+        [RaceType.JRA]: undefined,
+        [RaceType.NAR]: undefined,
+        [RaceType.OVERSEAS]: undefined,
+        [RaceType.KEIRIN]: 'GP',
+        [RaceType.AUTORACE]: 'SG',
+        [RaceType.BOATRACE]: 'SG',
+    };
 }
