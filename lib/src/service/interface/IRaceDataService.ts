@@ -54,14 +54,7 @@ export interface IRaceDataService {
      * @param raceEntityList - 保存/更新するレース開催エンティティの配列
      * @throws Error データの保存/更新に失敗した場合
      */
-    updateRaceEntityList: (raceEntityList: {
-        [RaceType.JRA]?: RaceEntity[];
-        [RaceType.NAR]?: RaceEntity[];
-        [RaceType.OVERSEAS]?: RaceEntity[];
-        [RaceType.KEIRIN]?: RaceEntity[];
-        [RaceType.AUTORACE]?: RaceEntity[];
-        [RaceType.BOATRACE]?: RaceEntity[];
-    }) => Promise<{
+    updateRaceEntityList: (raceEntityList: RaceEntity[]) => Promise<{
         code: number;
         message: string;
         successDataCount: number;

@@ -18,7 +18,7 @@ import {
 } from '../../mock/common/baseBoatraceData';
 import {
     baseJraPlaceData,
-    basePlaceEntity,
+    baseJraPlaceEntity,
 } from '../../mock/common/baseJraData';
 import {
     baseKeirinPlaceData,
@@ -53,14 +53,13 @@ describe('PublicGamblingPlaceUseCase', () => {
             ];
 
             // モックの戻り値を設定
-            placeDataService.fetchPlaceEntityList.mockResolvedValue({
-                [RaceType.JRA]: [basePlaceEntity],
-                [RaceType.NAR]: [baseNarPlaceEntity],
-                [RaceType.OVERSEAS]: [],
-                [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
-                [RaceType.AUTORACE]: [baseAutoracePlaceEntity],
-                [RaceType.BOATRACE]: [baseBoatracePlaceEntity],
-            });
+            placeDataService.fetchPlaceEntityList.mockResolvedValue([
+                baseJraPlaceEntity,
+                baseNarPlaceEntity,
+                baseKeirinPlaceEntity,
+                baseAutoracePlaceEntity,
+                baseBoatracePlaceEntity,
+            ]);
 
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
@@ -87,14 +86,13 @@ describe('PublicGamblingPlaceUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            placeDataService.fetchPlaceEntityList.mockResolvedValue({
-                [RaceType.JRA]: [basePlaceEntity],
-                [RaceType.NAR]: [baseNarPlaceEntity],
-                [RaceType.OVERSEAS]: [],
-                [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
-                [RaceType.AUTORACE]: [baseAutoracePlaceEntity],
-                [RaceType.BOATRACE]: [baseBoatracePlaceEntity],
-            });
+            placeDataService.fetchPlaceEntityList.mockResolvedValue([
+                baseJraPlaceEntity,
+                baseNarPlaceEntity,
+                baseKeirinPlaceEntity,
+                baseAutoracePlaceEntity,
+                baseBoatracePlaceEntity,
+            ]);
 
             await useCase.updatePlaceDataList(startDate, finishDate, [
                 RaceType.JRA,

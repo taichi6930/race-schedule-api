@@ -89,12 +89,30 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             raceTypeList,
             DataLocation.Storage,
             {
-                [RaceType.JRA]: placeEntityList[RaceType.JRA],
-                [RaceType.NAR]: placeEntityList[RaceType.NAR],
-                [RaceType.OVERSEAS]: placeEntityList[RaceType.OVERSEAS],
-                [RaceType.KEIRIN]: placeEntityList[RaceType.KEIRIN],
-                [RaceType.AUTORACE]: placeEntityList[RaceType.AUTORACE],
-                [RaceType.BOATRACE]: placeEntityList[RaceType.BOATRACE],
+                [RaceType.JRA]: placeEntityList.filter(
+                    (placeEntity) =>
+                        placeEntity.placeData.raceType === RaceType.JRA,
+                ),
+                [RaceType.NAR]: placeEntityList.filter(
+                    (placeEntity) =>
+                        placeEntity.placeData.raceType === RaceType.NAR,
+                ),
+                [RaceType.OVERSEAS]: placeEntityList.filter(
+                    (placeEntity) =>
+                        placeEntity.placeData.raceType === RaceType.OVERSEAS,
+                ),
+                [RaceType.KEIRIN]: placeEntityList.filter(
+                    (placeEntity) =>
+                        placeEntity.placeData.raceType === RaceType.KEIRIN,
+                ),
+                [RaceType.AUTORACE]: placeEntityList.filter(
+                    (placeEntity) =>
+                        placeEntity.placeData.raceType === RaceType.AUTORACE,
+                ),
+                [RaceType.BOATRACE]: placeEntityList.filter(
+                    (placeEntity) =>
+                        placeEntity.placeData.raceType === RaceType.BOATRACE,
+                ),
             },
         );
 
@@ -199,31 +217,31 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
 
         const filteredPlaceEntityList = {
             [RaceType.JRA]: this.filterPlaceEntityList(
-                placeEntityList[RaceType.JRA].filter(
+                placeEntityList.filter(
                     (item) => item.placeData.raceType === RaceType.JRA,
                 ),
                 searchList?.[RaceType.JRA],
             ),
             [RaceType.NAR]: this.filterPlaceEntityList(
-                placeEntityList[RaceType.NAR].filter(
+                placeEntityList.filter(
                     (item) => item.placeData.raceType === RaceType.NAR,
                 ),
                 searchList?.[RaceType.NAR],
             ),
             [RaceType.KEIRIN]: this.filterPlaceEntityList(
-                placeEntityList[RaceType.KEIRIN].filter(
+                placeEntityList.filter(
                     (item) => item.placeData.raceType === RaceType.KEIRIN,
                 ),
                 searchList?.[RaceType.KEIRIN],
             ),
             [RaceType.AUTORACE]: this.filterPlaceEntityList(
-                placeEntityList[RaceType.AUTORACE].filter(
+                placeEntityList.filter(
                     (item) => item.placeData.raceType === RaceType.AUTORACE,
                 ),
                 searchList?.[RaceType.AUTORACE],
             ),
             [RaceType.BOATRACE]: this.filterPlaceEntityList(
-                placeEntityList[RaceType.BOATRACE].filter(
+                placeEntityList.filter(
                     (item) => item.placeData.raceType === RaceType.BOATRACE,
                 ),
                 searchList?.[RaceType.BOATRACE],
@@ -264,30 +282,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             },
         );
 
-        await this.raceDataService.updateRaceEntityList({
-            [RaceType.JRA]: raceEntityList.filter(
-                (raceEntity) => raceEntity.raceData.raceType === RaceType.JRA,
-            ),
-            [RaceType.NAR]: raceEntityList.filter(
-                (raceEntity) => raceEntity.raceData.raceType === RaceType.NAR,
-            ),
-            [RaceType.OVERSEAS]: raceEntityList.filter(
-                (raceEntity) =>
-                    raceEntity.raceData.raceType === RaceType.OVERSEAS,
-            ),
-            [RaceType.KEIRIN]: raceEntityList.filter(
-                (raceEntity) =>
-                    raceEntity.raceData.raceType === RaceType.KEIRIN,
-            ),
-            [RaceType.AUTORACE]: raceEntityList.filter(
-                (raceEntity) =>
-                    raceEntity.raceData.raceType === RaceType.AUTORACE,
-            ),
-            [RaceType.BOATRACE]: raceEntityList.filter(
-                (raceEntity) =>
-                    raceEntity.raceData.raceType === RaceType.BOATRACE,
-            ),
-        });
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
 
         return {
             code: 200,

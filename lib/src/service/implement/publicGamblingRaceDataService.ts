@@ -254,14 +254,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * @throws Error データの保存/更新に失敗した場合
      */
     @Logger
-    public async updateRaceEntityList(raceEntityList: {
-        [RaceType.JRA]?: RaceEntity[];
-        [RaceType.NAR]?: RaceEntity[];
-        [RaceType.OVERSEAS]?: RaceEntity[];
-        [RaceType.KEIRIN]?: RaceEntity[];
-        [RaceType.AUTORACE]?: RaceEntity[];
-        [RaceType.BOATRACE]?: RaceEntity[];
-    }): Promise<{
+    public async updateRaceEntityList(raceEntityList: RaceEntity[]): Promise<{
         code: number;
         message: string;
         successDataCount: number;
@@ -272,32 +265,44 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 this.saveRaceEntities(
                     this.raceRepositoryFromStorage,
                     RaceType.JRA,
-                    raceEntityList[RaceType.JRA],
+                    raceEntityList.filter(
+                        (race) => race.raceData.raceType === RaceType.JRA,
+                    ),
                 ),
                 this.saveRaceEntities(
                     this.raceRepositoryFromStorage,
                     RaceType.NAR,
-                    raceEntityList[RaceType.NAR],
+                    raceEntityList.filter(
+                        (race) => race.raceData.raceType === RaceType.NAR,
+                    ),
                 ),
                 this.saveRaceEntities(
                     this.raceRepositoryFromStorage,
                     RaceType.OVERSEAS,
-                    raceEntityList[RaceType.OVERSEAS],
+                    raceEntityList.filter(
+                        (race) => race.raceData.raceType === RaceType.OVERSEAS,
+                    ),
                 ),
                 this.saveRaceEntities(
                     this.mechanicalRacingRaceRepositoryFromStorage,
                     RaceType.KEIRIN,
-                    raceEntityList[RaceType.KEIRIN],
+                    raceEntityList.filter(
+                        (race) => race.raceData.raceType === RaceType.KEIRIN,
+                    ),
                 ),
                 this.saveRaceEntities(
                     this.mechanicalRacingRaceRepositoryFromStorage,
                     RaceType.AUTORACE,
-                    raceEntityList[RaceType.AUTORACE],
+                    raceEntityList.filter(
+                        (race) => race.raceData.raceType === RaceType.AUTORACE,
+                    ),
                 ),
                 this.saveRaceEntities(
                     this.mechanicalRacingRaceRepositoryFromStorage,
                     RaceType.BOATRACE,
-                    raceEntityList[RaceType.BOATRACE],
+                    raceEntityList.filter(
+                        (race) => race.raceData.raceType === RaceType.BOATRACE,
+                    ),
                 ),
             ]);
             return {

@@ -24,8 +24,8 @@ import {
     baseBoatraceRaceEntityList,
 } from '../../mock/common/baseBoatraceData';
 import {
+    baseJraPlaceEntity,
     baseJraRaceEntityList,
-    basePlaceEntity,
 } from '../../mock/common/baseJraData';
 import {
     baseKeirinPlaceEntity,
@@ -526,14 +526,13 @@ describe('PublicGamblingRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            placeDataService.fetchPlaceEntityList.mockResolvedValue({
-                [RaceType.JRA]: [basePlaceEntity],
-                [RaceType.NAR]: [baseNarPlaceEntity],
-                [RaceType.OVERSEAS]: [],
-                [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
-                [RaceType.AUTORACE]: [baseAutoracePlaceEntity],
-                [RaceType.BOATRACE]: [baseBoatracePlaceEntity],
-            });
+            placeDataService.fetchPlaceEntityList.mockResolvedValue([
+                baseJraPlaceEntity,
+                baseNarPlaceEntity,
+                baseKeirinPlaceEntity,
+                baseAutoracePlaceEntity,
+                baseBoatracePlaceEntity,
+            ]);
 
             // モックの戻り値を設定
             raceDataService.fetchRaceEntityList.mockResolvedValue([
@@ -560,14 +559,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            placeDataService.fetchPlaceEntityList.mockResolvedValue({
-                [RaceType.JRA]: [],
-                [RaceType.NAR]: [],
-                [RaceType.OVERSEAS]: [],
-                [RaceType.KEIRIN]: [],
-                [RaceType.AUTORACE]: [],
-                [RaceType.BOATRACE]: [],
-            });
+            placeDataService.fetchPlaceEntityList.mockResolvedValue([]);
 
             // モックの戻り値を設定
             raceDataService.fetchRaceEntityList.mockResolvedValue([

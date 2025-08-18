@@ -19,7 +19,7 @@ import {
 } from '../../../unittest/src/mock/common/baseBoatraceData';
 import {
     baseJraPlaceData,
-    basePlaceEntity,
+    baseJraPlaceEntity,
 } from '../../../unittest/src/mock/common/baseJraData';
 import {
     baseKeirinPlaceData,
@@ -88,7 +88,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                             throw new Error('race type is not supported');
                         }
                         case RaceType.JRA: {
-                            return [basePlaceEntity];
+                            return [baseJraPlaceEntity];
                         }
                         case RaceType.NAR: {
                             return [baseNarPlaceEntity];
@@ -151,7 +151,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                             throw new Error('race type is not supported');
                         }
                         case RaceType.JRA: {
-                            return [basePlaceEntity];
+                            return [baseJraPlaceEntity];
                         }
                         case RaceType.NAR: {
                             return [baseNarPlaceEntity];
@@ -171,7 +171,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
 
             // モックの戻り値を設定
             jraPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity],
+                [baseJraPlaceEntity],
             );
             narPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],

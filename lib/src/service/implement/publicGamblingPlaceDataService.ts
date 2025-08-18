@@ -51,29 +51,8 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         finishDate: Date,
         raceTypeList: RaceType[],
         type: DataLocationType,
-    ): Promise<{
-        [RaceType.JRA]: PlaceEntity[];
-        [RaceType.NAR]: PlaceEntity[];
-        [RaceType.OVERSEAS]: PlaceEntity[];
-        [RaceType.KEIRIN]: PlaceEntity[];
-        [RaceType.AUTORACE]: PlaceEntity[];
-        [RaceType.BOATRACE]: PlaceEntity[];
-    }> {
-        const result: {
-            [RaceType.JRA]: PlaceEntity[];
-            [RaceType.NAR]: PlaceEntity[];
-            [RaceType.OVERSEAS]: PlaceEntity[];
-            [RaceType.KEIRIN]: PlaceEntity[];
-            [RaceType.AUTORACE]: PlaceEntity[];
-            [RaceType.BOATRACE]: PlaceEntity[];
-        } = {
-            [RaceType.JRA]: [],
-            [RaceType.NAR]: [],
-            [RaceType.OVERSEAS]: [],
-            [RaceType.KEIRIN]: [],
-            [RaceType.AUTORACE]: [],
-            [RaceType.BOATRACE]: [],
-        };
+    ): Promise<PlaceEntity[]> {
+        const result: PlaceEntity[] = [];
 
         try {
             if (raceTypeList.length === 0 && type !== DataLocation.Storage) {
@@ -93,7 +72,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                         raceType,
                     ),
                 );
-                result[raceType].push(...placeEntityList);
+                result.push(...placeEntityList);
             }
             if (raceTypeList.includes(RaceType.NAR)) {
                 const raceType = RaceType.NAR;
@@ -108,7 +87,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                         raceType,
                     ),
                 );
-                result[raceType].push(...placeEntityList);
+                result.push(...placeEntityList);
             }
             if (raceTypeList.includes(RaceType.KEIRIN)) {
                 const raceType = RaceType.KEIRIN;
@@ -123,7 +102,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                         raceType,
                     ),
                 );
-                result[raceType].push(...placeEntityList);
+                result.push(...placeEntityList);
             }
             if (raceTypeList.includes(RaceType.AUTORACE)) {
                 const raceType = RaceType.AUTORACE;
@@ -138,7 +117,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                         raceType,
                     ),
                 );
-                result[raceType].push(...placeEntityList);
+                result.push(...placeEntityList);
             }
             if (raceTypeList.includes(RaceType.BOATRACE)) {
                 const raceType = RaceType.BOATRACE;
@@ -153,7 +132,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                         raceType,
                     ),
                 );
-                result[raceType].push(...placeEntityList);
+                result.push(...placeEntityList);
             }
             return result;
         } catch (error) {
@@ -171,27 +150,15 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
      * @throws Error データの保存/更新に失敗した場合
      */
     @Logger
-    public async updatePlaceEntityList(placeEntityList: {
-        [RaceType.JRA]: PlaceEntity[];
-        [RaceType.NAR]: PlaceEntity[];
-        [RaceType.OVERSEAS]: PlaceEntity[];
-        [RaceType.KEIRIN]: PlaceEntity[];
-        [RaceType.AUTORACE]: PlaceEntity[];
-        [RaceType.BOATRACE]: PlaceEntity[];
-    }): Promise<{
+    public async updatePlaceEntityList(
+        placeEntityList: PlaceEntity[],
+    ): Promise<{
         code: number;
         message: string;
         successDataCount: number;
         failureDataCount: number;
     }> {
-        if (
-            placeEntityList[RaceType.JRA].length === 0 &&
-            placeEntityList[RaceType.NAR].length === 0 &&
-            placeEntityList[RaceType.OVERSEAS].length === 0 &&
-            placeEntityList[RaceType.KEIRIN].length === 0 &&
-            placeEntityList[RaceType.AUTORACE].length === 0 &&
-            placeEntityList[RaceType.BOATRACE].length === 0
-        )
+        if (placeEntityList.length === 0)
             return {
                 code: 200,
                 message: '保存するデータがありません',
@@ -203,14 +170,14 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 [RaceType.JRA]:
                     await this.placeRepositoryFromStorage.registerPlaceEntityList(
                         RaceType.JRA,
-                        placeEntityList[RaceType.JRA].filter(
+                        placeEntityList.filter(
                             (item) => item.placeData.raceType === RaceType.JRA,
                         ),
                     ),
                 [RaceType.NAR]:
                     await this.placeRepositoryFromStorage.registerPlaceEntityList(
                         RaceType.NAR,
-                        placeEntityList[RaceType.NAR].filter(
+                        placeEntityList.filter(
                             (item) => item.placeData.raceType === RaceType.NAR,
                         ),
                     ),
@@ -222,7 +189,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 [RaceType.KEIRIN]:
                     await this.placeRepositoryFromStorage.registerPlaceEntityList(
                         RaceType.KEIRIN,
-                        placeEntityList[RaceType.KEIRIN].filter(
+                        placeEntityList.filter(
                             (item) =>
                                 item.placeData.raceType === RaceType.KEIRIN,
                         ),
@@ -230,7 +197,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 [RaceType.AUTORACE]:
                     await this.placeRepositoryFromStorage.registerPlaceEntityList(
                         RaceType.AUTORACE,
-                        placeEntityList[RaceType.AUTORACE].filter(
+                        placeEntityList.filter(
                             (item) =>
                                 item.placeData.raceType === RaceType.AUTORACE,
                         ),
@@ -238,7 +205,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 [RaceType.BOATRACE]:
                     await this.placeRepositoryFromStorage.registerPlaceEntityList(
                         RaceType.BOATRACE,
-                        placeEntityList[RaceType.BOATRACE].filter(
+                        placeEntityList.filter(
                             (item) =>
                                 item.placeData.raceType === RaceType.BOATRACE,
                         ),

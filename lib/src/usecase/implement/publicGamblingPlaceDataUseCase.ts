@@ -40,17 +40,8 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
         const placeDataList: PlaceData[] = [];
         // 全ての開催場データを結合して返す
         // それぞれのplaceDataを抽出して返す
-        for (const placeEntityX of [
-            placeEntityList[RaceType.JRA],
-            placeEntityList[RaceType.NAR],
-            placeEntityList[RaceType.OVERSEAS],
-            placeEntityList[RaceType.KEIRIN],
-            placeEntityList[RaceType.AUTORACE],
-            placeEntityList[RaceType.BOATRACE],
-        ]) {
-            for (const placeEntity of placeEntityX) {
-                placeDataList.push(placeEntity.placeData);
-            }
+        for (const placeEntity of placeEntityList) {
+            placeDataList.push(placeEntity.placeData);
         }
         return placeDataList;
     }

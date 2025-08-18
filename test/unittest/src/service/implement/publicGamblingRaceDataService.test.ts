@@ -313,14 +313,14 @@ describe('PublicGamblingRaceDataService', () => {
                 },
             );
 
-            await service.updateRaceEntityList({
-                [RaceType.JRA]: baseJraRaceEntityList,
-                [RaceType.NAR]: baseNarRaceEntityList,
-                [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
-                [RaceType.KEIRIN]: baseKeirinRaceEntityList,
-                [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
-                [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
-            });
+            await service.updateRaceEntityList([
+                ...baseJraRaceEntityList,
+                ...baseNarRaceEntityList,
+                ...baseOverseasRaceEntityList,
+                ...baseKeirinRaceEntityList,
+                ...baseBoatraceRaceEntityList,
+                ...baseAutoraceRaceEntityList,
+            ]);
 
             expect(
                 raceRepositoryFromStorageImpl.registerRaceEntityList,
@@ -352,14 +352,7 @@ describe('PublicGamblingRaceDataService', () => {
         });
 
         it('レース開催データが0件の場合、更新処理が実行されないこと', async () => {
-            await service.updateRaceEntityList({
-                [RaceType.JRA]: [],
-                [RaceType.NAR]: [],
-                [RaceType.OVERSEAS]: [],
-                [RaceType.KEIRIN]: [],
-                [RaceType.AUTORACE]: [],
-                [RaceType.BOATRACE]: [],
-            });
+            await service.updateRaceEntityList([]);
 
             expect(
                 raceRepositoryFromStorageImpl.registerRaceEntityList,
