@@ -13,7 +13,7 @@ import {
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -22,7 +22,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  */
 @injectable()
 export class KeirinPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<MechanicalRacingPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     public constructor(
         @inject('PlaceDataHtmlGateway')
@@ -37,7 +37,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<MechanicalRacingPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,
             searchFilter.finishDate,
@@ -47,16 +47,14 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                 this.fetchMonthPlaceEntityList(searchFilter.raceType, month),
             ),
         );
-        const placeEntityList: MechanicalRacingPlaceEntity[] =
-            monthPlaceEntityLists.flat();
+        const placeEntityList: PlaceEntity[] = monthPlaceEntityLists.flat();
 
         // startDateからfinishDateまでの中でのデータを取得
-        const filteredPlaceEntityList: MechanicalRacingPlaceEntity[] =
-            placeEntityList.filter(
-                (placeEntity) =>
-                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
-            );
+        const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
+            (placeEntity) =>
+                placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                placeEntity.placeData.dateTime <= searchFilter.finishDate,
+        );
 
         return filteredPlaceEntityList;
     }
@@ -91,8 +89,8 @@ export class KeirinPlaceRepositoryFromHtmlImpl
     private async fetchMonthPlaceEntityList(
         raceType: RaceType,
         date: Date,
-    ): Promise<MechanicalRacingPlaceEntity[]> {
-        const keirinPlaceEntityList: MechanicalRacingPlaceEntity[] = [];
+    ): Promise<PlaceEntity[]> {
+        const keirinPlaceEntityList: PlaceEntity[] = [];
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -144,8 +142,9 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         // alt属性を出力
                         if (grade) {
                             keirinPlaceEntityList.push(
-                                MechanicalRacingPlaceEntity.createWithoutId(
+                                PlaceEntity.createWithoutId(
                                     PlaceData.create(raceType, datetime, place),
+                                    undefined,
                                     grade,
                                     getJSTDate(new Date()),
                                 ),
@@ -169,12 +168,12 @@ export class KeirinPlaceRepositoryFromHtmlImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: MechanicalRacingPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: MechanicalRacingPlaceEntity[];
-        failureData: MechanicalRacingPlaceEntity[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

@@ -11,8 +11,8 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -21,8 +21,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class MechanicalRacingRaceRepositoryFromStorageImpl
-    implements
-        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
+    implements IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
 {
     private readonly raceListFileName = CSV_FILE_NAME.RACE_LIST;
     private readonly racePlayerListFileName = CSV_FILE_NAME.RACE_PLAYER_LIST;
@@ -38,7 +37,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<MechanicalRacingRaceEntity[]> {
         // ファイル名リストから選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =

@@ -8,8 +8,8 @@ import { container } from 'tsyringe';
 
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
+import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { MechanicalRacingRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -24,10 +24,7 @@ import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 
 describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let repository: IRaceRepository<
-        MechanicalRacingRaceEntity,
-        MechanicalRacingPlaceEntity
-    >;
+    let repository: IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -66,7 +63,7 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                 RaceType.BOATRACE,
             ]) {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-01-01'),
                         new Date('2024-02-01'),
                         raceType,

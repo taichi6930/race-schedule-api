@@ -7,7 +7,7 @@ import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { MechanicalRacingPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/mechanicalRacingPlaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
@@ -17,7 +17,7 @@ import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let repository: IPlaceRepository<MechanicalRacingPlaceEntity>;
+    let repository: IPlaceRepository<PlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
@@ -99,9 +99,7 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
     });
 
     // 1年間の開催場データを登録する
-    const placeEntityList = (
-        raceType: RaceType,
-    ): MechanicalRacingPlaceEntity[] =>
+    const placeEntityList = (raceType: RaceType): PlaceEntity[] =>
         Array.from({ length: 60 }, (_, day) => {
             const location =
                 raceType === RaceType.KEIRIN
@@ -112,8 +110,9 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
-                MechanicalRacingPlaceEntity.createWithoutId(
+                PlaceEntity.createWithoutId(
                     PlaceData.create(raceType, date, location),
+                    undefined,
                     'GⅠ',
                     getJSTDate(new Date()),
                 ),

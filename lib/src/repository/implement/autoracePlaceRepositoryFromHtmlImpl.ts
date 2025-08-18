@@ -10,7 +10,7 @@ import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -19,7 +19,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  */
 @injectable()
 export class AutoracePlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<MechanicalRacingPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     public constructor(
         @inject('PlaceDataHtmlGateway')
@@ -34,7 +34,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<MechanicalRacingPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // 月リストを生成
         const monthList = [
             ...this.generateMonthList(
@@ -91,8 +91,8 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     private async fetchMonthPlaceEntityList(
         raceType: RaceType,
         date: Date,
-    ): Promise<MechanicalRacingPlaceEntity[]> {
-        const autoracePlaceEntityList: MechanicalRacingPlaceEntity[] = [];
+    ): Promise<PlaceEntity[]> {
+        const autoracePlaceEntityList: PlaceEntity[] = [];
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -160,8 +160,9 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                     // alt属性を出力
                     if (grade) {
                         autoracePlaceEntityList.push(
-                            MechanicalRacingPlaceEntity.createWithoutId(
+                            PlaceEntity.createWithoutId(
                                 PlaceData.create(raceType, datetime, place),
+                                undefined,
                                 grade,
                                 getJSTDate(new Date()),
                             ),
@@ -182,12 +183,12 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: MechanicalRacingPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: MechanicalRacingPlaceEntity[];
-        failureData: MechanicalRacingPlaceEntity[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

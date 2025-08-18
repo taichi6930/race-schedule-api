@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
@@ -18,17 +17,17 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         @inject('PlaceRepositoryFromStorage')
         protected placeRepositoryFromStorage: IPlaceRepository<PlaceEntity>,
         @inject('MechanicalRacingPlaceRepositoryFromStorage')
-        protected mechanicalRacingPlaceRepositoryFromStorage: IPlaceRepository<MechanicalRacingPlaceEntity>,
+        protected mechanicalRacingPlaceRepositoryFromStorage: IPlaceRepository<PlaceEntity>,
         @inject('JraPlaceRepositoryFromHtml')
         protected jraPlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
         @inject('NarPlaceRepositoryFromHtml')
         protected narPlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
         @inject('KeirinPlaceRepositoryFromHtml')
-        protected keirinPlaceRepositoryFromHtml: IPlaceRepository<MechanicalRacingPlaceEntity>,
+        protected keirinPlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
         @inject('AutoracePlaceRepositoryFromHtml')
-        protected autoracePlaceRepositoryFromHtml: IPlaceRepository<MechanicalRacingPlaceEntity>,
+        protected autoracePlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
         @inject('BoatracePlaceRepositoryFromHtml')
-        protected boatracePlaceRepositoryFromHtml: IPlaceRepository<MechanicalRacingPlaceEntity>,
+        protected boatracePlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
     ) {}
 
     /**
@@ -58,17 +57,17 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         [RaceType.JRA]: PlaceEntity[];
         [RaceType.NAR]: PlaceEntity[];
         [RaceType.OVERSEAS]: PlaceEntity[];
-        [RaceType.KEIRIN]: MechanicalRacingPlaceEntity[];
-        [RaceType.AUTORACE]: MechanicalRacingPlaceEntity[];
-        [RaceType.BOATRACE]: MechanicalRacingPlaceEntity[];
+        [RaceType.KEIRIN]: PlaceEntity[];
+        [RaceType.AUTORACE]: PlaceEntity[];
+        [RaceType.BOATRACE]: PlaceEntity[];
     }> {
         const result: {
             [RaceType.JRA]: PlaceEntity[];
             [RaceType.NAR]: PlaceEntity[];
             [RaceType.OVERSEAS]: PlaceEntity[];
-            [RaceType.KEIRIN]: MechanicalRacingPlaceEntity[];
-            [RaceType.AUTORACE]: MechanicalRacingPlaceEntity[];
-            [RaceType.BOATRACE]: MechanicalRacingPlaceEntity[];
+            [RaceType.KEIRIN]: PlaceEntity[];
+            [RaceType.AUTORACE]: PlaceEntity[];
+            [RaceType.BOATRACE]: PlaceEntity[];
         } = {
             [RaceType.JRA]: [],
             [RaceType.NAR]: [],
@@ -115,7 +114,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
             }
             if (raceTypeList.includes(RaceType.KEIRIN)) {
                 const raceType = RaceType.KEIRIN;
-                const placeEntityList: MechanicalRacingPlaceEntity[] = await (
+                const placeEntityList: PlaceEntity[] = await (
                     type === DataLocation.Storage
                         ? this.mechanicalRacingPlaceRepositoryFromStorage
                         : this.keirinPlaceRepositoryFromHtml
@@ -130,7 +129,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
             }
             if (raceTypeList.includes(RaceType.AUTORACE)) {
                 const raceType = RaceType.AUTORACE;
-                const placeEntityList: MechanicalRacingPlaceEntity[] = await (
+                const placeEntityList: PlaceEntity[] = await (
                     type === DataLocation.Storage
                         ? this.mechanicalRacingPlaceRepositoryFromStorage
                         : this.autoracePlaceRepositoryFromHtml
@@ -145,7 +144,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
             }
             if (raceTypeList.includes(RaceType.BOATRACE)) {
                 const raceType = RaceType.BOATRACE;
-                const placeEntityList: MechanicalRacingPlaceEntity[] = await (
+                const placeEntityList: PlaceEntity[] = await (
                     type === DataLocation.Storage
                         ? this.mechanicalRacingPlaceRepositoryFromStorage
                         : this.boatracePlaceRepositoryFromHtml
@@ -178,9 +177,9 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         [RaceType.JRA]: PlaceEntity[];
         [RaceType.NAR]: PlaceEntity[];
         [RaceType.OVERSEAS]: PlaceEntity[];
-        [RaceType.KEIRIN]: MechanicalRacingPlaceEntity[];
-        [RaceType.AUTORACE]: MechanicalRacingPlaceEntity[];
-        [RaceType.BOATRACE]: MechanicalRacingPlaceEntity[];
+        [RaceType.KEIRIN]: PlaceEntity[];
+        [RaceType.AUTORACE]: PlaceEntity[];
+        [RaceType.BOATRACE]: PlaceEntity[];
     }): Promise<{
         code: number;
         message: string;

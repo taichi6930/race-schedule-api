@@ -11,7 +11,7 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -20,7 +20,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  */
 @injectable()
 export class MechanicalRacingPlaceRepositoryFromStorageImpl
-    implements IPlaceRepository<MechanicalRacingPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly placeFileName = CSV_FILE_NAME.PLACE_LIST;
@@ -39,7 +39,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<MechanicalRacingPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3(searchFilter.raceType);
@@ -76,38 +76,39 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
         }
 
         // raceEntityListに変換
-        const placeEntityList: MechanicalRacingPlaceEntity[] = [
-            ...recordMap.values(),
-        ].map(({ placeRecord, placeGradeRecord }) => {
-            return MechanicalRacingPlaceEntity.create(
-                placeRecord.id,
-                PlaceData.create(
-                    searchFilter.raceType,
-                    placeRecord.dateTime,
-                    placeRecord.location,
-                ),
-                placeGradeRecord.grade,
-                // placeRecordとplaceRecordのupdateDateの早い方を使用
-                new Date(
-                    Math.min(
-                        placeRecord.updateDate.getTime(),
-                        placeGradeRecord.updateDate.getTime(),
+        const placeEntityList: PlaceEntity[] = [...recordMap.values()].map(
+            ({ placeRecord, placeGradeRecord }) => {
+                return PlaceEntity.create(
+                    placeRecord.id,
+                    PlaceData.create(
+                        searchFilter.raceType,
+                        placeRecord.dateTime,
+                        placeRecord.location,
                     ),
-                ),
-            );
-        });
+                    undefined,
+                    placeGradeRecord.grade,
+                    // placeRecordとplaceRecordのupdateDateの早い方を使用
+                    new Date(
+                        Math.min(
+                            placeRecord.updateDate.getTime(),
+                            placeGradeRecord.updateDate.getTime(),
+                        ),
+                    ),
+                );
+            },
+        );
         return placeEntityList;
     }
 
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: MechanicalRacingPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: MechanicalRacingPlaceEntity[];
-        failureData: MechanicalRacingPlaceEntity[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         try {
             // 既に登録されているデータを取得する

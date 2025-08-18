@@ -5,8 +5,8 @@ import { container } from 'tsyringe';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
 import { BoatraceRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl';
@@ -69,7 +69,7 @@ for (const {
         let raceDataHtmlGateway: IRaceDataHtmlGateway;
         let repository: IRaceRepository<
             MechanicalRacingRaceEntity,
-            MechanicalRacingPlaceEntity
+            PlaceEntity
         >;
 
         beforeEach(() => {
@@ -80,10 +80,7 @@ for (const {
             );
             repository =
                 container.resolve<
-                    IRaceRepository<
-                        MechanicalRacingRaceEntity,
-                        MechanicalRacingPlaceEntity
-                    >
+                    IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
                 >(repositoryClass);
         });
 
@@ -97,17 +94,18 @@ for (const {
                 [allowedEnvs.githubActionsCi],
                 async () => {
                     const raceEntityList = await repository.fetchRaceEntityList(
-                        new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
+                        new SearchRaceFilterEntity<PlaceEntity>(
                             startDate,
                             endDate,
                             raceType,
                             [
-                                MechanicalRacingPlaceEntity.createWithoutId(
+                                PlaceEntity.createWithoutId(
                                     PlaceData.create(
                                         raceType,
                                         placeDate,
                                         placeName,
                                     ),
+                                    undefined,
                                     grade,
                                     getJSTDate(new Date()),
                                 ),

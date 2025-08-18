@@ -1,6 +1,5 @@
 import { container } from 'tsyringe';
 
-import type { MechanicalRacingPlaceEntity } from '../../src/repository/entity/mechanicalRacingPlaceEntity';
 import type { PlaceEntity } from '../../src/repository/entity/placeEntity';
 import { MechanicalRacingPlaceRepositoryFromStorageImpl } from '../../src/repository/implement/mechanicalRacingPlaceRepositoryFromStorageImpl';
 import { PlaceRepositoryFromStorageImpl } from '../../src/repository/implement/placeRepositoryFromStorageImpl';
@@ -10,7 +9,7 @@ container.register<IPlaceRepository<PlaceEntity>>(
     'PlaceRepositoryFromStorage',
     { useClass: PlaceRepositoryFromStorageImpl },
 );
-container.register<IPlaceRepository<MechanicalRacingPlaceEntity>>(
+container.register<IPlaceRepository<PlaceEntity>>(
     'MechanicalRacingPlaceRepositoryFromStorage',
     { useClass: MechanicalRacingPlaceRepositoryFromStorageImpl },
 );

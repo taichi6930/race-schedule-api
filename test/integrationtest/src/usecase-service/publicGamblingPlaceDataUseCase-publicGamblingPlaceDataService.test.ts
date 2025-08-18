@@ -2,7 +2,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/implement/publicGamblingPlaceDataService';
@@ -45,16 +44,16 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
         IPlaceRepository<PlaceEntity>
     >;
     let keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let boatracePlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let autoracePlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let mechanicalRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let service: IPlaceDataService;
     let useCase: IPlaceDataUseCase;

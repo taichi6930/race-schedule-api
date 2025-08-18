@@ -1,4 +1,3 @@
-import type { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { DataLocationType } from '../../utility/dataType';
 import type { RaceType } from '../../utility/raceType';
@@ -32,9 +31,9 @@ export interface IPlaceDataService {
         [RaceType.JRA]: PlaceEntity[];
         [RaceType.NAR]: PlaceEntity[];
         [RaceType.OVERSEAS]: PlaceEntity[];
-        [RaceType.KEIRIN]: MechanicalRacingPlaceEntity[];
-        [RaceType.AUTORACE]: MechanicalRacingPlaceEntity[];
-        [RaceType.BOATRACE]: MechanicalRacingPlaceEntity[];
+        [RaceType.KEIRIN]: PlaceEntity[];
+        [RaceType.AUTORACE]: PlaceEntity[];
+        [RaceType.BOATRACE]: PlaceEntity[];
     }>;
 
     /**
@@ -49,9 +48,9 @@ export interface IPlaceDataService {
         [RaceType.JRA]: PlaceEntity[];
         [RaceType.NAR]: PlaceEntity[];
         [RaceType.OVERSEAS]: PlaceEntity[];
-        [RaceType.KEIRIN]: MechanicalRacingPlaceEntity[];
-        [RaceType.AUTORACE]: MechanicalRacingPlaceEntity[];
-        [RaceType.BOATRACE]: MechanicalRacingPlaceEntity[];
+        [RaceType.KEIRIN]: PlaceEntity[];
+        [RaceType.AUTORACE]: PlaceEntity[];
+        [RaceType.BOATRACE]: PlaceEntity[];
     }) => Promise<{
         code: number;
         message: string;

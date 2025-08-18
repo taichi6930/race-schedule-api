@@ -2,7 +2,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
@@ -29,16 +28,16 @@ describe('PublicGamblingPlaceDataService', () => {
         IPlaceRepository<PlaceEntity>
     >;
     let keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let mechanicalRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let boatracePlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let autoracePlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<MechanicalRacingPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let service: IPlaceDataService;
 
@@ -282,10 +281,7 @@ describe('PublicGamblingPlaceDataService', () => {
             );
 
             mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockImplementation(
-                async (
-                    raceType: RaceType,
-                    placeEntityList: MechanicalRacingPlaceEntity[],
-                ) => {
+                async (raceType: RaceType, placeEntityList: PlaceEntity[]) => {
                     if (
                         raceType === RaceType.KEIRIN ||
                         raceType === RaceType.AUTORACE ||

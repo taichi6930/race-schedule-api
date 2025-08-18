@@ -8,7 +8,7 @@ import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGat
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -17,7 +17,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  */
 @injectable()
 export class BoatracePlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<MechanicalRacingPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     public constructor(
         @inject('PlaceDataHtmlGateway')
@@ -32,7 +32,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<MechanicalRacingPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         const quarters: Date[] = this.generateQuarterList(
             searchFilter.startDate,
             searchFilter.finishDate,
@@ -47,16 +47,14 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 ),
             ),
         );
-        const placeEntityList: MechanicalRacingPlaceEntity[] =
-            placeEntityArray.flat();
+        const placeEntityList: PlaceEntity[] = placeEntityArray.flat();
 
         // startDateからfinishDateまでの中でのデータを取得
-        const filteredPlaceEntityList: MechanicalRacingPlaceEntity[] =
-            placeEntityList.filter(
-                (placeEntity) =>
-                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
-            );
+        const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
+            (placeEntity) =>
+                placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                placeEntity.placeData.dateTime <= searchFilter.finishDate,
+        );
 
         return filteredPlaceEntityList;
     }
@@ -104,8 +102,8 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     private async fetchMonthPlaceEntityList(
         raceType: RaceType,
         date: Date,
-    ): Promise<MechanicalRacingPlaceEntity[]> {
-        const boatracePlaceEntityList: MechanicalRacingPlaceEntity[] = [];
+    ): Promise<PlaceEntity[]> {
+        const boatracePlaceEntityList: PlaceEntity[] = [];
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -157,16 +155,12 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 currentDate <= finishDate;
                 currentDate.setDate(currentDate.getDate() + 1)
             ) {
-                const boatracePlaceEntity =
-                    MechanicalRacingPlaceEntity.createWithoutId(
-                        PlaceData.create(
-                            raceType,
-                            new Date(currentDate),
-                            place,
-                        ),
-                        grade,
-                        getJSTDate(new Date()),
-                    );
+                const boatracePlaceEntity = PlaceEntity.createWithoutId(
+                    PlaceData.create(raceType, new Date(currentDate), place),
+                    undefined,
+                    grade,
+                    getJSTDate(new Date()),
+                );
                 boatracePlaceEntityList.push(boatracePlaceEntity);
             }
         });
@@ -182,12 +176,12 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: MechanicalRacingPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: MechanicalRacingPlaceEntity[];
-        failureData: MechanicalRacingPlaceEntity[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
