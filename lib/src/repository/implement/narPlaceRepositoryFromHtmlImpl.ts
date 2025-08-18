@@ -146,6 +146,7 @@ export class NarPlaceRepositoryFromHtmlImpl
                             place,
                         ),
                         undefined, // heldDayData は地方競馬では不要
+                        undefined, // grade は地方競馬では不要
                         getJSTDate(new Date()),
                     ),
                 );

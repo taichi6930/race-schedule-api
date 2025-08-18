@@ -54,6 +54,7 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                                     '大井',
                                 ),
                                 undefined,
+                                undefined, // grade は未指定
                                 getJSTDate(new Date()),
                             ),
                         ],
@@ -79,6 +80,7 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                                     '盛岡',
                                 ),
                                 undefined,
+                                undefined, // grade は未指定
                                 getJSTDate(new Date()),
                             ),
                         ],
@@ -104,6 +106,7 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                                     '大井',
                                 ),
                                 undefined,
+                                undefined, // grade は未指定
                                 getJSTDate(new Date()),
                             ),
                         ],
@@ -129,6 +132,7 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
                                     '大井',
                                 ),
                                 undefined,
+                                undefined, // grade は未指定
                                 getJSTDate(new Date()),
                             ),
                         ],

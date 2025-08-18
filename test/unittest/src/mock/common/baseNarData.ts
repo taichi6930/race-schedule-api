@@ -76,6 +76,7 @@ export const baseNarRaceRecord = HorseRacingRaceRecord.create(
 export const baseNarPlaceEntity = PlaceEntity.createWithoutId(
     baseNarPlaceData,
     undefined, // heldDayData は地方競馬では不要
+    undefined, // grade は未指定
     baseNarRaceUpdateDate,
 );
 

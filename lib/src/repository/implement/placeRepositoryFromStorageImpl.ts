@@ -41,7 +41,10 @@ export class PlaceRepositoryFromStorageImpl
         const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3(searchFilter.raceType);
 
-        if (searchFilter.raceType !== RaceType.JRA) {
+        if (
+            searchFilter.raceType === RaceType.NAR ||
+            searchFilter.raceType === RaceType.OVERSEAS
+        ) {
             return placeRecordList
                 .map((placeRecord) =>
                     PlaceEntity.create(
@@ -52,6 +55,7 @@ export class PlaceRepositoryFromStorageImpl
                             placeRecord.location,
                         ),
                         undefined, // TODO: JRAの場合は開催日データを取得する必要がある
+                        undefined, // grade は未指定
                         placeRecord.updateDate,
                     ),
                 )
@@ -109,6 +113,7 @@ export class PlaceRepositoryFromStorageImpl
                         heldDayRecordItem.heldTimes,
                         heldDayRecordItem.heldDayTimes,
                     ),
+                    undefined, // グレードは未指定
                     // placeRecordとheldDayRecordのupdateDateの早い方を使用
                     new Date(
                         Math.min(

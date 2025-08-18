@@ -86,6 +86,7 @@ export const baseJraRaceRecord = HorseRacingRaceRecord.create(
 export const basePlaceEntity = PlaceEntity.createWithoutId(
     baseJraPlaceData,
     baseJraHeldDayData,
+    undefined, // grade は未指定
     baseJraRaceUpdateDate,
 );
 

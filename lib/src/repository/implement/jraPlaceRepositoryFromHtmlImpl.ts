@@ -63,6 +63,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                         jraHeldDayRecord.heldTimes,
                         jraHeldDayRecord.heldDayTimes,
                     ),
+                    undefined, // グレードは未指定
                     new Date(
                         Math.min(
                             horseRacingPlaceRecord.updateDate.getTime(),

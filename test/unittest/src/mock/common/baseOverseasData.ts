@@ -65,6 +65,7 @@ export const baseOverseasRaceRecord = HorseRacingRaceRecord.create(
 export const baseOverseasPlaceEntity = PlaceEntity.createWithoutId(
     baseOverseasPlaceData,
     undefined, // heldDayData は海外競馬では不要
+    undefined, // grade は未指定
     baseOverseasRaceUpdateDate,
 );
 

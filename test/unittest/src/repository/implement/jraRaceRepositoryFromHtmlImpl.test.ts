@@ -55,6 +55,7 @@ describe('JraRaceRepositoryFromHtmlImpl', () => {
                                     '東京',
                                 ),
                                 HeldDayData.create(1, 1),
+                                undefined, // grade は未指定
                                 getJSTDate(new Date()),
                             ),
                         ],

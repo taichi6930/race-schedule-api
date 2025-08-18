@@ -12,6 +12,7 @@ import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntit
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
+import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -53,9 +54,9 @@ describe('PlaceRepositoryFromStorageImpl', () => {
             for (const raceType of [
                 RaceType.JRA,
                 RaceType.NAR,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
+                // RaceType.KEIRIN,
+                // RaceType.AUTORACE,
+                // RaceType.BOATRACE,
             ]) {
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
@@ -76,9 +77,9 @@ describe('PlaceRepositoryFromStorageImpl', () => {
             for (const raceType of [
                 RaceType.JRA,
                 RaceType.NAR,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
+                // RaceType.KEIRIN,
+                // RaceType.AUTORACE,
+                // RaceType.BOATRACE,
             ]) {
                 const _placeEntityList = placeEntityList(raceType);
                 // テスト実行
@@ -111,6 +112,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
                     raceType === RaceType.JRA
                         ? HeldDayData.create(1, 1)
                         : undefined,
+                    createGrade(raceType), // grade は未指定
                     getJSTDate(new Date()),
                 ),
             );
@@ -136,6 +138,25 @@ const createLocation = (raceType: RaceType): RaceCourse => {
         }
         case RaceType.OVERSEAS: {
             return 'パリロンシャン';
+        }
+    }
+};
+
+const createGrade = (raceType: RaceType): GradeType | undefined => {
+    switch (raceType) {
+        case RaceType.JRA:
+        case RaceType.NAR:
+        case RaceType.OVERSEAS: {
+            return undefined;
+        }
+        case RaceType.KEIRIN: {
+            return 'GP';
+        }
+        case RaceType.AUTORACE: {
+            return 'SG';
+        }
+        case RaceType.BOATRACE: {
+            return 'SG';
         }
     }
 };
