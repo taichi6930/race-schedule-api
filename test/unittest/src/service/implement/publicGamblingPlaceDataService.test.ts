@@ -2,7 +2,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
@@ -27,10 +26,10 @@ describe('PublicGamblingPlaceDataService', () => {
         IPlaceRepository<PlaceEntity>
     >;
     let horseRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<HorseRacingPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<HorseRacingPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<MechanicalRacingPlaceEntity>

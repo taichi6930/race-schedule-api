@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { HorseRacingPlaceEntity } from '../../repository/entity/horseRacingPlaceEntity';
 import { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import { IRaceEntity } from '../../repository/entity/iRaceEntity';
@@ -34,17 +33,17 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         @inject('NarRaceRepositoryFromHtml')
         protected narRaceRepositoryFromHtml: IRaceRepository<
             HorseRacingRaceEntity,
-            HorseRacingPlaceEntity
+            PlaceEntity
         >,
         @inject('HorseRacingRaceRepositoryFromStorage')
         protected readonly horseRacingRaceRepositoryFromStorage: IRaceRepository<
             HorseRacingRaceEntity,
-            HorseRacingPlaceEntity
+            PlaceEntity
         >,
         @inject('OverseasRaceRepositoryFromHtml')
         protected readonly overseasRaceRepositoryFromHtml: IRaceRepository<
             HorseRacingRaceEntity,
-            HorseRacingPlaceEntity
+            PlaceEntity
         >,
         @inject('KeirinRaceRepositoryFromHtml')
         protected keirinRaceRepositoryFromHtml: IRaceRepository<
@@ -94,8 +93,8 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         type: DataLocationType,
         placeEntityList?: {
             [RaceType.JRA]?: PlaceEntity[];
-            [RaceType.NAR]?: HorseRacingPlaceEntity[];
-            [RaceType.OVERSEAS]?: HorseRacingPlaceEntity[];
+            [RaceType.NAR]?: PlaceEntity[];
+            [RaceType.OVERSEAS]?: PlaceEntity[];
             [RaceType.KEIRIN]?: MechanicalRacingPlaceEntity[];
             [RaceType.AUTORACE]?: MechanicalRacingPlaceEntity[];
             [RaceType.BOATRACE]?: MechanicalRacingPlaceEntity[];
@@ -153,15 +152,14 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 placeEntityList?.[RaceType.NAR] !== undefined
             ) {
                 const raceType: RaceType = RaceType.NAR;
-                const searchFilter =
-                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
-                        startDate,
-                        finishDate,
-                        raceType,
-                        placeEntityList?.[raceType]?.filter(
-                            (place) => place.placeData.raceType === raceType,
-                        ),
-                    );
+                const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
+                    startDate,
+                    finishDate,
+                    raceType,
+                    placeEntityList?.[raceType]?.filter(
+                        (place) => place.placeData.raceType === raceType,
+                    ),
+                );
                 const repo =
                     type === DataLocation.Storage
                         ? this.horseRacingRaceRepositoryFromStorage
@@ -175,12 +173,11 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             // OVERSEAS
             if (raceTypeList.includes(RaceType.OVERSEAS)) {
                 const raceType: RaceType = RaceType.OVERSEAS;
-                const searchFilter =
-                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
-                        startDate,
-                        finishDate,
-                        raceType,
-                    );
+                const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
+                    startDate,
+                    finishDate,
+                    raceType,
+                );
                 const repo =
                     type === DataLocation.Storage
                         ? this.horseRacingRaceRepositoryFromStorage

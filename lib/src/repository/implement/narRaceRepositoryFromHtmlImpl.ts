@@ -13,8 +13,8 @@ import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
 import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -23,7 +23,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class NarRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
+    implements IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -36,7 +36,7 @@ export class NarRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<HorseRacingRaceEntity[]> {
         const narRaceDataList: HorseRacingRaceEntity[] = [];
         const { placeEntityList } = searchFilter;
@@ -54,7 +54,7 @@ export class NarRaceRepositoryFromHtmlImpl
 
     @Logger
     public async fetchRaceListFromHtmlWithNarPlace(
-        placeEntity: HorseRacingPlaceEntity,
+        placeEntity: PlaceEntity,
     ): Promise<HorseRacingRaceEntity[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(

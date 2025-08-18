@@ -41,6 +41,29 @@ export class JraPlaceRepositoryFromStorageImpl
         const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3(searchFilter.raceType);
 
+        if (searchFilter.raceType !== RaceType.JRA) {
+            return placeRecordList
+                .map((placeRecord) =>
+                    PlaceEntity.create(
+                        placeRecord.id,
+                        PlaceData.create(
+                            placeRecord.raceType,
+                            placeRecord.dateTime,
+                            placeRecord.location,
+                        ),
+                        undefined, // TODO: JRAの場合は開催日データを取得する必要がある
+                        placeRecord.updateDate,
+                    ),
+                )
+                .filter(
+                    (placeEntity) =>
+                        placeEntity.placeData.dateTime >=
+                            searchFilter.startDate &&
+                        placeEntity.placeData.dateTime <=
+                            searchFilter.finishDate,
+                );
+        }
+
         const heldDayRecordList: HeldDayRecord[] =
             await this.getHeldDayRecordListFromS3(searchFilter.raceType);
 
@@ -149,43 +172,45 @@ export class JraPlaceRepositoryFromStorageImpl
                 this.placeFileName,
             );
 
-            const existFetchHeldDayRecordList: HeldDayRecord[] =
-                await this.getHeldDayRecordListFromS3(raceType);
+            if (raceType === RaceType.JRA) {
+                const existFetchHeldDayRecordList: HeldDayRecord[] =
+                    await this.getHeldDayRecordListFromS3(raceType);
 
-            const heldDayRecordList: HeldDayRecord[] = placeEntityList.map(
-                (placeEntity) =>
-                    HeldDayRecord.create(
-                        placeEntity.id,
-                        placeEntity.placeData.raceType,
-                        placeEntity.heldDayData.heldTimes,
-                        placeEntity.heldDayData.heldDayTimes,
-                        placeEntity.updateDate,
-                    ),
-            );
-
-            // idが重複しているデータは上書きをし、新規のデータは追加する
-            for (const heldDayRecordItem of heldDayRecordList) {
-                // 既に登録されているデータがある場合は上書きする
-                const index = existFetchHeldDayRecordList.findIndex(
-                    (record) => record.id === heldDayRecordItem.id,
+                const heldDayRecordList: HeldDayRecord[] = placeEntityList.map(
+                    (placeEntity) =>
+                        HeldDayRecord.create(
+                            placeEntity.id,
+                            placeEntity.placeData.raceType,
+                            placeEntity.heldDayData.heldTimes,
+                            placeEntity.heldDayData.heldDayTimes,
+                            placeEntity.updateDate,
+                        ),
                 );
-                if (index === -1) {
-                    existFetchHeldDayRecordList.push(heldDayRecordItem);
-                } else {
-                    existFetchHeldDayRecordList[index] = heldDayRecordItem;
+
+                // idが重複しているデータは上書きをし、新規のデータは追加する
+                for (const heldDayRecordItem of heldDayRecordList) {
+                    // 既に登録されているデータがある場合は上書きする
+                    const index = existFetchHeldDayRecordList.findIndex(
+                        (record) => record.id === heldDayRecordItem.id,
+                    );
+                    if (index === -1) {
+                        existFetchHeldDayRecordList.push(heldDayRecordItem);
+                    } else {
+                        existFetchHeldDayRecordList[index] = heldDayRecordItem;
+                    }
                 }
+
+                // 日付の最新順にソート
+                existFetchHeldDayRecordList.sort(
+                    (a, b) => b.updateDate.getTime() - a.updateDate.getTime(),
+                );
+
+                await this.s3Gateway.uploadDataToS3(
+                    existFetchHeldDayRecordList,
+                    `${raceType.toLowerCase()}/`,
+                    this.heldDayFileName,
+                );
             }
-
-            // 日付の最新順にソート
-            existFetchHeldDayRecordList.sort(
-                (a, b) => b.updateDate.getTime() - a.updateDate.getTime(),
-            );
-
-            await this.s3Gateway.uploadDataToS3(
-                existFetchHeldDayRecordList,
-                `${raceType.toLowerCase()}/`,
-                this.heldDayFileName,
-            );
             return {
                 code: 200,
                 message: 'データの保存に成功しました',

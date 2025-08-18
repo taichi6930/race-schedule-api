@@ -9,8 +9,8 @@ import { container } from 'tsyringe';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
+import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { HorseRacingRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -21,10 +21,7 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let repository: IRaceRepository<
-        HorseRacingRaceEntity,
-        HorseRacingPlaceEntity
-    >;
+    let repository: IRaceRepository<HorseRacingRaceEntity, PlaceEntity>;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -57,7 +54,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
             // テスト実行
             for (const raceType of [RaceType.NAR, RaceType.OVERSEAS]) {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-01-01'),
                         new Date('2024-02-01'),
                         raceType,

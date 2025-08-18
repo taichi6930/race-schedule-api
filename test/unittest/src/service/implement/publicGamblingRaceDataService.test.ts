@@ -2,7 +2,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import type { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import type { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
@@ -31,13 +30,13 @@ describe('PublicGamblingRaceDataService', () => {
         IRaceRepository<JraRaceEntity, PlaceEntity>
     >;
     let narRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
+        IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
     >;
     let horseRacingRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
+        IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
     >;
     let overseasRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
+        IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
     >;
     let mechanicalRacingRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>

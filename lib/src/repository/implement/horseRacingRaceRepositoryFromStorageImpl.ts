@@ -8,14 +8,14 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
 import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 @injectable()
 export class HorseRacingRaceRepositoryFromStorageImpl
-    implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
+    implements IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
 {
     private readonly fileName = CSV_FILE_NAME.RACE_LIST;
 
@@ -30,25 +30,20 @@ export class HorseRacingRaceRepositoryFromStorageImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<HorseRacingRaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const raceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(searchFilter.raceType);
 
-        // RaceRecordをRaceEntityに変換
-        const raceEntityList: HorseRacingRaceEntity[] = raceRecordList.map(
-            (raceRecord) => raceRecord.toEntity(),
-        );
-
         // フィルタリング処理（日付の範囲指定）
-        const filteredRaceEntityList: HorseRacingRaceEntity[] =
-            raceEntityList.filter(
+        return raceRecordList
+            .map((raceRecord) => raceRecord.toEntity())
+            .filter(
                 (raceEntity) =>
                     raceEntity.raceData.dateTime >= searchFilter.startDate &&
                     raceEntity.raceData.dateTime <= searchFilter.finishDate,
             );
-        return filteredRaceEntityList;
     }
 
     /**

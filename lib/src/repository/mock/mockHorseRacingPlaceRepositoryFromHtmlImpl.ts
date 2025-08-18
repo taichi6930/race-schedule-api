@@ -2,12 +2,12 @@ import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 export class MockHorseRacingPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<HorseRacingPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     /**
      * 地方競馬場データを取得する
@@ -16,17 +16,18 @@ export class MockHorseRacingPlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<HorseRacingPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
-            const placeEntity = HorseRacingPlaceEntity.createWithoutId(
+            const placeEntity = PlaceEntity.createWithoutId(
                 PlaceData.create(
                     searchFilter.raceType,
                     new Date(currentDate),
                     '大井',
                 ),
+                undefined, // heldDayData は地方競馬では不要
                 getJSTDate(new Date()),
             );
             placeEntityList.push(placeEntity);
@@ -45,12 +46,12 @@ export class MockHorseRacingPlaceRepositoryFromHtmlImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: HorseRacingPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: HorseRacingPlaceEntity[];
-        failureData: HorseRacingPlaceEntity[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

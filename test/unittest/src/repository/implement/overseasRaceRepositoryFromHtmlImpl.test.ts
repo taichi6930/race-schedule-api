@@ -4,8 +4,8 @@ import { container } from 'tsyringe';
 
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import type { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
+import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { OverseasRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/overseasRaceRepositoryFromHtmlImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -15,10 +15,7 @@ import { SkipEnv } from '../../../../utility/testDecorators';
 
 describe('OverseasRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
-    let repository: IRaceRepository<
-        HorseRacingRaceEntity,
-        HorseRacingPlaceEntity
-    >;
+    let repository: IRaceRepository<HorseRacingRaceEntity, PlaceEntity>;
 
     const raceType: RaceType = RaceType.OVERSEAS;
 
@@ -43,7 +40,7 @@ describe('OverseasRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2025-05-01'),
                         new Date('2025-06-30'),
                         raceType,
@@ -59,7 +56,7 @@ describe('OverseasRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2025-06-01'),
                         new Date('2025-07-31'),
                         raceType,

@@ -83,7 +83,12 @@ export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
                 validateUpdateDate(updateDate),
             );
         } catch {
-            throw new Error(`Failed to create PlaceEntity`);
+            throw new Error(`Failed to create PlaceEntity:
+                id: ${id},
+                placeData: ${JSON.stringify(placeData)},
+                heldDayData: ${JSON.stringify(heldDayData)},
+                updateDate: ${JSON.stringify(updateDate)}
+            `);
         }
     }
 

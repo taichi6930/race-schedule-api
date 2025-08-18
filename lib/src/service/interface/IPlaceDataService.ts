@@ -1,4 +1,3 @@
-import type { HorseRacingPlaceEntity } from '../../repository/entity/horseRacingPlaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { DataLocationType } from '../../utility/dataType';
@@ -31,8 +30,8 @@ export interface IPlaceDataService {
         type: DataLocationType,
     ) => Promise<{
         [RaceType.JRA]: PlaceEntity[];
-        [RaceType.NAR]: HorseRacingPlaceEntity[];
-        [RaceType.OVERSEAS]: HorseRacingPlaceEntity[];
+        [RaceType.NAR]: PlaceEntity[];
+        [RaceType.OVERSEAS]: PlaceEntity[];
         [RaceType.KEIRIN]: MechanicalRacingPlaceEntity[];
         [RaceType.AUTORACE]: MechanicalRacingPlaceEntity[];
         [RaceType.BOATRACE]: MechanicalRacingPlaceEntity[];
@@ -48,8 +47,8 @@ export interface IPlaceDataService {
      */
     updatePlaceEntityList: (placeEntityList: {
         [RaceType.JRA]: PlaceEntity[];
-        [RaceType.NAR]: HorseRacingPlaceEntity[];
-        [RaceType.OVERSEAS]: HorseRacingPlaceEntity[];
+        [RaceType.NAR]: PlaceEntity[];
+        [RaceType.OVERSEAS]: PlaceEntity[];
         [RaceType.KEIRIN]: MechanicalRacingPlaceEntity[];
         [RaceType.AUTORACE]: MechanicalRacingPlaceEntity[];
         [RaceType.BOATRACE]: MechanicalRacingPlaceEntity[];

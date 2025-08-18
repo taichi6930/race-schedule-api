@@ -1,6 +1,5 @@
 import { container } from 'tsyringe';
 
-import type { HorseRacingPlaceEntity } from '../../src/repository/entity/horseRacingPlaceEntity';
 import type { HorseRacingRaceEntity } from '../../src/repository/entity/horseRacingRaceEntity';
 import type { JraRaceEntity } from '../../src/repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../src/repository/entity/mechanicalRacingPlaceEntity';
@@ -17,11 +16,12 @@ container.register<IRaceRepository<JraRaceEntity, PlaceEntity>>(
         useClass: JraRaceRepositoryFromStorageImpl,
     },
 );
-container.register<
-    IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
->('HorseRacingRaceRepositoryFromStorage', {
-    useClass: HorseRacingRaceRepositoryFromStorageImpl,
-});
+container.register<IRaceRepository<HorseRacingRaceEntity, PlaceEntity>>(
+    'HorseRacingRaceRepositoryFromStorage',
+    {
+        useClass: HorseRacingRaceRepositoryFromStorageImpl,
+    },
+);
 container.register<
     IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
 >('MechanicalRacingRaceRepositoryFromStorage', {

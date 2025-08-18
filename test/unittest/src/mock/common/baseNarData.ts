@@ -6,8 +6,8 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
-import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
@@ -73,8 +73,9 @@ export const baseNarRaceRecord = HorseRacingRaceRecord.create(
     baseNarRaceUpdateDate,
 );
 
-export const baseNarPlaceEntity = HorseRacingPlaceEntity.createWithoutId(
+export const baseNarPlaceEntity = PlaceEntity.createWithoutId(
     baseNarPlaceData,
+    undefined, // heldDayData は地方競馬では不要
     baseNarRaceUpdateDate,
 );
 

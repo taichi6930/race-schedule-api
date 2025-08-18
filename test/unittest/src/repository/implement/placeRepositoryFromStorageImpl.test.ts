@@ -5,9 +5,10 @@ import path from 'node:path';
 
 import { container } from 'tsyringe';
 
+import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
@@ -19,7 +20,7 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('PlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let repository: IPlaceRepository<HorseRacingPlaceEntity>;
+    let repository: IPlaceRepository<PlaceEntity>;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -94,20 +95,22 @@ describe('PlaceRepositoryFromStorageImpl', () => {
                 });
             }
 
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(5);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(6);
         });
     });
 
-    // // 1年間の開催場データを登録する
     // 1年間の開催場データを登録する
-    const placeEntityList = (raceType: RaceType): HorseRacingPlaceEntity[] =>
+    const placeEntityList = (raceType: RaceType): PlaceEntity[] =>
         Array.from({ length: 60 }, (_, day) => {
             const location = createLocation(raceType);
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
-                HorseRacingPlaceEntity.createWithoutId(
+                PlaceEntity.createWithoutId(
                     PlaceData.create(raceType, date, location),
+                    raceType === RaceType.JRA
+                        ? HeldDayData.create(1, 1)
+                        : undefined,
                     getJSTDate(new Date()),
                 ),
             );
