@@ -8,7 +8,7 @@ import { container } from 'tsyringe';
 import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
@@ -19,7 +19,7 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('JraPlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let repository: IPlaceRepository<JraPlaceEntity>;
+    let repository: IPlaceRepository<PlaceEntity>;
 
     const raceType: RaceType = RaceType.JRA;
 
@@ -82,13 +82,13 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
     });
 
     // 1年間の開催場データを登録する
-    const placeEntityList: JraPlaceEntity[] = Array.from(
+    const placeEntityList: PlaceEntity[] = Array.from(
         { length: 60 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
-                JraPlaceEntity.createWithoutId(
+                PlaceEntity.createWithoutId(
                     PlaceData.create(raceType, date, '東京'),
                     HeldDayData.create(1, 1),
                     getJSTDate(new Date()),

@@ -3,8 +3,8 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { HorseRacingPlaceEntity } from '../../../../lib/src/repository/entity/horseRacingPlaceEntity';
-import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
+import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/implement/publicGamblingPlaceDataService';
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
@@ -21,7 +21,7 @@ import {
 } from '../../../unittest/src/mock/common/baseBoatraceData';
 import {
     baseJraPlaceData,
-    baseJraPlaceEntity,
+    basePlaceEntity,
 } from '../../../unittest/src/mock/common/baseJraData';
 import {
     baseKeirinPlaceData,
@@ -37,10 +37,10 @@ import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/e
 
 describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => {
     let jraPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<JraPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<JraPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let horseRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<HorseRacingPlaceEntity>
@@ -92,7 +92,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
         it('正常に開催場データが取得できること', async () => {
             // モックの戻り値を設定
             jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseJraPlaceEntity],
+                [basePlaceEntity],
             );
             horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
@@ -149,7 +149,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                 {
                     code: 200,
                     message: '',
-                    successData: [baseJraPlaceEntity],
+                    successData: [basePlaceEntity],
                     failureData: [],
                 },
             );
@@ -175,7 +175,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             );
             // モックの戻り値を設定
             jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseJraPlaceEntity],
+                [basePlaceEntity],
             );
             horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
@@ -203,7 +203,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
 
             // モックの戻り値を設定
             jraPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseJraPlaceEntity],
+                [basePlaceEntity],
             );
             narPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],

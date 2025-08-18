@@ -15,14 +15,14 @@ import { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 @injectable()
 export class JraRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
+    implements IRaceRepository<JraRaceEntity, PlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -35,7 +35,7 @@ export class JraRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<JraRaceEntity[]> {
         const jraRaceEntityList: JraRaceEntity[] = [];
         const { placeEntityList, raceType } = searchFilter;

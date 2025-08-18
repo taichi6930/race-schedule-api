@@ -11,13 +11,13 @@ import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { JraPlaceEntity } from '../entity/jraPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
 export class JraPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<JraPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     public constructor(
         @inject('PlaceDataHtmlGateway')
@@ -32,7 +32,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<JraPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // startDateからfinishDateまでの年のリストを生成する
         const yearList: Date[] = this.generateYearList(
             searchFilter.startDate,
@@ -50,9 +50,9 @@ export class JraPlaceRepositoryFromHtmlImpl
         }[] = placeRecordResults.flat();
 
         // Entityに変換
-        const placeEntityList: JraPlaceEntity[] = placeRecordList.map(
+        const placeEntityList: PlaceEntity[] = placeRecordList.map(
             ({ horseRacingPlaceRecord, jraHeldDayRecord }) => {
-                return JraPlaceEntity.create(
+                return PlaceEntity.create(
                     horseRacingPlaceRecord.id,
                     PlaceData.create(
                         horseRacingPlaceRecord.raceType,
@@ -74,12 +74,11 @@ export class JraPlaceRepositoryFromHtmlImpl
         );
 
         // filterで日付の範囲を指定
-        const filteredPlaceEntityList: JraPlaceEntity[] =
-            placeEntityList.filter(
-                (placeEntity) =>
-                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
-            );
+        const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
+            (placeEntity) =>
+                placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                placeEntity.placeData.dateTime <= searchFilter.finishDate,
+        );
 
         return filteredPlaceEntityList;
     }
@@ -238,12 +237,12 @@ export class JraPlaceRepositoryFromHtmlImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: JraPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: JraPlaceEntity[];
-        failureData: JraPlaceEntity[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

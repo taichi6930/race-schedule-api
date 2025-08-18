@@ -1,17 +1,17 @@
 import {
     baseJraPlaceData,
-    baseJraPlaceEntity,
+    basePlaceEntity,
 } from '../../mock/common/baseJraData';
 
-describe('JraPlaceEntityクラスのテスト', () => {
-    it('正しい入力でJraPlaceEntityのインスタンスを作成できることを確認', () => {
-        const placeEntity = baseJraPlaceEntity;
+describe('PlaceEntityクラスのテスト', () => {
+    it('正しい入力でPlaceEntityのインスタンスを作成できることを確認', () => {
+        const placeEntity = basePlaceEntity;
 
         expect(placeEntity.placeData).toEqual(baseJraPlaceData);
     });
 
-    it('何も変更せずJraPlaceEntityのインスタンスを作成できることを確認', () => {
-        const placeEntity = baseJraPlaceEntity;
+    it('何も変更せずPlaceEntityのインスタンスを作成できることを確認', () => {
+        const placeEntity = basePlaceEntity;
         const copiedPlaceEntity = placeEntity.copy();
 
         expect(copiedPlaceEntity.id).toEqual(placeEntity.id);
@@ -19,7 +19,7 @@ describe('JraPlaceEntityクラスのテスト', () => {
     });
 
     it('何も変更せずJraPlaceDataのインスタンスを作成できることを確認', () => {
-        const placeEntity = baseJraPlaceEntity;
+        const placeEntity = basePlaceEntity;
         const { placeData } = placeEntity;
 
         expect(placeData).toEqual(baseJraPlaceData);

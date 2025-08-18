@@ -20,7 +20,7 @@ import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity'
  * - データベース（SQLite, RDBMSなど）
  * - 外部API（HTMLスクレイピングなど）
  * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
- *               例：JraPlaceEntity, NarPlaceEntity など
+ *               例：PlaceEntity, NarPlaceEntity など
  */
 export interface IPlaceRepository<P extends IPlaceEntity<P>> {
     /**

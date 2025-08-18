@@ -4,10 +4,10 @@ import { HorseRacingPlaceEntity } from '../../repository/entity/horseRacingPlace
 import { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import { IRaceEntity } from '../../repository/entity/iRaceEntity';
-import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
+import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
@@ -24,12 +24,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         @inject('JraRaceRepositoryFromStorage')
         protected jraRaceRepositoryFromStorage: IRaceRepository<
             JraRaceEntity,
-            JraPlaceEntity
+            PlaceEntity
         >,
         @inject('JraRaceRepositoryFromHtml')
         protected jraRaceRepositoryFromHtml: IRaceRepository<
             JraRaceEntity,
-            JraPlaceEntity
+            PlaceEntity
         >,
         @inject('NarRaceRepositoryFromHtml')
         protected narRaceRepositoryFromHtml: IRaceRepository<
@@ -93,7 +93,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         raceTypeList: RaceType[],
         type: DataLocationType,
         placeEntityList?: {
-            [RaceType.JRA]?: JraPlaceEntity[];
+            [RaceType.JRA]?: PlaceEntity[];
             [RaceType.NAR]?: HorseRacingPlaceEntity[];
             [RaceType.OVERSEAS]?: HorseRacingPlaceEntity[];
             [RaceType.KEIRIN]?: MechanicalRacingPlaceEntity[];
@@ -131,7 +131,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 placeEntityList?.[RaceType.JRA] !== undefined
             ) {
                 const raceType: RaceType = RaceType.JRA;
-                const searchFilter = new SearchRaceFilterEntity<JraPlaceEntity>(
+                const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
                     startDate,
                     finishDate,
                     raceType,

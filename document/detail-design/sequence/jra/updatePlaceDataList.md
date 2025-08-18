@@ -29,7 +29,7 @@ sequenceDiagram
                 IJraPlaceDataHtmlGateway-->>JraPlaceRepositoryFromHtmlImpl: HTMLデータ
                 note right of JraPlaceRepositoryFromHtmlImpl: cheerioでHTMLパース→JraPlaceRecord[]生成
             end
-            note right of JraPlaceRepositoryFromHtmlImpl: JraPlaceRecord[]→JraPlaceEntity[]変換・日付filter
+            note right of JraPlaceRepositoryFromHtmlImpl: JraPlaceRecord[]→PlaceEntity[]変換・日付filter
             JraPlaceRepositoryFromHtmlImpl-->>JraPlaceDataService: placeEntityList
         end
         JraPlaceDataService-->>JraPlaceDataUseCase: placeEntityList
@@ -38,7 +38,7 @@ sequenceDiagram
         note right of JraPlaceRepositoryFromStorageImpl: 既存データ取得
         JraPlaceRepositoryFromStorageImpl->>S3Gateway: fetchDataFromS3
         S3Gateway-->>JraPlaceRepositoryFromStorageImpl: CSVデータ
-        note right of JraPlaceRepositoryFromStorageImpl: JraPlaceEntity[]→JraPlaceRecord[]変換、重複上書き・新規追加
+        note right of JraPlaceRepositoryFromStorageImpl: PlaceEntity[]→JraPlaceRecord[]変換、重複上書き・新規追加
         JraPlaceRepositoryFromStorageImpl->>S3Gateway: uploadDataToS3(placeRecordList, fileName)
         S3Gateway-->>JraPlaceRepositoryFromStorageImpl: 完了
         JraPlaceRepositoryFromStorageImpl-->>JraPlaceDataService: 完了

@@ -2,7 +2,6 @@ import { container } from 'tsyringe';
 
 import type { HorseRacingPlaceEntity } from '../../src/repository/entity/horseRacingPlaceEntity';
 import type { HorseRacingRaceEntity } from '../../src/repository/entity/horseRacingRaceEntity';
-import type { JraPlaceEntity } from '../../src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../src/repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../src/repository/entity/mechanicalRacingPlaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../src/repository/entity/mechanicalRacingRaceEntity';
@@ -43,11 +42,11 @@ switch (ENV) {
                 useClass: NarPlaceRepositoryFromHtmlImpl,
             },
         );
-        container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
+        container.register<IRaceRepository<JraRaceEntity, PlaceEntity>>(
             'JraRaceRepositoryFromHtml',
             { useClass: JraRaceRepositoryFromHtmlImpl },
         );
-        container.register<IPlaceRepository<JraPlaceEntity>>(
+        container.register<IPlaceRepository<PlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
             {
                 useClass: JraPlaceRepositoryFromHtmlImpl,
@@ -119,11 +118,11 @@ switch (ENV) {
                 useClass: MockHorseRacingPlaceRepositoryFromHtmlImpl,
             },
         );
-        container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
+        container.register<IRaceRepository<JraRaceEntity, PlaceEntity>>(
             'JraRaceRepositoryFromHtml',
             { useClass: MockJraRaceRepositoryFromHtmlImpl },
         );
-        container.register<IPlaceRepository<JraPlaceEntity>>(
+        container.register<IPlaceRepository<PlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
             {
                 useClass: MockJraPlaceRepositoryFromHtmlImpl,

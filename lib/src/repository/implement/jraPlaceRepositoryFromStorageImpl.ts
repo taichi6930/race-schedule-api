@@ -11,13 +11,13 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { JraPlaceEntity } from '../entity/jraPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
 export class JraPlaceRepositoryFromStorageImpl
-    implements IPlaceRepository<JraPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     // S3にアップロードするファイル名
     private readonly placeFileName = CSV_FILE_NAME.PLACE_LIST;
@@ -36,7 +36,7 @@ export class JraPlaceRepositoryFromStorageImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<JraPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // 開催データを取得
         const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3(searchFilter.raceType);
@@ -73,9 +73,9 @@ export class JraPlaceRepositoryFromStorageImpl
         }
 
         // placeRecordをplaceEntityに変換
-        const placeEntityList: JraPlaceEntity[] = [...recordMap.values()].map(
+        const placeEntityList: PlaceEntity[] = [...recordMap.values()].map(
             ({ placeRecord, heldDayRecord: heldDayRecordItem }) => {
-                return JraPlaceEntity.create(
+                return PlaceEntity.create(
                     placeRecord.id,
                     PlaceData.create(
                         searchFilter.raceType,
@@ -102,12 +102,12 @@ export class JraPlaceRepositoryFromStorageImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: JraPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: JraPlaceEntity[];
-        failureData: JraPlaceEntity[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         try {
             // 既に登録されているデータを取得する
@@ -115,7 +115,14 @@ export class JraPlaceRepositoryFromStorageImpl
                 await this.getPlaceRecordListFromS3(raceType);
 
             const placeRecordList: PlaceRecord[] = placeEntityList.map(
-                (placeEntity) => placeEntity.toRecord(),
+                (placeEntity) =>
+                    PlaceRecord.create(
+                        placeEntity.id,
+                        placeEntity.placeData.raceType,
+                        placeEntity.placeData.dateTime,
+                        placeEntity.placeData.location,
+                        placeEntity.updateDate,
+                    ),
             );
 
             // idが重複しているデータは上書きをし、新規のデータは追加する

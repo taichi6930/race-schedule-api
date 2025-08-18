@@ -1,6 +1,6 @@
 import type { HorseRacingPlaceEntity } from '../../repository/entity/horseRacingPlaceEntity';
-import type { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
+import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { DataLocationType } from '../../utility/dataType';
 import type { RaceType } from '../../utility/raceType';
 
@@ -11,7 +11,7 @@ import type { RaceType } from '../../utility/raceType';
  * - 指定期間の開催場所データの取得（StorageまたはWebから）
  * - 開催場所データの更新（Storageに保存）
  * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
- *               例：JraPlaceEntity, NarPlaceEntity など
+ *               例：PlaceEntity, NarPlaceEntity など
  */
 export interface IPlaceDataService {
     /**
@@ -30,7 +30,7 @@ export interface IPlaceDataService {
         raceTypeList: RaceType[],
         type: DataLocationType,
     ) => Promise<{
-        [RaceType.JRA]: JraPlaceEntity[];
+        [RaceType.JRA]: PlaceEntity[];
         [RaceType.NAR]: HorseRacingPlaceEntity[];
         [RaceType.OVERSEAS]: HorseRacingPlaceEntity[];
         [RaceType.KEIRIN]: MechanicalRacingPlaceEntity[];
@@ -47,7 +47,7 @@ export interface IPlaceDataService {
      * @throws Error データの保存/更新に失敗した場合
      */
     updatePlaceEntityList: (placeEntityList: {
-        [RaceType.JRA]: JraPlaceEntity[];
+        [RaceType.JRA]: PlaceEntity[];
         [RaceType.NAR]: HorseRacingPlaceEntity[];
         [RaceType.OVERSEAS]: HorseRacingPlaceEntity[];
         [RaceType.KEIRIN]: MechanicalRacingPlaceEntity[];

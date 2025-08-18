@@ -3,8 +3,8 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
-import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
+import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { PublicGamblingPlaceDataService } from '../../../../../lib/src/service/implement/publicGamblingPlaceDataService';
@@ -15,16 +15,16 @@ import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
 import { baseBoatracePlaceEntity } from '../../mock/common/baseBoatraceData';
-import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
+import { basePlaceEntity } from '../../mock/common/baseJraData';
 import { baseKeirinPlaceEntity } from '../../mock/common/baseKeirinData';
 import { baseNarPlaceEntity } from '../../mock/common/baseNarData';
 
 describe('PublicGamblingPlaceDataService', () => {
     let jraPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<JraPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<JraPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
     let horseRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<HorseRacingPlaceEntity>
@@ -69,7 +69,7 @@ describe('PublicGamblingPlaceDataService', () => {
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること(storage)', async () => {
             const mockPlaceEntity = {
-                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.JRA]: [basePlaceEntity],
                 [RaceType.NAR]: [baseNarPlaceEntity],
                 [RaceType.OVERSEAS]: [],
                 [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
@@ -79,7 +79,7 @@ describe('PublicGamblingPlaceDataService', () => {
 
             // モックの戻り値を設定
             jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseJraPlaceEntity],
+                [basePlaceEntity],
             );
             horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
@@ -126,7 +126,7 @@ describe('PublicGamblingPlaceDataService', () => {
 
         it('正常に開催場データが取得できること（web）', async () => {
             const mockPlaceEntity = {
-                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.JRA]: [basePlaceEntity],
                 [RaceType.NAR]: [baseNarPlaceEntity],
                 [RaceType.OVERSEAS]: [],
                 [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
@@ -136,7 +136,7 @@ describe('PublicGamblingPlaceDataService', () => {
 
             // モックの戻り値を設定
             jraPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseJraPlaceEntity],
+                [basePlaceEntity],
             );
             narPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
@@ -203,7 +203,7 @@ describe('PublicGamblingPlaceDataService', () => {
     describe('updatePlaceDataList', () => {
         it('正常に開催場データが更新されること', async () => {
             const mockPlaceEntity = {
-                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.JRA]: [basePlaceEntity],
                 [RaceType.NAR]: [baseNarPlaceEntity],
                 [RaceType.OVERSEAS]: [],
                 [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
@@ -213,7 +213,7 @@ describe('PublicGamblingPlaceDataService', () => {
 
             // モックの戻り値を設定
             jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseJraPlaceEntity],
+                [basePlaceEntity],
             );
             horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
@@ -244,7 +244,7 @@ describe('PublicGamblingPlaceDataService', () => {
                 {
                     code: 200,
                     message: '',
-                    successData: [baseJraPlaceEntity],
+                    successData: [basePlaceEntity],
                     failureData: [],
                 },
             );
@@ -307,7 +307,7 @@ describe('PublicGamblingPlaceDataService', () => {
 
         it('開催場データが更新できない場合、エラーが発生すること', async () => {
             const mockPlaceEntity = {
-                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.JRA]: [basePlaceEntity],
                 [RaceType.NAR]: [baseNarPlaceEntity],
                 [RaceType.OVERSEAS]: [],
                 [RaceType.KEIRIN]: [baseKeirinPlaceEntity],

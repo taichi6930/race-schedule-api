@@ -1,9 +1,9 @@
 import type { HorseRacingPlaceEntity } from '../../repository/entity/horseRacingPlaceEntity';
 import type { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
-import type { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
+import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { DataLocationType } from '../../utility/dataType';
 import type { RaceType } from '../../utility/raceType';
 
@@ -19,7 +19,7 @@ import type { RaceType } from '../../utility/raceType';
  * @typeParam R - レース開催エンティティの型。IRaceEntityを実装している必要があります。
  *               例：JraRaceEntity, NarRaceEntity など
  * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
- *               例：JraPlaceEntity, NarPlaceEntity など
+ *               例：PlaceEntity, NarPlaceEntity など
  */
 export interface IRaceDataService {
     /**
@@ -41,7 +41,7 @@ export interface IRaceDataService {
         raceTypeList: RaceType[],
         type: DataLocationType,
         placeEntityList?: {
-            [RaceType.JRA]?: JraPlaceEntity[];
+            [RaceType.JRA]?: PlaceEntity[];
             [RaceType.NAR]?: HorseRacingPlaceEntity[];
             [RaceType.OVERSEAS]?: HorseRacingPlaceEntity[];
             [RaceType.KEIRIN]?: MechanicalRacingPlaceEntity[];

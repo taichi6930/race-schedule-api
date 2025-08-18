@@ -5,10 +5,10 @@ import { container } from 'tsyringe';
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
 import type { HorseRacingPlaceEntity } from '../../lib/src/repository/entity/horseRacingPlaceEntity';
 import type { HorseRacingRaceEntity } from '../../lib/src/repository/entity/horseRacingRaceEntity';
-import type { JraPlaceEntity } from '../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../lib/src/repository/entity/jraRaceEntity';
 import type { MechanicalRacingPlaceEntity } from '../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../lib/src/repository/entity/mechanicalRacingRaceEntity';
+import type { PlaceEntity } from '../../lib/src/repository/entity/placeEntity';
 import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../lib/src/repository/interface/IRaceRepository';
@@ -39,11 +39,9 @@ export interface TestSetup {
     s3Gateway: jest.Mocked<IS3Gateway>;
     calendarRepository: jest.Mocked<ICalendarRepository>;
     jraPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<JraPlaceEntity>
+        IPlaceRepository<PlaceEntity>
     >;
-    jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<JraPlaceEntity>
-    >;
+    jraPlaceRepositoryFromHtmlImpl: jest.Mocked<IPlaceRepository<PlaceEntity>>;
     horseRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<HorseRacingPlaceEntity>
     >;
@@ -63,10 +61,10 @@ export interface TestSetup {
         IPlaceRepository<MechanicalRacingPlaceEntity>
     >;
     jraRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<JraRaceEntity, JraPlaceEntity>
+        IRaceRepository<JraRaceEntity, PlaceEntity>
     >;
     jraRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<JraRaceEntity, JraPlaceEntity>
+        IRaceRepository<JraRaceEntity, PlaceEntity>
     >;
     horseRacingRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
@@ -105,17 +103,17 @@ export function setupTestMock(): TestSetup {
 
     const jraRaceRepositoryFromStorageImpl = mockRaceRepository<
         JraRaceEntity,
-        JraPlaceEntity
+        PlaceEntity
     >();
-    container.registerInstance<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
+    container.registerInstance<IRaceRepository<JraRaceEntity, PlaceEntity>>(
         'JraRaceRepositoryFromStorage',
         jraRaceRepositoryFromStorageImpl,
     );
     const jraRaceRepositoryFromHtmlImpl = mockRaceRepository<
         JraRaceEntity,
-        JraPlaceEntity
+        PlaceEntity
     >();
-    container.registerInstance<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
+    container.registerInstance<IRaceRepository<JraRaceEntity, PlaceEntity>>(
         'JraRaceRepositoryFromHtml',
         jraRaceRepositoryFromHtmlImpl,
     );
@@ -184,14 +182,13 @@ export function setupTestMock(): TestSetup {
     container.registerInstance('CalendarRepository', calendarRepository);
 
     const jraPlaceRepositoryFromStorageImpl =
-        mockPlaceRepository<JraPlaceEntity>();
-    container.registerInstance<IPlaceRepository<JraPlaceEntity>>(
+        mockPlaceRepository<PlaceEntity>();
+    container.registerInstance<IPlaceRepository<PlaceEntity>>(
         'JraPlaceRepositoryFromStorage',
         jraPlaceRepositoryFromStorageImpl,
     );
-    const jraPlaceRepositoryFromHtmlImpl =
-        mockPlaceRepository<JraPlaceEntity>();
-    container.registerInstance<IPlaceRepository<JraPlaceEntity>>(
+    const jraPlaceRepositoryFromHtmlImpl = mockPlaceRepository<PlaceEntity>();
+    container.registerInstance<IPlaceRepository<PlaceEntity>>(
         'JraPlaceRepositoryFromHtml',
         jraPlaceRepositoryFromHtmlImpl,
     );

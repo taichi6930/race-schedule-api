@@ -10,8 +10,8 @@ import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
+import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { JraRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -22,7 +22,7 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('JraRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let repository: IRaceRepository<JraRaceEntity, JraPlaceEntity>;
+    let repository: IRaceRepository<JraRaceEntity, PlaceEntity>;
 
     const raceType: RaceType = RaceType.JRA;
 
@@ -54,7 +54,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             );
 
             // リクエストの作成
-            const searchFilter = new SearchRaceFilterEntity<JraPlaceEntity>(
+            const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
                 raceType,

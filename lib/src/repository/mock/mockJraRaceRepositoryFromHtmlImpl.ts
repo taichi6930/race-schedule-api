@@ -4,18 +4,18 @@ import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
 export class MockJraRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
+    implements IRaceRepository<JraRaceEntity, PlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<JraRaceEntity[]> {
         const { placeEntityList } = searchFilter;
         const raceEntityList: JraRaceEntity[] = [];

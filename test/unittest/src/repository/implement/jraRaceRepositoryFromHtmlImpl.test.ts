@@ -6,8 +6,8 @@ import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { JraRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -18,7 +18,7 @@ import { SkipEnv } from '../../../../utility/testDecorators';
 
 describe('JraRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
-    let repository: IRaceRepository<JraRaceEntity, JraPlaceEntity>;
+    let repository: IRaceRepository<JraRaceEntity, PlaceEntity>;
 
     const raceType: RaceType = RaceType.JRA;
 
@@ -43,12 +43,12 @@ describe('JraRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<JraPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-05-26'),
                         new Date('2024-05-26'),
                         raceType,
                         [
-                            JraPlaceEntity.createWithoutId(
+                            PlaceEntity.createWithoutId(
                                 PlaceData.create(
                                     raceType,
                                     new Date('2024-05-26'),

@@ -3,13 +3,13 @@ import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { JraPlaceEntity } from '../entity/jraPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
 export class MockJraPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<JraPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     /**
      * 中央競馬場データを取得する
@@ -18,13 +18,13 @@ export class MockJraPlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<JraPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの中央競馬場データを取得する
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
-            const placeEntity = JraPlaceEntity.createWithoutId(
+            const placeEntity = PlaceEntity.createWithoutId(
                 PlaceData.create(
                     searchFilter.raceType,
                     new Date(currentDate),
@@ -49,12 +49,12 @@ export class MockJraPlaceRepositoryFromHtmlImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: JraPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: JraPlaceEntity[];
-        failureData: JraPlaceEntity[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
