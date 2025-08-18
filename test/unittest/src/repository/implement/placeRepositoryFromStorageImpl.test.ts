@@ -14,19 +14,16 @@ import type { IPlaceRepository } from '../../../../../lib/src/repository/interfa
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
+import type { TestSetup } from '../../../../utility/testSetupHelper';
+import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('PlaceRepositoryFromStorageImpl', () => {
-    let placeS3Gateway: jest.Mocked<IS3Gateway>;
+    let s3Gateway: jest.Mocked<IS3Gateway>;
     let repository: IPlaceRepository<HorseRacingPlaceEntity>;
 
     beforeEach(() => {
-        // S3Gatewayのモックを作成
-        placeS3Gateway = mockS3Gateway();
-
-        // DIコンテナにモックを登録
-        container.registerInstance('PlaceS3Gateway', placeS3Gateway);
-
+        const setup: TestSetup = setupTestMock();
+        ({ s3Gateway } = setup);
         // テスト対象のリポジトリを生成
         repository = container.resolve(PlaceRepositoryFromStorageImpl);
     });
@@ -38,7 +35,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
     describe('fetchPlaceList', () => {
         test('正しい開催場データを取得できる', async () => {
             // モックの戻り値を設定
-            placeS3Gateway.fetchDataFromS3.mockImplementation(
+            s3Gateway.fetchDataFromS3.mockImplementation(
                 async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
@@ -97,7 +94,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
                 });
             }
 
-            expect(placeS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(5);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(5);
         });
     });
 

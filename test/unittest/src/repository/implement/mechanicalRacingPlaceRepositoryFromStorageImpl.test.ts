@@ -16,18 +16,15 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
-    let placeS3Gateway: jest.Mocked<IS3Gateway>;
-    let placeGradeS3Gateway: jest.Mocked<IS3Gateway>;
+    let s3Gateway: jest.Mocked<IS3Gateway>;
     let repository: IPlaceRepository<MechanicalRacingPlaceEntity>;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        placeS3Gateway = mockS3Gateway();
-        placeGradeS3Gateway = mockS3Gateway();
+        s3Gateway = mockS3Gateway();
 
         // DIコンテナにモックを登録
-        container.registerInstance('PlaceS3Gateway', placeS3Gateway);
-        container.registerInstance('PlaceGradeS3Gateway', placeGradeS3Gateway);
+        container.registerInstance('S3Gateway', s3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(
@@ -42,19 +39,7 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
     describe('fetchPlaceList', () => {
         test('正しい開催場データを取得できる', async () => {
             // モックの戻り値を設定
-            placeS3Gateway.fetchDataFromS3.mockImplementation(
-                async (folderName, fileName) => {
-                    return fs.readFileSync(
-                        path.resolve(
-                            __dirname,
-                            '../../mock/repository/csv',
-                            `${folderName}${fileName}`,
-                        ),
-                        'utf8',
-                    );
-                },
-            );
-            placeGradeS3Gateway.fetchDataFromS3.mockImplementation(
+            s3Gateway.fetchDataFromS3.mockImplementation(
                 async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
@@ -109,7 +94,7 @@ describe('MechanicalRacingPlaceRepositoryFromStorageImpl', () => {
             }
 
             // uploadDataToS3が1回呼ばれることを検証
-            expect(placeS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(3);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(6);
         });
     });
 

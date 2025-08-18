@@ -20,8 +20,8 @@ export class PlaceRepositoryFromStorageImpl
     private readonly fileName: string = CSV_FILE_NAME.PLACE_LIST;
 
     public constructor(
-        @inject('PlaceS3Gateway')
-        private readonly placeS3Gateway: IS3Gateway,
+        @inject('S3Gateway')
+        private readonly s3Gateway: IS3Gateway,
     ) {}
 
     /**
@@ -90,7 +90,7 @@ export class PlaceRepositoryFromStorageImpl
                 (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );
 
-            await this.placeS3Gateway.uploadDataToS3(
+            await this.s3Gateway.uploadDataToS3(
                 existFetchPlaceRecordList,
                 `${raceType.toLowerCase()}/`,
                 this.fileName,
@@ -122,7 +122,7 @@ export class PlaceRepositoryFromStorageImpl
         raceType: RaceType,
     ): Promise<PlaceRecord[]> {
         // S3からデータを取得する
-        const csv = await this.placeS3Gateway.fetchDataFromS3(
+        const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.fileName,
         );

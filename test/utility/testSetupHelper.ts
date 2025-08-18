@@ -36,9 +36,7 @@ export function clearMocks(): void {
  * テスト用のセットアップ
  */
 export interface TestSetup {
-    horseRacingRaceS3Gateway: jest.Mocked<IS3Gateway>;
-    mechanicalRacingRaceS3Gateway: jest.Mocked<IS3Gateway>;
-    mechanicalRacingRacePlayerS3Gateway: jest.Mocked<IS3Gateway>;
+    s3Gateway: jest.Mocked<IS3Gateway>;
     calendarRepository: jest.Mocked<ICalendarRepository>;
     jraPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<JraPlaceEntity>
@@ -102,22 +100,8 @@ export interface TestSetup {
  * @returns セットアップ済みのサービス
  */
 export function setupTestMock(): TestSetup {
-    const horseRacingRaceS3Gateway = mockS3Gateway();
-    container.registerInstance(
-        'HorseRacingRaceS3Gateway',
-        horseRacingRaceS3Gateway,
-    );
-
-    const mechanicalRacingRaceS3Gateway = mockS3Gateway();
-    container.registerInstance(
-        'MechanicalRacingRaceS3Gateway',
-        mechanicalRacingRaceS3Gateway,
-    );
-    const mechanicalRacingRacePlayerS3Gateway = mockS3Gateway();
-    container.registerInstance(
-        'MechanicalRacingRacePlayerS3Gateway',
-        mechanicalRacingRacePlayerS3Gateway,
-    );
+    const s3Gateway = mockS3Gateway();
+    container.registerInstance('S3Gateway', s3Gateway);
 
     const jraRaceRepositoryFromStorageImpl = mockRaceRepository<
         JraRaceEntity,
@@ -269,9 +253,7 @@ export function setupTestMock(): TestSetup {
     );
 
     return {
-        horseRacingRaceS3Gateway,
-        mechanicalRacingRaceS3Gateway,
-        mechanicalRacingRacePlayerS3Gateway,
+        s3Gateway,
         calendarRepository,
         jraPlaceRepositoryFromStorageImpl,
         jraPlaceRepositoryFromHtmlImpl,

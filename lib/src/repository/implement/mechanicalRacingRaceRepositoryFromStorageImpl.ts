@@ -28,10 +28,8 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
     private readonly racePlayerListFileName = CSV_FILE_NAME.RACE_PLAYER_LIST;
 
     public constructor(
-        @inject('MechanicalRacingRaceS3Gateway')
-        private readonly raceS3Gateway: IS3Gateway,
-        @inject('MechanicalRacingRacePlayerS3Gateway')
-        private readonly racePlayerS3Gateway: IS3Gateway,
+        @inject('S3Gateway')
+        private readonly s3Gateway: IS3Gateway,
     ) {}
 
     /**
@@ -162,12 +160,12 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             );
 
             // raceDataをS3にアップロードする
-            await this.raceS3Gateway.uploadDataToS3(
+            await this.s3Gateway.uploadDataToS3(
                 existFetchRaceRecordList,
                 `${raceType.toLowerCase()}/`,
                 this.raceListFileName,
             );
-            await this.racePlayerS3Gateway.uploadDataToS3(
+            await this.s3Gateway.uploadDataToS3(
                 existFetchRacePlayerRecordList,
                 `${raceType.toLowerCase()}/`,
                 this.racePlayerListFileName,
@@ -201,7 +199,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         borderDate?: Date,
     ): Promise<MechanicalRacingRaceRecord[]> {
         // S3からデータを取得する
-        const csv = await this.raceS3Gateway.fetchDataFromS3(
+        const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.raceListFileName,
         );
@@ -275,7 +273,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         raceType: RaceType,
     ): Promise<RacePlayerRecord[]> {
         // S3からデータを取得する
-        const csv = await this.racePlayerS3Gateway.fetchDataFromS3(
+        const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.racePlayerListFileName,
         );

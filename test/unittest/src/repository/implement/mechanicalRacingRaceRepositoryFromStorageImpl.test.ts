@@ -23,8 +23,7 @@ import { baseBoatraceRacePlayerDataList } from '../../mock/common/baseBoatraceDa
 import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 
 describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
-    let mechanicalRacingRaceS3Gateway: jest.Mocked<IS3Gateway>;
-    let mechanicalRacingRacePlayerS3Gateway: jest.Mocked<IS3Gateway>;
+    let s3Gateway: jest.Mocked<IS3Gateway>;
     let repository: IRaceRepository<
         MechanicalRacingRaceEntity,
         MechanicalRacingPlaceEntity
@@ -32,10 +31,7 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
-        ({
-            mechanicalRacingRaceS3Gateway,
-            mechanicalRacingRacePlayerS3Gateway,
-        } = setup);
+        ({ s3Gateway } = setup);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(
@@ -50,26 +46,13 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('レース開催データを正常に取得できる', async () => {
             // モックの戻り値を設定
-            mechanicalRacingRaceS3Gateway.fetchDataFromS3.mockImplementation(
+            s3Gateway.fetchDataFromS3.mockImplementation(
                 async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
                             __dirname,
                             '../../mock/repository/csv',
                             `${folderName}${fileName}`,
-                        ),
-                        'utf8',
-                    );
-                },
-            );
-
-            // モックの戻り値を設定
-            mechanicalRacingRacePlayerS3Gateway.fetchDataFromS3.mockImplementation(
-                async (folderName, fileName) => {
-                    return fs.readFileSync(
-                        path.resolve(
-                            __dirname,
-                            `../../mock/repository/csv/${folderName}${fileName}`,
                         ),
                         'utf8',
                     );
@@ -157,9 +140,7 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                     raceEntityList,
                 );
             }
-            expect(
-                mechanicalRacingRaceS3Gateway.uploadDataToS3,
-            ).toHaveBeenCalledTimes(3);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(6);
         });
     });
 
@@ -212,7 +193,7 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
             ).flat();
 
             // モックの戻り値を設定
-            mechanicalRacingRaceS3Gateway.fetchDataFromS3.mockResolvedValue(
+            s3Gateway.fetchDataFromS3.mockResolvedValue(
                 fs.readFileSync(
                     path.resolve(
                         __dirname,
@@ -224,27 +205,9 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                 ),
             );
 
-            // モックの戻り値を設定
-            mechanicalRacingRacePlayerS3Gateway.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv',
-                        raceType.toLowerCase(),
-                        CSV_FILE_NAME.RACE_PLAYER_LIST,
-                    ),
-                    'utf8',
-                ),
-            );
-
             // テスト実行
             await repository.registerRaceEntityList(raceType, raceEntityList);
         }
-        expect(
-            mechanicalRacingRaceS3Gateway.uploadDataToS3,
-        ).toHaveBeenCalledTimes(3);
-        expect(
-            mechanicalRacingRacePlayerS3Gateway.uploadDataToS3,
-        ).toHaveBeenCalledTimes(3);
+        expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(6);
     });
 });

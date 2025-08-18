@@ -20,8 +20,8 @@ export class HorseRacingRaceRepositoryFromStorageImpl
     private readonly fileName = CSV_FILE_NAME.RACE_LIST;
 
     public constructor(
-        @inject('HorseRacingRaceS3Gateway')
-        private readonly horseRacingRaceS3Gateway: IS3Gateway,
+        @inject('S3Gateway')
+        private readonly s3Gateway: IS3Gateway,
     ) {}
 
     /**
@@ -60,7 +60,7 @@ export class HorseRacingRaceRepositoryFromStorageImpl
         raceType: RaceType,
     ): Promise<HorseRacingRaceRecord[]> {
         // S3からデータを取得する
-        const csv = await this.horseRacingRaceS3Gateway.fetchDataFromS3(
+        const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.fileName,
         );
@@ -174,7 +174,7 @@ export class HorseRacingRaceRepositoryFromStorageImpl
                 (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );
             // 月毎に分けられたplaceをS3にアップロードする
-            await this.horseRacingRaceS3Gateway.uploadDataToS3(
+            await this.s3Gateway.uploadDataToS3(
                 updatedRaceRecordList,
                 `${raceType.toLowerCase()}/`,
                 this.fileName,

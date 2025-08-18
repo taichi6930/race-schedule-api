@@ -25,10 +25,8 @@ export class JraRaceRepositoryFromStorageImpl
     private readonly heldDayFileName = CSV_FILE_NAME.HELD_DAY_LIST;
 
     public constructor(
-        @inject('JraRaceS3Gateway')
+        @inject('S3Gateway')
         private readonly s3Gateway: IS3Gateway,
-        @inject('HeldDayS3Gateway')
-        private readonly heldDayS3Gateway: IS3Gateway,
     ) {}
 
     /**
@@ -187,7 +185,7 @@ export class JraRaceRepositoryFromStorageImpl
         raceType: RaceType,
     ): Promise<HeldDayRecord[]> {
         // S3からデータを取得する
-        const csv = await this.heldDayS3Gateway.fetchDataFromS3(
+        const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.heldDayFileName,
         );

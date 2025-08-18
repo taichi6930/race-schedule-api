@@ -24,10 +24,8 @@ export class JraPlaceRepositoryFromStorageImpl
     private readonly heldDayFileName = CSV_FILE_NAME.HELD_DAY_LIST;
 
     public constructor(
-        @inject('PlaceS3Gateway')
-        private readonly placeS3Gateway: IS3Gateway,
-        @inject('HeldDayS3Gateway')
-        private readonly heldDayS3Gateway: IS3Gateway,
+        @inject('S3Gateway')
+        private readonly s3Gateway: IS3Gateway,
     ) {}
 
     /**
@@ -138,7 +136,7 @@ export class JraPlaceRepositoryFromStorageImpl
                 (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );
 
-            await this.placeS3Gateway.uploadDataToS3(
+            await this.s3Gateway.uploadDataToS3(
                 existFetchPlaceRecordList,
                 `${raceType.toLowerCase()}/`,
                 this.placeFileName,
@@ -176,7 +174,7 @@ export class JraPlaceRepositoryFromStorageImpl
                 (a, b) => b.updateDate.getTime() - a.updateDate.getTime(),
             );
 
-            await this.heldDayS3Gateway.uploadDataToS3(
+            await this.s3Gateway.uploadDataToS3(
                 existFetchHeldDayRecordList,
                 `${raceType.toLowerCase()}/`,
                 this.heldDayFileName,
@@ -207,7 +205,7 @@ export class JraPlaceRepositoryFromStorageImpl
         raceType: RaceType,
     ): Promise<PlaceRecord[]> {
         // S3からデータを取得する
-        const csv = await this.placeS3Gateway.fetchDataFromS3(
+        const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.placeFileName,
         );
@@ -268,7 +266,7 @@ export class JraPlaceRepositoryFromStorageImpl
         raceType: RaceType,
     ): Promise<HeldDayRecord[]> {
         // S3からデータを取得する
-        const csv = await this.heldDayS3Gateway.fetchDataFromS3(
+        const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.heldDayFileName,
         );

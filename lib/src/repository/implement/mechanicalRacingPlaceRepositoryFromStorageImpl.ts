@@ -27,10 +27,8 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
     private readonly placeGradeFileName = CSV_FILE_NAME.GRADE_LIST;
 
     public constructor(
-        @inject('PlaceS3Gateway')
-        private readonly placeS3Gateway: IS3Gateway,
-        @inject('PlaceGradeS3Gateway')
-        private readonly placeGradeS3Gateway: IS3Gateway,
+        @inject('S3Gateway')
+        private readonly s3Gateway: IS3Gateway,
     ) {}
 
     /**
@@ -146,7 +144,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
                 (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );
 
-            await this.placeS3Gateway.uploadDataToS3(
+            await this.s3Gateway.uploadDataToS3(
                 existFetchPlaceRecordList,
                 `${raceType.toLowerCase()}/`,
                 this.placeFileName,
@@ -185,7 +183,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
                 (a, b) => b.updateDate.getTime() - a.updateDate.getTime(),
             );
 
-            await this.placeGradeS3Gateway.uploadDataToS3(
+            await this.s3Gateway.uploadDataToS3(
                 existFetchPlaceGradeRecordList,
                 `${raceType.toLowerCase()}/`,
                 this.placeGradeFileName,
@@ -216,7 +214,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
     private async getPlaceRecordListFromS3(
         raceType: RaceType,
     ): Promise<PlaceRecord[]> {
-        const csv = await this.placeS3Gateway.fetchDataFromS3(
+        const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.placeFileName,
         );
@@ -277,7 +275,7 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
         raceType: RaceType,
     ): Promise<PlaceGradeRecord[]> {
         // S3からデータを取得する
-        const csv = await this.placeGradeS3Gateway.fetchDataFromS3(
+        const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.placeGradeFileName,
         );

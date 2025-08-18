@@ -20,7 +20,7 @@ import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
-    let horseRacingRaceS3Gateway: jest.Mocked<IS3Gateway>;
+    let s3Gateway: jest.Mocked<IS3Gateway>;
     let repository: IRaceRepository<
         HorseRacingRaceEntity,
         HorseRacingPlaceEntity
@@ -28,7 +28,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
-        ({ horseRacingRaceS3Gateway } = setup);
+        ({ s3Gateway } = setup);
         // テスト対象のリポジトリを生成
         repository = container.resolve(
             HorseRacingRaceRepositoryFromStorageImpl,
@@ -42,7 +42,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('レース開催データを正常に取得できる', async () => {
             // モックの戻り値を設定
-            horseRacingRaceS3Gateway.fetchDataFromS3.mockImplementation(
+            s3Gateway.fetchDataFromS3.mockImplementation(
                 async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
@@ -112,9 +112,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                     raceEntityList,
                 );
             }
-            expect(
-                horseRacingRaceS3Gateway.uploadDataToS3,
-            ).toHaveBeenCalledTimes(2);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(2);
         });
 
         test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
@@ -153,7 +151,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                     },
                 ).flat();
                 // モックの戻り値を設定
-                horseRacingRaceS3Gateway.fetchDataFromS3.mockImplementation(
+                s3Gateway.fetchDataFromS3.mockImplementation(
                     async (folderName, fileName) => {
                         return fs.readFileSync(
                             path.resolve(
@@ -171,9 +169,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                     raceEntityList,
                 );
             }
-            expect(
-                horseRacingRaceS3Gateway.uploadDataToS3,
-            ).toHaveBeenCalledTimes(2);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(2);
         });
     });
 });
