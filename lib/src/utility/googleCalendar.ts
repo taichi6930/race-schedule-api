@@ -153,12 +153,6 @@ export function toGoogleCalendarData(
         if (raceEntity instanceof RaceEntity) {
             return `${raceEntity.raceData.location}競馬場`;
         }
-        if (raceEntity instanceof RaceEntity) {
-            return `${raceEntity.raceData.location}競馬場`;
-        }
-        if (raceEntity instanceof RaceEntity) {
-            return `${raceEntity.raceData.location}競馬場`;
-        }
         if (raceEntity instanceof MechanicalRacingRaceEntity) {
             if (raceEntity.raceData.raceType === RaceType.KEIRIN) {
                 return `${raceEntity.raceData.location}競輪場`;
@@ -174,12 +168,6 @@ export function toGoogleCalendarData(
     }
 
     function createStage(): string {
-        if (raceEntity instanceof RaceEntity) {
-            return '';
-        }
-        if (raceEntity instanceof RaceEntity) {
-            return '';
-        }
         if (raceEntity instanceof RaceEntity) {
             return '';
         }
@@ -223,7 +211,10 @@ export function toGoogleCalendarData(
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof RaceEntity) {
+        if (
+            raceEntity instanceof RaceEntity &&
+            raceEntity.raceData.raceType === RaceType.JRA
+        ) {
             const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
@@ -242,7 +233,10 @@ export function toGoogleCalendarData(
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof RaceEntity) {
+        if (
+            raceEntity instanceof RaceEntity &&
+            raceEntity.raceData.raceType === RaceType.NAR
+        ) {
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
                     ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[raceEntity.raceData.location]))}
@@ -250,7 +244,10 @@ export function toGoogleCalendarData(
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof RaceEntity) {
+        if (
+            raceEntity instanceof RaceEntity &&
+            raceEntity.raceData.raceType === RaceType.OVERSEAS
+        ) {
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
                     ${updateStr}
