@@ -1,3 +1,4 @@
+import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
@@ -18,7 +19,7 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
         const { placeEntityList } = searchFilter;
         const raceEntityList: RaceEntity[] = [];
         const { raceType, startDate } = searchFilter;
-        if (raceType === RaceType.NAR) {
+        if (raceType === RaceType.NAR || raceType === RaceType.JRA) {
             for (const placeEntity of placeEntityList) {
                 const { location, dateTime } = placeEntity.placeData;
                 // 1から12までのレースを作成
@@ -35,7 +36,7 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
                                 'GⅠ',
                                 raceNumber,
                             ),
-                            undefined,
+                            this.defaultHeldDayData[raceType],
                             HorseRaceConditionData.create('ダート', 2000),
                             undefined, // stage は未指定
                             undefined, // racePlayerDataList は未指定
@@ -93,4 +94,13 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
+
+    private readonly defaultHeldDayData = {
+        [RaceType.JRA]: HeldDayData.create(1, 1),
+        [RaceType.NAR]: undefined,
+        [RaceType.OVERSEAS]: undefined,
+        [RaceType.KEIRIN]: undefined,
+        [RaceType.AUTORACE]: undefined,
+        [RaceType.BOATRACE]: undefined,
+    };
 }

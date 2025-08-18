@@ -16,7 +16,6 @@ import { OverseasRaceRepositoryFromHtmlImpl } from '../../src/repository/impleme
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
 import { MockHorseRacingRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockHorseRacingRaceRepositoryFromHtmlImpl';
-import { MockJraRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockJraRaceRepositoryFromHtmlImpl';
 import { MockMechanicalRacingPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockMechanicalRacingPlaceRepositoryFromHtmlImpl';
 import { MockMechanicalRacingRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockMechanicalRacingRaceRepositoryFromHtmlImpl';
 import { MockPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockPlaceRepositoryFromHtmlImpl';
@@ -111,7 +110,7 @@ switch (ENV) {
         );
         container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
             'JraRaceRepositoryFromHtml',
-            { useClass: MockJraRaceRepositoryFromHtmlImpl },
+            { useClass: MockHorseRacingRaceRepositoryFromHtmlImpl },
         );
         container.register<IPlaceRepository<PlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
