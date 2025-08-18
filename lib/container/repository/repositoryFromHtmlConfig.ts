@@ -16,7 +16,6 @@ import { OverseasRaceRepositoryFromHtmlImpl } from '../../src/repository/impleme
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
 import { MockHorseRacingRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockHorseRacingRaceRepositoryFromHtmlImpl';
-import { MockMechanicalRacingPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockMechanicalRacingPlaceRepositoryFromHtmlImpl';
 import { MockMechanicalRacingRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockMechanicalRacingRaceRepositoryFromHtmlImpl';
 import { MockPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockPlaceRepositoryFromHtmlImpl';
 import { allowedEnvs, ENV } from '../../src/utility/env';
@@ -126,7 +125,7 @@ switch (ENV) {
         );
         container.register<IPlaceRepository<PlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
-            { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },
+            { useClass: MockPlaceRepositoryFromHtmlImpl },
         );
         container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
             'AutoraceRaceRepositoryFromHtml',
@@ -136,7 +135,7 @@ switch (ENV) {
         );
         container.register<IPlaceRepository<PlaceEntity>>(
             'AutoracePlaceRepositoryFromHtml',
-            { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },
+            { useClass: MockPlaceRepositoryFromHtmlImpl },
         );
         container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
             'OverseasRaceRepositoryFromHtml',
@@ -146,7 +145,7 @@ switch (ENV) {
         );
         container.register<IPlaceRepository<PlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',
-            { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },
+            { useClass: MockPlaceRepositoryFromHtmlImpl },
         );
         container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
             'BoatraceRaceRepositoryFromHtml',
