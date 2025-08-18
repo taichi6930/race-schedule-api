@@ -4,7 +4,6 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
@@ -92,9 +91,9 @@ export class PublicGamblingCalendarService implements ICalendarService {
         [RaceType.JRA]: RaceEntity[];
         [RaceType.NAR]: RaceEntity[];
         [RaceType.OVERSEAS]: RaceEntity[];
-        [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
-        [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
-        [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
+        [RaceType.KEIRIN]: RaceEntity[];
+        [RaceType.AUTORACE]: RaceEntity[];
+        [RaceType.BOATRACE]: RaceEntity[];
     }): Promise<void> {
         const raceTypeList = [
             RaceType.JRA,

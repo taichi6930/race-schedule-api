@@ -4,11 +4,13 @@ import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
+import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
 import {
     generateRaceId,
     validateRaceId,
 } from '../../utility/data/common/raceId';
+import { generateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import type { RaceStage } from '../../utility/data/common/raceStage';
 import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
@@ -20,6 +22,7 @@ import type { IRaceEntity } from './iRaceEntity';
  */
 export class RaceEntity implements IRaceEntity<RaceEntity> {
     private readonly _heldDayData: HeldDayData | undefined;
+    private readonly _conditionData: HorseRaceConditionData | undefined;
     private readonly _stage: RaceStage | undefined;
     private readonly _racePlayerDataList: RacePlayerData[] | undefined;
     /**
@@ -28,8 +31,8 @@ export class RaceEntity implements IRaceEntity<RaceEntity> {
      * @param raceData - レースデータ
      * @param heldDayData - 開催日データ
      * @param conditionData - レース条件データ
-     * @param stage
-     * @param racePlayerDataList
+     * @param stage - レースステージ
+     * @param racePlayerDataList - レース出走メンバーデータリスト
      * @param updateDate - 更新日時
      * @remarks
      * レース開催データを生成する
@@ -38,12 +41,13 @@ export class RaceEntity implements IRaceEntity<RaceEntity> {
         public readonly id: RaceId,
         public readonly raceData: RaceData,
         heldDayData: HeldDayData | undefined,
-        public readonly conditionData: HorseRaceConditionData,
+        conditionData: HorseRaceConditionData | undefined,
         stage: RaceStage | undefined,
         racePlayerDataList: RacePlayerData[] | undefined,
         public readonly updateDate: UpdateDate,
     ) {
         this._heldDayData = heldDayData;
+        this._conditionData = conditionData;
         this._stage = stage;
         this._racePlayerDataList = racePlayerDataList;
     }
@@ -62,7 +66,7 @@ export class RaceEntity implements IRaceEntity<RaceEntity> {
         id: string,
         raceData: RaceData,
         heldDayData: HeldDayData | undefined,
-        conditionData: HorseRaceConditionData,
+        conditionData: HorseRaceConditionData | undefined,
         stage: RaceStage | undefined,
         racePlayerDataList: RacePlayerData[] | undefined,
         updateDate: Date,
@@ -102,6 +106,18 @@ export class RaceEntity implements IRaceEntity<RaceEntity> {
             ) {
                 throw new Error(`racePlayerDataList is incorrect`);
             }
+            if (
+                ((raceData.raceType === RaceType.JRA ||
+                    raceData.raceType === RaceType.NAR ||
+                    raceData.raceType === RaceType.OVERSEAS) &&
+                    conditionData === undefined) ||
+                ((raceData.raceType === RaceType.KEIRIN ||
+                    raceData.raceType === RaceType.AUTORACE ||
+                    raceData.raceType === RaceType.BOATRACE) &&
+                    conditionData !== undefined)
+            ) {
+                throw new Error(`conditionData is incorrect`);
+            }
             return new RaceEntity(
                 validateRaceId(raceData.raceType, id),
                 raceData,
@@ -136,7 +152,7 @@ export class RaceEntity implements IRaceEntity<RaceEntity> {
     public static createWithoutId(
         raceData: RaceData,
         heldDayData: HeldDayData | undefined,
-        conditionData: HorseRaceConditionData,
+        conditionData: HorseRaceConditionData | undefined,
         stage: RaceStage | undefined,
         racePlayerDataList: RacePlayerData[] | undefined,
         updateDate: Date,
@@ -166,7 +182,7 @@ export class RaceEntity implements IRaceEntity<RaceEntity> {
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.heldDayData ?? this._heldDayData,
-            partial.conditionData ?? this.conditionData,
+            partial.conditionData ?? this._conditionData,
             partial.stage ?? this._stage,
             partial.racePlayerDataList ?? this._racePlayerDataList,
             partial.updateDate ?? this.updateDate,
@@ -226,5 +242,47 @@ export class RaceEntity implements IRaceEntity<RaceEntity> {
             throw new Error('racePlayerDataList is missing for this race type');
         }
         return this._racePlayerDataList;
+    }
+
+    /**
+     * KEIRIN, AUTORACE, BOATRACE のみ有効な grade のアクセサ
+     * それ以外の raceType でアクセスされると例外を投げる
+     */
+    public get conditionData(): HorseRaceConditionData {
+        if (
+            this.raceData.raceType !== RaceType.JRA &&
+            this.raceData.raceType !== RaceType.NAR &&
+            this.raceData.raceType !== RaceType.OVERSEAS
+        ) {
+            throw new Error(
+                'conditionData is only available for JRA/NAR/OVERSEAS',
+            );
+        }
+        if (this._conditionData === undefined) {
+            throw new Error('conditionData is missing for this race type');
+        }
+        return this._conditionData;
+    }
+
+    /**
+     * RacePlayerRecordに変換する
+     */
+    public toPlayerRecordList(): RacePlayerRecord[] {
+        return this.racePlayerDataList.map((playerData) =>
+            RacePlayerRecord.create(
+                generateRacePlayerId(
+                    this.raceData.raceType,
+                    this.raceData.dateTime,
+                    this.raceData.location,
+                    this.raceData.number,
+                    playerData.positionNumber,
+                ),
+                this.raceData.raceType,
+                this.id,
+                playerData.positionNumber,
+                playerData.playerNumber,
+                this.updateDate,
+            ),
+        );
     }
 }

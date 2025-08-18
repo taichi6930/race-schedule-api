@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
@@ -77,9 +76,9 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         [RaceType.JRA]: RaceEntity[];
         [RaceType.NAR]: RaceEntity[];
         [RaceType.OVERSEAS]: RaceEntity[];
-        [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
-        [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
-        [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
+        [RaceType.KEIRIN]: RaceEntity[];
+        [RaceType.AUTORACE]: RaceEntity[];
+        [RaceType.BOATRACE]: RaceEntity[];
     }> {
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(

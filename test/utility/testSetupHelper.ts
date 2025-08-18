@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
-import type { MechanicalRacingRaceEntity } from '../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import type { PlaceEntity } from '../../lib/src/repository/entity/placeEntity';
 import type { RaceEntity } from '../../lib/src/repository/entity/raceEntity';
 import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
@@ -65,16 +64,16 @@ export interface TestSetup {
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
     mechanicalRacingRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     keirinRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     boatraceRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     autoraceRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     calendarService: jest.Mocked<ICalendarService>;
     raceDataService: jest.Mocked<IRaceDataService>;
@@ -133,39 +132,40 @@ export function setupTestMock(): TestSetup {
     );
 
     const mechanicalRacingRaceRepositoryFromStorageImpl = mockRaceRepository<
-        MechanicalRacingRaceEntity,
+        RaceEntity,
         PlaceEntity
     >();
-    container.registerInstance<
-        IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
-    >(
+    container.registerInstance<IRaceRepository<RaceEntity, PlaceEntity>>(
         'MechanicalRacingRaceRepositoryFromStorage',
         mechanicalRacingRaceRepositoryFromStorageImpl,
     );
 
     const keirinRaceRepositoryFromHtmlImpl = mockRaceRepository<
-        MechanicalRacingRaceEntity,
+        RaceEntity,
         PlaceEntity
     >();
-    container.registerInstance<
-        IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
-    >('KeirinRaceRepositoryFromHtml', keirinRaceRepositoryFromHtmlImpl);
+    container.registerInstance<IRaceRepository<RaceEntity, PlaceEntity>>(
+        'KeirinRaceRepositoryFromHtml',
+        keirinRaceRepositoryFromHtmlImpl,
+    );
 
     const boatraceRaceRepositoryFromHtmlImpl = mockRaceRepository<
-        MechanicalRacingRaceEntity,
+        RaceEntity,
         PlaceEntity
     >();
-    container.registerInstance<
-        IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
-    >('BoatraceRaceRepositoryFromHtml', boatraceRaceRepositoryFromHtmlImpl);
+    container.registerInstance<IRaceRepository<RaceEntity, PlaceEntity>>(
+        'BoatraceRaceRepositoryFromHtml',
+        boatraceRaceRepositoryFromHtmlImpl,
+    );
 
     const autoraceRaceRepositoryFromHtmlImpl = mockRaceRepository<
-        MechanicalRacingRaceEntity,
+        RaceEntity,
         PlaceEntity
     >();
-    container.registerInstance<
-        IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
-    >('AutoraceRaceRepositoryFromHtml', autoraceRaceRepositoryFromHtmlImpl);
+    container.registerInstance<IRaceRepository<RaceEntity, PlaceEntity>>(
+        'AutoraceRaceRepositoryFromHtml',
+        autoraceRaceRepositoryFromHtmlImpl,
+    );
 
     const calendarRepository = mockCalendarRepository();
     container.registerInstance('CalendarRepository', calendarRepository);

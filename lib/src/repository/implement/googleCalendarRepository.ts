@@ -10,7 +10,6 @@ import {
 } from '../../utility/googleCalendar';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
@@ -68,9 +67,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
      * @param raceEntityList
      */
     @Logger
-    public async upsertEvents(
-        raceEntityList: RaceEntity[] | MechanicalRacingRaceEntity[],
-    ): Promise<void> {
+    public async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(
             raceEntityList.map(async (raceEntity) => {

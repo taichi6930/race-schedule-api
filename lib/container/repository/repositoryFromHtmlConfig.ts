@@ -1,6 +1,5 @@
 import { container } from 'tsyringe';
 
-import type { MechanicalRacingRaceEntity } from '../../src/repository/entity/mechanicalRacingRaceEntity';
 import type { PlaceEntity } from '../../src/repository/entity/placeEntity';
 import type { RaceEntity } from '../../src/repository/entity/raceEntity';
 import { AutoracePlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
@@ -50,20 +49,22 @@ switch (ENV) {
                 useClass: JraPlaceRepositoryFromHtmlImpl,
             },
         );
-        container.register<
-            IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
-        >('KeirinRaceRepositoryFromHtml', {
-            useClass: KeirinRaceRepositoryFromHtmlImpl,
-        });
+        container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
+            'KeirinRaceRepositoryFromHtml',
+            {
+                useClass: KeirinRaceRepositoryFromHtmlImpl,
+            },
+        );
         container.register<IPlaceRepository<PlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
             { useClass: KeirinPlaceRepositoryFromHtmlImpl },
         );
-        container.register<
-            IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
-        >('AutoraceRaceRepositoryFromHtml', {
-            useClass: AutoraceRaceRepositoryFromHtmlImpl,
-        });
+        container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
+            'AutoraceRaceRepositoryFromHtml',
+            {
+                useClass: AutoraceRaceRepositoryFromHtmlImpl,
+            },
+        );
         container.register<IPlaceRepository<PlaceEntity>>(
             'AutoracePlaceRepositoryFromHtml',
             { useClass: AutoracePlaceRepositoryFromHtmlImpl },
@@ -74,20 +75,22 @@ switch (ENV) {
                 useClass: OverseasRaceRepositoryFromHtmlImpl,
             },
         );
-        container.register<
-            IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
-        >('AutoraceRaceRepositoryFromHtml', {
-            useClass: AutoraceRaceRepositoryFromHtmlImpl,
-        });
+        container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
+            'AutoraceRaceRepositoryFromHtml',
+            {
+                useClass: AutoraceRaceRepositoryFromHtmlImpl,
+            },
+        );
         container.register<IPlaceRepository<PlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',
             { useClass: BoatracePlaceRepositoryFromHtmlImpl },
         );
-        container.register<
-            IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
-        >('BoatraceRaceRepositoryFromHtml', {
-            useClass: BoatraceRaceRepositoryFromHtmlImpl,
-        });
+        container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
+            'BoatraceRaceRepositoryFromHtml',
+            {
+                useClass: BoatraceRaceRepositoryFromHtmlImpl,
+            },
+        );
         break;
     }
     case allowedEnvs.test:
@@ -116,20 +119,22 @@ switch (ENV) {
                 useClass: MockPlaceRepositoryFromHtmlImpl,
             },
         );
-        container.register<
-            IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
-        >('KeirinRaceRepositoryFromHtml', {
-            useClass: MockMechanicalRacingRaceRepositoryFromHtmlImpl,
-        });
+        container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
+            'KeirinRaceRepositoryFromHtml',
+            {
+                useClass: MockMechanicalRacingRaceRepositoryFromHtmlImpl,
+            },
+        );
         container.register<IPlaceRepository<PlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
             { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },
         );
-        container.register<
-            IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
-        >('AutoraceRaceRepositoryFromHtml', {
-            useClass: MockMechanicalRacingRaceRepositoryFromHtmlImpl,
-        });
+        container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
+            'AutoraceRaceRepositoryFromHtml',
+            {
+                useClass: MockMechanicalRacingRaceRepositoryFromHtmlImpl,
+            },
+        );
         container.register<IPlaceRepository<PlaceEntity>>(
             'AutoracePlaceRepositoryFromHtml',
             { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },
@@ -144,11 +149,12 @@ switch (ENV) {
             'BoatracePlaceRepositoryFromHtml',
             { useClass: MockMechanicalRacingPlaceRepositoryFromHtmlImpl },
         );
-        container.register<
-            IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
-        >('BoatraceRaceRepositoryFromHtml', {
-            useClass: MockMechanicalRacingRaceRepositoryFromHtmlImpl,
-        });
+        container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
+            'BoatraceRaceRepositoryFromHtml',
+            {
+                useClass: MockMechanicalRacingRaceRepositoryFromHtmlImpl,
+            },
+        );
         break;
     }
     default: {

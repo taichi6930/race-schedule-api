@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
-import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
+import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
@@ -297,12 +297,12 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      */
     private filterRaceEntity(
         raceType: RaceType,
-        raceEntityList: MechanicalRacingRaceEntity[],
+        raceEntityList: RaceEntity[],
         displayGradeList: GradeType[],
         playerDataList: PlayerData[],
-    ): MechanicalRacingRaceEntity[] {
-        const filteredRaceEntityList: MechanicalRacingRaceEntity[] =
-            raceEntityList.filter((raceEntity) => {
+    ): RaceEntity[] {
+        const filteredRaceEntityList: RaceEntity[] = raceEntityList.filter(
+            (raceEntity) => {
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {
                         const playerPriority =
@@ -332,7 +332,8 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                     })?.priority ?? 0;
 
                 return racePriority + maxPlayerPriority >= 6;
-            });
+            },
+        );
         return filteredRaceEntityList;
     }
 }

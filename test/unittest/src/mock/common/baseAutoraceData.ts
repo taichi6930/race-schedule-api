@@ -4,8 +4,8 @@ import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
-import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
@@ -90,13 +90,14 @@ export const baseAutoracePlaceEntity = PlaceEntity.createWithoutId(
 
 export const baseAutoraceRacePlayerDataList = baseRacePlayerDataList(raceType);
 
-export const baseAutoraceRaceEntity =
-    MechanicalRacingRaceEntity.createWithoutId(
-        baseAutoraceRaceData,
-        baseAutoraceRaceStage,
-        baseAutoraceRacePlayerDataList,
-        baseAutoraceRaceUpdateDate,
-    );
+export const baseAutoraceRaceEntity = RaceEntity.createWithoutId(
+    baseAutoraceRaceData,
+    undefined, // heldDayDataは未設定
+    undefined, // conditionDataは未設定
+    baseAutoraceRaceStage,
+    baseAutoraceRacePlayerDataList,
+    baseAutoraceRaceUpdateDate,
+);
 
 export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
     generateRacePlayerId(
@@ -118,7 +119,7 @@ export const baseAutoraceRacePlayerRecord = RacePlayerRecord.create(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoraceRaceEntityList: MechanicalRacingRaceEntity[] = [
+export const baseAutoraceRaceEntityList: RaceEntity[] = [
     { location: '飯塚', grade: 'SG' },
     { location: '川口', grade: 'GⅠ' },
     { location: '山陽', grade: '特GⅠ' },
@@ -140,7 +141,7 @@ export const baseAutoraceRaceEntityList: MechanicalRacingRaceEntity[] = [
         '一般戦',
         '優勝戦',
     ].map((stage, index) => {
-        return MechanicalRacingRaceEntity.createWithoutId(
+        return RaceEntity.createWithoutId(
             RaceData.create(
                 raceType,
                 `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
@@ -149,6 +150,8 @@ export const baseAutoraceRaceEntityList: MechanicalRacingRaceEntity[] = [
                 grade,
                 index + 1,
             ),
+            undefined, // heldDayDataは未設定
+            undefined, // conditionDataは未設定
             stage,
             [],
             baseAutoraceRaceUpdateDate,

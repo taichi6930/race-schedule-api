@@ -2,7 +2,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
@@ -37,16 +36,16 @@ describe('PublicGamblingRaceDataService', () => {
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
     let mechanicalRacingRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     let keirinRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     let boatraceRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     let autoraceRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     let service: IRaceDataService;
 

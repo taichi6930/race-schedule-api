@@ -58,8 +58,8 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({
-            jraPlaceRepositoryFromHtmlImpl,
             horseRacingPlaceRepositoryFromStorageImpl,
+            jraPlaceRepositoryFromHtmlImpl,
             narPlaceRepositoryFromHtmlImpl,
             keirinPlaceRepositoryFromHtmlImpl,
             boatracePlaceRepositoryFromHtmlImpl,

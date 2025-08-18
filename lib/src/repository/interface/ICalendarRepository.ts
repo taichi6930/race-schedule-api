@@ -1,6 +1,5 @@
 import type { CalendarData } from '../../domain/calendarData';
 import type { RaceType } from '../../utility/raceType';
-import type { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import type { RaceEntity } from '../entity/raceEntity';
 import type { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 
@@ -58,9 +57,7 @@ export interface ICalendarRepository {
      *               - APIのレート制限に到達
      *               - 認証/認可エラー
      */
-    upsertEvents: (
-        raceEntityList: RaceEntity[] | MechanicalRacingRaceEntity[],
-    ) => Promise<void>;
+    upsertEvents: (raceEntityList: RaceEntity[]) => Promise<void>;
 
     /**
      * 指定されたカレンダーイベントを一括削除します

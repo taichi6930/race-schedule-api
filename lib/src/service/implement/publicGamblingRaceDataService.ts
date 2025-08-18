@@ -2,7 +2,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import { IRaceEntity } from '../../repository/entity/iRaceEntity';
-import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
@@ -45,22 +44,22 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         >,
         @inject('KeirinRaceRepositoryFromHtml')
         protected keirinRaceRepositoryFromHtml: IRaceRepository<
-            MechanicalRacingRaceEntity,
+            RaceEntity,
             PlaceEntity
         >,
         @inject('AutoraceRaceRepositoryFromHtml')
         protected autoraceRaceRepositoryFromHtml: IRaceRepository<
-            MechanicalRacingRaceEntity,
+            RaceEntity,
             PlaceEntity
         >,
         @inject('BoatraceRaceRepositoryFromHtml')
         protected boatraceRaceRepositoryFromHtml: IRaceRepository<
-            MechanicalRacingRaceEntity,
+            RaceEntity,
             PlaceEntity
         >,
         @inject('MechanicalRacingRaceRepositoryFromStorage')
         protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepository<
-            MechanicalRacingRaceEntity,
+            RaceEntity,
             PlaceEntity
         >,
     ) {}
@@ -101,17 +100,17 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         [RaceType.JRA]: RaceEntity[];
         [RaceType.NAR]: RaceEntity[];
         [RaceType.OVERSEAS]: RaceEntity[];
-        [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
-        [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
-        [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
+        [RaceType.KEIRIN]: RaceEntity[];
+        [RaceType.AUTORACE]: RaceEntity[];
+        [RaceType.BOATRACE]: RaceEntity[];
     }> {
         const result: {
             [RaceType.JRA]: RaceEntity[];
             [RaceType.NAR]: RaceEntity[];
             [RaceType.OVERSEAS]: RaceEntity[];
-            [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
-            [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
-            [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
+            [RaceType.KEIRIN]: RaceEntity[];
+            [RaceType.AUTORACE]: RaceEntity[];
+            [RaceType.BOATRACE]: RaceEntity[];
         } = {
             [RaceType.JRA]: [],
             [RaceType.NAR]: [],
@@ -285,9 +284,9 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         [RaceType.JRA]?: RaceEntity[];
         [RaceType.NAR]?: RaceEntity[];
         [RaceType.OVERSEAS]?: RaceEntity[];
-        [RaceType.KEIRIN]?: MechanicalRacingRaceEntity[];
-        [RaceType.AUTORACE]?: MechanicalRacingRaceEntity[];
-        [RaceType.BOATRACE]?: MechanicalRacingRaceEntity[];
+        [RaceType.KEIRIN]?: RaceEntity[];
+        [RaceType.AUTORACE]?: RaceEntity[];
+        [RaceType.BOATRACE]?: RaceEntity[];
     }): Promise<{
         code: number;
         message: string;

@@ -1,4 +1,3 @@
-import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import type { RaceCourse } from '../../utility/data/common/raceCourse';
@@ -53,9 +52,9 @@ export interface IRaceDataUseCase {
         [RaceType.JRA]: RaceEntity[];
         [RaceType.NAR]: RaceEntity[];
         [RaceType.OVERSEAS]: RaceEntity[];
-        [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
-        [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
-        [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
+        [RaceType.KEIRIN]: RaceEntity[];
+        [RaceType.AUTORACE]: RaceEntity[];
+        [RaceType.BOATRACE]: RaceEntity[];
     }>;
 
     /**
