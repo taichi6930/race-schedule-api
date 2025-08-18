@@ -44,14 +44,7 @@ export interface IRaceDataService {
             [RaceType.AUTORACE]?: PlaceEntity[];
             [RaceType.BOATRACE]?: PlaceEntity[];
         },
-    ) => Promise<{
-        [RaceType.JRA]: RaceEntity[];
-        [RaceType.NAR]: RaceEntity[];
-        [RaceType.OVERSEAS]: RaceEntity[];
-        [RaceType.KEIRIN]: RaceEntity[];
-        [RaceType.AUTORACE]: RaceEntity[];
-        [RaceType.BOATRACE]: RaceEntity[];
-    }>;
+    ) => Promise<RaceEntity[]>;
 
     /**
      * レース開催データをStorageに保存/更新します

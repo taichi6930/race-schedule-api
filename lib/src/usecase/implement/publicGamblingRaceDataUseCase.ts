@@ -101,27 +101,45 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         // 共通フィルタ関数で簡潔に
         return {
             [RaceType.JRA]: this.filterRaceEntityList(
-                raceEntityList[RaceType.JRA],
+                raceEntityList.filter(
+                    (raceEntity) =>
+                        raceEntity.raceData.raceType === RaceType.JRA,
+                ),
                 searchList?.[RaceType.JRA],
             ),
             [RaceType.NAR]: this.filterRaceEntityList(
-                raceEntityList[RaceType.NAR],
+                raceEntityList.filter(
+                    (raceEntity) =>
+                        raceEntity.raceData.raceType === RaceType.NAR,
+                ),
                 searchList?.[RaceType.NAR],
             ),
             [RaceType.OVERSEAS]: this.filterRaceEntityList(
-                raceEntityList[RaceType.OVERSEAS],
+                raceEntityList.filter(
+                    (raceEntity) =>
+                        raceEntity.raceData.raceType === RaceType.OVERSEAS,
+                ),
                 searchList?.[RaceType.OVERSEAS],
             ),
             [RaceType.KEIRIN]: this.filterRaceEntityList(
-                raceEntityList[RaceType.KEIRIN],
+                raceEntityList.filter(
+                    (raceEntity) =>
+                        raceEntity.raceData.raceType === RaceType.KEIRIN,
+                ),
                 searchList?.[RaceType.KEIRIN],
             ),
             [RaceType.AUTORACE]: this.filterRaceEntityList(
-                raceEntityList[RaceType.AUTORACE],
+                raceEntityList.filter(
+                    (raceEntity) =>
+                        raceEntity.raceData.raceType === RaceType.AUTORACE,
+                ),
                 searchList?.[RaceType.AUTORACE],
             ),
             [RaceType.BOATRACE]: this.filterRaceEntityList(
-                raceEntityList[RaceType.BOATRACE],
+                raceEntityList.filter(
+                    (raceEntity) =>
+                        raceEntity.raceData.raceType === RaceType.BOATRACE,
+                ),
                 searchList?.[RaceType.BOATRACE],
             ),
         };
@@ -247,20 +265,34 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         );
 
         await this.raceDataService.updateRaceEntityList({
-            [RaceType.JRA]: raceEntityList[RaceType.JRA],
-            [RaceType.NAR]: raceEntityList[RaceType.NAR],
-            [RaceType.OVERSEAS]: raceEntityList[RaceType.OVERSEAS],
-            [RaceType.KEIRIN]: raceEntityList[RaceType.KEIRIN],
-            [RaceType.AUTORACE]: raceEntityList[RaceType.AUTORACE],
-            [RaceType.BOATRACE]: raceEntityList[RaceType.BOATRACE],
+            [RaceType.JRA]: raceEntityList.filter(
+                (raceEntity) => raceEntity.raceData.raceType === RaceType.JRA,
+            ),
+            [RaceType.NAR]: raceEntityList.filter(
+                (raceEntity) => raceEntity.raceData.raceType === RaceType.NAR,
+            ),
+            [RaceType.OVERSEAS]: raceEntityList.filter(
+                (raceEntity) =>
+                    raceEntity.raceData.raceType === RaceType.OVERSEAS,
+            ),
+            [RaceType.KEIRIN]: raceEntityList.filter(
+                (raceEntity) =>
+                    raceEntity.raceData.raceType === RaceType.KEIRIN,
+            ),
+            [RaceType.AUTORACE]: raceEntityList.filter(
+                (raceEntity) =>
+                    raceEntity.raceData.raceType === RaceType.AUTORACE,
+            ),
+            [RaceType.BOATRACE]: raceEntityList.filter(
+                (raceEntity) =>
+                    raceEntity.raceData.raceType === RaceType.BOATRACE,
+            ),
         });
 
         return {
             code: 200,
             message: 'レースデータの更新が完了しました。',
-            successDataCount: Object.values(raceEntityList)
-                .map((list) => list.length)
-                .reduce((acc, cur) => acc + cur, 0),
+            successDataCount: raceEntityList.length,
             failureDataCount: 0,
         };
     }

@@ -8,7 +8,7 @@ import { RaceEntity } from '../../repository/entity/raceEntity';
 import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';
-import { ALL_RACE_TYPE_LIST, RaceType } from '../../utility/raceType';
+import { RaceType } from '../../utility/raceType';
 import { ICalendarService } from '../interface/ICalendarService';
 
 /**
@@ -82,20 +82,8 @@ export class PublicGamblingCalendarService implements ICalendarService {
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     @Logger
-    public async upsertEvents(raceEntityList: {
-        [RaceType.JRA]: RaceEntity[];
-        [RaceType.NAR]: RaceEntity[];
-        [RaceType.OVERSEAS]: RaceEntity[];
-        [RaceType.KEIRIN]: RaceEntity[];
-        [RaceType.AUTORACE]: RaceEntity[];
-        [RaceType.BOATRACE]: RaceEntity[];
-    }): Promise<void> {
-        const raceTypeList = ALL_RACE_TYPE_LIST;
-        for (const raceType of raceTypeList) {
-            await this.calendarRepository.upsertEvents(
-                raceEntityList[raceType],
-            );
-        }
+    public async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
+        await this.calendarRepository.upsertEvents(raceEntityList);
     }
 
     /**

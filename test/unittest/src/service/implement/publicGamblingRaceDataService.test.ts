@@ -122,14 +122,14 @@ describe('PublicGamblingRaceDataService', () => {
                 ALL_RACE_TYPE_LIST,
                 DataLocation.Storage,
             );
-            expect(result).toEqual({
-                [RaceType.JRA]: baseJraRaceEntityList,
-                [RaceType.NAR]: baseNarRaceEntityList,
-                [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
-                [RaceType.KEIRIN]: baseKeirinRaceEntityList,
-                [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
-                [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
-            });
+            expect(result).toEqual([
+                ...baseJraRaceEntityList,
+                ...baseNarRaceEntityList,
+                ...baseOverseasRaceEntityList,
+                ...baseKeirinRaceEntityList,
+                ...baseAutoraceRaceEntityList,
+                ...baseBoatraceRaceEntityList,
+            ]);
         });
 
         it('正常にレース開催データが取得できること（web）', async () => {
@@ -163,14 +163,14 @@ describe('PublicGamblingRaceDataService', () => {
                 DataLocation.Web,
             );
 
-            expect(result).toEqual({
-                [RaceType.JRA]: baseJraRaceEntityList,
-                [RaceType.NAR]: baseNarRaceEntityList,
-                [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
-                [RaceType.KEIRIN]: baseKeirinRaceEntityList,
-                [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
-                [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
-            });
+            expect(result).toEqual([
+                ...baseJraRaceEntityList,
+                ...baseNarRaceEntityList,
+                ...baseOverseasRaceEntityList,
+                ...baseKeirinRaceEntityList,
+                ...baseAutoraceRaceEntityList,
+                ...baseBoatraceRaceEntityList,
+            ]);
         });
 
         it('レース開催データが取得できない場合、エラーが発生すること', async () => {
