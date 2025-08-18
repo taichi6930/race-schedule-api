@@ -210,108 +210,81 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 failureDataCount: 0,
             };
         try {
-            const jraRes =
-                placeEntityList[RaceType.JRA].length > 0
-                    ? await this.jraPlaceRepositoryFromStorage.registerPlaceEntityList(
-                          RaceType.JRA,
-                          placeEntityList[RaceType.JRA],
-                      )
-                    : {
-                          code: 200,
-                          message: '新規データがないため、保存しませんでした',
-                          successData: [],
-                          failureData: [],
-                      };
-            const narRes =
-                placeEntityList[RaceType.NAR].length > 0
-                    ? await this.placeRepositoryFromStorage.registerPlaceEntityList(
-                          RaceType.NAR,
-                          placeEntityList[RaceType.NAR],
-                      )
-                    : {
-                          code: 200,
-                          message: '新規データがないため、保存しませんでした',
-                          successData: [],
-                          failureData: [],
-                      };
-
-            const keirinRes =
-                placeEntityList[RaceType.KEIRIN].length > 0
-                    ? await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
-                          RaceType.KEIRIN,
-                          placeEntityList[RaceType.KEIRIN].filter(
-                              (item) =>
-                                  item.placeData.raceType === RaceType.KEIRIN,
-                          ),
-                      )
-                    : {
-                          code: 200,
-                          message: '新規データがないため、保存しませんでした',
-                          successData: [],
-                          failureData: [],
-                      };
-
-            const autoraceRes =
-                placeEntityList[RaceType.AUTORACE].length > 0
-                    ? await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
-                          RaceType.AUTORACE,
-                          placeEntityList[RaceType.AUTORACE].filter(
-                              (item) =>
-                                  item.placeData.raceType === RaceType.AUTORACE,
-                          ),
-                      )
-                    : {
-                          code: 200,
-                          message: '新規データがないため、保存しませんでした',
-                          successData: [],
-                          failureData: [],
-                      };
-
-            const boatraceRes =
-                placeEntityList[RaceType.BOATRACE].length > 0
-                    ? await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
-                          RaceType.BOATRACE,
-                          placeEntityList[RaceType.BOATRACE].filter(
-                              (item) =>
-                                  item.placeData.raceType === RaceType.BOATRACE,
-                          ),
-                      )
-                    : {
-                          code: 200,
-                          message: '新規データがないため、保存しませんでした',
-                          successData: [],
-                          failureData: [],
-                      };
+            const response = {
+                [RaceType.JRA]:
+                    await this.jraPlaceRepositoryFromStorage.registerPlaceEntityList(
+                        RaceType.JRA,
+                        placeEntityList[RaceType.JRA].filter(
+                            (item) => item.placeData.raceType === RaceType.JRA,
+                        ),
+                    ),
+                [RaceType.NAR]:
+                    await this.placeRepositoryFromStorage.registerPlaceEntityList(
+                        RaceType.NAR,
+                        placeEntityList[RaceType.NAR].filter(
+                            (item) => item.placeData.raceType === RaceType.NAR,
+                        ),
+                    ),
+                [RaceType.OVERSEAS]: {
+                    code: 200,
+                    successData: [],
+                    failureData: [],
+                },
+                [RaceType.KEIRIN]:
+                    await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
+                        RaceType.KEIRIN,
+                        placeEntityList[RaceType.KEIRIN].filter(
+                            (item) =>
+                                item.placeData.raceType === RaceType.KEIRIN,
+                        ),
+                    ),
+                [RaceType.AUTORACE]:
+                    await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
+                        RaceType.AUTORACE,
+                        placeEntityList[RaceType.AUTORACE].filter(
+                            (item) =>
+                                item.placeData.raceType === RaceType.AUTORACE,
+                        ),
+                    ),
+                [RaceType.BOATRACE]:
+                    await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
+                        RaceType.BOATRACE,
+                        placeEntityList[RaceType.BOATRACE].filter(
+                            (item) =>
+                                item.placeData.raceType === RaceType.BOATRACE,
+                        ),
+                    ),
+            };
 
             return {
                 code:
-                    jraRes.code === 200 &&
-                    narRes.code === 200 &&
-                    keirinRes.code === 200 &&
-                    autoraceRes.code === 200 &&
-                    boatraceRes.code === 200
+                    response[RaceType.JRA].code === 200 &&
+                    response[RaceType.NAR].code === 200 &&
+                    response[RaceType.KEIRIN].code === 200 &&
+                    response[RaceType.AUTORACE].code === 200 &&
+                    response[RaceType.BOATRACE].code === 200
                         ? 200
                         : 500,
                 message:
-                    jraRes.code === 200 &&
-                    narRes.code === 200 &&
-                    keirinRes.code === 200 &&
-                    autoraceRes.code === 200 &&
-                    boatraceRes.code === 200
+                    response[RaceType.JRA].code === 200 &&
+                    response[RaceType.NAR].code === 200 &&
+                    response[RaceType.KEIRIN].code === 200 &&
+                    response[RaceType.AUTORACE].code === 200 &&
+                    response[RaceType.BOATRACE].code === 200
                         ? '保存に成功しました'
                         : '一部のデータの保存に失敗しました',
                 successDataCount:
-                    jraRes.successData.length +
-                    narRes.successData.length +
-                    keirinRes.successData.length +
-                    autoraceRes.successData.length +
-                    boatraceRes.successData.length,
+                    response[RaceType.JRA].successData.length +
+                    response[RaceType.NAR].successData.length +
+                    response[RaceType.KEIRIN].successData.length +
+                    response[RaceType.AUTORACE].successData.length +
+                    response[RaceType.BOATRACE].successData.length,
                 failureDataCount:
-                    jraRes.failureData.length +
-                    narRes.failureData.length +
-                    keirinRes.failureData.length +
-                    autoraceRes.failureData.length +
-                    boatraceRes.failureData.length,
+                    response[RaceType.JRA].failureData.length +
+                    response[RaceType.NAR].failureData.length +
+                    response[RaceType.KEIRIN].failureData.length +
+                    response[RaceType.AUTORACE].failureData.length +
+                    response[RaceType.BOATRACE].failureData.length,
             };
         } catch (error) {
             console.error('開催場データの保存/更新に失敗しました', error);
