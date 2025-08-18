@@ -6,7 +6,10 @@ import type { IPlaceDataService } from '../../../../../lib/src/service/interface
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingRaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingRaceDataUseCase';
 import type { IRaceDataUseCase } from '../../../../../lib/src/usecase/interface/IRaceDataUseCase';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    ALL_RACE_TYPE_LIST,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 import {
     clearMocks,
     setupTestMock,
@@ -836,14 +839,11 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
             });
 
-            await useCase.updateRaceEntityList(startDate, finishDate, [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.OVERSEAS,
-                RaceType.KEIRIN,
-                RaceType.BOATRACE,
-                RaceType.AUTORACE,
-            ]);
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                ALL_RACE_TYPE_LIST,
+            );
 
             expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
             expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();

@@ -10,7 +10,10 @@ import type { IRaceDataService } from '../../../../../lib/src/service/interface/
 import { PublicGamblingCalendarUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingCalendarUseCase';
 import type { IRaceCalendarUseCase } from '../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
 import { SpecifiedGradeList } from '../../../../../lib/src/utility/data/common/gradeType';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    ALL_RACE_TYPE_LIST,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
 import {
@@ -66,27 +69,13 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             const result = await useCase.fetchRacesFromCalendar(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.OVERSEAS,
-                    RaceType.KEIRIN,
-                    RaceType.BOATRACE,
-                    RaceType.AUTORACE,
-                ],
+                ALL_RACE_TYPE_LIST,
             );
 
             expect(calendarService.fetchEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.OVERSEAS,
-                    RaceType.KEIRIN,
-                    RaceType.BOATRACE,
-                    RaceType.AUTORACE,
-                ],
+                ALL_RACE_TYPE_LIST,
             );
             expect(result).toEqual(mockCalendarData);
         });
@@ -218,14 +207,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         await useCase.updateRacesToCalendar(
             startDate,
             finishDate,
-            [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.OVERSEAS,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ],
+            ALL_RACE_TYPE_LIST,
             {
                 [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
                 [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),
@@ -240,14 +222,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         expect(calendarService.fetchEvents).toHaveBeenCalledWith(
             startDate,
             finishDate,
-            [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.OVERSEAS,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ],
+            ALL_RACE_TYPE_LIST,
         );
 
         // deleteEventsが呼び出された回数を確認

@@ -9,7 +9,10 @@ import type { IRaceRepository } from '../../../../../lib/src/repository/interfac
 import { PublicGamblingRaceDataService } from '../../../../../lib/src/service/implement/publicGamblingRaceDataService';
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    ALL_RACE_TYPE_LIST,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
@@ -116,14 +119,7 @@ describe('PublicGamblingRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.OVERSEAS,
-                    RaceType.KEIRIN,
-                    RaceType.BOATRACE,
-                    RaceType.AUTORACE,
-                ],
+                ALL_RACE_TYPE_LIST,
                 DataLocation.Storage,
             );
             expect(result).toEqual({
@@ -163,14 +159,7 @@ describe('PublicGamblingRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.OVERSEAS,
-                    RaceType.KEIRIN,
-                    RaceType.BOATRACE,
-                    RaceType.AUTORACE,
-                ],
+                ALL_RACE_TYPE_LIST,
                 DataLocation.Web,
             );
 
@@ -200,14 +189,7 @@ describe('PublicGamblingRaceDataService', () => {
             await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.OVERSEAS,
-                    RaceType.KEIRIN,
-                    RaceType.BOATRACE,
-                    RaceType.AUTORACE,
-                ],
+                ALL_RACE_TYPE_LIST,
                 DataLocation.Storage,
             );
 

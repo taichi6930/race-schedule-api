@@ -54,9 +54,9 @@ describe('PlaceRepositoryFromStorageImpl', () => {
             for (const raceType of [
                 RaceType.JRA,
                 RaceType.NAR,
-                // RaceType.KEIRIN,
-                // RaceType.AUTORACE,
-                // RaceType.BOATRACE,
+                RaceType.KEIRIN,
+                RaceType.AUTORACE,
+                RaceType.BOATRACE,
             ]) {
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(

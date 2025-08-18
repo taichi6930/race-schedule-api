@@ -12,7 +12,7 @@ import { GradeType } from '../../utility/data/common/gradeType';
 import { RaceGradeAndStageList } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import { ALL_RACE_TYPE_LIST, RaceType } from '../../utility/raceType';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
 /**
@@ -210,14 +210,11 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 );
             }),
         };
-        await this.calendarService.deleteEvents([
-            ...deleteCalendarDataList[RaceType.JRA],
-            ...deleteCalendarDataList[RaceType.NAR],
-            ...deleteCalendarDataList[RaceType.OVERSEAS],
-            ...deleteCalendarDataList[RaceType.KEIRIN],
-            ...deleteCalendarDataList[RaceType.AUTORACE],
-            ...deleteCalendarDataList[RaceType.BOATRACE],
-        ]);
+        await this.calendarService.deleteEvents(
+            ALL_RACE_TYPE_LIST.flatMap(
+                (raceType) => deleteCalendarDataList[raceType],
+            ),
+        );
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList = {

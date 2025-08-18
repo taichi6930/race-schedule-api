@@ -6,7 +6,10 @@ import type { ICalendarGateway } from '../../../../../lib/src/gateway/interface/
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { GoogleCalendarRepository } from '../../../../../lib/src/repository/implement/googleCalendarRepository';
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    ALL_RACE_TYPE_LIST,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 import {
     baseAutoraceCalendarData,
     baseAutoraceCalendarDataFromGoogleCalendar,
@@ -91,14 +94,7 @@ describe('GoogleCalendarRepository', () => {
             new Date('2023-12-31'),
         );
         const calendarDataList = await repository.getEvents(
-            [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.OVERSEAS,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ],
+            ALL_RACE_TYPE_LIST,
             searchFilter,
         );
 
@@ -129,14 +125,7 @@ describe('GoogleCalendarRepository', () => {
             new Date('2023-12-31'),
         );
         const calendarDataList = await repository.getEvents(
-            [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.OVERSEAS,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ],
+            ALL_RACE_TYPE_LIST,
             searchFilter,
         );
 

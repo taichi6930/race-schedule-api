@@ -66,11 +66,6 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
-            [RaceType.BOATRACE]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-                stageList?: RaceStage[];
-            };
         },
     ): Promise<{
         [RaceType.JRA]: RaceEntity[];

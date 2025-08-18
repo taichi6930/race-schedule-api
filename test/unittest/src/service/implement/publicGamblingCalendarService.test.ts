@@ -7,7 +7,10 @@ import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/en
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    ALL_RACE_TYPE_LIST,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
@@ -62,24 +65,14 @@ describe('PublicGamblingCalendarService', () => {
                 baseAutoraceCalendarData,
             ];
 
-            const result = await service.fetchEvents(startDate, finishDate, [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.OVERSEAS,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ]);
+            const result = await service.fetchEvents(
+                startDate,
+                finishDate,
+                ALL_RACE_TYPE_LIST,
+            );
 
             expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.OVERSEAS,
-                    RaceType.KEIRIN,
-                    RaceType.AUTORACE,
-                    RaceType.BOATRACE,
-                ],
+                ALL_RACE_TYPE_LIST,
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
             expect(result).toEqual(calendarDataList);

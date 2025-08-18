@@ -8,7 +8,7 @@ import { RaceEntity } from '../../repository/entity/raceEntity';
 import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import { ALL_RACE_TYPE_LIST, RaceType } from '../../utility/raceType';
 import { ICalendarService } from '../interface/ICalendarService';
 
 /**
@@ -78,11 +78,6 @@ export class PublicGamblingCalendarService implements ICalendarService {
      * 空の配列が渡された場合は早期リターンし、不要な
      * API呼び出しを防止します。
      * @param raceEntityList - 登録・更新するレースエンティティの配列
-     * @param raceEntityList.jra
-     * @param raceEntityList.nar
-     * @param raceEntityList.overseas
-     * @param raceEntityList.mechanicalRacing
-     * @param raceEntityList.horseRacing
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
@@ -95,14 +90,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         [RaceType.AUTORACE]: RaceEntity[];
         [RaceType.BOATRACE]: RaceEntity[];
     }): Promise<void> {
-        const raceTypeList = [
-            RaceType.JRA,
-            RaceType.NAR,
-            RaceType.OVERSEAS,
-            RaceType.KEIRIN,
-            RaceType.AUTORACE,
-            RaceType.BOATRACE,
-        ];
+        const raceTypeList = ALL_RACE_TYPE_LIST;
         for (const raceType of raceTypeList) {
             await this.calendarRepository.upsertEvents(
                 raceEntityList[raceType],
