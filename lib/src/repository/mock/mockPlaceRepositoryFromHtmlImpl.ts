@@ -11,7 +11,7 @@ export class MockPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<PlaceEntity>
 {
     /**
-     * 地方競馬場データを取得する
+     * 場データを取得する
      * @param searchFilter
      */
     @Logger
@@ -82,7 +82,7 @@ export class MockPlaceRepositoryFromHtmlImpl
         [RaceType.JRA]: undefined,
         [RaceType.NAR]: undefined,
         [RaceType.OVERSEAS]: undefined,
-        [RaceType.KEIRIN]: 'GP',
+        [RaceType.KEIRIN]: 'GⅠ',
         [RaceType.AUTORACE]: 'SG',
         [RaceType.BOATRACE]: 'SG',
     };
