@@ -7,10 +7,9 @@
  * | 2   | raceDataのみ変更してcopy                                                   | raceDataのみ変更したcopyを呼ぶ                                                               | raceDataのみ変更され、他は元の値                       |
  * | 3   | racePlayerDataListのみ変更してcopy                                         | racePlayerDataListのみ変更したcopyを呼ぶ                                                     | racePlayerDataListのみ変更され、他は元の値              |
  * | 4   | 何も変更せずcopy                                                          | copy()を引数なしで呼ぶ                                                                       | 全プロパティが元のインスタンスと同じ                    |
- * | 5   | toRaceRecordでレコード変換                                                 | toRaceRecord()を呼ぶ                                                                         | MechanicalRacingRaceRecord.createが正しく呼ばれる       |
- * | 6   | toPlayerRecordListでレコードリスト変換                                     | toPlayerRecordList()を呼ぶ                                                                   | RacePlayerRecord.createが正しく呼ばれる                 |
- * | 7   | createでバリデーションエラー（id, updateDateの各パターン）                 | 不正なid/updateDateを渡してcreateを呼ぶ                                                      | それぞれ例外がthrowされる                              |
- * | 8   | createWithoutIdでid自動生成                                                | createWithoutIdを呼ぶ                                                                        | idが自動生成され、他プロパティも正しくセット            |
+ * | 5   | toPlayerRecordListでレコードリスト変換                                     | toPlayerRecordList()を呼ぶ                                                                   | RacePlayerRecord.createが正しく呼ばれる                 |
+ * | 6   | createでバリデーションエラー（id, updateDateの各パターン）                 | 不正なid/updateDateを渡してcreateを呼ぶ                                                      | それぞれ例外がthrowされる                              |
+ * | 7   | createWithoutIdでid自動生成                                                | createWithoutIdを呼ぶ                                                                        | idが自動生成され、他プロパティも正しくセット            |
  */
 
 import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
@@ -19,7 +18,6 @@ import {
     baseAutoraceRaceEntity,
     baseAutoraceRaceId,
     baseAutoraceRacePlayerDataList,
-    baseAutoraceRaceRecord,
     baseAutoraceRaceStage,
     baseAutoraceRaceUpdateDate,
 } from '../../mock/common/baseAutoraceData';
@@ -69,11 +67,6 @@ describe('MechanicalRacingRaceEntity', () => {
         expect(copied.stage).toBe(entity.stage);
         expect(copied.racePlayerDataList).toBe(entity.racePlayerDataList);
         expect(copied.updateDate).toBe(entity.updateDate);
-    });
-
-    it('toRaceRecordでレコード変換', () => {
-        const entity = baseAutoraceRaceEntity;
-        expect(entity.toRaceRecord()).toEqual(baseAutoraceRaceRecord);
     });
 
     it('toPlayerRecordListでレコードリスト変換', () => {

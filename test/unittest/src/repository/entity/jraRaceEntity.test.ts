@@ -1,7 +1,6 @@
 import {
     baseJraRaceData,
     baseJraRaceEntity,
-    baseJraRaceRecord,
 } from '../../mock/common/baseJraData';
 
 describe('JraRaceEntityクラスのテスト', () => {
@@ -30,12 +29,5 @@ describe('JraRaceEntityクラスのテスト', () => {
         const { raceData } = raceEntity;
         // インスタンスが変更されていないか確認
         expect(raceData).toEqual(baseJraRaceData);
-    });
-
-    it('JraRaceEntityのインスタンスをJraRaceRecordに変換できることを確認', () => {
-        const raceEntity = baseJraRaceEntity;
-        const raceRecord = raceEntity.toRaceRecord();
-        // JraRaceRecordが正しいか確認
-        expect(raceRecord).toEqual(baseJraRaceRecord);
     });
 });

@@ -2,7 +2,6 @@ import '../../utility/format';
 
 import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
-import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import {
     generateRaceId,
@@ -105,23 +104,6 @@ export class MechanicalRacingRaceEntity
             partial.stage ?? this.stage,
             partial.racePlayerDataList ?? this.racePlayerDataList,
             partial.updateDate ?? this.updateDate,
-        );
-    }
-
-    /**
-     * RaceRecordに変換する
-     */
-    public toRaceRecord(): MechanicalRacingRaceRecord {
-        return MechanicalRacingRaceRecord.create(
-            this.id,
-            this.raceData.raceType,
-            this.raceData.name,
-            this.stage,
-            this.raceData.dateTime,
-            this.raceData.location,
-            this.raceData.grade,
-            this.raceData.number,
-            this.updateDate,
         );
     }
 

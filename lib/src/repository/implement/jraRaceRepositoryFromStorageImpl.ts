@@ -265,7 +265,19 @@ export class JraRaceRepositoryFromStorageImpl
 
             // RaceEntityをRaceRecordに変換する
             const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(
-                (raceEntity) => raceEntity.toRaceRecord(),
+                (raceEntity) =>
+                    HorseRacingRaceRecord.create(
+                        raceEntity.id,
+                        raceEntity.raceData.raceType,
+                        raceEntity.raceData.name,
+                        raceEntity.raceData.dateTime,
+                        raceEntity.raceData.location,
+                        raceEntity.conditionData.surfaceType,
+                        raceEntity.conditionData.distance,
+                        raceEntity.raceData.grade,
+                        raceEntity.raceData.number,
+                        raceEntity.updateDate,
+                    ),
             );
 
             // idが重複しているデータは上書きをし、新規のデータは追加する

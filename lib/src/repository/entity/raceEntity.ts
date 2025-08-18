@@ -4,7 +4,6 @@ import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
-import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
 import {
     generateRaceId,
@@ -227,23 +226,5 @@ export class RaceEntity implements IRaceEntity<RaceEntity> {
             throw new Error('racePlayerDataList is missing for this race type');
         }
         return this._racePlayerDataList;
-    }
-
-    /**
-     * JraRaceRecordに変換する
-     */
-    public toRaceRecord(): HorseRacingRaceRecord {
-        return HorseRacingRaceRecord.create(
-            this.id,
-            this.raceData.raceType,
-            this.raceData.name,
-            this.raceData.dateTime,
-            this.raceData.location,
-            this.conditionData.surfaceType,
-            this.conditionData.distance,
-            this.raceData.grade,
-            this.raceData.number,
-            this.updateDate,
-        );
     }
 }

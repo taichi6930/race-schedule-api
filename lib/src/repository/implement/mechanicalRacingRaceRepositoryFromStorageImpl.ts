@@ -120,7 +120,19 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
 
             // RaceEntityをRaceRecordに変換する
             const raceRecordList: MechanicalRacingRaceRecord[] =
-                raceEntityList.map((raceEntity) => raceEntity.toRaceRecord());
+                raceEntityList.map((raceEntity) =>
+                    MechanicalRacingRaceRecord.create(
+                        raceEntity.id,
+                        raceEntity.raceData.raceType,
+                        raceEntity.raceData.name,
+                        raceEntity.stage,
+                        raceEntity.raceData.dateTime,
+                        raceEntity.raceData.location,
+                        raceEntity.raceData.grade,
+                        raceEntity.raceData.number,
+                        raceEntity.updateDate,
+                    ),
+                );
 
             // RaceEntityをRacePlayerRecordに変換する
             const racePlayerRecordList = raceEntityList.flatMap((raceEntity) =>

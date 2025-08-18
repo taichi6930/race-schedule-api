@@ -174,7 +174,19 @@ export class HorseRacingRaceRepositoryFromStorageImpl
 
             // RaceEntityをRaceRecordに変換する
             const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(
-                (raceEntity) => raceEntity.toRaceRecord(),
+                (raceEntity) =>
+                    HorseRacingRaceRecord.create(
+                        raceEntity.id,
+                        raceEntity.raceData.raceType,
+                        raceEntity.raceData.name,
+                        raceEntity.raceData.dateTime,
+                        raceEntity.raceData.location,
+                        raceEntity.conditionData.surfaceType,
+                        raceEntity.conditionData.distance,
+                        raceEntity.raceData.grade,
+                        raceEntity.raceData.number,
+                        raceEntity.updateDate,
+                    ),
             );
 
             // idをキーとしたMapを作成し、既存データを上書きまたは追加する

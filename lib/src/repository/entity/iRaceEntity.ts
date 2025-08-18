@@ -43,13 +43,4 @@ export interface IRaceEntity<T extends IRaceEntity<T>> {
      * ```
      */
     copy: (partial: Partial<T>) => T;
-
-    /**
-     * エンティティをストレージ用のRecord形式に変換します
-     *
-     * このメソッドは、エンティティをデータベースやファイルに
-     * 保存する際のフォーマットに変換します。
-     * @returns ストレージ用のプレーンオブジェクト
-     */
-    toRaceRecord: () => object;
 }
