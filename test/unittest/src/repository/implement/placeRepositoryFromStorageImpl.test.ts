@@ -77,6 +77,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
             for (const raceType of [
                 RaceType.JRA,
                 RaceType.NAR,
+                RaceType.OVERSEAS,
                 RaceType.KEIRIN,
                 RaceType.AUTORACE,
                 RaceType.BOATRACE,
@@ -96,7 +97,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
                 });
             }
 
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(9);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(10);
         });
     });
 

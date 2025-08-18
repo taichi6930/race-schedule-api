@@ -5,7 +5,10 @@ import { container } from 'tsyringe';
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
 import { PublicGamblingPlaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingPlaceDataUseCase';
 import type { IPlaceDataUseCase } from '../../../../../lib/src/usecase/interface/IPlaceDataUseCase';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    ALL_RACE_TYPE_LIST,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
 import {
@@ -94,13 +97,11 @@ describe('PublicGamblingPlaceUseCase', () => {
                 baseBoatracePlaceEntity,
             ]);
 
-            await useCase.updatePlaceDataList(startDate, finishDate, [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ]);
+            await useCase.updatePlaceDataList(
+                startDate,
+                finishDate,
+                ALL_RACE_TYPE_LIST,
+            );
 
             expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
             expect(placeDataService.updatePlaceEntityList).toHaveBeenCalled();

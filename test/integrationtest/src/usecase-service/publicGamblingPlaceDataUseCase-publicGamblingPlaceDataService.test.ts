@@ -8,7 +8,10 @@ import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/impl
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import { PublicGamblingPlaceDataUseCase } from '../../../../lib/src/usecase/implement/publicGamblingPlaceDataUseCase';
 import type { IPlaceDataUseCase } from '../../../../lib/src/usecase/interface/IPlaceDataUseCase';
-import { RaceType } from '../../../../lib/src/utility/raceType';
+import {
+    ALL_RACE_TYPE_LIST,
+    RaceType,
+} from '../../../../lib/src/utility/raceType';
 import {
     baseAutoracePlaceData,
     baseAutoracePlaceEntity,
@@ -112,13 +115,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             const result = await useCase.fetchPlaceDataList(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.KEIRIN,
-                    RaceType.AUTORACE,
-                    RaceType.BOATRACE,
-                ],
+                ALL_RACE_TYPE_LIST,
             );
 
             expect(result).toEqual([
@@ -189,13 +186,11 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            await useCase.updatePlaceDataList(startDate, finishDate, [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ]);
+            await useCase.updatePlaceDataList(
+                startDate,
+                finishDate,
+                ALL_RACE_TYPE_LIST,
+            );
 
             expect(
                 placeRepositoryFromStorageImpl.registerPlaceEntityList,
