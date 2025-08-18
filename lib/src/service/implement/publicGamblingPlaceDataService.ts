@@ -16,8 +16,6 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     public constructor(
         @inject('PlaceRepositoryFromStorage')
         protected placeRepositoryFromStorage: IPlaceRepository<PlaceEntity>,
-        @inject('MechanicalRacingPlaceRepositoryFromStorage')
-        protected mechanicalRacingPlaceRepositoryFromStorage: IPlaceRepository<PlaceEntity>,
         @inject('JraPlaceRepositoryFromHtml')
         protected jraPlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
         @inject('NarPlaceRepositoryFromHtml')
@@ -116,7 +114,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 const raceType = RaceType.KEIRIN;
                 const placeEntityList: PlaceEntity[] = await (
                     type === DataLocation.Storage
-                        ? this.mechanicalRacingPlaceRepositoryFromStorage
+                        ? this.placeRepositoryFromStorage
                         : this.keirinPlaceRepositoryFromHtml
                 ).fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
@@ -131,7 +129,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 const raceType = RaceType.AUTORACE;
                 const placeEntityList: PlaceEntity[] = await (
                     type === DataLocation.Storage
-                        ? this.mechanicalRacingPlaceRepositoryFromStorage
+                        ? this.placeRepositoryFromStorage
                         : this.autoracePlaceRepositoryFromHtml
                 ).fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
@@ -146,7 +144,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 const raceType = RaceType.BOATRACE;
                 const placeEntityList: PlaceEntity[] = await (
                     type === DataLocation.Storage
-                        ? this.mechanicalRacingPlaceRepositoryFromStorage
+                        ? this.placeRepositoryFromStorage
                         : this.boatracePlaceRepositoryFromHtml
                 ).fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
@@ -222,7 +220,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                     failureData: [],
                 },
                 [RaceType.KEIRIN]:
-                    await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
+                    await this.placeRepositoryFromStorage.registerPlaceEntityList(
                         RaceType.KEIRIN,
                         placeEntityList[RaceType.KEIRIN].filter(
                             (item) =>
@@ -230,7 +228,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                         ),
                     ),
                 [RaceType.AUTORACE]:
-                    await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
+                    await this.placeRepositoryFromStorage.registerPlaceEntityList(
                         RaceType.AUTORACE,
                         placeEntityList[RaceType.AUTORACE].filter(
                             (item) =>
@@ -238,7 +236,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                         ),
                     ),
                 [RaceType.BOATRACE]:
-                    await this.mechanicalRacingPlaceRepositoryFromStorage.registerPlaceEntityList(
+                    await this.placeRepositoryFromStorage.registerPlaceEntityList(
                         RaceType.BOATRACE,
                         placeEntityList[RaceType.BOATRACE].filter(
                             (item) =>

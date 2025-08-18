@@ -41,9 +41,6 @@ export interface TestSetup {
         IPlaceRepository<PlaceEntity>
     >;
     narPlaceRepositoryFromHtmlImpl: jest.Mocked<IPlaceRepository<PlaceEntity>>;
-    mechanicalRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<PlaceEntity>
-    >;
     keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<PlaceEntity>
     >;
@@ -208,12 +205,6 @@ export function setupTestMock(): TestSetup {
         'AutoracePlaceRepositoryFromHtml',
         autoracePlaceRepositoryFromHtmlImpl,
     );
-    const mechanicalRacingPlaceRepositoryFromStorageImpl =
-        mockPlaceRepository<PlaceEntity>();
-    container.registerInstance<IPlaceRepository<PlaceEntity>>(
-        'MechanicalRacingPlaceRepositoryFromStorage',
-        mechanicalRacingPlaceRepositoryFromStorageImpl,
-    );
     const calendarService = calendarServiceMock();
     container.registerInstance<ICalendarService>(
         'PublicGamblingCalendarService',
@@ -241,7 +232,6 @@ export function setupTestMock(): TestSetup {
         jraPlaceRepositoryFromHtmlImpl,
         horseRacingPlaceRepositoryFromStorageImpl,
         narPlaceRepositoryFromHtmlImpl,
-        mechanicalRacingPlaceRepositoryFromStorageImpl,
         keirinPlaceRepositoryFromHtmlImpl,
         boatracePlaceRepositoryFromHtmlImpl,
         autoracePlaceRepositoryFromHtmlImpl,
