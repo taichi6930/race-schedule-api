@@ -19,7 +19,7 @@ export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
     ): Promise<RaceEntity[]> {
         const { placeEntityList, raceType } = searchFilter;
         const raceEntityList: RaceEntity[] = [];
-        for (const placeEntity of placeEntityList ?? []) {
+        for (const placeEntity of placeEntityList) {
             const { placeData, grade } = placeEntity;
             const { location, dateTime } = placeData;
             // 1から12までのレースを作成

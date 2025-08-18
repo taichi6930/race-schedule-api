@@ -36,14 +36,7 @@ export interface IRaceDataService {
         finishDate: Date,
         raceTypeList: RaceType[],
         type: DataLocationType,
-        placeEntityList?: {
-            [RaceType.JRA]?: PlaceEntity[];
-            [RaceType.NAR]?: PlaceEntity[];
-            [RaceType.OVERSEAS]?: PlaceEntity[];
-            [RaceType.KEIRIN]?: PlaceEntity[];
-            [RaceType.AUTORACE]?: PlaceEntity[];
-            [RaceType.BOATRACE]?: PlaceEntity[];
-        },
+        placeEntityList?: PlaceEntity[],
     ) => Promise<RaceEntity[]>;
 
     /**

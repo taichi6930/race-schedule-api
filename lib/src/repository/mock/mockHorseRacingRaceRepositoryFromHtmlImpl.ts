@@ -18,7 +18,7 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
         const { placeEntityList } = searchFilter;
         const raceEntityList: RaceEntity[] = [];
         const { raceType, startDate } = searchFilter;
-        if (placeEntityList && raceType === RaceType.NAR) {
+        if (raceType === RaceType.NAR) {
             for (const placeEntity of placeEntityList) {
                 const { location, dateTime } = placeEntity.placeData;
                 // 1から12までのレースを作成

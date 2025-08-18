@@ -19,31 +19,29 @@ export class MockJraRaceRepositoryFromHtmlImpl
     ): Promise<RaceEntity[]> {
         const { placeEntityList } = searchFilter;
         const raceEntityList: RaceEntity[] = [];
-        if (placeEntityList) {
-            const { raceType } = searchFilter;
-            for (const placeEntity of placeEntityList) {
-                // 1から12までのレースを作成
-                for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
-                    const raceDate = new Date(placeEntity.placeData.dateTime);
-                    raceDate.setHours(raceNumber + 9, 0, 0, 0);
-                    raceEntityList.push(
-                        RaceEntity.createWithoutId(
-                            RaceData.create(
-                                raceType,
-                                `${placeEntity.placeData.location}第${raceNumber.toString()}R`,
-                                raceDate,
-                                placeEntity.placeData.location,
-                                'GⅠ',
-                                raceNumber,
-                            ),
-                            HeldDayData.create(1, 1),
-                            HorseRaceConditionData.create('芝', 2000),
-                            undefined, // stage は未指定
-                            undefined, // racePlayerDataList は未指定
-                            getJSTDate(new Date()),
+        const { raceType } = searchFilter;
+        for (const placeEntity of placeEntityList) {
+            // 1から12までのレースを作成
+            for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                const raceDate = new Date(placeEntity.placeData.dateTime);
+                raceDate.setHours(raceNumber + 9, 0, 0, 0);
+                raceEntityList.push(
+                    RaceEntity.createWithoutId(
+                        RaceData.create(
+                            raceType,
+                            `${placeEntity.placeData.location}第${raceNumber.toString()}R`,
+                            raceDate,
+                            placeEntity.placeData.location,
+                            'GⅠ',
+                            raceNumber,
                         ),
-                    );
-                }
+                        HeldDayData.create(1, 1),
+                        HorseRaceConditionData.create('芝', 2000),
+                        undefined, // stage は未指定
+                        undefined, // racePlayerDataList は未指定
+                        getJSTDate(new Date()),
+                    ),
+                );
             }
         }
         await new Promise((resolve) => setTimeout(resolve, 0));

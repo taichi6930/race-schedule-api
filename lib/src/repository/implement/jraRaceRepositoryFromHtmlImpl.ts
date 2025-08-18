@@ -41,17 +41,15 @@ export class JraRaceRepositoryFromHtmlImpl
         const { placeEntityList, raceType } = searchFilter;
         // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
         const dateList = placeEntityList
-            ?.map((place) => place.placeData.dateTime)
+            .map((place) => place.placeData.dateTime)
             .filter((x, i, self) => self.indexOf(x) === i);
-        if (dateList) {
-            for (const date of dateList) {
-                jraRaceEntityList.push(
-                    ...(await this.fetchRaceListFromHtmlWithJraPlace(
-                        raceType,
-                        date,
-                    )),
-                );
-            }
+        for (const date of dateList) {
+            jraRaceEntityList.push(
+                ...(await this.fetchRaceListFromHtmlWithJraPlace(
+                    raceType,
+                    date,
+                )),
+            );
         }
         return jraRaceEntityList;
     }

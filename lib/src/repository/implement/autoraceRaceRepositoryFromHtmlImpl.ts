@@ -38,17 +38,15 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     ): Promise<RaceEntity[]> {
         const autoraceRaceDataList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
-        if (placeEntityList) {
-            for (const placeEntity of placeEntityList) {
-                autoraceRaceDataList.push(
-                    ...(await this.fetchRaceListFromHtmlWithAutoracePlace(
-                        placeEntity,
-                    )),
-                );
-                console.debug('0.8秒待ちます');
-                await new Promise((resolve) => setTimeout(resolve, 800));
-                console.debug('0.8秒経ちました');
-            }
+        for (const placeEntity of placeEntityList) {
+            autoraceRaceDataList.push(
+                ...(await this.fetchRaceListFromHtmlWithAutoracePlace(
+                    placeEntity,
+                )),
+            );
+            console.debug('0.8秒待ちます');
+            await new Promise((resolve) => setTimeout(resolve, 800));
+            console.debug('0.8秒経ちました');
         }
         return autoraceRaceDataList;
     }

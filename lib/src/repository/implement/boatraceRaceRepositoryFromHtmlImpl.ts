@@ -39,18 +39,16 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     ): Promise<RaceEntity[]> {
         const boatraceRaceDataList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
-        if (placeEntityList) {
-            for (const placeEntity of placeEntityList) {
-                boatraceRaceDataList.push(
-                    ...(await this.fetchRaceListFromHtmlWithBoatracePlace(
-                        placeEntity.placeData,
-                        placeEntity.grade,
-                    )),
-                );
-                console.debug('0.8秒待ちます');
-                await new Promise((resolve) => setTimeout(resolve, 800));
-                console.debug('0.8秒経ちました');
-            }
+        for (const placeEntity of placeEntityList) {
+            boatraceRaceDataList.push(
+                ...(await this.fetchRaceListFromHtmlWithBoatracePlace(
+                    placeEntity.placeData,
+                    placeEntity.grade,
+                )),
+            );
+            console.debug('0.8秒待ちます');
+            await new Promise((resolve) => setTimeout(resolve, 800));
+            console.debug('0.8秒経ちました');
         }
         return boatraceRaceDataList;
     }

@@ -39,18 +39,16 @@ export class KeirinRaceRepositoryFromHtmlImpl
     ): Promise<RaceEntity[]> {
         const keirinRaceDataList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
-        if (placeEntityList) {
-            for (const placeEntity of placeEntityList) {
-                keirinRaceDataList.push(
-                    ...(await this.fetchRaceListFromHtmlWithKeirinPlace(
-                        placeEntity.placeData,
-                        placeEntity.grade,
-                    )),
-                );
-                console.debug('0.8秒待ちます');
-                await new Promise((resolve) => setTimeout(resolve, 800));
-                console.debug('0.8秒経ちました');
-            }
+        for (const placeEntity of placeEntityList) {
+            keirinRaceDataList.push(
+                ...(await this.fetchRaceListFromHtmlWithKeirinPlace(
+                    placeEntity.placeData,
+                    placeEntity.grade,
+                )),
+            );
+            console.debug('0.8秒待ちます');
+            await new Promise((resolve) => setTimeout(resolve, 800));
+            console.debug('0.8秒経ちました');
         }
         return keirinRaceDataList;
     }
