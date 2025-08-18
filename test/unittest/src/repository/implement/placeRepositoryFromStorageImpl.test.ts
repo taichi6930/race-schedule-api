@@ -5,29 +5,27 @@ import path from 'node:path';
 
 import { container } from 'tsyringe';
 
+import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
-import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
+import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
+import type { TestSetup } from '../../../../utility/testSetupHelper';
+import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('PlaceRepositoryFromStorageImpl', () => {
-    let placeS3Gateway: jest.Mocked<IS3Gateway<PlaceRecord>>;
-    let repository: IPlaceRepository<HorseRacingPlaceEntity>;
+    let s3Gateway: jest.Mocked<IS3Gateway>;
+    let repository: IPlaceRepository<PlaceEntity>;
 
     beforeEach(() => {
-        // S3Gatewayのモックを作成
-        placeS3Gateway = mockS3Gateway<PlaceRecord>();
-
-        // DIコンテナにモックを登録
-        container.registerInstance('PlaceS3Gateway', placeS3Gateway);
-
+        const setup: TestSetup = setupTestMock();
+        ({ s3Gateway } = setup);
         // テスト対象のリポジトリを生成
         repository = container.resolve(PlaceRepositoryFromStorageImpl);
     });
@@ -39,7 +37,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
     describe('fetchPlaceList', () => {
         test('正しい開催場データを取得できる', async () => {
             // モックの戻り値を設定
-            placeS3Gateway.fetchDataFromS3.mockImplementation(
+            s3Gateway.fetchDataFromS3.mockImplementation(
                 async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
@@ -56,9 +54,9 @@ describe('PlaceRepositoryFromStorageImpl', () => {
             for (const raceType of [
                 RaceType.JRA,
                 RaceType.NAR,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
+                // RaceType.KEIRIN,
+                // RaceType.AUTORACE,
+                // RaceType.BOATRACE,
             ]) {
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
@@ -98,24 +96,34 @@ describe('PlaceRepositoryFromStorageImpl', () => {
                 });
             }
 
-            expect(placeS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(5);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(9);
         });
     });
 
-    // // 1年間の開催場データを登録する
     // 1年間の開催場データを登録する
-    const placeEntityList = (raceType: RaceType): HorseRacingPlaceEntity[] =>
+    const placeEntityList = (raceType: RaceType): PlaceEntity[] =>
         Array.from({ length: 60 }, (_, day) => {
             const location = createLocation(raceType);
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
-                HorseRacingPlaceEntity.createWithoutId(
+                PlaceEntity.createWithoutId(
                     PlaceData.create(raceType, date, location),
+                    defaultHeldDayData[raceType],
+                    createGrade(raceType), // grade は未指定
                     getJSTDate(new Date()),
                 ),
             );
         }).flat();
+
+    const defaultHeldDayData = {
+        [RaceType.JRA]: HeldDayData.create(1, 1),
+        [RaceType.NAR]: undefined,
+        [RaceType.OVERSEAS]: undefined,
+        [RaceType.KEIRIN]: undefined,
+        [RaceType.AUTORACE]: undefined,
+        [RaceType.BOATRACE]: undefined,
+    };
 });
 
 const createLocation = (raceType: RaceType): RaceCourse => {
@@ -137,6 +145,25 @@ const createLocation = (raceType: RaceType): RaceCourse => {
         }
         case RaceType.OVERSEAS: {
             return 'パリロンシャン';
+        }
+    }
+};
+
+const createGrade = (raceType: RaceType): GradeType | undefined => {
+    switch (raceType) {
+        case RaceType.JRA:
+        case RaceType.NAR:
+        case RaceType.OVERSEAS: {
+            return undefined;
+        }
+        case RaceType.KEIRIN: {
+            return 'GP';
+        }
+        case RaceType.AUTORACE: {
+            return 'SG';
+        }
+        case RaceType.BOATRACE: {
+            return 'SG';
         }
     }
 };

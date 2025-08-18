@@ -18,7 +18,7 @@ import {
 } from '../../mock/common/baseBoatraceData';
 import {
     baseJraPlaceData,
-    baseJraPlaceEntity,
+    basePlaceEntity,
 } from '../../mock/common/baseJraData';
 import {
     baseKeirinPlaceData,
@@ -54,7 +54,7 @@ describe('PublicGamblingPlaceUseCase', () => {
 
             // モックの戻り値を設定
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
-                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.JRA]: [basePlaceEntity],
                 [RaceType.NAR]: [baseNarPlaceEntity],
                 [RaceType.OVERSEAS]: [],
                 [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
@@ -88,7 +88,7 @@ describe('PublicGamblingPlaceUseCase', () => {
 
             // モックの戻り値を設定
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
-                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.JRA]: [basePlaceEntity],
                 [RaceType.NAR]: [baseNarPlaceEntity],
                 [RaceType.OVERSEAS]: [],
                 [RaceType.KEIRIN]: [baseKeirinPlaceEntity],

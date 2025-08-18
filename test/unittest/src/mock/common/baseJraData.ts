@@ -7,8 +7,8 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
-import { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
@@ -83,9 +83,10 @@ export const baseJraRaceRecord = HorseRacingRaceRecord.create(
     baseJraRaceUpdateDate,
 );
 
-export const baseJraPlaceEntity = JraPlaceEntity.createWithoutId(
+export const basePlaceEntity = PlaceEntity.createWithoutId(
     baseJraPlaceData,
     baseJraHeldDayData,
+    undefined, // grade は未指定
     baseJraRaceUpdateDate,
 );
 

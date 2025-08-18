@@ -97,7 +97,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
         [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
     }): Promise<void> {
-        const raceTypes = [
+        const raceTypeList = [
             RaceType.JRA,
             RaceType.NAR,
             RaceType.OVERSEAS,
@@ -105,7 +105,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
             RaceType.AUTORACE,
             RaceType.BOATRACE,
         ];
-        for (const raceType of raceTypes) {
+        for (const raceType of raceTypeList) {
             await this.calendarRepository.upsertEvents(
                 raceEntityList[raceType],
             );

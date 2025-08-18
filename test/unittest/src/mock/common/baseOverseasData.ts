@@ -3,8 +3,8 @@ import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceC
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
-import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
@@ -62,8 +62,10 @@ export const baseOverseasRaceRecord = HorseRacingRaceRecord.create(
     baseOverseasRaceUpdateDate,
 );
 
-export const baseOverseasPlaceEntity = HorseRacingPlaceEntity.createWithoutId(
+export const baseOverseasPlaceEntity = PlaceEntity.createWithoutId(
     baseOverseasPlaceData,
+    undefined, // heldDayData は海外競馬では不要
+    undefined, // grade は未指定
     baseOverseasRaceUpdateDate,
 );
 

@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import type { IPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
-import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
+import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { AutoracePlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
 import { BoatracePlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
@@ -19,12 +19,12 @@ import { baseKeirinPlaceEntity } from '../../mock/common/baseKeirinData';
 
 type RepositoryClassType = new (
     placeDataHtmlGateway: IPlaceDataHtmlGateway,
-) => IPlaceRepository<MechanicalRacingPlaceEntity>;
+) => IPlaceRepository<PlaceEntity>;
 const testCases: {
     name: string;
     repositoryClass: RepositoryClassType;
     raceType: RaceType;
-    baseEntity: MechanicalRacingPlaceEntity;
+    baseEntity: PlaceEntity;
     startDate: Date;
     endDate: Date;
     expectedLength: number;
@@ -69,7 +69,7 @@ for (const {
 } of testCases) {
     describe(name, () => {
         let placeDataHtmlgateway: IPlaceDataHtmlGateway;
-        let repository: IPlaceRepository<MechanicalRacingPlaceEntity>;
+        let repository: IPlaceRepository<PlaceEntity>;
 
         beforeEach(() => {
             placeDataHtmlgateway = new MockPlaceDataHtmlGateway();
@@ -78,9 +78,9 @@ for (const {
                 placeDataHtmlgateway,
             );
             repository =
-                container.resolve<
-                    IPlaceRepository<MechanicalRacingPlaceEntity>
-                >(repositoryClass);
+                container.resolve<IPlaceRepository<PlaceEntity>>(
+                    repositoryClass,
+                );
         });
 
         afterEach(() => {

@@ -21,8 +21,8 @@ import {
     baseBoatraceRaceEntityList,
 } from '../../mock/common/baseBoatraceData';
 import {
-    baseJraPlaceEntity,
     baseJraRaceEntityList,
+    basePlaceEntity,
 } from '../../mock/common/baseJraData';
 import {
     baseKeirinPlaceEntity,
@@ -818,7 +818,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             placeDataService.fetchPlaceEntityList.mockResolvedValue({
-                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.JRA]: [basePlaceEntity],
                 [RaceType.NAR]: [baseNarPlaceEntity],
                 [RaceType.OVERSEAS]: [],
                 [RaceType.KEIRIN]: [baseKeirinPlaceEntity],

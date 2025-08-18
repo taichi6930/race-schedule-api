@@ -5,8 +5,8 @@ import { container } from 'tsyringe';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import type { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { NarRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromHtmlImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -17,10 +17,7 @@ import { SkipEnv } from '../../../../utility/testDecorators';
 
 describe('NarRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
-    let repository: IRaceRepository<
-        HorseRacingRaceEntity,
-        HorseRacingPlaceEntity
-    >;
+    let repository: IRaceRepository<HorseRacingRaceEntity, PlaceEntity>;
 
     const raceType: RaceType = RaceType.NAR;
 
@@ -45,17 +42,19 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         raceType,
                         [
-                            HorseRacingPlaceEntity.createWithoutId(
+                            PlaceEntity.createWithoutId(
                                 PlaceData.create(
                                     raceType,
                                     new Date('2024-10-02'),
                                     '大井',
                                 ),
+                                undefined,
+                                undefined, // grade は未指定
                                 getJSTDate(new Date()),
                             ),
                         ],
@@ -69,17 +68,19 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2023-10-08'),
                         new Date('2023-10-08'),
                         raceType,
                         [
-                            HorseRacingPlaceEntity.createWithoutId(
+                            PlaceEntity.createWithoutId(
                                 PlaceData.create(
                                     raceType,
                                     new Date('2023-10-08'),
                                     '盛岡',
                                 ),
+                                undefined,
+                                undefined, // grade は未指定
                                 getJSTDate(new Date()),
                             ),
                         ],
@@ -93,17 +94,19 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         raceType,
                         [
-                            HorseRacingPlaceEntity.createWithoutId(
+                            PlaceEntity.createWithoutId(
                                 PlaceData.create(
                                     raceType,
                                     new Date('2024-10-02'),
                                     '大井',
                                 ),
+                                undefined,
+                                undefined, // grade は未指定
                                 getJSTDate(new Date()),
                             ),
                         ],
@@ -117,17 +120,19 @@ describe('NarRaceRepositoryFromHtmlImpl', () => {
             [allowedEnvs.githubActionsCi],
             async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-09-01'),
                         new Date('2024-09-02'),
                         raceType,
                         [
-                            HorseRacingPlaceEntity.createWithoutId(
+                            PlaceEntity.createWithoutId(
                                 PlaceData.create(
                                     raceType,
                                     new Date('2024-09-02'),
                                     '大井',
                                 ),
+                                undefined,
+                                undefined, // grade は未指定
                                 getJSTDate(new Date()),
                             ),
                         ],

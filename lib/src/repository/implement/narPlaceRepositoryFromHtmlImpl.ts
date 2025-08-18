@@ -9,7 +9,7 @@ import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGat
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -18,7 +18,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  */
 @injectable()
 export class NarPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<HorseRacingPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     public constructor(
         @inject('PlaceDataHtmlGateway')
@@ -33,7 +33,7 @@ export class NarPlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<HorseRacingPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,
             searchFilter.finishDate,
@@ -43,16 +43,14 @@ export class NarPlaceRepositoryFromHtmlImpl
                 this.fetchMonthPlaceEntityList(searchFilter.raceType, month),
             ),
         );
-        const placeEntityList: HorseRacingPlaceEntity[] =
-            monthPlaceEntityLists.flat();
+        const placeEntityList: PlaceEntity[] = monthPlaceEntityLists.flat();
 
         // startDateからfinishDateまでの中でのデータを取得
-        const filteredPlaceEntityList: HorseRacingPlaceEntity[] =
-            placeEntityList.filter(
-                (placeEntity) =>
-                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
-                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
-            );
+        const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
+            (placeEntity) =>
+                placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                placeEntity.placeData.dateTime <= searchFilter.finishDate,
+        );
 
         return filteredPlaceEntityList;
     }
@@ -91,7 +89,7 @@ export class NarPlaceRepositoryFromHtmlImpl
     private async fetchMonthPlaceEntityList(
         raceType: RaceType,
         date: Date,
-    ): Promise<HorseRacingPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -133,11 +131,11 @@ export class NarPlaceRepositoryFromHtmlImpl
             });
         });
 
-        const narPlaceDataList: HorseRacingPlaceEntity[] = [];
+        const narPlaceDataList: PlaceEntity[] = [];
         for (const [place, raceDays] of Object.entries(narPlaceDataDict)) {
             for (const raceDay of raceDays) {
                 narPlaceDataList.push(
-                    HorseRacingPlaceEntity.createWithoutId(
+                    PlaceEntity.createWithoutId(
                         PlaceData.create(
                             raceType,
                             new Date(
@@ -147,6 +145,8 @@ export class NarPlaceRepositoryFromHtmlImpl
                             ),
                             place,
                         ),
+                        undefined, // heldDayData は地方競馬では不要
+                        undefined, // grade は地方競馬では不要
                         getJSTDate(new Date()),
                     ),
                 );
@@ -164,12 +164,12 @@ export class NarPlaceRepositoryFromHtmlImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: HorseRacingPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: HorseRacingPlaceEntity[];
-        failureData: HorseRacingPlaceEntity[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

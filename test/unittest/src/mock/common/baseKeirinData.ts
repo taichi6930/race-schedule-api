@@ -4,8 +4,8 @@ import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
-import { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
+import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
@@ -72,12 +72,12 @@ export const baseKeirinRaceRecord = MechanicalRacingRaceRecord.create(
     baseKeirinRaceUpdateDate,
 );
 
-export const baseKeirinPlaceEntity =
-    MechanicalRacingPlaceEntity.createWithoutId(
-        baseKeirinPlaceData,
-        baseKeirinPlaceGrade,
-        baseKeirinRaceUpdateDate,
-    );
+export const baseKeirinPlaceEntity = PlaceEntity.createWithoutId(
+    baseKeirinPlaceData,
+    undefined,
+    baseKeirinPlaceGrade,
+    baseKeirinRaceUpdateDate,
+);
 
 export const baseKeirinRacePlayerDataList = baseRacePlayerDataList(raceType);
 

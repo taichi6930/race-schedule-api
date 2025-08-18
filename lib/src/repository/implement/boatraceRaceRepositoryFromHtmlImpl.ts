@@ -11,8 +11,8 @@ import { GradeType } from '../../utility/data/common/gradeType';
 import { RaceStage, StageMap } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { RaceType } from './../../utility/raceType';
@@ -22,8 +22,7 @@ import { RaceType } from './../../utility/raceType';
  */
 @injectable()
 export class BoatraceRaceRepositoryFromHtmlImpl
-    implements
-        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
+    implements IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -36,7 +35,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<MechanicalRacingRaceEntity[]> {
         const boatraceRaceDataList: MechanicalRacingRaceEntity[] = [];
         const { placeEntityList } = searchFilter;

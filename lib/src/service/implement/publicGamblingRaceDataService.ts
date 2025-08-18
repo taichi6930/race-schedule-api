@@ -1,13 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 
-import { HorseRacingPlaceEntity } from '../../repository/entity/horseRacingPlaceEntity';
 import { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import { IRaceEntity } from '../../repository/entity/iRaceEntity';
-import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { MechanicalRacingPlaceEntity } from '../../repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
+import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
@@ -24,47 +22,47 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         @inject('JraRaceRepositoryFromStorage')
         protected jraRaceRepositoryFromStorage: IRaceRepository<
             JraRaceEntity,
-            JraPlaceEntity
+            PlaceEntity
         >,
         @inject('JraRaceRepositoryFromHtml')
         protected jraRaceRepositoryFromHtml: IRaceRepository<
             JraRaceEntity,
-            JraPlaceEntity
+            PlaceEntity
         >,
         @inject('NarRaceRepositoryFromHtml')
         protected narRaceRepositoryFromHtml: IRaceRepository<
             HorseRacingRaceEntity,
-            HorseRacingPlaceEntity
+            PlaceEntity
         >,
         @inject('HorseRacingRaceRepositoryFromStorage')
         protected readonly horseRacingRaceRepositoryFromStorage: IRaceRepository<
             HorseRacingRaceEntity,
-            HorseRacingPlaceEntity
+            PlaceEntity
         >,
         @inject('OverseasRaceRepositoryFromHtml')
         protected readonly overseasRaceRepositoryFromHtml: IRaceRepository<
             HorseRacingRaceEntity,
-            HorseRacingPlaceEntity
+            PlaceEntity
         >,
         @inject('KeirinRaceRepositoryFromHtml')
         protected keirinRaceRepositoryFromHtml: IRaceRepository<
             MechanicalRacingRaceEntity,
-            MechanicalRacingPlaceEntity
+            PlaceEntity
         >,
         @inject('AutoraceRaceRepositoryFromHtml')
         protected autoraceRaceRepositoryFromHtml: IRaceRepository<
             MechanicalRacingRaceEntity,
-            MechanicalRacingPlaceEntity
+            PlaceEntity
         >,
         @inject('BoatraceRaceRepositoryFromHtml')
         protected boatraceRaceRepositoryFromHtml: IRaceRepository<
             MechanicalRacingRaceEntity,
-            MechanicalRacingPlaceEntity
+            PlaceEntity
         >,
         @inject('MechanicalRacingRaceRepositoryFromStorage')
         protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepository<
             MechanicalRacingRaceEntity,
-            MechanicalRacingPlaceEntity
+            PlaceEntity
         >,
     ) {}
 
@@ -93,12 +91,12 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         raceTypeList: RaceType[],
         type: DataLocationType,
         placeEntityList?: {
-            [RaceType.JRA]?: JraPlaceEntity[];
-            [RaceType.NAR]?: HorseRacingPlaceEntity[];
-            [RaceType.OVERSEAS]?: HorseRacingPlaceEntity[];
-            [RaceType.KEIRIN]?: MechanicalRacingPlaceEntity[];
-            [RaceType.AUTORACE]?: MechanicalRacingPlaceEntity[];
-            [RaceType.BOATRACE]?: MechanicalRacingPlaceEntity[];
+            [RaceType.JRA]?: PlaceEntity[];
+            [RaceType.NAR]?: PlaceEntity[];
+            [RaceType.OVERSEAS]?: PlaceEntity[];
+            [RaceType.KEIRIN]?: PlaceEntity[];
+            [RaceType.AUTORACE]?: PlaceEntity[];
+            [RaceType.BOATRACE]?: PlaceEntity[];
         },
     ): Promise<{
         [RaceType.JRA]: JraRaceEntity[];
@@ -130,139 +128,136 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 raceTypeList.includes(RaceType.JRA) ||
                 placeEntityList?.[RaceType.JRA] !== undefined
             ) {
-                const searchFilter = new SearchRaceFilterEntity<JraPlaceEntity>(
+                const raceType: RaceType = RaceType.JRA;
+                const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
                     startDate,
                     finishDate,
-                    RaceType.JRA,
-                    placeEntityList?.[RaceType.JRA],
+                    raceType,
+                    placeEntityList?.[raceType],
                 );
                 const repo =
                     type === DataLocation.Storage
                         ? this.jraRaceRepositoryFromStorage
                         : this.jraRaceRepositoryFromHtml;
-                const jraRaceEntityList = await this.fetchRaceEntities(
+                const raceEntityList = await this.fetchRaceEntities(
                     repo,
                     searchFilter,
                 );
-                result[RaceType.JRA].push(...jraRaceEntityList);
+                result[raceType].push(...raceEntityList);
             }
             // NAR
             if (
                 raceTypeList.includes(RaceType.NAR) ||
                 placeEntityList?.[RaceType.NAR] !== undefined
             ) {
-                const searchFilter =
-                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
-                        startDate,
-                        finishDate,
-                        RaceType.NAR,
-                        placeEntityList?.[RaceType.NAR]?.filter(
-                            (place) =>
-                                place.placeData.raceType === RaceType.NAR,
-                        ),
-                    );
+                const raceType: RaceType = RaceType.NAR;
+                const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
+                    startDate,
+                    finishDate,
+                    raceType,
+                    placeEntityList?.[raceType]?.filter(
+                        (place) => place.placeData.raceType === raceType,
+                    ),
+                );
                 const repo =
                     type === DataLocation.Storage
                         ? this.horseRacingRaceRepositoryFromStorage
                         : this.narRaceRepositoryFromHtml;
-                const narRaceEntityList = await this.fetchRaceEntities(
+                const raceEntityList = await this.fetchRaceEntities(
                     repo,
                     searchFilter,
                 );
-                result[RaceType.NAR].push(...narRaceEntityList);
+                result[raceType].push(...raceEntityList);
             }
             // OVERSEAS
             if (raceTypeList.includes(RaceType.OVERSEAS)) {
-                const searchFilter =
-                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
-                        startDate,
-                        finishDate,
-                        RaceType.OVERSEAS,
-                    );
+                const raceType: RaceType = RaceType.OVERSEAS;
+                const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
+                    startDate,
+                    finishDate,
+                    raceType,
+                );
                 const repo =
                     type === DataLocation.Storage
                         ? this.horseRacingRaceRepositoryFromStorage
                         : this.overseasRaceRepositoryFromHtml;
-                const overseasRaceEntityList = await this.fetchRaceEntities(
+                const raceEntityList = await this.fetchRaceEntities(
                     repo,
                     searchFilter,
                 );
-                result[RaceType.OVERSEAS].push(...overseasRaceEntityList);
+                result[raceType].push(...raceEntityList);
             }
             // KEIRIN
             if (
                 raceTypeList.includes(RaceType.KEIRIN) ||
                 placeEntityList?.[RaceType.KEIRIN] !== undefined
             ) {
-                const searchFilter =
-                    new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
-                        startDate,
-                        finishDate,
-                        RaceType.KEIRIN,
-                        placeEntityList?.[RaceType.KEIRIN]?.filter(
-                            (place) =>
-                                place.placeData.raceType === RaceType.KEIRIN,
-                        ),
-                    );
+                const raceType: RaceType = RaceType.KEIRIN;
+                const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
+                    startDate,
+                    finishDate,
+                    raceType,
+                    placeEntityList?.[raceType]?.filter(
+                        (place) => place.placeData.raceType === raceType,
+                    ),
+                );
                 const repo =
                     type === DataLocation.Storage
                         ? this.mechanicalRacingRaceRepositoryFromStorage
                         : this.keirinRaceRepositoryFromHtml;
-                const keirinRaceEntityList = await this.fetchRaceEntities(
+                const raceEntityList = await this.fetchRaceEntities(
                     repo,
                     searchFilter,
                 );
-                result[RaceType.KEIRIN].push(...keirinRaceEntityList);
+                result[raceType].push(...raceEntityList);
             }
             // AUTORACE
             if (
                 raceTypeList.includes(RaceType.AUTORACE) ||
                 placeEntityList?.[RaceType.AUTORACE] !== undefined
             ) {
-                const searchFilter =
-                    new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
-                        startDate,
-                        finishDate,
-                        RaceType.AUTORACE,
-                        placeEntityList?.[RaceType.AUTORACE]?.filter(
-                            (place) =>
-                                place.placeData.raceType === RaceType.AUTORACE,
-                        ),
-                    );
+                const raceType: RaceType = RaceType.AUTORACE;
+                const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
+                    startDate,
+                    finishDate,
+                    raceType,
+                    placeEntityList?.[raceType]?.filter(
+                        (place) => place.placeData.raceType === raceType,
+                    ),
+                );
                 const repo =
                     type === DataLocation.Storage
                         ? this.mechanicalRacingRaceRepositoryFromStorage
                         : this.autoraceRaceRepositoryFromHtml;
-                const autoraceRaceEntityList = await this.fetchRaceEntities(
+                const raceEntityList = await this.fetchRaceEntities(
                     repo,
                     searchFilter,
                 );
-                result[RaceType.AUTORACE].push(...autoraceRaceEntityList);
+                result[raceType].push(...raceEntityList);
             }
             // BOATRACE
             if (
                 raceTypeList.includes(RaceType.BOATRACE) ||
                 placeEntityList?.[RaceType.BOATRACE] !== undefined
             ) {
-                const searchFilter =
-                    new SearchRaceFilterEntity<MechanicalRacingPlaceEntity>(
-                        startDate,
-                        finishDate,
-                        RaceType.BOATRACE,
-                        placeEntityList?.[RaceType.BOATRACE]?.filter(
-                            (place) =>
-                                place.placeData.raceType === RaceType.BOATRACE,
-                        ),
-                    );
+                const raceType: RaceType = RaceType.BOATRACE;
+                const searchFilter = new SearchRaceFilterEntity<PlaceEntity>(
+                    startDate,
+                    finishDate,
+                    raceType,
+                    placeEntityList?.[raceType]?.filter(
+                        (place) => place.placeData.raceType === raceType,
+                    ),
+                );
                 const repo =
                     type === DataLocation.Storage
                         ? this.mechanicalRacingRaceRepositoryFromStorage
                         : this.boatraceRaceRepositoryFromHtml;
-                const boatraceRaceEntityList = await this.fetchRaceEntities(
+                const raceEntityList = await this.fetchRaceEntities(
                     repo,
                     searchFilter,
                 );
-                result[RaceType.BOATRACE].push(...boatraceRaceEntityList);
+                result[raceType].push(...raceEntityList);
             }
 
             return result;

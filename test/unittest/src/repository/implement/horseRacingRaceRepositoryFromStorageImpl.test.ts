@@ -9,9 +9,8 @@ import { container } from 'tsyringe';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
-import type { HorseRacingPlaceEntity } from '../../../../../lib/src/repository/entity/horseRacingPlaceEntity';
 import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
+import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { HorseRacingRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -21,17 +20,12 @@ import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
-    let horseRacingRaceS3Gateway: jest.Mocked<
-        IS3Gateway<HorseRacingRaceRecord>
-    >;
-    let repository: IRaceRepository<
-        HorseRacingRaceEntity,
-        HorseRacingPlaceEntity
-    >;
+    let s3Gateway: jest.Mocked<IS3Gateway>;
+    let repository: IRaceRepository<HorseRacingRaceEntity, PlaceEntity>;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
-        ({ horseRacingRaceS3Gateway } = setup);
+        ({ s3Gateway } = setup);
         // テスト対象のリポジトリを生成
         repository = container.resolve(
             HorseRacingRaceRepositoryFromStorageImpl,
@@ -45,7 +39,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('レース開催データを正常に取得できる', async () => {
             // モックの戻り値を設定
-            horseRacingRaceS3Gateway.fetchDataFromS3.mockImplementation(
+            s3Gateway.fetchDataFromS3.mockImplementation(
                 async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
@@ -60,7 +54,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
             // テスト実行
             for (const raceType of [RaceType.NAR, RaceType.OVERSEAS]) {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
+                    new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-01-01'),
                         new Date('2024-02-01'),
                         raceType,
@@ -115,9 +109,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                     raceEntityList,
                 );
             }
-            expect(
-                horseRacingRaceS3Gateway.uploadDataToS3,
-            ).toHaveBeenCalledTimes(2);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(2);
         });
 
         test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
@@ -156,7 +148,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                     },
                 ).flat();
                 // モックの戻り値を設定
-                horseRacingRaceS3Gateway.fetchDataFromS3.mockImplementation(
+                s3Gateway.fetchDataFromS3.mockImplementation(
                     async (folderName, fileName) => {
                         return fs.readFileSync(
                             path.resolve(
@@ -174,9 +166,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                     raceEntityList,
                 );
             }
-            expect(
-                horseRacingRaceS3Gateway.uploadDataToS3,
-            ).toHaveBeenCalledTimes(2);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(2);
         });
     });
 });

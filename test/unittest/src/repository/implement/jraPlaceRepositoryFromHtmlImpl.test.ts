@@ -4,17 +4,17 @@ import { container } from 'tsyringe';
 
 import type { IPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
-import type { JraPlaceEntity } from '../../../../../lib/src/repository/entity/jraPlaceEntity';
+import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { allowedEnvs, SkipEnv } from '../../../../utility/testDecorators';
-import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
+import { basePlaceEntity } from '../../mock/common/baseJraData';
 
 describe('JraPlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: IPlaceDataHtmlGateway;
-    let repository: IPlaceRepository<JraPlaceEntity>;
+    let repository: IPlaceRepository<PlaceEntity>;
 
     const raceType: RaceType = RaceType.JRA;
 
@@ -57,14 +57,12 @@ describe('JraPlaceRepositoryFromHtmlImpl', () => {
         it('htmlなので登録できない', async () => {
             // テスト実行
             await expect(
-                repository.registerPlaceEntityList(raceType, [
-                    baseJraPlaceEntity,
-                ]),
+                repository.registerPlaceEntityList(raceType, [basePlaceEntity]),
             ).resolves.toEqual({
                 code: 500,
                 message: 'HTMLにはデータを登録出来ません',
                 successData: [],
-                failureData: [baseJraPlaceEntity],
+                failureData: [basePlaceEntity],
             });
         });
     });

@@ -11,13 +11,12 @@ import { injectable } from 'tsyringe';
 
 import { Logger } from '../../utility/logger';
 import { IS3Gateway } from '../interface/iS3Gateway';
-import { IRecord } from '../record/iRecord';
 
 /**
  * S3Gateway
  */
 @injectable()
-export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
+export class S3Gateway implements IS3Gateway {
     /**
      * AWS SDKのS3Client
      * @type {S3Client}
@@ -49,7 +48,7 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      */
     @Logger
     public async uploadDataToS3(
-        data: T[],
+        data: object[],
         folderPath: string,
         fileName: string,
     ): Promise<void> {

@@ -15,7 +15,7 @@
  * など
  * @typeParam T - 実装クラス自身の型。自己参照型として使用され、
  *               型安全な継承を可能にします。
- *               例：class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity>
+ *               例：class PlaceEntity implements IPlaceEntity<PlaceEntity>
  */
 export interface IPlaceEntity<T extends IPlaceEntity<T>> {
     /**

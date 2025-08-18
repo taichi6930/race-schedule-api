@@ -4,19 +4,18 @@ import { RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // MechanicalRacingRaceRepositoryFromHtmlImplのモックを作成
 export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
-    implements
-        IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
+    implements IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<MechanicalRacingRaceEntity[]> {
         const { placeEntityList, raceType } = searchFilter;
         const raceEntityList: MechanicalRacingRaceEntity[] = [];

@@ -3,12 +3,12 @@ import { GradeType } from '../../utility/data/common/gradeType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<MechanicalRacingPlaceEntity>
+    implements IPlaceRepository<PlaceEntity>
 {
     /**
      * 場データを取得する
@@ -17,17 +17,18 @@ export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<MechanicalRacingPlaceEntity[]> {
+    ): Promise<PlaceEntity[]> {
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
-            const placeEntity = MechanicalRacingPlaceEntity.createWithoutId(
+            const placeEntity = PlaceEntity.createWithoutId(
                 PlaceData.create(
                     searchFilter.raceType,
                     new Date(currentDate),
                     this.defaultLocation[searchFilter.raceType],
                 ),
+                undefined,
                 this.createGrade(searchFilter.raceType),
                 getJSTDate(new Date()),
             );
@@ -47,12 +48,12 @@ export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: MechanicalRacingPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: MechanicalRacingPlaceEntity[];
-        failureData: MechanicalRacingPlaceEntity[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

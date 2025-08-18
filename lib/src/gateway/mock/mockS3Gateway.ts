@@ -15,13 +15,12 @@ import { allowedEnvs, ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IS3Gateway } from '../interface/iS3Gateway';
-import { IRecord } from '../record/iRecord';
 
 /**
  * MockS3Gateway
  */
 @injectable()
-export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
+export class MockS3Gateway implements IS3Gateway {
     /**
      * モックデータを保存するためのマップ
      * @private
@@ -77,7 +76,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      */
     @Logger
     public async uploadDataToS3(
-        data: IRecord<T>[],
+        data: object[],
         folderPath: string,
         fileName: string,
     ): Promise<void> {
@@ -117,7 +116,7 @@ export class MockS3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * @returns {string}
      */
     @Logger
-    private convertToCsv(data: IRecord<T>[]): string {
+    private convertToCsv(data: object[]): string {
         if (data.length === 0) return '';
 
         const keys = Object.keys(data[0]);

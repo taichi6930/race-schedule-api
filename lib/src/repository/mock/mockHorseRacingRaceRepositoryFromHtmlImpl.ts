@@ -3,17 +3,17 @@ import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
 import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 export class MockHorseRacingRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
+    implements IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<HorseRacingRaceEntity[]> {
         const { placeEntityList } = searchFilter;
         const raceEntityList: HorseRacingRaceEntity[] = [];

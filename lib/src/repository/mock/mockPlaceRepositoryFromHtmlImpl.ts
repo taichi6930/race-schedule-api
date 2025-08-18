@@ -3,34 +3,33 @@ import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { JraPlaceEntity } from '../entity/jraPlaceEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
-// JraRaceRepositoryFromHtmlImplのモックを作成
-export class MockJraPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<JraPlaceEntity>
+export class MockPlaceRepositoryFromHtmlImpl
+    implements IPlaceRepository<PlaceEntity>
 {
     /**
-     * 中央競馬場データを取得する
+     * 地方競馬場データを取得する
      * @param searchFilter
      */
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<JraPlaceEntity[]> {
-        // request.startDateからrequest.finishDateまでの中央競馬場データを取得する
+    ): Promise<PlaceEntity[]> {
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
-            const placeEntity = JraPlaceEntity.createWithoutId(
+            const placeEntity = PlaceEntity.createWithoutId(
                 PlaceData.create(
                     searchFilter.raceType,
                     new Date(currentDate),
-                    '東京',
+                    this.defaultLocation[searchFilter.raceType],
                 ),
-                HeldDayData.create(1, 1), // 仮の開催日データ
+                this.defaultHeldDayData[searchFilter.raceType],
+                this.defaultGrade[searchFilter.raceType],
                 getJSTDate(new Date()),
             );
             placeEntityList.push(placeEntity);
@@ -49,15 +48,42 @@ export class MockJraPlaceRepositoryFromHtmlImpl
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: JraPlaceEntity[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: JraPlaceEntity[];
-        failureData: JraPlaceEntity[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         console.debug(placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
+
+    private readonly defaultLocation = {
+        [RaceType.JRA]: '東京',
+        [RaceType.NAR]: '大井',
+        [RaceType.OVERSEAS]: 'パリロンシャン',
+        [RaceType.KEIRIN]: '平塚',
+        [RaceType.AUTORACE]: '川口',
+        [RaceType.BOATRACE]: '浜名湖',
+    };
+
+    private readonly defaultHeldDayData = {
+        [RaceType.JRA]: HeldDayData.create(1, 1),
+        [RaceType.NAR]: undefined,
+        [RaceType.OVERSEAS]: undefined,
+        [RaceType.KEIRIN]: undefined,
+        [RaceType.AUTORACE]: undefined,
+        [RaceType.BOATRACE]: undefined,
+    };
+
+    private readonly defaultGrade = {
+        [RaceType.JRA]: undefined,
+        [RaceType.NAR]: undefined,
+        [RaceType.OVERSEAS]: undefined,
+        [RaceType.KEIRIN]: 'GP',
+        [RaceType.AUTORACE]: 'SG',
+        [RaceType.BOATRACE]: 'SG',
+    };
 }
