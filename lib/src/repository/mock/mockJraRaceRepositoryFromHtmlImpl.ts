@@ -62,4 +62,13 @@ export class MockJraRaceRepositoryFromHtmlImpl
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
+
+    private readonly defaultHeldDayData = {
+        [RaceType.JRA]: HeldDayData.create(1, 1),
+        [RaceType.NAR]: undefined,
+        [RaceType.OVERSEAS]: undefined,
+        [RaceType.KEIRIN]: undefined,
+        [RaceType.AUTORACE]: undefined,
+        [RaceType.BOATRACE]: undefined,
+    };
 }

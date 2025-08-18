@@ -77,9 +77,9 @@ describe('PlaceRepositoryFromStorageImpl', () => {
             for (const raceType of [
                 RaceType.JRA,
                 RaceType.NAR,
-                // RaceType.KEIRIN,
-                // RaceType.AUTORACE,
-                // RaceType.BOATRACE,
+                RaceType.KEIRIN,
+                RaceType.AUTORACE,
+                RaceType.BOATRACE,
             ]) {
                 const _placeEntityList = placeEntityList(raceType);
                 // テスト実行
@@ -109,14 +109,21 @@ describe('PlaceRepositoryFromStorageImpl', () => {
             return Array.from({ length: 12 }, () =>
                 PlaceEntity.createWithoutId(
                     PlaceData.create(raceType, date, location),
-                    raceType === RaceType.JRA
-                        ? HeldDayData.create(1, 1)
-                        : undefined,
+                    defaultHeldDayData[raceType],
                     createGrade(raceType), // grade は未指定
                     getJSTDate(new Date()),
                 ),
             );
         }).flat();
+
+    const defaultHeldDayData = {
+        [RaceType.JRA]: HeldDayData.create(1, 1),
+        [RaceType.NAR]: undefined,
+        [RaceType.OVERSEAS]: undefined,
+        [RaceType.KEIRIN]: undefined,
+        [RaceType.AUTORACE]: undefined,
+        [RaceType.BOATRACE]: undefined,
+    };
 });
 
 const createLocation = (raceType: RaceType): RaceCourse => {
