@@ -26,9 +26,9 @@ export class JraRaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('JraRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<HorseRacingRaceRecord>,
+        private readonly s3Gateway: IS3Gateway,
         @inject('HeldDayS3Gateway')
-        private readonly heldDayS3Gateway: IS3Gateway<HeldDayRecord>,
+        private readonly heldDayS3Gateway: IS3Gateway,
     ) {}
 
     /**

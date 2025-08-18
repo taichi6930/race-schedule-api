@@ -28,9 +28,9 @@ export class MechanicalRacingPlaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('PlaceS3Gateway')
-        private readonly placeS3Gateway: IS3Gateway<PlaceRecord>,
+        private readonly placeS3Gateway: IS3Gateway,
         @inject('PlaceGradeS3Gateway')
-        private readonly placeGradeS3Gateway: IS3Gateway<PlaceGradeRecord>,
+        private readonly placeGradeS3Gateway: IS3Gateway,
     ) {}
 
     /**

@@ -1,5 +1,3 @@
-import type { IRecord } from '../record/iRecord';
-
 /**
  * Amazon S3ストレージサービスとの連携を担当するゲートウェイインターフェース
  *
@@ -21,7 +19,7 @@ import type { IRecord } from '../record/iRecord';
  * @typeParam T - 保存/取得するデータの型。IRecordを実装している必要があります。
  *               これにより、データの一貫性とシリアライズ可能性を保証します。
  */
-export interface IS3Gateway<T extends IRecord<T>> {
+export interface IS3Gateway {
     /**
      * データをS3バケットにアップロードします
      *
@@ -38,7 +36,7 @@ export interface IS3Gateway<T extends IRecord<T>> {
      *               - 認証/認可エラー
      */
     uploadDataToS3: (
-        data: T[],
+        data: object[],
         folderPath: string,
         fileName: string,
     ) => Promise<void>;

@@ -29,9 +29,9 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('MechanicalRacingRaceS3Gateway')
-        private readonly raceS3Gateway: IS3Gateway<MechanicalRacingRaceRecord>,
+        private readonly raceS3Gateway: IS3Gateway,
         @inject('MechanicalRacingRacePlayerS3Gateway')
-        private readonly racePlayerS3Gateway: IS3Gateway<RacePlayerRecord>,
+        private readonly racePlayerS3Gateway: IS3Gateway,
     ) {}
 
     /**

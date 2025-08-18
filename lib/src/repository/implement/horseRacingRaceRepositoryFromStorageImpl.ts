@@ -21,7 +21,7 @@ export class HorseRacingRaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('HorseRacingRaceS3Gateway')
-        private readonly horseRacingRaceS3Gateway: IS3Gateway<HorseRacingRaceRecord>,
+        private readonly horseRacingRaceS3Gateway: IS3Gateway,
     ) {}
 
     /**

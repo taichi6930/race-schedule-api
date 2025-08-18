@@ -3,9 +3,6 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
-import type { HorseRacingRaceRecord } from '../../lib/src/gateway/record/horseRacingRaceRecord';
-import type { MechanicalRacingRaceRecord } from '../../lib/src/gateway/record/mechanicalRacingRaceRecord';
-import type { RacePlayerRecord } from '../../lib/src/gateway/record/racePlayerRecord';
 import type { HorseRacingPlaceEntity } from '../../lib/src/repository/entity/horseRacingPlaceEntity';
 import type { HorseRacingRaceEntity } from '../../lib/src/repository/entity/horseRacingRaceEntity';
 import type { JraPlaceEntity } from '../../lib/src/repository/entity/jraPlaceEntity';
@@ -39,13 +36,9 @@ export function clearMocks(): void {
  * テスト用のセットアップ
  */
 export interface TestSetup {
-    horseRacingRaceS3Gateway: jest.Mocked<IS3Gateway<HorseRacingRaceRecord>>;
-    mechanicalRacingRaceS3Gateway: jest.Mocked<
-        IS3Gateway<MechanicalRacingRaceRecord>
-    >;
-    mechanicalRacingRacePlayerS3Gateway: jest.Mocked<
-        IS3Gateway<RacePlayerRecord>
-    >;
+    horseRacingRaceS3Gateway: jest.Mocked<IS3Gateway>;
+    mechanicalRacingRaceS3Gateway: jest.Mocked<IS3Gateway>;
+    mechanicalRacingRacePlayerS3Gateway: jest.Mocked<IS3Gateway>;
     calendarRepository: jest.Mocked<ICalendarRepository>;
     jraPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<JraPlaceEntity>
@@ -109,20 +102,18 @@ export interface TestSetup {
  * @returns セットアップ済みのサービス
  */
 export function setupTestMock(): TestSetup {
-    const horseRacingRaceS3Gateway = mockS3Gateway<HorseRacingRaceRecord>();
+    const horseRacingRaceS3Gateway = mockS3Gateway();
     container.registerInstance(
         'HorseRacingRaceS3Gateway',
         horseRacingRaceS3Gateway,
     );
 
-    const mechanicalRacingRaceS3Gateway =
-        mockS3Gateway<MechanicalRacingRaceRecord>();
+    const mechanicalRacingRaceS3Gateway = mockS3Gateway();
     container.registerInstance(
         'MechanicalRacingRaceS3Gateway',
         mechanicalRacingRaceS3Gateway,
     );
-    const mechanicalRacingRacePlayerS3Gateway =
-        mockS3Gateway<RacePlayerRecord>();
+    const mechanicalRacingRacePlayerS3Gateway = mockS3Gateway();
     container.registerInstance(
         'MechanicalRacingRacePlayerS3Gateway',
         mechanicalRacingRacePlayerS3Gateway,

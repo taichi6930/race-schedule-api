@@ -21,7 +21,7 @@ export class PlaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('PlaceS3Gateway')
-        private readonly placeS3Gateway: IS3Gateway<PlaceRecord>,
+        private readonly placeS3Gateway: IS3Gateway,
     ) {}
 
     /**

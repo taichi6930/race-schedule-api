@@ -8,8 +8,6 @@ import { container } from 'tsyringe';
 
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
-import type { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
 import type { MechanicalRacingPlaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingPlaceEntity';
 import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
@@ -25,12 +23,8 @@ import { baseBoatraceRacePlayerDataList } from '../../mock/common/baseBoatraceDa
 import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 
 describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
-    let mechanicalRacingRaceS3Gateway: jest.Mocked<
-        IS3Gateway<MechanicalRacingRaceRecord>
-    >;
-    let mechanicalRacingRacePlayerS3Gateway: jest.Mocked<
-        IS3Gateway<RacePlayerRecord>
-    >;
+    let mechanicalRacingRaceS3Gateway: jest.Mocked<IS3Gateway>;
+    let mechanicalRacingRacePlayerS3Gateway: jest.Mocked<IS3Gateway>;
     let repository: IRaceRepository<
         MechanicalRacingRaceEntity,
         MechanicalRacingPlaceEntity

@@ -25,9 +25,9 @@ export class JraPlaceRepositoryFromStorageImpl
 
     public constructor(
         @inject('PlaceS3Gateway')
-        private readonly placeS3Gateway: IS3Gateway<PlaceRecord>,
+        private readonly placeS3Gateway: IS3Gateway,
         @inject('HeldDayS3Gateway')
-        private readonly heldDayS3Gateway: IS3Gateway<HeldDayRecord>,
+        private readonly heldDayS3Gateway: IS3Gateway,
     ) {}
 
     /**
