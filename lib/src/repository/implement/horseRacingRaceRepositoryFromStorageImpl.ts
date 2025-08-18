@@ -56,6 +56,8 @@ export class HorseRacingRaceRepositoryFromStorageImpl
                         raceRecord.surfaceType,
                         raceRecord.distance,
                     ),
+                    undefined, // stage は未指定
+                    undefined, // racePlayerDataList は未指定
                     raceRecord.updateDate,
                 ),
             )

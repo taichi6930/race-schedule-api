@@ -73,6 +73,8 @@ export const baseOverseasRaceEntity = RaceEntity.createWithoutId(
     baseOverseasRaceData,
     undefined, // horseRaceConditionData は未指定
     baseOverseasConditionData,
+    undefined, // stage は未指定
+    undefined, // racePlayerDataList は未指定
     baseOverseasRaceUpdateDate,
 );
 
@@ -105,6 +107,8 @@ export const baseOverseasRaceEntityList: RaceEntity[] = [
             ),
             undefined, // horseRaceConditionData は未指定
             HorseRaceConditionData.create('芝', 2400),
+            undefined, // stage は未指定
+            undefined, // racePlayerDataList は未指定
             getJSTDate(baseOverseasRaceUpdateDate),
         );
     });

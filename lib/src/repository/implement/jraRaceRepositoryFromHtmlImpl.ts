@@ -205,6 +205,8 @@ export class JraRaceRepositoryFromHtmlImpl
                                 raceSurfaceType,
                                 raceDistance,
                             ),
+                            undefined, // stage は未指定
+                            undefined, // racePlayerDataList は未指定
                             getJSTDate(new Date()),
                         );
                         jraRaceDataList.push(jraRaceData);

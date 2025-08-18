@@ -94,6 +94,8 @@ export const baseJraRaceEntity = RaceEntity.createWithoutId(
     baseJraRaceData,
     baseJraHeldDayData,
     baseJraConditionData,
+    undefined, // stage は未指定
+    undefined, // racePlayerDataList は未指定
     baseJraRaceUpdateDate,
 );
 
@@ -172,6 +174,8 @@ export const baseJraRaceEntityList: RaceEntity[] = ['東京', '京都'].flatMap(
                 ),
                 HeldDayData.create(1, 1),
                 HorseRaceConditionData.create('芝', 1600),
+                undefined, // stage は未指定
+                undefined, // racePlayerDataList は未指定
                 baseJraRaceUpdateDate,
             );
         });

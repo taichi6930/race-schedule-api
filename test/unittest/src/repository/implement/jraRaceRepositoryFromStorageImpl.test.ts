@@ -118,6 +118,8 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                     ),
                     HeldDayData.create(1, 1),
                     HorseRaceConditionData.create('ダート', 1200),
+                    undefined, // stage は未指定
+                    undefined, // racePlayerDataList は未指定
                     getJSTDate(new Date()),
                 ),
             );

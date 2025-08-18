@@ -84,6 +84,8 @@ export const baseNarRaceEntity = RaceEntity.createWithoutId(
     baseNarRaceData,
     undefined, // horseRaceConditionData は未指定
     baseNarConditionData,
+    undefined, // stage は未指定
+    undefined, // racePlayerDataList は未指定
     baseNarRaceUpdateDate,
 );
 
@@ -160,6 +162,8 @@ export const baseNarRaceEntityList: RaceEntity[] = ['大井', '高知'].flatMap(
                 ),
                 undefined, // horseRaceConditionData は未指定
                 HorseRaceConditionData.create('ダート', 1600),
+                undefined, // stage は未指定
+                undefined, // racePlayerDataList は未指定
                 baseNarRaceUpdateDate,
             );
         });

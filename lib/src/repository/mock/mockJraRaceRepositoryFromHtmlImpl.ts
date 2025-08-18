@@ -38,6 +38,8 @@ export class MockJraRaceRepositoryFromHtmlImpl
                             ),
                             HeldDayData.create(1, 1),
                             HorseRaceConditionData.create('芝', 2000),
+                            undefined, // stage は未指定
+                            undefined, // racePlayerDataList は未指定
                             getJSTDate(new Date()),
                         ),
                     );

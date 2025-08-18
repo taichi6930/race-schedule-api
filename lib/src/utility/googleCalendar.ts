@@ -224,7 +224,7 @@ export function toGoogleCalendarData(
                     `.replace(/\n\s+/g, '\n');
         }
         if (raceEntity instanceof RaceEntity) {
-            const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData?.heldTimes.toXDigits(2)}${raceEntity.heldDayData?.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
+            const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
                     ${createAnchorTag(

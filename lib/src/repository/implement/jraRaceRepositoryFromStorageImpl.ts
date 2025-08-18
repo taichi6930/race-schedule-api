@@ -94,6 +94,8 @@ export class JraRaceRepositoryFromStorageImpl
                         raceRecord.surfaceType,
                         raceRecord.distance,
                     ),
+                    undefined, // stage は未指定
+                    undefined, // racePlayerDataList は未指定
                     // raceRecordとheldDayRecordのupdateDateの早い方を使用
                     new Date(
                         Math.min(

@@ -37,6 +37,8 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
                             ),
                             undefined,
                             HorseRaceConditionData.create('ダート', 2000),
+                            undefined, // stage は未指定
+                            undefined, // racePlayerDataList は未指定
                             getJSTDate(new Date()),
                         ),
                     );
@@ -64,6 +66,8 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
                             ),
                             undefined,
                             HorseRaceConditionData.create('芝', 2400),
+                            undefined, // stage は未指定
+                            undefined, // racePlayerDataList は未指定
                             getJSTDate(new Date()),
                         ),
                     );

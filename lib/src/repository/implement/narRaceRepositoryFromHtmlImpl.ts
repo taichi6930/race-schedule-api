@@ -124,6 +124,8 @@ export class NarRaceRepositoryFromHtmlImpl
                                 surfaceType,
                                 distance,
                             ),
+                            undefined, // stage は未指定
+                            undefined, // racePlayerDataList は未指定
                             getJSTDate(new Date()),
                         ),
                     );
