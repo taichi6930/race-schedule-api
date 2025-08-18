@@ -20,16 +20,13 @@ import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
 import { baseOverseasRaceEntityList } from '../../mock/common/baseOverseasData';
 
 describe('PublicGamblingRaceDataService', () => {
-    let jraRaceRepositoryFromStorageImpl: jest.Mocked<
+    let raceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
     let jraRaceRepositoryFromHtmlImpl: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
     let narRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
-    let horseRacingRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
     let overseasRaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -52,8 +49,7 @@ describe('PublicGamblingRaceDataService', () => {
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({
-            jraRaceRepositoryFromStorageImpl,
-            horseRacingRaceRepositoryFromStorageImpl,
+            raceRepositoryFromStorageImpl,
             mechanicalRacingRaceRepositoryFromStorageImpl,
             jraRaceRepositoryFromHtmlImpl,
             narRaceRepositoryFromHtmlImpl,
@@ -73,17 +69,16 @@ describe('PublicGamblingRaceDataService', () => {
     describe('fetchRaceEntityList', () => {
         it('正常にレース開催データが取得できること（storage）', async () => {
             // モックの戻り値を設定
-            jraRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                baseJraRaceEntityList,
-            );
-            horseRacingRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockImplementation(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
-                        case RaceType.JRA:
                         case RaceType.KEIRIN:
                         case RaceType.BOATRACE:
                         case RaceType.AUTORACE: {
                             throw new Error('race type is not supported');
+                        }
+                        case RaceType.JRA: {
+                            return baseJraRaceEntityList;
                         }
                         case RaceType.NAR: {
                             return baseNarRaceEntityList;
@@ -223,17 +218,16 @@ describe('PublicGamblingRaceDataService', () => {
     describe('updateRaceEntityList', () => {
         it('正常にレース開催データが更新されること', async () => {
             // モックの戻り値を設定
-            jraRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                baseJraRaceEntityList,
-            );
-            horseRacingRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockImplementation(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
-                        case RaceType.JRA:
                         case RaceType.KEIRIN:
                         case RaceType.BOATRACE:
                         case RaceType.AUTORACE: {
                             throw new Error('race type is not supported');
+                        }
+                        case RaceType.JRA: {
+                            return baseJraRaceEntityList;
                         }
                         case RaceType.NAR: {
                             return baseNarRaceEntityList;
@@ -266,18 +260,17 @@ describe('PublicGamblingRaceDataService', () => {
             );
 
             // registerRaceEntityListのモック戻り値を設定
-            jraRaceRepositoryFromStorageImpl.registerRaceEntityList.mockResolvedValue(
-                {
-                    code: 200,
-                    message: 'OK',
-                    successData: baseJraRaceEntityList,
-                    failureData: [],
-                },
-            );
-            horseRacingRaceRepositoryFromStorageImpl.registerRaceEntityList.mockImplementation(
+            raceRepositoryFromStorageImpl.registerRaceEntityList.mockImplementation(
                 async (raceType: RaceType) => {
                     switch (raceType) {
-                        case RaceType.JRA:
+                        case RaceType.JRA: {
+                            return {
+                                code: 200,
+                                message: 'OK',
+                                successData: baseJraRaceEntityList,
+                                failureData: [],
+                            };
+                        }
                         case RaceType.KEIRIN:
                         case RaceType.BOATRACE:
                         case RaceType.AUTORACE: {
@@ -348,13 +341,13 @@ describe('PublicGamblingRaceDataService', () => {
             });
 
             expect(
-                jraRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalledWith(RaceType.JRA, baseJraRaceEntityList);
             expect(
-                horseRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalledWith(RaceType.NAR, baseNarRaceEntityList);
             expect(
-                horseRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalledWith(
                 RaceType.OVERSEAS,
                 baseOverseasRaceEntityList,
@@ -387,10 +380,10 @@ describe('PublicGamblingRaceDataService', () => {
             });
 
             expect(
-                jraRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).not.toHaveBeenCalled();
             expect(
-                horseRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).not.toHaveBeenCalled();
             expect(
                 mechanicalRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,

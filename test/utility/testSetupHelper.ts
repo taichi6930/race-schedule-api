@@ -35,9 +35,7 @@ export interface TestSetup {
     s3Gateway: jest.Mocked<IS3Gateway>;
     calendarRepository: jest.Mocked<ICalendarRepository>;
     jraPlaceRepositoryFromHtmlImpl: jest.Mocked<IPlaceRepository<PlaceEntity>>;
-    horseRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<PlaceEntity>
-    >;
+    placeRepositoryFromStorageImpl: jest.Mocked<IPlaceRepository<PlaceEntity>>;
     narPlaceRepositoryFromHtmlImpl: jest.Mocked<IPlaceRepository<PlaceEntity>>;
     keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<PlaceEntity>
@@ -48,13 +46,10 @@ export interface TestSetup {
     autoracePlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<PlaceEntity>
     >;
-    jraRaceRepositoryFromStorageImpl: jest.Mocked<
+    raceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
     jraRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
-    horseRacingRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
     narRaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -89,13 +84,13 @@ export function setupTestMock(): TestSetup {
     const s3Gateway = mockS3Gateway();
     container.registerInstance('S3Gateway', s3Gateway);
 
-    const jraRaceRepositoryFromStorageImpl = mockRaceRepository<
+    const raceRepositoryFromStorageImpl = mockRaceRepository<
         RaceEntity,
         PlaceEntity
     >();
     container.registerInstance<IRaceRepository<RaceEntity, PlaceEntity>>(
-        'JraRaceRepositoryFromStorage',
-        jraRaceRepositoryFromStorageImpl,
+        'RaceRepositoryFromStorage',
+        raceRepositoryFromStorageImpl,
     );
     const jraRaceRepositoryFromHtmlImpl = mockRaceRepository<
         RaceEntity,
@@ -105,15 +100,6 @@ export function setupTestMock(): TestSetup {
         'JraRaceRepositoryFromHtml',
         jraRaceRepositoryFromHtmlImpl,
     );
-    const horseRacingRaceRepositoryFromStorageImpl = mockRaceRepository<
-        RaceEntity,
-        PlaceEntity
-    >();
-    container.registerInstance<IRaceRepository<RaceEntity, PlaceEntity>>(
-        'HorseRacingRaceRepositoryFromStorage',
-        horseRacingRaceRepositoryFromStorageImpl,
-    );
-
     const narRaceRepositoryFromHtmlImpl = mockRaceRepository<
         RaceEntity,
         PlaceEntity
@@ -175,11 +161,10 @@ export function setupTestMock(): TestSetup {
         'JraPlaceRepositoryFromHtml',
         jraPlaceRepositoryFromHtmlImpl,
     );
-    const horseRacingPlaceRepositoryFromStorageImpl =
-        mockPlaceRepository<PlaceEntity>();
+    const placeRepositoryFromStorageImpl = mockPlaceRepository<PlaceEntity>();
     container.registerInstance<IPlaceRepository<PlaceEntity>>(
         'PlaceRepositoryFromStorage',
-        horseRacingPlaceRepositoryFromStorageImpl,
+        placeRepositoryFromStorageImpl,
     );
     const narPlaceRepositoryFromHtmlImpl = mockPlaceRepository<PlaceEntity>();
     container.registerInstance<IPlaceRepository<PlaceEntity>>(
@@ -229,14 +214,13 @@ export function setupTestMock(): TestSetup {
         s3Gateway,
         calendarRepository,
         jraPlaceRepositoryFromHtmlImpl,
-        horseRacingPlaceRepositoryFromStorageImpl,
+        placeRepositoryFromStorageImpl,
         narPlaceRepositoryFromHtmlImpl,
         keirinPlaceRepositoryFromHtmlImpl,
         boatracePlaceRepositoryFromHtmlImpl,
         autoracePlaceRepositoryFromHtmlImpl,
-        jraRaceRepositoryFromStorageImpl,
+        raceRepositoryFromStorageImpl,
         jraRaceRepositoryFromHtmlImpl,
-        horseRacingRaceRepositoryFromStorageImpl,
         narRaceRepositoryFromHtmlImpl,
         overseasRaceRepositoryFromHtmlImpl,
         mechanicalRacingRaceRepositoryFromStorageImpl,

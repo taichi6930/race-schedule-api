@@ -17,8 +17,8 @@ import { IRaceDataService } from '../interface/IRaceDataService';
 @injectable()
 export class PublicGamblingRaceDataService implements IRaceDataService {
     public constructor(
-        @inject('JraRaceRepositoryFromStorage')
-        protected jraRaceRepositoryFromStorage: IRaceRepository<
+        @inject('RaceRepositoryFromStorage')
+        protected raceRepositoryFromStorage: IRaceRepository<
             RaceEntity,
             PlaceEntity
         >,
@@ -29,11 +29,6 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         >,
         @inject('NarRaceRepositoryFromHtml')
         protected narRaceRepositoryFromHtml: IRaceRepository<
-            RaceEntity,
-            PlaceEntity
-        >,
-        @inject('HorseRacingRaceRepositoryFromStorage')
-        protected readonly horseRacingRaceRepositoryFromStorage: IRaceRepository<
             RaceEntity,
             PlaceEntity
         >,
@@ -135,7 +130,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 );
                 const repo =
                     type === DataLocation.Storage
-                        ? this.jraRaceRepositoryFromStorage
+                        ? this.raceRepositoryFromStorage
                         : this.jraRaceRepositoryFromHtml;
                 const raceEntityList = await this.fetchRaceEntities(
                     repo,
@@ -159,7 +154,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 );
                 const repo =
                     type === DataLocation.Storage
-                        ? this.horseRacingRaceRepositoryFromStorage
+                        ? this.raceRepositoryFromStorage
                         : this.narRaceRepositoryFromHtml;
                 const raceEntityList = await this.fetchRaceEntities(
                     repo,
@@ -177,7 +172,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 );
                 const repo =
                     type === DataLocation.Storage
-                        ? this.horseRacingRaceRepositoryFromStorage
+                        ? this.raceRepositoryFromStorage
                         : this.overseasRaceRepositoryFromHtml;
                 const raceEntityList = await this.fetchRaceEntities(
                     repo,
@@ -296,17 +291,17 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         try {
             const response = await Promise.all([
                 this.saveRaceEntities(
-                    this.jraRaceRepositoryFromStorage,
+                    this.raceRepositoryFromStorage,
                     RaceType.JRA,
                     raceEntityList[RaceType.JRA],
                 ),
                 this.saveRaceEntities(
-                    this.horseRacingRaceRepositoryFromStorage,
+                    this.raceRepositoryFromStorage,
                     RaceType.NAR,
                     raceEntityList[RaceType.NAR],
                 ),
                 this.saveRaceEntities(
-                    this.horseRacingRaceRepositoryFromStorage,
+                    this.raceRepositoryFromStorage,
                     RaceType.OVERSEAS,
                     raceEntityList[RaceType.OVERSEAS],
                 ),
