@@ -96,7 +96,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
                 });
             }
 
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(6);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(9);
         });
     });
 
