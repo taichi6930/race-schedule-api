@@ -1,16 +1,10 @@
 import type { RaceCourse } from './common/raceCourse';
 
-/**
- * YoutubeのライブURLを取得する
- * @param userId - YoutubeのユーザーアカウントのユーザーID
- * @returns 指定したYoutubeユーザーのライブ配信URL
- */
+
 export const getYoutubeLiveUrl = (userId: string): string =>
     `https://www.youtube.com/@${userId}/stream`;
 
-/**
- * 地方競馬のYoutubeのユーザーID
- */
+
 export const ChihoKeibaYoutubeUserIdMap: Record<string, string> = {
     門別: 'live2820',
     帯広ば: 'ばんえい十勝公式',
@@ -29,11 +23,7 @@ export const ChihoKeibaYoutubeUserIdMap: Record<string, string> = {
     佐賀: 'sagakeibaofficial',
 };
 
-/**
- * 競輪のYoutubeのユーザーIDを取得する
- * @param placeName
- * @returns YoutubeのライブURL
- */
+
 export const KeirinYoutubeUserIdMap: Record<RaceCourse, string> = {
     函館: 'rinrin-hakodate-Keirin',
     青森: 'もりんちゃんねる葵萌輪',

@@ -11,11 +11,7 @@ export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
         console.debug('PlaceDataHtmlGatewayが呼ばれました');
     }
 
-    /**
-     * raceTypeとdateからURLを生成
-     * @param raceType - レース種別
-     * @param date - 日付
-     */
+    
     private buildUrl(raceType: RaceType, date: Date): string {
         switch (raceType) {
             case RaceType.JRA: {
@@ -31,23 +27,19 @@ export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
                 return `https://www.oddspark.com/autorace/KaisaiCalendar.do?target=${format(date, 'yyyyMM')}`;
             }
             case RaceType.BOATRACE: {
-                // 1~3月は1、4月~6月は2、7月~9月は3、10月~12月は4
+                
                 const quarter = Math.ceil((date.getMonth() + 1) / 3).toString();
-                // ボートレースのURLはquarterを使って生成
+                
                 return `https://sports.yahoo.co.jp/boatrace/schedule/?quarter=${quarter}`;
             }
             case RaceType.OVERSEAS: {
-                // OVERSEASは未対応
+                
                 throw new Error('未対応のraceTypeです');
             }
         }
     }
 
-    /**
-     * 開催場データのHTMLを取得する
-     * @param raceType - レース種別
-     * @param date - 取得する年月
-     */
+    
     @Logger
     public async getPlaceDataHtml(
         raceType: RaceType,

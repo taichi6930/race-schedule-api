@@ -10,10 +10,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<MechanicalRacingPlaceEntity>
 {
-    /**
-     * 場データを取得する
-     * @param searchFilter
-     */
+    
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
@@ -38,12 +35,7 @@ export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
         return placeEntityList;
     }
 
-    /**
-     * 開催データを登録する
-     * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param placeEntityList
-     */
+    
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,

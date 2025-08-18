@@ -6,34 +6,16 @@ import {
 } from '../utility/data/common/raceDateTime';
 import type { RaceType } from '../utility/raceType';
 
-/**
- * レース開催場所データ
- */
+
 export class PlaceData {
-    /**
-     * レース種別
-     * @type {RaceType}
-     */
+    
     public readonly raceType: RaceType;
-    /**
-     * 開催日時
-     * @type {RaceDateTime}
-     */
+    
     public readonly dateTime: RaceDateTime;
-    /**
-     * 開催場所
-     * @type {RaceCourse}
-     */
+    
     public readonly location: RaceCourse;
 
-    /**
-     * コンストラクタ
-     * @param raceType - レース種別
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @remarks
-     * レース開催場所データを生成する
-     */
+    
     private constructor(
         raceType: RaceType,
         dateTime: RaceDateTime,
@@ -44,13 +26,7 @@ export class PlaceData {
         this.location = location;
     }
 
-    /**
-     * インスタンス生成メソッド
-     * バリデーション済みデータを元にインスタンスを生成する
-     * @param raceType - レース種別
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     */
+    
     public static create(
         raceType: RaceType,
         dateTime: Date,
@@ -63,10 +39,7 @@ export class PlaceData {
         );
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(partial: Partial<PlaceData> = {}): PlaceData {
         return PlaceData.create(
             partial.raceType ?? this.raceType,

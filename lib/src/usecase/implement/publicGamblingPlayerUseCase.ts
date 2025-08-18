@@ -6,9 +6,7 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IPlayerDataUseCase } from '../interface/IPlayerDataUseCase';
 
-/**
- * 公開用
- */
+
 @injectable()
 export class PublicGamblingPlayerUseCase implements IPlayerDataUseCase {
     public constructor(

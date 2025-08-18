@@ -13,9 +13,7 @@ import { HorseRacingPlaceEntity } from '../entity/horseRacingPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
-/**
- * Narデータリポジトリの実装
- */
+
 @injectable()
 export class NarPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<HorseRacingPlaceEntity>
@@ -25,11 +23,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
     ) {}
 
-    /**
-     * 開催データを取得する
-     * このメソッドで日付の範囲を指定して開催データを取得する
-     * @param searchFilter
-     */
+    
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
@@ -46,7 +40,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         const placeEntityList: HorseRacingPlaceEntity[] =
             monthPlaceEntityLists.flat();
 
-        // startDateからfinishDateまでの中でのデータを取得
+        
         const filteredPlaceEntityList: HorseRacingPlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
@@ -57,12 +51,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         return filteredPlaceEntityList;
     }
 
-    /**
-     * ターゲットの月リストを生成する
-     *startDateからfinishDateまでの月のリストを生成する
-     * @param startDate
-     * @param finishDate
-     */
+    
     private generateMonthList(startDate: Date, finishDate: Date): Date[] {
         const monthList: Date[] = [];
         const currentDate = new Date(startDate);
@@ -80,33 +69,27 @@ export class NarPlaceRepositoryFromHtmlImpl
         return monthList;
     }
 
-    /**
-     * S3から開催データを取得する
-     * ファイル名を利用してS3から開催データを取得する
-     * placeDataが存在しない場合はundefinedを返すので、filterで除外する
-     * @param raceType - レース種別
-     * @param date
-     */
+    
     @Logger
     private async fetchMonthPlaceEntityList(
         raceType: RaceType,
         date: Date,
     ): Promise<HorseRacingPlaceEntity[]> {
-        // レース情報を取得
+        
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
         const $ = cheerio.load(htmlText);
-        // <div class="chartWrapprer">を取得
+        
         const chartWrapprer = $('.chartWrapprer');
-        // <div class="chartWrapprer">内のテーブルを取得
+        
         const table = chartWrapprer.find('table');
-        // その中のtbodyを取得
+        
         const tbody = table.find('tbody');
-        // tbody内のtrたちを取得
-        // 1行目のtrはヘッダーとして取得
-        // 2行目のtrは曜日
-        // ３行目のtr以降はレース情報
+        
+        
+        
+        
         const trs = tbody.find('tr');
         const narPlaceDataDict: Record<string, number[]> = {};
 
@@ -155,12 +138,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         return narPlaceDataList;
     }
 
-    /**
-     * 開催データを登録する
-     * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param placeEntityList
-     */
+    
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,

@@ -1,6 +1,4 @@
-/**
- * Places テーブルのスキーマ定義
- */
+
 export const CREATE_PLACES_TABLE = `
 CREATE TABLE IF NOT EXISTS places (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -13,9 +11,7 @@ CREATE TABLE IF NOT EXISTS places (
     UNIQUE(name, race_type)
 )`;
 
-/**
- * Places テーブルのトリガー定義
- */
+
 export const CREATE_PLACES_TRIGGER = `
 CREATE TRIGGER IF NOT EXISTS update_places_timestamp
     AFTER UPDATE ON places

@@ -24,24 +24,21 @@ export class HorseRacingRaceRepositoryFromStorageImpl
         private readonly s3Gateway: IS3Gateway,
     ) {}
 
-    /**
-     * 開催データを取得する
-     * @param searchFilter
-     */
+    
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
     ): Promise<HorseRacingRaceEntity[]> {
-        // ファイル名リストから開催データを取得する
+        
         const raceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(searchFilter.raceType);
 
-        // RaceRecordをRaceEntityに変換
+        
         const raceEntityList: HorseRacingRaceEntity[] = raceRecordList.map(
             (raceRecord) => raceRecord.toEntity(),
         );
 
-        // フィルタリング処理（日付の範囲指定）
+        
         const filteredRaceEntityList: HorseRacingRaceEntity[] =
             raceEntityList.filter(
                 (raceEntity) =>
@@ -51,32 +48,29 @@ export class HorseRacingRaceRepositoryFromStorageImpl
         return filteredRaceEntityList;
     }
 
-    /**
-     * レースデータをS3から取得する
-     * @param raceType - レース種別
-     */
+    
     @Logger
     private async getRaceRecordListFromS3(
         raceType: RaceType,
     ): Promise<HorseRacingRaceRecord[]> {
-        // S3からデータを取得する
+        
         const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.fileName,
         );
 
-        // ファイルが空の場合は空のリストを返す
+        
         if (!csv) {
             return [];
         }
 
-        // CSVを行ごとに分割
+        
         const lines = csv.split('\n');
 
-        // ヘッダー行を解析
+        
         const headers = lines[0].split('\r').join('').split(',');
 
-        // ヘッダーに基づいてインデックスを取得
+        
         const indices = {
             id: headers.indexOf(CSV_HEADER_KEYS.ID),
             name: headers.indexOf(CSV_HEADER_KEYS.NAME),
@@ -91,14 +85,14 @@ export class HorseRacingRaceRepositoryFromStorageImpl
 
         console.log('データ行を100件ずつ分割');
 
-        // データ行を100件ずつ分割
+        
         const chunkSize = 100;
         const chunks: string[][] = [];
         for (let i = 1; i < lines.length; i += chunkSize) {
             chunks.push(lines.slice(i, i + chunkSize));
         }
 
-        // 並列で処理を実行
+        
         const results = await Promise.all(
             chunks.map((chunk) =>
                 chunk.flatMap((line: string): HorseRacingRaceRecord[] => {
@@ -130,16 +124,12 @@ export class HorseRacingRaceRepositoryFromStorageImpl
                 }),
             ),
         );
-        // 結果を1つにまとめ、重複を排除
+        
         const mergedResults = results.flat();
         return mergedResults;
     }
 
-    /**
-     * レースデータを登録する
-     * @param raceType - レース種別
-     * @param raceEntityList
-     */
+    
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
@@ -151,16 +141,16 @@ export class HorseRacingRaceRepositoryFromStorageImpl
         failureData: HorseRacingRaceEntity[];
     }> {
         try {
-            // 既に登録されているデータを取得する
+            
             const existFetchRaceRecordList: HorseRacingRaceRecord[] =
                 await this.getRaceRecordListFromS3(raceType);
 
-            // RaceEntityをRaceRecordに変換する
+            
             const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(
                 (raceEntity) => raceEntity.toRaceRecord(),
             );
 
-            // idをキーとしたMapを作成し、既存データを上書きまたは追加する
+            
             const raceRecordMap = new Map<string, HorseRacingRaceRecord>(
                 existFetchRaceRecordList.map((record) => [record.id, record]),
             );
@@ -169,16 +159,18 @@ export class HorseRacingRaceRepositoryFromStorageImpl
                 raceRecordMap.set(raceRecord.id, raceRecord);
             }
 
-            // Mapからリストに変換し、日付の最新順にソート
+            
             const updatedRaceRecordList = [...raceRecordMap.values()].sort(
                 (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );
-            // 月毎に分けられたplaceをS3にアップロードする
+
+            
             await this.s3Gateway.uploadDataToS3(
                 updatedRaceRecordList,
                 `${raceType.toLowerCase()}/`,
                 this.fileName,
             );
+
             return {
                 code: 200,
                 message: 'Successfully registered race data',

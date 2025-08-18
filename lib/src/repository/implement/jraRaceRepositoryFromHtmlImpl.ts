@@ -29,17 +29,14 @@ export class JraRaceRepositoryFromHtmlImpl
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
-    /**
-     * 開催データを取得する
-     * @param searchFilter
-     */
+    
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
         const jraRaceEntityList: JraRaceEntity[] = [];
         const { placeEntityList, raceType } = searchFilter;
-        // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
+        
         const dateList = placeEntityList
             ?.map((place) => place.placeData.dateTime)
             .filter((x, i, self) => self.indexOf(x) === i);
@@ -62,7 +59,7 @@ export class JraRaceRepositoryFromHtmlImpl
         raceDate: Date,
     ): Promise<JraRaceEntity[]> {
         try {
-            // レース情報を取得
+            
             const htmlText: string =
                 await this.raceDataHtmlGateway.getRaceDataHtml(
                     raceType,
@@ -70,50 +67,50 @@ export class JraRaceRepositoryFromHtmlImpl
                 );
             const jraRaceDataList: JraRaceEntity[] = [];
 
-            // mockHTML内のsection id="raceInfo"の中のtableを取得
-            // HTMLをパースする
+            
+            
             const $ = cheerio.load(htmlText);
             const doc = $(`#raceInfo`);
             const table = doc.find('table');
 
             table.each((i: number, tableElem) => {
-                // theadタグを取得
+                
                 const thead = $(tableElem).find('thead');
 
-                // thead内のthタグ内に「x回yyz日目」が含まれている
-                // 「2回東京8日目」のような文字列が取得できる
-                // xは回数、yyは競馬場名、zは日目
-                // xには2、yyには東京、zには8が取得できるようにしたい
-                // これを取得してレースの開催場所と日程を取得する
+                
+                
+                
+                
+                
                 const theadElementMatch = /(\d+)回(.*?)(\d+)日目/.exec(
                     thead.text(),
                 );
                 if (theadElementMatch === null) {
                     return;
                 }
-                // 競馬場を取得
+                
                 const raceCourse: RaceCourse = this.extractRaceCourse(
                     raceType,
                     theadElementMatch,
                 );
-                // 開催回数を取得
+                
                 const raceHeld: number | null =
                     this.extractRaceHeld(theadElementMatch);
-                // 開催日数を取得
+                
                 const raceHeldDay: number | null =
                     this.extractRaceHeldDay(theadElementMatch);
-                // 競馬場、開催回数、開催日数が取得できない場合はreturn
+                
                 if (raceHeld === null || raceHeldDay === null) {
                     return;
                 }
 
-                // tbody内のtrタグを取得
+                
                 $(tableElem)
                     .find('tbody')
                     .find('tr')
                     .each((_: number, elem) => {
                         const element = $(elem);
-                        // レース番号を取得
+                        
                         const [raceNumAndTime] = element
                             .find('td')
                             .eq(0)
@@ -121,23 +118,23 @@ export class JraRaceRepositoryFromHtmlImpl
                             .split(' ');
                         const raceNumber =
                             this.extractRaceNumber(raceNumAndTime);
-                        // レース距離を取得
-                        // tdの2つ目の要素からレース距離を取得
+                        
+                        
                         const distanceMatch = /\d+m/.exec(
                             element.find('td').eq(1).find('span').eq(1).text(),
                         );
                         const raceDistance =
                             this.extractRaceDistance(distanceMatch);
-                        // レース距離が取得できない場合はreturn
+                        
                         if (raceDistance === null) {
                             return;
                         }
-                        // レース時間を取得
+                        
                         const raceDateTime: Date = this.extractRaceTime(
                             raceNumAndTime,
                             raceDate,
                         );
-                        // surfaceTypeを取得
+                        
                         const surfaceTypeMatch = /[ダ芝障]{1,2}/.exec(
                             element.find('td').eq(1).find('span').eq(1).text(),
                         );
@@ -147,7 +144,7 @@ export class JraRaceRepositoryFromHtmlImpl
                             return;
                         }
 
-                        // 2つ目はレース名、レースのグレード、馬の種類、距離、頭数
+                        
                         const rowRaceName = element
                             .find('td')
                             .eq(1)
@@ -167,7 +164,7 @@ export class JraRaceRepositoryFromHtmlImpl
                             .replace(/カップ/, 'C')
                             .replace('サラ系', '');
 
-                        // レースのグレードを取得
+                        
                         const tbodyTrTdElement1 = element
                             .find('td')
                             .eq(1)
@@ -181,7 +178,7 @@ export class JraRaceRepositoryFromHtmlImpl
                                 rowRaceName,
                             );
 
-                        // レース名を取得
+                        
                         const raceName = processJraRaceName({
                             name: _raceName,
                             place: raceCourse,
@@ -217,29 +214,22 @@ export class JraRaceRepositoryFromHtmlImpl
         }
     }
 
-    /**
-     * 開催競馬場を取得
-     * @param raceType - レース種別
-     * @param theadElementMatch
-     */
+    
     private readonly extractRaceCourse = (
         raceType: RaceType,
         theadElementMatch: RegExpExecArray,
     ): RaceCourse => {
         const placeString: string = theadElementMatch[2];
-        // placeStringがJraRaceCourseに変換できるかを確認して、OKであればキャストする
+        
         const place: RaceCourse = placeString;
         return validateRaceCourse(raceType, place);
     };
 
-    /**
-     * 開催回数を取得
-     * @param theadElementMatch
-     */
+    
     private readonly extractRaceHeld = (
         theadElementMatch: RegExpExecArray,
     ): number | null => {
-        // 開催回数を取得 数字でない場合はreturn
+        
         if (Number.isNaN(Number.parseInt(theadElementMatch[1]))) {
             return null;
         }
@@ -247,14 +237,11 @@ export class JraRaceRepositoryFromHtmlImpl
         return raceHeld;
     };
 
-    /**
-     * 開催日数を取得
-     * @param theadElementMatch
-     */
+    
     private readonly extractRaceHeldDay = (
         theadElementMatch: RegExpExecArray,
     ): number | null => {
-        // 開催日程を取得 数字でない場合はreturn
+        
         if (Number.isNaN(Number.parseInt(theadElementMatch[3]))) {
             return null;
         }
@@ -262,20 +249,14 @@ export class JraRaceRepositoryFromHtmlImpl
         return raceHeldDay;
     };
 
-    /**
-     * レース番号を取得
-     * @param raceNumAndTime
-     */
+    
     private readonly extractRaceNumber = (raceNumAndTime: string): number => {
-        // tdの最初の要素からレース番号を取得 raceNumAndTimeのxRとなっているxを取得
+        
         const raceNum: number = Number.parseInt(raceNumAndTime.split('R')[0]);
         return raceNum;
     };
 
-    /**
-     * レース距離を取得
-     * @param distanceMatch
-     */
+    
     private readonly extractRaceDistance = (
         distanceMatch: RegExpExecArray | null,
     ): number | null => {
@@ -285,21 +266,17 @@ export class JraRaceRepositoryFromHtmlImpl
         return distance;
     };
 
-    /**
-     * レース時間を取得
-     * @param raceNumAndTime
-     * @param date
-     */
+    
     private readonly extractRaceTime = (
         raceNumAndTime: string,
         date: Date,
     ): Date => {
-        // tdが3つある
-        // 1つ目はレース番号とレース開始時間
-        // hh:mmの形式で取得
-        // tdの最初の要素からレース開始時間を取得 raceNumAndTimeのhh:mmを取得
+        
+        
+        
+        
         const [, raceTime] = raceNumAndTime.split('R');
-        // hh:mmの形式からhhとmmを取得
+        
         const [hour, minute] = raceTime
             .split(':')
             .map((time: string) => Number.parseInt(time));
@@ -312,14 +289,11 @@ export class JraRaceRepositoryFromHtmlImpl
         );
     };
 
-    /**
-     * surfaceType
-     * @param surfaceTypeMatch
-     */
+    
     private readonly extractSurfaceType = (
         surfaceTypeMatch: RegExpExecArray | null,
     ): RaceCourseType | null => {
-        // ダ である場合には ダート に、障 である場合には 障害 に変換する
+        
         const surfaceType: string = (surfaceTypeMatch?.[0] ?? '')
             .replace('ダ', 'ダート')
             .replace('障', '障害');
@@ -333,12 +307,7 @@ export class JraRaceRepositoryFromHtmlImpl
         return surfaceType;
     };
 
-    /**
-     * レースグレードを取得
-     * @param tbodyTrTdElement1
-     * @param raceSurfaceType
-     * @param rowRaceName
-     */
+    
     private readonly extractRaceGradeAndRaceName = (
         tbodyTrTdElement1: string,
         raceSurfaceType: RaceCourseType,
@@ -363,7 +332,7 @@ export class JraRaceRepositoryFromHtmlImpl
             rowRaceName = rowRaceName.replace('(L)', '');
         }
         if (raceGrade === null) {
-            // 2つあるspanのうち1つ目にレースの格が入っているので、それを取得
+            
 
             if (tbodyTrTdElement1.includes('オープン')) {
                 raceGrade = 'オープン特別';
@@ -441,12 +410,7 @@ export class JraRaceRepositoryFromHtmlImpl
         return [raceGrade ?? '格付けなし', rowRaceName];
     };
 
-    /**
-     * レースデータを登録する
-     * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param raceEntityList
-     */
+    
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,

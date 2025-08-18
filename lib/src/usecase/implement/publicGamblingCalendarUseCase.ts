@@ -1,4 +1,4 @@
-import 'reflect-metadata'; // reflect-metadataをインポート
+import 'reflect-metadata'; 
 
 import { inject, injectable } from 'tsyringe';
 
@@ -15,9 +15,7 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
-/**
- * 公営競技のレースカレンダーユースケース
- */
+
 @injectable()
 export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
     public constructor(
@@ -29,12 +27,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         private readonly playerDataService: IPlayerDataService,
     ) {}
 
-    /**
-     * カレンダーからレース情報の取得を行う
-     * @param startDate
-     * @param finishDate
-     * @param raceTypeList - レース種別のリスト
-     */
+    
     @Logger
     public async fetchRacesFromCalendar(
         startDate: Date,
@@ -52,19 +45,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         return calendarDataList;
     }
 
-    /**
-     * カレンダーの更新を行う
-     * @param startDate
-     * @param finishDate
-     * @param raceTypeList - レース種別のリスト
-     * @param displayGradeList
-     * @param displayGradeList.jra
-     * @param displayGradeList.nar
-     * @param displayGradeList.overseas
-     * @param displayGradeList.keirin
-     * @param displayGradeList.autorace
-     * @param displayGradeList.boatrace
-     */
+    
     @Logger
     public async updateRacesToCalendar(
         startDate: Date,
@@ -79,7 +60,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             [RaceType.BOATRACE]: GradeType[];
         },
     ): Promise<void> {
-        // レース情報を取得する
+        
         const raceEntityList = await this.raceDataService.fetchRaceEntityList(
             startDate,
             finishDate,
@@ -101,7 +82,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 ),
         };
 
-        // displayGradeListに含まれるレース情報のみを抽出
+        
         const filteredRaceEntityList = {
             [RaceType.JRA]: raceEntityList[RaceType.JRA].filter((raceEntity) =>
                 displayGradeList[RaceType.JRA].includes(
@@ -151,7 +132,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             ),
         };
 
-        // カレンダーの取得を行う
+        
         const calendarDataList: CalendarData[] =
             await this.calendarService.fetchEvents(
                 startDate,
@@ -159,7 +140,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 raceTypeList,
             );
 
-        // 1. raceEntityListのIDに存在しないcalendarDataListを取得
+        
         const deleteCalendarDataList = {
             [RaceType.JRA]: calendarDataList.filter((calendarData) => {
                 if (calendarData.raceType !== RaceType.JRA) {
@@ -219,7 +200,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             ...deleteCalendarDataList[RaceType.BOATRACE],
         ]);
 
-        // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
+        
         const upsertRaceEntityList = {
             [RaceType.JRA]: filteredRaceEntityList[RaceType.JRA].filter(
                 (raceEntity) =>
@@ -286,15 +267,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         });
     }
 
-    /**
-     * 表示対象のレースデータのみに絞り込む
-     * - 6以上の優先度を持つレースデータを表示対象とする
-     * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
-     * @param raceType
-     * @param raceEntityList
-     * @param displayGradeList
-     * @param playerDataList
-     */
+    
     private filterRaceEntity(
         raceType: RaceType,
         raceEntityList: MechanicalRacingRaceEntity[],

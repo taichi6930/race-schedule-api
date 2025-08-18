@@ -9,19 +9,9 @@ import {
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
-/**
- * Repository層のEntity 中央競馬のレース開催場所データ
- */
+
 export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
-    /**
-     * コンストラクタ
-     * @param id - ID
-     * @param placeData - レース開催場所データ
-     * @param heldDayData - 開催日データ
-     * @param updateDate - 更新日時
-     * @remarks
-     * レース開催場所データを生成する
-     */
+    
     private constructor(
         public readonly id: PlaceId,
         public readonly placeData: PlaceData,
@@ -29,13 +19,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
         public readonly updateDate: UpdateDate,
     ) {}
 
-    /**
-     * インスタンス生成メソッド
-     * @param id - ID
-     * @param placeData - レース開催場所データ
-     * @param heldDayData - 開催日データ
-     * @param updateDate - 更新日時
-     */
+    
     public static create(
         id: string,
         placeData: PlaceData,
@@ -50,12 +34,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
         );
     }
 
-    /**
-     * idがない場合でのcreate
-     * @param placeData - レース開催場所データ
-     * @param heldDayData
-     * @param updateDate - 更新日時
-     */
+    
     public static createWithoutId(
         placeData: PlaceData,
         heldDayData: HeldDayData,
@@ -73,9 +52,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
         );
     }
 
-    /**
-     * HorseRacingPlaceRecordに変換する
-     */
+    
     public toRecord(): PlaceRecord {
         return PlaceRecord.create(
             this.id,
@@ -86,10 +63,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
         );
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(partial: Partial<JraPlaceEntity> = {}): JraPlaceEntity {
         return JraPlaceEntity.create(
             partial.id ?? this.id,

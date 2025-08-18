@@ -17,22 +17,11 @@ import {
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
-/**
- * メカニカルレースのレース開催データ
- */
+
 export class MechanicalRacingRaceEntity
     implements IRaceEntity<MechanicalRacingRaceEntity>
 {
-    /**
-     * コンストラクタ
-     * @param id - ID
-     * @param raceData - レースデータ
-     * @param stage - 開催ステージ
-     * @param racePlayerDataList - レースの選手データ
-     * @param updateDate - 更新日時
-     * @remarks
-     * レース開催データを生成する
-     */
+    
     private constructor(
         public readonly id: RaceId,
         public readonly raceData: RaceData,
@@ -41,14 +30,7 @@ export class MechanicalRacingRaceEntity
         public readonly updateDate: UpdateDate,
     ) {}
 
-    /**
-     * インスタンス生成メソッド
-     * @param id - ID
-     * @param raceData - レースデータ
-     * @param stage - 開催ステージ
-     * @param racePlayerDataList - レースの選手データ
-     * @param updateDate - 更新日時
-     */
+    
     public static create(
         id: string,
         raceData: RaceData,
@@ -65,13 +47,7 @@ export class MechanicalRacingRaceEntity
         );
     }
 
-    /**
-     * idがない場合でのcreate
-     * @param raceData - レースデータ
-     * @param stage - 開催ステージ
-     * @param racePlayerDataList - レースの選手データ
-     * @param updateDate - 更新日時
-     */
+    
     public static createWithoutId(
         raceData: RaceData,
         stage: RaceStage,
@@ -92,10 +68,7 @@ export class MechanicalRacingRaceEntity
         );
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(
         partial: Partial<MechanicalRacingRaceEntity> = {},
     ): MechanicalRacingRaceEntity {
@@ -108,9 +81,7 @@ export class MechanicalRacingRaceEntity
         );
     }
 
-    /**
-     * RaceRecordに変換する
-     */
+    
     public toRaceRecord(): MechanicalRacingRaceRecord {
         return MechanicalRacingRaceRecord.create(
             this.id,
@@ -125,9 +96,7 @@ export class MechanicalRacingRaceEntity
         );
     }
 
-    /**
-     * RacePlayerRecordに変換する
-     */
+    
     public toPlayerRecordList(): RacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
             RacePlayerRecord.create(

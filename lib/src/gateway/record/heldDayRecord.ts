@@ -12,20 +12,9 @@ import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
-/**
- * Repository層のRecord
- */
+
 export class HeldDayRecord implements IRecord<HeldDayRecord> {
-    /**
-     * コンストラクタ
-     * @param id - ID
-     * @param raceType - レース種別
-     * @param heldTimes - 開催回数
-     * @param heldDayTimes - 開催日数
-     * @param updateDate - 更新日時
-     * @remarks
-     * レース開催場所データを生成する
-     */
+    
     private constructor(
         public readonly id: PlaceId,
         public readonly raceType: RaceType,
@@ -34,14 +23,7 @@ export class HeldDayRecord implements IRecord<HeldDayRecord> {
         public readonly updateDate: UpdateDate,
     ) {}
 
-    /**
-     * インスタンス生成メソッド
-     * @param id - ID
-     * @param raceType - レース種別
-     * @param heldTimes - 開催回数
-     * @param heldDayTimes - 開催日数
-     * @param updateDate - 更新日時
-     */
+    
     public static create(
         id: string,
         raceType: RaceType,
@@ -64,10 +46,7 @@ export class HeldDayRecord implements IRecord<HeldDayRecord> {
         }
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(partial: Partial<HeldDayRecord> = {}): HeldDayRecord {
         return HeldDayRecord.create(
             partial.id ?? this.id,

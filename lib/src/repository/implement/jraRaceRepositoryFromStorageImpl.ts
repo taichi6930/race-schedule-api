@@ -29,15 +29,12 @@ export class JraRaceRepositoryFromStorageImpl
         private readonly s3Gateway: IS3Gateway,
     ) {}
 
-    /**
-     * 開催データを取得する
-     * @param searchFilter
-     */
+    
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
-        // ファイル名リストから開催データを取得する
+        
         const raceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(searchFilter.raceType);
 
@@ -52,19 +49,19 @@ export class JraRaceRepositoryFromStorageImpl
             }
         >();
 
-        // 量を減らすために、日付の範囲でフィルタリング
+        
         for (const raceRecord of raceRecordList.filter(
             (_raceRecord) =>
                 _raceRecord.dateTime >= searchFilter.startDate &&
                 _raceRecord.dateTime <= searchFilter.finishDate,
         )) {
             const heldDayRecordItem = heldDayRecordList.find(
-                // raceRecord.idの下2桁を切り離したものと、heldDayRecord.idを比較
+                
                 (_heldDayRecord) =>
                     _heldDayRecord.id === raceRecord.id.slice(0, -2),
             );
             if (!heldDayRecordItem) {
-                // heldDayRecordが見つからない場合はスキップ
+                
                 continue;
             }
             recordMap.set(raceRecord.id, {
@@ -73,7 +70,7 @@ export class JraRaceRepositoryFromStorageImpl
             });
         }
 
-        // RaceRecordをRaceEntityに変換
+        
         const raceEntityList: JraRaceEntity[] = [...recordMap.values()].map(
             ({ raceRecord, heldDayRecord }) =>
                 JraRaceEntity.create(
@@ -94,7 +91,7 @@ export class JraRaceRepositoryFromStorageImpl
                         raceRecord.surfaceType,
                         raceRecord.distance,
                     ),
-                    // raceRecordとheldDayRecordのupdateDateの早い方を使用
+                    
                     new Date(
                         Math.min(
                             raceRecord.updateDate.getTime(),
@@ -106,32 +103,29 @@ export class JraRaceRepositoryFromStorageImpl
         return raceEntityList;
     }
 
-    /**
-     * レースデータをS3から取得する
-     * @param raceType - レース種別
-     */
+    
     @Logger
     private async getRaceRecordListFromS3(
         raceType: RaceType,
     ): Promise<HorseRacingRaceRecord[]> {
-        // S3からデータを取得する
+        
         const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.raceFileName,
         );
 
-        // ファイルが空の場合は空のリストを返す
+        
         if (!csv) {
             return [];
         }
 
-        // CSVを行ごとに分割
+        
         const lines = csv.split('\n');
 
-        // ヘッダー行を解析
+        
         const headers = lines[0].split('\r').join('').split(',');
 
-        // ヘッダーに基づいてインデックスを取得
+        
         const indices = {
             id: headers.indexOf(CSV_HEADER_KEYS.ID),
             name: headers.indexOf(CSV_HEADER_KEYS.NAME),
@@ -144,7 +138,7 @@ export class JraRaceRepositoryFromStorageImpl
             updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
-        // データ行を解析してRaceDataのリストを生成
+        
         return lines
             .slice(1)
             .flatMap((line: string): HorseRacingRaceRecord[] => {
@@ -176,31 +170,28 @@ export class JraRaceRepositoryFromStorageImpl
             });
     }
 
-    /**
-     * 開催場データをS3から取得する
-     * @param raceType - レース種別
-     */
+    
     @Logger
     private async getHeldDayRecordListFromS3(
         raceType: RaceType,
     ): Promise<HeldDayRecord[]> {
-        // S3からデータを取得する
+        
         const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.heldDayFileName,
         );
 
-        // ファイルが空の場合は空のリストを返す
+        
         if (!csv) {
             return [];
         }
 
-        // CSVを行ごとに分割
+        
         const lines = csv.split('\n');
-        // ヘッダー行を解析
+        
         const headers = lines[0].split(',');
 
-        // ヘッダーに基づいてインデックスを取得
+        
         const indices = {
             id: headers.indexOf(CSV_HEADER_KEYS.ID),
             raceType: headers.indexOf(CSV_HEADER_KEYS.RACE_TYPE),
@@ -209,7 +200,7 @@ export class JraRaceRepositoryFromStorageImpl
             updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
-        // データ行を解析して JraHeldDayRecord のリストを生成
+        
         const heldDayRecordList: HeldDayRecord[] = lines
             .slice(1)
             .flatMap((line: string): HeldDayRecord[] => {
@@ -241,11 +232,7 @@ export class JraRaceRepositoryFromStorageImpl
         return heldDayRecordList;
     }
 
-    /**
-     * レースデータを登録する
-     * @param raceType - レース種別
-     * @param raceEntityList
-     */
+    
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
@@ -257,18 +244,18 @@ export class JraRaceRepositoryFromStorageImpl
         failureData: JraRaceEntity[];
     }> {
         try {
-            // 既に登録されているデータを取得する
+            
             const existFetchRaceRecordList: HorseRacingRaceRecord[] =
                 await this.getRaceRecordListFromS3(raceType);
 
-            // RaceEntityをRaceRecordに変換する
+            
             const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(
                 (raceEntity) => raceEntity.toRaceRecord(),
             );
 
-            // idが重複しているデータは上書きをし、新規のデータは追加する
+            
             for (const raceRecord of raceRecordList) {
-                // 既に登録されているデータがある場合は上書きする
+                
                 const index = existFetchRaceRecordList.findIndex(
                     (record) => record.id === raceRecord.id,
                 );
@@ -279,7 +266,7 @@ export class JraRaceRepositoryFromStorageImpl
                 }
             }
 
-            // 日付の最新順にソート
+            
             existFetchRaceRecordList.sort(
                 (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );

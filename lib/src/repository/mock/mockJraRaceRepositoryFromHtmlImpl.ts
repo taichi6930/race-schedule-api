@@ -9,7 +9,7 @@ import { JraRaceEntity } from '../entity/jraRaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
-// JraRaceRepositoryFromHtmlImplのモックを作成
+
 export class MockJraRaceRepositoryFromHtmlImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
@@ -22,7 +22,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
         if (placeEntityList) {
             const { raceType } = searchFilter;
             for (const placeEntity of placeEntityList) {
-                // 1から12までのレースを作成
+                
                 for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                     const raceDate = new Date(placeEntity.placeData.dateTime);
                     raceDate.setHours(raceNumber + 9, 0, 0, 0);

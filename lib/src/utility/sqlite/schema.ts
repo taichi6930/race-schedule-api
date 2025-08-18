@@ -1,8 +1,6 @@
 import { CREATE_PLACE_HELD_DATA_TABLE } from './schema/placeHeldData';
 
-/**
- * Places テーブルの作成クエリ
- */
+
 export const CREATE_PLACES_TABLE = `
 CREATE TABLE IF NOT EXISTS places (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -15,9 +13,7 @@ CREATE TABLE IF NOT EXISTS places (
     UNIQUE(name, race_type)
 )`;
 
-/**
- * PlaceMedia テーブルの作成クエリ
- */
+
 export const CREATE_PLACE_MEDIA_TABLE = `
 CREATE TABLE IF NOT EXISTS place_media (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,9 +27,7 @@ CREATE TABLE IF NOT EXISTS place_media (
     UNIQUE(place_id, media_type)
 )`;
 
-/**
- * テーブル作成クエリの配列
- */
+
 export const SCHEMA_QUERIES = [
     CREATE_PLACES_TABLE,
     CREATE_PLACE_MEDIA_TABLE,

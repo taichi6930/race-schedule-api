@@ -11,19 +11,9 @@ import {
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 
-/**
- * 競馬のレース開催データ
- */
+
 export class HorseRacingRaceEntity {
-    /**
-     * コンストラクタ
-     * @param id - ID
-     * @param raceData - レースデータ
-     * @param conditionData - レース条件データ
-     * @param updateDate - 更新日時
-     * @remarks
-     * レース開催データを生成する
-     */
+    
     private constructor(
         public readonly id: RaceId,
         public readonly raceData: RaceData,
@@ -31,13 +21,7 @@ export class HorseRacingRaceEntity {
         public readonly updateDate: UpdateDate,
     ) {}
 
-    /**
-     * インスタンス生成メソッド
-     * @param id - ID
-     * @param raceData - レースデータ
-     * @param conditionData - レース条件データ
-     * @param updateDate - 更新日時
-     */
+    
     public static create(
         id: string,
         raceData: RaceData,
@@ -52,12 +36,7 @@ export class HorseRacingRaceEntity {
         );
     }
 
-    /**
-     * idがない場合でのcreate
-     * @param raceData - レースデータ
-     * @param conditionData - レース条件データ
-     * @param updateDate - 更新日時
-     */
+    
     public static createWithoutId(
         raceData: RaceData,
         conditionData: HorseRaceConditionData,
@@ -76,10 +55,7 @@ export class HorseRacingRaceEntity {
         );
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(
         partial: Partial<HorseRacingRaceEntity> = {},
     ): HorseRacingRaceEntity {
@@ -91,9 +67,7 @@ export class HorseRacingRaceEntity {
         );
     }
 
-    /**
-     * NarRaceRecordに変換する
-     */
+    
     public toRaceRecord(): HorseRacingRaceRecord {
         return HorseRacingRaceRecord.create(
             this.id,

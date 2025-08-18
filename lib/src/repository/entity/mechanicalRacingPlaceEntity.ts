@@ -12,21 +12,11 @@ import {
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
-/**
- * Repository層のEntity レース開催場所データ
- */
+
 export class MechanicalRacingPlaceEntity
     implements IPlaceEntity<MechanicalRacingPlaceEntity>
 {
-    /**
-     * コンストラクタ
-     * @param id - ID
-     * @param placeData - レース開催場所データ
-     * @param grade - グレード
-     * @param updateDate - 更新日時
-     * @remarks
-     * レース開催場所データを生成する
-     */
+    
     private constructor(
         public readonly id: PlaceId,
         public readonly placeData: PlaceData,
@@ -34,13 +24,7 @@ export class MechanicalRacingPlaceEntity
         public readonly updateDate: UpdateDate,
     ) {}
 
-    /**
-     * インスタンス生成メソッド
-     * @param id - ID
-     * @param placeData - レース開催場所データ
-     * @param grade - グレード
-     * @param updateDate - 更新日時
-     */
+    
     public static create(
         id: string,
         placeData: PlaceData,
@@ -55,12 +39,7 @@ export class MechanicalRacingPlaceEntity
         );
     }
 
-    /**
-     * idがない場合でのcreate
-     * @param placeData - レース開催場所データ
-     * @param grade - グレード
-     * @param updateDate - 更新日時
-     */
+    
     public static createWithoutId(
         placeData: PlaceData,
         grade: GradeType,
@@ -78,10 +57,7 @@ export class MechanicalRacingPlaceEntity
         );
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(
         partial: Partial<MechanicalRacingPlaceEntity> = {},
     ): MechanicalRacingPlaceEntity {
@@ -93,9 +69,7 @@ export class MechanicalRacingPlaceEntity
         );
     }
 
-    /**
-     * PlaceRecordに変換する
-     */
+    
     public toRecord(): PlaceRecord {
         return PlaceRecord.create(
             this.id,

@@ -16,9 +16,7 @@ import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
-/**
- * オートレース場開催データリポジトリの実装
- */
+
 @injectable()
 export class AutoraceRaceRepositoryFromHtmlImpl
     implements
@@ -29,10 +27,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
-    /**
-     * 開催データを取得する
-     * @param searchFilter
-     */
+    
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
@@ -71,14 +66,14 @@ export class AutoraceRaceRepositoryFromHtmlImpl
             );
             const autoraceRaceDataList: MechanicalRacingRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
-            // id="content"を取得
+            
             const content = $('#content');
             const raceName = this.extractRaceName(
                 content.find('h3').text(),
                 placeEntity.placeData,
                 placeEntity.grade,
             );
-            // <div div class="section clearfix">を取得
+            
             const section = content.find('.section');
 
             section.each((_, sectionElement) => {
@@ -201,12 +196,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
         return `${placeData.location}${grade}`;
     }
 
-    /**
-     * レースデータを登録する
-     * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param raceEntityList
-     */
+    
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,

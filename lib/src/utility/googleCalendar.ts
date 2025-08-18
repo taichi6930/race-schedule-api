@@ -30,57 +30,31 @@ import { getJSTDate } from './date';
 import { createAnchorTag, formatDate } from './format';
 import { RaceType } from './raceType';
 
-/**
- * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール
- *
- * このモジュールは、各種レース競技のイベントを視覚的に区別するための
- * 色分け機能を提供します。主な機能：
- * - レースのグレードに応じた色の割り当て
- * - 競技種目ごとの一貫した色使い
- * - 重要度に基づく視認性の調整
- */
 
-/**
- * Googleカレンダーで使用可能な色IDの定義
- *
- * 各色はカレンダーイベントの視認性と重要度を表現するために
- * 慎重に選択されています：
- *
- * 基本的な色使いの方針：
- * - 高グレード（GI/GP等）: 濃い青系（視認性重視）
- * - 中グレード（GⅡ等）: 赤系（重要イベント）
- * - 低グレード：緑系や灰色（通常イベント）
- */
+
+
 const GoogleCalendarColorId = {
-    LAVENDER: '1', // #7986CB
-    SAGE: '2', // #33B679
-    GRAPE: '3', // #8E24AA
-    FLAMINGO: '4', // #E67C73
-    BANANA: '5', // #F6BF26
-    TANGERINE: '6', // #F4511E
-    PEACOCK: '7', // #039BE5
-    GRAPHITE: '8', // #616161
-    BLUEBERRY: '9', // #3F51B5
-    BASIL: '10', // #0B8043
-    TOMATO: '11', // #D50000
+    LAVENDER: '1', 
+    SAGE: '2', 
+    GRAPE: '3', 
+    FLAMINGO: '4', 
+    BANANA: '5', 
+    TANGERINE: '6', 
+    PEACOCK: '7', 
+    GRAPHITE: '8', 
+    BLUEBERRY: '9', 
+    BASIL: '10', 
+    TOMATO: '11', 
 } as const;
 
-/**
- * Google Calendar APIの色IDの型
- */
+
 type GoogleCalendarColorIdType =
     (typeof GoogleCalendarColorId)[keyof typeof GoogleCalendarColorId];
 
-/**
- * 中央競馬（JRA）のグレードごとの色設定
- *
- * 中央競馬の特徴的なグレード体系に対応
- */
 
-/**
- * 各競技ごとのグレード→色IDマップをRaceTypeでまとめる
- */
-// ...existing code...
+
+
+
 const GoogleCalendarColorIdMap = {
     JRA: {
         'GⅠ': GoogleCalendarColorId.BLUEBERRY,
@@ -193,11 +167,7 @@ export function toGoogleCalendarData(
         throw new Error(`Unknown race type`);
     }
 
-    /**
-     * レースデータをGoogleカレンダーのイベントに変換する
-     * @param raceEntity
-     * @param updateDate - 更新日時
-     */
+    
     function createDescription(): string {
         const raceTimeStr = `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}`;
         const updateStr = `更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}`;
@@ -272,7 +242,7 @@ export function toGoogleCalendarData(
             timeZone: 'Asia/Tokyo',
         },
         end: {
-            // 終了時刻は発走時刻から10分後とする
+            
             dateTime: formatDate(
                 new Date(
                     raceEntity.raceData.dateTime.getTime() + 10 * 60 * 1000,

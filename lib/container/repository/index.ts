@@ -9,7 +9,7 @@ import { PlayerRepository } from '../../src/repository/implement/playerRepositor
 import type { ICalendarRepository } from '../../src/repository/interface/ICalendarRepository';
 import type { IPlayerRepository } from '../../src/repository/interface/IPlayerRepository';
 
-// PlayerRepository
+
 container.register<IPlayerRepository>('PlayerRepository', {
     useClass: PlayerRepository,
 });

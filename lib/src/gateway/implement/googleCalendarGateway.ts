@@ -32,7 +32,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
     ): Promise<calendar_v3.Schema$Event[]> {
         try {
             const calendarId = await this.getCalendarId(raceType);
-            // orderBy: 'startTime'で開始時刻順に取得
+            
             const response = await this.calendar.events.list({
                 calendarId,
                 timeMin: startDate.toISOString(),

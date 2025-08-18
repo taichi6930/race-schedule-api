@@ -13,20 +13,9 @@ import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
-/**
- * 中央競馬のレース開催データ
- */
+
 export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
-    /**
-     * コンストラクタ
-     * @param id - ID
-     * @param raceData - レースデータ
-     * @param heldDayData - 開催日データ
-     * @param conditionData - レース条件データ
-     * @param updateDate - 更新日時
-     * @remarks
-     * レース開催データを生成する
-     */
+    
     private constructor(
         public readonly id: RaceId,
         public readonly raceData: RaceData,
@@ -35,14 +24,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         public readonly updateDate: UpdateDate,
     ) {}
 
-    /**
-     * インスタンス生成メソッド
-     * @param id - ID
-     * @param raceData - レースデータ
-     * @param heldDayData - 開催日データ
-     * @param conditionData - レース条件データ
-     * @param updateDate - 更新日時
-     */
+    
     public static create(
         id: string,
         raceData: RaceData,
@@ -59,13 +41,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         );
     }
 
-    /**
-     * idがない場合でのcreate
-     * @param raceData - レースデータ
-     * @param heldDayData - 開催日データ
-     * @param conditionData - レース条件データ
-     * @param updateDate - 更新日時
-     */
+    
     public static createWithoutId(
         raceData: RaceData,
         heldDayData: HeldDayData,
@@ -86,10 +62,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         );
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(partial: Partial<JraRaceEntity> = {}): JraRaceEntity {
         return JraRaceEntity.create(
             partial.id ?? this.id,
@@ -100,9 +73,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         );
     }
 
-    /**
-     * JraRaceRecordに変換する
-     */
+    
     public toRaceRecord(): HorseRacingRaceRecord {
         return HorseRacingRaceRecord.create(
             this.id,

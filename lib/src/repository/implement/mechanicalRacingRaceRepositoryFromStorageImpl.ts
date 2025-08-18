@@ -16,9 +16,7 @@ import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
-/**
- * 競輪場開催データリポジトリの実装
- */
+
 @injectable()
 export class MechanicalRacingRaceRepositoryFromStorageImpl
     implements
@@ -32,34 +30,31 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         private readonly s3Gateway: IS3Gateway,
     ) {}
 
-    /**
-     * 開催データを取得する
-     * @param searchFilter
-     */
+    
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
     ): Promise<MechanicalRacingRaceEntity[]> {
-        // ファイル名リストから選手データを取得する
+        
         const racePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3(searchFilter.raceType);
 
-        // レースデータを取得する
+        
         const raceRaceRecordList: MechanicalRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(
                 searchFilter.raceType,
                 searchFilter.startDate,
             );
 
-        // RaceEntityに変換
+        
         const raceEntityList: MechanicalRacingRaceEntity[] =
             raceRaceRecordList.map((raceRecord) => {
-                // raceIdに対応したracePlayerRecordListを取得
+                
                 const filteredRacePlayerRecordList: RacePlayerRecord[] =
                     racePlayerRecordList.filter((racePlayerRecord) => {
                         return racePlayerRecord.raceId === raceRecord.id;
                     });
-                // RacePlayerDataのリストを生成
+                
                 const racePlayerDataList: RacePlayerData[] =
                     filteredRacePlayerRecordList.map((racePlayerRecord) => {
                         return RacePlayerData.create(
@@ -68,7 +63,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
                             racePlayerRecord.playerNumber,
                         );
                     });
-                // RaceDataを生成
+                
                 const raceData = RaceData.create(
                     searchFilter.raceType,
                     raceRecord.name,
@@ -85,7 +80,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
                     raceRecord.updateDate,
                 );
             });
-        // フィルタリング処理（日付の範囲指定）
+        
         const filteredRaceEntityList: MechanicalRacingRaceEntity[] =
             raceEntityList.filter(
                 (raceEntity) =>
@@ -96,11 +91,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         return filteredRaceEntityList;
     }
 
-    /**
-     * レースデータを登録する
-     * @param raceType - レース種別
-     * @param raceEntityList
-     */
+    
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
@@ -112,25 +103,25 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         failureData: MechanicalRacingRaceEntity[];
     }> {
         try {
-            // 既に登録されているデータを取得する
+            
             const existFetchRaceRecordList: MechanicalRacingRaceRecord[] =
                 await this.getRaceRecordListFromS3(raceType);
 
             const existFetchRacePlayerRecordList: RacePlayerRecord[] =
                 await this.getRacePlayerRecordListFromS3(raceType);
 
-            // RaceEntityをRaceRecordに変換する
+            
             const raceRecordList: MechanicalRacingRaceRecord[] =
                 raceEntityList.map((raceEntity) => raceEntity.toRaceRecord());
 
-            // RaceEntityをRacePlayerRecordに変換する
+            
             const racePlayerRecordList = raceEntityList.flatMap((raceEntity) =>
                 raceEntity.toPlayerRecordList(),
             );
 
-            // raceデータでidが重複しているデータは上書きをし、新規のデータは追加する
+            
             for (const raceRecord of raceRecordList) {
-                // 既に登録されているデータがある場合は上書きする
+                
                 const index = existFetchRaceRecordList.findIndex(
                     (record) => record.id === raceRecord.id,
                 );
@@ -141,9 +132,9 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
                 }
             }
 
-            // racePlayerデータでidが重複しているデータは上書きをし、新規のデータは追加する
+            
             for (const racePlayerRecord of racePlayerRecordList) {
-                // 既に登録されているデータがある場合は上書きする
+                
                 const index = existFetchRacePlayerRecordList.findIndex(
                     (record) => record.id === racePlayerRecord.id,
                 );
@@ -154,12 +145,12 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
                 }
             }
 
-            // 日付の最新順にソート
+            
             existFetchRaceRecordList.sort(
                 (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );
 
-            // raceDataをS3にアップロードする
+            
             await this.s3Gateway.uploadDataToS3(
                 existFetchRaceRecordList,
                 `${raceType.toLowerCase()}/`,
@@ -188,33 +179,29 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         }
     }
 
-    /**
-     * レースデータをS3から取得する
-     * @param raceType - レース種別
-     * @param borderDate
-     */
+    
     @Logger
     private async getRaceRecordListFromS3(
         raceType: RaceType,
         borderDate?: Date,
     ): Promise<MechanicalRacingRaceRecord[]> {
-        // S3からデータを取得する
+        
         const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.raceListFileName,
         );
-        // ファイルが空の場合は空のリストを返す
+        
         if (!csv) {
             return [];
         }
 
-        // CSVを行ごとに分割
+        
         const lines = csv.split('\n');
 
-        // ヘッダー行を解析
+        
         const headers = lines[0].split(',');
 
-        // ヘッダーに基づいてインデックスを取得
+        
         const indices = {
             id: headers.indexOf(CSV_HEADER_KEYS.ID),
             name: headers.indexOf(CSV_HEADER_KEYS.NAME),
@@ -226,7 +213,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
-        // データ行を解析してRaceDataのリストを生成
+        
         const result: MechanicalRacingRaceRecord[] = [];
         for (const line of lines.slice(1)) {
             try {
@@ -258,35 +245,32 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
                 );
             } catch (error) {
                 console.error('RaceRecord create error', error);
-                // continue
+                
             }
         }
         return result;
     }
 
-    /**
-     * レースプレイヤーデータをS3から取得する
-     * @param raceType - レース種別
-     */
+    
     @Logger
     private async getRacePlayerRecordListFromS3(
         raceType: RaceType,
     ): Promise<RacePlayerRecord[]> {
-        // S3からデータを取得する
+        
         const csv = await this.s3Gateway.fetchDataFromS3(
             `${raceType.toLowerCase()}/`,
             this.racePlayerListFileName,
         );
 
-        // ファイルが空の場合は空のリストを返す
+        
         if (!csv) {
             return [];
         }
 
-        // CSVを行ごとに分割
+        
         const lines = csv.split('\n');
 
-        // ヘッダー行を解析
+        
         const headers = lines[0].split(',');
 
         const indices = {
@@ -297,7 +281,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
-        // データ行を解析してKeirinRaceDataのリストを生成
+        
         const keirinRacePlayerRecordList: RacePlayerRecord[] = lines
             .slice(1)
             .flatMap((line: string): RacePlayerRecord[] => {

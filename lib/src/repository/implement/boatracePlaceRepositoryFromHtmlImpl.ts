@@ -12,9 +12,7 @@ import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEnti
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
-/**
- * ボートレース場データリポジトリの実装
- */
+
 @injectable()
 export class BoatracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<MechanicalRacingPlaceEntity>
@@ -24,11 +22,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
     ) {}
 
-    /**
-     * 開催データを取得する
-     * このメソッドで日付の範囲を指定して開催データを取得する
-     * @param searchFilter - 開催データ取得フィルタ
-     */
+    
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
@@ -38,7 +32,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             searchFilter.finishDate,
         );
 
-        // quartersの月リストを取得
+        
         const placeEntityArray = await Promise.all(
             quarters.map(async (quarterDate) =>
                 this.fetchMonthPlaceEntityList(
@@ -50,7 +44,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         const placeEntityList: MechanicalRacingPlaceEntity[] =
             placeEntityArray.flat();
 
-        // startDateからfinishDateまでの中でのデータを取得
+        
         const filteredPlaceEntityList: MechanicalRacingPlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
@@ -61,12 +55,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         return filteredPlaceEntityList;
     }
 
-    /**
-     * ターゲットの月リストを生成する
-     *startDateからfinishDateまでの月のリストを生成する
-     * @param startDate
-     * @param finishDate
-     */
+    
     private generateQuarterList(startDate: Date, finishDate: Date): Date[] {
         const quarterList: Date[] = [];
 
@@ -93,38 +82,32 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         return quarterList;
     }
 
-    /**
-     * S3から開催データを取得する
-     * ファイル名を利用してS3から開催データを取得する
-     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
-     * @param raceType - レース種別
-     * @param date
-     */
+    
     @Logger
     private async fetchMonthPlaceEntityList(
         raceType: RaceType,
         date: Date,
     ): Promise<MechanicalRacingPlaceEntity[]> {
         const boatracePlaceEntityList: MechanicalRacingPlaceEntity[] = [];
-        // レース情報を取得
+        
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
         const $ = cheerio.load(htmlText);
 
-        // id="r_list"を取得
+        
         const rList = $('#r_list');
 
-        // rListの中の、tr class="br-tableSchedule__row"を取得（複数ある）
+        
         const trs = rList.find('tr.br-tableSchedule__row');
         trs.each((_: number, element) => {
-            // 日付を取得
+            
             const dateText = $(element)
                 .find('td.br-tableSchedule__data')
                 .eq(0)
                 .text()
                 .trim();
-            // 最初の日と最後の日を取得
+            
             const startDateString: string = dateText.split('～')[0];
             const [, finishDateString] = dateText.split('～');
             const startDate = new Date(
@@ -139,10 +122,10 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 Number.parseInt(finishDateString.split('/')[1].split('(')[0]),
             );
 
-            // class="br-label"を取得
+            
             const grade = $(element).find('.br-label').text().trim();
 
-            // ボートレース場の名前を取得
+            
             const place = $(element)
                 .find('td.br-tableSchedule__data')
                 .eq(2)
@@ -150,8 +133,8 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 .trim()
                 .replace(/\s+/g, '');
 
-            // startDateからfinishDateまでfor文で回す
-            // finishDateの1日後まで回す
+            
+            
             for (
                 let currentDate = new Date(startDate);
                 currentDate <= finishDate;
@@ -173,12 +156,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         return boatracePlaceEntityList;
     }
 
-    /**
-     * 開催データを登録する
-     * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param placeEntityList
-     */
+    
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,

@@ -10,9 +10,7 @@ import {
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
-/**
- * レースデータのHTMLを取得するGateway
- */
+
 export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
     private buildUrl(
         raceType: RaceType,
@@ -87,16 +85,9 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         return `../mockData/html/boatrace/race/${format(date, 'yyyyMMdd')}${
             createPlaceCodeMap(RaceType.BOATRACE)[place]
         }${number.toString()}.html`;
-        // lib/src/gateway/mockData/html/boatrace/placeの中にあるhtmlを取得
+        
     }
-    /**
-     * レースデータのHTMLを取得する
-     * @param raceType - レース種別
-     * @param date - 取得する年月
-     * @param place - 開催場
-     * @param number - レース番号
-     * @returns Promise<string> - レースデータのHTML
-     */
+    
     @Logger
     public async getRaceDataHtml(
         raceType: RaceType,
@@ -105,9 +96,9 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         number?: number,
     ): Promise<string> {
         try {
-            // mockDataフォルダにあるhtmlを取得
+            
             const testHtmlUrl = this.buildUrl(raceType, date, place, number);
-            // lib/src/gateway/mockData/html/nar/placeの中にあるhtmlを取得
+            
             const htmlFilePath = path.join(__dirname, testHtmlUrl);
             const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
             return htmlContent;

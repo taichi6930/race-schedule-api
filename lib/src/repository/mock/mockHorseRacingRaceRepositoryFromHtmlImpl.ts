@@ -21,7 +21,7 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
         if (placeEntityList && raceType === RaceType.NAR) {
             for (const placeEntity of placeEntityList) {
                 const { location, dateTime } = placeEntity.placeData;
-                // 1から12までのレースを作成
+                
                 for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                     const raceDate = new Date(dateTime);
                     raceDate.setHours(raceNumber + 9, 0, 0, 0);
@@ -44,7 +44,7 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
         } else if (raceType === RaceType.OVERSEAS) {
             const currentDate = new Date(startDate);
             while (currentDate.getMonth() === startDate.getMonth()) {
-                // 1から12までのレースを作成
+                
                 for (let i = 1; i <= 12; i++) {
                     raceEntityList.push(
                         HorseRacingRaceEntity.createWithoutId(

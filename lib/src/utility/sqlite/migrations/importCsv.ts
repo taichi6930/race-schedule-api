@@ -3,17 +3,11 @@ import type { Database } from 'better-sqlite3';
 import { JRA_PLACE_CSV_PATH, NAR_PLACE_CSV_PATH } from '../settings/constants';
 import { CsvUtils } from './utils';
 
-/**
- * CSVインポート用のマイグレーションクラス
- */
+
 export class ImportCsvMigration {
     public constructor(private readonly db: Database) {}
 
-    /**
-     * 日付文字列をISO形式に変換
-     * @param dateStr - 変換する日付文字列
-     * @returns ISO形式の日付文字列、または変換失敗時はundefined
-     */
+    
     private static parseDate(dateStr: string): string | undefined {
         try {
             const date = new Date(dateStr);
@@ -26,9 +20,7 @@ export class ImportCsvMigration {
         }
     }
 
-    /**
-     * NAR（地方競馬）の場所データをインポート
-     */
+    
     public importNarPlaceData(): void {
         try {
             const { rows } = CsvUtils.readCsvFile(NAR_PLACE_CSV_PATH);
@@ -78,14 +70,12 @@ export class ImportCsvMigration {
         }
     }
 
-    /**
-     * JRAの場所データをインポート
-     */
+    
     public importJraPlaceData(): void {
         try {
             const { rows } = CsvUtils.readCsvFile(JRA_PLACE_CSV_PATH);
 
-            // 場所データのインポート
+            
             this.db.transaction(() => {
                 const stmt = this.db.prepare(`
                     INSERT INTO place_data (id, race_type, datetime, location)

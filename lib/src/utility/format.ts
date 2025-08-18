@@ -1,24 +1,13 @@
-/**
- * 日付をフォーマットする
- * @param date - フォーマットする日付
- * @returns ISOフォーマットかつ日本時間（+09:00）の日付文字列
- */
+
 export const formatDate = (date: Date): string => {
     return date.toISOString().replace('Z', '+09:00');
 };
 
-/**
- * リンクタグを作成する
- * @param text - リンクのテキスト
- * @param url - リンク先のURL
- * @returns HTMLのアンカータグ文字列
- */
+
 export const createAnchorTag = (text: string, url: string): string =>
     `<a href="${url}">${text}</a>`;
 
-/**
- * 日付をフォーマットする
- */
+
 declare global {
     interface Date {
         getXDigitMonth: (digit: number) => string;
@@ -28,34 +17,22 @@ declare global {
     }
 }
 
-/**
- * 月をX桁に変換する
- * @param digit
- */
+
 Date.prototype.getXDigitMonth = function (digit: number): string {
     return (this.getMonth() + 1).toString().padStart(digit, '0');
 };
 
-/**
- * 日をX桁に変換する
- * @param digit
- */
+
 Date.prototype.getXDigitDays = function (digit: number): string {
     return this.getDate().toString().padStart(digit, '0');
 };
 
-/**
- * 時をX桁に変換する
- * @param digit
- */
+
 Date.prototype.getXDigitHours = function (digit: number): string {
     return this.getHours().toString().padStart(digit, '0');
 };
 
-/**
- * 分をX桁に変換する
- * @param digit
- */
+
 Date.prototype.getXDigitMinutes = function (digit: number): string {
     return this.getMinutes().toString().padStart(digit, '0');
 };

@@ -1,5 +1,5 @@
 export const NetkeibaBabacodeMap: Record<string, string> = {
-    // 中央競馬
+    
     札幌: '01',
     函館: '02',
     福島: '03',
@@ -11,7 +11,7 @@ export const NetkeibaBabacodeMap: Record<string, string> = {
     阪神: '09',
     小倉: '10',
 
-    // 地方競馬
+    
     帯広ば: '65',
     門別: '30',
     盛岡: '35',

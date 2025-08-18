@@ -29,26 +29,11 @@ import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
-/**
- * レース開催データ
- */
+
 export class MechanicalRacingRaceRecord
     implements IRecord<MechanicalRacingRaceRecord>
 {
-    /**
-     * コンストラクタ
-     * @param id - ID
-     * @param raceType - レース種別
-     * @param name - レース名
-     * @param stage - 開催ステージ
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - グレード
-     * @param number - レース番号
-     * @param updateDate - 更新日時
-     * @remarks
-     * レース開催データを生成する
-     */
+    
     private constructor(
         public readonly id: RaceId,
         public readonly raceType: RaceType,
@@ -61,18 +46,7 @@ export class MechanicalRacingRaceRecord
         public readonly updateDate: UpdateDate,
     ) {}
 
-    /**
-     * インスタンス生成メソッド
-     * @param id - ID
-     * @param raceType - レース種別
-     * @param name - レース名
-     * @param stage - 開催ステージ
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - グレード
-     * @param number - レース番号
-     * @param updateDate - 更新日時
-     */
+    
     public static create(
         id: string,
         raceType: RaceType,
@@ -101,10 +75,7 @@ export class MechanicalRacingRaceRecord
         }
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(
         partial: Partial<MechanicalRacingRaceRecord> = {},
     ): MechanicalRacingRaceRecord {

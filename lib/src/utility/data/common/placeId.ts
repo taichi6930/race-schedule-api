@@ -5,12 +5,7 @@ import { RaceType } from '../../raceType';
 import { NetkeibaBabacodeMap } from '../netkeiba';
 import { createPlaceCodeMap, type RaceCourse } from './raceCourse';
 
-/**
- * placeIdを作成する
- * @param raceType - レース種別
- * @param dateTime - 開催日時
- * @param location - 開催場所
- */
+
 export const generatePlaceId = (
     raceType: RaceType,
     dateTime: Date,
@@ -26,10 +21,7 @@ export const generatePlaceId = (
     return `${raceTypePrefix}${dateCode}${locationCode}`;
 };
 
-/**
- * PlaceIdのzod型定義
- * @param raceType - レース種別
- */
+
 const PlaceIdSchema = (raceType: RaceType): z.ZodString => {
     const lowerCaseRaceType = raceType.toLowerCase();
     return z
@@ -42,23 +34,14 @@ const PlaceIdSchema = (raceType: RaceType): z.ZodString => {
         }, `${lowerCaseRaceType}PlaceIdの形式ではありません`);
 };
 
-/**
- * PlaceIdのzod型定義
- */
+
 export type PlaceId = z.infer<typeof UnionPlaceIdSchema>;
 
-/**
- * PlaceIdのバリデーション
- * @param raceType - レース種別
- * @param value - バリデーション対象
- * @returns バリデーション済みのPlaceId
- */
+
 export const validatePlaceId = (raceType: RaceType, value: string): PlaceId =>
     PlaceIdSchema(raceType).parse(value);
 
-/**
- * PlaceIdのzod型定義
- */
+
 export const UnionPlaceIdSchema = z.union([
     PlaceIdSchema(RaceType.JRA),
     PlaceIdSchema(RaceType.NAR),

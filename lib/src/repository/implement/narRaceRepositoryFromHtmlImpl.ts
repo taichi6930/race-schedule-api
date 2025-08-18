@@ -18,9 +18,7 @@ import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
-/**
- * 競馬場開催データリポジトリの実装
- */
+
 @injectable()
 export class NarRaceRepositoryFromHtmlImpl
     implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
@@ -30,10 +28,7 @@ export class NarRaceRepositoryFromHtmlImpl
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
-    /**
-     * 開催データを取得する
-     * @param searchFilter
-     */
+    
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
@@ -89,7 +84,7 @@ export class NarRaceRepositoryFromHtmlImpl
                     const raceNumber = this.extractRaceNumber(
                         [...tds].map((td) => $(td).text()),
                     );
-                    // 0時0分の日付を取得
+                    
                     const raceDate = new Date(
                         placeEntity.placeData.dateTime.getFullYear(),
                         placeEntity.placeData.dateTime.getMonth(),
@@ -207,7 +202,7 @@ export class NarRaceRepositoryFromHtmlImpl
     }
 
     private extractRaceName(race: string[]): string {
-        // 重賞の取得
+        
         const regexList = ['JpnIII', 'JpnII', 'JpnI', 'JpnＩ', 'ＧＩ'];
         let raceName: string | null = null;
         for (const regex of regexList) {
@@ -224,12 +219,7 @@ export class NarRaceRepositoryFromHtmlImpl
         return (raceName ?? race[4]).replace(/\n/g, '');
     }
 
-    /**
-     * レースデータを登録する
-     * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param raceEntityList
-     */
+    
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,

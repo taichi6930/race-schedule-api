@@ -16,52 +16,22 @@ import type { RaceNumber } from '../utility/data/common/raceNumber';
 import { validateRaceNumber } from '../utility/data/common/raceNumber';
 import type { RaceType } from '../utility/raceType';
 
-/**
- * 競馬のレース開催データ
- */
+
 export class RaceData {
-    /**
-     * レース種別
-     * @type {RaceType}
-     */
+    
     public readonly raceType: RaceType;
-    /**
-     * レース名
-     * @type {RaceName}
-     */
+    
     public readonly name: RaceName;
-    /**
-     * 開催日時
-     * @type {RaceDateTime}
-     */
+    
     public readonly dateTime: RaceDateTime;
-    /**
-     * 開催場所
-     * @type {RaceCourse}
-     */
+    
     public readonly location: RaceCourse;
-    /**
-     * グレード
-     * @type {GradeType}
-     */
+    
     public readonly grade: GradeType;
-    /**
-     * レース番号
-     * @type {RaceNumber}
-     */
+    
     public readonly number: RaceNumber;
 
-    /**
-     * コンストラクタ
-     * @param raceType - レース種別
-     * @param name - レース名
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - グレード
-     * @param number - レース番号
-     * @remarks
-     * レース開催データを生成する
-     */
+    
     private constructor(
         raceType: RaceType,
         name: RaceName,
@@ -78,16 +48,7 @@ export class RaceData {
         this.number = number;
     }
 
-    /**
-     * インスタンス生成メソッド
-     * バリデーション済みデータを元にインスタンスを生成する
-     * @param raceType - レース種別
-     * @param name - レース名
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - グレード
-     * @param number - レース番号
-     */
+    
     public static create(
         raceType: RaceType,
         name: string,
@@ -106,10 +67,7 @@ export class RaceData {
         );
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(partial: Partial<RaceData> = {}): RaceData {
         return RaceData.create(
             partial.raceType ?? this.raceType,

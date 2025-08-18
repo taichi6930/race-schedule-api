@@ -7,12 +7,12 @@ export function createLambdaExecutionRole(
     bucket: s3.IBucket,
     s3BucketName: string,
 ): iam.Role {
-    // Lambda 実行に必要な IAM ロールを作成
+    
     const role = new iam.Role(scope, 'LambdaExecutionRole', {
         assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
     });
 
-    // Lambda が S3 バケットにアクセスできるようにするポリシーステートメントを追加
+    
     role.addToPolicy(
         new iam.PolicyStatement({
             actions: [
@@ -28,7 +28,7 @@ export function createLambdaExecutionRole(
         }),
     );
 
-    // Lambdaのログ出力権限を追加
+    
     role.addToPolicy(
         new iam.PolicyStatement({
             actions: [

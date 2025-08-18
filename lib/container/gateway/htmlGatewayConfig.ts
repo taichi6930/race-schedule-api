@@ -8,7 +8,7 @@ import { MockPlaceDataHtmlGateway } from '../../src/gateway/mock/mockPlaceDataHt
 import { MockRaceDataHtmlGateway } from '../../src/gateway/mock/mockRaceDataHtmlGateway';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
-// s3Gatewayの実装クラスをDIコンテナに登錄する
+
 
 container.register<IPlaceDataHtmlGateway>('PlaceDataHtmlGateway', {
     useFactory: () => {

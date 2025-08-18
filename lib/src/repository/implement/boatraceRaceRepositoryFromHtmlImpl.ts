@@ -17,9 +17,7 @@ import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { RaceType } from './../../utility/raceType';
 
-/**
- * ボートレース場開催データリポジトリの実装
- */
+
 @injectable()
 export class BoatraceRaceRepositoryFromHtmlImpl
     implements
@@ -30,10 +28,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
-    /**
-     * 開催データを取得する
-     * @param searchFilter - レース検索フィルター
-     */
+    
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
@@ -67,7 +62,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                 placeData.dateTime.getMonth() + 1,
                 placeData.dateTime.getDate(),
             ];
-            // TODO: 全レースを取りたいが、12レースのみ取得するので、後で修正する
+            
             const raceNumber = 12;
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
                 placeData.raceType,
@@ -78,7 +73,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             const boatraceRaceEntityList: MechanicalRacingRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
 
-            // raceNameを取得 class="heading2_titleName"のtext
+            
             const raceNameText = $('.heading2_titleName').text();
 
             const raceStageString = $('h3').text();
@@ -92,21 +87,21 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 
             const raceGrade = this.extractRaceGrade(raceName, grade);
 
-            // contentsFrame1_innerのクラスを持つ要素を取得
+            
             const raceSummaryInfo = $('.contentsFrame1_inner');
-            // その中からtable1 h-mt10のクラスを持つ要素を取得
+            
             const raceSummaryInfoChild = raceSummaryInfo.find('.table1');
 
-            // tableの中のtbodyの中のtdを全て取得
+            
             const raceSummaryInfoChildTd = raceSummaryInfoChild.find('td');
-            // 12番目のtdを取得
+            
             const raceTime = raceSummaryInfoChildTd.eq(raceNumber).text();
 
             const [hourString, minuteString] = raceTime.split(':');
             const hour = Number.parseInt(hourString);
             const minute = Number.parseInt(minuteString);
 
-            // TODO: 選手情報を取得する
+            
             const racePlayerDataList: RacePlayerData[] = [];
 
             boatraceRaceEntityList.push(
@@ -146,9 +141,9 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         raceStage: RaceStage,
         raceNumber: number,
     ): string {
-        // レース名に「チャレンジカップ」が含まれている場合で、
-        // レースステージが「優勝戦」、
-        // レース番号が12の場合は「チャレンジカップ」とする
+        
+        
+        
         if (
             raceName.includes('チャレンジカップ') &&
             raceStage === '優勝戦' &&
@@ -156,7 +151,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         ) {
             return 'チャレンジカップ';
         }
-        // 11レースの場合は「レディースチャレンジカップ」
+        
         if (
             raceName.includes('チャレンジカップ') &&
             raceStage === '優勝戦' &&
@@ -171,19 +166,14 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         raceName: string,
         raceGrade: GradeType,
     ): GradeType {
-        // レース名に「レディースチャレンジカップ」が含まれている場合は「GⅡ」
+        
         if (raceName.includes('レディースチャレンジカップ')) {
             return 'GⅡ';
         }
         return raceGrade;
     }
 
-    /**
-     * レースデータを登録する
-     * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param raceEntityList
-     */
+    
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,

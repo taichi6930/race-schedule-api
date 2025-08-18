@@ -7,9 +7,7 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { ICalendarGateway } from '../interface/iCalendarGateway';
 
-/**
- * Googleカレンダーのモックサービス
- */
+
 export class MockGoogleCalendarGateway implements ICalendarGateway {
     public constructor() {
         this.setCalendarData();
@@ -34,7 +32,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         }
         MockGoogleCalendarGateway.isInitialized = true;
         switch (ENV) {
-            case allowedEnvs.production: // ENV が production の場合、GoogleCalendarGateway を使用
+            case allowedEnvs.production: 
             case allowedEnvs.test:
             case allowedEnvs.localNoInitData:
             case allowedEnvs.githubActionsCi:
@@ -42,12 +40,12 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                 break;
             }
             case allowedEnvs.localInitMadeData: {
-                // ENV が LOCAL_INIT_MADE_DATA の場合、データを後で設定したいので何もしない
+                
                 {
-                    // 2024年のデータ366日分を作成
+                    
                     const startDate = new Date('2024-01-01');
                     const currentDate = new Date(startDate);
-                    // whileで回していって、最初の日付の年数と異なったら終了
+                    
                     while (
                         currentDate.getFullYear() === startDate.getFullYear()
                     ) {
@@ -88,7 +86,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                                         timeZone: 'Asia/Tokyo',
                                     },
                                     end: {
-                                        // 終了時刻は発走時刻から10分後とする
+                                        
                                         dateTime: formatDate(
                                             new Date(
                                                 currentDate.getFullYear(),
@@ -141,7 +139,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                     new Date(data.start?.dateTime ?? '') >= startDate &&
                     new Date(data.start?.dateTime ?? '') <= finishDate,
             )
-            // 日付順に並び替え
+            
             .sort(
                 (a, b) =>
                     new Date(a.start?.dateTime ?? '').getTime() -
@@ -171,11 +169,11 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
         try {
-            // mockCalendarDataに存在するかどうかの判定
+            
             const index = MockGoogleCalendarGateway.mockCalendarData[
                 raceType
             ].findIndex((data) => data.id === calendarData.id);
-            // 存在しない場合は新規追加
+            
             if (index === -1) {
                 throw new Error('Event already exists');
             }
@@ -195,11 +193,11 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
         try {
-            // mockCalendarDataに存在するかどうかの判定
+            
             const index = MockGoogleCalendarGateway.mockCalendarData[
                 raceType
             ].findIndex((data) => data.id === calendarData.id);
-            // 存在しない場合は新規追加
+            
             if (index !== -1) {
                 throw new Error('Not found');
             }
@@ -220,11 +218,11 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         eventId: string,
     ): Promise<void> {
         try {
-            // mockCalendarDataに存在するかどうかの判定
+            
             const index = MockGoogleCalendarGateway.mockCalendarData[
                 raceType
             ].findIndex((data) => data.id === eventId);
-            // 存在しない場合はエラー
+            
             if (index === -1) {
                 throw new Error('Not found');
             }

@@ -17,9 +17,7 @@ import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
-/**
- * 競輪場開催データリポジトリの実装
- */
+
 @injectable()
 export class KeirinRaceRepositoryFromHtmlImpl
     implements
@@ -30,10 +28,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
-    /**
-     * 開催データを取得する
-     * @param searchFilter
-     */
+    
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<MechanicalRacingPlaceEntity>,
@@ -74,7 +69,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
             );
             const keirinRaceEntityList: MechanicalRacingRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
-            // id="content"を取得
+            
             const content = $('#content');
             const seriesRaceName = (
                 content.find('h2').text().split('\n').filter(Boolean)[1] ??
@@ -86,22 +81,22 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 .replace(/[０-９Ａ-Ｚａ-ｚ]/g, (s: string) =>
                     String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
                 );
-            // class="section1"を取得
+            
             const section1 = content.find('.section1');
             section1.each((_, section1Element) => {
-                // class="w480px"を取得
+                
                 $(section1Element)
                     .find('.w480px')
                     .each((__, element) => {
-                        // 発走時間の取得 10: 50
+                        
                         const raceTime = $(element)
                             .find('.tx_blue')
                             .next()
                             .text()
                             .trim();
                         const [hour, minute] = raceTime.split(':').map(Number);
-                        // レースナンバーの取得 aタグの中にある 第11R の11
-                        // 第 と R の間にある
+                        
+                        
                         const raceNumber = /第(\d+)R/.exec(
                             $(element).find('a').text(),
                         )?.[1];
@@ -119,22 +114,22 @@ export class KeirinRaceRepositoryFromHtmlImpl
                             new Date(year, month - 1, day),
                         );
                         const racePlayerDataList: RacePlayerData[] = [];
-                        // tableを取得
+                        
                         const table = $(element).find('table');
-                        // class="bg-1-pl", "bg-2-pl"..."bg-9-pl"を取得
-                        Array.from({ length: 9 }, (___, i) => i + 1) // 1から9までの配列を作成
+                        
+                        Array.from({ length: 9 }, (___, i) => i + 1) 
                             .map((i) => {
                                 const bgClassName = `bg-${i.toString()}-pl`;
-                                // class="bg-1-pl"を取得
+                                
                                 const tableRow = table.find(`.${bgClassName}`);
-                                // class="bg-1-pl"の中にあるtdを取得
-                                // <td class="no1">1</td>のような形なので、"no${i}"の中のテキストを取得、枠番になる
+                                
+                                
                                 const positionNumber = tableRow
                                     .find(`.no${i.toString()}`)
                                     .text();
-                                // <td class="al-left"><a href="./PlayerDetail.do?playerCd=015480">松本秀之介</a></td>
-                                // 015480が選手の登録番号なので、これを取得
-                                // "./PlayerDetail.do?playerCd=015480"のような形になっているので、parseして取得
+                                
+                                
+                                
                                 const playerNumber =
                                     tableRow
                                         .find('.al-left')
@@ -195,45 +190,45 @@ export class KeirinRaceRepositoryFromHtmlImpl
         raceSummaryInfoChild: string,
         raceStage: string,
     ): string {
-        // raceNameに競輪祭が含まれている場合かつ
-        // raceStageにガールズが含まれている場合、
-        // raceNameを「競輪祭女子王座戦」にする
+        
+        
+        
         if (
             raceSummaryInfoChild.includes('競輪祭') &&
             raceStage.includes('ガールズ')
         ) {
             return '競輪祭女子王座戦';
         }
-        // raceNameに高松宮記念杯が含まれているかつ
-        // raceStageがガールズが含まれている場合、
-        // raceNameを「パールカップ」にする
+        
+        
+        
         if (
             raceSummaryInfoChild.includes('高松宮記念杯') &&
             raceStage.includes('ガールズ')
         ) {
             return 'パールカップ';
         }
-        // raceNameにオールスター競輪が含まれている場合かつ
-        // raceStageにガールズが含まれている場合、
-        // raceNameを「女子オールスター競輪」にする
+        
+        
+        
         if (
             raceSummaryInfoChild.includes('オールスター競輪') &&
             raceStage.includes('ガールズ')
         ) {
             return '女子オールスター競輪';
         }
-        // raceNameにサマーナイトフェスティバルが含まれている場合、
-        // raceStageに「ガールズ」が含まれている場合、
-        // raceNameを「ガールズケイリンフェスティバル」にする
+        
+        
+        
         if (
             raceSummaryInfoChild.includes('サマーナイトフェスティバル') &&
             raceStage.includes('ガールズ')
         ) {
             return 'ガールズケイリンフェスティバル';
         }
-        // raceNameにKEIRINグランプリが含まれている場合、
-        // raceStageに「グランプリ」が含まれていなかったら、
-        // raceNameを「寺内大吉記念杯競輪」にする
+        
+        
+        
         if (
             raceSummaryInfoChild.includes('KEIRINグランプリ') &&
             !raceStage.includes('グランプリ')
@@ -260,11 +255,11 @@ export class KeirinRaceRepositoryFromHtmlImpl
         raceStage: RaceStage,
         raceDate: Date,
     ): GradeType {
-        // raceStageが「ヤンググランプリ」の場合、GⅡを返す
+        
         if (raceStage === 'SA混合ヤンググランプリ') {
             return 'GⅡ';
         }
-        // raceNameに女子オールスター競輪が入っている場合、2024年であればFⅡ、2025年以降であればGⅠを返す
+        
         if (
             raceName.includes('女子オールスター競輪') &&
             raceDate.getFullYear() >= 2025
@@ -277,7 +272,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         ) {
             return 'FⅡ';
         }
-        // raceNameにサマーナイトフェスティバルが入っている場合、raceStageが「ガールズ」が含まれている場合、FⅡを返す
+        
         if (
             raceName.includes('サマーナイトフェスティバル') &&
             raceStage.includes('ガールズ')
@@ -287,19 +282,14 @@ export class KeirinRaceRepositoryFromHtmlImpl
         if (raceName.includes('ガールズケイリンフェスティバル')) {
             return 'FⅡ';
         }
-        // raceNameに寺内大吉記念杯競輪が入っている場合、FⅠを返す
+        
         if (raceName.includes('寺内大吉記念杯競輪')) {
             return 'FⅠ';
         }
         return raceGrade;
     }
 
-    /**
-     * レースデータを登録する
-     * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param raceEntityList
-     */
+    
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,

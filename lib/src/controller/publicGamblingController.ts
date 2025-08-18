@@ -9,9 +9,7 @@ import { SpecifiedGradeList } from '../utility/data/common/gradeType';
 import { Logger } from '../utility/logger';
 import { convertRaceTypeList, RaceType } from '../utility/raceType';
 
-/**
- * 公営競技のレース情報コントローラー
- */
+
 @injectable()
 export class PublicGamblingController {
     public router: Router;
@@ -30,29 +28,23 @@ export class PublicGamblingController {
         this.initializeRoutes();
     }
 
-    /**
-     * ルーティングの初期化
-     */
+    
     @Logger
     private initializeRoutes(): void {
-        // Calendar関連のAPI
+        
         this.router.get('/calendar', this.getRacesFromCalendar.bind(this));
         this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
-        // RaceData関連のAPI
+        
         this.router.get('/race', this.getRaceDataList.bind(this));
         this.router.post('/race', this.updateRaceEntityList.bind(this));
-        // PlaceData関連のAPI
+        
         this.router.get('/place', this.getPlaceDataList.bind(this));
         this.router.post('/place', this.updatePlaceDataList.bind(this));
-        // PlayerData関連のAPI
+        
         this.router.get('/player', this.getPlayerDataList.bind(this));
     }
 
-    /**
-     * 公営競技のカレンダーからレース情報を取得する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
+    
     @Logger
     private async getRacesFromCalendar(
         req: Request,
@@ -61,7 +53,7 @@ export class PublicGamblingController {
         try {
             const { startDate, finishDate, raceType } = req.query;
 
-            // startDateとfinishDateが指定されていないかつ、日付形式でない場合はエラーを返す
+            
             if (
                 Number.isNaN(Date.parse(startDate as string)) ||
                 Number.isNaN(Date.parse(finishDate as string))
@@ -70,7 +62,7 @@ export class PublicGamblingController {
                 return;
             }
 
-            // raceTypeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            
             const raceTypeList = convertRaceTypeList(
                 typeof raceType === 'string'
                     ? [raceType]
@@ -107,11 +99,7 @@ export class PublicGamblingController {
         }
     }
 
-    /**
-     * カレンダーにレース情報を更新する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
+    
     @Logger
     private async updateRacesToCalendar(
         req: Request,
@@ -120,7 +108,7 @@ export class PublicGamblingController {
         try {
             const { startDate, finishDate, raceType } = req.body;
 
-            // startDateとfinishDateが指定されていないかつ、日付形式でない場合はエラーを返す
+            
             if (
                 Number.isNaN(Date.parse(startDate as string)) ||
                 Number.isNaN(Date.parse(finishDate as string))
@@ -129,7 +117,7 @@ export class PublicGamblingController {
                 return;
             }
 
-            // raceTypeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            
             const raceTypeList = convertRaceTypeList(
                 typeof raceType === 'string'
                     ? [raceType]
@@ -147,7 +135,7 @@ export class PublicGamblingController {
                 return;
             }
 
-            // カレンダーにレース情報を更新する
+            
             await this.calendarUseCase.updateRacesToCalendar(
                 new Date(startDate),
                 new Date(finishDate),
@@ -175,17 +163,13 @@ export class PublicGamblingController {
         }
     }
 
-    /**
-     * 競馬場情報を取得する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
+    
     @Logger
     private async getPlaceDataList(req: Request, res: Response): Promise<void> {
         try {
             const { startDate, finishDate, raceType } = req.query;
 
-            // startDateとfinishDateが指定されていない場合はエラーを返す
+            
             if (
                 Number.isNaN(Date.parse(startDate as string)) ||
                 Number.isNaN(Date.parse(finishDate as string))
@@ -194,7 +178,7 @@ export class PublicGamblingController {
                 return;
             }
 
-            // raceTypeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            
             const raceTypeList = convertRaceTypeList(
                 typeof raceType === 'string'
                     ? [raceType]
@@ -212,7 +196,7 @@ export class PublicGamblingController {
                 return;
             }
 
-            // 競馬場情報を取得する
+            
             const placeList = await this.placeUseCase.fetchPlaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
@@ -229,11 +213,7 @@ export class PublicGamblingController {
         }
     }
 
-    /**
-     * 競馬場情報を更新する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
+    
     @Logger
     private async updatePlaceDataList(
         req: Request,
@@ -242,7 +222,7 @@ export class PublicGamblingController {
         try {
             const { startDate, finishDate, raceType } = req.body;
 
-            // startDateとfinishDateが指定されていない場合はエラーを返す
+            
             if (
                 Number.isNaN(Date.parse(startDate as string)) ||
                 Number.isNaN(Date.parse(finishDate as string))
@@ -251,7 +231,7 @@ export class PublicGamblingController {
                 return;
             }
 
-            // raceTypeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            
             const raceTypeList = convertRaceTypeList(
                 typeof raceType === 'string'
                     ? [raceType]
@@ -269,7 +249,7 @@ export class PublicGamblingController {
                 return;
             }
 
-            // 競馬場情報を取得する
+            
             const response = await this.placeUseCase.updatePlaceDataList(
                 new Date(startDate),
                 new Date(finishDate),
@@ -290,15 +270,11 @@ export class PublicGamblingController {
         }
     }
 
-    /**
-     * レース情報を取得する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
+    
     @Logger
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
         try {
-            // gradeが複数来ることもある
+            
             const { startDate, finishDate, raceType, grade, location, stage } =
                 req.query;
 
@@ -312,7 +288,7 @@ export class PublicGamblingController {
                       : undefined,
             );
 
-            // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            
             const gradeList =
                 typeof grade === 'string'
                     ? [grade]
@@ -340,7 +316,7 @@ export class PublicGamblingController {
                           : undefined
                       : undefined;
 
-            // startDateとfinishDateが指定されていない場合はエラーを返す
+            
             if (
                 Number.isNaN(Date.parse(startDate as string)) ||
                 Number.isNaN(Date.parse(finishDate as string))
@@ -360,7 +336,7 @@ export class PublicGamblingController {
                 return;
             }
 
-            // レース情報を取得する
+            
             const races = await this.raceDataUseCase.fetchRaceEntityList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
@@ -407,11 +383,7 @@ export class PublicGamblingController {
         }
     }
 
-    /**
-     * レース情報を更新する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
+    
     @Logger
     private async updateRaceEntityList(
         req: Request,
@@ -430,7 +402,7 @@ export class PublicGamblingController {
                       : undefined,
             );
 
-            // startDateとfinishDateが指定されていない場合はエラーを返す
+            
             if (
                 Number.isNaN(Date.parse(startDate as string)) ||
                 Number.isNaN(Date.parse(finishDate as string))
@@ -447,7 +419,7 @@ export class PublicGamblingController {
                 return;
             }
 
-            // raceTypeListに応じて各種プロパティを動的に生成
+            
             const raceTypeParams: Record<string, { gradeList?: string[] }> = {};
             for (const type of raceTypeList) {
                 raceTypeParams[type] = {
@@ -479,18 +451,14 @@ export class PublicGamblingController {
         }
     }
 
-    /**
-     * 選手データを取得する
-     * @param req - リクエスト
-     * @param res - レスポンス
-     */
+    
     @Logger
     private async getPlayerDataList(
         req: Request,
         res: Response,
     ): Promise<void> {
         try {
-            // gradeが複数来ることもある
+            
             const { raceType } = req.query;
 
             const raceTypeList = convertRaceTypeList(
@@ -511,7 +479,7 @@ export class PublicGamblingController {
                 return;
             }
 
-            // レース情報を取得する
+            
             const players =
                 await this.playerUseCase.fetchPlayerDataList(raceTypeList);
             res.json(players);

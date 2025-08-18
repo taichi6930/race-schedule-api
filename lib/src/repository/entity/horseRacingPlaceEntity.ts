@@ -8,32 +8,18 @@ import {
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IPlaceEntity } from './iPlaceEntity';
 
-/**
- * Repository層のEntity レース開催場所データ
- */
+
 export class HorseRacingPlaceEntity
     implements IPlaceEntity<HorseRacingPlaceEntity>
 {
-    /**
-     * コンストラクタ
-     * @param id - ID
-     * @param placeData - レース開催場所データ
-     * @param updateDate - 更新日時
-     * @remarks
-     * レース開催場所データを生成する
-     */
+    
     private constructor(
         public readonly id: PlaceId,
         public readonly placeData: PlaceData,
         public readonly updateDate: UpdateDate,
     ) {}
 
-    /**
-     * インスタンス生成メソッド
-     * @param id - ID
-     * @param placeData - レース開催場所データ
-     * @param updateDate - 更新日時
-     */
+    
     public static create(
         id: string,
         placeData: PlaceData,
@@ -46,11 +32,7 @@ export class HorseRacingPlaceEntity
         );
     }
 
-    /**
-     * idがない場合でのcreate
-     * @param placeData - レース開催場所データ
-     * @param updateDate - 更新日時
-     */
+    
     public static createWithoutId(
         placeData: PlaceData,
         updateDate: Date,
@@ -66,10 +48,7 @@ export class HorseRacingPlaceEntity
         );
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(
         partial: Partial<HorseRacingPlaceEntity> = {},
     ): HorseRacingPlaceEntity {
@@ -80,9 +59,7 @@ export class HorseRacingPlaceEntity
         );
     }
 
-    /**
-     * PlaceRecordに変換する
-     */
+    
     public toRecord(): PlaceRecord {
         return PlaceRecord.create(
             this.id,

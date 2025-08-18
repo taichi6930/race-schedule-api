@@ -6,21 +6,14 @@ import type { RaceCourse } from '../../utility/data/common/raceCourse';
 import type { RaceStage } from '../../utility/data/common/raceStage';
 import type { RaceType } from '../../utility/raceType';
 
-/**
- * レースデータUseCaseのインターフェース
- */
+
 export interface IRaceDataUseCase {
-    /**
-     * レース開催データを取得する
-     * @param startDate
-     * @param finishDate
-     * @param searchList
-     */
+    
     fetchRaceEntityList: (
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
-        // Optional parameters
+        
         searchList?: {
             [RaceType.JRA]?: {
                 gradeList?: GradeType[];
@@ -59,12 +52,7 @@ export interface IRaceDataUseCase {
         [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
     }>;
 
-    /**
-     * レース開催データを更新する
-     * @param startDate
-     * @param finishDate
-     * @param searchList
-     */
+    
     updateRaceEntityList: (
         startDate: Date,
         finishDate: Date,

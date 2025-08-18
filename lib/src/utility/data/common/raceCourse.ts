@@ -2,15 +2,13 @@ import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
 
-/**
- * RaceCourseのマスターデータ
- */
+
 const RaceCourseMasterList: {
     raceType: RaceType;
     placeName: string;
     placeCode: string;
 }[] = [
-    // Autorace
+    
     { raceType: RaceType.AUTORACE, placeName: '船橋', placeCode: '01' },
     { raceType: RaceType.AUTORACE, placeName: '川口', placeCode: '02' },
     { raceType: RaceType.AUTORACE, placeName: '伊勢崎', placeCode: '03' },
@@ -204,7 +202,7 @@ const RaceCourseMasterList: {
     { raceType: RaceType.NAR, placeName: '佐賀', placeCode: '32' },
     { raceType: RaceType.NAR, placeName: '荒尾', placeCode: '33' },
     { raceType: RaceType.NAR, placeName: '中津', placeCode: '34' },
-    // 競艇
+    
     { raceType: RaceType.BOATRACE, placeName: '桐生', placeCode: '01' },
     { raceType: RaceType.BOATRACE, placeName: '戸田', placeCode: '02' },
     { raceType: RaceType.BOATRACE, placeName: '江戸川', placeCode: '03' },
@@ -241,10 +239,7 @@ const RaceCourseMasterList: {
     { raceType: RaceType.JRA, placeName: '小倉', placeCode: '' },
 ];
 
-/**
- * 場リスト
- * @param raceType - レース種別
- */
+
 const RaceCourseList = (raceType: RaceType): Set<string> =>
     new Set(
         RaceCourseMasterList.filter(
@@ -252,12 +247,7 @@ const RaceCourseList = (raceType: RaceType): Set<string> =>
         ).map((course) => course.placeName),
     );
 
-/**
- * RaceCourseMasterListからraceTypeごとのPlaceCodeMapを生成するユーティリティ
- * レース場名とコードの対応表
- * @param raceType - レース種別
- * @returns placeName をキー、placeCode を値とするマップ
- */
+
 export const createPlaceCodeMap = (
     raceType: RaceType,
 ): Record<string, string> => {
@@ -275,28 +265,19 @@ export const createPlaceCodeMap = (
     return map;
 };
 
-/**
- * RaceCourseのzod型定義
- * @param raceType - レース種別
- */
+
 const createRaceCourseSchema = (raceType: RaceType): z.ZodString =>
     z.string().refine((value) => {
         return RaceCourseList(raceType).has(value);
     }, `${raceType}の開催場ではありません`);
 
-/**
- * 開催場のバリデーション
- * @param raceType - レース種別
- * @param location - 開催場所
- */
+
 export const validateRaceCourse = (
     raceType: RaceType,
     location: string,
 ): RaceCourse => createRaceCourseSchema(raceType).parse(location);
 
-/**
- * RaceCourseのzod型定義
- */
+
 export const UnionRaceCourseSchema = z.union([
     createRaceCourseSchema(RaceType.JRA),
     createRaceCourseSchema(RaceType.NAR),
@@ -306,7 +287,5 @@ export const UnionRaceCourseSchema = z.union([
     createRaceCourseSchema(RaceType.BOATRACE),
 ]);
 
-/**
- * RaceCourseの型定義
- */
+
 export type RaceCourse = z.infer<typeof UnionRaceCourseSchema>;

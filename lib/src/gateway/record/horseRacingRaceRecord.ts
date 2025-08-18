@@ -27,25 +27,9 @@ import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
-/**
- * 競馬のレース開催データ
- */
+
 export class HorseRacingRaceRecord implements IRecord<HorseRacingRaceRecord> {
-    /**
-     * コンストラクタ
-     * @param id - ID
-     * @param raceType - レース種別
-     * @param name - レース名
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param surfaceType - 馬場種別
-     * @param distance - 距離
-     * @param grade - グレード
-     * @param number - レース番号
-     * @param updateDate - 更新日時
-     * @remarks
-     * レース開催データを生成する
-     */
+    
     private constructor(
         public readonly id: RaceId,
         public readonly raceType: RaceType,
@@ -59,19 +43,7 @@ export class HorseRacingRaceRecord implements IRecord<HorseRacingRaceRecord> {
         public readonly updateDate: UpdateDate,
     ) {}
 
-    /**
-     * インスタンス生成メソッド
-     * @param id - ID
-     * @param raceType - レース種別
-     * @param name - レース名
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param surfaceType - 馬場種別
-     * @param distance - 距離
-     * @param grade - グレード
-     * @param number - レース番号
-     * @param updateDate - 更新日時
-     */
+    
     public static create(
         id: string,
         raceType: RaceType,
@@ -102,10 +74,7 @@ export class HorseRacingRaceRecord implements IRecord<HorseRacingRaceRecord> {
         }
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(
         partial: Partial<HorseRacingRaceRecord> = {},
     ): HorseRacingRaceRecord {
@@ -123,9 +92,7 @@ export class HorseRacingRaceRecord implements IRecord<HorseRacingRaceRecord> {
         );
     }
 
-    /**
-     * Entityに変換する
-     */
+    
     public toEntity(): HorseRacingRaceEntity {
         return HorseRacingRaceEntity.create(
             this.id,

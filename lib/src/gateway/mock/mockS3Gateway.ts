@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
@@ -16,49 +16,32 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IS3Gateway } from '../interface/iS3Gateway';
 
-/**
- * MockS3Gateway
- */
+
 @injectable()
 export class MockS3Gateway implements IS3Gateway {
-    /**
-     * モックデータを保存するためのマップ
-     * @private
-     * @type {Map<string, string>}
-     */
+    
     private static mockStorage: Map<string, string> = new Map<string, string>();
 
-    /**
-     * 初期化処理フラグ
-     * @private
-     * @type {boolean}
-     */
+    
     private static isInitialized = false;
 
-    /**
-     * バケット名 S3の中にあるデータの保存場所
-     * @type {string}
-     * @private
-     */
+    
     private readonly bucketName: string;
 
-    // スタートの年数
+    
     private startDate = new Date('2001-01-01');
-    // 終了の年数
+    
     private finishDate = new Date('2030-01-01');
 
-    /**
-     * MockS3Gatewayのコンストラクタ
-     * @param {string} bucketName
-     */
+    
     public constructor(bucketName: string) {
         this.bucketName = bucketName;
         (async () => {
-            // 既にmockStorageに値が入っている場合は何もしない
+            
             if (MockS3Gateway.isInitialized) {
                 return;
             }
-            // 初期化処理フラグを立てる
+            
             MockS3Gateway.isInitialized = true;
 
             await this.setPlaceMockData();
@@ -69,11 +52,7 @@ export class MockS3Gateway implements IS3Gateway {
         })();
     }
 
-    /**
-     * モックのデータをS3にアップロードする
-     * @param data
-     * @param fileName
-     */
+    
     @Logger
     public async uploadDataToS3(
         data: object[],
@@ -90,10 +69,7 @@ export class MockS3Gateway implements IS3Gateway {
         }
     }
 
-    /**
-     * モックのデータをS3から取得する
-     * @param fileName
-     */
+    
     @Logger
     public async fetchDataFromS3(
         folderPath: string,
@@ -109,12 +85,7 @@ export class MockS3Gateway implements IS3Gateway {
         return data;
     }
 
-    /**
-     * オブジェクトデータをCSV形式に変換する
-     * @private
-     * @param {T[]} data
-     * @returns {string}
-     */
+    
     @Logger
     private convertToCsv(data: object[]): string {
         if (data.length === 0) return '';
@@ -128,9 +99,7 @@ export class MockS3Gateway implements IS3Gateway {
         return `${csvHeader}${csvRows}`;
     }
 
-    /**
-     * モックデータを作成する
-     */
+    
     @Logger
     private async setPlaceMockData() {
         switch (ENV) {
@@ -138,8 +107,8 @@ export class MockS3Gateway implements IS3Gateway {
                 return;
             }
             case allowedEnvs.localInitMadeData: {
-                // 最初にmockStorageに値を入れておく
-                // 2024年のデータ366日分を作成
+                
+                
                 await Promise.all([
                     this.setRaceTypePlaceMockData(RaceType.JRA),
                     this.setRaceTypePlaceMockData(RaceType.NAR),
@@ -184,9 +153,7 @@ export class MockS3Gateway implements IS3Gateway {
         }
     }
 
-    /**
-     * モックデータを作成する
-     */
+    
     @Logger
     private async setRaceMockData() {
         switch (ENV) {
@@ -194,8 +161,8 @@ export class MockS3Gateway implements IS3Gateway {
                 return;
             }
             case allowedEnvs.localInitMadeData: {
-                // 最初にmockStorageに値を入れておく
-                // 2024年のデータ366日分を作成
+                
+                
                 await Promise.all([
                     this.setJraRaceMockData(),
                     this.setHorseRacingRaceMockData(RaceType.NAR),
@@ -239,9 +206,7 @@ export class MockS3Gateway implements IS3Gateway {
         }
     }
 
-    /**
-     * モックデータを作成する
-     */
+    
     @Logger
     private async setRacePlayerMockData() {
         switch (ENV) {
@@ -281,7 +246,7 @@ export class MockS3Gateway implements IS3Gateway {
 
     @Logger
     private async setHorseRacingRaceMockData(raceType: RaceType) {
-        // 2024年のデータ366日分を作成
+        
         const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
             CSV_HEADER_KEYS.NAME,
@@ -295,7 +260,7 @@ export class MockS3Gateway implements IS3Gateway {
         ].join(',');
         const mockData = [mockDataHeader];
         const currentDate = new Date(this.startDate);
-        // whileで回していって、最初の日付の年数と異なったら終了
+        
         while (currentDate.getFullYear() !== this.finishDate.getFullYear()) {
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                 mockData.push(
@@ -324,7 +289,7 @@ export class MockS3Gateway implements IS3Gateway {
     @Logger
     private async setJraRaceMockData() {
         const raceType: RaceType = RaceType.JRA;
-        // 2024年のデータ366日分を作成
+        
         const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
             CSV_HEADER_KEYS.NAME,
@@ -341,7 +306,7 @@ export class MockS3Gateway implements IS3Gateway {
         const mockData = [mockDataHeader];
 
         const currentDate = new Date(this.startDate);
-        // whileで回していって、最初の日付の年数と異なったら終了
+        
         while (currentDate.getFullYear() !== this.finishDate.getFullYear()) {
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                 mockData.push(
@@ -371,7 +336,7 @@ export class MockS3Gateway implements IS3Gateway {
 
     @Logger
     private async setMechanicalRacingRaceMockData(raceType: RaceType) {
-        // 2024年のデータ366日分を作成
+        
         const currentDate = new Date(this.startDate);
         const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
@@ -384,7 +349,7 @@ export class MockS3Gateway implements IS3Gateway {
             CSV_HEADER_KEYS.ID,
         ].join(',');
         const mockData = [mockDataHeader];
-        // whileで回していって、最初の日付の年数と異なったら終了
+        
         while (currentDate.getFullYear() !== this.finishDate.getFullYear()) {
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                 mockData.push(
@@ -419,19 +384,19 @@ export class MockS3Gateway implements IS3Gateway {
             CSV_HEADER_KEYS.UPDATE_DATE,
         ].join(',');
         const mockData = [mockDataHeader];
-        // 2024年のデータ12ヶ月分を作成
+        
         for (
             let year = 2001;
             year <= this.finishDate.getFullYear() - 1;
             year++
         ) {
-            // 2024年のデータ12ヶ月分を作成
+            
             for (let month = 1; month <= 12; month++) {
                 const startDate = new Date(year, month - 1, 1);
-                // 1ヶ月分のデータ（28~31日）を作成
-                // 2024年のデータ366日分を作成
+                
+                
                 const currentDate = new Date(this.startDate);
-                // whileで回していって、最初の日付の年数と異なったら終了
+                
                 while (currentDate.getMonth() === startDate.getMonth()) {
                     mockData.push(
                         [
@@ -452,9 +417,7 @@ export class MockS3Gateway implements IS3Gateway {
         MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
     }
 
-    /**
-     * モックデータを作成する
-     */
+    
     @Logger
     private async setHeldDayMockData() {
         switch (ENV) {
@@ -462,8 +425,8 @@ export class MockS3Gateway implements IS3Gateway {
                 return;
             }
             case allowedEnvs.localInitMadeData: {
-                // 最初にmockStorageに値を入れておく
-                // 2024年のデータ366日分を作成
+                
+                
                 await Promise.all([this.setJraHeldDayMockData()]);
                 return;
             }
@@ -496,9 +459,7 @@ export class MockS3Gateway implements IS3Gateway {
         }
     }
 
-    /**
-     * モックデータを作成する
-     */
+    
     @Logger
     private async setPlaceGradeMockData() {
         switch (ENV) {
@@ -506,8 +467,8 @@ export class MockS3Gateway implements IS3Gateway {
                 return;
             }
             case allowedEnvs.localInitMadeData: {
-                // 最初にmockStorageに値を入れておく
-                // 2024年のデータ366日分を作成
+                
+                
                 await Promise.all([
                     this.setRaceTypePlaceGradeMockData(RaceType.KEIRIN),
                     this.setRaceTypePlaceGradeMockData(RaceType.AUTORACE),
@@ -560,19 +521,19 @@ export class MockS3Gateway implements IS3Gateway {
             CSV_HEADER_KEYS.HELD_DAY_TIMES,
         ].join(',');
         const mockData = [mockDataHeader];
-        // 2024年のデータ12ヶ月分を作成
+        
         for (
             let year = 2001;
             year <= this.finishDate.getFullYear() - 1;
             year++
         ) {
-            // 2024年のデータ12ヶ月分を作成
+            
             for (let month = 1; month <= 12; month++) {
                 const startDate = new Date(year, month - 1, 1);
-                // 1ヶ月分のデータ（28~31日）を作成
-                // 2024年のデータ366日分を作成
+                
+                
                 const currentDate = new Date(this.startDate);
-                // whileで回していって、最初の日付の年数と異なったら終了
+                
                 while (currentDate.getMonth() === startDate.getMonth()) {
                     mockData.push(
                         [
@@ -603,19 +564,19 @@ export class MockS3Gateway implements IS3Gateway {
             CSV_HEADER_KEYS.UPDATE_DATE,
         ].join(',');
         const mockData = [mockDataHeader];
-        // 2024年のデータ12ヶ月分を作成
+        
         for (
             let year = 2001;
             year <= this.finishDate.getFullYear() - 1;
             year++
         ) {
-            // 2024年のデータ12ヶ月分を作成
+            
             for (let month = 1; month <= 12; month++) {
                 const startDate = new Date(year, month - 1, 1);
-                // 1ヶ月分のデータ（28~31日）を作成
-                // 2024年のデータ366日分を作成
+                
+                
                 const currentDate = new Date(this.startDate);
-                // whileで回していって、最初の日付の年数と異なったら終了
+                
                 while (currentDate.getMonth() === startDate.getMonth()) {
                     mockData.push(
                         [

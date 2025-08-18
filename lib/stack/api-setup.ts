@@ -10,13 +10,13 @@ export function createApiGateway(
     return new apigateway.LambdaRestApi(scope, 'RaceScheduleAppApi', {
         handler: lambdaFunction,
         defaultCorsPreflightOptions: {
-            // すべてのオリジンを許可
+            
             allowOrigins: apigateway.Cors.ALL_ORIGINS,
 
-            // すべてのHTTPメソッドを許可
+            
             allowMethods: ['GET', 'POST'],
 
-            // すべてのヘッダーを許可
+            
             allowHeaders: ['Content-Type', 'Authorization'],
             maxAge: Duration.minutes(1),
         },

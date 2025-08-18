@@ -7,19 +7,16 @@ import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
-// JraRaceRepositoryFromHtmlImplのモックを作成
+
 export class MockJraPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
-    /**
-     * 中央競馬場データを取得する
-     * @param searchFilter
-     */
+    
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
-        // request.startDateからrequest.finishDateまでの中央競馬場データを取得する
+        
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
@@ -30,7 +27,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
                     new Date(currentDate),
                     '東京',
                 ),
-                HeldDayData.create(1, 1), // 仮の開催日データ
+                HeldDayData.create(1, 1), 
                 getJSTDate(new Date()),
             );
             placeEntityList.push(placeEntity);
@@ -40,12 +37,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
         return placeEntityList;
     }
 
-    /**
-     * 開催データを登録する
-     * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param placeEntityList
-     */
+    
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,

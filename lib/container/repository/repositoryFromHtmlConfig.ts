@@ -26,9 +26,9 @@ import { MockJraRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/moc
 import { MockMechanicalRacingPlaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockMechanicalRacingPlaceRepositoryFromHtmlImpl';
 import { MockMechanicalRacingRaceRepositoryFromHtmlImpl } from '../../src/repository/mock/mockMechanicalRacingRaceRepositoryFromHtmlImpl';
 import { allowedEnvs, ENV } from '../../src/utility/env';
-// Repositoryの実装クラスをDIコンテナに登録する
 
-// 環境ごとの設定
+
+
 switch (ENV) {
     case allowedEnvs.production:
     case allowedEnvs.local: {

@@ -3,9 +3,7 @@ import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
 
-/**
- * グレードのマスターリスト
- */
+
 const GradeMasterList: {
     gradeName: string;
     detail: { raceType: RaceType; isSpecified: boolean }[];
@@ -200,34 +198,19 @@ const GradeMasterList: {
     },
 ];
 
-/**
- * グレードのバリデーション
- * @param raceType - レース種別
- * @param grade - バリデーション対象のグレード
- * @returns バリデーション済みのグレード
- * @throws エラー - 対応するレースタイプがない場合
- * @throws エラー - グレードが不正な場合
- */
+
 export const validateGradeType = (
     raceType: RaceType,
     grade: string,
 ): GradeType => createGradeSchema(raceType).parse(grade);
 
-/**
- * グレードのバリデーションスキーマを生成する
- * @param raceType - レース種別
- * @param errorMessage - エラーメッセージ
- * @returns ZodString
- */
+
 const createGradeSchema = (raceType: RaceType): ZodString =>
     z.string().refine((value): value is string => {
         return GradeTypeList(raceType).has(value);
     }, `${raceType}のグレードではありません`);
 
-/**
- * グレード リスト
- * @param raceType - レース種別
- */
+
 const GradeTypeList: (raceType: RaceType) => Set<string> = (raceType) =>
     new Set<string>(
         GradeMasterList.filter((grade) =>
@@ -235,10 +218,7 @@ const GradeTypeList: (raceType: RaceType) => Set<string> = (raceType) =>
         ).map((grade) => grade.gradeName),
     );
 
-/**
- * 指定グレードリスト
- * @param raceType - レース種別
- */
+
 export const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (
     raceType,
 ) =>
@@ -248,9 +228,7 @@ export const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (
         ),
     ).map((grade) => grade.gradeName);
 
-/**
- * GradeTypeのzod型定義
- */
+
 export const GradeTypeSchema = z.union([
     createGradeSchema(RaceType.JRA),
     createGradeSchema(RaceType.NAR),
@@ -260,7 +238,5 @@ export const GradeTypeSchema = z.union([
     createGradeSchema(RaceType.BOATRACE),
 ]);
 
-/**
- * GradeTypeの型定義
- */
+
 export type GradeType = z.infer<typeof GradeTypeSchema>;

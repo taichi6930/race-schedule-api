@@ -5,13 +5,7 @@ import { generatePlaceId } from './placeId';
 import type { RaceCourse } from './raceCourse';
 import { type RaceNumber, validateRaceNumber } from './raceNumber';
 
-/**
- * raceIdを作成する
- * @param raceType - レース種別
- * @param dateTime - 開催日時
- * @param location - 開催場所
- * @param number - レース番号
- */
+
 
 export const generateRaceId = (
     raceType: RaceType,
@@ -23,10 +17,7 @@ export const generateRaceId = (
     return `${generatePlaceId(raceType, dateTime, location)}${numberCode}`;
 };
 
-/**
- * RaceIdのzod型定義
- * @param raceType - レース種別
- */
+
 const RaceIdSchema = (raceType: RaceType): z.ZodString => {
     const lowerCaseRaceType = raceType.toLowerCase();
     return (
@@ -35,11 +26,11 @@ const RaceIdSchema = (raceType: RaceType): z.ZodString => {
             .refine((value) => {
                 return value.startsWith(lowerCaseRaceType);
             }, `${lowerCaseRaceType}から始まる必要があります`)
-            // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号)
+            
             .refine((value) => {
                 return new RegExp(`^${lowerCaseRaceType}\\d{12}$`).test(value);
             }, `${lowerCaseRaceType}RaceIdの形式ではありません`)
-            // レース番号は1~12の範囲
+            
             .refine((value) => {
                 const raceNumber = Number.parseInt(value.slice(-2));
                 try {
@@ -52,23 +43,14 @@ const RaceIdSchema = (raceType: RaceType): z.ZodString => {
     );
 };
 
-/**
- * RaceIdのzod型定義
- */
+
 export type RaceId = z.infer<typeof UnionRaceIdSchema>;
 
-/**
- * RaceIdのバリデーション
- * @param raceType - レース種別
- * @param value - バリデーション対象
- * @returns バリデーション済みのRaceId
- */
+
 export const validateRaceId = (raceType: RaceType, value: string): RaceId =>
     RaceIdSchema(raceType).parse(value);
 
-/**
- * RaceIdのzod型定義
- */
+
 export const UnionRaceIdSchema = z.union([
     RaceIdSchema(RaceType.JRA),
     RaceIdSchema(RaceType.NAR),

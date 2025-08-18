@@ -2,11 +2,7 @@ import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
 
-/**
- * 枠順の最高値を取得します。
- * @param playerDataList
- * @param raceType - レース種別
- */
+
 export const createMaxFrameNumber = (raceType: RaceType): number => {
     switch (raceType) {
         case RaceType.BOATRACE: {
@@ -25,7 +21,7 @@ export const createMaxFrameNumber = (raceType: RaceType): number => {
             return 16;
         }
         case RaceType.OVERSEAS: {
-            // 一旦大きめに48にする
+            
             return 48;
         }
     }
@@ -36,10 +32,7 @@ export const validatePositionNumber = (
     positionNumber: number,
 ): PositionNumber => PositionNumberSchema(raceType).parse(positionNumber);
 
-/**
- * PositionNumber zod型定義
- * @param raceType - レース種別
- */
+
 const PositionNumberSchema: (raceType: RaceType) => z.ZodNumber = (
     raceType,
 ) => {
@@ -51,16 +44,12 @@ const PositionNumberSchema: (raceType: RaceType) => z.ZodNumber = (
         .max(max, `枠番は${max}以下である必要があります`);
 };
 
-/**
- * 共通のPositionNumber zod型定義
- */
+
 export const CommonPositionNumberSchema = z.union([
     PositionNumberSchema(RaceType.KEIRIN),
     PositionNumberSchema(RaceType.AUTORACE),
     PositionNumberSchema(RaceType.BOATRACE),
 ]);
 
-/**
- * 共通のPositionNumber型定義
- */
+
 export type PositionNumber = z.infer<typeof CommonPositionNumberSchema>;

@@ -1,10 +1,6 @@
 import { readFileSync } from 'node:fs';
 
-/**
- * CSV行をパースする
- * @param line - CSVの1行
- * @returns パースされたフィールドの配列
- */
+
 const parseLine = (line: string): string[] => {
     const result: string[] = [];
     let current = '';
@@ -25,11 +21,7 @@ const parseLine = (line: string): string[] => {
     return result;
 };
 
-/**
- * CSVファイルを読み込む
- * @param filePath - CSVファイルのパス
- * @returns ヘッダーと行データの配列
- */
+
 const readCsvFile = (
     filePath: string,
 ): {

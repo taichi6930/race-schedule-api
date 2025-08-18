@@ -13,9 +13,7 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
-/**
- * 公営競技レース開催データユースケース
- */
+
 @injectable()
 export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
     public constructor(
@@ -25,16 +23,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         private readonly raceDataService: IRaceDataService,
     ) {}
 
-    /**
-     * レース開催データを取得する
-     * @param startDate
-     * @param finishDate
-     * @param raceTypeList - レース種別のリスト
-     * @param searchList
-     * @param searchList.gradeList
-     * @param searchList.locationList
-     * @param searchList.stageList
-     */
+    
     @Logger
     public async fetchRaceEntityList(
         startDate: Date,
@@ -105,7 +94,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             },
         );
 
-        // 共通フィルタ関数で簡潔に
+        
         return {
             [RaceType.JRA]: this.filterRaceEntityList(
                 raceEntityList[RaceType.JRA],
@@ -134,15 +123,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         };
     }
 
-    /**
-     * レース開催データを更新する
-     * @param startDate
-     * @param finishDate
-     * @param raceTypeList - レース種別のリスト
-     * @param searchList
-     * @param searchList.locationList
-     * @param searchList.gradeList
-     */
+    
     @Logger
     public async updateRaceEntityList(
         startDate: Date,
@@ -177,7 +158,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         successDataCount: number;
         failureDataCount: number;
     }> {
-        // フィルタリング処理
+        
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
@@ -219,7 +200,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             ),
         };
 
-        // placeEntityListが空の場合は処理を終了する
+        
         if (
             !raceTypeList.includes(RaceType.OVERSEAS) &&
             filteredPlaceEntityList[RaceType.JRA].length === 0 &&
@@ -272,7 +253,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         };
     }
 
-    // 共通フィルタ関数
+    
     private filterByGrade<
         T extends { raceData?: { grade?: GradeType }; grade?: GradeType },
     >(list: T[], gradeList?: GradeType[]): T[] {

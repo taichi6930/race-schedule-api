@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-parameters */
+
 
 import Database, { Database as DatabaseType } from 'better-sqlite3';
 import { injectable } from 'tsyringe';
@@ -11,16 +11,13 @@ export class SQLiteGateway implements ISQLiteGateway {
     private readonly db: DatabaseType;
 
     public constructor(dbPath: string) {
-        // デバッグ用のログ出力
+        
         console.log(`SQLiteGateway: Opening database at ${dbPath}`);
         this.db = new Database(dbPath);
         this.db.pragma('journal_mode = WAL');
     }
 
-    /**
-     * トランザクションラップメソッド
-     * @param fn - トランザクション内で実行する関数
-     */
+    
     @Logger
     public transaction<T>(fn: () => T): T {
         try {
@@ -47,7 +44,7 @@ export class SQLiteGateway implements ISQLiteGateway {
     public get<T>(query: string, params: unknown[] = []): T | undefined {
         try {
             const row = this.db.prepare(query).get(...params);
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+            
             return row as T | undefined;
         } catch (error) {
             throw error instanceof Error ? error : new Error(String(error));
@@ -60,7 +57,7 @@ export class SQLiteGateway implements ISQLiteGateway {
             const rows = this.db.prepare(query).all(...params);
 
             return await Promise.resolve(
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+                
                 Array.isArray(rows) ? (rows as T[]) : [],
             );
         } catch (error) {

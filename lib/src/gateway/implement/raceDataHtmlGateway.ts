@@ -9,9 +9,7 @@ import {
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
-/**
- * レースデータのHTMLを取得するGateway
- */
+
 export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
     private buildUrl(
         raceType: RaceType,
@@ -93,14 +91,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
         return `https://www.boatrace.jp/owpc/pc/race/racelist?rno=${number}&hd=${raceDate}&jcd=${babacode}`;
     }
 
-    /**
-     * レースデータのHTMLを取得する
-     * @param raceType - レース種別
-     * @param date - 取得する年月
-     * @param place - 開催場
-     * @param number - レース番号
-     * @returns Promise<string> - レースデータのHTML
-     */
+    
     @Logger
     public async getRaceDataHtml(
         raceType: RaceType,
@@ -108,7 +99,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
         place?: RaceCourse,
         number?: number,
     ): Promise<string> {
-        // gokeibaのURLからHTMLを取得する
+        
         try {
             const url = this.buildUrl(raceType, date, place, number);
             const html = await fetch(url);

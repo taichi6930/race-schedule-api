@@ -1,6 +1,4 @@
-/**
- * 場所データテーブルの作成クエリ
- */
+
 export const CREATE_PLACE_DATA_TABLE = `
 CREATE TABLE IF NOT EXISTS place_data (
     id TEXT PRIMARY KEY,
@@ -11,9 +9,7 @@ CREATE TABLE IF NOT EXISTS place_data (
     updated_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime'))
 );`;
 
-/**
- * 場所データテーブルの更新日時トリガー
- */
+
 export const CREATE_PLACE_DATA_TRIGGER = `
 CREATE TRIGGER IF NOT EXISTS update_place_timestamp 
 AFTER UPDATE ON place_data

@@ -23,9 +23,7 @@ import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
-/**
- * 競馬場開催データリポジトリの実装
- */
+
 @injectable()
 export class OverseasRaceRepositoryFromHtmlImpl
     implements IRaceRepository<HorseRacingRaceEntity, HorseRacingPlaceEntity>
@@ -35,10 +33,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
-    /**
-     * 開催データを取得する
-     * @param searchFilter
-     */
+    
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<HorseRacingPlaceEntity>,
@@ -62,12 +57,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
         return overseasRaceDataList;
     }
 
-    /**
-     * ターゲットの月リストを生成する
-     *startDateからfinishDateまでの月のリストを生成する
-     * @param startDate
-     * @param finishDate
-     */
+    
     private generateMonthList(startDate: Date, finishDate: Date): Date[] {
         const monthList: Date[] = [];
         const currentDate = new Date(startDate);
@@ -98,21 +88,21 @@ export class OverseasRaceRepositoryFromHtmlImpl
             const overseasRaceDataList: HorseRacingRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             const content = $('.racelist');
-            // class="racelist__day"が複数あるのでeachで回す
+            
             content.find('.racelist__day').each((__, element) => {
-                // class="un-trigger"があればskipする
+                
                 if ($(element).find('.un-trigger').length > 0) {
                     return;
                 }
                 const dayElement = $(element);
-                const dataTarget = dayElement.attr('data-target'); // data-target属性を取得
+                const dataTarget = dayElement.attr('data-target'); 
                 const [year, month, day] = [
                     dataTarget?.slice(0, 4),
                     dataTarget?.slice(4, 6),
                     dataTarget?.slice(6, 8),
                 ].map(Number);
 
-                // 同じ日付になっているが、日本時間では日付がずれている場合があるのでそのための変数
+                
                 let recordHour = -1;
                 let recordDay = 0;
                 let recordPlace = '';
@@ -122,7 +112,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
                     .find('.racelist__race')
                     .each((_, raceElement) => {
                         try {
-                            // classにnolinkがある場合はスキップ
+                            
                             if (
                                 $(raceElement).find('.nolink').text().length > 0
                             ) {
@@ -142,13 +132,13 @@ export class OverseasRaceRepositoryFromHtmlImpl
                                     .text()
                                     .trim(),
                             );
-                            // 芝1600mのような文字列からsurfaceTypeを取得
-                            // 芝、ダート、障害、AWがある
+                            
+                            
                             const surfaceTypeAndDistanceText = $(raceElement)
                                 .find('.racelist__race__sub')
                                 .find('.type')
                                 .text()
-                                .trim(); // テキストをトリムして不要な空白を削除
+                                .trim(); 
 
                             const surfaceType: string = this.extractSurfaceType(
                                 ['芝', 'ダート', '障害', 'AW'].filter((type) =>
@@ -176,7 +166,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
                             const grade: GradeType =
                                 gradeText === '' ? '格付けなし' : gradeText;
 
-                            // timeは<span class="time">23:36発走</span>の"23:36"を取得
+                            
                             const timeText = $(raceElement)
                                 .find('.racelist__race__sub')
                                 .find('.time')
@@ -187,7 +177,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
                             const time = timeMatch ? timeMatch[0] : '';
                             const [hour, minute] = time.split(':').map(Number);
 
-                            // 競馬場が異なる場合はrecordDayをリセット
+                            
                             if (recordPlace !== location) {
                                 recordHour = -1;
                                 recordDay = 0;
@@ -195,7 +185,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
                             }
                             recordPlace = location;
 
-                            // 日付が変わっているのでrecordDayを増やす
+                            
                             if (recordHour > hour) {
                                 recordDay++;
                             }
@@ -259,12 +249,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
         return found ?? '芝';
     }
 
-    /**
-     * レースデータを登録する
-     * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param raceEntityList
-     */
+    
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,

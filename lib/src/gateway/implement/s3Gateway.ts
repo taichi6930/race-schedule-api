@@ -12,40 +12,22 @@ import { injectable } from 'tsyringe';
 import { Logger } from '../../utility/logger';
 import { IS3Gateway } from '../interface/iS3Gateway';
 
-/**
- * S3Gateway
- */
+
 @injectable()
 export class S3Gateway implements IS3Gateway {
-    /**
-     * AWS SDKのS3Client
-     * @type {S3Client}
-     * @private
-     */
+    
     private readonly s3Client: S3Client;
-    /**
-     * バケット名 S3の中にあるデータの保存場所
-     * @type {string}
-     * @private
-     */
+    
     private readonly bucketName: string;
 
-    /**
-     * S3Gatewayのコンストラクタ
-     * @param {string} bucketName
-     */
+    
     public constructor(bucketName: string) {
-        // S3Clientの初期化 東京リージョン
+        
         this.s3Client = new S3Client({ region: 'ap-northeast-1' });
         this.bucketName = bucketName;
     }
 
-    /**
-     * データをS3にアップロードする
-     * @param data
-     * @param folderPath
-     * @param fileName
-     */
+    
     @Logger
     public async uploadDataToS3(
         data: object[],
@@ -54,7 +36,7 @@ export class S3Gateway implements IS3Gateway {
     ): Promise<void> {
         try {
             if (data.length === 0) {
-                // データが空の場合は何もしない
+                
                 return;
             }
             const firstRecord = data[0] as Record<string, unknown>;
@@ -93,11 +75,7 @@ export class S3Gateway implements IS3Gateway {
         }
     }
 
-    /**
-     * データをS3から取得する
-     * @param folderPath
-     * @param fileName
-     */
+    
     @Logger
     public async fetchDataFromS3(
         folderPath: string,
@@ -123,7 +101,7 @@ export class S3Gateway implements IS3Gateway {
                 );
             }
 
-            return Buffer.concat(chunks).toString(); // 最後に文字列化
+            return Buffer.concat(chunks).toString(); 
         } catch (error: unknown) {
             if (error instanceof Error) {
                 console.debug(error.message);

@@ -12,20 +12,9 @@ import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
-/**
- * Repository層のRecord レース開催場所データ
- */
+
 export class PlaceRecord implements IRecord<PlaceRecord> {
-    /**
-     * コンストラクタ
-     * @param id - ID
-     * @param raceType - レース種別
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param updateDate - 更新日時
-     * @remarks
-     * レース開催場所データを生成する
-     */
+    
     private constructor(
         public readonly id: PlaceId,
         public readonly raceType: RaceType,
@@ -34,14 +23,7 @@ export class PlaceRecord implements IRecord<PlaceRecord> {
         public readonly updateDate: UpdateDate,
     ) {}
 
-    /**
-     * インスタンス生成メソッド
-     * @param id - ID
-     * @param raceType - レース種別
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param updateDate - 更新日時
-     */
+    
     public static create(
         id: PlaceId,
         raceType: RaceType,
@@ -64,10 +46,7 @@ export class PlaceRecord implements IRecord<PlaceRecord> {
         }
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(partial: Partial<PlaceRecord> = {}): PlaceRecord {
         return PlaceRecord.create(
             partial.id ?? this.id,
@@ -78,9 +57,7 @@ export class PlaceRecord implements IRecord<PlaceRecord> {
         );
     }
 
-    /**
-     * PlaceEntityに変換する
-     */
+    
     public toEntity(): HorseRacingPlaceEntity {
         return HorseRacingPlaceEntity.create(
             this.id,

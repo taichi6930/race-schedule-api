@@ -17,9 +17,7 @@ import { MechanicalRacingPlaceEntity } from '../entity/mechanicalRacingPlaceEnti
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
-/**
- * 競輪場データリポジトリの実装
- */
+
 @injectable()
 export class KeirinPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<MechanicalRacingPlaceEntity>
@@ -29,11 +27,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
     ) {}
 
-    /**
-     * 開催データを取得する
-     * このメソッドで日付の範囲を指定して開催データを取得する
-     * @param searchFilter
-     */
+    
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
@@ -50,7 +44,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         const placeEntityList: MechanicalRacingPlaceEntity[] =
             monthPlaceEntityLists.flat();
 
-        // startDateからfinishDateまでの中でのデータを取得
+        
         const filteredPlaceEntityList: MechanicalRacingPlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
@@ -61,12 +55,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         return filteredPlaceEntityList;
     }
 
-    /**
-     * ターゲットの月リストを生成する
-     *startDateからfinishDateまでの月のリストを生成する
-     * @param startDate
-     * @param finishDate
-     */
+    
     private generateMonthList(startDate: Date, finishDate: Date): Date[] {
         const monthList: Date[] = [];
         const currentDate = new Date(startDate);
@@ -80,20 +69,14 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         return monthList;
     }
 
-    /**
-     * S3から開催データを取得する
-     * ファイル名を利用してS3から開催データを取得する
-     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
-     * @param raceType - レース種別
-     * @param date
-     */
+    
     @Logger
     private async fetchMonthPlaceEntityList(
         raceType: RaceType,
         date: Date,
     ): Promise<MechanicalRacingPlaceEntity[]> {
         const keirinPlaceEntityList: MechanicalRacingPlaceEntity[] = [];
-        // レース情報を取得
+        
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
@@ -101,20 +84,20 @@ export class KeirinPlaceRepositoryFromHtmlImpl
 
         const chartWrapper = $('#content');
 
-        // tableタグが複数あるので、全て取得
+        
         const tables = chartWrapper.find('table');
 
         tables.each((_: number, element) => {
-            // その中のtbodyを取得
+            
             const tbody = $(element).find('tbody');
-            // tr class="ref_sche"を取得
+            
             const trs = tbody.find('tr');
             trs.each((__: number, trElement) => {
                 try {
-                    // thを取得
+                    
                     const th = $(trElement).find('th');
 
-                    // thのテキストが KeirinRaceCourseに含まれているか
+                    
                     if (!th.text()) {
                         return;
                     }
@@ -141,7 +124,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                             date.getMonth(),
                             index + 1,
                         );
-                        // alt属性を出力
+                        
                         if (grade) {
                             keirinPlaceEntityList.push(
                                 MechanicalRacingPlaceEntity.createWithoutId(
@@ -160,12 +143,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         return keirinPlaceEntityList;
     }
 
-    /**
-     * 開催データを登録する
-     * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param placeEntityList
-     */
+    
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,

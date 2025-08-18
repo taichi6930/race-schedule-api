@@ -15,9 +15,7 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IRaceDataService } from '../interface/IRaceDataService';
 
-/**
- * 開催場所データの取得と更新を担当する基底サービスクラス
- */
+
 @injectable()
 export class PublicGamblingRaceDataService implements IRaceDataService {
     public constructor(
@@ -68,24 +66,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         >,
     ) {}
 
-    /**
-     * 指定された期間の開催場所データを取得します
-     *
-     * このメソッドは、指定されたデータソース（StorageまたはWeb）から
-     * 開催場所情報を取得します。エラーが発生した場合は空配列を返し、
-     * アプリケーションの継続性を保証します。
-     *
-     * レースデータ取得の前提として使用され、開催場所の基本情報を
-     * 提供する重要な役割を持ちます。
-     * @param startDate - 取得開始日
-     * @param finishDate - 取得終了日（この日を含む）
-     * @param raceTypeList - レース種別のリスト
-     * @param type - データ取得元の指定（storage/web）
-     * @param placeEntityList
-     * @returns 開催場所エンティティの配列。エラー時は空配列
-     * @throws エラーはキャッチされログ出力されます
-     * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
-     */
+    
     @Logger
     public async fetchRaceEntityList(
         startDate: Date,
@@ -125,7 +106,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         };
 
         try {
-            // JRA
+            
             if (
                 raceTypeList.includes(RaceType.JRA) ||
                 placeEntityList?.[RaceType.JRA] !== undefined
@@ -146,7 +127,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 );
                 result[RaceType.JRA].push(...jraRaceEntityList);
             }
-            // NAR
+            
             if (
                 raceTypeList.includes(RaceType.NAR) ||
                 placeEntityList?.[RaceType.NAR] !== undefined
@@ -171,7 +152,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 );
                 result[RaceType.NAR].push(...narRaceEntityList);
             }
-            // OVERSEAS
+            
             if (raceTypeList.includes(RaceType.OVERSEAS)) {
                 const searchFilter =
                     new SearchRaceFilterEntity<HorseRacingPlaceEntity>(
@@ -189,7 +170,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 );
                 result[RaceType.OVERSEAS].push(...overseasRaceEntityList);
             }
-            // KEIRIN
+            
             if (
                 raceTypeList.includes(RaceType.KEIRIN) ||
                 placeEntityList?.[RaceType.KEIRIN] !== undefined
@@ -214,7 +195,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 );
                 result[RaceType.KEIRIN].push(...keirinRaceEntityList);
             }
-            // AUTORACE
+            
             if (
                 raceTypeList.includes(RaceType.AUTORACE) ||
                 placeEntityList?.[RaceType.AUTORACE] !== undefined
@@ -239,7 +220,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 );
                 result[RaceType.AUTORACE].push(...autoraceRaceEntityList);
             }
-            // BOATRACE
+            
             if (
                 raceTypeList.includes(RaceType.BOATRACE) ||
                 placeEntityList?.[RaceType.BOATRACE] !== undefined
@@ -272,20 +253,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         }
     }
 
-    /**
-     * 開催場所データをStorageに保存/更新します
-     *
-     * 既存のデータが存在する場合は上書き、存在しない場合は新規作成します。
-     * このメソッドは一般的にWebから取得した最新データを保存する際に使用されます。
-     * @param raceEntityList
-     * @param raceEntityList.jra
-     * @param raceEntityList.nar
-     * @param raceEntityList.overseas
-     * @param raceEntityList.keirin
-     * @param raceEntityList.autorace
-     * @param raceEntityList.boatrace
-     * @throws Error データの保存/更新に失敗した場合
-     */
+    
     @Logger
     public async updateRaceEntityList(raceEntityList: {
         [RaceType.JRA]?: JraRaceEntity[];
@@ -334,9 +302,9 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 ),
             ]);
             return {
-                // 全てが200なら200を返す
+                
                 code: response.every((res) => res.code === 200) ? 200 : 500,
-                // 全てのメッセージをsetで結合
+                
                 message: [...new Set(response.map((res) => res.message))].join(
                     ', ',
                 ),
@@ -355,12 +323,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         }
     }
 
-    /**
-     * レース種別ごとの保存処理を共通化
-     * @param repo
-     * @param raceType
-     * @param entities
-     */
+    
     private async saveRaceEntities<
         TRace extends IRaceEntity<TRace>,
         TPlace extends IPlaceEntity<TPlace>,
@@ -394,11 +357,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         };
     }
 
-    /**
-     * レース種別ごとの取得処理を共通化
-     * @param repo
-     * @param searchFilter
-     */
+    
     private async fetchRaceEntities<
         TPlace extends IPlaceEntity<TPlace>,
         TRace extends IRaceEntity<TRace>,

@@ -9,7 +9,7 @@ import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
-// MechanicalRacingRaceRepositoryFromHtmlImplのモックを作成
+
 export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
     implements
         IRaceRepository<MechanicalRacingRaceEntity, MechanicalRacingPlaceEntity>
@@ -23,7 +23,7 @@ export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
         for (const placeEntity of placeEntityList ?? []) {
             const { placeData, grade } = placeEntity;
             const { location, dateTime } = placeData;
-            // 1から12までのレースを作成
+            
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                 const raceDate = new Date(dateTime);
                 raceDate.setHours(raceNumber + 9, 0, 0, 0);

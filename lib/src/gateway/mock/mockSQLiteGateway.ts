@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-parameters */
+
 
 import { injectable } from 'tsyringe';
 
@@ -11,10 +11,7 @@ export class MockSQLiteGateway implements ISQLiteGateway {
         console.log(`MockSQLiteGateway: Opening database at ${dbPath}`);
     }
 
-    /**
-     * トランザクションラップメソッド
-     * @param fn - トランザクション内で実行する関数
-     */
+    
     @Logger
     public transaction<T>(fn: () => T): T {
         console.log(fn);
@@ -302,7 +299,7 @@ export class MockSQLiteGateway implements ISQLiteGateway {
             ];
 
             return await Promise.resolve(
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+                
                 Array.isArray(rows) ? (rows as T[]) : [],
             );
         } catch (error) {

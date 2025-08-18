@@ -16,9 +16,7 @@ import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity
 import { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 
-/**
- * Googleカレンダーリポジトリの実装
- */
+
 @injectable()
 export class GoogleCalendarRepository implements ICalendarRepository {
     public constructor(
@@ -26,11 +24,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
         protected readonly googleCalendarGateway: ICalendarGateway,
     ) {}
 
-    /**
-     * カレンダーのイベントの取得を行う
-     * @param raceTypeList - レース種別のリスト
-     * @param searchFilter
-     */
+    
     @Logger
     public async getEvents(
         raceTypeList: RaceType[],
@@ -38,7 +32,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
     ): Promise<CalendarData[]> {
         const calendarDataList: CalendarData[] = [];
         for (const raceType of raceTypeList) {
-            // GoogleカレンダーAPIからイベントを取得
+            
             try {
                 const _calendarDataList =
                     await this.googleCalendarGateway.fetchCalendarDataList(
@@ -64,10 +58,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
         return calendarDataList;
     }
 
-    /**
-     * カレンダーのイベントの更新を行う
-     * @param raceEntityList
-     */
+    
     @Logger
     public async upsertEvents(
         raceEntityList:
@@ -75,11 +66,11 @@ export class GoogleCalendarRepository implements ICalendarRepository {
             | HorseRacingRaceEntity[]
             | MechanicalRacingRaceEntity[],
     ): Promise<void> {
-        // Googleカレンダーから取得する
+        
         await Promise.all(
             raceEntityList.map(async (raceEntity) => {
                 try {
-                    // 既に登録されているかどうか判定
+                    
                     let isExist = false;
                     try {
                         await this.googleCalendarGateway
@@ -97,7 +88,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                             error,
                         );
                     }
-                    // 既存のデータがあれば更新、なければ新規登録
+                    
                     await (isExist
                         ? this.googleCalendarGateway.updateCalendarData(
                               raceEntity.raceData.raceType,
@@ -117,10 +108,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
         );
     }
 
-    /**
-     * カレンダーのイベントの削除を行う
-     * @param calendarDataList
-     */
+    
     @Logger
     public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
         await Promise.all(

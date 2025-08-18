@@ -1,21 +1,8 @@
 import type { RaceType } from '../utility/raceType';
 
-/**
- * カレンダーのデータを表すクラス
- */
+
 export class CalendarData {
-    /**
-     * コンストラクタ
-     * @param id - イベントID
-     * @param raceType - レース種別
-     * @param title - イベントタイトル
-     * @param startTime - イベント開始時間
-     * @param endTime - イベント終了時間
-     * @param location - イベント場所
-     * @param description - イベント説明
-     * @remarks
-     * カレンダーのデータを生成する
-     */
+    
     private constructor(
         public readonly id: string,
         public readonly raceType: RaceType,
@@ -26,16 +13,7 @@ export class CalendarData {
         public readonly description: string,
     ) {}
 
-    /**
-     * インスタンスを生成する
-     * @param id - イベントID
-     * @param raceType - レース種別
-     * @param title - イベントタイトル
-     * @param startTime - イベント開始時間
-     * @param endTime - イベント終了時間
-     * @param location - イベント場所
-     * @param description - イベント説明
-     */
+    
     public static create(
         id: string | null | undefined,
         raceType: RaceType,
@@ -56,10 +34,7 @@ export class CalendarData {
         );
     }
 
-    /**
-     * データのコピー
-     * @param partial - 上書きする部分データ
-     */
+    
     public copy(partial: Partial<CalendarData> = {}): CalendarData {
         return new CalendarData(
             partial.id ?? this.id,
