@@ -11,21 +11,21 @@ import { RaceType } from '../../utility/raceType';
 import { IPlaceDataService } from '../interface/IPlaceDataService';
 
 /**
- * 開催場所データの取得と更新を担当する基底サービスクラス
+ * 公開用開催場データサービス
  */
 @injectable()
 export class PublicGamblingPlaceDataService implements IPlaceDataService {
     public constructor(
         @inject('JraPlaceRepositoryFromStorage')
         protected jraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
-        @inject('JraPlaceRepositoryFromHtml')
-        protected jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
         @inject('PlaceRepositoryFromStorage')
         protected placeRepositoryFromStorage: IPlaceRepository<HorseRacingPlaceEntity>,
-        @inject('NarPlaceRepositoryFromHtml')
-        protected narPlaceRepositoryFromHtml: IPlaceRepository<HorseRacingPlaceEntity>,
         @inject('MechanicalRacingPlaceRepositoryFromStorage')
         protected mechanicalRacingPlaceRepositoryFromStorage: IPlaceRepository<MechanicalRacingPlaceEntity>,
+        @inject('JraPlaceRepositoryFromHtml')
+        protected jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
+        @inject('NarPlaceRepositoryFromHtml')
+        protected narPlaceRepositoryFromHtml: IPlaceRepository<HorseRacingPlaceEntity>,
         @inject('KeirinPlaceRepositoryFromHtml')
         protected keirinPlaceRepositoryFromHtml: IPlaceRepository<MechanicalRacingPlaceEntity>,
         @inject('AutoracePlaceRepositoryFromHtml')
