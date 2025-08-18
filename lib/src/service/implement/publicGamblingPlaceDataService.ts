@@ -181,11 +181,14 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                             (item) => item.placeData.raceType === RaceType.NAR,
                         ),
                     ),
-                [RaceType.OVERSEAS]: {
-                    code: 200,
-                    successData: [],
-                    failureData: [],
-                },
+                [RaceType.OVERSEAS]:
+                    await this.placeRepositoryFromStorage.registerPlaceEntityList(
+                        RaceType.OVERSEAS,
+                        placeEntityList.filter(
+                            (item) =>
+                                item.placeData.raceType === RaceType.OVERSEAS,
+                        ),
+                    ),
                 [RaceType.KEIRIN]:
                     await this.placeRepositoryFromStorage.registerPlaceEntityList(
                         RaceType.KEIRIN,
