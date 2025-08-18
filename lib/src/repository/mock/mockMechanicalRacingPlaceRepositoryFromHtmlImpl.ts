@@ -1,5 +1,5 @@
+import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
-import { GradeType } from '../../utility/data/common/gradeType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -28,8 +28,8 @@ export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
                     new Date(currentDate),
                     this.defaultLocation[searchFilter.raceType],
                 ),
-                undefined,
-                this.createGrade(searchFilter.raceType),
+                this.defaultHeldDayData[searchFilter.raceType],
+                this.defaultGrade[searchFilter.raceType],
                 getJSTDate(new Date()),
             );
             placeEntityList.push(placeEntity);
@@ -69,26 +69,21 @@ export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
         [RaceType.BOATRACE]: '浜名湖',
     };
 
-    private createGrade(raceType: RaceType): GradeType {
-        switch (raceType) {
-            case RaceType.KEIRIN: {
-                return 'GⅠ';
-            }
-            case RaceType.BOATRACE: {
-                return 'SG';
-            }
-            case RaceType.AUTORACE: {
-                return 'SG';
-            }
-            case RaceType.JRA: {
-                return '不明';
-            }
-            case RaceType.NAR: {
-                return '不明';
-            }
-            case RaceType.OVERSEAS: {
-                return '不明';
-            }
-        }
-    }
+    private readonly defaultHeldDayData = {
+        [RaceType.JRA]: HeldDayData.create(1, 1),
+        [RaceType.NAR]: undefined,
+        [RaceType.OVERSEAS]: undefined,
+        [RaceType.KEIRIN]: undefined,
+        [RaceType.AUTORACE]: undefined,
+        [RaceType.BOATRACE]: undefined,
+    };
+
+    private readonly defaultGrade = {
+        [RaceType.JRA]: undefined,
+        [RaceType.NAR]: undefined,
+        [RaceType.OVERSEAS]: undefined,
+        [RaceType.KEIRIN]: 'GⅠ',
+        [RaceType.AUTORACE]: 'SG',
+        [RaceType.BOATRACE]: 'SG',
+    };
 }
