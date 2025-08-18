@@ -10,7 +10,6 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IPlaceDataService } from '../interface/IPlaceDataService';
 
-
 @injectable()
 export class PublicGamblingPlaceDataService implements IPlaceDataService {
     public constructor(
@@ -32,7 +31,6 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         protected boatracePlaceRepositoryFromHtml: IPlaceRepository<MechanicalRacingPlaceEntity>,
     ) {}
 
-    
     @Logger
     public async fetchPlaceEntityList(
         startDate: Date,
@@ -155,7 +153,6 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         }
     }
 
-    
     @Logger
     public async updatePlaceEntityList(placeEntityList: {
         [RaceType.JRA]: JraPlaceEntity[];
