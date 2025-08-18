@@ -38,9 +38,12 @@ export interface ICalendarService {
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     upsertEvents: (raceEntityList: {
-        jra: JraRaceEntity[];
-        horseRacing: HorseRacingRaceEntity[];
-        mechanicalRacing: MechanicalRacingRaceEntity[];
+        [RaceType.JRA]: JraRaceEntity[];
+        [RaceType.NAR]: HorseRacingRaceEntity[];
+        [RaceType.OVERSEAS]: HorseRacingRaceEntity[];
+        [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
+        [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
+        [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
     }) => Promise<void>;
 
     /**

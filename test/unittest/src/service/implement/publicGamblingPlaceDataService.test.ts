@@ -69,13 +69,12 @@ describe('PublicGamblingPlaceDataService', () => {
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること(storage)', async () => {
             const mockPlaceEntity = {
-                jra: [baseJraPlaceEntity],
-                nar: [baseNarPlaceEntity],
-                mechanicalRacing: [
-                    baseKeirinPlaceEntity,
-                    baseAutoracePlaceEntity,
-                    baseBoatracePlaceEntity,
-                ],
+                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.NAR]: [baseNarPlaceEntity],
+                [RaceType.OVERSEAS]: [],
+                [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
+                [RaceType.AUTORACE]: [baseAutoracePlaceEntity],
+                [RaceType.BOATRACE]: [baseBoatracePlaceEntity],
             };
 
             // モックの戻り値を設定
@@ -127,13 +126,12 @@ describe('PublicGamblingPlaceDataService', () => {
 
         it('正常に開催場データが取得できること（web）', async () => {
             const mockPlaceEntity = {
-                jra: [baseJraPlaceEntity],
-                nar: [baseNarPlaceEntity],
-                mechanicalRacing: [
-                    baseKeirinPlaceEntity,
-                    baseAutoracePlaceEntity,
-                    baseBoatracePlaceEntity,
-                ],
+                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.NAR]: [baseNarPlaceEntity],
+                [RaceType.OVERSEAS]: [],
+                [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
+                [RaceType.AUTORACE]: [baseAutoracePlaceEntity],
+                [RaceType.BOATRACE]: [baseBoatracePlaceEntity],
             };
 
             // モックの戻り値を設定
@@ -205,13 +203,12 @@ describe('PublicGamblingPlaceDataService', () => {
     describe('updatePlaceDataList', () => {
         it('正常に開催場データが更新されること', async () => {
             const mockPlaceEntity = {
-                jra: [baseJraPlaceEntity],
-                nar: [baseNarPlaceEntity],
-                mechanicalRacing: [
-                    baseKeirinPlaceEntity,
-                    baseAutoracePlaceEntity,
-                    baseBoatracePlaceEntity,
-                ],
+                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.NAR]: [baseNarPlaceEntity],
+                [RaceType.OVERSEAS]: [],
+                [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
+                [RaceType.AUTORACE]: [baseAutoracePlaceEntity],
+                [RaceType.BOATRACE]: [baseBoatracePlaceEntity],
             };
 
             // モックの戻り値を設定
@@ -295,9 +292,12 @@ describe('PublicGamblingPlaceDataService', () => {
 
         it('開催場データの件数が0の場合、Repositoryを呼び出さないこと', async () => {
             await service.updatePlaceEntityList({
-                jra: [],
-                nar: [],
-                mechanicalRacing: [],
+                [RaceType.JRA]: [],
+                [RaceType.NAR]: [],
+                [RaceType.OVERSEAS]: [],
+                [RaceType.KEIRIN]: [],
+                [RaceType.AUTORACE]: [],
+                [RaceType.BOATRACE]: [],
             });
 
             expect(
@@ -307,13 +307,12 @@ describe('PublicGamblingPlaceDataService', () => {
 
         it('開催場データが更新できない場合、エラーが発生すること', async () => {
             const mockPlaceEntity = {
-                jra: [baseJraPlaceEntity],
-                nar: [baseNarPlaceEntity],
-                mechanicalRacing: [
-                    baseKeirinPlaceEntity,
-                    baseAutoracePlaceEntity,
-                    baseBoatracePlaceEntity,
-                ],
+                [RaceType.JRA]: [baseJraPlaceEntity],
+                [RaceType.NAR]: [baseNarPlaceEntity],
+                [RaceType.OVERSEAS]: [],
+                [RaceType.KEIRIN]: [baseKeirinPlaceEntity],
+                [RaceType.AUTORACE]: [baseAutoracePlaceEntity],
+                [RaceType.BOATRACE]: [baseBoatracePlaceEntity],
             };
             // モックの戻り値を設定（エラーが発生するように設定）
             jraPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(

@@ -1,6 +1,5 @@
 import type { calendar_v3 } from 'googleapis';
 
-import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { generateRaceId } from '../../utility/data/common/raceId';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
@@ -60,7 +59,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                             RaceType.BOATRACE,
                             RaceType.OVERSEAS,
                         ]) {
-                            const location = this.createLocation(raceType);
+                            const location = this.defaultLocation[raceType];
                             for (
                                 let raceNumber = 1;
                                 raceNumber <= 12;
@@ -120,28 +119,14 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         }
     }
 
-    private createLocation(raceType: RaceType): RaceCourse {
-        switch (raceType) {
-            case RaceType.JRA: {
-                return '東京';
-            }
-            case RaceType.NAR: {
-                return '大井';
-            }
-            case RaceType.KEIRIN: {
-                return '平塚';
-            }
-            case RaceType.AUTORACE: {
-                return '川口';
-            }
-            case RaceType.BOATRACE: {
-                return '浜名湖';
-            }
-            case RaceType.OVERSEAS: {
-                return 'パリロンシャン';
-            }
-        }
-    }
+    private readonly defaultLocation = {
+        [RaceType.JRA]: '東京',
+        [RaceType.NAR]: '大井',
+        [RaceType.OVERSEAS]: 'パリロンシャン',
+        [RaceType.KEIRIN]: '平塚',
+        [RaceType.AUTORACE]: '川口',
+        [RaceType.BOATRACE]: '浜名湖',
+    };
 
     @Logger
     public async fetchCalendarDataList(

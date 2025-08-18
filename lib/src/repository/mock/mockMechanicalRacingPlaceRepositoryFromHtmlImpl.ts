@@ -26,7 +26,7 @@ export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
                 PlaceData.create(
                     searchFilter.raceType,
                     new Date(currentDate),
-                    this.createLocation(searchFilter.raceType),
+                    this.defaultLocation[searchFilter.raceType],
                 ),
                 this.createGrade(searchFilter.raceType),
                 getJSTDate(new Date()),
@@ -59,28 +59,14 @@ export class MockMechanicalRacingPlaceRepositoryFromHtmlImpl
         throw new Error('HTMLにはデータを登録出来ません');
     }
 
-    private createLocation(raceType: RaceType): string {
-        switch (raceType) {
-            case RaceType.KEIRIN: {
-                return '川崎';
-            }
-            case RaceType.BOATRACE: {
-                return '平和島';
-            }
-            case RaceType.AUTORACE: {
-                return '伊勢崎';
-            }
-            case RaceType.JRA: {
-                return '不明';
-            }
-            case RaceType.NAR: {
-                return '不明';
-            }
-            case RaceType.OVERSEAS: {
-                return '不明';
-            }
-        }
-    }
+    private readonly defaultLocation = {
+        [RaceType.JRA]: '東京',
+        [RaceType.NAR]: '大井',
+        [RaceType.OVERSEAS]: 'パリロンシャン',
+        [RaceType.KEIRIN]: '平塚',
+        [RaceType.AUTORACE]: '川口',
+        [RaceType.BOATRACE]: '浜名湖',
+    };
 
     private createGrade(raceType: RaceType): GradeType {
         switch (raceType) {

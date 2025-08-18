@@ -30,9 +30,12 @@ export interface IPlaceDataService {
         raceTypeList: RaceType[],
         type: DataLocationType,
     ) => Promise<{
-        jra: JraPlaceEntity[];
-        nar: HorseRacingPlaceEntity[];
-        mechanicalRacing: MechanicalRacingPlaceEntity[];
+        [RaceType.JRA]: JraPlaceEntity[];
+        [RaceType.NAR]: HorseRacingPlaceEntity[];
+        [RaceType.OVERSEAS]: HorseRacingPlaceEntity[];
+        [RaceType.KEIRIN]: MechanicalRacingPlaceEntity[];
+        [RaceType.AUTORACE]: MechanicalRacingPlaceEntity[];
+        [RaceType.BOATRACE]: MechanicalRacingPlaceEntity[];
     }>;
 
     /**
@@ -44,9 +47,12 @@ export interface IPlaceDataService {
      * @throws Error データの保存/更新に失敗した場合
      */
     updatePlaceEntityList: (placeEntityList: {
-        jra: JraPlaceEntity[];
-        nar: HorseRacingPlaceEntity[];
-        mechanicalRacing: MechanicalRacingPlaceEntity[];
+        [RaceType.JRA]: JraPlaceEntity[];
+        [RaceType.NAR]: HorseRacingPlaceEntity[];
+        [RaceType.OVERSEAS]: HorseRacingPlaceEntity[];
+        [RaceType.KEIRIN]: MechanicalRacingPlaceEntity[];
+        [RaceType.AUTORACE]: MechanicalRacingPlaceEntity[];
+        [RaceType.BOATRACE]: MechanicalRacingPlaceEntity[];
     }) => Promise<{
         code: number;
         message: string;

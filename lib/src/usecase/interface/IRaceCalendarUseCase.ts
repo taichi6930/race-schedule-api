@@ -24,12 +24,12 @@ export interface IRaceCalendarUseCase {
         finishDate: Date,
         raceTypeList: RaceType[],
         displayGradeList: {
-            jra: GradeType[];
-            nar: GradeType[];
-            overseas: GradeType[];
-            keirin: GradeType[];
-            autorace: GradeType[];
-            boatrace: GradeType[];
+            [RaceType.JRA]: GradeType[];
+            [RaceType.NAR]: GradeType[];
+            [RaceType.OVERSEAS]: GradeType[];
+            [RaceType.KEIRIN]: GradeType[];
+            [RaceType.AUTORACE]: GradeType[];
+            [RaceType.BOATRACE]: GradeType[];
         },
     ) => Promise<void>;
 }

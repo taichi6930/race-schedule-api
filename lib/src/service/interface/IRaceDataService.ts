@@ -41,20 +41,20 @@ export interface IRaceDataService {
         raceTypeList: RaceType[],
         type: DataLocationType,
         placeEntityList?: {
-            jra?: JraPlaceEntity[];
-            nar?: HorseRacingPlaceEntity[];
-            overseas?: HorseRacingPlaceEntity[];
-            keirin?: MechanicalRacingPlaceEntity[];
-            autorace?: MechanicalRacingPlaceEntity[];
-            boatrace?: MechanicalRacingPlaceEntity[];
+            [RaceType.JRA]?: JraPlaceEntity[];
+            [RaceType.NAR]?: HorseRacingPlaceEntity[];
+            [RaceType.OVERSEAS]?: HorseRacingPlaceEntity[];
+            [RaceType.KEIRIN]?: MechanicalRacingPlaceEntity[];
+            [RaceType.AUTORACE]?: MechanicalRacingPlaceEntity[];
+            [RaceType.BOATRACE]?: MechanicalRacingPlaceEntity[];
         },
     ) => Promise<{
-        jra: JraRaceEntity[];
-        nar: HorseRacingRaceEntity[];
-        overseas: HorseRacingRaceEntity[];
-        keirin: MechanicalRacingRaceEntity[];
-        autorace: MechanicalRacingRaceEntity[];
-        boatrace: MechanicalRacingRaceEntity[];
+        [RaceType.JRA]: JraRaceEntity[];
+        [RaceType.NAR]: HorseRacingRaceEntity[];
+        [RaceType.OVERSEAS]: HorseRacingRaceEntity[];
+        [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
+        [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
+        [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
     }>;
 
     /**
@@ -66,12 +66,12 @@ export interface IRaceDataService {
      * @throws Error データの保存/更新に失敗した場合
      */
     updateRaceEntityList: (raceEntityList: {
-        jra?: JraRaceEntity[];
-        nar?: HorseRacingRaceEntity[];
-        overseas?: HorseRacingRaceEntity[];
-        keirin?: MechanicalRacingRaceEntity[];
-        autorace?: MechanicalRacingRaceEntity[];
-        boatrace?: MechanicalRacingRaceEntity[];
+        [RaceType.JRA]?: JraRaceEntity[];
+        [RaceType.NAR]?: HorseRacingRaceEntity[];
+        [RaceType.OVERSEAS]?: HorseRacingRaceEntity[];
+        [RaceType.KEIRIN]?: MechanicalRacingRaceEntity[];
+        [RaceType.AUTORACE]?: MechanicalRacingRaceEntity[];
+        [RaceType.BOATRACE]?: MechanicalRacingRaceEntity[];
     }) => Promise<{
         code: number;
         message: string;

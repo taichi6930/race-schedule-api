@@ -111,30 +111,32 @@ describe('PublicGamblingCalendarService', () => {
     describe('upsertEvents', () => {
         it('カレンダーのイベントの更新が正常に行われること', async () => {
             await service.upsertEvents({
-                jra: baseJraRaceEntityList,
-                horseRacing: [
-                    ...baseNarRaceEntityList,
-                    ...baseOverseasRaceEntityList,
-                ],
-                mechanicalRacing: [
-                    ...baseKeirinRaceEntityList,
-                    ...baseBoatraceRaceEntityList,
-                    ...baseAutoraceRaceEntityList,
-                ],
+                [RaceType.JRA]: baseJraRaceEntityList,
+                [RaceType.NAR]: baseNarRaceEntityList,
+                [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
+                [RaceType.KEIRIN]: baseKeirinRaceEntityList,
+                [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
+                [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
             });
 
             expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
                 baseJraRaceEntityList,
             );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith([
-                ...baseNarRaceEntityList,
-                ...baseOverseasRaceEntityList,
-            ]);
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith([
-                ...baseKeirinRaceEntityList,
-                ...baseBoatraceRaceEntityList,
-                ...baseAutoraceRaceEntityList,
-            ]);
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                baseNarRaceEntityList,
+            );
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                baseOverseasRaceEntityList,
+            );
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                baseKeirinRaceEntityList,
+            );
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                baseBoatraceRaceEntityList,
+            );
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                baseAutoraceRaceEntityList,
+            );
         });
     });
 });
