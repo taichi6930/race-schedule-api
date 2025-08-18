@@ -15,8 +15,6 @@ import { IPlaceDataService } from '../interface/IPlaceDataService';
 @injectable()
 export class PublicGamblingPlaceDataService implements IPlaceDataService {
     public constructor(
-        @inject('JraPlaceRepositoryFromStorage')
-        protected jraPlaceRepositoryFromStorage: IPlaceRepository<PlaceEntity>,
         @inject('PlaceRepositoryFromStorage')
         protected placeRepositoryFromStorage: IPlaceRepository<PlaceEntity>,
         @inject('MechanicalRacingPlaceRepositoryFromStorage')
@@ -89,7 +87,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 const raceType = RaceType.JRA;
                 const placeEntityList: PlaceEntity[] = await (
                     type === DataLocation.Storage
-                        ? this.jraPlaceRepositoryFromStorage
+                        ? this.placeRepositoryFromStorage
                         : this.jraPlaceRepositoryFromHtml
                 ).fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
@@ -206,7 +204,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         try {
             const response = {
                 [RaceType.JRA]:
-                    await this.jraPlaceRepositoryFromStorage.registerPlaceEntityList(
+                    await this.placeRepositoryFromStorage.registerPlaceEntityList(
                         RaceType.JRA,
                         placeEntityList[RaceType.JRA].filter(
                             (item) => item.placeData.raceType === RaceType.JRA,

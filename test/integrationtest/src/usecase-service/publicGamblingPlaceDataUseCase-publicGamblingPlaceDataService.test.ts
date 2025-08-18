@@ -35,9 +35,6 @@ import { setupTestMock } from '../../../utility/testSetupHelper';
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 
 describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => {
-    let jraPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<PlaceEntity>
-    >;
     let jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<PlaceEntity>
     >;
@@ -65,7 +62,6 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({
-            jraPlaceRepositoryFromStorageImpl,
             jraPlaceRepositoryFromHtmlImpl,
             horseRacingPlaceRepositoryFromStorageImpl,
             narPlaceRepositoryFromHtmlImpl,
@@ -90,11 +86,23 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること', async () => {
             // モックの戻り値を設定
-            jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity],
-            );
-            horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseNarPlaceEntity],
+            horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
+                async (searchFilter: SearchPlaceFilterEntity) => {
+                    switch (searchFilter.raceType) {
+                        case RaceType.OVERSEAS:
+                        case RaceType.KEIRIN:
+                        case RaceType.AUTORACE:
+                        case RaceType.BOATRACE: {
+                            throw new Error('race type is not supported');
+                        }
+                        case RaceType.JRA: {
+                            return [basePlaceEntity];
+                        }
+                        case RaceType.NAR: {
+                            return [baseNarPlaceEntity];
+                        }
+                    }
+                },
             );
             mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
@@ -144,20 +152,25 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
 
     describe('updatePlaceDataList', () => {
         it('正常に開催場データが更新されること', async () => {
-            jraPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
-                {
-                    code: 200,
-                    message: '',
-                    successData: [basePlaceEntity],
-                    failureData: [],
-                },
-            );
-            horseRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
-                {
-                    code: 200,
-                    message: '',
-                    successData: [baseNarPlaceEntity],
-                    failureData: [],
+            horseRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockImplementation(
+                async (raceType: RaceType, placeEntityList: PlaceEntity[]) => {
+                    if (
+                        raceType === RaceType.JRA ||
+                        raceType === RaceType.NAR
+                    ) {
+                        return {
+                            code: 200,
+                            message: '',
+                            successData: placeEntityList,
+                            failureData: [],
+                        };
+                    }
+                    return {
+                        code: 200,
+                        message: '',
+                        successData: [],
+                        failureData: [],
+                    };
                 },
             );
             mechanicalRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockResolvedValue(
@@ -173,11 +186,23 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                 },
             );
             // モックの戻り値を設定
-            jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity],
-            );
-            horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                [baseNarPlaceEntity],
+            horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
+                async (searchFilter: SearchPlaceFilterEntity) => {
+                    switch (searchFilter.raceType) {
+                        case RaceType.OVERSEAS:
+                        case RaceType.KEIRIN:
+                        case RaceType.AUTORACE:
+                        case RaceType.BOATRACE: {
+                            throw new Error('race type is not supported');
+                        }
+                        case RaceType.JRA: {
+                            return [basePlaceEntity];
+                        }
+                        case RaceType.NAR: {
+                            return [baseNarPlaceEntity];
+                        }
+                    }
+                },
             );
             mechanicalRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
