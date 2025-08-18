@@ -3,8 +3,8 @@ import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceC
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
-import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
@@ -69,13 +69,14 @@ export const baseOverseasPlaceEntity = PlaceEntity.createWithoutId(
     baseOverseasRaceUpdateDate,
 );
 
-export const baseOverseasRaceEntity = HorseRacingRaceEntity.createWithoutId(
+export const baseOverseasRaceEntity = RaceEntity.createWithoutId(
     baseOverseasRaceData,
+    undefined, // horseRaceConditionData は未指定
     baseOverseasConditionData,
     baseOverseasRaceUpdateDate,
 );
 
-export const baseOverseasRaceEntityList: HorseRacingRaceEntity[] = [
+export const baseOverseasRaceEntityList: RaceEntity[] = [
     'パリロンシャン',
     'シャティン',
 ].flatMap((location) => {
@@ -93,7 +94,7 @@ export const baseOverseasRaceEntityList: HorseRacingRaceEntity[] = [
         'GⅠ',
         '格付けなし',
     ].map((grade, index) => {
-        return HorseRacingRaceEntity.createWithoutId(
+        return RaceEntity.createWithoutId(
             RaceData.create(
                 raceType,
                 `テスト${location}${grade}${(index + 1).toString()}レース`,
@@ -102,6 +103,7 @@ export const baseOverseasRaceEntityList: HorseRacingRaceEntity[] = [
                 grade,
                 index + 1,
             ),
+            undefined, // horseRaceConditionData は未指定
             HorseRaceConditionData.create('芝', 2400),
             getJSTDate(baseOverseasRaceUpdateDate),
         );

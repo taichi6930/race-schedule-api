@@ -12,14 +12,14 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 @injectable()
 export class JraRaceRepositoryFromStorageImpl
-    implements IRaceRepository<JraRaceEntity, PlaceEntity>
+    implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     private readonly raceFileName = CSV_FILE_NAME.RACE_LIST;
     private readonly heldDayFileName = CSV_FILE_NAME.HELD_DAY_LIST;
@@ -36,7 +36,7 @@ export class JraRaceRepositoryFromStorageImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<JraRaceEntity[]> {
+    ): Promise<RaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const raceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(searchFilter.raceType);
@@ -74,9 +74,9 @@ export class JraRaceRepositoryFromStorageImpl
         }
 
         // RaceRecordをRaceEntityに変換
-        const raceEntityList: JraRaceEntity[] = [...recordMap.values()].map(
+        const raceEntityList: RaceEntity[] = [...recordMap.values()].map(
             ({ raceRecord, heldDayRecord }) =>
-                JraRaceEntity.create(
+                RaceEntity.create(
                     raceRecord.id,
                     RaceData.create(
                         raceRecord.raceType,
@@ -249,12 +249,12 @@ export class JraRaceRepositoryFromStorageImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: JraRaceEntity[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: JraRaceEntity[];
-        failureData: JraRaceEntity[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         try {
             // 既に登録されているデータを取得する

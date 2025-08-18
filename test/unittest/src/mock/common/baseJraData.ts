@@ -7,8 +7,8 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
-import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
@@ -90,7 +90,7 @@ export const basePlaceEntity = PlaceEntity.createWithoutId(
     baseJraRaceUpdateDate,
 );
 
-export const baseJraRaceEntity = JraRaceEntity.createWithoutId(
+export const baseJraRaceEntity = RaceEntity.createWithoutId(
     baseJraRaceData,
     baseJraHeldDayData,
     baseJraConditionData,
@@ -145,7 +145,7 @@ export const baseJraGoogleCalendarData: calendar_v3.Schema$Event = {
     },
 };
 
-export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatMap(
+export const baseJraRaceEntityList: RaceEntity[] = ['東京', '京都'].flatMap(
     (location) => {
         return [
             '新馬',
@@ -161,7 +161,7 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
             'GⅠ',
             '2勝クラス',
         ].map((grade, index) => {
-            return JraRaceEntity.createWithoutId(
+            return RaceEntity.createWithoutId(
                 RaceData.create(
                     raceType,
                     `テスト${location}${grade}${(index + 1).toString()}レース`,

@@ -4,21 +4,21 @@ import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
 export class MockJraRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<JraRaceEntity, PlaceEntity>
+    implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<JraRaceEntity[]> {
+    ): Promise<RaceEntity[]> {
         const { placeEntityList } = searchFilter;
-        const raceEntityList: JraRaceEntity[] = [];
+        const raceEntityList: RaceEntity[] = [];
         if (placeEntityList) {
             const { raceType } = searchFilter;
             for (const placeEntity of placeEntityList) {
@@ -27,7 +27,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
                     const raceDate = new Date(placeEntity.placeData.dateTime);
                     raceDate.setHours(raceNumber + 9, 0, 0, 0);
                     raceEntityList.push(
-                        JraRaceEntity.createWithoutId(
+                        RaceEntity.createWithoutId(
                             RaceData.create(
                                 raceType,
                                 `${placeEntity.placeData.location}第${raceNumber.toString()}R`,
@@ -51,12 +51,12 @@ export class MockJraRaceRepositoryFromHtmlImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: JraRaceEntity[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: JraRaceEntity[];
-        failureData: JraRaceEntity[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

@@ -9,14 +9,16 @@ import {
     generateRaceId,
     validateRaceId,
 } from '../../utility/data/common/raceId';
+import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
 /**
- * 中央競馬のレース開催データ
+ * 競馬のレース開催データ
  */
-export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
+export class RaceEntity implements IRaceEntity<RaceEntity> {
+    private readonly _heldDayData: HeldDayData | undefined;
     /**
      * コンストラクタ
      * @param id - ID
@@ -30,10 +32,12 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     private constructor(
         public readonly id: RaceId,
         public readonly raceData: RaceData,
-        public readonly heldDayData: HeldDayData,
+        public readonly heldDayData: HeldDayData | undefined,
         public readonly conditionData: HorseRaceConditionData,
         public readonly updateDate: UpdateDate,
-    ) {}
+    ) {
+        this._heldDayData = heldDayData;
+    }
 
     /**
      * インスタンス生成メソッド
@@ -46,17 +50,35 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     public static create(
         id: string,
         raceData: RaceData,
-        heldDayData: HeldDayData,
+        heldDayData: HeldDayData | undefined,
         conditionData: HorseRaceConditionData,
         updateDate: Date,
-    ): JraRaceEntity {
-        return new JraRaceEntity(
-            validateRaceId(raceData.raceType, id),
-            raceData,
-            heldDayData,
-            conditionData,
-            validateUpdateDate(updateDate),
-        );
+    ): RaceEntity {
+        try {
+            if (
+                (raceData.raceType === RaceType.JRA &&
+                    heldDayData === undefined) ||
+                (raceData.raceType !== RaceType.JRA &&
+                    heldDayData !== undefined)
+            ) {
+                throw new Error(`HeldDayData is incorrect`);
+            }
+            return new RaceEntity(
+                validateRaceId(raceData.raceType, id),
+                raceData,
+                heldDayData,
+                conditionData,
+                validateUpdateDate(updateDate),
+            );
+        } catch {
+            throw new Error(`Failed to create RaceEntity:
+                id: ${id},
+                raceData: ${JSON.stringify(raceData)},
+                heldDayData: ${JSON.stringify(heldDayData)},
+                conditionData: ${JSON.stringify(conditionData)},
+                updateDate: ${JSON.stringify(updateDate)}
+            `);
+        }
     }
 
     /**
@@ -68,11 +90,11 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      */
     public static createWithoutId(
         raceData: RaceData,
-        heldDayData: HeldDayData,
+        heldDayData: HeldDayData | undefined,
         conditionData: HorseRaceConditionData,
         updateDate: Date,
-    ): JraRaceEntity {
-        return JraRaceEntity.create(
+    ): RaceEntity {
+        return RaceEntity.create(
             generateRaceId(
                 raceData.raceType,
                 raceData.dateTime,
@@ -90,8 +112,8 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
      * データのコピー
      * @param partial - 上書きする部分データ
      */
-    public copy(partial: Partial<JraRaceEntity> = {}): JraRaceEntity {
-        return JraRaceEntity.create(
+    public copy(partial: Partial<RaceEntity> = {}): RaceEntity {
+        return RaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.heldDayData ?? this.heldDayData,

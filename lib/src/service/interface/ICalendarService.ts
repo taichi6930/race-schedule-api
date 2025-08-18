@@ -1,7 +1,6 @@
 import type { CalendarData } from '../../domain/calendarData';
-import type { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
-import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
+import type { RaceEntity } from '../../repository/entity/raceEntity';
 import type { RaceType } from '../../utility/raceType';
 
 export interface ICalendarService {
@@ -38,9 +37,9 @@ export interface ICalendarService {
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
     upsertEvents: (raceEntityList: {
-        [RaceType.JRA]: JraRaceEntity[];
-        [RaceType.NAR]: HorseRacingRaceEntity[];
-        [RaceType.OVERSEAS]: HorseRacingRaceEntity[];
+        [RaceType.JRA]: RaceEntity[];
+        [RaceType.NAR]: RaceEntity[];
+        [RaceType.OVERSEAS]: RaceEntity[];
         [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
         [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
         [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];

@@ -6,8 +6,8 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
-import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
@@ -80,8 +80,9 @@ export const baseNarPlaceEntity = PlaceEntity.createWithoutId(
     baseNarRaceUpdateDate,
 );
 
-export const baseNarRaceEntity = HorseRacingRaceEntity.createWithoutId(
+export const baseNarRaceEntity = RaceEntity.createWithoutId(
     baseNarRaceData,
+    undefined, // horseRaceConditionData は未指定
     baseNarConditionData,
     baseNarRaceUpdateDate,
 );
@@ -132,38 +133,38 @@ export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
     },
 };
 
-export const baseNarRaceEntityList: HorseRacingRaceEntity[] = [
-    '大井',
-    '高知',
-].flatMap((location) => {
-    return [
-        '一般',
-        '一般',
-        '一般',
-        'オープン特別',
-        'Listed',
-        'JpnⅢ',
-        'JpnⅡ',
-        'JpnⅠ',
-        'GⅢ',
-        'GⅡ',
-        'GⅠ',
-        '地方重賞',
-    ].map((grade, index) => {
-        return HorseRacingRaceEntity.createWithoutId(
-            RaceData.create(
-                raceType,
-                `テスト${location}${grade}${(index + 1).toString()}レース`,
-                new Date(2024, 6 - 1, 1, 7 + index, 0),
-                location,
-                grade,
-                index + 1,
-            ),
-            HorseRaceConditionData.create('ダート', 1600),
-            baseNarRaceUpdateDate,
-        );
-    });
-});
+export const baseNarRaceEntityList: RaceEntity[] = ['大井', '高知'].flatMap(
+    (location) => {
+        return [
+            '一般',
+            '一般',
+            '一般',
+            'オープン特別',
+            'Listed',
+            'JpnⅢ',
+            'JpnⅡ',
+            'JpnⅠ',
+            'GⅢ',
+            'GⅡ',
+            'GⅠ',
+            '地方重賞',
+        ].map((grade, index) => {
+            return RaceEntity.createWithoutId(
+                RaceData.create(
+                    raceType,
+                    `テスト${location}${grade}${(index + 1).toString()}レース`,
+                    new Date(2024, 6 - 1, 1, 7 + index, 0),
+                    location,
+                    grade,
+                    index + 1,
+                ),
+                undefined, // horseRaceConditionData は未指定
+                HorseRaceConditionData.create('ダート', 1600),
+                baseNarRaceUpdateDate,
+            );
+        });
+    },
+);
 
 export const baseNarCalendarData = CalendarData.create(
     'test202412292011',

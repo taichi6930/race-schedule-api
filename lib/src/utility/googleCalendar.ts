@@ -11,9 +11,8 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../domain/calendarData';
-import { HorseRacingRaceEntity } from '../repository/entity/horseRacingRaceEntity';
-import { JraRaceEntity } from '../repository/entity/jraRaceEntity';
 import { MechanicalRacingRaceEntity } from '../repository/entity/mechanicalRacingRaceEntity';
+import { RaceEntity } from '../repository/entity/raceEntity';
 import type { GradeType } from './data/common/gradeType';
 import { createPlaceCodeMap } from './data/common/raceCourse';
 import {
@@ -142,10 +141,7 @@ const GoogleCalendarColorIdMap = {
 } as Record<RaceType, Record<GradeType, GoogleCalendarColorIdType>>;
 
 export function toGoogleCalendarData(
-    raceEntity:
-        | JraRaceEntity
-        | HorseRacingRaceEntity
-        | MechanicalRacingRaceEntity,
+    raceEntity: RaceEntity | MechanicalRacingRaceEntity,
 
     updateDate: Date = new Date(),
 ): calendar_v3.Schema$Event {
@@ -154,13 +150,13 @@ export function toGoogleCalendarData(
     }
 
     function createLocation(): string {
-        if (raceEntity instanceof JraRaceEntity) {
+        if (raceEntity instanceof RaceEntity) {
             return `${raceEntity.raceData.location}競馬場`;
         }
-        if (raceEntity instanceof HorseRacingRaceEntity) {
+        if (raceEntity instanceof RaceEntity) {
             return `${raceEntity.raceData.location}競馬場`;
         }
-        if (raceEntity instanceof HorseRacingRaceEntity) {
+        if (raceEntity instanceof RaceEntity) {
             return `${raceEntity.raceData.location}競馬場`;
         }
         if (raceEntity instanceof MechanicalRacingRaceEntity) {
@@ -178,13 +174,13 @@ export function toGoogleCalendarData(
     }
 
     function createStage(): string {
-        if (raceEntity instanceof JraRaceEntity) {
+        if (raceEntity instanceof RaceEntity) {
             return '';
         }
-        if (raceEntity instanceof HorseRacingRaceEntity) {
+        if (raceEntity instanceof RaceEntity) {
             return '';
         }
-        if (raceEntity instanceof HorseRacingRaceEntity) {
+        if (raceEntity instanceof RaceEntity) {
             return '';
         }
         if (raceEntity instanceof MechanicalRacingRaceEntity) {
@@ -227,8 +223,8 @@ export function toGoogleCalendarData(
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof JraRaceEntity) {
-            const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
+        if (raceEntity instanceof RaceEntity) {
+            const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData?.heldTimes.toXDigits(2)}${raceEntity.heldDayData?.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
                     ${createAnchorTag(
@@ -246,7 +242,7 @@ export function toGoogleCalendarData(
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof HorseRacingRaceEntity) {
+        if (raceEntity instanceof RaceEntity) {
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
                     ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[raceEntity.raceData.location]))}
@@ -254,7 +250,7 @@ export function toGoogleCalendarData(
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof HorseRacingRaceEntity) {
+        if (raceEntity instanceof RaceEntity) {
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
                     ${updateStr}

@@ -1,8 +1,7 @@
 import type { CalendarData } from '../../domain/calendarData';
 import type { RaceType } from '../../utility/raceType';
-import type { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
-import type { JraRaceEntity } from '../entity/jraRaceEntity';
 import type { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
+import type { RaceEntity } from '../entity/raceEntity';
 import type { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 
 /**
@@ -60,10 +59,7 @@ export interface ICalendarRepository {
      *               - 認証/認可エラー
      */
     upsertEvents: (
-        raceEntityList:
-            | JraRaceEntity[]
-            | HorseRacingRaceEntity[]
-            | MechanicalRacingRaceEntity[],
+        raceEntityList: RaceEntity[] | MechanicalRacingRaceEntity[],
     ) => Promise<void>;
 
     /**

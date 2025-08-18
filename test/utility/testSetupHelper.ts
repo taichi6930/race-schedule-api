@@ -3,10 +3,9 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
-import type { HorseRacingRaceEntity } from '../../lib/src/repository/entity/horseRacingRaceEntity';
-import type { JraRaceEntity } from '../../lib/src/repository/entity/jraRaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import type { PlaceEntity } from '../../lib/src/repository/entity/placeEntity';
+import type { RaceEntity } from '../../lib/src/repository/entity/raceEntity';
 import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../lib/src/repository/interface/IRaceRepository';
@@ -51,19 +50,19 @@ export interface TestSetup {
         IPlaceRepository<PlaceEntity>
     >;
     jraRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<JraRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     jraRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<JraRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     horseRacingRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     narRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     overseasRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity, PlaceEntity>
     >;
     mechanicalRacingRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
@@ -92,46 +91,46 @@ export function setupTestMock(): TestSetup {
     container.registerInstance('S3Gateway', s3Gateway);
 
     const jraRaceRepositoryFromStorageImpl = mockRaceRepository<
-        JraRaceEntity,
+        RaceEntity,
         PlaceEntity
     >();
-    container.registerInstance<IRaceRepository<JraRaceEntity, PlaceEntity>>(
+    container.registerInstance<IRaceRepository<RaceEntity, PlaceEntity>>(
         'JraRaceRepositoryFromStorage',
         jraRaceRepositoryFromStorageImpl,
     );
     const jraRaceRepositoryFromHtmlImpl = mockRaceRepository<
-        JraRaceEntity,
+        RaceEntity,
         PlaceEntity
     >();
-    container.registerInstance<IRaceRepository<JraRaceEntity, PlaceEntity>>(
+    container.registerInstance<IRaceRepository<RaceEntity, PlaceEntity>>(
         'JraRaceRepositoryFromHtml',
         jraRaceRepositoryFromHtmlImpl,
     );
     const horseRacingRaceRepositoryFromStorageImpl = mockRaceRepository<
-        HorseRacingRaceEntity,
+        RaceEntity,
         PlaceEntity
     >();
-    container.registerInstance<
-        IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
-    >(
+    container.registerInstance<IRaceRepository<RaceEntity, PlaceEntity>>(
         'HorseRacingRaceRepositoryFromStorage',
         horseRacingRaceRepositoryFromStorageImpl,
     );
 
     const narRaceRepositoryFromHtmlImpl = mockRaceRepository<
-        HorseRacingRaceEntity,
+        RaceEntity,
         PlaceEntity
     >();
-    container.registerInstance<
-        IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
-    >('NarRaceRepositoryFromHtml', narRaceRepositoryFromHtmlImpl);
+    container.registerInstance<IRaceRepository<RaceEntity, PlaceEntity>>(
+        'NarRaceRepositoryFromHtml',
+        narRaceRepositoryFromHtmlImpl,
+    );
     const overseasRaceRepositoryFromHtmlImpl = mockRaceRepository<
-        HorseRacingRaceEntity,
+        RaceEntity,
         PlaceEntity
     >();
-    container.registerInstance<
-        IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
-    >('OverseasRaceRepositoryFromHtml', overseasRaceRepositoryFromHtmlImpl);
+    container.registerInstance<IRaceRepository<RaceEntity, PlaceEntity>>(
+        'OverseasRaceRepositoryFromHtml',
+        overseasRaceRepositoryFromHtmlImpl,
+    );
 
     const mechanicalRacingRaceRepositoryFromStorageImpl = mockRaceRepository<
         MechanicalRacingRaceEntity,

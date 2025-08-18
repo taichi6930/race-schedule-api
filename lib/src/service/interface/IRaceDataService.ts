@@ -1,7 +1,6 @@
-import type { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
-import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
+import type { RaceEntity } from '../../repository/entity/raceEntity';
 import type { DataLocationType } from '../../utility/dataType';
 import type { RaceType } from '../../utility/raceType';
 
@@ -47,9 +46,9 @@ export interface IRaceDataService {
             [RaceType.BOATRACE]?: PlaceEntity[];
         },
     ) => Promise<{
-        [RaceType.JRA]: JraRaceEntity[];
-        [RaceType.NAR]: HorseRacingRaceEntity[];
-        [RaceType.OVERSEAS]: HorseRacingRaceEntity[];
+        [RaceType.JRA]: RaceEntity[];
+        [RaceType.NAR]: RaceEntity[];
+        [RaceType.OVERSEAS]: RaceEntity[];
         [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
         [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
         [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
@@ -64,9 +63,9 @@ export interface IRaceDataService {
      * @throws Error データの保存/更新に失敗した場合
      */
     updateRaceEntityList: (raceEntityList: {
-        [RaceType.JRA]?: JraRaceEntity[];
-        [RaceType.NAR]?: HorseRacingRaceEntity[];
-        [RaceType.OVERSEAS]?: HorseRacingRaceEntity[];
+        [RaceType.JRA]?: RaceEntity[];
+        [RaceType.NAR]?: RaceEntity[];
+        [RaceType.OVERSEAS]?: RaceEntity[];
         [RaceType.KEIRIN]?: MechanicalRacingRaceEntity[];
         [RaceType.AUTORACE]?: MechanicalRacingRaceEntity[];
         [RaceType.BOATRACE]?: MechanicalRacingRaceEntity[];

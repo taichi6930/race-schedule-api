@@ -1,21 +1,20 @@
 import { container } from 'tsyringe';
 
-import type { HorseRacingRaceEntity } from '../../src/repository/entity/horseRacingRaceEntity';
-import type { JraRaceEntity } from '../../src/repository/entity/jraRaceEntity';
 import type { MechanicalRacingRaceEntity } from '../../src/repository/entity/mechanicalRacingRaceEntity';
 import type { PlaceEntity } from '../../src/repository/entity/placeEntity';
+import type { RaceEntity } from '../../src/repository/entity/raceEntity';
 import { HorseRacingRaceRepositoryFromStorageImpl } from '../../src/repository/implement/horseRacingRaceRepositoryFromStorageImpl';
 import { JraRaceRepositoryFromStorageImpl } from '../../src/repository/implement/jraRaceRepositoryFromStorageImpl';
 import { MechanicalRacingRaceRepositoryFromStorageImpl } from '../../src/repository/implement/mechanicalRacingRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
 
-container.register<IRaceRepository<JraRaceEntity, PlaceEntity>>(
+container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
     'JraRaceRepositoryFromStorage',
     {
         useClass: JraRaceRepositoryFromStorageImpl,
     },
 );
-container.register<IRaceRepository<HorseRacingRaceEntity, PlaceEntity>>(
+container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
     'HorseRacingRaceRepositoryFromStorage',
     {
         useClass: HorseRacingRaceRepositoryFromStorageImpl,

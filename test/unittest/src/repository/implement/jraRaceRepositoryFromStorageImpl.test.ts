@@ -10,8 +10,8 @@ import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import { JraRaceEntity } from '../../../../../lib/src/repository/entity/jraRaceEntity';
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { JraRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -22,7 +22,7 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('JraRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let repository: IRaceRepository<JraRaceEntity, PlaceEntity>;
+    let repository: IRaceRepository<RaceEntity, PlaceEntity>;
 
     const raceType: RaceType = RaceType.JRA;
 
@@ -101,13 +101,13 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
     });
 
     // 1年間のレース開催データを登録する
-    const raceEntityList: JraRaceEntity[] = Array.from(
+    const raceEntityList: RaceEntity[] = Array.from(
         { length: 60 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, (__, j) =>
-                JraRaceEntity.createWithoutId(
+                RaceEntity.createWithoutId(
                     RaceData.create(
                         raceType,
                         `raceName${format(date, 'yyyyMMdd')}`,

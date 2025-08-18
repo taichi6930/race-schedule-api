@@ -15,14 +15,14 @@ import { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 @injectable()
 export class JraRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<JraRaceEntity, PlaceEntity>
+    implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -36,8 +36,8 @@ export class JraRaceRepositoryFromHtmlImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<JraRaceEntity[]> {
-        const jraRaceEntityList: JraRaceEntity[] = [];
+    ): Promise<RaceEntity[]> {
+        const jraRaceEntityList: RaceEntity[] = [];
         const { placeEntityList, raceType } = searchFilter;
         // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
         const dateList = placeEntityList
@@ -60,7 +60,7 @@ export class JraRaceRepositoryFromHtmlImpl
     public async fetchRaceListFromHtmlWithJraPlace(
         raceType: RaceType,
         raceDate: Date,
-    ): Promise<JraRaceEntity[]> {
+    ): Promise<RaceEntity[]> {
         try {
             // レース情報を取得
             const htmlText: string =
@@ -68,7 +68,7 @@ export class JraRaceRepositoryFromHtmlImpl
                     raceType,
                     raceDate,
                 );
-            const jraRaceDataList: JraRaceEntity[] = [];
+            const jraRaceDataList: RaceEntity[] = [];
 
             // mockHTML内のsection id="raceInfo"の中のtableを取得
             // HTMLをパースする
@@ -191,7 +191,7 @@ export class JraRaceRepositoryFromHtmlImpl
                             grade: raceGrade,
                         });
 
-                        const jraRaceData = JraRaceEntity.createWithoutId(
+                        const jraRaceData = RaceEntity.createWithoutId(
                             RaceData.create(
                                 raceType,
                                 raceName,
@@ -450,12 +450,12 @@ export class JraRaceRepositoryFromHtmlImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: JraRaceEntity[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: JraRaceEntity[];
-        failureData: JraRaceEntity[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

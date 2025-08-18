@@ -1,8 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
-import { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
-import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
+import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { GradeType } from '../../utility/data/common/gradeType';
@@ -75,9 +74,9 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             };
         },
     ): Promise<{
-        [RaceType.JRA]: JraRaceEntity[];
-        [RaceType.NAR]: HorseRacingRaceEntity[];
-        [RaceType.OVERSEAS]: HorseRacingRaceEntity[];
+        [RaceType.JRA]: RaceEntity[];
+        [RaceType.NAR]: RaceEntity[];
+        [RaceType.OVERSEAS]: RaceEntity[];
         [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
         [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
         [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
