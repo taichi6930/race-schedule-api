@@ -59,9 +59,14 @@ describe('GoogleCalendarRepository', () => {
         jest.clearAllMocks();
     });
 
-    it('一旦テストを通す', () => {
-        expect(true).toBe(true);
-    });
+    const mockCalendarDataList = [
+        baseJraCalendarData,
+        baseNarCalendarData,
+        baseOverseasCalendarData,
+        baseKeirinCalendarData,
+        baseBoatraceCalendarData,
+        baseAutoraceCalendarData,
+    ];
 
     it('カレンダー情報が正常に取得できること', async () => {
         googleCalendarGateway.fetchCalendarDataList.mockImplementation(
@@ -100,15 +105,7 @@ describe('GoogleCalendarRepository', () => {
 
         expect(calendarDataList).toHaveLength(6);
         // calendarDataListの中に、baseAutoraceCalendarDataが含まれていることを確認
-        const expectedData = [
-            baseJraCalendarData,
-            baseNarCalendarData,
-            baseOverseasCalendarData,
-            baseKeirinCalendarData,
-            baseAutoraceCalendarData,
-            baseBoatraceCalendarData,
-        ];
-        for (const data of expectedData) {
+        for (const data of mockCalendarDataList) {
             expect(calendarDataList).toContainEqual(data);
         }
 
@@ -137,18 +134,10 @@ describe('GoogleCalendarRepository', () => {
         for (const { baseCalendarData } of [
             { baseCalendarData: baseJraCalendarData },
             { baseCalendarData: baseNarCalendarData },
-            {
-                baseCalendarData: baseOverseasCalendarData,
-            },
-            {
-                baseCalendarData: baseKeirinCalendarData,
-            },
-            {
-                baseCalendarData: baseAutoraceCalendarData,
-            },
-            {
-                baseCalendarData: baseBoatraceCalendarData,
-            },
+            { baseCalendarData: baseOverseasCalendarData },
+            { baseCalendarData: baseKeirinCalendarData },
+            { baseCalendarData: baseAutoraceCalendarData },
+            { baseCalendarData: baseBoatraceCalendarData },
         ]) {
             googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
@@ -161,18 +150,10 @@ describe('GoogleCalendarRepository', () => {
         for (const { baseCalendarData } of [
             { baseCalendarData: baseJraCalendarData },
             { baseCalendarData: baseNarCalendarData },
-            {
-                baseCalendarData: baseOverseasCalendarData,
-            },
-            {
-                baseCalendarData: baseKeirinCalendarData,
-            },
-            {
-                baseCalendarData: baseAutoraceCalendarData,
-            },
-            {
-                baseCalendarData: baseBoatraceCalendarData,
-            },
+            { baseCalendarData: baseOverseasCalendarData },
+            { baseCalendarData: baseKeirinCalendarData },
+            { baseCalendarData: baseAutoraceCalendarData },
+            { baseCalendarData: baseBoatraceCalendarData },
         ]) {
             googleCalendarGateway.deleteCalendarData.mockRejectedValue(
                 new Error('API Error'),
@@ -187,18 +168,10 @@ describe('GoogleCalendarRepository', () => {
         for (const { baseRaceEntityList } of [
             { baseRaceEntityList: [baseJraRaceEntity] },
             { baseRaceEntityList: [baseNarRaceEntity] },
-            {
-                baseRaceEntityList: [baseOverseasRaceEntity],
-            },
-            {
-                baseRaceEntityList: [baseKeirinRaceEntity],
-            },
-            {
-                baseRaceEntityList: [baseAutoraceRaceEntity],
-            },
-            {
-                baseRaceEntityList: [baseBoatraceRaceEntity],
-            },
+            { baseRaceEntityList: [baseOverseasRaceEntity] },
+            { baseRaceEntityList: [baseKeirinRaceEntity] },
+            { baseRaceEntityList: [baseAutoraceRaceEntity] },
+            { baseRaceEntityList: [baseBoatraceRaceEntity] },
         ]) {
             googleCalendarGateway.fetchCalendarData.mockRejectedValue(
                 new Error('API Error'),
@@ -261,18 +234,10 @@ describe('GoogleCalendarRepository', () => {
         for (const { baseRaceEntityList } of [
             { baseRaceEntityList: [baseJraRaceEntity] },
             { baseRaceEntityList: [baseNarRaceEntity] },
-            {
-                baseRaceEntityList: [baseOverseasRaceEntity],
-            },
-            {
-                baseRaceEntityList: [baseKeirinRaceEntity],
-            },
-            {
-                baseRaceEntityList: [baseAutoraceRaceEntity],
-            },
-            {
-                baseRaceEntityList: [baseBoatraceRaceEntity],
-            },
+            { baseRaceEntityList: [baseOverseasRaceEntity] },
+            { baseRaceEntityList: [baseKeirinRaceEntity] },
+            { baseRaceEntityList: [baseAutoraceRaceEntity] },
+            { baseRaceEntityList: [baseBoatraceRaceEntity] },
         ]) {
             googleCalendarGateway.insertCalendarData.mockRejectedValue(
                 new Error('API Error'),

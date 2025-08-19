@@ -5,22 +5,22 @@ import {
 
 describe('OverseasPlaceEntityクラスのテスト', () => {
     it('正しい入力でOverseasPlaceEntityのインスタンスを作成できることを確認', () => {
-        const placeEntity = baseOverseasPlaceEntity;
-
-        expect(placeEntity.placeData).toEqual(baseOverseasPlaceData);
+        expect(baseOverseasPlaceEntity.placeData).toEqual(
+            baseOverseasPlaceData,
+        );
     });
 
     it('何も変更せずOverseasPlaceEntityのインスタンスを作成できることを確認', () => {
-        const placeEntity = baseOverseasPlaceEntity;
-        const copiedPlaceEntity = placeEntity.copy();
+        const copiedPlaceEntity = baseOverseasPlaceEntity.copy();
 
-        expect(copiedPlaceEntity.id).toEqual(placeEntity.id);
-        expect(copiedPlaceEntity.placeData).toBe(placeEntity.placeData);
+        expect(copiedPlaceEntity.id).toEqual(baseOverseasPlaceEntity.id);
+        expect(copiedPlaceEntity.placeData).toBe(
+            baseOverseasPlaceEntity.placeData,
+        );
     });
 
     it('何も変更せずOverseasPlaceDataのインスタンスを作成できることを確認', () => {
-        const placeEntity = baseOverseasPlaceEntity;
-        const { placeData } = placeEntity;
+        const { placeData } = baseOverseasPlaceEntity;
 
         expect(placeData).toEqual(baseOverseasPlaceData);
     });

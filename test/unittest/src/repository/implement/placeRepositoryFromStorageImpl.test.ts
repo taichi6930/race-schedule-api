@@ -15,7 +15,10 @@ import type { IPlaceRepository } from '../../../../../lib/src/repository/interfa
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    ALL_RACE_TYPE_LIST,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 
@@ -74,14 +77,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
 
     describe('registerPlaceList', () => {
         test('正しい開催場データを登録できる', async () => {
-            for (const raceType of [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.OVERSEAS,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ]) {
+            for (const raceType of ALL_RACE_TYPE_LIST) {
                 const _placeEntityList = placeEntityList(raceType);
                 // テスト実行
                 await expect(
@@ -160,9 +156,7 @@ const createGrade = (raceType: RaceType): GradeType | undefined => {
         case RaceType.KEIRIN: {
             return 'GP';
         }
-        case RaceType.AUTORACE: {
-            return 'SG';
-        }
+        case RaceType.AUTORACE:
         case RaceType.BOATRACE: {
             return 'SG';
         }

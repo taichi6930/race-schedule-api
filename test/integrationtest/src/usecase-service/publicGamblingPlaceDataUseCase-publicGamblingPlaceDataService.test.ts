@@ -46,7 +46,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({
-            placeRepositoryFromStorageImpl: placeRepositoryFromStorageImpl,
+            placeRepositoryFromStorageImpl,
             jraPlaceRepositoryFromHtmlImpl,
             narPlaceRepositoryFromHtmlImpl,
             keirinPlaceRepositoryFromHtmlImpl,

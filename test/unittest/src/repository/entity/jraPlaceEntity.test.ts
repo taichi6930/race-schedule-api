@@ -5,22 +5,18 @@ import {
 
 describe('PlaceEntityクラスのテスト', () => {
     it('正しい入力でPlaceEntityのインスタンスを作成できることを確認', () => {
-        const placeEntity = baseJraPlaceEntity;
-
-        expect(placeEntity.placeData).toEqual(baseJraPlaceData);
+        expect(baseJraPlaceEntity.placeData).toEqual(baseJraPlaceData);
     });
 
     it('何も変更せずPlaceEntityのインスタンスを作成できることを確認', () => {
-        const placeEntity = baseJraPlaceEntity;
-        const copiedPlaceEntity = placeEntity.copy();
+        const copiedPlaceEntity = baseJraPlaceEntity.copy();
 
-        expect(copiedPlaceEntity.id).toEqual(placeEntity.id);
-        expect(copiedPlaceEntity.placeData).toBe(placeEntity.placeData);
+        expect(copiedPlaceEntity.id).toEqual(baseJraPlaceEntity.id);
+        expect(copiedPlaceEntity.placeData).toBe(baseJraPlaceEntity.placeData);
     });
 
     it('何も変更せずJraPlaceDataのインスタンスを作成できることを確認', () => {
-        const placeEntity = baseJraPlaceEntity;
-        const { placeData } = placeEntity;
+        const { placeData } = baseJraPlaceEntity;
 
         expect(placeData).toEqual(baseJraPlaceData);
     });

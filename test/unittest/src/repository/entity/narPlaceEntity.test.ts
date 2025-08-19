@@ -5,22 +5,18 @@ import {
 
 describe('NarPlaceEntityクラスのテスト', () => {
     it('正しい入力でNarPlaceEntityのインスタンスを作成できることを確認', () => {
-        const placeEntity = baseNarPlaceEntity;
-
-        expect(placeEntity.placeData).toEqual(baseNarPlaceData);
+        expect(baseNarPlaceEntity.placeData).toEqual(baseNarPlaceData);
     });
 
     it('何も変更せずNarPlaceEntityのインスタンスを作成できることを確認', () => {
-        const placeEntity = baseNarPlaceEntity;
-        const copiedPlaceEntity = placeEntity.copy();
+        const copiedPlaceEntity = baseNarPlaceEntity.copy();
 
-        expect(copiedPlaceEntity.id).toEqual(placeEntity.id);
-        expect(copiedPlaceEntity.placeData).toBe(placeEntity.placeData);
+        expect(copiedPlaceEntity.id).toEqual(baseNarPlaceEntity.id);
+        expect(copiedPlaceEntity.placeData).toBe(baseNarPlaceEntity.placeData);
     });
 
     it('何も変更せずNarPlaceDataのインスタンスを作成できることを確認', () => {
-        const placeEntity = baseNarPlaceEntity;
-        const { placeData } = placeEntity;
+        const { placeData } = baseNarPlaceEntity;
 
         expect(placeData).toEqual(baseNarPlaceData);
     });
