@@ -180,28 +180,42 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         failureDataCount: number;
     }> {
         try {
-            const response = await Promise.all([
-                ...[RaceType.JRA, RaceType.NAR, RaceType.OVERSEAS].map(
-                    async (raceType) =>
-                        this.saveRaceEntities(
-                            this.raceRepositoryFromStorage,
-                            raceType,
-                            raceEntityList.filter(
-                                (race) => race.raceData.raceType === raceType,
-                            ),
+            const response = await Promise.all(
+                [
+                    {
+                        raceType: RaceType.JRA,
+                        repo: this.raceRepositoryFromStorage,
+                    },
+                    {
+                        raceType: RaceType.NAR,
+                        repo: this.raceRepositoryFromStorage,
+                    },
+                    {
+                        raceType: RaceType.OVERSEAS,
+                        repo: this.raceRepositoryFromStorage,
+                    },
+                    {
+                        raceType: RaceType.KEIRIN,
+                        repo: this.mechanicalRacingRaceRepositoryFromStorage,
+                    },
+                    {
+                        raceType: RaceType.AUTORACE,
+                        repo: this.mechanicalRacingRaceRepositoryFromStorage,
+                    },
+                    {
+                        raceType: RaceType.BOATRACE,
+                        repo: this.mechanicalRacingRaceRepositoryFromStorage,
+                    },
+                ].map(async ({ repo, raceType }) =>
+                    this.saveRaceEntities(
+                        repo,
+                        raceType,
+                        raceEntityList.filter(
+                            (race) => race.raceData.raceType === raceType,
                         ),
+                    ),
                 ),
-                ...[RaceType.KEIRIN, RaceType.AUTORACE, RaceType.BOATRACE].map(
-                    async (raceType) =>
-                        this.saveRaceEntities(
-                            this.mechanicalRacingRaceRepositoryFromStorage,
-                            raceType,
-                            raceEntityList.filter(
-                                (race) => race.raceData.raceType === raceType,
-                            ),
-                        ),
-                ),
-            ]);
+            );
             return {
                 // 全てが200なら200を返す
                 code: response.every((res) => res.code === 200) ? 200 : 500,
