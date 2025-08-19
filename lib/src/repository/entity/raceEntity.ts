@@ -213,7 +213,6 @@ export class RaceEntity implements IRaceEntity<RaceEntity> {
             this.raceData.raceType !== RaceType.AUTORACE &&
             this.raceData.raceType !== RaceType.BOATRACE
         ) {
-            console.log(this.raceData);
             throw new Error(
                 'stage is only available for KEIRIN/AUTORACE/BOATRACE',
             );

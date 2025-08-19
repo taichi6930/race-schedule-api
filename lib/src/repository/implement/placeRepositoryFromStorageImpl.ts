@@ -200,14 +200,7 @@ export class PlaceRepositoryFromStorageImpl
                 await this.getPlaceRecordListFromS3(raceType);
 
             const placeRecordList: PlaceRecord[] = placeEntityList.map(
-                (placeEntity) =>
-                    PlaceRecord.create(
-                        placeEntity.id,
-                        placeEntity.placeData.raceType,
-                        placeEntity.placeData.dateTime,
-                        placeEntity.placeData.location,
-                        placeEntity.updateDate,
-                    ),
+                (placeEntity) => placeEntity.toPlaceRecord(),
             );
 
             // idが重複しているデータは上書きをし、新規のデータは追加する
