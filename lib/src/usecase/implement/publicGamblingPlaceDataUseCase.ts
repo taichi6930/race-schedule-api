@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceData } from '../../domain/placeData';
+import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -24,11 +24,11 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
      * @param raceTypeList - レース種別のリスト
      */
     @Logger
-    public async fetchPlaceDataList(
+    public async fetchPlaceEntityList(
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
-    ): Promise<PlaceData[]> {
+    ): Promise<PlaceEntity[]> {
         // 開催場データを取得
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
@@ -37,13 +37,7 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
                 raceTypeList,
                 DataLocation.Storage,
             );
-        const placeDataList: PlaceData[] = [];
-        // 全ての開催場データを結合して返す
-        // それぞれのplaceDataを抽出して返す
-        for (const placeEntity of placeEntityList) {
-            placeDataList.push(placeEntity.placeData);
-        }
-        return placeDataList;
+        return placeEntityList;
     }
 
     /**
@@ -53,7 +47,7 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
      * @param raceTypeList - レース種別のリスト
      */
     @Logger
-    public async updatePlaceDataList(
+    public async updatePlaceEntityList(
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],

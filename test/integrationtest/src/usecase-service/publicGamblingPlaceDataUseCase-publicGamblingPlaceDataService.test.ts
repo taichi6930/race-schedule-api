@@ -12,26 +12,11 @@ import {
     ALL_RACE_TYPE_LIST,
     RaceType,
 } from '../../../../lib/src/utility/raceType';
-import {
-    baseAutoracePlaceData,
-    baseAutoracePlaceEntity,
-} from '../../../unittest/src/mock/common/baseAutoraceData';
-import {
-    baseBoatracePlaceData,
-    baseBoatracePlaceEntity,
-} from '../../../unittest/src/mock/common/baseBoatraceData';
-import {
-    baseJraPlaceData,
-    baseJraPlaceEntity,
-} from '../../../unittest/src/mock/common/baseJraData';
-import {
-    baseKeirinPlaceData,
-    baseKeirinPlaceEntity,
-} from '../../../unittest/src/mock/common/baseKeirinData';
-import {
-    baseNarPlaceData,
-    baseNarPlaceEntity,
-} from '../../../unittest/src/mock/common/baseNarData';
+import { baseAutoracePlaceEntity } from '../../../unittest/src/mock/common/baseAutoraceData';
+import { baseBoatracePlaceEntity } from '../../../unittest/src/mock/common/baseBoatraceData';
+import { baseJraPlaceEntity } from '../../../unittest/src/mock/common/baseJraData';
+import { baseKeirinPlaceEntity } from '../../../unittest/src/mock/common/baseKeirinData';
+import { baseNarPlaceEntity } from '../../../unittest/src/mock/common/baseNarData';
 import type { TestSetup } from '../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../utility/testSetupHelper';
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
@@ -112,18 +97,18 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchPlaceDataList(
+            const result = await useCase.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 ALL_RACE_TYPE_LIST,
             );
 
             expect(result).toEqual([
-                baseJraPlaceData,
-                baseNarPlaceData,
-                baseKeirinPlaceData,
-                baseAutoracePlaceData,
-                baseBoatracePlaceData,
+                baseJraPlaceEntity,
+                baseNarPlaceEntity,
+                baseKeirinPlaceEntity,
+                baseAutoracePlaceEntity,
+                baseBoatracePlaceEntity,
             ]);
         });
     });
@@ -186,7 +171,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            await useCase.updatePlaceDataList(
+            await useCase.updatePlaceEntityList(
                 startDate,
                 finishDate,
                 ALL_RACE_TYPE_LIST,

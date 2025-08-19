@@ -213,7 +213,7 @@ export class PublicGamblingController {
             }
 
             // 競馬場情報を取得する
-            const placeList = await this.placeUseCase.fetchPlaceDataList(
+            const placeList = await this.placeUseCase.fetchPlaceEntityList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
                 raceTypeList,
@@ -270,7 +270,7 @@ export class PublicGamblingController {
             }
 
             // 競馬場情報を取得する
-            const response = await this.placeUseCase.updatePlaceDataList(
+            const response = await this.placeUseCase.updatePlaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
                 raceTypeList,

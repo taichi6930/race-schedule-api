@@ -1,4 +1,4 @@
-import type { PlaceData } from '../../domain/placeData';
+import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { RaceType } from '../../utility/raceType';
 
 /**
@@ -10,17 +10,17 @@ export interface IPlaceDataUseCase {
      * @param startDate
      * @param finishDate
      */
-    fetchPlaceDataList: (
+    fetchPlaceEntityList: (
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
-    ) => Promise<PlaceData[]>;
+    ) => Promise<PlaceEntity[]>;
     /**
      * 開催場データを更新する
      * @param startDate
      * @param finishDate
      */
-    updatePlaceDataList: (
+    updatePlaceEntityList: (
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
