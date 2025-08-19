@@ -82,104 +82,65 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
     });
 
     it('イベントが追加・削除されること（複数）', async () => {
-        const mockCalendarDataList: CalendarData[] = [
-            ...Array.from({ length: 8 }, (_, i: number) =>
-                baseJraCalendarData.copy({
-                    id: `jra2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 8 }, (_, i: number) =>
-                baseNarCalendarData.copy({
-                    id: `nar2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 8 }, (_, i: number) =>
-                baseOverseasCalendarData.copy({
-                    id: `overseas2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 8 }, (_, i: number) =>
-                baseKeirinCalendarData.copy({
-                    id: `keirin2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 8 }, (_, i: number) =>
-                baseAutoraceCalendarData.copy({
-                    id: `autorace2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 8 }, (_, i: number) =>
-                baseBoatraceCalendarData.copy({
-                    id: `boatrace2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
+        const dataList = [
+            {
+                raceType: RaceType.JRA,
+                calendarData: baseJraCalendarData,
+                raceEntity: baseJraRaceEntity,
+            },
+            {
+                raceType: RaceType.NAR,
+                calendarData: baseNarCalendarData,
+                raceEntity: baseNarRaceEntity,
+            },
+            {
+                raceType: RaceType.OVERSEAS,
+                calendarData: baseOverseasCalendarData,
+                raceEntity: baseOverseasRaceEntity,
+            },
+            {
+                raceType: RaceType.KEIRIN,
+                calendarData: baseKeirinCalendarData,
+                raceEntity: baseKeirinRaceEntity,
+            },
+            {
+                raceType: RaceType.AUTORACE,
+                calendarData: baseAutoraceCalendarData,
+                raceEntity: baseAutoraceRaceEntity,
+            },
+            {
+                raceType: RaceType.BOATRACE,
+                calendarData: baseBoatraceCalendarData,
+                raceEntity: baseBoatraceRaceEntity,
+            },
         ];
 
-        const mockRaceEntityList = [
-            ...Array.from({ length: 5 }, (_, i: number) =>
-                baseJraRaceEntity.copy({
-                    id: `jra2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 5 }, (_, i: number) =>
-                baseNarRaceEntity.copy({
-                    id: `nar2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 5 }, (_, i: number) =>
-                baseOverseasRaceEntity.copy({
-                    id: `overseas2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 5 }, (_, i: number) =>
-                baseKeirinRaceEntity.copy({
-                    id: `keirin2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 5 }, (_, i: number) =>
-                baseAutoraceRaceEntity.copy({
-                    id: `autorace2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 5 }, (_, i: number) =>
-                baseBoatraceRaceEntity.copy({
-                    id: `boatrace2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-        ];
+        const mockCalendarDataList: CalendarData[] = dataList.flatMap(
+            ({ calendarData, raceType }) =>
+                Array.from({ length: 8 }, (_, i: number) =>
+                    calendarData.copy({
+                        id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
+                    }),
+                ),
+        );
 
-        const expectDeleteCalendarDataList = [
-            ...Array.from({ length: 3 }, (_, i: number) =>
-                baseJraCalendarData.copy({
-                    id: `jra2024122920${(i + 6).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 3 }, (_, i: number) =>
-                baseNarCalendarData.copy({
-                    id: `nar2024122920${(i + 6).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 3 }, (_, i: number) =>
-                baseOverseasCalendarData.copy({
-                    id: `overseas2024122920${(i + 6).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 3 }, (_, i: number) =>
-                baseKeirinCalendarData.copy({
-                    id: `keirin2024122920${(i + 6).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 3 }, (_, i: number) =>
-                baseAutoraceCalendarData.copy({
-                    id: `autorace2024122920${(i + 6).toXDigits(2)}`,
-                }),
-            ),
-            ...Array.from({ length: 3 }, (_, i: number) =>
-                baseBoatraceCalendarData.copy({
-                    id: `boatrace2024122920${(i + 6).toXDigits(2)}`,
-                }),
-            ),
-        ];
+        const mockRaceEntityList = dataList.flatMap(
+            ({ raceEntity, raceType }) =>
+                Array.from({ length: 5 }, (_, i: number) =>
+                    raceEntity.copy({
+                        id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
+                    }),
+                ),
+        );
+
+        const expectDeleteCalendarDataList = dataList.flatMap(
+            ({ calendarData, raceType }) =>
+                Array.from({ length: 3 }, (_, i: number) =>
+                    calendarData.copy({
+                        id: `${raceType.toLowerCase()}2024122920${(i + 6).toXDigits(2)}`,
+                    }),
+                ),
+        );
         const expectRaceEntityList = mockRaceEntityList;
 
         // モックの戻り値を設定
