@@ -1,7 +1,3 @@
-import './calendarGatewayConfig';
-import './htmlGatewayConfig';
-import './s3GatewayConfig';
-
 import { container } from 'tsyringe';
 
 import { GoogleCalendarGateway } from '../../src/gateway/implement/googleCalendarGateway';

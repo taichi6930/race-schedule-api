@@ -59,79 +59,53 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 console.warn('raceTypeListが空の場合、空を返します');
                 return result;
             }
-            if (raceTypeList.includes(RaceType.JRA)) {
-                const raceType = RaceType.JRA;
-                const placeEntityList: PlaceEntity[] = await (
-                    type === DataLocation.Storage
-                        ? this.placeRepositoryFromStorage
-                        : this.jraPlaceRepositoryFromHtml
-                ).fetchPlaceEntityList(
-                    new SearchPlaceFilterEntity(
-                        startDate,
-                        finishDate,
-                        raceType,
-                    ),
-                );
-                result.push(...placeEntityList);
-            }
-            if (raceTypeList.includes(RaceType.NAR)) {
-                const raceType = RaceType.NAR;
-                const placeEntityList: PlaceEntity[] = await (
-                    type === DataLocation.Storage
-                        ? this.placeRepositoryFromStorage
-                        : this.narPlaceRepositoryFromHtml
-                ).fetchPlaceEntityList(
-                    new SearchPlaceFilterEntity(
-                        startDate,
-                        finishDate,
-                        raceType,
-                    ),
-                );
-                result.push(...placeEntityList);
-            }
-            if (raceTypeList.includes(RaceType.KEIRIN)) {
-                const raceType = RaceType.KEIRIN;
-                const placeEntityList: PlaceEntity[] = await (
-                    type === DataLocation.Storage
-                        ? this.placeRepositoryFromStorage
-                        : this.keirinPlaceRepositoryFromHtml
-                ).fetchPlaceEntityList(
-                    new SearchPlaceFilterEntity(
-                        startDate,
-                        finishDate,
-                        raceType,
-                    ),
-                );
-                result.push(...placeEntityList);
-            }
-            if (raceTypeList.includes(RaceType.AUTORACE)) {
-                const raceType = RaceType.AUTORACE;
-                const placeEntityList: PlaceEntity[] = await (
-                    type === DataLocation.Storage
-                        ? this.placeRepositoryFromStorage
-                        : this.autoracePlaceRepositoryFromHtml
-                ).fetchPlaceEntityList(
-                    new SearchPlaceFilterEntity(
-                        startDate,
-                        finishDate,
-                        raceType,
-                    ),
-                );
-                result.push(...placeEntityList);
-            }
-            if (raceTypeList.includes(RaceType.BOATRACE)) {
-                const raceType = RaceType.BOATRACE;
-                const placeEntityList: PlaceEntity[] = await (
-                    type === DataLocation.Storage
-                        ? this.placeRepositoryFromStorage
-                        : this.boatracePlaceRepositoryFromHtml
-                ).fetchPlaceEntityList(
-                    new SearchPlaceFilterEntity(
-                        startDate,
-                        finishDate,
-                        raceType,
-                    ),
-                );
+            for (const { raceType, repo } of [
+                {
+                    raceType: RaceType.JRA,
+                    repo:
+                        type === DataLocation.Storage
+                            ? this.placeRepositoryFromStorage
+                            : this.jraPlaceRepositoryFromHtml,
+                },
+                {
+                    raceType: RaceType.NAR,
+                    repo:
+                        type === DataLocation.Storage
+                            ? this.placeRepositoryFromStorage
+                            : this.narPlaceRepositoryFromHtml,
+                },
+                {
+                    raceType: RaceType.KEIRIN,
+                    repo:
+                        type === DataLocation.Storage
+                            ? this.placeRepositoryFromStorage
+                            : this.keirinPlaceRepositoryFromHtml,
+                },
+                {
+                    raceType: RaceType.AUTORACE,
+                    repo:
+                        type === DataLocation.Storage
+                            ? this.placeRepositoryFromStorage
+                            : this.autoracePlaceRepositoryFromHtml,
+                },
+                {
+                    raceType: RaceType.BOATRACE,
+                    repo:
+                        type === DataLocation.Storage
+                            ? this.placeRepositoryFromStorage
+                            : this.boatracePlaceRepositoryFromHtml,
+                },
+            ]) {
+                if (!raceTypeList.includes(raceType)) continue;
+
+                const placeEntityList: PlaceEntity[] =
+                    await repo.fetchPlaceEntityList(
+                        new SearchPlaceFilterEntity(
+                            startDate,
+                            finishDate,
+                            raceType,
+                        ),
+                    );
                 result.push(...placeEntityList);
             }
             return result;
