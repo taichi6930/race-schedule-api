@@ -8,7 +8,7 @@ import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilter
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import { ALL_RACE_TYPE_LIST, RaceType } from '../../utility/raceType';
 import { IRaceDataService } from '../interface/IRaceDataService';
 
 /**
@@ -176,37 +176,17 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     }> {
         try {
             const response = await Promise.all(
-                [
-                    {
-                        raceType: RaceType.JRA,
-                        repository: this.raceRepositoryFromStorage,
-                    },
-                    {
-                        raceType: RaceType.NAR,
-                        repository: this.raceRepositoryFromStorage,
-                    },
-                    {
-                        raceType: RaceType.OVERSEAS,
-                        repository: this.raceRepositoryFromStorage,
-                    },
-                    {
-                        raceType: RaceType.KEIRIN,
-                        repository:
-                            this.mechanicalRacingRaceRepositoryFromStorage,
-                    },
-                    {
-                        raceType: RaceType.AUTORACE,
-                        repository:
-                            this.mechanicalRacingRaceRepositoryFromStorage,
-                    },
-                    {
-                        raceType: RaceType.BOATRACE,
-                        repository:
-                            this.mechanicalRacingRaceRepositoryFromStorage,
-                    },
-                ].map(async ({ repository, raceType }) =>
+                ALL_RACE_TYPE_LIST.map(async (raceType) =>
                     this.saveRaceEntityList(
-                        repository,
+                        (
+                            [
+                                RaceType.JRA,
+                                RaceType.NAR,
+                                RaceType.OVERSEAS,
+                            ] as RaceType[]
+                        ).includes(raceType)
+                            ? this.raceRepositoryFromStorage
+                            : this.mechanicalRacingRaceRepositoryFromStorage,
                         raceType,
                         raceEntityList.filter(
                             (race) => race.raceData.raceType === raceType,
