@@ -143,10 +143,11 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                                     placeEntity.placeData.raceType === raceType,
                             ) ?? [],
                         );
-                    const raceEntityList = await this.fetchRaceEntities(
-                        repository,
-                        searchFilter,
-                    );
+                    const raceEntityList =
+                        await this.fetchRaceEntityListFromRepository(
+                            repository,
+                            searchFilter,
+                        );
                     result.push(...raceEntityList);
                 }
             }
@@ -210,7 +211,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                             this.mechanicalRacingRaceRepositoryFromStorage,
                     },
                 ].map(async ({ repository, raceType }) =>
-                    this.saveRaceEntities(
+                    this.saveRaceEntityList(
                         repository,
                         raceType,
                         raceEntityList.filter(
@@ -245,25 +246,25 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * レース種別ごとの保存処理を共通化
      * @param repository
      * @param raceType
-     * @param entities
+     * @param entityList
      */
-    private async saveRaceEntities<
+    private async saveRaceEntityList<
         TRace extends IRaceEntity<TRace>,
         TPlace extends IPlaceEntity<TPlace>,
     >(
         repository: IRaceRepository<TRace, TPlace>,
         raceType: RaceType,
-        entities?: TRace[],
+        entityList?: TRace[],
     ): Promise<{
         code: number;
         message: string;
         successDataCount: number;
         failureDataCount: number;
     }> {
-        if (entities !== undefined && entities.length > 0) {
+        if (entityList !== undefined && entityList.length > 0) {
             const response = await repository.registerRaceEntityList(
                 raceType,
-                entities,
+                entityList,
             );
             return {
                 code: response.code,
@@ -274,7 +275,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         }
         return {
             code: 200,
-            message: 'No entities to save',
+            message: 'No entityList to save',
             successDataCount: 0,
             failureDataCount: 0,
         };
@@ -285,7 +286,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * @param repository
      * @param searchFilter
      */
-    private async fetchRaceEntities<
+    private async fetchRaceEntityListFromRepository<
         TPlace extends IPlaceEntity<TPlace>,
         TRace extends IRaceEntity<TRace>,
     >(
