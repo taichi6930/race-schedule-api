@@ -49,6 +49,15 @@ describe('PublicGamblingRaceDataService', () => {
     >;
     let service: IRaceDataService;
 
+    const mockRaceEntityList = [
+        ...baseJraRaceEntityList,
+        ...baseNarRaceEntityList,
+        ...baseOverseasRaceEntityList,
+        ...baseKeirinRaceEntityList,
+        ...baseAutoraceRaceEntityList,
+        ...baseBoatraceRaceEntityList,
+    ];
+
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({
@@ -122,14 +131,7 @@ describe('PublicGamblingRaceDataService', () => {
                 ALL_RACE_TYPE_LIST,
                 DataLocation.Storage,
             );
-            expect(result).toEqual([
-                ...baseJraRaceEntityList,
-                ...baseNarRaceEntityList,
-                ...baseOverseasRaceEntityList,
-                ...baseKeirinRaceEntityList,
-                ...baseAutoraceRaceEntityList,
-                ...baseBoatraceRaceEntityList,
-            ]);
+            expect(result).toEqual(mockRaceEntityList);
         });
 
         it('正常にレース開催データが取得できること（web）', async () => {
@@ -163,14 +165,7 @@ describe('PublicGamblingRaceDataService', () => {
                 DataLocation.Web,
             );
 
-            expect(result).toEqual([
-                ...baseJraRaceEntityList,
-                ...baseNarRaceEntityList,
-                ...baseOverseasRaceEntityList,
-                ...baseKeirinRaceEntityList,
-                ...baseAutoraceRaceEntityList,
-                ...baseBoatraceRaceEntityList,
-            ]);
+            expect(result).toEqual(mockRaceEntityList);
         });
 
         it('レース開催データが取得できない場合、エラーが発生すること', async () => {
@@ -313,14 +308,7 @@ describe('PublicGamblingRaceDataService', () => {
                 },
             );
 
-            await service.updateRaceEntityList([
-                ...baseJraRaceEntityList,
-                ...baseNarRaceEntityList,
-                ...baseOverseasRaceEntityList,
-                ...baseKeirinRaceEntityList,
-                ...baseBoatraceRaceEntityList,
-                ...baseAutoraceRaceEntityList,
-            ]);
+            await service.updateRaceEntityList(mockRaceEntityList);
 
             expect(
                 raceRepositoryFromStorageImpl.registerRaceEntityList,

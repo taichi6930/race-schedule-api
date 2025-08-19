@@ -38,6 +38,14 @@ describe('PublicGamblingPlaceDataService', () => {
     >;
     let service: IPlaceDataService;
 
+    const mockPlaceEntity = [
+        baseJraPlaceEntity,
+        baseNarPlaceEntity,
+        baseKeirinPlaceEntity,
+        baseAutoracePlaceEntity,
+        baseBoatracePlaceEntity,
+    ];
+
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({
@@ -58,14 +66,6 @@ describe('PublicGamblingPlaceDataService', () => {
 
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること(storage)', async () => {
-            const mockPlaceEntity = [
-                baseJraPlaceEntity,
-                baseNarPlaceEntity,
-                baseKeirinPlaceEntity,
-                baseAutoracePlaceEntity,
-                baseBoatracePlaceEntity,
-            ];
-
             // モックの戻り値を設定
             placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
@@ -112,14 +112,6 @@ describe('PublicGamblingPlaceDataService', () => {
         });
 
         it('正常に開催場データが取得できること（web）', async () => {
-            const mockPlaceEntity = [
-                baseJraPlaceEntity,
-                baseNarPlaceEntity,
-                baseKeirinPlaceEntity,
-                baseAutoracePlaceEntity,
-                baseBoatracePlaceEntity,
-            ];
-
             // モックの戻り値を設定
             jraPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseJraPlaceEntity],
@@ -188,14 +180,6 @@ describe('PublicGamblingPlaceDataService', () => {
 
     describe('updatePlaceDataList', () => {
         it('正常に開催場データが更新されること', async () => {
-            const mockPlaceEntity = [
-                baseJraPlaceEntity,
-                baseNarPlaceEntity,
-                baseKeirinPlaceEntity,
-                baseAutoracePlaceEntity,
-                baseBoatracePlaceEntity,
-            ];
-
             // モックの戻り値を設定
             placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
@@ -252,13 +236,6 @@ describe('PublicGamblingPlaceDataService', () => {
         });
 
         it('開催場データが更新できない場合、エラーが発生すること', async () => {
-            const mockPlaceEntity = [
-                baseJraPlaceEntity,
-                baseNarPlaceEntity,
-                baseKeirinPlaceEntity,
-                baseAutoracePlaceEntity,
-                baseBoatracePlaceEntity,
-            ];
             // モックの戻り値を設定（エラーが発生するように設定）
             placeRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('開催場データの登録に失敗しました'),

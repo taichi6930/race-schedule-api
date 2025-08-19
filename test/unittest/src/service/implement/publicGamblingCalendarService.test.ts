@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
@@ -39,6 +38,24 @@ describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
     let calendarRepository: jest.Mocked<ICalendarRepository>;
 
+    const mockCalendarDataList = [
+        baseJraCalendarData,
+        baseNarCalendarData,
+        baseOverseasCalendarData,
+        baseKeirinCalendarData,
+        baseBoatraceCalendarData,
+        baseAutoraceCalendarData,
+    ];
+
+    const mockRaceEntityList = [
+        ...baseJraRaceEntityList,
+        ...baseNarRaceEntityList,
+        ...baseOverseasRaceEntityList,
+        ...baseKeirinRaceEntityList,
+        ...baseAutoraceRaceEntityList,
+        ...baseBoatraceRaceEntityList,
+    ];
+
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({ calendarRepository } = setup);
@@ -53,15 +70,6 @@ describe('PublicGamblingCalendarService', () => {
         it('カレンダーのイベントの取得が正常に行われること', async () => {
             const startDate = new Date('2023-01-01');
             const finishDate = new Date('2023-01-31');
-            const calendarDataList: CalendarData[] = [
-                baseJraCalendarData,
-                baseNarCalendarData,
-                baseOverseasCalendarData,
-                baseKeirinCalendarData,
-                baseBoatraceCalendarData,
-                baseAutoraceCalendarData,
-            ];
-
             const result = await service.fetchEvents(
                 startDate,
                 finishDate,
@@ -72,51 +80,27 @@ describe('PublicGamblingCalendarService', () => {
                 ALL_RACE_TYPE_LIST,
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
-            expect(result).toEqual(calendarDataList);
+            expect(result).toEqual(mockCalendarDataList);
         });
     });
 
     describe('deleteEvents', () => {
         it('カレンダーのイベントの削除が正常に行われること', async () => {
-            await service.deleteEvents([
-                baseJraCalendarData,
-                baseNarCalendarData,
-                baseOverseasCalendarData,
-                baseKeirinCalendarData,
-                baseBoatraceCalendarData,
-                baseAutoraceCalendarData,
-            ]);
+            await service.deleteEvents(mockCalendarDataList);
 
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith([
-                baseJraCalendarData,
-                baseNarCalendarData,
-                baseOverseasCalendarData,
-                baseKeirinCalendarData,
-                baseBoatraceCalendarData,
-                baseAutoraceCalendarData,
-            ]);
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
+                mockCalendarDataList,
+            );
         });
     });
 
     describe('upsertEvents', () => {
         it('カレンダーのイベントの更新が正常に行われること', async () => {
-            await service.upsertEvents([
-                ...baseJraRaceEntityList,
-                ...baseNarRaceEntityList,
-                ...baseOverseasRaceEntityList,
-                ...baseKeirinRaceEntityList,
-                ...baseAutoraceRaceEntityList,
-                ...baseBoatraceRaceEntityList,
-            ]);
+            await service.upsertEvents(mockRaceEntityList);
 
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith([
-                ...baseJraRaceEntityList,
-                ...baseNarRaceEntityList,
-                ...baseOverseasRaceEntityList,
-                ...baseKeirinRaceEntityList,
-                ...baseAutoraceRaceEntityList,
-                ...baseBoatraceRaceEntityList,
-            ]);
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                mockRaceEntityList,
+            );
         });
     });
 });
