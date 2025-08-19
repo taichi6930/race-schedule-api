@@ -69,6 +69,14 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
         [RaceType.AUTORACE]: baseAutoracePlaceEntity,
     };
 
+    const mockPlaceEntity = [
+        baseJraPlaceEntity,
+        baseNarPlaceEntity,
+        baseKeirinPlaceEntity,
+        baseAutoracePlaceEntity,
+        baseBoatracePlaceEntity,
+    ];
+
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること', async () => {
             // モックの戻り値を設定
@@ -98,13 +106,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                 ALL_RACE_TYPE_LIST,
             );
 
-            expect(result).toEqual([
-                baseJraPlaceEntity,
-                baseNarPlaceEntity,
-                baseKeirinPlaceEntity,
-                baseAutoracePlaceEntity,
-                baseBoatracePlaceEntity,
-            ]);
+            expect(result).toEqual(mockPlaceEntity);
         });
     });
 
