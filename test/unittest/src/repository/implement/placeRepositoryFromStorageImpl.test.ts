@@ -13,7 +13,6 @@ import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entit
 import { PlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
-import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import {
     ALL_RACE_TYPE_LIST,
@@ -100,7 +99,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
     // 1年間の開催場データを登録する
     const placeEntityList = (raceType: RaceType): PlaceEntity[] =>
         Array.from({ length: 60 }, (_, day) => {
-            const location = createLocation(raceType);
+            const location = defaultLocation[raceType];
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
@@ -121,30 +120,16 @@ describe('PlaceRepositoryFromStorageImpl', () => {
         [RaceType.AUTORACE]: undefined,
         [RaceType.BOATRACE]: undefined,
     };
-});
 
-const createLocation = (raceType: RaceType): RaceCourse => {
-    switch (raceType) {
-        case RaceType.JRA: {
-            return '東京';
-        }
-        case RaceType.NAR: {
-            return '大井';
-        }
-        case RaceType.KEIRIN: {
-            return '平塚';
-        }
-        case RaceType.AUTORACE: {
-            return '川口';
-        }
-        case RaceType.BOATRACE: {
-            return '浜名湖';
-        }
-        case RaceType.OVERSEAS: {
-            return 'パリロンシャン';
-        }
-    }
-};
+    const defaultLocation = {
+        [RaceType.JRA]: '東京',
+        [RaceType.NAR]: '大井',
+        [RaceType.OVERSEAS]: 'パリロンシャン',
+        [RaceType.KEIRIN]: '平塚',
+        [RaceType.AUTORACE]: '川口',
+        [RaceType.BOATRACE]: '浜名湖',
+    };
+});
 
 const createGrade = (raceType: RaceType): GradeType | undefined => {
     switch (raceType) {

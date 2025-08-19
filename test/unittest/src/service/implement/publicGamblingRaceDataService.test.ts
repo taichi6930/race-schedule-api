@@ -58,6 +58,15 @@ describe('PublicGamblingRaceDataService', () => {
         ...baseBoatraceRaceEntityList,
     ];
 
+    const baseRaceEntityListMap = {
+        [RaceType.JRA]: baseJraRaceEntityList,
+        [RaceType.NAR]: baseNarRaceEntityList,
+        [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
+        [RaceType.KEIRIN]: baseKeirinRaceEntityList,
+        [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
+        [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
+    };
+
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({
@@ -89,14 +98,10 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.AUTORACE: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.JRA: {
-                            return baseJraRaceEntityList;
-                        }
-                        case RaceType.NAR: {
-                            return baseNarRaceEntityList;
-                        }
+                        case RaceType.JRA:
+                        case RaceType.NAR:
                         case RaceType.OVERSEAS: {
-                            return baseOverseasRaceEntityList;
+                            return baseRaceEntityListMap[searchFilter.raceType];
                         }
                     }
                 },
@@ -109,14 +114,10 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.OVERSEAS: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.KEIRIN: {
-                            return baseKeirinRaceEntityList;
-                        }
-                        case RaceType.BOATRACE: {
-                            return baseBoatraceRaceEntityList;
-                        }
+                        case RaceType.KEIRIN:
+                        case RaceType.BOATRACE:
                         case RaceType.AUTORACE: {
-                            return baseAutoraceRaceEntityList;
+                            return baseRaceEntityListMap[searchFilter.raceType];
                         }
                     }
                 },
@@ -203,14 +204,10 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.AUTORACE: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.JRA: {
-                            return baseJraRaceEntityList;
-                        }
-                        case RaceType.NAR: {
-                            return baseNarRaceEntityList;
-                        }
+                        case RaceType.JRA:
+                        case RaceType.NAR:
                         case RaceType.OVERSEAS: {
-                            return baseOverseasRaceEntityList;
+                            return baseRaceEntityListMap[searchFilter.raceType];
                         }
                     }
                 },
@@ -223,14 +220,10 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.OVERSEAS: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.KEIRIN: {
-                            return baseKeirinRaceEntityList;
-                        }
-                        case RaceType.BOATRACE: {
-                            return baseBoatraceRaceEntityList;
-                        }
+                        case RaceType.KEIRIN:
+                        case RaceType.BOATRACE:
                         case RaceType.AUTORACE: {
-                            return baseAutoraceRaceEntityList;
+                            return baseRaceEntityListMap[searchFilter.raceType];
                         }
                     }
                 },

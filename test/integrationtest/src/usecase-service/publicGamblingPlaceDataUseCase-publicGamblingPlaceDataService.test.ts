@@ -60,6 +60,15 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
         jest.clearAllMocks();
     });
 
+    const basePlaceEntityMap = {
+        [RaceType.JRA]: baseJraPlaceEntity,
+        [RaceType.NAR]: baseNarPlaceEntity,
+        [RaceType.OVERSEAS]: undefined, // 海外競馬は未対応
+        [RaceType.KEIRIN]: baseKeirinPlaceEntity,
+        [RaceType.BOATRACE]: baseBoatracePlaceEntity,
+        [RaceType.AUTORACE]: baseAutoracePlaceEntity,
+    };
+
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること', async () => {
             // モックの戻り値を設定
@@ -69,20 +78,12 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                         case RaceType.OVERSEAS: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.JRA: {
-                            return [baseJraPlaceEntity];
-                        }
-                        case RaceType.NAR: {
-                            return [baseNarPlaceEntity];
-                        }
-                        case RaceType.KEIRIN: {
-                            return [baseKeirinPlaceEntity];
-                        }
+                        case RaceType.JRA:
+                        case RaceType.NAR:
+                        case RaceType.KEIRIN:
+                        case RaceType.AUTORACE:
                         case RaceType.BOATRACE: {
-                            return [baseBoatracePlaceEntity];
-                        }
-                        case RaceType.AUTORACE: {
-                            return [baseAutoracePlaceEntity];
+                            return [basePlaceEntityMap[searchFilter.raceType]];
                         }
                     }
                 },
@@ -126,20 +127,12 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                         case RaceType.OVERSEAS: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.JRA: {
-                            return [baseJraPlaceEntity];
-                        }
-                        case RaceType.NAR: {
-                            return [baseNarPlaceEntity];
-                        }
-                        case RaceType.KEIRIN: {
-                            return [baseKeirinPlaceEntity];
-                        }
+                        case RaceType.JRA:
+                        case RaceType.NAR:
+                        case RaceType.KEIRIN:
+                        case RaceType.AUTORACE:
                         case RaceType.BOATRACE: {
-                            return [baseBoatracePlaceEntity];
-                        }
-                        case RaceType.AUTORACE: {
-                            return [baseAutoracePlaceEntity];
+                            return [basePlaceEntityMap[searchFilter.raceType]];
                         }
                     }
                 },
