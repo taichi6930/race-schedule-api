@@ -39,11 +39,11 @@ export class PublicGamblingController {
         this.router.get('/calendar', this.getRacesFromCalendar.bind(this));
         this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
         // RaceData関連のAPI
-        this.router.get('/race', this.getRaceDataList.bind(this));
+        this.router.get('/race', this.getRaceEntityList.bind(this));
         this.router.post('/race', this.updateRaceEntityList.bind(this));
         // PlaceData関連のAPI
-        this.router.get('/place', this.getPlaceDataList.bind(this));
-        this.router.post('/place', this.updatePlaceDataList.bind(this));
+        this.router.get('/place', this.getPlaceEntityList.bind(this));
+        this.router.post('/place', this.updatePlaceEntityList.bind(this));
         // PlayerData関連のAPI
         this.router.get('/player', this.getPlayerDataList.bind(this));
     }
@@ -181,7 +181,10 @@ export class PublicGamblingController {
      * @param res - レスポンス
      */
     @Logger
-    private async getPlaceDataList(req: Request, res: Response): Promise<void> {
+    private async getPlaceEntityList(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
         try {
             const { startDate, finishDate, raceType } = req.query;
 
@@ -235,7 +238,7 @@ export class PublicGamblingController {
      * @param res - レスポンス
      */
     @Logger
-    private async updatePlaceDataList(
+    private async updatePlaceEntityList(
         req: Request,
         res: Response,
     ): Promise<void> {
@@ -296,7 +299,10 @@ export class PublicGamblingController {
      * @param res - レスポンス
      */
     @Logger
-    private async getRaceDataList(req: Request, res: Response): Promise<void> {
+    private async getRaceEntityList(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
         try {
             // gradeが複数来ることもある
             const { startDate, finishDate, raceType, grade, location, stage } =
