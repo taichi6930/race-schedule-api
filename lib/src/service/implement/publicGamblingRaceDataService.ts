@@ -184,31 +184,34 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                 [
                     {
                         raceType: RaceType.JRA,
-                        repo: this.raceRepositoryFromStorage,
+                        repository: this.raceRepositoryFromStorage,
                     },
                     {
                         raceType: RaceType.NAR,
-                        repo: this.raceRepositoryFromStorage,
+                        repository: this.raceRepositoryFromStorage,
                     },
                     {
                         raceType: RaceType.OVERSEAS,
-                        repo: this.raceRepositoryFromStorage,
+                        repository: this.raceRepositoryFromStorage,
                     },
                     {
                         raceType: RaceType.KEIRIN,
-                        repo: this.mechanicalRacingRaceRepositoryFromStorage,
+                        repository:
+                            this.mechanicalRacingRaceRepositoryFromStorage,
                     },
                     {
                         raceType: RaceType.AUTORACE,
-                        repo: this.mechanicalRacingRaceRepositoryFromStorage,
+                        repository:
+                            this.mechanicalRacingRaceRepositoryFromStorage,
                     },
                     {
                         raceType: RaceType.BOATRACE,
-                        repo: this.mechanicalRacingRaceRepositoryFromStorage,
+                        repository:
+                            this.mechanicalRacingRaceRepositoryFromStorage,
                     },
-                ].map(async ({ repo, raceType }) =>
+                ].map(async ({ repository, raceType }) =>
                     this.saveRaceEntities(
-                        repo,
+                        repository,
                         raceType,
                         raceEntityList.filter(
                             (race) => race.raceData.raceType === raceType,
