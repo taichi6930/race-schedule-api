@@ -5,7 +5,7 @@ import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilt
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import { ALL_RACE_TYPE_LIST, RaceType } from '../../utility/raceType';
 import { IPlaceDataService } from '../interface/IPlaceDataService';
 
 /**
@@ -166,84 +166,32 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 failureDataCount: 0,
             };
         try {
-            const response = {
-                [RaceType.JRA]:
-                    await this.placeRepositoryFromStorage.registerPlaceEntityList(
-                        RaceType.JRA,
+            const responseList = await Promise.all(
+                ALL_RACE_TYPE_LIST.map(async (raceType) =>
+                    this.placeRepositoryFromStorage.registerPlaceEntityList(
+                        raceType,
                         placeEntityList.filter(
-                            (item) => item.placeData.raceType === RaceType.JRA,
+                            (item) => item.placeData.raceType === raceType,
                         ),
                     ),
-                [RaceType.NAR]:
-                    await this.placeRepositoryFromStorage.registerPlaceEntityList(
-                        RaceType.NAR,
-                        placeEntityList.filter(
-                            (item) => item.placeData.raceType === RaceType.NAR,
-                        ),
-                    ),
-                [RaceType.OVERSEAS]:
-                    await this.placeRepositoryFromStorage.registerPlaceEntityList(
-                        RaceType.OVERSEAS,
-                        placeEntityList.filter(
-                            (item) =>
-                                item.placeData.raceType === RaceType.OVERSEAS,
-                        ),
-                    ),
-                [RaceType.KEIRIN]:
-                    await this.placeRepositoryFromStorage.registerPlaceEntityList(
-                        RaceType.KEIRIN,
-                        placeEntityList.filter(
-                            (item) =>
-                                item.placeData.raceType === RaceType.KEIRIN,
-                        ),
-                    ),
-                [RaceType.AUTORACE]:
-                    await this.placeRepositoryFromStorage.registerPlaceEntityList(
-                        RaceType.AUTORACE,
-                        placeEntityList.filter(
-                            (item) =>
-                                item.placeData.raceType === RaceType.AUTORACE,
-                        ),
-                    ),
-                [RaceType.BOATRACE]:
-                    await this.placeRepositoryFromStorage.registerPlaceEntityList(
-                        RaceType.BOATRACE,
-                        placeEntityList.filter(
-                            (item) =>
-                                item.placeData.raceType === RaceType.BOATRACE,
-                        ),
-                    ),
-            };
+                ),
+            );
 
             return {
-                code:
-                    response[RaceType.JRA].code === 200 &&
-                    response[RaceType.NAR].code === 200 &&
-                    response[RaceType.KEIRIN].code === 200 &&
-                    response[RaceType.AUTORACE].code === 200 &&
-                    response[RaceType.BOATRACE].code === 200
-                        ? 200
-                        : 500,
-                message:
-                    response[RaceType.JRA].code === 200 &&
-                    response[RaceType.NAR].code === 200 &&
-                    response[RaceType.KEIRIN].code === 200 &&
-                    response[RaceType.AUTORACE].code === 200 &&
-                    response[RaceType.BOATRACE].code === 200
-                        ? '保存に成功しました'
-                        : '一部のデータの保存に失敗しました',
-                successDataCount:
-                    response[RaceType.JRA].successData.length +
-                    response[RaceType.NAR].successData.length +
-                    response[RaceType.KEIRIN].successData.length +
-                    response[RaceType.AUTORACE].successData.length +
-                    response[RaceType.BOATRACE].successData.length,
-                failureDataCount:
-                    response[RaceType.JRA].failureData.length +
-                    response[RaceType.NAR].failureData.length +
-                    response[RaceType.KEIRIN].failureData.length +
-                    response[RaceType.AUTORACE].failureData.length +
-                    response[RaceType.BOATRACE].failureData.length,
+                code: responseList.every((res) => res.code === 200) ? 200 : 500,
+                message: responseList.every((res) => res.code === 200)
+                    ? '保存に成功しました'
+                    : '一部のデータの保存に失敗しました',
+                successDataCount: responseList.reduce(
+                    (acc: number, res: { successData: PlaceEntity[] }) =>
+                        acc + res.successData.length,
+                    0,
+                ),
+                failureDataCount: responseList.reduce(
+                    (acc: number, res: { failureData: PlaceEntity[] }) =>
+                        acc + res.failureData.length,
+                    0,
+                ),
             };
         } catch (error) {
             console.error('開催場データの保存/更新に失敗しました', error);
