@@ -4,8 +4,8 @@ import { container } from 'tsyringe';
 
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import type { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import type { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { OverseasRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/overseasRaceRepositoryFromHtmlImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -15,7 +15,7 @@ import { SkipEnv } from '../../../../utility/testDecorators';
 
 describe('OverseasRaceRepositoryFromHtmlImpl', () => {
     let raceDataHtmlGateway: IRaceDataHtmlGateway;
-    let repository: IRaceRepository<HorseRacingRaceEntity, PlaceEntity>;
+    let repository: IRaceRepository<RaceEntity, PlaceEntity>;
 
     const raceType: RaceType = RaceType.OVERSEAS;
 

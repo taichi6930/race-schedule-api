@@ -1,7 +1,6 @@
 import {
     baseNarRaceData,
     baseNarRaceEntity,
-    baseNarRaceRecord,
 } from '../../mock/common/baseNarData';
 
 describe('NarRaceEntityクラスのテスト', () => {
@@ -30,12 +29,5 @@ describe('NarRaceEntityクラスのテスト', () => {
         const { raceData } = raceEntity;
         // インスタンスが変更されていないか確認
         expect(raceData).toEqual(baseNarRaceData);
-    });
-
-    it('NarRaceEntityのインスタンスをNarRaceRecordに変換できることを確認', () => {
-        const raceEntity = baseNarRaceEntity;
-        const raceRecord = raceEntity.toRaceRecord();
-        // NarRaceRecordが正しいか確認
-        expect(raceRecord).toEqual(baseNarRaceRecord);
     });
 });

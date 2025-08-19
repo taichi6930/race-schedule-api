@@ -1,7 +1,4 @@
-import {
-    baseOverseasRaceEntity,
-    baseOverseasRaceRecord,
-} from '../../mock/common/baseOverseasData';
+import { baseOverseasRaceRecord } from '../../mock/common/baseOverseasData';
 
 describe('OverseasRaceRecordクラスのテスト', () => {
     it('正しい入力でOverseasRaceRecordのインスタンスを作成できることを確認', () => {
@@ -37,12 +34,5 @@ describe('OverseasRaceRecordクラスのテスト', () => {
         const copiedRaceRecord = raceRecord.copy();
 
         expect(copiedRaceRecord).toEqual(raceRecord);
-    });
-
-    it('OverseasRaceEntityに変換できることを確認', () => {
-        const raceRecord = baseOverseasRaceRecord;
-        const raceEntity = raceRecord.toEntity();
-
-        expect(raceEntity).toEqual(baseOverseasRaceEntity);
     });
 });

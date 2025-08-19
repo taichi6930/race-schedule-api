@@ -12,14 +12,14 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 @injectable()
-export class JraRaceRepositoryFromStorageImpl
-    implements IRaceRepository<JraRaceEntity, PlaceEntity>
+export class RaceRepositoryFromStorageImpl
+    implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     private readonly raceFileName = CSV_FILE_NAME.RACE_LIST;
     private readonly heldDayFileName = CSV_FILE_NAME.HELD_DAY_LIST;
@@ -36,74 +36,111 @@ export class JraRaceRepositoryFromStorageImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<JraRaceEntity[]> {
+    ): Promise<RaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const raceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(searchFilter.raceType);
 
-        const heldDayRecordList: HeldDayRecord[] =
-            await this.getHeldDayRecordListFromS3(searchFilter.raceType);
+        if (
+            searchFilter.raceType === RaceType.NAR ||
+            searchFilter.raceType === RaceType.OVERSEAS
+        ) {
+            // フィルタリング処理（日付の範囲指定）
+            return raceRecordList
+                .map((raceRecord) =>
+                    RaceEntity.create(
+                        raceRecord.id,
+                        RaceData.create(
+                            raceRecord.raceType,
+                            raceRecord.name,
+                            raceRecord.dateTime,
+                            raceRecord.location,
+                            raceRecord.grade,
+                            raceRecord.number,
+                        ),
+                        undefined,
+                        HorseRaceConditionData.create(
+                            raceRecord.surfaceType,
+                            raceRecord.distance,
+                        ),
+                        undefined, // stage は未指定
+                        undefined, // racePlayerDataList は未指定
+                        raceRecord.updateDate,
+                    ),
+                )
+                .filter(
+                    (raceEntity) =>
+                        raceEntity.raceData.dateTime >=
+                            searchFilter.startDate &&
+                        raceEntity.raceData.dateTime <= searchFilter.finishDate,
+                );
+        } else {
+            const heldDayRecordList: HeldDayRecord[] =
+                await this.getHeldDayRecordListFromS3(searchFilter.raceType);
 
-        const recordMap = new Map<
-            string,
-            {
-                raceRecord: HorseRacingRaceRecord;
-                heldDayRecord: HeldDayRecord;
+            const recordMap = new Map<
+                string,
+                {
+                    raceRecord: HorseRacingRaceRecord;
+                    heldDayRecord: HeldDayRecord;
+                }
+            >();
+
+            // 量を減らすために、日付の範囲でフィルタリング
+            for (const raceRecord of raceRecordList.filter(
+                (_raceRecord) =>
+                    _raceRecord.dateTime >= searchFilter.startDate &&
+                    _raceRecord.dateTime <= searchFilter.finishDate,
+            )) {
+                const heldDayRecordItem = heldDayRecordList.find(
+                    // raceRecord.idの下2桁を切り離したものと、heldDayRecord.idを比較
+                    (_heldDayRecord) =>
+                        _heldDayRecord.id === raceRecord.id.slice(0, -2),
+                );
+                if (!heldDayRecordItem) {
+                    // heldDayRecordが見つからない場合はスキップ
+                    continue;
+                }
+                recordMap.set(raceRecord.id, {
+                    raceRecord,
+                    heldDayRecord: heldDayRecordItem,
+                });
             }
-        >();
 
-        // 量を減らすために、日付の範囲でフィルタリング
-        for (const raceRecord of raceRecordList.filter(
-            (_raceRecord) =>
-                _raceRecord.dateTime >= searchFilter.startDate &&
-                _raceRecord.dateTime <= searchFilter.finishDate,
-        )) {
-            const heldDayRecordItem = heldDayRecordList.find(
-                // raceRecord.idの下2桁を切り離したものと、heldDayRecord.idを比較
-                (_heldDayRecord) =>
-                    _heldDayRecord.id === raceRecord.id.slice(0, -2),
-            );
-            if (!heldDayRecordItem) {
-                // heldDayRecordが見つからない場合はスキップ
-                continue;
-            }
-            recordMap.set(raceRecord.id, {
-                raceRecord,
-                heldDayRecord: heldDayRecordItem,
-            });
-        }
-
-        // RaceRecordをRaceEntityに変換
-        const raceEntityList: JraRaceEntity[] = [...recordMap.values()].map(
-            ({ raceRecord, heldDayRecord }) =>
-                JraRaceEntity.create(
-                    raceRecord.id,
-                    RaceData.create(
-                        raceRecord.raceType,
-                        raceRecord.name,
-                        raceRecord.dateTime,
-                        raceRecord.location,
-                        raceRecord.grade,
-                        raceRecord.number,
-                    ),
-                    HeldDayData.create(
-                        heldDayRecord.heldTimes,
-                        heldDayRecord.heldDayTimes,
-                    ),
-                    HorseRaceConditionData.create(
-                        raceRecord.surfaceType,
-                        raceRecord.distance,
-                    ),
-                    // raceRecordとheldDayRecordのupdateDateの早い方を使用
-                    new Date(
-                        Math.min(
-                            raceRecord.updateDate.getTime(),
-                            heldDayRecord.updateDate.getTime(),
+            // RaceRecordをRaceEntityに変換
+            const raceEntityList: RaceEntity[] = [...recordMap.values()].map(
+                ({ raceRecord, heldDayRecord }) =>
+                    RaceEntity.create(
+                        raceRecord.id,
+                        RaceData.create(
+                            raceRecord.raceType,
+                            raceRecord.name,
+                            raceRecord.dateTime,
+                            raceRecord.location,
+                            raceRecord.grade,
+                            raceRecord.number,
+                        ),
+                        HeldDayData.create(
+                            heldDayRecord.heldTimes,
+                            heldDayRecord.heldDayTimes,
+                        ),
+                        HorseRaceConditionData.create(
+                            raceRecord.surfaceType,
+                            raceRecord.distance,
+                        ),
+                        undefined, // stage は未指定
+                        undefined, // racePlayerDataList は未指定
+                        // raceRecordとheldDayRecordのupdateDateの早い方を使用
+                        new Date(
+                            Math.min(
+                                raceRecord.updateDate.getTime(),
+                                heldDayRecord.updateDate.getTime(),
+                            ),
                         ),
                     ),
-                ),
-        );
-        return raceEntityList;
+            );
+            return raceEntityList;
+        }
     }
 
     /**
@@ -249,12 +286,12 @@ export class JraRaceRepositoryFromStorageImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: JraRaceEntity[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: JraRaceEntity[];
-        failureData: JraRaceEntity[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         try {
             // 既に登録されているデータを取得する
@@ -263,7 +300,19 @@ export class JraRaceRepositoryFromStorageImpl
 
             // RaceEntityをRaceRecordに変換する
             const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(
-                (raceEntity) => raceEntity.toRaceRecord(),
+                (raceEntity) =>
+                    HorseRacingRaceRecord.create(
+                        raceEntity.id,
+                        raceEntity.raceData.raceType,
+                        raceEntity.raceData.name,
+                        raceEntity.raceData.dateTime,
+                        raceEntity.raceData.location,
+                        raceEntity.conditionData.surfaceType,
+                        raceEntity.conditionData.distance,
+                        raceEntity.raceData.grade,
+                        raceEntity.raceData.number,
+                        raceEntity.updateDate,
+                    ),
             );
 
             // idが重複しているデータは上書きをし、新規のデータは追加する

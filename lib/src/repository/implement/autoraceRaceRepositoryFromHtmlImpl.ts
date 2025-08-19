@@ -11,8 +11,8 @@ import { RaceStage, StageMap } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -21,7 +21,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class AutoraceRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+    implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -35,20 +35,18 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<MechanicalRacingRaceEntity[]> {
-        const autoraceRaceDataList: MechanicalRacingRaceEntity[] = [];
+    ): Promise<RaceEntity[]> {
+        const autoraceRaceDataList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
-        if (placeEntityList) {
-            for (const placeEntity of placeEntityList) {
-                autoraceRaceDataList.push(
-                    ...(await this.fetchRaceListFromHtmlWithAutoracePlace(
-                        placeEntity,
-                    )),
-                );
-                console.debug('0.8秒待ちます');
-                await new Promise((resolve) => setTimeout(resolve, 800));
-                console.debug('0.8秒経ちました');
-            }
+        for (const placeEntity of placeEntityList) {
+            autoraceRaceDataList.push(
+                ...(await this.fetchRaceListFromHtmlWithAutoracePlace(
+                    placeEntity,
+                )),
+            );
+            console.debug('0.8秒待ちます');
+            await new Promise((resolve) => setTimeout(resolve, 800));
+            console.debug('0.8秒経ちました');
         }
         return autoraceRaceDataList;
     }
@@ -56,7 +54,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     @Logger
     public async fetchRaceListFromHtmlWithAutoracePlace(
         placeEntity: PlaceEntity,
-    ): Promise<MechanicalRacingRaceEntity[]> {
+    ): Promise<RaceEntity[]> {
         try {
             const [year, month, day] = [
                 placeEntity.placeData.dateTime.getFullYear(),
@@ -68,7 +66,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
-            const autoraceRaceDataList: MechanicalRacingRaceEntity[] = [];
+            const autoraceRaceDataList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
@@ -116,7 +114,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                         const raceGrade = placeEntity.grade;
                         if (raceStage !== null && raceStage.trim() !== '') {
                             autoraceRaceDataList.push(
-                                MechanicalRacingRaceEntity.createWithoutId(
+                                RaceEntity.createWithoutId(
                                     RaceData.create(
                                         placeEntity.placeData.raceType,
                                         raceName,
@@ -125,6 +123,8 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                                         raceGrade,
                                         Number(raceNumber),
                                     ),
+                                    undefined, // heldDayDataは未設定
+                                    undefined, // conditionDataは未設定
                                     raceStage,
                                     [],
                                     getJSTDate(new Date()),
@@ -209,12 +209,12 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: MechanicalRacingRaceEntity[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: MechanicalRacingRaceEntity[];
-        failureData: MechanicalRacingRaceEntity[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

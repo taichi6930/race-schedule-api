@@ -5,8 +5,8 @@ import { container } from 'tsyringe';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import type { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import type { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
 import { BoatraceRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl';
@@ -67,10 +67,7 @@ for (const {
 } of testCases) {
     describe(name, () => {
         let raceDataHtmlGateway: IRaceDataHtmlGateway;
-        let repository: IRaceRepository<
-            MechanicalRacingRaceEntity,
-            PlaceEntity
-        >;
+        let repository: IRaceRepository<RaceEntity, PlaceEntity>;
 
         beforeEach(() => {
             raceDataHtmlGateway = new MockRaceDataHtmlGateway();
@@ -79,9 +76,9 @@ for (const {
                 raceDataHtmlGateway,
             );
             repository =
-                container.resolve<
-                    IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
-                >(repositoryClass);
+                container.resolve<IRaceRepository<RaceEntity, PlaceEntity>>(
+                    repositoryClass,
+                );
         });
 
         afterEach(() => {

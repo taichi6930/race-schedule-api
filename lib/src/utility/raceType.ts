@@ -10,6 +10,15 @@ export const RaceType = {
     BOATRACE: 'BOATRACE',
 } as const;
 
+export const ALL_RACE_TYPE_LIST: RaceType[] = [
+    RaceType.JRA,
+    RaceType.NAR,
+    RaceType.OVERSEAS,
+    RaceType.KEIRIN,
+    RaceType.AUTORACE,
+    RaceType.BOATRACE,
+];
+
 export type RaceType = (typeof RaceType)[keyof typeof RaceType];
 
 export function isRaceType(value: string): value is RaceType {

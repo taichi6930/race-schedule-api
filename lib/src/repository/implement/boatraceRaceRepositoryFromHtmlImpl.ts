@@ -11,8 +11,8 @@ import { GradeType } from '../../utility/data/common/gradeType';
 import { RaceStage, StageMap } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { RaceType } from './../../utility/raceType';
@@ -22,7 +22,7 @@ import { RaceType } from './../../utility/raceType';
  */
 @injectable()
 export class BoatraceRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+    implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -36,21 +36,19 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<MechanicalRacingRaceEntity[]> {
-        const boatraceRaceDataList: MechanicalRacingRaceEntity[] = [];
+    ): Promise<RaceEntity[]> {
+        const boatraceRaceDataList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
-        if (placeEntityList) {
-            for (const placeEntity of placeEntityList) {
-                boatraceRaceDataList.push(
-                    ...(await this.fetchRaceListFromHtmlWithBoatracePlace(
-                        placeEntity.placeData,
-                        placeEntity.grade,
-                    )),
-                );
-                console.debug('0.8秒待ちます');
-                await new Promise((resolve) => setTimeout(resolve, 800));
-                console.debug('0.8秒経ちました');
-            }
+        for (const placeEntity of placeEntityList) {
+            boatraceRaceDataList.push(
+                ...(await this.fetchRaceListFromHtmlWithBoatracePlace(
+                    placeEntity.placeData,
+                    placeEntity.grade,
+                )),
+            );
+            console.debug('0.8秒待ちます');
+            await new Promise((resolve) => setTimeout(resolve, 800));
+            console.debug('0.8秒経ちました');
         }
         return boatraceRaceDataList;
     }
@@ -59,7 +57,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     public async fetchRaceListFromHtmlWithBoatracePlace(
         placeData: PlaceData,
         grade: GradeType,
-    ): Promise<MechanicalRacingRaceEntity[]> {
+    ): Promise<RaceEntity[]> {
         try {
             const [year, month, day] = [
                 placeData.dateTime.getFullYear(),
@@ -74,7 +72,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                 placeData.location,
                 raceNumber,
             );
-            const boatraceRaceEntityList: MechanicalRacingRaceEntity[] = [];
+            const boatraceRaceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
 
             // raceNameを取得 class="heading2_titleName"のtext
@@ -109,7 +107,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             const racePlayerDataList: RacePlayerData[] = [];
 
             boatraceRaceEntityList.push(
-                MechanicalRacingRaceEntity.createWithoutId(
+                RaceEntity.createWithoutId(
                     RaceData.create(
                         placeData.raceType,
                         raceName,
@@ -118,6 +116,8 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                         raceGrade,
                         raceNumber,
                     ),
+                    undefined, // heldDayDataは未設定
+                    undefined, // conditionDataは未設定
                     raceStage,
                     racePlayerDataList,
                     getJSTDate(new Date()),
@@ -186,12 +186,12 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: MechanicalRacingRaceEntity[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: MechanicalRacingRaceEntity[];
-        failureData: MechanicalRacingRaceEntity[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

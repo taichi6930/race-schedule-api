@@ -10,7 +10,10 @@ import type { IRaceDataService } from '../../../../../lib/src/service/interface/
 import { PublicGamblingCalendarUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingCalendarUseCase';
 import type { IRaceCalendarUseCase } from '../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
 import { SpecifiedGradeList } from '../../../../../lib/src/utility/data/common/gradeType';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    ALL_RACE_TYPE_LIST,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
 import {
@@ -66,27 +69,13 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             const result = await useCase.fetchRacesFromCalendar(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.OVERSEAS,
-                    RaceType.KEIRIN,
-                    RaceType.BOATRACE,
-                    RaceType.AUTORACE,
-                ],
+                ALL_RACE_TYPE_LIST,
             );
 
             expect(calendarService.fetchEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.OVERSEAS,
-                    RaceType.KEIRIN,
-                    RaceType.BOATRACE,
-                    RaceType.AUTORACE,
-                ],
+                ALL_RACE_TYPE_LIST,
             );
             expect(result).toEqual(mockCalendarData);
         });
@@ -126,38 +115,38 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             ),
         ];
 
-        const mockRaceEntityList = {
-            [RaceType.JRA]: Array.from({ length: 5 }, (_, i: number) =>
+        const mockRaceEntityList = [
+            ...Array.from({ length: 5 }, (_, i: number) =>
                 baseJraRaceEntity.copy({
                     id: `jra2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
-            [RaceType.NAR]: Array.from({ length: 5 }, (_, i: number) =>
+            ...Array.from({ length: 5 }, (_, i: number) =>
                 baseNarRaceEntity.copy({
                     id: `nar2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
-            [RaceType.OVERSEAS]: Array.from({ length: 5 }, (_, i: number) =>
+            ...Array.from({ length: 5 }, (_, i: number) =>
                 baseOverseasRaceEntity.copy({
                     id: `overseas2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
-            [RaceType.BOATRACE]: Array.from({ length: 5 }, (_, i: number) =>
-                baseBoatraceRaceEntity.copy({
-                    id: `boatrace2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-            [RaceType.AUTORACE]: Array.from({ length: 5 }, (_, i: number) =>
-                baseAutoraceRaceEntity.copy({
-                    id: `autorace2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-            [RaceType.KEIRIN]: Array.from({ length: 5 }, (_, i: number) =>
+            ...Array.from({ length: 5 }, (_, i: number) =>
                 baseKeirinRaceEntity.copy({
                     id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
-        };
+            ...Array.from({ length: 5 }, (_, i: number) =>
+                baseAutoraceRaceEntity.copy({
+                    id: `autorace2024122920${(i + 1).toXDigits(2)}`,
+                }),
+            ),
+            ...Array.from({ length: 5 }, (_, i: number) =>
+                baseBoatraceRaceEntity.copy({
+                    id: `boatrace2024122920${(i + 1).toXDigits(2)}`,
+                }),
+            ),
+        ];
 
         const expectDeleteCalendarDataList = [
             ...Array.from({ length: 3 }, (_, i: number) =>
@@ -191,26 +180,14 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 }),
             ),
         ];
-        const expectRaceEntityList = {
-            [RaceType.JRA]: mockRaceEntityList[RaceType.JRA],
-            [RaceType.NAR]: mockRaceEntityList[RaceType.NAR],
-            [RaceType.OVERSEAS]: mockRaceEntityList[RaceType.OVERSEAS],
-            [RaceType.KEIRIN]: mockRaceEntityList[RaceType.KEIRIN],
-            [RaceType.AUTORACE]: mockRaceEntityList[RaceType.AUTORACE],
-            [RaceType.BOATRACE]: mockRaceEntityList[RaceType.BOATRACE],
-        };
+        const expectRaceEntityList = mockRaceEntityList;
 
         // モックの戻り値を設定
         calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
 
-        raceDataService.fetchRaceEntityList.mockResolvedValue({
-            [RaceType.JRA]: mockRaceEntityList[RaceType.JRA],
-            [RaceType.NAR]: mockRaceEntityList[RaceType.NAR],
-            [RaceType.OVERSEAS]: mockRaceEntityList[RaceType.OVERSEAS],
-            [RaceType.KEIRIN]: mockRaceEntityList[RaceType.KEIRIN],
-            [RaceType.AUTORACE]: mockRaceEntityList[RaceType.AUTORACE],
-            [RaceType.BOATRACE]: mockRaceEntityList[RaceType.BOATRACE],
-        });
+        raceDataService.fetchRaceEntityList.mockResolvedValue(
+            mockRaceEntityList,
+        );
 
         const startDate = new Date('2024-02-01');
         const finishDate = new Date('2024-02-29');
@@ -218,14 +195,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         await useCase.updateRacesToCalendar(
             startDate,
             finishDate,
-            [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.OVERSEAS,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ],
+            ALL_RACE_TYPE_LIST,
             {
                 [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
                 [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),
@@ -240,14 +210,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         expect(calendarService.fetchEvents).toHaveBeenCalledWith(
             startDate,
             finishDate,
-            [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.OVERSEAS,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ],
+            ALL_RACE_TYPE_LIST,
         );
 
         // deleteEventsが呼び出された回数を確認

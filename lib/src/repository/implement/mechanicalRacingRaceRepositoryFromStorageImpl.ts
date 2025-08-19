@@ -11,8 +11,8 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -21,7 +21,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class MechanicalRacingRaceRepositoryFromStorageImpl
-    implements IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+    implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     private readonly raceListFileName = CSV_FILE_NAME.RACE_LIST;
     private readonly racePlayerListFileName = CSV_FILE_NAME.RACE_PLAYER_LIST;
@@ -38,7 +38,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<MechanicalRacingRaceEntity[]> {
+    ): Promise<RaceEntity[]> {
         // ファイル名リストから選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3(searchFilter.raceType);
@@ -51,8 +51,8 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             );
 
         // RaceEntityに変換
-        const raceEntityList: MechanicalRacingRaceEntity[] =
-            raceRaceRecordList.map((raceRecord) => {
+        const raceEntityList: RaceEntity[] = raceRaceRecordList.map(
+            (raceRecord) => {
                 // raceIdに対応したracePlayerRecordListを取得
                 const filteredRacePlayerRecordList: RacePlayerRecord[] =
                     racePlayerRecordList.filter((racePlayerRecord) => {
@@ -76,21 +76,23 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
                     raceRecord.grade,
                     raceRecord.number,
                 );
-                return MechanicalRacingRaceEntity.create(
+                return RaceEntity.create(
                     raceRecord.id,
                     raceData,
+                    undefined, // heldDayDataは未設定
+                    undefined, // conditionDataは未設定
                     raceRecord.stage,
                     racePlayerDataList,
                     raceRecord.updateDate,
                 );
-            });
+            },
+        );
         // フィルタリング処理（日付の範囲指定）
-        const filteredRaceEntityList: MechanicalRacingRaceEntity[] =
-            raceEntityList.filter(
-                (raceEntity) =>
-                    raceEntity.raceData.dateTime >= searchFilter.startDate &&
-                    raceEntity.raceData.dateTime <= searchFilter.finishDate,
-            );
+        const filteredRaceEntityList: RaceEntity[] = raceEntityList.filter(
+            (raceEntity) =>
+                raceEntity.raceData.dateTime >= searchFilter.startDate &&
+                raceEntity.raceData.dateTime <= searchFilter.finishDate,
+        );
 
         return filteredRaceEntityList;
     }
@@ -103,12 +105,12 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: MechanicalRacingRaceEntity[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: MechanicalRacingRaceEntity[];
-        failureData: MechanicalRacingRaceEntity[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         try {
             // 既に登録されているデータを取得する
@@ -120,7 +122,19 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
 
             // RaceEntityをRaceRecordに変換する
             const raceRecordList: MechanicalRacingRaceRecord[] =
-                raceEntityList.map((raceEntity) => raceEntity.toRaceRecord());
+                raceEntityList.map((raceEntity) =>
+                    MechanicalRacingRaceRecord.create(
+                        raceEntity.id,
+                        raceEntity.raceData.raceType,
+                        raceEntity.raceData.name,
+                        raceEntity.stage,
+                        raceEntity.raceData.dateTime,
+                        raceEntity.raceData.location,
+                        raceEntity.raceData.grade,
+                        raceEntity.raceData.number,
+                        raceEntity.updateDate,
+                    ),
+                );
 
             // RaceEntityをRacePlayerRecordに変換する
             const racePlayerRecordList = raceEntityList.flatMap((raceEntity) =>

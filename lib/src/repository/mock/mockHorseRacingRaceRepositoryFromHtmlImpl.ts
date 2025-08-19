@@ -1,24 +1,25 @@
+import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 export class MockHorseRacingRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
+    implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<HorseRacingRaceEntity[]> {
+    ): Promise<RaceEntity[]> {
         const { placeEntityList } = searchFilter;
-        const raceEntityList: HorseRacingRaceEntity[] = [];
+        const raceEntityList: RaceEntity[] = [];
         const { raceType, startDate } = searchFilter;
-        if (placeEntityList && raceType === RaceType.NAR) {
+        if (raceType === RaceType.NAR || raceType === RaceType.JRA) {
             for (const placeEntity of placeEntityList) {
                 const { location, dateTime } = placeEntity.placeData;
                 // 1から12までのレースを作成
@@ -26,7 +27,7 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
                     const raceDate = new Date(dateTime);
                     raceDate.setHours(raceNumber + 9, 0, 0, 0);
                     raceEntityList.push(
-                        HorseRacingRaceEntity.createWithoutId(
+                        RaceEntity.createWithoutId(
                             RaceData.create(
                                 raceType,
                                 `${location}第${raceNumber.toString()}R`,
@@ -35,7 +36,10 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
                                 'GⅠ',
                                 raceNumber,
                             ),
+                            this.defaultHeldDayData[raceType],
                             HorseRaceConditionData.create('ダート', 2000),
+                            undefined, // stage は未指定
+                            undefined, // racePlayerDataList は未指定
                             getJSTDate(new Date()),
                         ),
                     );
@@ -47,7 +51,7 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
                     raceEntityList.push(
-                        HorseRacingRaceEntity.createWithoutId(
+                        RaceEntity.createWithoutId(
                             RaceData.create(
                                 raceType,
                                 `第${i.toString()}R`,
@@ -61,7 +65,10 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
                                 'GⅠ',
                                 i,
                             ),
+                            undefined,
                             HorseRaceConditionData.create('芝', 2400),
+                            undefined, // stage は未指定
+                            undefined, // racePlayerDataList は未指定
                             getJSTDate(new Date()),
                         ),
                     );
@@ -76,15 +83,24 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: HorseRacingRaceEntity[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: HorseRacingRaceEntity[];
-        failureData: HorseRacingRaceEntity[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
+
+    private readonly defaultHeldDayData = {
+        [RaceType.JRA]: HeldDayData.create(1, 1),
+        [RaceType.NAR]: undefined,
+        [RaceType.OVERSEAS]: undefined,
+        [RaceType.KEIRIN]: undefined,
+        [RaceType.AUTORACE]: undefined,
+        [RaceType.BOATRACE]: undefined,
+    };
 }

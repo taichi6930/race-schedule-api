@@ -7,7 +7,7 @@ import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/en
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { ALL_RACE_TYPE_LIST } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
@@ -62,24 +62,14 @@ describe('PublicGamblingCalendarService', () => {
                 baseAutoraceCalendarData,
             ];
 
-            const result = await service.fetchEvents(startDate, finishDate, [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.OVERSEAS,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ]);
+            const result = await service.fetchEvents(
+                startDate,
+                finishDate,
+                ALL_RACE_TYPE_LIST,
+            );
 
             expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.OVERSEAS,
-                    RaceType.KEIRIN,
-                    RaceType.AUTORACE,
-                    RaceType.BOATRACE,
-                ],
+                ALL_RACE_TYPE_LIST,
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
             expect(result).toEqual(calendarDataList);
@@ -110,33 +100,23 @@ describe('PublicGamblingCalendarService', () => {
 
     describe('upsertEvents', () => {
         it('カレンダーのイベントの更新が正常に行われること', async () => {
-            await service.upsertEvents({
-                [RaceType.JRA]: baseJraRaceEntityList,
-                [RaceType.NAR]: baseNarRaceEntityList,
-                [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
-                [RaceType.KEIRIN]: baseKeirinRaceEntityList,
-                [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
-                [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
-            });
+            await service.upsertEvents([
+                ...baseJraRaceEntityList,
+                ...baseNarRaceEntityList,
+                ...baseOverseasRaceEntityList,
+                ...baseKeirinRaceEntityList,
+                ...baseAutoraceRaceEntityList,
+                ...baseBoatraceRaceEntityList,
+            ]);
 
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                baseJraRaceEntityList,
-            );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                baseNarRaceEntityList,
-            );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                baseOverseasRaceEntityList,
-            );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                baseKeirinRaceEntityList,
-            );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                baseBoatraceRaceEntityList,
-            );
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                baseAutoraceRaceEntityList,
-            );
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith([
+                ...baseJraRaceEntityList,
+                ...baseNarRaceEntityList,
+                ...baseOverseasRaceEntityList,
+                ...baseKeirinRaceEntityList,
+                ...baseAutoraceRaceEntityList,
+                ...baseBoatraceRaceEntityList,
+            ]);
         });
     });
 });

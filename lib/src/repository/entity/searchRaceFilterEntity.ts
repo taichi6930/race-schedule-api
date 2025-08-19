@@ -6,6 +6,6 @@ export class SearchRaceFilterEntity<P extends IPlaceEntity<P>> {
         public readonly startDate: Date,
         public readonly finishDate: Date,
         public readonly raceType: RaceType,
-        public readonly placeEntityList?: P[],
+        public readonly placeEntityList: P[],
     ) {}
 }

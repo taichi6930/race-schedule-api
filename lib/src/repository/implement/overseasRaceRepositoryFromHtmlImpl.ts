@@ -18,8 +18,8 @@ import { validateRaceDistance } from '../../utility/data/common/raceDistance';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { HorseRacingRaceEntity } from '../entity/horseRacingRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -28,7 +28,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class OverseasRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<HorseRacingRaceEntity, PlaceEntity>
+    implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -42,12 +42,12 @@ export class OverseasRaceRepositoryFromHtmlImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<HorseRacingRaceEntity[]> {
+    ): Promise<RaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,
             searchFilter.finishDate,
         );
-        const overseasRaceDataList: HorseRacingRaceEntity[] = [];
+        const overseasRaceDataList: RaceEntity[] = [];
         for (const month of monthList) {
             overseasRaceDataList.push(
                 ...(await this.fetchRaceListFromHtml(
@@ -89,13 +89,13 @@ export class OverseasRaceRepositoryFromHtmlImpl
     public async fetchRaceListFromHtml(
         raceType: RaceType,
         date: Date,
-    ): Promise<HorseRacingRaceEntity[]> {
+    ): Promise<RaceEntity[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
                 raceType,
                 date,
             );
-            const overseasRaceDataList: HorseRacingRaceEntity[] = [];
+            const overseasRaceDataList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             const content = $('.racelist');
             // class="racelist__day"が複数あるのでeachで回す
@@ -220,7 +220,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
                                 distance,
                             });
                             overseasRaceDataList.push(
-                                HorseRacingRaceEntity.createWithoutId(
+                                RaceEntity.createWithoutId(
                                     RaceData.create(
                                         raceType,
                                         raceName,
@@ -229,10 +229,13 @@ export class OverseasRaceRepositoryFromHtmlImpl
                                         grade,
                                         number,
                                     ),
+                                    undefined,
                                     HorseRaceConditionData.create(
                                         surfaceType,
                                         distance,
                                     ),
+                                    undefined, // stage は未指定
+                                    undefined, // racePlayerDataList は未指定
                                     getJSTDate(new Date()),
                                 ),
                             );
@@ -268,12 +271,12 @@ export class OverseasRaceRepositoryFromHtmlImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: HorseRacingRaceEntity[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: HorseRacingRaceEntity[];
-        failureData: HorseRacingRaceEntity[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

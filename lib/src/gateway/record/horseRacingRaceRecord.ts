@@ -1,8 +1,5 @@
 import '../../utility/format';
 
-import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
-import { RaceData } from '../../domain/raceData';
-import { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
 import type { GradeType } from '../../utility/data/common/gradeType';
 import { validateGradeType } from '../../utility/data/common/gradeType';
 import type { RaceCourse } from '../../utility/data/common/raceCourse';
@@ -120,25 +117,6 @@ export class HorseRacingRaceRecord implements IRecord<HorseRacingRaceRecord> {
             partial.grade ?? this.grade,
             partial.number ?? this.number,
             partial.updateDate ?? this.updateDate,
-        );
-    }
-
-    /**
-     * Entityに変換する
-     */
-    public toEntity(): HorseRacingRaceEntity {
-        return HorseRacingRaceEntity.create(
-            this.id,
-            RaceData.create(
-                this.raceType,
-                this.name,
-                this.dateTime,
-                this.location,
-                this.grade,
-                this.number,
-            ),
-            HorseRaceConditionData.create(this.surfaceType, this.distance),
-            this.updateDate,
         );
     }
 }

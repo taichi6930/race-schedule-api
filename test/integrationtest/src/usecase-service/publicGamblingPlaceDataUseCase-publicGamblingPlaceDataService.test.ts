@@ -8,27 +8,15 @@ import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/impl
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import { PublicGamblingPlaceDataUseCase } from '../../../../lib/src/usecase/implement/publicGamblingPlaceDataUseCase';
 import type { IPlaceDataUseCase } from '../../../../lib/src/usecase/interface/IPlaceDataUseCase';
-import { RaceType } from '../../../../lib/src/utility/raceType';
 import {
-    baseAutoracePlaceData,
-    baseAutoracePlaceEntity,
-} from '../../../unittest/src/mock/common/baseAutoraceData';
-import {
-    baseBoatracePlaceData,
-    baseBoatracePlaceEntity,
-} from '../../../unittest/src/mock/common/baseBoatraceData';
-import {
-    baseJraPlaceData,
-    basePlaceEntity,
-} from '../../../unittest/src/mock/common/baseJraData';
-import {
-    baseKeirinPlaceData,
-    baseKeirinPlaceEntity,
-} from '../../../unittest/src/mock/common/baseKeirinData';
-import {
-    baseNarPlaceData,
-    baseNarPlaceEntity,
-} from '../../../unittest/src/mock/common/baseNarData';
+    ALL_RACE_TYPE_LIST,
+    RaceType,
+} from '../../../../lib/src/utility/raceType';
+import { baseAutoracePlaceEntity } from '../../../unittest/src/mock/common/baseAutoraceData';
+import { baseBoatracePlaceEntity } from '../../../unittest/src/mock/common/baseBoatraceData';
+import { baseJraPlaceEntity } from '../../../unittest/src/mock/common/baseJraData';
+import { baseKeirinPlaceEntity } from '../../../unittest/src/mock/common/baseKeirinData';
+import { baseNarPlaceEntity } from '../../../unittest/src/mock/common/baseNarData';
 import type { TestSetup } from '../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../utility/testSetupHelper';
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
@@ -37,7 +25,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     let jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<PlaceEntity>
     >;
-    let horseRacingPlaceRepositoryFromStorageImpl: jest.Mocked<
+    let placeRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<PlaceEntity>
     >;
     let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -58,8 +46,8 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({
+            placeRepositoryFromStorageImpl: placeRepositoryFromStorageImpl,
             jraPlaceRepositoryFromHtmlImpl,
-            horseRacingPlaceRepositoryFromStorageImpl,
             narPlaceRepositoryFromHtmlImpl,
             keirinPlaceRepositoryFromHtmlImpl,
             boatracePlaceRepositoryFromHtmlImpl,
@@ -81,14 +69,14 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること', async () => {
             // モックの戻り値を設定
-            horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.OVERSEAS: {
                             throw new Error('race type is not supported');
                         }
                         case RaceType.JRA: {
-                            return [basePlaceEntity];
+                            return [baseJraPlaceEntity];
                         }
                         case RaceType.NAR: {
                             return [baseNarPlaceEntity];
@@ -109,31 +97,25 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchPlaceDataList(
+            const result = await useCase.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.KEIRIN,
-                    RaceType.AUTORACE,
-                    RaceType.BOATRACE,
-                ],
+                ALL_RACE_TYPE_LIST,
             );
 
             expect(result).toEqual([
-                baseJraPlaceData,
-                baseNarPlaceData,
-                baseKeirinPlaceData,
-                baseAutoracePlaceData,
-                baseBoatracePlaceData,
+                baseJraPlaceEntity,
+                baseNarPlaceEntity,
+                baseKeirinPlaceEntity,
+                baseAutoracePlaceEntity,
+                baseBoatracePlaceEntity,
             ]);
         });
     });
 
     describe('updatePlaceDataList', () => {
         it('正常に開催場データが更新されること', async () => {
-            horseRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockImplementation(
+            placeRepositoryFromStorageImpl.registerPlaceEntityList.mockImplementation(
                 async (raceType: RaceType, placeEntityList: PlaceEntity[]) => {
                     return {
                         code: 200,
@@ -144,14 +126,14 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                 },
             );
             // モックの戻り値を設定
-            horseRacingPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.OVERSEAS: {
                             throw new Error('race type is not supported');
                         }
                         case RaceType.JRA: {
-                            return [basePlaceEntity];
+                            return [baseJraPlaceEntity];
                         }
                         case RaceType.NAR: {
                             return [baseNarPlaceEntity];
@@ -171,7 +153,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
 
             // モックの戻り値を設定
             jraPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity],
+                [baseJraPlaceEntity],
             );
             narPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
                 [baseNarPlaceEntity],
@@ -189,16 +171,14 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            await useCase.updatePlaceDataList(startDate, finishDate, [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ]);
+            await useCase.updatePlaceEntityList(
+                startDate,
+                finishDate,
+                ALL_RACE_TYPE_LIST,
+            );
 
             expect(
-                horseRacingPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                placeRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
     });

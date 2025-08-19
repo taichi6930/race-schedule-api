@@ -4,8 +4,8 @@ import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
-import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
@@ -81,14 +81,16 @@ export const baseKeirinPlaceEntity = PlaceEntity.createWithoutId(
 
 export const baseKeirinRacePlayerDataList = baseRacePlayerDataList(raceType);
 
-export const baseKeirinRaceEntity = MechanicalRacingRaceEntity.createWithoutId(
+export const baseKeirinRaceEntity = RaceEntity.createWithoutId(
     baseKeirinRaceData,
+    undefined, // heldDayDataは未設定
+    undefined, // conditionDataは未設定
     baseKeirinRaceStage,
     baseKeirinRacePlayerDataList,
     baseKeirinRaceUpdateDate,
 );
 
-export const baseKeirinRaceEntityList: MechanicalRacingRaceEntity[] = [
+export const baseKeirinRaceEntityList: RaceEntity[] = [
     { location: '平塚', grade: 'GP' },
     { location: '立川', grade: 'GⅠ' },
     { location: '函館', grade: 'GⅡ' },
@@ -120,8 +122,10 @@ export const baseKeirinRaceEntityList: MechanicalRacingRaceEntity[] = [
             index + 1,
         );
         const racePlayerDataList = baseKeirinRacePlayerDataList;
-        return MechanicalRacingRaceEntity.createWithoutId(
+        return RaceEntity.createWithoutId(
             raceData,
+            undefined, // heldDayDataは未設定
+            undefined, // conditionDataは未設定
             stage,
             racePlayerDataList,
             baseKeirinRaceUpdateDate,

@@ -10,7 +10,7 @@ import { JraPlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repositor
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { allowedEnvs, SkipEnv } from '../../../../utility/testDecorators';
-import { basePlaceEntity } from '../../mock/common/baseJraData';
+import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
 
 describe('JraPlaceRepositoryFromHtmlImpl', () => {
     let placeDataHtmlgateway: IPlaceDataHtmlGateway;
@@ -57,12 +57,14 @@ describe('JraPlaceRepositoryFromHtmlImpl', () => {
         it('htmlなので登録できない', async () => {
             // テスト実行
             await expect(
-                repository.registerPlaceEntityList(raceType, [basePlaceEntity]),
+                repository.registerPlaceEntityList(raceType, [
+                    baseJraPlaceEntity,
+                ]),
             ).resolves.toEqual({
                 code: 500,
                 message: 'HTMLにはデータを登録出来ません',
                 successData: [],
-                failureData: [basePlaceEntity],
+                failureData: [baseJraPlaceEntity],
             });
         });
     });

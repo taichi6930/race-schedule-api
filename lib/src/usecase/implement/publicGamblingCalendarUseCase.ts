@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
-import { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
+import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
@@ -12,7 +12,7 @@ import { GradeType } from '../../utility/data/common/gradeType';
 import { RaceGradeAndStageList } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import { ALL_RACE_TYPE_LIST, RaceType } from '../../utility/raceType';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
 /**
@@ -87,69 +87,53 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
             DataLocation.Storage,
         );
 
-        const playerList = {
-            [RaceType.KEIRIN]: await this.playerDataService.fetchPlayerDataList(
-                RaceType.KEIRIN,
+        // 取得対象の公営競技種別を配列で定義し、並列で選手データを取得してオブジェクト化する
+        const playerList: {
+            [RaceType.KEIRIN]: PlayerData[];
+            [RaceType.AUTORACE]: PlayerData[];
+            [RaceType.BOATRACE]: PlayerData[];
+        } = Object.fromEntries(
+            await Promise.all(
+                [RaceType.KEIRIN, RaceType.AUTORACE, RaceType.BOATRACE].map(
+                    async (raceType) => [
+                        raceType,
+                        await this.playerDataService.fetchPlayerDataList(
+                            raceType,
+                        ),
+                    ],
+                ),
             ),
-            [RaceType.AUTORACE]:
-                await this.playerDataService.fetchPlayerDataList(
-                    RaceType.AUTORACE,
-                ),
-            [RaceType.BOATRACE]:
-                await this.playerDataService.fetchPlayerDataList(
-                    RaceType.BOATRACE,
-                ),
-        };
+        );
 
-        // displayGradeListに含まれるレース情報のみを抽出
-        const filteredRaceEntityList = {
-            [RaceType.JRA]: raceEntityList[RaceType.JRA].filter((raceEntity) =>
-                displayGradeList[RaceType.JRA].includes(
-                    raceEntity.raceData.grade,
-                ),
-            ),
-            [RaceType.NAR]: raceEntityList[RaceType.NAR].filter((raceEntity) =>
-                displayGradeList[RaceType.NAR].includes(
-                    raceEntity.raceData.grade,
-                ),
-            ),
-            [RaceType.OVERSEAS]: raceEntityList[RaceType.OVERSEAS].filter(
-                (raceEntity) =>
-                    displayGradeList[RaceType.OVERSEAS].includes(
-                        raceEntity.raceData.grade,
+        // フラット化して単一の RaceEntity[] にする（後続のオブジェクト型 filteredRaceEntityList と名前衝突しないよう別名）
+        const filteredRaceEntityList: RaceEntity[] = [
+            ...[RaceType.JRA, RaceType.NAR, RaceType.OVERSEAS].flatMap(
+                (raceType) =>
+                    raceEntityList.filter(
+                        (raceEntity) =>
+                            raceEntity.raceData.raceType === raceType &&
+                            displayGradeList[raceType].includes(
+                                raceEntity.raceData.grade,
+                            ),
                     ),
             ),
-            [RaceType.KEIRIN]: this.filterRaceEntity(
-                RaceType.KEIRIN,
-                raceEntityList[RaceType.KEIRIN],
-                displayGradeList[RaceType.KEIRIN],
-                playerList[RaceType.KEIRIN],
-            ).filter((raceEntity) =>
-                displayGradeList[RaceType.KEIRIN].includes(
-                    raceEntity.raceData.grade,
-                ),
+            ...[RaceType.KEIRIN, RaceType.AUTORACE, RaceType.BOATRACE].flatMap(
+                (raceType) =>
+                    this.filterRaceEntity(
+                        raceType,
+                        raceEntityList.filter(
+                            (raceEntity) =>
+                                raceEntity.raceData.raceType === raceType,
+                        ),
+                        displayGradeList[raceType],
+                        playerList[raceType],
+                    ).filter((raceEntity) =>
+                        displayGradeList[raceType].includes(
+                            raceEntity.raceData.grade,
+                        ),
+                    ),
             ),
-            [RaceType.AUTORACE]: this.filterRaceEntity(
-                RaceType.AUTORACE,
-                raceEntityList[RaceType.AUTORACE],
-                displayGradeList[RaceType.AUTORACE],
-                playerList[RaceType.AUTORACE],
-            ).filter((raceEntity) =>
-                displayGradeList[RaceType.AUTORACE].includes(
-                    raceEntity.raceData.grade,
-                ),
-            ),
-            [RaceType.BOATRACE]: this.filterRaceEntity(
-                RaceType.BOATRACE,
-                raceEntityList[RaceType.BOATRACE],
-                displayGradeList[RaceType.BOATRACE],
-                playerList[RaceType.BOATRACE],
-            ).filter((raceEntity) =>
-                displayGradeList[RaceType.BOATRACE].includes(
-                    raceEntity.raceData.grade,
-                ),
-            ),
-        };
+        ];
 
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
@@ -159,131 +143,52 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                 raceTypeList,
             );
 
-        // 1. raceEntityListのIDに存在しないcalendarDataListを取得
-        const deleteCalendarDataList = {
-            [RaceType.JRA]: calendarDataList.filter((calendarData) => {
-                if (calendarData.raceType !== RaceType.JRA) {
-                    return false;
-                }
-                return !filteredRaceEntityList[RaceType.JRA].some(
-                    (raceEntity) => raceEntity.id === calendarData.id,
-                );
-            }),
-            [RaceType.NAR]: calendarDataList.filter((calendarData) => {
-                if (calendarData.raceType !== RaceType.NAR) {
-                    return false;
-                }
-                return !filteredRaceEntityList[RaceType.NAR].some(
-                    (raceEntity) => raceEntity.id === calendarData.id,
-                );
-            }),
-            [RaceType.OVERSEAS]: calendarDataList.filter((calendarData) => {
-                if (calendarData.raceType !== RaceType.OVERSEAS) {
-                    return false;
-                }
-                return !filteredRaceEntityList[RaceType.OVERSEAS].some(
-                    (raceEntity) => raceEntity.id === calendarData.id,
-                );
-            }),
-            [RaceType.KEIRIN]: calendarDataList.filter((calendarData) => {
-                if (calendarData.raceType !== RaceType.KEIRIN) {
-                    return false;
-                }
-                return !filteredRaceEntityList[RaceType.KEIRIN].some(
-                    (raceEntity) => raceEntity.id === calendarData.id,
-                );
-            }),
-            [RaceType.AUTORACE]: calendarDataList.filter((calendarData) => {
-                if (calendarData.raceType !== RaceType.AUTORACE) {
-                    return false;
-                }
-                return !filteredRaceEntityList[RaceType.AUTORACE].some(
-                    (raceEntity) => raceEntity.id === calendarData.id,
-                );
-            }),
-            [RaceType.BOATRACE]: calendarDataList.filter((calendarData) => {
-                if (calendarData.raceType !== RaceType.BOATRACE) {
-                    return false;
-                }
-                return !filteredRaceEntityList[RaceType.BOATRACE].some(
-                    (raceEntity) => raceEntity.id === calendarData.id,
-                );
-            }),
-        };
-        await this.calendarService.deleteEvents([
-            ...deleteCalendarDataList[RaceType.JRA],
-            ...deleteCalendarDataList[RaceType.NAR],
-            ...deleteCalendarDataList[RaceType.OVERSEAS],
-            ...deleteCalendarDataList[RaceType.KEIRIN],
-            ...deleteCalendarDataList[RaceType.AUTORACE],
-            ...deleteCalendarDataList[RaceType.BOATRACE],
-        ]);
+        const deleteCalendarDataList = Object.fromEntries(
+            ALL_RACE_TYPE_LIST.map((raceType) => [
+                raceType,
+                calendarDataList.filter(
+                    (calendarData: CalendarData) =>
+                        calendarData.raceType === raceType &&
+                        !filteredRaceEntityList
+                            .filter(
+                                (raceEntity) =>
+                                    raceEntity.raceData.raceType === raceType,
+                            )
+                            .some(
+                                (raceEntity: RaceEntity) =>
+                                    raceEntity.id === calendarData.id,
+                            ),
+                ),
+            ]),
+        );
+
+        await this.calendarService.deleteEvents(
+            ALL_RACE_TYPE_LIST.flatMap(
+                (raceType) => deleteCalendarDataList[raceType],
+            ),
+        );
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
-        const upsertRaceEntityList = {
-            [RaceType.JRA]: filteredRaceEntityList[RaceType.JRA].filter(
-                (raceEntity) =>
-                    !deleteCalendarDataList[RaceType.JRA].some(
-                        (deleteCalendarData) =>
-                            deleteCalendarData.id === raceEntity.id &&
-                            deleteCalendarData.raceType === RaceType.JRA,
+        const upsertRaceEntityList: RaceEntity[] = ALL_RACE_TYPE_LIST.flatMap(
+            (raceType) =>
+                filteredRaceEntityList
+                    .filter(
+                        (raceEntity) =>
+                            raceEntity.raceData.raceType === raceType,
+                    )
+                    .filter(
+                        (raceEntity: RaceEntity) =>
+                            !deleteCalendarDataList[
+                                raceType as keyof typeof deleteCalendarDataList
+                            ].some(
+                                (deleteCalendarData: CalendarData) =>
+                                    deleteCalendarData.id === raceEntity.id &&
+                                    deleteCalendarData.raceType === raceType,
+                            ),
                     ),
-            ),
-            [RaceType.NAR]: filteredRaceEntityList[RaceType.NAR].filter(
-                (raceEntity) =>
-                    !deleteCalendarDataList[RaceType.NAR].some(
-                        (deleteCalendarData) =>
-                            deleteCalendarData.id === raceEntity.id &&
-                            deleteCalendarData.raceType === RaceType.NAR,
-                    ),
-            ),
-            [RaceType.OVERSEAS]: filteredRaceEntityList[
-                RaceType.OVERSEAS
-            ].filter(
-                (raceEntity) =>
-                    !deleteCalendarDataList[RaceType.OVERSEAS].some(
-                        (deleteCalendarData) =>
-                            deleteCalendarData.id === raceEntity.id &&
-                            deleteCalendarData.raceType === RaceType.OVERSEAS,
-                    ),
-            ),
-            [RaceType.KEIRIN]: filteredRaceEntityList[RaceType.KEIRIN].filter(
-                (raceEntity) =>
-                    !deleteCalendarDataList[RaceType.KEIRIN].some(
-                        (deleteCalendarData) =>
-                            deleteCalendarData.id === raceEntity.id &&
-                            deleteCalendarData.raceType === RaceType.KEIRIN,
-                    ),
-            ),
-            [RaceType.AUTORACE]: filteredRaceEntityList[
-                RaceType.AUTORACE
-            ].filter(
-                (raceEntity) =>
-                    !deleteCalendarDataList[RaceType.AUTORACE].some(
-                        (deleteCalendarData) =>
-                            deleteCalendarData.id === raceEntity.id &&
-                            deleteCalendarData.raceType === RaceType.AUTORACE,
-                    ),
-            ),
-            [RaceType.BOATRACE]: filteredRaceEntityList[
-                RaceType.BOATRACE
-            ].filter(
-                (raceEntity) =>
-                    !deleteCalendarDataList[RaceType.BOATRACE].some(
-                        (deleteCalendarData) =>
-                            deleteCalendarData.id === raceEntity.id &&
-                            deleteCalendarData.raceType === RaceType.BOATRACE,
-                    ),
-            ),
-        };
-        await this.calendarService.upsertEvents({
-            [RaceType.JRA]: upsertRaceEntityList[RaceType.JRA],
-            [RaceType.NAR]: upsertRaceEntityList[RaceType.NAR],
-            [RaceType.OVERSEAS]: upsertRaceEntityList[RaceType.OVERSEAS],
-            [RaceType.KEIRIN]: upsertRaceEntityList[RaceType.KEIRIN],
-            [RaceType.AUTORACE]: upsertRaceEntityList[RaceType.AUTORACE],
-            [RaceType.BOATRACE]: upsertRaceEntityList[RaceType.BOATRACE],
-        });
+        );
+
+        await this.calendarService.upsertEvents(upsertRaceEntityList);
     }
 
     /**
@@ -297,12 +202,12 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      */
     private filterRaceEntity(
         raceType: RaceType,
-        raceEntityList: MechanicalRacingRaceEntity[],
+        raceEntityList: RaceEntity[],
         displayGradeList: GradeType[],
         playerDataList: PlayerData[],
-    ): MechanicalRacingRaceEntity[] {
-        const filteredRaceEntityList: MechanicalRacingRaceEntity[] =
-            raceEntityList.filter((raceEntity) => {
+    ): RaceEntity[] {
+        const filteredRaceEntityList: RaceEntity[] = raceEntityList.filter(
+            (raceEntity) => {
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {
                         const playerPriority =
@@ -332,7 +237,8 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
                     })?.priority ?? 0;
 
                 return racePriority + maxPlayerPriority >= 6;
-            });
+            },
+        );
         return filteredRaceEntityList;
     }
 }

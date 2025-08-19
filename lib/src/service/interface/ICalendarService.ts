@@ -1,7 +1,5 @@
 import type { CalendarData } from '../../domain/calendarData';
-import type { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
-import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
+import type { RaceEntity } from '../../repository/entity/raceEntity';
 import type { RaceType } from '../../utility/raceType';
 
 export interface ICalendarService {
@@ -37,14 +35,7 @@ export interface ICalendarService {
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
-    upsertEvents: (raceEntityList: {
-        [RaceType.JRA]: JraRaceEntity[];
-        [RaceType.NAR]: HorseRacingRaceEntity[];
-        [RaceType.OVERSEAS]: HorseRacingRaceEntity[];
-        [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
-        [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
-        [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
-    }) => Promise<void>;
+    upsertEvents: (raceEntityList: RaceEntity[]) => Promise<void>;
 
     /**
      * 指定されたカレンダーイベントを削除します

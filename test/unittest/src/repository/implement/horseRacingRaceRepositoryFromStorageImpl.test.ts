@@ -9,10 +9,10 @@ import { container } from 'tsyringe';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import { HorseRacingRaceEntity } from '../../../../../lib/src/repository/entity/horseRacingRaceEntity';
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import { HorseRacingRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorageImpl';
+import { RaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/raceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -21,15 +21,13 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let repository: IRaceRepository<HorseRacingRaceEntity, PlaceEntity>;
+    let repository: IRaceRepository<RaceEntity, PlaceEntity>;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({ s3Gateway } = setup);
         // テスト対象のリポジトリを生成
-        repository = container.resolve(
-            HorseRacingRaceRepositoryFromStorageImpl,
-        );
+        repository = container.resolve(RaceRepositoryFromStorageImpl);
     });
 
     afterEach(() => {
@@ -58,6 +56,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                         new Date('2024-01-01'),
                         new Date('2024-02-01'),
                         raceType,
+                        [],
                     ),
                 );
 
@@ -82,13 +81,13 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                 },
             ]) {
                 // 1年間のレース開催データを登録する
-                const raceEntityList: HorseRacingRaceEntity[] = Array.from(
+                const raceEntityList: RaceEntity[] = Array.from(
                     { length: 60 },
                     (_, day) => {
                         const date = new Date('2024-01-01');
                         date.setDate(date.getDate() + day);
                         return Array.from({ length: 12 }, (__, j) =>
-                            HorseRacingRaceEntity.createWithoutId(
+                            RaceEntity.createWithoutId(
                                 RaceData.create(
                                     raceType,
                                     `raceName${format(date, 'yyyyMMdd')}`,
@@ -97,7 +96,10 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                                     grade,
                                     j + 1,
                                 ),
+                                undefined,
                                 HorseRaceConditionData.create('ダート', 2000),
+                                undefined, // stage は未指定
+                                undefined, // racePlayerDataList は未指定
                                 getJSTDate(new Date()),
                             ),
                         );
@@ -126,13 +128,13 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                 },
             ]) {
                 // 1年間のレース開催データを登録する
-                const raceEntityList: HorseRacingRaceEntity[] = Array.from(
+                const raceEntityList: RaceEntity[] = Array.from(
                     { length: 60 },
                     (_, day) => {
                         const date = new Date('2024-01-01');
                         date.setDate(date.getDate() + day);
                         return Array.from({ length: 12 }, (__, j) =>
-                            HorseRacingRaceEntity.createWithoutId(
+                            RaceEntity.createWithoutId(
                                 RaceData.create(
                                     raceType,
                                     `raceName${format(date, 'yyyyMMdd')}`,
@@ -141,7 +143,10 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                                     grade,
                                     j + 1,
                                 ),
+                                undefined,
                                 HorseRaceConditionData.create('ダート', 2000),
+                                undefined, // stage は未指定
+                                undefined, // racePlayerDataList は未指定
                                 getJSTDate(new Date()),
                             ),
                         );

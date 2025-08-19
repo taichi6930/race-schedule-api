@@ -204,8 +204,6 @@ export class JraPlaceRepositoryFromHtmlImpl
                             raceType,
                             new Date(date.getFullYear(), month - 1, day),
                             getPlaceName(placeInitial),
-                            // heldTimes,
-                            // heldDayTimes,
                             getJSTDate(new Date()),
                         );
                         const jraHeldDayRecord = HeldDayRecord.create(

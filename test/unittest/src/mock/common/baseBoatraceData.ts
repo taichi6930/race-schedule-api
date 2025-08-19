@@ -4,8 +4,8 @@ import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
-import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
@@ -80,13 +80,14 @@ export const baseBoatracePlaceEntity = PlaceEntity.createWithoutId(
 
 export const baseBoatraceRacePlayerDataList = baseRacePlayerDataList(raceType);
 
-export const baseBoatraceRaceEntity =
-    MechanicalRacingRaceEntity.createWithoutId(
-        baseBoatraceRaceData,
-        baseBoatraceRaceStage,
-        baseBoatraceRacePlayerDataList,
-        baseBoatraceRaceUpdateDate,
-    );
+export const baseBoatraceRaceEntity = RaceEntity.createWithoutId(
+    baseBoatraceRaceData,
+    undefined, // heldDayDataは未設定
+    undefined, // conditionDataは未設定
+    baseBoatraceRaceStage,
+    baseBoatraceRacePlayerDataList,
+    baseBoatraceRaceUpdateDate,
+);
 
 export const baseBoatraceRacePlayerRecord = RacePlayerRecord.create(
     generateRacePlayerId(
@@ -108,7 +109,7 @@ export const baseBoatraceRacePlayerRecord = RacePlayerRecord.create(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatraceRaceEntityList: MechanicalRacingRaceEntity[] = [
+export const baseBoatraceRaceEntityList: RaceEntity[] = [
     { location: '平和島', grade: 'SG' },
     { location: '戸田', grade: 'GⅠ' },
     { location: '江戸川', grade: 'GⅡ' },
@@ -139,8 +140,10 @@ export const baseBoatraceRaceEntityList: MechanicalRacingRaceEntity[] = [
             index + 1,
         );
         const racePlayerDataList = baseBoatraceRacePlayerDataList;
-        return MechanicalRacingRaceEntity.createWithoutId(
+        return RaceEntity.createWithoutId(
             raceData,
+            undefined, // heldDayDataは未設定
+            undefined, // conditionDataは未設定
             stage,
             racePlayerDataList,
             baseBoatraceRaceUpdateDate,

@@ -11,9 +11,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../domain/calendarData';
-import { HorseRacingRaceEntity } from '../repository/entity/horseRacingRaceEntity';
-import { JraRaceEntity } from '../repository/entity/jraRaceEntity';
-import { MechanicalRacingRaceEntity } from '../repository/entity/mechanicalRacingRaceEntity';
+import { RaceEntity } from '../repository/entity/raceEntity';
 import type { GradeType } from './data/common/gradeType';
 import { createPlaceCodeMap } from './data/common/raceCourse';
 import {
@@ -142,10 +140,7 @@ const GoogleCalendarColorIdMap = {
 } as Record<RaceType, Record<GradeType, GoogleCalendarColorIdType>>;
 
 export function toGoogleCalendarData(
-    raceEntity:
-        | JraRaceEntity
-        | HorseRacingRaceEntity
-        | MechanicalRacingRaceEntity,
+    raceEntity: RaceEntity,
 
     updateDate: Date = new Date(),
 ): calendar_v3.Schema$Event {
@@ -154,43 +149,37 @@ export function toGoogleCalendarData(
     }
 
     function createLocation(): string {
-        if (raceEntity instanceof JraRaceEntity) {
-            return `${raceEntity.raceData.location}競馬場`;
-        }
-        if (raceEntity instanceof HorseRacingRaceEntity) {
-            return `${raceEntity.raceData.location}競馬場`;
-        }
-        if (raceEntity instanceof HorseRacingRaceEntity) {
-            return `${raceEntity.raceData.location}競馬場`;
-        }
-        if (raceEntity instanceof MechanicalRacingRaceEntity) {
-            if (raceEntity.raceData.raceType === RaceType.KEIRIN) {
+        switch (raceEntity.raceData.raceType) {
+            case RaceType.JRA:
+            case RaceType.NAR:
+            case RaceType.OVERSEAS: {
+                return `${raceEntity.raceData.location}競馬場`;
+            }
+            case RaceType.KEIRIN: {
                 return `${raceEntity.raceData.location}競輪場`;
             }
-            if (raceEntity.raceData.raceType === RaceType.AUTORACE) {
+            case RaceType.AUTORACE: {
                 return `${raceEntity.raceData.location}オートレース場`;
             }
-            if (raceEntity.raceData.raceType === RaceType.BOATRACE) {
+            case RaceType.BOATRACE: {
                 return `${raceEntity.raceData.location}ボートレース場`;
             }
         }
-        throw new Error(`Unknown race type`);
     }
 
     function createStage(): string {
-        if (raceEntity instanceof JraRaceEntity) {
-            return '';
+        switch (raceEntity.raceData.raceType) {
+            case RaceType.JRA:
+            case RaceType.NAR:
+            case RaceType.OVERSEAS: {
+                return ``;
+            }
+            case RaceType.KEIRIN:
+            case RaceType.AUTORACE:
+            case RaceType.BOATRACE: {
+                return raceEntity.stage;
+            }
         }
-        if (raceEntity instanceof HorseRacingRaceEntity) {
-            return '';
-        }
-        if (raceEntity instanceof HorseRacingRaceEntity) {
-            return '';
-        }
-        if (raceEntity instanceof MechanicalRacingRaceEntity) {
-            return raceEntity.stage;
-        }
-        throw new Error(`Unknown race type`);
     }
 
     /**
@@ -202,7 +191,7 @@ export function toGoogleCalendarData(
         const raceTimeStr = `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}`;
         const updateStr = `更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}`;
         if (
-            raceEntity instanceof MechanicalRacingRaceEntity &&
+            raceEntity instanceof RaceEntity &&
             (raceEntity.raceData.raceType === RaceType.AUTORACE ||
                 raceEntity.raceData.raceType === RaceType.BOATRACE)
         ) {
@@ -211,7 +200,7 @@ export function toGoogleCalendarData(
                     `.replace(/\n\s+/g, '\n');
         }
         if (
-            raceEntity instanceof MechanicalRacingRaceEntity &&
+            raceEntity instanceof RaceEntity &&
             raceEntity.raceData.raceType === RaceType.KEIRIN
         ) {
             return `${raceTimeStr}
@@ -227,7 +216,10 @@ export function toGoogleCalendarData(
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof JraRaceEntity) {
+        if (
+            raceEntity instanceof RaceEntity &&
+            raceEntity.raceData.raceType === RaceType.JRA
+        ) {
             const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
@@ -246,7 +238,10 @@ export function toGoogleCalendarData(
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof HorseRacingRaceEntity) {
+        if (
+            raceEntity instanceof RaceEntity &&
+            raceEntity.raceData.raceType === RaceType.NAR
+        ) {
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
                     ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[raceEntity.raceData.location]))}
@@ -254,7 +249,10 @@ export function toGoogleCalendarData(
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
-        if (raceEntity instanceof HorseRacingRaceEntity) {
+        if (
+            raceEntity instanceof RaceEntity &&
+            raceEntity.raceData.raceType === RaceType.OVERSEAS
+        ) {
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
                     ${updateStr}

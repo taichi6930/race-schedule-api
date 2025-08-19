@@ -4,22 +4,22 @@ import { RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // MechanicalRacingRaceRepositoryFromHtmlImplのモックを作成
 export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+    implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<MechanicalRacingRaceEntity[]> {
+    ): Promise<RaceEntity[]> {
         const { placeEntityList, raceType } = searchFilter;
-        const raceEntityList: MechanicalRacingRaceEntity[] = [];
-        for (const placeEntity of placeEntityList ?? []) {
+        const raceEntityList: RaceEntity[] = [];
+        for (const placeEntity of placeEntityList) {
             const { placeData, grade } = placeEntity;
             const { location, dateTime } = placeData;
             // 1から12までのレースを作成
@@ -27,7 +27,7 @@ export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
                 const raceDate = new Date(dateTime);
                 raceDate.setHours(raceNumber + 9, 0, 0, 0);
                 raceEntityList.push(
-                    MechanicalRacingRaceEntity.createWithoutId(
+                    RaceEntity.createWithoutId(
                         RaceData.create(
                             raceType,
                             `${raceType}${location}第${raceNumber.toString()}R`,
@@ -36,6 +36,8 @@ export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
                             grade,
                             raceNumber,
                         ),
+                        undefined, // heldDayDataは未設定
+                        undefined, // conditionDataは未設定
                         this.createStage(raceType, raceNumber),
                         baseRacePlayerDataList(raceType),
                         getJSTDate(new Date()),
@@ -50,12 +52,12 @@ export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: MechanicalRacingRaceEntity[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: MechanicalRacingRaceEntity[];
-        failureData: MechanicalRacingRaceEntity[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

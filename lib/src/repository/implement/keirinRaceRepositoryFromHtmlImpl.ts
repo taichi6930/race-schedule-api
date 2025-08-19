@@ -12,8 +12,8 @@ import { RaceStage, StageMap } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { MechanicalRacingRaceEntity } from '../entity/mechanicalRacingRaceEntity';
 import { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -22,7 +22,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class KeirinRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>
+    implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -36,21 +36,19 @@ export class KeirinRaceRepositoryFromHtmlImpl
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
-    ): Promise<MechanicalRacingRaceEntity[]> {
-        const keirinRaceDataList: MechanicalRacingRaceEntity[] = [];
+    ): Promise<RaceEntity[]> {
+        const keirinRaceDataList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
-        if (placeEntityList) {
-            for (const placeEntity of placeEntityList) {
-                keirinRaceDataList.push(
-                    ...(await this.fetchRaceListFromHtmlWithKeirinPlace(
-                        placeEntity.placeData,
-                        placeEntity.grade,
-                    )),
-                );
-                console.debug('0.8秒待ちます');
-                await new Promise((resolve) => setTimeout(resolve, 800));
-                console.debug('0.8秒経ちました');
-            }
+        for (const placeEntity of placeEntityList) {
+            keirinRaceDataList.push(
+                ...(await this.fetchRaceListFromHtmlWithKeirinPlace(
+                    placeEntity.placeData,
+                    placeEntity.grade,
+                )),
+            );
+            console.debug('0.8秒待ちます');
+            await new Promise((resolve) => setTimeout(resolve, 800));
+            console.debug('0.8秒経ちました');
         }
         return keirinRaceDataList;
     }
@@ -59,7 +57,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
     public async fetchRaceListFromHtmlWithKeirinPlace(
         placeData: PlaceData,
         grade: GradeType,
-    ): Promise<MechanicalRacingRaceEntity[]> {
+    ): Promise<RaceEntity[]> {
         try {
             const [year, month, day] = [
                 placeData.dateTime.getFullYear(),
@@ -71,7 +69,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 placeData.dateTime,
                 placeData.location,
             );
-            const keirinRaceEntityList: MechanicalRacingRaceEntity[] = [];
+            const keirinRaceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
@@ -173,8 +171,10 @@ export class KeirinRaceRepositoryFromHtmlImpl
                             raceStage != null
                         ) {
                             keirinRaceEntityList.push(
-                                MechanicalRacingRaceEntity.createWithoutId(
+                                RaceEntity.createWithoutId(
                                     keirinRaceData,
+                                    undefined, // heldDayDataは未設定
+                                    undefined, // conditionDataは未設定
                                     raceStage,
                                     racePlayerDataList,
                                     getJSTDate(new Date()),
@@ -302,12 +302,12 @@ export class KeirinRaceRepositoryFromHtmlImpl
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: MechanicalRacingRaceEntity[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: MechanicalRacingRaceEntity[];
-        failureData: MechanicalRacingRaceEntity[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

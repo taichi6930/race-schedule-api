@@ -8,8 +8,8 @@ import { container } from 'tsyringe';
 
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import { MechanicalRacingRaceEntity } from '../../../../../lib/src/repository/entity/mechanicalRacingRaceEntity';
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { MechanicalRacingRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorageImpl';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -24,7 +24,7 @@ import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 
 describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let repository: IRaceRepository<MechanicalRacingRaceEntity, PlaceEntity>;
+    let repository: IRaceRepository<RaceEntity, PlaceEntity>;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -67,6 +67,7 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                         new Date('2024-01-01'),
                         new Date('2024-02-01'),
                         raceType,
+                        [],
                     ),
                 );
 
@@ -108,13 +109,13 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                 },
             ]) {
                 // 1年間のレース開催データを登録する
-                const raceEntityList: MechanicalRacingRaceEntity[] = Array.from(
+                const raceEntityList: RaceEntity[] = Array.from(
                     { length: 60 },
                     (_, day) => {
                         const date = new Date('2024-01-01');
                         date.setDate(date.getDate() + day);
                         return Array.from({ length: 12 }, (__, j) =>
-                            MechanicalRacingRaceEntity.createWithoutId(
+                            RaceEntity.createWithoutId(
                                 RaceData.create(
                                     raceType,
                                     `raceName${format(date, 'yyyyMMdd')}`,
@@ -123,6 +124,8 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                                     grade,
                                     j + 1,
                                 ),
+                                undefined, // heldDayDataは未設定
+                                undefined, // conditionDataは未設定
                                 stage,
                                 racePlayerDataList,
                                 getJSTDate(new Date()),
@@ -166,13 +169,13 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
             },
         ]) {
             // 1年間のレース開催データを登録する
-            const raceEntityList: MechanicalRacingRaceEntity[] = Array.from(
+            const raceEntityList: RaceEntity[] = Array.from(
                 { length: 60 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
                     date.setDate(date.getDate() + day);
                     return Array.from({ length: 12 }, (__, j) =>
-                        MechanicalRacingRaceEntity.createWithoutId(
+                        RaceEntity.createWithoutId(
                             RaceData.create(
                                 raceType,
                                 `raceName${format(date, 'yyyyMMdd')}`,
@@ -181,6 +184,8 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                                 grade,
                                 j + 1,
                             ),
+                            undefined, // heldDayDataは未設定
+                            undefined, // conditionDataは未設定
                             stage,
                             racePlayerDataList,
                             getJSTDate(new Date()),

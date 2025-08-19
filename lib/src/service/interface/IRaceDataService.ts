@@ -1,7 +1,5 @@
-import type { HorseRacingRaceEntity } from '../../repository/entity/horseRacingRaceEntity';
-import type { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import type { MechanicalRacingRaceEntity } from '../../repository/entity/mechanicalRacingRaceEntity';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
+import type { RaceEntity } from '../../repository/entity/raceEntity';
 import type { DataLocationType } from '../../utility/dataType';
 import type { RaceType } from '../../utility/raceType';
 
@@ -38,22 +36,8 @@ export interface IRaceDataService {
         finishDate: Date,
         raceTypeList: RaceType[],
         type: DataLocationType,
-        placeEntityList?: {
-            [RaceType.JRA]?: PlaceEntity[];
-            [RaceType.NAR]?: PlaceEntity[];
-            [RaceType.OVERSEAS]?: PlaceEntity[];
-            [RaceType.KEIRIN]?: PlaceEntity[];
-            [RaceType.AUTORACE]?: PlaceEntity[];
-            [RaceType.BOATRACE]?: PlaceEntity[];
-        },
-    ) => Promise<{
-        [RaceType.JRA]: JraRaceEntity[];
-        [RaceType.NAR]: HorseRacingRaceEntity[];
-        [RaceType.OVERSEAS]: HorseRacingRaceEntity[];
-        [RaceType.KEIRIN]: MechanicalRacingRaceEntity[];
-        [RaceType.AUTORACE]: MechanicalRacingRaceEntity[];
-        [RaceType.BOATRACE]: MechanicalRacingRaceEntity[];
-    }>;
+        placeEntityList?: PlaceEntity[],
+    ) => Promise<RaceEntity[]>;
 
     /**
      * レース開催データをStorageに保存/更新します
@@ -63,14 +47,7 @@ export interface IRaceDataService {
      * @param raceEntityList - 保存/更新するレース開催エンティティの配列
      * @throws Error データの保存/更新に失敗した場合
      */
-    updateRaceEntityList: (raceEntityList: {
-        [RaceType.JRA]?: JraRaceEntity[];
-        [RaceType.NAR]?: HorseRacingRaceEntity[];
-        [RaceType.OVERSEAS]?: HorseRacingRaceEntity[];
-        [RaceType.KEIRIN]?: MechanicalRacingRaceEntity[];
-        [RaceType.AUTORACE]?: MechanicalRacingRaceEntity[];
-        [RaceType.BOATRACE]?: MechanicalRacingRaceEntity[];
-    }) => Promise<{
+    updateRaceEntityList: (raceEntityList: RaceEntity[]) => Promise<{
         code: number;
         message: string;
         successDataCount: number;
