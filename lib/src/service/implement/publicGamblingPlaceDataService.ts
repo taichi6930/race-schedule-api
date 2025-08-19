@@ -59,38 +59,38 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 console.warn('raceTypeListが空の場合、空を返します');
                 return result;
             }
-            for (const { raceType, repo } of [
+            for (const { raceType, repository } of [
                 {
                     raceType: RaceType.JRA,
-                    repo:
+                    repository:
                         type === DataLocation.Storage
                             ? this.placeRepositoryFromStorage
                             : this.jraPlaceRepositoryFromHtml,
                 },
                 {
                     raceType: RaceType.NAR,
-                    repo:
+                    repository:
                         type === DataLocation.Storage
                             ? this.placeRepositoryFromStorage
                             : this.narPlaceRepositoryFromHtml,
                 },
                 {
                     raceType: RaceType.KEIRIN,
-                    repo:
+                    repository:
                         type === DataLocation.Storage
                             ? this.placeRepositoryFromStorage
                             : this.keirinPlaceRepositoryFromHtml,
                 },
                 {
                     raceType: RaceType.AUTORACE,
-                    repo:
+                    repository:
                         type === DataLocation.Storage
                             ? this.placeRepositoryFromStorage
                             : this.autoracePlaceRepositoryFromHtml,
                 },
                 {
                     raceType: RaceType.BOATRACE,
-                    repo:
+                    repository:
                         type === DataLocation.Storage
                             ? this.placeRepositoryFromStorage
                             : this.boatracePlaceRepositoryFromHtml,
@@ -99,7 +99,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 if (!raceTypeList.includes(raceType)) continue;
 
                 const placeEntityList: PlaceEntity[] =
-                    await repo.fetchPlaceEntityList(
+                    await repository.fetchPlaceEntityList(
                         new SearchPlaceFilterEntity(
                             startDate,
                             finishDate,

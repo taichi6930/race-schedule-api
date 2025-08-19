@@ -88,45 +88,45 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         const result: RaceEntity[] = [];
 
         try {
-            for (const { raceType, repo } of [
+            for (const { raceType, repository } of [
                 {
                     raceType: RaceType.JRA,
-                    repo:
+                    repository:
                         type === DataLocation.Storage
                             ? this.raceRepositoryFromStorage
                             : this.jraRaceRepositoryFromHtml,
                 },
                 {
                     raceType: RaceType.NAR,
-                    repo:
+                    repository:
                         type === DataLocation.Storage
                             ? this.raceRepositoryFromStorage
                             : this.narRaceRepositoryFromHtml,
                 },
                 {
                     raceType: RaceType.OVERSEAS,
-                    repo:
+                    repository:
                         type === DataLocation.Storage
                             ? this.raceRepositoryFromStorage
                             : this.overseasRaceRepositoryFromHtml,
                 },
                 {
                     raceType: RaceType.KEIRIN,
-                    repo:
+                    repository:
                         type === DataLocation.Storage
                             ? this.mechanicalRacingRaceRepositoryFromStorage
                             : this.keirinRaceRepositoryFromHtml,
                 },
                 {
                     raceType: RaceType.AUTORACE,
-                    repo:
+                    repository:
                         type === DataLocation.Storage
                             ? this.mechanicalRacingRaceRepositoryFromStorage
                             : this.autoraceRaceRepositoryFromHtml,
                 },
                 {
                     raceType: RaceType.BOATRACE,
-                    repo:
+                    repository:
                         type === DataLocation.Storage
                             ? this.mechanicalRacingRaceRepositoryFromStorage
                             : this.boatraceRaceRepositoryFromHtml,
@@ -144,7 +144,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                             ) ?? [],
                         );
                     const raceEntityList = await this.fetchRaceEntities(
-                        repo,
+                        repository,
                         searchFilter,
                     );
                     result.push(...raceEntityList);
@@ -243,7 +243,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
 
     /**
      * レース種別ごとの保存処理を共通化
-     * @param repo
+     * @param repository
      * @param raceType
      * @param entities
      */
@@ -251,7 +251,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         TRace extends IRaceEntity<TRace>,
         TPlace extends IPlaceEntity<TPlace>,
     >(
-        repo: IRaceRepository<TRace, TPlace>,
+        repository: IRaceRepository<TRace, TPlace>,
         raceType: RaceType,
         entities?: TRace[],
     ): Promise<{
@@ -261,7 +261,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         failureDataCount: number;
     }> {
         if (entities !== undefined && entities.length > 0) {
-            const response = await repo.registerRaceEntityList(
+            const response = await repository.registerRaceEntityList(
                 raceType,
                 entities,
             );
@@ -282,16 +282,16 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
 
     /**
      * レース種別ごとの取得処理を共通化
-     * @param repo
+     * @param repository
      * @param searchFilter
      */
     private async fetchRaceEntities<
         TPlace extends IPlaceEntity<TPlace>,
         TRace extends IRaceEntity<TRace>,
     >(
-        repo: IRaceRepository<TRace, TPlace>,
+        repository: IRaceRepository<TRace, TPlace>,
         searchFilter: SearchRaceFilterEntity<TPlace>,
     ): Promise<TRace[]> {
-        return repo.fetchRaceEntityList(searchFilter);
+        return repository.fetchRaceEntityList(searchFilter);
     }
 }
