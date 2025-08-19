@@ -6,7 +6,10 @@ import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/en
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
-import { ALL_RACE_TYPE_LIST } from '../../../../../lib/src/utility/raceType';
+import {
+    ALL_RACE_TYPE_LIST,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
@@ -38,23 +41,27 @@ describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
     let calendarRepository: jest.Mocked<ICalendarRepository>;
 
-    const mockCalendarDataList = [
-        baseJraCalendarData,
-        baseNarCalendarData,
-        baseOverseasCalendarData,
-        baseKeirinCalendarData,
-        baseBoatraceCalendarData,
-        baseAutoraceCalendarData,
-    ];
+    const mockCalendarDataListMap = {
+        [RaceType.JRA]: baseJraCalendarData,
+        [RaceType.NAR]: baseNarCalendarData,
+        [RaceType.OVERSEAS]: baseOverseasCalendarData,
+        [RaceType.KEIRIN]: baseKeirinCalendarData,
+        [RaceType.BOATRACE]: baseBoatraceCalendarData,
+        [RaceType.AUTORACE]: baseAutoraceCalendarData,
+    };
 
-    const mockRaceEntityList = [
-        ...baseJraRaceEntityList,
-        ...baseNarRaceEntityList,
-        ...baseOverseasRaceEntityList,
-        ...baseKeirinRaceEntityList,
-        ...baseAutoraceRaceEntityList,
-        ...baseBoatraceRaceEntityList,
-    ];
+    const mockCalendarDataList = Object.values(mockCalendarDataListMap).flat();
+
+    const mockRaceEntityListMap = {
+        [RaceType.JRA]: baseJraRaceEntityList,
+        [RaceType.NAR]: baseNarRaceEntityList,
+        [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
+        [RaceType.KEIRIN]: baseKeirinRaceEntityList,
+        [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
+        [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
+    };
+
+    const mockRaceEntityList = Object.values(mockRaceEntityListMap).flat();
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();

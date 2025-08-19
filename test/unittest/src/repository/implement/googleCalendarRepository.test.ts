@@ -100,6 +100,7 @@ describe('GoogleCalendarRepository', () => {
         [RaceType.BOATRACE]: baseBoatraceRaceEntity,
         [RaceType.AUTORACE]: baseAutoraceRaceEntity,
     };
+
     const baseRaceEntityListMap = {
         [RaceType.JRA]: baseJraRaceEntityList,
         [RaceType.NAR]: baseNarRaceEntityList,

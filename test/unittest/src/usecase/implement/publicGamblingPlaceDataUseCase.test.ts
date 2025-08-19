@@ -70,13 +70,9 @@ describe('PublicGamblingPlaceUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            placeDataService.fetchPlaceEntityList.mockResolvedValue([
-                baseJraPlaceEntity,
-                baseNarPlaceEntity,
-                baseKeirinPlaceEntity,
-                baseAutoracePlaceEntity,
-                baseBoatracePlaceEntity,
-            ]);
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntityList,
+            );
 
             await useCase.updatePlaceEntityList(
                 startDate,

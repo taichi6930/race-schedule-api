@@ -233,11 +233,13 @@ describe('PublicGamblingRaceDataService', () => {
             raceRepositoryFromStorage.registerRaceEntityList.mockImplementation(
                 async (raceType: RaceType) => {
                     switch (raceType) {
-                        case RaceType.JRA: {
+                        case RaceType.JRA:
+                        case RaceType.NAR:
+                        case RaceType.OVERSEAS: {
                             return {
                                 code: 200,
                                 message: 'OK',
-                                successData: baseJraRaceEntityList,
+                                successData: baseRaceEntityListMap[raceType],
                                 failureData: [],
                             };
                         }
@@ -245,22 +247,6 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.BOATRACE:
                         case RaceType.AUTORACE: {
                             throw new Error('race type is not supported');
-                        }
-                        case RaceType.NAR: {
-                            return {
-                                code: 200,
-                                message: 'OK',
-                                successData: baseNarRaceEntityList,
-                                failureData: [],
-                            };
-                        }
-                        case RaceType.OVERSEAS: {
-                            return {
-                                code: 200,
-                                message: 'OK',
-                                successData: baseOverseasRaceEntityList,
-                                failureData: [],
-                            };
                         }
                     }
                 },
@@ -273,27 +259,13 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.OVERSEAS: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.KEIRIN: {
-                            return {
-                                code: 200,
-                                message: 'OK',
-                                successData: baseKeirinRaceEntityList,
-                                failureData: [],
-                            };
-                        }
-                        case RaceType.BOATRACE: {
-                            return {
-                                code: 200,
-                                message: 'OK',
-                                successData: baseBoatraceRaceEntityList,
-                                failureData: [],
-                            };
-                        }
+                        case RaceType.KEIRIN:
+                        case RaceType.BOATRACE:
                         case RaceType.AUTORACE: {
                             return {
                                 code: 200,
                                 message: 'OK',
-                                successData: baseAutoraceRaceEntityList,
+                                successData: baseRaceEntityListMap[raceType],
                                 failureData: [],
                             };
                         }
