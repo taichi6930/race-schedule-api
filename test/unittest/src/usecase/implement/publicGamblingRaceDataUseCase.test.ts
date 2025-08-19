@@ -54,6 +54,23 @@ describe('PublicGamblingRaceDataUseCase', () => {
         jest.restoreAllMocks();
     });
 
+    const mockPlaceEntityList = [
+        baseJraPlaceEntity,
+        baseNarPlaceEntity,
+        baseKeirinPlaceEntity,
+        baseAutoracePlaceEntity,
+        baseBoatracePlaceEntity,
+    ];
+
+    const mockRaceEntityList = [
+        ...baseJraRaceEntityList,
+        ...baseNarRaceEntityList,
+        ...baseOverseasRaceEntityList,
+        ...baseKeirinRaceEntityList,
+        ...baseAutoraceRaceEntityList,
+        ...baseBoatraceRaceEntityList,
+    ];
+
     describe('fetchRaceEntityList', () => {
         for (const {
             raceTypeList,
@@ -526,23 +543,14 @@ describe('PublicGamblingRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            placeDataService.fetchPlaceEntityList.mockResolvedValue([
-                baseJraPlaceEntity,
-                baseNarPlaceEntity,
-                baseKeirinPlaceEntity,
-                baseAutoracePlaceEntity,
-                baseBoatracePlaceEntity,
-            ]);
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntityList,
+            );
 
             // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue([
-                ...baseJraRaceEntityList,
-                ...baseNarRaceEntityList,
-                ...baseOverseasRaceEntityList,
-                ...baseKeirinRaceEntityList,
-                ...baseAutoraceRaceEntityList,
-                ...baseBoatraceRaceEntityList,
-            ]);
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
+            );
 
             await useCase.updateRaceEntityList(
                 startDate,
@@ -562,14 +570,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
             placeDataService.fetchPlaceEntityList.mockResolvedValue([]);
 
             // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue([
-                ...baseJraRaceEntityList,
-                ...baseNarRaceEntityList,
-                ...baseOverseasRaceEntityList,
-                ...baseKeirinRaceEntityList,
-                ...baseAutoraceRaceEntityList,
-                ...baseBoatraceRaceEntityList,
-            ]);
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
+            );
 
             await useCase.updateRaceEntityList(startDate, finishDate, [
                 RaceType.JRA,

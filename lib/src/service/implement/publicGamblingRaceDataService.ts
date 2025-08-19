@@ -8,7 +8,7 @@ import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilter
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import { ALL_RACE_TYPE_LIST, RaceType } from '../../utility/raceType';
 import { IRaceDataService } from '../interface/IRaceDataService';
 
 /**
@@ -18,7 +18,7 @@ import { IRaceDataService } from '../interface/IRaceDataService';
 export class PublicGamblingRaceDataService implements IRaceDataService {
     public constructor(
         @inject('RaceRepositoryFromStorage')
-        protected raceRepositoryFromStorage: IRaceRepository<
+        protected horseRacingRaceRepositoryFromStorage: IRaceRepository<
             RaceEntity,
             PlaceEntity
         >,
@@ -33,7 +33,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
             PlaceEntity
         >,
         @inject('OverseasRaceRepositoryFromHtml')
-        protected readonly overseasRaceRepositoryFromHtml: IRaceRepository<
+        protected overseasRaceRepositoryFromHtml: IRaceRepository<
             RaceEntity,
             PlaceEntity
         >,
@@ -87,51 +87,26 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     ): Promise<RaceEntity[]> {
         const result: RaceEntity[] = [];
 
+        const raceRepositoryFromStorage = {
+            [RaceType.JRA]: this.horseRacingRaceRepositoryFromStorage,
+            [RaceType.NAR]: this.horseRacingRaceRepositoryFromStorage,
+            [RaceType.OVERSEAS]: this.horseRacingRaceRepositoryFromStorage,
+            [RaceType.KEIRIN]: this.mechanicalRacingRaceRepositoryFromStorage,
+            [RaceType.AUTORACE]: this.mechanicalRacingRaceRepositoryFromStorage,
+            [RaceType.BOATRACE]: this.mechanicalRacingRaceRepositoryFromStorage,
+        };
+
+        const raceRepositoryFromHtml = {
+            [RaceType.JRA]: this.jraRaceRepositoryFromHtml,
+            [RaceType.NAR]: this.narRaceRepositoryFromHtml,
+            [RaceType.OVERSEAS]: this.overseasRaceRepositoryFromHtml,
+            [RaceType.KEIRIN]: this.keirinRaceRepositoryFromHtml,
+            [RaceType.AUTORACE]: this.autoraceRaceRepositoryFromHtml,
+            [RaceType.BOATRACE]: this.boatraceRaceRepositoryFromHtml,
+        };
+
         try {
-            for (const { raceType, repository } of [
-                {
-                    raceType: RaceType.JRA,
-                    repository:
-                        type === DataLocation.Storage
-                            ? this.raceRepositoryFromStorage
-                            : this.jraRaceRepositoryFromHtml,
-                },
-                {
-                    raceType: RaceType.NAR,
-                    repository:
-                        type === DataLocation.Storage
-                            ? this.raceRepositoryFromStorage
-                            : this.narRaceRepositoryFromHtml,
-                },
-                {
-                    raceType: RaceType.OVERSEAS,
-                    repository:
-                        type === DataLocation.Storage
-                            ? this.raceRepositoryFromStorage
-                            : this.overseasRaceRepositoryFromHtml,
-                },
-                {
-                    raceType: RaceType.KEIRIN,
-                    repository:
-                        type === DataLocation.Storage
-                            ? this.mechanicalRacingRaceRepositoryFromStorage
-                            : this.keirinRaceRepositoryFromHtml,
-                },
-                {
-                    raceType: RaceType.AUTORACE,
-                    repository:
-                        type === DataLocation.Storage
-                            ? this.mechanicalRacingRaceRepositoryFromStorage
-                            : this.autoraceRaceRepositoryFromHtml,
-                },
-                {
-                    raceType: RaceType.BOATRACE,
-                    repository:
-                        type === DataLocation.Storage
-                            ? this.mechanicalRacingRaceRepositoryFromStorage
-                            : this.boatraceRaceRepositoryFromHtml,
-                },
-            ]) {
+            for (const raceType of ALL_RACE_TYPE_LIST) {
                 if (raceTypeList.includes(raceType)) {
                     const searchFilter =
                         new SearchRaceFilterEntity<PlaceEntity>(
@@ -145,7 +120,9 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                         );
                     const raceEntityList =
                         await this.fetchRaceEntityListFromRepository(
-                            repository,
+                            type === DataLocation.Storage
+                                ? raceRepositoryFromStorage[raceType]
+                                : raceRepositoryFromHtml[raceType],
                             searchFilter,
                         );
                     result.push(...raceEntityList);
@@ -165,12 +142,6 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * 既存のデータが存在する場合は上書き、存在しない場合は新規作成します。
      * このメソッドは一般的にWebから取得した最新データを保存する際に使用されます。
      * @param raceEntityList
-     * @param raceEntityList.jra
-     * @param raceEntityList.nar
-     * @param raceEntityList.overseas
-     * @param raceEntityList.keirin
-     * @param raceEntityList.autorace
-     * @param raceEntityList.boatrace
      * @throws Error データの保存/更新に失敗した場合
      */
     @Logger
@@ -182,37 +153,17 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
     }> {
         try {
             const response = await Promise.all(
-                [
-                    {
-                        raceType: RaceType.JRA,
-                        repository: this.raceRepositoryFromStorage,
-                    },
-                    {
-                        raceType: RaceType.NAR,
-                        repository: this.raceRepositoryFromStorage,
-                    },
-                    {
-                        raceType: RaceType.OVERSEAS,
-                        repository: this.raceRepositoryFromStorage,
-                    },
-                    {
-                        raceType: RaceType.KEIRIN,
-                        repository:
-                            this.mechanicalRacingRaceRepositoryFromStorage,
-                    },
-                    {
-                        raceType: RaceType.AUTORACE,
-                        repository:
-                            this.mechanicalRacingRaceRepositoryFromStorage,
-                    },
-                    {
-                        raceType: RaceType.BOATRACE,
-                        repository:
-                            this.mechanicalRacingRaceRepositoryFromStorage,
-                    },
-                ].map(async ({ repository, raceType }) =>
+                ALL_RACE_TYPE_LIST.map(async (raceType) =>
                     this.saveRaceEntityList(
-                        repository,
+                        (
+                            [
+                                RaceType.JRA,
+                                RaceType.NAR,
+                                RaceType.OVERSEAS,
+                            ] as RaceType[]
+                        ).includes(raceType)
+                            ? this.horseRacingRaceRepositoryFromStorage
+                            : this.mechanicalRacingRaceRepositoryFromStorage,
                         raceType,
                         raceEntityList.filter(
                             (race) => race.raceData.raceType === raceType,

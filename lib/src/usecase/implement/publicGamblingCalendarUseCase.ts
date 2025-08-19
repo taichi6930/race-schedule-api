@@ -56,14 +56,8 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * カレンダーの更新を行う
      * @param startDate
      * @param finishDate
-     * @param raceTypeList - レース種別のリスト
+     * @param raceTypeList
      * @param displayGradeList
-     * @param displayGradeList.jra
-     * @param displayGradeList.nar
-     * @param displayGradeList.overseas
-     * @param displayGradeList.keirin
-     * @param displayGradeList.autorace
-     * @param displayGradeList.boatrace
      */
     @Logger
     public async updateRacesToCalendar(

@@ -46,6 +46,24 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
     let raceDataService: jest.Mocked<IRaceDataService>;
     let useCase: IRaceCalendarUseCase;
 
+    const baseRaceEntityMap = {
+        [RaceType.JRA]: baseJraRaceEntity,
+        [RaceType.NAR]: baseNarRaceEntity,
+        [RaceType.OVERSEAS]: baseOverseasRaceEntity,
+        [RaceType.KEIRIN]: baseKeirinRaceEntity,
+        [RaceType.BOATRACE]: baseBoatraceRaceEntity,
+        [RaceType.AUTORACE]: baseAutoraceRaceEntity,
+    };
+
+    const baseCalendarDataListMap = {
+        [RaceType.JRA]: baseJraCalendarData,
+        [RaceType.NAR]: baseNarCalendarData,
+        [RaceType.OVERSEAS]: baseOverseasCalendarData,
+        [RaceType.KEIRIN]: baseKeirinCalendarData,
+        [RaceType.BOATRACE]: baseBoatraceCalendarData,
+        [RaceType.AUTORACE]: baseAutoraceCalendarData,
+    };
+
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({ calendarService, raceDataService } = setup);
@@ -82,61 +100,27 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
     });
 
     it('イベントが追加・削除されること（複数）', async () => {
-        const dataList = [
-            {
-                raceType: RaceType.JRA,
-                calendarData: baseJraCalendarData,
-                raceEntity: baseJraRaceEntity,
-            },
-            {
-                raceType: RaceType.NAR,
-                calendarData: baseNarCalendarData,
-                raceEntity: baseNarRaceEntity,
-            },
-            {
-                raceType: RaceType.OVERSEAS,
-                calendarData: baseOverseasCalendarData,
-                raceEntity: baseOverseasRaceEntity,
-            },
-            {
-                raceType: RaceType.KEIRIN,
-                calendarData: baseKeirinCalendarData,
-                raceEntity: baseKeirinRaceEntity,
-            },
-            {
-                raceType: RaceType.AUTORACE,
-                calendarData: baseAutoraceCalendarData,
-                raceEntity: baseAutoraceRaceEntity,
-            },
-            {
-                raceType: RaceType.BOATRACE,
-                calendarData: baseBoatraceCalendarData,
-                raceEntity: baseBoatraceRaceEntity,
-            },
-        ];
-
-        const mockCalendarDataList: CalendarData[] = dataList.flatMap(
-            ({ calendarData, raceType }) =>
+        const mockCalendarDataList: CalendarData[] = ALL_RACE_TYPE_LIST.flatMap(
+            (raceType) =>
                 Array.from({ length: 8 }, (_, i: number) =>
-                    calendarData.copy({
+                    baseCalendarDataListMap[raceType].copy({
                         id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
                     }),
                 ),
         );
 
-        const mockRaceEntityList = dataList.flatMap(
-            ({ raceEntity, raceType }) =>
-                Array.from({ length: 5 }, (_, i: number) =>
-                    raceEntity.copy({
-                        id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
-                    }),
-                ),
+        const mockRaceEntityList = ALL_RACE_TYPE_LIST.flatMap((raceType) =>
+            Array.from({ length: 5 }, (_, i: number) =>
+                baseRaceEntityMap[raceType].copy({
+                    id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
+                }),
+            ),
         );
 
-        const expectDeleteCalendarDataList = dataList.flatMap(
-            ({ calendarData, raceType }) =>
+        const expectDeleteCalendarDataList = ALL_RACE_TYPE_LIST.flatMap(
+            (raceType) =>
                 Array.from({ length: 3 }, (_, i: number) =>
-                    calendarData.copy({
+                    baseCalendarDataListMap[raceType].copy({
                         id: `${raceType.toLowerCase()}2024122920${(i + 6).toXDigits(2)}`,
                     }),
                 ),

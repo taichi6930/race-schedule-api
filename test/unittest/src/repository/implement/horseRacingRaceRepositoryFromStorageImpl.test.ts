@@ -116,11 +116,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
 
         test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
             for (const { raceType, location, grade } of [
-                {
-                    raceType: RaceType.NAR,
-                    location: '大井',
-                    grade: 'GⅠ',
-                },
+                { raceType: RaceType.NAR, location: '大井', grade: 'GⅠ' },
                 {
                     raceType: RaceType.OVERSEAS,
                     location: 'ベルモントパーク',

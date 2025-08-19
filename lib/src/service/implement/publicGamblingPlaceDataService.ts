@@ -54,58 +54,36 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     ): Promise<PlaceEntity[]> {
         const result: PlaceEntity[] = [];
 
+        const placeRepositoryFromHtml = {
+            [RaceType.JRA]: this.jraPlaceRepositoryFromHtml,
+            [RaceType.NAR]: this.narPlaceRepositoryFromHtml,
+            [RaceType.OVERSEAS]: undefined, // 海外競馬は対象外
+            [RaceType.KEIRIN]: this.keirinPlaceRepositoryFromHtml,
+            [RaceType.AUTORACE]: this.autoracePlaceRepositoryFromHtml,
+            [RaceType.BOATRACE]: this.boatracePlaceRepositoryFromHtml,
+        };
+
         try {
-            if (raceTypeList.length === 0 && type !== DataLocation.Storage) {
-                console.warn('raceTypeListが空の場合、空を返します');
-                return result;
-            }
-            for (const { raceType, repository } of [
-                {
-                    raceType: RaceType.JRA,
-                    repository:
-                        type === DataLocation.Storage
-                            ? this.placeRepositoryFromStorage
-                            : this.jraPlaceRepositoryFromHtml,
-                },
-                {
-                    raceType: RaceType.NAR,
-                    repository:
-                        type === DataLocation.Storage
-                            ? this.placeRepositoryFromStorage
-                            : this.narPlaceRepositoryFromHtml,
-                },
-                {
-                    raceType: RaceType.KEIRIN,
-                    repository:
-                        type === DataLocation.Storage
-                            ? this.placeRepositoryFromStorage
-                            : this.keirinPlaceRepositoryFromHtml,
-                },
-                {
-                    raceType: RaceType.AUTORACE,
-                    repository:
-                        type === DataLocation.Storage
-                            ? this.placeRepositoryFromStorage
-                            : this.autoracePlaceRepositoryFromHtml,
-                },
-                {
-                    raceType: RaceType.BOATRACE,
-                    repository:
-                        type === DataLocation.Storage
-                            ? this.placeRepositoryFromStorage
-                            : this.boatracePlaceRepositoryFromHtml,
-                },
+            for (const raceType of [
+                RaceType.JRA,
+                RaceType.NAR,
+                RaceType.KEIRIN,
+                RaceType.AUTORACE,
+                RaceType.BOATRACE,
             ]) {
                 if (!raceTypeList.includes(raceType)) continue;
 
-                const placeEntityList: PlaceEntity[] =
-                    await repository.fetchPlaceEntityList(
-                        new SearchPlaceFilterEntity(
-                            startDate,
-                            finishDate,
-                            raceType,
-                        ),
-                    );
+                const placeEntityList: PlaceEntity[] = await (
+                    type === DataLocation.Storage
+                        ? this.placeRepositoryFromStorage
+                        : placeRepositoryFromHtml[raceType]
+                ).fetchPlaceEntityList(
+                    new SearchPlaceFilterEntity(
+                        startDate,
+                        finishDate,
+                        raceType,
+                    ),
+                );
                 result.push(...placeEntityList);
             }
             return result;

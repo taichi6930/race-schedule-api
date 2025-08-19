@@ -20,6 +20,14 @@ describe('PublicGamblingPlaceUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService>;
     let useCase: IPlaceDataUseCase;
 
+    const mockPlaceEntityList = [
+        baseJraPlaceEntity,
+        baseNarPlaceEntity,
+        baseKeirinPlaceEntity,
+        baseAutoracePlaceEntity,
+        baseBoatracePlaceEntity,
+    ];
+
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({ placeDataService } = setup);
@@ -32,17 +40,9 @@ describe('PublicGamblingPlaceUseCase', () => {
 
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること', async () => {
-            const mockPlaceData = [
-                baseJraPlaceEntity,
-                baseNarPlaceEntity,
-                baseKeirinPlaceEntity,
-                baseAutoracePlaceEntity,
-                baseBoatracePlaceEntity,
-            ];
-
             // モックの戻り値を設定
             placeDataService.fetchPlaceEntityList.mockResolvedValue(
-                mockPlaceData,
+                mockPlaceEntityList,
             );
 
             const startDate = new Date('2024-06-01');
@@ -60,7 +60,7 @@ describe('PublicGamblingPlaceUseCase', () => {
                 ],
             );
 
-            expect(result).toEqual(mockPlaceData);
+            expect(result).toEqual(mockPlaceEntityList);
         });
     });
 
@@ -70,13 +70,9 @@ describe('PublicGamblingPlaceUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            placeDataService.fetchPlaceEntityList.mockResolvedValue([
-                baseJraPlaceEntity,
-                baseNarPlaceEntity,
-                baseKeirinPlaceEntity,
-                baseAutoracePlaceEntity,
-                baseBoatracePlaceEntity,
-            ]);
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntityList,
+            );
 
             await useCase.updatePlaceEntityList(
                 startDate,

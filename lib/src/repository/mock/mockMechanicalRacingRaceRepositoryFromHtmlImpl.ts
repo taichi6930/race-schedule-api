@@ -75,12 +75,8 @@ export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
             case RaceType.AUTORACE: {
                 return raceNumber === 12 ? '優勝戦' : '予選';
             }
-            case RaceType.JRA: {
-                return '不明';
-            }
-            case RaceType.NAR: {
-                return '不明';
-            }
+            case RaceType.JRA:
+            case RaceType.NAR:
             case RaceType.OVERSEAS: {
                 return '不明';
             }

@@ -7,16 +7,19 @@ export interface IRaceCalendarUseCase {
      * カレンダーからレース情報の取得を行う
      * @param startDate
      * @param finishDate
+     * @param raceTypeList
      */
     fetchRacesFromCalendar: (
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
     ) => Promise<CalendarData[]>;
+
     /**
      * カレンダーの更新を行う
      * @param startDate
      * @param finishDate
+     * @param raceTypeList
      * @param displayGradeList
      */
     updateRacesToCalendar: (

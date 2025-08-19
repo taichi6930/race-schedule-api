@@ -23,43 +23,61 @@ import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
 import { baseOverseasRaceEntityList } from '../../mock/common/baseOverseasData';
 
 describe('PublicGamblingRaceDataService', () => {
-    let raceRepositoryFromStorageImpl: jest.Mocked<
+    let raceRepositoryFromStorage: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
-    let jraRaceRepositoryFromHtmlImpl: jest.Mocked<
+    let jraRaceRepositoryFromHtml: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
-    let narRaceRepositoryFromHtmlImpl: jest.Mocked<
+    let narRaceRepositoryFromHtml: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
-    let overseasRaceRepositoryFromHtmlImpl: jest.Mocked<
+    let overseasRaceRepositoryFromHtml: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
-    let mechanicalRacingRaceRepositoryFromStorageImpl: jest.Mocked<
+    let mechanicalRacingRaceRepositoryFromStorage: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
-    let keirinRaceRepositoryFromHtmlImpl: jest.Mocked<
+    let keirinRaceRepositoryFromHtml: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
-    let boatraceRaceRepositoryFromHtmlImpl: jest.Mocked<
+    let boatraceRaceRepositoryFromHtml: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
-    let autoraceRaceRepositoryFromHtmlImpl: jest.Mocked<
+    let autoraceRaceRepositoryFromHtml: jest.Mocked<
         IRaceRepository<RaceEntity, PlaceEntity>
     >;
     let service: IRaceDataService;
 
+    const mockRaceEntityList = [
+        ...baseJraRaceEntityList,
+        ...baseNarRaceEntityList,
+        ...baseOverseasRaceEntityList,
+        ...baseKeirinRaceEntityList,
+        ...baseAutoraceRaceEntityList,
+        ...baseBoatraceRaceEntityList,
+    ];
+
+    const baseRaceEntityListMap = {
+        [RaceType.JRA]: baseJraRaceEntityList,
+        [RaceType.NAR]: baseNarRaceEntityList,
+        [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
+        [RaceType.KEIRIN]: baseKeirinRaceEntityList,
+        [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
+        [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
+    };
+
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({
-            raceRepositoryFromStorageImpl,
-            mechanicalRacingRaceRepositoryFromStorageImpl,
-            jraRaceRepositoryFromHtmlImpl,
-            narRaceRepositoryFromHtmlImpl,
-            overseasRaceRepositoryFromHtmlImpl,
-            keirinRaceRepositoryFromHtmlImpl,
-            boatraceRaceRepositoryFromHtmlImpl,
-            autoraceRaceRepositoryFromHtmlImpl,
+            raceRepositoryFromStorage,
+            mechanicalRacingRaceRepositoryFromStorage,
+            jraRaceRepositoryFromHtml,
+            narRaceRepositoryFromHtml,
+            overseasRaceRepositoryFromHtml,
+            keirinRaceRepositoryFromHtml,
+            boatraceRaceRepositoryFromHtml,
+            autoraceRaceRepositoryFromHtml,
         } = setup);
         // AutoraceRaceCalendarServiceをコンテナから取得
         service = container.resolve(PublicGamblingRaceDataService);
@@ -72,7 +90,7 @@ describe('PublicGamblingRaceDataService', () => {
     describe('fetchRaceEntityList', () => {
         it('正常にレース開催データが取得できること（storage）', async () => {
             // モックの戻り値を設定
-            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockImplementation(
+            raceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.KEIRIN:
@@ -80,19 +98,15 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.AUTORACE: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.JRA: {
-                            return baseJraRaceEntityList;
-                        }
-                        case RaceType.NAR: {
-                            return baseNarRaceEntityList;
-                        }
+                        case RaceType.JRA:
+                        case RaceType.NAR:
                         case RaceType.OVERSEAS: {
-                            return baseOverseasRaceEntityList;
+                            return baseRaceEntityListMap[searchFilter.raceType];
                         }
                     }
                 },
             );
-            mechanicalRacingRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockImplementation(
+            mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.JRA:
@@ -100,14 +114,10 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.OVERSEAS: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.KEIRIN: {
-                            return baseKeirinRaceEntityList;
-                        }
-                        case RaceType.BOATRACE: {
-                            return baseBoatraceRaceEntityList;
-                        }
+                        case RaceType.KEIRIN:
+                        case RaceType.BOATRACE:
                         case RaceType.AUTORACE: {
-                            return baseAutoraceRaceEntityList;
+                            return baseRaceEntityListMap[searchFilter.raceType];
                         }
                     }
                 },
@@ -122,34 +132,27 @@ describe('PublicGamblingRaceDataService', () => {
                 ALL_RACE_TYPE_LIST,
                 DataLocation.Storage,
             );
-            expect(result).toEqual([
-                ...baseJraRaceEntityList,
-                ...baseNarRaceEntityList,
-                ...baseOverseasRaceEntityList,
-                ...baseKeirinRaceEntityList,
-                ...baseAutoraceRaceEntityList,
-                ...baseBoatraceRaceEntityList,
-            ]);
+            expect(result).toEqual(mockRaceEntityList);
         });
 
         it('正常にレース開催データが取得できること（web）', async () => {
             // モックの戻り値を設定
-            jraRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+            jraRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
                 baseJraRaceEntityList,
             );
-            narRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+            narRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
                 baseNarRaceEntityList,
             );
-            overseasRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+            overseasRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
                 baseOverseasRaceEntityList,
             );
-            keirinRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+            keirinRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
                 baseKeirinRaceEntityList,
             );
-            boatraceRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+            boatraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
                 baseBoatraceRaceEntityList,
             );
-            autoraceRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+            autoraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
                 baseAutoraceRaceEntityList,
             );
 
@@ -163,19 +166,12 @@ describe('PublicGamblingRaceDataService', () => {
                 DataLocation.Web,
             );
 
-            expect(result).toEqual([
-                ...baseJraRaceEntityList,
-                ...baseNarRaceEntityList,
-                ...baseOverseasRaceEntityList,
-                ...baseKeirinRaceEntityList,
-                ...baseAutoraceRaceEntityList,
-                ...baseBoatraceRaceEntityList,
-            ]);
+            expect(result).toEqual(mockRaceEntityList);
         });
 
         it('レース開催データが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            mechanicalRacingRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
+            mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockRejectedValue(
                 new Error('レース開催データの取得に失敗しました'),
             );
 
@@ -200,7 +196,7 @@ describe('PublicGamblingRaceDataService', () => {
     describe('updateRaceEntityList', () => {
         it('正常にレース開催データが更新されること', async () => {
             // モックの戻り値を設定
-            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockImplementation(
+            raceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.KEIRIN:
@@ -208,19 +204,15 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.AUTORACE: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.JRA: {
-                            return baseJraRaceEntityList;
-                        }
-                        case RaceType.NAR: {
-                            return baseNarRaceEntityList;
-                        }
+                        case RaceType.JRA:
+                        case RaceType.NAR:
                         case RaceType.OVERSEAS: {
-                            return baseOverseasRaceEntityList;
+                            return baseRaceEntityListMap[searchFilter.raceType];
                         }
                     }
                 },
             );
-            mechanicalRacingRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockImplementation(
+            mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.JRA:
@@ -228,28 +220,26 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.OVERSEAS: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.KEIRIN: {
-                            return baseKeirinRaceEntityList;
-                        }
-                        case RaceType.BOATRACE: {
-                            return baseBoatraceRaceEntityList;
-                        }
+                        case RaceType.KEIRIN:
+                        case RaceType.BOATRACE:
                         case RaceType.AUTORACE: {
-                            return baseAutoraceRaceEntityList;
+                            return baseRaceEntityListMap[searchFilter.raceType];
                         }
                     }
                 },
             );
 
             // registerRaceEntityListのモック戻り値を設定
-            raceRepositoryFromStorageImpl.registerRaceEntityList.mockImplementation(
+            raceRepositoryFromStorage.registerRaceEntityList.mockImplementation(
                 async (raceType: RaceType) => {
                     switch (raceType) {
-                        case RaceType.JRA: {
+                        case RaceType.JRA:
+                        case RaceType.NAR:
+                        case RaceType.OVERSEAS: {
                             return {
                                 code: 200,
                                 message: 'OK',
-                                successData: baseJraRaceEntityList,
+                                successData: baseRaceEntityListMap[raceType],
                                 failureData: [],
                             };
                         }
@@ -258,26 +248,10 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.AUTORACE: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.NAR: {
-                            return {
-                                code: 200,
-                                message: 'OK',
-                                successData: baseNarRaceEntityList,
-                                failureData: [],
-                            };
-                        }
-                        case RaceType.OVERSEAS: {
-                            return {
-                                code: 200,
-                                message: 'OK',
-                                successData: baseOverseasRaceEntityList,
-                                failureData: [],
-                            };
-                        }
                     }
                 },
             );
-            mechanicalRacingRaceRepositoryFromStorageImpl.registerRaceEntityList.mockImplementation(
+            mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList.mockImplementation(
                 async (raceType: RaceType) => {
                     switch (raceType) {
                         case RaceType.JRA:
@@ -285,27 +259,13 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.OVERSEAS: {
                             throw new Error('race type is not supported');
                         }
-                        case RaceType.KEIRIN: {
-                            return {
-                                code: 200,
-                                message: 'OK',
-                                successData: baseKeirinRaceEntityList,
-                                failureData: [],
-                            };
-                        }
-                        case RaceType.BOATRACE: {
-                            return {
-                                code: 200,
-                                message: 'OK',
-                                successData: baseBoatraceRaceEntityList,
-                                failureData: [],
-                            };
-                        }
+                        case RaceType.KEIRIN:
+                        case RaceType.BOATRACE:
                         case RaceType.AUTORACE: {
                             return {
                                 code: 200,
                                 message: 'OK',
-                                successData: baseAutoraceRaceEntityList,
+                                successData: baseRaceEntityListMap[raceType],
                                 failureData: [],
                             };
                         }
@@ -313,38 +273,31 @@ describe('PublicGamblingRaceDataService', () => {
                 },
             );
 
-            await service.updateRaceEntityList([
-                ...baseJraRaceEntityList,
-                ...baseNarRaceEntityList,
-                ...baseOverseasRaceEntityList,
-                ...baseKeirinRaceEntityList,
-                ...baseBoatraceRaceEntityList,
-                ...baseAutoraceRaceEntityList,
-            ]);
+            await service.updateRaceEntityList(mockRaceEntityList);
 
             expect(
-                raceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorage.registerRaceEntityList,
             ).toHaveBeenCalledWith(RaceType.JRA, baseJraRaceEntityList);
             expect(
-                raceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorage.registerRaceEntityList,
             ).toHaveBeenCalledWith(RaceType.NAR, baseNarRaceEntityList);
             expect(
-                raceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorage.registerRaceEntityList,
             ).toHaveBeenCalledWith(
                 RaceType.OVERSEAS,
                 baseOverseasRaceEntityList,
             );
             expect(
-                mechanicalRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList,
             ).toHaveBeenCalledWith(RaceType.KEIRIN, baseKeirinRaceEntityList);
             expect(
-                mechanicalRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList,
             ).toHaveBeenCalledWith(
                 RaceType.BOATRACE,
                 baseBoatraceRaceEntityList,
             );
             expect(
-                mechanicalRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList,
             ).toHaveBeenCalledWith(
                 RaceType.AUTORACE,
                 baseAutoraceRaceEntityList,
@@ -355,13 +308,13 @@ describe('PublicGamblingRaceDataService', () => {
             await service.updateRaceEntityList([]);
 
             expect(
-                raceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorage.registerRaceEntityList,
             ).not.toHaveBeenCalled();
             expect(
-                raceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorage.registerRaceEntityList,
             ).not.toHaveBeenCalled();
             expect(
-                mechanicalRacingRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList,
             ).not.toHaveBeenCalled();
         });
     });

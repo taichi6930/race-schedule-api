@@ -30,8 +30,6 @@ export interface ICalendarService {
      * 空の配列が渡された場合は早期リターンし、不要な
      * API呼び出しを防止します。
      * @param raceEntityList - 登録・更新するレースエンティティの配列
-     * @param raceEntityList.jra
-     * @param raceEntityList.nar
      * @throws カレンダーAPIとの通信エラーなど
      * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
      */
