@@ -55,10 +55,6 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         const result: PlaceEntity[] = [];
 
         try {
-            if (raceTypeList.length === 0 && type !== DataLocation.Storage) {
-                console.warn('raceTypeListが空の場合、空を返します');
-                return result;
-            }
             for (const { raceType, repository } of [
                 {
                     raceType: RaceType.JRA,
