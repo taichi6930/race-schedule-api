@@ -12,7 +12,6 @@ import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntit
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
-import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import {
     ALL_RACE_TYPE_LIST,
@@ -106,7 +105,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
                 PlaceEntity.createWithoutId(
                     PlaceData.create(raceType, date, location),
                     defaultHeldDayData[raceType],
-                    createGrade(raceType), // grade は未指定
+                    defaultGrade[raceType],
                     getJSTDate(new Date()),
                 ),
             );
@@ -129,21 +128,13 @@ describe('PlaceRepositoryFromStorageImpl', () => {
         [RaceType.AUTORACE]: '川口',
         [RaceType.BOATRACE]: '浜名湖',
     };
-});
 
-const createGrade = (raceType: RaceType): GradeType | undefined => {
-    switch (raceType) {
-        case RaceType.JRA:
-        case RaceType.NAR:
-        case RaceType.OVERSEAS: {
-            return undefined;
-        }
-        case RaceType.KEIRIN: {
-            return 'GP';
-        }
-        case RaceType.AUTORACE:
-        case RaceType.BOATRACE: {
-            return 'SG';
-        }
-    }
-};
+    const defaultGrade = {
+        [RaceType.JRA]: undefined,
+        [RaceType.NAR]: undefined,
+        [RaceType.OVERSEAS]: undefined,
+        [RaceType.KEIRIN]: 'GP',
+        [RaceType.AUTORACE]: 'SG',
+        [RaceType.BOATRACE]: 'SG',
+    };
+});

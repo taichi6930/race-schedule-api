@@ -63,8 +63,8 @@ describe('PublicGamblingRaceDataService', () => {
         [RaceType.NAR]: baseNarRaceEntityList,
         [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
         [RaceType.KEIRIN]: baseKeirinRaceEntityList,
-        [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
         [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
+        [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
     };
 
     beforeEach(() => {
@@ -94,8 +94,8 @@ describe('PublicGamblingRaceDataService', () => {
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.KEIRIN:
-                        case RaceType.BOATRACE:
-                        case RaceType.AUTORACE: {
+                        case RaceType.AUTORACE:
+                        case RaceType.BOATRACE: {
                             throw new Error('race type is not supported');
                         }
                         case RaceType.JRA:
@@ -115,8 +115,8 @@ describe('PublicGamblingRaceDataService', () => {
                             throw new Error('race type is not supported');
                         }
                         case RaceType.KEIRIN:
-                        case RaceType.BOATRACE:
-                        case RaceType.AUTORACE: {
+                        case RaceType.AUTORACE:
+                        case RaceType.BOATRACE: {
                             return baseRaceEntityListMap[searchFilter.raceType];
                         }
                     }
@@ -138,22 +138,22 @@ describe('PublicGamblingRaceDataService', () => {
         it('正常にレース開催データが取得できること（web）', async () => {
             // モックの戻り値を設定
             jraRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseJraRaceEntityList,
+                baseRaceEntityListMap[RaceType.JRA],
             );
             narRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseNarRaceEntityList,
+                baseRaceEntityListMap[RaceType.NAR],
             );
             overseasRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseOverseasRaceEntityList,
+                baseRaceEntityListMap[RaceType.OVERSEAS],
             );
             keirinRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseKeirinRaceEntityList,
+                baseRaceEntityListMap[RaceType.KEIRIN],
             );
             boatraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseBoatraceRaceEntityList,
+                baseRaceEntityListMap[RaceType.BOATRACE],
             );
             autoraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseAutoraceRaceEntityList,
+                baseRaceEntityListMap[RaceType.AUTORACE],
             );
 
             const startDate = new Date('2024-06-01');
@@ -275,41 +275,36 @@ describe('PublicGamblingRaceDataService', () => {
 
             await service.updateRaceEntityList(mockRaceEntityList);
 
-            expect(
-                raceRepositoryFromStorage.registerRaceEntityList,
-            ).toHaveBeenCalledWith(RaceType.JRA, baseJraRaceEntityList);
-            expect(
-                raceRepositoryFromStorage.registerRaceEntityList,
-            ).toHaveBeenCalledWith(RaceType.NAR, baseNarRaceEntityList);
-            expect(
-                raceRepositoryFromStorage.registerRaceEntityList,
-            ).toHaveBeenCalledWith(
+            for (const raceType of [
+                RaceType.JRA,
+                RaceType.NAR,
                 RaceType.OVERSEAS,
-                baseOverseasRaceEntityList,
-            );
-            expect(
-                mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList,
-            ).toHaveBeenCalledWith(RaceType.KEIRIN, baseKeirinRaceEntityList);
-            expect(
-                mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList,
-            ).toHaveBeenCalledWith(
+            ]) {
+                expect(
+                    raceRepositoryFromStorage.registerRaceEntityList,
+                ).toHaveBeenCalledWith(
+                    raceType,
+                    baseRaceEntityListMap[raceType],
+                );
+            }
+
+            for (const raceType of [
+                RaceType.KEIRIN,
                 RaceType.BOATRACE,
-                baseBoatraceRaceEntityList,
-            );
-            expect(
-                mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList,
-            ).toHaveBeenCalledWith(
                 RaceType.AUTORACE,
-                baseAutoraceRaceEntityList,
-            );
+            ]) {
+                expect(
+                    mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList,
+                ).toHaveBeenCalledWith(
+                    raceType,
+                    baseRaceEntityListMap[raceType],
+                );
+            }
         });
 
         it('レース開催データが0件の場合、更新処理が実行されないこと', async () => {
             await service.updateRaceEntityList([]);
 
-            expect(
-                raceRepositoryFromStorage.registerRaceEntityList,
-            ).not.toHaveBeenCalled();
             expect(
                 raceRepositoryFromStorage.registerRaceEntityList,
             ).not.toHaveBeenCalled();
