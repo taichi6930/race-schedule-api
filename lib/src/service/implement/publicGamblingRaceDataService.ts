@@ -151,19 +151,20 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         successDataCount: number;
         failureDataCount: number;
     }> {
+        const raceRepositoryFromStorage = {
+            [RaceType.JRA]: this.horseRacingRaceRepositoryFromStorage,
+            [RaceType.NAR]: this.horseRacingRaceRepositoryFromStorage,
+            [RaceType.OVERSEAS]: this.horseRacingRaceRepositoryFromStorage,
+            [RaceType.KEIRIN]: this.mechanicalRacingRaceRepositoryFromStorage,
+            [RaceType.AUTORACE]: this.mechanicalRacingRaceRepositoryFromStorage,
+            [RaceType.BOATRACE]: this.mechanicalRacingRaceRepositoryFromStorage,
+        };
+
         try {
             const response = await Promise.all(
                 ALL_RACE_TYPE_LIST.map(async (raceType) =>
                     this.saveRaceEntityList(
-                        (
-                            [
-                                RaceType.JRA,
-                                RaceType.NAR,
-                                RaceType.OVERSEAS,
-                            ] as RaceType[]
-                        ).includes(raceType)
-                            ? this.horseRacingRaceRepositoryFromStorage
-                            : this.mechanicalRacingRaceRepositoryFromStorage,
+                        raceRepositoryFromStorage[raceType],
                         raceType,
                         raceEntityList.filter(
                             (race) => race.raceData.raceType === raceType,
