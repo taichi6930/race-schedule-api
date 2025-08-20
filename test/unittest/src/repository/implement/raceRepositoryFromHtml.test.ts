@@ -108,7 +108,7 @@ const testCases = [
         expectedLength: 12,
     },
     {
-        name: 'BoatraceRaceRepositoryFromHtmlImpl',
+        name: 'BoatraceRaceRepositoryFromHtml',
         repositoryClass: BoatraceRaceRepositoryFromHtml,
         raceType: RaceType.BOATRACE,
         startDate: new Date('2024-11-01'),

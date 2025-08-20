@@ -7,10 +7,10 @@ sequenceDiagram
     participant JraRaceDataUseCase
     participant JraPlaceDataService
     participant JraRaceDataService
-    participant JraRaceRepositoryFromHtmlImpl
+    participant JraRaceRepositoryFromHtml
     participant IJraRaceDataHtmlGateway
     participant Web
-    participant JraRaceRepositoryFromStorageImpl
+    participant JraRaceRepositoryFromStorage
     participant S3Gateway
 
     Client->>JraRaceController: POST /race (startDate, finishDate, raceList)
@@ -22,28 +22,28 @@ sequenceDiagram
         JraRaceDataUseCase->>JraPlaceDataService: fetchPlaceEntityList(startDate, finishDate, Storage)
         JraPlaceDataService-->>JraRaceDataUseCase: placeEntityList
         JraRaceDataUseCase->>JraRaceDataService: fetchRaceEntityList(startDate, finishDate, Web, placeEntityList)
-        JraRaceDataService->>JraRaceRepositoryFromHtmlImpl: fetchRaceEntityList(searchFilter)
-        JraRaceRepositoryFromHtmlImpl->>IJraRaceDataHtmlGateway: getRaceDataHtml(日付ごと)
+        JraRaceDataService->>JraRaceRepositoryFromHtml: fetchRaceEntityList(searchFilter)
+        JraRaceRepositoryFromHtml->>IJraRaceDataHtmlGateway: getRaceDataHtml(日付ごと)
         IJraRaceDataHtmlGateway->>Web: HTML取得リクエスト
         Web-->>IJraRaceDataHtmlGateway: HTMLレスポンス
-        IJraRaceDataHtmlGateway-->>JraRaceRepositoryFromHtmlImpl: HTMLデータ
-        JraRaceRepositoryFromHtmlImpl-->>JraRaceDataService: raceEntityList
+        IJraRaceDataHtmlGateway-->>JraRaceRepositoryFromHtml: HTMLデータ
+        JraRaceRepositoryFromHtml-->>JraRaceDataService: raceEntityList
         JraRaceDataService-->>JraRaceDataUseCase: raceEntityList
         JraRaceDataUseCase->>JraRaceDataService: updateRaceEntityList(raceEntityList)
-        JraRaceDataService->>JraRaceRepositoryFromStorageImpl: registerRaceEntityList(raceEntityList)
-        JraRaceRepositoryFromStorageImpl->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
-        S3Gateway-->>JraRaceRepositoryFromStorageImpl: 完了
-        JraRaceRepositoryFromStorageImpl-->>JraRaceDataService: 完了
+        JraRaceDataService->>JraRaceRepositoryFromStorage: registerRaceEntityList(raceEntityList)
+        JraRaceRepositoryFromStorage->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
+        S3Gateway-->>JraRaceRepositoryFromStorage: 完了
+        JraRaceRepositoryFromStorage-->>JraRaceDataService: 完了
         JraRaceDataService-->>JraRaceDataUseCase: 完了
         JraRaceDataUseCase-->>JraRaceController: 完了
         JraRaceController-->>Client: 200 OK
     else raceList指定
         JraRaceController->>JraRaceDataUseCase: upsertRaceDataList(jraRaceDataList)
         JraRaceDataUseCase->>JraRaceDataService: updateRaceEntityList(raceEntityList)
-        JraRaceDataService->>JraRaceRepositoryFromStorageImpl: registerRaceEntityList(raceEntityList)
-        JraRaceRepositoryFromStorageImpl->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
-        S3Gateway-->>JraRaceRepositoryFromStorageImpl: 完了
-        JraRaceRepositoryFromStorageImpl-->>JraRaceDataService: 完了
+        JraRaceDataService->>JraRaceRepositoryFromStorage: registerRaceEntityList(raceEntityList)
+        JraRaceRepositoryFromStorage->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
+        S3Gateway-->>JraRaceRepositoryFromStorage: 完了
+        JraRaceRepositoryFromStorage-->>JraRaceDataService: 完了
         JraRaceDataService-->>JraRaceDataUseCase: 完了
         JraRaceDataUseCase-->>JraRaceController: 完了
         JraRaceController-->>Client: 200 OK

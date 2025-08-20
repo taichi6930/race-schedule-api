@@ -6,7 +6,7 @@ sequenceDiagram
     participant JraRaceController
     participant JraPlaceDataUseCase
     participant JraPlaceDataService
-    participant JraPlaceRepositoryFromStorageImpl
+    participant JraPlaceRepositoryFromStorage
     participant S3Gateway
 
     Client->>JraRaceController: GET /place?startDate&finishDate
@@ -16,10 +16,10 @@ sequenceDiagram
     else 日付が正
         JraRaceController->>JraPlaceDataUseCase: fetchPlaceDataList(startDate, finishDate)
         JraPlaceDataUseCase->>JraPlaceDataService: fetchPlaceDataList(startDate, finishDate, Storage)
-        JraPlaceDataService->>JraPlaceRepositoryFromStorageImpl: fetchPlaceEntityList(searchFilter)
-        JraPlaceRepositoryFromStorageImpl->>S3Gateway: fetchDataFromS3(fileName)
-        S3Gateway-->>JraPlaceRepositoryFromStorageImpl: placeRecordList
-        JraPlaceRepositoryFromStorageImpl-->>JraPlaceDataService: placeEntityList
+        JraPlaceDataService->>JraPlaceRepositoryFromStorage: fetchPlaceEntityList(searchFilter)
+        JraPlaceRepositoryFromStorage->>S3Gateway: fetchDataFromS3(fileName)
+        S3Gateway-->>JraPlaceRepositoryFromStorage: placeRecordList
+        JraPlaceRepositoryFromStorage-->>JraPlaceDataService: placeEntityList
         JraPlaceDataService-->>JraPlaceDataUseCase: placeEntityList
         JraPlaceDataUseCase-->>JraRaceController: 競馬場情報リスト
         JraRaceController-->>Client: 競馬場情報をJSONで返却
