@@ -9,7 +9,7 @@ import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/moc
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import { AutoraceRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
+import { AutoraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl';
 import { JraRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl';
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
@@ -96,8 +96,8 @@ const testCases = [
         expectedLength: 12,
     },
     {
-        name: 'AutoraceRaceRepositoryFromHtmlImpl',
-        repositoryClass: AutoraceRaceRepositoryFromHtmlImpl,
+        name: 'AutoraceRaceRepositoryFromHtml',
+        repositoryClass: AutoraceRaceRepositoryFromHtml,
         raceType: RaceType.AUTORACE,
         startDate: new Date('2024-11-01'),
         endDate: new Date('2024-11-30'),

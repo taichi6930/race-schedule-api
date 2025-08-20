@@ -20,7 +20,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  * オートレース場開催データリポジトリの実装
  */
 @injectable()
-export class AutoraceRaceRepositoryFromHtmlImpl
+export class AutoraceRaceRepositoryFromHtml
     implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     public constructor(

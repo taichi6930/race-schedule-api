@@ -6,7 +6,7 @@ import type { IPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/inter
 import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { AutoracePlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
+import { AutoracePlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtml';
 import { BoatracePlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
 import { JraPlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { KeirinPlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
@@ -44,8 +44,8 @@ const testCases = [
         expectedLength: 233,
     },
     {
-        name: 'AutoracePlaceRepositoryFromHtmlImpl',
-        repositoryClass: AutoracePlaceRepositoryFromHtmlImpl,
+        name: 'AutoracePlaceRepositoryFromHtml',
+        repositoryClass: AutoracePlaceRepositoryFromHtml,
         raceType: RaceType.AUTORACE,
         startDate: new Date('2024-11-01'),
         endDate: new Date('2024-11-30'),

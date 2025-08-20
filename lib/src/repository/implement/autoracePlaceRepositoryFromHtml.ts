@@ -18,7 +18,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  * オートレースデータリポジトリの実装
  */
 @injectable()
-export class AutoracePlaceRepositoryFromHtmlImpl
+export class AutoracePlaceRepositoryFromHtml
     implements IPlaceRepository<PlaceEntity>
 {
     public constructor(

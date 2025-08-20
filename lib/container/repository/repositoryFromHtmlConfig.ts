@@ -2,8 +2,8 @@ import { container } from 'tsyringe';
 
 import type { PlaceEntity } from '../../src/repository/entity/placeEntity';
 import type { RaceEntity } from '../../src/repository/entity/raceEntity';
-import { AutoracePlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
-import { AutoraceRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
+import { AutoracePlaceRepositoryFromHtml } from '../../src/repository/implement/autoracePlaceRepositoryFromHtml';
+import { AutoraceRaceRepositoryFromHtml } from '../../src/repository/implement/autoraceRaceRepositoryFromHtml';
 import { BoatracePlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
 import { BoatraceRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/boatraceRaceRepositoryFromHtmlImpl';
 import { JraPlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
@@ -60,12 +60,12 @@ switch (ENV) {
         container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
             'AutoraceRaceRepositoryFromHtml',
             {
-                useClass: AutoraceRaceRepositoryFromHtmlImpl,
+                useClass: AutoraceRaceRepositoryFromHtml,
             },
         );
         container.register<IPlaceRepository<PlaceEntity>>(
             'AutoracePlaceRepositoryFromHtml',
-            { useClass: AutoracePlaceRepositoryFromHtmlImpl },
+            { useClass: AutoracePlaceRepositoryFromHtml },
         );
         container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
             'OverseasRaceRepositoryFromHtml',
@@ -76,7 +76,7 @@ switch (ENV) {
         container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
             'AutoraceRaceRepositoryFromHtml',
             {
-                useClass: AutoraceRaceRepositoryFromHtmlImpl,
+                useClass: AutoraceRaceRepositoryFromHtml,
             },
         );
         container.register<IPlaceRepository<PlaceEntity>>(
