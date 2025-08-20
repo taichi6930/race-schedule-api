@@ -127,7 +127,7 @@ export class JraPlaceRepositoryFromHtmlImpl
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
         // 競馬場開催レコードはここに追加
-        const jraRecordList: {
+        const recordList: {
             horseRacingPlaceRecord: PlaceRecord;
             jraHeldDayRecord: HeldDayRecord;
         }[] = [];
@@ -195,7 +195,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                         const heldDayTimes: number =
                             placeHeldDayTimesCountMap[place][heldTimes];
 
-                        const jraPlaceRecord = PlaceRecord.create(
+                        const placeRecord = PlaceRecord.create(
                             generatePlaceId(
                                 raceType,
                                 new Date(date.getFullYear(), month - 1, day),
@@ -217,14 +217,14 @@ export class JraPlaceRepositoryFromHtmlImpl
                             heldDayTimes,
                             getJSTDate(new Date()),
                         );
-                        jraRecordList.push({
-                            horseRacingPlaceRecord: jraPlaceRecord,
+                        recordList.push({
+                            horseRacingPlaceRecord: placeRecord,
                             jraHeldDayRecord: jraHeldDayRecord,
                         });
                     });
             }
         }
-        return jraRecordList;
+        return recordList;
     }
 
     /**
@@ -243,7 +243,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         successData: PlaceEntity[];
         failureData: PlaceEntity[];
     }> {
-        console.debug(placeEntityList);
+        console.debug(raceType, placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         return {
             code: 500,

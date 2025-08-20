@@ -36,23 +36,21 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<RaceEntity[]> {
-        const autoraceRaceDataList: RaceEntity[] = [];
+        const raceDataList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
         for (const placeEntity of placeEntityList) {
-            autoraceRaceDataList.push(
-                ...(await this.fetchRaceListFromHtmlWithAutoracePlace(
-                    placeEntity,
-                )),
+            raceDataList.push(
+                ...(await this.fetchRaceListFromHtml(placeEntity)),
             );
             console.debug('0.8秒待ちます');
             await new Promise((resolve) => setTimeout(resolve, 800));
             console.debug('0.8秒経ちました');
         }
-        return autoraceRaceDataList;
+        return raceDataList;
     }
 
     @Logger
-    public async fetchRaceListFromHtmlWithAutoracePlace(
+    public async fetchRaceListFromHtml(
         placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
         try {
@@ -66,7 +64,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
-            const autoraceRaceDataList: RaceEntity[] = [];
+            const raceDataList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
@@ -113,7 +111,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
 
                         const raceGrade = placeEntity.grade;
                         if (raceStage !== null && raceStage.trim() !== '') {
-                            autoraceRaceDataList.push(
+                            raceDataList.push(
                                 RaceEntity.createWithoutId(
                                     RaceData.create(
                                         placeEntity.placeData.raceType,
@@ -133,7 +131,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                         }
                     });
             });
-            return autoraceRaceDataList;
+            return raceDataList;
         } catch (error) {
             console.error('HTMLの取得に失敗しました', error);
             return [];

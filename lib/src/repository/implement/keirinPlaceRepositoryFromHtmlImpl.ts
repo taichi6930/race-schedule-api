@@ -90,7 +90,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         raceType: RaceType,
         date: Date,
     ): Promise<PlaceEntity[]> {
-        const keirinPlaceEntityList: PlaceEntity[] = [];
+        const placeEntityList: PlaceEntity[] = [];
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -112,7 +112,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                     // thを取得
                     const th = $(trElement).find('th');
 
-                    // thのテキストが KeirinRaceCourseに含まれているか
+                    // thのテキストが RaceCourseに含まれているか
                     if (!th.text()) {
                         return;
                     }
@@ -141,7 +141,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         );
                         // alt属性を出力
                         if (grade) {
-                            keirinPlaceEntityList.push(
+                            placeEntityList.push(
                                 PlaceEntity.createWithoutId(
                                     PlaceData.create(raceType, datetime, place),
                                     undefined,
@@ -156,7 +156,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                 }
             });
         });
-        return keirinPlaceEntityList;
+        return placeEntityList;
     }
 
     /**
@@ -175,7 +175,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         successData: PlaceEntity[];
         failureData: PlaceEntity[];
     }> {
-        console.debug(placeEntityList);
+        console.debug(raceType, placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         return {
             code: 500,

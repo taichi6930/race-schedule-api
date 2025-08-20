@@ -38,18 +38,18 @@ export class NarRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<RaceEntity[]> {
-        const narRaceEntityList: RaceEntity[] = [];
+        const raceEntityList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
         for (const placeEntity of placeEntityList) {
-            narRaceEntityList.push(
-                ...(await this.fetchRaceListFromHtmlWithNarPlace(placeEntity)),
+            raceEntityList.push(
+                ...(await this.fetchRaceListFromHtml(placeEntity)),
             );
         }
-        return narRaceEntityList;
+        return raceEntityList;
     }
 
     @Logger
-    public async fetchRaceListFromHtmlWithNarPlace(
+    public async fetchRaceListFromHtml(
         placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
         try {

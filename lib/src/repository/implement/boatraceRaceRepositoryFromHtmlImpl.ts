@@ -37,10 +37,9 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<RaceEntity[]> {
-        const boatraceRaceDataList: RaceEntity[] = [];
-        const { placeEntityList } = searchFilter;
-        for (const placeEntity of placeEntityList) {
-            boatraceRaceDataList.push(
+        const raceEntityList: RaceEntity[] = [];
+        for (const placeEntity of searchFilter.placeEntityList) {
+            raceEntityList.push(
                 ...(await this.fetchRaceListFromHtmlWithBoatracePlace(
                     placeEntity.placeData,
                     placeEntity.grade,
@@ -50,7 +49,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             await new Promise((resolve) => setTimeout(resolve, 800));
             console.debug('0.8秒経ちました');
         }
-        return boatraceRaceDataList;
+        return raceEntityList;
     }
 
     @Logger

@@ -37,10 +37,10 @@ export class KeirinRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<RaceEntity[]> {
-        const keirinRaceDataList: RaceEntity[] = [];
+        const raceDataList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
         for (const placeEntity of placeEntityList) {
-            keirinRaceDataList.push(
+            raceDataList.push(
                 ...(await this.fetchRaceListFromHtmlWithKeirinPlace(
                     placeEntity.placeData,
                     placeEntity.grade,
@@ -50,7 +50,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
             await new Promise((resolve) => setTimeout(resolve, 800));
             console.debug('0.8秒経ちました');
         }
-        return keirinRaceDataList;
+        return raceDataList;
     }
 
     @Logger
@@ -69,7 +69,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 placeData.dateTime,
                 placeData.location,
             );
-            const keirinRaceEntityList: RaceEntity[] = [];
+            const raceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
@@ -148,7 +148,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                     );
                                 }
                             });
-                        const keirinRaceData =
+                        const raceData =
                             raceStage === null
                                 ? null
                                 : RaceData.create(
@@ -166,13 +166,13 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                       Number(raceNumber),
                                   );
                         if (
-                            keirinRaceData != null &&
+                            raceData != null &&
                             racePlayerDataList.length > 0 &&
                             raceStage != null
                         ) {
-                            keirinRaceEntityList.push(
+                            raceEntityList.push(
                                 RaceEntity.createWithoutId(
-                                    keirinRaceData,
+                                    raceData,
                                     undefined, // heldDayDataは未設定
                                     undefined, // conditionDataは未設定
                                     raceStage,
@@ -183,7 +183,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         }
                     });
             });
-            return keirinRaceEntityList;
+            return raceEntityList;
         } catch (error) {
             console.error('HTMLの取得に失敗しました', error);
             return [];

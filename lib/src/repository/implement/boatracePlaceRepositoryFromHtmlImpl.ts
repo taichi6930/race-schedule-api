@@ -103,7 +103,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         raceType: RaceType,
         date: Date,
     ): Promise<PlaceEntity[]> {
-        const boatracePlaceEntityList: PlaceEntity[] = [];
+        const placeEntityList: PlaceEntity[] = [];
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -155,16 +155,16 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 currentDate <= finishDate;
                 currentDate.setDate(currentDate.getDate() + 1)
             ) {
-                const boatracePlaceEntity = PlaceEntity.createWithoutId(
+                const placeEntity = PlaceEntity.createWithoutId(
                     PlaceData.create(raceType, new Date(currentDate), place),
                     undefined,
                     grade,
                     getJSTDate(new Date()),
                 );
-                boatracePlaceEntityList.push(boatracePlaceEntity);
+                placeEntityList.push(placeEntity);
             }
         });
-        return boatracePlaceEntityList;
+        return placeEntityList;
     }
 
     /**
@@ -183,7 +183,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         successData: PlaceEntity[];
         failureData: PlaceEntity[];
     }> {
-        console.debug(placeEntityList);
+        console.debug(raceType, placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         return {
             code: 500,

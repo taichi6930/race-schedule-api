@@ -311,7 +311,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
         };
 
         // データ行を解析してKeirinRaceDataのリストを生成
-        const keirinRacePlayerRecordList: RacePlayerRecord[] = lines
+        const racePlayerRecordList: RacePlayerRecord[] = lines
             .slice(1)
             .flatMap((line: string): RacePlayerRecord[] => {
                 try {
@@ -336,6 +336,6 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
                     return [];
                 }
             });
-        return keirinRacePlayerRecordList;
+        return racePlayerRecordList;
     }
 }
