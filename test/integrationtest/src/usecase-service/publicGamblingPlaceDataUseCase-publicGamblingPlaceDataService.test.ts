@@ -12,10 +12,7 @@ import {
     ALL_RACE_TYPE_LIST,
     RaceType,
 } from '../../../../lib/src/utility/raceType';
-import {
-    basePlaceEntity,
-    basePlaceEntityMap,
-} from '../../../unittest/src/mock/common/baseCommonData';
+import { basePlaceEntity } from '../../../unittest/src/mock/common/baseCommonData';
 import type { TestSetup } from '../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../utility/testSetupHelper';
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
@@ -81,7 +78,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                         case RaceType.KEIRIN:
                         case RaceType.AUTORACE:
                         case RaceType.BOATRACE: {
-                            return [basePlaceEntityMap[searchFilter.raceType]];
+                            return [basePlaceEntity(searchFilter.raceType)];
                         }
                     }
                 },
@@ -124,7 +121,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                         case RaceType.KEIRIN:
                         case RaceType.AUTORACE:
                         case RaceType.BOATRACE: {
-                            return [basePlaceEntityMap[searchFilter.raceType]];
+                            return [basePlaceEntity(searchFilter.raceType)];
                         }
                     }
                 },

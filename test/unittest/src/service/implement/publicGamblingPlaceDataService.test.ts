@@ -11,10 +11,7 @@ import { DataLocation } from '../../../../../lib/src/utility/dataType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
-import {
-    basePlaceEntity,
-    basePlaceEntityMap,
-} from '../../mock/common/baseCommonData';
+import { basePlaceEntity } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingPlaceDataService', () => {
     let jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository<PlaceEntity>>;
@@ -71,7 +68,7 @@ describe('PublicGamblingPlaceDataService', () => {
                         case RaceType.KEIRIN:
                         case RaceType.AUTORACE:
                         case RaceType.BOATRACE: {
-                            return [basePlaceEntityMap[searchFilter.raceType]];
+                            return [basePlaceEntity(searchFilter.raceType)];
                         }
                     }
                 },
@@ -177,7 +174,7 @@ describe('PublicGamblingPlaceDataService', () => {
                         case RaceType.KEIRIN:
                         case RaceType.AUTORACE:
                         case RaceType.BOATRACE: {
-                            return [basePlaceEntityMap[searchFilter.raceType]];
+                            return [basePlaceEntity(searchFilter.raceType)];
                         }
                     }
                 },

@@ -501,21 +501,3 @@ export const defaultStageList = {
         '優勝戦',
     ],
 };
-
-export const baseRaceEntityListMap = {
-    [RaceType.JRA]: baseHorseRacingRaceEntityList(RaceType.JRA),
-    [RaceType.NAR]: baseHorseRacingRaceEntityList(RaceType.NAR),
-    [RaceType.OVERSEAS]: baseHorseRacingRaceEntityList(RaceType.OVERSEAS),
-    [RaceType.KEIRIN]: baseMechanicalRacingRaceEntityList(RaceType.KEIRIN),
-    [RaceType.AUTORACE]: baseMechanicalRacingRaceEntityList(RaceType.AUTORACE),
-    [RaceType.BOATRACE]: baseMechanicalRacingRaceEntityList(RaceType.BOATRACE),
-};
-
-export const basePlaceEntityMap = {
-    [RaceType.JRA]: basePlaceEntity(RaceType.JRA),
-    [RaceType.NAR]: basePlaceEntity(RaceType.NAR),
-    [RaceType.OVERSEAS]: undefined, // 海外競馬は未対応
-    [RaceType.KEIRIN]: basePlaceEntity(RaceType.KEIRIN),
-    [RaceType.AUTORACE]: basePlaceEntity(RaceType.AUTORACE),
-    [RaceType.BOATRACE]: basePlaceEntity(RaceType.BOATRACE),
-};

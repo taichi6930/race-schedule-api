@@ -18,7 +18,6 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     baseHorseRacingRaceEntityList,
     baseMechanicalRacingRaceEntityList,
-    baseRaceEntityListMap,
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataService', () => {
@@ -57,6 +56,19 @@ describe('PublicGamblingRaceDataService', () => {
         ...baseMechanicalRacingRaceEntityList(RaceType.BOATRACE),
     ];
 
+    const baseRaceEntityListMap = {
+        [RaceType.JRA]: baseHorseRacingRaceEntityList(RaceType.JRA),
+        [RaceType.NAR]: baseHorseRacingRaceEntityList(RaceType.NAR),
+        [RaceType.OVERSEAS]: baseHorseRacingRaceEntityList(RaceType.OVERSEAS),
+        [RaceType.KEIRIN]: baseMechanicalRacingRaceEntityList(RaceType.KEIRIN),
+        [RaceType.AUTORACE]: baseMechanicalRacingRaceEntityList(
+            RaceType.AUTORACE,
+        ),
+        [RaceType.BOATRACE]: baseMechanicalRacingRaceEntityList(
+            RaceType.BOATRACE,
+        ),
+    };
+
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({
@@ -91,7 +103,9 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.JRA:
                         case RaceType.NAR:
                         case RaceType.OVERSEAS: {
-                            return baseRaceEntityListMap[searchFilter.raceType];
+                            return baseHorseRacingRaceEntityList(
+                                searchFilter.raceType,
+                            );
                         }
                     }
                 },
@@ -105,9 +119,11 @@ describe('PublicGamblingRaceDataService', () => {
                             throw new Error('race type is not supported');
                         }
                         case RaceType.KEIRIN:
-                        case RaceType.AUTORACE:
-                        case RaceType.BOATRACE: {
-                            return baseRaceEntityListMap[searchFilter.raceType];
+                        case RaceType.BOATRACE:
+                        case RaceType.AUTORACE: {
+                            return baseMechanicalRacingRaceEntityList(
+                                searchFilter.raceType,
+                            );
                         }
                     }
                 },
@@ -128,22 +144,22 @@ describe('PublicGamblingRaceDataService', () => {
         it('正常にレース開催データが取得できること（web）', async () => {
             // モックの戻り値を設定
             jraRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseRaceEntityListMap[RaceType.JRA],
+                baseHorseRacingRaceEntityList(RaceType.JRA),
             );
             narRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseRaceEntityListMap[RaceType.NAR],
+                baseHorseRacingRaceEntityList(RaceType.NAR),
             );
             overseasRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseRaceEntityListMap[RaceType.OVERSEAS],
+                baseHorseRacingRaceEntityList(RaceType.OVERSEAS),
             );
             keirinRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseRaceEntityListMap[RaceType.KEIRIN],
+                baseMechanicalRacingRaceEntityList(RaceType.KEIRIN),
             );
             boatraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseRaceEntityListMap[RaceType.BOATRACE],
+                baseMechanicalRacingRaceEntityList(RaceType.BOATRACE),
             );
             autoraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseRaceEntityListMap[RaceType.AUTORACE],
+                baseMechanicalRacingRaceEntityList(RaceType.AUTORACE),
             );
 
             const startDate = new Date('2024-06-01');
@@ -197,7 +213,9 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.JRA:
                         case RaceType.NAR:
                         case RaceType.OVERSEAS: {
-                            return baseRaceEntityListMap[searchFilter.raceType];
+                            return baseHorseRacingRaceEntityList(
+                                searchFilter.raceType,
+                            );
                         }
                     }
                 },
@@ -213,7 +231,9 @@ describe('PublicGamblingRaceDataService', () => {
                         case RaceType.KEIRIN:
                         case RaceType.BOATRACE:
                         case RaceType.AUTORACE: {
-                            return baseRaceEntityListMap[searchFilter.raceType];
+                            return baseMechanicalRacingRaceEntityList(
+                                searchFilter.raceType,
+                            );
                         }
                     }
                 },
@@ -274,7 +294,7 @@ describe('PublicGamblingRaceDataService', () => {
                     raceRepositoryFromStorage.registerRaceEntityList,
                 ).toHaveBeenCalledWith(
                     raceType,
-                    baseRaceEntityListMap[raceType],
+                    baseHorseRacingRaceEntityList(raceType),
                 );
             }
 
@@ -287,7 +307,7 @@ describe('PublicGamblingRaceDataService', () => {
                     mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList,
                 ).toHaveBeenCalledWith(
                     raceType,
-                    baseRaceEntityListMap[raceType],
+                    baseMechanicalRacingRaceEntityList(raceType),
                 );
             }
         });
