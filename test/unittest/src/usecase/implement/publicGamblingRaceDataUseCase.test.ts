@@ -8,6 +8,7 @@ import { PublicGamblingRaceDataUseCase } from '../../../../../lib/src/usecase/im
 import type { IRaceDataUseCase } from '../../../../../lib/src/usecase/interface/IRaceDataUseCase';
 import {
     ALL_RACE_TYPE_LIST,
+    ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RaceType,
 } from '../../../../../lib/src/utility/raceType';
 import {
@@ -38,13 +39,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
         jest.restoreAllMocks();
     });
 
-    const mockPlaceEntityList = [
-        basePlaceEntity(RaceType.JRA),
-        basePlaceEntity(RaceType.NAR),
-        basePlaceEntity(RaceType.KEIRIN),
-        basePlaceEntity(RaceType.AUTORACE),
-        basePlaceEntity(RaceType.BOATRACE),
-    ];
+    const mockPlaceEntityList = ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
+        (raceType) => basePlaceEntity(raceType),
+    );
 
     const mockRaceEntityList = [
         ...baseHorseRacingRaceEntityList(RaceType.JRA),
@@ -622,13 +619,11 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 mockRaceEntityList,
             );
 
-            await useCase.updateRaceEntityList(startDate, finishDate, [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.KEIRIN,
-                RaceType.BOATRACE,
-                RaceType.AUTORACE,
-            ]);
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+            );
 
             expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
             //raceDataService.fetchRaceEntityListは呼ばれていないことを確認

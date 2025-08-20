@@ -5,24 +5,20 @@ import { container } from 'tsyringe';
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
 import { PublicGamblingPlaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingPlaceDataUseCase';
 import type { IPlaceDataUseCase } from '../../../../../lib/src/usecase/interface/IPlaceDataUseCase';
-import {
-    ALL_RACE_TYPE_LIST,
-    RaceType,
-} from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
 import { basePlaceEntity } from '../../mock/common/baseCommonData';
+import {
+    ALL_RACE_TYPE_LIST,
+    ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+} from './../../../../../lib/src/utility/raceType';
 describe('PublicGamblingPlaceUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService>;
     let useCase: IPlaceDataUseCase;
 
-    const mockPlaceEntityList = [
-        basePlaceEntity(RaceType.JRA),
-        basePlaceEntity(RaceType.NAR),
-        basePlaceEntity(RaceType.KEIRIN),
-        basePlaceEntity(RaceType.AUTORACE),
-        basePlaceEntity(RaceType.BOATRACE),
-    ];
+    const mockPlaceEntityList = ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
+        (raceType) => basePlaceEntity(raceType),
+    );
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -47,13 +43,7 @@ describe('PublicGamblingPlaceUseCase', () => {
             const result = await useCase.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.KEIRIN,
-                    RaceType.AUTORACE,
-                    RaceType.BOATRACE,
-                ],
+                ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
             );
 
             expect(result).toEqual(mockPlaceEntityList);

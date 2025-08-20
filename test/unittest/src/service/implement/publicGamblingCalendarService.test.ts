@@ -22,16 +22,9 @@ describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
     let calendarRepository: jest.Mocked<ICalendarRepository>;
 
-    const mockCalendarDataListMap = {
-        [RaceType.JRA]: baseCalendarData(RaceType.JRA),
-        [RaceType.NAR]: baseCalendarData(RaceType.NAR),
-        [RaceType.OVERSEAS]: baseCalendarData(RaceType.OVERSEAS),
-        [RaceType.KEIRIN]: baseCalendarData(RaceType.KEIRIN),
-        [RaceType.AUTORACE]: baseCalendarData(RaceType.AUTORACE),
-        [RaceType.BOATRACE]: baseCalendarData(RaceType.BOATRACE),
-    };
-
-    const mockCalendarDataList = Object.values(mockCalendarDataListMap).flat();
+    const mockCalendarDataList = ALL_RACE_TYPE_LIST.map((raceType) =>
+        baseCalendarData(raceType),
+    );
 
     const mockRaceEntityListMap = {
         [RaceType.JRA]: baseHorseRacingRaceEntityList(RaceType.JRA),

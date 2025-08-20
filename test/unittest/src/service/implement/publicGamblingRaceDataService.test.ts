@@ -47,15 +47,6 @@ describe('PublicGamblingRaceDataService', () => {
     >;
     let service: IRaceDataService;
 
-    const mockRaceEntityList = [
-        ...baseHorseRacingRaceEntityList(RaceType.JRA),
-        ...baseHorseRacingRaceEntityList(RaceType.NAR),
-        ...baseHorseRacingRaceEntityList(RaceType.OVERSEAS),
-        ...baseMechanicalRacingRaceEntityList(RaceType.KEIRIN),
-        ...baseMechanicalRacingRaceEntityList(RaceType.AUTORACE),
-        ...baseMechanicalRacingRaceEntityList(RaceType.BOATRACE),
-    ];
-
     const baseRaceEntityListMap = {
         [RaceType.JRA]: baseHorseRacingRaceEntityList(RaceType.JRA),
         [RaceType.NAR]: baseHorseRacingRaceEntityList(RaceType.NAR),
@@ -68,6 +59,8 @@ describe('PublicGamblingRaceDataService', () => {
             RaceType.BOATRACE,
         ),
     };
+
+    const mockRaceEntityList = Object.values(baseRaceEntityListMap).flat();
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -249,7 +242,8 @@ describe('PublicGamblingRaceDataService', () => {
                             return {
                                 code: 200,
                                 message: 'OK',
-                                successData: baseRaceEntityListMap[raceType],
+                                successData:
+                                    baseHorseRacingRaceEntityList(raceType),
                                 failureData: [],
                             };
                         }
@@ -275,7 +269,10 @@ describe('PublicGamblingRaceDataService', () => {
                             return {
                                 code: 200,
                                 message: 'OK',
-                                successData: baseRaceEntityListMap[raceType],
+                                successData:
+                                    baseMechanicalRacingRaceEntityList(
+                                        raceType,
+                                    ),
                                 failureData: [],
                             };
                         }

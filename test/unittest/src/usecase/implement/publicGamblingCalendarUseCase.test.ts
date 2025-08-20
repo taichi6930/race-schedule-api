@@ -36,14 +36,9 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         clearMocks();
     });
 
-    const baseCalendarDataList = [
-        baseCalendarData(RaceType.JRA),
-        baseCalendarData(RaceType.NAR),
-        baseCalendarData(RaceType.OVERSEAS),
-        baseCalendarData(RaceType.KEIRIN),
-        baseCalendarData(RaceType.BOATRACE),
-        baseCalendarData(RaceType.AUTORACE),
-    ];
+    const baseCalendarDataList = ALL_RACE_TYPE_LIST.map((raceType) =>
+        baseCalendarData(raceType),
+    );
 
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {

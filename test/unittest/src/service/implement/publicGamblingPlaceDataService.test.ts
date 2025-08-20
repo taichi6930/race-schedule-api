@@ -8,7 +8,10 @@ import type { IPlaceRepository } from '../../../../../lib/src/repository/interfa
 import { PublicGamblingPlaceDataService } from '../../../../../lib/src/service/implement/publicGamblingPlaceDataService';
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import { basePlaceEntity } from '../../mock/common/baseCommonData';
@@ -28,13 +31,9 @@ describe('PublicGamblingPlaceDataService', () => {
     >;
     let service: IPlaceDataService;
 
-    const mockPlaceEntity = [
-        basePlaceEntity(RaceType.JRA),
-        basePlaceEntity(RaceType.NAR),
-        basePlaceEntity(RaceType.KEIRIN),
-        basePlaceEntity(RaceType.AUTORACE),
-        basePlaceEntity(RaceType.BOATRACE),
-    ];
+    const mockPlaceEntityList = ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
+        (raceType) => basePlaceEntity(raceType),
+    );
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -80,17 +79,11 @@ describe('PublicGamblingPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.KEIRIN,
-                    RaceType.AUTORACE,
-                    RaceType.BOATRACE,
-                ],
+                ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
                 DataLocation.Storage,
             );
 
-            expect(result).toEqual(mockPlaceEntity);
+            expect(result).toEqual(mockPlaceEntityList);
         });
 
         it('正常に開催場データが取得できること（web）', async () => {
@@ -117,17 +110,11 @@ describe('PublicGamblingPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.KEIRIN,
-                    RaceType.AUTORACE,
-                    RaceType.BOATRACE,
-                ],
+                ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
                 DataLocation.Web,
             );
 
-            expect(result).toEqual(mockPlaceEntity);
+            expect(result).toEqual(mockPlaceEntityList);
         });
 
         it('開催場データが取得できない場合、エラーが発生すること', async () => {
@@ -146,13 +133,7 @@ describe('PublicGamblingPlaceDataService', () => {
             await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                [
-                    RaceType.JRA,
-                    RaceType.NAR,
-                    RaceType.KEIRIN,
-                    RaceType.AUTORACE,
-                    RaceType.BOATRACE,
-                ],
+                ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
                 DataLocation.Storage,
             );
 
@@ -194,7 +175,7 @@ describe('PublicGamblingPlaceDataService', () => {
                 },
             );
 
-            await service.updatePlaceEntityList(mockPlaceEntity);
+            await service.updatePlaceEntityList(mockPlaceEntityList);
 
             expect(
                 placeRepositoryFromStorage.registerPlaceEntityList,
@@ -220,7 +201,7 @@ describe('PublicGamblingPlaceDataService', () => {
                 .mockImplementation();
 
             await expect(
-                service.updatePlaceEntityList(mockPlaceEntity),
+                service.updatePlaceEntityList(mockPlaceEntityList),
             ).rejects.toThrow('開催場データの登録に失敗しました');
 
             expect(consoleSpy).toHaveBeenCalled();

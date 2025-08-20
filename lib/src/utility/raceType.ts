@@ -19,6 +19,10 @@ export const ALL_RACE_TYPE_LIST: RaceType[] = [
     RaceType.BOATRACE,
 ];
 
+export const ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS = ALL_RACE_TYPE_LIST.filter(
+    (raceType) => raceType !== RaceType.OVERSEAS,
+);
+
 export type RaceType = (typeof RaceType)[keyof typeof RaceType];
 
 export function isRaceType(value: string): value is RaceType {
