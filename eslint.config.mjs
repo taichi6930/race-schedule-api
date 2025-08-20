@@ -305,9 +305,7 @@ export default [
         },
     },
     {
-        files: [
-            '**/repository/implement/**RepositoryFromHtml.ts',
-        ],
+        files: ['**/repository/implement/**RepositoryFromHtml.ts'],
         rules: {
             'unicorn/no-null': 'off', // ✅ nullの使用を許可
         },
