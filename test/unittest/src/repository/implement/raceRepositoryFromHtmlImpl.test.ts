@@ -19,6 +19,7 @@ import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
+import { OverseasRaceRepositoryFromHtmlImpl } from './../../../../../lib/src/repository/implement/overseasRaceRepositoryFromHtmlImpl';
 
 // テーブル駆動型テスト
 const testCases = [
@@ -57,6 +58,30 @@ const testCases = [
         grade: undefined,
         placeDate: new Date('2023-10-08'),
         expectedLength: 12,
+    },
+    {
+        name: 'OverseasRaceRepositoryFromHtmlImpl',
+        repositoryClass: OverseasRaceRepositoryFromHtmlImpl,
+        raceType: RaceType.OVERSEAS,
+        startDate: new Date('2025-05-01'),
+        endDate: new Date('2025-06-30'),
+        placeName: undefined,
+        heldDayData: undefined,
+        grade: undefined,
+        placeDate: undefined,
+        expectedLength: 35,
+    },
+    {
+        name: 'OverseasRaceRepositoryFromHtmlImpl',
+        repositoryClass: OverseasRaceRepositoryFromHtmlImpl,
+        raceType: RaceType.OVERSEAS,
+        startDate: new Date('2025-06-01'),
+        endDate: new Date('2025-07-31'),
+        placeName: undefined,
+        heldDayData: undefined,
+        grade: undefined,
+        placeDate: undefined,
+        expectedLength: 30,
     },
     {
         name: 'KeirinRaceRepositoryFromHtmlImpl',
@@ -138,18 +163,20 @@ for (const {
                             startDate,
                             endDate,
                             raceType,
-                            [
-                                PlaceEntity.createWithoutId(
-                                    PlaceData.create(
-                                        raceType,
-                                        placeDate,
-                                        placeName,
-                                    ),
-                                    heldDayData,
-                                    grade,
-                                    getJSTDate(new Date()),
-                                ),
-                            ],
+                            raceType === RaceType.OVERSEAS
+                                ? []
+                                : [
+                                      PlaceEntity.createWithoutId(
+                                          PlaceData.create(
+                                              raceType,
+                                              placeDate,
+                                              placeName,
+                                          ),
+                                          heldDayData,
+                                          grade,
+                                          getJSTDate(new Date()),
+                                      ),
+                                  ],
                         ),
                     );
                     expect(raceEntityList).toHaveLength(expectedLength);
