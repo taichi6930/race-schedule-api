@@ -23,56 +23,33 @@
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    defaultLocation,
+    defaultRaceGrade,
+} from '../../mock/common/baseCommonData';
 
 describe('HorseRacingRaceRecord', () => {
-    const validRaceType = RaceType.NAR;
-    const validDate = new Date('2026-01-01T00:00:00Z');
-    const validLocation = '大井';
-    const validSurfaceType = 'ダート';
-    const validDistance = 1600; // メートル
-    const validNumber = 1;
-    const validRaceId = generateRaceId(
-        validRaceType,
-        validDate,
-        validLocation,
-        validNumber,
-    );
-    const validName = '第1レース';
-    const validGrade = 'GⅠ';
-    const validUpdateDate = new Date('2026-01-01T12:00:00Z');
+    for (const raceType of [RaceType.JRA, RaceType.NAR, RaceType.OVERSEAS]) {
+        const validDate = new Date('2026-01-01T00:00:00Z');
+        const validLocation = defaultLocation[raceType];
+        const validSurfaceType = 'ダート';
+        const validDistance = 1600; // メートル
+        const validNumber = 1;
+        const validRaceId = generateRaceId(
+            raceType,
+            validDate,
+            validLocation,
+            validNumber,
+        );
+        const validName = '第1レース';
+        const validGrade = defaultRaceGrade[raceType]; // デフォルトのグレードを使用
+        const validUpdateDate = new Date('2026-01-01T12:00:00Z');
 
-    describe('HorseRacingRaceRecord.create', () => {
-        it('1: 正常値ですべて生成できる', () => {
-            const record = HorseRacingRaceRecord.create(
-                validRaceId,
-                validRaceType,
-                validName,
-                validDate,
-                validLocation,
-                validSurfaceType,
-                validDistance,
-                validGrade,
-                validNumber,
-                validUpdateDate,
-            );
-            expect(record).toBeInstanceOf(HorseRacingRaceRecord);
-            expect(record.id).toBe(validRaceId);
-            expect(record.raceType).toBe(validRaceType);
-            expect(record.name).toBe(validName);
-            expect(record.dateTime).toEqual(validDate);
-            expect(record.location).toBe(validLocation);
-            expect(record.surfaceType).toBe(validSurfaceType);
-            expect(record.distance).toBe(validDistance);
-            expect(record.grade).toBe(validGrade);
-            expect(record.number).toBe(validNumber);
-            expect(record.updateDate).toEqual(validUpdateDate);
-        });
-
-        it('2: idバリデーション失敗で例外', () => {
-            expect(() =>
-                HorseRacingRaceRecord.create(
-                    'bad-id',
-                    validRaceType,
+        describe('HorseRacingRaceRecord.create', () => {
+            it('1: 正常値ですべて生成できる', () => {
+                const record = HorseRacingRaceRecord.create(
+                    validRaceId,
+                    raceType,
                     validName,
                     validDate,
                     validLocation,
@@ -81,16 +58,183 @@ describe('HorseRacingRaceRecord', () => {
                     validGrade,
                     validNumber,
                     validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
+                );
+                expect(record).toBeInstanceOf(HorseRacingRaceRecord);
+                expect(record.id).toBe(validRaceId);
+                expect(record.raceType).toBe(raceType);
+                expect(record.name).toBe(validName);
+                expect(record.dateTime).toEqual(validDate);
+                expect(record.location).toBe(validLocation);
+                expect(record.surfaceType).toBe(validSurfaceType);
+                expect(record.distance).toBe(validDistance);
+                expect(record.grade).toBe(validGrade);
+                expect(record.number).toBe(validNumber);
+                expect(record.updateDate).toEqual(validUpdateDate);
+            });
+
+            it('2: idバリデーション失敗で例外', () => {
+                expect(() =>
+                    HorseRacingRaceRecord.create(
+                        'bad-id',
+                        raceType,
+                        validName,
+                        validDate,
+                        validLocation,
+                        validSurfaceType,
+                        validDistance,
+                        validGrade,
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('3: nameバリデーション失敗で例外', () => {
+                expect(() =>
+                    HorseRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        '', // 不正なname
+                        validDate,
+                        validLocation,
+                        validSurfaceType,
+                        validDistance,
+                        validGrade,
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('4: surfaceTypeバリデーション失敗で例外', () => {
+                expect(() =>
+                    HorseRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        validDate,
+                        validLocation,
+                        '', // 不正なsurfaceType
+                        validDistance,
+                        validGrade,
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('5: distanceバリデーション失敗で例外', () => {
+                expect(() =>
+                    HorseRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        validDate,
+                        validLocation,
+                        validSurfaceType,
+                        -100, // 不正なdistance
+                        validGrade,
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('6: dateTimeバリデーション失敗で例外', () => {
+                expect(() =>
+                    HorseRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        new Date('bad-date'), // 不正なdateTime
+                        validLocation,
+                        validSurfaceType,
+                        validDistance,
+                        validGrade,
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('7: locationバリデーション失敗で例外', () => {
+                expect(() =>
+                    HorseRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        validDate,
+                        '', // 不正なlocation
+                        validSurfaceType,
+                        validDistance,
+                        validGrade,
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('8: gradeバリデーション失敗で例外', () => {
+                expect(() =>
+                    HorseRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        validDate,
+                        validLocation,
+                        validSurfaceType,
+                        validDistance,
+                        'bad-grade', // 不正なgrade
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('9: numberバリデーション失敗で例外', () => {
+                expect(() =>
+                    HorseRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        validDate,
+                        validLocation,
+                        validSurfaceType,
+                        validDistance,
+                        validGrade,
+                        -1, // 不正なnumber
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('10: updateDateバリデーション失敗で例外', () => {
+                expect(() =>
+                    HorseRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        validDate,
+                        validLocation,
+                        validSurfaceType,
+                        validDistance,
+                        validGrade,
+                        validNumber,
+                        new Date('bad-date'), // 不正なupdateDate
+                    ),
+                ).toThrow('RaceRecord');
+            });
         });
 
-        it('3: nameバリデーション失敗で例外', () => {
-            expect(() =>
-                HorseRacingRaceRecord.create(
+        // 正しいcopyテストブロックを末尾に再挿入
+
+        describe('HorseRacingRaceRecord.copy', () => {
+            let base: HorseRacingRaceRecord;
+            beforeEach(() => {
+                base = HorseRacingRaceRecord.create(
                     validRaceId,
-                    validRaceType,
-                    '', // 不正なname
+                    raceType,
+                    validName,
                     validDate,
                     validLocation,
                     validSurfaceType,
@@ -98,179 +242,44 @@ describe('HorseRacingRaceRecord', () => {
                     validGrade,
                     validNumber,
                     validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
-        });
+                );
+            });
 
-        it('4: surfaceTypeバリデーション失敗で例外', () => {
-            expect(() =>
-                HorseRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    validDate,
-                    validLocation,
-                    '', // 不正なsurfaceType
-                    validDistance,
-                    validGrade,
-                    validNumber,
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
-        });
+            it('11: 全項目コピー（partial未指定）', () => {
+                const copied = base.copy();
+                expect(copied).not.toBe(base);
+                expect(copied).toEqual(base);
+            });
 
-        it('5: distanceバリデーション失敗で例外', () => {
-            expect(() =>
-                HorseRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    validDate,
-                    validLocation,
-                    validSurfaceType,
-                    -100, // 不正なdistance
-                    validGrade,
-                    validNumber,
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
-        });
+            it('12: gradeのみ変更', () => {
+                const copied = base.copy({ grade: 'GⅡ' });
+                expect(copied.id).toBe(base.id);
+                expect(copied.raceType).toBe(base.raceType);
+                expect(copied.name).toBe(base.name);
+                expect(copied.dateTime).toEqual(base.dateTime);
+                expect(copied.location).toBe(base.location);
+                expect(copied.surfaceType).toBe(base.surfaceType);
+                expect(copied.distance).toBe(base.distance);
+                expect(copied.grade).toBe('GⅡ');
+                expect(copied.number).toBe(base.number);
+                expect(copied.updateDate).toEqual(base.updateDate);
+            });
 
-        it('6: dateTimeバリデーション失敗で例外', () => {
-            expect(() =>
-                HorseRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    new Date('bad-date'), // 不正なdateTime
-                    validLocation,
-                    validSurfaceType,
-                    validDistance,
-                    validGrade,
-                    validNumber,
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
-        });
+            it('13: nameバリデーション失敗で例外', () => {
+                expect(() => base.copy({ name: '' })).toThrow('RaceRecord');
+            });
 
-        it('7: locationバリデーション失敗で例外', () => {
-            expect(() =>
-                HorseRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    validDate,
-                    '', // 不正なlocation
-                    validSurfaceType,
-                    validDistance,
-                    validGrade,
-                    validNumber,
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
-        });
+            it('14: surfaceTypeバリデーション失敗で例外', () => {
+                expect(() => base.copy({ surfaceType: '' })).toThrow(
+                    'RaceRecord',
+                );
+            });
 
-        it('8: gradeバリデーション失敗で例外', () => {
-            expect(() =>
-                HorseRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    validDate,
-                    validLocation,
-                    validSurfaceType,
-                    validDistance,
-                    'bad-grade', // 不正なgrade
-                    validNumber,
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
+            it('15: distanceバリデーション失敗で例外', () => {
+                expect(() => base.copy({ distance: -100 })).toThrow(
+                    'RaceRecord',
+                );
+            });
         });
-
-        it('9: numberバリデーション失敗で例外', () => {
-            expect(() =>
-                HorseRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    validDate,
-                    validLocation,
-                    validSurfaceType,
-                    validDistance,
-                    validGrade,
-                    -1, // 不正なnumber
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
-        });
-
-        it('10: updateDateバリデーション失敗で例外', () => {
-            expect(() =>
-                HorseRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    validDate,
-                    validLocation,
-                    validSurfaceType,
-                    validDistance,
-                    validGrade,
-                    validNumber,
-                    new Date('bad-date'), // 不正なupdateDate
-                ),
-            ).toThrow('RaceRecord');
-        });
-    });
-
-    // 正しいcopyテストブロックを末尾に再挿入
-
-    describe('HorseRacingRaceRecord.copy', () => {
-        let base: HorseRacingRaceRecord;
-        beforeEach(() => {
-            base = HorseRacingRaceRecord.create(
-                validRaceId,
-                validRaceType,
-                validName,
-                validDate,
-                validLocation,
-                validSurfaceType,
-                validDistance,
-                validGrade,
-                validNumber,
-                validUpdateDate,
-            );
-        });
-
-        it('11: 全項目コピー（partial未指定）', () => {
-            const copied = base.copy();
-            expect(copied).not.toBe(base);
-            expect(copied).toEqual(base);
-        });
-
-        it('12: gradeのみ変更', () => {
-            const copied = base.copy({ grade: 'GⅡ' });
-            expect(copied.id).toBe(base.id);
-            expect(copied.raceType).toBe(base.raceType);
-            expect(copied.name).toBe(base.name);
-            expect(copied.dateTime).toEqual(base.dateTime);
-            expect(copied.location).toBe(base.location);
-            expect(copied.surfaceType).toBe(base.surfaceType);
-            expect(copied.distance).toBe(base.distance);
-            expect(copied.grade).toBe('GⅡ');
-            expect(copied.number).toBe(base.number);
-            expect(copied.updateDate).toEqual(base.updateDate);
-        });
-
-        it('13: nameバリデーション失敗で例外', () => {
-            expect(() => base.copy({ name: '' })).toThrow('RaceRecord');
-        });
-
-        it('14: surfaceTypeバリデーション失敗で例外', () => {
-            expect(() => base.copy({ surfaceType: '' })).toThrow('RaceRecord');
-        });
-
-        it('15: distanceバリデーション失敗で例外', () => {
-            expect(() => base.copy({ distance: -100 })).toThrow('RaceRecord');
-        });
-    });
+    }
 });
