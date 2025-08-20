@@ -11,7 +11,7 @@ import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gat
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import { RaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/raceRepositoryFromStorageImpl';
+import { RaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/raceRepositoryFromStorage';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -24,7 +24,7 @@ import {
     defaultStage,
 } from '../../mock/common/baseCommonData';
 
-describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
+describe('HorseRacingRaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
     let repository: IRaceRepository<RaceEntity, PlaceEntity>;
 
@@ -32,7 +32,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
         const setup: TestSetup = setupTestMock();
         ({ s3Gateway } = setup);
         // テスト対象のリポジトリを生成
-        repository = container.resolve(RaceRepositoryFromStorageImpl);
+        repository = container.resolve(RaceRepositoryFromStorage);
     });
 
     afterEach(() => {

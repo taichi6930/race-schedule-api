@@ -20,7 +20,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  * 競輪場開催データリポジトリの実装
  */
 @injectable()
-export class MechanicalRacingRaceRepositoryFromStorageImpl
+export class MechanicalRacingRaceRepositoryFromStorage
     implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     private readonly raceListFileName = CSV_FILE_NAME.RACE_LIST;

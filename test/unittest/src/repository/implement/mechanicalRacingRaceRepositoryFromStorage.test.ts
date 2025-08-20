@@ -11,7 +11,7 @@ import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gat
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import { MechanicalRacingRaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorageImpl';
+import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
@@ -20,7 +20,7 @@ import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import { baseRacePlayerDataList } from '../../mock/common/baseCommonData';
 
-describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
+describe('MechanicalRacingRaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
     let repository: IRaceRepository<RaceEntity, PlaceEntity>;
 
@@ -30,7 +30,7 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(
-            MechanicalRacingRaceRepositoryFromStorageImpl,
+            MechanicalRacingRaceRepositoryFromStorage,
         );
     });
 

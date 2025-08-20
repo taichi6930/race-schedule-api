@@ -5,10 +5,10 @@ import { container } from 'tsyringe';
 import type { PlaceEntity } from '../../src/repository/entity/placeEntity';
 import type { RaceEntity } from '../../src/repository/entity/raceEntity';
 import { GoogleCalendarRepository } from '../../src/repository/implement/googleCalendarRepository';
-import { MechanicalRacingRaceRepositoryFromStorageImpl } from '../../src/repository/implement/mechanicalRacingRaceRepositoryFromStorageImpl';
-import { PlaceRepositoryFromStorageImpl } from '../../src/repository/implement/placeRepositoryFromStorageImpl';
+import { MechanicalRacingRaceRepositoryFromStorage } from '../../src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
+import { PlaceRepositoryFromStorage } from '../../src/repository/implement/placeRepositoryFromStorage';
 import { PlayerRepository } from '../../src/repository/implement/playerRepository';
-import { RaceRepositoryFromStorageImpl } from '../../src/repository/implement/raceRepositoryFromStorageImpl';
+import { RaceRepositoryFromStorage } from '../../src/repository/implement/raceRepositoryFromStorage';
 import type { ICalendarRepository } from '../../src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { IPlayerRepository } from '../../src/repository/interface/IPlayerRepository';
@@ -24,15 +24,15 @@ container.register<ICalendarRepository>('CalendarRepository', {
 
 container.register<IPlaceRepository<PlaceEntity>>(
     'PlaceRepositoryFromStorage',
-    { useClass: PlaceRepositoryFromStorageImpl },
+    { useClass: PlaceRepositoryFromStorage },
 );
 
 container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
     'RaceRepositoryFromStorage',
-    { useClass: RaceRepositoryFromStorageImpl },
+    { useClass: RaceRepositoryFromStorage },
 );
 
 container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
     'MechanicalRacingRaceRepositoryFromStorage',
-    { useClass: MechanicalRacingRaceRepositoryFromStorageImpl },
+    { useClass: MechanicalRacingRaceRepositoryFromStorage },
 );
