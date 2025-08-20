@@ -7,10 +7,10 @@ import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mo
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { AutoracePlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtml';
-import { BoatracePlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
-import { JraPlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
-import { KeirinPlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
-import { NarPlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/narPlaceRepositoryFromHtmlImpl';
+import { BoatracePlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtml';
+import { JraPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtml';
+import { KeirinPlaceRepositoryFromHtmlImpl as KeirinPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
+import { NarPlaceRepositoryFromHtmlImpl as NarPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/narPlaceRepositoryFromHtmlImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -20,24 +20,24 @@ import { basePlaceEntity } from '../../mock/common/baseCommonData';
 // テーブル駆動型テスト
 const testCases = [
     {
-        name: 'JraPlaceRepositoryFromHtmlImpl',
-        repositoryClass: JraPlaceRepositoryFromHtmlImpl,
+        name: 'JraPlaceRepositoryFromHtml',
+        repositoryClass: JraPlaceRepositoryFromHtml,
         raceType: RaceType.JRA,
         startDate: new Date('2024-01-01'),
         endDate: new Date('2024-12-31'),
         expectedLength: 288,
     },
     {
-        name: 'NarPlaceRepositoryFromHtmlImpl',
-        repositoryClass: NarPlaceRepositoryFromHtmlImpl,
+        name: 'NarPlaceRepositoryFromHtml',
+        repositoryClass: NarPlaceRepositoryFromHtml,
         raceType: RaceType.NAR,
         startDate: new Date('2024-10-01'),
         endDate: new Date('2024-10-31'),
         expectedLength: 120,
     },
     {
-        name: 'KeirinPlaceRepositoryFromHtmlImpl',
-        repositoryClass: KeirinPlaceRepositoryFromHtmlImpl,
+        name: 'KeirinPlaceRepositoryFromHtml',
+        repositoryClass: KeirinPlaceRepositoryFromHtml,
         raceType: RaceType.KEIRIN,
         startDate: new Date('2024-10-01'),
         endDate: new Date('2024-10-31'),
@@ -52,8 +52,8 @@ const testCases = [
         expectedLength: 60,
     },
     {
-        name: 'BoatracePlaceRepositoryFromHtmlImpl',
-        repositoryClass: BoatracePlaceRepositoryFromHtmlImpl,
+        name: 'BoatracePlaceRepositoryFromHtml',
+        repositoryClass: BoatracePlaceRepositoryFromHtml,
         raceType: RaceType.BOATRACE,
         startDate: new Date('2025-04-01'),
         endDate: new Date('2025-06-30'),

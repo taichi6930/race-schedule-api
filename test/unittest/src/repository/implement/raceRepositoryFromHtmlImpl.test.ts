@@ -10,7 +10,7 @@ import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntit
 import type { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtml';
-import { BoatraceRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl';
+import { BoatraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtml';
 import { JraRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl';
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
 import { NarRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromHtmlImpl';
@@ -109,7 +109,7 @@ const testCases = [
     },
     {
         name: 'BoatraceRaceRepositoryFromHtmlImpl',
-        repositoryClass: BoatraceRaceRepositoryFromHtmlImpl,
+        repositoryClass: BoatraceRaceRepositoryFromHtml,
         raceType: RaceType.BOATRACE,
         startDate: new Date('2024-11-01'),
         endDate: new Date('2024-11-30'),

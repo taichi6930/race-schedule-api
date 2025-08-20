@@ -16,7 +16,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  * ボートレース場データリポジトリの実装
  */
 @injectable()
-export class BoatracePlaceRepositoryFromHtmlImpl
+export class BoatracePlaceRepositoryFromHtml
     implements IPlaceRepository<PlaceEntity>
 {
     public constructor(

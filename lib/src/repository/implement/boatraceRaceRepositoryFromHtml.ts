@@ -11,17 +11,17 @@ import { GradeType } from '../../utility/data/common/gradeType';
 import { RaceStage, StageMap } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { RaceType } from './../../utility/raceType';
 
 /**
  * ボートレース場開催データリポジトリの実装
  */
 @injectable()
-export class BoatraceRaceRepositoryFromHtmlImpl
+export class BoatraceRaceRepositoryFromHtml
     implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     public constructor(

@@ -4,9 +4,9 @@ import type { PlaceEntity } from '../../src/repository/entity/placeEntity';
 import type { RaceEntity } from '../../src/repository/entity/raceEntity';
 import { AutoracePlaceRepositoryFromHtml } from '../../src/repository/implement/autoracePlaceRepositoryFromHtml';
 import { AutoraceRaceRepositoryFromHtml } from '../../src/repository/implement/autoraceRaceRepositoryFromHtml';
-import { BoatracePlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
-import { BoatraceRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/boatraceRaceRepositoryFromHtmlImpl';
-import { JraPlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
+import { BoatracePlaceRepositoryFromHtml } from '../../src/repository/implement/boatracePlaceRepositoryFromHtml';
+import { BoatraceRaceRepositoryFromHtml } from '../../src/repository/implement/boatraceRaceRepositoryFromHtml';
+import { JraPlaceRepositoryFromHtml } from '../../src/repository/implement/jraPlaceRepositoryFromHtml';
 import { JraRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/jraRaceRepositoryFromHtmlImpl';
 import { KeirinPlaceRepositoryFromHtmlImpl } from '../../src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
@@ -44,7 +44,7 @@ switch (ENV) {
         container.register<IPlaceRepository<PlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
             {
-                useClass: JraPlaceRepositoryFromHtmlImpl,
+                useClass: JraPlaceRepositoryFromHtml,
             },
         );
         container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
@@ -81,12 +81,12 @@ switch (ENV) {
         );
         container.register<IPlaceRepository<PlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',
-            { useClass: BoatracePlaceRepositoryFromHtmlImpl },
+            { useClass: BoatracePlaceRepositoryFromHtml },
         );
         container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
             'BoatraceRaceRepositoryFromHtml',
             {
-                useClass: BoatraceRaceRepositoryFromHtmlImpl,
+                useClass: BoatraceRaceRepositoryFromHtml,
             },
         );
         break;

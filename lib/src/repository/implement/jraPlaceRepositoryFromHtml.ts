@@ -16,7 +16,7 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
-export class JraPlaceRepositoryFromHtmlImpl
+export class JraPlaceRepositoryFromHtml
     implements IPlaceRepository<PlaceEntity>
 {
     public constructor(
