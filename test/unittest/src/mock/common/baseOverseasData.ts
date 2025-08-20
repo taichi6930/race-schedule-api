@@ -1,82 +1,16 @@
 import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
-import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
-import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
-import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
-import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
-import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import { baseRaceNumber } from './baseCommonData';
+import {
+    baseRaceUpdateDate,
+    defaultLocation,
+    defaultRaceName,
+} from './baseCommonData';
 
 const raceType: RaceType = RaceType.OVERSEAS;
-
-const baseOverseasPlaceCourse: RaceCourse = 'パリロンシャン';
-const baseOverseasPlaceDateTime = new Date('2024-10-01');
-
-const baseOverseasRaceName = '凱旋門賞';
-const baseRaceDateTime = new Date('2024-10-01 16:30');
-const baseOverseasRaceSurfaceType = '芝';
-const baseRaceDistance = 2400;
-const baseOverseasRaceGrade: GradeType = 'GⅠ';
-const baseOverseasRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
-
-export const baseOverseasPlaceData = PlaceData.create(
-    raceType,
-    baseOverseasPlaceDateTime,
-    baseOverseasPlaceCourse,
-);
-
-export const baseOverseasRaceData = RaceData.create(
-    raceType,
-    baseOverseasRaceName,
-    baseRaceDateTime,
-    baseOverseasPlaceCourse,
-    baseOverseasRaceGrade,
-    baseRaceNumber,
-);
-
-const baseOverseasConditionData = HorseRaceConditionData.create(
-    baseOverseasRaceSurfaceType,
-    baseRaceDistance,
-);
-
-export const baseOverseasRaceRecord = HorseRacingRaceRecord.create(
-    generateRaceId(
-        raceType,
-        baseOverseasPlaceDateTime,
-        baseOverseasPlaceCourse,
-        baseRaceNumber,
-    ),
-    raceType,
-    baseOverseasRaceName,
-    baseRaceDateTime,
-    baseOverseasPlaceCourse,
-    baseOverseasRaceSurfaceType,
-    baseRaceDistance,
-    baseOverseasRaceGrade,
-    baseRaceNumber,
-    baseOverseasRaceUpdateDate,
-);
-
-export const baseOverseasPlaceEntity = PlaceEntity.createWithoutId(
-    baseOverseasPlaceData,
-    undefined, // heldDayData は海外競馬では不要
-    undefined, // grade は未指定
-    baseOverseasRaceUpdateDate,
-);
-
-export const baseOverseasRaceEntity = RaceEntity.createWithoutId(
-    baseOverseasRaceData,
-    undefined, // horseRaceConditionData は未指定
-    baseOverseasConditionData,
-    undefined, // stage は未指定
-    undefined, // racePlayerDataList は未指定
-    baseOverseasRaceUpdateDate,
-);
 
 export const baseOverseasRaceEntityList: RaceEntity[] = [
     'パリロンシャン',
@@ -109,7 +43,7 @@ export const baseOverseasRaceEntityList: RaceEntity[] = [
             HorseRaceConditionData.create('芝', 2400),
             undefined, // stage は未指定
             undefined, // racePlayerDataList は未指定
-            getJSTDate(baseOverseasRaceUpdateDate),
+            getJSTDate(baseRaceUpdateDate),
         );
     });
 });
@@ -117,22 +51,22 @@ export const baseOverseasRaceEntityList: RaceEntity[] = [
 export const baseOverseasCalendarData = CalendarData.create(
     'test202410010101',
     raceType,
-    baseOverseasRaceName,
+    defaultRaceName[raceType],
     '2024-10-01T16:30:00Z',
     '2024-10-01T16:40:00Z',
-    `${baseOverseasPlaceCourse}競馬場`,
+    `${defaultLocation[raceType]}競馬場`,
     'テスト',
 );
 
 export const baseOverseasCalendarDataFromGoogleCalendar = {
     id: 'test202410010101',
-    summary: baseOverseasRaceName,
+    summary: defaultRaceName[raceType],
     start: {
         dateTime: '2024-10-01T16:30:00Z',
     },
     end: {
         dateTime: '2024-10-01T16:40:00Z',
     },
-    location: `${baseOverseasPlaceCourse}競馬場`,
+    location: `${defaultLocation[raceType]}競馬場`,
     description: 'テスト',
 };

@@ -2,101 +2,41 @@ import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
-import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
-import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
-import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
-import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
-import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
-import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import { baseRaceNumber } from './baseCommonData';
+import {
+    basePlaceDateTime,
+    baseRaceDateTime,
+    baseRaceNumber,
+    baseRaceUpdateDate,
+    defaultLocation,
+    defaultRaceDistance,
+    defaultRaceGrade,
+    defaultRaceName,
+    defaultRaceSurfaceType,
+} from './baseCommonData';
 
 const raceType: RaceType = RaceType.NAR;
 
-const baseNarPlaceCourse: RaceCourse = '大井';
-const baseNarPlaceDateTime = new Date('2024-12-29');
-
-const baseNarRaceName = '東京大賞典';
-const baseRaceDateTime = new Date('2024-12-29 15:40');
-const baseNarRaceSurfaceType = 'ダート';
-const baseNarRaceDistance = 2000;
-const baseNarRaceGrade: GradeType = 'GⅠ';
-const baseNarRaceUpdateDate = new Date('2024-12-01 00:00');
-
-export const baseNarPlaceData = PlaceData.create(
-    raceType,
-    baseNarPlaceDateTime,
-    baseNarPlaceCourse,
-);
-
 export const baseNarRaceData = RaceData.create(
     raceType,
-    baseNarRaceName,
+    defaultRaceName[raceType],
     baseRaceDateTime,
-    baseNarPlaceCourse,
-    baseNarRaceGrade,
+    defaultLocation[raceType],
+    defaultRaceGrade[raceType],
     baseRaceNumber,
-);
-
-const baseNarConditionData = HorseRaceConditionData.create(
-    baseNarRaceSurfaceType,
-    baseNarRaceDistance,
-);
-
-export const baseNarPlaceRecord = PlaceRecord.create(
-    generatePlaceId(raceType, baseNarPlaceDateTime, baseNarPlaceCourse),
-    raceType,
-    baseNarPlaceDateTime,
-    baseNarPlaceCourse,
-    baseNarRaceUpdateDate,
-);
-
-export const baseNarRaceRecord = HorseRacingRaceRecord.create(
-    generateRaceId(
-        raceType,
-        baseNarPlaceDateTime,
-        baseNarPlaceCourse,
-        baseRaceNumber,
-    ),
-    raceType,
-    baseNarRaceName,
-    baseRaceDateTime,
-    baseNarPlaceCourse,
-    baseNarRaceSurfaceType,
-    baseNarRaceDistance,
-    baseNarRaceGrade,
-    baseRaceNumber,
-    baseNarRaceUpdateDate,
-);
-
-export const baseNarPlaceEntity = PlaceEntity.createWithoutId(
-    baseNarPlaceData,
-    undefined, // heldDayData は地方競馬では不要
-    undefined, // grade は未指定
-    baseNarRaceUpdateDate,
-);
-
-export const baseNarRaceEntity = RaceEntity.createWithoutId(
-    baseNarRaceData,
-    undefined, // horseRaceConditionData は未指定
-    baseNarConditionData,
-    undefined, // stage は未指定
-    undefined, // racePlayerDataList は未指定
-    baseNarRaceUpdateDate,
 );
 
 export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
     id: generateRaceId(
         raceType,
-        baseNarPlaceDateTime,
-        baseNarPlaceCourse,
+        basePlaceDateTime,
+        defaultLocation[raceType],
         baseRaceNumber,
     ),
-    summary: baseNarRaceName,
+    summary: defaultRaceName[raceType],
     start: {
         dateTime: baseRaceDateTime.toISOString().replace('Z', '+09:00'),
         timeZone: 'Asia/Tokyo',
@@ -107,7 +47,7 @@ export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
             .replace('Z', '+09:00'),
         timeZone: 'Asia/Tokyo',
     },
-    location: `${baseNarPlaceCourse}競馬場`,
+    location: `${defaultLocation[raceType]}競馬場`,
     colorId: '9',
     description: `距離: ダート2000m
 発走: 15:40
@@ -118,19 +58,19 @@ export const baseNarGoogleCalendarData: calendar_v3.Schema$Event = {
     extendedProperties: {
         private: {
             dateTime: baseRaceDateTime.toISOString(),
-            distance: baseNarRaceDistance.toString(),
-            grade: baseNarRaceGrade,
-            location: baseNarPlaceCourse,
-            name: baseNarRaceName,
+            distance: defaultRaceDistance[raceType].toString(),
+            grade: defaultRaceGrade[raceType],
+            location: defaultLocation[raceType],
+            name: defaultRaceName[raceType],
             number: baseRaceNumber.toString(),
             raceId: generateRaceId(
                 raceType,
-                baseNarPlaceDateTime,
-                baseNarPlaceCourse,
+                basePlaceDateTime,
+                defaultLocation[raceType],
                 baseRaceNumber,
             ),
-            surfaceType: baseNarRaceSurfaceType,
-            updateDate: baseNarRaceUpdateDate.toISOString(),
+            surfaceType: defaultRaceSurfaceType[raceType],
+            updateDate: baseRaceUpdateDate.toISOString(),
         },
     },
 };
@@ -164,7 +104,7 @@ export const baseNarRaceEntityList: RaceEntity[] = ['大井', '高知'].flatMap(
                 HorseRaceConditionData.create('ダート', 1600),
                 undefined, // stage は未指定
                 undefined, // racePlayerDataList は未指定
-                baseNarRaceUpdateDate,
+                baseRaceUpdateDate,
             );
         });
     },
@@ -173,22 +113,22 @@ export const baseNarRaceEntityList: RaceEntity[] = ['大井', '高知'].flatMap(
 export const baseNarCalendarData = CalendarData.create(
     'test202412292011',
     raceType,
-    baseNarRaceName,
+    defaultRaceName[raceType],
     '2024-12-29T15:40:00Z',
     '2024-12-29T15:50:00Z',
-    `${baseNarPlaceCourse}競馬場`,
+    `${defaultLocation[raceType]}競馬場`,
     'テスト',
 );
 
 export const baseNarCalendarDataFromGoogleCalendar = {
     id: 'test202412292011',
-    summary: baseNarRaceName,
+    summary: defaultRaceName[raceType],
     start: {
         dateTime: '2024-12-29T15:40:00Z',
     },
     end: {
         dateTime: '2024-12-29T15:50:00Z',
     },
-    location: `${baseNarPlaceCourse}競馬場`,
+    location: `${defaultLocation[raceType]}競馬場`,
     description: 'テスト',
 };

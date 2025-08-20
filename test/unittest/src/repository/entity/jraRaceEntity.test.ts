@@ -1,25 +1,27 @@
-import {
-    baseJraRaceData,
-    baseJraRaceEntity,
-} from '../../mock/common/baseJraData';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { baseRaceData, baseRaceEntity } from '../../mock/common/baseCommonData';
 
 describe('JraRaceEntityクラスのテスト', () => {
     it('正しい入力でJraRaceEntityのインスタンスを作成できることを確認', () => {
         // インスタンスのプロパティが正しいか確認
-        expect(baseJraRaceEntity.id).toBe('jra202412220612');
-        expect(baseJraRaceEntity.raceData).toBe(baseJraRaceData);
+        expect(baseRaceEntity(RaceType.JRA).id).toBe('jra202412290512');
+        expect(baseRaceEntity(RaceType.JRA).raceData).toStrictEqual(
+            baseRaceData(RaceType.JRA),
+        );
     });
 
     it('何も変更せずJraRaceEntityのインスタンスを作成できることを確認', () => {
-        const copiedRaceEntity = baseJraRaceEntity.copy();
+        const copiedRaceEntity = baseRaceEntity(RaceType.JRA).copy();
         // インスタンスが変更されていないか確認
-        expect(copiedRaceEntity.id).toEqual(baseJraRaceEntity.id);
-        expect(copiedRaceEntity.raceData).toBe(baseJraRaceEntity.raceData);
+        expect(copiedRaceEntity.id).toEqual(baseRaceEntity(RaceType.JRA).id);
+        expect(copiedRaceEntity.raceData).toStrictEqual(
+            baseRaceEntity(RaceType.JRA).raceData,
+        );
     });
 
     it('何も変更せずJraRaceDataのインスタンスを作成できることを確認', () => {
-        const { raceData } = baseJraRaceEntity;
+        const { raceData } = baseRaceEntity(RaceType.JRA);
         // インスタンスが変更されていないか確認
-        expect(raceData).toEqual(baseJraRaceData);
+        expect(raceData).toStrictEqual(baseRaceData(RaceType.JRA));
     });
 });

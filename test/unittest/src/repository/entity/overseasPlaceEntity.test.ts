@@ -1,27 +1,30 @@
+import { RaceType } from '../../../../../lib/src/utility/raceType';
 import {
-    baseOverseasPlaceData,
-    baseOverseasPlaceEntity,
-} from '../../mock/common/baseOverseasData';
+    basePlaceData,
+    basePlaceEntity,
+} from '../../mock/common/baseCommonData';
 
 describe('OverseasPlaceEntityクラスのテスト', () => {
     it('正しい入力でOverseasPlaceEntityのインスタンスを作成できることを確認', () => {
-        expect(baseOverseasPlaceEntity.placeData).toEqual(
-            baseOverseasPlaceData,
+        expect(basePlaceEntity(RaceType.OVERSEAS).placeData).toStrictEqual(
+            basePlaceData(RaceType.OVERSEAS),
         );
     });
 
     it('何も変更せずOverseasPlaceEntityのインスタンスを作成できることを確認', () => {
-        const copiedPlaceEntity = baseOverseasPlaceEntity.copy();
+        const copiedPlaceEntity = basePlaceEntity(RaceType.OVERSEAS).copy();
 
-        expect(copiedPlaceEntity.id).toEqual(baseOverseasPlaceEntity.id);
-        expect(copiedPlaceEntity.placeData).toBe(
-            baseOverseasPlaceEntity.placeData,
+        expect(copiedPlaceEntity.id).toEqual(
+            basePlaceEntity(RaceType.OVERSEAS).id,
+        );
+        expect(copiedPlaceEntity.placeData).toStrictEqual(
+            basePlaceEntity(RaceType.OVERSEAS).placeData,
         );
     });
 
     it('何も変更せずOverseasPlaceDataのインスタンスを作成できることを確認', () => {
-        const { placeData } = baseOverseasPlaceEntity;
+        const { placeData } = basePlaceEntity(RaceType.OVERSEAS);
 
-        expect(placeData).toEqual(baseOverseasPlaceData);
+        expect(placeData).toStrictEqual(basePlaceData(RaceType.OVERSEAS));
     });
 });

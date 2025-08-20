@@ -17,6 +17,7 @@ import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
 import { baseBoatraceRaceEntityList } from '../../mock/common/baseBoatraceData';
+import { baseRaceEntityListMap } from '../../mock/common/baseData';
 import { baseJraRaceEntityList } from '../../mock/common/baseJraData';
 import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
 import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
@@ -57,15 +58,6 @@ describe('PublicGamblingRaceDataService', () => {
         ...baseAutoraceRaceEntityList,
         ...baseBoatraceRaceEntityList,
     ];
-
-    const baseRaceEntityListMap = {
-        [RaceType.JRA]: baseJraRaceEntityList,
-        [RaceType.NAR]: baseNarRaceEntityList,
-        [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
-        [RaceType.KEIRIN]: baseKeirinRaceEntityList,
-        [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
-        [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
-    };
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();

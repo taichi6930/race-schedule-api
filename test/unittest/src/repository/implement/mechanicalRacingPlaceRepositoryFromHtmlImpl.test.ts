@@ -13,9 +13,7 @@ import type { IPlaceRepository } from '../../../../../lib/src/repository/interfa
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
-import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
-import { baseBoatracePlaceEntity } from '../../mock/common/baseBoatraceData';
-import { baseKeirinPlaceEntity } from '../../mock/common/baseKeirinData';
+import { basePlaceEntity } from '../../mock/common/baseCommonData';
 
 type RepositoryClassType = new (
     placeDataHtmlGateway: IPlaceDataHtmlGateway,
@@ -33,7 +31,7 @@ const testCases: {
         name: 'KeirinPlaceRepositoryFromHtmlImpl',
         repositoryClass: KeirinPlaceRepositoryFromHtmlImpl,
         raceType: RaceType.KEIRIN,
-        baseEntity: baseKeirinPlaceEntity,
+        baseEntity: basePlaceEntity(RaceType.KEIRIN),
         startDate: new Date('2024-10-01'),
         endDate: new Date('2024-10-31'),
         expectedLength: 233,
@@ -42,7 +40,7 @@ const testCases: {
         name: 'AutoracePlaceRepositoryFromHtmlImpl',
         repositoryClass: AutoracePlaceRepositoryFromHtmlImpl,
         raceType: RaceType.AUTORACE,
-        baseEntity: baseAutoracePlaceEntity,
+        baseEntity: basePlaceEntity(RaceType.AUTORACE),
         startDate: new Date('2024-11-01'),
         endDate: new Date('2024-11-30'),
         expectedLength: 60,
@@ -51,7 +49,7 @@ const testCases: {
         name: 'BoatracePlaceRepositoryFromHtmlImpl',
         repositoryClass: BoatracePlaceRepositoryFromHtmlImpl,
         raceType: RaceType.BOATRACE,
-        baseEntity: baseBoatracePlaceEntity,
+        baseEntity: basePlaceEntity(RaceType.BOATRACE),
         startDate: new Date('2025-04-01'),
         endDate: new Date('2025-06-30'),
         expectedLength: 66,

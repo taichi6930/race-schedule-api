@@ -1,7 +1,7 @@
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { basePlaceRecord } from '../../mock/common/baseCommonData';
 
-describe('NarPlaceRecordクラスのテスト', () => {
+describe('PlaceRecordクラスのテスト', () => {
     it('正しい入力でNarPlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = basePlaceRecord(RaceType.NAR);
 

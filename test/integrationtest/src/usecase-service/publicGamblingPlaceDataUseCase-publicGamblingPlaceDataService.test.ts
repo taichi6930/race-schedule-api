@@ -12,11 +12,8 @@ import {
     ALL_RACE_TYPE_LIST,
     RaceType,
 } from '../../../../lib/src/utility/raceType';
-import { baseAutoracePlaceEntity } from '../../../unittest/src/mock/common/baseAutoraceData';
-import { baseBoatracePlaceEntity } from '../../../unittest/src/mock/common/baseBoatraceData';
-import { baseJraPlaceEntity } from '../../../unittest/src/mock/common/baseJraData';
-import { baseKeirinPlaceEntity } from '../../../unittest/src/mock/common/baseKeirinData';
-import { baseNarPlaceEntity } from '../../../unittest/src/mock/common/baseNarData';
+import { basePlaceEntity } from '../../../unittest/src/mock/common/baseCommonData';
+import { basePlaceEntityMap } from '../../../unittest/src/mock/common/baseData';
 import type { TestSetup } from '../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../utility/testSetupHelper';
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
@@ -60,21 +57,12 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
         jest.clearAllMocks();
     });
 
-    const basePlaceEntityMap = {
-        [RaceType.JRA]: baseJraPlaceEntity,
-        [RaceType.NAR]: baseNarPlaceEntity,
-        [RaceType.OVERSEAS]: undefined, // 海外競馬は未対応
-        [RaceType.KEIRIN]: baseKeirinPlaceEntity,
-        [RaceType.BOATRACE]: baseBoatracePlaceEntity,
-        [RaceType.AUTORACE]: baseAutoracePlaceEntity,
-    };
-
     const mockPlaceEntity = [
-        baseJraPlaceEntity,
-        baseNarPlaceEntity,
-        baseKeirinPlaceEntity,
-        baseAutoracePlaceEntity,
-        baseBoatracePlaceEntity,
+        basePlaceEntity(RaceType.JRA),
+        basePlaceEntity(RaceType.NAR),
+        basePlaceEntity(RaceType.KEIRIN),
+        basePlaceEntity(RaceType.AUTORACE),
+        basePlaceEntity(RaceType.BOATRACE),
     ];
 
     describe('fetchRaceEntityList', () => {
@@ -142,19 +130,19 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
 
             // モックの戻り値を設定
             jraPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue([
-                baseJraPlaceEntity,
+                basePlaceEntity(RaceType.JRA),
             ]);
             narPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue([
-                baseNarPlaceEntity,
+                basePlaceEntity(RaceType.NAR),
             ]);
             keirinPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [baseKeirinPlaceEntity],
+                [basePlaceEntity(RaceType.KEIRIN)],
             );
             autoracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [baseAutoracePlaceEntity],
+                [basePlaceEntity(RaceType.AUTORACE)],
             );
             boatracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [baseBoatracePlaceEntity],
+                [basePlaceEntity(RaceType.BOATRACE)],
             );
 
             const startDate = new Date('2024-06-01');

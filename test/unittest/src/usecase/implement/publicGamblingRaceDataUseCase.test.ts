@@ -15,26 +15,12 @@ import {
     setupTestMock,
     type TestSetup,
 } from '../../../../utility/testSetupHelper';
-import {
-    baseAutoracePlaceEntity,
-    baseAutoraceRaceEntityList,
-} from '../../mock/common/baseAutoraceData';
-import {
-    baseBoatracePlaceEntity,
-    baseBoatraceRaceEntityList,
-} from '../../mock/common/baseBoatraceData';
-import {
-    baseJraPlaceEntity,
-    baseJraRaceEntityList,
-} from '../../mock/common/baseJraData';
-import {
-    baseKeirinPlaceEntity,
-    baseKeirinRaceEntityList,
-} from '../../mock/common/baseKeirinData';
-import {
-    baseNarPlaceEntity,
-    baseNarRaceEntityList,
-} from '../../mock/common/baseNarData';
+import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
+import { baseBoatraceRaceEntityList } from '../../mock/common/baseBoatraceData';
+import { basePlaceEntity } from '../../mock/common/baseCommonData';
+import { baseJraRaceEntityList } from '../../mock/common/baseJraData';
+import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
+import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
 import { baseOverseasRaceEntityList } from '../../mock/common/baseOverseasData';
 
 describe('PublicGamblingRaceDataUseCase', () => {
@@ -55,11 +41,11 @@ describe('PublicGamblingRaceDataUseCase', () => {
     });
 
     const mockPlaceEntityList = [
-        baseJraPlaceEntity,
-        baseNarPlaceEntity,
-        baseKeirinPlaceEntity,
-        baseAutoracePlaceEntity,
-        baseBoatracePlaceEntity,
+        basePlaceEntity(RaceType.JRA),
+        basePlaceEntity(RaceType.NAR),
+        basePlaceEntity(RaceType.KEIRIN),
+        basePlaceEntity(RaceType.AUTORACE),
+        basePlaceEntity(RaceType.BOATRACE),
     ];
 
     const mockRaceEntityList = [

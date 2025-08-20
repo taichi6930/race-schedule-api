@@ -3,110 +3,33 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
-import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
-import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
-import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
-import type { GradeType } from '../../../../../lib/src/utility/data/common/gradeType';
-import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
-import type { RaceCourse } from '../../../../../lib/src/utility/data/common/raceCourse';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import { baseRaceNumber } from './baseCommonData';
+import {
+    basePlaceDateTime,
+    baseRaceDateTime,
+    baseRaceNumber,
+    baseRaceUpdateDate,
+    defaultHeldDayData,
+    defaultLocation,
+    defaultRaceDistance,
+    defaultRaceGrade,
+    defaultRaceName,
+    defaultRaceSurfaceType,
+} from './baseCommonData';
 
 const raceType: RaceType = RaceType.JRA;
-
-const baseJraPlaceCourse: RaceCourse = '中山';
-const baseJraPlaceDateTime = new Date('2024-12-22');
-const baseJraPlaceId = generatePlaceId(
-    raceType,
-    baseJraPlaceDateTime,
-    baseJraPlaceCourse,
-);
-
-const baseJraRaceName = '有馬記念';
-const baseRaceDateTime = new Date('2024-12-22 15:40');
-const baseJraRaceSurfaceType = '芝';
-const baseJraRaceDistance = 2500;
-const baseJraRaceGrade: GradeType = 'GⅠ';
-const baseJraRaceHeldTimes = 5;
-const baseJraRaceHeldDayTimes = 8;
-const baseJraRaceUpdateDate = new Date('2024-12-01 00:00');
-
-export const baseJraPlaceData = PlaceData.create(
-    raceType,
-    baseJraPlaceDateTime,
-    baseJraPlaceCourse,
-);
-
-const baseJraHeldDayData = HeldDayData.create(5, 8);
-
-export const baseJraRaceData = RaceData.create(
-    raceType,
-    baseJraRaceName,
-    baseRaceDateTime,
-    baseJraPlaceCourse,
-    baseJraRaceGrade,
-    baseRaceNumber,
-);
-
-const baseJraConditionData = HorseRaceConditionData.create(
-    baseJraRaceSurfaceType,
-    baseJraRaceDistance,
-);
-
-export const baseJraPlaceRecord = PlaceRecord.create(
-    baseJraPlaceId,
-    raceType,
-    baseJraPlaceDateTime,
-    baseJraPlaceCourse,
-    baseJraRaceUpdateDate,
-);
-
-export const baseJraRaceRecord = HorseRacingRaceRecord.create(
-    generateRaceId(
-        raceType,
-        baseJraPlaceDateTime,
-        baseJraPlaceCourse,
-        baseRaceNumber,
-    ),
-    raceType,
-    baseJraRaceName,
-    baseRaceDateTime,
-    baseJraPlaceCourse,
-    baseJraRaceSurfaceType,
-    baseJraRaceDistance,
-    baseJraRaceGrade,
-    baseRaceNumber,
-    baseJraRaceUpdateDate,
-);
-
-export const baseJraPlaceEntity = PlaceEntity.createWithoutId(
-    baseJraPlaceData,
-    baseJraHeldDayData,
-    undefined, // grade は未指定
-    baseJraRaceUpdateDate,
-);
-
-export const baseJraRaceEntity = RaceEntity.createWithoutId(
-    baseJraRaceData,
-    baseJraHeldDayData,
-    baseJraConditionData,
-    undefined, // stage は未指定
-    undefined, // racePlayerDataList は未指定
-    baseJraRaceUpdateDate,
-);
 
 export const baseJraGoogleCalendarData: calendar_v3.Schema$Event = {
     id: generateRaceId(
         raceType,
-        baseJraPlaceDateTime,
-        baseJraPlaceCourse,
+        basePlaceDateTime,
+        defaultLocation[raceType],
         baseRaceNumber,
     ),
-    summary: baseJraRaceName,
+    summary: defaultRaceName[raceType],
     start: {
         dateTime: baseRaceDateTime.toISOString().replace('Z', '+09:00'),
         timeZone: 'Asia/Tokyo',
@@ -117,7 +40,7 @@ export const baseJraGoogleCalendarData: calendar_v3.Schema$Event = {
             .replace('Z', '+09:00'),
         timeZone: 'Asia/Tokyo',
     },
-    location: `${baseJraPlaceCourse}競馬場`,
+    location: `${defaultLocation[raceType]}競馬場`,
     colorId: '9',
     description: `距離: 芝2500m
 発走: 15:40
@@ -128,21 +51,21 @@ export const baseJraGoogleCalendarData: calendar_v3.Schema$Event = {
     extendedProperties: {
         private: {
             dateTime: baseRaceDateTime.toISOString(),
-            distance: baseJraRaceDistance.toString(),
-            grade: baseJraRaceGrade,
-            heldDayTimes: baseJraRaceHeldDayTimes.toString(),
-            heldTimes: baseJraRaceHeldTimes.toString(),
-            location: baseJraPlaceCourse,
-            name: baseJraRaceName,
+            distance: defaultRaceDistance[raceType].toString(),
+            grade: defaultRaceGrade[raceType],
+            heldDayTimes: defaultHeldDayData[raceType].heldDayTimes.toString(),
+            heldTimes: defaultHeldDayData[raceType].heldTimes.toString(),
+            location: defaultLocation[raceType],
+            name: defaultRaceName[raceType],
             number: baseRaceNumber.toString(),
             raceId: generateRaceId(
                 raceType,
-                baseJraPlaceDateTime,
-                baseJraPlaceCourse,
+                basePlaceDateTime,
+                defaultLocation[raceType],
                 baseRaceNumber,
             ),
-            surfaceType: baseJraRaceSurfaceType,
-            updateDate: baseJraRaceUpdateDate.toISOString(),
+            surfaceType: defaultRaceSurfaceType[raceType],
+            updateDate: baseRaceUpdateDate.toISOString(),
         },
     },
 };
@@ -176,7 +99,7 @@ export const baseJraRaceEntityList: RaceEntity[] = ['東京', '京都'].flatMap(
                 HorseRaceConditionData.create('芝', 1600),
                 undefined, // stage は未指定
                 undefined, // racePlayerDataList は未指定
-                baseJraRaceUpdateDate,
+                baseRaceUpdateDate,
             );
         });
     },
@@ -185,22 +108,22 @@ export const baseJraRaceEntityList: RaceEntity[] = ['東京', '京都'].flatMap(
 export const baseJraCalendarData = CalendarData.create(
     'test202412220611',
     raceType,
-    baseJraRaceName,
+    defaultRaceName[raceType],
     '2024-12-22T15:40:00Z',
     '2024-12-22T15:50:00Z',
-    `${baseJraPlaceCourse}競馬場`,
+    `${defaultLocation[raceType]}競馬場`,
     'テスト',
 );
 
 export const baseJraCalendarDataFromGoogleCalendar = {
     id: 'test202412220611',
-    summary: baseJraRaceName,
+    summary: defaultRaceName[raceType],
     start: {
         dateTime: '2024-12-22T15:40:00Z',
     },
     end: {
         dateTime: '2024-12-22T15:50:00Z',
     },
-    location: `${baseJraPlaceCourse}競馬場`,
+    location: `${defaultLocation[raceType]}競馬場`,
     description: 'テスト',
 };

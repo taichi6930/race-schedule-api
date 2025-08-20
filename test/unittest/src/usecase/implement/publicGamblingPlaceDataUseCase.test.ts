@@ -11,21 +11,17 @@ import {
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
-import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
-import { baseBoatracePlaceEntity } from '../../mock/common/baseBoatraceData';
-import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
-import { baseKeirinPlaceEntity } from '../../mock/common/baseKeirinData';
-import { baseNarPlaceEntity } from '../../mock/common/baseNarData';
+import { basePlaceEntity } from '../../mock/common/baseCommonData';
 describe('PublicGamblingPlaceUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService>;
     let useCase: IPlaceDataUseCase;
 
     const mockPlaceEntityList = [
-        baseJraPlaceEntity,
-        baseNarPlaceEntity,
-        baseKeirinPlaceEntity,
-        baseAutoracePlaceEntity,
-        baseBoatracePlaceEntity,
+        basePlaceEntity(RaceType.JRA),
+        basePlaceEntity(RaceType.NAR),
+        basePlaceEntity(RaceType.KEIRIN),
+        basePlaceEntity(RaceType.AUTORACE),
+        basePlaceEntity(RaceType.BOATRACE),
     ];
 
     beforeEach(() => {
