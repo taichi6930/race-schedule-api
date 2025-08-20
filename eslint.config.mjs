@@ -264,10 +264,10 @@ export default [
             '**/lib/src/domain/calendarData.ts',
             '**/lib/src/gateway/implement/googleCalendarGateway.ts',
             '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtml.ts',
-            '**/lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl.ts',
-            '**/lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl.ts',
-            '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl.ts',
-            '**/lib/src/repository/implement/narRaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/boatracePlaceRepositoryFromHtml.ts',
+            '**/lib/src/repository/implement/jraPlaceRepositoryFromHtml.ts',
+            '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtml.ts',
+            '**/lib/src/repository/implement/narRaceRepositoryFromHtml.ts',
         ],
         rules: {
             '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
@@ -285,7 +285,7 @@ export default [
     {
         files: [
             '**/test/**/*.ts',
-            '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtml.ts',
             '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtml.ts',
         ],
         rules: {
@@ -306,7 +306,6 @@ export default [
     },
     {
         files: [
-            '**/repository/implement/**RepositoryFromHtmlImpl.ts',
             '**/repository/implement/**RepositoryFromHtml.ts',
         ],
         rules: {

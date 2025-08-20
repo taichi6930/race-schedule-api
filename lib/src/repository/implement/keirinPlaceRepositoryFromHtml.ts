@@ -21,7 +21,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  * 競輪場データリポジトリの実装
  */
 @injectable()
-export class KeirinPlaceRepositoryFromHtmlImpl
+export class KeirinPlaceRepositoryFromHtml
     implements IPlaceRepository<PlaceEntity>
 {
     public constructor(

@@ -17,7 +17,7 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
-export class PlaceRepositoryFromStorageImpl
+export class PlaceRepositoryFromStorage
     implements IPlaceRepository<PlaceEntity>
 {
     // S3にアップロードするファイル名

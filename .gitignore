@@ -24,3 +24,6 @@ docs
 
 # volume配下のファイル
 volume/*
+
+# package managers
+package-lock.json

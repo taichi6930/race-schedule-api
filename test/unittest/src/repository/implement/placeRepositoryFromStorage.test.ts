@@ -10,7 +10,7 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { PlaceRepositoryFromStorageImpl } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorageImpl';
+import { PlaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import {
@@ -20,7 +20,7 @@ import {
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 
-describe('PlaceRepositoryFromStorageImpl', () => {
+describe('PlaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
     let repository: IPlaceRepository<PlaceEntity>;
 
@@ -28,7 +28,7 @@ describe('PlaceRepositoryFromStorageImpl', () => {
         const setup: TestSetup = setupTestMock();
         ({ s3Gateway } = setup);
         // テスト対象のリポジトリを生成
-        repository = container.resolve(PlaceRepositoryFromStorageImpl);
+        repository = container.resolve(PlaceRepositoryFromStorage);
     });
 
     afterEach(() => {

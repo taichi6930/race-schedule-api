@@ -27,7 +27,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  * 競馬場開催データリポジトリの実装
  */
 @injectable()
-export class OverseasRaceRepositoryFromHtmlImpl
+export class OverseasRaceRepositoryFromHtml
     implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     public constructor(

@@ -11,21 +11,21 @@ import type { RaceEntity } from '../../../../../lib/src/repository/entity/raceEn
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtml';
-import { JraRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl';
-import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
-import { NarRaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromHtmlImpl';
+import { JraRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromHtml';
+import { KeirinRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtml';
+import { NarRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromHtml';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
-import { OverseasRaceRepositoryFromHtmlImpl } from './../../../../../lib/src/repository/implement/overseasRaceRepositoryFromHtmlImpl';
+import { OverseasRaceRepositoryFromHtml } from './../../../../../lib/src/repository/implement/overseasRaceRepositoryFromHtml';
 
 // テーブル駆動型テスト
 const testCases = [
     {
-        name: 'JraRaceRepositoryFromHtmlImpl',
-        repositoryClass: JraRaceRepositoryFromHtmlImpl,
+        name: 'JraRaceRepositoryFromHtml',
+        repositoryClass: JraRaceRepositoryFromHtml,
         raceType: RaceType.JRA,
         startDate: new Date('2024-05-26'),
         endDate: new Date('2024-05-26'),
@@ -36,8 +36,8 @@ const testCases = [
         expectedLength: 24,
     },
     {
-        name: 'NarRaceRepositoryFromHtmlImpl',
-        repositoryClass: NarRaceRepositoryFromHtmlImpl,
+        name: 'NarRaceRepositoryFromHtml',
+        repositoryClass: NarRaceRepositoryFromHtml,
         raceType: RaceType.NAR,
         startDate: new Date('2024-10-02'),
         endDate: new Date('2024-10-02'),
@@ -48,8 +48,8 @@ const testCases = [
         expectedLength: 12,
     },
     {
-        name: 'NarRaceRepositoryFromHtmlImpl',
-        repositoryClass: NarRaceRepositoryFromHtmlImpl,
+        name: 'NarRaceRepositoryFromHtml',
+        repositoryClass: NarRaceRepositoryFromHtml,
         raceType: RaceType.NAR,
         startDate: new Date('2023-10-08'),
         endDate: new Date('2023-10-08'),
@@ -60,8 +60,8 @@ const testCases = [
         expectedLength: 12,
     },
     {
-        name: 'OverseasRaceRepositoryFromHtmlImpl',
-        repositoryClass: OverseasRaceRepositoryFromHtmlImpl,
+        name: 'OverseasRaceRepositoryFromHtml',
+        repositoryClass: OverseasRaceRepositoryFromHtml,
         raceType: RaceType.OVERSEAS,
         startDate: new Date('2025-05-01'),
         endDate: new Date('2025-06-30'),
@@ -72,8 +72,8 @@ const testCases = [
         expectedLength: 35,
     },
     {
-        name: 'OverseasRaceRepositoryFromHtmlImpl',
-        repositoryClass: OverseasRaceRepositoryFromHtmlImpl,
+        name: 'OverseasRaceRepositoryFromHtml',
+        repositoryClass: OverseasRaceRepositoryFromHtml,
         raceType: RaceType.OVERSEAS,
         startDate: new Date('2025-06-01'),
         endDate: new Date('2025-07-31'),
@@ -84,8 +84,8 @@ const testCases = [
         expectedLength: 30,
     },
     {
-        name: 'KeirinRaceRepositoryFromHtmlImpl',
-        repositoryClass: KeirinRaceRepositoryFromHtmlImpl,
+        name: 'KeirinRaceRepositoryFromHtml',
+        repositoryClass: KeirinRaceRepositoryFromHtml,
         raceType: RaceType.KEIRIN,
         startDate: new Date('2024-10-20'),
         endDate: new Date('2024-10-20'),
