@@ -188,7 +188,7 @@ export const baseRaceEntityList = (raceType: RaceType): RaceEntity[] => {
     }
 };
 
-export const baseMechanicalRacingRaceEntityList = (
+const baseMechanicalRacingRaceEntityList = (
     _raceType: RaceType,
 ): RaceEntity[] =>
     [
@@ -233,9 +233,7 @@ export const baseMechanicalRacingRaceEntityList = (
         })
         .filter((entity) => entity !== 'undefined');
 
-export const baseHorseRacingRaceEntityList = (
-    _raceType: RaceType,
-): RaceEntity[] =>
+const baseHorseRacingRaceEntityList = (_raceType: RaceType): RaceEntity[] =>
     [
         {
             raceType: RaceType.JRA,
