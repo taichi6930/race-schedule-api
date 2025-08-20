@@ -10,7 +10,7 @@ import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // MechanicalRacingRaceRepositoryFromHtmlImplのモックを作成
-export class MockMechanicalRacingRaceRepositoryFromHtmlImpl
+export class MockMechanicalRacingRaceRepositoryFromHtml
     implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     @Logger

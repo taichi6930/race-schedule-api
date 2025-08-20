@@ -7,7 +7,7 @@ import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
-export class MockPlaceRepositoryFromHtmlImpl
+export class MockPlaceRepositoryFromHtml
     implements IPlaceRepository<PlaceEntity>
 {
     /**
