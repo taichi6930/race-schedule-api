@@ -28,7 +28,7 @@ import {
     defaultStage,
 } from '../../mock/common/baseCommonData';
 
-describe('MechanicalRacingRaceRepositoryFromStorage', () => {
+describe('RaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
     let horseRacingRaceRepository: IRaceRepository<RaceEntity, PlaceEntity>;
     let mechanicalRacingRaceRepository: IRaceRepository<
