@@ -40,7 +40,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         const raceEntityList: RaceEntity[] = [];
         for (const placeEntity of searchFilter.placeEntityList) {
             raceEntityList.push(
-                ...(await this.fetchRaceListFromHtmlWithBoatracePlace(
+                ...(await this.fetchRaceListFromHtml(
                     placeEntity.placeData,
                     placeEntity.grade,
                 )),
@@ -53,7 +53,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    public async fetchRaceListFromHtmlWithBoatracePlace(
+    public async fetchRaceListFromHtml(
         placeData: PlaceData,
         grade: GradeType,
     ): Promise<RaceEntity[]> {
@@ -71,7 +71,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                 placeData.location,
                 raceNumber,
             );
-            const boatraceRaceEntityList: RaceEntity[] = [];
+            const raceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
 
             // raceNameを取得 class="heading2_titleName"のtext
@@ -105,7 +105,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             // TODO: 選手情報を取得する
             const racePlayerDataList: RacePlayerData[] = [];
 
-            boatraceRaceEntityList.push(
+            raceEntityList.push(
                 RaceEntity.createWithoutId(
                     RaceData.create(
                         placeData.raceType,
@@ -122,7 +122,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                     getJSTDate(new Date()),
                 ),
             );
-            return boatraceRaceEntityList;
+            return raceEntityList;
         } catch (error) {
             console.error('HTMLの取得に失敗しました', error);
             return [];

@@ -41,7 +41,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         const { placeEntityList } = searchFilter;
         for (const placeEntity of placeEntityList) {
             raceDataList.push(
-                ...(await this.fetchRaceListFromHtmlWithKeirinPlace(
+                ...(await this.fetchRaceListFromHtml(
                     placeEntity.placeData,
                     placeEntity.grade,
                 )),
@@ -54,7 +54,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    public async fetchRaceListFromHtmlWithKeirinPlace(
+    public async fetchRaceListFromHtml(
         placeData: PlaceData,
         grade: GradeType,
     ): Promise<RaceEntity[]> {

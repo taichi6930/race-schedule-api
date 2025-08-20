@@ -310,7 +310,7 @@ export class MechanicalRacingRaceRepositoryFromStorageImpl
             updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
-        // データ行を解析してKeirinRaceDataのリストを生成
+        // データ行を解析してRaceDataのリストを生成
         const racePlayerRecordList: RacePlayerRecord[] = lines
             .slice(1)
             .flatMap((line: string): RacePlayerRecord[] => {

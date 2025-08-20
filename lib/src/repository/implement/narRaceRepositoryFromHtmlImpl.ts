@@ -58,7 +58,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
-            const narRaceDataList: RaceEntity[] = [];
+            const raceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             const raceTable = $('section.raceTable');
             const trs = raceTable.find('tr.data');
@@ -105,7 +105,7 @@ export class NarRaceRepositoryFromHtmlImpl
                         distance,
                         grade,
                     });
-                    narRaceDataList.push(
+                    raceEntityList.push(
                         RaceEntity.createWithoutId(
                             RaceData.create(
                                 placeEntity.placeData.raceType,
@@ -129,7 +129,7 @@ export class NarRaceRepositoryFromHtmlImpl
                     console.error('レースデータの取得に失敗しました', error);
                 }
             }
-            return narRaceDataList;
+            return raceEntityList;
         } catch (error) {
             console.error('HTMLの取得に失敗しました', error);
             return [];

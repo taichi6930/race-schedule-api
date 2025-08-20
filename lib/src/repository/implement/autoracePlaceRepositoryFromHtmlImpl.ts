@@ -112,7 +112,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                 // thを取得
                 const th = $(trElement).find('th');
 
-                // thのテキストが AutoraceRaceCourseに含まれているか
+                // thのテキストが RaceCourseに含まれているか
                 if (!th.text()) {
                     return;
                 }

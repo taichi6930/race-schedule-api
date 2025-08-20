@@ -131,10 +131,10 @@ export class NarPlaceRepositoryFromHtmlImpl
             });
         });
 
-        const narPlaceDataList: PlaceEntity[] = [];
+        const placeDataList: PlaceEntity[] = [];
         for (const [place, raceDays] of Object.entries(placeDataDict)) {
             for (const raceDay of raceDays) {
-                narPlaceDataList.push(
+                placeDataList.push(
                     PlaceEntity.createWithoutId(
                         PlaceData.create(
                             raceType,
@@ -152,7 +152,7 @@ export class NarPlaceRepositoryFromHtmlImpl
                 );
             }
         }
-        return narPlaceDataList;
+        return placeDataList;
     }
 
     /**

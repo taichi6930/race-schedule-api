@@ -46,12 +46,12 @@ export class JraPlaceRepositoryFromHtmlImpl
         const placeRecordResults = await Promise.all(placeRecordPromises);
         const placeRecordList: {
             horseRacingPlaceRecord: PlaceRecord;
-            jraHeldDayRecord: HeldDayRecord;
+            heldDayRecord: HeldDayRecord;
         }[] = placeRecordResults.flat();
 
         // Entityに変換
         const placeEntityList: PlaceEntity[] = placeRecordList.map(
-            ({ horseRacingPlaceRecord, jraHeldDayRecord }) => {
+            ({ horseRacingPlaceRecord, heldDayRecord }) => {
                 return PlaceEntity.create(
                     horseRacingPlaceRecord.id,
                     PlaceData.create(
@@ -60,14 +60,14 @@ export class JraPlaceRepositoryFromHtmlImpl
                         horseRacingPlaceRecord.location,
                     ),
                     HeldDayData.create(
-                        jraHeldDayRecord.heldTimes,
-                        jraHeldDayRecord.heldDayTimes,
+                        heldDayRecord.heldTimes,
+                        heldDayRecord.heldDayTimes,
                     ),
                     undefined, // グレードは未指定
                     new Date(
                         Math.min(
                             horseRacingPlaceRecord.updateDate.getTime(),
-                            jraHeldDayRecord.updateDate.getTime(),
+                            heldDayRecord.updateDate.getTime(),
                         ),
                     ),
                 );
@@ -119,7 +119,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     ): Promise<
         {
             horseRacingPlaceRecord: PlaceRecord;
-            jraHeldDayRecord: HeldDayRecord;
+            heldDayRecord: HeldDayRecord;
         }[]
     > {
         // レースHTMLを取得
@@ -129,7 +129,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         // 競馬場開催レコードはここに追加
         const recordList: {
             horseRacingPlaceRecord: PlaceRecord;
-            jraHeldDayRecord: HeldDayRecord;
+            heldDayRecord: HeldDayRecord;
         }[] = [];
 
         // 競馬場のイニシャルと名前のマッピング
@@ -206,7 +206,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                             getPlaceName(placeInitial),
                             getJSTDate(new Date()),
                         );
-                        const jraHeldDayRecord = HeldDayRecord.create(
+                        const heldDayRecord = HeldDayRecord.create(
                             generatePlaceId(
                                 raceType,
                                 new Date(date.getFullYear(), month - 1, day),
@@ -219,7 +219,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                         );
                         recordList.push({
                             horseRacingPlaceRecord: placeRecord,
-                            jraHeldDayRecord: jraHeldDayRecord,
+                            heldDayRecord: heldDayRecord,
                         });
                     });
             }
