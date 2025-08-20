@@ -18,9 +18,7 @@ import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
-import { baseAutoraceRacePlayerDataList } from '../../mock/common/baseAutoraceData';
-import { baseBoatraceRacePlayerDataList } from '../../mock/common/baseBoatraceData';
-import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
+import { baseRacePlayerDataList } from '../../mock/common/baseCommonData';
 
 describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
@@ -91,21 +89,25 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                     location: '立川',
                     grade: 'GⅠ',
                     stage: 'S級決勝',
-                    racePlayerDataList: baseKeirinRacePlayerDataList,
+                    racePlayerDataList: baseRacePlayerDataList(RaceType.KEIRIN),
                 },
                 {
                     raceType: RaceType.AUTORACE,
                     location: '飯塚',
                     grade: 'GⅠ',
                     stage: '優勝戦',
-                    racePlayerDataList: baseAutoraceRacePlayerDataList,
+                    racePlayerDataList: baseRacePlayerDataList(
+                        RaceType.AUTORACE,
+                    ),
                 },
                 {
                     raceType: RaceType.BOATRACE,
                     location: '平和島',
                     grade: 'GⅠ',
                     stage: '優勝戦',
-                    racePlayerDataList: baseBoatraceRacePlayerDataList,
+                    racePlayerDataList: baseRacePlayerDataList(
+                        RaceType.BOATRACE,
+                    ),
                 },
             ]) {
                 // 1年間のレース開催データを登録する
@@ -151,21 +153,21 @@ describe('MechanicalRacingRaceRepositoryFromStorageImpl', () => {
                 location: '立川',
                 grade: 'GⅠ',
                 stage: 'S級決勝',
-                racePlayerDataList: baseKeirinRacePlayerDataList,
+                racePlayerDataList: baseRacePlayerDataList(RaceType.KEIRIN),
             },
             {
                 raceType: RaceType.AUTORACE,
                 location: '飯塚',
                 grade: 'GⅠ',
                 stage: '優勝戦',
-                racePlayerDataList: baseAutoraceRacePlayerDataList,
+                racePlayerDataList: baseRacePlayerDataList(RaceType.AUTORACE),
             },
             {
                 raceType: RaceType.BOATRACE,
                 location: '平和島',
                 grade: 'GⅠ',
                 stage: '優勝戦',
-                racePlayerDataList: baseBoatraceRacePlayerDataList,
+                racePlayerDataList: baseRacePlayerDataList(RaceType.BOATRACE),
             },
         ]) {
             // 1年間のレース開催データを登録する

@@ -1,23 +1,28 @@
+import { RaceType } from '../../../../../lib/src/utility/raceType';
 import {
-    baseJraPlaceData,
-    baseJraPlaceEntity,
-} from '../../mock/common/baseJraData';
+    basePlaceData,
+    basePlaceEntity,
+} from '../../mock/common/baseCommonData';
 
 describe('PlaceEntityクラスのテスト', () => {
     it('正しい入力でPlaceEntityのインスタンスを作成できることを確認', () => {
-        expect(baseJraPlaceEntity.placeData).toEqual(baseJraPlaceData);
+        expect(basePlaceEntity(RaceType.JRA).placeData).toEqual(
+            basePlaceData(RaceType.JRA),
+        );
     });
 
     it('何も変更せずPlaceEntityのインスタンスを作成できることを確認', () => {
-        const copiedPlaceEntity = baseJraPlaceEntity.copy();
+        const copiedPlaceEntity = basePlaceEntity(RaceType.JRA).copy();
 
-        expect(copiedPlaceEntity.id).toEqual(baseJraPlaceEntity.id);
-        expect(copiedPlaceEntity.placeData).toBe(baseJraPlaceEntity.placeData);
+        expect(copiedPlaceEntity.id).toEqual(basePlaceEntity(RaceType.JRA).id);
+        expect(copiedPlaceEntity.placeData).toStrictEqual(
+            basePlaceEntity(RaceType.JRA).placeData,
+        );
     });
 
     it('何も変更せずJraPlaceDataのインスタンスを作成できることを確認', () => {
-        const { placeData } = baseJraPlaceEntity;
+        const { placeData } = basePlaceEntity(RaceType.JRA);
 
-        expect(placeData).toEqual(baseJraPlaceData);
+        expect(placeData).toEqual(basePlaceData(RaceType.JRA));
     });
 });

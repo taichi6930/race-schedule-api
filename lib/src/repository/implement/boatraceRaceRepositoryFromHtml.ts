@@ -11,17 +11,17 @@ import { GradeType } from '../../utility/data/common/gradeType';
 import { RaceStage, StageMap } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { RaceType } from './../../utility/raceType';
 
 /**
  * ボートレース場開催データリポジトリの実装
  */
 @injectable()
-export class BoatraceRaceRepositoryFromHtmlImpl
+export class BoatraceRaceRepositoryFromHtml
     implements IRaceRepository<RaceEntity, PlaceEntity>
 {
     public constructor(
@@ -37,11 +37,10 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<PlaceEntity>,
     ): Promise<RaceEntity[]> {
-        const boatraceRaceDataList: RaceEntity[] = [];
-        const { placeEntityList } = searchFilter;
-        for (const placeEntity of placeEntityList) {
-            boatraceRaceDataList.push(
-                ...(await this.fetchRaceListFromHtmlWithBoatracePlace(
+        const raceEntityList: RaceEntity[] = [];
+        for (const placeEntity of searchFilter.placeEntityList) {
+            raceEntityList.push(
+                ...(await this.fetchRaceListFromHtml(
                     placeEntity.placeData,
                     placeEntity.grade,
                 )),
@@ -50,11 +49,11 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             await new Promise((resolve) => setTimeout(resolve, 800));
             console.debug('0.8秒経ちました');
         }
-        return boatraceRaceDataList;
+        return raceEntityList;
     }
 
     @Logger
-    public async fetchRaceListFromHtmlWithBoatracePlace(
+    public async fetchRaceListFromHtml(
         placeData: PlaceData,
         grade: GradeType,
     ): Promise<RaceEntity[]> {
@@ -72,7 +71,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                 placeData.location,
                 raceNumber,
             );
-            const boatraceRaceEntityList: RaceEntity[] = [];
+            const raceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
 
             // raceNameを取得 class="heading2_titleName"のtext
@@ -106,7 +105,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             // TODO: 選手情報を取得する
             const racePlayerDataList: RacePlayerData[] = [];
 
-            boatraceRaceEntityList.push(
+            raceEntityList.push(
                 RaceEntity.createWithoutId(
                     RaceData.create(
                         placeData.raceType,
@@ -123,7 +122,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                     getJSTDate(new Date()),
                 ),
             );
-            return boatraceRaceEntityList;
+            return raceEntityList;
         } catch (error) {
             console.error('HTMLの取得に失敗しました', error);
             return [];

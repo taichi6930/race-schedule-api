@@ -246,7 +246,7 @@ export class RaceRepositoryFromStorageImpl
             updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
         };
 
-        // データ行を解析して JraHeldDayRecord のリストを生成
+        // データ行を解析して HeldDayRecord のリストを生成
         const heldDayRecordList: HeldDayRecord[] = lines
             .slice(1)
             .flatMap((line: string): HeldDayRecord[] => {

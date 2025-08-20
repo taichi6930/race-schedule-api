@@ -48,14 +48,7 @@ export interface IRaceDataUseCase {
                 stageList?: RaceStage[];
             };
         },
-    ) => Promise<{
-        [RaceType.JRA]: RaceEntity[];
-        [RaceType.NAR]: RaceEntity[];
-        [RaceType.OVERSEAS]: RaceEntity[];
-        [RaceType.KEIRIN]: RaceEntity[];
-        [RaceType.AUTORACE]: RaceEntity[];
-        [RaceType.BOATRACE]: RaceEntity[];
-    }>;
+    ) => Promise<RaceEntity[]>;
 
     /**
      * レース開催データを更新する

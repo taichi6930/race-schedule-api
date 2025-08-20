@@ -17,52 +17,14 @@ import {
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
 import {
-    baseAutoraceCalendarData,
-    baseAutoraceRaceEntity,
-} from '../../mock/common/baseAutoraceData';
-import {
-    baseBoatraceCalendarData,
-    baseBoatraceRaceEntity,
-} from '../../mock/common/baseBoatraceData';
-import {
-    baseJraCalendarData,
-    baseJraRaceEntity,
-} from '../../mock/common/baseJraData';
-import {
-    baseKeirinCalendarData,
-    baseKeirinRaceEntity,
-} from '../../mock/common/baseKeirinData';
-import {
-    baseNarCalendarData,
-    baseNarRaceEntity,
-} from '../../mock/common/baseNarData';
-import {
-    baseOverseasCalendarData,
-    baseOverseasRaceEntity,
-} from '../../mock/common/baseOverseasData';
+    baseCalendarData,
+    baseRaceEntity,
+} from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
     let raceDataService: jest.Mocked<IRaceDataService>;
     let useCase: IRaceCalendarUseCase;
-
-    const baseRaceEntityMap = {
-        [RaceType.JRA]: baseJraRaceEntity,
-        [RaceType.NAR]: baseNarRaceEntity,
-        [RaceType.OVERSEAS]: baseOverseasRaceEntity,
-        [RaceType.KEIRIN]: baseKeirinRaceEntity,
-        [RaceType.BOATRACE]: baseBoatraceRaceEntity,
-        [RaceType.AUTORACE]: baseAutoraceRaceEntity,
-    };
-
-    const baseCalendarDataListMap = {
-        [RaceType.JRA]: baseJraCalendarData,
-        [RaceType.NAR]: baseNarCalendarData,
-        [RaceType.OVERSEAS]: baseOverseasCalendarData,
-        [RaceType.KEIRIN]: baseKeirinCalendarData,
-        [RaceType.BOATRACE]: baseBoatraceCalendarData,
-        [RaceType.AUTORACE]: baseAutoraceCalendarData,
-    };
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -74,12 +36,14 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         clearMocks();
     });
 
+    const baseCalendarDataList = ALL_RACE_TYPE_LIST.map((raceType) =>
+        baseCalendarData(raceType),
+    );
+
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
-            const mockCalendarData: CalendarData[] = [baseAutoraceCalendarData];
-
             // モックの戻り値を設定
-            calendarService.fetchEvents.mockResolvedValue(mockCalendarData);
+            calendarService.fetchEvents.mockResolvedValue(baseCalendarDataList);
 
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
@@ -95,7 +59,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 finishDate,
                 ALL_RACE_TYPE_LIST,
             );
-            expect(result).toEqual(mockCalendarData);
+            expect(result).toEqual(baseCalendarDataList);
         });
     });
 
@@ -103,7 +67,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         const mockCalendarDataList: CalendarData[] = ALL_RACE_TYPE_LIST.flatMap(
             (raceType) =>
                 Array.from({ length: 8 }, (_, i: number) =>
-                    baseCalendarDataListMap[raceType].copy({
+                    baseCalendarData(raceType).copy({
                         id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
                     }),
                 ),
@@ -111,7 +75,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
 
         const mockRaceEntityList = ALL_RACE_TYPE_LIST.flatMap((raceType) =>
             Array.from({ length: 5 }, (_, i: number) =>
-                baseRaceEntityMap[raceType].copy({
+                baseRaceEntity(raceType).copy({
                     id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
@@ -120,7 +84,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         const expectDeleteCalendarDataList = ALL_RACE_TYPE_LIST.flatMap(
             (raceType) =>
                 Array.from({ length: 3 }, (_, i: number) =>
-                    baseCalendarDataListMap[raceType].copy({
+                    baseCalendarData(raceType).copy({
                         id: `${raceType.toLowerCase()}2024122920${(i + 6).toXDigits(2)}`,
                     }),
                 ),

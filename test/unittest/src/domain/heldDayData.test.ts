@@ -1,5 +1,5 @@
 /**
- * JraHeldDayData ディシジョンテーブル
+ * HeldDayData ディシジョンテーブル
  * |No|heldTimes|heldDayTimes|partialの内容|期待結果|備考|
  * |--|---------|------------|-------------|--------|----|
  * |1 |有効     |有効        | -           |OK      |正常系|
@@ -14,7 +14,7 @@ import { HeldDayData } from '../../../../lib/src/domain/heldDayData';
 import { validateHeldDayTimes } from '../../../../lib/src/utility/data/common/heldDayTimes';
 import { validateHeldTimes } from '../../../../lib/src/utility/data/common/heldTimes';
 
-describe('JraHeldDayDataクラスのテスト', () => {
+describe('HeldDayDataクラスのテスト', () => {
     const validHeldTimes = 1; // 仮: 有効値
     const invalidHeldTimes = 0; // 仮: 無効値
     const validHeldDayTimes = 1; // 仮: 有効値

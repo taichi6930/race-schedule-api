@@ -55,7 +55,7 @@ export class MockPlaceRepositoryFromHtmlImpl
         successData: PlaceEntity[];
         failureData: PlaceEntity[];
     }> {
-        console.debug(placeEntityList);
+        console.debug(raceType, placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }

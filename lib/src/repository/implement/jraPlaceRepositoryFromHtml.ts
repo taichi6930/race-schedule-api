@@ -16,7 +16,7 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
-export class JraPlaceRepositoryFromHtmlImpl
+export class JraPlaceRepositoryFromHtml
     implements IPlaceRepository<PlaceEntity>
 {
     public constructor(
@@ -46,12 +46,12 @@ export class JraPlaceRepositoryFromHtmlImpl
         const placeRecordResults = await Promise.all(placeRecordPromises);
         const placeRecordList: {
             horseRacingPlaceRecord: PlaceRecord;
-            jraHeldDayRecord: HeldDayRecord;
+            heldDayRecord: HeldDayRecord;
         }[] = placeRecordResults.flat();
 
         // Entityに変換
         const placeEntityList: PlaceEntity[] = placeRecordList.map(
-            ({ horseRacingPlaceRecord, jraHeldDayRecord }) => {
+            ({ horseRacingPlaceRecord, heldDayRecord }) => {
                 return PlaceEntity.create(
                     horseRacingPlaceRecord.id,
                     PlaceData.create(
@@ -60,14 +60,14 @@ export class JraPlaceRepositoryFromHtmlImpl
                         horseRacingPlaceRecord.location,
                     ),
                     HeldDayData.create(
-                        jraHeldDayRecord.heldTimes,
-                        jraHeldDayRecord.heldDayTimes,
+                        heldDayRecord.heldTimes,
+                        heldDayRecord.heldDayTimes,
                     ),
                     undefined, // グレードは未指定
                     new Date(
                         Math.min(
                             horseRacingPlaceRecord.updateDate.getTime(),
-                            jraHeldDayRecord.updateDate.getTime(),
+                            heldDayRecord.updateDate.getTime(),
                         ),
                     ),
                 );
@@ -119,7 +119,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     ): Promise<
         {
             horseRacingPlaceRecord: PlaceRecord;
-            jraHeldDayRecord: HeldDayRecord;
+            heldDayRecord: HeldDayRecord;
         }[]
     > {
         // レースHTMLを取得
@@ -127,9 +127,9 @@ export class JraPlaceRepositoryFromHtmlImpl
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
         // 競馬場開催レコードはここに追加
-        const jraRecordList: {
+        const recordList: {
             horseRacingPlaceRecord: PlaceRecord;
-            jraHeldDayRecord: HeldDayRecord;
+            heldDayRecord: HeldDayRecord;
         }[] = [];
 
         // 競馬場のイニシャルと名前のマッピング
@@ -195,7 +195,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                         const heldDayTimes: number =
                             placeHeldDayTimesCountMap[place][heldTimes];
 
-                        const jraPlaceRecord = PlaceRecord.create(
+                        const placeRecord = PlaceRecord.create(
                             generatePlaceId(
                                 raceType,
                                 new Date(date.getFullYear(), month - 1, day),
@@ -206,7 +206,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                             getPlaceName(placeInitial),
                             getJSTDate(new Date()),
                         );
-                        const jraHeldDayRecord = HeldDayRecord.create(
+                        const heldDayRecord = HeldDayRecord.create(
                             generatePlaceId(
                                 raceType,
                                 new Date(date.getFullYear(), month - 1, day),
@@ -217,14 +217,14 @@ export class JraPlaceRepositoryFromHtmlImpl
                             heldDayTimes,
                             getJSTDate(new Date()),
                         );
-                        jraRecordList.push({
-                            horseRacingPlaceRecord: jraPlaceRecord,
-                            jraHeldDayRecord: jraHeldDayRecord,
+                        recordList.push({
+                            horseRacingPlaceRecord: placeRecord,
+                            heldDayRecord: heldDayRecord,
                         });
                     });
             }
         }
-        return jraRecordList;
+        return recordList;
     }
 
     /**
@@ -243,7 +243,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         successData: PlaceEntity[];
         failureData: PlaceEntity[];
     }> {
-        console.debug(placeEntityList);
+        console.debug(raceType, placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         return {
             code: 500,

@@ -6,52 +6,55 @@ import type { IPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/inter
 import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { AutoracePlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
-import { BoatracePlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
-import { KeirinPlaceRepositoryFromHtmlImpl } from '../../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
+import { AutoracePlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtml';
+import { BoatracePlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtml';
+import { JraPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtml';
+import { KeirinPlaceRepositoryFromHtmlImpl as KeirinPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
+import { NarPlaceRepositoryFromHtmlImpl as NarPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/narPlaceRepositoryFromHtmlImpl';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
-import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
-import { baseBoatracePlaceEntity } from '../../mock/common/baseBoatraceData';
-import { baseKeirinPlaceEntity } from '../../mock/common/baseKeirinData';
+import { basePlaceEntity } from '../../mock/common/baseCommonData';
 
-type RepositoryClassType = new (
-    placeDataHtmlGateway: IPlaceDataHtmlGateway,
-) => IPlaceRepository<PlaceEntity>;
-const testCases: {
-    name: string;
-    repositoryClass: RepositoryClassType;
-    raceType: RaceType;
-    baseEntity: PlaceEntity;
-    startDate: Date;
-    endDate: Date;
-    expectedLength: number;
-}[] = [
+// テーブル駆動型テスト
+const testCases = [
     {
-        name: 'KeirinPlaceRepositoryFromHtmlImpl',
-        repositoryClass: KeirinPlaceRepositoryFromHtmlImpl,
+        name: 'JraPlaceRepositoryFromHtml',
+        repositoryClass: JraPlaceRepositoryFromHtml,
+        raceType: RaceType.JRA,
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-12-31'),
+        expectedLength: 288,
+    },
+    {
+        name: 'NarPlaceRepositoryFromHtml',
+        repositoryClass: NarPlaceRepositoryFromHtml,
+        raceType: RaceType.NAR,
+        startDate: new Date('2024-10-01'),
+        endDate: new Date('2024-10-31'),
+        expectedLength: 120,
+    },
+    {
+        name: 'KeirinPlaceRepositoryFromHtml',
+        repositoryClass: KeirinPlaceRepositoryFromHtml,
         raceType: RaceType.KEIRIN,
-        baseEntity: baseKeirinPlaceEntity,
         startDate: new Date('2024-10-01'),
         endDate: new Date('2024-10-31'),
         expectedLength: 233,
     },
     {
-        name: 'AutoracePlaceRepositoryFromHtmlImpl',
-        repositoryClass: AutoracePlaceRepositoryFromHtmlImpl,
+        name: 'AutoracePlaceRepositoryFromHtml',
+        repositoryClass: AutoracePlaceRepositoryFromHtml,
         raceType: RaceType.AUTORACE,
-        baseEntity: baseAutoracePlaceEntity,
         startDate: new Date('2024-11-01'),
         endDate: new Date('2024-11-30'),
         expectedLength: 60,
     },
     {
-        name: 'BoatracePlaceRepositoryFromHtmlImpl',
-        repositoryClass: BoatracePlaceRepositoryFromHtmlImpl,
+        name: 'BoatracePlaceRepositoryFromHtml',
+        repositoryClass: BoatracePlaceRepositoryFromHtml,
         raceType: RaceType.BOATRACE,
-        baseEntity: baseBoatracePlaceEntity,
         startDate: new Date('2025-04-01'),
         endDate: new Date('2025-06-30'),
         expectedLength: 66,
@@ -62,20 +65,19 @@ for (const {
     name,
     repositoryClass,
     raceType,
-    baseEntity,
     startDate,
     endDate,
     expectedLength,
 } of testCases) {
     describe(name, () => {
-        let placeDataHtmlgateway: IPlaceDataHtmlGateway;
+        let placeDataHtmlGateway: IPlaceDataHtmlGateway;
         let repository: IPlaceRepository<PlaceEntity>;
 
         beforeEach(() => {
-            placeDataHtmlgateway = new MockPlaceDataHtmlGateway();
+            placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
             container.registerInstance(
                 'PlaceDataHtmlGateway',
-                placeDataHtmlgateway,
+                placeDataHtmlGateway,
             );
             repository =
                 container.resolve<IPlaceRepository<PlaceEntity>>(
@@ -89,7 +91,7 @@ for (const {
 
         describe('fetchPlaceList', () => {
             SkipEnv(
-                '正しい開催場データを取得できる',
+                `正しいレース開催データを取得できる(${raceType})`,
                 [allowedEnvs.githubActionsCi],
                 async () => {
                     const placeEntityList =
@@ -106,14 +108,16 @@ for (const {
         });
 
         describe('registerPlaceList', () => {
-            it('HTMLなので登録できない', async () => {
+            it(`HTMLにはデータを登録できない(${raceType})`, async () => {
                 await expect(
-                    repository.registerPlaceEntityList(raceType, [baseEntity]),
+                    repository.registerPlaceEntityList(raceType, [
+                        basePlaceEntity(raceType),
+                    ]),
                 ).resolves.toEqual({
                     code: 500,
                     message: 'HTMLにはデータを登録出来ません',
                     successData: [],
-                    failureData: [baseEntity],
+                    failureData: [basePlaceEntity(raceType)],
                 });
             });
         });

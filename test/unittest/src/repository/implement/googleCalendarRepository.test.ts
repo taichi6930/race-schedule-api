@@ -11,41 +11,11 @@ import {
     RaceType,
 } from '../../../../../lib/src/utility/raceType';
 import {
-    baseAutoraceCalendarData,
-    baseAutoraceCalendarDataFromGoogleCalendar,
-    baseAutoraceRaceEntity,
-    baseAutoraceRaceEntityList,
-} from '../../mock/common/baseAutoraceData';
-import {
-    baseBoatraceCalendarData,
-    baseBoatraceCalendarDataFromGoogleCalendar,
-    baseBoatraceRaceEntity,
-    baseBoatraceRaceEntityList,
-} from '../../mock/common/baseBoatraceData';
-import {
-    baseJraCalendarData,
-    baseJraCalendarDataFromGoogleCalendar,
-    baseJraRaceEntity,
-    baseJraRaceEntityList,
-} from '../../mock/common/baseJraData';
-import {
-    baseKeirinCalendarData,
-    baseKeirinCalendarDataFromGoogleCalendar,
-    baseKeirinRaceEntity,
-    baseKeirinRaceEntityList,
-} from '../../mock/common/baseKeirinData';
-import {
-    baseNarCalendarData,
-    baseNarCalendarDataFromGoogleCalendar,
-    baseNarRaceEntity,
-    baseNarRaceEntityList,
-} from '../../mock/common/baseNarData';
-import {
-    baseOverseasCalendarData,
-    baseOverseasCalendarDataFromGoogleCalendar,
-    baseOverseasRaceEntity,
-    baseOverseasRaceEntityList,
-} from '../../mock/common/baseOverseasData';
+    baseCalendarData,
+    baseCalendarDataFromGoogleCalendar,
+    baseRaceEntity,
+    baseRaceEntityList,
+} from '../../mock/common/baseCommonData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
 describe('GoogleCalendarRepository', () => {
@@ -66,53 +36,18 @@ describe('GoogleCalendarRepository', () => {
     });
 
     const mockCalendarDataList = [
-        baseJraCalendarData,
-        baseNarCalendarData,
-        baseOverseasCalendarData,
-        baseKeirinCalendarData,
-        baseBoatraceCalendarData,
-        baseAutoraceCalendarData,
+        baseCalendarData(RaceType.JRA),
+        baseCalendarData(RaceType.NAR),
+        baseCalendarData(RaceType.OVERSEAS),
+        baseCalendarData(RaceType.KEIRIN),
+        baseCalendarData(RaceType.BOATRACE),
+        baseCalendarData(RaceType.AUTORACE),
     ];
 
-    const baseCalendarDataFromGoogleCalendarMap = {
-        [RaceType.JRA]: baseJraCalendarDataFromGoogleCalendar,
-        [RaceType.NAR]: baseNarCalendarDataFromGoogleCalendar,
-        [RaceType.OVERSEAS]: baseOverseasCalendarDataFromGoogleCalendar,
-        [RaceType.KEIRIN]: baseKeirinCalendarDataFromGoogleCalendar,
-        [RaceType.BOATRACE]: baseBoatraceCalendarDataFromGoogleCalendar,
-        [RaceType.AUTORACE]: baseAutoraceCalendarDataFromGoogleCalendar,
-    };
-
-    const baseCalendarDataMap = {
-        [RaceType.JRA]: baseJraCalendarData,
-        [RaceType.NAR]: baseNarCalendarData,
-        [RaceType.OVERSEAS]: baseOverseasCalendarData,
-        [RaceType.KEIRIN]: baseKeirinCalendarData,
-        [RaceType.BOATRACE]: baseBoatraceCalendarData,
-        [RaceType.AUTORACE]: baseAutoraceCalendarData,
-    };
-
-    const baseRaceEntityMap = {
-        [RaceType.JRA]: baseJraRaceEntity,
-        [RaceType.NAR]: baseNarRaceEntity,
-        [RaceType.OVERSEAS]: baseOverseasRaceEntity,
-        [RaceType.KEIRIN]: baseKeirinRaceEntity,
-        [RaceType.BOATRACE]: baseBoatraceRaceEntity,
-        [RaceType.AUTORACE]: baseAutoraceRaceEntity,
-    };
-
-    const baseRaceEntityListMap = {
-        [RaceType.JRA]: baseJraRaceEntityList,
-        [RaceType.NAR]: baseNarRaceEntityList,
-        [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
-        [RaceType.KEIRIN]: baseKeirinRaceEntityList,
-        [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
-        [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
-    };
     it('カレンダー情報が正常に取得できること', async () => {
         googleCalendarGateway.fetchCalendarDataList.mockImplementation(
             async (raceType: RaceType) => {
-                return [baseCalendarDataFromGoogleCalendarMap[raceType]];
+                return [baseCalendarDataFromGoogleCalendar(raceType)];
             },
         );
         const searchFilter = new SearchCalendarFilterEntity(
@@ -155,7 +90,7 @@ describe('GoogleCalendarRepository', () => {
         for (const raceType of ALL_RACE_TYPE_LIST) {
             googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-            await repository.deleteEvents([baseCalendarDataMap[raceType]]);
+            await repository.deleteEvents([baseCalendarData(raceType)]);
             expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
         }
     });
@@ -166,7 +101,7 @@ describe('GoogleCalendarRepository', () => {
                 new Error('API Error'),
             );
 
-            await repository.deleteEvents([baseCalendarDataMap[raceType]]);
+            await repository.deleteEvents([baseCalendarData(raceType)]);
             expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
         }
     });
@@ -177,7 +112,7 @@ describe('GoogleCalendarRepository', () => {
                 new Error('API Error'),
             );
 
-            await repository.upsertEvents([baseRaceEntityMap[raceType]]);
+            await repository.upsertEvents([baseRaceEntity(raceType)]);
 
             expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
         }
@@ -186,10 +121,10 @@ describe('GoogleCalendarRepository', () => {
     it('カレンダー情報が正常に更新できること', async () => {
         for (const raceType of ALL_RACE_TYPE_LIST) {
             googleCalendarGateway.fetchCalendarData.mockResolvedValue(
-                baseCalendarDataFromGoogleCalendarMap[raceType],
+                baseCalendarDataFromGoogleCalendar(raceType),
             );
 
-            await repository.upsertEvents(baseRaceEntityListMap[raceType]);
+            await repository.upsertEvents(baseRaceEntityList(raceType));
 
             expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
         }
@@ -200,7 +135,7 @@ describe('GoogleCalendarRepository', () => {
             googleCalendarGateway.insertCalendarData.mockRejectedValue(
                 new Error('API Error'),
             );
-            await repository.upsertEvents(baseRaceEntityListMap[raceType]);
+            await repository.upsertEvents(baseRaceEntityList(raceType));
 
             expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
         }

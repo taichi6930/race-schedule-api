@@ -47,9 +47,9 @@ export class OverseasRaceRepositoryFromHtmlImpl
             searchFilter.startDate,
             searchFilter.finishDate,
         );
-        const overseasRaceDataList: RaceEntity[] = [];
+        const raceEntityList: RaceEntity[] = [];
         for (const month of monthList) {
-            overseasRaceDataList.push(
+            raceEntityList.push(
                 ...(await this.fetchRaceListFromHtml(
                     searchFilter.raceType,
                     month,
@@ -59,7 +59,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
             await new Promise((resolve) => setTimeout(resolve, 800));
             console.debug('0.8秒経ちました');
         }
-        return overseasRaceDataList;
+        return raceEntityList;
     }
 
     /**
@@ -95,7 +95,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
                 raceType,
                 date,
             );
-            const overseasRaceDataList: RaceEntity[] = [];
+            const raceDataList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             const content = $('.racelist');
             // class="racelist__day"が複数あるのでeachで回す
@@ -219,7 +219,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
                                 surfaceType,
                                 distance,
                             });
-                            overseasRaceDataList.push(
+                            raceDataList.push(
                                 RaceEntity.createWithoutId(
                                     RaceData.create(
                                         raceType,
@@ -247,7 +247,7 @@ export class OverseasRaceRepositoryFromHtmlImpl
                         }
                     });
             });
-            return overseasRaceDataList;
+            return raceDataList;
         } catch (error) {
             console.error('HTMLの取得に失敗しました', error);
             return [];

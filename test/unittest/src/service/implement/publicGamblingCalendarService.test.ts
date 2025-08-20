@@ -6,62 +6,25 @@ import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/en
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
-import {
-    ALL_RACE_TYPE_LIST,
-    RaceType,
-} from '../../../../../lib/src/utility/raceType';
+import { ALL_RACE_TYPE_LIST } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
-    baseAutoraceCalendarData,
-    baseAutoraceRaceEntityList,
-} from '../../mock/common/baseAutoraceData';
-import {
-    baseBoatraceCalendarData,
-    baseBoatraceRaceEntityList,
-} from '../../mock/common/baseBoatraceData';
-import {
-    baseJraCalendarData,
-    baseJraRaceEntityList,
-} from '../../mock/common/baseJraData';
-import {
-    baseKeirinCalendarData,
-    baseKeirinRaceEntityList,
-} from '../../mock/common/baseKeirinData';
-import {
-    baseNarCalendarData,
-    baseNarRaceEntityList,
-} from '../../mock/common/baseNarData';
-import {
-    baseOverseasCalendarData,
-    baseOverseasRaceEntityList,
-} from '../../mock/common/baseOverseasData';
+    baseCalendarData,
+    baseRaceEntityList,
+} from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
     let calendarRepository: jest.Mocked<ICalendarRepository>;
 
-    const mockCalendarDataListMap = {
-        [RaceType.JRA]: baseJraCalendarData,
-        [RaceType.NAR]: baseNarCalendarData,
-        [RaceType.OVERSEAS]: baseOverseasCalendarData,
-        [RaceType.KEIRIN]: baseKeirinCalendarData,
-        [RaceType.BOATRACE]: baseBoatraceCalendarData,
-        [RaceType.AUTORACE]: baseAutoraceCalendarData,
-    };
+    const mockCalendarDataList = ALL_RACE_TYPE_LIST.map((raceType) =>
+        baseCalendarData(raceType),
+    );
 
-    const mockCalendarDataList = Object.values(mockCalendarDataListMap).flat();
-
-    const mockRaceEntityListMap = {
-        [RaceType.JRA]: baseJraRaceEntityList,
-        [RaceType.NAR]: baseNarRaceEntityList,
-        [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
-        [RaceType.KEIRIN]: baseKeirinRaceEntityList,
-        [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
-        [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
-    };
-
-    const mockRaceEntityList = Object.values(mockRaceEntityListMap).flat();
+    const mockRaceEntityList = ALL_RACE_TYPE_LIST.flatMap((raceType) =>
+        baseRaceEntityList(raceType),
+    );
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();

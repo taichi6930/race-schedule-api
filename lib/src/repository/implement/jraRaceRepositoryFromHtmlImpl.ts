@@ -45,17 +45,14 @@ export class JraRaceRepositoryFromHtmlImpl
             .filter((x, i, self) => self.indexOf(x) === i);
         for (const date of dateList) {
             jraRaceEntityList.push(
-                ...(await this.fetchRaceListFromHtmlWithJraPlace(
-                    raceType,
-                    date,
-                )),
+                ...(await this.fetchRaceListFromHtml(raceType, date)),
             );
         }
         return jraRaceEntityList;
     }
 
     @Logger
-    public async fetchRaceListFromHtmlWithJraPlace(
+    public async fetchRaceListFromHtml(
         raceType: RaceType,
         raceDate: Date,
     ): Promise<RaceEntity[]> {

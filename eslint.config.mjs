@@ -263,7 +263,7 @@ export default [
         files: [
             '**/lib/src/domain/calendarData.ts',
             '**/lib/src/gateway/implement/googleCalendarGateway.ts',
-            '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtml.ts',
             '**/lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl.ts',
             '**/lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl.ts',
             '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl.ts',
@@ -286,7 +286,7 @@ export default [
         files: [
             '**/test/**/*.ts',
             '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl.ts',
-            '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl.ts',
+            '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtml.ts',
         ],
         rules: {
             '@typescript-eslint/init-declarations': 'off', // ✅ 変数宣言時に初期化を強制
@@ -305,7 +305,10 @@ export default [
         },
     },
     {
-        files: ['**/repository/implement/**RepositoryFromHtmlImpl.ts'],
+        files: [
+            '**/repository/implement/**RepositoryFromHtmlImpl.ts',
+            '**/repository/implement/**RepositoryFromHtml.ts',
+        ],
         rules: {
             'unicorn/no-null': 'off', // ✅ nullの使用を許可
         },

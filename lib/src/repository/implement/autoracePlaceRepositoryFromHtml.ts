@@ -18,7 +18,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  * オートレースデータリポジトリの実装
  */
 @injectable()
-export class AutoracePlaceRepositoryFromHtmlImpl
+export class AutoracePlaceRepositoryFromHtml
     implements IPlaceRepository<PlaceEntity>
 {
     public constructor(
@@ -92,7 +92,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         raceType: RaceType,
         date: Date,
     ): Promise<PlaceEntity[]> {
-        const autoracePlaceEntityList: PlaceEntity[] = [];
+        const placeEntityList: PlaceEntity[] = [];
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -108,12 +108,11 @@ export class AutoracePlaceRepositoryFromHtmlImpl
             // その中のtbodyを取得
             const tbody = $(element).find('tbody');
             // tr class="ref_sche"を取得
-            const trs = tbody.find('tr');
-            trs.each((__: number, trElement) => {
+            tbody.find('tr').each((__: number, trElement) => {
                 // thを取得
                 const th = $(trElement).find('th');
 
-                // thのテキストが AutoraceRaceCourseに含まれているか
+                // thのテキストが RaceCourseに含まれているか
                 if (!th.text()) {
                     return;
                 }
@@ -159,7 +158,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                     );
                     // alt属性を出力
                     if (grade) {
-                        autoracePlaceEntityList.push(
+                        placeEntityList.push(
                             PlaceEntity.createWithoutId(
                                 PlaceData.create(raceType, datetime, place),
                                 undefined,
@@ -171,7 +170,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                 });
             });
         });
-        return autoracePlaceEntityList;
+        return placeEntityList;
     }
 
     /**
@@ -190,7 +189,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         successData: PlaceEntity[];
         failureData: PlaceEntity[];
     }> {
-        console.debug(placeEntityList);
+        console.debug(raceType, placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         return {
             code: 500,

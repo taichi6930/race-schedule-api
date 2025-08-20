@@ -1,5 +1,7 @@
-import { HeldDayData } from '../../domain/heldDayData';
-import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
+import {
+    baseConditionData,
+    defaultHeldDayData,
+} from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -36,8 +38,8 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
                                 'GⅠ',
                                 raceNumber,
                             ),
-                            this.defaultHeldDayData[raceType],
-                            HorseRaceConditionData.create('ダート', 2000),
+                            defaultHeldDayData[raceType],
+                            baseConditionData(raceType),
                             undefined, // stage は未指定
                             undefined, // racePlayerDataList は未指定
                             getJSTDate(new Date()),
@@ -65,8 +67,8 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
                                 'GⅠ',
                                 i,
                             ),
-                            undefined,
-                            HorseRaceConditionData.create('芝', 2400),
+                            defaultHeldDayData[raceType],
+                            baseConditionData(raceType),
                             undefined, // stage は未指定
                             undefined, // racePlayerDataList は未指定
                             getJSTDate(new Date()),
@@ -94,13 +96,4 @@ export class MockHorseRacingRaceRepositoryFromHtmlImpl
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
-
-    private readonly defaultHeldDayData = {
-        [RaceType.JRA]: HeldDayData.create(1, 1),
-        [RaceType.NAR]: undefined,
-        [RaceType.OVERSEAS]: undefined,
-        [RaceType.KEIRIN]: undefined,
-        [RaceType.AUTORACE]: undefined,
-        [RaceType.BOATRACE]: undefined,
-    };
 }

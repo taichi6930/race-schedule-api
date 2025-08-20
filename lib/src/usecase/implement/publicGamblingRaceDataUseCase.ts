@@ -8,7 +8,11 @@ import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { RaceStage } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import {
+    ALL_RACE_TYPE_LIST,
+    ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+    RaceType,
+} from '../../utility/raceType';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
@@ -67,14 +71,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 stageList?: RaceStage[];
             };
         },
-    ): Promise<{
-        [RaceType.JRA]: RaceEntity[];
-        [RaceType.NAR]: RaceEntity[];
-        [RaceType.OVERSEAS]: RaceEntity[];
-        [RaceType.KEIRIN]: RaceEntity[];
-        [RaceType.AUTORACE]: RaceEntity[];
-        [RaceType.BOATRACE]: RaceEntity[];
-    }> {
+    ): Promise<RaceEntity[]> {
         const placeEntityList =
             await this.placeDataService.fetchPlaceEntityList(
                 startDate,
@@ -92,50 +89,14 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         );
 
         // 共通フィルタ関数で簡潔に
-        return {
-            [RaceType.JRA]: this.filterRaceEntityList(
+        return ALL_RACE_TYPE_LIST.flatMap((raceType) =>
+            this.filterRaceEntityList(
                 raceEntityList.filter(
-                    (raceEntity) =>
-                        raceEntity.raceData.raceType === RaceType.JRA,
+                    (raceEntity) => raceEntity.raceData.raceType === raceType,
                 ),
-                searchList?.[RaceType.JRA],
+                searchList?.[raceType],
             ),
-            [RaceType.NAR]: this.filterRaceEntityList(
-                raceEntityList.filter(
-                    (raceEntity) =>
-                        raceEntity.raceData.raceType === RaceType.NAR,
-                ),
-                searchList?.[RaceType.NAR],
-            ),
-            [RaceType.OVERSEAS]: this.filterRaceEntityList(
-                raceEntityList.filter(
-                    (raceEntity) =>
-                        raceEntity.raceData.raceType === RaceType.OVERSEAS,
-                ),
-                searchList?.[RaceType.OVERSEAS],
-            ),
-            [RaceType.KEIRIN]: this.filterRaceEntityList(
-                raceEntityList.filter(
-                    (raceEntity) =>
-                        raceEntity.raceData.raceType === RaceType.KEIRIN,
-                ),
-                searchList?.[RaceType.KEIRIN],
-            ),
-            [RaceType.AUTORACE]: this.filterRaceEntityList(
-                raceEntityList.filter(
-                    (raceEntity) =>
-                        raceEntity.raceData.raceType === RaceType.AUTORACE,
-                ),
-                searchList?.[RaceType.AUTORACE],
-            ),
-            [RaceType.BOATRACE]: this.filterRaceEntityList(
-                raceEntityList.filter(
-                    (raceEntity) =>
-                        raceEntity.raceData.raceType === RaceType.BOATRACE,
-                ),
-                searchList?.[RaceType.BOATRACE],
-            ),
-        };
+        );
     }
 
     /**
@@ -190,38 +151,15 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 DataLocation.Storage,
             );
 
-        const filteredPlaceEntityList = [
-            ...this.filterPlaceEntityList(
-                placeEntityList.filter(
-                    (item) => item.placeData.raceType === RaceType.JRA,
+        const filteredPlaceEntityList =
+            ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS.flatMap((raceType) =>
+                this.filterPlaceEntityList(
+                    placeEntityList.filter(
+                        (item) => item.placeData.raceType === raceType,
+                    ),
+                    searchList?.[raceType],
                 ),
-                searchList?.[RaceType.JRA],
-            ),
-            ...this.filterPlaceEntityList(
-                placeEntityList.filter(
-                    (item) => item.placeData.raceType === RaceType.NAR,
-                ),
-                searchList?.[RaceType.NAR],
-            ),
-            ...this.filterPlaceEntityList(
-                placeEntityList.filter(
-                    (item) => item.placeData.raceType === RaceType.KEIRIN,
-                ),
-                searchList?.[RaceType.KEIRIN],
-            ),
-            ...this.filterPlaceEntityList(
-                placeEntityList.filter(
-                    (item) => item.placeData.raceType === RaceType.AUTORACE,
-                ),
-                searchList?.[RaceType.AUTORACE],
-            ),
-            ...this.filterPlaceEntityList(
-                placeEntityList.filter(
-                    (item) => item.placeData.raceType === RaceType.BOATRACE,
-                ),
-                searchList?.[RaceType.BOATRACE],
-            ),
-        ];
+            );
 
         // placeEntityListが空の場合は処理を終了する
         if (
@@ -247,13 +185,14 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             filteredPlaceEntityList,
         );
 
-        await this.raceDataService.updateRaceEntityList(raceEntityList);
+        const response =
+            await this.raceDataService.updateRaceEntityList(raceEntityList);
 
         return {
-            code: 200,
-            message: 'レースデータの更新が完了しました。',
-            successDataCount: raceEntityList.length,
-            failureDataCount: 0,
+            code: response.code,
+            message: response.message,
+            successDataCount: response.successDataCount,
+            failureDataCount: response.failureDataCount,
         };
     }
 

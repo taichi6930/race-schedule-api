@@ -59,7 +59,7 @@ export class HeldDayRecord implements IRecord<HeldDayRecord> {
             );
         } catch (error) {
             throw new Error(
-                createErrorMessage('JraHeldDayRecord create error', error),
+                createErrorMessage('HeldDayRecord create error', error),
             );
         }
     }

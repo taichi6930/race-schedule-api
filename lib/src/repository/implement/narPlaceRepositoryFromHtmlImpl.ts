@@ -106,18 +106,18 @@ export class NarPlaceRepositoryFromHtmlImpl
         // 2行目のtrは曜日
         // ３行目のtr以降はレース情報
         const trs = tbody.find('tr');
-        const narPlaceDataDict: Record<string, number[]> = {};
+        const placeDataDict: Record<string, number[]> = {};
 
         trs.each((index: number, element) => {
             if (index < 2) {
                 return;
             }
             const tds = $(element).find('td');
-            const place = $(tds[0]).text();
+            const placeData = $(tds[0]).text();
             tds.each((tdIndex: number, tdElement) => {
                 if (tdIndex === 0) {
-                    if (!(place in narPlaceDataDict)) {
-                        narPlaceDataDict[place] = [];
+                    if (!(placeData in placeDataDict)) {
+                        placeDataDict[placeData] = [];
                     }
                     return;
                 }
@@ -126,15 +126,15 @@ export class NarPlaceRepositoryFromHtmlImpl
                     $(tdElement).text().includes('☆') ||
                     $(tdElement).text().includes('Ｄ')
                 ) {
-                    narPlaceDataDict[place].push(tdIndex);
+                    placeDataDict[placeData].push(tdIndex);
                 }
             });
         });
 
-        const narPlaceDataList: PlaceEntity[] = [];
-        for (const [place, raceDays] of Object.entries(narPlaceDataDict)) {
+        const placeDataList: PlaceEntity[] = [];
+        for (const [place, raceDays] of Object.entries(placeDataDict)) {
             for (const raceDay of raceDays) {
-                narPlaceDataList.push(
+                placeDataList.push(
                     PlaceEntity.createWithoutId(
                         PlaceData.create(
                             raceType,
@@ -152,7 +152,7 @@ export class NarPlaceRepositoryFromHtmlImpl
                 );
             }
         }
-        return narPlaceDataList;
+        return placeDataList;
     }
 
     /**
@@ -171,7 +171,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         successData: PlaceEntity[];
         failureData: PlaceEntity[];
     }> {
-        console.debug(placeEntityList);
+        console.debug(raceType, placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         return {
             code: 500,

@@ -9,7 +9,7 @@ module.exports = {
         'lib/src/gateway/mock/mockPlaceDataHtmlGateway.ts',
         'lib/src/gateway/mock/mockRaceDataHtmlGateway.ts',
         // TODO: データ用意が大変なので一旦除外、どこかでテストしたい
-        'lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl.ts',
+        'lib/src/repository/implement/autoraceRaceRepositoryFromHtml.ts',
         'lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/overseasRaceRepositoryFromHtmlImpl.ts',

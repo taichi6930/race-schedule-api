@@ -1,25 +1,27 @@
-import {
-    baseNarRaceData,
-    baseNarRaceEntity,
-} from '../../mock/common/baseNarData';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { baseRaceData, baseRaceEntity } from '../../mock/common/baseCommonData';
 
 describe('NarRaceEntityクラスのテスト', () => {
     it('正しい入力でNarRaceEntityのインスタンスを作成できることを確認', () => {
         // インスタンスのプロパティが正しいか確認
-        expect(baseNarRaceEntity.id).toBe('nar202412294412');
-        expect(baseNarRaceEntity.raceData).toBe(baseNarRaceData);
+        expect(baseRaceEntity(RaceType.NAR).id).toBe('nar202412294412');
+        expect(baseRaceEntity(RaceType.NAR).raceData).toStrictEqual(
+            baseRaceData(RaceType.NAR),
+        );
     });
 
     it('何も変更せずNarRaceEntityのインスタンスを作成できることを確認', () => {
-        const copiedRaceEntity = baseNarRaceEntity.copy();
+        const copiedRaceEntity = baseRaceEntity(RaceType.NAR).copy();
         // インスタンスが変更されていないか確認
-        expect(copiedRaceEntity.id).toEqual(baseNarRaceEntity.id);
-        expect(copiedRaceEntity.raceData).toBe(baseNarRaceEntity.raceData);
+        expect(copiedRaceEntity.id).toEqual(baseRaceEntity(RaceType.NAR).id);
+        expect(copiedRaceEntity.raceData).toStrictEqual(
+            baseRaceEntity(RaceType.NAR).raceData,
+        );
     });
 
     it('何も変更せずNarRaceDataのインスタンスを作成できることを確認', () => {
-        const { raceData } = baseNarRaceEntity;
+        const { raceData } = baseRaceEntity(RaceType.NAR);
         // インスタンスが変更されていないか確認
-        expect(raceData).toEqual(baseNarRaceData);
+        expect(raceData).toEqual(baseRaceData(RaceType.NAR));
     });
 });

@@ -1,25 +1,31 @@
-import {
-    baseOverseasRaceData,
-    baseOverseasRaceEntity,
-} from '../../mock/common/baseOverseasData';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { baseRaceData, baseRaceEntity } from '../../mock/common/baseCommonData';
 
 describe('OverseasRaceEntityクラスのテスト', () => {
     it('正しい入力でOverseasRaceEntityのインスタンスを作成できることを確認', () => {
         // インスタンスのプロパティが正しいか確認
-        expect(baseOverseasRaceEntity.id).toBe('overseas202410010212');
-        expect(baseOverseasRaceEntity.raceData).toBe(baseOverseasRaceData);
+        expect(baseRaceEntity(RaceType.OVERSEAS).id).toBe(
+            'overseas202412290212',
+        );
+        expect(baseRaceEntity(RaceType.OVERSEAS).raceData).toStrictEqual(
+            baseRaceData(RaceType.OVERSEAS),
+        );
     });
 
     it('何も変更せずOverseasRaceEntityのインスタンスを作成できることを確認', () => {
-        const copiedRaceEntity = baseOverseasRaceEntity.copy();
+        const copiedRaceEntity = baseRaceEntity(RaceType.OVERSEAS).copy();
         // インスタンスが変更されていないか確認
-        expect(copiedRaceEntity.id).toEqual(baseOverseasRaceEntity.id);
-        expect(copiedRaceEntity.raceData).toBe(baseOverseasRaceEntity.raceData);
+        expect(copiedRaceEntity.id).toEqual(
+            baseRaceEntity(RaceType.OVERSEAS).id,
+        );
+        expect(copiedRaceEntity.raceData).toStrictEqual(
+            baseRaceEntity(RaceType.OVERSEAS).raceData,
+        );
     });
 
     it('何も変更せずOverseasRaceDataのインスタンスを作成できることを確認', () => {
-        const { raceData } = baseOverseasRaceEntity;
+        const { raceData } = baseRaceEntity(RaceType.OVERSEAS);
         // インスタンスが変更されていないか確認
-        expect(raceData).toEqual(baseOverseasRaceData);
+        expect(raceData).toStrictEqual(baseRaceData(RaceType.OVERSEAS));
     });
 });
