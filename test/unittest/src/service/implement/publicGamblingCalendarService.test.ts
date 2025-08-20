@@ -6,10 +6,7 @@ import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/en
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
-import {
-    ALL_RACE_TYPE_LIST,
-    RaceType,
-} from '../../../../../lib/src/utility/raceType';
+import { ALL_RACE_TYPE_LIST } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
@@ -25,16 +22,9 @@ describe('PublicGamblingCalendarService', () => {
         baseCalendarData(raceType),
     );
 
-    const mockRaceEntityListMap = {
-        [RaceType.JRA]: baseRaceEntityList(RaceType.JRA),
-        [RaceType.NAR]: baseRaceEntityList(RaceType.NAR),
-        [RaceType.OVERSEAS]: baseRaceEntityList(RaceType.OVERSEAS),
-        [RaceType.KEIRIN]: baseRaceEntityList(RaceType.KEIRIN),
-        [RaceType.AUTORACE]: baseRaceEntityList(RaceType.AUTORACE),
-        [RaceType.BOATRACE]: baseRaceEntityList(RaceType.BOATRACE),
-    };
-
-    const mockRaceEntityList = Object.values(mockRaceEntityListMap).flat();
+    const mockRaceEntityList = ALL_RACE_TYPE_LIST.flatMap((raceType) =>
+        baseRaceEntityList(raceType),
+    );
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
