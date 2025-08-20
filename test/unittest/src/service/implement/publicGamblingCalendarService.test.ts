@@ -14,8 +14,7 @@ import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     baseCalendarData,
-    baseHorseRacingRaceEntityList,
-    baseMechanicalRacingRaceEntityList,
+    baseRaceEntityList,
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingCalendarService', () => {
@@ -27,16 +26,12 @@ describe('PublicGamblingCalendarService', () => {
     );
 
     const mockRaceEntityListMap = {
-        [RaceType.JRA]: baseHorseRacingRaceEntityList(RaceType.JRA),
-        [RaceType.NAR]: baseHorseRacingRaceEntityList(RaceType.NAR),
-        [RaceType.OVERSEAS]: baseHorseRacingRaceEntityList(RaceType.OVERSEAS),
-        [RaceType.KEIRIN]: baseMechanicalRacingRaceEntityList(RaceType.KEIRIN),
-        [RaceType.AUTORACE]: baseMechanicalRacingRaceEntityList(
-            RaceType.AUTORACE,
-        ),
-        [RaceType.BOATRACE]: baseMechanicalRacingRaceEntityList(
-            RaceType.BOATRACE,
-        ),
+        [RaceType.JRA]: baseRaceEntityList(RaceType.JRA),
+        [RaceType.NAR]: baseRaceEntityList(RaceType.NAR),
+        [RaceType.OVERSEAS]: baseRaceEntityList(RaceType.OVERSEAS),
+        [RaceType.KEIRIN]: baseRaceEntityList(RaceType.KEIRIN),
+        [RaceType.AUTORACE]: baseRaceEntityList(RaceType.AUTORACE),
+        [RaceType.BOATRACE]: baseRaceEntityList(RaceType.BOATRACE),
     };
 
     const mockRaceEntityList = Object.values(mockRaceEntityListMap).flat();

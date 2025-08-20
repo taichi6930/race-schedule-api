@@ -6,7 +6,6 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
@@ -18,6 +17,12 @@ import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
+import {
+    baseConditionData,
+    baseRacePlayerDataList,
+    defaultHeldDayData,
+    defaultStage,
+} from '../../mock/common/baseCommonData';
 
 describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
@@ -50,7 +55,11 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                 },
             );
             // テスト実行
-            for (const raceType of [RaceType.NAR, RaceType.OVERSEAS]) {
+            for (const raceType of [
+                RaceType.JRA,
+                RaceType.NAR,
+                RaceType.OVERSEAS,
+            ]) {
                 const raceEntityList = await repository.fetchRaceEntityList(
                     new SearchRaceFilterEntity<PlaceEntity>(
                         new Date('2024-01-01'),
@@ -96,10 +105,10 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                                     grade,
                                     j + 1,
                                 ),
-                                undefined,
-                                HorseRaceConditionData.create('ダート', 2000),
-                                undefined, // stage は未指定
-                                undefined, // racePlayerDataList は未指定
+                                defaultHeldDayData[raceType],
+                                baseConditionData(raceType),
+                                defaultStage[raceType],
+                                baseRacePlayerDataList(raceType),
                                 getJSTDate(new Date()),
                             ),
                         );
@@ -116,6 +125,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
 
         test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
             for (const { raceType, location, grade } of [
+                { raceType: RaceType.JRA, location: '東京', grade: 'GⅠ' },
                 { raceType: RaceType.NAR, location: '大井', grade: 'GⅠ' },
                 {
                     raceType: RaceType.OVERSEAS,
@@ -139,10 +149,10 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                                     grade,
                                     j + 1,
                                 ),
-                                undefined,
-                                HorseRaceConditionData.create('ダート', 2000),
-                                undefined, // stage は未指定
-                                undefined, // racePlayerDataList は未指定
+                                defaultHeldDayData[raceType],
+                                baseConditionData(raceType),
+                                defaultStage[raceType],
+                                baseRacePlayerDataList(raceType),
                                 getJSTDate(new Date()),
                             ),
                         );
@@ -167,7 +177,7 @@ describe('HorseRacingRaceRepositoryFromStorageImpl', () => {
                     raceEntityList,
                 );
             }
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(2);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(3);
         });
     });
 });

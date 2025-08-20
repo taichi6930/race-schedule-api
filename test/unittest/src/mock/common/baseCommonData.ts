@@ -173,6 +173,21 @@ export const baseCalendarDataFromGoogleCalendar = (
     };
 };
 
+export const baseRaceEntityList = (raceType: RaceType): RaceEntity[] => {
+    switch (raceType) {
+        case RaceType.JRA:
+        case RaceType.NAR:
+        case RaceType.OVERSEAS: {
+            return baseHorseRacingRaceEntityList(raceType);
+        }
+        case RaceType.KEIRIN:
+        case RaceType.AUTORACE:
+        case RaceType.BOATRACE: {
+            return baseMechanicalRacingRaceEntityList(raceType);
+        }
+    }
+};
+
 export const baseMechanicalRacingRaceEntityList = (
     _raceType: RaceType,
 ): RaceEntity[] =>
@@ -346,7 +361,7 @@ export const baseHorseRacingRaceEntityList = (
                     defaultHeldDayData[raceType],
                     baseConditionData(raceType),
                     undefined, // stage は未指定
-                    undefined, // racePlayerDataList は未指定
+                    baseRacePlayerDataList(raceType),
                     baseRaceUpdateDate,
                 );
             });

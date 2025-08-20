@@ -13,8 +13,8 @@ import {
 import {
     baseCalendarData,
     baseCalendarDataFromGoogleCalendar,
-    baseHorseRacingRaceEntityList,
     baseRaceEntity,
+    baseRaceEntityList,
 } from '../../mock/common/baseCommonData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
@@ -124,9 +124,7 @@ describe('GoogleCalendarRepository', () => {
                 baseCalendarDataFromGoogleCalendar(raceType),
             );
 
-            await repository.upsertEvents(
-                baseHorseRacingRaceEntityList(raceType),
-            );
+            await repository.upsertEvents(baseRaceEntityList(raceType));
 
             expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
         }
@@ -137,9 +135,7 @@ describe('GoogleCalendarRepository', () => {
             googleCalendarGateway.insertCalendarData.mockRejectedValue(
                 new Error('API Error'),
             );
-            await repository.upsertEvents(
-                baseHorseRacingRaceEntityList(raceType),
-            );
+            await repository.upsertEvents(baseRaceEntityList(raceType));
 
             expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
         }

@@ -17,9 +17,8 @@ import {
     type TestSetup,
 } from '../../../../utility/testSetupHelper';
 import {
-    baseHorseRacingRaceEntityList,
-    baseMechanicalRacingRaceEntityList,
     basePlaceEntity,
+    baseRaceEntityList,
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataUseCase', () => {
@@ -43,14 +42,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
         (raceType) => basePlaceEntity(raceType),
     );
 
-    const mockRaceEntityList = [
-        ...baseHorseRacingRaceEntityList(RaceType.JRA),
-        ...baseHorseRacingRaceEntityList(RaceType.NAR),
-        ...baseHorseRacingRaceEntityList(RaceType.OVERSEAS),
-        ...baseMechanicalRacingRaceEntityList(RaceType.KEIRIN),
-        ...baseMechanicalRacingRaceEntityList(RaceType.AUTORACE),
-        ...baseMechanicalRacingRaceEntityList(RaceType.BOATRACE),
-    ];
+    const mockRaceEntityList = ALL_RACE_TYPE_LIST.flatMap((raceType) =>
+        baseRaceEntityList(raceType),
+    );
 
     describe('fetchRaceEntityList', () => {
         for (const {
@@ -65,7 +59,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 searchConditions: { [RaceType.NAR]: { gradeList: ['GⅠ'] } },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 2,
-                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.NAR),
+                returnedRaceList: baseRaceEntityList(RaceType.NAR),
             },
             {
                 raceTypeList: [RaceType.NAR],
@@ -76,7 +70,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.NAR),
+                returnedRaceList: baseRaceEntityList(RaceType.NAR),
             },
             {
                 raceTypeList: [RaceType.NAR],
@@ -88,7 +82,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.NAR),
+                returnedRaceList: baseRaceEntityList(RaceType.NAR),
             },
             {
                 raceTypeList: [RaceType.NAR],
@@ -100,14 +94,14 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
-                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.NAR),
+                returnedRaceList: baseRaceEntityList(RaceType.NAR),
             },
             {
                 raceTypeList: [RaceType.NAR],
                 searchConditions: {},
                 descriptions: '検索条件なし',
                 expectedLength: 24,
-                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.NAR),
+                returnedRaceList: baseRaceEntityList(RaceType.NAR),
             },
             {
                 raceTypeList: [RaceType.OVERSEAS],
@@ -116,9 +110,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 2,
-                returnedRaceList: baseHorseRacingRaceEntityList(
-                    RaceType.OVERSEAS,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
             },
             {
                 raceTypeList: [RaceType.OVERSEAS],
@@ -129,9 +121,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseHorseRacingRaceEntityList(
-                    RaceType.OVERSEAS,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
             },
             {
                 raceTypeList: [RaceType.OVERSEAS],
@@ -143,9 +133,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseHorseRacingRaceEntityList(
-                    RaceType.OVERSEAS,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
             },
             {
                 raceTypeList: [RaceType.OVERSEAS],
@@ -157,27 +145,21 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
-                returnedRaceList: baseHorseRacingRaceEntityList(
-                    RaceType.OVERSEAS,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
             },
             {
                 raceTypeList: [RaceType.OVERSEAS],
                 searchConditions: {},
                 descriptions: '検索条件なし',
                 expectedLength: 24,
-                returnedRaceList: baseHorseRacingRaceEntityList(
-                    RaceType.OVERSEAS,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
                 searchConditions: { [RaceType.KEIRIN]: { gradeList: ['GP'] } },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.KEIRIN,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
@@ -186,9 +168,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.KEIRIN,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
@@ -197,9 +177,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'stageを検索条件に入れて',
                 expectedLength: 6,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.KEIRIN,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
@@ -211,9 +189,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.KEIRIN,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
@@ -225,9 +201,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.KEIRIN,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
@@ -239,9 +213,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとstageを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.KEIRIN,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
@@ -253,9 +225,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'locationとstageを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.KEIRIN,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
@@ -268,25 +238,21 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocation、stageを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.KEIRIN,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
                 searchConditions: { [RaceType.KEIRIN]: {} },
                 descriptions: '検索条件なし',
                 expectedLength: 72,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.KEIRIN,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
             },
             {
                 raceTypeList: [RaceType.JRA],
                 searchConditions: { [RaceType.JRA]: { gradeList: ['GⅠ'] } },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 2,
-                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.JRA),
+                returnedRaceList: baseRaceEntityList(RaceType.JRA),
             },
             {
                 raceTypeList: [RaceType.JRA],
@@ -295,7 +261,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.JRA),
+                returnedRaceList: baseRaceEntityList(RaceType.JRA),
             },
             {
                 raceTypeList: [RaceType.JRA],
@@ -307,7 +273,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.JRA),
+                returnedRaceList: baseRaceEntityList(RaceType.JRA),
             },
             {
                 raceTypeList: [RaceType.JRA],
@@ -319,14 +285,14 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
-                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.JRA),
+                returnedRaceList: baseRaceEntityList(RaceType.JRA),
             },
             {
                 raceTypeList: [RaceType.JRA],
                 searchConditions: { [RaceType.JRA]: {} },
                 descriptions: '検索条件なし',
                 expectedLength: 24,
-                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.JRA),
+                returnedRaceList: baseRaceEntityList(RaceType.JRA),
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
@@ -335,9 +301,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.BOATRACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
@@ -346,9 +310,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.BOATRACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
@@ -357,9 +319,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'stageを検索条件に入れて',
                 expectedLength: 5,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.BOATRACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
@@ -371,9 +331,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.BOATRACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
@@ -385,9 +343,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.BOATRACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
@@ -399,9 +355,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとstageを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.BOATRACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
@@ -413,9 +367,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'locationとstageを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.BOATRACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
@@ -428,18 +380,14 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocation、stageを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.BOATRACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
             },
             {
                 raceTypeList: [RaceType.BOATRACE],
                 searchConditions: { [RaceType.BOATRACE]: {} },
                 descriptions: '検索条件なし',
                 expectedLength: 60,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.BOATRACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
@@ -448,9 +396,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.AUTORACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
@@ -459,9 +405,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.AUTORACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
@@ -470,9 +414,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'stageを検索条件に入れて',
                 expectedLength: 5,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.AUTORACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
@@ -484,9 +426,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.AUTORACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
@@ -498,9 +438,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.AUTORACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
@@ -512,9 +450,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとstageを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.AUTORACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
@@ -526,9 +462,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'locationとstageを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.AUTORACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
@@ -541,18 +475,14 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocation、stageを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.AUTORACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
             },
             {
                 raceTypeList: [RaceType.AUTORACE],
                 searchConditions: { [RaceType.AUTORACE]: {} },
                 descriptions: '検索条件なし',
                 expectedLength: 60,
-                returnedRaceList: baseMechanicalRacingRaceEntityList(
-                    RaceType.AUTORACE,
-                ),
+                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
             },
         ]) {
             it(`(${raceTypeList.join(',')})正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
@@ -571,14 +501,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                     searchConditions,
                 );
 
-                const [key] = raceTypeList;
-                if (key in result) {
-                    expect(
-                        (result as Record<string, unknown>)[key],
-                    ).toHaveLength(expectedLength);
-                } else {
-                    throw new Error(`Unexpected raceType: ${key}`);
-                }
+                expect(result).toHaveLength(expectedLength);
             });
         }
     });
