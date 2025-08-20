@@ -9,7 +9,7 @@ import { RaceEntity } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
-// MechanicalRacingRaceRepositoryFromHtmlImplのモックを作成
+// MechanicalRacingRaceRepositoryFromHtmlのモックを作成
 export class MockMechanicalRacingRaceRepositoryFromHtml
     implements IRaceRepository<RaceEntity, PlaceEntity>
 {
