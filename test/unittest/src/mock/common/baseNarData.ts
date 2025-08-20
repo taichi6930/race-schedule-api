@@ -1,6 +1,5 @@
 import type { calendar_v3 } from 'googleapis';
 
-import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
@@ -109,26 +108,3 @@ export const baseNarRaceEntityList: RaceEntity[] = ['大井', '高知'].flatMap(
         });
     },
 );
-
-export const baseNarCalendarData = CalendarData.create(
-    'test202412292011',
-    raceType,
-    defaultRaceName[raceType],
-    '2024-12-29T15:40:00Z',
-    '2024-12-29T15:50:00Z',
-    `${defaultLocation[raceType]}競馬場`,
-    'テスト',
-);
-
-export const baseNarCalendarDataFromGoogleCalendar = {
-    id: 'test202412292011',
-    summary: defaultRaceName[raceType],
-    start: {
-        dateTime: '2024-12-29T15:40:00Z',
-    },
-    end: {
-        dateTime: '2024-12-29T15:50:00Z',
-    },
-    location: `${defaultLocation[raceType]}競馬場`,
-    description: 'テスト',
-};

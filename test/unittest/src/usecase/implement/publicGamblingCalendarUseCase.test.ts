@@ -16,7 +16,7 @@ import {
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
-import { baseAutoraceCalendarData } from '../../mock/common/baseAutoraceData';
+import { baseCalendarData } from '../../mock/common/baseCommonData';
 import {
     baseCalendarDataMap,
     baseRaceEntityMap,
@@ -37,12 +37,19 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         clearMocks();
     });
 
+    const baseCalendarDataList = [
+        baseCalendarData(RaceType.JRA),
+        baseCalendarData(RaceType.NAR),
+        baseCalendarData(RaceType.OVERSEAS),
+        baseCalendarData(RaceType.KEIRIN),
+        baseCalendarData(RaceType.BOATRACE),
+        baseCalendarData(RaceType.AUTORACE),
+    ];
+
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
-            const mockCalendarData: CalendarData[] = [baseAutoraceCalendarData];
-
             // モックの戻り値を設定
-            calendarService.fetchEvents.mockResolvedValue(mockCalendarData);
+            calendarService.fetchEvents.mockResolvedValue(baseCalendarDataList);
 
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
@@ -58,7 +65,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 finishDate,
                 ALL_RACE_TYPE_LIST,
             );
-            expect(result).toEqual(mockCalendarData);
+            expect(result).toEqual(baseCalendarDataList);
         });
     });
 

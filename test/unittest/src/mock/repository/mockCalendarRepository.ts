@@ -1,12 +1,7 @@
 import type { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
-import { baseAutoraceCalendarData } from '../common/baseAutoraceData';
-import { baseBoatraceCalendarData } from '../common/baseBoatraceData';
-import { baseJraCalendarData } from '../common/baseJraData';
-import { baseKeirinCalendarData } from '../common/baseKeirinData';
-import { baseNarCalendarData } from '../common/baseNarData';
-import { baseOverseasCalendarData } from '../common/baseOverseasData';
+import type { RaceType } from '../../../../../lib/src/utility/raceType';
+import { baseCalendarData } from '../common/baseCommonData';
 
 export const mockCalendarRepository = (): jest.Mocked<ICalendarRepository> => {
     return {
@@ -14,23 +9,10 @@ export const mockCalendarRepository = (): jest.Mocked<ICalendarRepository> => {
             .fn()
             .mockImplementation(async (raceTypeList: RaceType[]) => {
                 const CalendarDataList: CalendarData[] = [];
-                if (raceTypeList.includes(RaceType.JRA)) {
-                    CalendarDataList.push(baseJraCalendarData);
-                }
-                if (raceTypeList.includes(RaceType.NAR)) {
-                    CalendarDataList.push(baseNarCalendarData);
-                }
-                if (raceTypeList.includes(RaceType.OVERSEAS)) {
-                    CalendarDataList.push(baseOverseasCalendarData);
-                }
-                if (raceTypeList.includes(RaceType.KEIRIN)) {
-                    CalendarDataList.push(baseKeirinCalendarData);
-                }
-                if (raceTypeList.includes(RaceType.BOATRACE)) {
-                    CalendarDataList.push(baseBoatraceCalendarData);
-                }
-                if (raceTypeList.includes(RaceType.AUTORACE)) {
-                    CalendarDataList.push(baseAutoraceCalendarData);
+                for (const raceType of raceTypeList) {
+                    if (raceTypeList.includes(raceType)) {
+                        CalendarDataList.push(baseCalendarData(raceType));
+                    }
                 }
                 return CalendarDataList;
             }),

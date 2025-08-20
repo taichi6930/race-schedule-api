@@ -1,35 +1,16 @@
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { baseAutoraceRaceEntityList } from './baseAutoraceData';
+import { baseBoatraceRaceEntityList } from './baseBoatraceData';
 import {
-    baseAutoraceCalendarData,
-    baseAutoraceCalendarDataFromGoogleCalendar,
-    baseAutoraceRaceEntityList,
-} from './baseAutoraceData';
-import {
-    baseBoatraceCalendarData,
-    baseBoatraceCalendarDataFromGoogleCalendar,
-    baseBoatraceRaceEntityList,
-} from './baseBoatraceData';
-import { basePlaceEntity, baseRaceEntity } from './baseCommonData';
-import {
-    baseJraCalendarData,
-    baseJraCalendarDataFromGoogleCalendar,
-    baseJraRaceEntityList,
-} from './baseJraData';
-import {
-    baseKeirinCalendarData,
-    baseKeirinCalendarDataFromGoogleCalendar,
-    baseKeirinRaceEntityList,
-} from './baseKeirinData';
-import {
-    baseNarCalendarData,
-    baseNarCalendarDataFromGoogleCalendar,
-    baseNarRaceEntityList,
-} from './baseNarData';
-import {
-    baseOverseasCalendarData,
-    baseOverseasCalendarDataFromGoogleCalendar,
-    baseOverseasRaceEntityList,
-} from './baseOverseasData';
+    baseCalendarData,
+    baseCalendarDataFromGoogleCalendar,
+    basePlaceEntity,
+    baseRaceEntity,
+} from './baseCommonData';
+import { baseJraRaceEntityList } from './baseJraData';
+import { baseKeirinRaceEntityList } from './baseKeirinData';
+import { baseNarRaceEntityList } from './baseNarData';
+import { baseOverseasRaceEntityList } from './baseOverseasData';
 
 export const baseRaceEntityListMap = {
     [RaceType.JRA]: baseJraRaceEntityList,
@@ -41,21 +22,21 @@ export const baseRaceEntityListMap = {
 };
 
 export const baseCalendarDataFromGoogleCalendarMap = {
-    [RaceType.JRA]: baseJraCalendarDataFromGoogleCalendar,
-    [RaceType.NAR]: baseNarCalendarDataFromGoogleCalendar,
-    [RaceType.OVERSEAS]: baseOverseasCalendarDataFromGoogleCalendar,
-    [RaceType.KEIRIN]: baseKeirinCalendarDataFromGoogleCalendar,
-    [RaceType.BOATRACE]: baseBoatraceCalendarDataFromGoogleCalendar,
-    [RaceType.AUTORACE]: baseAutoraceCalendarDataFromGoogleCalendar,
+    [RaceType.JRA]: baseCalendarDataFromGoogleCalendar(RaceType.JRA),
+    [RaceType.NAR]: baseCalendarDataFromGoogleCalendar(RaceType.NAR),
+    [RaceType.OVERSEAS]: baseCalendarDataFromGoogleCalendar(RaceType.OVERSEAS),
+    [RaceType.KEIRIN]: baseCalendarDataFromGoogleCalendar(RaceType.KEIRIN),
+    [RaceType.BOATRACE]: baseCalendarDataFromGoogleCalendar(RaceType.BOATRACE),
+    [RaceType.AUTORACE]: baseCalendarDataFromGoogleCalendar(RaceType.AUTORACE),
 };
 
 export const baseCalendarDataMap = {
-    [RaceType.JRA]: baseJraCalendarData,
-    [RaceType.NAR]: baseNarCalendarData,
-    [RaceType.OVERSEAS]: baseOverseasCalendarData,
-    [RaceType.KEIRIN]: baseKeirinCalendarData,
-    [RaceType.BOATRACE]: baseBoatraceCalendarData,
-    [RaceType.AUTORACE]: baseAutoraceCalendarData,
+    [RaceType.JRA]: baseCalendarData(RaceType.JRA),
+    [RaceType.NAR]: baseCalendarData(RaceType.NAR),
+    [RaceType.OVERSEAS]: baseCalendarData(RaceType.OVERSEAS),
+    [RaceType.KEIRIN]: baseCalendarData(RaceType.KEIRIN),
+    [RaceType.BOATRACE]: baseCalendarData(RaceType.BOATRACE),
+    [RaceType.AUTORACE]: baseCalendarData(RaceType.AUTORACE),
 };
 
 export const baseRaceEntityMap = {

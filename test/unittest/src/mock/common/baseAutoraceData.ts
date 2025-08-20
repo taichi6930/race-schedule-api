@@ -1,13 +1,7 @@
-import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import {
-    baseRaceUpdateDate,
-    defaultLocation,
-    defaultRaceName,
-    defaultStage,
-} from './baseCommonData';
+import { baseRaceUpdateDate } from './baseCommonData';
 
 const raceType: RaceType = RaceType.AUTORACE;
 
@@ -50,26 +44,3 @@ export const baseAutoraceRaceEntityList: RaceEntity[] = [
         );
     });
 });
-
-export const baseAutoraceCalendarData = CalendarData.create(
-    'autorace202412310511',
-    raceType,
-    `${defaultStage[raceType]} ${defaultRaceName[raceType]}`,
-    '2024-12-31T16:30:00Z',
-    '2024-12-31T16:40:00Z',
-    `${defaultLocation[raceType]}オートレース場`,
-    'テスト',
-);
-
-export const baseAutoraceCalendarDataFromGoogleCalendar = {
-    id: 'autorace202412310511',
-    summary: `${defaultStage[raceType]} ${defaultRaceName[raceType]}`,
-    start: {
-        dateTime: '2024-12-31T16:30:00Z',
-    },
-    end: {
-        dateTime: '2024-12-31T16:40:00Z',
-    },
-    location: `${defaultLocation[raceType]}オートレース場`,
-    description: 'テスト',
-};

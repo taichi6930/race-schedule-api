@@ -1,14 +1,7 @@
-import { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import {
-    baseRacePlayerDataList,
-    baseRaceUpdateDate,
-    defaultLocation,
-    defaultRaceName,
-    defaultStage,
-} from './baseCommonData';
+import { baseRacePlayerDataList, baseRaceUpdateDate } from './baseCommonData';
 
 const raceType: RaceType = RaceType.KEIRIN;
 
@@ -54,26 +47,3 @@ export const baseKeirinRaceEntityList: RaceEntity[] = [
         );
     });
 });
-
-export const baseKeirinCalendarData = CalendarData.create(
-    'test202512303511',
-    raceType,
-    `${defaultStage[raceType]} ${defaultRaceName[raceType]}`,
-    '2024-12-31T16:30:00Z',
-    '2024-12-31T16:40:00Z',
-    `${defaultLocation[raceType]}競輪場`,
-    'テスト',
-);
-
-export const baseKeirinCalendarDataFromGoogleCalendar = {
-    id: 'test202512303511',
-    summary: `${defaultStage[raceType]} ${defaultRaceName[raceType]}`,
-    start: {
-        dateTime: '2024-12-31T16:30:00Z',
-    },
-    end: {
-        dateTime: '2024-12-31T16:40:00Z',
-    },
-    location: `${defaultLocation[raceType]}競輪場`,
-    description: 'テスト',
-};

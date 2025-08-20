@@ -12,42 +12,25 @@ import {
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
-import {
-    baseAutoraceCalendarData,
-    baseAutoraceRaceEntityList,
-} from '../../mock/common/baseAutoraceData';
-import {
-    baseBoatraceCalendarData,
-    baseBoatraceRaceEntityList,
-} from '../../mock/common/baseBoatraceData';
-import {
-    baseJraCalendarData,
-    baseJraRaceEntityList,
-} from '../../mock/common/baseJraData';
-import {
-    baseKeirinCalendarData,
-    baseKeirinRaceEntityList,
-} from '../../mock/common/baseKeirinData';
-import {
-    baseNarCalendarData,
-    baseNarRaceEntityList,
-} from '../../mock/common/baseNarData';
-import {
-    baseOverseasCalendarData,
-    baseOverseasRaceEntityList,
-} from '../../mock/common/baseOverseasData';
+import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
+import { baseBoatraceRaceEntityList } from '../../mock/common/baseBoatraceData';
+import { baseCalendarData } from '../../mock/common/baseCommonData';
+import { baseJraRaceEntityList } from '../../mock/common/baseJraData';
+import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
+import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
+import { baseOverseasRaceEntityList } from '../../mock/common/baseOverseasData';
 
 describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
     let calendarRepository: jest.Mocked<ICalendarRepository>;
 
     const mockCalendarDataListMap = {
-        [RaceType.JRA]: baseJraCalendarData,
-        [RaceType.NAR]: baseNarCalendarData,
-        [RaceType.OVERSEAS]: baseOverseasCalendarData,
-        [RaceType.KEIRIN]: baseKeirinCalendarData,
-        [RaceType.BOATRACE]: baseBoatraceCalendarData,
-        [RaceType.AUTORACE]: baseAutoraceCalendarData,
+        [RaceType.JRA]: baseCalendarData(RaceType.JRA),
+        [RaceType.NAR]: baseCalendarData(RaceType.NAR),
+        [RaceType.OVERSEAS]: baseCalendarData(RaceType.OVERSEAS),
+        [RaceType.KEIRIN]: baseCalendarData(RaceType.KEIRIN),
+        [RaceType.AUTORACE]: baseCalendarData(RaceType.AUTORACE),
+        [RaceType.BOATRACE]: baseCalendarData(RaceType.BOATRACE),
     };
 
     const mockCalendarDataList = Object.values(mockCalendarDataListMap).flat();

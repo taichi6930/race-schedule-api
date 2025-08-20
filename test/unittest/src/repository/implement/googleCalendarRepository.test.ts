@@ -6,20 +6,17 @@ import type { ICalendarGateway } from '../../../../../lib/src/gateway/interface/
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { GoogleCalendarRepository } from '../../../../../lib/src/repository/implement/googleCalendarRepository';
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
-import type { RaceType } from '../../../../../lib/src/utility/raceType';
-import { ALL_RACE_TYPE_LIST } from '../../../../../lib/src/utility/raceType';
-import { baseAutoraceCalendarData } from '../../mock/common/baseAutoraceData';
-import { baseBoatraceCalendarData } from '../../mock/common/baseBoatraceData';
+import {
+    ALL_RACE_TYPE_LIST,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
+import { baseCalendarData } from '../../mock/common/baseCommonData';
 import {
     baseCalendarDataFromGoogleCalendarMap,
     baseCalendarDataMap,
     baseRaceEntityListMap,
     baseRaceEntityMap,
 } from '../../mock/common/baseData';
-import { baseJraCalendarData } from '../../mock/common/baseJraData';
-import { baseKeirinCalendarData } from '../../mock/common/baseKeirinData';
-import { baseNarCalendarData } from '../../mock/common/baseNarData';
-import { baseOverseasCalendarData } from '../../mock/common/baseOverseasData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
 describe('GoogleCalendarRepository', () => {
@@ -40,12 +37,12 @@ describe('GoogleCalendarRepository', () => {
     });
 
     const mockCalendarDataList = [
-        baseJraCalendarData,
-        baseNarCalendarData,
-        baseOverseasCalendarData,
-        baseKeirinCalendarData,
-        baseBoatraceCalendarData,
-        baseAutoraceCalendarData,
+        baseCalendarData(RaceType.JRA),
+        baseCalendarData(RaceType.NAR),
+        baseCalendarData(RaceType.OVERSEAS),
+        baseCalendarData(RaceType.KEIRIN),
+        baseCalendarData(RaceType.BOATRACE),
+        baseCalendarData(RaceType.AUTORACE),
     ];
 
     it('カレンダー情報が正常に取得できること', async () => {

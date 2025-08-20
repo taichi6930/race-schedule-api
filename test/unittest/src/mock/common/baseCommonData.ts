@@ -145,6 +145,34 @@ export const baseCalendarData = (raceType: RaceType): CalendarData =>
         'テスト',
     );
 
+export const baseCalendarDataFromGoogleCalendar = (
+    raceType: RaceType,
+): {
+    id: string;
+    summary: string;
+    start: {
+        dateTime: string;
+    };
+    end: {
+        dateTime: string;
+    };
+    location: string;
+    description: string;
+} => {
+    return {
+        id: 'test202412220611',
+        summary: defaultRaceName[raceType],
+        start: {
+            dateTime: '2024-12-22T15:40:00Z',
+        },
+        end: {
+            dateTime: '2024-12-22T15:50:00Z',
+        },
+        location: createLocationString(raceType, defaultLocation[raceType]),
+        description: 'テスト',
+    };
+};
+
 export const createLocationString = (
     raceType: RaceType,
     location: string,
