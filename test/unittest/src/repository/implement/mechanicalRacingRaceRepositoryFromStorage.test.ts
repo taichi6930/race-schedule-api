@@ -18,7 +18,11 @@ import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
-import { baseRacePlayerDataList } from '../../mock/common/baseCommonData';
+import {
+    baseConditionData,
+    baseRacePlayerDataList,
+    defaultHeldDayData,
+} from '../../mock/common/baseCommonData';
 
 describe('MechanicalRacingRaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
@@ -126,8 +130,8 @@ describe('MechanicalRacingRaceRepositoryFromStorage', () => {
                                     grade,
                                     j + 1,
                                 ),
-                                undefined, // heldDayDataは未設定
-                                undefined, // conditionDataは未設定
+                                defaultHeldDayData[raceType],
+                                baseConditionData(raceType),
                                 stage,
                                 racePlayerDataList,
                                 getJSTDate(new Date()),
@@ -144,74 +148,87 @@ describe('MechanicalRacingRaceRepositoryFromStorage', () => {
             }
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(6);
         });
-    });
 
-    test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
-        for (const { raceType, location, grade, stage, racePlayerDataList } of [
-            {
-                raceType: RaceType.KEIRIN,
-                location: '立川',
-                grade: 'GⅠ',
-                stage: 'S級決勝',
-                racePlayerDataList: baseRacePlayerDataList(RaceType.KEIRIN),
-            },
-            {
-                raceType: RaceType.AUTORACE,
-                location: '飯塚',
-                grade: 'GⅠ',
-                stage: '優勝戦',
-                racePlayerDataList: baseRacePlayerDataList(RaceType.AUTORACE),
-            },
-            {
-                raceType: RaceType.BOATRACE,
-                location: '平和島',
-                grade: 'GⅠ',
-                stage: '優勝戦',
-                racePlayerDataList: baseRacePlayerDataList(RaceType.BOATRACE),
-            },
-        ]) {
-            // 1年間のレース開催データを登録する
-            const raceEntityList: RaceEntity[] = Array.from(
-                { length: 60 },
-                (_, day) => {
-                    const date = new Date('2024-01-01');
-                    date.setDate(date.getDate() + day);
-                    return Array.from({ length: 12 }, (__, j) =>
-                        RaceEntity.createWithoutId(
-                            RaceData.create(
-                                raceType,
-                                `raceName${format(date, 'yyyyMMdd')}`,
-                                date,
-                                location,
-                                grade,
-                                j + 1,
-                            ),
-                            undefined, // heldDayDataは未設定
-                            undefined, // conditionDataは未設定
-                            stage,
-                            racePlayerDataList,
-                            getJSTDate(new Date()),
-                        ),
-                    );
+        test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
+            for (const {
+                raceType,
+                location,
+                grade,
+                stage,
+                racePlayerDataList,
+            } of [
+                {
+                    raceType: RaceType.KEIRIN,
+                    location: '立川',
+                    grade: 'GⅠ',
+                    stage: 'S級決勝',
+                    racePlayerDataList: baseRacePlayerDataList(RaceType.KEIRIN),
                 },
-            ).flat();
-
-            // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockResolvedValue(
-                fs.readFileSync(
-                    path.resolve(
-                        __dirname,
-                        '../../mock/repository/csv',
-                        raceType.toLowerCase(),
-                        CSV_FILE_NAME.RACE_LIST,
+                {
+                    raceType: RaceType.AUTORACE,
+                    location: '飯塚',
+                    grade: 'GⅠ',
+                    stage: '優勝戦',
+                    racePlayerDataList: baseRacePlayerDataList(
+                        RaceType.AUTORACE,
                     ),
-                    'utf8',
-                ),
-            );
+                },
+                {
+                    raceType: RaceType.BOATRACE,
+                    location: '平和島',
+                    grade: 'GⅠ',
+                    stage: '優勝戦',
+                    racePlayerDataList: baseRacePlayerDataList(
+                        RaceType.BOATRACE,
+                    ),
+                },
+            ]) {
+                // 1年間のレース開催データを登録する
+                const raceEntityList: RaceEntity[] = Array.from(
+                    { length: 60 },
+                    (_, day) => {
+                        const date = new Date('2024-01-01');
+                        date.setDate(date.getDate() + day);
+                        return Array.from({ length: 12 }, (__, j) =>
+                            RaceEntity.createWithoutId(
+                                RaceData.create(
+                                    raceType,
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    date,
+                                    location,
+                                    grade,
+                                    j + 1,
+                                ),
+                                defaultHeldDayData[raceType],
+                                baseConditionData(raceType),
+                                stage,
+                                racePlayerDataList,
+                                getJSTDate(new Date()),
+                            ),
+                        );
+                    },
+                ).flat();
 
-            // テスト実行
-            await repository.registerRaceEntityList(raceType, raceEntityList);
-        }
-        expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(6);
+                // モックの戻り値を設定
+                s3Gateway.fetchDataFromS3.mockResolvedValue(
+                    fs.readFileSync(
+                        path.resolve(
+                            __dirname,
+                            '../../mock/repository/csv',
+                            raceType.toLowerCase(),
+                            CSV_FILE_NAME.RACE_LIST,
+                        ),
+                        'utf8',
+                    ),
+                );
+
+                // テスト実行
+                await repository.registerRaceEntityList(
+                    raceType,
+                    raceEntityList,
+                );
+            }
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(6);
+        });
     });
 });
