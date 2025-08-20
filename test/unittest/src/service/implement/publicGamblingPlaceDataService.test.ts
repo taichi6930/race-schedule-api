@@ -11,8 +11,10 @@ import { DataLocation } from '../../../../../lib/src/utility/dataType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
-import { basePlaceEntity } from '../../mock/common/baseCommonData';
-import { basePlaceEntityMap } from '../../mock/common/baseData';
+import {
+    basePlaceEntity,
+    basePlaceEntityMap,
+} from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingPlaceDataService', () => {
     let jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository<PlaceEntity>>;

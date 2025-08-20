@@ -12,8 +12,10 @@ import {
     ALL_RACE_TYPE_LIST,
     RaceType,
 } from '../../../../lib/src/utility/raceType';
-import { basePlaceEntity } from '../../../unittest/src/mock/common/baseCommonData';
-import { basePlaceEntityMap } from '../../../unittest/src/mock/common/baseData';
+import {
+    basePlaceEntity,
+    basePlaceEntityMap,
+} from '../../../unittest/src/mock/common/baseCommonData';
 import type { TestSetup } from '../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../utility/testSetupHelper';
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';

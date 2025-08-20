@@ -16,11 +16,10 @@ import {
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
-import { baseCalendarData } from '../../mock/common/baseCommonData';
 import {
-    baseCalendarDataMap,
-    baseRaceEntityMap,
-} from '../../mock/common/baseData';
+    baseCalendarData,
+    baseRaceEntity,
+} from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceCalendarUseCase', () => {
     let calendarService: jest.Mocked<ICalendarService>;
@@ -73,7 +72,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         const mockCalendarDataList: CalendarData[] = ALL_RACE_TYPE_LIST.flatMap(
             (raceType) =>
                 Array.from({ length: 8 }, (_, i: number) =>
-                    baseCalendarDataMap[raceType].copy({
+                    baseCalendarData(raceType).copy({
                         id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
                     }),
                 ),
@@ -81,7 +80,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
 
         const mockRaceEntityList = ALL_RACE_TYPE_LIST.flatMap((raceType) =>
             Array.from({ length: 5 }, (_, i: number) =>
-                baseRaceEntityMap[raceType].copy({
+                baseRaceEntity(raceType).copy({
                     id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
                 }),
             ),
@@ -90,7 +89,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         const expectDeleteCalendarDataList = ALL_RACE_TYPE_LIST.flatMap(
             (raceType) =>
                 Array.from({ length: 3 }, (_, i: number) =>
-                    baseCalendarDataMap[raceType].copy({
+                    baseCalendarData(raceType).copy({
                         id: `${raceType.toLowerCase()}2024122920${(i + 6).toXDigits(2)}`,
                     }),
                 ),

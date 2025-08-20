@@ -173,6 +173,186 @@ export const baseCalendarDataFromGoogleCalendar = (
     };
 };
 
+export const baseMechanicalRacingRaceEntityList = (
+    _raceType: RaceType,
+): RaceEntity[] =>
+    [
+        { raceType: RaceType.KEIRIN, location: '平塚', grade: 'GP' },
+        { raceType: RaceType.KEIRIN, location: '立川', grade: 'GⅠ' },
+        { raceType: RaceType.KEIRIN, location: '函館', grade: 'GⅡ' },
+        { raceType: RaceType.KEIRIN, location: '小倉', grade: 'GⅢ' },
+        { raceType: RaceType.KEIRIN, location: '久留米', grade: 'FⅠ' },
+        { raceType: RaceType.KEIRIN, location: '名古屋', grade: 'FⅡ' },
+        { raceType: RaceType.AUTORACE, location: '飯塚', grade: 'SG' },
+        { raceType: RaceType.AUTORACE, location: '川口', grade: 'GⅠ' },
+        { raceType: RaceType.AUTORACE, location: '山陽', grade: '特GⅠ' },
+        { raceType: RaceType.AUTORACE, location: '伊勢崎', grade: 'GⅡ' },
+        { raceType: RaceType.AUTORACE, location: '浜松', grade: '開催' },
+        { raceType: RaceType.BOATRACE, location: '平和島', grade: 'SG' },
+        { raceType: RaceType.BOATRACE, location: '戸田', grade: 'GⅠ' },
+        { raceType: RaceType.BOATRACE, location: '江戸川', grade: 'GⅡ' },
+        { raceType: RaceType.BOATRACE, location: '桐生', grade: 'GⅢ' },
+        { raceType: RaceType.BOATRACE, location: '多摩川', grade: '一般' },
+    ]
+        .flatMap((value) => {
+            const { raceType, location, grade } = value;
+            return defaultStageList[raceType].map((stage, index) => {
+                if (raceType !== _raceType) return 'undefined';
+                const raceData = RaceData.create(
+                    raceType,
+                    `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
+                    new Date(2025, 12 - 1, 30, 7 + index, 0),
+                    location,
+                    grade,
+                    index + 1,
+                );
+                return RaceEntity.createWithoutId(
+                    raceData,
+                    defaultHeldDayData[raceType],
+                    baseConditionData(raceType),
+                    stage,
+                    baseRacePlayerDataList(raceType),
+                    baseRaceUpdateDate,
+                );
+            });
+        })
+        .filter((entity) => entity !== 'undefined');
+
+export const baseHorseRacingRaceEntityList = (
+    _raceType: RaceType,
+): RaceEntity[] =>
+    [
+        {
+            raceType: RaceType.JRA,
+            location: '東京',
+            gradeList: [
+                '新馬',
+                '未勝利',
+                '未勝利',
+                '1勝クラス',
+                '2勝クラス',
+                '3勝クラス',
+                'オープン特別',
+                'Listed',
+                'GⅢ',
+                'GⅡ',
+                'GⅠ',
+                '2勝クラス',
+            ],
+        },
+        {
+            raceType: RaceType.JRA,
+            location: '京都',
+            gradeList: [
+                '新馬',
+                '未勝利',
+                '未勝利',
+                '1勝クラス',
+                '2勝クラス',
+                '3勝クラス',
+                'オープン特別',
+                'Listed',
+                'GⅢ',
+                'GⅡ',
+                'GⅠ',
+                '2勝クラス',
+            ],
+        },
+        {
+            raceType: RaceType.NAR,
+            location: '大井',
+            gradeList: [
+                '一般',
+                '一般',
+                '一般',
+                'オープン特別',
+                'Listed',
+                'JpnⅢ',
+                'JpnⅡ',
+                'JpnⅠ',
+                'GⅢ',
+                'GⅡ',
+                'GⅠ',
+                '地方重賞',
+            ],
+        },
+        {
+            raceType: RaceType.NAR,
+            location: '高知',
+            gradeList: [
+                '一般',
+                '一般',
+                '一般',
+                'オープン特別',
+                'Listed',
+                'JpnⅢ',
+                'JpnⅡ',
+                'JpnⅠ',
+                'GⅢ',
+                'GⅡ',
+                'GⅠ',
+                '地方重賞',
+            ],
+        },
+        {
+            raceType: RaceType.OVERSEAS,
+            location: 'パリロンシャン',
+            gradeList: [
+                '格付けなし',
+                '格付けなし',
+                '格付けなし',
+                '格付けなし',
+                '格付けなし',
+                '格付けなし',
+                '格付けなし',
+                'Listed',
+                'GⅢ',
+                'GⅡ',
+                'GⅠ',
+                '格付けなし',
+            ],
+        },
+        {
+            raceType: RaceType.OVERSEAS,
+            location: 'ロンシャン',
+            gradeList: [
+                '格付けなし',
+                '格付けなし',
+                '格付けなし',
+                '格付けなし',
+                '格付けなし',
+                '格付けなし',
+                '格付けなし',
+                'Listed',
+                'GⅢ',
+                'GⅡ',
+                'GⅠ',
+                '格付けなし',
+            ],
+        },
+    ]
+        .flatMap(({ raceType, location, gradeList }) => {
+            return gradeList.map((grade, index) => {
+                if (raceType !== _raceType) return 'undefined';
+                return RaceEntity.createWithoutId(
+                    RaceData.create(
+                        raceType,
+                        `テスト${location}${grade}${(index + 1).toString()}レース`,
+                        new Date(2024, 6 - 1, 1, 7 + index, 0),
+                        location,
+                        grade,
+                        index + 1,
+                    ),
+                    defaultHeldDayData[raceType],
+                    baseConditionData(raceType),
+                    undefined, // stage は未指定
+                    undefined, // racePlayerDataList は未指定
+                    baseRaceUpdateDate,
+                );
+            });
+        })
+        .filter((entity): entity is RaceEntity => entity !== 'undefined');
+
 export const createLocationString = (
     raceType: RaceType,
     location: string,
@@ -275,4 +455,67 @@ export const defaultRaceDistance = {
     [RaceType.KEIRIN]: undefined,
     [RaceType.AUTORACE]: undefined,
     [RaceType.BOATRACE]: undefined,
+};
+
+export const defaultStageList = {
+    [RaceType.KEIRIN]: [
+        'S級一般',
+        'S級一般',
+        'S級一般',
+        'S級一般',
+        'S級一般',
+        'S級一般',
+        'S級一般',
+        'S級一般',
+        'S級一般',
+        'S級一般',
+        'S級特別優秀',
+        'S級決勝',
+    ],
+    [RaceType.AUTORACE]: [
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '優勝戦',
+    ],
+    [RaceType.BOATRACE]: [
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '優勝戦',
+    ],
+};
+
+export const baseRaceEntityListMap = {
+    [RaceType.JRA]: baseHorseRacingRaceEntityList(RaceType.JRA),
+    [RaceType.NAR]: baseHorseRacingRaceEntityList(RaceType.NAR),
+    [RaceType.OVERSEAS]: baseHorseRacingRaceEntityList(RaceType.OVERSEAS),
+    [RaceType.KEIRIN]: baseMechanicalRacingRaceEntityList(RaceType.KEIRIN),
+    [RaceType.AUTORACE]: baseMechanicalRacingRaceEntityList(RaceType.AUTORACE),
+    [RaceType.BOATRACE]: baseMechanicalRacingRaceEntityList(RaceType.BOATRACE),
+};
+
+export const basePlaceEntityMap = {
+    [RaceType.JRA]: basePlaceEntity(RaceType.JRA),
+    [RaceType.NAR]: basePlaceEntity(RaceType.NAR),
+    [RaceType.OVERSEAS]: undefined, // 海外競馬は未対応
+    [RaceType.KEIRIN]: basePlaceEntity(RaceType.KEIRIN),
+    [RaceType.AUTORACE]: basePlaceEntity(RaceType.AUTORACE),
+    [RaceType.BOATRACE]: basePlaceEntity(RaceType.BOATRACE),
 };

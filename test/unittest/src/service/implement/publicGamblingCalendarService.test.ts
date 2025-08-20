@@ -12,13 +12,11 @@ import {
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
-import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
-import { baseBoatraceRaceEntityList } from '../../mock/common/baseBoatraceData';
-import { baseCalendarData } from '../../mock/common/baseCommonData';
-import { baseJraRaceEntityList } from '../../mock/common/baseJraData';
-import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
-import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
-import { baseOverseasRaceEntityList } from '../../mock/common/baseOverseasData';
+import {
+    baseCalendarData,
+    baseHorseRacingRaceEntityList,
+    baseMechanicalRacingRaceEntityList,
+} from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
@@ -36,12 +34,16 @@ describe('PublicGamblingCalendarService', () => {
     const mockCalendarDataList = Object.values(mockCalendarDataListMap).flat();
 
     const mockRaceEntityListMap = {
-        [RaceType.JRA]: baseJraRaceEntityList,
-        [RaceType.NAR]: baseNarRaceEntityList,
-        [RaceType.OVERSEAS]: baseOverseasRaceEntityList,
-        [RaceType.KEIRIN]: baseKeirinRaceEntityList,
-        [RaceType.AUTORACE]: baseAutoraceRaceEntityList,
-        [RaceType.BOATRACE]: baseBoatraceRaceEntityList,
+        [RaceType.JRA]: baseHorseRacingRaceEntityList(RaceType.JRA),
+        [RaceType.NAR]: baseHorseRacingRaceEntityList(RaceType.NAR),
+        [RaceType.OVERSEAS]: baseHorseRacingRaceEntityList(RaceType.OVERSEAS),
+        [RaceType.KEIRIN]: baseMechanicalRacingRaceEntityList(RaceType.KEIRIN),
+        [RaceType.AUTORACE]: baseMechanicalRacingRaceEntityList(
+            RaceType.AUTORACE,
+        ),
+        [RaceType.BOATRACE]: baseMechanicalRacingRaceEntityList(
+            RaceType.BOATRACE,
+        ),
     };
 
     const mockRaceEntityList = Object.values(mockRaceEntityListMap).flat();

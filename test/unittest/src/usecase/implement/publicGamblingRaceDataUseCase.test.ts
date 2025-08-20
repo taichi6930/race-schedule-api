@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import type { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingRaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingRaceDataUseCase';
@@ -15,13 +16,11 @@ import {
     setupTestMock,
     type TestSetup,
 } from '../../../../utility/testSetupHelper';
-import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
-import { baseBoatraceRaceEntityList } from '../../mock/common/baseBoatraceData';
-import { basePlaceEntity } from '../../mock/common/baseCommonData';
-import { baseJraRaceEntityList } from '../../mock/common/baseJraData';
-import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
-import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
-import { baseOverseasRaceEntityList } from '../../mock/common/baseOverseasData';
+import {
+    baseHorseRacingRaceEntityList,
+    baseMechanicalRacingRaceEntityList,
+    basePlaceEntity,
+} from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataUseCase', () => {
     let raceDataService: jest.Mocked<IRaceDataService>;
@@ -49,13 +48,20 @@ describe('PublicGamblingRaceDataUseCase', () => {
     ];
 
     const mockRaceEntityList = [
-        ...baseJraRaceEntityList,
-        ...baseNarRaceEntityList,
-        ...baseOverseasRaceEntityList,
-        ...baseKeirinRaceEntityList,
-        ...baseAutoraceRaceEntityList,
-        ...baseBoatraceRaceEntityList,
+        ...baseHorseRacingRaceEntityList(RaceType.JRA),
+        ...baseHorseRacingRaceEntityList(RaceType.NAR),
+        ...baseHorseRacingRaceEntityList(RaceType.OVERSEAS),
+        ...baseMechanicalRacingRaceEntityList(RaceType.KEIRIN),
+        ...baseMechanicalRacingRaceEntityList(RaceType.AUTORACE),
+        ...baseMechanicalRacingRaceEntityList(RaceType.BOATRACE),
     ];
+
+    const baseKeirinRaceEntityList: RaceEntity[] =
+        baseMechanicalRacingRaceEntityList(RaceType.KEIRIN);
+    const baseAutoraceRaceEntityList: RaceEntity[] =
+        baseMechanicalRacingRaceEntityList(RaceType.AUTORACE);
+    const baseBoatraceRaceEntityList: RaceEntity[] =
+        baseMechanicalRacingRaceEntityList(RaceType.BOATRACE);
 
     describe('fetchRaceEntityList', () => {
         for (const {
@@ -70,7 +76,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 searchConditions: { [RaceType.NAR]: { gradeList: ['GⅠ'] } },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 2,
-                returnedRaceList: baseNarRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.NAR),
             },
             {
                 raceTypeList: [RaceType.NAR],
@@ -81,7 +87,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseNarRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.NAR),
             },
             {
                 raceTypeList: [RaceType.NAR],
@@ -93,7 +99,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseNarRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.NAR),
             },
             {
                 raceTypeList: [RaceType.NAR],
@@ -105,14 +111,14 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
-                returnedRaceList: baseNarRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.NAR),
             },
             {
                 raceTypeList: [RaceType.NAR],
                 searchConditions: {},
                 descriptions: '検索条件なし',
                 expectedLength: 24,
-                returnedRaceList: baseNarRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.NAR),
             },
             {
                 raceTypeList: [RaceType.OVERSEAS],
@@ -121,7 +127,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 2,
-                returnedRaceList: baseOverseasRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(
+                    RaceType.OVERSEAS,
+                ),
             },
             {
                 raceTypeList: [RaceType.OVERSEAS],
@@ -132,7 +140,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseOverseasRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(
+                    RaceType.OVERSEAS,
+                ),
             },
             {
                 raceTypeList: [RaceType.OVERSEAS],
@@ -144,7 +154,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseOverseasRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(
+                    RaceType.OVERSEAS,
+                ),
             },
             {
                 raceTypeList: [RaceType.OVERSEAS],
@@ -156,14 +168,18 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
-                returnedRaceList: baseOverseasRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(
+                    RaceType.OVERSEAS,
+                ),
             },
             {
                 raceTypeList: [RaceType.OVERSEAS],
                 searchConditions: {},
                 descriptions: '検索条件なし',
                 expectedLength: 24,
-                returnedRaceList: baseOverseasRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(
+                    RaceType.OVERSEAS,
+                ),
             },
             {
                 raceTypeList: [RaceType.KEIRIN],
@@ -263,7 +279,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 searchConditions: { [RaceType.JRA]: { gradeList: ['GⅠ'] } },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 2,
-                returnedRaceList: baseJraRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.JRA),
             },
             {
                 raceTypeList: [RaceType.JRA],
@@ -272,7 +288,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
-                returnedRaceList: baseJraRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.JRA),
             },
             {
                 raceTypeList: [RaceType.JRA],
@@ -284,7 +300,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 1,
-                returnedRaceList: baseJraRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.JRA),
             },
             {
                 raceTypeList: [RaceType.JRA],
@@ -296,14 +312,14 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
-                returnedRaceList: baseJraRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.JRA),
             },
             {
                 raceTypeList: [RaceType.JRA],
                 searchConditions: { [RaceType.JRA]: {} },
                 descriptions: '検索条件なし',
                 expectedLength: 24,
-                returnedRaceList: baseJraRaceEntityList,
+                returnedRaceList: baseHorseRacingRaceEntityList(RaceType.JRA),
             },
             {
                 raceTypeList: [RaceType.BOATRACE],

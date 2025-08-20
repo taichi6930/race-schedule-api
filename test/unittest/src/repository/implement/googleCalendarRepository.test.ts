@@ -10,13 +10,12 @@ import {
     ALL_RACE_TYPE_LIST,
     RaceType,
 } from '../../../../../lib/src/utility/raceType';
-import { baseCalendarData } from '../../mock/common/baseCommonData';
 import {
-    baseCalendarDataFromGoogleCalendarMap,
-    baseCalendarDataMap,
-    baseRaceEntityListMap,
-    baseRaceEntityMap,
-} from '../../mock/common/baseData';
+    baseCalendarData,
+    baseCalendarDataFromGoogleCalendar,
+    baseHorseRacingRaceEntityList,
+    baseRaceEntity,
+} from '../../mock/common/baseCommonData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
 describe('GoogleCalendarRepository', () => {
@@ -48,7 +47,7 @@ describe('GoogleCalendarRepository', () => {
     it('カレンダー情報が正常に取得できること', async () => {
         googleCalendarGateway.fetchCalendarDataList.mockImplementation(
             async (raceType: RaceType) => {
-                return [baseCalendarDataFromGoogleCalendarMap[raceType]];
+                return [baseCalendarDataFromGoogleCalendar(raceType)];
             },
         );
         const searchFilter = new SearchCalendarFilterEntity(
@@ -91,7 +90,7 @@ describe('GoogleCalendarRepository', () => {
         for (const raceType of ALL_RACE_TYPE_LIST) {
             googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-            await repository.deleteEvents([baseCalendarDataMap[raceType]]);
+            await repository.deleteEvents([baseCalendarData(raceType)]);
             expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
         }
     });
@@ -102,7 +101,7 @@ describe('GoogleCalendarRepository', () => {
                 new Error('API Error'),
             );
 
-            await repository.deleteEvents([baseCalendarDataMap[raceType]]);
+            await repository.deleteEvents([baseCalendarData(raceType)]);
             expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
         }
     });
@@ -113,7 +112,7 @@ describe('GoogleCalendarRepository', () => {
                 new Error('API Error'),
             );
 
-            await repository.upsertEvents([baseRaceEntityMap[raceType]]);
+            await repository.upsertEvents([baseRaceEntity(raceType)]);
 
             expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
         }
@@ -122,10 +121,12 @@ describe('GoogleCalendarRepository', () => {
     it('カレンダー情報が正常に更新できること', async () => {
         for (const raceType of ALL_RACE_TYPE_LIST) {
             googleCalendarGateway.fetchCalendarData.mockResolvedValue(
-                baseCalendarDataFromGoogleCalendarMap[raceType],
+                baseCalendarDataFromGoogleCalendar(raceType),
             );
 
-            await repository.upsertEvents(baseRaceEntityListMap[raceType]);
+            await repository.upsertEvents(
+                baseHorseRacingRaceEntityList(raceType),
+            );
 
             expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
         }
@@ -136,7 +137,9 @@ describe('GoogleCalendarRepository', () => {
             googleCalendarGateway.insertCalendarData.mockRejectedValue(
                 new Error('API Error'),
             );
-            await repository.upsertEvents(baseRaceEntityListMap[raceType]);
+            await repository.upsertEvents(
+                baseHorseRacingRaceEntityList(raceType),
+            );
 
             expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
         }

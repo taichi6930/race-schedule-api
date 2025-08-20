@@ -15,13 +15,11 @@ import {
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
-import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
-import { baseBoatraceRaceEntityList } from '../../mock/common/baseBoatraceData';
-import { baseRaceEntityListMap } from '../../mock/common/baseData';
-import { baseJraRaceEntityList } from '../../mock/common/baseJraData';
-import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
-import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
-import { baseOverseasRaceEntityList } from '../../mock/common/baseOverseasData';
+import {
+    baseHorseRacingRaceEntityList,
+    baseMechanicalRacingRaceEntityList,
+    baseRaceEntityListMap,
+} from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataService', () => {
     let raceRepositoryFromStorage: jest.Mocked<
@@ -51,12 +49,12 @@ describe('PublicGamblingRaceDataService', () => {
     let service: IRaceDataService;
 
     const mockRaceEntityList = [
-        ...baseJraRaceEntityList,
-        ...baseNarRaceEntityList,
-        ...baseOverseasRaceEntityList,
-        ...baseKeirinRaceEntityList,
-        ...baseAutoraceRaceEntityList,
-        ...baseBoatraceRaceEntityList,
+        ...baseHorseRacingRaceEntityList(RaceType.JRA),
+        ...baseHorseRacingRaceEntityList(RaceType.NAR),
+        ...baseHorseRacingRaceEntityList(RaceType.OVERSEAS),
+        ...baseMechanicalRacingRaceEntityList(RaceType.KEIRIN),
+        ...baseMechanicalRacingRaceEntityList(RaceType.AUTORACE),
+        ...baseMechanicalRacingRaceEntityList(RaceType.BOATRACE),
     ];
 
     beforeEach(() => {
