@@ -2,7 +2,7 @@ import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { RaceType } from '../../utility/raceType';
 
 /**
- * IPlaceDataUseCase
+ * 開催場データUseCaseインターフェース
  */
 export interface IPlaceDataUseCase {
     /**

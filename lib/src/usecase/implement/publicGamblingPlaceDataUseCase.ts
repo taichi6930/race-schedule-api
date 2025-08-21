@@ -8,7 +8,7 @@ import { RaceType } from '../../utility/raceType';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 /**
- * 公開用開催場データユースケース
+ * 公営競技の開催場データUseCase
  */
 @injectable()
 export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {

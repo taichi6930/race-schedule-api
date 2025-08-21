@@ -1,5 +1,7 @@
 import { HeldDayRecord } from '../../../../../lib/src/gateway/record/heldDayRecord';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
+import { RACE_TYPE_LIST_ALL } from '../../../../../lib/src/utility/raceType';
+import { defaultLocation } from '../../mock/common/baseCommonData';
 
 /**
  * ディシジョンテーブル
@@ -21,164 +23,169 @@ import { RaceType } from '../../../../../lib/src/utility/raceType';
  */
 
 describe('heldDayRecord', () => {
-    const validRaceType = RaceType.KEIRIN;
-    const validId = 'keirin2024122205';
-    const validHeldTimes = 1;
-    const validHeldDayTimes = 1;
-    const validUpdateDate = new Date('2024-01-01T12:00:00Z');
-
-    it('正常値ですべて生成できる', () => {
-        const record = HeldDayRecord.create(
-            validId,
-            validRaceType,
-            validHeldTimes,
-            validHeldDayTimes,
-            validUpdateDate,
+    describe.each(RACE_TYPE_LIST_ALL)('%s', (raceType) => {
+        const validId = generatePlaceId(
+            raceType,
+            new Date('2024-12-22'),
+            defaultLocation[raceType],
         );
-        expect(record).toBeInstanceOf(HeldDayRecord);
-        expect(record.id).toBe(validId);
-        expect(record.raceType).toBe(validRaceType);
-        expect(record.heldTimes).toBe(validHeldTimes);
-        expect(record.heldDayTimes).toBe(validHeldDayTimes);
-        expect(record.updateDate).toEqual(validUpdateDate);
-    });
+        const validHeldTimes = 1;
+        const validHeldDayTimes = 1;
+        const validUpdateDate = new Date('2024-01-01T12:00:00Z');
 
-    it('idバリデーション失敗で例外', () => {
-        expect(() =>
-            HeldDayRecord.create(
-                'bad-id',
-                validRaceType,
+        it('正常値ですべて生成できる', () => {
+            const record = HeldDayRecord.create(
+                validId,
+                raceType,
                 validHeldTimes,
                 validHeldDayTimes,
                 validUpdateDate,
-            ),
-        ).toThrow();
-    });
+            );
+            expect(record).toBeInstanceOf(HeldDayRecord);
+            expect(record.id).toBe(validId);
+            expect(record.raceType).toBe(raceType);
+            expect(record.heldTimes).toBe(validHeldTimes);
+            expect(record.heldDayTimes).toBe(validHeldDayTimes);
+            expect(record.updateDate).toEqual(validUpdateDate);
+        });
 
-    it('heldTimesバリデーション失敗で例外', () => {
-        expect(() =>
-            HeldDayRecord.create(
+        it('idバリデーション失敗で例外', () => {
+            expect(() =>
+                HeldDayRecord.create(
+                    'bad-id',
+                    raceType,
+                    validHeldTimes,
+                    validHeldDayTimes,
+                    validUpdateDate,
+                ),
+            ).toThrow();
+        });
+
+        it('heldTimesバリデーション失敗で例外', () => {
+            expect(() =>
+                HeldDayRecord.create(
+                    validId,
+                    raceType,
+                    -1,
+                    validHeldDayTimes,
+                    validUpdateDate,
+                ),
+            ).toThrow();
+        });
+
+        it('heldDayTimesバリデーション失敗で例外', () => {
+            expect(() =>
+                HeldDayRecord.create(
+                    validId,
+                    raceType,
+                    validHeldTimes,
+                    -1,
+                    validUpdateDate,
+                ),
+            ).toThrow();
+        });
+
+        it('updateDateバリデーション失敗で例外', () => {
+            expect(() =>
+                HeldDayRecord.create(
+                    validId,
+                    raceType,
+                    validHeldTimes,
+                    validHeldDayTimes,
+                    new Date('bad-date'),
+                ),
+            ).toThrow();
+        });
+
+        it('copy: 全項目コピー（partial未指定）', () => {
+            const base = HeldDayRecord.create(
                 validId,
-                validRaceType,
-                -1,
+                raceType,
+                validHeldTimes,
                 validHeldDayTimes,
                 validUpdateDate,
-            ),
-        ).toThrow();
-    });
+            );
+            const copied = base.copy();
+            expect(copied).not.toBe(base);
+            expect(copied).toEqual(base);
+        });
 
-    it('heldDayTimesバリデーション失敗で例外', () => {
-        expect(() =>
-            HeldDayRecord.create(
+        it('copy: idのみ変更', () => {
+            const base = HeldDayRecord.create(
                 validId,
-                validRaceType,
-                validHeldTimes,
-                -1,
-                validUpdateDate,
-            ),
-        ).toThrow();
-    });
-
-    it('updateDateバリデーション失敗で例外', () => {
-        expect(() =>
-            HeldDayRecord.create(
-                validId,
-                validRaceType,
+                raceType,
                 validHeldTimes,
                 validHeldDayTimes,
-                new Date('bad-date'),
-            ),
-        ).toThrow();
-    });
+                validUpdateDate,
+            );
+            const nextId = `${raceType.toLowerCase()}2024122206`;
+            const copied = base.copy({ id: nextId });
+            expect(copied.id).toBe(nextId);
+            expect(copied.raceType).toBe(base.raceType);
+            expect(copied.heldTimes).toBe(base.heldTimes);
+            expect(copied.heldDayTimes).toBe(base.heldDayTimes);
+            expect(copied.updateDate).toEqual(base.updateDate);
+        });
 
-    it('copy: 全項目コピー（partial未指定）', () => {
-        const base = HeldDayRecord.create(
-            validId,
-            validRaceType,
-            validHeldTimes,
-            validHeldDayTimes,
-            validUpdateDate,
-        );
-        const copied = base.copy();
-        expect(copied).not.toBe(base);
-        expect(copied).toEqual(base);
-    });
+        it('copy: heldTimesのみ変更', () => {
+            const base = HeldDayRecord.create(
+                validId,
+                raceType,
+                validHeldTimes,
+                validHeldDayTimes,
+                validUpdateDate,
+            );
+            const copied = base.copy({ heldTimes: 99 });
+            expect(copied.heldTimes).toBe(99);
+            expect(copied.heldDayTimes).toBe(base.heldDayTimes);
+        });
 
-    it('copy: idのみ変更', () => {
-        const base = HeldDayRecord.create(
-            validId,
-            validRaceType,
-            validHeldTimes,
-            validHeldDayTimes,
-            validUpdateDate,
-        );
-        const nextId = 'keirin2024122206';
-        const copied = base.copy({ id: nextId });
-        expect(copied.id).toBe(nextId);
-        expect(copied.raceType).toBe(base.raceType);
-        expect(copied.heldTimes).toBe(base.heldTimes);
-        expect(copied.heldDayTimes).toBe(base.heldDayTimes);
-        expect(copied.updateDate).toEqual(base.updateDate);
-    });
+        it('copy: heldDayTimesのみ変更', () => {
+            const base = HeldDayRecord.create(
+                validId,
+                raceType,
+                validHeldTimes,
+                validHeldDayTimes,
+                validUpdateDate,
+            );
+            const copied = base.copy({ heldDayTimes: 99 });
+            expect(copied.heldDayTimes).toBe(99);
+            expect(copied.heldTimes).toBe(base.heldTimes);
+        });
 
-    it('copy: heldTimesのみ変更', () => {
-        const base = HeldDayRecord.create(
-            validId,
-            validRaceType,
-            validHeldTimes,
-            validHeldDayTimes,
-            validUpdateDate,
-        );
-        const copied = base.copy({ heldTimes: 99 });
-        expect(copied.heldTimes).toBe(99);
-        expect(copied.heldDayTimes).toBe(base.heldDayTimes);
-    });
+        it('copy: updateDateのみ変更', () => {
+            const base = HeldDayRecord.create(
+                validId,
+                raceType,
+                validHeldTimes,
+                validHeldDayTimes,
+                validUpdateDate,
+            );
+            const nextDate = new Date('2025-01-01T00:00:00Z');
+            const copied = base.copy({ updateDate: nextDate });
+            expect(copied.updateDate).toEqual(nextDate);
+        });
 
-    it('copy: heldDayTimesのみ変更', () => {
-        const base = HeldDayRecord.create(
-            validId,
-            validRaceType,
-            validHeldTimes,
-            validHeldDayTimes,
-            validUpdateDate,
-        );
-        const copied = base.copy({ heldDayTimes: 99 });
-        expect(copied.heldDayTimes).toBe(99);
-        expect(copied.heldTimes).toBe(base.heldTimes);
-    });
+        it('copy: heldTimesバリデーション失敗で例外', () => {
+            const base = HeldDayRecord.create(
+                validId,
+                raceType,
+                validHeldTimes,
+                validHeldDayTimes,
+                validUpdateDate,
+            );
+            expect(() => base.copy({ heldTimes: -1 })).toThrow();
+        });
 
-    it('copy: updateDateのみ変更', () => {
-        const base = HeldDayRecord.create(
-            validId,
-            validRaceType,
-            validHeldTimes,
-            validHeldDayTimes,
-            validUpdateDate,
-        );
-        const nextDate = new Date('2025-01-01T00:00:00Z');
-        const copied = base.copy({ updateDate: nextDate });
-        expect(copied.updateDate).toEqual(nextDate);
-    });
-
-    it('copy: heldTimesバリデーション失敗で例外', () => {
-        const base = HeldDayRecord.create(
-            validId,
-            validRaceType,
-            validHeldTimes,
-            validHeldDayTimes,
-            validUpdateDate,
-        );
-        expect(() => base.copy({ heldTimes: -1 })).toThrow();
-    });
-
-    it('copy: heldDayTimesバリデーション失敗で例外', () => {
-        const base = HeldDayRecord.create(
-            validId,
-            validRaceType,
-            validHeldTimes,
-            validHeldDayTimes,
-            validUpdateDate,
-        );
-        expect(() => base.copy({ heldDayTimes: -1 })).toThrow();
+        it('copy: heldDayTimesバリデーション失敗で例外', () => {
+            const base = HeldDayRecord.create(
+                validId,
+                raceType,
+                validHeldTimes,
+                validHeldDayTimes,
+                validUpdateDate,
+            );
+            expect(() => base.copy({ heldDayTimes: -1 })).toThrow();
+        });
     });
 });

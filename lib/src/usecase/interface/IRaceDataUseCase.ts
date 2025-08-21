@@ -9,10 +9,11 @@ import type { RaceType } from '../../utility/raceType';
  */
 export interface IRaceDataUseCase {
     /**
-     * レース開催データを取得する
-     * @param startDate
-     * @param finishDate
-     * @param searchList
+     * 指定期間・種別のレースデータを取得
+     * @param startDate - 取得開始日
+     * @param finishDate - 取得終了日（含む）
+     * @param raceTypeList - レース種別リスト
+     * @param searchList - 検索用フィルタ（省略可）
      */
     fetchRaceEntityList: (
         startDate: Date,

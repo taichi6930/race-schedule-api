@@ -4,10 +4,10 @@ import type { RaceType } from '../../utility/raceType';
 
 export interface IRaceCalendarUseCase {
     /**
-     * カレンダーからレース情報の取得を行う
-     * @param startDate
-     * @param finishDate
-     * @param raceTypeList
+     * カレンダーからレース情報を取得
+     * @param startDate - 取得開始日
+     * @param finishDate - 取得終了日（含む）
+     * @param raceTypeList - レース種別リスト
      */
     fetchRacesFromCalendar: (
         startDate: Date,
@@ -17,10 +17,10 @@ export interface IRaceCalendarUseCase {
 
     /**
      * カレンダーの更新を行う
-     * @param startDate
-     * @param finishDate
-     * @param raceTypeList
-     * @param displayGradeList
+     * @param startDate - 取得開始日
+     * @param finishDate - 取得終了日（含む）
+     * @param raceTypeList - レース種別リスト
+     * @param displayGradeList - 表示対象のグレードリスト
      */
     updateRacesToCalendar: (
         startDate: Date,

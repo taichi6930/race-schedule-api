@@ -18,167 +18,168 @@
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { generateRacePlayerId } from '../../../../../lib/src/utility/data/common/racePlayerId';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { RACE_TYPE_LIST_MECHANICAL_RACING } from '../../../../../lib/src/utility/raceType';
+import { defaultLocation } from '../../mock/common/baseCommonData';
 
 describe('RacePlayerRecord', () => {
-    const validRaceType = RaceType.KEIRIN;
-    const validDate = new Date('2026-01-01T00:00:00Z');
-    const validLocation = '立川';
-    const validNumber = 1;
-    const validRaceId = generateRaceId(
-        validRaceType,
-        validDate,
-        validLocation,
-        validNumber,
-    );
-    const validUpdateDate = new Date('2026-01-01T12:00:00Z');
-
-    const validPositionNumber = 1;
-    const validPlayerNumber = 10000;
-    const validRacePlayerId = generateRacePlayerId(
-        validRaceType,
-        validDate,
-        validLocation,
-        validNumber,
-        validPositionNumber,
-    );
-    it('正常値ですべて生成できる', () => {
-        console.log(validRacePlayerId);
-        const record = RacePlayerRecord.create(
-            validRacePlayerId,
-            validRaceType,
-            validRaceId,
-            validPositionNumber,
-            validPlayerNumber,
-            validUpdateDate,
+    describe.each(RACE_TYPE_LIST_MECHANICAL_RACING)('%s', (raceType) => {
+        const validDate = new Date('2026-01-01T00:00:00Z');
+        const validLocation = defaultLocation[raceType];
+        const validNumber = 1;
+        const validRaceId = generateRaceId(
+            raceType,
+            validDate,
+            validLocation,
+            validNumber,
         );
-        expect(record).toBeInstanceOf(RacePlayerRecord);
-        expect(record.id).toBe(validRacePlayerId);
-        expect(record.raceType).toBe(validRaceType);
-        expect(record.raceId).toBe(validRaceId);
-        expect(record.positionNumber).toBe(validPositionNumber);
-        expect(record.playerNumber).toBe(validPlayerNumber);
-        expect(record.updateDate).toEqual(validUpdateDate);
-    });
+        const validUpdateDate = new Date('2026-01-01T12:00:00Z');
 
-    it('idバリデーション失敗で例外', () => {
-        expect(() =>
-            RacePlayerRecord.create(
-                'bad-id',
-                validRaceType,
+        const validPositionNumber = 1;
+        const validPlayerNumber = 10000;
+        const validRacePlayerId = generateRacePlayerId(
+            raceType,
+            validDate,
+            validLocation,
+            validNumber,
+            validPositionNumber,
+        );
+        it('正常値ですべて生成できる', () => {
+            const record = RacePlayerRecord.create(
+                validRacePlayerId,
+                raceType,
                 validRaceId,
                 validPositionNumber,
                 validPlayerNumber,
                 validUpdateDate,
-            ),
-        ).toThrow();
-    });
+            );
+            expect(record).toBeInstanceOf(RacePlayerRecord);
+            expect(record.id).toBe(validRacePlayerId);
+            expect(record.raceType).toBe(raceType);
+            expect(record.raceId).toBe(validRaceId);
+            expect(record.positionNumber).toBe(validPositionNumber);
+            expect(record.playerNumber).toBe(validPlayerNumber);
+            expect(record.updateDate).toEqual(validUpdateDate);
+        });
 
-    it('raceIdバリデーション失敗で例外', () => {
-        expect(() =>
-            RacePlayerRecord.create(
+        it('idバリデーション失敗で例外', () => {
+            expect(() =>
+                RacePlayerRecord.create(
+                    'bad-id',
+                    raceType,
+                    validRaceId,
+                    validPositionNumber,
+                    validPlayerNumber,
+                    validUpdateDate,
+                ),
+            ).toThrow();
+        });
+
+        it('raceIdバリデーション失敗で例外', () => {
+            expect(() =>
+                RacePlayerRecord.create(
+                    validRacePlayerId,
+                    raceType,
+                    'bad-race-id',
+                    validPositionNumber,
+                    validPlayerNumber,
+                    validUpdateDate,
+                ),
+            ).toThrow();
+        });
+
+        it('positionNumberバリデーション失敗で例外', () => {
+            expect(() =>
+                RacePlayerRecord.create(
+                    validRacePlayerId,
+                    raceType,
+                    validRaceId,
+                    99,
+                    validPlayerNumber,
+                    validUpdateDate,
+                ),
+            ).toThrow();
+        });
+
+        it('playerNumberバリデーション失敗で例外', () => {
+            expect(() =>
+                RacePlayerRecord.create(
+                    validRacePlayerId,
+                    raceType,
+                    validRaceId,
+                    validPositionNumber,
+                    0,
+                    validUpdateDate,
+                ),
+            ).toThrow();
+        });
+
+        it('updateDateバリデーション失敗で例外', () => {
+            expect(() =>
+                RacePlayerRecord.create(
+                    validRacePlayerId,
+                    raceType,
+                    validRaceId,
+                    validPositionNumber,
+                    validPlayerNumber,
+                    new Date('bad-date'),
+                ),
+            ).toThrow();
+        });
+
+        it('copy: 全項目コピー（partial未指定）', () => {
+            const base = RacePlayerRecord.create(
                 validRacePlayerId,
-                validRaceType,
-                'bad-race-id',
+                raceType,
+                validRaceId,
                 validPositionNumber,
                 validPlayerNumber,
                 validUpdateDate,
-            ),
-        ).toThrow();
-    });
+            );
+            const copied = base.copy();
+            expect(copied).not.toBe(base);
+            expect(copied).toEqual(base);
+        });
 
-    it('positionNumberバリデーション失敗で例外', () => {
-        expect(() =>
-            RacePlayerRecord.create(
+        it('copy: positionNumberのみ変更', () => {
+            const base = RacePlayerRecord.create(
                 validRacePlayerId,
-                validRaceType,
-                validRaceId,
-                99, // 不正値
-                validPlayerNumber,
-                validUpdateDate,
-            ),
-        ).toThrow();
-    });
-
-    it('playerNumberバリデーション失敗で例外', () => {
-        expect(() =>
-            RacePlayerRecord.create(
-                validRacePlayerId,
-                validRaceType,
-                validRaceId,
-                validPositionNumber,
-                0, // 不正値
-                validUpdateDate,
-            ),
-        ).toThrow();
-    });
-
-    it('updateDateバリデーション失敗で例外', () => {
-        expect(() =>
-            RacePlayerRecord.create(
-                validRacePlayerId,
-                validRaceType,
+                raceType,
                 validRaceId,
                 validPositionNumber,
                 validPlayerNumber,
-                new Date('bad-date'),
-            ),
-        ).toThrow();
-    });
+                validUpdateDate,
+            );
+            const copied = base.copy({ positionNumber: 2 });
+            expect(copied.positionNumber).toBe(2);
+            expect(copied.playerNumber).toBe(base.playerNumber);
+        });
 
-    it('copy: 全項目コピー（partial未指定）', () => {
-        const base = RacePlayerRecord.create(
-            validRacePlayerId,
-            validRaceType,
-            validRaceId,
-            validPositionNumber,
-            validPlayerNumber,
-            validUpdateDate,
-        );
-        const copied = base.copy();
-        expect(copied).not.toBe(base);
-        expect(copied).toEqual(base);
-    });
+        it('copy: playerNumberのみ変更', () => {
+            const base = RacePlayerRecord.create(
+                validRacePlayerId,
+                raceType,
+                validRaceId,
+                validPositionNumber,
+                validPlayerNumber,
+                validUpdateDate,
+            );
+            const copied = base.copy({ playerNumber: 10001 });
+            expect(copied.playerNumber).toBe(10001);
+            expect(copied.positionNumber).toBe(base.positionNumber);
+        });
 
-    it('copy: positionNumberのみ変更', () => {
-        const base = RacePlayerRecord.create(
-            validRacePlayerId,
-            validRaceType,
-            validRaceId,
-            validPositionNumber,
-            validPlayerNumber,
-            validUpdateDate,
-        );
-        const copied = base.copy({ positionNumber: 2 });
-        expect(copied.positionNumber).toBe(2);
-        expect(copied.playerNumber).toBe(base.playerNumber);
-    });
-
-    it('copy: playerNumberのみ変更', () => {
-        const base = RacePlayerRecord.create(
-            validRacePlayerId,
-            validRaceType,
-            validRaceId,
-            validPositionNumber,
-            validPlayerNumber,
-            validUpdateDate,
-        );
-        const copied = base.copy({ playerNumber: 10001 });
-        expect(copied.playerNumber).toBe(10001);
-        expect(copied.positionNumber).toBe(base.positionNumber);
-    });
-
-    it('copy: updateDateのみ変更', () => {
-        const base = RacePlayerRecord.create(
-            validRacePlayerId,
-            validRaceType,
-            validRaceId,
-            validPositionNumber,
-            validPlayerNumber,
-            validUpdateDate,
-        );
-        const _date = new Date('2025-01-01T00:00:00Z');
-        const copied = base.copy({ updateDate: _date });
-        expect(copied.updateDate).toEqual(_date);
+        it('copy: updateDateのみ変更', () => {
+            const base = RacePlayerRecord.create(
+                validRacePlayerId,
+                raceType,
+                validRaceId,
+                validPositionNumber,
+                validPlayerNumber,
+                validUpdateDate,
+            );
+            const _date = new Date('2025-01-01T00:00:00Z');
+            const copied = base.copy({ updateDate: _date });
+            expect(copied.updateDate).toEqual(_date);
+        });
     });
 });

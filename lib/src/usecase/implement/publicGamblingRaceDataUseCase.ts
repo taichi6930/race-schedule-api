@@ -16,7 +16,7 @@ import {
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * 公営競技レース開催データユースケース
+ * 公営競技のレースデータUseCase
  */
 @injectable()
 export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
@@ -185,15 +185,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             filteredPlaceEntityList,
         );
 
-        const response =
-            await this.raceDataService.updateRaceEntityList(raceEntityList);
-
-        return {
-            code: response.code,
-            message: response.message,
-            successDataCount: response.successDataCount,
-            failureDataCount: response.failureDataCount,
-        };
+        return this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 
     // 共通フィルタ関数

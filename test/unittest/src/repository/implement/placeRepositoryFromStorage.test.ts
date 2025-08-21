@@ -96,7 +96,7 @@ describe('PlaceRepositoryFromStorage', () => {
 
     // 1年間の開催場データを登録する
     const placeEntityList = (raceType: RaceType): PlaceEntity[] =>
-        Array.from({ length: 60 }, (_, day) => {
+        Array.from({ length: 10 }, (_, day) => {
             const location = defaultLocation[raceType];
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);

@@ -23,7 +23,7 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('PlaceRecord', () => {
-    for (const raceType of RACE_TYPE_LIST_ALL) {
+    describe.each(RACE_TYPE_LIST_ALL)('%s', (raceType) => {
         const validDate = new Date('2024-12-29');
         const validLocation = defaultLocation[raceType];
         const validPlaceId = generatePlaceId(
@@ -127,5 +127,5 @@ describe('PlaceRecord', () => {
                 );
             });
         });
-    }
+    });
 });

@@ -7,7 +7,7 @@ import { RaceType } from '../../utility/raceType';
 import { IPlayerDataUseCase } from '../interface/IPlayerDataUseCase';
 
 /**
- * 公開用
+ * 公営競技のプレイヤーデータUseCase
  */
 @injectable()
 export class PublicGamblingPlayerUseCase implements IPlayerDataUseCase {

@@ -29,11 +29,11 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('HorseRacingRaceRecord', () => {
-    for (const raceType of RACE_TYPE_LIST_HORSE_RACING) {
+    describe.each(RACE_TYPE_LIST_HORSE_RACING)('%s', (raceType) => {
         const validDate = new Date('2026-01-01T00:00:00Z');
         const validLocation = defaultLocation[raceType];
         const validSurfaceType = 'ダート';
-        const validDistance = 1600; // メートル
+        const validDistance = 1600;
         const validNumber = 1;
         const validRaceId = generateRaceId(
             raceType,
@@ -42,7 +42,7 @@ describe('HorseRacingRaceRecord', () => {
             validNumber,
         );
         const validName = '第1レース';
-        const validGrade = defaultRaceGrade[raceType]; // デフォルトのグレードを使用
+        const validGrade = defaultRaceGrade[raceType];
         const validUpdateDate = new Date('2026-01-01T12:00:00Z');
 
         describe('HorseRacingRaceRecord.create', () => {
@@ -94,7 +94,7 @@ describe('HorseRacingRaceRecord', () => {
                     HorseRacingRaceRecord.create(
                         validRaceId,
                         raceType,
-                        '', // 不正なname
+                        '',
                         validDate,
                         validLocation,
                         validSurfaceType,
@@ -114,7 +114,7 @@ describe('HorseRacingRaceRecord', () => {
                         validName,
                         validDate,
                         validLocation,
-                        '', // 不正なsurfaceType
+                        '',
                         validDistance,
                         validGrade,
                         validNumber,
@@ -132,7 +132,7 @@ describe('HorseRacingRaceRecord', () => {
                         validDate,
                         validLocation,
                         validSurfaceType,
-                        -100, // 不正なdistance
+                        -100,
                         validGrade,
                         validNumber,
                         validUpdateDate,
@@ -146,7 +146,7 @@ describe('HorseRacingRaceRecord', () => {
                         validRaceId,
                         raceType,
                         validName,
-                        new Date('bad-date'), // 不正なdateTime
+                        new Date('bad-date'),
                         validLocation,
                         validSurfaceType,
                         validDistance,
@@ -164,7 +164,7 @@ describe('HorseRacingRaceRecord', () => {
                         raceType,
                         validName,
                         validDate,
-                        '', // 不正なlocation
+                        '',
                         validSurfaceType,
                         validDistance,
                         validGrade,
@@ -184,7 +184,7 @@ describe('HorseRacingRaceRecord', () => {
                         validLocation,
                         validSurfaceType,
                         validDistance,
-                        'bad-grade', // 不正なgrade
+                        'bad-grade',
                         validNumber,
                         validUpdateDate,
                     ),
@@ -202,7 +202,7 @@ describe('HorseRacingRaceRecord', () => {
                         validSurfaceType,
                         validDistance,
                         validGrade,
-                        -1, // 不正なnumber
+                        -1,
                         validUpdateDate,
                     ),
                 ).toThrow('RaceRecord');
@@ -220,13 +220,11 @@ describe('HorseRacingRaceRecord', () => {
                         validDistance,
                         validGrade,
                         validNumber,
-                        new Date('bad-date'), // 不正なupdateDate
+                        new Date('bad-date'),
                     ),
                 ).toThrow('RaceRecord');
             });
         });
-
-        // 正しいcopyテストブロックを末尾に再挿入
 
         describe('HorseRacingRaceRecord.copy', () => {
             let base: HorseRacingRaceRecord;
@@ -281,5 +279,5 @@ describe('HorseRacingRaceRecord', () => {
                 );
             });
         });
-    }
+    });
 });

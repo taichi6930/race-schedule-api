@@ -43,9 +43,14 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
                     placeEntity.grade,
                 )),
             );
-            console.debug('0.8秒待ちます');
-            await new Promise((resolve) => setTimeout(resolve, 800));
-            console.debug('0.8秒経ちました');
+            // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
+            const delayedTimeMs = Number.parseInt(
+                process.env.HTML_FETCH_DELAY_MS ?? '800',
+                10,
+            );
+            console.debug(`待機時間: ${delayedTimeMs}ms`);
+            await new Promise((resolve) => setTimeout(resolve, delayedTimeMs));
+            console.debug('待機時間が経ちました');
         }
         return raceDataList;
     }

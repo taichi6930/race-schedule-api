@@ -13,7 +13,7 @@ import {
 import { IPlaceDataService } from '../interface/IPlaceDataService';
 
 /**
- * 公開用開催場データサービス
+ * 公営競技の開催場データを提供するサービス
  */
 @injectable()
 export class PublicGamblingPlaceDataService implements IPlaceDataService {
@@ -33,21 +33,12 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     ) {}
 
     /**
-     * 指定された期間の開催場所データを取得します
-     *
-     * このメソッドは、指定されたデータソース（StorageまたはWeb）から
-     * 開催場所情報を取得します。エラーが発生した場合は空配列を返し、
-     * アプリケーションの継続性を保証します。
-     *
-     * レースデータ取得の前提として使用され、開催場所の基本情報を
-     * 提供する重要な役割を持ちます。
+     * 指定期間・種別の開催場所データを取得
      * @param startDate - 取得開始日
-     * @param finishDate - 取得終了日（この日を含む）
-     * @param raceTypeList - レース種別のリスト
-     * @param type - データ取得元の指定（storage/web）
-     * @returns 開催場所エンティティの配列。エラー時は空配列
-     * @throws エラーはキャッチされログ出力されます
-     * @remarks Loggerデコレータにより、処理の開始・終了・エラーが自動的にログに記録されます
+     * @param finishDate - 取得終了日（含む）
+     * @param raceTypeList - レース種別リスト
+     * @param type - データ取得元（storage/web）
+     * @returns 開催場所エンティティ配列（エラー時は空配列）
      */
     @Logger
     public async fetchPlaceEntityList(
@@ -92,12 +83,9 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     }
 
     /**
-     * 開催場所データをStorageに保存/更新します
-     *
-     * 既存のデータが存在する場合は上書き、存在しない場合は新規作成します。
-     * このメソッドは一般的にWebから取得した最新データを保存する際に使用されます。
-     * @param placeEntityList - 保存/更新する開催場所エンティティの配列
-     * @throws Error データの保存/更新に失敗した場合
+     * 開催場所データをStorageに保存・更新
+     * @param placeEntityList - 保存・更新する開催場所エンティティ配列
+     * @throws Error 保存・更新に失敗した場合
      */
     @Logger
     public async updatePlaceEntityList(

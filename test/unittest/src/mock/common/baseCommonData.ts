@@ -10,7 +10,11 @@ import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity'
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import { createMaxFrameNumber } from '../../../../../lib/src/utility/data/common/positionNumber';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 
 /**
  * 基本的なレースプレイヤーデータのリストを生成します。
@@ -476,3 +480,15 @@ const defaultStageList = {
         '優勝戦',
     ],
 };
+
+export const mockCalendarDataList = RACE_TYPE_LIST_ALL.map((raceType) =>
+    baseCalendarData(raceType),
+);
+
+export const mockRaceEntityList = RACE_TYPE_LIST_ALL.flatMap((raceType) =>
+    baseRaceEntityList(raceType),
+);
+
+export const mockPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
+    (raceType) => basePlaceEntity(raceType),
+);

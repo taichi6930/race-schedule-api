@@ -7,7 +7,7 @@ import { PublicGamblingPlaceDataUseCase } from '../../../../../lib/src/usecase/i
 import type { IPlaceDataUseCase } from '../../../../../lib/src/usecase/interface/IPlaceDataUseCase';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
-import { basePlaceEntity } from '../../mock/common/baseCommonData';
+import { mockPlaceEntityList } from '../../mock/common/baseCommonData';
 import {
     RACE_TYPE_LIST_ALL,
     RACE_TYPE_LIST_WITHOUT_OVERSEAS,
@@ -15,10 +15,6 @@ import {
 describe('PublicGamblingPlaceUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService>;
     let useCase: IPlaceDataUseCase;
-
-    const mockPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
-        (raceType) => basePlaceEntity(raceType),
-    );
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();

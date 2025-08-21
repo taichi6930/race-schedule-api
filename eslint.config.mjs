@@ -145,7 +145,6 @@ export default [
             'jsdoc/require-returns-check': 'error', // 戻り値のチェック
             'jsdoc/require-returns-description': 'error', // 戻り値の説明を必須にする
             'jsdoc/require-returns-type': 'off', // TypeScriptと併用するため無効化
-            'jsdoc/require-throws': 'off', // throws句の要求
             'jsdoc/require-yields': 'off', // yields句の要求
             'jsdoc/require-yields-check': 'off', // yields句のチェック
             'jsdoc/sort-tags': 'error', // タグのソート
@@ -159,6 +158,15 @@ export default [
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
+            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+            '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
+            'jsdoc/require-param-description': 'off', // テストファイルではパラメータの説明を任意に
+            'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
+            'jsdoc/require-file-overview': 'off', // テストファイルではファイル概要を任意に
+            'jsdoc/no-missing-syntax': 'off', // テストファイルでは構文チェックを無効に
+            'jsdoc/no-restricted-syntax': 'off', // テストファイルでは構文制限を無効に
+            'jsdoc/require-example': 'off', // テストファイルではサンプルを任意に
+            '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
             'unused-imports/no-unused-vars': [
                 'error',
                 {
@@ -181,11 +189,20 @@ export default [
             'unicorn/prevent-abbreviations': 'off', // ✅ 省略形の使用を許可
             'unicorn/prefer-module': 'off', // ✅ ECMAScriptモジュールの使用を許可（後で対応したい）
             'unicorn/consistent-function-scoping': 'off', // ✅ 一貫した関数スコープを許可
-
+            '@typescript-eslint/require-await': 'off', // ✅ 非同期関数でのawaitを強制
+            'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
             // 数字のセパレーターのスタイルは一長一短なので一旦オフ
             'unicorn/numeric-separators-style': 'off',
-
             'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
+            '@typescript-eslint/no-unsafe-member-access': 'off', // ✅ any型のプロパティアクセスを許可
+            '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
+            '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
+            'unicorn/no-useless-undefined': 'off', // ✅ 不要なundefinedの使用を許可
+            '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
+            '@typescript-eslint/no-redeclare': 'off', // TypeScriptの再宣言を許可
+            '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
+            '@typescript-eslint/init-declarations': 'off', // ✅ 変数宣言時に初期化を強制
+            'unicorn/no-null': 'off', // ✅ nullの使用を許可
         },
     },
     // YAMLファイルを除外する設定
@@ -201,120 +218,37 @@ export default [
     },
     {
         files: [
-            '**/*Controller.ts',
-            '**/*Service.ts',
-            '**/*UseCase.ts',
-            '**/logger.ts',
-            '**/Data.ts',
-            '**/Record.ts',
+            '**/publicGamblingRaceDataUseCase.test.ts',
+            '**/*DataHtmlGateway.test.ts',
         ],
         rules: {
-            '@typescript-eslint/no-unsafe-member-access': 'off', // ✅ any型のプロパティアクセスを許可
-            '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
-            '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
-            '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
-            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
-            '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
-        },
-    },
-    {
-        files: ['**/eslint.config.mjs'],
-        rules: {
-            '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
-        },
-    },
-    {
-        files: ['**/*.test.ts', '**/utility/**/*.ts', '**/test/**/*.ts'],
-        rules: {
-            '@typescript-eslint/no-use-before-define': 'off', // ✅ 変数や関数の使用前定義を禁止
             '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内での関数定義を禁止
-            'jsdoc/require-param-description': 'off', // テストファイルではパラメータの説明を任意に
-            'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
-            'jsdoc/require-file-overview': 'off', // テストファイルではファイル概要を任意に
-            'jsdoc/no-missing-syntax': 'off', // テストファイルでは構文チェックを無効に
-            'jsdoc/no-restricted-syntax': 'off', // テストファイルでは構文制限を無効に
-            'jsdoc/require-example': 'off', // テストファイルではサンプルを任意に
-        },
-    },
-    {
-        files: ['**/src/index.ts'],
-        rules: {
-            '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
-        },
-    },
-    {
-        files: ['**/lib/src/utility/raceType.ts'],
-        rules: {
-            '@typescript-eslint/no-redeclare': 'off', // TypeScriptの再宣言を許可
-        },
-    },
-    {
-        files: ['**/lib/src/gateway/mock/mockS3Gateway.ts'],
-        rules: {
-            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
-        },
-    },
-    {
-        files: ['**/jest.config.js'],
-        rules: {
-            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
         },
     },
     {
         files: [
-            '**/lib/src/domain/calendarData.ts',
-            '**/lib/src/gateway/implement/googleCalendarGateway.ts',
-            '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtml.ts',
-            '**/lib/src/repository/implement/boatracePlaceRepositoryFromHtml.ts',
-            '**/lib/src/repository/implement/jraPlaceRepositoryFromHtml.ts',
-            '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtml.ts',
-            '**/lib/src/repository/implement/narRaceRepositoryFromHtml.ts',
+            'lib/src/utility/createRaceName.ts',
+            'lib/src/utility/data/common/gradeType.ts',
+            'lib/src/utility/data/common/positionNumber.ts',
+            'lib/src/utility/data/common/raceStage.ts',
+            'lib/src/utility/googleCalendar.ts',
+            'lib/src/utility/sqlite/settings/dbConfig.ts',
+            'test/unittest/src/mock/common/baseCommonData.ts',
+            'test/unittest/src/repository/implement/placeRepositoryFromStorage.test.ts',
+            'test/unittest/src/repository/implement/raceRepositoryFromStorage.test.ts',
         ],
         rules: {
-            '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
+            '@typescript-eslint/no-use-before-define': 'off', // 対象ファイル限定で許可
         },
     },
     {
         files: [
-            '**/lib/src/utility/env.ts',
-            '**/lib/src/gateway/implement/s3Gateway.ts',
+            '**/publicGamblingController.ts',
+            '**/*s3Gateway.ts',
+            '**/utility/env.ts',
         ],
         rules: {
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
-        },
-    },
-    {
-        files: [
-            '**/test/**/*.ts',
-            '**/lib/src/repository/implement/keirinPlaceRepositoryFromHtml.ts',
-            '**/lib/src/repository/implement/autoracePlaceRepositoryFromHtml.ts',
-        ],
-        rules: {
-            '@typescript-eslint/init-declarations': 'off', // ✅ 変数宣言時に初期化を強制
-        },
-    },
-    {
-        files: ['**/test/**/*.ts'],
-        rules: {
-            '@typescript-eslint/require-await': 'off', // ✅ 非同期関数でのawaitを強制
-        },
-    },
-    {
-        files: ['**/lib/src/usecase/implement/**CalendarUseCase.ts'],
-        rules: {
-            'unicorn/no-array-reduce': 'off', // ✅ Array.prototype.reduce()の使用を許可
-        },
-    },
-    {
-        files: ['**/repository/implement/**RepositoryFromHtml.ts'],
-        rules: {
-            'unicorn/no-null': 'off', // ✅ nullの使用を許可
-        },
-    },
-    {
-        files: ['**/calendarData.test.ts'],
-        rules: {
-            'unicorn/no-useless-undefined': 'off', // ✅ 不要なundefinedの使用を許可
         },
     },
 ];

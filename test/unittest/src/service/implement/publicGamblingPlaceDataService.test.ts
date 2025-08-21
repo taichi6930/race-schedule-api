@@ -14,7 +14,10 @@ import {
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
-import { basePlaceEntity } from '../../mock/common/baseCommonData';
+import {
+    basePlaceEntity,
+    mockPlaceEntityList,
+} from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingPlaceDataService', () => {
     let jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
@@ -24,10 +27,6 @@ describe('PublicGamblingPlaceDataService', () => {
     let boatracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     let autoracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     let service: IPlaceDataService;
-
-    const mockPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
-        (raceType) => basePlaceEntity(raceType),
-    );
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
