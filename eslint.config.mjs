@@ -145,7 +145,6 @@ export default [
             'jsdoc/require-returns-check': 'error', // 戻り値のチェック
             'jsdoc/require-returns-description': 'error', // 戻り値の説明を必須にする
             'jsdoc/require-returns-type': 'off', // TypeScriptと併用するため無効化
-            'jsdoc/require-throws': 'off', // throws句の要求
             'jsdoc/require-yields': 'off', // yields句の要求
             'jsdoc/require-yields-check': 'off', // yields句のチェック
             'jsdoc/sort-tags': 'error', // タグのソート
@@ -217,6 +216,12 @@ export default [
             'jsdoc/no-restricted-syntax': 'off',
             'jsdoc/require-description': 'off',
             'jsdoc/require-returns': 'off',
+        },
+    },
+    {
+        files: ['**/publicGamblingRaceDataUseCase.test.ts', '**/*DataHtmlGateway.test.ts'],
+        rules: {
+            '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内での関数定義を禁止
         },
     },
 ];
