@@ -26,16 +26,9 @@ describe('PublicGamblingRaceDataService', () => {
     let autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     let service: IRaceDataService;
 
-    const baseRaceEntityListMap = {
-        [RaceType.JRA]: baseRaceEntityList(RaceType.JRA),
-        [RaceType.NAR]: baseRaceEntityList(RaceType.NAR),
-        [RaceType.OVERSEAS]: baseRaceEntityList(RaceType.OVERSEAS),
-        [RaceType.KEIRIN]: baseRaceEntityList(RaceType.KEIRIN),
-        [RaceType.AUTORACE]: baseRaceEntityList(RaceType.AUTORACE),
-        [RaceType.BOATRACE]: baseRaceEntityList(RaceType.BOATRACE),
-    };
-
-    const mockRaceEntityList = Object.values(baseRaceEntityListMap).flat();
+    const mockRaceEntityList = ALL_RACE_TYPE_LIST.flatMap((raceType) =>
+        baseRaceEntityList(raceType),
+    );
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();

@@ -5,6 +5,7 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { injectable } from 'tsyringe';
 
+import { defaultStage } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { CSV_HEADER_KEYS, csvPath } from '../../utility/constants';
 import { GradeType } from '../../utility/data/common/gradeType';
 import { generatePlaceId } from '../../utility/data/common/placeId';
@@ -390,7 +391,7 @@ export class MockS3Gateway implements IS3Gateway {
                 mockData.push(
                     [
                         this.createRaceName(raceType),
-                        this.createStage(raceType),
+                        defaultStage[raceType],
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
                         this.defaultLocation[raceType],
                         this.createGrade(raceType),
@@ -658,27 +659,6 @@ export class MockS3Gateway implements IS3Gateway {
             case RaceType.NAR:
             case RaceType.OVERSEAS: {
                 return 'GⅠ';
-            }
-        }
-    }
-
-    private createStage(raceType: RaceType): RaceStage {
-        switch (raceType) {
-            case RaceType.KEIRIN: {
-                return 'S級グランプリ';
-            }
-            case RaceType.BOATRACE:
-            case RaceType.AUTORACE: {
-                return '優勝戦';
-            }
-            case RaceType.JRA: {
-                return '不明';
-            }
-            case RaceType.NAR: {
-                return '不明';
-            }
-            case RaceType.OVERSEAS: {
-                return '不明';
             }
         }
     }

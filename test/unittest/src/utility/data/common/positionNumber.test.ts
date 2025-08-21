@@ -1,18 +1,11 @@
 import { validatePositionNumber } from '../../../../../../lib/src/utility/data/common/positionNumber';
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
+import { ALL_RACE_TYPE_LIST } from '../../../../../../lib/src/utility/raceType';
 
 /**
  * PositionNumberのテスト
  */
 describe('PositionNumber', () => {
-    for (const { raceType } of [
-        { raceType: RaceType.JRA },
-        { raceType: RaceType.NAR },
-        { raceType: RaceType.OVERSEAS },
-        { raceType: RaceType.KEIRIN },
-        { raceType: RaceType.AUTORACE },
-        { raceType: RaceType.BOATRACE },
-    ]) {
+    for (const raceType of ALL_RACE_TYPE_LIST) {
         it(`正常系: 枠番が正常な場合(${raceType})`, () => {
             const positionNumber = 1;
             const result = validatePositionNumber(raceType, positionNumber);
