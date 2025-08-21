@@ -285,6 +285,7 @@ export class MockS3Gateway implements IS3Gateway {
         // 2024年のデータ366日分を作成
         const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
+            CSV_HEADER_KEYS.ID,
             CSV_HEADER_KEYS.NAME,
             CSV_HEADER_KEYS.DATE_TIME,
             CSV_HEADER_KEYS.LOCATION,
@@ -292,7 +293,6 @@ export class MockS3Gateway implements IS3Gateway {
             CSV_HEADER_KEYS.DISTANCE,
             CSV_HEADER_KEYS.GRADE,
             CSV_HEADER_KEYS.NUMBER,
-            CSV_HEADER_KEYS.ID,
         ].join(',');
         const mockData = [mockDataHeader];
         const currentDate = new Date(this.startDate);
@@ -301,6 +301,12 @@ export class MockS3Gateway implements IS3Gateway {
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                 mockData.push(
                     [
+                        generateRaceId(
+                            raceType,
+                            currentDate,
+                            this.defaultLocation[raceType],
+                            raceNumber,
+                        ),
                         this.createRaceName(raceType),
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
                         this.defaultLocation[raceType],
@@ -308,12 +314,6 @@ export class MockS3Gateway implements IS3Gateway {
                         '2000',
                         this.createGrade(raceType),
                         raceNumber,
-                        generateRaceId(
-                            raceType,
-                            currentDate,
-                            this.defaultLocation[raceType],
-                            raceNumber,
-                        ),
                     ].join(','),
                 );
             }
@@ -328,6 +328,7 @@ export class MockS3Gateway implements IS3Gateway {
         // 2024年のデータ366日分を作成
         const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
+            CSV_HEADER_KEYS.ID,
             CSV_HEADER_KEYS.NAME,
             CSV_HEADER_KEYS.DATE_TIME,
             CSV_HEADER_KEYS.LOCATION,
@@ -337,7 +338,6 @@ export class MockS3Gateway implements IS3Gateway {
             CSV_HEADER_KEYS.NUMBER,
             CSV_HEADER_KEYS.HELD_TIMES,
             CSV_HEADER_KEYS.HELD_DAY_TIMES,
-            CSV_HEADER_KEYS.ID,
         ].join(',');
         const mockData = [mockDataHeader];
 
@@ -347,6 +347,12 @@ export class MockS3Gateway implements IS3Gateway {
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                 mockData.push(
                     [
+                        generateRaceId(
+                            raceType,
+                            currentDate,
+                            this.defaultLocation[raceType],
+                            raceNumber,
+                        ),
                         this.createRaceName(raceType),
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
                         this.defaultLocation[raceType],
@@ -356,12 +362,6 @@ export class MockS3Gateway implements IS3Gateway {
                         raceNumber,
                         '1',
                         '1',
-                        generateRaceId(
-                            raceType,
-                            currentDate,
-                            this.defaultLocation[raceType],
-                            raceNumber,
-                        ),
                     ].join(','),
                 );
             }
@@ -376,13 +376,13 @@ export class MockS3Gateway implements IS3Gateway {
         const currentDate = new Date(this.startDate);
         const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
+            CSV_HEADER_KEYS.ID,
             CSV_HEADER_KEYS.NAME,
             CSV_HEADER_KEYS.STAGE,
             CSV_HEADER_KEYS.DATE_TIME,
             CSV_HEADER_KEYS.LOCATION,
             CSV_HEADER_KEYS.GRADE,
             CSV_HEADER_KEYS.NUMBER,
-            CSV_HEADER_KEYS.ID,
         ].join(',');
         const mockData = [mockDataHeader];
         // whileで回していって、最初の日付の年数と異なったら終了
@@ -390,18 +390,18 @@ export class MockS3Gateway implements IS3Gateway {
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                 mockData.push(
                     [
-                        this.createRaceName(raceType),
-                        defaultStage[raceType],
-                        `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
-                        this.defaultLocation[raceType],
-                        this.createGrade(raceType),
-                        raceNumber,
                         generateRaceId(
                             raceType,
                             currentDate,
                             this.defaultLocation[raceType],
                             raceNumber,
                         ),
+                        this.createRaceName(raceType),
+                        defaultStage[raceType],
+                        `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
+                        this.defaultLocation[raceType],
+                        this.createGrade(raceType),
+                        raceNumber,
                     ].join(','),
                 );
             }
