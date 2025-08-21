@@ -5,7 +5,6 @@ import path from 'node:path';
 
 import { container } from 'tsyringe';
 
-import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
@@ -19,7 +18,10 @@ import {
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
-import { defaultLocation } from '../../mock/common/baseCommonData';
+import {
+    defaultHeldDayData,
+    defaultLocation,
+} from '../../mock/common/baseCommonData';
 
 describe('PlaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
@@ -111,15 +113,6 @@ describe('PlaceRepositoryFromStorage', () => {
                 ),
             );
         }).flat();
-
-    const defaultHeldDayData = {
-        [RaceType.JRA]: HeldDayData.create(1, 1),
-        [RaceType.NAR]: undefined,
-        [RaceType.OVERSEAS]: undefined,
-        [RaceType.KEIRIN]: undefined,
-        [RaceType.AUTORACE]: undefined,
-        [RaceType.BOATRACE]: undefined,
-    };
 
     const defaultGrade = {
         [RaceType.JRA]: undefined,

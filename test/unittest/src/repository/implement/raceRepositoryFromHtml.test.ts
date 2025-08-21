@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
@@ -18,6 +17,7 @@ import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
+import { defaultHeldDayData } from '../../mock/common/baseCommonData';
 import { OverseasRaceRepositoryFromHtml } from './../../../../../lib/src/repository/implement/overseasRaceRepositoryFromHtml';
 
 // テーブル駆動型テスト
@@ -29,7 +29,6 @@ const testCases = [
         startDate: new Date('2024-05-26'),
         endDate: new Date('2024-05-26'),
         placeName: '東京',
-        heldDayData: HeldDayData.create(1, 1),
         grade: undefined,
         placeDate: new Date('2024-05-26'),
         expectedLength: 24,
@@ -41,7 +40,6 @@ const testCases = [
         startDate: new Date('2024-10-02'),
         endDate: new Date('2024-10-02'),
         placeName: '大井',
-        heldDayData: undefined,
         grade: undefined,
         placeDate: new Date('2024-10-02'),
         expectedLength: 12,
@@ -53,7 +51,6 @@ const testCases = [
         startDate: new Date('2023-10-08'),
         endDate: new Date('2023-10-08'),
         placeName: '盛岡',
-        heldDayData: undefined,
         grade: undefined,
         placeDate: new Date('2023-10-08'),
         expectedLength: 12,
@@ -65,7 +62,6 @@ const testCases = [
         startDate: new Date('2025-05-01'),
         endDate: new Date('2025-06-30'),
         placeName: undefined,
-        heldDayData: undefined,
         grade: undefined,
         placeDate: undefined,
         expectedLength: 35,
@@ -77,7 +73,6 @@ const testCases = [
         startDate: new Date('2025-06-01'),
         endDate: new Date('2025-07-31'),
         placeName: undefined,
-        heldDayData: undefined,
         grade: undefined,
         placeDate: undefined,
         expectedLength: 30,
@@ -89,7 +84,6 @@ const testCases = [
         startDate: new Date('2024-10-20'),
         endDate: new Date('2024-10-20'),
         placeName: '弥彦',
-        heldDayData: undefined,
         grade: 'GⅠ',
         placeDate: new Date('2024-10-20'),
         expectedLength: 12,
@@ -101,7 +95,6 @@ const testCases = [
         startDate: new Date('2024-11-01'),
         endDate: new Date('2024-11-30'),
         placeName: '川口',
-        heldDayData: undefined,
         grade: 'SG',
         placeDate: new Date('2024-11-04'),
         expectedLength: 12,
@@ -113,7 +106,6 @@ const testCases = [
         startDate: new Date('2024-11-01'),
         endDate: new Date('2024-11-30'),
         placeName: '下関',
-        heldDayData: undefined,
         grade: 'SG',
         placeDate: new Date('2024-11-24'),
         expectedLength: 1,
@@ -127,7 +119,6 @@ for (const {
     startDate,
     endDate,
     placeName,
-    heldDayData,
     grade,
     placeDate,
     expectedLength,
@@ -168,7 +159,7 @@ for (const {
                                               placeDate,
                                               placeName,
                                           ),
-                                          heldDayData,
+                                          defaultHeldDayData[raceType],
                                           grade,
                                           getJSTDate(new Date()),
                                       ),
