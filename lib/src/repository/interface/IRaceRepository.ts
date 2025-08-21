@@ -45,6 +45,7 @@ export interface IRaceRepository {
     fetchRaceEntityList: (
         searchFilter: SearchRaceFilterEntity,
     ) => Promise<RaceEntity[]>;
+
     /**
      * レース開催データを一括で登録/更新します
      *

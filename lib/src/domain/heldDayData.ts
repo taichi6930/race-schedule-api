@@ -16,6 +16,7 @@ export class HeldDayData {
      * @type {HeldTimes}
      */
     public readonly heldTimes: HeldTimes;
+
     /**
      * 開催日数
      * @type {HeldDayTimes}

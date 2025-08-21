@@ -23,6 +23,7 @@ export class S3Gateway implements IS3Gateway {
      * @private
      */
     private readonly s3Client: S3Client;
+
     /**
      * バケット名 S3の中にあるデータの保存場所
      * @type {string}

@@ -39,6 +39,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         @inject('CalendarRepository')
         protected readonly calendarRepository: ICalendarRepository,
     ) {}
+
     /**
      * 指定された期間のカレンダーイベントを取得します
      *

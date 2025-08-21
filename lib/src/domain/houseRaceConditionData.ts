@@ -9,6 +9,7 @@ export class HorseRaceConditionData {
      * @type {RaceCourseType}
      */
     public readonly surfaceType: RaceCourseType;
+
     /**
      * 距離
      * @type {RaceDistance}

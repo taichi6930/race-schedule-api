@@ -24,6 +24,7 @@ export class RaceEntity {
     private readonly _conditionData: HorseRaceConditionData | undefined;
     private readonly _stage: RaceStage | undefined;
     private readonly _racePlayerDataList: RacePlayerData[] | undefined;
+
     /**
      * コンストラクタ
      * @param id - ID

@@ -38,6 +38,7 @@ export interface IS3Gateway {
         folderPath: string,
         fileName: string,
     ) => Promise<void>;
+
     /**
      * S3バケットからデータを取得します
      *
