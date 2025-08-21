@@ -31,13 +31,11 @@ describe('PlaceEntityクラスのテスト', () => {
 
         it('何も変更せずPlaceEntityのインスタンスを作成できることを確認', () => {
             const copiedPlaceEntity = basePlaceEntity(raceType).copy();
-
             expect(copiedPlaceEntity).toEqual(basePlaceEntity(raceType));
         });
 
         it('何も変更せずPlaceDataのインスタンスを作成できることを確認', () => {
             const { placeData } = basePlaceEntity(raceType);
-
             expect(placeData).toEqual(basePlaceData(raceType));
         });
     }

@@ -104,91 +104,28 @@ describe('RaceRepositoryFromStorage', () => {
     });
 
     describe('registerRaceList', () => {
-        test('DBが空データのところに、正しいレース開催データを登録できる', async () => {
+        const testWithRegisterData = async (
+            hasRegisterData: boolean,
+        ): Promise<void> => {
             for (const raceType of RACE_TYPE_LIST_ALL) {
                 // 1年間のレース開催データを登録する
-                const raceEntityList: RaceEntity[] = Array.from(
-                    { length: 60 },
-                    (_, day) => {
-                        const date = new Date('2024-01-01');
-                        date.setDate(date.getDate() + day);
-                        return Array.from({ length: 12 }, (__, j) =>
-                            RaceEntity.createWithoutId(
-                                RaceData.create(
-                                    raceType,
-                                    `raceName${format(date, 'yyyyMMdd')}`,
-                                    date,
-                                    defaultLocation[raceType],
-                                    defaultRaceGrade[raceType],
-                                    j + 1,
-                                ),
-                                defaultHeldDayData[raceType],
-                                baseConditionData(raceType),
-                                defaultStage[raceType],
-                                baseRacePlayerDataList(raceType),
-                                getJSTDate(new Date()),
-                            ),
-                        );
-                    },
-                ).flat();
-
-                const repository =
-                    raceType === RaceType.JRA ||
-                    raceType === RaceType.NAR ||
-                    raceType === RaceType.OVERSEAS
-                        ? horseRacingRaceRepository
-                        : mechanicalRacingRaceRepository;
-
-                // テスト実行
-                await repository.registerRaceEntityList(
-                    raceType,
-                    raceEntityList,
-                );
-            }
-            // S3へのアップロード回数とその引数を検証
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(9);
-        });
-
-        test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
-            for (const raceType of RACE_TYPE_LIST_ALL) {
-                // 1年間のレース開催データを登録する
-                const raceEntityList: RaceEntity[] = Array.from(
-                    { length: 60 },
-                    (_, day) => {
-                        const date = new Date('2024-01-01');
-                        date.setDate(date.getDate() + day);
-                        return Array.from({ length: 12 }, (__, j) =>
-                            RaceEntity.createWithoutId(
-                                RaceData.create(
-                                    raceType,
-                                    `raceName${format(date, 'yyyyMMdd')}`,
-                                    date,
-                                    defaultLocation[raceType],
-                                    defaultRaceGrade[raceType],
-                                    j + 1,
-                                ),
-                                defaultHeldDayData[raceType],
-                                baseConditionData(raceType),
-                                defaultStage[raceType],
-                                baseRacePlayerDataList(raceType),
-                                getJSTDate(new Date()),
-                            ),
-                        );
-                    },
-                ).flat();
+                const raceEntityList: RaceEntity[] =
+                    makeRaceEntityList(raceType);
 
                 // モックの戻り値を設定
-                s3Gateway.fetchDataFromS3.mockResolvedValue(
-                    fs.readFileSync(
-                        path.resolve(
-                            __dirname,
-                            '../../mock/repository/csv',
-                            raceType.toLowerCase(),
-                            CSV_FILE_NAME.RACE_LIST,
+                if (hasRegisterData) {
+                    s3Gateway.fetchDataFromS3.mockResolvedValue(
+                        fs.readFileSync(
+                            path.resolve(
+                                __dirname,
+                                '../../mock/repository/csv',
+                                raceType.toLowerCase(),
+                                CSV_FILE_NAME.RACE_LIST,
+                            ),
+                            'utf8',
                         ),
-                        'utf8',
-                    ),
-                );
+                    );
+                }
 
                 const repository =
                     raceType === RaceType.JRA ||
@@ -204,6 +141,40 @@ describe('RaceRepositoryFromStorage', () => {
                 );
             }
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(9);
-        });
+        };
+
+        for (const hasRegisterData of [true, false]) {
+            test(
+                hasRegisterData
+                    ? 'DBにデータの存在するところに、正しいレース開催データを登録できる'
+                    : 'DBが空データのところに、正しいレース開催データを登録できる',
+                async () => {
+                    await testWithRegisterData(hasRegisterData);
+                },
+            );
+        }
     });
+
+    const makeRaceEntityList = (raceType: RaceType): RaceEntity[] =>
+        Array.from({ length: 60 }, (_, day) => {
+            const date = new Date('2024-01-01');
+            date.setDate(date.getDate() + day);
+            return Array.from({ length: 12 }, (__, j) =>
+                RaceEntity.createWithoutId(
+                    RaceData.create(
+                        raceType,
+                        `raceName${format(date, 'yyyyMMdd')}`,
+                        date,
+                        defaultLocation[raceType],
+                        defaultRaceGrade[raceType],
+                        j + 1,
+                    ),
+                    defaultHeldDayData[raceType],
+                    baseConditionData(raceType),
+                    defaultStage[raceType],
+                    baseRacePlayerDataList(raceType),
+                    getJSTDate(new Date()),
+                ),
+            );
+        }).flat();
 });

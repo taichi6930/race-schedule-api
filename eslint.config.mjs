@@ -235,6 +235,7 @@ export default [
             'lib/src/utility/sqlite/settings/dbConfig.ts',
             'test/unittest/src/mock/common/baseCommonData.ts',
             'test/unittest/src/repository/implement/placeRepositoryFromStorage.test.ts',
+            'test/unittest/src/repository/implement/raceRepositoryFromStorage.test.ts',
         ],
         rules: {
             '@typescript-eslint/no-use-before-define': 'off', // 対象ファイル限定で許可
