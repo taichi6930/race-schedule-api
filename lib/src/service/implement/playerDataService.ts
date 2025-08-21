@@ -6,8 +6,7 @@ import { inject, injectable } from 'tsyringe';
 import { PlayerData } from '../../domain/playerData';
 import type { IPlayerRepository } from '../../repository/interface/IPlayerRepository';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
-import { isRaceType } from '../../utility/raceType';
+import { isRaceType, RaceType } from '../../utility/raceType';
 import type { IPlayerDataService } from '../interface/IPlayerDataService';
 
 @injectable()
@@ -18,8 +17,8 @@ export class PlayerDataService implements IPlayerDataService {
     ) {}
 
     /**
-     * プレイヤーデータをDBから取得します
-     * @param _type - レースタイプ（未使用）
+     * 指定レースタイプのプレイヤーデータを取得
+     * @param _type - レースタイプ
      */
     @Logger
     public async fetchPlayerDataList(_type: RaceType): Promise<PlayerData[]> {

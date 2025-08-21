@@ -3,22 +3,16 @@ import type { DataLocationType } from '../../utility/dataType';
 import type { RaceType } from '../../utility/raceType';
 
 /**
- * 開催場所データを管理するサービスのインターフェース
- *
- * このインターフェースは、開催場所に関する以下の操作を定義します：
- * - 指定期間の開催場所データの取得（StorageまたはWebから）
- * - 開催場所データの更新（Storageに保存）
+ * 開催場所データを提供するサービスインターフェース
  */
 export interface IPlaceDataService {
     /**
-     * 指定された期間の開催場所データを取得します
+     * 指定期間・種別の開催場所データを取得
      * @param startDate - 取得開始日
-     * @param finishDate - 取得終了日（この日を含む）
-     * @param type - データの取得元を指定
-     * - Storage: 保存済みのデータから取得（高速）
-     * - Web: 外部Webサイトから直接取得（最新）
-     * @returns 開催場所エンティティの配列。該当データがない場合は空配列
-     * @throws Error データの取得に失敗した場合
+     * @param finishDate - 取得終了日（含む）
+     * @param raceTypeList - レース種別リスト
+     * @param type - データ取得元（storage/web）
+     * @returns 開催場所エンティティ配列
      */
     fetchPlaceEntityList: (
         startDate: Date,
@@ -28,12 +22,8 @@ export interface IPlaceDataService {
     ) => Promise<PlaceEntity[]>;
 
     /**
-     * 開催場所データをStorageに保存/更新します
-     *
-     * 既存のデータが存在する場合は上書き、存在しない場合は新規作成します。
-     * このメソッドは一般的にWebから取得した最新データを保存する際に使用されます。
-     * @param placeEntityList - 保存/更新する開催場所エンティティの配列
-     * @throws Error データの保存/更新に失敗した場合
+     * 開催場所データを保存・更新
+     * @param placeEntityList - 保存・更新する開催場所エンティティ配列
      */
     updatePlaceEntityList: (placeEntityList: PlaceEntity[]) => Promise<{
         code: number;

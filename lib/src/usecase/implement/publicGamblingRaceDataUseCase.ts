@@ -16,7 +16,7 @@ import {
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * 公営競技レース開催データユースケース
+ * 公営競技のレースデータUseCase
  */
 @injectable()
 export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {

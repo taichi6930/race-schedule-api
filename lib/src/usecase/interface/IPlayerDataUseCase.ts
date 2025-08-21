@@ -2,7 +2,7 @@ import type { PlayerData } from '../../domain/playerData';
 import type { RaceType } from '../../utility/raceType';
 
 /**
- * IPlayerDataUseCase
+ * プレイヤーデータUseCaseインターフェース
  */
 export interface IPlayerDataUseCase {
     /**
