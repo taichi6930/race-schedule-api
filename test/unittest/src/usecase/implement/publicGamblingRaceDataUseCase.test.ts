@@ -6,6 +6,7 @@ import type { IPlaceDataService } from '../../../../../lib/src/service/interface
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingRaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingRaceDataUseCase';
 import type { IRaceDataUseCase } from '../../../../../lib/src/usecase/interface/IRaceDataUseCase';
+import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import {
     RACE_TYPE_LIST_ALL,
     RACE_TYPE_LIST_WITHOUT_OVERSEAS,
@@ -39,6 +40,493 @@ describe('PublicGamblingRaceDataUseCase', () => {
         jest.restoreAllMocks();
     });
 
+    const testCases = IS_SHORT_TEST
+        ? [
+              {
+                  raceTypeList: [RaceType.NAR],
+                  searchConditions: { [RaceType.NAR]: { gradeList: ['GⅠ'] } },
+                  descriptions: 'gradeを検索条件に入れて',
+                  expectedLength: 2,
+                  returnedRaceList: baseRaceEntityList(RaceType.NAR),
+              },
+              {
+                  raceTypeList: [RaceType.NAR],
+                  searchConditions: {
+                      [RaceType.NAR]: {
+                          locationList: ['大井'],
+                      },
+                  },
+                  descriptions: 'locationを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.NAR),
+              },
+              {
+                  raceTypeList: [RaceType.NAR],
+                  searchConditions: {
+                      [RaceType.NAR]: {
+                          gradeList: ['GⅠ'],
+                          locationList: ['大井'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.NAR),
+              },
+              {
+                  raceTypeList: [RaceType.NAR],
+                  searchConditions: {
+                      [RaceType.NAR]: {
+                          gradeList: ['GⅠ'],
+                          locationList: ['佐賀'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 0,
+                  returnedRaceList: baseRaceEntityList(RaceType.NAR),
+              },
+              {
+                  raceTypeList: [RaceType.NAR],
+                  searchConditions: {},
+                  descriptions: '検索条件なし',
+                  expectedLength: 24,
+                  returnedRaceList: baseRaceEntityList(RaceType.NAR),
+              },
+          ]
+        : [
+              {
+                  raceTypeList: [RaceType.NAR],
+                  searchConditions: { [RaceType.NAR]: { gradeList: ['GⅠ'] } },
+                  descriptions: 'gradeを検索条件に入れて',
+                  expectedLength: 2,
+                  returnedRaceList: baseRaceEntityList(RaceType.NAR),
+              },
+              {
+                  raceTypeList: [RaceType.NAR],
+                  searchConditions: {
+                      [RaceType.NAR]: {
+                          locationList: ['大井'],
+                      },
+                  },
+                  descriptions: 'locationを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.NAR),
+              },
+              {
+                  raceTypeList: [RaceType.NAR],
+                  searchConditions: {
+                      [RaceType.NAR]: {
+                          gradeList: ['GⅠ'],
+                          locationList: ['大井'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.NAR),
+              },
+              {
+                  raceTypeList: [RaceType.NAR],
+                  searchConditions: {
+                      [RaceType.NAR]: {
+                          gradeList: ['GⅠ'],
+                          locationList: ['佐賀'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 0,
+                  returnedRaceList: baseRaceEntityList(RaceType.NAR),
+              },
+              {
+                  raceTypeList: [RaceType.NAR],
+                  searchConditions: {},
+                  descriptions: '検索条件なし',
+                  expectedLength: 24,
+                  returnedRaceList: baseRaceEntityList(RaceType.NAR),
+              },
+              {
+                  raceTypeList: [RaceType.OVERSEAS],
+                  searchConditions: {
+                      [RaceType.OVERSEAS]: { gradeList: ['GⅠ'] },
+                  },
+                  descriptions: 'gradeを検索条件に入れて',
+                  expectedLength: 2,
+                  returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
+              },
+              {
+                  raceTypeList: [RaceType.OVERSEAS],
+                  searchConditions: {
+                      [RaceType.OVERSEAS]: {
+                          locationList: ['パリロンシャン'],
+                      },
+                  },
+                  descriptions: 'locationを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
+              },
+              {
+                  raceTypeList: [RaceType.OVERSEAS],
+                  searchConditions: {
+                      [RaceType.OVERSEAS]: {
+                          gradeList: ['GⅠ'],
+                          locationList: ['パリロンシャン'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
+              },
+              {
+                  raceTypeList: [RaceType.OVERSEAS],
+                  searchConditions: {
+                      [RaceType.OVERSEAS]: {
+                          gradeList: ['GⅠ'],
+                          locationList: ['サンクルー'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 0,
+                  returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
+              },
+              {
+                  raceTypeList: [RaceType.OVERSEAS],
+                  searchConditions: {},
+                  descriptions: '検索条件なし',
+                  expectedLength: 24,
+                  returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
+              },
+              {
+                  raceTypeList: [RaceType.KEIRIN],
+                  searchConditions: {
+                      [RaceType.KEIRIN]: { gradeList: ['GP'] },
+                  },
+                  descriptions: 'gradeを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
+              },
+              {
+                  raceTypeList: [RaceType.KEIRIN],
+                  searchConditions: {
+                      [RaceType.KEIRIN]: { locationList: ['平塚'] },
+                  },
+                  descriptions: 'locationを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
+              },
+              {
+                  raceTypeList: [RaceType.KEIRIN],
+                  searchConditions: {
+                      [RaceType.KEIRIN]: { stageList: ['S級決勝'] },
+                  },
+                  descriptions: 'stageを検索条件に入れて',
+                  expectedLength: 6,
+                  returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
+              },
+              {
+                  raceTypeList: [RaceType.KEIRIN],
+                  searchConditions: {
+                      [RaceType.KEIRIN]: {
+                          gradeList: ['GP'],
+                          locationList: ['平塚'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
+              },
+              {
+                  raceTypeList: [RaceType.KEIRIN],
+                  searchConditions: {
+                      [RaceType.KEIRIN]: {
+                          gradeList: ['GP'],
+                          locationList: ['小倉'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 0,
+                  returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
+              },
+              {
+                  raceTypeList: [RaceType.KEIRIN],
+                  searchConditions: {
+                      [RaceType.KEIRIN]: {
+                          gradeList: ['GP'],
+                          stageList: ['S級決勝'],
+                      },
+                  },
+                  descriptions: 'gradeとstageを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
+              },
+              {
+                  raceTypeList: [RaceType.KEIRIN],
+                  searchConditions: {
+                      [RaceType.KEIRIN]: {
+                          locationList: ['平塚'],
+                          stageList: ['S級決勝'],
+                      },
+                  },
+                  descriptions: 'locationとstageを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
+              },
+              {
+                  raceTypeList: [RaceType.KEIRIN],
+                  searchConditions: {
+                      [RaceType.KEIRIN]: {
+                          gradeList: ['GP'],
+                          locationList: ['平塚'],
+                          stageList: ['S級決勝'],
+                      },
+                  },
+                  descriptions: 'gradeとlocation、stageを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
+              },
+              {
+                  raceTypeList: [RaceType.KEIRIN],
+                  searchConditions: { [RaceType.KEIRIN]: {} },
+                  descriptions: '検索条件なし',
+                  expectedLength: 72,
+                  returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
+              },
+              {
+                  raceTypeList: [RaceType.JRA],
+                  searchConditions: { [RaceType.JRA]: { gradeList: ['GⅠ'] } },
+                  descriptions: 'gradeを検索条件に入れて',
+                  expectedLength: 2,
+                  returnedRaceList: baseRaceEntityList(RaceType.JRA),
+              },
+              {
+                  raceTypeList: [RaceType.JRA],
+                  searchConditions: {
+                      [RaceType.JRA]: { locationList: ['東京'] },
+                  },
+                  descriptions: 'locationを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.JRA),
+              },
+              {
+                  raceTypeList: [RaceType.JRA],
+                  searchConditions: {
+                      [RaceType.JRA]: {
+                          gradeList: ['GⅠ'],
+                          locationList: ['東京'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.JRA),
+              },
+              {
+                  raceTypeList: [RaceType.JRA],
+                  searchConditions: {
+                      [RaceType.JRA]: {
+                          gradeList: ['GⅠ'],
+                          locationList: ['阪神'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 0,
+                  returnedRaceList: baseRaceEntityList(RaceType.JRA),
+              },
+              {
+                  raceTypeList: [RaceType.JRA],
+                  searchConditions: { [RaceType.JRA]: {} },
+                  descriptions: '検索条件なし',
+                  expectedLength: 24,
+                  returnedRaceList: baseRaceEntityList(RaceType.JRA),
+              },
+              {
+                  raceTypeList: [RaceType.BOATRACE],
+                  searchConditions: {
+                      [RaceType.BOATRACE]: { gradeList: ['SG'] },
+                  },
+                  descriptions: 'gradeを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
+              },
+              {
+                  raceTypeList: [RaceType.BOATRACE],
+                  searchConditions: {
+                      [RaceType.BOATRACE]: { locationList: ['平和島'] },
+                  },
+                  descriptions: 'locationを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
+              },
+              {
+                  raceTypeList: [RaceType.BOATRACE],
+                  searchConditions: {
+                      [RaceType.BOATRACE]: { stageList: ['優勝戦'] },
+                  },
+                  descriptions: 'stageを検索条件に入れて',
+                  expectedLength: 5,
+                  returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
+              },
+              {
+                  raceTypeList: [RaceType.BOATRACE],
+                  searchConditions: {
+                      [RaceType.BOATRACE]: {
+                          gradeList: ['SG'],
+                          locationList: ['平和島'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
+              },
+              {
+                  raceTypeList: [RaceType.BOATRACE],
+                  searchConditions: {
+                      [RaceType.BOATRACE]: {
+                          gradeList: ['SG'],
+                          locationList: ['桐生'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 0,
+                  returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
+              },
+              {
+                  raceTypeList: [RaceType.BOATRACE],
+                  searchConditions: {
+                      [RaceType.BOATRACE]: {
+                          gradeList: ['SG'],
+                          stageList: ['優勝戦'],
+                      },
+                  },
+                  descriptions: 'gradeとstageを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
+              },
+              {
+                  raceTypeList: [RaceType.BOATRACE],
+                  searchConditions: {
+                      [RaceType.BOATRACE]: {
+                          locationList: ['平和島'],
+                          stageList: ['優勝戦'],
+                      },
+                  },
+                  descriptions: 'locationとstageを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
+              },
+              {
+                  raceTypeList: [RaceType.BOATRACE],
+                  searchConditions: {
+                      [RaceType.BOATRACE]: {
+                          gradeList: ['SG'],
+                          locationList: ['平和島'],
+                          stageList: ['優勝戦'],
+                      },
+                  },
+                  descriptions: 'gradeとlocation、stageを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
+              },
+              {
+                  raceTypeList: [RaceType.BOATRACE],
+                  searchConditions: { [RaceType.BOATRACE]: {} },
+                  descriptions: '検索条件なし',
+                  expectedLength: 60,
+                  returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
+              },
+              {
+                  raceTypeList: [RaceType.AUTORACE],
+                  searchConditions: {
+                      [RaceType.AUTORACE]: { gradeList: ['SG'] },
+                  },
+                  descriptions: 'gradeを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
+              },
+              {
+                  raceTypeList: [RaceType.AUTORACE],
+                  searchConditions: {
+                      [RaceType.AUTORACE]: { locationList: ['飯塚'] },
+                  },
+                  descriptions: 'locationを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
+              },
+              {
+                  raceTypeList: [RaceType.AUTORACE],
+                  searchConditions: {
+                      [RaceType.AUTORACE]: { stageList: ['優勝戦'] },
+                  },
+                  descriptions: 'stageを検索条件に入れて',
+                  expectedLength: 5,
+                  returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
+              },
+              {
+                  raceTypeList: [RaceType.AUTORACE],
+                  searchConditions: {
+                      [RaceType.AUTORACE]: {
+                          gradeList: ['SG'],
+                          locationList: ['飯塚'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 12,
+                  returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
+              },
+              {
+                  raceTypeList: [RaceType.AUTORACE],
+                  searchConditions: {
+                      [RaceType.AUTORACE]: {
+                          gradeList: ['SG'],
+                          locationList: ['川口'],
+                      },
+                  },
+                  descriptions: 'gradeとlocationを検索条件に入れて',
+                  expectedLength: 0,
+                  returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
+              },
+              {
+                  raceTypeList: [RaceType.AUTORACE],
+                  searchConditions: {
+                      [RaceType.AUTORACE]: {
+                          gradeList: ['SG'],
+                          stageList: ['優勝戦'],
+                      },
+                  },
+                  descriptions: 'gradeとstageを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
+              },
+              {
+                  raceTypeList: [RaceType.AUTORACE],
+                  searchConditions: {
+                      [RaceType.AUTORACE]: {
+                          locationList: ['飯塚'],
+                          stageList: ['優勝戦'],
+                      },
+                  },
+                  descriptions: 'locationとstageを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
+              },
+              {
+                  raceTypeList: [RaceType.AUTORACE],
+                  searchConditions: {
+                      [RaceType.AUTORACE]: {
+                          gradeList: ['SG'],
+                          locationList: ['飯塚'],
+                          stageList: ['優勝戦'],
+                      },
+                  },
+                  descriptions: 'gradeとlocation、stageを検索条件に入れて',
+                  expectedLength: 1,
+                  returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
+              },
+              {
+                  raceTypeList: [RaceType.AUTORACE],
+                  searchConditions: { [RaceType.AUTORACE]: {} },
+                  descriptions: '検索条件なし',
+                  expectedLength: 60,
+                  returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
+              },
+          ];
+
     describe('fetchRaceEntityList', () => {
         for (const {
             raceTypeList,
@@ -46,438 +534,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             descriptions,
             expectedLength,
             returnedRaceList,
-        } of [
-            {
-                raceTypeList: [RaceType.NAR],
-                searchConditions: { [RaceType.NAR]: { gradeList: ['GⅠ'] } },
-                descriptions: 'gradeを検索条件に入れて',
-                expectedLength: 2,
-                returnedRaceList: baseRaceEntityList(RaceType.NAR),
-            },
-            {
-                raceTypeList: [RaceType.NAR],
-                searchConditions: {
-                    [RaceType.NAR]: {
-                        locationList: ['大井'],
-                    },
-                },
-                descriptions: 'locationを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.NAR),
-            },
-            {
-                raceTypeList: [RaceType.NAR],
-                searchConditions: {
-                    [RaceType.NAR]: {
-                        gradeList: ['GⅠ'],
-                        locationList: ['大井'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.NAR),
-            },
-            {
-                raceTypeList: [RaceType.NAR],
-                searchConditions: {
-                    [RaceType.NAR]: {
-                        gradeList: ['GⅠ'],
-                        locationList: ['佐賀'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 0,
-                returnedRaceList: baseRaceEntityList(RaceType.NAR),
-            },
-            {
-                raceTypeList: [RaceType.NAR],
-                searchConditions: {},
-                descriptions: '検索条件なし',
-                expectedLength: 24,
-                returnedRaceList: baseRaceEntityList(RaceType.NAR),
-            },
-            {
-                raceTypeList: [RaceType.OVERSEAS],
-                searchConditions: {
-                    [RaceType.OVERSEAS]: { gradeList: ['GⅠ'] },
-                },
-                descriptions: 'gradeを検索条件に入れて',
-                expectedLength: 2,
-                returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
-            },
-            {
-                raceTypeList: [RaceType.OVERSEAS],
-                searchConditions: {
-                    [RaceType.OVERSEAS]: {
-                        locationList: ['パリロンシャン'],
-                    },
-                },
-                descriptions: 'locationを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
-            },
-            {
-                raceTypeList: [RaceType.OVERSEAS],
-                searchConditions: {
-                    [RaceType.OVERSEAS]: {
-                        gradeList: ['GⅠ'],
-                        locationList: ['パリロンシャン'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
-            },
-            {
-                raceTypeList: [RaceType.OVERSEAS],
-                searchConditions: {
-                    [RaceType.OVERSEAS]: {
-                        gradeList: ['GⅠ'],
-                        locationList: ['サンクルー'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 0,
-                returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
-            },
-            {
-                raceTypeList: [RaceType.OVERSEAS],
-                searchConditions: {},
-                descriptions: '検索条件なし',
-                expectedLength: 24,
-                returnedRaceList: baseRaceEntityList(RaceType.OVERSEAS),
-            },
-            {
-                raceTypeList: [RaceType.KEIRIN],
-                searchConditions: { [RaceType.KEIRIN]: { gradeList: ['GP'] } },
-                descriptions: 'gradeを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
-            },
-            {
-                raceTypeList: [RaceType.KEIRIN],
-                searchConditions: {
-                    [RaceType.KEIRIN]: { locationList: ['平塚'] },
-                },
-                descriptions: 'locationを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
-            },
-            {
-                raceTypeList: [RaceType.KEIRIN],
-                searchConditions: {
-                    [RaceType.KEIRIN]: { stageList: ['S級決勝'] },
-                },
-                descriptions: 'stageを検索条件に入れて',
-                expectedLength: 6,
-                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
-            },
-            {
-                raceTypeList: [RaceType.KEIRIN],
-                searchConditions: {
-                    [RaceType.KEIRIN]: {
-                        gradeList: ['GP'],
-                        locationList: ['平塚'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
-            },
-            {
-                raceTypeList: [RaceType.KEIRIN],
-                searchConditions: {
-                    [RaceType.KEIRIN]: {
-                        gradeList: ['GP'],
-                        locationList: ['小倉'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 0,
-                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
-            },
-            {
-                raceTypeList: [RaceType.KEIRIN],
-                searchConditions: {
-                    [RaceType.KEIRIN]: {
-                        gradeList: ['GP'],
-                        stageList: ['S級決勝'],
-                    },
-                },
-                descriptions: 'gradeとstageを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
-            },
-            {
-                raceTypeList: [RaceType.KEIRIN],
-                searchConditions: {
-                    [RaceType.KEIRIN]: {
-                        locationList: ['平塚'],
-                        stageList: ['S級決勝'],
-                    },
-                },
-                descriptions: 'locationとstageを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
-            },
-            {
-                raceTypeList: [RaceType.KEIRIN],
-                searchConditions: {
-                    [RaceType.KEIRIN]: {
-                        gradeList: ['GP'],
-                        locationList: ['平塚'],
-                        stageList: ['S級決勝'],
-                    },
-                },
-                descriptions: 'gradeとlocation、stageを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
-            },
-            {
-                raceTypeList: [RaceType.KEIRIN],
-                searchConditions: { [RaceType.KEIRIN]: {} },
-                descriptions: '検索条件なし',
-                expectedLength: 72,
-                returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
-            },
-            {
-                raceTypeList: [RaceType.JRA],
-                searchConditions: { [RaceType.JRA]: { gradeList: ['GⅠ'] } },
-                descriptions: 'gradeを検索条件に入れて',
-                expectedLength: 2,
-                returnedRaceList: baseRaceEntityList(RaceType.JRA),
-            },
-            {
-                raceTypeList: [RaceType.JRA],
-                searchConditions: {
-                    [RaceType.JRA]: { locationList: ['東京'] },
-                },
-                descriptions: 'locationを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.JRA),
-            },
-            {
-                raceTypeList: [RaceType.JRA],
-                searchConditions: {
-                    [RaceType.JRA]: {
-                        gradeList: ['GⅠ'],
-                        locationList: ['東京'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.JRA),
-            },
-            {
-                raceTypeList: [RaceType.JRA],
-                searchConditions: {
-                    [RaceType.JRA]: {
-                        gradeList: ['GⅠ'],
-                        locationList: ['阪神'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 0,
-                returnedRaceList: baseRaceEntityList(RaceType.JRA),
-            },
-            {
-                raceTypeList: [RaceType.JRA],
-                searchConditions: { [RaceType.JRA]: {} },
-                descriptions: '検索条件なし',
-                expectedLength: 24,
-                returnedRaceList: baseRaceEntityList(RaceType.JRA),
-            },
-            {
-                raceTypeList: [RaceType.BOATRACE],
-                searchConditions: {
-                    [RaceType.BOATRACE]: { gradeList: ['SG'] },
-                },
-                descriptions: 'gradeを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
-            },
-            {
-                raceTypeList: [RaceType.BOATRACE],
-                searchConditions: {
-                    [RaceType.BOATRACE]: { locationList: ['平和島'] },
-                },
-                descriptions: 'locationを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
-            },
-            {
-                raceTypeList: [RaceType.BOATRACE],
-                searchConditions: {
-                    [RaceType.BOATRACE]: { stageList: ['優勝戦'] },
-                },
-                descriptions: 'stageを検索条件に入れて',
-                expectedLength: 5,
-                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
-            },
-            {
-                raceTypeList: [RaceType.BOATRACE],
-                searchConditions: {
-                    [RaceType.BOATRACE]: {
-                        gradeList: ['SG'],
-                        locationList: ['平和島'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
-            },
-            {
-                raceTypeList: [RaceType.BOATRACE],
-                searchConditions: {
-                    [RaceType.BOATRACE]: {
-                        gradeList: ['SG'],
-                        locationList: ['桐生'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 0,
-                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
-            },
-            {
-                raceTypeList: [RaceType.BOATRACE],
-                searchConditions: {
-                    [RaceType.BOATRACE]: {
-                        gradeList: ['SG'],
-                        stageList: ['優勝戦'],
-                    },
-                },
-                descriptions: 'gradeとstageを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
-            },
-            {
-                raceTypeList: [RaceType.BOATRACE],
-                searchConditions: {
-                    [RaceType.BOATRACE]: {
-                        locationList: ['平和島'],
-                        stageList: ['優勝戦'],
-                    },
-                },
-                descriptions: 'locationとstageを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
-            },
-            {
-                raceTypeList: [RaceType.BOATRACE],
-                searchConditions: {
-                    [RaceType.BOATRACE]: {
-                        gradeList: ['SG'],
-                        locationList: ['平和島'],
-                        stageList: ['優勝戦'],
-                    },
-                },
-                descriptions: 'gradeとlocation、stageを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
-            },
-            {
-                raceTypeList: [RaceType.BOATRACE],
-                searchConditions: { [RaceType.BOATRACE]: {} },
-                descriptions: '検索条件なし',
-                expectedLength: 60,
-                returnedRaceList: baseRaceEntityList(RaceType.BOATRACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: { gradeList: ['SG'] },
-                },
-                descriptions: 'gradeを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: { locationList: ['飯塚'] },
-                },
-                descriptions: 'locationを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: { stageList: ['優勝戦'] },
-                },
-                descriptions: 'stageを検索条件に入れて',
-                expectedLength: 5,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: {
-                        gradeList: ['SG'],
-                        locationList: ['飯塚'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: {
-                        gradeList: ['SG'],
-                        locationList: ['川口'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 0,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: {
-                        gradeList: ['SG'],
-                        stageList: ['優勝戦'],
-                    },
-                },
-                descriptions: 'gradeとstageを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: {
-                        locationList: ['飯塚'],
-                        stageList: ['優勝戦'],
-                    },
-                },
-                descriptions: 'locationとstageを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: {
-                        gradeList: ['SG'],
-                        locationList: ['飯塚'],
-                        stageList: ['優勝戦'],
-                    },
-                },
-                descriptions: 'gradeとlocation、stageを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: { [RaceType.AUTORACE]: {} },
-                descriptions: '検索条件なし',
-                expectedLength: 60,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-        ]) {
+        } of testCases) {
             it(`(${raceTypeList.join(',')})正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                 // モックの戻り値を設定
                 raceDataService.fetchRaceEntityList.mockResolvedValue(

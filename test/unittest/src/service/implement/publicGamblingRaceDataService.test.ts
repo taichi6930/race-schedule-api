@@ -7,10 +7,9 @@ import type { IRaceRepository } from '../../../../../lib/src/repository/interfac
 import { PublicGamblingRaceDataService } from '../../../../../lib/src/service/implement/publicGamblingRaceDataService';
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
+import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import {
     RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_HORSE_RACING,
-    RACE_TYPE_LIST_MECHANICAL_RACING,
     RaceType,
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
@@ -30,6 +29,8 @@ describe('PublicGamblingRaceDataService', () => {
     let boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     let autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     let service: IRaceDataService;
+
+    const raceTypeList = IS_SHORT_TEST ? [RaceType.JRA] : RACE_TYPE_LIST_ALL;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -239,16 +240,19 @@ describe('PublicGamblingRaceDataService', () => {
 
             await service.updateRaceEntityList(mockRaceEntityList);
 
-            for (const raceType of RACE_TYPE_LIST_HORSE_RACING) {
-                expect(
-                    raceRepositoryFromStorage.registerRaceEntityList,
-                ).toHaveBeenCalledWith(raceType, baseRaceEntityList(raceType));
-            }
+            // service 呼び出し後に各レース種別ごとに repository.registerRaceEntityList が呼ばれていることを確認
+            for (const raceType of raceTypeList) {
+                const repository =
+                    raceType === RaceType.JRA ||
+                    raceType === RaceType.NAR ||
+                    raceType === RaceType.OVERSEAS
+                        ? raceRepositoryFromStorage
+                        : mechanicalRacingRaceRepositoryFromStorage;
 
-            for (const raceType of RACE_TYPE_LIST_MECHANICAL_RACING) {
-                expect(
-                    mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList,
-                ).toHaveBeenCalledWith(raceType, baseRaceEntityList(raceType));
+                expect(repository.registerRaceEntityList).toHaveBeenCalledWith(
+                    raceType,
+                    baseRaceEntityList(raceType),
+                );
             }
         });
 
