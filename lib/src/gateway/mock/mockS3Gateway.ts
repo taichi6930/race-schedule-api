@@ -1,11 +1,12 @@
 /* eslint-disable */
 import fs from 'node:fs/promises';
-import path from 'node:path';
 
 import { format } from 'date-fns';
 import { injectable } from 'tsyringe';
 
+import path from 'node:path';
 import {
+    defaultLocation,
     defaultPlaceGrade,
     defaultRaceGrade,
     defaultStage,
@@ -307,12 +308,12 @@ export class MockS3Gateway implements IS3Gateway {
                         generateRaceId(
                             raceType,
                             currentDate,
-                            this.defaultLocation[raceType],
+                            defaultLocation[raceType],
                             raceNumber,
                         ),
                         this.createRaceName(raceType),
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
-                        this.defaultLocation[raceType],
+                        defaultLocation[raceType],
                         'ダート',
                         '2000',
                         defaultRaceGrade[raceType],
@@ -353,12 +354,12 @@ export class MockS3Gateway implements IS3Gateway {
                         generateRaceId(
                             raceType,
                             currentDate,
-                            this.defaultLocation[raceType],
+                            defaultLocation[raceType],
                             raceNumber,
                         ),
                         this.createRaceName(raceType),
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
-                        this.defaultLocation[raceType],
+                        defaultLocation[raceType],
                         '芝',
                         '2400',
                         defaultRaceGrade[raceType],
@@ -396,13 +397,13 @@ export class MockS3Gateway implements IS3Gateway {
                         generateRaceId(
                             raceType,
                             currentDate,
-                            this.defaultLocation[raceType],
+                            defaultLocation[raceType],
                             raceNumber,
                         ),
                         this.createRaceName(raceType),
                         defaultStage[raceType],
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
-                        this.defaultLocation[raceType],
+                        defaultLocation[raceType],
                         defaultRaceGrade[raceType],
                         raceNumber,
                     ].join(','),
@@ -442,10 +443,10 @@ export class MockS3Gateway implements IS3Gateway {
                             generatePlaceId(
                                 raceType,
                                 currentDate,
-                                this.defaultLocation[raceType],
+                                defaultLocation[raceType],
                             ),
                             format(currentDate, 'yyyy-MM-dd'),
-                            this.defaultLocation[raceType],
+                            defaultLocation[raceType],
                             getJSTDate(new Date()),
                         ].join(','),
                     );
@@ -583,7 +584,7 @@ export class MockS3Gateway implements IS3Gateway {
                             generatePlaceId(
                                 raceType,
                                 currentDate,
-                                this.defaultLocation[raceType],
+                                defaultLocation[raceType],
                             ),
                             raceType,
                             '1',
@@ -626,7 +627,7 @@ export class MockS3Gateway implements IS3Gateway {
                             generatePlaceId(
                                 raceType,
                                 currentDate,
-                                this.defaultLocation[raceType],
+                                defaultLocation[raceType],
                             ),
                             raceType,
                             defaultPlaceGrade[raceType],
@@ -639,15 +640,6 @@ export class MockS3Gateway implements IS3Gateway {
         }
         MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
     }
-
-    private readonly defaultLocation = {
-        [RaceType.JRA]: '東京',
-        [RaceType.NAR]: '大井',
-        [RaceType.OVERSEAS]: 'パリロンシャン',
-        [RaceType.KEIRIN]: '平塚',
-        [RaceType.AUTORACE]: '川口',
-        [RaceType.BOATRACE]: '浜名湖',
-    };
 
     private createRaceName(raceType: RaceType): RaceStage {
         switch (raceType) {

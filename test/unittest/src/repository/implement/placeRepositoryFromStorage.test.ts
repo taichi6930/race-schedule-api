@@ -19,6 +19,7 @@ import {
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
+import { defaultLocation } from '../../mock/common/baseCommonData';
 
 describe('PlaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
@@ -118,15 +119,6 @@ describe('PlaceRepositoryFromStorage', () => {
         [RaceType.KEIRIN]: undefined,
         [RaceType.AUTORACE]: undefined,
         [RaceType.BOATRACE]: undefined,
-    };
-
-    const defaultLocation = {
-        [RaceType.JRA]: '東京',
-        [RaceType.NAR]: '大井',
-        [RaceType.OVERSEAS]: 'パリロンシャン',
-        [RaceType.KEIRIN]: '平塚',
-        [RaceType.AUTORACE]: '川口',
-        [RaceType.BOATRACE]: '浜名湖',
     };
 
     const defaultGrade = {

@@ -1,5 +1,6 @@
 import type { calendar_v3 } from 'googleapis';
 
+import { defaultLocation } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { generateRaceId } from '../../utility/data/common/raceId';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
@@ -52,7 +53,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                         currentDate.getFullYear() === startDate.getFullYear()
                     ) {
                         for (const raceType of ALL_RACE_TYPE_LIST) {
-                            const location = this.defaultLocation[raceType];
+                            const location = defaultLocation[raceType];
                             for (
                                 let raceNumber = 1;
                                 raceNumber <= 12;
@@ -111,15 +112,6 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
             }
         }
     }
-
-    private readonly defaultLocation = {
-        [RaceType.JRA]: '東京',
-        [RaceType.NAR]: '大井',
-        [RaceType.OVERSEAS]: 'パリロンシャン',
-        [RaceType.KEIRIN]: '平塚',
-        [RaceType.AUTORACE]: '川口',
-        [RaceType.BOATRACE]: '浜名湖',
-    };
 
     @Logger
     public async fetchCalendarDataList(
