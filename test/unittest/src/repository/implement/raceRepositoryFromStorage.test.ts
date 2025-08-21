@@ -144,7 +144,7 @@ describe('RaceRepositoryFromStorage', () => {
     });
 
     const makeRaceEntityList = (raceType: RaceType): RaceEntity[] =>
-        Array.from({ length: 10 }, (_, day) => {
+        Array.from({ length: 5 }, (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 6 }, (__, raceNumber) =>
