@@ -132,18 +132,18 @@ describe('RaceRepositoryFromStorage', () => {
                     },
                 ).flat();
 
+                const repository =
+                    raceType === RaceType.JRA ||
+                    raceType === RaceType.NAR ||
+                    raceType === RaceType.OVERSEAS
+                        ? horseRacingRaceRepository
+                        : mechanicalRacingRaceRepository;
+
                 // テスト実行
-                await (raceType === RaceType.JRA ||
-                raceType === RaceType.NAR ||
-                raceType === RaceType.OVERSEAS
-                    ? horseRacingRaceRepository.registerRaceEntityList(
-                          raceType,
-                          raceEntityList,
-                      )
-                    : mechanicalRacingRaceRepository.registerRaceEntityList(
-                          raceType,
-                          raceEntityList,
-                      ));
+                await repository.registerRaceEntityList(
+                    raceType,
+                    raceEntityList,
+                );
             }
             // S3へのアップロード回数とその引数を検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(9);
