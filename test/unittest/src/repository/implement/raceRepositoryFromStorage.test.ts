@@ -190,18 +190,18 @@ describe('RaceRepositoryFromStorage', () => {
                     ),
                 );
 
+                const repository =
+                    raceType === RaceType.JRA ||
+                    raceType === RaceType.NAR ||
+                    raceType === RaceType.OVERSEAS
+                        ? horseRacingRaceRepository
+                        : mechanicalRacingRaceRepository;
+
                 // テスト実行
-                await (raceType === RaceType.JRA ||
-                raceType === RaceType.NAR ||
-                raceType === RaceType.OVERSEAS
-                    ? horseRacingRaceRepository.registerRaceEntityList(
-                          raceType,
-                          raceEntityList,
-                      )
-                    : mechanicalRacingRaceRepository.registerRaceEntityList(
-                          raceType,
-                          raceEntityList,
-                      ));
+                await repository.registerRaceEntityList(
+                    raceType,
+                    raceEntityList,
+                );
             }
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(9);
         });
