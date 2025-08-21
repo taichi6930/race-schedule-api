@@ -160,7 +160,6 @@ export default [
             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
-            '@typescript-eslint/no-use-before-define': 'off', // ✅ 変数や関数の使用前定義を禁止
             'jsdoc/require-param-description': 'off', // テストファイルではパラメータの説明を任意に
             'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
             'jsdoc/require-file-overview': 'off', // テストファイルではファイル概要を任意に
@@ -221,6 +220,21 @@ export default [
         files: ['**/publicGamblingRaceDataUseCase.test.ts', '**/*DataHtmlGateway.test.ts'],
         rules: {
             '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内での関数定義を禁止
+        },
+    },
+    {
+        files: [
+            'lib/src/utility/createRaceName.ts',
+            'lib/src/utility/data/common/gradeType.ts',
+            'lib/src/utility/data/common/positionNumber.ts',
+            'lib/src/utility/data/common/raceStage.ts',
+            'lib/src/utility/googleCalendar.ts',
+            'lib/src/utility/sqlite/settings/dbConfig.ts',
+            'test/unittest/src/mock/common/baseCommonData.ts',
+            'test/unittest/src/repository/implement/placeRepositoryFromStorage.test.ts',
+        ],
+        rules: {
+            '@typescript-eslint/no-use-before-define': 'off', // 対象ファイル限定で許可
         },
     },
      {
