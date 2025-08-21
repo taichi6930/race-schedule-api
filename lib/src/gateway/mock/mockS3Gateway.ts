@@ -8,13 +8,15 @@ import path from 'node:path';
 import {
     defaultLocation,
     defaultPlaceGrade,
+    defaultRaceDistance,
     defaultRaceGrade,
+    defaultRaceName,
+    defaultRaceSurfaceType,
     defaultStage,
 } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { CSV_HEADER_KEYS, csvPath } from '../../utility/constants';
 import { generatePlaceId } from '../../utility/data/common/placeId';
 import { generateRaceId } from '../../utility/data/common/raceId';
-import { RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
@@ -201,7 +203,7 @@ export class MockS3Gateway implements IS3Gateway {
                 // 最初にmockStorageに値を入れておく
                 // 2024年のデータ366日分を作成
                 await Promise.all([
-                    this.setJraRaceMockData(),
+                    this.setHorseRacingRaceMockData(RaceType.JRA),
                     this.setHorseRacingRaceMockData(RaceType.NAR),
                     this.setHorseRacingRaceMockData(RaceType.OVERSEAS),
                     this.setMechanicalRacingRaceMockData(RaceType.KEIRIN),
@@ -303,61 +305,13 @@ export class MockS3Gateway implements IS3Gateway {
                             defaultLocation[raceType],
                             raceNumber,
                         ),
-                        this.createRaceName(raceType),
+                        defaultRaceName[raceType],
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
                         defaultLocation[raceType],
-                        'ダート',
-                        '2000',
+                        defaultRaceSurfaceType[raceType],
+                        defaultRaceDistance[raceType],
                         defaultRaceGrade[raceType],
                         raceNumber,
-                    ].join(','),
-                );
-            }
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-        MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
-    }
-
-    @Logger
-    private async setJraRaceMockData() {
-        const raceType: RaceType = RaceType.JRA;
-        // 2024年のデータ366日分を作成
-        const fileName = csvPath('RACE_LIST', raceType as RaceType);
-        const mockDataHeader = [
-            CSV_HEADER_KEYS.ID,
-            CSV_HEADER_KEYS.NAME,
-            CSV_HEADER_KEYS.DATE_TIME,
-            CSV_HEADER_KEYS.LOCATION,
-            CSV_HEADER_KEYS.SURFACE_TYPE,
-            CSV_HEADER_KEYS.DISTANCE,
-            CSV_HEADER_KEYS.GRADE,
-            CSV_HEADER_KEYS.NUMBER,
-            CSV_HEADER_KEYS.HELD_TIMES,
-            CSV_HEADER_KEYS.HELD_DAY_TIMES,
-        ].join(',');
-        const mockData = [mockDataHeader];
-
-        const currentDate = new Date(this.startDate);
-        // whileで回していって、最初の日付の年数と異なったら終了
-        while (currentDate.getFullYear() !== this.finishDate.getFullYear()) {
-            for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
-                mockData.push(
-                    [
-                        generateRaceId(
-                            raceType,
-                            currentDate,
-                            defaultLocation[raceType],
-                            raceNumber,
-                        ),
-                        this.createRaceName(raceType),
-                        `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
-                        defaultLocation[raceType],
-                        '芝',
-                        '2400',
-                        defaultRaceGrade[raceType],
-                        raceNumber,
-                        '1',
-                        '1',
                     ].join(','),
                 );
             }
@@ -392,7 +346,7 @@ export class MockS3Gateway implements IS3Gateway {
                             defaultLocation[raceType],
                             raceNumber,
                         ),
-                        this.createRaceName(raceType),
+                        defaultRaceName[raceType],
                         defaultStage[raceType],
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
                         defaultLocation[raceType],
@@ -630,28 +584,5 @@ export class MockS3Gateway implements IS3Gateway {
             }
         }
         MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
-    }
-
-    private createRaceName(raceType: RaceType): RaceStage {
-        switch (raceType) {
-            case RaceType.KEIRIN: {
-                return 'KEIRINグランプリ';
-            }
-            case RaceType.BOATRACE: {
-                return 'グランプリ';
-            }
-            case RaceType.AUTORACE: {
-                return 'スーパースター王座決定戦';
-            }
-            case RaceType.JRA: {
-                return '日本ダービー';
-            }
-            case RaceType.NAR: {
-                return '東京大賞典';
-            }
-            case RaceType.OVERSEAS: {
-                return 'BCクラシック';
-            }
-        }
     }
 }
