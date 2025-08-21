@@ -25,26 +25,31 @@ export class RaceData {
      * @type {RaceType}
      */
     public readonly raceType: RaceType;
+
     /**
      * レース名
      * @type {RaceName}
      */
     public readonly name: RaceName;
+
     /**
      * 開催日時
      * @type {RaceDateTime}
      */
     public readonly dateTime: RaceDateTime;
+
     /**
      * 開催場所
      * @type {RaceCourse}
      */
     public readonly location: RaceCourse;
+
     /**
      * グレード
      * @type {GradeType}
      */
     public readonly grade: GradeType;
+
     /**
      * レース番号
      * @type {RaceNumber}

@@ -22,12 +22,11 @@ import { validateRaceNumber } from '../../utility/data/common/raceNumber';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import type { IRecord } from './iRecord';
 
 /**
  * 競馬のレース開催データ
  */
-export class HorseRacingRaceRecord implements IRecord<HorseRacingRaceRecord> {
+export class HorseRacingRaceRecord {
     /**
      * コンストラクタ
      * @param id - ID

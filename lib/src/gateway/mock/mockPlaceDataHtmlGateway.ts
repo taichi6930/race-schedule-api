@@ -19,19 +19,12 @@ export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
      */
     private buildUrl(raceType: RaceType, date: Date): string {
         switch (raceType) {
-            case RaceType.JRA: {
-                return `../mockData/html/${raceType.toLowerCase()}/place/${format(date, 'yyyy')}.html`;
-            }
+            case RaceType.JRA:
             case RaceType.NAR:
             case RaceType.KEIRIN:
-            case RaceType.AUTORACE: {
-                return `../mockData/html/${raceType.toLowerCase()}/place/${format(date, 'yyyyMM')}.html`;
-            }
+            case RaceType.AUTORACE:
             case RaceType.BOATRACE: {
-                // 1~3月は1、4月~6月は2、7月~9月は3、10月~12月は4
-                const quarter = Math.ceil((date.getMonth() + 1) / 3).toString();
-                // ボートレースのURLはquarterを使って生成
-                return `../mockData/html/${raceType.toLowerCase()}/place/${format(date, 'yyyy')}${quarter}.html`;
+                return `../mockData/html/${raceType.toLowerCase()}/place/${this.makeDate(raceType, date)}.html`;
             }
             case RaceType.OVERSEAS: {
                 // OVERSEASでは未対応
@@ -58,5 +51,28 @@ export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
 
         const htmlContent = await fs.promises.readFile(htmlFilePath, 'utf8');
         return htmlContent;
+    }
+
+    private makeDate(raceType: RaceType, date: Date): string {
+        switch (raceType) {
+            case RaceType.JRA: {
+                return format(date, 'yyyy');
+            }
+            case RaceType.NAR:
+            case RaceType.KEIRIN:
+            case RaceType.AUTORACE: {
+                return format(date, 'yyyyMM');
+            }
+            case RaceType.BOATRACE: {
+                // 1~3月は1、4月~6月は2、7月~9月は3、10月~12月は4
+                const quarter = Math.ceil((date.getMonth() + 1) / 3).toString();
+                // ボートレースのURLはquarterを使って生成
+                return `${format(date, 'yyyy')}${quarter}`;
+            }
+            case RaceType.OVERSEAS: {
+                // OVERSEASでは未対応
+                throw new Error('未対応のraceTypeです');
+            }
+        }
     }
 }

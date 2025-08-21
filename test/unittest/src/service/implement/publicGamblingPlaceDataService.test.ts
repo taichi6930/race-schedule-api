@@ -17,18 +17,12 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 import { basePlaceEntity } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingPlaceDataService', () => {
-    let jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository<PlaceEntity>>;
-    let placeRepositoryFromStorage: jest.Mocked<IPlaceRepository<PlaceEntity>>;
-    let narPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository<PlaceEntity>>;
-    let keirinPlaceRepositoryFromHtml: jest.Mocked<
-        IPlaceRepository<PlaceEntity>
-    >;
-    let boatracePlaceRepositoryFromHtml: jest.Mocked<
-        IPlaceRepository<PlaceEntity>
-    >;
-    let autoracePlaceRepositoryFromHtml: jest.Mocked<
-        IPlaceRepository<PlaceEntity>
-    >;
+    let jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    let placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
+    let narPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    let keirinPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    let boatracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    let autoracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     let service: IPlaceDataService;
 
     const mockPlaceEntityList = ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(

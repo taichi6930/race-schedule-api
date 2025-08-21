@@ -20,9 +20,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  * オートレース場開催データリポジトリの実装
  */
 @injectable()
-export class AutoraceRaceRepositoryFromHtml
-    implements IRaceRepository<RaceEntity, PlaceEntity>
-{
+export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -34,7 +32,7 @@ export class AutoraceRaceRepositoryFromHtml
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
+        searchFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         const raceDataList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
@@ -214,7 +212,7 @@ export class AutoraceRaceRepositoryFromHtml
         successData: RaceEntity[];
         failureData: RaceEntity[];
     }> {
-        console.debug(raceEntityList);
+        console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }

@@ -16,8 +16,6 @@
  * - ファイル名は一意である必要があります
  * - データは必ずCSV形式で保存されます
  * - 大規模なデータの場合はストリーミング処理を考慮
- * @typeParam T - 保存/取得するデータの型。IRecordを実装している必要があります。
- *               これにより、データの一貫性とシリアライズ可能性を保証します。
  */
 export interface IS3Gateway {
     /**
@@ -27,7 +25,7 @@ export interface IS3Gateway {
      * 1. データをCSV形式にシリアライズ
      * 2. 指定されたファイル名でS3にアップロード
      * 3. 既存のファイルが存在する場合は上書き
-     * @param data - アップロードするデータの配列。各要素はIRecordを実装
+     * @param data - アップロードするデータの配列。
      * @param fileName - 保存先のファイル名（例: "jra/raceList.csv"）
      * @throws Error 以下の場合にエラーが発生：
      *               - S3への接続に失敗
@@ -40,6 +38,7 @@ export interface IS3Gateway {
         folderPath: string,
         fileName: string,
     ) => Promise<void>;
+
     /**
      * S3バケットからデータを取得します
      *

@@ -15,6 +15,7 @@ export interface IPlaceDataUseCase {
         finishDate: Date,
         raceTypeList: RaceType[],
     ) => Promise<PlaceEntity[]>;
+
     /**
      * 開催場データを更新する
      * @param startDate

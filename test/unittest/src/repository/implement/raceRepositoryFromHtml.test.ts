@@ -7,7 +7,6 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
-import type { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtml';
@@ -108,7 +107,7 @@ const testCases = [
         expectedLength: 12,
     },
     {
-        name: 'BoatraceRaceRepositoryFromHtmlImpl',
+        name: 'BoatraceRaceRepositoryFromHtml',
         repositoryClass: BoatraceRaceRepositoryFromHtml,
         raceType: RaceType.BOATRACE,
         startDate: new Date('2024-11-01'),
@@ -135,7 +134,7 @@ for (const {
 } of testCases) {
     describe(name, () => {
         let raceDataHtmlGateway: IRaceDataHtmlGateway;
-        let repository: IRaceRepository<RaceEntity, PlaceEntity>;
+        let repository: IRaceRepository;
 
         beforeEach(() => {
             raceDataHtmlGateway = new MockRaceDataHtmlGateway();
@@ -143,10 +142,7 @@ for (const {
                 'RaceDataHtmlGateway',
                 raceDataHtmlGateway,
             );
-            repository =
-                container.resolve<IRaceRepository<RaceEntity, PlaceEntity>>(
-                    repositoryClass,
-                );
+            repository = container.resolve<IRaceRepository>(repositoryClass);
         });
 
         afterEach(() => {
@@ -159,7 +155,7 @@ for (const {
                 [allowedEnvs.githubActionsCi],
                 async () => {
                     const raceEntityList = await repository.fetchRaceEntityList(
-                        new SearchRaceFilterEntity<PlaceEntity>(
+                        new SearchRaceFilterEntity(
                             startDate,
                             endDate,
                             raceType,

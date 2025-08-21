@@ -20,28 +20,189 @@
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    defaultLocation,
+    defaultStage,
+} from '../../mock/common/baseCommonData';
 
 describe('MechanicalRacingRaceRecord', () => {
-    const validRaceType = RaceType.KEIRIN;
-    const validDate = new Date('2026-01-01T00:00:00Z');
-    const validLocation = '立川';
-    const validNumber = 1;
-    const validRaceId = generateRaceId(
-        validRaceType,
-        validDate,
-        validLocation,
-        validNumber,
-    );
-    const validName = '第1レース';
-    const validStage = 'S級決勝';
-    const validGrade = 'GⅠ';
-    const validUpdateDate = new Date('2026-01-01T12:00:00Z');
+    for (const raceType of [
+        RaceType.KEIRIN,
+        RaceType.AUTORACE,
+        RaceType.BOATRACE,
+    ]) {
+        const validDate = new Date('2026-01-01T00:00:00Z');
+        const validLocation = defaultLocation[raceType];
+        const validNumber = 1;
+        const validRaceId = generateRaceId(
+            raceType,
+            validDate,
+            validLocation,
+            validNumber,
+        );
+        const validName = '第1レース';
+        const validStage = defaultStage[raceType];
+        const validGrade = 'GⅠ';
+        const validUpdateDate = new Date('2026-01-01T12:00:00Z');
 
-    describe('MechanicalRacingRaceRecord.create', () => {
-        it('正常値ですべて生成できる', () => {
-            const record = MechanicalRacingRaceRecord.create(
+        describe('MechanicalRacingRaceRecord.create', () => {
+            it('正常値ですべて生成できる', () => {
+                const record = MechanicalRacingRaceRecord.create(
+                    validRaceId,
+                    raceType,
+                    validName,
+                    validStage,
+                    validDate,
+                    validLocation,
+                    validGrade,
+                    validNumber,
+                    validUpdateDate,
+                );
+                expect(record).toBeInstanceOf(MechanicalRacingRaceRecord);
+                expect(record.id).toBeDefined();
+                expect(record.raceType).toBe(raceType);
+                expect(record.name).toBeDefined();
+                expect(record.stage).toBeDefined();
+                expect(record.dateTime).toBeDefined();
+                expect(record.location).toBeDefined();
+                expect(record.grade).toBeDefined();
+                expect(record.number).toBeDefined();
+                expect(record.updateDate).toBeDefined();
+            });
+
+            it('idバリデーション失敗で例外', () => {
+                expect(() =>
+                    MechanicalRacingRaceRecord.create(
+                        'bad-id',
+                        raceType,
+                        validName,
+                        validStage,
+                        validDate,
+                        validLocation,
+                        validGrade,
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('nameバリデーション失敗で例外', () => {
+                expect(() =>
+                    MechanicalRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        '',
+                        validStage,
+                        validDate,
+                        validLocation,
+                        validGrade,
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('stageバリデーション失敗で例外', () => {
+                expect(() =>
+                    MechanicalRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        '',
+                        validDate,
+                        validLocation,
+                        validGrade,
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('dateTimeバリデーション失敗で例外', () => {
+                expect(() =>
+                    MechanicalRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        validStage,
+                        new Date('bad-date'),
+                        validLocation,
+                        validGrade,
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('locationバリデーション失敗で例外', () => {
+                expect(() =>
+                    MechanicalRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        validStage,
+                        validDate,
+                        'bad-location',
+                        validGrade,
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('gradeバリデーション失敗で例外', () => {
+                expect(() =>
+                    MechanicalRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        validStage,
+                        validDate,
+                        validLocation,
+                        'bad-grade',
+                        validNumber,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('numberバリデーション失敗で例外', () => {
+                expect(() =>
+                    MechanicalRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        validStage,
+                        validDate,
+                        validLocation,
+                        validGrade,
+                        -1,
+                        validUpdateDate,
+                    ),
+                ).toThrow('RaceRecord');
+            });
+
+            it('updateDateバリデーション失敗で例外', () => {
+                expect(() =>
+                    MechanicalRacingRaceRecord.create(
+                        validRaceId,
+                        raceType,
+                        validName,
+                        validStage,
+                        validDate,
+                        validLocation,
+                        validGrade,
+                        validNumber,
+                        new Date('bad-date'),
+                    ),
+                ).toThrow('RaceRecord');
+            });
+        });
+
+        describe('MechanicalRacingRaceRecord.copy', () => {
+            const base = MechanicalRacingRaceRecord.create(
                 validRaceId,
-                validRaceType,
+                raceType,
                 validName,
                 validStage,
                 validDate,
@@ -50,181 +211,29 @@ describe('MechanicalRacingRaceRecord', () => {
                 validNumber,
                 validUpdateDate,
             );
-            expect(record).toBeInstanceOf(MechanicalRacingRaceRecord);
-            expect(record.id).toBeDefined();
-            expect(record.raceType).toBe(validRaceType);
-            expect(record.name).toBeDefined();
-            expect(record.stage).toBeDefined();
-            expect(record.dateTime).toBeDefined();
-            expect(record.location).toBeDefined();
-            expect(record.grade).toBeDefined();
-            expect(record.number).toBeDefined();
-            expect(record.updateDate).toBeDefined();
-        });
 
-        it('idバリデーション失敗で例外', () => {
-            expect(() =>
-                MechanicalRacingRaceRecord.create(
-                    'bad-id',
-                    validRaceType,
-                    validName,
-                    validStage,
-                    validDate,
-                    validLocation,
-                    validGrade,
-                    validNumber,
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
-        });
+            it('全項目コピー（partial未指定）', () => {
+                const copied = base.copy();
+                expect(copied).not.toBe(base);
+                expect(copied).toEqual(base);
+            });
 
-        it('nameバリデーション失敗で例外', () => {
-            expect(() =>
-                MechanicalRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    '',
-                    validStage,
-                    validDate,
-                    validLocation,
-                    validGrade,
-                    validNumber,
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
-        });
+            it('gradeのみ変更', () => {
+                const copied = base.copy({ grade: 'GⅡ' });
+                expect(copied.id).toBe(base.id);
+                expect(copied.raceType).toBe(base.raceType);
+                expect(copied.name).toBe(base.name);
+                expect(copied.stage).toBe(base.stage);
+                expect(copied.dateTime).toBe(base.dateTime);
+                expect(copied.location).toBe(base.location);
+                expect(copied.grade).toBe('GⅡ');
+                expect(copied.number).toBe(base.number);
+                expect(copied.updateDate).toBe(base.updateDate);
+            });
 
-        it('stageバリデーション失敗で例外', () => {
-            expect(() =>
-                MechanicalRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    '',
-                    validDate,
-                    validLocation,
-                    validGrade,
-                    validNumber,
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
+            it('nameバリデーション失敗で例外', () => {
+                expect(() => base.copy({ name: '' })).toThrow('RaceRecord');
+            });
         });
-
-        it('dateTimeバリデーション失敗で例外', () => {
-            expect(() =>
-                MechanicalRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    validStage,
-                    new Date('bad-date'),
-                    validLocation,
-                    validGrade,
-                    validNumber,
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
-        });
-
-        it('locationバリデーション失敗で例外', () => {
-            expect(() =>
-                MechanicalRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    validStage,
-                    validDate,
-                    'bad-location',
-                    validGrade,
-                    validNumber,
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
-        });
-
-        it('gradeバリデーション失敗で例外', () => {
-            expect(() =>
-                MechanicalRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    validStage,
-                    validDate,
-                    validLocation,
-                    'bad-grade',
-                    validNumber,
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
-        });
-
-        it('numberバリデーション失敗で例外', () => {
-            expect(() =>
-                MechanicalRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    validStage,
-                    validDate,
-                    validLocation,
-                    validGrade,
-                    -1,
-                    validUpdateDate,
-                ),
-            ).toThrow('RaceRecord');
-        });
-
-        it('updateDateバリデーション失敗で例外', () => {
-            expect(() =>
-                MechanicalRacingRaceRecord.create(
-                    validRaceId,
-                    validRaceType,
-                    validName,
-                    validStage,
-                    validDate,
-                    validLocation,
-                    validGrade,
-                    validNumber,
-                    new Date('bad-date'),
-                ),
-            ).toThrow('RaceRecord');
-        });
-    });
-
-    describe('MechanicalRacingRaceRecord.copy', () => {
-        const base = MechanicalRacingRaceRecord.create(
-            validRaceId,
-            validRaceType,
-            validName,
-            validStage,
-            validDate,
-            validLocation,
-            validGrade,
-            validNumber,
-            validUpdateDate,
-        );
-
-        it('全項目コピー（partial未指定）', () => {
-            const copied = base.copy();
-            expect(copied).not.toBe(base);
-            expect(copied).toEqual(base);
-        });
-
-        it('gradeのみ変更', () => {
-            const copied = base.copy({ grade: 'GⅡ' });
-            expect(copied.id).toBe(base.id);
-            expect(copied.raceType).toBe(base.raceType);
-            expect(copied.name).toBe(base.name);
-            expect(copied.stage).toBe(base.stage);
-            expect(copied.dateTime).toBe(base.dateTime);
-            expect(copied.location).toBe(base.location);
-            expect(copied.grade).toBe('GⅡ');
-            expect(copied.number).toBe(base.number);
-            expect(copied.updateDate).toBe(base.updateDate);
-        });
-
-        it('nameバリデーション失敗で例外', () => {
-            expect(() => base.copy({ name: '' })).toThrow('RaceRecord');
-        });
-    });
+    }
 });

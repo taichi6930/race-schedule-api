@@ -11,11 +11,17 @@
  */
 
 import { HorseRaceConditionData } from '../../../../lib/src/domain/houseRaceConditionData';
+import { RaceType } from '../../../../lib/src/utility/raceType';
+import {
+    defaultRaceDistance,
+    defaultRaceSurfaceType,
+} from '../mock/common/baseCommonData';
 
 describe('HorseRaceConditionDataクラスのテスト', () => {
-    const validSurfaceType = '芝';
+    const raceType = RaceType.JRA;
+    const validSurfaceType = defaultRaceSurfaceType[raceType];
     const invalidSurfaceType = 'ウッド';
-    const validDistance = 2500;
+    const validDistance = defaultRaceDistance[raceType];
     const invalidDistance = 0;
 
     // 1. 正常系

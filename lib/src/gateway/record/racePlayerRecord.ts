@@ -11,12 +11,11 @@ import { validateRacePlayerId } from '../../utility/data/common/racePlayerId';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import type { IRecord } from './iRecord';
 
 /**
  * レース選手データ
  */
-export class RacePlayerRecord implements IRecord<RacePlayerRecord> {
+export class RacePlayerRecord {
     /**
      * コンストラクタ
      * @param id - ID

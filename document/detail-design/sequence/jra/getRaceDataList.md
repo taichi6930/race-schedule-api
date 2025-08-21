@@ -6,7 +6,7 @@ sequenceDiagram
     participant JraRaceController
     participant JraRaceDataUseCase
     participant JraRaceDataService
-    participant JraRaceRepositoryFromStorageImpl
+    participant JraRaceRepositoryFromStorage
     participant S3Gateway
 
     Client->>JraRaceController: GET /race?startDate&finishDate&grade&location
@@ -16,10 +16,10 @@ sequenceDiagram
     else 日付が正
         JraRaceController->>JraRaceDataUseCase: fetchRaceDataList(startDate, finishDate, {gradeList, locationList})
         JraRaceDataUseCase->>JraRaceDataService: fetchRaceDataList(startDate, finishDate, {gradeList, locationList}, Storage)
-        JraRaceDataService->>JraRaceRepositoryFromStorageImpl: fetchRaceEntityList(searchFilter)
-        JraRaceRepositoryFromStorageImpl->>S3Gateway: fetchDataFromS3(fileName)
-        S3Gateway-->>JraRaceRepositoryFromStorageImpl: raceRecordList
-        JraRaceRepositoryFromStorageImpl-->>JraRaceDataService: raceEntityList
+        JraRaceDataService->>JraRaceRepositoryFromStorage: fetchRaceEntityList(searchFilter)
+        JraRaceRepositoryFromStorage->>S3Gateway: fetchDataFromS3(fileName)
+        S3Gateway-->>JraRaceRepositoryFromStorage: raceRecordList
+        JraRaceRepositoryFromStorage-->>JraRaceDataService: raceEntityList
         JraRaceDataService-->>JraRaceDataUseCase: raceEntityList
         JraRaceDataUseCase-->>JraRaceController: レース情報リスト
         JraRaceController-->>Client: レース情報をJSONで返却

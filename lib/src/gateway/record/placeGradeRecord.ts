@@ -6,12 +6,11 @@ import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
-import type { IRecord } from './iRecord';
 
 /**
  * Repository層のRecord レース開催場所データ
  */
-export class PlaceGradeRecord implements IRecord<PlaceGradeRecord> {
+export class PlaceGradeRecord {
     /**
      * コンストラクタ
      * @param id - ID

@@ -89,6 +89,7 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         }${number.toString()}.html`;
         // lib/src/gateway/mockData/html/boatrace/placeの中にあるhtmlを取得
     }
+
     /**
      * レースデータのHTMLを取得する
      * @param raceType - レース種別

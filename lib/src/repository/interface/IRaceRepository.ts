@@ -1,6 +1,5 @@
 import type { RaceType } from '../../utility/raceType';
-import type { IPlaceEntity } from '../entity/iPlaceEntity';
-import type { IRaceEntity } from '../entity/iRaceEntity';
+import type { RaceEntity } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 
 /**
@@ -25,15 +24,8 @@ import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
  * - ストレージ（S3, ローカルファイルなど）
  * - データベース（SQLite, RDBMSなど）
  * - 外部API（HTMLスクレイピングなど）
- * @typeParam R - レース開催エンティティの型。IRaceEntityを実装している必要があります。
- *               例：JraRaceEntity, NarRaceEntity など
- * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
- *               例：PlaceEntity, NarPlaceEntity など
  */
-export interface IRaceRepository<
-    R extends IRaceEntity<R>,
-    P extends IPlaceEntity<P>,
-> {
+export interface IRaceRepository {
     /**
      * 指定された検索条件に基づいてレース開催データを取得します
      *
@@ -51,8 +43,9 @@ export interface IRaceRepository<
      * @throws Error データの取得に失敗した場合
      */
     fetchRaceEntityList: (
-        searchFilter: SearchRaceFilterEntity<P>,
-    ) => Promise<R[]>;
+        searchFilter: SearchRaceFilterEntity,
+    ) => Promise<RaceEntity[]>;
+
     /**
      * レース開催データを一括で登録/更新します
      *
@@ -68,11 +61,11 @@ export interface IRaceRepository<
      */
     registerRaceEntityList: (
         raceType: RaceType,
-        raceEntityList: R[],
+        raceEntityList: RaceEntity[],
     ) => Promise<{
         code: number;
         message: string;
-        successData: R[];
-        failureData: R[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }>;
 }

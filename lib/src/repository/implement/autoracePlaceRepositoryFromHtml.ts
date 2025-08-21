@@ -18,9 +18,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  * オートレースデータリポジトリの実装
  */
 @injectable()
-export class AutoracePlaceRepositoryFromHtml
-    implements IPlaceRepository<PlaceEntity>
-{
+export class AutoracePlaceRepositoryFromHtml implements IPlaceRepository {
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,

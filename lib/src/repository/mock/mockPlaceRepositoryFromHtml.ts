@@ -7,9 +7,7 @@ import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
-export class MockPlaceRepositoryFromHtml
-    implements IPlaceRepository<PlaceEntity>
-{
+export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
     /**
      * 場データを取得する
      * @param searchFilter

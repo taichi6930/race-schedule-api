@@ -8,11 +8,12 @@ import { container } from 'tsyringe';
 
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
+import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
 import { RaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/raceRepositoryFromStorage';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
+import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
@@ -21,18 +22,27 @@ import {
     baseConditionData,
     baseRacePlayerDataList,
     defaultHeldDayData,
+    defaultLocation,
+    defaultRaceGrade,
     defaultStage,
 } from '../../mock/common/baseCommonData';
 
-describe('HorseRacingRaceRepositoryFromStorage', () => {
+describe('RaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let repository: IRaceRepository<RaceEntity, PlaceEntity>;
+    let horseRacingRaceRepository: IRaceRepository;
+    let mechanicalRacingRaceRepository: IRaceRepository;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({ s3Gateway } = setup);
+
         // テスト対象のリポジトリを生成
-        repository = container.resolve(RaceRepositoryFromStorage);
+        horseRacingRaceRepository = container.resolve(
+            RaceRepositoryFromStorage,
+        );
+        mechanicalRacingRaceRepository = container.resolve(
+            MechanicalRacingRaceRepositoryFromStorage,
+        );
     });
 
     afterEach(() => {
@@ -54,20 +64,41 @@ describe('HorseRacingRaceRepositoryFromStorage', () => {
                     );
                 },
             );
-            // テスト実行
+
             for (const raceType of [
                 RaceType.JRA,
                 RaceType.NAR,
                 RaceType.OVERSEAS,
             ]) {
-                const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity<PlaceEntity>(
-                        new Date('2024-01-01'),
-                        new Date('2024-02-01'),
-                        raceType,
-                        [],
-                    ),
-                );
+                const raceEntityList =
+                    await horseRacingRaceRepository.fetchRaceEntityList(
+                        new SearchRaceFilterEntity(
+                            new Date('2024-01-01'),
+                            new Date('2024-02-01'),
+                            raceType,
+                            [],
+                        ),
+                    );
+
+                // レスポンスの検証
+                expect(raceEntityList).toHaveLength(1);
+            }
+
+            // テスト実行
+            for (const raceType of [
+                RaceType.KEIRIN,
+                RaceType.AUTORACE,
+                RaceType.BOATRACE,
+            ]) {
+                const raceEntityList =
+                    await mechanicalRacingRaceRepository.fetchRaceEntityList(
+                        new SearchRaceFilterEntity(
+                            new Date('2024-01-01'),
+                            new Date('2024-02-01'),
+                            raceType,
+                            [],
+                        ),
+                    );
 
                 // レスポンスの検証
                 expect(raceEntityList).toHaveLength(1);
@@ -77,16 +108,30 @@ describe('HorseRacingRaceRepositoryFromStorage', () => {
 
     describe('registerRaceList', () => {
         test('DBが空データのところに、正しいレース開催データを登録できる', async () => {
-            for (const { raceType, location, grade } of [
+            for (const { raceType, expectCallCount } of [
+                {
+                    raceType: RaceType.JRA,
+                    expectCallCount: 1,
+                },
                 {
                     raceType: RaceType.NAR,
-                    location: '大井',
-                    grade: 'GⅠ',
+                    expectCallCount: 2,
                 },
                 {
                     raceType: RaceType.OVERSEAS,
-                    location: 'ベルモントパーク',
-                    grade: 'GⅠ',
+                    expectCallCount: 3,
+                },
+                {
+                    raceType: RaceType.KEIRIN,
+                    expectCallCount: 5,
+                },
+                {
+                    raceType: RaceType.AUTORACE,
+                    expectCallCount: 7,
+                },
+                {
+                    raceType: RaceType.BOATRACE,
+                    expectCallCount: 9,
                 },
             ]) {
                 // 1年間のレース開催データを登録する
@@ -101,8 +146,8 @@ describe('HorseRacingRaceRepositoryFromStorage', () => {
                                     raceType,
                                     `raceName${format(date, 'yyyyMMdd')}`,
                                     date,
-                                    location,
-                                    grade,
+                                    defaultLocation[raceType],
+                                    defaultRaceGrade[raceType],
                                     j + 1,
                                 ),
                                 defaultHeldDayData[raceType],
@@ -114,23 +159,51 @@ describe('HorseRacingRaceRepositoryFromStorage', () => {
                         );
                     },
                 ).flat();
+
                 // テスト実行
-                await repository.registerRaceEntityList(
-                    raceType,
-                    raceEntityList,
+                await (raceType === RaceType.JRA ||
+                raceType === RaceType.NAR ||
+                raceType === RaceType.OVERSEAS
+                    ? horseRacingRaceRepository.registerRaceEntityList(
+                          raceType,
+                          raceEntityList,
+                      )
+                    : mechanicalRacingRaceRepository.registerRaceEntityList(
+                          raceType,
+                          raceEntityList,
+                      ));
+                // S3へのアップロード回数とその引数を検証
+                expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
+                    expectCallCount,
                 );
             }
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(2);
         });
 
         test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
-            for (const { raceType, location, grade } of [
-                { raceType: RaceType.JRA, location: '東京', grade: 'GⅠ' },
-                { raceType: RaceType.NAR, location: '大井', grade: 'GⅠ' },
+            for (const { raceType, expectCallCount } of [
+                {
+                    raceType: RaceType.JRA,
+                    expectCallCount: 1,
+                },
+                {
+                    raceType: RaceType.NAR,
+                    expectCallCount: 2,
+                },
                 {
                     raceType: RaceType.OVERSEAS,
-                    location: 'ベルモントパーク',
-                    grade: 'GⅠ',
+                    expectCallCount: 3,
+                },
+                {
+                    raceType: RaceType.KEIRIN,
+                    expectCallCount: 5,
+                },
+                {
+                    raceType: RaceType.AUTORACE,
+                    expectCallCount: 7,
+                },
+                {
+                    raceType: RaceType.BOATRACE,
+                    expectCallCount: 9,
                 },
             ]) {
                 // 1年間のレース開催データを登録する
@@ -145,8 +218,8 @@ describe('HorseRacingRaceRepositoryFromStorage', () => {
                                     raceType,
                                     `raceName${format(date, 'yyyyMMdd')}`,
                                     date,
-                                    location,
-                                    grade,
+                                    defaultLocation[raceType],
+                                    defaultRaceGrade[raceType],
                                     j + 1,
                                 ),
                                 defaultHeldDayData[raceType],
@@ -158,26 +231,37 @@ describe('HorseRacingRaceRepositoryFromStorage', () => {
                         );
                     },
                 ).flat();
+
                 // モックの戻り値を設定
-                s3Gateway.fetchDataFromS3.mockImplementation(
-                    async (folderName, fileName) => {
-                        return fs.readFileSync(
-                            path.resolve(
-                                __dirname,
-                                '../../mock/repository/csv',
-                                `${folderName}${fileName}`,
-                            ),
-                            'utf8',
-                        );
-                    },
+                s3Gateway.fetchDataFromS3.mockResolvedValue(
+                    fs.readFileSync(
+                        path.resolve(
+                            __dirname,
+                            '../../mock/repository/csv',
+                            raceType.toLowerCase(),
+                            CSV_FILE_NAME.RACE_LIST,
+                        ),
+                        'utf8',
+                    ),
                 );
+
                 // テスト実行
-                await repository.registerRaceEntityList(
-                    raceType,
-                    raceEntityList,
+                await (raceType === RaceType.JRA ||
+                raceType === RaceType.NAR ||
+                raceType === RaceType.OVERSEAS
+                    ? horseRacingRaceRepository.registerRaceEntityList(
+                          raceType,
+                          raceEntityList,
+                      )
+                    : mechanicalRacingRaceRepository.registerRaceEntityList(
+                          raceType,
+                          raceEntityList,
+                      ));
+
+                expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
+                    expectCallCount,
                 );
             }
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(3);
         });
     });
 });

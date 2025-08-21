@@ -7,7 +7,7 @@ sequenceDiagram
     participant JraRaceCalendarUseCase
     participant JraCalendarService
     participant JraRaceDataService
-    participant JraGoogleCalendarRepositoryImpl
+    participant JraGoogleCalendarRepository
     participant GoogleCalendarGateway
 
     Client->>JraRaceController: POST /calendar (startDate, finishDate)
@@ -17,30 +17,30 @@ sequenceDiagram
     else 日付が正
         JraRaceController->>JraRaceCalendarUseCase: updateRacesToCalendar(startDate, finishDate, gradeList)
         JraRaceCalendarUseCase->>JraRaceDataService: fetchRaceEntityList(startDate, finishDate, Storage)
-        note right of JraRaceDataService: DataLocation.StorageでJraRaceRepositoryFromStorageImplを利用
-        JraRaceDataService->>JraRaceRepositoryFromStorageImpl: fetchRaceEntityList
-        JraRaceRepositoryFromStorageImpl->>S3Gateway: fetchDataFromS3
-        S3Gateway-->>JraRaceRepositoryFromStorageImpl: CSVデータ
-        note right of JraRaceRepositoryFromStorageImpl: CSV→JraRaceRecord[]→JraRaceEntity[]変換・filter
-        JraRaceRepositoryFromStorageImpl-->>JraRaceDataService: JraRaceEntity[]
+        note right of JraRaceDataService: DataLocation.StorageでJraRaceRepositoryFromStorageを利用
+        JraRaceDataService->>JraRaceRepositoryFromStorage: fetchRaceEntityList
+        JraRaceRepositoryFromStorage->>S3Gateway: fetchDataFromS3
+        S3Gateway-->>JraRaceRepositoryFromStorage: CSVデータ
+        note right of JraRaceRepositoryFromStorage: CSV→JraRaceRecord[]→JraRaceEntity[]変換・filter
+        JraRaceRepositoryFromStorage-->>JraRaceDataService: JraRaceEntity[]
         JraRaceDataService-->>JraRaceCalendarUseCase: JraRaceEntity[]
         JraRaceCalendarUseCase->>JraCalendarService: getEvents(startDate, finishDate)
-        JraCalendarService->>JraGoogleCalendarRepositoryImpl: getEvents(SearchCalendarFilterEntity)
-        JraGoogleCalendarRepositoryImpl->>GoogleCalendarGateway: fetchCalendarDataList(startDate, finishDate)
-        GoogleCalendarGateway-->>JraGoogleCalendarRepositoryImpl: Googleカレンダーイベントリスト
-        JraGoogleCalendarRepositoryImpl-->>JraCalendarService: CalendarData[]
+        JraCalendarService->>JraGoogleCalendarRepository: getEvents(SearchCalendarFilterEntity)
+        JraGoogleCalendarRepository->>GoogleCalendarGateway: fetchCalendarDataList(startDate, finishDate)
+        GoogleCalendarGateway-->>JraGoogleCalendarRepository: Googleカレンダーイベントリスト
+        JraGoogleCalendarRepository-->>JraCalendarService: CalendarData[]
         JraCalendarService-->>JraRaceCalendarUseCase: CalendarData[]
         JraRaceCalendarUseCase->>JraCalendarService: deleteEvents(deleteCalendarDataList)
-        JraCalendarService->>JraGoogleCalendarRepositoryImpl: deleteEvents
-        JraGoogleCalendarRepositoryImpl->>GoogleCalendarGateway: deleteCalendarData
-        GoogleCalendarGateway-->>JraGoogleCalendarRepositoryImpl: 完了
-        JraGoogleCalendarRepositoryImpl-->>JraCalendarService: 完了
+        JraCalendarService->>JraGoogleCalendarRepository: deleteEvents
+        JraGoogleCalendarRepository->>GoogleCalendarGateway: deleteCalendarData
+        GoogleCalendarGateway-->>JraGoogleCalendarRepository: 完了
+        JraGoogleCalendarRepository-->>JraCalendarService: 完了
         JraCalendarService-->>JraRaceCalendarUseCase: 完了
         JraRaceCalendarUseCase->>JraCalendarService: upsertEvents(upsertRaceEntityList)
-        JraCalendarService->>JraGoogleCalendarRepositoryImpl: upsertEvents
-        JraGoogleCalendarRepositoryImpl->>GoogleCalendarGateway: insert/updateCalendarData
-        GoogleCalendarGateway-->>JraGoogleCalendarRepositoryImpl: 完了
-        JraGoogleCalendarRepositoryImpl-->>JraCalendarService: 完了
+        JraCalendarService->>JraGoogleCalendarRepository: upsertEvents
+        JraGoogleCalendarRepository->>GoogleCalendarGateway: insert/updateCalendarData
+        GoogleCalendarGateway-->>JraGoogleCalendarRepository: 完了
+        JraGoogleCalendarRepository-->>JraCalendarService: 完了
         JraCalendarService-->>JraRaceCalendarUseCase: 完了
         JraRaceCalendarUseCase-->>JraRaceController: 完了
         JraRaceController-->>Client: 200 OK

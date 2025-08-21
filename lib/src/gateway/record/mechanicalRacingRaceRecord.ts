@@ -27,14 +27,11 @@ import {
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import type { IRecord } from './iRecord';
 
 /**
  * レース開催データ
  */
-export class MechanicalRacingRaceRecord
-    implements IRecord<MechanicalRacingRaceRecord>
-{
+export class MechanicalRacingRaceRecord {
     /**
      * コンストラクタ
      * @param id - ID

@@ -1,5 +1,5 @@
 import type { RaceType } from '../../utility/raceType';
-import type { IPlaceEntity } from '../entity/iPlaceEntity';
+import type { PlaceEntity } from '../entity/placeEntity';
 import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 
 /**
@@ -19,10 +19,8 @@ import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity'
  * - ストレージ（S3, ローカルファイルなど）
  * - データベース（SQLite, RDBMSなど）
  * - 外部API（HTMLスクレイピングなど）
- * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
- *               例：PlaceEntity, NarPlaceEntity など
  */
-export interface IPlaceRepository<P extends IPlaceEntity<P>> {
+export interface IPlaceRepository {
     /**
      * 指定された検索条件に基づいて開催場所データを取得します
      *
@@ -39,7 +37,7 @@ export interface IPlaceRepository<P extends IPlaceEntity<P>> {
      */
     fetchPlaceEntityList: (
         searchFilter: SearchPlaceFilterEntity,
-    ) => Promise<P[]>;
+    ) => Promise<PlaceEntity[]>;
 
     /**
      * 開催場所データを一括で登録/更新します
@@ -56,11 +54,11 @@ export interface IPlaceRepository<P extends IPlaceEntity<P>> {
      */
     registerPlaceEntityList: (
         raceType: RaceType,
-        placeEntityList: P[],
+        placeEntityList: PlaceEntity[],
     ) => Promise<{
         code: number;
         message: string;
-        successData: P[];
-        failureData: P[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }>;
 }

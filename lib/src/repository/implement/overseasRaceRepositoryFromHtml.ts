@@ -18,7 +18,6 @@ import { validateRaceDistance } from '../../utility/data/common/raceDistance';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -27,9 +26,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  * 競馬場開催データリポジトリの実装
  */
 @injectable()
-export class OverseasRaceRepositoryFromHtml
-    implements IRaceRepository<RaceEntity, PlaceEntity>
-{
+export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -41,7 +38,7 @@ export class OverseasRaceRepositoryFromHtml
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
+        searchFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,
@@ -278,7 +275,7 @@ export class OverseasRaceRepositoryFromHtml
         successData: RaceEntity[];
         failureData: RaceEntity[];
     }> {
-        console.debug(raceEntityList);
+        console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }

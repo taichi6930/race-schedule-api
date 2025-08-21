@@ -4,13 +4,11 @@ import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceC
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
-import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import { createMaxFrameNumber } from '../../../../../lib/src/utility/data/common/positionNumber';
-import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 
@@ -101,39 +99,6 @@ export const baseRaceEntity = (raceType: RaceType): RaceEntity =>
         baseRaceUpdateDate,
     );
 
-export const baseMechanicalRacingRaceRecord = (
-    raceType: RaceType,
-): MechanicalRacingRaceRecord => {
-    try {
-        if (
-            raceType !== RaceType.KEIRIN &&
-            raceType !== RaceType.AUTORACE &&
-            raceType !== RaceType.BOATRACE
-        ) {
-            throw new Error('Invalid race type');
-        }
-        return MechanicalRacingRaceRecord.create(
-            generateRaceId(
-                raceType,
-                basePlaceDateTime,
-                defaultLocation[raceType],
-                baseRaceNumber,
-            ),
-            raceType,
-            defaultRaceName[raceType],
-            defaultStage[raceType],
-            baseRaceDateTime,
-            defaultLocation[raceType],
-            defaultRaceGrade[raceType],
-            baseRaceNumber,
-            baseRaceUpdateDate,
-        );
-    } catch (error) {
-        console.error('Error creating baseMechanicalRacingRaceRecord:', error);
-        throw error;
-    }
-};
-
 export const baseCalendarData = (raceType: RaceType): CalendarData =>
     CalendarData.create(
         'test202412220611',
@@ -188,7 +153,7 @@ export const baseRaceEntityList = (raceType: RaceType): RaceEntity[] => {
     }
 };
 
-export const baseMechanicalRacingRaceEntityList = (
+const baseMechanicalRacingRaceEntityList = (
     _raceType: RaceType,
 ): RaceEntity[] =>
     [
@@ -233,9 +198,7 @@ export const baseMechanicalRacingRaceEntityList = (
         })
         .filter((entity) => entity !== 'undefined');
 
-export const baseHorseRacingRaceEntityList = (
-    _raceType: RaceType,
-): RaceEntity[] =>
+const baseHorseRacingRaceEntityList = (_raceType: RaceType): RaceEntity[] =>
     [
         {
             raceType: RaceType.JRA,
@@ -368,10 +331,7 @@ export const baseHorseRacingRaceEntityList = (
         })
         .filter((entity): entity is RaceEntity => entity !== 'undefined');
 
-export const createLocationString = (
-    raceType: RaceType,
-    location: string,
-): string => {
+const createLocationString = (raceType: RaceType, location: string): string => {
     switch (raceType) {
         case RaceType.JRA:
         case RaceType.NAR:
@@ -393,12 +353,12 @@ export const createLocationString = (
 /**
  * 基本的なレース番号を定義します。
  */
-export const baseRaceNumber = 12;
+const baseRaceNumber = 12;
 
-export const baseRaceUpdateDate = getJSTDate(new Date('2025-10-01 16:30'));
+const baseRaceUpdateDate = getJSTDate(new Date('2025-10-01 16:30'));
 
-export const basePlaceDateTime = new Date('2024-12-29');
-export const baseRaceDateTime = new Date('2024-12-29 16:30');
+const basePlaceDateTime = new Date('2024-12-29');
+const baseRaceDateTime = new Date('2024-12-29 16:30');
 
 export const defaultLocation = {
     [RaceType.JRA]: '東京',
@@ -472,7 +432,7 @@ export const defaultRaceDistance = {
     [RaceType.BOATRACE]: undefined,
 };
 
-export const defaultStageList = {
+const defaultStageList = {
     [RaceType.KEIRIN]: [
         'S級一般',
         'S級一般',

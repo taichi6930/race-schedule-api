@@ -15,11 +15,13 @@ export class PlaceData {
      * @type {RaceType}
      */
     public readonly raceType: RaceType;
+
     /**
      * 開催日時
      * @type {RaceDateTime}
      */
     public readonly dateTime: RaceDateTime;
+
     /**
      * 開催場所
      * @type {RaceCourse}

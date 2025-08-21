@@ -4,18 +4,17 @@ import { RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // MechanicalRacingRaceRepositoryFromHtmlのモックを作成
 export class MockMechanicalRacingRaceRepositoryFromHtml
-    implements IRaceRepository<RaceEntity, PlaceEntity>
+    implements IRaceRepository
 {
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
+        searchFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         const { placeEntityList, raceType } = searchFilter;
         const raceEntityList: RaceEntity[] = [];
@@ -59,7 +58,7 @@ export class MockMechanicalRacingRaceRepositoryFromHtml
         successData: RaceEntity[];
         failureData: RaceEntity[];
     }> {
-        console.debug(raceEntityList);
+        console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }

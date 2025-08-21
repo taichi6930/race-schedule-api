@@ -26,8 +26,6 @@ import { ICalendarService } from '../interface/ICalendarService';
  * - カレンダーイベントのライフサイクル管理
  * - バッチ処理による効率的な操作
  * - 詳細なロギング機能
- * @typeParam R - レースエンティティの型。IRaceEntityを実装している必要があります。
- *               このエンティティの情報がカレンダーイベントに変換されます。
  * @example
  * ```typescript
  * class MyCalendarService extends BaseCalendarService<MyRaceEntity> {
@@ -41,6 +39,7 @@ export class PublicGamblingCalendarService implements ICalendarService {
         @inject('CalendarRepository')
         protected readonly calendarRepository: ICalendarRepository,
     ) {}
+
     /**
      * 指定された期間のカレンダーイベントを取得します
      *

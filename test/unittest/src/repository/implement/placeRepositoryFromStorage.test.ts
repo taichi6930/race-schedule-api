@@ -22,7 +22,7 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 
 describe('PlaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let repository: IPlaceRepository<PlaceEntity>;
+    let repository: IPlaceRepository;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();

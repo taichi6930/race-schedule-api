@@ -5,10 +5,7 @@ import type { PlayerData } from '../../domain/playerData';
  * @param raceType - レース種別
  * @param playerNumber - 選手番号
  */
-export const generatePlayerId = (
-    raceType: string,
-    playerNumber: number,
-): string => {
+const generatePlayerId = (raceType: string, playerNumber: number): string => {
     return `${raceType}${playerNumber.toString()}`;
 };
 

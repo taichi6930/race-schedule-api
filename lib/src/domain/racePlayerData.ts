@@ -15,11 +15,13 @@ export class RacePlayerData {
      * @type {RaceType}
      */
     public readonly raceType: RaceType;
+
     /**
      * 枠番
      * @type {PositionNumber}
      */
     public readonly positionNumber: PositionNumber;
+
     /**
      * 選手番号
      * @type {PlayerNumber}

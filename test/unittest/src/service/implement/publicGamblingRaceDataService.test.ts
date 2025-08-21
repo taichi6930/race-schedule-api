@@ -2,8 +2,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
-import type { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { PublicGamblingRaceDataService } from '../../../../../lib/src/service/implement/publicGamblingRaceDataService';
@@ -18,42 +16,19 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 import { baseRaceEntityList } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataService', () => {
-    let raceRepositoryFromStorage: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
-    let jraRaceRepositoryFromHtml: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
-    let narRaceRepositoryFromHtml: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
-    let overseasRaceRepositoryFromHtml: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
-    let mechanicalRacingRaceRepositoryFromStorage: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
-    let keirinRaceRepositoryFromHtml: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
-    let boatraceRaceRepositoryFromHtml: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
-    let autoraceRaceRepositoryFromHtml: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
+    let raceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
+    let jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    let narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    let overseasRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    let mechanicalRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
+    let keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    let boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    let autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     let service: IRaceDataService;
 
-    const baseRaceEntityListMap = {
-        [RaceType.JRA]: baseRaceEntityList(RaceType.JRA),
-        [RaceType.NAR]: baseRaceEntityList(RaceType.NAR),
-        [RaceType.OVERSEAS]: baseRaceEntityList(RaceType.OVERSEAS),
-        [RaceType.KEIRIN]: baseRaceEntityList(RaceType.KEIRIN),
-        [RaceType.AUTORACE]: baseRaceEntityList(RaceType.AUTORACE),
-        [RaceType.BOATRACE]: baseRaceEntityList(RaceType.BOATRACE),
-    };
-
-    const mockRaceEntityList = Object.values(baseRaceEntityListMap).flat();
+    const mockRaceEntityList = ALL_RACE_TYPE_LIST.flatMap((raceType) =>
+        baseRaceEntityList(raceType),
+    );
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
