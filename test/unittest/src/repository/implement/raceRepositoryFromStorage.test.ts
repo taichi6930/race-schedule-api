@@ -150,32 +150,7 @@ describe('RaceRepositoryFromStorage', () => {
         });
 
         test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
-            for (const { raceType, expectCallCount } of [
-                {
-                    raceType: RaceType.JRA,
-                    expectCallCount: 1,
-                },
-                {
-                    raceType: RaceType.NAR,
-                    expectCallCount: 2,
-                },
-                {
-                    raceType: RaceType.OVERSEAS,
-                    expectCallCount: 3,
-                },
-                {
-                    raceType: RaceType.KEIRIN,
-                    expectCallCount: 5,
-                },
-                {
-                    raceType: RaceType.AUTORACE,
-                    expectCallCount: 7,
-                },
-                {
-                    raceType: RaceType.BOATRACE,
-                    expectCallCount: 9,
-                },
-            ]) {
+            for (const raceType of RACE_TYPE_LIST_ALL) {
                 // 1年間のレース開催データを登録する
                 const raceEntityList: RaceEntity[] = Array.from(
                     { length: 60 },
@@ -227,11 +202,8 @@ describe('RaceRepositoryFromStorage', () => {
                           raceType,
                           raceEntityList,
                       ));
-
-                expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
-                    expectCallCount,
-                );
             }
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(9);
         });
     });
 });

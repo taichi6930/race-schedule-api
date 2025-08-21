@@ -185,15 +185,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             filteredPlaceEntityList,
         );
 
-        const response =
-            await this.raceDataService.updateRaceEntityList(raceEntityList);
-
-        return {
-            code: response.code,
-            message: response.message,
-            successDataCount: response.successDataCount,
-            failureDataCount: response.failureDataCount,
-        };
+        return this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 
     // 共通フィルタ関数
