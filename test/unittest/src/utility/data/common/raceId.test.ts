@@ -1,5 +1,8 @@
 import { validateRaceId } from '../../../../../../lib/src/utility/data/common/raceId';
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
+import {
+    RACE_TYPE_LIST_ALL,
+    RaceType,
+} from '../../../../../../lib/src/utility/raceType';
 
 describe('raceIdSchema', () => {
     // 正常系
@@ -17,334 +20,77 @@ describe('raceIdSchema', () => {
     }
 
     // 異常系
-    for (const { raceType, invalidRaceId, message } of [
-        // JRA
-        {
-            raceType: RaceType.JRA,
-            invalidRaceId: 'jraabc2021080101',
-            message: 'jraRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.JRA,
-            invalidRaceId: 'jra2021jra080101',
-            message: 'jraRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.JRA,
-            invalidRaceId: 'jra202108010',
-            message: 'jraRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.JRA,
-            invalidRaceId: 'nar202108010101',
-            message: 'jraから始まる必要があります',
-        },
-        {
-            raceType: RaceType.JRA,
-            invalidRaceId: 'jra202108010113',
-            message: 'レース番号は1~12の範囲である必要があります',
-        },
-        // NAR
-        {
-            raceType: RaceType.NAR,
-            invalidRaceId: 'narabc2021080101',
-            message: 'narRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.NAR,
-            invalidRaceId: 'nar2021nar080101',
-            message: 'narRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.NAR,
-            invalidRaceId: 'nar202108010',
-            message: 'narRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.NAR,
-            invalidRaceId: 'jra202108010101',
-            message: 'narから始まる必要があります',
-        },
-        {
-            raceType: RaceType.NAR,
-            invalidRaceId: 'nar202108010113',
-            message: 'レース番号は1~12の範囲である必要があります',
-        },
-        {
-            raceType: RaceType.OVERSEAS,
-            invalidRaceId: 'overseasabc2021080101',
-            message: 'overseasRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.OVERSEAS,
-            invalidRaceId: 'overseas2021overseas080101',
-            message: 'overseasRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.OVERSEAS,
-            invalidRaceId: 'overseas202108010',
-            message: 'overseasRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.OVERSEAS,
-            invalidRaceId: 'jra202108010101',
-            message: 'overseasから始まる必要があります',
-        },
-        // KEIRIN
-        {
-            raceType: RaceType.KEIRIN,
-            invalidRaceId: 'keirinabc2021080101',
-            message: 'keirinRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.KEIRIN,
-            invalidRaceId: 'keirin2021keirin080101',
-            message: 'keirinRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.KEIRIN,
-            invalidRaceId: 'keirin202108010',
-            message: 'keirinRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.KEIRIN,
-            invalidRaceId: 'jra202108010101',
-            message: 'keirinから始まる必要があります',
-        },
-        {
-            raceType: RaceType.KEIRIN,
-            invalidRaceId: 'keirin202108010113',
-            message: 'レース番号は1~12の範囲である必要があります',
-        },
-        // BOATRACE
-        {
-            raceType: RaceType.BOATRACE,
-            invalidRaceId: 'boatraceabc2021080101',
-            message: 'boatraceRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.BOATRACE,
-            invalidRaceId: 'boatrace2021boatrace080101',
-            message: 'boatraceRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.BOATRACE,
-            invalidRaceId: 'boatrace202108010',
-            message: 'boatraceRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.BOATRACE,
-            invalidRaceId: 'jra202108010101',
-            message: 'boatraceから始まる必要があります',
-        },
-        {
-            raceType: RaceType.BOATRACE,
-            invalidRaceId: 'boatrace202108010113',
-            message: 'レース番号は1~12の範囲である必要があります',
-        },
-        // AUTORACE
-        {
-            raceType: RaceType.AUTORACE,
-            invalidRaceId: 'autoraceabc2021080101',
-            message: 'autoraceRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.AUTORACE,
-            invalidRaceId: 'autorace2021autorace080101',
-            message: 'autoraceRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.AUTORACE,
-            invalidRaceId: 'autorace202108010',
-            message: 'autoraceRaceIdの形式ではありません',
-        },
-        {
-            raceType: RaceType.AUTORACE,
-            invalidRaceId: 'jra202108010101',
-            message: 'autoraceから始まる必要があります',
-        },
-        {
-            raceType: RaceType.AUTORACE,
-            invalidRaceId: 'autorace202108010113',
-            message: 'レース番号は1~12の範囲である必要があります',
-        },
-    ]) {
-        it(`異常系: ${raceType}のRaceIdが不正な場合`, () => {
-            expect(() => validateRaceId(raceType, invalidRaceId)).toThrow(
-                message,
-            );
-        });
+    const invalidRaceIdAndMessage = {
+        [RaceType.JRA]: [
+            ['jraabc2021080101', 'jraRaceIdの形式ではありません'],
+            ['jra2021jra080101', 'jraRaceIdの形式ではありません'],
+            ['jra202108010', 'jraRaceIdの形式ではありません'],
+            ['nar202108010101', 'jraから始まる必要があります'],
+            ['jra202108010113', 'レース番号は1~12の範囲である必要があります'],
+        ],
+        [RaceType.NAR]: [
+            ['narabc2021080101', 'narRaceIdの形式ではありません'],
+            ['nar2021nar080101', 'narRaceIdの形式ではありません'],
+            ['nar202108010', 'narRaceIdの形式ではありません'],
+            ['jra202108010101', 'narから始まる必要があります'],
+            ['nar202108010113', 'レース番号は1~12の範囲である必要があります'],
+        ],
+        [RaceType.OVERSEAS]: [
+            ['overseasabc2021080101', 'overseasRaceIdの形式ではありません'],
+            [
+                'overseas2021overseas080101',
+                'overseasRaceIdの形式ではありません',
+            ],
+            ['overseas202108010', 'overseasRaceIdの形式ではありません'],
+            ['jra202108010101', 'overseasから始まる必要があります'],
+        ],
+        [RaceType.KEIRIN]: [
+            ['keirinabc2021080101', 'keirinRaceIdの形式ではありません'],
+            ['keirin2021keirin080101', 'keirinRaceIdの形式ではありません'],
+            ['keirin202108010', 'keirinRaceIdの形式ではありません'],
+            ['jra202108010101', 'keirinから始まる必要があります'],
+            [
+                'keirin202108010113',
+                'レース番号は1~12の範囲である必要があります',
+            ],
+        ],
+        [RaceType.BOATRACE]: [
+            ['boatraceabc2021080101', 'boatraceRaceIdの形式ではありません'],
+            [
+                'boatrace2021boatrace080101',
+                'boatraceRaceIdの形式ではありません',
+            ],
+            ['boatrace202108010', 'boatraceRaceIdの形式ではありません'],
+            ['jra202108010101', 'boatraceから始まる必要があります'],
+            [
+                'boatrace202108010113',
+                'レース番号は1~12の範囲である必要があります',
+            ],
+        ],
+        [RaceType.AUTORACE]: [
+            ['autoraceabc2021080101', 'autoraceRaceIdの形式ではありません'],
+            [
+                'autorace2021autorace080101',
+                'autoraceRaceIdの形式ではありません',
+            ],
+            ['autorace202108010', 'autoraceRaceIdの形式ではありません'],
+            ['jra202108010101', 'autoraceから始まる必要があります'],
+            [
+                'autorace202108010113',
+                'レース番号は1~12の範囲である必要があります',
+            ],
+        ],
+    };
+
+    for (const raceType of RACE_TYPE_LIST_ALL) {
+        for (const [invalidRaceId, message] of invalidRaceIdAndMessage[
+            raceType
+        ]) {
+            it(`異常系: ${raceType}のRaceIdが不正 (${invalidRaceId})`, () => {
+                expect(() => validateRaceId(raceType, invalidRaceId)).toThrow(
+                    message,
+                );
+            });
+        }
     }
 });
-
-// 正常系
-for (const { raceType, raceId } of [
-    { raceType: RaceType.JRA, raceId: 'jra202108010101' },
-    { raceType: RaceType.NAR, raceId: 'nar202108010101' },
-    { raceType: RaceType.OVERSEAS, raceId: 'overseas202108010101' },
-    { raceType: RaceType.KEIRIN, raceId: 'keirin202108010101' },
-    { raceType: RaceType.BOATRACE, raceId: 'boatrace202108010101' },
-    { raceType: RaceType.AUTORACE, raceId: 'autorace202108010101' },
-]) {
-    it(`正常系: ${raceType}のRaceIdが正常な場合`, () => {
-        expect(validateRaceId(raceType, raceId)).toBe(raceId);
-    });
-}
-
-// 異常系
-for (const { raceType, invalidRaceId, message } of [
-    // JRA
-    {
-        raceType: RaceType.JRA,
-        invalidRaceId: 'jraabc2021080101',
-        message: 'jraRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.JRA,
-        invalidRaceId: 'jra2021jra080101',
-        message: 'jraRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.JRA,
-        invalidRaceId: 'jra202108010',
-        message: 'jraRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.JRA,
-        invalidRaceId: 'nar202108010101',
-        message: 'jraから始まる必要があります',
-    },
-    {
-        raceType: RaceType.JRA,
-        invalidRaceId: 'jra202108010113',
-        message: 'レース番号は1~12の範囲である必要があります',
-    },
-    // NAR
-    {
-        raceType: RaceType.NAR,
-        invalidRaceId: 'narabc2021080101',
-        message: 'narRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.NAR,
-        invalidRaceId: 'nar2021nar080101',
-        message: 'narRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.NAR,
-        invalidRaceId: 'nar202108010',
-        message: 'narRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.NAR,
-        invalidRaceId: 'jra202108010101',
-        message: 'narから始まる必要があります',
-    },
-    {
-        raceType: RaceType.NAR,
-        invalidRaceId: 'nar202108010113',
-        message: 'レース番号は1~12の範囲である必要があります',
-    },
-    {
-        raceType: RaceType.OVERSEAS,
-        invalidRaceId: 'overseasabc2021080101',
-        message: 'overseasRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.OVERSEAS,
-        invalidRaceId: 'overseas2021overseas080101',
-        message: 'overseasRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.OVERSEAS,
-        invalidRaceId: 'overseas202108010',
-        message: 'overseasRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.OVERSEAS,
-        invalidRaceId: 'jra202108010101',
-        message: 'overseasから始まる必要があります',
-    },
-    // KEIRIN
-    {
-        raceType: RaceType.KEIRIN,
-        invalidRaceId: 'keirinabc2021080101',
-        message: 'keirinRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.KEIRIN,
-        invalidRaceId: 'keirin2021keirin080101',
-        message: 'keirinRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.KEIRIN,
-        invalidRaceId: 'keirin202108010',
-        message: 'keirinRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.KEIRIN,
-        invalidRaceId: 'jra202108010101',
-        message: 'keirinから始まる必要があります',
-    },
-    {
-        raceType: RaceType.KEIRIN,
-        invalidRaceId: 'keirin202108010113',
-        message: 'レース番号は1~12の範囲である必要があります',
-    },
-    // BOATRACE
-    {
-        raceType: RaceType.BOATRACE,
-        invalidRaceId: 'boatraceabc2021080101',
-        message: 'boatraceRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.BOATRACE,
-        invalidRaceId: 'boatrace2021boatrace080101',
-        message: 'boatraceRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.BOATRACE,
-        invalidRaceId: 'boatrace202108010',
-        message: 'boatraceRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.BOATRACE,
-        invalidRaceId: 'jra202108010101',
-        message: 'boatraceから始まる必要があります',
-    },
-    {
-        raceType: RaceType.BOATRACE,
-        invalidRaceId: 'boatrace202108010113',
-        message: 'レース番号は1~12の範囲である必要があります',
-    },
-    // AUTORACE
-    {
-        raceType: RaceType.AUTORACE,
-        invalidRaceId: 'autoraceabc2021080101',
-        message: 'autoraceRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.AUTORACE,
-        invalidRaceId: 'autorace2021autorace080101',
-        message: 'autoraceRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.AUTORACE,
-        invalidRaceId: 'autorace202108010',
-        message: 'autoraceRaceIdの形式ではありません',
-    },
-    {
-        raceType: RaceType.AUTORACE,
-        invalidRaceId: 'jra202108010101',
-        message: 'autoraceから始まる必要があります',
-    },
-    {
-        raceType: RaceType.AUTORACE,
-        invalidRaceId: 'autorace202108010113',
-        message: 'レース番号は1~12の範囲である必要があります',
-    },
-]) {
-    it(`異常系: ${raceType}のRaceIdが不正な場合`, () => {
-        expect(() => validateRaceId(raceType, invalidRaceId)).toThrow(message);
-    });
-}

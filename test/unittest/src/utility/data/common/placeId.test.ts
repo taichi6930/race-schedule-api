@@ -1,6 +1,6 @@
 import { validatePlaceId } from '../../../../../../lib/src/utility/data/common/placeId';
 import {
-    RACE_TYPE_LIST_MECHANICAL_RACING,
+    RACE_TYPE_LIST_ALL,
     RaceType,
 } from '../../../../../../lib/src/utility/raceType';
 
@@ -18,7 +18,7 @@ describe('PlaceIdSchema', () => {
         });
     }
 
-    const invalidAutoracePlaceIdAndMessage = {
+    const invalidPlaceIdAndMessage = {
         [RaceType.JRA]: [
             ['abc2021080101', 'jraから始まる必要があります'],
             ['2021jra080101', 'jraから始まる必要があります'],
@@ -58,15 +58,13 @@ describe('PlaceIdSchema', () => {
         ],
     };
 
-    for (const raceType of RACE_TYPE_LIST_MECHANICAL_RACING) {
-        it(`異常系: 不正なPlaceId（${raceType}）`, () => {
-            for (const [invalidId, message] of invalidAutoracePlaceIdAndMessage[
-                raceType
-            ]) {
+    for (const raceType of RACE_TYPE_LIST_ALL) {
+        for (const [invalidId, message] of invalidPlaceIdAndMessage[raceType]) {
+            it(`異常系: ${raceType} の PlaceId が不正 (${invalidId})`, () => {
                 expect(() => validatePlaceId(raceType, invalidId)).toThrow(
                     message,
                 );
-            }
-        });
+            });
+        }
     }
 });
