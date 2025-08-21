@@ -217,7 +217,10 @@ export default [
         },
     },
     {
-        files: ['**/publicGamblingRaceDataUseCase.test.ts', '**/*DataHtmlGateway.test.ts'],
+        files: [
+            '**/publicGamblingRaceDataUseCase.test.ts',
+            '**/*DataHtmlGateway.test.ts',
+        ],
         rules: {
             '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内での関数定義を禁止
         },
@@ -237,8 +240,12 @@ export default [
             '@typescript-eslint/no-use-before-define': 'off', // 対象ファイル限定で許可
         },
     },
-     {
-        files: ['**/publicGamblingController.ts', '**/*s3Gateway.ts', '**/utility/env.ts'],
+    {
+        files: [
+            '**/publicGamblingController.ts',
+            '**/*s3Gateway.ts',
+            '**/utility/env.ts',
+        ],
         rules: {
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
         },
