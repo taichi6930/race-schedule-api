@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
+import { RACE_TYPE_LIST_MECHANICAL_RACING } from './../../raceType';
 import type { GradeType } from './gradeType';
 
 /**
@@ -788,11 +789,11 @@ const createRaceStageSchema = (raceType: RaceType): z.ZodString =>
  * RaceStageのzod型定義
  */
 
-export const RaceStageSchema = z.union([
-    createRaceStageSchema(RaceType.KEIRIN),
-    createRaceStageSchema(RaceType.AUTORACE),
-    createRaceStageSchema(RaceType.BOATRACE),
-]);
+export const RaceStageSchema = z.union(
+    RACE_TYPE_LIST_MECHANICAL_RACING.map((raceType) =>
+        createRaceStageSchema(raceType),
+    ),
+);
 /**
  * RaceStageの型定義
  */

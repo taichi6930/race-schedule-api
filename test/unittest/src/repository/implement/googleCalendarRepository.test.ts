@@ -6,10 +6,8 @@ import type { ICalendarGateway } from '../../../../../lib/src/gateway/interface/
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { GoogleCalendarRepository } from '../../../../../lib/src/repository/implement/googleCalendarRepository';
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
-import {
-    RACE_TYPE_LIST_ALL,
-    RaceType,
-} from '../../../../../lib/src/utility/raceType';
+import type { RaceType } from '../../../../../lib/src/utility/raceType';
+import { RACE_TYPE_LIST_ALL } from '../../../../../lib/src/utility/raceType';
 import {
     baseCalendarData,
     baseCalendarDataFromGoogleCalendar,
@@ -35,14 +33,9 @@ describe('GoogleCalendarRepository', () => {
         jest.clearAllMocks();
     });
 
-    const mockCalendarDataList = [
-        baseCalendarData(RaceType.JRA),
-        baseCalendarData(RaceType.NAR),
-        baseCalendarData(RaceType.OVERSEAS),
-        baseCalendarData(RaceType.KEIRIN),
-        baseCalendarData(RaceType.BOATRACE),
-        baseCalendarData(RaceType.AUTORACE),
-    ];
+    const mockCalendarDataList = RACE_TYPE_LIST_ALL.map((raceType) =>
+        baseCalendarData(raceType),
+    );
 
     it('カレンダー情報が正常に取得できること', async () => {
         googleCalendarGateway.fetchCalendarDataList.mockImplementation(

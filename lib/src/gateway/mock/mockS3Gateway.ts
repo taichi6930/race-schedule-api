@@ -18,7 +18,12 @@ import { RaceStage } from '../../utility/data/common/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import {
+    RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_MECHANICAL_RACING,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+    RaceType,
+} from '../../utility/raceType';
 import { IS3Gateway } from '../interface/iS3Gateway';
 
 /**
@@ -145,23 +150,17 @@ export class MockS3Gateway implements IS3Gateway {
             case allowedEnvs.localInitMadeData: {
                 // 最初にmockStorageに値を入れておく
                 // 2024年のデータ366日分を作成
-                await Promise.all([
-                    this.setRaceTypePlaceMockData(RaceType.JRA),
-                    this.setRaceTypePlaceMockData(RaceType.NAR),
-                    this.setRaceTypePlaceMockData(RaceType.KEIRIN),
-                    this.setRaceTypePlaceMockData(RaceType.AUTORACE),
-                    this.setRaceTypePlaceMockData(RaceType.BOATRACE),
-                ]);
+                await Promise.all(
+                    RACE_TYPE_LIST_WITHOUT_OVERSEAS.map((raceType) =>
+                        this.setRaceTypePlaceMockData(raceType),
+                    ),
+                );
                 return;
             }
             case allowedEnvs.local: {
-                const csvPathList = [
-                    csvPath('PLACE_LIST', RaceType.NAR),
-                    csvPath('PLACE_LIST', RaceType.JRA),
-                    csvPath('PLACE_LIST', RaceType.KEIRIN),
-                    csvPath('PLACE_LIST', RaceType.AUTORACE),
-                    csvPath('PLACE_LIST', RaceType.BOATRACE),
-                ];
+                const csvPathList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
+                    (raceType) => csvPath('PLACE_LIST', raceType),
+                );
 
                 for (const csvPathItem of csvPathList) {
                     try {
@@ -212,14 +211,9 @@ export class MockS3Gateway implements IS3Gateway {
                 return;
             }
             case allowedEnvs.local: {
-                const csvPathList = [
-                    csvPath('RACE_LIST', RaceType.OVERSEAS),
-                    csvPath('RACE_LIST', RaceType.NAR),
-                    csvPath('RACE_LIST', RaceType.JRA),
-                    csvPath('RACE_LIST', RaceType.KEIRIN),
-                    csvPath('RACE_LIST', RaceType.AUTORACE),
-                    csvPath('RACE_LIST', RaceType.BOATRACE),
-                ];
+                const csvPathList = RACE_TYPE_LIST_ALL.map((raceType) =>
+                    csvPath('RACE_LIST', raceType),
+                );
 
                 for (const csvPathItem of csvPathList) {
                     try {
@@ -255,11 +249,9 @@ export class MockS3Gateway implements IS3Gateway {
                 return;
             }
             case allowedEnvs.local: {
-                const csvPathList = [
-                    csvPath('RACE_PLAYER_LIST', RaceType.KEIRIN),
-                    csvPath('RACE_PLAYER_LIST', RaceType.AUTORACE),
-                    csvPath('RACE_PLAYER_LIST', RaceType.BOATRACE),
-                ];
+                const csvPathList = RACE_TYPE_LIST_MECHANICAL_RACING.map(
+                    (raceType) => csvPath('RACE_PLAYER_LIST', raceType),
+                );
 
                 for (const csvPathItem of csvPathList) {
                     try {
@@ -513,19 +505,18 @@ export class MockS3Gateway implements IS3Gateway {
             case allowedEnvs.localInitMadeData: {
                 // 最初にmockStorageに値を入れておく
                 // 2024年のデータ366日分を作成
-                await Promise.all([
-                    this.setRaceTypePlaceGradeMockData(RaceType.KEIRIN),
-                    this.setRaceTypePlaceGradeMockData(RaceType.AUTORACE),
-                    this.setRaceTypePlaceGradeMockData(RaceType.BOATRACE),
-                ]);
+                await Promise.all(
+                    RACE_TYPE_LIST_MECHANICAL_RACING.map((raceType) =>
+                        this.setRaceTypePlaceGradeMockData(raceType),
+                    ),
+                );
+
                 return;
             }
             case allowedEnvs.local: {
-                const csvPathList = [
-                    csvPath('GRADE_LIST', RaceType.KEIRIN),
-                    csvPath('GRADE_LIST', RaceType.AUTORACE),
-                    csvPath('GRADE_LIST', RaceType.BOATRACE),
-                ];
+                const csvPathList = RACE_TYPE_LIST_MECHANICAL_RACING.map(
+                    (raceType) => csvPath('GRADE_LIST', raceType),
+                );
 
                 for (const csvPathItem of csvPathList) {
                     try {

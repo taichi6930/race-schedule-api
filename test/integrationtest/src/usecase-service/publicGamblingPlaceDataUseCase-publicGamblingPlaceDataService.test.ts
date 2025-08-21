@@ -10,6 +10,7 @@ import { PublicGamblingPlaceDataUseCase } from '../../../../lib/src/usecase/impl
 import type { IPlaceDataUseCase } from '../../../../lib/src/usecase/interface/IPlaceDataUseCase';
 import {
     RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RaceType,
 } from '../../../../lib/src/utility/raceType';
 import { basePlaceEntity } from '../../../unittest/src/mock/common/baseCommonData';
@@ -50,13 +51,9 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
         jest.clearAllMocks();
     });
 
-    const mockPlaceEntity = [
-        basePlaceEntity(RaceType.JRA),
-        basePlaceEntity(RaceType.NAR),
-        basePlaceEntity(RaceType.KEIRIN),
-        basePlaceEntity(RaceType.AUTORACE),
-        basePlaceEntity(RaceType.BOATRACE),
-    ];
+    const mockPlaceEntity = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map((raceType) =>
+        basePlaceEntity(raceType),
+    );
 
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること', async () => {

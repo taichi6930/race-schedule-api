@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-import { RaceType } from '../../raceType';
+import type { RaceType } from '../../raceType';
+import { RACE_TYPE_LIST_MECHANICAL_RACING } from '../../raceType';
 import { type PositionNumber, validatePositionNumber } from './positionNumber';
 import type { RaceCourse } from './raceCourse';
 import { generateRaceId } from './raceId';
@@ -84,8 +85,8 @@ export const validateRacePlayerId = (
 /**
  * RacePlayerIdのzod型定義
  */
-export const UnionRacePlayerIdSchema = z.union([
-    RacePlayerIdSchema(RaceType.KEIRIN),
-    RacePlayerIdSchema(RaceType.AUTORACE),
-    RacePlayerIdSchema(RaceType.BOATRACE),
-]);
+export const UnionRacePlayerIdSchema = z.union(
+    RACE_TYPE_LIST_MECHANICAL_RACING.map((raceType) =>
+        RacePlayerIdSchema(raceType),
+    ),
+);
