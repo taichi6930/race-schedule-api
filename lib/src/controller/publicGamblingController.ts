@@ -460,7 +460,9 @@ export class PublicGamblingController {
                     gradeList:
                         gradeList === undefined
                             ? undefined
-                            : gradeList.map((g: string) => g),
+                            : Array.isArray(gradeList)
+                              ? gradeList.map((g: string) => g)
+                              : undefined,
                 };
             }
 
