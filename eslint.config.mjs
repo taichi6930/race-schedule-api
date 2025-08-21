@@ -161,6 +161,7 @@ export default [
             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
+            '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
             'unused-imports/no-unused-vars': [
                 'error',
                 {
@@ -186,7 +187,6 @@ export default [
 
             // 数字のセパレーターのスタイルは一長一短なので一旦オフ
             'unicorn/numeric-separators-style': 'off',
-
             'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
         },
     },
@@ -217,15 +217,8 @@ export default [
             '**/Record.ts',
         ],
         rules: {
-            '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
             '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
             '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
-        },
-    },
-    {
-        files: ['**/eslint.config.mjs'],
-        rules: {
-            '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
         },
     },
     {
