@@ -6,7 +6,7 @@ import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/en
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
-import { ALL_RACE_TYPE_LIST } from '../../../../../lib/src/utility/raceType';
+import { RACE_TYPE_LIST_ALL } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
@@ -18,11 +18,11 @@ describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
     let calendarRepository: jest.Mocked<ICalendarRepository>;
 
-    const mockCalendarDataList = ALL_RACE_TYPE_LIST.map((raceType) =>
+    const mockCalendarDataList = RACE_TYPE_LIST_ALL.map((raceType) =>
         baseCalendarData(raceType),
     );
 
-    const mockRaceEntityList = ALL_RACE_TYPE_LIST.flatMap((raceType) =>
+    const mockRaceEntityList = RACE_TYPE_LIST_ALL.flatMap((raceType) =>
         baseRaceEntityList(raceType),
     );
 
@@ -43,11 +43,11 @@ describe('PublicGamblingCalendarService', () => {
             const result = await service.fetchEvents(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST,
+                RACE_TYPE_LIST_ALL,
             );
 
             expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                ALL_RACE_TYPE_LIST,
+                RACE_TYPE_LIST_ALL,
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
             expect(result).toEqual(mockCalendarDataList);

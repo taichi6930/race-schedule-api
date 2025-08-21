@@ -12,9 +12,10 @@ import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entit
 import { PlaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
+import type { RaceType } from '../../../../../lib/src/utility/raceType';
 import {
-    ALL_RACE_TYPE_LIST,
-    RaceType,
+    RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
@@ -56,13 +57,7 @@ describe('PlaceRepositoryFromStorage', () => {
             );
 
             // テスト実行
-            for (const raceType of [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ]) {
+            for (const raceType of RACE_TYPE_LIST_WITHOUT_OVERSEAS) {
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
                         new Date('2024-01-01'),
@@ -79,7 +74,7 @@ describe('PlaceRepositoryFromStorage', () => {
 
     describe('registerPlaceList', () => {
         test('正しい開催場データを登録できる', async () => {
-            for (const raceType of ALL_RACE_TYPE_LIST) {
+            for (const raceType of RACE_TYPE_LIST_ALL) {
                 const _placeEntityList = placeEntityList(raceType);
                 // テスト実行
                 await expect(

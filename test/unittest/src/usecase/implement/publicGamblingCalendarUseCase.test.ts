@@ -11,7 +11,7 @@ import { PublicGamblingCalendarUseCase } from '../../../../../lib/src/usecase/im
 import type { IRaceCalendarUseCase } from '../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
 import { SpecifiedGradeList } from '../../../../../lib/src/utility/data/common/gradeType';
 import {
-    ALL_RACE_TYPE_LIST,
+    RACE_TYPE_LIST_ALL,
     RaceType,
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
@@ -36,7 +36,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         clearMocks();
     });
 
-    const baseCalendarDataList = ALL_RACE_TYPE_LIST.map((raceType) =>
+    const baseCalendarDataList = RACE_TYPE_LIST_ALL.map((raceType) =>
         baseCalendarData(raceType),
     );
 
@@ -51,20 +51,20 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             const result = await useCase.fetchRacesFromCalendar(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST,
+                RACE_TYPE_LIST_ALL,
             );
 
             expect(calendarService.fetchEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST,
+                RACE_TYPE_LIST_ALL,
             );
             expect(result).toEqual(baseCalendarDataList);
         });
     });
 
     it('イベントが追加・削除されること（複数）', async () => {
-        const mockCalendarDataList: CalendarData[] = ALL_RACE_TYPE_LIST.flatMap(
+        const mockCalendarDataList: CalendarData[] = RACE_TYPE_LIST_ALL.flatMap(
             (raceType) =>
                 Array.from({ length: 8 }, (_, i: number) =>
                     baseCalendarData(raceType).copy({
@@ -73,7 +73,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 ),
         );
 
-        const mockRaceEntityList = ALL_RACE_TYPE_LIST.flatMap((raceType) =>
+        const mockRaceEntityList = RACE_TYPE_LIST_ALL.flatMap((raceType) =>
             Array.from({ length: 5 }, (_, i: number) =>
                 baseRaceEntity(raceType).copy({
                     id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
@@ -81,7 +81,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             ),
         );
 
-        const expectDeleteCalendarDataList = ALL_RACE_TYPE_LIST.flatMap(
+        const expectDeleteCalendarDataList = RACE_TYPE_LIST_ALL.flatMap(
             (raceType) =>
                 Array.from({ length: 3 }, (_, i: number) =>
                     baseCalendarData(raceType).copy({
@@ -104,7 +104,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         await useCase.updateRacesToCalendar(
             startDate,
             finishDate,
-            ALL_RACE_TYPE_LIST,
+            RACE_TYPE_LIST_ALL,
             {
                 [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
                 [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),
@@ -119,7 +119,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         expect(calendarService.fetchEvents).toHaveBeenCalledWith(
             startDate,
             finishDate,
-            ALL_RACE_TYPE_LIST,
+            RACE_TYPE_LIST_ALL,
         );
 
         // deleteEventsが呼び出された回数を確認

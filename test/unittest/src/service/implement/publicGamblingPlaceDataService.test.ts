@@ -9,7 +9,7 @@ import { PublicGamblingPlaceDataService } from '../../../../../lib/src/service/i
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
 import {
-    ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RaceType,
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
@@ -25,7 +25,7 @@ describe('PublicGamblingPlaceDataService', () => {
     let autoracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     let service: IPlaceDataService;
 
-    const mockPlaceEntityList = ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
+    const mockPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
         (raceType) => basePlaceEntity(raceType),
     );
 
@@ -73,7 +73,7 @@ describe('PublicGamblingPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+                RACE_TYPE_LIST_WITHOUT_OVERSEAS,
                 DataLocation.Storage,
             );
 
@@ -104,7 +104,7 @@ describe('PublicGamblingPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+                RACE_TYPE_LIST_WITHOUT_OVERSEAS,
                 DataLocation.Web,
             );
 
@@ -127,7 +127,7 @@ describe('PublicGamblingPlaceDataService', () => {
             await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+                RACE_TYPE_LIST_WITHOUT_OVERSEAS,
                 DataLocation.Storage,
             );
 

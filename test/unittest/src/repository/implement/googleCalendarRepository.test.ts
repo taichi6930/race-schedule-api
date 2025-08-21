@@ -7,7 +7,7 @@ import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/en
 import { GoogleCalendarRepository } from '../../../../../lib/src/repository/implement/googleCalendarRepository';
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import {
-    ALL_RACE_TYPE_LIST,
+    RACE_TYPE_LIST_ALL,
     RaceType,
 } from '../../../../../lib/src/utility/raceType';
 import {
@@ -55,7 +55,7 @@ describe('GoogleCalendarRepository', () => {
             new Date('2023-12-31'),
         );
         const calendarDataList = await repository.getEvents(
-            ALL_RACE_TYPE_LIST,
+            RACE_TYPE_LIST_ALL,
             searchFilter,
         );
 
@@ -78,7 +78,7 @@ describe('GoogleCalendarRepository', () => {
             new Date('2023-12-31'),
         );
         const calendarDataList = await repository.getEvents(
-            ALL_RACE_TYPE_LIST,
+            RACE_TYPE_LIST_ALL,
             searchFilter,
         );
 
@@ -87,7 +87,7 @@ describe('GoogleCalendarRepository', () => {
     });
 
     it('カレンダー情報が正常に削除できること', async () => {
-        for (const raceType of ALL_RACE_TYPE_LIST) {
+        for (const raceType of RACE_TYPE_LIST_ALL) {
             googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
             await repository.deleteEvents([baseCalendarData(raceType)]);
@@ -96,7 +96,7 @@ describe('GoogleCalendarRepository', () => {
     });
 
     it('カレンダー情報が正常に削除できないこと', async () => {
-        for (const raceType of ALL_RACE_TYPE_LIST) {
+        for (const raceType of RACE_TYPE_LIST_ALL) {
             googleCalendarGateway.deleteCalendarData.mockRejectedValue(
                 new Error('API Error'),
             );
@@ -107,7 +107,7 @@ describe('GoogleCalendarRepository', () => {
     });
 
     it('カレンダー情報が正常に登録できること', async () => {
-        for (const raceType of ALL_RACE_TYPE_LIST) {
+        for (const raceType of RACE_TYPE_LIST_ALL) {
             googleCalendarGateway.fetchCalendarData.mockRejectedValue(
                 new Error('API Error'),
             );
@@ -119,7 +119,7 @@ describe('GoogleCalendarRepository', () => {
     });
 
     it('カレンダー情報が正常に更新できること', async () => {
-        for (const raceType of ALL_RACE_TYPE_LIST) {
+        for (const raceType of RACE_TYPE_LIST_ALL) {
             googleCalendarGateway.fetchCalendarData.mockResolvedValue(
                 baseCalendarDataFromGoogleCalendar(raceType),
             );
@@ -131,7 +131,7 @@ describe('GoogleCalendarRepository', () => {
     });
 
     it('カレンダー情報が正常に更新できないこと', async () => {
-        for (const raceType of ALL_RACE_TYPE_LIST) {
+        for (const raceType of RACE_TYPE_LIST_ALL) {
             googleCalendarGateway.insertCalendarData.mockRejectedValue(
                 new Error('API Error'),
             );

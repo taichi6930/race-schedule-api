@@ -15,7 +15,11 @@ import { RaceRepositoryFromStorage } from '../../../../../lib/src/repository/imp
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    RACE_TYPE_LIST_HORSE_RACING,
+    RACE_TYPE_LIST_MECHANICAL_RACING,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
@@ -65,11 +69,7 @@ describe('RaceRepositoryFromStorage', () => {
                 },
             );
 
-            for (const raceType of [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.OVERSEAS,
-            ]) {
+            for (const raceType of RACE_TYPE_LIST_HORSE_RACING) {
                 const raceEntityList =
                     await horseRacingRaceRepository.fetchRaceEntityList(
                         new SearchRaceFilterEntity(
@@ -85,11 +85,7 @@ describe('RaceRepositoryFromStorage', () => {
             }
 
             // テスト実行
-            for (const raceType of [
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ]) {
+            for (const raceType of RACE_TYPE_LIST_MECHANICAL_RACING) {
                 const raceEntityList =
                     await mechanicalRacingRaceRepository.fetchRaceEntityList(
                         new SearchRaceFilterEntity(

@@ -5,7 +5,7 @@ import { generateRaceId } from '../../utility/data/common/raceId';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
-import { ALL_RACE_TYPE_LIST, RaceType } from '../../utility/raceType';
+import { RACE_TYPE_LIST_ALL, RaceType } from '../../utility/raceType';
 import { ICalendarGateway } from '../interface/iCalendarGateway';
 
 /**
@@ -52,7 +52,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                     while (
                         currentDate.getFullYear() === startDate.getFullYear()
                     ) {
-                        for (const raceType of ALL_RACE_TYPE_LIST) {
+                        for (const raceType of RACE_TYPE_LIST_ALL) {
                             const location = defaultLocation[raceType];
                             for (
                                 let raceNumber = 1;

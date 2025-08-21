@@ -1,5 +1,8 @@
 import { validateRaceStage } from '../../../../../../lib/src/utility/data/common/raceStage';
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
+import {
+    RACE_TYPE_LIST_MECHANICAL_RACING,
+    RaceType,
+} from '../../../../../../lib/src/utility/raceType';
 
 /**
  * RaceStageクラスのテスト
@@ -44,11 +47,7 @@ describe('RaceStage', () => {
         });
 
         it('異常系', () => {
-            for (const raceType of [
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ]) {
+            for (const raceType of RACE_TYPE_LIST_MECHANICAL_RACING) {
                 expect(() =>
                     validateRaceStage(raceType, '不正なステージ'),
                 ).toThrow(`${raceType}の開催ステージではありません`);

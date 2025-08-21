@@ -9,7 +9,7 @@ import type { IPlaceDataService } from '../../../../lib/src/service/interface/IP
 import { PublicGamblingPlaceDataUseCase } from '../../../../lib/src/usecase/implement/publicGamblingPlaceDataUseCase';
 import type { IPlaceDataUseCase } from '../../../../lib/src/usecase/interface/IPlaceDataUseCase';
 import {
-    ALL_RACE_TYPE_LIST,
+    RACE_TYPE_LIST_ALL,
     RaceType,
 } from '../../../../lib/src/utility/raceType';
 import { basePlaceEntity } from '../../../unittest/src/mock/common/baseCommonData';
@@ -84,7 +84,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             const result = await useCase.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST,
+                RACE_TYPE_LIST_ALL,
             );
 
             expect(result).toEqual(mockPlaceEntity);
@@ -144,7 +144,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             await useCase.updatePlaceEntityList(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST,
+                RACE_TYPE_LIST_ALL,
             );
 
             expect(

@@ -12,14 +12,10 @@
  */
 
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
-import { RaceType } from '../../../../lib/src/utility/raceType';
+import { RACE_TYPE_LIST_MECHANICAL_RACING } from '../../../../lib/src/utility/raceType';
 
 describe('RacePlayerDataクラスのテスト', () => {
-    for (const raceType of [
-        RaceType.KEIRIN,
-        RaceType.AUTORACE,
-        RaceType.BOATRACE,
-    ]) {
+    for (const raceType of RACE_TYPE_LIST_MECHANICAL_RACING) {
         const validPositionNumber = 1;
         const invalidPositionNumber = 0;
         const validPlayerNumber = 10000;
