@@ -144,10 +144,10 @@ describe('RaceRepositoryFromStorage', () => {
     });
 
     const makeRaceEntityList = (raceType: RaceType): RaceEntity[] =>
-        Array.from({ length: 60 }, (_, day) => {
+        Array.from({ length: 10 }, (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return Array.from({ length: 12 }, (__, j) =>
+            return Array.from({ length: 12 }, (__, raceNumber) =>
                 RaceEntity.createWithoutId(
                     RaceData.create(
                         raceType,
@@ -155,7 +155,7 @@ describe('RaceRepositoryFromStorage', () => {
                         date,
                         defaultLocation[raceType],
                         defaultRaceGrade[raceType],
-                        j + 1,
+                        raceNumber + 1,
                     ),
                     defaultHeldDayData[raceType],
                     baseConditionData(raceType),

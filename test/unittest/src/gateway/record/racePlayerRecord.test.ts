@@ -22,7 +22,7 @@ import { RACE_TYPE_LIST_MECHANICAL_RACING } from '../../../../../lib/src/utility
 import { defaultLocation } from '../../mock/common/baseCommonData';
 
 describe('RacePlayerRecord', () => {
-    for (const raceType of RACE_TYPE_LIST_MECHANICAL_RACING) {
+    describe.each(RACE_TYPE_LIST_MECHANICAL_RACING)('%s', (raceType) => {
         const validDate = new Date('2026-01-01T00:00:00Z');
         const validLocation = defaultLocation[raceType];
         const validNumber = 1;
@@ -44,7 +44,6 @@ describe('RacePlayerRecord', () => {
             validPositionNumber,
         );
         it('正常値ですべて生成できる', () => {
-            console.log(validRacePlayerId);
             const record = RacePlayerRecord.create(
                 validRacePlayerId,
                 raceType,
@@ -94,7 +93,7 @@ describe('RacePlayerRecord', () => {
                     validRacePlayerId,
                     raceType,
                     validRaceId,
-                    99, // 不正値
+                    99,
                     validPlayerNumber,
                     validUpdateDate,
                 ),
@@ -108,7 +107,7 @@ describe('RacePlayerRecord', () => {
                     raceType,
                     validRaceId,
                     validPositionNumber,
-                    0, // 不正値
+                    0,
                     validUpdateDate,
                 ),
             ).toThrow();
@@ -182,5 +181,5 @@ describe('RacePlayerRecord', () => {
             const copied = base.copy({ updateDate: _date });
             expect(copied.updateDate).toEqual(_date);
         });
-    }
+    });
 });

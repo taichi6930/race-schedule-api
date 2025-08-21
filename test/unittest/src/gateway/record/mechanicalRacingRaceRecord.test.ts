@@ -26,7 +26,7 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('MechanicalRacingRaceRecord', () => {
-    for (const raceType of RACE_TYPE_LIST_MECHANICAL_RACING) {
+    describe.each(RACE_TYPE_LIST_MECHANICAL_RACING)('%s', (raceType) => {
         const validDate = new Date('2026-01-01T00:00:00Z');
         const validLocation = defaultLocation[raceType];
         const validNumber = 1;
@@ -231,5 +231,5 @@ describe('MechanicalRacingRaceRecord', () => {
                 expect(() => base.copy({ name: '' })).toThrow('RaceRecord');
             });
         });
-    }
+    });
 });

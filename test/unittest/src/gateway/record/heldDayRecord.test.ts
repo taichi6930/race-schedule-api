@@ -23,7 +23,7 @@ import { defaultLocation } from '../../mock/common/baseCommonData';
  */
 
 describe('heldDayRecord', () => {
-    for (const raceType of RACE_TYPE_LIST_ALL) {
+    describe.each(RACE_TYPE_LIST_ALL)('%s', (raceType) => {
         const validId = generatePlaceId(
             raceType,
             new Date('2024-12-22'),
@@ -187,5 +187,5 @@ describe('heldDayRecord', () => {
             );
             expect(() => base.copy({ heldDayTimes: -1 })).toThrow();
         });
-    }
+    });
 });

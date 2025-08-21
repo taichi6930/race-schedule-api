@@ -10,8 +10,8 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('PlaceEntityクラスのテスト', () => {
-    for (const raceType of RACE_TYPE_LIST_ALL) {
-        it(`正しい入力でPlaceEntityのインスタンスを作成できることを確認(${raceType})`, () => {
+    describe.each(RACE_TYPE_LIST_ALL)('%s', (raceType) => {
+        it(`正しい入力でPlaceEntityのインスタンスを作成できることを確認`, () => {
             expect(basePlaceEntity(raceType).placeData).toEqual(
                 basePlaceData(raceType),
             );
@@ -38,5 +38,5 @@ describe('PlaceEntityクラスのテスト', () => {
             const { placeData } = basePlaceEntity(raceType);
             expect(placeData).toEqual(basePlaceData(raceType));
         });
-    }
+    });
 });

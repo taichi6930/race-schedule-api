@@ -2,9 +2,8 @@ import { RACE_TYPE_LIST_ALL } from '../../../../../lib/src/utility/raceType';
 import { baseRaceData, baseRaceEntity } from '../../mock/common/baseCommonData';
 
 describe('RaceEntityクラスのテスト', () => {
-    for (const raceType of RACE_TYPE_LIST_ALL) {
+    describe.each(RACE_TYPE_LIST_ALL)('%s', (raceType) => {
         it('正しい入力でRaceEntityのインスタンスを作成できることを確認', () => {
-            // インスタンスのプロパティが正しいか確認
             expect(baseRaceEntity(raceType).raceData).toStrictEqual(
                 baseRaceData(raceType),
             );
@@ -19,5 +18,5 @@ describe('RaceEntityクラスのテスト', () => {
             const { raceData } = baseRaceEntity(raceType);
             expect(raceData).toEqual(baseRaceData(raceType));
         });
-    }
+    });
 });
