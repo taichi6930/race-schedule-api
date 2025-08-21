@@ -237,7 +237,7 @@ export class NarRaceRepositoryFromHtml implements IRaceRepository {
         successData: RaceEntity[];
         failureData: RaceEntity[];
     }> {
-        console.debug(raceEntityList);
+        console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
