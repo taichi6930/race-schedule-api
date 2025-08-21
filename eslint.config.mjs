@@ -180,6 +180,7 @@ export default [
             ], // ✅ ファイル名のケースをcamelCaseにする
             'unicorn/prevent-abbreviations': 'off', // ✅ 省略形の使用を許可
             'unicorn/prefer-module': 'off', // ✅ ECMAScriptモジュールの使用を許可（後で対応したい）
+            'unicorn/consistent-function-scoping': 'off', // ✅ 一貫した関数スコープを許可
 
             // 数字のセパレーターのスタイルは一長一短なので一旦オフ
             'unicorn/numeric-separators-style': 'off',

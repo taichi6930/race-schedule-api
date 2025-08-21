@@ -21,6 +21,7 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     defaultHeldDayData,
     defaultLocation,
+    defaultPlaceGrade,
 } from '../../mock/common/baseCommonData';
 
 describe('PlaceRepositoryFromStorage', () => {
@@ -108,18 +109,9 @@ describe('PlaceRepositoryFromStorage', () => {
                 PlaceEntity.createWithoutId(
                     PlaceData.create(raceType, date, location),
                     defaultHeldDayData[raceType],
-                    defaultGrade[raceType],
+                    defaultPlaceGrade[raceType],
                     getJSTDate(new Date()),
                 ),
             );
         }).flat();
-
-    const defaultGrade = {
-        [RaceType.JRA]: undefined,
-        [RaceType.NAR]: undefined,
-        [RaceType.OVERSEAS]: undefined,
-        [RaceType.KEIRIN]: 'GP',
-        [RaceType.AUTORACE]: 'SG',
-        [RaceType.BOATRACE]: 'SG',
-    };
 });
