@@ -159,6 +159,7 @@ export default [
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
+            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
             'unused-imports/no-unused-vars': [
                 'error',
                 {
@@ -199,10 +200,8 @@ export default [
             'jsdoc/require-returns': 'off',
         },
     },
-     {
-        files: [
-            '**/logger.ts',
-        ],
+    {
+        files: ['**/logger.ts'],
         rules: {
             '@typescript-eslint/no-unsafe-member-access': 'off', // ✅ any型のプロパティアクセスを許可
         },
@@ -220,7 +219,7 @@ export default [
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
             '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
             '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
-            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+            
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
         },
     },
@@ -253,18 +252,6 @@ export default [
         files: ['**/lib/src/utility/raceType.ts'],
         rules: {
             '@typescript-eslint/no-redeclare': 'off', // TypeScriptの再宣言を許可
-        },
-    },
-    {
-        files: ['**/lib/src/gateway/mock/mockS3Gateway.ts'],
-        rules: {
-            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
-        },
-    },
-    {
-        files: ['**/jest.config.js'],
-        rules: {
-            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
         },
     },
     {
