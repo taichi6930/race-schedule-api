@@ -15,6 +15,7 @@ import { RaceRepositoryFromStorage } from '../../../../../lib/src/repository/imp
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
+import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
@@ -33,8 +34,7 @@ describe('RaceRepositoryFromStorage', () => {
     let horseRacingRaceRepository: IRaceRepository;
     let mechanicalRacingRaceRepository: IRaceRepository;
 
-    // TODO: 環境変数によって、このテストのLISTを減らせるようにしたい
-    const raceTypeList = RACE_TYPE_LIST_ALL;
+    const raceTypeList = IS_SHORT_TEST ? [RaceType.JRA] : RACE_TYPE_LIST_ALL;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();

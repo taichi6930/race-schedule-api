@@ -92,3 +92,6 @@ const getEnv = (env: string | undefined): EnvType => {
  * 一度だけ評価され、以降は変更されません。
  */
 export const ENV = getEnv(process.env.ENV);
+
+// process.env.IS_SHORT_TEST === 'TRUE'かどうかの判定
+export const IS_SHORT_TEST = process.env.IS_SHORT_TEST === 'TRUE';
