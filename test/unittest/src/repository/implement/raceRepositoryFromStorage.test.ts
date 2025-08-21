@@ -33,6 +33,9 @@ describe('RaceRepositoryFromStorage', () => {
     let horseRacingRaceRepository: IRaceRepository;
     let mechanicalRacingRaceRepository: IRaceRepository;
 
+    // TODO: 環境変数によって、このテストのLISTを減らせるようにしたい
+    const raceTypeList = RACE_TYPE_LIST_ALL;
+
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
         ({ s3Gateway } = setup);
@@ -66,7 +69,7 @@ describe('RaceRepositoryFromStorage', () => {
             );
         });
 
-        test.each(RACE_TYPE_LIST_ALL)(
+        test.each(raceTypeList)(
             'レース開催データを正常に取得できる: %s',
             async (raceType) => {
                 const repository =
@@ -100,46 +103,43 @@ describe('RaceRepositoryFromStorage', () => {
                 'DBが空データのところに、正しいレース開催データを登録できる',
             ],
         ])('%s', (hasRegisterData: boolean, description: string) => {
-            test.each(RACE_TYPE_LIST_ALL)(
-                `${description}: %s`,
-                async (raceType) => {
-                    const raceEntityList: RaceEntity[] =
-                        makeRaceEntityList(raceType);
+            test.each(raceTypeList)(`${description}: %s`, async (raceType) => {
+                const raceEntityList: RaceEntity[] =
+                    makeRaceEntityList(raceType);
 
-                    if (hasRegisterData) {
-                        s3Gateway.fetchDataFromS3.mockResolvedValue(
-                            fs.readFileSync(
-                                path.resolve(
-                                    __dirname,
-                                    '../../mock/repository/csv',
-                                    raceType.toLowerCase(),
-                                    CSV_FILE_NAME.RACE_LIST,
-                                ),
-                                'utf8',
+                if (hasRegisterData) {
+                    s3Gateway.fetchDataFromS3.mockResolvedValue(
+                        fs.readFileSync(
+                            path.resolve(
+                                __dirname,
+                                '../../mock/repository/csv',
+                                raceType.toLowerCase(),
+                                CSV_FILE_NAME.RACE_LIST,
                             ),
-                        );
-                    }
+                            'utf8',
+                        ),
+                    );
+                }
 
-                    const repository =
-                        raceType === RaceType.JRA ||
+                const repository =
+                    raceType === RaceType.JRA ||
+                    raceType === RaceType.NAR ||
+                    raceType === RaceType.OVERSEAS
+                        ? horseRacingRaceRepository
+                        : mechanicalRacingRaceRepository;
+
+                await repository.registerRaceEntityList(
+                    raceType,
+                    raceEntityList,
+                );
+                expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
+                    raceType === RaceType.JRA ||
                         raceType === RaceType.NAR ||
                         raceType === RaceType.OVERSEAS
-                            ? horseRacingRaceRepository
-                            : mechanicalRacingRaceRepository;
-
-                    await repository.registerRaceEntityList(
-                        raceType,
-                        raceEntityList,
-                    );
-                    expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
-                        raceType === RaceType.JRA ||
-                            raceType === RaceType.NAR ||
-                            raceType === RaceType.OVERSEAS
-                            ? 1
-                            : 2,
-                    );
-                },
-            );
+                        ? 1
+                        : 2,
+                );
+            });
         });
     });
 
@@ -147,7 +147,7 @@ describe('RaceRepositoryFromStorage', () => {
         Array.from({ length: 10 }, (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return Array.from({ length: 12 }, (__, raceNumber) =>
+            return Array.from({ length: 6 }, (__, raceNumber) =>
                 RaceEntity.createWithoutId(
                     RaceData.create(
                         raceType,
