@@ -163,7 +163,6 @@ export default [
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
             '@typescript-eslint/no-use-before-define': 'off', // ✅ 変数や関数の使用前定義を禁止
-            '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内での関数定義を禁止
             'jsdoc/require-param-description': 'off', // テストファイルではパラメータの説明を任意に
             'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
             'jsdoc/require-file-overview': 'off', // テストファイルではファイル概要を任意に
