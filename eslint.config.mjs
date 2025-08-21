@@ -160,6 +160,7 @@ export default [
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+            '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
             'unused-imports/no-unused-vars': [
                 'error',
                 {
@@ -219,8 +220,6 @@ export default [
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
             '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
             '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
-            
-            '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
         },
     },
     {
@@ -266,15 +265,6 @@ export default [
         ],
         rules: {
             '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
-        },
-    },
-    {
-        files: [
-            '**/lib/src/utility/env.ts',
-            '**/lib/src/gateway/implement/s3Gateway.ts',
-        ],
-        rules: {
-            '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
         },
     },
     {
