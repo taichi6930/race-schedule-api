@@ -1,5 +1,5 @@
 import {
-    ALL_RACE_TYPE_LIST,
+    RACE_TYPE_LIST_ALL,
     RaceType,
 } from '../../../../../lib/src/utility/raceType';
 import {
@@ -10,7 +10,7 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('PlaceEntityクラスのテスト', () => {
-    for (const raceType of ALL_RACE_TYPE_LIST) {
+    for (const raceType of RACE_TYPE_LIST_ALL) {
         it(`正しい入力でPlaceEntityのインスタンスを作成できることを確認(${raceType})`, () => {
             expect(basePlaceEntity(raceType).placeData).toEqual(
                 basePlaceData(raceType),

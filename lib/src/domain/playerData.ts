@@ -1,5 +1,5 @@
 import { validatePlayerNumber } from '../utility/data/common/playerNumber';
-import type { RaceType } from '../utility/raceType';
+import { RaceType } from '../utility/raceType';
 
 /**
  * 選手情報
@@ -33,12 +33,29 @@ export class PlayerData {
         name: string,
         priority: number,
     ): PlayerData {
-        return new PlayerData(
-            raceType,
-            validatePlayerNumber(playerNumber),
-            name,
-            priority,
-        );
+        try {
+            if (
+                raceType !== RaceType.KEIRIN &&
+                raceType !== RaceType.AUTORACE &&
+                raceType !== RaceType.BOATRACE
+            ) {
+                throw new Error(
+                    `PlayerDataはKEIRIN, AUTORACE, BOATRACEのみ対応`,
+                );
+            }
+
+            return new PlayerData(
+                raceType,
+                validatePlayerNumber(playerNumber),
+                name,
+                priority,
+            );
+        } catch (error) {
+            console.error(error);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            throw new Error(`PlayerDataの生成に失敗しました: ${errorMessage}`);
+        }
     }
 
     /**

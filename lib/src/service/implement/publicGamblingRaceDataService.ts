@@ -6,7 +6,7 @@ import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilter
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { ALL_RACE_TYPE_LIST, RaceType } from '../../utility/raceType';
+import { RACE_TYPE_LIST_ALL, RaceType } from '../../utility/raceType';
 import { IRaceDataService } from '../interface/IRaceDataService';
 
 /**
@@ -80,7 +80,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         };
 
         try {
-            for (const raceType of ALL_RACE_TYPE_LIST) {
+            for (const raceType of RACE_TYPE_LIST_ALL) {
                 if (raceTypeList.includes(raceType)) {
                     const searchFilter = new SearchRaceFilterEntity(
                         startDate,
@@ -135,7 +135,7 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
 
         try {
             const response = await Promise.all(
-                ALL_RACE_TYPE_LIST.map(async (raceType) =>
+                RACE_TYPE_LIST_ALL.map(async (raceType) =>
                     this.saveRaceEntityList(
                         raceRepositoryFromStorage[raceType],
                         raceType,

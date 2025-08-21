@@ -10,14 +10,10 @@
  * |6 |有効    |有効             |有効         |有効   |{ playerNumber: undefined }               |playerNumberは元値維持   |copyでplayerNumber: undefined      |
  */
 import { PlayerData } from '../../../../lib/src/domain/playerData';
-import { RaceType } from '../../../../lib/src/utility/raceType';
+import { RACE_TYPE_LIST_MECHANICAL_RACING } from '../../../../lib/src/utility/raceType';
 
 describe('PlayerDataクラスのテスト', () => {
-    for (const raceType of [
-        RaceType.KEIRIN,
-        RaceType.AUTORACE,
-        RaceType.BOATRACE,
-    ]) {
+    for (const raceType of RACE_TYPE_LIST_MECHANICAL_RACING) {
         const validPlayerNumber = 10000;
         const invalidPlayerNumber = 0;
         const validName = 'テスト選手';

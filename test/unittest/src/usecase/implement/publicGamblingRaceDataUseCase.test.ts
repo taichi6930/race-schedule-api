@@ -7,8 +7,8 @@ import type { IRaceDataService } from '../../../../../lib/src/service/interface/
 import { PublicGamblingRaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingRaceDataUseCase';
 import type { IRaceDataUseCase } from '../../../../../lib/src/usecase/interface/IRaceDataUseCase';
 import {
-    ALL_RACE_TYPE_LIST,
-    ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+    RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RaceType,
 } from '../../../../../lib/src/utility/raceType';
 import {
@@ -38,11 +38,11 @@ describe('PublicGamblingRaceDataUseCase', () => {
         jest.restoreAllMocks();
     });
 
-    const mockPlaceEntityList = ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
+    const mockPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
         (raceType) => basePlaceEntity(raceType),
     );
 
-    const mockRaceEntityList = ALL_RACE_TYPE_LIST.flatMap((raceType) =>
+    const mockRaceEntityList = RACE_TYPE_LIST_ALL.flatMap((raceType) =>
         baseRaceEntityList(raceType),
     );
 
@@ -523,7 +523,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             await useCase.updateRaceEntityList(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST,
+                RACE_TYPE_LIST_ALL,
             );
 
             expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
@@ -545,7 +545,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             await useCase.updateRaceEntityList(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+                RACE_TYPE_LIST_WITHOUT_OVERSEAS,
             );
 
             expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();

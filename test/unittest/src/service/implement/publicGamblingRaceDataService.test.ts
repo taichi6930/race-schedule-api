@@ -8,7 +8,9 @@ import { PublicGamblingRaceDataService } from '../../../../../lib/src/service/im
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
 import {
-    ALL_RACE_TYPE_LIST,
+    RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_HORSE_RACING,
+    RACE_TYPE_LIST_MECHANICAL_RACING,
     RaceType,
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
@@ -26,7 +28,7 @@ describe('PublicGamblingRaceDataService', () => {
     let autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     let service: IRaceDataService;
 
-    const mockRaceEntityList = ALL_RACE_TYPE_LIST.flatMap((raceType) =>
+    const mockRaceEntityList = RACE_TYPE_LIST_ALL.flatMap((raceType) =>
         baseRaceEntityList(raceType),
     );
 
@@ -92,7 +94,7 @@ describe('PublicGamblingRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST,
+                RACE_TYPE_LIST_ALL,
                 DataLocation.Storage,
             );
             expect(result).toEqual(mockRaceEntityList);
@@ -125,7 +127,7 @@ describe('PublicGamblingRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST,
+                RACE_TYPE_LIST_ALL,
                 DataLocation.Web,
             );
 
@@ -148,7 +150,7 @@ describe('PublicGamblingRaceDataService', () => {
             await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                ALL_RACE_TYPE_LIST,
+                RACE_TYPE_LIST_ALL,
                 DataLocation.Storage,
             );
 
@@ -238,21 +240,13 @@ describe('PublicGamblingRaceDataService', () => {
 
             await service.updateRaceEntityList(mockRaceEntityList);
 
-            for (const raceType of [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.OVERSEAS,
-            ]) {
+            for (const raceType of RACE_TYPE_LIST_HORSE_RACING) {
                 expect(
                     raceRepositoryFromStorage.registerRaceEntityList,
                 ).toHaveBeenCalledWith(raceType, baseRaceEntityList(raceType));
             }
 
-            for (const raceType of [
-                RaceType.KEIRIN,
-                RaceType.BOATRACE,
-                RaceType.AUTORACE,
-            ]) {
+            for (const raceType of RACE_TYPE_LIST_MECHANICAL_RACING) {
                 expect(
                     mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList,
                 ).toHaveBeenCalledWith(raceType, baseRaceEntityList(raceType));

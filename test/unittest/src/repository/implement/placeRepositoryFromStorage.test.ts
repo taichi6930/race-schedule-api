@@ -5,7 +5,6 @@ import path from 'node:path';
 
 import { container } from 'tsyringe';
 
-import { HeldDayData } from '../../../../../lib/src/domain/heldDayData';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
@@ -13,12 +12,18 @@ import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entit
 import { PlaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
+import type { RaceType } from '../../../../../lib/src/utility/raceType';
 import {
-    ALL_RACE_TYPE_LIST,
-    RaceType,
+    RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
+import {
+    defaultHeldDayData,
+    defaultLocation,
+    defaultPlaceGrade,
+} from '../../mock/common/baseCommonData';
 
 describe('PlaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
@@ -52,13 +57,7 @@ describe('PlaceRepositoryFromStorage', () => {
             );
 
             // テスト実行
-            for (const raceType of [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ]) {
+            for (const raceType of RACE_TYPE_LIST_WITHOUT_OVERSEAS) {
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
                         new Date('2024-01-01'),
@@ -75,7 +74,7 @@ describe('PlaceRepositoryFromStorage', () => {
 
     describe('registerPlaceList', () => {
         test('正しい開催場データを登録できる', async () => {
-            for (const raceType of ALL_RACE_TYPE_LIST) {
+            for (const raceType of RACE_TYPE_LIST_ALL) {
                 const _placeEntityList = placeEntityList(raceType);
                 // テスト実行
                 await expect(
@@ -105,36 +104,9 @@ describe('PlaceRepositoryFromStorage', () => {
                 PlaceEntity.createWithoutId(
                     PlaceData.create(raceType, date, location),
                     defaultHeldDayData[raceType],
-                    defaultGrade[raceType],
+                    defaultPlaceGrade[raceType],
                     getJSTDate(new Date()),
                 ),
             );
         }).flat();
-
-    const defaultHeldDayData = {
-        [RaceType.JRA]: HeldDayData.create(1, 1),
-        [RaceType.NAR]: undefined,
-        [RaceType.OVERSEAS]: undefined,
-        [RaceType.KEIRIN]: undefined,
-        [RaceType.AUTORACE]: undefined,
-        [RaceType.BOATRACE]: undefined,
-    };
-
-    const defaultLocation = {
-        [RaceType.JRA]: '東京',
-        [RaceType.NAR]: '大井',
-        [RaceType.OVERSEAS]: 'パリロンシャン',
-        [RaceType.KEIRIN]: '平塚',
-        [RaceType.AUTORACE]: '川口',
-        [RaceType.BOATRACE]: '浜名湖',
-    };
-
-    const defaultGrade = {
-        [RaceType.JRA]: undefined,
-        [RaceType.NAR]: undefined,
-        [RaceType.OVERSEAS]: undefined,
-        [RaceType.KEIRIN]: 'GP',
-        [RaceType.AUTORACE]: 'SG',
-        [RaceType.BOATRACE]: 'SG',
-    };
 });

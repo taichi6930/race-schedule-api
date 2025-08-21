@@ -5,7 +5,11 @@ import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilt
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { ALL_RACE_TYPE_LIST, RaceType } from '../../utility/raceType';
+import {
+    RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+    RaceType,
+} from '../../utility/raceType';
 import { IPlaceDataService } from '../interface/IPlaceDataService';
 
 /**
@@ -64,13 +68,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         };
 
         try {
-            for (const raceType of [
-                RaceType.JRA,
-                RaceType.NAR,
-                RaceType.KEIRIN,
-                RaceType.AUTORACE,
-                RaceType.BOATRACE,
-            ]) {
+            for (const raceType of RACE_TYPE_LIST_WITHOUT_OVERSEAS) {
                 if (!raceTypeList.includes(raceType)) continue;
 
                 const placeEntityList: PlaceEntity[] = await (
@@ -119,7 +117,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
             };
         try {
             const responseList = await Promise.all(
-                ALL_RACE_TYPE_LIST.map(async (raceType) =>
+                RACE_TYPE_LIST_ALL.map(async (raceType) =>
                     this.placeRepositoryFromStorage.registerPlaceEntityList(
                         raceType,
                         placeEntityList.filter(

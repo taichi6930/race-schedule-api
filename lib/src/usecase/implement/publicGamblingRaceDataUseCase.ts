@@ -9,8 +9,8 @@ import { RaceStage } from '../../utility/data/common/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import {
-    ALL_RACE_TYPE_LIST,
-    ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+    RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RaceType,
 } from '../../utility/raceType';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
@@ -89,7 +89,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         );
 
         // 共通フィルタ関数で簡潔に
-        return ALL_RACE_TYPE_LIST.flatMap((raceType) =>
+        return RACE_TYPE_LIST_ALL.flatMap((raceType) =>
             this.filterRaceEntityList(
                 raceEntityList.filter(
                     (raceEntity) => raceEntity.raceData.raceType === raceType,
@@ -151,15 +151,15 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
                 DataLocation.Storage,
             );
 
-        const filteredPlaceEntityList =
-            ALL_RACE_TYPE_LIST_WITHOUT_OVERSEAS.flatMap((raceType) =>
+        const filteredPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.flatMap(
+            (raceType) =>
                 this.filterPlaceEntityList(
                     placeEntityList.filter(
                         (item) => item.placeData.raceType === raceType,
                     ),
                     searchList?.[raceType],
                 ),
-            );
+        );
 
         // placeEntityListが空の場合は処理を終了する
         if (

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { RaceType } from '../../raceType';
+import { RACE_TYPE_LIST_ALL, RaceType } from '../../raceType';
 
 /**
  * RaceCourseのマスターデータ
@@ -297,14 +297,9 @@ export const validateRaceCourse = (
 /**
  * RaceCourseのzod型定義
  */
-export const UnionRaceCourseSchema = z.union([
-    createRaceCourseSchema(RaceType.JRA),
-    createRaceCourseSchema(RaceType.NAR),
-    createRaceCourseSchema(RaceType.OVERSEAS),
-    createRaceCourseSchema(RaceType.KEIRIN),
-    createRaceCourseSchema(RaceType.AUTORACE),
-    createRaceCourseSchema(RaceType.BOATRACE),
-]);
+export const UnionRaceCourseSchema = z.union(
+    RACE_TYPE_LIST_ALL.map((raceType) => createRaceCourseSchema(raceType)),
+);
 
 /**
  * RaceCourseの型定義

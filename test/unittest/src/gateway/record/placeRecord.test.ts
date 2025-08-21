@@ -16,14 +16,14 @@
 
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
-import { ALL_RACE_TYPE_LIST } from '../../../../../lib/src/utility/raceType';
+import { RACE_TYPE_LIST_ALL } from '../../../../../lib/src/utility/raceType';
 import {
     basePlaceRecord,
     defaultLocation,
 } from '../../mock/common/baseCommonData';
 
 describe('PlaceRecord', () => {
-    for (const raceType of ALL_RACE_TYPE_LIST) {
+    for (const raceType of RACE_TYPE_LIST_ALL) {
         const validDate = new Date('2024-12-29');
         const validLocation = defaultLocation[raceType];
         const validPlaceId = generatePlaceId(

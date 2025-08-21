@@ -1,4 +1,7 @@
-import { HeldDayData } from '../../domain/heldDayData';
+import {
+    defaultHeldDayData,
+    defaultLocation,
+} from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -24,9 +27,9 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
                 PlaceData.create(
                     searchFilter.raceType,
                     new Date(currentDate),
-                    this.defaultLocation[searchFilter.raceType],
+                    defaultLocation[searchFilter.raceType],
                 ),
-                this.defaultHeldDayData[searchFilter.raceType],
+                defaultHeldDayData[searchFilter.raceType],
                 this.defaultGrade[searchFilter.raceType],
                 getJSTDate(new Date()),
             );
@@ -57,24 +60,6 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('HTMLにはデータを登録出来ません');
     }
-
-    private readonly defaultLocation = {
-        [RaceType.JRA]: '東京',
-        [RaceType.NAR]: '大井',
-        [RaceType.OVERSEAS]: 'パリロンシャン',
-        [RaceType.KEIRIN]: '平塚',
-        [RaceType.AUTORACE]: '川口',
-        [RaceType.BOATRACE]: '浜名湖',
-    };
-
-    private readonly defaultHeldDayData = {
-        [RaceType.JRA]: HeldDayData.create(1, 1),
-        [RaceType.NAR]: undefined,
-        [RaceType.OVERSEAS]: undefined,
-        [RaceType.KEIRIN]: undefined,
-        [RaceType.AUTORACE]: undefined,
-        [RaceType.BOATRACE]: undefined,
-    };
 
     private readonly defaultGrade = {
         [RaceType.JRA]: undefined,

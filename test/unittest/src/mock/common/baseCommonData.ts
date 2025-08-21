@@ -406,7 +406,7 @@ export const defaultRaceName = {
 };
 
 export const defaultHeldDayData = {
-    [RaceType.JRA]: HeldDayData.create(5, 8),
+    [RaceType.JRA]: HeldDayData.create(1, 1),
     [RaceType.NAR]: undefined,
     [RaceType.OVERSEAS]: undefined,
     [RaceType.KEIRIN]: undefined,

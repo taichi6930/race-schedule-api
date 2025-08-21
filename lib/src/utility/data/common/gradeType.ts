@@ -1,7 +1,7 @@
 import type { ZodString } from 'zod';
 import { z } from 'zod';
 
-import { RaceType } from '../../raceType';
+import { RACE_TYPE_LIST_ALL, RaceType } from '../../raceType';
 
 /**
  * グレードのマスターリスト
@@ -251,14 +251,9 @@ export const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (
 /**
  * GradeTypeのzod型定義
  */
-export const GradeTypeSchema = z.union([
-    createGradeSchema(RaceType.JRA),
-    createGradeSchema(RaceType.NAR),
-    createGradeSchema(RaceType.OVERSEAS),
-    createGradeSchema(RaceType.KEIRIN),
-    createGradeSchema(RaceType.AUTORACE),
-    createGradeSchema(RaceType.BOATRACE),
-]);
+export const GradeTypeSchema = z.union(
+    RACE_TYPE_LIST_ALL.map((raceType) => createGradeSchema(raceType)),
+);
 
 /**
  * GradeTypeの型定義

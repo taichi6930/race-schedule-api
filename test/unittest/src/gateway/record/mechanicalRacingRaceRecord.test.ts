@@ -19,18 +19,14 @@
  */
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { RACE_TYPE_LIST_MECHANICAL_RACING } from '../../../../../lib/src/utility/raceType';
 import {
     defaultLocation,
     defaultStage,
 } from '../../mock/common/baseCommonData';
 
 describe('MechanicalRacingRaceRecord', () => {
-    for (const raceType of [
-        RaceType.KEIRIN,
-        RaceType.AUTORACE,
-        RaceType.BOATRACE,
-    ]) {
+    for (const raceType of RACE_TYPE_LIST_MECHANICAL_RACING) {
         const validDate = new Date('2026-01-01T00:00:00Z');
         const validLocation = defaultLocation[raceType];
         const validNumber = 1;

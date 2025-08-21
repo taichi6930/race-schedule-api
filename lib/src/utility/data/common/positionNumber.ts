@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { RaceType } from '../../raceType';
+import { RACE_TYPE_LIST_MECHANICAL_RACING, RaceType } from '../../raceType';
 
 /**
  * 枠順の最高値を取得します。
@@ -54,11 +54,11 @@ const PositionNumberSchema: (raceType: RaceType) => z.ZodNumber = (
 /**
  * 共通のPositionNumber zod型定義
  */
-export const CommonPositionNumberSchema = z.union([
-    PositionNumberSchema(RaceType.KEIRIN),
-    PositionNumberSchema(RaceType.AUTORACE),
-    PositionNumberSchema(RaceType.BOATRACE),
-]);
+export const CommonPositionNumberSchema = z.union(
+    RACE_TYPE_LIST_MECHANICAL_RACING.map((raceType) =>
+        PositionNumberSchema(raceType),
+    ),
+);
 
 /**
  * 共通のPositionNumber型定義
