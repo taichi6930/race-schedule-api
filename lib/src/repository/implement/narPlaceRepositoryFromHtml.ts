@@ -17,9 +17,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
  * Narデータリポジトリの実装
  */
 @injectable()
-export class NarPlaceRepositoryFromHtml
-    implements IPlaceRepository<PlaceEntity>
-{
+export class NarPlaceRepositoryFromHtml implements IPlaceRepository {
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,

@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import { IRaceEntity } from '../../repository/entity/iRaceEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
@@ -18,45 +17,21 @@ import { IRaceDataService } from '../interface/IRaceDataService';
 export class PublicGamblingRaceDataService implements IRaceDataService {
     public constructor(
         @inject('RaceRepositoryFromStorage')
-        protected horseRacingRaceRepositoryFromStorage: IRaceRepository<
-            RaceEntity,
-            PlaceEntity
-        >,
+        protected horseRacingRaceRepositoryFromStorage: IRaceRepository<RaceEntity>,
         @inject('JraRaceRepositoryFromHtml')
-        protected jraRaceRepositoryFromHtml: IRaceRepository<
-            RaceEntity,
-            PlaceEntity
-        >,
+        protected jraRaceRepositoryFromHtml: IRaceRepository<RaceEntity>,
         @inject('NarRaceRepositoryFromHtml')
-        protected narRaceRepositoryFromHtml: IRaceRepository<
-            RaceEntity,
-            PlaceEntity
-        >,
+        protected narRaceRepositoryFromHtml: IRaceRepository<RaceEntity>,
         @inject('OverseasRaceRepositoryFromHtml')
-        protected overseasRaceRepositoryFromHtml: IRaceRepository<
-            RaceEntity,
-            PlaceEntity
-        >,
+        protected overseasRaceRepositoryFromHtml: IRaceRepository<RaceEntity>,
         @inject('KeirinRaceRepositoryFromHtml')
-        protected keirinRaceRepositoryFromHtml: IRaceRepository<
-            RaceEntity,
-            PlaceEntity
-        >,
+        protected keirinRaceRepositoryFromHtml: IRaceRepository<RaceEntity>,
         @inject('AutoraceRaceRepositoryFromHtml')
-        protected autoraceRaceRepositoryFromHtml: IRaceRepository<
-            RaceEntity,
-            PlaceEntity
-        >,
+        protected autoraceRaceRepositoryFromHtml: IRaceRepository<RaceEntity>,
         @inject('BoatraceRaceRepositoryFromHtml')
-        protected boatraceRaceRepositoryFromHtml: IRaceRepository<
-            RaceEntity,
-            PlaceEntity
-        >,
+        protected boatraceRaceRepositoryFromHtml: IRaceRepository<RaceEntity>,
         @inject('MechanicalRacingRaceRepositoryFromStorage')
-        protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepository<
-            RaceEntity,
-            PlaceEntity
-        >,
+        protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepository<RaceEntity>,
     ) {}
 
     /**
@@ -108,16 +83,15 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         try {
             for (const raceType of ALL_RACE_TYPE_LIST) {
                 if (raceTypeList.includes(raceType)) {
-                    const searchFilter =
-                        new SearchRaceFilterEntity<PlaceEntity>(
-                            startDate,
-                            finishDate,
-                            raceType,
-                            placeEntityList?.filter(
-                                (placeEntity) =>
-                                    placeEntity.placeData.raceType === raceType,
-                            ) ?? [],
-                        );
+                    const searchFilter = new SearchRaceFilterEntity(
+                        startDate,
+                        finishDate,
+                        raceType,
+                        placeEntityList?.filter(
+                            (placeEntity) =>
+                                placeEntity.placeData.raceType === raceType,
+                        ) ?? [],
+                    );
                     const raceEntityList =
                         await this.fetchRaceEntityListFromRepository(
                             type === DataLocation.Storage
@@ -200,11 +174,8 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * @param raceType
      * @param entityList
      */
-    private async saveRaceEntityList<
-        TRace extends IRaceEntity<TRace>,
-        TPlace extends IPlaceEntity<TPlace>,
-    >(
-        repository: IRaceRepository<TRace, TPlace>,
+    private async saveRaceEntityList<TRace extends IRaceEntity<TRace>>(
+        repository: IRaceRepository<TRace>,
         raceType: RaceType,
         entityList?: TRace[],
     ): Promise<{
@@ -239,11 +210,10 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
      * @param searchFilter
      */
     private async fetchRaceEntityListFromRepository<
-        TPlace extends IPlaceEntity<TPlace>,
         TRace extends IRaceEntity<TRace>,
     >(
-        repository: IRaceRepository<TRace, TPlace>,
-        searchFilter: SearchRaceFilterEntity<TPlace>,
+        repository: IRaceRepository<TRace>,
+        searchFilter: SearchRaceFilterEntity,
     ): Promise<TRace[]> {
         return repository.fetchRaceEntityList(searchFilter);
     }

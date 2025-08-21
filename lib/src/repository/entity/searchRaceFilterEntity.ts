@@ -1,11 +1,11 @@
 import type { RaceType } from '../../utility/raceType';
-import type { IPlaceEntity } from './iPlaceEntity';
+import type { PlaceEntity } from './placeEntity';
 
-export class SearchRaceFilterEntity<P extends IPlaceEntity<P>> {
+export class SearchRaceFilterEntity {
     public constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,
         public readonly raceType: RaceType,
-        public readonly placeEntityList: P[],
+        public readonly placeEntityList: PlaceEntity[],
     ) {}
 }

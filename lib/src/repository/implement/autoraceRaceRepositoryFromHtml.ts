@@ -21,7 +21,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class AutoraceRaceRepositoryFromHtml
-    implements IRaceRepository<RaceEntity, PlaceEntity>
+    implements IRaceRepository<RaceEntity>
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
@@ -34,7 +34,7 @@ export class AutoraceRaceRepositoryFromHtml
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
+        searchFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         const raceDataList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;

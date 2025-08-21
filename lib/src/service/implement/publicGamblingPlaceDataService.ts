@@ -15,17 +15,17 @@ import { IPlaceDataService } from '../interface/IPlaceDataService';
 export class PublicGamblingPlaceDataService implements IPlaceDataService {
     public constructor(
         @inject('PlaceRepositoryFromStorage')
-        protected placeRepositoryFromStorage: IPlaceRepository<PlaceEntity>,
+        protected placeRepositoryFromStorage: IPlaceRepository,
         @inject('JraPlaceRepositoryFromHtml')
-        protected jraPlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
+        protected jraPlaceRepositoryFromHtml: IPlaceRepository,
         @inject('NarPlaceRepositoryFromHtml')
-        protected narPlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
+        protected narPlaceRepositoryFromHtml: IPlaceRepository,
         @inject('KeirinPlaceRepositoryFromHtml')
-        protected keirinPlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
+        protected keirinPlaceRepositoryFromHtml: IPlaceRepository,
         @inject('AutoracePlaceRepositoryFromHtml')
-        protected autoracePlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
+        protected autoracePlaceRepositoryFromHtml: IPlaceRepository,
         @inject('BoatracePlaceRepositoryFromHtml')
-        protected boatracePlaceRepositoryFromHtml: IPlaceRepository<PlaceEntity>,
+        protected boatracePlaceRepositoryFromHtml: IPlaceRepository,
     ) {}
 
     /**

@@ -4,13 +4,12 @@ import { container } from 'tsyringe';
 
 import type { IPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
-import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { AutoracePlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtml';
 import { BoatracePlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtml';
 import { JraPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtml';
-import { KeirinPlaceRepositoryFromHtml as KeirinPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtml';
-import { NarPlaceRepositoryFromHtml as NarPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/narPlaceRepositoryFromHtml';
+import { KeirinPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtml';
+import { NarPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/narPlaceRepositoryFromHtml';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -71,7 +70,7 @@ for (const {
 } of testCases) {
     describe(name, () => {
         let placeDataHtmlGateway: IPlaceDataHtmlGateway;
-        let repository: IPlaceRepository<PlaceEntity>;
+        let repository: IPlaceRepository;
 
         beforeEach(() => {
             placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
@@ -79,10 +78,7 @@ for (const {
                 'PlaceDataHtmlGateway',
                 placeDataHtmlGateway,
             );
-            repository =
-                container.resolve<IPlaceRepository<PlaceEntity>>(
-                    repositoryClass,
-                );
+            repository = container.resolve<IPlaceRepository>(repositoryClass);
         });
 
         afterEach(() => {

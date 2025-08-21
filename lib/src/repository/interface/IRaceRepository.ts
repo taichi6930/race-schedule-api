@@ -1,5 +1,4 @@
 import type { RaceType } from '../../utility/raceType';
-import type { IPlaceEntity } from '../entity/iPlaceEntity';
 import type { IRaceEntity } from '../entity/iRaceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 
@@ -30,10 +29,7 @@ import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
  * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
  *               例：PlaceEntity, NarPlaceEntity など
  */
-export interface IRaceRepository<
-    R extends IRaceEntity<R>,
-    P extends IPlaceEntity<P>,
-> {
+export interface IRaceRepository<R extends IRaceEntity<R>> {
     /**
      * 指定された検索条件に基づいてレース開催データを取得します
      *
@@ -50,9 +46,7 @@ export interface IRaceRepository<
      * @returns レース開催エンティティの配列。該当データがない場合は空配列
      * @throws Error データの取得に失敗した場合
      */
-    fetchRaceEntityList: (
-        searchFilter: SearchRaceFilterEntity<P>,
-    ) => Promise<R[]>;
+    fetchRaceEntityList: (searchFilter: SearchRaceFilterEntity) => Promise<R[]>;
     /**
      * レース開催データを一括で登録/更新します
      *

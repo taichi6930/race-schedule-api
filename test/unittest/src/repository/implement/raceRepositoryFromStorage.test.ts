@@ -8,7 +8,6 @@ import { container } from 'tsyringe';
 
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
-import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
@@ -30,11 +29,8 @@ import {
 
 describe('RaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let horseRacingRaceRepository: IRaceRepository<RaceEntity, PlaceEntity>;
-    let mechanicalRacingRaceRepository: IRaceRepository<
-        RaceEntity,
-        PlaceEntity
-    >;
+    let horseRacingRaceRepository: IRaceRepository<RaceEntity>;
+    let mechanicalRacingRaceRepository: IRaceRepository<RaceEntity>;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -76,7 +72,7 @@ describe('RaceRepositoryFromStorage', () => {
             ]) {
                 const raceEntityList =
                     await horseRacingRaceRepository.fetchRaceEntityList(
-                        new SearchRaceFilterEntity<PlaceEntity>(
+                        new SearchRaceFilterEntity(
                             new Date('2024-01-01'),
                             new Date('2024-02-01'),
                             raceType,
@@ -96,7 +92,7 @@ describe('RaceRepositoryFromStorage', () => {
             ]) {
                 const raceEntityList =
                     await mechanicalRacingRaceRepository.fetchRaceEntityList(
-                        new SearchRaceFilterEntity<PlaceEntity>(
+                        new SearchRaceFilterEntity(
                             new Date('2024-01-01'),
                             new Date('2024-02-01'),
                             raceType,

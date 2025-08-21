@@ -9,12 +9,11 @@ import {
 } from '../../utility/data/common/placeId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import type { IPlaceEntity } from './iPlaceEntity';
 
 /**
  * Repository層のEntity 競馬のレース開催場所データ
  */
-export class PlaceEntity implements IPlaceEntity<PlaceEntity> {
+export class PlaceEntity {
     /**
      * コンストラクタ
      * @param id - ID

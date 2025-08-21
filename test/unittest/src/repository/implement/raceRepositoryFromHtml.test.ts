@@ -135,7 +135,7 @@ for (const {
 } of testCases) {
     describe(name, () => {
         let raceDataHtmlGateway: IRaceDataHtmlGateway;
-        let repository: IRaceRepository<RaceEntity, PlaceEntity>;
+        let repository: IRaceRepository<RaceEntity>;
 
         beforeEach(() => {
             raceDataHtmlGateway = new MockRaceDataHtmlGateway();
@@ -144,9 +144,7 @@ for (const {
                 raceDataHtmlGateway,
             );
             repository =
-                container.resolve<IRaceRepository<RaceEntity, PlaceEntity>>(
-                    repositoryClass,
-                );
+                container.resolve<IRaceRepository<RaceEntity>>(repositoryClass);
         });
 
         afterEach(() => {
@@ -159,7 +157,7 @@ for (const {
                 [allowedEnvs.githubActionsCi],
                 async () => {
                     const raceEntityList = await repository.fetchRaceEntityList(
-                        new SearchRaceFilterEntity<PlaceEntity>(
+                        new SearchRaceFilterEntity(
                             startDate,
                             endDate,
                             raceType,

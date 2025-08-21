@@ -17,9 +17,7 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
-export class PlaceRepositoryFromStorage
-    implements IPlaceRepository<PlaceEntity>
-{
+export class PlaceRepositoryFromStorage implements IPlaceRepository {
     // S3にアップロードするファイル名
     private readonly placeFileName = CSV_FILE_NAME.PLACE_LIST;
     private readonly heldDayFileName = CSV_FILE_NAME.HELD_DAY_LIST;

@@ -22,9 +22,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  * 競馬場開催データリポジトリの実装
  */
 @injectable()
-export class NarRaceRepositoryFromHtml
-    implements IRaceRepository<RaceEntity, PlaceEntity>
-{
+export class NarRaceRepositoryFromHtml implements IRaceRepository<RaceEntity> {
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
@@ -36,7 +34,7 @@ export class NarRaceRepositoryFromHtml
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity<PlaceEntity>,
+        searchFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         const raceEntityList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;

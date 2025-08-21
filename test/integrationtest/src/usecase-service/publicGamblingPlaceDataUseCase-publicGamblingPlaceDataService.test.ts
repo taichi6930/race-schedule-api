@@ -18,18 +18,12 @@ import { setupTestMock } from '../../../utility/testSetupHelper';
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 
 describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => {
-    let placeRepositoryFromStorage: jest.Mocked<IPlaceRepository<PlaceEntity>>;
-    let jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository<PlaceEntity>>;
-    let narPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository<PlaceEntity>>;
-    let keirinPlaceRepositoryFromHtml: jest.Mocked<
-        IPlaceRepository<PlaceEntity>
-    >;
-    let boatracePlaceRepositoryFromHtml: jest.Mocked<
-        IPlaceRepository<PlaceEntity>
-    >;
-    let autoracePlaceRepositoryFromHtml: jest.Mocked<
-        IPlaceRepository<PlaceEntity>
-    >;
+    let placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
+    let jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    let narPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    let keirinPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    let boatracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    let autoracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     let service: IPlaceDataService;
     let useCase: IPlaceDataUseCase;
 

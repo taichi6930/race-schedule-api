@@ -2,7 +2,6 @@ import './repositoryFromHtmlConfig';
 
 import { container } from 'tsyringe';
 
-import type { PlaceEntity } from '../../src/repository/entity/placeEntity';
 import type { RaceEntity } from '../../src/repository/entity/raceEntity';
 import { GoogleCalendarRepository } from '../../src/repository/implement/googleCalendarRepository';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
@@ -22,17 +21,15 @@ container.register<ICalendarRepository>('CalendarRepository', {
     useClass: GoogleCalendarRepository,
 });
 
-container.register<IPlaceRepository<PlaceEntity>>(
-    'PlaceRepositoryFromStorage',
-    { useClass: PlaceRepositoryFromStorage },
-);
+container.register<IPlaceRepository>('PlaceRepositoryFromStorage', {
+    useClass: PlaceRepositoryFromStorage,
+});
 
-container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
-    'RaceRepositoryFromStorage',
-    { useClass: RaceRepositoryFromStorage },
-);
+container.register<IRaceRepository<RaceEntity>>('RaceRepositoryFromStorage', {
+    useClass: RaceRepositoryFromStorage,
+});
 
-container.register<IRaceRepository<RaceEntity, PlaceEntity>>(
+container.register<IRaceRepository<RaceEntity>>(
     'MechanicalRacingRaceRepositoryFromStorage',
     { useClass: MechanicalRacingRaceRepositoryFromStorage },
 );

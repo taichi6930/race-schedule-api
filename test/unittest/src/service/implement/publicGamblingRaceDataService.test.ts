@@ -2,7 +2,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
@@ -18,29 +17,21 @@ import { setupTestMock } from '../../../../utility/testSetupHelper';
 import { baseRaceEntityList } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataService', () => {
-    let raceRepositoryFromStorage: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
-    let jraRaceRepositoryFromHtml: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
-    let narRaceRepositoryFromHtml: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
+    let raceRepositoryFromStorage: jest.Mocked<IRaceRepository<RaceEntity>>;
+    let jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository<RaceEntity>>;
+    let narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository<RaceEntity>>;
     let overseasRaceRepositoryFromHtml: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity>
     >;
     let mechanicalRacingRaceRepositoryFromStorage: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity>
     >;
-    let keirinRaceRepositoryFromHtml: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
-    >;
+    let keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepository<RaceEntity>>;
     let boatraceRaceRepositoryFromHtml: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity>
     >;
     let autoraceRaceRepositoryFromHtml: jest.Mocked<
-        IRaceRepository<RaceEntity, PlaceEntity>
+        IRaceRepository<RaceEntity>
     >;
     let service: IRaceDataService;
 
