@@ -159,7 +159,6 @@ export default [
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
-            
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
             '@typescript-eslint/no-use-before-define': 'off', // ✅ 変数や関数の使用前定義を禁止
             'jsdoc/require-param-description': 'off', // テストファイルではパラメータの説明を任意に
@@ -225,7 +224,7 @@ export default [
         },
     },
      {
-        files: ['**/publicGamblingController.ts', '**/*s3Gateway.ts'],
+        files: ['**/publicGamblingController.ts', '**/*s3Gateway.ts', '**/utility/env.ts'],
         rules: {
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
         },
