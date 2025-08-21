@@ -5,9 +5,12 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { injectable } from 'tsyringe';
 
-import { defaultStage } from '../../../../test/unittest/src/mock/common/baseCommonData';
+import {
+    defaultPlaceGrade,
+    defaultRaceGrade,
+    defaultStage,
+} from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { CSV_HEADER_KEYS, csvPath } from '../../utility/constants';
-import { GradeType } from '../../utility/data/common/gradeType';
 import { generatePlaceId } from '../../utility/data/common/placeId';
 import { generateRaceId } from '../../utility/data/common/raceId';
 import { RaceStage } from '../../utility/data/common/raceStage';
@@ -312,7 +315,7 @@ export class MockS3Gateway implements IS3Gateway {
                         this.defaultLocation[raceType],
                         'ダート',
                         '2000',
-                        this.createGrade(raceType),
+                        defaultRaceGrade[raceType],
                         raceNumber,
                     ].join(','),
                 );
@@ -358,7 +361,7 @@ export class MockS3Gateway implements IS3Gateway {
                         this.defaultLocation[raceType],
                         '芝',
                         '2400',
-                        this.createGrade(raceType),
+                        defaultRaceGrade[raceType],
                         raceNumber,
                         '1',
                         '1',
@@ -400,7 +403,7 @@ export class MockS3Gateway implements IS3Gateway {
                         defaultStage[raceType],
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
                         this.defaultLocation[raceType],
-                        this.createGrade(raceType),
+                        defaultRaceGrade[raceType],
                         raceNumber,
                     ].join(','),
                 );
@@ -626,7 +629,7 @@ export class MockS3Gateway implements IS3Gateway {
                                 this.defaultLocation[raceType],
                             ),
                             raceType,
-                            this.createGrade(raceType),
+                            defaultPlaceGrade[raceType],
                             getJSTDate(new Date()),
                         ].join(','),
                     );
@@ -645,23 +648,6 @@ export class MockS3Gateway implements IS3Gateway {
         [RaceType.AUTORACE]: '川口',
         [RaceType.BOATRACE]: '浜名湖',
     };
-
-    private createGrade(raceType: RaceType): GradeType {
-        switch (raceType) {
-            case RaceType.KEIRIN: {
-                return 'GP';
-            }
-            case RaceType.BOATRACE:
-            case RaceType.AUTORACE: {
-                return 'SG';
-            }
-            case RaceType.JRA:
-            case RaceType.NAR:
-            case RaceType.OVERSEAS: {
-                return 'GⅠ';
-            }
-        }
-    }
 
     private createRaceName(raceType: RaceType): RaceStage {
         switch (raceType) {
