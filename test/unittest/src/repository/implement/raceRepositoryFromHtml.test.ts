@@ -7,7 +7,6 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
-import type { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtml';
@@ -135,7 +134,7 @@ for (const {
 } of testCases) {
     describe(name, () => {
         let raceDataHtmlGateway: IRaceDataHtmlGateway;
-        let repository: IRaceRepository<RaceEntity>;
+        let repository: IRaceRepository;
 
         beforeEach(() => {
             raceDataHtmlGateway = new MockRaceDataHtmlGateway();
@@ -143,8 +142,7 @@ for (const {
                 'RaceDataHtmlGateway',
                 raceDataHtmlGateway,
             );
-            repository =
-                container.resolve<IRaceRepository<RaceEntity>>(repositoryClass);
+            repository = container.resolve<IRaceRepository>(repositoryClass);
         });
 
         afterEach(() => {

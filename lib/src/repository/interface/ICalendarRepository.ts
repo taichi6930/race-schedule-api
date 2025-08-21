@@ -17,8 +17,6 @@ import type { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterE
  * - イベントの重複チェックと衝突回避
  * - カレンダー固有のフォーマット変換
  * - APIレート制限への対応
- * @typeParam R - レース開催エンティティの型。IRaceEntityを実装している必要があります。
- *               このエンティティの情報がカレンダーイベントに変換されます。
  */
 export interface ICalendarRepository {
     /**

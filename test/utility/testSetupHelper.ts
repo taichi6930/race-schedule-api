@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
-import type { RaceEntity } from '../../lib/src/repository/entity/raceEntity';
 import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../lib/src/repository/interface/IRaceRepository';
@@ -39,16 +38,14 @@ export interface TestSetup {
     keirinPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     boatracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     autoracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    raceRepositoryFromStorage: jest.Mocked<IRaceRepository<RaceEntity>>;
-    jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository<RaceEntity>>;
-    narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository<RaceEntity>>;
-    overseasRaceRepositoryFromHtml: jest.Mocked<IRaceRepository<RaceEntity>>;
-    mechanicalRacingRaceRepositoryFromStorage: jest.Mocked<
-        IRaceRepository<RaceEntity>
-    >;
-    keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepository<RaceEntity>>;
-    boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository<RaceEntity>>;
-    autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository<RaceEntity>>;
+    raceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
+    jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    overseasRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    mechanicalRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
+    keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     calendarService: jest.Mocked<ICalendarService>;
     raceDataService: jest.Mocked<IRaceDataService>;
     placeDataService: jest.Mocked<IPlaceDataService>;
@@ -63,48 +60,47 @@ export function setupTestMock(): TestSetup {
     const s3Gateway = mockS3Gateway();
     container.registerInstance('S3Gateway', s3Gateway);
 
-    const raceRepositoryFromStorage = mockRaceRepository<RaceEntity>();
-    container.registerInstance<IRaceRepository<RaceEntity>>(
+    const raceRepositoryFromStorage = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
         'RaceRepositoryFromStorage',
         raceRepositoryFromStorage,
     );
-    const jraRaceRepositoryFromHtml = mockRaceRepository<RaceEntity>();
-    container.registerInstance<IRaceRepository<RaceEntity>>(
+    const jraRaceRepositoryFromHtml = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
         'JraRaceRepositoryFromHtml',
         jraRaceRepositoryFromHtml,
     );
-    const narRaceRepositoryFromHtml = mockRaceRepository<RaceEntity>();
-    container.registerInstance<IRaceRepository<RaceEntity>>(
+    const narRaceRepositoryFromHtml = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
         'NarRaceRepositoryFromHtml',
         narRaceRepositoryFromHtml,
     );
-    const overseasRaceRepositoryFromHtml = mockRaceRepository<RaceEntity>();
-    container.registerInstance<IRaceRepository<RaceEntity>>(
+    const overseasRaceRepositoryFromHtml = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
         'OverseasRaceRepositoryFromHtml',
         overseasRaceRepositoryFromHtml,
     );
 
-    const mechanicalRacingRaceRepositoryFromStorage =
-        mockRaceRepository<RaceEntity>();
-    container.registerInstance<IRaceRepository<RaceEntity>>(
+    const mechanicalRacingRaceRepositoryFromStorage = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
         'MechanicalRacingRaceRepositoryFromStorage',
         mechanicalRacingRaceRepositoryFromStorage,
     );
 
-    const keirinRaceRepositoryFromHtml = mockRaceRepository<RaceEntity>();
-    container.registerInstance<IRaceRepository<RaceEntity>>(
+    const keirinRaceRepositoryFromHtml = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
         'KeirinRaceRepositoryFromHtml',
         keirinRaceRepositoryFromHtml,
     );
 
-    const boatraceRaceRepositoryFromHtml = mockRaceRepository<RaceEntity>();
-    container.registerInstance<IRaceRepository<RaceEntity>>(
+    const boatraceRaceRepositoryFromHtml = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
         'BoatraceRaceRepositoryFromHtml',
         boatraceRaceRepositoryFromHtml,
     );
 
-    const autoraceRaceRepositoryFromHtml = mockRaceRepository<RaceEntity>();
-    container.registerInstance<IRaceRepository<RaceEntity>>(
+    const autoraceRaceRepositoryFromHtml = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
         'AutoraceRaceRepositoryFromHtml',
         autoraceRaceRepositoryFromHtml,
     );

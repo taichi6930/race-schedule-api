@@ -20,7 +20,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  */
 @injectable()
 export class MechanicalRacingRaceRepositoryFromStorage
-    implements IRaceRepository<RaceEntity>
+    implements IRaceRepository
 {
     private readonly raceListFileName = CSV_FILE_NAME.RACE_LIST;
     private readonly racePlayerListFileName = CSV_FILE_NAME.RACE_PLAYER_LIST;

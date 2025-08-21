@@ -8,8 +8,6 @@ import type { RaceType } from '../../utility/raceType';
  * このインターフェースは、開催場所に関する以下の操作を定義します：
  * - 指定期間の開催場所データの取得（StorageまたはWebから）
  * - 開催場所データの更新（Storageに保存）
- * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
- *               例：PlaceEntity, NarPlaceEntity など
  */
 export interface IPlaceDataService {
     /**

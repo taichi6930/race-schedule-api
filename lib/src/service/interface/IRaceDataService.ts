@@ -12,10 +12,6 @@ import type { RaceType } from '../../utility/raceType';
  *
  * レースデータは開催場所データと密接に関連しており、多くの場合開催場所の
  * 情報を参照して処理を行います。
- * @typeParam R - レース開催エンティティの型。IRaceEntityを実装している必要があります。
- *               例：JraRaceEntity, NarRaceEntity など
- * @typeParam P - 開催場所エンティティの型。IPlaceEntityを実装している必要があります。
- *               例：PlaceEntity, NarPlaceEntity など
  */
 export interface IRaceDataService {
     /**

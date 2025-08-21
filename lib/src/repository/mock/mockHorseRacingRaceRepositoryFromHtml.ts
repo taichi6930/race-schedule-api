@@ -10,9 +10,7 @@ import { RaceEntity } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
-export class MockHorseRacingRaceRepositoryFromHtml
-    implements IRaceRepository<RaceEntity>
-{
+export class MockHorseRacingRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,

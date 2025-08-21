@@ -10,7 +10,7 @@ import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // MechanicalRacingRaceRepositoryFromHtmlのモックを作成
 export class MockMechanicalRacingRaceRepositoryFromHtml
-    implements IRaceRepository<RaceEntity>
+    implements IRaceRepository
 {
     @Logger
     public async fetchRaceEntityList(

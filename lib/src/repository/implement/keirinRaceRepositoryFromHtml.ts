@@ -20,9 +20,7 @@ import { IRaceRepository } from '../interface/IRaceRepository';
  * 競輪場開催データリポジトリの実装
  */
 @injectable()
-export class KeirinRaceRepositoryFromHtml
-    implements IRaceRepository<RaceEntity>
-{
+export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,

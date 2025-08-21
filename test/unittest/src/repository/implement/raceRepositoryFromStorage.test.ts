@@ -29,8 +29,8 @@ import {
 
 describe('RaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
-    let horseRacingRaceRepository: IRaceRepository<RaceEntity>;
-    let mechanicalRacingRaceRepository: IRaceRepository<RaceEntity>;
+    let horseRacingRaceRepository: IRaceRepository;
+    let mechanicalRacingRaceRepository: IRaceRepository;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();

@@ -15,12 +15,11 @@ import type { RaceStage } from '../../utility/data/common/raceStage';
 import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
-import type { IRaceEntity } from './iRaceEntity';
 
 /**
  * 競馬のレース開催データ
  */
-export class RaceEntity implements IRaceEntity<RaceEntity> {
+export class RaceEntity {
     private readonly _heldDayData: HeldDayData | undefined;
     private readonly _conditionData: HorseRaceConditionData | undefined;
     private readonly _stage: RaceStage | undefined;

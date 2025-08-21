@@ -20,7 +20,7 @@ import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 @injectable()
-export class JraRaceRepositoryFromHtml implements IRaceRepository<RaceEntity> {
+export class JraRaceRepositoryFromHtml implements IRaceRepository {
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,

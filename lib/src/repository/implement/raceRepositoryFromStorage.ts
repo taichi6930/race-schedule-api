@@ -17,7 +17,7 @@ import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 @injectable()
-export class RaceRepositoryFromStorage implements IRaceRepository<RaceEntity> {
+export class RaceRepositoryFromStorage implements IRaceRepository {
     private readonly raceFileName = CSV_FILE_NAME.RACE_LIST;
     private readonly heldDayFileName = CSV_FILE_NAME.HELD_DAY_LIST;
 
