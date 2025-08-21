@@ -19,6 +19,7 @@ import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     baseCalendarData,
     baseRaceEntity,
+    mockCalendarDataList,
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceCalendarUseCase', () => {
@@ -36,14 +37,10 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         clearMocks();
     });
 
-    const baseCalendarDataList = RACE_TYPE_LIST_ALL.map((raceType) =>
-        baseCalendarData(raceType),
-    );
-
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
             // モックの戻り値を設定
-            calendarService.fetchEvents.mockResolvedValue(baseCalendarDataList);
+            calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
 
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
@@ -59,12 +56,12 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 finishDate,
                 RACE_TYPE_LIST_ALL,
             );
-            expect(result).toEqual(baseCalendarDataList);
+            expect(result).toEqual(mockCalendarDataList);
         });
     });
 
     it('イベントが追加・削除されること（複数）', async () => {
-        const mockCalendarDataList: CalendarData[] = RACE_TYPE_LIST_ALL.flatMap(
+        const calendarDataList: CalendarData[] = RACE_TYPE_LIST_ALL.flatMap(
             (raceType) =>
                 Array.from({ length: 8 }, (_, i: number) =>
                     baseCalendarData(raceType).copy({
@@ -92,7 +89,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         const expectRaceEntityList = mockRaceEntityList;
 
         // モックの戻り値を設定
-        calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
+        calendarService.fetchEvents.mockResolvedValue(calendarDataList);
 
         raceDataService.fetchRaceEntityList.mockResolvedValue(
             mockRaceEntityList,

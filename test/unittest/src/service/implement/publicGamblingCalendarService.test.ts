@@ -10,21 +10,13 @@ import { RACE_TYPE_LIST_ALL } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
-    baseCalendarData,
-    baseRaceEntityList,
+    mockCalendarDataList,
+    mockRaceEntityList,
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
     let calendarRepository: jest.Mocked<ICalendarRepository>;
-
-    const mockCalendarDataList = RACE_TYPE_LIST_ALL.map((raceType) =>
-        baseCalendarData(raceType),
-    );
-
-    const mockRaceEntityList = RACE_TYPE_LIST_ALL.flatMap((raceType) =>
-        baseRaceEntityList(raceType),
-    );
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();

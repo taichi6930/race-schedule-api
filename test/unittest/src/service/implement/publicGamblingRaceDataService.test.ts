@@ -15,7 +15,10 @@ import {
 } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
-import { baseRaceEntityList } from '../../mock/common/baseCommonData';
+import {
+    baseRaceEntityList,
+    mockRaceEntityList,
+} from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataService', () => {
     let raceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
@@ -27,10 +30,6 @@ describe('PublicGamblingRaceDataService', () => {
     let boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     let autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     let service: IRaceDataService;
-
-    const mockRaceEntityList = RACE_TYPE_LIST_ALL.flatMap((raceType) =>
-        baseRaceEntityList(raceType),
-    );
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();

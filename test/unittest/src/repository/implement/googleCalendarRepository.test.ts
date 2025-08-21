@@ -13,6 +13,7 @@ import {
     baseCalendarDataFromGoogleCalendar,
     baseRaceEntity,
     baseRaceEntityList,
+    mockCalendarDataList,
 } from '../../mock/common/baseCommonData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
@@ -32,10 +33,6 @@ describe('GoogleCalendarRepository', () => {
     afterEach(() => {
         jest.clearAllMocks();
     });
-
-    const mockCalendarDataList = RACE_TYPE_LIST_ALL.map((raceType) =>
-        baseCalendarData(raceType),
-    );
 
     it('カレンダー情報が正常に取得できること', async () => {
         googleCalendarGateway.fetchCalendarDataList.mockImplementation(

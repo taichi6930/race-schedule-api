@@ -17,8 +17,9 @@ import {
     type TestSetup,
 } from '../../../../utility/testSetupHelper';
 import {
-    basePlaceEntity,
     baseRaceEntityList,
+    mockPlaceEntityList,
+    mockRaceEntityList,
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataUseCase', () => {
@@ -37,14 +38,6 @@ describe('PublicGamblingRaceDataUseCase', () => {
         clearMocks();
         jest.restoreAllMocks();
     });
-
-    const mockPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
-        (raceType) => basePlaceEntity(raceType),
-    );
-
-    const mockRaceEntityList = RACE_TYPE_LIST_ALL.flatMap((raceType) =>
-        baseRaceEntityList(raceType),
-    );
 
     describe('fetchRaceEntityList', () => {
         for (const {
