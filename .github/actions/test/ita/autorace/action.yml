@@ -23,7 +23,7 @@ runs:
           ${{ runner.os }}-pnpm-
 
     - name: Install dependencies
-      run: pnpm install --frozen-lockfile --reporter=silent --no-audit
+      run: pnpm install --frozen-lockfile --reporter=silent
       shell: bash
 
     # サーバーが起動したらcurlを叩く
