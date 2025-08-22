@@ -28,6 +28,7 @@ import {
     defaultLocation,
     defaultRaceGrade,
     defaultStage,
+    testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 
 describe('RaceRepositoryFromStorage', () => {
@@ -68,7 +69,7 @@ describe('RaceRepositoryFromStorage', () => {
             );
         });
 
-        test.each(RACE_TYPE_LIST_ALL)(
+        test.each(testRaceTypeListAll)(
             'レース開催データを正常に取得できる: %s',
             async (raceType) => {
                 const repository =
