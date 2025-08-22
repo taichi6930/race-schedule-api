@@ -27,35 +27,21 @@ runs:
       shell: bash
 
     # サーバーが起動したらcurlを叩く
-    - name: Build and start server (use built JS)
+    - name: Start server in background
       run: |
-        # build project to JS to avoid ts-node runtime overhead
-        pnpm --silent run build
         # measure server start time
         start_ts=$(date +%s%3N)
-        # start built server quietly in background; redirect stdout/stderr
-        TZ=jst ENV=LOCAL_NO_INIT_DATA node lib/src/index.js > /dev/null 2>&1 &
-        # wait for health endpoint with exponential backoff
-        attempt=0
-        max_attempts=8
-        base_delay=1
-        max_delay=8
-        while [ $attempt -lt $max_attempts ]; do
+        # start server quietly in background; redirect stdout/stderr
+        pnpm --silent run start:local:no_data > /dev/null 2>&1 &
+        # wait for health endpoint with shorter intervals (max ~30s)
+        for i in {1..15}; do
           if curl --silent --fail --head http://localhost:3000/health >/dev/null 2>&1; then
             echo "Server started"
             break
           fi
-          # exponential backoff
-          delay=$(( base_delay * 2 ** attempt ))
-          if [ $delay -gt $max_delay ]; then delay=$max_delay; fi
-          attempt=$((attempt+1))
-          echo "Waiting for server to start... attempt=${attempt} delay=${delay}s"
-          sleep ${delay}
+          echo "Waiting for server to start... ($i)"
+          sleep 2
         done
-        if [ $attempt -eq $max_attempts ]; then
-          echo "Server did not start within expected time"
-          exit 1
-        fi
         end_ts=$(date +%s%3N)
         elapsed=$((end_ts - start_ts))
         echo "server_start_elapsed_ms=${elapsed}"
