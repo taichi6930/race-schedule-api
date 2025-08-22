@@ -12,36 +12,41 @@ runs:
       with:
         version: '9.10.0'
 
-    - name: Cache pnpm store
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.pnpm-store
-          .pnpm-store
-        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-pnpm-
-
-    - name: Install dependencies
-      run: pnpm install --frozen-lockfile --reporter=silent
+    - name: Build Docker image for app
+      run: |
+        # Use Docker to build the app image (Dockerfile exists in repo root)
+        docker build -t race-schedule-app:ci .
       shell: bash
 
     # サーバーが起動したらcurlを叩く
-    - name: Start server in background
+    - name: Run container and wait for health
       run: |
-        # measure server start time
+        # run container in background and expose port
+        docker run -d --name race-schedule-app -p 3000:3000 race-schedule-app:ci
+
+        # exponential backoff health check
         start_ts=$(date +%s%3N)
-        # start server quietly in background; redirect stdout/stderr
-        pnpm --silent run start:local:no_data > /dev/null 2>&1 &
-        # wait for health endpoint with shorter intervals (max ~30s)
-        for i in {1..15}; do
+        attempt=0
+        max_attempts=8
+        base_delay=1
+        max_delay=8
+        while [ $attempt -lt $max_attempts ]; do
           if curl --silent --fail --head http://localhost:3000/health >/dev/null 2>&1; then
             echo "Server started"
             break
           fi
-          echo "Waiting for server to start... ($i)"
-          sleep 2
+          delay=$(( base_delay * 2 ** attempt ))
+          if [ $delay -gt $max_delay ]; then delay=$max_delay; fi
+          attempt=$((attempt+1))
+          echo "Waiting for server to start... attempt=${attempt} delay=${delay}s"
+          sleep ${delay}
         done
+        if [ $attempt -eq $max_attempts ]; then
+          echo "Server did not start within expected time"
+          docker logs race-schedule-app || true
+          docker rm -f race-schedule-app || true
+          exit 1
+        fi
         end_ts=$(date +%s%3N)
         elapsed=$((end_ts - start_ts))
         echo "server_start_elapsed_ms=${elapsed}"
