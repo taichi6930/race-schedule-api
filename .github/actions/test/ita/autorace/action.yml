@@ -12,18 +12,33 @@ runs:
       with:
         version: '9.10.0'
 
+    - name: Cache pnpm store
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.pnpm-store
+          .pnpm-store
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-
+
     - name: Install dependencies
-      run: pnpm install
+      run: pnpm install --frozen-lockfile --reporter=silent --no-audit
       shell: bash
 
     # サーバーが起動したらcurlを叩く
     - name: Start server in background
       run: |
-        pnpm run start:local:no_data &  # サーバーをバックグラウンドで起動
-        for i in {1..5}; do
-          curl --silent --head http://localhost:3000/health && break
-          echo "Waiting for server to start..."
-          sleep 10
+        # start server quietly in background; redirect stdout/stderr
+        pnpm --silent run start:local:no_data > /dev/null 2>&1 &
+        # wait for health endpoint with shorter intervals (max ~30s)
+        for i in {1..15}; do
+          if curl --silent --fail --head http://localhost:3000/health >/dev/null 2>&1; then
+            echo "Server started"
+            break
+          fi
+          echo "Waiting for server to start... ($i)"
+          sleep 2
         done
       shell: bash
 
