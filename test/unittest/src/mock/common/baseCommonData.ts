@@ -23,24 +23,18 @@ import {
 export const baseRacePlayerDataList = (
     raceType: RaceType,
 ): RacePlayerData[] | undefined => {
-    try {
-        if (
-            raceType !== RaceType.KEIRIN &&
-            raceType !== RaceType.AUTORACE &&
-            raceType !== RaceType.BOATRACE
-        ) {
-            throw new Error('Invalid race type');
-        }
-        return Array.from(
-            { length: createMaxFrameNumber(raceType) },
-            (_, i) => {
-                return RacePlayerData.create(raceType, i + 1, i + 1);
-            },
-        );
-    } catch (error) {
-        console.error('Error creating baseRacePlayerDataList:', error);
+    // Only mechanical races have race players; return undefined for others.
+    if (
+        raceType !== RaceType.KEIRIN &&
+        raceType !== RaceType.AUTORACE &&
+        raceType !== RaceType.BOATRACE
+    ) {
         return undefined;
     }
+
+    return Array.from({ length: createMaxFrameNumber(raceType) }, (_, i) =>
+        RacePlayerData.create(raceType, i + 1, i + 1),
+    );
 };
 
 export const basePlaceData = (raceType: RaceType): PlaceData =>
@@ -76,21 +70,18 @@ export const basePlaceRecord = (raceType: RaceType): PlaceRecord =>
 export const baseConditionData = (
     raceType: RaceType,
 ): HorseRaceConditionData | undefined => {
-    try {
-        if (
-            defaultRaceSurfaceType[raceType] == undefined ||
-            defaultRaceDistance[raceType] == undefined
-        ) {
-            throw new Error('Invalid race type');
-        }
-        return HorseRaceConditionData.create(
-            defaultRaceSurfaceType[raceType],
-            defaultRaceDistance[raceType],
-        );
-    } catch (error) {
-        console.error('Error creating baseConditionData:', error);
+    // Only horse races have surface/distance information. Return undefined for others.
+    if (
+        defaultRaceSurfaceType[raceType] == undefined ||
+        defaultRaceDistance[raceType] == undefined
+    ) {
         return undefined;
     }
+
+    return HorseRaceConditionData.create(
+        defaultRaceSurfaceType[raceType],
+        defaultRaceDistance[raceType],
+    );
 };
 
 export const baseRaceEntity = (raceType: RaceType): RaceEntity =>
