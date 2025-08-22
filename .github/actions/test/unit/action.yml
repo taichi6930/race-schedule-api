@@ -50,4 +50,4 @@ runs:
       env:
         ENV: GITHUB_ACTIONS_CI
         CI: true
-      run: pnpm run test
+      run: pnpm run test:silent
