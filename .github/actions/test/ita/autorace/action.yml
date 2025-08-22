@@ -29,6 +29,8 @@ runs:
     # サーバーが起動したらcurlを叩く
     - name: Start server in background
       run: |
+        # measure server start time
+        start_ts=$(date +%s%3N)
         # start server quietly in background; redirect stdout/stderr
         pnpm --silent run start:local:no_data > /dev/null 2>&1 &
         # wait for health endpoint with shorter intervals (max ~30s)
@@ -40,10 +42,14 @@ runs:
           echo "Waiting for server to start... ($i)"
           sleep 2
         done
+        end_ts=$(date +%s%3N)
+        elapsed=$((end_ts - start_ts))
+        echo "server_start_elapsed_ms=${elapsed}"
       shell: bash
 
     - name: Curl API for Autorace Place
       run: |
+        start_ts=$(date +%s%3N)
         # Initial GET request
         response=$(curl -s -X 'GET' \
           'http://localhost:3000/api/races/all/place?startDate=2024-10-01&finishDate=2024-10-31&raceType=autorace' \
@@ -86,10 +92,14 @@ runs:
         fi
 
         echo "✅ All checks passed successfully."
+        end_ts=$(date +%s%3N)
+        elapsed=$((end_ts - start_ts))
+        echo "curl_place_block_elapsed_ms=${elapsed}"
       shell: bash
 
     - name: Curl API for Autorace Race
       run: |
+        start_ts=$(date +%s%3N)
         # Initial GET request
         response=$(curl -s -X 'GET' \
           'http://localhost:3000/api/races/all/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=autorace' \
@@ -132,10 +142,14 @@ runs:
         fi
 
         echo "✅ All checks passed successfully."
+        end_ts=$(date +%s%3N)
+        elapsed=$((end_ts - start_ts))
+        echo "curl_race_block_elapsed_ms=${elapsed}"
       shell: bash
 
     - name: Curl API for Autorace Calendar
       run: |
+        start_ts=$(date +%s%3N)
         # Initial GET request
         response=$(curl -s -X 'GET' \
           'http://localhost:3000/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=autorace' \
@@ -178,4 +192,7 @@ runs:
         fi
 
         echo "✅ All checks passed successfully."
+        end_ts=$(date +%s%3N)
+        elapsed=$((end_ts - start_ts))
+        echo "curl_calendar_block_elapsed_ms=${elapsed}"
       shell: bash
