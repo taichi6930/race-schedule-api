@@ -11,7 +11,7 @@ import { JraPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/im
 import { KeirinPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtml';
 import { NarPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/narPlaceRepositoryFromHtml';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
-import { allowedEnvs, IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
+import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
 import { basePlaceEntity } from '../../mock/common/baseCommonData';
@@ -58,7 +58,7 @@ const testCases = [
         endDate: new Date('2025-06-30'),
         expectedLength: 66,
     },
-].slice(0, IS_SHORT_TEST ? 1 : undefined);
+];
 
 for (const {
     name,

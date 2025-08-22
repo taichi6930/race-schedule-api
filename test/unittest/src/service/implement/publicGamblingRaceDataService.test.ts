@@ -7,7 +7,6 @@ import type { IRaceRepository } from '../../../../../lib/src/repository/interfac
 import { PublicGamblingRaceDataService } from '../../../../../lib/src/service/implement/publicGamblingRaceDataService';
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
-import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import {
     RACE_TYPE_LIST_ALL,
     RaceType,
@@ -29,8 +28,6 @@ describe('PublicGamblingRaceDataService', () => {
     let boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     let autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     let service: IRaceDataService;
-
-    const raceTypeList = IS_SHORT_TEST ? [RaceType.JRA] : RACE_TYPE_LIST_ALL;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -241,7 +238,7 @@ describe('PublicGamblingRaceDataService', () => {
             await service.updateRaceEntityList(mockRaceEntityList);
 
             // service 呼び出し後に各レース種別ごとに repository.registerRaceEntityList が呼ばれていることを確認
-            for (const raceType of raceTypeList) {
+            for (const raceType of RACE_TYPE_LIST_ALL) {
                 const repository =
                     raceType === RaceType.JRA ||
                     raceType === RaceType.NAR ||

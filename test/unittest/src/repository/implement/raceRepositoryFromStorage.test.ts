@@ -15,8 +15,10 @@ import { RaceRepositoryFromStorage } from '../../../../../lib/src/repository/imp
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
-import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import {
+    RACE_TYPE_LIST_ALL,
+    RaceType,
+} from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
@@ -27,14 +29,11 @@ import {
     defaultRaceGrade,
     defaultStage,
 } from '../../mock/common/baseCommonData';
-import { RACE_TYPE_LIST_ALL } from './../../../../../lib/src/utility/raceType';
 
 describe('RaceRepositoryFromStorage', () => {
     let s3Gateway: jest.Mocked<IS3Gateway>;
     let horseRacingRaceRepository: IRaceRepository;
     let mechanicalRacingRaceRepository: IRaceRepository;
-
-    const raceTypeList = IS_SHORT_TEST ? [RaceType.JRA] : RACE_TYPE_LIST_ALL;
 
     beforeEach(() => {
         const setup: TestSetup = setupTestMock();
@@ -69,7 +68,7 @@ describe('RaceRepositoryFromStorage', () => {
             );
         });
 
-        test.each(raceTypeList)(
+        test.each(RACE_TYPE_LIST_ALL)(
             'レース開催データを正常に取得できる: %s',
             async (raceType) => {
                 const repository =
@@ -103,43 +102,46 @@ describe('RaceRepositoryFromStorage', () => {
                 'DBが空データのところに、正しいレース開催データを登録できる',
             ],
         ])('%s', (hasRegisterData: boolean, description: string) => {
-            test.each(raceTypeList)(`${description}: %s`, async (raceType) => {
-                const raceEntityList: RaceEntity[] =
-                    makeRaceEntityList(raceType);
+            test.each(RACE_TYPE_LIST_ALL)(
+                `${description}: %s`,
+                async (raceType) => {
+                    const raceEntityList: RaceEntity[] =
+                        makeRaceEntityList(raceType);
 
-                if (hasRegisterData) {
-                    s3Gateway.fetchDataFromS3.mockResolvedValue(
-                        fs.readFileSync(
-                            path.resolve(
-                                __dirname,
-                                '../../mock/repository/csv',
-                                raceType.toLowerCase(),
-                                CSV_FILE_NAME.RACE_LIST,
+                    if (hasRegisterData) {
+                        s3Gateway.fetchDataFromS3.mockResolvedValue(
+                            fs.readFileSync(
+                                path.resolve(
+                                    __dirname,
+                                    '../../mock/repository/csv',
+                                    raceType.toLowerCase(),
+                                    CSV_FILE_NAME.RACE_LIST,
+                                ),
+                                'utf8',
                             ),
-                            'utf8',
-                        ),
-                    );
-                }
+                        );
+                    }
 
-                const repository =
-                    raceType === RaceType.JRA ||
-                    raceType === RaceType.NAR ||
-                    raceType === RaceType.OVERSEAS
-                        ? horseRacingRaceRepository
-                        : mechanicalRacingRaceRepository;
-
-                await repository.registerRaceEntityList(
-                    raceType,
-                    raceEntityList,
-                );
-                expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
-                    raceType === RaceType.JRA ||
+                    const repository =
+                        raceType === RaceType.JRA ||
                         raceType === RaceType.NAR ||
                         raceType === RaceType.OVERSEAS
-                        ? 1
-                        : 2,
-                );
-            });
+                            ? horseRacingRaceRepository
+                            : mechanicalRacingRaceRepository;
+
+                    await repository.registerRaceEntityList(
+                        raceType,
+                        raceEntityList,
+                    );
+                    expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
+                        raceType === RaceType.JRA ||
+                            raceType === RaceType.NAR ||
+                            raceType === RaceType.OVERSEAS
+                            ? 1
+                            : 2,
+                    );
+                },
+            );
         });
     });
 
