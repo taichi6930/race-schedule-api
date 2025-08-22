@@ -34,13 +34,13 @@ runs:
         # start server quietly in background; redirect stdout/stderr
         pnpm --silent run start:local:no_data > /dev/null 2>&1 &
         # wait for health endpoint with shorter intervals (max ~30s)
-        for i in {1..15}; do
+        for i in {1..60}; do
           if curl --silent --fail --head http://localhost:3000/health >/dev/null 2>&1; then
             echo "Server started"
             break
           fi
           echo "Waiting for server to start... ($i)"
-          sleep 2
+          sleep 0.5
         done
         end_ts=$(date +%s%3N)
         elapsed=$((end_ts - start_ts))
