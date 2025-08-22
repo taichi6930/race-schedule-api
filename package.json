@@ -10,7 +10,7 @@
         "watch": "tsc -w",
         "s3-data-update": "aws s3 cp s3://race-schedule-bucket/ ./lib/src/gateway/mockData/csv --recursive",
         "db:import": "TZ=jst ts-node lib/scripts/importCsvData.ts",
-    "test:base-cmd": "sh -c 'pnpm exec jest --coverage --maxWorkers=5 \"$@\"' --",
+    "test:base-cmd": "sh -c 'if [ \"$1\" = \"--\" ]; then shift; fi; pnpm exec jest --coverage --maxWorkers=5 \"$@\"' --",
         "test": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd",
         "test:silent": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd -- --silent",
         "test:watch": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd -- --watchAll",
