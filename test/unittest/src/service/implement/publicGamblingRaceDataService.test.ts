@@ -48,84 +48,87 @@ describe('PublicGamblingRaceDataService', () => {
     });
 
     describe('fetchRaceEntityList', () => {
-        it('正常にレース開催データが取得できること（storage）', async () => {
-            // モックの戻り値を設定
-            raceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
-                async (searchFilter: SearchPlaceFilterEntity) => {
-                    switch (searchFilter.raceType) {
-                        case RaceType.KEIRIN:
-                        case RaceType.AUTORACE:
-                        case RaceType.BOATRACE: {
-                            throw new Error('race type is not supported');
-                        }
-                        case RaceType.JRA:
-                        case RaceType.NAR:
-                        case RaceType.OVERSEAS: {
-                            return baseRaceEntityList(searchFilter.raceType);
-                        }
-                    }
+        test.each([
+            {
+                desc: '正常にレース開催データが取得できること（storage）',
+                location: DataLocation.Storage,
+                setup: (): void => {
+                    raceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
+                        async (searchFilter: SearchPlaceFilterEntity) => {
+                            switch (searchFilter.raceType) {
+                                case RaceType.KEIRIN:
+                                case RaceType.AUTORACE:
+                                case RaceType.BOATRACE: {
+                                    throw new Error(
+                                        'race type is not supported',
+                                    );
+                                }
+                                case RaceType.JRA:
+                                case RaceType.NAR:
+                                case RaceType.OVERSEAS: {
+                                    return baseRaceEntityList(
+                                        searchFilter.raceType,
+                                    );
+                                }
+                            }
+                        },
+                    );
+                    mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
+                        async (searchFilter: SearchPlaceFilterEntity) => {
+                            switch (searchFilter.raceType) {
+                                case RaceType.JRA:
+                                case RaceType.NAR:
+                                case RaceType.OVERSEAS: {
+                                    throw new Error(
+                                        'race type is not supported',
+                                    );
+                                }
+                                case RaceType.KEIRIN:
+                                case RaceType.BOATRACE:
+                                case RaceType.AUTORACE: {
+                                    return baseRaceEntityList(
+                                        searchFilter.raceType,
+                                    );
+                                }
+                            }
+                        },
+                    );
                 },
-            );
-            mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
-                async (searchFilter: SearchPlaceFilterEntity) => {
-                    switch (searchFilter.raceType) {
-                        case RaceType.JRA:
-                        case RaceType.NAR:
-                        case RaceType.OVERSEAS: {
-                            throw new Error('race type is not supported');
-                        }
-                        case RaceType.KEIRIN:
-                        case RaceType.BOATRACE:
-                        case RaceType.AUTORACE: {
-                            return baseRaceEntityList(searchFilter.raceType);
-                        }
-                    }
+            },
+            {
+                desc: '正常にレース開催データが取得できること（web）',
+                location: DataLocation.Web,
+                setup: (): void => {
+                    jraRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
+                        baseRaceEntityList(RaceType.JRA),
+                    );
+                    narRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
+                        baseRaceEntityList(RaceType.NAR),
+                    );
+                    overseasRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
+                        baseRaceEntityList(RaceType.OVERSEAS),
+                    );
+                    keirinRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
+                        baseRaceEntityList(RaceType.KEIRIN),
+                    );
+                    boatraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
+                        baseRaceEntityList(RaceType.BOATRACE),
+                    );
+                    autoraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
+                        baseRaceEntityList(RaceType.AUTORACE),
+                    );
                 },
-            );
-
+            },
+        ])('$desc', async ({ location, setup }) => {
+            setup();
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
-
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 testRaceTypeListAll,
-                DataLocation.Storage,
+                location,
             );
-            expect(result).toEqual(mockRaceEntityList);
-        });
-
-        it('正常にレース開催データが取得できること（web）', async () => {
-            // モックの戻り値を設定
-            jraRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseRaceEntityList(RaceType.JRA),
-            );
-            narRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseRaceEntityList(RaceType.NAR),
-            );
-            overseasRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseRaceEntityList(RaceType.OVERSEAS),
-            );
-            keirinRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseRaceEntityList(RaceType.KEIRIN),
-            );
-            boatraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseRaceEntityList(RaceType.BOATRACE),
-            );
-            autoraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                baseRaceEntityList(RaceType.AUTORACE),
-            );
-
-            const startDate = new Date('2024-06-01');
-            const finishDate = new Date('2024-06-30');
-
-            const result = await service.fetchRaceEntityList(
-                startDate,
-                finishDate,
-                testRaceTypeListAll,
-                DataLocation.Web,
-            );
-
             expect(result).toEqual(mockRaceEntityList);
         });
 
@@ -154,8 +157,7 @@ describe('PublicGamblingRaceDataService', () => {
     });
 
     describe('updateRaceEntityList', () => {
-        it('正常にレース開催データが更新されること', async () => {
-            // モックの戻り値を設定
+        beforeEach(() => {
             raceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
@@ -188,8 +190,6 @@ describe('PublicGamblingRaceDataService', () => {
                     }
                 },
             );
-
-            // registerRaceEntityListのモック戻り値を設定
             raceRepositoryFromStorage.registerRaceEntityList.mockImplementation(
                 async (raceType: RaceType) => {
                     switch (raceType) {
@@ -232,10 +232,10 @@ describe('PublicGamblingRaceDataService', () => {
                     }
                 },
             );
+        });
 
+        it('正常にレース開催データが更新されること', async () => {
             await service.updateRaceEntityList(mockRaceEntityList);
-
-            // service 呼び出し後に各レース種別ごとに repository.registerRaceEntityList が呼ばれていることを確認
             for (const raceType of testRaceTypeListAll) {
                 const repository =
                     raceType === RaceType.JRA ||
@@ -243,7 +243,6 @@ describe('PublicGamblingRaceDataService', () => {
                     raceType === RaceType.OVERSEAS
                         ? raceRepositoryFromStorage
                         : mechanicalRacingRaceRepositoryFromStorage;
-
                 expect(repository.registerRaceEntityList).toHaveBeenCalledWith(
                     raceType,
                     baseRaceEntityList(raceType),
