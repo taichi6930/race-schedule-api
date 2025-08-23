@@ -473,18 +473,6 @@ const defaultStageList = {
     ],
 };
 
-export const mockCalendarDataList = RACE_TYPE_LIST_ALL.map((raceType) =>
-    baseCalendarData(raceType),
-);
-
-export const mockRaceEntityList = RACE_TYPE_LIST_ALL.flatMap((raceType) =>
-    baseRaceEntityList(raceType),
-);
-
-export const mockPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
-    (raceType) => basePlaceEntity(raceType),
-);
-
 /**
  * テスト用のレースタイプ一覧を取得します。
  * IS_SHORT_TEST が true の場合は JRA のみを返し、false の場合は全レースタイプを返します。
@@ -493,3 +481,19 @@ export const mockPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
 export const testRaceTypeListAll = IS_SHORT_TEST
     ? [RaceType.JRA]
     : RACE_TYPE_LIST_ALL;
+
+export const testRaceTypeListWithoutOverseas = IS_SHORT_TEST
+    ? [RaceType.JRA]
+    : RACE_TYPE_LIST_WITHOUT_OVERSEAS;
+
+export const mockCalendarDataList = testRaceTypeListAll.map((raceType) =>
+    baseCalendarData(raceType),
+);
+
+export const mockRaceEntityList = testRaceTypeListAll.flatMap((raceType) =>
+    baseRaceEntityList(raceType),
+);
+
+export const mockPlaceEntityList = testRaceTypeListWithoutOverseas.map(
+    (raceType) => basePlaceEntity(raceType),
+);

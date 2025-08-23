@@ -7,15 +7,13 @@ import type { IRaceRepository } from '../../../../../lib/src/repository/interfac
 import { PublicGamblingRaceDataService } from '../../../../../lib/src/service/implement/publicGamblingRaceDataService';
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
-import {
-    RACE_TYPE_LIST_ALL,
-    RaceType,
-} from '../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     baseRaceEntityList,
     mockRaceEntityList,
+    testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataService', () => {
@@ -91,7 +89,7 @@ describe('PublicGamblingRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_ALL,
+                testRaceTypeListAll,
                 DataLocation.Storage,
             );
             expect(result).toEqual(mockRaceEntityList);
@@ -124,7 +122,7 @@ describe('PublicGamblingRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_ALL,
+                testRaceTypeListAll,
                 DataLocation.Web,
             );
 
@@ -133,7 +131,7 @@ describe('PublicGamblingRaceDataService', () => {
 
         it('レース開催データが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockRejectedValue(
+            raceRepositoryFromStorage.fetchRaceEntityList.mockRejectedValue(
                 new Error('レース開催データの取得に失敗しました'),
             );
 
@@ -147,7 +145,7 @@ describe('PublicGamblingRaceDataService', () => {
             await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_ALL,
+                testRaceTypeListAll,
                 DataLocation.Storage,
             );
 
@@ -238,7 +236,7 @@ describe('PublicGamblingRaceDataService', () => {
             await service.updateRaceEntityList(mockRaceEntityList);
 
             // service 呼び出し後に各レース種別ごとに repository.registerRaceEntityList が呼ばれていることを確認
-            for (const raceType of RACE_TYPE_LIST_ALL) {
+            for (const raceType of testRaceTypeListAll) {
                 const repository =
                     raceType === RaceType.JRA ||
                     raceType === RaceType.NAR ||

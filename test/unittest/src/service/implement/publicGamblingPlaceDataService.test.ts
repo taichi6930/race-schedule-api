@@ -8,15 +8,13 @@ import type { IPlaceRepository } from '../../../../../lib/src/repository/interfa
 import { PublicGamblingPlaceDataService } from '../../../../../lib/src/service/implement/publicGamblingPlaceDataService';
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
-import {
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
-    RaceType,
-} from '../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     basePlaceEntity,
     mockPlaceEntityList,
+    testRaceTypeListWithoutOverseas,
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingPlaceDataService', () => {
@@ -72,7 +70,7 @@ describe('PublicGamblingPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+                testRaceTypeListWithoutOverseas,
                 DataLocation.Storage,
             );
 
@@ -103,7 +101,7 @@ describe('PublicGamblingPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+                testRaceTypeListWithoutOverseas,
                 DataLocation.Web,
             );
 
@@ -126,7 +124,7 @@ describe('PublicGamblingPlaceDataService', () => {
             await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+                testRaceTypeListWithoutOverseas,
                 DataLocation.Storage,
             );
 
