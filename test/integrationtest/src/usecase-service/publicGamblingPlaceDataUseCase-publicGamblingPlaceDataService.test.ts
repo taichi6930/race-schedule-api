@@ -8,12 +8,12 @@ import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/impl
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import { PublicGamblingPlaceDataUseCase } from '../../../../lib/src/usecase/implement/publicGamblingPlaceDataUseCase';
 import type { IPlaceDataUseCase } from '../../../../lib/src/usecase/interface/IPlaceDataUseCase';
+import { RaceType } from '../../../../lib/src/utility/raceType';
 import {
-    RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
-    RaceType,
-} from '../../../../lib/src/utility/raceType';
-import { basePlaceEntity } from '../../../unittest/src/mock/common/baseCommonData';
+    basePlaceEntity,
+    testRaceTypeListAll,
+    testRaceTypeListWithoutOverseas,
+} from '../../../unittest/src/mock/common/baseCommonData';
 import type { TestSetup } from '../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../utility/testSetupHelper';
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
@@ -51,7 +51,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
         jest.clearAllMocks();
     });
 
-    const mockPlaceEntity = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map((raceType) =>
+    const mockPlaceEntity = testRaceTypeListWithoutOverseas.map((raceType) =>
         basePlaceEntity(raceType),
     );
 
@@ -81,7 +81,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             const result = await useCase.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_ALL,
+                testRaceTypeListAll,
             );
 
             expect(result).toEqual(mockPlaceEntity);
@@ -141,7 +141,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             await useCase.updatePlaceEntityList(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_ALL,
+                testRaceTypeListAll,
             );
 
             expect(
