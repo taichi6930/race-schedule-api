@@ -12,6 +12,8 @@
         "db:import": "TZ=jst ts-node lib/scripts/importCsvData.ts",
         "test:base-cmd": "sh -c 'if [ \"$1\" = \"--\" ]; then shift; fi; pnpm exec jest --coverage --maxWorkers=6 \"$@\"' --",
         "test": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd",
+        "test:vitest": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm exec vitest",
+        "test:vitest:ci": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm exec vitest --run --coverage",
         "test:silent": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd -- --silent",
         "test:watch": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd -- --watchAll",
         "test:watch:silent": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd -- --watchAll --silent",
@@ -84,6 +86,8 @@
         "@types/node": "24.3.0",
         "@types/swagger-jsdoc": "^6.0.4",
         "@types/swagger-ui-express": "^4.1.8",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
         "aws-cdk": "2.1025.0",
         "esbuild": "^0.25.9",
         "eslint": "^9.33.0",
@@ -94,9 +98,11 @@
         "globals": "^16.3.0",
         "husky": "^9.1.7",
         "jest": "^30.0.5",
+        "jsdom": "^22.0.0",
         "lint-staged": "^16.1.5",
         "typescript": "~5.9.2",
-        "typescript-eslint": "^8.40.0"
+        "typescript-eslint": "^8.40.0",
+    "vitest": "^3.2.4"
     },
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
