@@ -6,11 +6,7 @@ import type { IPlaceDataService } from '../../../../../lib/src/service/interface
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingRaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingRaceDataUseCase';
 import type { IRaceDataUseCase } from '../../../../../lib/src/usecase/interface/IRaceDataUseCase';
-import {
-    RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
-    RaceType,
-} from '../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
 import {
     clearMocks,
     setupTestMock,
@@ -21,6 +17,7 @@ import {
     mockPlaceEntityList,
     mockRaceEntityList,
     testRaceTypeListAll,
+    testRaceTypeListWithoutOverseas,
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataUseCase', () => {
@@ -535,7 +532,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             await useCase.updateRaceEntityList(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_ALL,
+                testRaceTypeListAll,
             );
 
             expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
@@ -557,7 +554,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             await useCase.updateRaceEntityList(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+                testRaceTypeListWithoutOverseas,
             );
 
             expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();

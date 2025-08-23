@@ -1,11 +1,11 @@
 import { validatePositionNumber } from '../../../../../../lib/src/utility/data/common/positionNumber';
-import { RACE_TYPE_LIST_ALL } from '../../../../../../lib/src/utility/raceType';
+import { testRaceTypeListAll } from '../../../mock/common/baseCommonData';
 
 /**
  * PositionNumberのテスト
  */
 describe('PositionNumber', () => {
-    for (const raceType of RACE_TYPE_LIST_ALL) {
+    for (const raceType of testRaceTypeListAll) {
         it(`正常系: 枠番が正常な場合(${raceType})`, () => {
             const positionNumber = 1;
             const result = validatePositionNumber(raceType, positionNumber);

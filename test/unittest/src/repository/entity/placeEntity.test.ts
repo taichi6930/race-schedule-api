@@ -1,16 +1,14 @@
-import {
-    RACE_TYPE_LIST_ALL,
-    RaceType,
-} from '../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
 import {
     basePlaceData,
     basePlaceEntity,
     defaultHeldDayData,
     defaultPlaceGrade,
+    testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 
 describe('PlaceEntityクラスのテスト', () => {
-    describe.each(RACE_TYPE_LIST_ALL)('%s', (raceType) => {
+    describe.each(testRaceTypeListAll)('%s', (raceType) => {
         it(`正しい入力でPlaceEntityのインスタンスを作成できることを確認`, () => {
             expect(basePlaceEntity(raceType).placeData).toEqual(
                 basePlaceData(raceType),

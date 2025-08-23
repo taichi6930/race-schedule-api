@@ -1,8 +1,6 @@
 import { validatePlaceId } from '../../../../../../lib/src/utility/data/common/placeId';
-import {
-    RACE_TYPE_LIST_ALL,
-    RaceType,
-} from '../../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../../lib/src/utility/raceType';
+import { testRaceTypeListAll } from '../../../mock/common/baseCommonData';
 
 describe('PlaceIdSchema', () => {
     for (const { raceType, placeId } of [
@@ -58,7 +56,7 @@ describe('PlaceIdSchema', () => {
         ],
     };
 
-    for (const raceType of RACE_TYPE_LIST_ALL) {
+    for (const raceType of testRaceTypeListAll) {
         for (const [invalidId, message] of invalidPlaceIdAndMessage[raceType]) {
             it(`異常系: ${raceType} の PlaceId が不正 (${invalidId})`, () => {
                 expect(() => validatePlaceId(raceType, invalidId)).toThrow(

@@ -1,7 +1,9 @@
 import { HeldDayRecord } from '../../../../../lib/src/gateway/record/heldDayRecord';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
-import { RACE_TYPE_LIST_ALL } from '../../../../../lib/src/utility/raceType';
-import { defaultLocation } from '../../mock/common/baseCommonData';
+import {
+    defaultLocation,
+    testRaceTypeListAll,
+} from '../../mock/common/baseCommonData';
 
 /**
  * ディシジョンテーブル
@@ -23,7 +25,7 @@ import { defaultLocation } from '../../mock/common/baseCommonData';
  */
 
 describe('heldDayRecord', () => {
-    describe.each(RACE_TYPE_LIST_ALL)('%s', (raceType) => {
+    describe.each(testRaceTypeListAll)('%s', (raceType) => {
         const validId = generatePlaceId(
             raceType,
             new Date('2024-12-22'),
