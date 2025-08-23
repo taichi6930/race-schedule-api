@@ -46,12 +46,10 @@ describe('RaceStage', () => {
             );
         });
 
-        it('異常系', () => {
-            for (const raceType of RACE_TYPE_LIST_MECHANICAL_RACING) {
-                expect(() =>
-                    validateRaceStage(raceType, '不正なステージ'),
-                ).toThrow(`${raceType}の開催ステージではありません`);
-            }
+        it.each(RACE_TYPE_LIST_MECHANICAL_RACING)('異常系 %s', (raceType) => {
+            expect(() => validateRaceStage(raceType, '不正なステージ')).toThrow(
+                `${raceType}の開催ステージではありません`,
+            );
         });
     });
 });

@@ -234,9 +234,10 @@ describe('PublicGamblingRaceDataService', () => {
             );
         });
 
-        it('正常にレース開催データが更新されること', async () => {
-            await service.updateRaceEntityList(mockRaceEntityList);
-            for (const raceType of testRaceTypeListAll) {
+        test.each(testRaceTypeListAll)(
+            '正常にレース開催データが更新されること: %s',
+            async (raceType) => {
+                await service.updateRaceEntityList(mockRaceEntityList);
                 const repository =
                     raceType === RaceType.JRA ||
                     raceType === RaceType.NAR ||
@@ -247,8 +248,8 @@ describe('PublicGamblingRaceDataService', () => {
                     raceType,
                     baseRaceEntityList(raceType),
                 );
-            }
-        });
+            },
+        );
 
         it('レース開催データが0件の場合、更新処理が実行されないこと', async () => {
             await service.updateRaceEntityList([]);

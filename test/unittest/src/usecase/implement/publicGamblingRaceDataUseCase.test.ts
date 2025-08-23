@@ -485,7 +485,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
     };
 
     describe('fetchRaceEntityList', () => {
-        for (const raceType of testRaceTypeListAll) {
+        describe.each(testRaceTypeListAll)('レースタイプ: %s', (raceType) => {
             for (const {
                 raceTypeList,
                 searchConditions,
@@ -512,7 +512,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
                     expect(result).toHaveLength(expectedLength);
                 });
             }
-        }
+        });
     });
 
     describe('updateRaceEntityList', () => {

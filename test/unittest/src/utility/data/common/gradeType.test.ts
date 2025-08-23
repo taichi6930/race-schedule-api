@@ -5,7 +5,7 @@ import { testRaceTypeListAll } from '../../../mock/common/baseCommonData';
  * RaceCourseのテスト
  */
 describe('GradeType', () => {
-    for (const raceType of testRaceTypeListAll) {
+    describe.each(testRaceTypeListAll)('レースタイプ: %s', (raceType) => {
         it(`正常系: ${raceType}のグレードが正常な場合`, () => {
             const result = validateGradeType(raceType, 'GⅠ');
             expect(result).toBe('GⅠ');
@@ -16,5 +16,5 @@ describe('GradeType', () => {
                 `${raceType}のグレードではありません`,
             );
         });
-    }
+    });
 });
