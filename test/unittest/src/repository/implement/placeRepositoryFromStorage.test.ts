@@ -13,16 +13,14 @@ import { PlaceRepositoryFromStorage } from '../../../../../lib/src/repository/im
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import type { RaceType } from '../../../../../lib/src/utility/raceType';
-import {
-    RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
-} from '../../../../../lib/src/utility/raceType';
+import { RACE_TYPE_LIST_ALL } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     defaultHeldDayData,
     defaultLocation,
     defaultPlaceGrade,
+    testRaceTypeListWithoutOverseas,
 } from '../../mock/common/baseCommonData';
 
 describe('PlaceRepositoryFromStorage', () => {
@@ -57,7 +55,7 @@ describe('PlaceRepositoryFromStorage', () => {
             );
 
             // テスト実行
-            for (const raceType of RACE_TYPE_LIST_WITHOUT_OVERSEAS) {
+            for (const raceType of testRaceTypeListWithoutOverseas) {
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
                         new Date('2024-01-01'),
