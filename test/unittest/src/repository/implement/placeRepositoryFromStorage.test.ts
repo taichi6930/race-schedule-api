@@ -12,14 +12,15 @@ import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entit
 import { PlaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
+import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import type { RaceType } from '../../../../../lib/src/utility/raceType';
-import { RACE_TYPE_LIST_ALL } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     defaultHeldDayData,
     defaultLocation,
     defaultPlaceGrade,
+    testRaceTypeListAll,
     testRaceTypeListWithoutOverseas,
 } from '../../mock/common/baseCommonData';
 
@@ -72,7 +73,7 @@ describe('PlaceRepositoryFromStorage', () => {
 
     describe('registerPlaceList', () => {
         test('正しい開催場データを登録できる', async () => {
-            for (const raceType of RACE_TYPE_LIST_ALL) {
+            for (const raceType of testRaceTypeListAll) {
                 const _placeEntityList = placeEntityList(raceType);
                 // テスト実行
                 await expect(
@@ -88,7 +89,9 @@ describe('PlaceRepositoryFromStorage', () => {
                 });
             }
 
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(10);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
+                IS_SHORT_TEST ? 2 : 10,
+            );
         });
     });
 
