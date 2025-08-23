@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { validateRaceName } from '../../../../../../lib/src/utility/data/common/raceName';
 
 /**

@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { HeldDayRecord } from '../../../../../lib/src/gateway/record/heldDayRecord';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
 import {

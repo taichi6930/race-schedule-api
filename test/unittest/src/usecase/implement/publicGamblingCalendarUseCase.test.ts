@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { afterEach } from 'node:test';
 
 import { container } from 'tsyringe';
+import { describe, expect, it } from 'vitest';
 
 import type { CalendarData } from '../../../../../lib/src/domain/calendarData';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';

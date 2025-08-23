@@ -246,6 +246,7 @@ export default [
             '**/publicGamblingController.ts',
             '**/*s3Gateway.ts',
             '**/utility/env.ts',
+            '**/setup-vitest-globals.ts',
         ],
         rules: {
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可

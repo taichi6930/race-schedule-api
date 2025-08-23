@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import {
     basePlaceData,

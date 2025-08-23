@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { RaceDataHtmlGateway } from '../../../../../lib/src/gateway/implement/raceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { RaceType } from '../../../../../lib/src/utility/raceType';

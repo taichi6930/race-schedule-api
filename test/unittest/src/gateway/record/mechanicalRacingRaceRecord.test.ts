@@ -17,6 +17,8 @@
  * | 11  | copy   | undefined  | undefined | undefined | undefined | undefined     | undefined  | 新しい値| undefined| undefined    | gradeのみ変更       | 部分更新                  |
  * | 12  | copy   | undefined  | undefined | 不正値    | undefined | undefined     | undefined  | undefined| undefined| undefined    | 例外発生         | nameバリデーション失敗    |
  */
+import { describe, expect, it } from 'vitest';
+
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import {

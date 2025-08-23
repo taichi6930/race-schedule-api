@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { validateRaceStage } from '../../../../../../lib/src/utility/data/common/raceStage';
 import { RaceType } from '../../../../../../lib/src/utility/raceType';
 import { testRaceTypeListMechanicalRacing } from '../../../mock/common/baseCommonData';

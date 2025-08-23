@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { validateUpdateDate } from '../../../../lib/src/utility/updateDate';
 
 /**

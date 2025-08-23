@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { validateRaceId } from '../../../../../../lib/src/utility/data/common/raceId';
 import { RaceType } from '../../../../../../lib/src/utility/raceType';
 import { testRaceTypeListAll } from '../../../mock/common/baseCommonData';

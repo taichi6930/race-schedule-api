@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { validateRaceCourseType } from '../../../../../../lib/src/utility/data/common/raceCourseType';
 
 /**

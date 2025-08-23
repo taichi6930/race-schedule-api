@@ -4,6 +4,7 @@ import * as fs from 'node:fs';
 import path from 'node:path';
 
 import { container } from 'tsyringe';
+import { describe, expect } from 'vitest';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';

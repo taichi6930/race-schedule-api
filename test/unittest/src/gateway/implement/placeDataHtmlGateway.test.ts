@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { PlaceDataHtmlGateway } from '../../../../../lib/src/gateway/implement/placeDataHtmlGateway';
 import type { IPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../../../lib/src/utility/raceType';

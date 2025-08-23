@@ -20,6 +20,8 @@
  * | 14  | copy   | undefined  | undefined | undefined | 不正値      | undefined  | undefined     | undefined  | undefined| undefined| undefined    | 例外発生         | surfaceTypeバリデーション失敗 |
  * | 15  | copy   | undefined  | undefined | undefined | undefined   | 不正値     | undefined     | undefined  | undefined| undefined| undefined    | 例外発生         | distanceバリデーション失敗 |
  */
+import { describe, expect, it } from 'vitest';
+
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import {

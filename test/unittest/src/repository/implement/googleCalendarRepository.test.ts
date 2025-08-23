@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import { container } from 'tsyringe';
+import { describe, expect, it } from 'vitest';
 
 import type { ICalendarGateway } from '../../../../../lib/src/gateway/interface/iCalendarGateway';
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';

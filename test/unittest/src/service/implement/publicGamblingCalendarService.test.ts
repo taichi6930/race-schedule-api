@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import { container } from 'tsyringe';
+import { describe, expect, it } from 'vitest';
 
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';

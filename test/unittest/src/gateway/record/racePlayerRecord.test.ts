@@ -14,6 +14,7 @@
  * |  9  | copy   | undefined   | undefined  | undefined  | undefined     | 99999        | undefined          | playerNumber変更 | 部分更新                  |
  * | 10  | copy   | undefined   | undefined  | undefined  | undefined     | undefined    | 新しいDate         | updateDate変更   | 部分更新                  |
  */
+import { describe, expect, it } from 'vitest';
 
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';

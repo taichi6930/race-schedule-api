@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import { container } from 'tsyringe';
+import { describe, expect, it } from 'vitest';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';

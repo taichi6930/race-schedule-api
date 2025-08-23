@@ -9,6 +9,7 @@
  * |5 |有効       |有効    |{ distance: 0 }      |copyで不正値→Error|copy異常系            |
  * |6 |有効       |有効    |{} または undefined  |全プロパティ同値  |copyでpartial空        |
  */
+import { describe, expect, it } from 'vitest';
 
 import { HorseRaceConditionData } from '../../../../lib/src/domain/houseRaceConditionData';
 import { RaceType } from '../../../../lib/src/utility/raceType';

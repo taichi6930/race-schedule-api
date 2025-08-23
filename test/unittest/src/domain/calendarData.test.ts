@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 

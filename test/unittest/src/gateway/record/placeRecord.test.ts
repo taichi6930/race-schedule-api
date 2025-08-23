@@ -13,6 +13,7 @@
  * |  7  | copy   | -         | -        | -            | 新しい値 | -              | Dateのみ変更              | 部分更新                    |
  * |  8  | copy   | -         | -        | -            | 不正値   | -              | 例外発生                      | locationバリデーション失敗 |
  */
+import { describe, expect, it } from 'vitest';
 
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';

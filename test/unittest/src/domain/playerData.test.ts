@@ -9,6 +9,8 @@
  * |5 |有効    |有効             |有効         |有効   |{} または undefined                      |全プロパティ同値        |copyでpartial空                    |
  * |6 |有効    |有効             |有効         |有効   |{ playerNumber: undefined }               |playerNumberは元値維持   |copyでplayerNumber: undefined      |
  */
+import { describe, expect, it } from 'vitest';
+
 import { PlayerData } from '../../../../lib/src/domain/playerData';
 import { testRaceTypeListMechanicalRacing } from '../mock/common/baseCommonData';
 

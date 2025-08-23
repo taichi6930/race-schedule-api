@@ -1,5 +1,7 @@
 import '../../../../lib/src/utility/format';
 
+import { describe, expect, test } from 'vitest';
+
 describe('String.prototype.replaceFromCodePoint', () => {
     // 基本的な全角数字の変換テスト
     test('全角数字を半角数字に変換できること', () => {

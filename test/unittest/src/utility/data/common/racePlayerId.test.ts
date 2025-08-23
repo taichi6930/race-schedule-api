@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { validateRacePlayerId } from '../../../../../../lib/src/utility/data/common/racePlayerId';
 import { RaceType } from '../../../../../../lib/src/utility/raceType';
 

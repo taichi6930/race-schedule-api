@@ -1,11 +1,13 @@
+import { describe, expect, it } from 'vitest';
+
 import { validatePositionNumber } from '../../../../../../lib/src/utility/data/common/positionNumber';
 import { testRaceTypeListAll } from '../../../mock/common/baseCommonData';
 
 /**
  * PositionNumberのテスト
  */
-describe('PositionNumber', () => {
-    describe.each(testRaceTypeListAll)('レースタイプ: %s', (raceType) => {
+for (const raceType of testRaceTypeListAll) {
+    describe(`PositionNumber: ${raceType}`, () => {
         it(`正常系: 枠番が正常な場合(${raceType})`, () => {
             const positionNumber = 1;
             const result = validatePositionNumber(raceType, positionNumber);
@@ -19,4 +21,4 @@ describe('PositionNumber', () => {
             ).toThrow('枠番は1以上である必要があります');
         });
     });
-});
+}

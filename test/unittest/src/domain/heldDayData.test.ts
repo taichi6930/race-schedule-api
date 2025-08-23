@@ -10,6 +10,8 @@
  * |6 |有効     |有効        |{ heldTimes: 0 }, { heldDayTimes: 0 }|copyで不正値→Error|copy異常系|
  * |7 |有効     |有効        |{} または undefined|全プロパティ同値|copyでpartial空|
  */
+import { describe, expect, it } from 'vitest';
+
 import { HeldDayData } from '../../../../lib/src/domain/heldDayData';
 import { validateHeldDayTimes } from '../../../../lib/src/utility/data/common/heldDayTimes';
 import { validateHeldTimes } from '../../../../lib/src/utility/data/common/heldTimes';

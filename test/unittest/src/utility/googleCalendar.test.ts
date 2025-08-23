@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import { getGoogleCalendarColorId } from '../../../../lib/src/utility/googleCalendar';
 import { RaceType } from '../../../../lib/src/utility/raceType';

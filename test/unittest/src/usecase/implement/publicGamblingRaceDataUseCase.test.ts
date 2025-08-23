@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import { container } from 'tsyringe';
+import { describe, expect, it } from 'vitest';
 
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';

@@ -10,6 +10,7 @@
  * |6 |有効    |有効         |有効       |{ positionNumber: 0 }, { playerNumber: 0 }|copyで不正値→Error|copy異常系|
  * |7 |有効    |有効         |有効       |{} または undefined|全プロパティ同値|copyでpartial空|
  */
+import { describe, expect, it } from 'vitest';
 
 import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { testRaceTypeListMechanicalRacing } from '../mock/common/baseCommonData';

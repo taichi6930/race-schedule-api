@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { createErrorMessage } from '../../../../lib/src/utility/error';
 
 describe('error utility のテスト', () => {

@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { validatePlaceId } from '../../../../../../lib/src/utility/data/common/placeId';
 import { RaceType } from '../../../../../../lib/src/utility/raceType';
 import { testRaceTypeListAll } from '../../../mock/common/baseCommonData';

@@ -5,6 +5,7 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
+import { describe, expect } from 'vitest';
 
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';

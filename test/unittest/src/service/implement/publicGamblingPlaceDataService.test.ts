@@ -1,6 +1,7 @@
 import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
+import { describe, expect, it } from 'vitest';
 
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
