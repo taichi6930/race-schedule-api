@@ -7,11 +7,11 @@ import { PublicGamblingPlaceDataUseCase } from '../../../../../lib/src/usecase/i
 import type { IPlaceDataUseCase } from '../../../../../lib/src/usecase/interface/IPlaceDataUseCase';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
-import { mockPlaceEntityList } from '../../mock/common/baseCommonData';
 import {
-    RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
-} from './../../../../../lib/src/utility/raceType';
+    mockPlaceEntityList,
+    testRaceTypeListAll,
+    testRaceTypeListWithoutOverseas,
+} from '../../mock/common/baseCommonData';
 describe('PublicGamblingPlaceUseCase', () => {
     let placeDataService: jest.Mocked<IPlaceDataService>;
     let useCase: IPlaceDataUseCase;
@@ -39,7 +39,7 @@ describe('PublicGamblingPlaceUseCase', () => {
             const result = await useCase.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+                testRaceTypeListWithoutOverseas,
             );
 
             expect(result).toEqual(mockPlaceEntityList);
@@ -59,7 +59,7 @@ describe('PublicGamblingPlaceUseCase', () => {
             await useCase.updatePlaceEntityList(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_ALL,
+                testRaceTypeListAll,
             );
 
             expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();

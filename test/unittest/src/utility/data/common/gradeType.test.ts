@@ -1,11 +1,11 @@
 import { validateGradeType } from '../../../../../../lib/src/utility/data/common/gradeType';
-import { RACE_TYPE_LIST_ALL } from '../../../../../../lib/src/utility/raceType';
+import { testRaceTypeListAll } from '../../../mock/common/baseCommonData';
 
 /**
  * RaceCourseのテスト
  */
 describe('GradeType', () => {
-    for (const raceType of RACE_TYPE_LIST_ALL) {
+    describe.each(testRaceTypeListAll)('レースタイプ: %s', (raceType) => {
         it(`正常系: ${raceType}のグレードが正常な場合`, () => {
             const result = validateGradeType(raceType, 'GⅠ');
             expect(result).toBe('GⅠ');
@@ -16,5 +16,5 @@ describe('GradeType', () => {
                 `${raceType}のグレードではありません`,
             );
         });
-    }
+    });
 });

@@ -1,8 +1,6 @@
 import { validateRaceId } from '../../../../../../lib/src/utility/data/common/raceId';
-import {
-    RACE_TYPE_LIST_ALL,
-    RaceType,
-} from '../../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../../lib/src/utility/raceType';
+import { testRaceTypeListAll } from '../../../mock/common/baseCommonData';
 
 describe('raceIdSchema', () => {
     // 正常系
@@ -82,7 +80,7 @@ describe('raceIdSchema', () => {
         ],
     };
 
-    for (const raceType of RACE_TYPE_LIST_ALL) {
+    for (const raceType of testRaceTypeListAll) {
         for (const [invalidRaceId, message] of invalidRaceIdAndMessage[
             raceType
         ]) {

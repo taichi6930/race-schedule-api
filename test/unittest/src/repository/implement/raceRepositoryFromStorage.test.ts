@@ -15,10 +15,7 @@ import { RaceRepositoryFromStorage } from '../../../../../lib/src/repository/imp
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
-import {
-    RACE_TYPE_LIST_ALL,
-    RaceType,
-} from '../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
@@ -28,6 +25,7 @@ import {
     defaultLocation,
     defaultRaceGrade,
     defaultStage,
+    testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 
 describe('RaceRepositoryFromStorage', () => {
@@ -68,7 +66,7 @@ describe('RaceRepositoryFromStorage', () => {
             );
         });
 
-        test.each(RACE_TYPE_LIST_ALL)(
+        test.each(testRaceTypeListAll)(
             'レース開催データを正常に取得できる: %s',
             async (raceType) => {
                 const repository =
@@ -102,7 +100,7 @@ describe('RaceRepositoryFromStorage', () => {
                 'DBが空データのところに、正しいレース開催データを登録できる',
             ],
         ])('%s', (hasRegisterData: boolean, description: string) => {
-            test.each(RACE_TYPE_LIST_ALL)(
+            test.each(testRaceTypeListAll)(
                 `${description}: %s`,
                 async (raceType) => {
                     const raceEntityList: RaceEntity[] =

@@ -14,7 +14,10 @@ import type { IPlaceRepository } from '../../../../../lib/src/repository/interfa
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
-import { basePlaceEntity } from '../../mock/common/baseCommonData';
+import {
+    basePlaceEntity,
+    testRaceTypeListWithoutOverseas,
+} from '../../mock/common/baseCommonData';
 
 // テーブル駆動型テスト
 const testCases = [
@@ -68,6 +71,7 @@ for (const {
     endDate,
     expectedLength,
 } of testCases) {
+    if (!testRaceTypeListWithoutOverseas.includes(raceType)) continue;
     describe(name, () => {
         let placeDataHtmlGateway: IPlaceDataHtmlGateway;
         let repository: IPlaceRepository;

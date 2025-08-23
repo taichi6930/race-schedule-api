@@ -6,12 +6,12 @@ import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/en
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
-import { RACE_TYPE_LIST_ALL } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     mockCalendarDataList,
     mockRaceEntityList,
+    testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingCalendarService', () => {
@@ -35,11 +35,11 @@ describe('PublicGamblingCalendarService', () => {
             const result = await service.fetchEvents(
                 startDate,
                 finishDate,
-                RACE_TYPE_LIST_ALL,
+                testRaceTypeListAll,
             );
 
             expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-                RACE_TYPE_LIST_ALL,
+                testRaceTypeListAll,
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
             expect(result).toEqual(mockCalendarDataList);

@@ -20,6 +20,7 @@ import { SkipEnv } from '../../../../utility/testDecorators';
 import {
     defaultHeldDayData,
     defaultPlaceGrade,
+    testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 import { OverseasRaceRepositoryFromHtml } from './../../../../../lib/src/repository/implement/overseasRaceRepositoryFromHtml';
 
@@ -117,6 +118,7 @@ for (const {
     placeDate,
     expectedLength,
 } of testCases) {
+    if (!testRaceTypeListAll.includes(raceType)) continue;
     describe(name, () => {
         let raceDataHtmlGateway: IRaceDataHtmlGateway;
         let repository: IRaceRepository;
@@ -136,7 +138,7 @@ for (const {
 
         describe('fetchRaceList', () => {
             SkipEnv(
-                '正しいレース開催データを取得できる',
+                `正しいレース開催データを取得できる(${raceType})`,
                 [allowedEnvs.githubActionsCi],
                 async () => {
                     const raceEntityList = await repository.fetchRaceEntityList(
