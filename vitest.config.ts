@@ -1,4 +1,33 @@
+import os from 'os';
 import { defineConfig } from 'vitest/config';
+
+// Determine suitable thread counts from available CPUs.
+// Reserve 2 cores when possible to keep the system responsive during test runs.
+const totalCpus = Math.max(1, (os.cpus() || []).length);
+const reservedCpus = totalCpus > 2 ? 2 : 0; // leave 2 cores free when available
+const autoMax = Math.max(1, totalCpus - reservedCpus);
+const autoMin = Math.max(1, Math.floor(autoMax / 2));
+
+// Allow environment overrides: VITEST_MAX_THREADS and VITEST_MIN_THREADS
+const envMax = process.env.VITEST_MAX_THREADS
+    ? Number(process.env.VITEST_MAX_THREADS)
+    : undefined;
+const envMin = process.env.VITEST_MIN_THREADS
+    ? Number(process.env.VITEST_MIN_THREADS)
+    : undefined;
+
+const parsedEnvMax = typeof envMax === 'number' ? envMax : undefined;
+const parsedEnvMin = typeof envMin === 'number' ? envMin : undefined;
+const maxThreadsAuto =
+    parsedEnvMax && parsedEnvMax > 0 ? parsedEnvMax : autoMax;
+const minThreadsAuto =
+    parsedEnvMin && parsedEnvMin > 0 ? parsedEnvMin : autoMin;
+
+if (!process.env.VITEST_NO_AUTO_LOG) {
+    console.log(
+        `[vitest] cpu total:${totalCpus}, reserved:${reservedCpus}, auto -> max:${maxThreadsAuto}, min:${minThreadsAuto}`,
+    );
+}
 
 export default defineConfig({
     test: {
@@ -26,8 +55,9 @@ export default defineConfig({
         },
         poolOptions: {
             threads: {
-                maxThreads: 5,
-                minThreads: 4,
+                // Use auto-calculated values but keep sensible minimums.
+                maxThreads: maxThreadsAuto,
+                minThreads: minThreadsAuto,
             },
         },
     },
