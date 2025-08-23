@@ -22,14 +22,15 @@
  */
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
-import { RACE_TYPE_LIST_HORSE_RACING } from '../../../../../lib/src/utility/raceType';
 import {
     defaultLocation,
     defaultRaceGrade,
+    testRaceTypeListHorseRacing,
 } from '../../mock/common/baseCommonData';
 
-describe('HorseRacingRaceRecord', () => {
-    describe.each(RACE_TYPE_LIST_HORSE_RACING)('%s', (raceType) => {
+describe.each(testRaceTypeListHorseRacing)(
+    'HorseRacingRaceRecord %s',
+    (raceType) => {
         const validDate = new Date('2026-01-01T00:00:00Z');
         const validLocation = defaultLocation[raceType];
         const validSurfaceType = 'ダート';
@@ -279,5 +280,5 @@ describe('HorseRacingRaceRecord', () => {
                 );
             });
         });
-    });
-});
+    },
+);

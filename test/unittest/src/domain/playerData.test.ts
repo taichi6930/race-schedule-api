@@ -10,10 +10,10 @@
  * |6 |有効    |有効             |有効         |有効   |{ playerNumber: undefined }               |playerNumberは元値維持   |copyでplayerNumber: undefined      |
  */
 import { PlayerData } from '../../../../lib/src/domain/playerData';
-import { RACE_TYPE_LIST_MECHANICAL_RACING } from '../../../../lib/src/utility/raceType';
+import { testRaceTypeListMechanicalRacing } from '../mock/common/baseCommonData';
 
 describe('PlayerDataクラスのテスト', () => {
-    describe.each(RACE_TYPE_LIST_MECHANICAL_RACING)(
+    describe.each(testRaceTypeListMechanicalRacing)(
         'レースタイプ: %s',
         (raceType) => {
             const validPlayerNumber = 10000;

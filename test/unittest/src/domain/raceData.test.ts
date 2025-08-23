@@ -1,14 +1,16 @@
 import { RaceData } from '../../../../lib/src/domain/raceData';
-import { RaceType } from '../../../../lib/src/utility/raceType';
+import {
+    defaultLocation,
+    testRaceTypeListAll,
+} from '../mock/common/baseCommonData';
 
-describe('RaceDataクラスのテスト', () => {
-    const validRaceType = RaceType.JRA;
-    const validName = '東京優駿';
+describe.each(testRaceTypeListAll)('RaceDataクラスのテスト(%s)', (raceType) => {
+    const validName = 'テストレース';
     const invalidName = '';
     const validDateTime = new Date('2024-05-26 15:40');
     const invalidDateTime = new Date('');
-    const validLocation = '東京';
-    const invalidLocation = '大井';
+    const validLocation = defaultLocation[raceType];
+    const invalidLocation = '日本';
     const validGrade = 'GⅠ';
     const invalidGrade = 'G9';
     const validNumber = 10;
@@ -31,14 +33,14 @@ describe('RaceDataクラスのテスト', () => {
     // 1. 正常系
     it('|1|有効|有効|有効|有効|有効|有効|OK|', () => {
         const data = RaceData.create(
-            validRaceType,
+            raceType,
             validName,
             validDateTime,
             validLocation,
             validGrade,
             validNumber,
         );
-        expect(data.raceType).toBe(validRaceType);
+        expect(data.raceType).toBe(raceType);
         expect(data.name).toBe(validName);
         expect(data.dateTime).toStrictEqual(validDateTime);
         expect(data.location).toBe(validLocation);
@@ -50,7 +52,7 @@ describe('RaceDataクラスのテスト', () => {
     it('|2|有効|無効|有効|有効|有効|有効|Error|', () => {
         expect(() =>
             RaceData.create(
-                validRaceType,
+                raceType,
                 invalidName,
                 validDateTime,
                 validLocation,
@@ -64,7 +66,7 @@ describe('RaceDataクラスのテスト', () => {
     it('|3|有効|有効|無効|有効|有効|有効|Error|', () => {
         expect(() =>
             RaceData.create(
-                validRaceType,
+                raceType,
                 validName,
                 invalidDateTime,
                 validLocation,
@@ -78,7 +80,7 @@ describe('RaceDataクラスのテスト', () => {
     it('|4|有効|有効|有効|無効|有効|有効|Error|', () => {
         expect(() =>
             RaceData.create(
-                validRaceType,
+                raceType,
                 validName,
                 validDateTime,
                 invalidLocation,
@@ -92,7 +94,7 @@ describe('RaceDataクラスのテスト', () => {
     it('|5|有効|有効|有効|有効|無効|有効|Error|', () => {
         expect(() =>
             RaceData.create(
-                validRaceType,
+                raceType,
                 validName,
                 validDateTime,
                 validLocation,
@@ -106,7 +108,7 @@ describe('RaceDataクラスのテスト', () => {
     it('|6|有効|有効|有効|有効|有効|無効|Error|', () => {
         expect(() =>
             RaceData.create(
-                validRaceType,
+                raceType,
                 validName,
                 validDateTime,
                 validLocation,
@@ -119,7 +121,7 @@ describe('RaceDataクラスのテスト', () => {
     // 7. copyで値変更
     it('|7|有効|有効|有効|有効|有効|有効|copyで値変更OK|', () => {
         const data = RaceData.create(
-            validRaceType,
+            raceType,
             validName,
             validDateTime,
             validLocation,
@@ -129,14 +131,14 @@ describe('RaceDataクラスのテスト', () => {
         const copied = data.copy({ name: '日本ダービー', number: 11 });
         expect(copied.name).toBe('日本ダービー');
         expect(copied.number).toBe(11);
-        expect(copied.raceType).toBe(validRaceType);
+        expect(copied.raceType).toBe(raceType);
         expect(copied.location).toBe(validLocation);
     });
 
     // 8. copyで不正値
     it('|8|有効|有効|有効|有効|有効|有効|copyで不正値→Error|', () => {
         const data = RaceData.create(
-            validRaceType,
+            raceType,
             validName,
             validDateTime,
             validLocation,
@@ -150,7 +152,7 @@ describe('RaceDataクラスのテスト', () => {
     // 9. copyでpartialが空
     it('|9|有効|有効|有効|有効|有効|有効|copyでpartial空→全プロパティ同値|', () => {
         const data = RaceData.create(
-            validRaceType,
+            raceType,
             validName,
             validDateTime,
             validLocation,
@@ -159,7 +161,7 @@ describe('RaceDataクラスのテスト', () => {
         );
         // partial: undefined
         const copied1 = data.copy();
-        expect(copied1.raceType).toBe(validRaceType);
+        expect(copied1.raceType).toBe(raceType);
         expect(copied1.name).toBe(validName);
         expect(copied1.dateTime).toStrictEqual(validDateTime);
         expect(copied1.location).toBe(validLocation);
@@ -168,7 +170,7 @@ describe('RaceDataクラスのテスト', () => {
 
         // partial: {}
         const copied2 = data.copy({});
-        expect(copied2.raceType).toBe(validRaceType);
+        expect(copied2.raceType).toBe(raceType);
         expect(copied2.name).toBe(validName);
         expect(copied2.dateTime).toStrictEqual(validDateTime);
         expect(copied2.location).toBe(validLocation);

@@ -17,5 +17,17 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "spellright.language": ["en", "ja"],
-    "spellright.documentTypes": ["markdown", "latex", "plaintext"]
+    "spellright.documentTypes": ["markdown", "latex", "plaintext"],
+    "jest.nodeEnv": {
+        "TZ": "Asia/Tokyo"
+    },
+    // Run the same script the terminal uses so extension uses pnpm test script
+    "jest.jestCommandLine": "pnpm run test --",
+    // Use login shell so user's shell init files are sourced (macOS zsh)
+    "jest.shell": {
+        "path": "/bin/zsh",
+        "args": ["-l"]
+    },
+    // Enable debug logging to inspect spawned env if needed
+    "jest.debugMode": true
 }
