@@ -120,25 +120,9 @@ describe('RaceDataHtmlGateway', () => {
     ]) {
         it(`値が不足している時、エラーメッセージがスローされること（${descriptions}）`, async () => {
             const testDate = new Date('2024-10-01');
-            const expectedHtml = '<html>Test HTML</html>';
-
-            fetchMock.mockResolvedValue({
-                text: jest.fn().mockResolvedValue(expectedHtml),
-            });
-
             await expect(
                 gateway.getRaceDataHtml(raceType, testDate, place, number),
-            ).rejects.toThrow(expectedMessage);
-
-            // const html = await gateway.getRaceDataHtml(
-            //     raceType,
-            //     testDate,
-            //     place,
-            //     number,
-            // );
-
-            // expect(fetchMock).toHaveBeenCalledWith(expectedMessage);
-            // expect(html).toBe(expectedHtml);
+            ).rejects.toThrow(new TypeError(expectedMessage));
         });
     }
 });
