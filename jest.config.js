@@ -1,4 +1,7 @@
 /* eslint-disable */
+// Ensure TZ is set when jest process starts (fallback if env not propagated)
+process.env.TZ = process.env.TZ || 'Asia/Tokyo';
+
 module.exports = {
     collectCoverage: true,
     collectCoverageFrom: ['lib/src/**/*.ts'],
