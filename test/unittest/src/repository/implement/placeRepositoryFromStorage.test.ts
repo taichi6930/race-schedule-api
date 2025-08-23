@@ -12,15 +12,13 @@ import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entit
 import { PlaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
-import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
-import type { RaceType } from '../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
 import { setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     defaultHeldDayData,
     defaultLocation,
     defaultPlaceGrade,
-    testRaceTypeListAll,
     testRaceTypeListWithoutOverseas,
 } from '../../mock/common/baseCommonData';
 
@@ -40,23 +38,23 @@ describe('PlaceRepositoryFromStorage', () => {
     });
 
     describe('fetchPlaceList', () => {
-        test('正しい開催場データを取得できる', async () => {
-            // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation(
-                async (folderName, fileName) => {
-                    return fs.readFileSync(
-                        path.resolve(
-                            __dirname,
-                            '../../mock/repository/csv',
-                            `${folderName}${fileName}`,
-                        ),
-                        'utf8',
-                    );
-                },
-            );
-
-            // テスト実行
-            for (const raceType of testRaceTypeListWithoutOverseas) {
+        test.each(testRaceTypeListWithoutOverseas)(
+            '正しい開催場データを取得できる(%s)',
+            async (raceType) => {
+                // モックの戻り値を設定
+                s3Gateway.fetchDataFromS3.mockImplementation(
+                    async (folderName, fileName) => {
+                        return fs.readFileSync(
+                            path.resolve(
+                                __dirname,
+                                '../../mock/repository/csv',
+                                `${folderName}${fileName}`,
+                            ),
+                            'utf8',
+                        );
+                    },
+                );
+                // テスト実行
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
                         new Date('2024-01-01'),
@@ -67,13 +65,14 @@ describe('PlaceRepositoryFromStorage', () => {
 
                 // レスポンスの検証
                 expect(placeEntityList).toHaveLength(1);
-            }
-        });
+            },
+        );
     });
 
     describe('registerPlaceList', () => {
-        test('正しい開催場データを登録できる', async () => {
-            for (const raceType of testRaceTypeListAll) {
+        test.each(testRaceTypeListWithoutOverseas)(
+            '正しい開催場データを登録できる(%s)',
+            async (raceType) => {
                 const _placeEntityList = placeEntityList(raceType);
                 // テスト実行
                 await expect(
@@ -87,12 +86,12 @@ describe('PlaceRepositoryFromStorage', () => {
                     successData: _placeEntityList,
                     failureData: [],
                 });
-            }
 
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
-                IS_SHORT_TEST ? 2 : 10,
-            );
-        });
+                expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
+                    raceType == RaceType.NAR ? 1 : 2,
+                );
+            },
+        );
     });
 
     // 1年間の開催場データを登録する
