@@ -13,6 +13,8 @@ import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import {
     RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_HORSE_RACING,
+    RACE_TYPE_LIST_MECHANICAL_RACING,
     RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RaceType,
 } from '../../../../../lib/src/utility/raceType';
@@ -485,6 +487,14 @@ export const testRaceTypeListAll = IS_SHORT_TEST
 export const testRaceTypeListWithoutOverseas = IS_SHORT_TEST
     ? [RaceType.JRA]
     : RACE_TYPE_LIST_WITHOUT_OVERSEAS;
+
+export const testRaceTypeListHorseRacing = IS_SHORT_TEST
+    ? [RaceType.JRA]
+    : RACE_TYPE_LIST_HORSE_RACING;
+
+export const testRaceTypeListMechanicalRacing = IS_SHORT_TEST
+    ? [RaceType.KEIRIN]
+    : RACE_TYPE_LIST_MECHANICAL_RACING;
 
 export const mockCalendarDataList = testRaceTypeListAll.map((raceType) =>
     baseCalendarData(raceType),

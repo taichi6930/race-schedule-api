@@ -19,14 +19,15 @@
  */
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
-import { RACE_TYPE_LIST_MECHANICAL_RACING } from '../../../../../lib/src/utility/raceType';
 import {
     defaultLocation,
     defaultStage,
+    testRaceTypeListMechanicalRacing,
 } from '../../mock/common/baseCommonData';
 
-describe('MechanicalRacingRaceRecord', () => {
-    describe.each(RACE_TYPE_LIST_MECHANICAL_RACING)('%s', (raceType) => {
+describe.each(testRaceTypeListMechanicalRacing)(
+    'MechanicalRacingRaceRecord %s',
+    (raceType) => {
         const validDate = new Date('2026-01-01T00:00:00Z');
         const validLocation = defaultLocation[raceType];
         const validNumber = 1;
@@ -231,5 +232,5 @@ describe('MechanicalRacingRaceRecord', () => {
                 expect(() => base.copy({ name: '' })).toThrow('RaceRecord');
             });
         });
-    });
-});
+    },
+);

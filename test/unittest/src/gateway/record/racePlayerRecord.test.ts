@@ -18,11 +18,14 @@
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
 import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
 import { generateRacePlayerId } from '../../../../../lib/src/utility/data/common/racePlayerId';
-import { RACE_TYPE_LIST_MECHANICAL_RACING } from '../../../../../lib/src/utility/raceType';
-import { defaultLocation } from '../../mock/common/baseCommonData';
+import {
+    defaultLocation,
+    testRaceTypeListMechanicalRacing,
+} from '../../mock/common/baseCommonData';
 
-describe('RacePlayerRecord', () => {
-    describe.each(RACE_TYPE_LIST_MECHANICAL_RACING)('%s', (raceType) => {
+describe.each(testRaceTypeListMechanicalRacing)(
+    'RacePlayerRecord %s',
+    (raceType) => {
         const validDate = new Date('2026-01-01T00:00:00Z');
         const validLocation = defaultLocation[raceType];
         const validNumber = 1;
@@ -181,5 +184,5 @@ describe('RacePlayerRecord', () => {
             const copied = base.copy({ updateDate: _date });
             expect(copied.updateDate).toEqual(_date);
         });
-    });
-});
+    },
+);
