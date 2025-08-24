@@ -9,7 +9,6 @@ import {
     toGoogleCalendarData,
 } from '../../utility/googleCalendar';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import { RaceEntity } from '../entity/raceEntity';
 import { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
@@ -31,11 +30,10 @@ export class GoogleCalendarRepository implements ICalendarRepository {
      */
     @Logger
     public async getEvents(
-        raceTypeList: RaceType[],
         searchFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
         const calendarDataList: CalendarData[] = [];
-        for (const raceType of raceTypeList) {
+        for (const raceType of searchFilter.raceTypeList) {
             // GoogleカレンダーAPIからイベントを取得
             try {
                 const _calendarDataList =

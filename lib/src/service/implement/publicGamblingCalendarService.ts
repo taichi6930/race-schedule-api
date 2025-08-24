@@ -39,9 +39,9 @@ export class PublicGamblingCalendarService implements ICalendarService {
         const searchFilter = new SearchCalendarFilterEntity(
             startDate,
             finishDate,
+            raceTypeList,
         );
-
-        return this.calendarRepository.getEvents(raceTypeList, searchFilter);
+        return this.calendarRepository.getEvents(searchFilter);
     }
 
     /**
