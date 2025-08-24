@@ -73,7 +73,6 @@ export const basePlaceRecord = (raceType: RaceType): PlaceRecord =>
 export const baseConditionData = (
     raceType: RaceType,
 ): HorseRaceConditionData | undefined => {
-    // Only horse races have surface/distance information. Return undefined for others.
     if (
         defaultRaceSurfaceType[raceType] == undefined ||
         defaultRaceDistance[raceType] == undefined
