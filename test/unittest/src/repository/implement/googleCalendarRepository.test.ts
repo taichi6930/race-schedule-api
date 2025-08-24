@@ -8,7 +8,10 @@ import { GoogleCalendarRepository } from '../../../../../lib/src/repository/impl
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import type { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
-import { setupTestGatewayMock } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestGatewayMock,
+} from '../../../../utility/testSetupHelper';
 import {
     baseCalendarData,
     baseCalendarDataFromGoogleCalendar,
@@ -30,7 +33,7 @@ describe('GoogleCalendarRepository', () => {
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     it('カレンダー情報が正常に取得できること', async () => {

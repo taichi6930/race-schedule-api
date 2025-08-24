@@ -17,7 +17,10 @@ import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
-import { setupTestGatewayMock } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestGatewayMock,
+} from '../../../../utility/testSetupHelper';
 import {
     baseConditionData,
     baseRacePlayerDataList,
@@ -47,7 +50,7 @@ describe('RaceRepositoryFromStorage', () => {
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     describe('fetchRaceList', () => {

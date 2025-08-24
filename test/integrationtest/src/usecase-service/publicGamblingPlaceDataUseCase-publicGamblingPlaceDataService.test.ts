@@ -15,7 +15,10 @@ import {
     testRaceTypeListWithoutOverseas,
 } from '../../../unittest/src/mock/common/baseCommonData';
 import type { TestRepositorySetup } from '../../../utility/testSetupHelper';
-import { setupTestRepositoryMock } from '../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestRepositoryMock,
+} from '../../../utility/testSetupHelper';
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 
 describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => {
@@ -48,7 +51,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     const mockPlaceEntity = testRaceTypeListWithoutOverseas.map((raceType) =>

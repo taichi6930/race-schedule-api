@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import * as fs from 'node:fs';
 import path from 'node:path';
+import { afterEach } from 'node:test';
 
 import { container } from 'tsyringe';
 
@@ -14,7 +15,10 @@ import type { IPlaceRepository } from '../../../../../lib/src/repository/interfa
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
-import { setupTestGatewayMock } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestGatewayMock,
+} from '../../../../utility/testSetupHelper';
 import {
     defaultHeldDayData,
     defaultLocation,
@@ -34,7 +38,7 @@ describe('PlaceRepositoryFromStorage', () => {
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     describe('fetchPlaceList', () => {

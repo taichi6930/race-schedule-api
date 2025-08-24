@@ -14,6 +14,7 @@ import type { IPlaceRepository } from '../../../../../lib/src/repository/interfa
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
+import { clearMocks } from '../../../../utility/testSetupHelper';
 import {
     basePlaceEntity,
     testRaceTypeListWithoutOverseas,
@@ -93,7 +94,7 @@ describe.each(testRaceTypeListWithoutOverseas)(
                 });
 
                 afterEach(() => {
-                    jest.clearAllMocks();
+                    clearMocks();
                 });
 
                 describe('fetchPlaceList', () => {
