@@ -5,10 +5,9 @@ import { container } from 'tsyringe';
 import type { IPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { AutoracePlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtml';
 import { BoatracePlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtml';
 import { JraPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtml';
-import { KeirinPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtml';
+import { MechanicalRacingPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/mechanicalRacingPlaceRepositoryFromHtml';
 import { NarPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/narPlaceRepositoryFromHtml';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
@@ -43,7 +42,7 @@ const testCases = {
     [RaceType.KEIRIN]: [
         {
             name: 'KeirinPlaceRepositoryFromHtml',
-            repositoryClass: KeirinPlaceRepositoryFromHtml,
+            repositoryClass: MechanicalRacingPlaceRepositoryFromHtml,
             startDate: new Date('2024-10-01'),
             endDate: new Date('2024-10-31'),
             expectedLength: 233,
@@ -52,7 +51,7 @@ const testCases = {
     [RaceType.AUTORACE]: [
         {
             name: 'AutoracePlaceRepositoryFromHtml',
-            repositoryClass: AutoracePlaceRepositoryFromHtml,
+            repositoryClass: MechanicalRacingPlaceRepositoryFromHtml,
             startDate: new Date('2024-11-01'),
             endDate: new Date('2024-11-30'),
             expectedLength: 60,

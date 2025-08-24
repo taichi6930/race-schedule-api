@@ -6,7 +6,10 @@ import { inject, injectable } from 'tsyringe';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { GradeType } from '../../utility/data/common/gradeType';
-import { RaceCourse } from '../../utility/data/common/raceCourse';
+import {
+    RaceCourse,
+    validateRaceCourse,
+} from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -15,10 +18,12 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
- * オートレースデータリポジトリの実装
+ * 競輪場データリポジトリの実装
  */
 @injectable()
-export class AutoracePlaceRepositoryFromHtml implements IPlaceRepository {
+export class MechanicalRacingPlaceRepositoryFromHtml
+    implements IPlaceRepository
+{
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
@@ -27,7 +32,7 @@ export class AutoracePlaceRepositoryFromHtml implements IPlaceRepository {
     /**
      * 開催データを取得する
      * このメソッドで日付の範囲を指定して開催データを取得する
-     * @param searchFilter - 開催データ取得フィルタ
+     * @param searchFilter
      */
     @Logger
     public async fetchPlaceEntityList(
@@ -43,9 +48,33 @@ export class AutoracePlaceRepositoryFromHtml implements IPlaceRepository {
 
         // 各月のデータを取得して結合
         const monthPlaceEntityLists = await Promise.all(
-            monthList.map(async (month) =>
-                this.fetchMonthPlaceEntityList(searchFilter.raceType, month),
-            ),
+            monthList.map(async (month) => {
+                switch (searchFilter.raceType) {
+                    case RaceType.KEIRIN: {
+                        return this.fetchMonthPlaceEntityListForKeirin(
+                            searchFilter.raceType,
+                            month,
+                        );
+                    }
+                    case RaceType.AUTORACE: {
+                        return this.fetchMonthPlaceEntityListForAutorace(
+                            searchFilter.raceType,
+                            month,
+                        );
+                    }
+                    case RaceType.JRA:
+                    case RaceType.NAR:
+                    case RaceType.OVERSEAS:
+                    case RaceType.BOATRACE: {
+                        throw new Error(
+                            `Race type ${searchFilter.raceType} is not supported by this repository`,
+                        );
+                    }
+                    default: {
+                        throw new Error('Unsupported race type');
+                    }
+                }
+            }),
         );
 
         const placeEntityList = monthPlaceEntityLists.flat();
@@ -60,10 +89,9 @@ export class AutoracePlaceRepositoryFromHtml implements IPlaceRepository {
 
     /**
      * ターゲットの月リストを生成する
-     * startDateからfinishDateまでの月のリストを生成する
+     *startDateからfinishDateまでの月のリストを生成する
      * @param startDate
      * @param finishDate
-     * @returns 月初日の配列
      */
     private generateMonthList(startDate: Date, finishDate: Date): Date[] {
         const monthList: Date[] = [];
@@ -86,7 +114,88 @@ export class AutoracePlaceRepositoryFromHtml implements IPlaceRepository {
      * @param date
      */
     @Logger
-    private async fetchMonthPlaceEntityList(
+    private async fetchMonthPlaceEntityListForKeirin(
+        raceType: RaceType,
+        date: Date,
+    ): Promise<PlaceEntity[]> {
+        const placeEntityList: PlaceEntity[] = [];
+        // レース情報を取得
+        const htmlText: string =
+            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
+
+        const $ = cheerio.load(htmlText);
+
+        const chartWrapper = $('#content');
+
+        // tableタグが複数あるので、全て取得
+        const tables = chartWrapper.find('table');
+
+        tables.each((_: number, element) => {
+            // その中のtbodyを取得
+            const tbody = $(element).find('tbody');
+            // tr class="ref_sche"を取得
+            const trs = tbody.find('tr');
+            trs.each((__: number, trElement) => {
+                try {
+                    // thを取得
+                    const th = $(trElement).find('th');
+
+                    // thのテキストが RaceCourseに含まれているか
+                    if (!th.text()) {
+                        return;
+                    }
+                    const place: RaceCourse = validateRaceCourse(
+                        raceType,
+                        th.text(),
+                    );
+
+                    const tds = $(trElement).find('td');
+                    tds.each((index: number, tdElement) => {
+                        const imgs = $(tdElement).find('img');
+                        let grade: GradeType | undefined;
+                        imgs.each((___, img) => {
+                            const alt = $(img).attr('alt');
+                            if (alt !== undefined && alt.trim() !== '') {
+                                grade = alt
+                                    .replace('1', 'Ⅰ')
+                                    .replace('2', 'Ⅱ')
+                                    .replace('3', 'Ⅲ');
+                            }
+                        });
+                        const datetime = new Date(
+                            date.getFullYear(),
+                            date.getMonth(),
+                            index + 1,
+                        );
+                        // alt属性を出力
+                        if (grade) {
+                            placeEntityList.push(
+                                PlaceEntity.createWithoutId(
+                                    PlaceData.create(raceType, datetime, place),
+                                    undefined,
+                                    grade,
+                                    getJSTDate(new Date()),
+                                ),
+                            );
+                        }
+                    });
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+        });
+        return placeEntityList;
+    }
+
+    /**
+     * S3から開催データを取得する
+     * ファイル名を利用してS3から開催データを取得する
+     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * @param raceType - レース種別
+     * @param date
+     */
+    @Logger
+    private async fetchMonthPlaceEntityListForAutorace(
         raceType: RaceType,
         date: Date,
     ): Promise<PlaceEntity[]> {

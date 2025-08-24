@@ -1,13 +1,12 @@
 import { container } from 'tsyringe';
 
-import { AutoracePlaceRepositoryFromHtml } from '../../src/repository/implement/autoracePlaceRepositoryFromHtml';
 import { AutoraceRaceRepositoryFromHtml } from '../../src/repository/implement/autoraceRaceRepositoryFromHtml';
 import { BoatracePlaceRepositoryFromHtml } from '../../src/repository/implement/boatracePlaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtml } from '../../src/repository/implement/boatraceRaceRepositoryFromHtml';
 import { JraPlaceRepositoryFromHtml } from '../../src/repository/implement/jraPlaceRepositoryFromHtml';
 import { JraRaceRepositoryFromHtml } from '../../src/repository/implement/jraRaceRepositoryFromHtml';
-import { KeirinPlaceRepositoryFromHtml } from '../../src/repository/implement/keirinPlaceRepositoryFromHtml';
 import { KeirinRaceRepositoryFromHtml } from '../../src/repository/implement/keirinRaceRepositoryFromHtml';
+import { MechanicalRacingPlaceRepositoryFromHtml } from '../../src/repository/implement/mechanicalRacingPlaceRepositoryFromHtml';
 import { NarPlaceRepositoryFromHtml } from '../../src/repository/implement/narPlaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from '../../src/repository/implement/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtml } from '../../src/repository/implement/overseasRaceRepositoryFromHtml';
@@ -39,14 +38,14 @@ switch (ENV) {
             useClass: KeirinRaceRepositoryFromHtml,
         });
         container.register<IPlaceRepository>('KeirinPlaceRepositoryFromHtml', {
-            useClass: KeirinPlaceRepositoryFromHtml,
+            useClass: MechanicalRacingPlaceRepositoryFromHtml,
         });
         container.register<IRaceRepository>('AutoraceRaceRepositoryFromHtml', {
             useClass: AutoraceRaceRepositoryFromHtml,
         });
         container.register<IPlaceRepository>(
             'AutoracePlaceRepositoryFromHtml',
-            { useClass: AutoracePlaceRepositoryFromHtml },
+            { useClass: MechanicalRacingPlaceRepositoryFromHtml },
         );
         container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
             useClass: OverseasRaceRepositoryFromHtml,
