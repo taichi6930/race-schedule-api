@@ -3,30 +3,23 @@ import path from 'path';
 import { defineConfig } from 'vitest/config';
 
 // Determine suitable thread counts from available CPUs.
-// Reserve 2 cores when possible to keep the system responsive during test runs.
+// Reserve fewer cores (1) to increase parallelism by default while keeping the
+// system responsive. Users can still override with environment variables.
 const totalCpus = Math.max(1, (os.cpus() || []).length);
-const reservedCpus = totalCpus > 2 ? 2 : 0; // leave 2 cores free when available
+const reservedCpus = totalCpus > 1 ? 1 : 0; // leave 1 core free when available
 const autoMax = Math.max(1, totalCpus - reservedCpus);
 const autoMin = Math.max(1, Math.floor(autoMax / 2));
 
-// Allow environment overrides: VITEST_MAX_THREADS and VITEST_MIN_THREADS
-const envMax = process.env.VITEST_MAX_THREADS
-    ? Number(process.env.VITEST_MAX_THREADS)
-    : undefined;
-const envMin = process.env.VITEST_MIN_THREADS
-    ? Number(process.env.VITEST_MIN_THREADS)
-    : undefined;
-
-const parsedEnvMax = typeof envMax === 'number' ? envMax : undefined;
-const parsedEnvMin = typeof envMin === 'number' ? envMin : undefined;
-const maxThreadsAuto =
-    parsedEnvMax && parsedEnvMax > 0 ? parsedEnvMax : autoMax;
-const minThreadsAuto =
-    parsedEnvMin && parsedEnvMin > 0 ? parsedEnvMin : autoMin;
+// Use fixed thread counts by default: allocate (totalCpus - reservedCpus)
+// worker threads and set a sensible minimum (half of max). This keeps
+// behavior deterministic across environments; adjust reservedCpus above
+// if you want to reserve more cores.
+const fixedMaxThreads = Math.max(1, totalCpus - reservedCpus);
+const fixedMinThreads = Math.max(1, Math.floor(fixedMaxThreads / 2));
 
 if (!process.env.VITEST_NO_AUTO_LOG) {
     console.log(
-        `[vitest] cpu total:${totalCpus}, reserved:${reservedCpus}, auto -> max:${maxThreadsAuto}, min:${minThreadsAuto}`,
+        `[vitest] cpu total:${totalCpus}, reserved:${reservedCpus}, fixed -> max:${fixedMaxThreads}, min:${fixedMinThreads}`,
     );
 }
 
@@ -71,9 +64,9 @@ export default defineConfig({
 
         poolOptions: {
             threads: {
-                // Use auto-calculated values but keep sensible minimums.
-                maxThreads: maxThreadsAuto,
-                minThreads: minThreadsAuto,
+                // Use fixed values derived from available CPUs.
+                maxThreads: fixedMaxThreads,
+                minThreads: fixedMinThreads,
             },
         },
     },
