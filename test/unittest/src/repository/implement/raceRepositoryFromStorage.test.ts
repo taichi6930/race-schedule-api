@@ -16,8 +16,8 @@ import type { IRaceRepository } from '../../../../../lib/src/repository/interfac
 import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import type { TestSetup } from '../../../../utility/testSetupHelper';
-import { setupTestMock } from '../../../../utility/testSetupHelper';
+import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
+import { setupTestGatewayMock } from '../../../../utility/testSetupHelper';
 import {
     baseConditionData,
     baseRacePlayerDataList,
@@ -34,7 +34,7 @@ describe('RaceRepositoryFromStorage', () => {
     let mechanicalRacingRaceRepository: IRaceRepository;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
+        const setup: TestGatewaySetup = setupTestGatewayMock();
         ({ s3Gateway } = setup);
 
         // テスト対象のリポジトリを生成

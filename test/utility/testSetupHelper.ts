@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import type { ICalendarGateway } from '../../lib/src/gateway/interface/iCalendarGateway';
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
 import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
@@ -10,6 +11,7 @@ import type { ICalendarService } from '../../lib/src/service/interface/ICalendar
 import type { IPlaceDataService } from '../../lib/src/service/interface/IPlaceDataService';
 import type { IPlayerDataService } from '../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../lib/src/service/interface/IRaceDataService';
+import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockS3Gateway } from '../unittest/src/mock/gateway/mockS3Gateway';
 import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
 import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
@@ -29,8 +31,7 @@ export function clearMocks(): void {
 /**
  * テスト用のセットアップ
  */
-export interface TestSetup {
-    s3Gateway: jest.Mocked<IS3Gateway>;
+export interface TestRepositorySetup {
     calendarRepository: jest.Mocked<ICalendarRepository>;
     jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
@@ -48,6 +49,14 @@ export interface TestSetup {
     autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
 }
 
+/**
+ * テスト用のセットアップ
+ */
+export interface TestGatewaySetup {
+    googleCalendarGateway: jest.Mocked<ICalendarGateway>;
+    s3Gateway: jest.Mocked<IS3Gateway>;
+}
+
 export interface TestServiceSetup {
     calendarService: jest.Mocked<ICalendarService>;
     raceDataService: jest.Mocked<IRaceDataService>;
@@ -59,10 +68,7 @@ export interface TestServiceSetup {
  * テスト用のセットアップ
  * @returns セットアップ済みのサービス
  */
-export function setupTestMock(): TestSetup {
-    const s3Gateway = mockS3Gateway();
-    container.registerInstance('S3Gateway', s3Gateway);
-
+export function setupTestRepositoryMock(): TestRepositorySetup {
     const raceRepositoryFromStorage = mockRaceRepository();
     container.registerInstance<IRaceRepository>(
         'RaceRepositoryFromStorage',
@@ -142,7 +148,6 @@ export function setupTestMock(): TestSetup {
         autoracePlaceRepositoryFromHtml,
     );
     return {
-        s3Gateway,
         calendarRepository,
         jraPlaceRepositoryFromHtml,
         placeRepositoryFromStorage,
@@ -158,6 +163,22 @@ export function setupTestMock(): TestSetup {
         keirinRaceRepositoryFromHtml,
         boatraceRaceRepositoryFromHtml,
         autoraceRaceRepositoryFromHtml,
+    };
+}
+
+/**
+ * テスト用のセットアップ
+ * @returns セットアップ済みのサービス
+ */
+export function setupTestGatewayMock(): TestGatewaySetup {
+    const s3Gateway = mockS3Gateway();
+    container.registerInstance('S3Gateway', s3Gateway);
+    const googleCalendarGateway = mockGoogleCalendarGateway();
+    container.registerInstance('GoogleCalendarGateway', googleCalendarGateway);
+
+    return {
+        googleCalendarGateway,
+        s3Gateway,
     };
 }
 

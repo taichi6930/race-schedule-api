@@ -7,6 +7,8 @@ import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/en
 import { GoogleCalendarRepository } from '../../../../../lib/src/repository/implement/googleCalendarRepository';
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import type { RaceType } from '../../../../../lib/src/utility/raceType';
+import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
+import { setupTestGatewayMock } from '../../../../utility/testSetupHelper';
 import {
     baseCalendarData,
     baseCalendarDataFromGoogleCalendar,
@@ -15,18 +17,15 @@ import {
     mockCalendarDataList,
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
-import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
 describe('GoogleCalendarRepository', () => {
     let repository: ICalendarRepository;
     let googleCalendarGateway: jest.Mocked<ICalendarGateway>;
 
     beforeEach(() => {
-        googleCalendarGateway = mockGoogleCalendarGateway();
-        container.registerInstance(
-            'GoogleCalendarGateway',
-            googleCalendarGateway,
-        );
+        const setup: TestGatewaySetup = setupTestGatewayMock();
+        ({ googleCalendarGateway } = setup);
+
         repository = container.resolve(GoogleCalendarRepository);
     });
 

@@ -13,8 +13,8 @@ import { PlaceRepositoryFromStorage } from '../../../../../lib/src/repository/im
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import type { TestSetup } from '../../../../utility/testSetupHelper';
-import { setupTestMock } from '../../../../utility/testSetupHelper';
+import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
+import { setupTestGatewayMock } from '../../../../utility/testSetupHelper';
 import {
     defaultHeldDayData,
     defaultLocation,
@@ -27,7 +27,7 @@ describe('PlaceRepositoryFromStorage', () => {
     let repository: IPlaceRepository;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
+        const setup: TestGatewaySetup = setupTestGatewayMock();
         ({ s3Gateway } = setup);
         // テスト対象のリポジトリを生成
         repository = container.resolve(PlaceRepositoryFromStorage);

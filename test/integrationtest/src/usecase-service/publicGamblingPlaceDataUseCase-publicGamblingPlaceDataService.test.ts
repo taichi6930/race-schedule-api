@@ -14,8 +14,8 @@ import {
     testRaceTypeListAll,
     testRaceTypeListWithoutOverseas,
 } from '../../../unittest/src/mock/common/baseCommonData';
-import type { TestSetup } from '../../../utility/testSetupHelper';
-import { setupTestMock } from '../../../utility/testSetupHelper';
+import type { TestRepositorySetup } from '../../../utility/testSetupHelper';
+import { setupTestRepositoryMock } from '../../../utility/testSetupHelper';
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 
 describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => {
@@ -29,7 +29,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     let useCase: IPlaceDataUseCase;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
+        const setup: TestRepositorySetup = setupTestRepositoryMock();
         ({
             placeRepositoryFromStorage,
             jraPlaceRepositoryFromHtml,

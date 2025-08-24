@@ -8,8 +8,11 @@ import { PublicGamblingRaceDataService } from '../../../../../lib/src/service/im
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import type { TestSetup } from '../../../../utility/testSetupHelper';
-import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
+import type { TestRepositorySetup } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestRepositoryMock,
+} from '../../../../utility/testSetupHelper';
 import {
     baseRaceEntityList,
     mockRaceEntityList,
@@ -28,7 +31,7 @@ describe('PublicGamblingRaceDataService', () => {
     let service: IRaceDataService;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
+        const setup: TestRepositorySetup = setupTestRepositoryMock();
         ({
             raceRepositoryFromStorage,
             mechanicalRacingRaceRepositoryFromStorage,

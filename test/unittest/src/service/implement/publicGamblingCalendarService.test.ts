@@ -6,8 +6,11 @@ import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/en
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
-import type { TestSetup } from '../../../../utility/testSetupHelper';
-import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
+import type { TestRepositorySetup } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestRepositoryMock,
+} from '../../../../utility/testSetupHelper';
 import {
     mockCalendarDataList,
     mockRaceEntityList,
@@ -19,7 +22,7 @@ describe('PublicGamblingCalendarService', () => {
     let calendarRepository: jest.Mocked<ICalendarRepository>;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
+        const setup: TestRepositorySetup = setupTestRepositoryMock();
         ({ calendarRepository } = setup);
         service = container.resolve(PublicGamblingCalendarService);
     });
