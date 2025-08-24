@@ -41,7 +41,7 @@ const testCases = {
     ],
     [RaceType.KEIRIN]: [
         {
-            name: 'KeirinPlaceRepositoryFromHtml',
+            name: 'MechanicalRacingPlaceRepositoryFromHtml',
             repositoryClass: MechanicalRacingPlaceRepositoryFromHtml,
             startDate: new Date('2024-10-01'),
             endDate: new Date('2024-10-31'),
@@ -50,7 +50,7 @@ const testCases = {
     ],
     [RaceType.AUTORACE]: [
         {
-            name: 'AutoracePlaceRepositoryFromHtml',
+            name: 'MechanicalRacingPlaceRepositoryFromHtml',
             repositoryClass: MechanicalRacingPlaceRepositoryFromHtml,
             startDate: new Date('2024-11-01'),
             endDate: new Date('2024-11-30'),

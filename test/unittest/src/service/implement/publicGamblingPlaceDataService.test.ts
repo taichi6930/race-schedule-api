@@ -73,11 +73,21 @@ describe('PublicGamblingPlaceDataService', () => {
             repositorySetup.narPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
                 [basePlaceEntity(RaceType.NAR)],
             );
-            repositorySetup.keirinPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.KEIRIN)],
-            );
-            repositorySetup.autoracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.AUTORACE)],
+            repositorySetup.mechanicalRacingPlaceRepositoryFromHtml.fetchPlaceEntityList.mockImplementation(
+                async (searchFilter: SearchPlaceFilterEntity) => {
+                    switch (searchFilter.raceType) {
+                        case RaceType.OVERSEAS: {
+                            throw new Error('race type is not supported');
+                        }
+                        case RaceType.JRA:
+                        case RaceType.NAR:
+                        case RaceType.KEIRIN:
+                        case RaceType.AUTORACE:
+                        case RaceType.BOATRACE: {
+                            return [basePlaceEntity(searchFilter.raceType)];
+                        }
+                    }
+                },
             );
             repositorySetup.boatracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
                 [basePlaceEntity(RaceType.BOATRACE)],

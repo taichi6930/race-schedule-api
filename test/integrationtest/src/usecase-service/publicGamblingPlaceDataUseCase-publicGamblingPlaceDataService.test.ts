@@ -114,10 +114,10 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             repositorySetUp.narPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
                 [basePlaceEntity(RaceType.NAR)],
             );
-            repositorySetUp.keirinPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
+            repositorySetUp.mechanicalRacingPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
                 [basePlaceEntity(RaceType.KEIRIN)],
             );
-            repositorySetUp.autoracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
+            repositorySetUp.mechanicalRacingPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
                 [basePlaceEntity(RaceType.AUTORACE)],
             );
             repositorySetUp.boatracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(

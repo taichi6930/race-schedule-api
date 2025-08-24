@@ -36,9 +36,8 @@ export interface TestRepositorySetup {
     jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
     narPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    keirinPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     boatracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    autoracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    mechanicalRacingPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
     jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
@@ -132,29 +131,23 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
         'NarPlaceRepositoryFromHtml',
         narPlaceRepositoryFromHtml,
     );
-    const keirinPlaceRepositoryFromHtml = mockPlaceRepository();
-    container.registerInstance<IPlaceRepository>(
-        'KeirinPlaceRepositoryFromHtml',
-        keirinPlaceRepositoryFromHtml,
-    );
     const boatracePlaceRepositoryFromHtml = mockPlaceRepository();
     container.registerInstance<IPlaceRepository>(
         'BoatracePlaceRepositoryFromHtml',
         boatracePlaceRepositoryFromHtml,
     );
-    const autoracePlaceRepositoryFromHtml = mockPlaceRepository();
+    const mechanicalRacingPlaceRepositoryFromHtml = mockPlaceRepository();
     container.registerInstance<IPlaceRepository>(
-        'AutoracePlaceRepositoryFromHtml',
-        autoracePlaceRepositoryFromHtml,
+        'MechanicalRacingPlaceRepositoryFromHtml',
+        mechanicalRacingPlaceRepositoryFromHtml,
     );
     return {
         calendarRepository,
         jraPlaceRepositoryFromHtml,
         placeRepositoryFromStorage,
         narPlaceRepositoryFromHtml,
-        keirinPlaceRepositoryFromHtml,
         boatracePlaceRepositoryFromHtml,
-        autoracePlaceRepositoryFromHtml,
+        mechanicalRacingPlaceRepositoryFromHtml,
         horseRacingRaceRepositoryFromStorage,
         jraRaceRepositoryFromHtml,
         narRaceRepositoryFromHtml,
