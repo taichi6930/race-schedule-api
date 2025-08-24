@@ -3,7 +3,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
-import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/implement/publicGamblingPlaceDataService';
 import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import { PublicGamblingPlaceDataUseCase } from '../../../../lib/src/usecase/implement/publicGamblingPlaceDataUseCase';
@@ -22,25 +21,12 @@ import {
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 
 describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => {
-    let placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
-    let jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    let narPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    let keirinPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    let boatracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    let autoracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    let repositorySetUp: TestRepositorySetup;
     let service: IPlaceDataService;
     let useCase: IPlaceDataUseCase;
 
     beforeEach(() => {
-        const setup: TestRepositorySetup = setupTestRepositoryMock();
-        ({
-            placeRepositoryFromStorage,
-            jraPlaceRepositoryFromHtml,
-            narPlaceRepositoryFromHtml,
-            keirinPlaceRepositoryFromHtml,
-            boatracePlaceRepositoryFromHtml,
-            autoracePlaceRepositoryFromHtml,
-        } = setup);
+        repositorySetUp = setupTestRepositoryMock();
 
         service = container.resolve(PublicGamblingPlaceDataService);
         container.registerInstance<IPlaceDataService>(
@@ -61,7 +47,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること', async () => {
             // モックの戻り値を設定
-            placeRepositoryFromStorage.fetchPlaceEntityList.mockImplementation(
+            repositorySetUp.placeRepositoryFromStorage.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.OVERSEAS: {
@@ -93,7 +79,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
 
     describe('updatePlaceDataList', () => {
         it('正常に開催場データが更新されること', async () => {
-            placeRepositoryFromStorage.registerPlaceEntityList.mockImplementation(
+            repositorySetUp.placeRepositoryFromStorage.registerPlaceEntityList.mockImplementation(
                 async (raceType: RaceType, placeEntityList: PlaceEntity[]) => {
                     return {
                         code: 200,
@@ -104,7 +90,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                 },
             );
             // モックの戻り値を設定
-            placeRepositoryFromStorage.fetchPlaceEntityList.mockImplementation(
+            repositorySetUp.placeRepositoryFromStorage.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.OVERSEAS: {
@@ -122,19 +108,19 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             );
 
             // モックの戻り値を設定
-            jraPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue([
-                basePlaceEntity(RaceType.JRA),
-            ]);
-            narPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue([
-                basePlaceEntity(RaceType.NAR),
-            ]);
-            keirinPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
+            repositorySetUp.jraPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
+                [basePlaceEntity(RaceType.JRA)],
+            );
+            repositorySetUp.narPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
+                [basePlaceEntity(RaceType.NAR)],
+            );
+            repositorySetUp.keirinPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
                 [basePlaceEntity(RaceType.KEIRIN)],
             );
-            autoracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
+            repositorySetUp.autoracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
                 [basePlaceEntity(RaceType.AUTORACE)],
             );
-            boatracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
+            repositorySetUp.boatracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
                 [basePlaceEntity(RaceType.BOATRACE)],
             );
 
@@ -148,7 +134,8 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             );
 
             expect(
-                placeRepositoryFromStorage.registerPlaceEntityList,
+                repositorySetUp.placeRepositoryFromStorage
+                    .registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
     });
