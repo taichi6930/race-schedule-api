@@ -15,7 +15,7 @@ import { IRaceDataService } from '../interface/IRaceDataService';
 @injectable()
 export class PublicGamblingRaceDataService implements IRaceDataService {
     public constructor(
-        @inject('RaceRepositoryFromStorage')
+        @inject('HorseRacingRaceRepositoryFromStorage')
         protected horseRacingRaceRepositoryFromStorage: IRaceRepository,
         @inject('JraRaceRepositoryFromHtml')
         protected jraRaceRepositoryFromHtml: IRaceRepository,

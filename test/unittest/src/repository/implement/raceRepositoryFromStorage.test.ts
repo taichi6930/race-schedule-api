@@ -7,11 +7,10 @@ import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
+import { HorseRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/horseRacingraceRepositoryFromStorage';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
-import { RaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/raceRepositoryFromStorage';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
@@ -32,17 +31,16 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('RaceRepositoryFromStorage', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway>;
+    let gatewaySetup: TestGatewaySetup;
     let horseRacingRaceRepository: IRaceRepository;
     let mechanicalRacingRaceRepository: IRaceRepository;
 
     beforeEach(() => {
-        const setup: TestGatewaySetup = setupTestGatewayMock();
-        ({ s3Gateway } = setup);
+        gatewaySetup = setupTestGatewayMock();
 
         // テスト対象のリポジトリを生成
         horseRacingRaceRepository = container.resolve(
-            RaceRepositoryFromStorage,
+            HorseRacingRaceRepositoryFromStorage,
         );
         mechanicalRacingRaceRepository = container.resolve(
             MechanicalRacingRaceRepositoryFromStorage,
@@ -55,7 +53,7 @@ describe('RaceRepositoryFromStorage', () => {
 
     describe('fetchRaceList', () => {
         beforeEach(() => {
-            s3Gateway.fetchDataFromS3.mockImplementation(
+            gatewaySetup.s3Gateway.fetchDataFromS3.mockImplementation(
                 async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
@@ -110,7 +108,7 @@ describe('RaceRepositoryFromStorage', () => {
                         makeRaceEntityList(raceType);
 
                     if (hasRegisterData) {
-                        s3Gateway.fetchDataFromS3.mockResolvedValue(
+                        gatewaySetup.s3Gateway.fetchDataFromS3.mockResolvedValue(
                             fs.readFileSync(
                                 path.resolve(
                                     __dirname,
@@ -134,7 +132,9 @@ describe('RaceRepositoryFromStorage', () => {
                         raceType,
                         raceEntityList,
                     );
-                    expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
+                    expect(
+                        gatewaySetup.s3Gateway.uploadDataToS3,
+                    ).toHaveBeenCalledTimes(
                         raceType === RaceType.JRA ||
                             raceType === RaceType.NAR ||
                             raceType === RaceType.OVERSEAS

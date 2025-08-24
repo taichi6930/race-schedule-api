@@ -7,7 +7,6 @@ import { afterEach } from 'node:test';
 import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
-import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
@@ -27,12 +26,11 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('PlaceRepositoryFromStorage', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway>;
+    let gatewaySetup: TestGatewaySetup;
     let repository: IPlaceRepository;
 
     beforeEach(() => {
-        const setup: TestGatewaySetup = setupTestGatewayMock();
-        ({ s3Gateway } = setup);
+        gatewaySetup = setupTestGatewayMock();
         // テスト対象のリポジトリを生成
         repository = container.resolve(PlaceRepositoryFromStorage);
     });
@@ -46,7 +44,7 @@ describe('PlaceRepositoryFromStorage', () => {
             '正しい開催場データを取得できる(%s)',
             async (raceType) => {
                 // モックの戻り値を設定
-                s3Gateway.fetchDataFromS3.mockImplementation(
+                gatewaySetup.s3Gateway.fetchDataFromS3.mockImplementation(
                     async (folderName, fileName) => {
                         return fs.readFileSync(
                             path.resolve(
@@ -91,9 +89,9 @@ describe('PlaceRepositoryFromStorage', () => {
                     failureData: [],
                 });
 
-                expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
-                    raceType == RaceType.NAR ? 1 : 2,
-                );
+                expect(
+                    gatewaySetup.s3Gateway.uploadDataToS3,
+                ).toHaveBeenCalledTimes(raceType == RaceType.NAR ? 1 : 2);
             },
         );
     });

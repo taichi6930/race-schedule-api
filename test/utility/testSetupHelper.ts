@@ -39,7 +39,7 @@ export interface TestRepositorySetup {
     keirinPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     boatracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     autoracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    raceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
+    horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
     jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     overseasRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
@@ -69,10 +69,10 @@ export interface TestServiceSetup {
  * @returns セットアップ済みのサービス
  */
 export function setupTestRepositoryMock(): TestRepositorySetup {
-    const raceRepositoryFromStorage = mockRaceRepository();
+    const horseRacingRaceRepositoryFromStorage = mockRaceRepository();
     container.registerInstance<IRaceRepository>(
-        'RaceRepositoryFromStorage',
-        raceRepositoryFromStorage,
+        'HorseRacingRaceRepositoryFromStorage',
+        horseRacingRaceRepositoryFromStorage,
     );
     const jraRaceRepositoryFromHtml = mockRaceRepository();
     container.registerInstance<IRaceRepository>(
@@ -155,7 +155,7 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
         keirinPlaceRepositoryFromHtml,
         boatracePlaceRepositoryFromHtml,
         autoracePlaceRepositoryFromHtml,
-        raceRepositoryFromStorage,
+        horseRacingRaceRepositoryFromStorage,
         jraRaceRepositoryFromHtml,
         narRaceRepositoryFromHtml,
         overseasRaceRepositoryFromHtml,
