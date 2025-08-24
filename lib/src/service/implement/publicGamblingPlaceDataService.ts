@@ -22,10 +22,8 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         protected placeRepositoryFromStorage: IPlaceRepository,
         @inject('JraPlaceRepositoryFromHtml')
         protected jraPlaceRepositoryFromHtml: IPlaceRepository,
-        @inject('NarPlaceRepositoryFromHtml')
-        protected narPlaceRepositoryFromHtml: IPlaceRepository,
-        @inject('MechanicalRacingPlaceRepositoryFromHtml')
-        protected mechanicalRacingPlaceRepositoryFromHtml: IPlaceRepository,
+        @inject('PlaceRepositoryFromHtml')
+        protected placeRepositoryFromHtml: IPlaceRepository,
         @inject('BoatracePlaceRepositoryFromHtml')
         protected boatracePlaceRepositoryFromHtml: IPlaceRepository,
     ) {}
@@ -49,10 +47,10 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
 
         const placeRepositoryFromHtml = {
             [RaceType.JRA]: this.jraPlaceRepositoryFromHtml,
-            [RaceType.NAR]: this.narPlaceRepositoryFromHtml,
+            [RaceType.NAR]: this.placeRepositoryFromHtml,
             [RaceType.OVERSEAS]: undefined, // 海外競馬は対象外
-            [RaceType.KEIRIN]: this.mechanicalRacingPlaceRepositoryFromHtml,
-            [RaceType.AUTORACE]: this.mechanicalRacingPlaceRepositoryFromHtml,
+            [RaceType.KEIRIN]: this.placeRepositoryFromHtml,
+            [RaceType.AUTORACE]: this.placeRepositoryFromHtml,
             [RaceType.BOATRACE]: this.boatracePlaceRepositoryFromHtml,
         };
 

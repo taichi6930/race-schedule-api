@@ -35,9 +35,8 @@ export interface TestRepositorySetup {
     calendarRepository: jest.Mocked<ICalendarRepository>;
     jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
-    narPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     boatracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    mechanicalRacingPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    placeRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
     jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
@@ -126,28 +125,22 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
         'PlaceRepositoryFromStorage',
         placeRepositoryFromStorage,
     );
-    const narPlaceRepositoryFromHtml = mockPlaceRepository();
-    container.registerInstance<IPlaceRepository>(
-        'NarPlaceRepositoryFromHtml',
-        narPlaceRepositoryFromHtml,
-    );
     const boatracePlaceRepositoryFromHtml = mockPlaceRepository();
     container.registerInstance<IPlaceRepository>(
         'BoatracePlaceRepositoryFromHtml',
         boatracePlaceRepositoryFromHtml,
     );
-    const mechanicalRacingPlaceRepositoryFromHtml = mockPlaceRepository();
+    const placeRepositoryFromHtml = mockPlaceRepository();
     container.registerInstance<IPlaceRepository>(
-        'MechanicalRacingPlaceRepositoryFromHtml',
-        mechanicalRacingPlaceRepositoryFromHtml,
+        'PlaceRepositoryFromHtml',
+        placeRepositoryFromHtml,
     );
     return {
         calendarRepository,
         jraPlaceRepositoryFromHtml,
         placeRepositoryFromStorage,
-        narPlaceRepositoryFromHtml,
         boatracePlaceRepositoryFromHtml,
-        mechanicalRacingPlaceRepositoryFromHtml,
+        placeRepositoryFromHtml,
         horseRacingRaceRepositoryFromStorage,
         jraRaceRepositoryFromHtml,
         narRaceRepositoryFromHtml,

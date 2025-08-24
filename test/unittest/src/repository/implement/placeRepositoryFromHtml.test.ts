@@ -7,8 +7,7 @@ import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mo
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { BoatracePlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtml';
 import { JraPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtml';
-import { MechanicalRacingPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/mechanicalRacingPlaceRepositoryFromHtml';
-import { NarPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/narPlaceRepositoryFromHtml';
+import { PlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -32,8 +31,8 @@ const testCases = {
     ],
     [RaceType.NAR]: [
         {
-            name: 'NarPlaceRepositoryFromHtml',
-            repositoryClass: NarPlaceRepositoryFromHtml,
+            name: 'PlaceRepositoryFromHtml',
+            repositoryClass: PlaceRepositoryFromHtml,
             startDate: new Date('2024-10-01'),
             endDate: new Date('2024-10-31'),
             expectedLength: 120,
@@ -41,8 +40,8 @@ const testCases = {
     ],
     [RaceType.KEIRIN]: [
         {
-            name: 'MechanicalRacingPlaceRepositoryFromHtml',
-            repositoryClass: MechanicalRacingPlaceRepositoryFromHtml,
+            name: 'PlaceRepositoryFromHtml',
+            repositoryClass: PlaceRepositoryFromHtml,
             startDate: new Date('2024-10-01'),
             endDate: new Date('2024-10-31'),
             expectedLength: 233,
@@ -50,8 +49,8 @@ const testCases = {
     ],
     [RaceType.AUTORACE]: [
         {
-            name: 'MechanicalRacingPlaceRepositoryFromHtml',
-            repositoryClass: MechanicalRacingPlaceRepositoryFromHtml,
+            name: 'PlaceRepositoryFromHtml',
+            repositoryClass: PlaceRepositoryFromHtml,
             startDate: new Date('2024-11-01'),
             endDate: new Date('2024-11-30'),
             expectedLength: 60,

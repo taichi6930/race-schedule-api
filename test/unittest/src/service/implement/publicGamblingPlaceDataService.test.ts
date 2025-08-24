@@ -70,10 +70,7 @@ describe('PublicGamblingPlaceDataService', () => {
             repositorySetup.jraPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
                 [basePlaceEntity(RaceType.JRA)],
             );
-            repositorySetup.narPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.NAR)],
-            );
-            repositorySetup.mechanicalRacingPlaceRepositoryFromHtml.fetchPlaceEntityList.mockImplementation(
+            repositorySetup.placeRepositoryFromHtml.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.OVERSEAS: {
