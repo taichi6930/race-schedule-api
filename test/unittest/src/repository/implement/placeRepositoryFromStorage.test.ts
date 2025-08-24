@@ -2,19 +2,26 @@ import 'reflect-metadata';
 
 import * as fs from 'node:fs';
 import path from 'node:path';
+import { afterEach } from 'node:test';
 
 import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
-import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
+import {
+    IS_LARGE_AMOUNT_DATA_TEST,
+    IS_SHORT_TEST,
+} from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import type { TestSetup } from '../../../../utility/testSetupHelper';
-import { setupTestMock } from '../../../../utility/testSetupHelper';
+import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestGatewayMock,
+} from '../../../../utility/testSetupHelper';
 import {
     defaultHeldDayData,
     defaultLocation,
@@ -23,18 +30,17 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('PlaceRepositoryFromStorage', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway>;
+    let gatewaySetup: TestGatewaySetup;
     let repository: IPlaceRepository;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
-        ({ s3Gateway } = setup);
+        gatewaySetup = setupTestGatewayMock();
         // テスト対象のリポジトリを生成
         repository = container.resolve(PlaceRepositoryFromStorage);
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     describe('fetchPlaceList', () => {
@@ -42,7 +48,7 @@ describe('PlaceRepositoryFromStorage', () => {
             '正しい開催場データを取得できる(%s)',
             async (raceType) => {
                 // モックの戻り値を設定
-                s3Gateway.fetchDataFromS3.mockImplementation(
+                gatewaySetup.s3Gateway.fetchDataFromS3.mockImplementation(
                     async (folderName, fileName) => {
                         return fs.readFileSync(
                             path.resolve(
@@ -87,26 +93,30 @@ describe('PlaceRepositoryFromStorage', () => {
                     failureData: [],
                 });
 
-                expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
-                    raceType == RaceType.NAR ? 1 : 2,
-                );
+                expect(
+                    gatewaySetup.s3Gateway.uploadDataToS3,
+                ).toHaveBeenCalledTimes(raceType == RaceType.NAR ? 1 : 2);
             },
         );
     });
 
     // 1年間の開催場データを登録する
-    const placeEntityList = (raceType: RaceType): PlaceEntity[] =>
-        Array.from({ length: 10 }, (_, day) => {
+    const placeEntityList = (raceType: RaceType): PlaceEntity[] => {
+        const dayCount = IS_SHORT_TEST
+            ? 5
+            : IS_LARGE_AMOUNT_DATA_TEST
+              ? 100
+              : 30;
+        return Array.from({ length: dayCount }, (_, day) => {
             const location = defaultLocation[raceType];
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return Array.from({ length: 12 }, () =>
-                PlaceEntity.createWithoutId(
-                    PlaceData.create(raceType, date, location),
-                    defaultHeldDayData[raceType],
-                    defaultPlaceGrade[raceType],
-                    getJSTDate(new Date()),
-                ),
+            return PlaceEntity.createWithoutId(
+                PlaceData.create(raceType, date, location),
+                defaultHeldDayData[raceType],
+                defaultPlaceGrade[raceType],
+                getJSTDate(new Date()),
             );
-        }).flat();
+        });
+    };
 });

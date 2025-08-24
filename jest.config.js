@@ -46,6 +46,8 @@ module.exports = {
             'jest-html-reporters',
             {
                 darkTheme: true,
+                includeFailureMsg: false,
+                includeConsoleLog: false,
             },
         ],
     ],

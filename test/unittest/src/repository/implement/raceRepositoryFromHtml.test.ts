@@ -1,5 +1,7 @@
 import 'reflect-metadata';
 
+import { afterEach } from 'node:test';
+
 import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
@@ -17,6 +19,7 @@ import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
+import { clearMocks } from '../../../../utility/testSetupHelper';
 import {
     defaultHeldDayData,
     defaultPlaceGrade,
@@ -139,7 +142,7 @@ describe.each(testRaceTypeListAll)(
                 });
 
                 afterEach(() => {
-                    jest.clearAllMocks();
+                    clearMocks();
                 });
 
                 describe('fetchRaceList', () => {

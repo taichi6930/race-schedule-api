@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import type { ICalendarGateway } from '../../lib/src/gateway/interface/iCalendarGateway';
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
 import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
@@ -10,6 +11,7 @@ import type { ICalendarService } from '../../lib/src/service/interface/ICalendar
 import type { IPlaceDataService } from '../../lib/src/service/interface/IPlaceDataService';
 import type { IPlayerDataService } from '../../lib/src/service/interface/IPlayerDataService';
 import type { IRaceDataService } from '../../lib/src/service/interface/IRaceDataService';
+import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockS3Gateway } from '../unittest/src/mock/gateway/mockS3Gateway';
 import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
 import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
@@ -29,8 +31,7 @@ export function clearMocks(): void {
 /**
  * テスト用のセットアップ
  */
-export interface TestSetup {
-    s3Gateway: jest.Mocked<IS3Gateway>;
+export interface TestRepositorySetup {
     calendarRepository: jest.Mocked<ICalendarRepository>;
     jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
@@ -38,7 +39,7 @@ export interface TestSetup {
     keirinPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     boatracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     autoracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    raceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
+    horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
     jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     overseasRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
@@ -46,6 +47,17 @@ export interface TestSetup {
     keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+}
+
+/**
+ * テスト用のセットアップ
+ */
+export interface TestGatewaySetup {
+    googleCalendarGateway: jest.Mocked<ICalendarGateway>;
+    s3Gateway: jest.Mocked<IS3Gateway>;
+}
+
+export interface TestServiceSetup {
     calendarService: jest.Mocked<ICalendarService>;
     raceDataService: jest.Mocked<IRaceDataService>;
     placeDataService: jest.Mocked<IPlaceDataService>;
@@ -56,14 +68,11 @@ export interface TestSetup {
  * テスト用のセットアップ
  * @returns セットアップ済みのサービス
  */
-export function setupTestMock(): TestSetup {
-    const s3Gateway = mockS3Gateway();
-    container.registerInstance('S3Gateway', s3Gateway);
-
-    const raceRepositoryFromStorage = mockRaceRepository();
+export function setupTestRepositoryMock(): TestRepositorySetup {
+    const horseRacingRaceRepositoryFromStorage = mockRaceRepository();
     container.registerInstance<IRaceRepository>(
-        'RaceRepositoryFromStorage',
-        raceRepositoryFromStorage,
+        'HorseRacingRaceRepositoryFromStorage',
+        horseRacingRaceRepositoryFromStorage,
     );
     const jraRaceRepositoryFromHtml = mockRaceRepository();
     container.registerInstance<IRaceRepository>(
@@ -138,6 +147,46 @@ export function setupTestMock(): TestSetup {
         'AutoracePlaceRepositoryFromHtml',
         autoracePlaceRepositoryFromHtml,
     );
+    return {
+        calendarRepository,
+        jraPlaceRepositoryFromHtml,
+        placeRepositoryFromStorage,
+        narPlaceRepositoryFromHtml,
+        keirinPlaceRepositoryFromHtml,
+        boatracePlaceRepositoryFromHtml,
+        autoracePlaceRepositoryFromHtml,
+        horseRacingRaceRepositoryFromStorage,
+        jraRaceRepositoryFromHtml,
+        narRaceRepositoryFromHtml,
+        overseasRaceRepositoryFromHtml,
+        mechanicalRacingRaceRepositoryFromStorage,
+        keirinRaceRepositoryFromHtml,
+        boatraceRaceRepositoryFromHtml,
+        autoraceRaceRepositoryFromHtml,
+    };
+}
+
+/**
+ * テスト用のセットアップ
+ * @returns セットアップ済みのサービス
+ */
+export function setupTestGatewayMock(): TestGatewaySetup {
+    const s3Gateway = mockS3Gateway();
+    container.registerInstance('S3Gateway', s3Gateway);
+    const googleCalendarGateway = mockGoogleCalendarGateway();
+    container.registerInstance('GoogleCalendarGateway', googleCalendarGateway);
+
+    return {
+        googleCalendarGateway,
+        s3Gateway,
+    };
+}
+
+/**
+ * テスト用のセットアップ（Serviceクラス）
+ * @returns セットアップ済みのサービス
+ */
+export function setupTestServiceMock(): TestServiceSetup {
     const calendarService = calendarServiceMock();
     container.registerInstance<ICalendarService>(
         'PublicGamblingCalendarService',
@@ -160,22 +209,6 @@ export function setupTestMock(): TestSetup {
     );
 
     return {
-        s3Gateway,
-        calendarRepository,
-        jraPlaceRepositoryFromHtml,
-        placeRepositoryFromStorage,
-        narPlaceRepositoryFromHtml,
-        keirinPlaceRepositoryFromHtml,
-        boatracePlaceRepositoryFromHtml,
-        autoracePlaceRepositoryFromHtml,
-        raceRepositoryFromStorage,
-        jraRaceRepositoryFromHtml,
-        narRaceRepositoryFromHtml,
-        overseasRaceRepositoryFromHtml,
-        mechanicalRacingRaceRepositoryFromStorage,
-        keirinRaceRepositoryFromHtml,
-        boatraceRaceRepositoryFromHtml,
-        autoraceRaceRepositoryFromHtml,
         calendarService,
         raceDataService,
         placeDataService,

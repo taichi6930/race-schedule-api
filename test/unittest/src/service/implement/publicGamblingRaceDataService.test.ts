@@ -3,13 +3,15 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { PublicGamblingRaceDataService } from '../../../../../lib/src/service/implement/publicGamblingRaceDataService';
 import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import type { TestSetup } from '../../../../utility/testSetupHelper';
-import { setupTestMock } from '../../../../utility/testSetupHelper';
+import type { TestRepositorySetup } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestRepositoryMock,
+} from '../../../../utility/testSetupHelper';
 import {
     baseRaceEntityList,
     mockRaceEntityList,
@@ -17,34 +19,17 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataService', () => {
-    let raceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
-    let jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    let narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    let overseasRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    let mechanicalRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
-    let keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    let boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    let autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    let repositorySetup: TestRepositorySetup;
     let service: IRaceDataService;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
-        ({
-            raceRepositoryFromStorage,
-            mechanicalRacingRaceRepositoryFromStorage,
-            jraRaceRepositoryFromHtml,
-            narRaceRepositoryFromHtml,
-            overseasRaceRepositoryFromHtml,
-            keirinRaceRepositoryFromHtml,
-            boatraceRaceRepositoryFromHtml,
-            autoraceRaceRepositoryFromHtml,
-        } = setup);
+        repositorySetup = setupTestRepositoryMock();
         // AutoraceRaceCalendarServiceをコンテナから取得
         service = container.resolve(PublicGamblingRaceDataService);
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     describe('fetchRaceEntityList', () => {
@@ -53,7 +38,7 @@ describe('PublicGamblingRaceDataService', () => {
                 desc: '正常にレース開催データが取得できること（storage）',
                 location: DataLocation.Storage,
                 setup: (): void => {
-                    raceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
+                    repositorySetup.horseRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
                         async (searchFilter: SearchPlaceFilterEntity) => {
                             switch (searchFilter.raceType) {
                                 case RaceType.KEIRIN:
@@ -73,7 +58,7 @@ describe('PublicGamblingRaceDataService', () => {
                             }
                         },
                     );
-                    mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
+                    repositorySetup.mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
                         async (searchFilter: SearchPlaceFilterEntity) => {
                             switch (searchFilter.raceType) {
                                 case RaceType.JRA:
@@ -99,22 +84,22 @@ describe('PublicGamblingRaceDataService', () => {
                 desc: '正常にレース開催データが取得できること（web）',
                 location: DataLocation.Web,
                 setup: (): void => {
-                    jraRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
+                    repositorySetup.jraRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
                         baseRaceEntityList(RaceType.JRA),
                     );
-                    narRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
+                    repositorySetup.narRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
                         baseRaceEntityList(RaceType.NAR),
                     );
-                    overseasRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
+                    repositorySetup.overseasRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
                         baseRaceEntityList(RaceType.OVERSEAS),
                     );
-                    keirinRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
+                    repositorySetup.keirinRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
                         baseRaceEntityList(RaceType.KEIRIN),
                     );
-                    boatraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
+                    repositorySetup.boatraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
                         baseRaceEntityList(RaceType.BOATRACE),
                     );
-                    autoraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
+                    repositorySetup.autoraceRaceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
                         baseRaceEntityList(RaceType.AUTORACE),
                     );
                 },
@@ -134,7 +119,7 @@ describe('PublicGamblingRaceDataService', () => {
 
         it('レース開催データが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            raceRepositoryFromStorage.fetchRaceEntityList.mockRejectedValue(
+            repositorySetup.horseRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockRejectedValue(
                 new Error('レース開催データの取得に失敗しました'),
             );
 
@@ -158,7 +143,7 @@ describe('PublicGamblingRaceDataService', () => {
 
     describe('updateRaceEntityList', () => {
         beforeEach(() => {
-            raceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
+            repositorySetup.horseRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.KEIRIN:
@@ -174,7 +159,7 @@ describe('PublicGamblingRaceDataService', () => {
                     }
                 },
             );
-            mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
+            repositorySetup.mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.JRA:
@@ -190,7 +175,7 @@ describe('PublicGamblingRaceDataService', () => {
                     }
                 },
             );
-            raceRepositoryFromStorage.registerRaceEntityList.mockImplementation(
+            repositorySetup.horseRacingRaceRepositoryFromStorage.registerRaceEntityList.mockImplementation(
                 async (raceType: RaceType) => {
                     switch (raceType) {
                         case RaceType.JRA:
@@ -211,7 +196,7 @@ describe('PublicGamblingRaceDataService', () => {
                     }
                 },
             );
-            mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList.mockImplementation(
+            repositorySetup.mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList.mockImplementation(
                 async (raceType: RaceType) => {
                     switch (raceType) {
                         case RaceType.JRA:
@@ -242,8 +227,8 @@ describe('PublicGamblingRaceDataService', () => {
                     raceType === RaceType.JRA ||
                     raceType === RaceType.NAR ||
                     raceType === RaceType.OVERSEAS
-                        ? raceRepositoryFromStorage
-                        : mechanicalRacingRaceRepositoryFromStorage;
+                        ? repositorySetup.horseRacingRaceRepositoryFromStorage
+                        : repositorySetup.mechanicalRacingRaceRepositoryFromStorage;
                 expect(repository.registerRaceEntityList).toHaveBeenCalledWith(
                     raceType,
                     baseRaceEntityList(raceType),
@@ -255,10 +240,12 @@ describe('PublicGamblingRaceDataService', () => {
             await service.updateRaceEntityList([]);
 
             expect(
-                raceRepositoryFromStorage.registerRaceEntityList,
+                repositorySetup.horseRacingRaceRepositoryFromStorage
+                    .registerRaceEntityList,
             ).not.toHaveBeenCalled();
             expect(
-                mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList,
+                repositorySetup.mechanicalRacingRaceRepositoryFromStorage
+                    .registerRaceEntityList,
             ).not.toHaveBeenCalled();
         });
     });

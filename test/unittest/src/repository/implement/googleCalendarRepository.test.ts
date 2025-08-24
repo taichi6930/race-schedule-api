@@ -2,11 +2,15 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { ICalendarGateway } from '../../../../../lib/src/gateway/interface/iCalendarGateway';
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { GoogleCalendarRepository } from '../../../../../lib/src/repository/implement/googleCalendarRepository';
 import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import type { RaceType } from '../../../../../lib/src/utility/raceType';
+import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestGatewayMock,
+} from '../../../../utility/testSetupHelper';
 import {
     baseCalendarData,
     baseCalendarDataFromGoogleCalendar,
@@ -15,27 +19,22 @@ import {
     mockCalendarDataList,
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
-import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
 describe('GoogleCalendarRepository', () => {
     let repository: ICalendarRepository;
-    let googleCalendarGateway: jest.Mocked<ICalendarGateway>;
+    let gatewaySetup: TestGatewaySetup;
 
     beforeEach(() => {
-        googleCalendarGateway = mockGoogleCalendarGateway();
-        container.registerInstance(
-            'GoogleCalendarGateway',
-            googleCalendarGateway,
-        );
+        gatewaySetup = setupTestGatewayMock();
         repository = container.resolve(GoogleCalendarRepository);
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     it('カレンダー情報が正常に取得できること', async () => {
-        googleCalendarGateway.fetchCalendarDataList.mockImplementation(
+        gatewaySetup.googleCalendarGateway.fetchCalendarDataList.mockImplementation(
             async (raceType: RaceType) => {
                 return [baseCalendarDataFromGoogleCalendar(raceType)];
             },
@@ -55,11 +54,13 @@ describe('GoogleCalendarRepository', () => {
             expect(calendarDataList).toContainEqual(data);
         }
 
-        expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
+        expect(
+            gatewaySetup.googleCalendarGateway.fetchCalendarDataList,
+        ).toHaveBeenCalled();
     });
 
     it('カレンダー情報が正常に取得できないこと', async () => {
-        googleCalendarGateway.fetchCalendarDataList.mockRejectedValue(
+        gatewaySetup.googleCalendarGateway.fetchCalendarDataList.mockRejectedValue(
             new Error('API Error'),
         );
 
@@ -73,66 +74,78 @@ describe('GoogleCalendarRepository', () => {
         );
 
         expect(calendarDataList).toHaveLength(0);
-        expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
+        expect(
+            gatewaySetup.googleCalendarGateway.fetchCalendarDataList,
+        ).toHaveBeenCalled();
     });
 
     test.each(testRaceTypeListAll)(
         'カレンダー情報が正常に削除できること(%s)',
         async (raceType) => {
-            googleCalendarGateway.deleteCalendarData.mockResolvedValue();
+            gatewaySetup.googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
             await repository.deleteEvents([baseCalendarData(raceType)]);
-            expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
+            expect(
+                gatewaySetup.googleCalendarGateway.deleteCalendarData,
+            ).toHaveBeenCalled();
         },
     );
 
     test.each(testRaceTypeListAll)(
         'カレンダー情報が正常に削除できないこと(%s)',
         async (raceType) => {
-            googleCalendarGateway.deleteCalendarData.mockRejectedValue(
+            gatewaySetup.googleCalendarGateway.deleteCalendarData.mockRejectedValue(
                 new Error('API Error'),
             );
 
             await repository.deleteEvents([baseCalendarData(raceType)]);
-            expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
+            expect(
+                gatewaySetup.googleCalendarGateway.deleteCalendarData,
+            ).toHaveBeenCalled();
         },
     );
 
     test.each(testRaceTypeListAll)(
         'カレンダー情報が正常に登録できること(%s)',
         async (raceType) => {
-            googleCalendarGateway.fetchCalendarData.mockRejectedValue(
+            gatewaySetup.googleCalendarGateway.fetchCalendarData.mockRejectedValue(
                 new Error('API Error'),
             );
 
             await repository.upsertEvents([baseRaceEntity(raceType)]);
 
-            expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
+            expect(
+                gatewaySetup.googleCalendarGateway.insertCalendarData,
+            ).toHaveBeenCalled();
         },
     );
 
     test.each(testRaceTypeListAll)(
         'カレンダー情報が正常に更新できること(%s)',
         async (raceType) => {
-            googleCalendarGateway.fetchCalendarData.mockResolvedValue(
+            gatewaySetup.googleCalendarGateway.fetchCalendarData.mockResolvedValue(
                 baseCalendarDataFromGoogleCalendar(raceType),
             );
 
             await repository.upsertEvents(baseRaceEntityList(raceType));
 
-            expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
+            expect(
+                gatewaySetup.googleCalendarGateway.updateCalendarData,
+            ).toHaveBeenCalled();
         },
     );
 
     test.each(testRaceTypeListAll)(
         'カレンダー情報が正常に更新できないこと(%s)',
         async (raceType) => {
-            googleCalendarGateway.insertCalendarData.mockRejectedValue(
+            gatewaySetup.googleCalendarGateway.insertCalendarData.mockRejectedValue(
                 new Error('API Error'),
             );
             await repository.upsertEvents(baseRaceEntityList(raceType));
 
-            expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
+            expect(
+                gatewaySetup.googleCalendarGateway.insertCalendarData,
+            ).toHaveBeenCalled();
         },
     );
 });

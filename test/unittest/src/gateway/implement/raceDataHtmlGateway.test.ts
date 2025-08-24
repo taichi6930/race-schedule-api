@@ -1,6 +1,7 @@
 import { RaceDataHtmlGateway } from '../../../../../lib/src/gateway/implement/raceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import { clearMocks } from '../../../../utility/testSetupHelper';
 
 describe('RaceDataHtmlGateway', () => {
     let gateway: IRaceDataHtmlGateway;
@@ -15,7 +16,7 @@ describe('RaceDataHtmlGateway', () => {
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     for (const { descriptions, raceType, place, number, expectedUrl } of [

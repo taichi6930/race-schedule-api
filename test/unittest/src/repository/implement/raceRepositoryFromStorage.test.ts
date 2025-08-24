@@ -7,17 +7,22 @@ import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
+import { HorseRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorage';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
-import { RaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/raceRepositoryFromStorage';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
-import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
+import {
+    IS_LARGE_AMOUNT_DATA_TEST,
+    IS_SHORT_TEST,
+} from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import type { TestSetup } from '../../../../utility/testSetupHelper';
-import { setupTestMock } from '../../../../utility/testSetupHelper';
+import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestGatewayMock,
+} from '../../../../utility/testSetupHelper';
 import {
     baseConditionData,
     baseRacePlayerDataList,
@@ -29,17 +34,14 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('RaceRepositoryFromStorage', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway>;
+    let gatewaySetup: TestGatewaySetup;
     let horseRacingRaceRepository: IRaceRepository;
     let mechanicalRacingRaceRepository: IRaceRepository;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
-        ({ s3Gateway } = setup);
-
-        // テスト対象のリポジトリを生成
+        gatewaySetup = setupTestGatewayMock();
         horseRacingRaceRepository = container.resolve(
-            RaceRepositoryFromStorage,
+            HorseRacingRaceRepositoryFromStorage,
         );
         mechanicalRacingRaceRepository = container.resolve(
             MechanicalRacingRaceRepositoryFromStorage,
@@ -47,12 +49,12 @@ describe('RaceRepositoryFromStorage', () => {
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     describe('fetchRaceList', () => {
         beforeEach(() => {
-            s3Gateway.fetchDataFromS3.mockImplementation(
+            gatewaySetup.s3Gateway.fetchDataFromS3.mockImplementation(
                 async (folderName, fileName) => {
                     return fs.readFileSync(
                         path.resolve(
@@ -67,7 +69,7 @@ describe('RaceRepositoryFromStorage', () => {
         });
 
         test.each(testRaceTypeListAll)(
-            'レース開催データを正常に取得できる: %s',
+            'レース開催データを正常に取得できる(%s)',
             async (raceType) => {
                 const repository =
                     raceType === RaceType.JRA ||
@@ -107,16 +109,17 @@ describe('RaceRepositoryFromStorage', () => {
                         makeRaceEntityList(raceType);
 
                     if (hasRegisterData) {
-                        s3Gateway.fetchDataFromS3.mockResolvedValue(
-                            fs.readFileSync(
-                                path.resolve(
-                                    __dirname,
-                                    '../../mock/repository/csv',
-                                    raceType.toLowerCase(),
-                                    CSV_FILE_NAME.RACE_LIST,
-                                ),
-                                'utf8',
-                            ),
+                        gatewaySetup.s3Gateway.fetchDataFromS3.mockImplementation(
+                            async (folderName, fileName) => {
+                                return fs.readFileSync(
+                                    path.resolve(
+                                        __dirname,
+                                        '../../mock/repository/csv',
+                                        `${folderName}${fileName}`,
+                                    ),
+                                    'utf8',
+                                );
+                            },
                         );
                     }
 
@@ -131,7 +134,9 @@ describe('RaceRepositoryFromStorage', () => {
                         raceType,
                         raceEntityList,
                     );
-                    expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(
+                    expect(
+                        gatewaySetup.s3Gateway.uploadDataToS3,
+                    ).toHaveBeenCalledTimes(
                         raceType === RaceType.JRA ||
                             raceType === RaceType.NAR ||
                             raceType === RaceType.OVERSEAS
@@ -143,11 +148,17 @@ describe('RaceRepositoryFromStorage', () => {
         });
     });
 
-    const makeRaceEntityList = (raceType: RaceType): RaceEntity[] =>
-        Array.from({ length: 5 }, (_, day) => {
+    const makeRaceEntityList = (raceType: RaceType): RaceEntity[] => {
+        const dayCount = IS_SHORT_TEST
+            ? 5
+            : IS_LARGE_AMOUNT_DATA_TEST
+              ? 100
+              : 30;
+        const raceNumberCount = IS_SHORT_TEST ? 3 : 12;
+        return Array.from({ length: dayCount }, (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return Array.from({ length: 6 }, (__, raceNumber) =>
+            return Array.from({ length: raceNumberCount }, (__, raceNumber) =>
                 RaceEntity.createWithoutId(
                     RaceData.create(
                         raceType,
@@ -165,4 +176,5 @@ describe('RaceRepositoryFromStorage', () => {
                 ),
             );
         }).flat();
+    };
 });

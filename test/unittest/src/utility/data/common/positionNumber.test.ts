@@ -4,19 +4,17 @@ import { testRaceTypeListAll } from '../../../mock/common/baseCommonData';
 /**
  * PositionNumberのテスト
  */
-describe('PositionNumber', () => {
-    describe.each(testRaceTypeListAll)('レースタイプ: %s', (raceType) => {
-        it(`正常系: 枠番が正常な場合(${raceType})`, () => {
-            const positionNumber = 1;
-            const result = validatePositionNumber(raceType, positionNumber);
-            expect(result).toBe(positionNumber);
-        });
+describe.each(testRaceTypeListAll)('PositionNumber(%s)', (raceType) => {
+    it(`正常系: 枠番が正常な場合(${raceType})`, () => {
+        const positionNumber = 1;
+        const result = validatePositionNumber(raceType, positionNumber);
+        expect(result).toBe(positionNumber);
+    });
 
-        it(`異常系: 枠番が異常な場合(${raceType})`, () => {
-            const positionNumber = -1;
-            expect(() =>
-                validatePositionNumber(raceType, positionNumber),
-            ).toThrow('枠番は1以上である必要があります');
-        });
+    it(`異常系: 枠番が異常な場合(${raceType})`, () => {
+        const positionNumber = -1;
+        expect(() => validatePositionNumber(raceType, positionNumber)).toThrow(
+            '枠番は1以上である必要があります',
+        );
     });
 });

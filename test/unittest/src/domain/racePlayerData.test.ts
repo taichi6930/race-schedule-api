@@ -15,7 +15,7 @@ import { RacePlayerData } from '../../../../lib/src/domain/racePlayerData';
 import { testRaceTypeListMechanicalRacing } from '../mock/common/baseCommonData';
 
 describe.each(testRaceTypeListMechanicalRacing)(
-    'RacePlayerDataクラスのテスト: %s',
+    'RacePlayerDataクラスのテスト(%s)',
     (raceType) => {
         const validPositionNumber = 1;
         const invalidPositionNumber = 0;

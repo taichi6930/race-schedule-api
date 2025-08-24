@@ -2,15 +2,13 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
-import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingRaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingRaceDataUseCase';
 import type { IRaceDataUseCase } from '../../../../../lib/src/usecase/interface/IRaceDataUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import type { TestServiceSetup } from '../../../../utility/testSetupHelper';
 import {
     clearMocks,
-    setupTestMock,
-    type TestSetup,
+    setupTestServiceMock,
 } from '../../../../utility/testSetupHelper';
 import {
     baseRaceEntityList,
@@ -21,20 +19,17 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataUseCase', () => {
-    let raceDataService: jest.Mocked<IRaceDataService>;
-    let placeDataService: jest.Mocked<IPlaceDataService>;
+    let serviceSetup: TestServiceSetup;
     let useCase: IRaceDataUseCase;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
-        ({ raceDataService, placeDataService } = setup);
+        serviceSetup = setupTestServiceMock();
         useCase = container.resolve(PublicGamblingRaceDataUseCase);
         jest.spyOn(console, 'log').mockImplementation();
     });
 
     afterEach(() => {
         clearMocks();
-        jest.restoreAllMocks();
     });
 
     const testCases = {
@@ -484,8 +479,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
         ],
     };
 
-    describe('fetchRaceEntityList', () => {
-        describe.each(testRaceTypeListAll)('レースタイプ: %s', (raceType) => {
+    describe.each(testRaceTypeListAll)(
+        'fetchRaceEntityList(%s)',
+        (raceType) => {
             for (const {
                 raceTypeList,
                 searchConditions,
@@ -495,7 +491,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             } of testCases[raceType]) {
                 it(`(${raceTypeList.join(',')})正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                     // モックの戻り値を設定
-                    raceDataService.fetchRaceEntityList.mockResolvedValue(
+                    serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
                         returnedRaceList,
                     );
 
@@ -512,20 +508,20 @@ describe('PublicGamblingRaceDataUseCase', () => {
                     expect(result).toHaveLength(expectedLength);
                 });
             }
-        });
-    });
+        },
+    );
 
     describe('updateRaceEntityList', () => {
         it('正常にレース開催データが更新されること', async () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            placeDataService.fetchPlaceEntityList.mockResolvedValue(
+            serviceSetup.placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntityList,
             );
 
             // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
+            serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntityList,
             );
 
@@ -535,19 +531,27 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 testRaceTypeListAll,
             );
 
-            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
-            expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
-            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
+            expect(
+                serviceSetup.placeDataService.fetchPlaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                serviceSetup.raceDataService.fetchRaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                serviceSetup.raceDataService.updateRaceEntityList,
+            ).toHaveBeenCalled();
         });
 
         it('placeEntityListが空の場合は処理を終了する', async () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            placeDataService.fetchPlaceEntityList.mockResolvedValue([]);
+            serviceSetup.placeDataService.fetchPlaceEntityList.mockResolvedValue(
+                [],
+            );
 
             // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
+            serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntityList,
             );
 
@@ -557,10 +561,16 @@ describe('PublicGamblingRaceDataUseCase', () => {
                 testRaceTypeListWithoutOverseas,
             );
 
-            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(
+                serviceSetup.placeDataService.fetchPlaceEntityList,
+            ).toHaveBeenCalled();
             //raceDataService.fetchRaceEntityListは呼ばれていないことを確認
-            expect(raceDataService.fetchRaceEntityList).not.toHaveBeenCalled();
-            expect(raceDataService.updateRaceEntityList).not.toHaveBeenCalled();
+            expect(
+                serviceSetup.raceDataService.fetchRaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(
+                serviceSetup.raceDataService.updateRaceEntityList,
+            ).not.toHaveBeenCalled();
 
             expect(console.log).toHaveBeenCalledWith(
                 '指定された条件に合致する開催場所が存在しません。レースデータの更新をスキップします。',

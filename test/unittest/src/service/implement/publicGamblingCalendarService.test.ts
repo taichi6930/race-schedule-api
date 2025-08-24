@@ -3,11 +3,13 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
-import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
-import type { TestSetup } from '../../../../utility/testSetupHelper';
-import { setupTestMock } from '../../../../utility/testSetupHelper';
+import type { TestRepositorySetup } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestRepositoryMock,
+} from '../../../../utility/testSetupHelper';
 import {
     mockCalendarDataList,
     mockRaceEntityList,
@@ -16,16 +18,15 @@ import {
 
 describe('PublicGamblingCalendarService', () => {
     let service: ICalendarService;
-    let calendarRepository: jest.Mocked<ICalendarRepository>;
+    let repositorySetup: TestRepositorySetup;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
-        ({ calendarRepository } = setup);
+        repositorySetup = setupTestRepositoryMock();
         service = container.resolve(PublicGamblingCalendarService);
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     describe('getEvents', () => {
@@ -38,7 +39,9 @@ describe('PublicGamblingCalendarService', () => {
                 testRaceTypeListAll,
             );
 
-            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
+            expect(
+                repositorySetup.calendarRepository.getEvents,
+            ).toHaveBeenCalledWith(
                 testRaceTypeListAll,
                 new SearchCalendarFilterEntity(startDate, finishDate),
             );
@@ -50,9 +53,9 @@ describe('PublicGamblingCalendarService', () => {
         it('カレンダーのイベントの削除が正常に行われること', async () => {
             await service.deleteEvents(mockCalendarDataList);
 
-            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-                mockCalendarDataList,
-            );
+            expect(
+                repositorySetup.calendarRepository.deleteEvents,
+            ).toHaveBeenCalledWith(mockCalendarDataList);
         });
     });
 
@@ -60,9 +63,9 @@ describe('PublicGamblingCalendarService', () => {
         it('カレンダーのイベントの更新が正常に行われること', async () => {
             await service.upsertEvents(mockRaceEntityList);
 
-            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-                mockRaceEntityList,
-            );
+            expect(
+                repositorySetup.calendarRepository.upsertEvents,
+            ).toHaveBeenCalledWith(mockRaceEntityList);
         });
     });
 });
