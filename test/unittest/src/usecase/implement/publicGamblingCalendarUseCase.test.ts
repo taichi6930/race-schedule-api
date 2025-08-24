@@ -5,8 +5,6 @@ import { afterEach } from 'node:test';
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../../lib/src/domain/calendarData';
-import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
-import type { IRaceDataService } from '../../../../../lib/src/service/interface/IRaceDataService';
 import { PublicGamblingCalendarUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingCalendarUseCase';
 import type { IRaceCalendarUseCase } from '../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
 import { SpecifiedGradeList } from '../../../../../lib/src/utility/data/common/gradeType';
@@ -24,13 +22,11 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceCalendarUseCase', () => {
-    let calendarService: jest.Mocked<ICalendarService>;
-    let raceDataService: jest.Mocked<IRaceDataService>;
+    let serviceSetup: TestServiceSetup;
     let useCase: IRaceCalendarUseCase;
 
     beforeEach(() => {
-        const setup: TestServiceSetup = setupTestServiceMock();
-        ({ calendarService, raceDataService } = setup);
+        serviceSetup = setupTestServiceMock();
         useCase = container.resolve(PublicGamblingCalendarUseCase);
     });
 
@@ -41,7 +37,9 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
             // モックの戻り値を設定
-            calendarService.fetchEvents.mockResolvedValue(mockCalendarDataList);
+            serviceSetup.calendarService.fetchEvents.mockResolvedValue(
+                mockCalendarDataList,
+            );
 
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
@@ -52,11 +50,9 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
                 testRaceTypeListAll,
             );
 
-            expect(calendarService.fetchEvents).toHaveBeenCalledWith(
-                startDate,
-                finishDate,
-                testRaceTypeListAll,
-            );
+            expect(
+                serviceSetup.calendarService.fetchEvents,
+            ).toHaveBeenCalledWith(startDate, finishDate, testRaceTypeListAll);
             expect(result).toEqual(mockCalendarDataList);
         });
     });
@@ -90,9 +86,11 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         const expectRaceEntityList = mockRaceEntityList;
 
         // モックの戻り値を設定
-        calendarService.fetchEvents.mockResolvedValue(calendarDataList);
+        serviceSetup.calendarService.fetchEvents.mockResolvedValue(
+            calendarDataList,
+        );
 
-        raceDataService.fetchRaceEntityList.mockResolvedValue(
+        serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
             mockRaceEntityList,
         );
 
@@ -114,19 +112,23 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         );
 
         // モックが呼び出されたことを確認
-        expect(calendarService.fetchEvents).toHaveBeenCalledWith(
+        expect(serviceSetup.calendarService.fetchEvents).toHaveBeenCalledWith(
             startDate,
             finishDate,
             testRaceTypeListAll,
         );
 
         // deleteEventsが呼び出された回数を確認
-        expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
-        expect(calendarService.deleteEvents).toHaveBeenCalledWith(
+        expect(serviceSetup.calendarService.deleteEvents).toHaveBeenCalledTimes(
+            1,
+        );
+        expect(serviceSetup.calendarService.deleteEvents).toHaveBeenCalledWith(
             expectDeleteCalendarDataList,
         );
-        expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
-        expect(calendarService.upsertEvents).toHaveBeenCalledWith(
+        expect(serviceSetup.calendarService.upsertEvents).toHaveBeenCalledTimes(
+            1,
+        );
+        expect(serviceSetup.calendarService.upsertEvents).toHaveBeenCalledWith(
             expectRaceEntityList,
         );
     });

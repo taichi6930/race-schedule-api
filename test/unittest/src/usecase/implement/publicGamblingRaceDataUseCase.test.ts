@@ -19,11 +19,11 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('PublicGamblingRaceDataUseCase', () => {
-    let setup: TestServiceSetup;
+    let serviceSetup: TestServiceSetup;
     let useCase: IRaceDataUseCase;
 
     beforeEach(() => {
-        setup = setupTestServiceMock();
+        serviceSetup = setupTestServiceMock();
         useCase = container.resolve(PublicGamblingRaceDataUseCase);
         jest.spyOn(console, 'log').mockImplementation();
     });
@@ -491,7 +491,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             } of testCases[raceType]) {
                 it(`(${raceTypeList.join(',')})正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                     // モックの戻り値を設定
-                    setup.raceDataService.fetchRaceEntityList.mockResolvedValue(
+                    serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
                         returnedRaceList,
                     );
 
@@ -516,12 +516,12 @@ describe('PublicGamblingRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            setup.placeDataService.fetchPlaceEntityList.mockResolvedValue(
+            serviceSetup.placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntityList,
             );
 
             // モックの戻り値を設定
-            setup.raceDataService.fetchRaceEntityList.mockResolvedValue(
+            serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntityList,
             );
 
@@ -532,13 +532,13 @@ describe('PublicGamblingRaceDataUseCase', () => {
             );
 
             expect(
-                setup.placeDataService.fetchPlaceEntityList,
+                serviceSetup.placeDataService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                setup.raceDataService.fetchRaceEntityList,
+                serviceSetup.raceDataService.fetchRaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                setup.raceDataService.updateRaceEntityList,
+                serviceSetup.raceDataService.updateRaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -546,10 +546,12 @@ describe('PublicGamblingRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            setup.placeDataService.fetchPlaceEntityList.mockResolvedValue([]);
+            serviceSetup.placeDataService.fetchPlaceEntityList.mockResolvedValue(
+                [],
+            );
 
             // モックの戻り値を設定
-            setup.raceDataService.fetchRaceEntityList.mockResolvedValue(
+            serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntityList,
             );
 
@@ -560,14 +562,14 @@ describe('PublicGamblingRaceDataUseCase', () => {
             );
 
             expect(
-                setup.placeDataService.fetchPlaceEntityList,
+                serviceSetup.placeDataService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             //raceDataService.fetchRaceEntityListは呼ばれていないことを確認
             expect(
-                setup.raceDataService.fetchRaceEntityList,
+                serviceSetup.raceDataService.fetchRaceEntityList,
             ).not.toHaveBeenCalled();
             expect(
-                setup.raceDataService.updateRaceEntityList,
+                serviceSetup.raceDataService.updateRaceEntityList,
             ).not.toHaveBeenCalled();
 
             expect(console.log).toHaveBeenCalledWith(
