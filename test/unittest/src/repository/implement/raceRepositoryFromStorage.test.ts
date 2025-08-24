@@ -12,8 +12,11 @@ import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity
 import { HorseRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorage';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
-import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
+import {
+    IS_LARGE_AMOUNT_DATA_TEST,
+    IS_SHORT_TEST,
+} from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
 import {
@@ -37,8 +40,6 @@ describe('RaceRepositoryFromStorage', () => {
 
     beforeEach(() => {
         gatewaySetup = setupTestGatewayMock();
-
-        // テスト対象のリポジトリを生成
         horseRacingRaceRepository = container.resolve(
             HorseRacingRaceRepositoryFromStorage,
         );
@@ -108,16 +109,17 @@ describe('RaceRepositoryFromStorage', () => {
                         makeRaceEntityList(raceType);
 
                     if (hasRegisterData) {
-                        gatewaySetup.s3Gateway.fetchDataFromS3.mockResolvedValue(
-                            fs.readFileSync(
-                                path.resolve(
-                                    __dirname,
-                                    '../../mock/repository/csv',
-                                    raceType.toLowerCase(),
-                                    CSV_FILE_NAME.RACE_LIST,
-                                ),
-                                'utf8',
-                            ),
+                        gatewaySetup.s3Gateway.fetchDataFromS3.mockImplementation(
+                            async (folderName, fileName) => {
+                                return fs.readFileSync(
+                                    path.resolve(
+                                        __dirname,
+                                        '../../mock/repository/csv',
+                                        `${folderName}${fileName}`,
+                                    ),
+                                    'utf8',
+                                );
+                            },
                         );
                     }
 
@@ -146,11 +148,17 @@ describe('RaceRepositoryFromStorage', () => {
         });
     });
 
-    const makeRaceEntityList = (raceType: RaceType): RaceEntity[] =>
-        Array.from({ length: 5 }, (_, day) => {
+    const makeRaceEntityList = (raceType: RaceType): RaceEntity[] => {
+        const dayCount = IS_SHORT_TEST
+            ? 5
+            : IS_LARGE_AMOUNT_DATA_TEST
+              ? 100
+              : 30;
+        const raceNumberCount = IS_SHORT_TEST ? 3 : 12;
+        return Array.from({ length: dayCount }, (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return Array.from({ length: 6 }, (__, raceNumber) =>
+            return Array.from({ length: raceNumberCount }, (__, raceNumber) =>
                 RaceEntity.createWithoutId(
                     RaceData.create(
                         raceType,
@@ -168,4 +176,5 @@ describe('RaceRepositoryFromStorage', () => {
                 ),
             );
         }).flat();
+    };
 });

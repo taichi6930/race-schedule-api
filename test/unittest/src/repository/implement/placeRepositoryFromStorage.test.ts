@@ -12,6 +12,10 @@ import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entit
 import { PlaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
+import {
+    IS_LARGE_AMOUNT_DATA_TEST,
+    IS_SHORT_TEST,
+} from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
 import {
@@ -97,18 +101,22 @@ describe('PlaceRepositoryFromStorage', () => {
     });
 
     // 1年間の開催場データを登録する
-    const placeEntityList = (raceType: RaceType): PlaceEntity[] =>
-        Array.from({ length: 10 }, (_, day) => {
+    const placeEntityList = (raceType: RaceType): PlaceEntity[] => {
+        const dayCount = IS_SHORT_TEST
+            ? 5
+            : IS_LARGE_AMOUNT_DATA_TEST
+              ? 100
+              : 30;
+        return Array.from({ length: dayCount }, (_, day) => {
             const location = defaultLocation[raceType];
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return Array.from({ length: 12 }, () =>
-                PlaceEntity.createWithoutId(
-                    PlaceData.create(raceType, date, location),
-                    defaultHeldDayData[raceType],
-                    defaultPlaceGrade[raceType],
-                    getJSTDate(new Date()),
-                ),
+            return PlaceEntity.createWithoutId(
+                PlaceData.create(raceType, date, location),
+                defaultHeldDayData[raceType],
+                defaultPlaceGrade[raceType],
+                getJSTDate(new Date()),
             );
-        }).flat();
+        });
+    };
 });
