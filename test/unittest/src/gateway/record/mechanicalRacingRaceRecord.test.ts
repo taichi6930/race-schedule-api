@@ -26,7 +26,7 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe.each(testRaceTypeListMechanicalRacing)(
-    'MechanicalRacingRaceRecord %s',
+    'MechanicalRacingRaceRecord(%s)',
     (raceType) => {
         const validDate = new Date('2026-01-01T00:00:00Z');
         const validLocation = defaultLocation[raceType];

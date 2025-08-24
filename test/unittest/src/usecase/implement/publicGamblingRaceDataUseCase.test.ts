@@ -484,8 +484,9 @@ describe('PublicGamblingRaceDataUseCase', () => {
         ],
     };
 
-    describe('fetchRaceEntityList', () => {
-        describe.each(testRaceTypeListAll)('レースタイプ: %s', (raceType) => {
+    describe.each(testRaceTypeListAll)(
+        'fetchRaceEntityList(%s)',
+        (raceType) => {
             for (const {
                 raceTypeList,
                 searchConditions,
@@ -512,8 +513,8 @@ describe('PublicGamblingRaceDataUseCase', () => {
                     expect(result).toHaveLength(expectedLength);
                 });
             }
-        });
-    });
+        },
+    );
 
     describe('updateRaceEntityList', () => {
         it('正常にレース開催データが更新されること', async () => {

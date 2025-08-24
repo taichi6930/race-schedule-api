@@ -67,7 +67,7 @@ describe('RaceRepositoryFromStorage', () => {
         });
 
         test.each(testRaceTypeListAll)(
-            'レース開催データを正常に取得できる: %s',
+            'レース開催データを正常に取得できる(%s)',
             async (raceType) => {
                 const repository =
                     raceType === RaceType.JRA ||

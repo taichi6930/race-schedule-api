@@ -3,7 +3,7 @@ import type { RaceType } from '../../../../lib/src/utility/raceType';
 import { testRaceTypeListAll } from '../mock/common/baseCommonData';
 
 describe.each([testRaceTypeListAll])(
-    'CalendarDataクラスのテスト %s',
+    'CalendarDataクラスのテスト(%s)',
     (raceType: RaceType) => {
         it('正しい入力でCalendarDataのインスタンスを作成できることを確認', () => {
             const calendarData = CalendarData.create(
