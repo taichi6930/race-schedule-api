@@ -9,7 +9,7 @@ import { container } from 'tsyringe';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import { HorseRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/horseRacingraceRepositoryFromStorage';
+import { HorseRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorage';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { CSV_FILE_NAME } from '../../../../../lib/src/utility/constants';

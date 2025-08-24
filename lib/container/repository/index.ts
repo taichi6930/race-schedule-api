@@ -3,7 +3,7 @@ import './repositoryFromHtmlConfig';
 import { container } from 'tsyringe';
 
 import { GoogleCalendarRepository } from '../../src/repository/implement/googleCalendarRepository';
-import { HorseRacingRaceRepositoryFromStorage } from '../../src/repository/implement/horseRacingraceRepositoryFromStorage';
+import { HorseRacingRaceRepositoryFromStorage } from '../../src/repository/implement/horseRacingRaceRepositoryFromStorage';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
 import { PlaceRepositoryFromStorage } from '../../src/repository/implement/placeRepositoryFromStorage';
 import { PlayerRepository } from '../../src/repository/implement/playerRepository';
