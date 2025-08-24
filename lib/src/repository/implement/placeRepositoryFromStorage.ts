@@ -54,8 +54,8 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                             placeRecord.dateTime,
                             placeRecord.location,
                         ),
-                        undefined, // TODO: JRAの場合は開催日データを取得する必要がある
-                        undefined, // grade は未指定
+                        undefined,
+                        undefined,
                         placeRecord.updateDate,
                     ),
                 )
