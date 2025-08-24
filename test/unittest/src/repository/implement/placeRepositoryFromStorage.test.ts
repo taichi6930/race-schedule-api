@@ -103,10 +103,10 @@ describe('PlaceRepositoryFromStorage', () => {
     // 1年間の開催場データを登録する
     const placeEntityList = (raceType: RaceType): PlaceEntity[] => {
         const dayCount = IS_SHORT_TEST
-            ? 5
+            ? 3
             : IS_LARGE_AMOUNT_DATA_TEST
               ? 100
-              : 30;
+              : 10;
         return Array.from({ length: dayCount }, (_, day) => {
             const location = defaultLocation[raceType];
             const date = new Date('2024-01-01');

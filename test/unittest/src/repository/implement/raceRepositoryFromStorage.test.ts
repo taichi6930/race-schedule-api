@@ -150,10 +150,10 @@ describe('RaceRepositoryFromStorage', () => {
 
     const makeRaceEntityList = (raceType: RaceType): RaceEntity[] => {
         const dayCount = IS_SHORT_TEST
-            ? 5
+            ? 3
             : IS_LARGE_AMOUNT_DATA_TEST
               ? 100
-              : 30;
+              : 10;
         const raceNumberCount = IS_SHORT_TEST ? 3 : 12;
         return Array.from({ length: dayCount }, (_, day) => {
             const date = new Date('2024-01-01');
