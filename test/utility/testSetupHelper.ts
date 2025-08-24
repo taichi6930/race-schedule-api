@@ -46,6 +46,9 @@ export interface TestSetup {
     keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+}
+
+export interface TestServiceSetup {
     calendarService: jest.Mocked<ICalendarService>;
     raceDataService: jest.Mocked<IRaceDataService>;
     placeDataService: jest.Mocked<IPlaceDataService>;
@@ -138,6 +141,31 @@ export function setupTestMock(): TestSetup {
         'AutoracePlaceRepositoryFromHtml',
         autoracePlaceRepositoryFromHtml,
     );
+    return {
+        s3Gateway,
+        calendarRepository,
+        jraPlaceRepositoryFromHtml,
+        placeRepositoryFromStorage,
+        narPlaceRepositoryFromHtml,
+        keirinPlaceRepositoryFromHtml,
+        boatracePlaceRepositoryFromHtml,
+        autoracePlaceRepositoryFromHtml,
+        raceRepositoryFromStorage,
+        jraRaceRepositoryFromHtml,
+        narRaceRepositoryFromHtml,
+        overseasRaceRepositoryFromHtml,
+        mechanicalRacingRaceRepositoryFromStorage,
+        keirinRaceRepositoryFromHtml,
+        boatraceRaceRepositoryFromHtml,
+        autoraceRaceRepositoryFromHtml,
+    };
+}
+
+/**
+ * テスト用のセットアップ（Serviceクラス）
+ * @returns セットアップ済みのサービス
+ */
+export function setupTestServiceMock(): TestServiceSetup {
     const calendarService = calendarServiceMock();
     container.registerInstance<ICalendarService>(
         'PublicGamblingCalendarService',
@@ -160,22 +188,6 @@ export function setupTestMock(): TestSetup {
     );
 
     return {
-        s3Gateway,
-        calendarRepository,
-        jraPlaceRepositoryFromHtml,
-        placeRepositoryFromStorage,
-        narPlaceRepositoryFromHtml,
-        keirinPlaceRepositoryFromHtml,
-        boatracePlaceRepositoryFromHtml,
-        autoracePlaceRepositoryFromHtml,
-        raceRepositoryFromStorage,
-        jraRaceRepositoryFromHtml,
-        narRaceRepositoryFromHtml,
-        overseasRaceRepositoryFromHtml,
-        mechanicalRacingRaceRepositoryFromStorage,
-        keirinRaceRepositoryFromHtml,
-        boatraceRaceRepositoryFromHtml,
-        autoraceRaceRepositoryFromHtml,
         calendarService,
         raceDataService,
         placeDataService,

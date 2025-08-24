@@ -5,8 +5,11 @@ import { container } from 'tsyringe';
 import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
 import { PublicGamblingPlaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingPlaceDataUseCase';
 import type { IPlaceDataUseCase } from '../../../../../lib/src/usecase/interface/IPlaceDataUseCase';
-import type { TestSetup } from '../../../../utility/testSetupHelper';
-import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
+import type { TestServiceSetup } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestServiceMock,
+} from '../../../../utility/testSetupHelper';
 import {
     mockPlaceEntityList,
     testRaceTypeListAll,
@@ -17,7 +20,7 @@ describe('PublicGamblingPlaceUseCase', () => {
     let useCase: IPlaceDataUseCase;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
+        const setup: TestServiceSetup = setupTestServiceMock();
         ({ placeDataService } = setup);
         useCase = container.resolve(PublicGamblingPlaceDataUseCase);
     });

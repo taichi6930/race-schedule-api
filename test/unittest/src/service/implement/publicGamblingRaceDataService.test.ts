@@ -9,7 +9,7 @@ import type { IRaceDataService } from '../../../../../lib/src/service/interface/
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
-import { setupTestMock } from '../../../../utility/testSetupHelper';
+import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     baseRaceEntityList,
     mockRaceEntityList,
@@ -44,7 +44,7 @@ describe('PublicGamblingRaceDataService', () => {
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     describe('fetchRaceEntityList', () => {

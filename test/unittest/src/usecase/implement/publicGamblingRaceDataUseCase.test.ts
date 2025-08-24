@@ -7,10 +7,10 @@ import type { IRaceDataService } from '../../../../../lib/src/service/interface/
 import { PublicGamblingRaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingRaceDataUseCase';
 import type { IRaceDataUseCase } from '../../../../../lib/src/usecase/interface/IRaceDataUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
+import type { TestServiceSetup } from '../../../../utility/testSetupHelper';
 import {
     clearMocks,
-    setupTestMock,
-    type TestSetup,
+    setupTestServiceMock,
 } from '../../../../utility/testSetupHelper';
 import {
     baseRaceEntityList,
@@ -26,7 +26,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
     let useCase: IRaceDataUseCase;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
+        const setup: TestServiceSetup = setupTestServiceMock();
         ({ raceDataService, placeDataService } = setup);
         useCase = container.resolve(PublicGamblingRaceDataUseCase);
         jest.spyOn(console, 'log').mockImplementation();
@@ -34,7 +34,6 @@ describe('PublicGamblingRaceDataUseCase', () => {
 
     afterEach(() => {
         clearMocks();
-        jest.restoreAllMocks();
     });
 
     const testCases = {

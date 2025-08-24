@@ -7,7 +7,7 @@ import type { ICalendarRepository } from '../../../../../lib/src/repository/inte
 import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/publicGamblingCalendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
 import type { TestSetup } from '../../../../utility/testSetupHelper';
-import { setupTestMock } from '../../../../utility/testSetupHelper';
+import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
 import {
     mockCalendarDataList,
     mockRaceEntityList,
@@ -25,7 +25,7 @@ describe('PublicGamblingCalendarService', () => {
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        clearMocks();
     });
 
     describe('getEvents', () => {

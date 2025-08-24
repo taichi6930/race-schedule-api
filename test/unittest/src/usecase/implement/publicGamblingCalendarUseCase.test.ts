@@ -11,8 +11,11 @@ import { PublicGamblingCalendarUseCase } from '../../../../../lib/src/usecase/im
 import type { IRaceCalendarUseCase } from '../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
 import { SpecifiedGradeList } from '../../../../../lib/src/utility/data/common/gradeType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
-import type { TestSetup } from '../../../../utility/testSetupHelper';
-import { clearMocks, setupTestMock } from '../../../../utility/testSetupHelper';
+import type { TestServiceSetup } from '../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestServiceMock,
+} from '../../../../utility/testSetupHelper';
 import {
     baseCalendarData,
     baseRaceEntity,
@@ -26,7 +29,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
     let useCase: IRaceCalendarUseCase;
 
     beforeEach(() => {
-        const setup: TestSetup = setupTestMock();
+        const setup: TestServiceSetup = setupTestServiceMock();
         ({ calendarService, raceDataService } = setup);
         useCase = container.resolve(PublicGamblingCalendarUseCase);
     });
