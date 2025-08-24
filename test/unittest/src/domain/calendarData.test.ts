@@ -3,7 +3,7 @@ import type { RaceType } from '../../../../lib/src/utility/raceType';
 import { testRaceTypeListAll } from '../mock/common/baseCommonData';
 
 describe.each([testRaceTypeListAll])(
-    'CalendarDataクラスのテスト',
+    'CalendarDataクラスのテスト %s',
     (raceType: RaceType) => {
         it('正しい入力でCalendarDataのインスタンスを作成できることを確認', () => {
             const calendarData = CalendarData.create(
@@ -12,7 +12,7 @@ describe.each([testRaceTypeListAll])(
                 'イベントタイトル',
                 '2024-08-12T09:00:00',
                 '2024-08-12T10:00:00',
-                '東京',
+                '開催場',
                 'イベントの説明',
             );
 
@@ -25,7 +25,7 @@ describe.each([testRaceTypeListAll])(
             expect(calendarData.endTime).toEqual(
                 new Date('2024-08-12T10:00:00'),
             );
-            expect(calendarData.location).toBe('東京');
+            expect(calendarData.location).toBe('開催場');
             expect(calendarData.description).toBe('イベントの説明');
         });
 
@@ -36,7 +36,7 @@ describe.each([testRaceTypeListAll])(
                 'イベントタイトル',
                 '2024-08-12T09:00:00',
                 '2024-08-12T10:00:00',
-                '東京',
+                '開催場',
                 'イベントの説明',
             );
 
@@ -51,7 +51,7 @@ describe.each([testRaceTypeListAll])(
             expect(copiedCalendarData.endTime).toEqual(
                 new Date('2024-08-12T10:00:00'),
             );
-            expect(copiedCalendarData.location).toBe('東京');
+            expect(copiedCalendarData.location).toBe('開催場');
             expect(copiedCalendarData.description).toBe('イベントの説明');
         });
 
@@ -62,7 +62,7 @@ describe.each([testRaceTypeListAll])(
                 'イベントタイトル',
                 '2024-08-12T09:00:00',
                 '2024-08-12T10:00:00',
-                '東京',
+                '開催場',
                 'イベントの説明',
             );
 
@@ -75,7 +75,7 @@ describe.each([testRaceTypeListAll])(
             expect(copiedCalendarData.endTime).toEqual(
                 new Date('2024-08-12T10:00:00'),
             );
-            expect(copiedCalendarData.location).toBe('東京');
+            expect(copiedCalendarData.location).toBe('開催場');
             expect(copiedCalendarData.description).toBe('イベントの説明');
         });
 

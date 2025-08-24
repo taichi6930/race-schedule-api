@@ -12,98 +12,96 @@
 import { PlayerData } from '../../../../lib/src/domain/playerData';
 import { testRaceTypeListMechanicalRacing } from '../mock/common/baseCommonData';
 
-describe('PlayerDataクラスのテスト', () => {
-    describe.each(testRaceTypeListMechanicalRacing)(
-        'レースタイプ: %s',
-        (raceType) => {
-            const validPlayerNumber = 10000;
-            const invalidPlayerNumber = 0;
-            const validName = 'テスト選手';
-            const validPriority = 1;
+describe.each(testRaceTypeListMechanicalRacing)(
+    'PlayerDataクラスのテスト(%s)',
+    (raceType) => {
+        const validPlayerNumber = 10000;
+        const invalidPlayerNumber = 0;
+        const validName = 'テスト選手';
+        const validPriority = 1;
 
-            // 1. 正常系
-            it('|1|有効|有効|有効|有効|OK|', () => {
-                const data = PlayerData.create(
+        // 1. 正常系
+        it('|1|有効|有効|有効|有効|OK|', () => {
+            const data = PlayerData.create(
+                raceType,
+                validPlayerNumber,
+                validName,
+                validPriority,
+            );
+            expect(data.raceType).toBe(raceType);
+            expect(data.playerNumber).toBe(validPlayerNumber);
+            expect(data.name).toBe(validName);
+            expect(data.priority).toBe(validPriority);
+        });
+
+        // 2. playerNumber無効
+        it('|2|有効|無効|有効|有効|Error|', () => {
+            expect(() =>
+                PlayerData.create(
                     raceType,
-                    validPlayerNumber,
+                    invalidPlayerNumber,
                     validName,
                     validPriority,
-                );
-                expect(data.raceType).toBe(raceType);
-                expect(data.playerNumber).toBe(validPlayerNumber);
-                expect(data.name).toBe(validName);
-                expect(data.priority).toBe(validPriority);
-            });
+                ),
+            ).toThrow();
+        });
 
-            // 2. playerNumber無効
-            it('|2|有効|無効|有効|有効|Error|', () => {
-                expect(() =>
-                    PlayerData.create(
-                        raceType,
-                        invalidPlayerNumber,
-                        validName,
-                        validPriority,
-                    ),
-                ).toThrow();
+        // 3. copyで値変更
+        it('|3|有効|有効|有効|有効|copyで値変更OK|', () => {
+            const data = PlayerData.create(
+                raceType,
+                validPlayerNumber,
+                validName,
+                validPriority,
+            );
+            const copied = data.copy({
+                playerNumber: 20000,
+                name: '変更選手',
             });
+            expect(copied.playerNumber).toBe(20000);
+            expect(copied.name).toBe('変更選手');
+            expect(copied.raceType).toBe(raceType);
+            expect(copied.priority).toBe(validPriority);
+        });
 
-            // 3. copyで値変更
-            it('|3|有効|有効|有効|有効|copyで値変更OK|', () => {
-                const data = PlayerData.create(
-                    raceType,
-                    validPlayerNumber,
-                    validName,
-                    validPriority,
-                );
-                const copied = data.copy({
-                    playerNumber: 20000,
-                    name: '変更選手',
-                });
-                expect(copied.playerNumber).toBe(20000);
-                expect(copied.name).toBe('変更選手');
-                expect(copied.raceType).toBe(raceType);
-                expect(copied.priority).toBe(validPriority);
-            });
+        // 4. copyで不正値
+        it('|4|有効|有効|有効|有効|copyで不正値→Error|', () => {
+            const data = PlayerData.create(
+                raceType,
+                validPlayerNumber,
+                validName,
+                validPriority,
+            );
+            expect(() =>
+                data.copy({ playerNumber: invalidPlayerNumber }),
+            ).toThrow();
+        });
 
-            // 4. copyで不正値
-            it('|4|有効|有効|有効|有効|copyで不正値→Error|', () => {
-                const data = PlayerData.create(
-                    raceType,
-                    validPlayerNumber,
-                    validName,
-                    validPriority,
-                );
-                expect(() =>
-                    data.copy({ playerNumber: invalidPlayerNumber }),
-                ).toThrow();
-            });
+        // 5. copyでpartialが空
+        it('|5|有効|有効|有効|有効|copyでpartial空→全プロパティ同値|', () => {
+            const data = PlayerData.create(
+                raceType,
+                validPlayerNumber,
+                validName,
+                validPriority,
+            );
+            const copied = data.copy();
+            expect(copied.raceType).toBe(raceType);
+            expect(copied.playerNumber).toBe(validPlayerNumber);
+            expect(copied.name).toBe(validName);
+            expect(copied.priority).toBe(validPriority);
+        });
 
-            // 5. copyでpartialが空
-            it('|5|有効|有効|有効|有効|copyでpartial空→全プロパティ同値|', () => {
-                const data = PlayerData.create(
-                    raceType,
-                    validPlayerNumber,
-                    validName,
-                    validPriority,
-                );
-                const copied = data.copy();
-                expect(copied.raceType).toBe(raceType);
-                expect(copied.playerNumber).toBe(validPlayerNumber);
-                expect(copied.name).toBe(validName);
-                expect(copied.priority).toBe(validPriority);
-            });
-
-            // 6. copyでplayerNumber: undefined
-            it('|6|有効|有効|有効|有効|copyでplayerNumber: undefined→元値維持|', () => {
-                const data = PlayerData.create(
-                    raceType,
-                    validPlayerNumber,
-                    validName,
-                    validPriority,
-                );
-                const copied = data.copy({ playerNumber: undefined });
-                expect(copied.playerNumber).toBe(validPlayerNumber);
-            });
-        },
-    );
-});
+        // 6. copyでplayerNumber: undefined
+        it('|6|有効|有効|有効|有効|copyでplayerNumber: undefined→元値維持|', () => {
+            const data = PlayerData.create(
+                raceType,
+                validPlayerNumber,
+                validName,
+                validPriority,
+            );
+            const copied = data.copy({ playerNumber: undefined });
+            expect(copied.playerNumber).toBe(validPlayerNumber);
+        });
+    },
+);
