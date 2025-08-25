@@ -48,9 +48,14 @@ export class MechanicalRacingRaceRepositoryFromStorage
                 searchFilter.raceType,
                 searchFilter.startDate,
             );
+        const filteredRaceRecordList = raceRaceRecordList.filter(
+            (raceRecord) =>
+                raceRecord.dateTime >= searchFilter.startDate &&
+                raceRecord.dateTime <= searchFilter.finishDate,
+        );
 
         // RaceEntityに変換
-        const raceEntityList: RaceEntity[] = raceRaceRecordList.map(
+        const raceEntityList: RaceEntity[] = filteredRaceRecordList.map(
             (raceRecord) => {
                 // raceIdに対応したracePlayerRecordListを取得
                 const filteredRacePlayerRecordList: RacePlayerRecord[] =
@@ -86,14 +91,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
                 );
             },
         );
-        // フィルタリング処理（日付の範囲指定）
-        const filteredRaceEntityList: RaceEntity[] = raceEntityList.filter(
-            (raceEntity) =>
-                raceEntity.raceData.dateTime >= searchFilter.startDate &&
-                raceEntity.raceData.dateTime <= searchFilter.finishDate,
-        );
-
-        return filteredRaceEntityList;
+        return raceEntityList;
     }
 
     /**
