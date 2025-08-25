@@ -9,11 +9,12 @@ import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interf
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import { AutoraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtml';
-import { BoatraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtml';
-import { JraRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromHtml';
-import { KeirinRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtml';
-import { NarRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromHtml';
+import { AutoraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
+import { BoatraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
+import { JraRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
+import { KeirinRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
+import { NarRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
+import { OverseasRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtml';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
@@ -25,7 +26,6 @@ import {
     defaultPlaceGrade,
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
-import { OverseasRaceRepositoryFromHtml } from './../../../../../lib/src/repository/implement/overseasRaceRepositoryFromHtml';
 
 // テーブル駆動型テスト
 const testCases = {
@@ -115,80 +115,73 @@ const testCases = {
     ],
 };
 
-describe.each(testRaceTypeListAll)(
-    'RaceRepositoryFromHtml - %s',
-    (raceType) => {
-        for (const {
-            name,
-            repositoryClass,
-            startDate,
-            endDate,
-            placeName,
-            placeDate,
-            expectedLength,
-        } of testCases[raceType]) {
-            describe(name, () => {
-                let raceDataHtmlGateway: IRaceDataHtmlGateway;
-                let repository: IRaceRepository;
+describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
+    for (const {
+        name,
+        repositoryClass,
+        startDate,
+        endDate,
+        placeName,
+        placeDate,
+        expectedLength,
+    } of testCases[raceType]) {
+        describe(name, () => {
+            let raceDataHtmlGateway: IRaceDataHtmlGateway;
+            let repository: IRaceRepository;
 
-                beforeEach(() => {
-                    raceDataHtmlGateway = new MockRaceDataHtmlGateway();
-                    container.registerInstance(
-                        'RaceDataHtmlGateway',
-                        raceDataHtmlGateway,
-                    );
-                    repository =
-                        container.resolve<IRaceRepository>(repositoryClass);
-                });
+            beforeEach(() => {
+                raceDataHtmlGateway = new MockRaceDataHtmlGateway();
+                container.registerInstance(
+                    'RaceDataHtmlGateway',
+                    raceDataHtmlGateway,
+                );
+                repository =
+                    container.resolve<IRaceRepository>(repositoryClass);
+            });
 
-                afterEach(() => {
-                    clearMocks();
-                });
+            afterEach(() => {
+                clearMocks();
+            });
 
-                describe('fetchRaceList', () => {
-                    SkipEnv(
-                        `正しいレース開催データを取得できる(${raceType})`,
-                        [allowedEnvs.githubActionsCi],
-                        async () => {
-                            const raceEntityList =
-                                await repository.fetchRaceEntityList(
-                                    new SearchRaceFilterEntity(
-                                        startDate,
-                                        endDate,
-                                        raceType,
-                                        raceType === RaceType.OVERSEAS
-                                            ? []
-                                            : [
-                                                  PlaceEntity.createWithoutId(
-                                                      PlaceData.create(
-                                                          raceType,
-                                                          placeDate,
-                                                          placeName,
-                                                      ),
-                                                      defaultHeldDayData[
-                                                          raceType
-                                                      ],
-                                                      defaultPlaceGrade[
-                                                          raceType
-                                                      ],
-                                                      getJSTDate(new Date()),
+            describe('fetchRaceList', () => {
+                SkipEnv(
+                    `正しいレース開催データを取得できる(${raceType})`,
+                    [allowedEnvs.githubActionsCi],
+                    async () => {
+                        const raceEntityList =
+                            await repository.fetchRaceEntityList(
+                                new SearchRaceFilterEntity(
+                                    startDate,
+                                    endDate,
+                                    raceType,
+                                    raceType === RaceType.OVERSEAS
+                                        ? []
+                                        : [
+                                              PlaceEntity.createWithoutId(
+                                                  PlaceData.create(
+                                                      raceType,
+                                                      placeDate,
+                                                      placeName,
                                                   ),
-                                              ],
-                                    ),
-                                );
-                            expect(raceEntityList).toHaveLength(expectedLength);
-                        },
-                    );
-                });
+                                                  defaultHeldDayData[raceType],
+                                                  defaultPlaceGrade[raceType],
+                                                  getJSTDate(new Date()),
+                                              ),
+                                          ],
+                                ),
+                            );
+                        expect(raceEntityList).toHaveLength(expectedLength);
+                    },
+                );
+            });
 
-                describe('registerRaceList', () => {
-                    it('HTMLにはデータを登録できない', async () => {
-                        await expect(
-                            repository.registerRaceEntityList(raceType, []),
-                        ).rejects.toThrow('HTMLにはデータを登録出来ません');
-                    });
+            describe('registerRaceList', () => {
+                it('HTMLにはデータを登録できない', async () => {
+                    await expect(
+                        repository.registerRaceEntityList(raceType, []),
+                    ).rejects.toThrow('HTMLにはデータを登録出来ません');
                 });
             });
-        }
-    },
-);
+        });
+    }
+});

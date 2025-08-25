@@ -15,17 +15,18 @@ import {
     defaultStage,
 } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { CSV_HEADER_KEYS, csvPath } from '../../utility/constants';
-import { generatePlaceId } from '../../utility/data/common/placeId';
-import { generateRaceId } from '../../utility/data/common/raceId';
 import { getJSTDate } from '../../utility/date';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import {
     RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_HORSE_RACING,
     RACE_TYPE_LIST_MECHANICAL_RACING,
     RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RaceType,
 } from '../../utility/raceType';
+import { generatePlaceId } from '../../utility/validateAndType/placeId';
+import { generateRaceId } from '../../utility/validateAndType/raceId';
 import { IS3Gateway } from '../interface/iS3Gateway';
 
 /**
@@ -203,12 +204,12 @@ export class MockS3Gateway implements IS3Gateway {
                 // 最初にmockStorageに値を入れておく
                 // 2024年のデータ366日分を作成
                 await Promise.all([
-                    this.setHorseRacingRaceMockData(RaceType.JRA),
-                    this.setHorseRacingRaceMockData(RaceType.NAR),
-                    this.setHorseRacingRaceMockData(RaceType.OVERSEAS),
-                    this.setMechanicalRacingRaceMockData(RaceType.KEIRIN),
-                    this.setMechanicalRacingRaceMockData(RaceType.AUTORACE),
-                    this.setMechanicalRacingRaceMockData(RaceType.BOATRACE),
+                    ...RACE_TYPE_LIST_HORSE_RACING.map((raceType) =>
+                        this.setHorseRacingRaceMockData(raceType),
+                    ),
+                    ...RACE_TYPE_LIST_MECHANICAL_RACING.map((raceType) =>
+                        this.setMechanicalRacingRaceMockData(raceType),
+                    ),
                 ]);
                 return;
             }

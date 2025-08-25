@@ -1,6 +1,6 @@
-import type { GradeType } from '../../../../lib/src/utility/data/common/gradeType';
 import { getGoogleCalendarColorId } from '../../../../lib/src/utility/googleCalendar';
 import { RaceType } from '../../../../lib/src/utility/raceType';
+import type { GradeType } from '../../../../lib/src/utility/validateAndType/gradeType';
 describe('getGoogleCalendarColorId', () => {
     it('JRA: リストに入っているGⅠの場合、Googleカレンダーの色IDを返す', () => {
         const raceGrade: GradeType = 'GⅠ';

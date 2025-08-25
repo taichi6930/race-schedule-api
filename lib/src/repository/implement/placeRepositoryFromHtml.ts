@@ -6,14 +6,14 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { GradeType } from '../../utility/data/common/gradeType';
-import {
-    RaceCourse,
-    validateRaceCourse,
-} from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { GradeType } from '../../utility/validateAndType/gradeType';
+import {
+    RaceCourse,
+    validateRaceCourse,
+} from '../../utility/validateAndType/raceCourse';
 import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -49,6 +49,24 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         const periodPlaceEntityLists = await Promise.all(
             periodList.map(async (period) => {
                 switch (raceType) {
+                    case RaceType.JRA: {
+                        return this.fetchYearPlaceEntityListForJra(
+                            raceType,
+                            period,
+                        );
+                    }
+                    case RaceType.NAR: {
+                        return this.fetchMonthPlaceEntityListForNar(
+                            raceType,
+                            period,
+                        );
+                    }
+
+                    case RaceType.OVERSEAS: {
+                        throw new Error(
+                            `Race type ${raceType} is not supported by this repository`,
+                        );
+                    }
                     case RaceType.KEIRIN: {
                         return this.fetchMonthPlaceEntityListForKeirin(
                             raceType,
@@ -61,27 +79,10 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                             period,
                         );
                     }
-                    case RaceType.NAR: {
-                        return this.fetchMonthPlaceEntityListForNar(
-                            raceType,
-                            period,
-                        );
-                    }
-                    case RaceType.JRA: {
-                        return this.fetchYearPlaceEntityListForJra(
-                            raceType,
-                            period,
-                        );
-                    }
                     case RaceType.BOATRACE: {
                         return this.fetchQuarterPlaceEntityListForBoatrace(
                             raceType,
                             period,
-                        );
-                    }
-                    case RaceType.OVERSEAS: {
-                        throw new Error(
-                            `Race type ${raceType} is not supported by this repository`,
                         );
                     }
                 }

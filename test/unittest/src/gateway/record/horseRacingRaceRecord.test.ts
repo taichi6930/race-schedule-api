@@ -21,7 +21,7 @@
  * | 15  | copy   | undefined  | undefined | undefined | undefined   | 不正値     | undefined     | undefined  | undefined| undefined| undefined    | 例外発生         | distanceバリデーション失敗 |
  */
 import { HorseRacingRaceRecord } from '../../../../../lib/src/gateway/record/horseRacingRaceRecord';
-import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
+import { generateRaceId } from '../../../../../lib/src/utility/validateAndType/raceId';
 import {
     defaultLocation,
     defaultRaceGrade,
