@@ -41,15 +41,6 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     ): Promise<PlaceEntity[]> {
         const result: PlaceEntity[] = [];
 
-        const placeRepositoryFromHtml = {
-            [RaceType.JRA]: this.placeRepositoryFromHtml,
-            [RaceType.NAR]: this.placeRepositoryFromHtml,
-            [RaceType.OVERSEAS]: undefined, // 海外競馬は対象外
-            [RaceType.KEIRIN]: this.placeRepositoryFromHtml,
-            [RaceType.AUTORACE]: this.placeRepositoryFromHtml,
-            [RaceType.BOATRACE]: this.placeRepositoryFromHtml,
-        };
-
         try {
             for (const raceType of RACE_TYPE_LIST_WITHOUT_OVERSEAS) {
                 if (!raceTypeList.includes(raceType)) continue;
@@ -57,7 +48,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 const placeEntityList: PlaceEntity[] = await (
                     type === DataLocation.Storage
                         ? this.placeRepositoryFromStorage
-                        : placeRepositoryFromHtml[raceType]
+                        : this.placeRepositoryFromHtml
                 ).fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
                         startDate,
