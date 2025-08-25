@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { z } from 'zod';
 
-import { RACE_TYPE_LIST_ALL, RaceType } from '../../raceType';
+import { RaceType } from '../../raceType';
 import { NetkeibaBabacodeMap } from '../netkeiba';
 import { createPlaceCodeMap, type RaceCourse } from './raceCourse';
 
@@ -45,7 +45,7 @@ const PlaceIdSchema = (raceType: RaceType): z.ZodString => {
 /**
  * PlaceIdのzod型定義
  */
-export type PlaceId = z.infer<typeof UnionPlaceIdSchema>;
+export type PlaceId = z.infer<ReturnType<typeof PlaceIdSchema>>;
 
 /**
  * PlaceIdのバリデーション
@@ -55,10 +55,3 @@ export type PlaceId = z.infer<typeof UnionPlaceIdSchema>;
  */
 export const validatePlaceId = (raceType: RaceType, value: string): PlaceId =>
     PlaceIdSchema(raceType).parse(value);
-
-/**
- * PlaceIdのzod型定義
- */
-export const UnionPlaceIdSchema = z.union(
-    RACE_TYPE_LIST_ALL.map((raceType) => PlaceIdSchema(raceType)),
-);

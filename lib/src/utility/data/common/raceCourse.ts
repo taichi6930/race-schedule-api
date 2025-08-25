@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { RACE_TYPE_LIST_ALL, RaceType } from '../../raceType';
+import { RaceType } from '../../raceType';
 
 /**
  * RaceCourseのマスターデータ
@@ -279,7 +279,7 @@ export const createPlaceCodeMap = (
  * RaceCourseのzod型定義
  * @param raceType - レース種別
  */
-const createRaceCourseSchema = (raceType: RaceType): z.ZodString =>
+const RaceCourseSchema = (raceType: RaceType): z.ZodString =>
     z.string().refine((value) => {
         return RaceCourseList(raceType).has(value);
     }, `${raceType}の開催場ではありません`);
@@ -292,16 +292,9 @@ const createRaceCourseSchema = (raceType: RaceType): z.ZodString =>
 export const validateRaceCourse = (
     raceType: RaceType,
     location: string,
-): RaceCourse => createRaceCourseSchema(raceType).parse(location);
-
-/**
- * RaceCourseのzod型定義
- */
-export const UnionRaceCourseSchema = z.union(
-    RACE_TYPE_LIST_ALL.map((raceType) => createRaceCourseSchema(raceType)),
-);
+): RaceCourse => RaceCourseSchema(raceType).parse(location);
 
 /**
  * RaceCourseの型定義
  */
-export type RaceCourse = z.infer<typeof UnionRaceCourseSchema>;
+export type RaceCourse = z.infer<ReturnType<typeof RaceCourseSchema>>;
