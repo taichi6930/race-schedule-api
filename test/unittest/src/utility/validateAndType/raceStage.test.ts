@@ -19,7 +19,7 @@ describe.each(testRaceTypeListMechanicalRacing)(
                 expect(() => validateRaceStage(raceType, stage)).not.toThrow();
             }
         });
-        it('異常系', () => {
+        test('異常系', () => {
             expect(() => validateRaceStage(raceType, '不正なステージ')).toThrow(
                 `${raceType}の開催ステージではありません`,
             );
