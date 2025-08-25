@@ -40,16 +40,17 @@ export class MechanicalRacingRaceRepositoryFromStorage
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
-        // ファイル名リストから選手データを取得する
-        const racePlayerRecordList: RacePlayerRecord[] =
-            await this.getRacePlayerRecordListFromS3(searchFilter.raceType);
-
-        // レースデータを取得する
-        const raceRaceRecordList: MechanicalRacingRaceRecord[] =
-            await this.getRaceRecordListFromS3(
+        // ファイル名リストから選手データとレースデータを並列で取得する
+        const [racePlayerRecordList, raceRaceRecordList]: [
+            RacePlayerRecord[],
+            MechanicalRacingRaceRecord[],
+        ] = await Promise.all([
+            this.getRacePlayerRecordListFromS3(searchFilter.raceType),
+            this.getRaceRecordListFromS3(
                 searchFilter.raceType,
                 searchFilter.startDate,
-            );
+            ),
+        ]);
 
         // RaceEntityに変換
         const raceEntityList: RaceEntity[] = raceRaceRecordList.map(
