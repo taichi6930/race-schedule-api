@@ -20,16 +20,8 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     public constructor(
         @inject('PlaceRepositoryFromStorage')
         protected placeRepositoryFromStorage: IPlaceRepository,
-        @inject('JraPlaceRepositoryFromHtml')
-        protected jraPlaceRepositoryFromHtml: IPlaceRepository,
-        @inject('NarPlaceRepositoryFromHtml')
-        protected narPlaceRepositoryFromHtml: IPlaceRepository,
-        @inject('KeirinPlaceRepositoryFromHtml')
-        protected keirinPlaceRepositoryFromHtml: IPlaceRepository,
-        @inject('AutoracePlaceRepositoryFromHtml')
-        protected autoracePlaceRepositoryFromHtml: IPlaceRepository,
-        @inject('BoatracePlaceRepositoryFromHtml')
-        protected boatracePlaceRepositoryFromHtml: IPlaceRepository,
+        @inject('PlaceRepositoryFromHtml')
+        protected placeRepositoryFromHtml: IPlaceRepository,
     ) {}
 
     /**
@@ -49,15 +41,6 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     ): Promise<PlaceEntity[]> {
         const result: PlaceEntity[] = [];
 
-        const placeRepositoryFromHtml = {
-            [RaceType.JRA]: this.jraPlaceRepositoryFromHtml,
-            [RaceType.NAR]: this.narPlaceRepositoryFromHtml,
-            [RaceType.OVERSEAS]: undefined, // 海外競馬は対象外
-            [RaceType.KEIRIN]: this.keirinPlaceRepositoryFromHtml,
-            [RaceType.AUTORACE]: this.autoracePlaceRepositoryFromHtml,
-            [RaceType.BOATRACE]: this.boatracePlaceRepositoryFromHtml,
-        };
-
         try {
             for (const raceType of RACE_TYPE_LIST_WITHOUT_OVERSEAS) {
                 if (!raceTypeList.includes(raceType)) continue;
@@ -65,7 +48,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
                 const placeEntityList: PlaceEntity[] = await (
                     type === DataLocation.Storage
                         ? this.placeRepositoryFromStorage
-                        : placeRepositoryFromHtml[raceType]
+                        : this.placeRepositoryFromHtml
                 ).fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
                         startDate,

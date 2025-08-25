@@ -54,7 +54,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
             );
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
             const delayedTimeMs = Number.parseInt(
-                process.env.HTML_FETCH_DELAY_MS ?? '800',
+                process.env.HTML_FETCH_DELAY_MS ?? '500',
                 10,
             );
             console.debug(`待機時間: ${delayedTimeMs}ms`);
@@ -261,7 +261,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
         const found = types.find((type) =>
             race.some((item) => item.includes(type)),
         );
-        return found ?? '芝';
+        return found ?? '不明';
     }
 
     /**

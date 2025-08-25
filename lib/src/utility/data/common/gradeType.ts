@@ -1,7 +1,7 @@
 import type { ZodString } from 'zod';
 import { z } from 'zod';
 
-import { RACE_TYPE_LIST_ALL, RaceType } from '../../raceType';
+import { RaceType } from '../../raceType';
 
 /**
  * グレードのマスターリスト
@@ -211,7 +211,7 @@ const GradeMasterList: {
 export const validateGradeType = (
     raceType: RaceType,
     grade: string,
-): GradeType => createGradeSchema(raceType).parse(grade);
+): GradeType => GradeTypeSchema(raceType).parse(grade);
 
 /**
  * グレードのバリデーションスキーマを生成する
@@ -219,7 +219,7 @@ export const validateGradeType = (
  * @param errorMessage - エラーメッセージ
  * @returns ZodString
  */
-const createGradeSchema = (raceType: RaceType): ZodString =>
+const GradeTypeSchema = (raceType: RaceType): ZodString =>
     z.string().refine((value): value is string => {
         return GradeTypeList(raceType).has(value);
     }, `${raceType}のグレードではありません`);
@@ -249,13 +249,6 @@ export const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (
     ).map((grade) => grade.gradeName);
 
 /**
- * GradeTypeのzod型定義
- */
-export const GradeTypeSchema = z.union(
-    RACE_TYPE_LIST_ALL.map((raceType) => createGradeSchema(raceType)),
-);
-
-/**
  * GradeTypeの型定義
  */
-export type GradeType = z.infer<typeof GradeTypeSchema>;
+export type GradeType = z.infer<ReturnType<typeof GradeTypeSchema>>;

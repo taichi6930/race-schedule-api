@@ -42,8 +42,11 @@ describe('PublicGamblingCalendarService', () => {
             expect(
                 repositorySetup.calendarRepository.getEvents,
             ).toHaveBeenCalledWith(
-                testRaceTypeListAll,
-                new SearchCalendarFilterEntity(startDate, finishDate),
+                new SearchCalendarFilterEntity(
+                    startDate,
+                    finishDate,
+                    testRaceTypeListAll,
+                ),
             );
             expect(result).toEqual(mockCalendarDataList);
         });

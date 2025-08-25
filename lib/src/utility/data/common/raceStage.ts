@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 import { RaceType } from '../../raceType';
-import { RACE_TYPE_LIST_MECHANICAL_RACING } from './../../raceType';
 import type { GradeType } from './gradeType';
 
 /**
@@ -745,7 +744,7 @@ export const RaceGradeAndStageList: {
 export const validateRaceStage = (
     raceType: RaceType,
     stage: string,
-): RaceStage => createRaceStageSchema(raceType).parse(stage);
+): RaceStage => RaceStageSchema(raceType).parse(stage);
 
 /**
  * ステージ リスト
@@ -780,22 +779,12 @@ export const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
  * RaceCourseのzod型定義
  * @param raceType - レース種別
  */
-const createRaceStageSchema = (raceType: RaceType): z.ZodString =>
+const RaceStageSchema = (raceType: RaceType): z.ZodString =>
     z.string().refine((value) => {
         return RaceStageList(raceType).has(value);
     }, `${raceType}の開催ステージではありません`);
 
 /**
- * RaceStageのzod型定義
- */
-
-export const RaceStageSchema = z.union(
-    RACE_TYPE_LIST_MECHANICAL_RACING.map((raceType) =>
-        createRaceStageSchema(raceType),
-    ),
-);
-/**
  * RaceStageの型定義
  */
-
-export type RaceStage = z.infer<typeof RaceStageSchema>;
+export type RaceStage = z.infer<ReturnType<typeof RaceStageSchema>>;

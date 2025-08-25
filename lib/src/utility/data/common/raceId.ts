@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 import type { RaceType } from '../../raceType';
-import { RACE_TYPE_LIST_ALL } from '../../raceType';
 import { generatePlaceId } from './placeId';
 import type { RaceCourse } from './raceCourse';
 import { type RaceNumber, validateRaceNumber } from './raceNumber';
@@ -56,7 +55,7 @@ const RaceIdSchema = (raceType: RaceType): z.ZodString => {
 /**
  * RaceIdのzod型定義
  */
-export type RaceId = z.infer<typeof UnionRaceIdSchema>;
+export type RaceId = z.infer<ReturnType<typeof RaceIdSchema>>;
 
 /**
  * RaceIdのバリデーション
@@ -66,10 +65,3 @@ export type RaceId = z.infer<typeof UnionRaceIdSchema>;
  */
 export const validateRaceId = (raceType: RaceType, value: string): RaceId =>
     RaceIdSchema(raceType).parse(value);
-
-/**
- * RaceIdのzod型定義
- */
-export const UnionRaceIdSchema = z.union(
-    RACE_TYPE_LIST_ALL.map((raceType) => RaceIdSchema(raceType)),
-);

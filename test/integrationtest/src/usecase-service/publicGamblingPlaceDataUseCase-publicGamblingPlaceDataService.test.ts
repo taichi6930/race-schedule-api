@@ -21,12 +21,12 @@ import {
 import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 
 describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => {
-    let repositorySetUp: TestRepositorySetup;
+    let repositorySetup: TestRepositorySetup;
     let service: IPlaceDataService;
     let useCase: IPlaceDataUseCase;
 
     beforeEach(() => {
-        repositorySetUp = setupTestRepositoryMock();
+        repositorySetup = setupTestRepositoryMock();
 
         service = container.resolve(PublicGamblingPlaceDataService);
         container.registerInstance<IPlaceDataService>(
@@ -47,7 +47,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること', async () => {
             // モックの戻り値を設定
-            repositorySetUp.placeRepositoryFromStorage.fetchPlaceEntityList.mockImplementation(
+            repositorySetup.placeRepositoryFromStorage.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.OVERSEAS: {
@@ -79,7 +79,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
 
     describe('updatePlaceDataList', () => {
         it('正常に開催場データが更新されること', async () => {
-            repositorySetUp.placeRepositoryFromStorage.registerPlaceEntityList.mockImplementation(
+            repositorySetup.placeRepositoryFromStorage.registerPlaceEntityList.mockImplementation(
                 async (raceType: RaceType, placeEntityList: PlaceEntity[]) => {
                     return {
                         code: 200,
@@ -90,7 +90,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
                 },
             );
             // モックの戻り値を設定
-            repositorySetUp.placeRepositoryFromStorage.fetchPlaceEntityList.mockImplementation(
+            repositorySetup.placeRepositoryFromStorage.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
                         case RaceType.OVERSEAS: {
@@ -108,20 +108,10 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             );
 
             // モックの戻り値を設定
-            repositorySetUp.jraPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.JRA)],
-            );
-            repositorySetUp.narPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.NAR)],
-            );
-            repositorySetUp.keirinPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.KEIRIN)],
-            );
-            repositorySetUp.autoracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.AUTORACE)],
-            );
-            repositorySetUp.boatracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.BOATRACE)],
+            repositorySetup.placeRepositoryFromHtml.fetchPlaceEntityList.mockImplementation(
+                async (searchFilter: SearchPlaceFilterEntity) => {
+                    return [basePlaceEntity(searchFilter.raceType)];
+                },
             );
 
             const startDate = new Date('2024-06-01');
@@ -134,7 +124,7 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             );
 
             expect(
-                repositorySetUp.placeRepositoryFromStorage
+                repositorySetup.placeRepositoryFromStorage
                     .registerPlaceEntityList,
             ).toHaveBeenCalled();
         });

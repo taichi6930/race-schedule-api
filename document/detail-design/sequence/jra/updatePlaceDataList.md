@@ -6,7 +6,7 @@ sequenceDiagram
     participant JraRaceController
     participant JraPlaceDataUseCase
     participant JraPlaceDataService
-    participant JraPlaceRepositoryFromHtml
+    participant PlaceRepositoryFromHtml
     participant IJraPlaceDataHtmlGateway
     participant Web
     participant JraPlaceRepositoryFromStorage
@@ -21,16 +21,16 @@ sequenceDiagram
         JraPlaceDataUseCase->>JraPlaceDataUseCase: 年初・年末に日付補正
         JraPlaceDataUseCase->>JraPlaceDataService: fetchPlaceEntityList(補正日付, Web)
         alt DataLocation.Web
-            JraPlaceDataService->>JraPlaceRepositoryFromHtml: fetchPlaceEntityList(searchFilter)
+            JraPlaceDataService->>PlaceRepositoryFromHtml: fetchPlaceEntityList(searchFilter)
             loop 年ごと
-                JraPlaceRepositoryFromHtml->>IJraPlaceDataHtmlGateway: getPlaceDataHtml(年)
+                PlaceRepositoryFromHtml->>IJraPlaceDataHtmlGateway: getPlaceDataHtml(年)
                 IJraPlaceDataHtmlGateway->>Web: HTML取得リクエスト
                 Web-->>IJraPlaceDataHtmlGateway: HTMLレスポンス
-                IJraPlaceDataHtmlGateway-->>JraPlaceRepositoryFromHtml: HTMLデータ
-                note right of JraPlaceRepositoryFromHtml: cheerioでHTMLパース→JraPlaceRecord[]生成
+                IJraPlaceDataHtmlGateway-->>PlaceRepositoryFromHtml: HTMLデータ
+                note right of PlaceRepositoryFromHtml: cheerioでHTMLパース→JraPlaceRecord[]生成
             end
-            note right of JraPlaceRepositoryFromHtml: JraPlaceRecord[]→PlaceEntity[]変換・日付filter
-            JraPlaceRepositoryFromHtml-->>JraPlaceDataService: placeEntityList
+            note right of PlaceRepositoryFromHtml: JraPlaceRecord[]→PlaceEntity[]変換・日付filter
+            PlaceRepositoryFromHtml-->>JraPlaceDataService: placeEntityList
         end
         JraPlaceDataService-->>JraPlaceDataUseCase: placeEntityList
         JraPlaceDataUseCase->>JraPlaceDataService: updatePlaceEntityList(placeEntityList)

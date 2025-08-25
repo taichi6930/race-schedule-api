@@ -67,20 +67,10 @@ describe('PublicGamblingPlaceDataService', () => {
 
         it('正常に開催場データが取得できること（web）', async () => {
             // モックの戻り値を設定
-            repositorySetup.jraPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.JRA)],
-            );
-            repositorySetup.narPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.NAR)],
-            );
-            repositorySetup.keirinPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.KEIRIN)],
-            );
-            repositorySetup.autoracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.AUTORACE)],
-            );
-            repositorySetup.boatracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.BOATRACE)],
+            repositorySetup.placeRepositoryFromHtml.fetchPlaceEntityList.mockImplementation(
+                async (searchFilter: SearchPlaceFilterEntity) => {
+                    return [basePlaceEntity(searchFilter.raceType)];
+                },
             );
 
             const startDate = new Date('2024-06-01');

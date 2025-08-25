@@ -1,5 +1,4 @@
 import type { CalendarData } from '../../domain/calendarData';
-import type { RaceType } from '../../utility/raceType';
 import type { RaceEntity } from '../entity/raceEntity';
 import type { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 
@@ -37,7 +36,6 @@ export interface ICalendarRepository {
      *               - 認証/認可エラー
      */
     getEvents: (
-        raceTypeList: RaceType[],
         searchFilter: SearchCalendarFilterEntity,
     ) => Promise<CalendarData[]>;
 

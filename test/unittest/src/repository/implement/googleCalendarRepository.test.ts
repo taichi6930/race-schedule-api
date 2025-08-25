@@ -42,11 +42,9 @@ describe('GoogleCalendarRepository', () => {
         const searchFilter = new SearchCalendarFilterEntity(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
-        );
-        const calendarDataList = await repository.getEvents(
             testRaceTypeListAll,
-            searchFilter,
         );
+        const calendarDataList = await repository.getEvents(searchFilter);
 
         expect(calendarDataList).toHaveLength(testRaceTypeListAll.length);
         // calendarDataListの中に、baseAutoraceCalendarDataが含まれていることを確認
@@ -67,11 +65,9 @@ describe('GoogleCalendarRepository', () => {
         const searchFilter = new SearchCalendarFilterEntity(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
-        );
-        const calendarDataList = await repository.getEvents(
             testRaceTypeListAll,
-            searchFilter,
         );
+        const calendarDataList = await repository.getEvents(searchFilter);
 
         expect(calendarDataList).toHaveLength(0);
         expect(

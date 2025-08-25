@@ -2,7 +2,7 @@ import { z } from 'zod';
 /**
  * RaceCourseTypeのzod型定義
  */
-const RaceCourseTypeList = new Set(['芝', 'ダート', '障害', 'AW']);
+const RaceCourseTypeList = new Set(['芝', 'ダート', '障害', 'AW', '不明']);
 
 /**
  * RaceCourseTypeの型定義

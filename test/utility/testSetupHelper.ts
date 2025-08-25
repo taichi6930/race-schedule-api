@@ -33,12 +33,8 @@ export function clearMocks(): void {
  */
 export interface TestRepositorySetup {
     calendarRepository: jest.Mocked<ICalendarRepository>;
-    jraPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
-    narPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    keirinPlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    boatracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    autoracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    placeRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
     jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
@@ -117,44 +113,20 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
     const calendarRepository = mockCalendarRepository();
     container.registerInstance('CalendarRepository', calendarRepository);
 
-    const jraPlaceRepositoryFromHtml = mockPlaceRepository();
-    container.registerInstance<IPlaceRepository>(
-        'JraPlaceRepositoryFromHtml',
-        jraPlaceRepositoryFromHtml,
-    );
     const placeRepositoryFromStorage = mockPlaceRepository();
     container.registerInstance<IPlaceRepository>(
         'PlaceRepositoryFromStorage',
         placeRepositoryFromStorage,
     );
-    const narPlaceRepositoryFromHtml = mockPlaceRepository();
+    const placeRepositoryFromHtml = mockPlaceRepository();
     container.registerInstance<IPlaceRepository>(
-        'NarPlaceRepositoryFromHtml',
-        narPlaceRepositoryFromHtml,
-    );
-    const keirinPlaceRepositoryFromHtml = mockPlaceRepository();
-    container.registerInstance<IPlaceRepository>(
-        'KeirinPlaceRepositoryFromHtml',
-        keirinPlaceRepositoryFromHtml,
-    );
-    const boatracePlaceRepositoryFromHtml = mockPlaceRepository();
-    container.registerInstance<IPlaceRepository>(
-        'BoatracePlaceRepositoryFromHtml',
-        boatracePlaceRepositoryFromHtml,
-    );
-    const autoracePlaceRepositoryFromHtml = mockPlaceRepository();
-    container.registerInstance<IPlaceRepository>(
-        'AutoracePlaceRepositoryFromHtml',
-        autoracePlaceRepositoryFromHtml,
+        'PlaceRepositoryFromHtml',
+        placeRepositoryFromHtml,
     );
     return {
         calendarRepository,
-        jraPlaceRepositoryFromHtml,
         placeRepositoryFromStorage,
-        narPlaceRepositoryFromHtml,
-        keirinPlaceRepositoryFromHtml,
-        boatracePlaceRepositoryFromHtml,
-        autoracePlaceRepositoryFromHtml,
+        placeRepositoryFromHtml,
         horseRacingRaceRepositoryFromStorage,
         jraRaceRepositoryFromHtml,
         narRaceRepositoryFromHtml,

@@ -1,34 +1,19 @@
 import { z } from 'zod';
 
-import { RACE_TYPE_LIST_MECHANICAL_RACING, RaceType } from '../../raceType';
+import { RaceType } from '../../raceType';
 
 /**
  * 枠順の最高値を取得します。
  * @param playerDataList
  * @param raceType - レース種別
  */
-export const createMaxFrameNumber = (raceType: RaceType): number => {
-    switch (raceType) {
-        case RaceType.BOATRACE: {
-            return 6;
-        }
-        case RaceType.AUTORACE: {
-            return 8;
-        }
-        case RaceType.KEIRIN: {
-            return 9;
-        }
-        case RaceType.JRA: {
-            return 18;
-        }
-        case RaceType.NAR: {
-            return 16;
-        }
-        case RaceType.OVERSEAS: {
-            // 一旦大きめに48にする
-            return 48;
-        }
-    }
+export const maxFrameNumber = {
+    [RaceType.BOATRACE]: 6,
+    [RaceType.AUTORACE]: 8,
+    [RaceType.KEIRIN]: 9,
+    [RaceType.JRA]: 18,
+    [RaceType.NAR]: 16,
+    [RaceType.OVERSEAS]: 48,
 };
 
 export const validatePositionNumber = (
@@ -43,7 +28,7 @@ export const validatePositionNumber = (
 const PositionNumberSchema: (raceType: RaceType) => z.ZodNumber = (
     raceType,
 ) => {
-    const max = createMaxFrameNumber(raceType);
+    const max = maxFrameNumber[raceType];
     return z
         .number()
         .int()
@@ -52,15 +37,6 @@ const PositionNumberSchema: (raceType: RaceType) => z.ZodNumber = (
 };
 
 /**
- * 共通のPositionNumber zod型定義
- */
-export const CommonPositionNumberSchema = z.union(
-    RACE_TYPE_LIST_MECHANICAL_RACING.map((raceType) =>
-        PositionNumberSchema(raceType),
-    ),
-);
-
-/**
  * 共通のPositionNumber型定義
  */
-export type PositionNumber = z.infer<typeof CommonPositionNumberSchema>;
+export type PositionNumber = z.infer<ReturnType<typeof PositionNumberSchema>>;
