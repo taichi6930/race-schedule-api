@@ -60,6 +60,9 @@ export class MockS3Gateway implements IS3Gateway {
     // 終了の年数
     private finishDate = new Date('2030-01-01');
 
+    // helper: filesystem base dir for mock CSVs
+    private readonly mockCsvBaseDir = path.join(__dirname, '../mockData/csv');
+
     /**
      * MockS3Gatewayのコンストラクタ
      * @param {string} bucketName
@@ -142,6 +145,32 @@ export class MockS3Gateway implements IS3Gateway {
     }
 
     /**
+     * 日付を start(inclusive) から end(exclusive) まで1日ずつループする
+     */
+    private iterateDates(start: Date, end: Date, fn: (d: Date) => void) {
+        const current = new Date(start);
+        while (current.getTime() < end.getTime()) {
+            fn(new Date(current));
+            current.setDate(current.getDate() + 1);
+        }
+    }
+
+    private async loadCsvFiles(csvPathList: string[]) {
+        for (const csvPathItem of csvPathList) {
+            try {
+                const _csvPath = path.join(this.mockCsvBaseDir, csvPathItem);
+                const data = await fs.readFile(_csvPath, 'utf8');
+                MockS3Gateway.mockStorage.set(csvPathItem, data);
+                console.log(
+                    `MockS3Gateway: ${csvPathItem}のデータを読み込みました`,
+                );
+            } catch (error) {
+                console.error(`Error reading CSV from ${csvPathItem}:`, error);
+            }
+        }
+    }
+
+    /**
      * モックデータを作成する
      */
     @Logger
@@ -164,25 +193,7 @@ export class MockS3Gateway implements IS3Gateway {
                 const csvPathList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
                     (raceType) => csvPath('PLACE_LIST', raceType),
                 );
-
-                for (const csvPathItem of csvPathList) {
-                    try {
-                        const _csvPath = path.join(
-                            __dirname,
-                            `../mockData/csv/${csvPathItem}`,
-                        );
-                        const data = await fs.readFile(_csvPath, 'utf8');
-                        MockS3Gateway.mockStorage.set(csvPathItem, data);
-                        console.log(
-                            `MockS3Gateway: ${csvPathItem}のデータを読み込みました`,
-                        );
-                    } catch (error) {
-                        console.error(
-                            `Error reading CSV from ${csvPathItem}:`,
-                            error,
-                        );
-                    }
-                }
+                await this.loadCsvFiles(csvPathList);
                 return;
             }
             default: {
@@ -217,22 +228,7 @@ export class MockS3Gateway implements IS3Gateway {
                 const csvPathList = RACE_TYPE_LIST_ALL.map((raceType) =>
                     csvPath('RACE_LIST', raceType),
                 );
-
-                for (const csvPathItem of csvPathList) {
-                    try {
-                        const _csvPath = path.join(
-                            __dirname,
-                            `../mockData/csv/${csvPathItem}`,
-                        );
-                        const data = await fs.readFile(_csvPath, 'utf8');
-                        MockS3Gateway.mockStorage.set(csvPathItem, data);
-                    } catch (error) {
-                        console.error(
-                            `Error reading CSV from ${csvPathItem}:`,
-                            error,
-                        );
-                    }
-                }
+                await this.loadCsvFiles(csvPathList);
                 return;
             }
             default: {
@@ -255,22 +251,7 @@ export class MockS3Gateway implements IS3Gateway {
                 const csvPathList = RACE_TYPE_LIST_MECHANICAL_RACING.map(
                     (raceType) => csvPath('RACE_PLAYER_LIST', raceType),
                 );
-
-                for (const csvPathItem of csvPathList) {
-                    try {
-                        const _csvPath = path.join(
-                            __dirname,
-                            `../mockData/csv/${csvPathItem}`,
-                        );
-                        const data = await fs.readFile(_csvPath, 'utf8');
-                        MockS3Gateway.mockStorage.set(csvPathItem, data);
-                    } catch (error) {
-                        console.error(
-                            `Error reading CSV from ${csvPathItem}:`,
-                            error,
-                        );
-                    }
-                }
+                await this.loadCsvFiles(csvPathList);
                 return;
             }
             default: {
@@ -294,9 +275,7 @@ export class MockS3Gateway implements IS3Gateway {
             CSV_HEADER_KEYS.NUMBER,
         ].join(',');
         const mockData = [mockDataHeader];
-        const currentDate = new Date(this.startDate);
-        // whileで回していって、最初の日付の年数と異なったら終了
-        while (currentDate.getFullYear() !== this.finishDate.getFullYear()) {
+        this.iterateDates(this.startDate, this.finishDate, (currentDate) => {
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                 mockData.push(
                     [
@@ -316,15 +295,14 @@ export class MockS3Gateway implements IS3Gateway {
                     ].join(','),
                 );
             }
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
+        });
+
         MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
     }
 
     @Logger
     private async setMechanicalRacingRaceMockData(raceType: RaceType) {
         // 2024年のデータ366日分を作成
-        const currentDate = new Date(this.startDate);
         const fileName = csvPath('RACE_LIST', raceType as RaceType);
         const mockDataHeader = [
             CSV_HEADER_KEYS.ID,
@@ -336,8 +314,7 @@ export class MockS3Gateway implements IS3Gateway {
             CSV_HEADER_KEYS.NUMBER,
         ].join(',');
         const mockData = [mockDataHeader];
-        // whileで回していって、最初の日付の年数と異なったら終了
-        while (currentDate.getFullYear() !== this.finishDate.getFullYear()) {
+        this.iterateDates(this.startDate, this.finishDate, (currentDate) => {
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                 mockData.push(
                     [
@@ -356,8 +333,8 @@ export class MockS3Gateway implements IS3Gateway {
                     ].join(','),
                 );
             }
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
+        });
+
         MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
     }
 
@@ -377,14 +354,11 @@ export class MockS3Gateway implements IS3Gateway {
             year <= this.finishDate.getFullYear() - 1;
             year++
         ) {
-            // 2024年のデータ12ヶ月分を作成
             for (let month = 1; month <= 12; month++) {
                 const startDate = new Date(year, month - 1, 1);
-                // 1ヶ月分のデータ（28~31日）を作成
-                // 2024年のデータ366日分を作成
-                const currentDate = new Date(this.startDate);
-                // whileで回していって、最初の日付の年数と異なったら終了
-                while (currentDate.getMonth() === startDate.getMonth()) {
+                const nextMonth = new Date(year, month, 1);
+                // iterate days in the month
+                this.iterateDates(startDate, nextMonth, (currentDate) => {
                     mockData.push(
                         [
                             generatePlaceId(
@@ -397,8 +371,7 @@ export class MockS3Gateway implements IS3Gateway {
                             getJSTDate(new Date()),
                         ].join(','),
                     );
-                    currentDate.setDate(currentDate.getDate() + 1);
-                }
+                });
             }
         }
         MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
@@ -421,25 +394,7 @@ export class MockS3Gateway implements IS3Gateway {
             }
             case allowedEnvs.local: {
                 const csvPathList = [csvPath('HELD_DAY_LIST', RaceType.JRA)];
-
-                for (const csvPathItem of csvPathList) {
-                    try {
-                        const _csvPath = path.join(
-                            __dirname,
-                            `../mockData/csv/${csvPathItem}`,
-                        );
-                        const data = await fs.readFile(_csvPath, 'utf8');
-                        MockS3Gateway.mockStorage.set(csvPathItem, data);
-                        console.log(
-                            `MockS3Gateway: ${csvPathItem}のデータを読み込みました`,
-                        );
-                    } catch (error) {
-                        console.error(
-                            `Error reading CSV from ${csvPathItem}:`,
-                            error,
-                        );
-                    }
-                }
+                await this.loadCsvFiles(csvPathList);
                 return;
             }
             default: {
@@ -472,25 +427,7 @@ export class MockS3Gateway implements IS3Gateway {
                 const csvPathList = RACE_TYPE_LIST_MECHANICAL_RACING.map(
                     (raceType) => csvPath('GRADE_LIST', raceType),
                 );
-
-                for (const csvPathItem of csvPathList) {
-                    try {
-                        const _csvPath = path.join(
-                            __dirname,
-                            `../mockData/csv/${csvPathItem}`,
-                        );
-                        const data = await fs.readFile(_csvPath, 'utf8');
-                        MockS3Gateway.mockStorage.set(csvPathItem, data);
-                        console.log(
-                            `MockS3Gateway: ${csvPathItem}のデータを読み込みました`,
-                        );
-                    } catch (error) {
-                        console.error(
-                            `Error reading CSV from ${csvPathItem}:`,
-                            error,
-                        );
-                    }
-                }
+                await this.loadCsvFiles(csvPathList);
                 return;
             }
             default: {
@@ -517,14 +454,10 @@ export class MockS3Gateway implements IS3Gateway {
             year <= this.finishDate.getFullYear() - 1;
             year++
         ) {
-            // 2024年のデータ12ヶ月分を作成
             for (let month = 1; month <= 12; month++) {
                 const startDate = new Date(year, month - 1, 1);
-                // 1ヶ月分のデータ（28~31日）を作成
-                // 2024年のデータ366日分を作成
-                const currentDate = new Date(this.startDate);
-                // whileで回していって、最初の日付の年数と異なったら終了
-                while (currentDate.getMonth() === startDate.getMonth()) {
+                const nextMonth = new Date(year, month, 1);
+                this.iterateDates(startDate, nextMonth, (currentDate) => {
                     mockData.push(
                         [
                             generatePlaceId(
@@ -537,8 +470,7 @@ export class MockS3Gateway implements IS3Gateway {
                             '1',
                         ].join(','),
                     );
-                    currentDate.setDate(currentDate.getDate() + 1);
-                }
+                });
             }
         }
         MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
@@ -560,14 +492,10 @@ export class MockS3Gateway implements IS3Gateway {
             year <= this.finishDate.getFullYear() - 1;
             year++
         ) {
-            // 2024年のデータ12ヶ月分を作成
             for (let month = 1; month <= 12; month++) {
                 const startDate = new Date(year, month - 1, 1);
-                // 1ヶ月分のデータ（28~31日）を作成
-                // 2024年のデータ366日分を作成
-                const currentDate = new Date(this.startDate);
-                // whileで回していって、最初の日付の年数と異なったら終了
-                while (currentDate.getMonth() === startDate.getMonth()) {
+                const nextMonth = new Date(year, month, 1);
+                this.iterateDates(startDate, nextMonth, (currentDate) => {
                     mockData.push(
                         [
                             generatePlaceId(
@@ -580,8 +508,7 @@ export class MockS3Gateway implements IS3Gateway {
                             getJSTDate(new Date()),
                         ].join(','),
                     );
-                    currentDate.setDate(currentDate.getDate() + 1);
-                }
+                });
             }
         }
         MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
