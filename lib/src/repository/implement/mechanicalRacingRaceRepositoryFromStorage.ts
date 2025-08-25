@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
@@ -64,25 +63,12 @@ export class MechanicalRacingRaceRepositoryFromStorage
                     });
                 // RacePlayerDataのリストを生成
                 const racePlayerDataList: RacePlayerData[] =
-                    filteredRacePlayerRecordList.map((racePlayerRecord) => {
-                        return RacePlayerData.create(
-                            searchFilter.raceType,
-                            racePlayerRecord.positionNumber,
-                            racePlayerRecord.playerNumber,
-                        );
-                    });
-                // RaceDataを生成
-                const raceData = RaceData.create(
-                    searchFilter.raceType,
-                    raceRecord.name,
-                    raceRecord.dateTime,
-                    raceRecord.location,
-                    raceRecord.grade,
-                    raceRecord.number,
-                );
+                    filteredRacePlayerRecordList.map((racePlayerRecord) =>
+                        racePlayerRecord.toRacePlayerData(),
+                    );
                 return RaceEntity.create(
                     raceRecord.id,
-                    raceData,
+                    raceRecord.toRaceData(),
                     undefined, // heldDayDataは未設定
                     undefined, // conditionDataは未設定
                     raceRecord.stage,

@@ -27,6 +27,7 @@ import {
     type RaceStage,
     validateRaceStage,
 } from '../../utility/validateAndType/raceStage';
+import { RaceData } from './../../domain/raceData';
 
 /**
  * レース開催データ
@@ -115,6 +116,20 @@ export class MechanicalRacingRaceRecord {
             partial.grade ?? this.grade,
             partial.number ?? this.number,
             partial.updateDate ?? this.updateDate,
+        );
+    }
+
+    /**
+     * RaceDataに変換する
+     */
+    public toRaceData(): RaceData {
+        return RaceData.create(
+            this.raceType,
+            this.name,
+            this.dateTime,
+            this.location,
+            this.grade,
+            this.number,
         );
     }
 }

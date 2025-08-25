@@ -2,9 +2,6 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
-import { HeldDayData } from '../../domain/heldDayData';
-import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
-import { RaceData } from '../../domain/raceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
 import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
@@ -51,19 +48,9 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
             return filteredRaceRecordList.map((raceRecord) =>
                 RaceEntity.create(
                     raceRecord.id,
-                    RaceData.create(
-                        raceRecord.raceType,
-                        raceRecord.name,
-                        raceRecord.dateTime,
-                        raceRecord.location,
-                        raceRecord.grade,
-                        raceRecord.number,
-                    ),
+                    raceRecord.toRaceData(),
                     undefined,
-                    HorseRaceConditionData.create(
-                        raceRecord.surfaceType,
-                        raceRecord.distance,
-                    ),
+                    raceRecord.toHorseRaceConditionData(),
                     undefined, // stage は未指定
                     undefined, // racePlayerDataList は未指定
                     raceRecord.updateDate,
@@ -103,22 +90,9 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
                 ({ raceRecord, heldDayRecord }) =>
                     RaceEntity.create(
                         raceRecord.id,
-                        RaceData.create(
-                            raceRecord.raceType,
-                            raceRecord.name,
-                            raceRecord.dateTime,
-                            raceRecord.location,
-                            raceRecord.grade,
-                            raceRecord.number,
-                        ),
-                        HeldDayData.create(
-                            heldDayRecord.heldTimes,
-                            heldDayRecord.heldDayTimes,
-                        ),
-                        HorseRaceConditionData.create(
-                            raceRecord.surfaceType,
-                            raceRecord.distance,
-                        ),
+                        raceRecord.toRaceData(),
+                        heldDayRecord.toHeldDayData(),
+                        raceRecord.toHorseRaceConditionData(),
                         undefined, // stage は未指定
                         undefined, // racePlayerDataList は未指定
                         // raceRecordとheldDayRecordのupdateDateの早い方を使用

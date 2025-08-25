@@ -2,8 +2,6 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
-import { HeldDayData } from '../../domain/heldDayData';
-import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
 import { PlaceGradeRecord } from '../../gateway/record/placeGradeRecord';
@@ -81,15 +79,8 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     .map(({ placeRecord, heldDayRecordItem }) => {
                         return PlaceEntity.create(
                             placeRecord.id,
-                            PlaceData.create(
-                                searchFilter.raceType,
-                                placeRecord.dateTime,
-                                placeRecord.location,
-                            ),
-                            HeldDayData.create(
-                                heldDayRecordItem.heldTimes,
-                                heldDayRecordItem.heldDayTimes,
-                            ),
+                            placeRecord.toPlaceData(),
+                            heldDayRecordItem.toHeldDayData(),
                             undefined, // グレードは未指定
                             // placeRecordとheldDayRecordのupdateDateの早い方を使用
                             new Date(
@@ -107,11 +98,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                 return filteredPlaceRecordList.map((placeRecord) =>
                     PlaceEntity.create(
                         placeRecord.id,
-                        PlaceData.create(
-                            placeRecord.raceType,
-                            placeRecord.dateTime,
-                            placeRecord.location,
-                        ),
+                        placeRecord.toPlaceData(),
                         undefined,
                         undefined,
                         placeRecord.updateDate,
@@ -149,11 +136,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     .map(({ placeRecord, placeGradeRecord }) => {
                         return PlaceEntity.create(
                             placeRecord.id,
-                            PlaceData.create(
-                                searchFilter.raceType,
-                                placeRecord.dateTime,
-                                placeRecord.location,
-                            ),
+                            placeRecord.toPlaceData(),
                             undefined,
                             placeGradeRecord.grade,
                             // placeRecordとplaceRecordのupdateDateの早い方を使用
@@ -218,14 +201,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     await this.getHeldDayRecordListFromS3(raceType);
 
                 const heldDayRecordList: HeldDayRecord[] = placeEntityList.map(
-                    (placeEntity) =>
-                        HeldDayRecord.create(
-                            placeEntity.id,
-                            placeEntity.placeData.raceType,
-                            placeEntity.heldDayData.heldTimes,
-                            placeEntity.heldDayData.heldDayTimes,
-                            placeEntity.updateDate,
-                        ),
+                    (placeEntity) => placeEntity.toHeldDayRecord(),
                 );
 
                 // idが重複しているデータは上書きをし、新規のデータは追加する
@@ -264,12 +240,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                 // PlaceEntityをPlaceRecordに変換する
                 const placeGradeRecordList: PlaceGradeRecord[] =
                     placeEntityList.map((placeEntity) =>
-                        PlaceGradeRecord.create(
-                            placeEntity.id,
-                            placeEntity.placeData.raceType,
-                            placeEntity.grade,
-                            placeEntity.updateDate,
-                        ),
+                        placeEntity.toPlaceGradeRecord(),
                     );
 
                 // idが重複しているデータは上書きをし、新規のデータは追加する

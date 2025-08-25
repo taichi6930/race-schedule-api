@@ -1,3 +1,4 @@
+import { PlaceData } from '../../domain/placeData';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
@@ -73,5 +74,12 @@ export class PlaceRecord {
             partial.location ?? this.location,
             partial.updateDate ?? this.updateDate,
         );
+    }
+
+    /**
+     * PlaceDataに変換する
+     */
+    public toPlaceData(): PlaceData {
+        return PlaceData.create(this.raceType, this.dateTime, this.location);
     }
 }

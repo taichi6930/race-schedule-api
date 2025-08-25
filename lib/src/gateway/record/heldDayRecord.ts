@@ -1,3 +1,4 @@
+import { HeldDayData } from '../../domain/heldDayData';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
@@ -75,5 +76,12 @@ export class HeldDayRecord {
             partial.heldDayTimes ?? this.heldDayTimes,
             partial.updateDate ?? this.updateDate,
         );
+    }
+
+    /**
+     *  HeldDayDataに変換する
+     */
+    public toHeldDayData(): HeldDayData {
+        return HeldDayData.create(this.heldTimes, this.heldDayTimes);
     }
 }

@@ -1,5 +1,6 @@
 import '../../utility/format';
 
+import { RaceData } from '../../domain/raceData';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
@@ -25,6 +26,7 @@ import {
     type RaceSurfaceType,
     validateRaceSurfaceType,
 } from '../../utility/validateAndType/raceSurfaceType';
+import { HorseRaceConditionData } from './../../domain/houseRaceConditionData';
 
 /**
  * 競馬のレース開催データ
@@ -120,5 +122,26 @@ export class HorseRacingRaceRecord {
             partial.number ?? this.number,
             partial.updateDate ?? this.updateDate,
         );
+    }
+
+    /**
+     * RaceDataに変換する
+     */
+    public toRaceData(): RaceData {
+        return RaceData.create(
+            this.raceType,
+            this.name,
+            this.dateTime,
+            this.location,
+            this.grade,
+            this.number,
+        );
+    }
+
+    /**
+     * HorseRaceConditionDataに変換する
+     */
+    public toHorseRaceConditionData(): HorseRaceConditionData {
+        return HorseRaceConditionData.create(this.surfaceType, this.distance);
     }
 }

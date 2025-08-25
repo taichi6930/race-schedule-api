@@ -1,5 +1,6 @@
 import '../../utility/format';
 
+import { RacePlayerData } from '../../domain/racePlayerData';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
@@ -81,6 +82,17 @@ export class RacePlayerRecord {
             partial.positionNumber ?? this.positionNumber,
             partial.playerNumber ?? this.playerNumber,
             partial.updateDate ?? this.updateDate,
+        );
+    }
+
+    /**
+     * レース選手データをRacePlayerDataに変換する
+     */
+    public toRacePlayerData(): RacePlayerData {
+        return RacePlayerData.create(
+            this.raceType,
+            this.positionNumber,
+            this.playerNumber,
         );
     }
 }
