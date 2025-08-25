@@ -1,13 +1,16 @@
 import '../../utility/format';
 
-import { format } from 'date-fns';
-
+import {
+    createAutoraceRaceUrl,
+    createBoatraceRaceUrl,
+    createJraRaceUrl,
+    createKeirinRaceUrl,
+    createNarRaceUrl,
+    createOverseasRaceUrl,
+} from '../../utility/data/url';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import {
-    createPlaceCodeMap,
-    RaceCourse,
-} from '../../utility/validateAndType/raceCourse';
+import { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
 /**
  * レースデータのHTMLを取得するGateway
@@ -21,76 +24,24 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
     ): string {
         switch (raceType) {
             case RaceType.JRA: {
-                return this.buildJraUrl(date);
+                return createJraRaceUrl(date);
             }
             case RaceType.NAR: {
-                return this.buildNarUrl(date, place);
+                return createNarRaceUrl(date, place);
             }
             case RaceType.OVERSEAS: {
-                return this.buildOverseasUrl(date);
+                return createOverseasRaceUrl(date);
             }
             case RaceType.KEIRIN: {
-                return this.buildKeirinUrl(date, place);
+                return createKeirinRaceUrl(date, place);
             }
             case RaceType.AUTORACE: {
-                return this.buildAutoraceUrl(date, place);
+                return createAutoraceRaceUrl(date, place);
             }
             case RaceType.BOATRACE: {
-                return this.buildBoatraceUrl(date, place, number);
+                return createBoatraceRaceUrl(date, place, number);
             }
         }
-    }
-
-    private buildJraUrl(date: Date): string {
-        const raceId = format(date, 'yyyyMMdd');
-        return `https://www.keibalab.jp/db/race/${raceId}/`;
-    }
-
-    private buildNarUrl(date: Date, place?: RaceCourse): string {
-        if (place === undefined) {
-            throw new Error('NARレースの開催場が指定されていません');
-        }
-        const raceDate = `${date.getFullYear()}%2f${date.getXDigitMonth(2)}%2f${date.getXDigitDays(2)}`;
-        const babacode = createPlaceCodeMap(RaceType.NAR)[place];
-        return `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/RaceList?k_raceDate=${raceDate}&k_babaCode=${babacode}`;
-    }
-
-    private buildOverseasUrl(date: Date): string {
-        return `https://world.jra-van.jp/schedule/?year=${date.getFullYear()}&month=${date.getMonth() + 1}`;
-    }
-
-    private buildKeirinUrl(date: Date, place?: RaceCourse): string {
-        if (place === undefined) {
-            throw new Error('競輪レースの開催場が指定されていません');
-        }
-        const raceDate = format(date, 'yyyyMMdd');
-        const babacode = createPlaceCodeMap(RaceType.KEIRIN)[place];
-        return `https://www.oddspark.com/keirin/AllRaceList.do?joCode=${babacode}&kaisaiBi=${raceDate}`;
-    }
-
-    private buildAutoraceUrl(date: Date, place?: RaceCourse): string {
-        if (place === undefined) {
-            throw new Error('オートレースの開催場が指定されていません');
-        }
-        const raceDate = format(date, 'yyyyMMdd');
-        const babacode = createPlaceCodeMap(RaceType.AUTORACE)[place];
-        return `https://www.oddspark.com/autorace/OneDayRaceList.do?raceDy=${raceDate}&placeCd=${babacode}`;
-    }
-
-    private buildBoatraceUrl(
-        date: Date,
-        place?: RaceCourse,
-        number?: number,
-    ): string {
-        if (place === undefined) {
-            throw new Error('ボートレースの開催場が指定されていません');
-        }
-        if (number === undefined || Number.isNaN(number)) {
-            throw new Error('ボートレースのレース番号が指定されていません');
-        }
-        const raceDate = format(date, 'yyyyMMdd');
-        const babacode = createPlaceCodeMap(RaceType.BOATRACE)[place];
-        return `https://www.boatrace.jp/owpc/pc/race/racelist?rno=${number}&hd=${raceDate}&jcd=${babacode}`;
     }
 
     /**

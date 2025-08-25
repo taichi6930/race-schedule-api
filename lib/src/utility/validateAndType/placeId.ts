@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { NetkeibaBabacodeMap } from '../data/netkeiba';
 import { RaceType } from '../raceType';
-import { createPlaceCodeMap, type RaceCourse } from './raceCourse';
+import { createPlaceCode, type RaceCourse } from './raceCourse';
 
 /**
  * placeIdを作成する
@@ -21,7 +21,7 @@ export const generatePlaceId = (
     const locationCode =
         raceType === RaceType.JRA || raceType === RaceType.NAR
             ? NetkeibaBabacodeMap[location]
-            : createPlaceCodeMap(raceType)[location];
+            : createPlaceCode(raceType, location);
     const raceTypePrefix = raceType.toLowerCase();
     return `${raceTypePrefix}${dateCode}${locationCode}`;
 };

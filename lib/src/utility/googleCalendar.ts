@@ -21,12 +21,15 @@ import { NetkeibaBabacodeMap } from './data/netkeiba';
 import {
     createNetkeibaJraRaceVideoUrl,
     createNetkeibaJraShutubaUrl,
+    createNetkeibaRedirectUrl,
+    createNetkeirinRaceShutubaUrl,
+    createNetkeirinRedirectUrl,
 } from './data/url';
 import { getJSTDate } from './date';
 import { createAnchorTag, formatDate } from './format';
 import { RaceType } from './raceType';
 import type { GradeType } from './validateAndType/gradeType';
-import { createPlaceCodeMap } from './validateAndType/raceCourse';
+import { createPlaceCode } from './validateAndType/raceCourse';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール
@@ -203,14 +206,17 @@ export function toGoogleCalendarData(
             raceEntity instanceof RaceEntity &&
             raceEntity.raceData.raceType === RaceType.KEIRIN
         ) {
+            const raceIdForNetkeirin = `${format(
+                raceEntity.raceData.dateTime,
+                'yyyyMMdd',
+            )}${createPlaceCode(RaceType.KEIRIN, raceEntity.raceData.location)}
+            ${raceEntity.raceData.number.toXDigits(2)}`;
             return `${raceTimeStr}
                     ${createAnchorTag(
                         'レース情報（netkeirin）',
-                        `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${
-                            createPlaceCodeMap(RaceType.KEIRIN)[
-                                raceEntity.raceData.location
-                            ]
-                        }${raceEntity.raceData.number.toXDigits(2)}`,
+                        createNetkeirinRedirectUrl(
+                            createNetkeirinRaceShutubaUrl(raceIdForNetkeirin),
+                        ),
                     )}
                     ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
                     ${updateStr}
@@ -225,15 +231,15 @@ export function toGoogleCalendarData(
                     ${raceTimeStr}
                     ${createAnchorTag(
                         'レース情報',
-                        `https://netkeiba.page.link/?link=${encodeURIComponent(
+                        createNetkeibaRedirectUrl(
                             createNetkeibaJraShutubaUrl(raceIdForNetkeiba),
-                        )}`,
+                        ),
                     )}
                     ${createAnchorTag(
                         'レース動画',
-                        `https://netkeiba.page.link/?link=${encodeURIComponent(
+                        createNetkeibaRedirectUrl(
                             createNetkeibaJraRaceVideoUrl(raceIdForNetkeiba),
-                        )}`,
+                        ),
                     )}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
