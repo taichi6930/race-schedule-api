@@ -1,5 +1,5 @@
 import {
-    type heldDayTimes as HeldDayTimes,
+    type HeldDayTimes,
     validateHeldDayTimes,
 } from '../utility/validateAndType/heldDayTimes';
 import {

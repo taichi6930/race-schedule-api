@@ -3,18 +3,21 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceData } from '../../domain/placeData';
-import { RaceData } from '../../domain/raceData';
-import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { getJSTDate } from '../../utility/date';
-import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
-import { GradeType } from '../../utility/validateAndType/gradeType';
-import { RaceStage, StageMap } from '../../utility/validateAndType/raceStage';
-import { PlaceEntity } from '../entity/placeEntity';
-import { RaceEntity } from '../entity/raceEntity';
-import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
-import { IRaceRepository } from '../interface/IRaceRepository';
+import { PlaceData } from '../../../domain/placeData';
+import { RaceData } from '../../../domain/raceData';
+import { IRaceDataHtmlGateway } from '../../../gateway/interface/iRaceDataHtmlGateway';
+import { getJSTDate } from '../../../utility/date';
+import { Logger } from '../../../utility/logger';
+import { RaceType } from '../../../utility/raceType';
+import { GradeType } from '../../../utility/validateAndType/gradeType';
+import {
+    RaceStage,
+    StageMap,
+} from '../../../utility/validateAndType/raceStage';
+import { PlaceEntity } from '../../entity/placeEntity';
+import { RaceEntity } from '../../entity/raceEntity';
+import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
+import { IRaceRepository } from '../../interface/IRaceRepository';
 
 /**
  * オートレース場開催データリポジトリの実装

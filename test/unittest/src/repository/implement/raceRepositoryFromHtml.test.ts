@@ -9,11 +9,12 @@ import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interf
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import { AutoraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtml';
-import { BoatraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtml';
-import { JraRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/jraRaceRepositoryFromHtml';
-import { KeirinRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtml';
-import { NarRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/narRaceRepositoryFromHtml';
+import { AutoraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
+import { BoatraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
+import { JraRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
+import { KeirinRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
+import { NarRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
+import { OverseasRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtml';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
@@ -25,7 +26,6 @@ import {
     defaultPlaceGrade,
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
-import { OverseasRaceRepositoryFromHtml } from './../../../../../lib/src/repository/implement/overseasRaceRepositoryFromHtml';
 
 // テーブル駆動型テスト
 const testCases = {

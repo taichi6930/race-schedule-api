@@ -3,7 +3,7 @@ import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import {
-    type heldDayTimes,
+    type HeldDayTimes,
     validateHeldDayTimes,
 } from '../../utility/validateAndType/heldDayTimes';
 import type { HeldTimes } from '../../utility/validateAndType/heldTimes';
@@ -29,7 +29,7 @@ export class HeldDayRecord {
         public readonly id: PlaceId,
         public readonly raceType: RaceType,
         public readonly heldTimes: HeldTimes,
-        public readonly heldDayTimes: heldDayTimes,
+        public readonly heldDayTimes: HeldDayTimes,
         public readonly updateDate: UpdateDate,
     ) {}
 
