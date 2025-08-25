@@ -1,7 +1,7 @@
-import type { GradeType } from '../../utility/data/common/gradeType';
-import { validateGradeType } from '../../utility/data/common/gradeType';
-import type { PlaceId } from '../../utility/data/common/placeId';
-import { validatePlaceId } from '../../utility/data/common/placeId';
+import type { GradeType } from '../../utility/data/validateAndType/gradeType';
+import { validateGradeType } from '../../utility/data/validateAndType/gradeType';
+import type { PlaceId } from '../../utility/data/validateAndType/placeId';
+import { validatePlaceId } from '../../utility/data/validateAndType/placeId';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';

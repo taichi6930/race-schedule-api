@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import {
     createPlaceCodeMap,
     RaceCourse,
-} from '../../utility/data/common/raceCourse';
+} from '../../utility/data/validateAndType/raceCourse';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';

@@ -1,4 +1,4 @@
-import type { RaceCourse } from '../../utility/data/common/raceCourse';
+import type { RaceCourse } from '../../utility/data/validateAndType/raceCourse';
 import type { RaceType } from '../../utility/raceType';
 
 /**

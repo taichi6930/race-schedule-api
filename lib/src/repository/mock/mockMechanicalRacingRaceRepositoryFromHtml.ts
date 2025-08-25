@@ -1,6 +1,6 @@
 import { baseRacePlayerDataList } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
-import { RaceStage } from '../../utility/data/common/raceStage';
+import { RaceStage } from '../../utility/data/validateAndType/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';

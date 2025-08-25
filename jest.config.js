@@ -30,7 +30,7 @@ module.exports = {
         'lib/src/utility/sqlite.ts',
         'lib/src/utility/raceType.ts',
         'lib/src/utility/constants.ts',
-        'lib/src/utility/data/common/raceCourse.ts',
+        'lib/src/utility/data/validateAndType/raceCourse.ts',
         'lib/src/utility/googleCalendar.ts',
     ],
     coverageReporters: ['text', 'lcov'],

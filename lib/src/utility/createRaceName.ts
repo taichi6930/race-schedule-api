@@ -1,11 +1,11 @@
 import './format';
 
-import type { GradeType } from './data/common/gradeType';
-import type { RaceCourse } from './data/common/raceCourse';
-import type { RaceDateTime } from './data/common/raceDateTime';
-import type { RaceDistance } from './data/common/raceDistance';
-import type { RaceName } from './data/common/raceName';
-import type { RaceSurfaceType } from './data/common/raceSurfaceType';
+import type { GradeType } from './data/validateAndType/gradeType';
+import type { RaceCourse } from './data/validateAndType/raceCourse';
+import type { RaceDateTime } from './data/validateAndType/raceDateTime';
+import type { RaceDistance } from './data/validateAndType/raceDistance';
+import type { RaceName } from './data/validateAndType/raceName';
+import type { RaceSurfaceType } from './data/validateAndType/raceSurfaceType';
 
 interface JraRaceDataForRaceName {
     name: RaceName;

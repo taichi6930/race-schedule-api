@@ -1,12 +1,12 @@
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
-import type { GradeType } from '../../utility/data/common/gradeType';
-import type { PlaceId } from '../../utility/data/common/placeId';
+import type { GradeType } from '../../utility/data/validateAndType/gradeType';
+import type { PlaceId } from '../../utility/data/validateAndType/placeId';
 import {
     generatePlaceId,
     validatePlaceId,
-} from '../../utility/data/common/placeId';
+} from '../../utility/data/validateAndType/placeId';
 import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 

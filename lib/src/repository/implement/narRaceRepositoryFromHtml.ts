@@ -8,8 +8,8 @@ import { processNarRaceName } from '../../utility/createRaceName';
 import {
     GradeType,
     validateGradeType,
-} from '../../utility/data/common/gradeType';
-import type { RaceSurfaceType } from '../../utility/data/common/raceSurfaceType';
+} from '../../utility/data/validateAndType/gradeType';
+import type { RaceSurfaceType } from '../../utility/data/validateAndType/raceSurfaceType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';

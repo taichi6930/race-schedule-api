@@ -8,8 +8,8 @@ import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
-import { GradeType } from '../../utility/data/common/gradeType';
-import { RaceGradeAndStageList } from '../../utility/data/common/raceStage';
+import { GradeType } from '../../utility/data/validateAndType/gradeType';
+import { RaceGradeAndStageList } from '../../utility/data/validateAndType/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import {

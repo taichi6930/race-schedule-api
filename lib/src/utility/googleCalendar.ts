@@ -12,8 +12,6 @@ import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../domain/calendarData';
 import { RaceEntity } from '../repository/entity/raceEntity';
-import type { GradeType } from './data/common/gradeType';
-import { createPlaceCodeMap } from './data/common/raceCourse';
 import {
     ChihoKeibaYoutubeUserIdMap,
     getYoutubeLiveUrl,
@@ -24,6 +22,8 @@ import {
     createNetkeibaJraRaceVideoUrl,
     createNetkeibaJraShutubaUrl,
 } from './data/url';
+import type { GradeType } from './data/validateAndType/gradeType';
+import { createPlaceCodeMap } from './data/validateAndType/raceCourse';
 import { getJSTDate } from './date';
 import { createAnchorTag, formatDate } from './format';
 import { RaceType } from './raceType';

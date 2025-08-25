@@ -1,9 +1,9 @@
-import type { PlaceId } from '../../utility/data/common/placeId';
-import { validatePlaceId } from '../../utility/data/common/placeId';
-import type { RaceCourse } from '../../utility/data/common/raceCourse';
-import { validateRaceCourse } from '../../utility/data/common/raceCourse';
-import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
-import { validateRaceDateTime } from '../../utility/data/common/raceDateTime';
+import type { PlaceId } from '../../utility/data/validateAndType/placeId';
+import { validatePlaceId } from '../../utility/data/validateAndType/placeId';
+import type { RaceCourse } from '../../utility/data/validateAndType/raceCourse';
+import { validateRaceCourse } from '../../utility/data/validateAndType/raceCourse';
+import type { RaceDateTime } from '../../utility/data/validateAndType/raceDateTime';
+import { validateRaceDateTime } from '../../utility/data/validateAndType/raceDateTime';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';

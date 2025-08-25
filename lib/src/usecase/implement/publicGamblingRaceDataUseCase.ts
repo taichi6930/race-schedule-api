@@ -3,9 +3,9 @@ import { inject, injectable } from 'tsyringe';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
-import { GradeType } from '../../utility/data/common/gradeType';
-import { RaceCourse } from '../../utility/data/common/raceCourse';
-import { RaceStage } from '../../utility/data/common/raceStage';
+import { GradeType } from '../../utility/data/validateAndType/gradeType';
+import { RaceCourse } from '../../utility/data/validateAndType/raceCourse';
+import { RaceStage } from '../../utility/data/validateAndType/raceStage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import {

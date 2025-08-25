@@ -1,24 +1,27 @@
 import '../../utility/format';
 
-import type { GradeType } from '../../utility/data/common/gradeType';
-import { validateGradeType } from '../../utility/data/common/gradeType';
-import type { RaceCourse } from '../../utility/data/common/raceCourse';
-import { validateRaceCourse } from '../../utility/data/common/raceCourse';
-import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
-import { validateRaceDateTime } from '../../utility/data/common/raceDateTime';
-import type { RaceDistance } from '../../utility/data/common/raceDistance';
-import { validateRaceDistance } from '../../utility/data/common/raceDistance';
-import { type RaceId, validateRaceId } from '../../utility/data/common/raceId';
+import type { GradeType } from '../../utility/data/validateAndType/gradeType';
+import { validateGradeType } from '../../utility/data/validateAndType/gradeType';
+import type { RaceCourse } from '../../utility/data/validateAndType/raceCourse';
+import { validateRaceCourse } from '../../utility/data/validateAndType/raceCourse';
+import type { RaceDateTime } from '../../utility/data/validateAndType/raceDateTime';
+import { validateRaceDateTime } from '../../utility/data/validateAndType/raceDateTime';
+import type { RaceDistance } from '../../utility/data/validateAndType/raceDistance';
+import { validateRaceDistance } from '../../utility/data/validateAndType/raceDistance';
+import {
+    type RaceId,
+    validateRaceId,
+} from '../../utility/data/validateAndType/raceId';
 import {
     type RaceName,
     validateRaceName,
-} from '../../utility/data/common/raceName';
-import type { RaceNumber } from '../../utility/data/common/raceNumber';
-import { validateRaceNumber } from '../../utility/data/common/raceNumber';
+} from '../../utility/data/validateAndType/raceName';
+import type { RaceNumber } from '../../utility/data/validateAndType/raceNumber';
+import { validateRaceNumber } from '../../utility/data/validateAndType/raceNumber';
 import {
     type RaceSurfaceType,
     validateRaceSurfaceType,
-} from '../../utility/data/common/raceSurfaceType';
+} from '../../utility/data/validateAndType/raceSurfaceType';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';

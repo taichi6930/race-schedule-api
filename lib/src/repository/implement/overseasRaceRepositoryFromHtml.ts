@@ -8,13 +8,13 @@ import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { processOverseasRaceName } from '../../utility/createRaceName';
-import { GradeType } from '../../utility/data/common/gradeType';
+import { GradeType } from '../../utility/data/validateAndType/gradeType';
 import {
     RaceCourse,
     validateRaceCourse,
-} from '../../utility/data/common/raceCourse';
-import { validateRaceDistance } from '../../utility/data/common/raceDistance';
-import type { RaceSurfaceType } from '../../utility/data/common/raceSurfaceType';
+} from '../../utility/data/validateAndType/raceCourse';
+import { validateRaceDistance } from '../../utility/data/validateAndType/raceDistance';
+import type { RaceSurfaceType } from '../../utility/data/validateAndType/raceSurfaceType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';

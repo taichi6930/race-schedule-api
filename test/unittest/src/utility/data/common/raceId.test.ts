@@ -1,4 +1,4 @@
-import { validateRaceId } from '../../../../../../lib/src/utility/data/common/raceId';
+import { validateRaceId } from '../../../../../../lib/src/utility/data/validateAndType/raceId';
 import { RaceType } from '../../../../../../lib/src/utility/raceType';
 import { testRaceTypeListAll } from '../../../mock/common/baseCommonData';
 

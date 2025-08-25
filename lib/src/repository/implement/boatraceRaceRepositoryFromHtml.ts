@@ -7,8 +7,11 @@ import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { GradeType } from '../../utility/data/common/gradeType';
-import { RaceStage, StageMap } from '../../utility/data/common/raceStage';
+import { GradeType } from '../../utility/data/validateAndType/gradeType';
+import {
+    RaceStage,
+    StageMap,
+} from '../../utility/data/validateAndType/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';

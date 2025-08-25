@@ -15,8 +15,8 @@ import {
     defaultStage,
 } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { CSV_HEADER_KEYS, csvPath } from '../../utility/constants';
-import { generatePlaceId } from '../../utility/data/common/placeId';
-import { generateRaceId } from '../../utility/data/common/raceId';
+import { generatePlaceId } from '../../utility/data/validateAndType/placeId';
+import { generateRaceId } from '../../utility/data/validateAndType/raceId';
 import { getJSTDate } from '../../utility/date';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';

@@ -1,11 +1,11 @@
 import {
     type heldDayTimes,
     validateHeldDayTimes,
-} from '../../utility/data/common/heldDayTimes';
-import type { HeldTimes } from '../../utility/data/common/heldTimes';
-import { validateHeldTimes } from '../../utility/data/common/heldTimes';
-import type { PlaceId } from '../../utility/data/common/placeId';
-import { validatePlaceId } from '../../utility/data/common/placeId';
+} from '../../utility/data/validateAndType/heldDayTimes';
+import type { HeldTimes } from '../../utility/data/validateAndType/heldTimes';
+import { validateHeldTimes } from '../../utility/data/validateAndType/heldTimes';
+import type { PlaceId } from '../../utility/data/validateAndType/placeId';
+import { validatePlaceId } from '../../utility/data/validateAndType/placeId';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';

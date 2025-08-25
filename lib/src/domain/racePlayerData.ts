@@ -1,9 +1,9 @@
 import {
     type PlayerNumber,
     validatePlayerNumber,
-} from '../utility/data/common/playerNumber';
-import type { PositionNumber } from '../utility/data/common/positionNumber';
-import { validatePositionNumber } from '../utility/data/common/positionNumber';
+} from '../utility/data/validateAndType/playerNumber';
+import type { PositionNumber } from '../utility/data/validateAndType/positionNumber';
+import { validatePositionNumber } from '../utility/data/validateAndType/positionNumber';
 import type { RaceType } from '../utility/raceType';
 
 /**

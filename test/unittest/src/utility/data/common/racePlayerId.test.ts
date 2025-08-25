@@ -1,4 +1,4 @@
-import { validateRacePlayerId } from '../../../../../../lib/src/utility/data/common/racePlayerId';
+import { validateRacePlayerId } from '../../../../../../lib/src/utility/data/validateAndType/racePlayerId';
 import { RaceType } from '../../../../../../lib/src/utility/raceType';
 
 describe('racePlayerIdSchema', () => {

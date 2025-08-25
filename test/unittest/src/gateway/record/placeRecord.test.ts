@@ -15,7 +15,7 @@
  */
 
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
-import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
+import { generatePlaceId } from '../../../../../lib/src/utility/data/validateAndType/placeId';
 import {
     basePlaceRecord,
     defaultLocation,

@@ -1,4 +1,4 @@
-import { validatePositionNumber } from '../../../../../../lib/src/utility/data/common/positionNumber';
+import { validatePositionNumber } from '../../../../../../lib/src/utility/data/validateAndType/positionNumber';
 import { testRaceTypeListAll } from '../../../mock/common/baseCommonData';
 
 /**

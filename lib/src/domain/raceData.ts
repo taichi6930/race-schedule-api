@@ -1,19 +1,19 @@
-import type { GradeType } from '../utility/data/common/gradeType';
-import { validateGradeType } from '../utility/data/common/gradeType';
+import type { GradeType } from '../utility/data/validateAndType/gradeType';
+import { validateGradeType } from '../utility/data/validateAndType/gradeType';
 import {
     type RaceCourse,
     validateRaceCourse,
-} from '../utility/data/common/raceCourse';
+} from '../utility/data/validateAndType/raceCourse';
 import {
     type RaceDateTime,
     validateRaceDateTime,
-} from '../utility/data/common/raceDateTime';
+} from '../utility/data/validateAndType/raceDateTime';
 import {
     type RaceName,
     validateRaceName,
-} from '../utility/data/common/raceName';
-import type { RaceNumber } from '../utility/data/common/raceNumber';
-import { validateRaceNumber } from '../utility/data/common/raceNumber';
+} from '../utility/data/validateAndType/raceName';
+import type { RaceNumber } from '../utility/data/validateAndType/raceNumber';
+import { validateRaceNumber } from '../utility/data/validateAndType/raceNumber';
 import type { RaceType } from '../utility/raceType';
 
 /**

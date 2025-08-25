@@ -1,9 +1,9 @@
-import type { RaceCourse } from '../utility/data/common/raceCourse';
-import { validateRaceCourse } from '../utility/data/common/raceCourse';
+import type { RaceCourse } from '../utility/data/validateAndType/raceCourse';
+import { validateRaceCourse } from '../utility/data/validateAndType/raceCourse';
 import {
     type RaceDateTime,
     validateRaceDateTime,
-} from '../utility/data/common/raceDateTime';
+} from '../utility/data/validateAndType/raceDateTime';
 import type { RaceType } from '../utility/raceType';
 
 /**

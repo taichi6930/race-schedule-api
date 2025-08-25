@@ -5,7 +5,7 @@ import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IPlayerDataUseCase } from '../usecase/interface/IPlayerDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { SpecifiedGradeList } from '../utility/data/common/gradeType';
+import { SpecifiedGradeList } from '../utility/data/validateAndType/gradeType';
 import { Logger } from '../utility/logger';
 import { convertRaceTypeList, RaceType } from '../utility/raceType';
 
