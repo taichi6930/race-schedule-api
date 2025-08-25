@@ -506,7 +506,3 @@ export const mockRaceEntityList = testRaceTypeListAll.flatMap((raceType) =>
 export const mockPlaceEntityList = testRaceTypeListWithoutOverseas.map(
     (raceType) => basePlaceEntity(raceType),
 );
-
-export const mockRaceEntity = testRaceTypeListAll.map((raceType) =>
-    baseRaceEntity(raceType),
-);
