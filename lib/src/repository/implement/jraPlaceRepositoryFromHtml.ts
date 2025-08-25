@@ -4,9 +4,6 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
-import { PlaceRecord } from '../../gateway/record/placeRecord';
-import { generatePlaceId } from '../../utility/data/common/placeId';
 import { RaceCourse } from '../../utility/data/common/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -32,45 +29,21 @@ export class JraPlaceRepositoryFromHtml implements IPlaceRepository {
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         // startDateからfinishDateまでの年のリストを生成する
-        const yearList: Date[] = this.generateYearList(
+        const periodList: Date[] = this.generateYearList(
             searchFilter.startDate,
             searchFilter.finishDate,
         );
 
         // 年ごとの開催データを取得
-        const placeRecordPromises = yearList.map(async (year) =>
-            this.fetchYearPlaceRecordList(searchFilter.raceType, year),
+        const placeEntityLists = await Promise.all(
+            periodList.map(async (year) =>
+                this.fetchYearPlaceEntityListForJra(
+                    searchFilter.raceType,
+                    year,
+                ),
+            ),
         );
-        const placeRecordResults = await Promise.all(placeRecordPromises);
-        const placeRecordList: {
-            horseRacingPlaceRecord: PlaceRecord;
-            heldDayRecord: HeldDayRecord;
-        }[] = placeRecordResults.flat();
-
-        // Entityに変換
-        const placeEntityList: PlaceEntity[] = placeRecordList.map(
-            ({ horseRacingPlaceRecord, heldDayRecord }) => {
-                return PlaceEntity.create(
-                    horseRacingPlaceRecord.id,
-                    PlaceData.create(
-                        horseRacingPlaceRecord.raceType,
-                        horseRacingPlaceRecord.dateTime,
-                        horseRacingPlaceRecord.location,
-                    ),
-                    HeldDayData.create(
-                        heldDayRecord.heldTimes,
-                        heldDayRecord.heldDayTimes,
-                    ),
-                    undefined, // グレードは未指定
-                    new Date(
-                        Math.min(
-                            horseRacingPlaceRecord.updateDate.getTime(),
-                            heldDayRecord.updateDate.getTime(),
-                        ),
-                    ),
-                );
-            },
-        );
+        const placeEntityList: PlaceEntity[] = placeEntityLists.flat();
 
         // filterで日付の範囲を指定
         const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
@@ -111,24 +84,15 @@ export class JraPlaceRepositoryFromHtml implements IPlaceRepository {
      * @param date
      */
     @Logger
-    private async fetchYearPlaceRecordList(
+    private async fetchYearPlaceEntityListForJra(
         raceType: RaceType,
         date: Date,
-    ): Promise<
-        {
-            horseRacingPlaceRecord: PlaceRecord;
-            heldDayRecord: HeldDayRecord;
-        }[]
-    > {
+    ): Promise<PlaceEntity[]> {
         // レースHTMLを取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
-        // 競馬場開催レコードはここに追加
-        const recordList: {
-            horseRacingPlaceRecord: PlaceRecord;
-            heldDayRecord: HeldDayRecord;
-        }[] = [];
+        const placeEntityList: PlaceEntity[] = [];
 
         // 競馬場のイニシャルと名前のマッピング
         const placeMap: Record<string, RaceCourse> = {
@@ -193,36 +157,26 @@ export class JraPlaceRepositoryFromHtml implements IPlaceRepository {
                         const heldDayTimes: number =
                             placeHeldDayTimesCountMap[place][heldTimes];
 
-                        const placeRecord = PlaceRecord.create(
-                            generatePlaceId(
-                                raceType,
-                                new Date(date.getFullYear(), month - 1, day),
-                                place,
+                        placeEntityList.push(
+                            PlaceEntity.createWithoutId(
+                                PlaceData.create(
+                                    raceType,
+                                    new Date(
+                                        date.getFullYear(),
+                                        month - 1,
+                                        day,
+                                    ),
+                                    place,
+                                ),
+                                HeldDayData.create(heldTimes, heldDayTimes),
+                                undefined, // grade は中央競馬では不要
+                                getJSTDate(new Date()),
                             ),
-                            raceType,
-                            new Date(date.getFullYear(), month - 1, day),
-                            getPlaceName(placeInitial),
-                            getJSTDate(new Date()),
                         );
-                        const heldDayRecord = HeldDayRecord.create(
-                            generatePlaceId(
-                                raceType,
-                                new Date(date.getFullYear(), month - 1, day),
-                                place,
-                            ),
-                            raceType,
-                            heldTimes,
-                            heldDayTimes,
-                            getJSTDate(new Date()),
-                        );
-                        recordList.push({
-                            horseRacingPlaceRecord: placeRecord,
-                            heldDayRecord: heldDayRecord,
-                        });
                     });
             }
         }
-        return recordList;
+        return placeEntityList;
     }
 
     /**
