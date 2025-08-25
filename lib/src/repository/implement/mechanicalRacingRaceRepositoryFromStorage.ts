@@ -83,10 +83,40 @@ export class MechanicalRacingRaceRepositoryFromStorage
     /**
      * レースデータを登録する
      * @param raceType - レース種別
-     * @param raceEntityList
+     * @param raceEntityList - 登録するレースエンティティ配列
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
+        raceEntityList: RaceEntity[],
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
+    }> {
+        try {
+            await this.registerRaceRecordList(raceType, raceEntityList);
+            await this.registerRacePlayerRecordList(raceType, raceEntityList);
+
+            return {
+                code: 200,
+                message: 'Successfully registered race data',
+                successData: raceEntityList,
+                failureData: [],
+            };
+        } catch (error) {
+            console.error(error);
+            return {
+                code: 500,
+                message: 'Failed to register race data',
+                successData: [],
+                failureData: raceEntityList,
+            };
+        }
+    }
+
+    private async registerRaceRecordList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{
@@ -100,19 +130,11 @@ export class MechanicalRacingRaceRepositoryFromStorage
             const existFetchRaceRecordList: MechanicalRacingRaceRecord[] =
                 await this.getRaceRecordListFromS3(raceType);
 
-            const existFetchRacePlayerRecordList: RacePlayerRecord[] =
-                await this.getRacePlayerRecordListFromS3(raceType);
-
             // RaceEntityをRaceRecordに変換する
             const raceRecordList: MechanicalRacingRaceRecord[] =
                 raceEntityList.map((raceEntity) =>
                     raceEntity.toMechanicalRacingRaceRecord(),
                 );
-
-            // RaceEntityをRacePlayerRecordに変換する
-            const racePlayerRecordList = raceEntityList.flatMap((raceEntity) =>
-                raceEntity.toPlayerRecordList(),
-            );
 
             // raceデータでidが重複しているデータは上書きをし、新規のデータは追加する
             for (const raceRecord of raceRecordList) {
@@ -126,6 +148,52 @@ export class MechanicalRacingRaceRepositoryFromStorage
                     existFetchRaceRecordList[index] = raceRecord;
                 }
             }
+            // 日付の最新順にソート
+            existFetchRaceRecordList.sort(
+                (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
+            );
+
+            // raceDataをS3にアップロードする
+            await this.s3Gateway.uploadDataToS3(
+                existFetchRaceRecordList,
+                `${raceType.toLowerCase()}/`,
+                this.raceListFileName,
+            );
+            return {
+                code: 200,
+                message: 'Successfully registered raceRecord',
+                successData: raceEntityList,
+                failureData: [],
+            };
+        } catch (error) {
+            console.error(error);
+            return {
+                code: 500,
+                message: 'Failed to register raceRecord',
+                successData: [],
+                failureData: raceEntityList,
+            };
+        }
+    }
+
+    private async registerRacePlayerRecordList(
+        raceType: RaceType,
+        raceEntityList: RaceEntity[],
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
+    }> {
+        try {
+            // 既に登録されているデータを取得する
+            const existFetchRacePlayerRecordList: RacePlayerRecord[] =
+                await this.getRacePlayerRecordListFromS3(raceType);
+
+            // RaceEntityをRacePlayerRecordに変換する
+            const racePlayerRecordList = raceEntityList.flatMap((raceEntity) =>
+                raceEntity.toPlayerRecordList(),
+            );
 
             // racePlayerデータでidが重複しているデータは上書きをし、新規のデータは追加する
             for (const racePlayerRecord of racePlayerRecordList) {
@@ -140,17 +208,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
                 }
             }
 
-            // 日付の最新順にソート
-            existFetchRaceRecordList.sort(
-                (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
-            );
-
             // raceDataをS3にアップロードする
-            await this.s3Gateway.uploadDataToS3(
-                existFetchRaceRecordList,
-                `${raceType.toLowerCase()}/`,
-                this.raceListFileName,
-            );
             await this.s3Gateway.uploadDataToS3(
                 existFetchRacePlayerRecordList,
                 `${raceType.toLowerCase()}/`,
@@ -159,7 +217,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
 
             return {
                 code: 200,
-                message: 'Successfully registered race data',
+                message: 'Successfully registered racePlayerRecord',
                 successData: raceEntityList,
                 failureData: [],
             };
@@ -167,7 +225,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
             console.error(error);
             return {
                 code: 500,
-                message: 'Failed to register race data',
+                message: 'Failed to register racePlayerRecord',
                 successData: [],
                 failureData: raceEntityList,
             };
