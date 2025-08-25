@@ -14,7 +14,7 @@ import {
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
-import type { RaceCourseType } from '../../utility/data/common/raceSurfaceType';
+import type { RaceSurfaceType } from '../../utility/data/common/raceSurfaceType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -256,7 +256,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
         }
     }
 
-    private extractSurfaceType(race: string[]): RaceCourseType {
+    private extractSurfaceType(race: string[]): RaceSurfaceType {
         const types = ['芝', 'ダート', '障害', 'AW'];
         const found = types.find((type) =>
             race.some((item) => item.includes(type)),

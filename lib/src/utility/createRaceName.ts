@@ -5,14 +5,14 @@ import type { RaceCourse } from './data/common/raceCourse';
 import type { RaceDateTime } from './data/common/raceDateTime';
 import type { RaceDistance } from './data/common/raceDistance';
 import type { RaceName } from './data/common/raceName';
-import type { RaceCourseType } from './data/common/raceSurfaceType';
+import type { RaceSurfaceType } from './data/common/raceSurfaceType';
 
 interface JraRaceDataForRaceName {
     name: RaceName;
     place: RaceCourse;
     grade: GradeType;
     date: RaceDateTime;
-    surfaceType: RaceCourseType;
+    surfaceType: RaceSurfaceType;
     distance: RaceDistance;
 }
 
@@ -176,7 +176,7 @@ interface NarRaceDataForRaceName {
     place: RaceCourse;
     grade: GradeType;
     date: RaceDateTime;
-    surfaceType: RaceCourseType;
+    surfaceType: RaceSurfaceType;
     distance: RaceDistance;
 }
 export const processNarRaceName = (
@@ -310,7 +310,7 @@ interface OverseasRaceDataForRaceName {
     location: RaceCourse;
     grade: GradeType;
     date: RaceDateTime;
-    surfaceType: RaceCourseType;
+    surfaceType: RaceSurfaceType;
     distance: RaceDistance;
 }
 

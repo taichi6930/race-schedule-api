@@ -11,7 +11,7 @@ import {
     RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import { RaceCourseType } from '../../utility/data/common/raceSurfaceType';
+import { RaceSurfaceType } from '../../utility/data/common/raceSurfaceType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -133,7 +133,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
                         const surfaceTypeMatch = /[ダ芝障]{1,2}/.exec(
                             element.find('td').eq(1).find('span').eq(1).text(),
                         );
-                        const raceSurfaceType: RaceCourseType =
+                        const raceSurfaceType: RaceSurfaceType =
                             this.extractSurfaceType(surfaceTypeMatch);
 
                         // 2つ目はレース名、レースのグレード、馬の種類、距離、頭数
@@ -309,7 +309,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
      */
     private readonly extractSurfaceType = (
         surfaceTypeMatch: RegExpExecArray | null,
-    ): RaceCourseType => {
+    ): RaceSurfaceType => {
         // ダ である場合には ダート に、障 である場合には 障害 に変換する
         const surfaceType: string = (surfaceTypeMatch?.[0] ?? '')
             .replace('ダ', 'ダート')
@@ -332,7 +332,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
      */
     private readonly extractRaceGradeAndRaceName = (
         tbodyTrTdElement1: string,
-        raceSurfaceType: RaceCourseType,
+        raceSurfaceType: RaceSurfaceType,
         rowRaceName: string,
     ): [GradeType, string] => {
         let raceGrade: GradeType | null = null;

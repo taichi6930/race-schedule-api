@@ -1,26 +1,26 @@
 import { z } from 'zod';
 /**
- * RaceCourseTypeのzod型定義
+ * RaceSurfaceTypeのzod型定義
  */
-const RaceCourseTypeList = new Set(['芝', 'ダート', '障害', 'AW', '不明']);
+const RaceSurfaceTypeList = new Set(['芝', 'ダート', '障害', 'AW', '不明']);
 
 /**
- * RaceCourseTypeの型定義
+ * RaceSurfaceTypeの型定義
  */
-const RaceCourseTypeSchema = z.string().refine((value) => {
-    return RaceCourseTypeList.has(value);
+const RaceSurfaceTypeSchema = z.string().refine((value) => {
+    return RaceSurfaceTypeList.has(value);
 }, '有効な競馬場種別ではありません');
 
 /**
- * RaceCourseTypeの型定義
+ * RaceSurfaceTypeの型定義
  */
-export type RaceCourseType = z.infer<typeof RaceCourseTypeSchema>;
+export type RaceSurfaceType = z.infer<typeof RaceSurfaceTypeSchema>;
 
 /**
  * 競馬場種別のバリデーション
  * @param type - 競馬場種別
  * @returns - バリデーション済みの競馬場種別
  */
-export const validateRaceSurfaceType = (type: string): RaceCourseType => {
-    return RaceCourseTypeSchema.parse(type);
+export const validateRaceSurfaceType = (type: string): RaceSurfaceType => {
+    return RaceSurfaceTypeSchema.parse(type);
 };
