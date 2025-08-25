@@ -47,7 +47,6 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     ): Promise<PlaceEntity[]> {
         const repo = this.getRepository(type);
         try {
-            // filter race types we actually need and run fetches in parallel
             const tasks = RACE_TYPE_LIST_WITHOUT_OVERSEAS.filter((raceType) =>
                 raceTypeList.includes(raceType),
             ).map(async (raceType) =>
