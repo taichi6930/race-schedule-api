@@ -16,8 +16,8 @@
  */
 
 import { RacePlayerRecord } from '../../../../../lib/src/gateway/record/racePlayerRecord';
-import { generateRaceId } from '../../../../../lib/src/utility/data/common/raceId';
-import { generateRacePlayerId } from '../../../../../lib/src/utility/data/common/racePlayerId';
+import { generateRaceId } from '../../../../../lib/src/utility/validateAndType/raceId';
+import { generateRacePlayerId } from '../../../../../lib/src/utility/validateAndType/racePlayerId';
 import {
     defaultLocation,
     testRaceTypeListMechanicalRacing,

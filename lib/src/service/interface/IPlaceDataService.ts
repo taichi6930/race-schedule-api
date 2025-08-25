@@ -12,7 +12,7 @@ export interface IPlaceDataService {
      * @param finishDate - 取得終了日（含む）
      * @param raceTypeList - レース種別リスト
      * @param type - データ取得元（storage/web）
-     * @returns 開催場所エンティティ配列
+     * @returns 開催場所エンティティ配列（エラー時は空配列）
      */
     fetchPlaceEntityList: (
         startDate: Date,
@@ -22,8 +22,9 @@ export interface IPlaceDataService {
     ) => Promise<PlaceEntity[]>;
 
     /**
-     * 開催場所データを保存・更新
+     * 開催場所データをStorageに保存・更新
      * @param placeEntityList - 保存・更新する開催場所エンティティ配列
+     * @throws Error 保存・更新に失敗した場合
      */
     updatePlaceEntityList: (placeEntityList: PlaceEntity[]) => Promise<{
         code: number;

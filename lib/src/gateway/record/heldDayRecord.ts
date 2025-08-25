@@ -1,15 +1,16 @@
-import {
-    type heldDayTimes,
-    validateHeldDayTimes,
-} from '../../utility/data/common/heldDayTimes';
-import type { HeldTimes } from '../../utility/data/common/heldTimes';
-import { validateHeldTimes } from '../../utility/data/common/heldTimes';
-import type { PlaceId } from '../../utility/data/common/placeId';
-import { validatePlaceId } from '../../utility/data/common/placeId';
+import { HeldDayData } from '../../domain/heldDayData';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
+import {
+    type HeldDayTimes,
+    validateHeldDayTimes,
+} from '../../utility/validateAndType/heldDayTimes';
+import type { HeldTimes } from '../../utility/validateAndType/heldTimes';
+import { validateHeldTimes } from '../../utility/validateAndType/heldTimes';
+import type { PlaceId } from '../../utility/validateAndType/placeId';
+import { validatePlaceId } from '../../utility/validateAndType/placeId';
 
 /**
  * Repository層のRecord
@@ -29,7 +30,7 @@ export class HeldDayRecord {
         public readonly id: PlaceId,
         public readonly raceType: RaceType,
         public readonly heldTimes: HeldTimes,
-        public readonly heldDayTimes: heldDayTimes,
+        public readonly heldDayTimes: HeldDayTimes,
         public readonly updateDate: UpdateDate,
     ) {}
 
@@ -75,5 +76,12 @@ export class HeldDayRecord {
             partial.heldDayTimes ?? this.heldDayTimes,
             partial.updateDate ?? this.updateDate,
         );
+    }
+
+    /**
+     *  HeldDayDataに変換する
+     */
+    public toHeldDayData(): HeldDayData {
+        return HeldDayData.create(this.heldTimes, this.heldDayTimes);
     }
 }

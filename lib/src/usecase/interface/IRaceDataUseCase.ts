@@ -1,8 +1,8 @@
 import type { RaceEntity } from '../../repository/entity/raceEntity';
-import type { GradeType } from '../../utility/data/common/gradeType';
-import type { RaceCourse } from '../../utility/data/common/raceCourse';
-import type { RaceStage } from '../../utility/data/common/raceStage';
 import type { RaceType } from '../../utility/raceType';
+import type { GradeType } from '../../utility/validateAndType/gradeType';
+import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
+import type { RaceStage } from '../../utility/validateAndType/raceStage';
 
 /**
  * レースデータUseCaseのインターフェース

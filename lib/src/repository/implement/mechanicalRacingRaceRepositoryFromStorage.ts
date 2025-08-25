@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
@@ -48,9 +47,14 @@ export class MechanicalRacingRaceRepositoryFromStorage
                 searchFilter.raceType,
                 searchFilter.startDate,
             );
+        const filteredRaceRecordList = raceRaceRecordList.filter(
+            (raceRecord) =>
+                raceRecord.dateTime >= searchFilter.startDate &&
+                raceRecord.dateTime <= searchFilter.finishDate,
+        );
 
         // RaceEntityに変換
-        const raceEntityList: RaceEntity[] = raceRaceRecordList.map(
+        const raceEntityList: RaceEntity[] = filteredRaceRecordList.map(
             (raceRecord) => {
                 // raceIdに対応したracePlayerRecordListを取得
                 const filteredRacePlayerRecordList: RacePlayerRecord[] =
@@ -59,25 +63,12 @@ export class MechanicalRacingRaceRepositoryFromStorage
                     });
                 // RacePlayerDataのリストを生成
                 const racePlayerDataList: RacePlayerData[] =
-                    filteredRacePlayerRecordList.map((racePlayerRecord) => {
-                        return RacePlayerData.create(
-                            searchFilter.raceType,
-                            racePlayerRecord.positionNumber,
-                            racePlayerRecord.playerNumber,
-                        );
-                    });
-                // RaceDataを生成
-                const raceData = RaceData.create(
-                    searchFilter.raceType,
-                    raceRecord.name,
-                    raceRecord.dateTime,
-                    raceRecord.location,
-                    raceRecord.grade,
-                    raceRecord.number,
-                );
+                    filteredRacePlayerRecordList.map((racePlayerRecord) =>
+                        racePlayerRecord.toRacePlayerData(),
+                    );
                 return RaceEntity.create(
                     raceRecord.id,
-                    raceData,
+                    raceRecord.toRaceData(),
                     undefined, // heldDayDataは未設定
                     undefined, // conditionDataは未設定
                     raceRecord.stage,
@@ -86,23 +77,46 @@ export class MechanicalRacingRaceRepositoryFromStorage
                 );
             },
         );
-        // フィルタリング処理（日付の範囲指定）
-        const filteredRaceEntityList: RaceEntity[] = raceEntityList.filter(
-            (raceEntity) =>
-                raceEntity.raceData.dateTime >= searchFilter.startDate &&
-                raceEntity.raceData.dateTime <= searchFilter.finishDate,
-        );
-
-        return filteredRaceEntityList;
+        return raceEntityList;
     }
 
     /**
      * レースデータを登録する
      * @param raceType - レース種別
-     * @param raceEntityList
+     * @param raceEntityList - 登録するレースエンティティ配列
      */
     @Logger
     public async registerRaceEntityList(
+        raceType: RaceType,
+        raceEntityList: RaceEntity[],
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
+    }> {
+        try {
+            await this.registerRaceRecordList(raceType, raceEntityList);
+            await this.registerRacePlayerRecordList(raceType, raceEntityList);
+
+            return {
+                code: 200,
+                message: 'Successfully registered race data',
+                successData: raceEntityList,
+                failureData: [],
+            };
+        } catch (error) {
+            console.error(error);
+            return {
+                code: 500,
+                message: 'Failed to register race data',
+                successData: [],
+                failureData: raceEntityList,
+            };
+        }
+    }
+
+    private async registerRaceRecordList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{
@@ -116,19 +130,11 @@ export class MechanicalRacingRaceRepositoryFromStorage
             const existFetchRaceRecordList: MechanicalRacingRaceRecord[] =
                 await this.getRaceRecordListFromS3(raceType);
 
-            const existFetchRacePlayerRecordList: RacePlayerRecord[] =
-                await this.getRacePlayerRecordListFromS3(raceType);
-
             // RaceEntityをRaceRecordに変換する
             const raceRecordList: MechanicalRacingRaceRecord[] =
                 raceEntityList.map((raceEntity) =>
                     raceEntity.toMechanicalRacingRaceRecord(),
                 );
-
-            // RaceEntityをRacePlayerRecordに変換する
-            const racePlayerRecordList = raceEntityList.flatMap((raceEntity) =>
-                raceEntity.toPlayerRecordList(),
-            );
 
             // raceデータでidが重複しているデータは上書きをし、新規のデータは追加する
             for (const raceRecord of raceRecordList) {
@@ -142,6 +148,52 @@ export class MechanicalRacingRaceRepositoryFromStorage
                     existFetchRaceRecordList[index] = raceRecord;
                 }
             }
+            // 日付の最新順にソート
+            existFetchRaceRecordList.sort(
+                (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
+            );
+
+            // raceDataをS3にアップロードする
+            await this.s3Gateway.uploadDataToS3(
+                existFetchRaceRecordList,
+                `${raceType.toLowerCase()}/`,
+                this.raceListFileName,
+            );
+            return {
+                code: 200,
+                message: 'Successfully registered raceRecord',
+                successData: raceEntityList,
+                failureData: [],
+            };
+        } catch (error) {
+            console.error(error);
+            return {
+                code: 500,
+                message: 'Failed to register raceRecord',
+                successData: [],
+                failureData: raceEntityList,
+            };
+        }
+    }
+
+    private async registerRacePlayerRecordList(
+        raceType: RaceType,
+        raceEntityList: RaceEntity[],
+    ): Promise<{
+        code: number;
+        message: string;
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
+    }> {
+        try {
+            // 既に登録されているデータを取得する
+            const existFetchRacePlayerRecordList: RacePlayerRecord[] =
+                await this.getRacePlayerRecordListFromS3(raceType);
+
+            // RaceEntityをRacePlayerRecordに変換する
+            const racePlayerRecordList = raceEntityList.flatMap((raceEntity) =>
+                raceEntity.toPlayerRecordList(),
+            );
 
             // racePlayerデータでidが重複しているデータは上書きをし、新規のデータは追加する
             for (const racePlayerRecord of racePlayerRecordList) {
@@ -156,17 +208,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
                 }
             }
 
-            // 日付の最新順にソート
-            existFetchRaceRecordList.sort(
-                (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
-            );
-
             // raceDataをS3にアップロードする
-            await this.s3Gateway.uploadDataToS3(
-                existFetchRaceRecordList,
-                `${raceType.toLowerCase()}/`,
-                this.raceListFileName,
-            );
             await this.s3Gateway.uploadDataToS3(
                 existFetchRacePlayerRecordList,
                 `${raceType.toLowerCase()}/`,
@@ -175,7 +217,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
 
             return {
                 code: 200,
-                message: 'Successfully registered race data',
+                message: 'Successfully registered racePlayerRecord',
                 successData: raceEntityList,
                 failureData: [],
             };
@@ -183,7 +225,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
             console.error(error);
             return {
                 code: 500,
-                message: 'Failed to register race data',
+                message: 'Failed to register racePlayerRecord',
                 successData: [],
                 failureData: raceEntityList,
             };

@@ -2,8 +2,6 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
-import { HeldDayData } from '../../domain/heldDayData';
-import { PlaceData } from '../../domain/placeData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
 import { PlaceGradeRecord } from '../../gateway/record/placeGradeRecord';
@@ -28,6 +26,11 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         private readonly s3Gateway: IS3Gateway,
     ) {}
 
+    // small helper: convert array of records with id to a Map for O(1) lookups
+    private toIdMap<T extends { id: string }>(list: T[]): Map<string, T> {
+        return new Map(list.map((item) => [item.id, item]));
+    }
+
     /**
      * 開催データを取得する
      * このメソッドで日付の範囲を指定して開催データを取得する
@@ -40,145 +43,113 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         // 開催データを取得
         const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3(searchFilter.raceType);
+        const filteredPlaceRecordList = placeRecordList.filter(
+            (placeRecord) =>
+                placeRecord.dateTime >= searchFilter.startDate &&
+                placeRecord.dateTime <= searchFilter.finishDate,
+        );
 
-        if (
-            searchFilter.raceType === RaceType.NAR ||
-            searchFilter.raceType === RaceType.OVERSEAS
-        ) {
-            return placeRecordList
-                .map((placeRecord) =>
+        switch (searchFilter.raceType) {
+            case RaceType.JRA: {
+                const heldDayRecordList: HeldDayRecord[] =
+                    await this.getHeldDayRecordListFromS3(
+                        searchFilter.raceType,
+                    );
+
+                // placeRecordListのidと、heldDayRecordListのidが一致するものを取得
+                const heldDayMap = this.toIdMap(heldDayRecordList);
+
+                // placeRecordをplaceEntityに変換
+                const placeEntityList: PlaceEntity[] = filteredPlaceRecordList
+                    .map((placeRecord) => {
+                        const heldDayRecordItem = heldDayMap.get(
+                            placeRecord.id,
+                        );
+                        if (!heldDayRecordItem) return null;
+                        return { placeRecord, heldDayRecordItem };
+                    })
+                    .filter(
+                        (
+                            v,
+                        ): v is {
+                            placeRecord: PlaceRecord;
+                            heldDayRecordItem: HeldDayRecord;
+                        } => v !== null,
+                    )
+                    .map(({ placeRecord, heldDayRecordItem }) => {
+                        return PlaceEntity.create(
+                            placeRecord.id,
+                            placeRecord.toPlaceData(),
+                            heldDayRecordItem.toHeldDayData(),
+                            undefined, // グレードは未指定
+                            // placeRecordとheldDayRecordのupdateDateの早い方を使用
+                            new Date(
+                                Math.min(
+                                    placeRecord.updateDate.getTime(),
+                                    heldDayRecordItem.updateDate.getTime(),
+                                ),
+                            ),
+                        );
+                    });
+                return placeEntityList;
+            }
+            case RaceType.NAR:
+            case RaceType.OVERSEAS: {
+                return filteredPlaceRecordList.map((placeRecord) =>
                     PlaceEntity.create(
                         placeRecord.id,
-                        PlaceData.create(
-                            placeRecord.raceType,
-                            placeRecord.dateTime,
-                            placeRecord.location,
-                        ),
+                        placeRecord.toPlaceData(),
                         undefined,
                         undefined,
                         placeRecord.updateDate,
                     ),
-                )
-                .filter(
-                    (placeEntity) =>
-                        placeEntity.placeData.dateTime >=
-                            searchFilter.startDate &&
-                        placeEntity.placeData.dateTime <=
-                            searchFilter.finishDate,
                 );
-        } else if (searchFilter.raceType === RaceType.JRA) {
-            const heldDayRecordList: HeldDayRecord[] =
-                await this.getHeldDayRecordListFromS3(searchFilter.raceType);
-
-            // placeRecordListのidと、heldDayRecordListのidが一致するものを取得
-            const recordMap = new Map<
-                string,
-                {
-                    placeRecord: PlaceRecord;
-                    heldDayRecord: HeldDayRecord;
-                }
-            >();
-
-            // 量を減らすために、日付の範囲でフィルタリング
-            for (const placeRecord of placeRecordList.filter(
-                (_placeRecord) =>
-                    _placeRecord.dateTime >= searchFilter.startDate &&
-                    _placeRecord.dateTime <= searchFilter.finishDate,
-            )) {
-                const heldDayRecordItem = heldDayRecordList.find(
-                    (record) => record.id === placeRecord.id,
-                );
-                if (!heldDayRecordItem) {
-                    // heldDayRecordが見つからない場合はスキップ
-                    continue;
-                }
-                recordMap.set(placeRecord.id, {
-                    placeRecord,
-                    heldDayRecord: heldDayRecordItem,
-                });
             }
-
-            // placeRecordをplaceEntityに変換
-            const placeEntityList: PlaceEntity[] = [...recordMap.values()].map(
-                ({ placeRecord, heldDayRecord: heldDayRecordItem }) => {
-                    return PlaceEntity.create(
-                        placeRecord.id,
-                        PlaceData.create(
-                            searchFilter.raceType,
-                            placeRecord.dateTime,
-                            placeRecord.location,
-                        ),
-                        HeldDayData.create(
-                            heldDayRecordItem.heldTimes,
-                            heldDayRecordItem.heldDayTimes,
-                        ),
-                        undefined, // グレードは未指定
-                        // placeRecordとheldDayRecordのupdateDateの早い方を使用
-                        new Date(
-                            Math.min(
-                                placeRecord.updateDate.getTime(),
-                                heldDayRecordItem.updateDate.getTime(),
-                            ),
-                        ),
+            case RaceType.KEIRIN:
+            case RaceType.AUTORACE:
+            case RaceType.BOATRACE: {
+                const placeGradeRecordList: PlaceGradeRecord[] =
+                    await this.getPlaceGradeRecordListFromS3(
+                        searchFilter.raceType,
                     );
-                },
-            );
-            return placeEntityList;
-        } else {
-            const placeGradeRecordList: PlaceGradeRecord[] =
-                await this.getPlaceGradeRecordListFromS3(searchFilter.raceType);
 
-            // placeRecordListのidと、placeRecordListのidが一致するものを取得
-            const recordMap = new Map<
-                string,
-                {
-                    placeRecord: PlaceRecord;
-                    placeGradeRecord: PlaceGradeRecord;
-                }
-            >();
+                // placeRecordListのidと、placeRecordListのidが一致するものを取得
+                const placeGradeMap = this.toIdMap(placeGradeRecordList);
 
-            // 量を減らすために、日付の範囲でフィルタリング
-            for (const placeRecord of placeRecordList.filter(
-                (_placeRecord) =>
-                    _placeRecord.dateTime >= searchFilter.startDate &&
-                    _placeRecord.dateTime <= searchFilter.finishDate,
-            )) {
-                const placeGradeRecordItem = placeGradeRecordList.find(
-                    (record) => record.id === placeRecord.id,
-                );
-                if (!placeGradeRecordItem) {
-                    // placeGradeRecordが見つからない場合はスキップ
-                    continue;
-                }
-                recordMap.set(placeRecord.id, {
-                    placeRecord,
-                    placeGradeRecord: placeGradeRecordItem,
-                });
+                // raceEntityListに変換
+                const placeEntityList: PlaceEntity[] = filteredPlaceRecordList
+                    .map((placeRecord) => {
+                        const placeGradeRecord = placeGradeMap.get(
+                            placeRecord.id,
+                        );
+                        if (!placeGradeRecord) return null;
+                        return { placeRecord, placeGradeRecord };
+                    })
+                    .filter(
+                        (
+                            v,
+                        ): v is {
+                            placeRecord: PlaceRecord;
+                            placeGradeRecord: PlaceGradeRecord;
+                        } => v !== null,
+                    )
+                    .map(({ placeRecord, placeGradeRecord }) => {
+                        return PlaceEntity.create(
+                            placeRecord.id,
+                            placeRecord.toPlaceData(),
+                            undefined,
+                            placeGradeRecord.grade,
+                            // placeRecordとplaceRecordのupdateDateの早い方を使用
+                            new Date(
+                                Math.min(
+                                    placeRecord.updateDate.getTime(),
+                                    placeGradeRecord.updateDate.getTime(),
+                                ),
+                            ),
+                        );
+                    });
+                return placeEntityList;
             }
-
-            // raceEntityListに変換
-            const placeEntityList: PlaceEntity[] = [...recordMap.values()].map(
-                ({ placeRecord, placeGradeRecord }) => {
-                    return PlaceEntity.create(
-                        placeRecord.id,
-                        PlaceData.create(
-                            searchFilter.raceType,
-                            placeRecord.dateTime,
-                            placeRecord.location,
-                        ),
-                        undefined,
-                        placeGradeRecord.grade,
-                        // placeRecordとplaceRecordのupdateDateの早い方を使用
-                        new Date(
-                            Math.min(
-                                placeRecord.updateDate.getTime(),
-                                placeGradeRecord.updateDate.getTime(),
-                            ),
-                        ),
-                    );
-                },
-            );
-            return placeEntityList;
         }
     }
 
@@ -230,14 +201,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     await this.getHeldDayRecordListFromS3(raceType);
 
                 const heldDayRecordList: HeldDayRecord[] = placeEntityList.map(
-                    (placeEntity) =>
-                        HeldDayRecord.create(
-                            placeEntity.id,
-                            placeEntity.placeData.raceType,
-                            placeEntity.heldDayData.heldTimes,
-                            placeEntity.heldDayData.heldDayTimes,
-                            placeEntity.updateDate,
-                        ),
+                    (placeEntity) => placeEntity.toHeldDayRecord(),
                 );
 
                 // idが重複しているデータは上書きをし、新規のデータは追加する
@@ -276,12 +240,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                 // PlaceEntityをPlaceRecordに変換する
                 const placeGradeRecordList: PlaceGradeRecord[] =
                     placeEntityList.map((placeEntity) =>
-                        PlaceGradeRecord.create(
-                            placeEntity.id,
-                            placeEntity.placeData.raceType,
-                            placeEntity.grade,
-                            placeEntity.updateDate,
-                        ),
+                        placeEntity.toPlaceGradeRecord(),
                     );
 
                 // idが重複しているデータは上書きをし、新規のデータは追加する

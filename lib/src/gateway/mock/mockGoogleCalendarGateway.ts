@@ -1,11 +1,11 @@
 import type { calendar_v3 } from 'googleapis';
 
 import { defaultLocation } from '../../../../test/unittest/src/mock/common/baseCommonData';
-import { generateRaceId } from '../../utility/data/common/raceId';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import { RACE_TYPE_LIST_ALL, RaceType } from '../../utility/raceType';
+import { generateRaceId } from '../../utility/validateAndType/raceId';
 import { ICalendarGateway } from '../interface/iCalendarGateway';
 
 /**

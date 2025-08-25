@@ -8,7 +8,7 @@ import { RaceType } from '../../utility/raceType';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 /**
- * 公営競技の開催場データUseCase
+ * 公営競技の開催場データ UseCase
  */
 @injectable()
 export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
@@ -19,8 +19,8 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
 
     /**
      * 開催場データを取得する
-     * @param startDate
-     * @param finishDate
+     * @param startDate - 開始日
+     * @param finishDate - 終了日
      * @param raceTypeList - レース種別のリスト
      */
     @Logger
@@ -29,21 +29,18 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
         finishDate: Date,
         raceTypeList: RaceType[],
     ): Promise<PlaceEntity[]> {
-        // 開催場データを取得
-        const placeEntityList =
-            await this.placeDataService.fetchPlaceEntityList(
-                startDate,
-                finishDate,
-                raceTypeList,
-                DataLocation.Storage,
-            );
-        return placeEntityList;
+        return this.placeDataService.fetchPlaceEntityList(
+            startDate,
+            finishDate,
+            raceTypeList,
+            DataLocation.Storage,
+        );
     }
 
     /**
      * 開催場データを更新する
-     * @param startDate
-     * @param finishDate
+     * @param startDate - 開始日
+     * @param finishDate - 終了日
      * @param raceTypeList - レース種別のリスト
      */
     @Logger

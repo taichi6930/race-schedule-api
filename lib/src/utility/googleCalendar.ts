@@ -11,22 +11,26 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../domain/calendarData';
-import { RaceEntity } from '../repository/entity/raceEntity';
-import type { GradeType } from './data/common/gradeType';
-import { createPlaceCodeMap } from './data/common/raceCourse';
+import type { RaceEntity } from '../repository/entity/raceEntity';
 import {
-    ChihoKeibaYoutubeUserIdMap,
-    getYoutubeLiveUrl,
+    createYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
+    NarYoutubeUserIdMap,
 } from './data/movie';
 import { NetkeibaBabacodeMap } from './data/netkeiba';
 import {
     createNetkeibaJraRaceVideoUrl,
     createNetkeibaJraShutubaUrl,
+    createNetkeibaNarShutubaUrl,
+    createNetkeibaRedirectUrl,
+    createNetkeirinRaceShutubaUrl,
+    createNetkeirinRedirectUrl,
 } from './data/url';
 import { getJSTDate } from './date';
 import { createAnchorTag, formatDate } from './format';
 import { RaceType } from './raceType';
+import type { GradeType } from './validateAndType/gradeType';
+import { createPlaceCode } from './validateAndType/raceCourse';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール
@@ -190,75 +194,67 @@ export function toGoogleCalendarData(
     function createDescription(): string {
         const raceTimeStr = `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}`;
         const updateStr = `更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}`;
-        if (
-            raceEntity instanceof RaceEntity &&
-            (raceEntity.raceData.raceType === RaceType.AUTORACE ||
-                raceEntity.raceData.raceType === RaceType.BOATRACE)
-        ) {
-            return `${raceTimeStr}
+        switch (raceEntity.raceData.raceType) {
+            case RaceType.AUTORACE:
+            case RaceType.BOATRACE: {
+                {
+                    return `${raceTimeStr}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
-        }
-        if (
-            raceEntity instanceof RaceEntity &&
-            raceEntity.raceData.raceType === RaceType.KEIRIN
-        ) {
-            return `${raceTimeStr}
+                }
+            }
+            case RaceType.KEIRIN: {
+                const raceIdForNetkeirin = `${format(
+                    raceEntity.raceData.dateTime,
+                    'yyyyMMdd',
+                )}${createPlaceCode(RaceType.KEIRIN, raceEntity.raceData.location)}
+            ${raceEntity.raceData.number.toXDigits(2)}`;
+                return `${raceTimeStr}
                     ${createAnchorTag(
                         'レース情報（netkeirin）',
-                        `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${
-                            createPlaceCodeMap(RaceType.KEIRIN)[
-                                raceEntity.raceData.location
-                            ]
-                        }${raceEntity.raceData.number.toXDigits(2)}`,
+                        createNetkeirinRedirectUrl(
+                            createNetkeirinRaceShutubaUrl(raceIdForNetkeirin),
+                        ),
                     )}
-                    ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
+                    ${createAnchorTag('レース映像（YouTube）', createYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
+            }
+            case RaceType.JRA: {
+                const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
+                return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
+                ${raceTimeStr}
+                ${createAnchorTag(
+                    'レース情報',
+                    createNetkeibaRedirectUrl(
+                        createNetkeibaJraShutubaUrl(raceIdForNetkeiba),
+                    ),
+                )}
+                ${createAnchorTag(
+                    'レース動画',
+                    createNetkeibaRedirectUrl(
+                        createNetkeibaJraRaceVideoUrl(raceIdForNetkeiba),
+                    ),
+                )}
+                ${updateStr}
+                `.replace(/\n\s+/g, '\n');
+            }
+            case RaceType.NAR: {
+                const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.raceData.dateTime.getXDigitMonth(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
+                return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
+                ${raceTimeStr}
+                ${createAnchorTag('レース映像（YouTube）', createYoutubeLiveUrl(NarYoutubeUserIdMap[raceEntity.raceData.location]))}
+                ${createAnchorTag('レース情報（netkeiba）', createNetkeibaRedirectUrl(createNetkeibaNarShutubaUrl(raceIdForNetkeiba)))}
+                ${updateStr}
+                `.replace(/\n\s+/g, '\n');
+            }
+            case RaceType.OVERSEAS: {
+                return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
+                ${raceTimeStr}
+                ${updateStr}
+                `.replace(/\n\s+/g, '\n');
+            }
         }
-        if (
-            raceEntity instanceof RaceEntity &&
-            raceEntity.raceData.raceType === RaceType.JRA
-        ) {
-            const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
-            return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
-                    ${raceTimeStr}
-                    ${createAnchorTag(
-                        'レース情報',
-                        `https://netkeiba.page.link/?link=${encodeURIComponent(
-                            createNetkeibaJraShutubaUrl(raceIdForNetkeiba),
-                        )}`,
-                    )}
-                    ${createAnchorTag(
-                        'レース動画',
-                        `https://netkeiba.page.link/?link=${encodeURIComponent(
-                            createNetkeibaJraRaceVideoUrl(raceIdForNetkeiba),
-                        )}`,
-                    )}
-                    ${updateStr}
-                    `.replace(/\n\s+/g, '\n');
-        }
-        if (
-            raceEntity instanceof RaceEntity &&
-            raceEntity.raceData.raceType === RaceType.NAR
-        ) {
-            return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
-                    ${raceTimeStr}
-                    ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[raceEntity.raceData.location]))}
-                    ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${(raceEntity.raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`)}
-                    ${updateStr}
-                    `.replace(/\n\s+/g, '\n');
-        }
-        if (
-            raceEntity instanceof RaceEntity &&
-            raceEntity.raceData.raceType === RaceType.OVERSEAS
-        ) {
-            return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
-                    ${raceTimeStr}
-                    ${updateStr}
-                    `.replace(/\n\s+/g, '\n');
-        }
-        return '';
     }
 
     return {

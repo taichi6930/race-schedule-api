@@ -8,8 +8,7 @@ import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
-import { GradeType } from '../../utility/data/common/gradeType';
-import { RaceGradeAndStageList } from '../../utility/data/common/raceStage';
+import { RaceGradeAndStageList } from '../../utility/data/stage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import {
@@ -18,6 +17,7 @@ import {
     RACE_TYPE_LIST_MECHANICAL_RACING,
     RaceType,
 } from '../../utility/raceType';
+import { GradeType } from '../../utility/validateAndType/gradeType';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
 /**

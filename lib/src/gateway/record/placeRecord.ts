@@ -1,13 +1,14 @@
-import type { PlaceId } from '../../utility/data/common/placeId';
-import { validatePlaceId } from '../../utility/data/common/placeId';
-import type { RaceCourse } from '../../utility/data/common/raceCourse';
-import { validateRaceCourse } from '../../utility/data/common/raceCourse';
-import type { RaceDateTime } from '../../utility/data/common/raceDateTime';
-import { validateRaceDateTime } from '../../utility/data/common/raceDateTime';
+import { PlaceData } from '../../domain/placeData';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
+import type { PlaceId } from '../../utility/validateAndType/placeId';
+import { validatePlaceId } from '../../utility/validateAndType/placeId';
+import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
+import { validateRaceCourse } from '../../utility/validateAndType/raceCourse';
+import type { RaceDateTime } from '../../utility/validateAndType/raceDateTime';
+import { validateRaceDateTime } from '../../utility/validateAndType/raceDateTime';
 
 /**
  * Repository層のRecord レース開催場所データ
@@ -73,5 +74,12 @@ export class PlaceRecord {
             partial.location ?? this.location,
             partial.updateDate ?? this.updateDate,
         );
+    }
+
+    /**
+     * PlaceDataに変換する
+     */
+    public toPlaceData(): PlaceData {
+        return PlaceData.create(this.raceType, this.dateTime, this.location);
     }
 }

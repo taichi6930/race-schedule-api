@@ -1,32 +1,33 @@
 import '../../utility/format';
 
-import {
-    type GradeType,
-    validateGradeType,
-} from '../../utility/data/common/gradeType';
-import {
-    type RaceCourse,
-    validateRaceCourse,
-} from '../../utility/data/common/raceCourse';
-import {
-    type RaceDateTime,
-    validateRaceDateTime,
-} from '../../utility/data/common/raceDateTime';
-import type { RaceId } from '../../utility/data/common/raceId';
-import { validateRaceId } from '../../utility/data/common/raceId';
-import type { RaceName } from '../../utility/data/common/raceName';
-import { validateRaceName } from '../../utility/data/common/raceName';
-import {
-    type RaceNumber,
-    validateRaceNumber,
-} from '../../utility/data/common/raceNumber';
-import {
-    type RaceStage,
-    validateRaceStage,
-} from '../../utility/data/common/raceStage';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import {
+    type GradeType,
+    validateGradeType,
+} from '../../utility/validateAndType/gradeType';
+import {
+    type RaceCourse,
+    validateRaceCourse,
+} from '../../utility/validateAndType/raceCourse';
+import {
+    type RaceDateTime,
+    validateRaceDateTime,
+} from '../../utility/validateAndType/raceDateTime';
+import type { RaceId } from '../../utility/validateAndType/raceId';
+import { validateRaceId } from '../../utility/validateAndType/raceId';
+import type { RaceName } from '../../utility/validateAndType/raceName';
+import { validateRaceName } from '../../utility/validateAndType/raceName';
+import {
+    type RaceNumber,
+    validateRaceNumber,
+} from '../../utility/validateAndType/raceNumber';
+import {
+    type RaceStage,
+    validateRaceStage,
+} from '../../utility/validateAndType/raceStage';
+import { RaceData } from './../../domain/raceData';
 
 /**
  * レース開催データ
@@ -115,6 +116,20 @@ export class MechanicalRacingRaceRecord {
             partial.grade ?? this.grade,
             partial.number ?? this.number,
             partial.updateDate ?? this.updateDate,
+        );
+    }
+
+    /**
+     * RaceDataに変換する
+     */
+    public toRaceData(): RaceData {
+        return RaceData.create(
+            this.raceType,
+            this.name,
+            this.dateTime,
+            this.location,
+            this.grade,
+            this.number,
         );
     }
 }

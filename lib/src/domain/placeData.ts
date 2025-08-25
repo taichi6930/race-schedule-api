@@ -1,10 +1,10 @@
-import type { RaceCourse } from '../utility/data/common/raceCourse';
-import { validateRaceCourse } from '../utility/data/common/raceCourse';
+import type { RaceType } from '../utility/raceType';
+import type { RaceCourse } from '../utility/validateAndType/raceCourse';
+import { validateRaceCourse } from '../utility/validateAndType/raceCourse';
 import {
     type RaceDateTime,
     validateRaceDateTime,
-} from '../utility/data/common/raceDateTime';
-import type { RaceType } from '../utility/raceType';
+} from '../utility/validateAndType/raceDateTime';
 
 /**
  * レース開催場所データ

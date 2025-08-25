@@ -91,13 +91,11 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
                                 placeEntity.placeData.raceType === raceType,
                         ) ?? [],
                     );
-                    const raceEntityList =
-                        await this.fetchRaceEntityListFromRepository(
-                            type === DataLocation.Storage
-                                ? raceRepositoryFromStorage[raceType]
-                                : raceRepositoryFromHtml[raceType],
-                            searchFilter,
-                        );
+                    const raceEntityList = await (
+                        type === DataLocation.Storage
+                            ? raceRepositoryFromStorage[raceType]
+                            : raceRepositoryFromHtml[raceType]
+                    ).fetchRaceEntityList(searchFilter);
                     result.push(...raceEntityList);
                 }
             }
@@ -203,15 +201,15 @@ export class PublicGamblingRaceDataService implements IRaceDataService {
         };
     }
 
-    /**
-     * レース種別ごとの取得処理を共通化
-     * @param repository
-     * @param searchFilter
-     */
-    private async fetchRaceEntityListFromRepository(
-        repository: IRaceRepository,
-        searchFilter: SearchRaceFilterEntity,
-    ): Promise<RaceEntity[]> {
-        return repository.fetchRaceEntityList(searchFilter);
-    }
+    // /**
+    //  * レース種別ごとの取得処理を共通化
+    //  * @param repository
+    //  * @param searchFilter
+    //  */
+    // private async fetchRaceEntityListFromRepository(
+    //     repository: IRaceRepository,
+    //     searchFilter: SearchRaceFilterEntity,
+    // ): Promise<RaceEntity[]> {
+    //     return repository.fetchRaceEntityList(searchFilter);
+    // }
 }

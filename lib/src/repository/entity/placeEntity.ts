@@ -1,14 +1,16 @@
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
+import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
+import { PlaceGradeRecord } from '../../gateway/record/placeGradeRecord';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
-import type { GradeType } from '../../utility/data/common/gradeType';
-import type { PlaceId } from '../../utility/data/common/placeId';
+import { RaceType } from '../../utility/raceType';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { GradeType } from '../../utility/validateAndType/gradeType';
+import type { PlaceId } from '../../utility/validateAndType/placeId';
 import {
     generatePlaceId,
     validatePlaceId,
-} from '../../utility/data/common/placeId';
-import { RaceType } from '../../utility/raceType';
-import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+} from '../../utility/validateAndType/placeId';
 
 /**
  * Repository層のEntity 競馬のレース開催場所データ
@@ -177,6 +179,31 @@ export class PlaceEntity {
             partial.heldDayData ?? this._heldDayData,
             partial.grade ?? this._grade,
             partial.updateDate ?? this.updateDate,
+        );
+    }
+
+    /**
+     * PlaceGradeRecordを作成する
+     */
+    public toPlaceGradeRecord(): PlaceGradeRecord {
+        return PlaceGradeRecord.create(
+            this.id,
+            this.placeData.raceType,
+            this.grade,
+            this.updateDate,
+        );
+    }
+
+    /**
+     * HeldDayRecordを作成する
+     */
+    public toHeldDayRecord(): HeldDayRecord {
+        return HeldDayRecord.create(
+            this.id,
+            this.placeData.raceType,
+            this.heldDayData.heldTimes,
+            this.heldDayData.heldDayTimes,
+            this.updateDate,
         );
     }
 }

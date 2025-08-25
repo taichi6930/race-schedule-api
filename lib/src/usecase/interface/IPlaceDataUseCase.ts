@@ -2,13 +2,14 @@ import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { RaceType } from '../../utility/raceType';
 
 /**
- * 開催場データUseCaseインターフェース
+ * 開催場データUseCase Interface
  */
 export interface IPlaceDataUseCase {
     /**
      * 開催場データを取得する
-     * @param startDate
-     * @param finishDate
+     * @param startDate - 開始日
+     * @param finishDate - 終了日
+     * @param raceTypeList - レース種別のリスト
      */
     fetchPlaceEntityList: (
         startDate: Date,
@@ -18,8 +19,9 @@ export interface IPlaceDataUseCase {
 
     /**
      * 開催場データを更新する
-     * @param startDate
-     * @param finishDate
+     * @param startDate - 開始日
+     * @param finishDate - 終了日
+     * @param raceTypeList - レース種別のリスト
      */
     updatePlaceEntityList: (
         startDate: Date,
