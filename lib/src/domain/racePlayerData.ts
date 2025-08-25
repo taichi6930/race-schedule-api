@@ -1,10 +1,10 @@
+import type { RaceType } from '../utility/raceType';
 import {
     type PlayerNumber,
     validatePlayerNumber,
-} from '../utility/data/validateAndType/playerNumber';
-import type { PositionNumber } from '../utility/data/validateAndType/positionNumber';
-import { validatePositionNumber } from '../utility/data/validateAndType/positionNumber';
-import type { RaceType } from '../utility/raceType';
+} from '../utility/validateAndType/playerNumber';
+import type { PositionNumber } from '../utility/validateAndType/positionNumber';
+import { validatePositionNumber } from '../utility/validateAndType/positionNumber';
 
 /**
  * レースの選手データ

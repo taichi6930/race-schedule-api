@@ -1,4 +1,4 @@
-import { validateRaceName } from '../../../../../../lib/src/utility/data/validateAndType/raceName';
+import { validateRaceName } from '../../../../../lib/src/utility/validateAndType/raceName';
 
 /**
  * RaceNameのテスト

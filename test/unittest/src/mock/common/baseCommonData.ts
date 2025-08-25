@@ -7,8 +7,6 @@ import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
-import { generatePlaceId } from '../../../../../lib/src/utility/data/validateAndType/placeId';
-import { maxFrameNumber } from '../../../../../lib/src/utility/data/validateAndType/positionNumber';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import {
@@ -18,6 +16,8 @@ import {
     RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RaceType,
 } from '../../../../../lib/src/utility/raceType';
+import { generatePlaceId } from '../../../../../lib/src/utility/validateAndType/placeId';
+import { maxFrameNumber } from '../../../../../lib/src/utility/validateAndType/positionNumber';
 
 /**
  * 基本的なレースプレイヤーデータのリストを生成します。

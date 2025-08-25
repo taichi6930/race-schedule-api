@@ -1,4 +1,4 @@
-import { validateHeldTimes } from '../../../../../../lib/src/utility/data/validateAndType/heldTimes';
+import { validateHeldTimes } from '../../../../../lib/src/utility/validateAndType/heldTimes';
 
 /**
  * HeldTimesのテスト

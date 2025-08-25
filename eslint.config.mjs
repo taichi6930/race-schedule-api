@@ -228,9 +228,9 @@ export default [
     {
         files: [
             'lib/src/utility/createRaceName.ts',
-            'lib/src/utility/data/**/gradeType.ts',
-            'lib/src/utility/data/**/positionNumber.ts',
-            'lib/src/utility/data/**/raceStage.ts',
+            'lib/src/utility/**/gradeType.ts',
+            'lib/src/utility/**/positionNumber.ts',
+            'lib/src/utility/**/raceStage.ts',
             'lib/src/utility/googleCalendar.ts',
             'lib/src/utility/sqlite/settings/dbConfig.ts',
             'test/unittest/src/mock/common/baseCommonData.ts',

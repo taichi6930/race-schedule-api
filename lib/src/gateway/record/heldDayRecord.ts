@@ -1,15 +1,15 @@
-import {
-    type heldDayTimes,
-    validateHeldDayTimes,
-} from '../../utility/data/validateAndType/heldDayTimes';
-import type { HeldTimes } from '../../utility/data/validateAndType/heldTimes';
-import { validateHeldTimes } from '../../utility/data/validateAndType/heldTimes';
-import type { PlaceId } from '../../utility/data/validateAndType/placeId';
-import { validatePlaceId } from '../../utility/data/validateAndType/placeId';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
+import {
+    type heldDayTimes,
+    validateHeldDayTimes,
+} from '../../utility/validateAndType/heldDayTimes';
+import type { HeldTimes } from '../../utility/validateAndType/heldTimes';
+import { validateHeldTimes } from '../../utility/validateAndType/heldTimes';
+import type { PlaceId } from '../../utility/validateAndType/placeId';
+import { validatePlaceId } from '../../utility/validateAndType/placeId';
 
 /**
  * Repository層のRecord

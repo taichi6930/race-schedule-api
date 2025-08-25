@@ -1,16 +1,16 @@
 import '../../utility/format';
 
-import type { PlayerNumber } from '../../utility/data/validateAndType/playerNumber';
-import { validatePlayerNumber } from '../../utility/data/validateAndType/playerNumber';
-import type { PositionNumber } from '../../utility/data/validateAndType/positionNumber';
-import { validatePositionNumber } from '../../utility/data/validateAndType/positionNumber';
-import type { RaceId } from '../../utility/data/validateAndType/raceId';
-import { validateRaceId } from '../../utility/data/validateAndType/raceId';
-import type { RacePlayerId } from '../../utility/data/validateAndType/racePlayerId';
-import { validateRacePlayerId } from '../../utility/data/validateAndType/racePlayerId';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { PlayerNumber } from '../../utility/validateAndType/playerNumber';
+import { validatePlayerNumber } from '../../utility/validateAndType/playerNumber';
+import type { PositionNumber } from '../../utility/validateAndType/positionNumber';
+import { validatePositionNumber } from '../../utility/validateAndType/positionNumber';
+import type { RaceId } from '../../utility/validateAndType/raceId';
+import { validateRaceId } from '../../utility/validateAndType/raceId';
+import type { RacePlayerId } from '../../utility/validateAndType/racePlayerId';
+import { validateRacePlayerId } from '../../utility/validateAndType/racePlayerId';
 
 /**
  * レース選手データ

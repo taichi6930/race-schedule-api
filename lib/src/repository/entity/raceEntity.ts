@@ -7,16 +7,16 @@ import type { RacePlayerData } from '../../domain/racePlayerData';
 import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
 import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
-import type { RaceId } from '../../utility/data/validateAndType/raceId';
-import {
-    generateRaceId,
-    validateRaceId,
-} from '../../utility/data/validateAndType/raceId';
-import { generateRacePlayerId } from '../../utility/data/validateAndType/racePlayerId';
-import type { RaceStage } from '../../utility/data/validateAndType/raceStage';
 import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
+import type { RaceId } from '../../utility/validateAndType/raceId';
+import {
+    generateRaceId,
+    validateRaceId,
+} from '../../utility/validateAndType/raceId';
+import { generateRacePlayerId } from '../../utility/validateAndType/racePlayerId';
+import type { RaceStage } from '../../utility/validateAndType/raceStage';
 
 /**
  * 競馬のレース開催データ

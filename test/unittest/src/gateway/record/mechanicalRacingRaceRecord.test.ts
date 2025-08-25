@@ -18,7 +18,7 @@
  * | 12  | copy   | undefined  | undefined | 不正値    | undefined | undefined     | undefined  | undefined| undefined| undefined    | 例外発生         | nameバリデーション失敗    |
  */
 import { MechanicalRacingRaceRecord } from '../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
-import { generateRaceId } from '../../../../../lib/src/utility/data/validateAndType/raceId';
+import { generateRaceId } from '../../../../../lib/src/utility/validateAndType/raceId';
 import {
     defaultLocation,
     defaultStage,

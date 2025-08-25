@@ -1,14 +1,14 @@
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
-import type { GradeType } from '../../utility/data/validateAndType/gradeType';
-import type { PlaceId } from '../../utility/data/validateAndType/placeId';
+import { RaceType } from '../../utility/raceType';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { GradeType } from '../../utility/validateAndType/gradeType';
+import type { PlaceId } from '../../utility/validateAndType/placeId';
 import {
     generatePlaceId,
     validatePlaceId,
-} from '../../utility/data/validateAndType/placeId';
-import { RaceType } from '../../utility/raceType';
-import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+} from '../../utility/validateAndType/placeId';
 
 /**
  * Repository層のEntity 競馬のレース開催場所データ

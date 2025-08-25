@@ -22,11 +22,11 @@ import {
     createNetkeibaJraRaceVideoUrl,
     createNetkeibaJraShutubaUrl,
 } from './data/url';
-import type { GradeType } from './data/validateAndType/gradeType';
-import { createPlaceCodeMap } from './data/validateAndType/raceCourse';
 import { getJSTDate } from './date';
 import { createAnchorTag, formatDate } from './format';
 import { RaceType } from './raceType';
+import type { GradeType } from './validateAndType/gradeType';
+import { createPlaceCodeMap } from './validateAndType/raceCourse';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール

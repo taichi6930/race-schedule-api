@@ -1,5 +1,5 @@
-import { validatePositionNumber } from '../../../../../../lib/src/utility/data/validateAndType/positionNumber';
-import { testRaceTypeListAll } from '../../../mock/common/baseCommonData';
+import { validatePositionNumber } from '../../../../../lib/src/utility/validateAndType/positionNumber';
+import { testRaceTypeListAll } from '../../mock/common/baseCommonData';
 
 /**
  * PositionNumberのテスト

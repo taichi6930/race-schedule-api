@@ -1,9 +1,9 @@
 import { baseRacePlayerDataList } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
-import { RaceStage } from '../../utility/data/validateAndType/raceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { RaceStage } from '../../utility/validateAndType/raceStage';
 import { RaceEntity } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';

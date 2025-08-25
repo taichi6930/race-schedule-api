@@ -5,14 +5,14 @@ import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { processNarRaceName } from '../../utility/createRaceName';
-import {
-    GradeType,
-    validateGradeType,
-} from '../../utility/data/validateAndType/gradeType';
-import type { RaceSurfaceType } from '../../utility/data/validateAndType/raceSurfaceType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import {
+    GradeType,
+    validateGradeType,
+} from '../../utility/validateAndType/gradeType';
+import type { RaceSurfaceType } from '../../utility/validateAndType/raceSurfaceType';
 import { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';

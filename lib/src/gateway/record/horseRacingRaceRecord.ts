@@ -1,30 +1,30 @@
 import '../../utility/format';
 
-import type { GradeType } from '../../utility/data/validateAndType/gradeType';
-import { validateGradeType } from '../../utility/data/validateAndType/gradeType';
-import type { RaceCourse } from '../../utility/data/validateAndType/raceCourse';
-import { validateRaceCourse } from '../../utility/data/validateAndType/raceCourse';
-import type { RaceDateTime } from '../../utility/data/validateAndType/raceDateTime';
-import { validateRaceDateTime } from '../../utility/data/validateAndType/raceDateTime';
-import type { RaceDistance } from '../../utility/data/validateAndType/raceDistance';
-import { validateRaceDistance } from '../../utility/data/validateAndType/raceDistance';
-import {
-    type RaceId,
-    validateRaceId,
-} from '../../utility/data/validateAndType/raceId';
-import {
-    type RaceName,
-    validateRaceName,
-} from '../../utility/data/validateAndType/raceName';
-import type { RaceNumber } from '../../utility/data/validateAndType/raceNumber';
-import { validateRaceNumber } from '../../utility/data/validateAndType/raceNumber';
-import {
-    type RaceSurfaceType,
-    validateRaceSurfaceType,
-} from '../../utility/data/validateAndType/raceSurfaceType';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { GradeType } from '../../utility/validateAndType/gradeType';
+import { validateGradeType } from '../../utility/validateAndType/gradeType';
+import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
+import { validateRaceCourse } from '../../utility/validateAndType/raceCourse';
+import type { RaceDateTime } from '../../utility/validateAndType/raceDateTime';
+import { validateRaceDateTime } from '../../utility/validateAndType/raceDateTime';
+import type { RaceDistance } from '../../utility/validateAndType/raceDistance';
+import { validateRaceDistance } from '../../utility/validateAndType/raceDistance';
+import {
+    type RaceId,
+    validateRaceId,
+} from '../../utility/validateAndType/raceId';
+import {
+    type RaceName,
+    validateRaceName,
+} from '../../utility/validateAndType/raceName';
+import type { RaceNumber } from '../../utility/validateAndType/raceNumber';
+import { validateRaceNumber } from '../../utility/validateAndType/raceNumber';
+import {
+    type RaceSurfaceType,
+    validateRaceSurfaceType,
+} from '../../utility/validateAndType/raceSurfaceType';
 
 /**
  * 競馬のレース開催データ

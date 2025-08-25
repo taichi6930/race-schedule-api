@@ -6,14 +6,14 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { GradeType } from '../../utility/data/validateAndType/gradeType';
-import {
-    RaceCourse,
-    validateRaceCourse,
-} from '../../utility/data/validateAndType/raceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { GradeType } from '../../utility/validateAndType/gradeType';
+import {
+    RaceCourse,
+    validateRaceCourse,
+} from '../../utility/validateAndType/raceCourse';
 import { PlaceEntity } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';

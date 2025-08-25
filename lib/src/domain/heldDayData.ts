@@ -1,11 +1,11 @@
 import {
     type heldDayTimes as HeldDayTimes,
     validateHeldDayTimes,
-} from '../utility/data/validateAndType/heldDayTimes';
+} from '../utility/validateAndType/heldDayTimes';
 import {
     type HeldTimes,
     validateHeldTimes,
-} from '../utility/data/validateAndType/heldTimes';
+} from '../utility/validateAndType/heldTimes';
 
 /**
  * 競馬の開催日データ

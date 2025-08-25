@@ -1,20 +1,20 @@
-import type { GradeType } from '../utility/data/validateAndType/gradeType';
-import { validateGradeType } from '../utility/data/validateAndType/gradeType';
+import type { RaceType } from '../utility/raceType';
+import type { GradeType } from '../utility/validateAndType/gradeType';
+import { validateGradeType } from '../utility/validateAndType/gradeType';
 import {
     type RaceCourse,
     validateRaceCourse,
-} from '../utility/data/validateAndType/raceCourse';
+} from '../utility/validateAndType/raceCourse';
 import {
     type RaceDateTime,
     validateRaceDateTime,
-} from '../utility/data/validateAndType/raceDateTime';
+} from '../utility/validateAndType/raceDateTime';
 import {
     type RaceName,
     validateRaceName,
-} from '../utility/data/validateAndType/raceName';
-import type { RaceNumber } from '../utility/data/validateAndType/raceNumber';
-import { validateRaceNumber } from '../utility/data/validateAndType/raceNumber';
-import type { RaceType } from '../utility/raceType';
+} from '../utility/validateAndType/raceName';
+import type { RaceNumber } from '../utility/validateAndType/raceNumber';
+import { validateRaceNumber } from '../utility/validateAndType/raceNumber';
 
 /**
  * 競馬のレース開催データ

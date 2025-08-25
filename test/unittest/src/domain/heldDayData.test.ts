@@ -11,8 +11,8 @@
  * |7 |有効     |有効        |{} または undefined|全プロパティ同値|copyでpartial空|
  */
 import { HeldDayData } from '../../../../lib/src/domain/heldDayData';
-import { validateHeldDayTimes } from '../../../../lib/src/utility/data/validateAndType/heldDayTimes';
-import { validateHeldTimes } from '../../../../lib/src/utility/data/validateAndType/heldTimes';
+import { validateHeldDayTimes } from '../../../../lib/src/utility/validateAndType/heldDayTimes';
+import { validateHeldTimes } from '../../../../lib/src/utility/validateAndType/heldTimes';
 
 describe('HeldDayDataクラスのテスト', () => {
     const validHeldTimes = 1; // 仮: 有効値

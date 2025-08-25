@@ -3,12 +3,12 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
+import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import {
     createPlaceCodeMap,
     RaceCourse,
-} from '../../utility/data/validateAndType/raceCourse';
-import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+} from '../../utility/validateAndType/raceCourse';
 import { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
 /**
  * レースデータのHTMLを取得するGateway

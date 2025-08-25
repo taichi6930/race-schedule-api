@@ -1,5 +1,5 @@
 import { HeldDayRecord } from '../../../../../lib/src/gateway/record/heldDayRecord';
-import { generatePlaceId } from '../../../../../lib/src/utility/data/validateAndType/placeId';
+import { generatePlaceId } from '../../../../../lib/src/utility/validateAndType/placeId';
 import {
     defaultLocation,
     testRaceTypeListAll,

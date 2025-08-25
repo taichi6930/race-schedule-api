@@ -1,7 +1,7 @@
 import type { ZodString } from 'zod';
 import { z } from 'zod';
 
-import { RaceType } from '../../raceType';
+import { RaceType } from '../raceType';
 
 /**
  * グレードのマスターリスト
