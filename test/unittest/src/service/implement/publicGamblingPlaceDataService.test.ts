@@ -69,18 +69,7 @@ describe('PublicGamblingPlaceDataService', () => {
             // モックの戻り値を設定
             repositorySetup.placeRepositoryFromHtml.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
-                    switch (searchFilter.raceType) {
-                        case RaceType.OVERSEAS: {
-                            throw new Error('race type is not supported');
-                        }
-                        case RaceType.JRA:
-                        case RaceType.NAR:
-                        case RaceType.KEIRIN:
-                        case RaceType.AUTORACE:
-                        case RaceType.BOATRACE: {
-                            return [basePlaceEntity(searchFilter.raceType)];
-                        }
-                    }
+                    return [basePlaceEntity(searchFilter.raceType)];
                 },
             );
 

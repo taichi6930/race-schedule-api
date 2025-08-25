@@ -20,8 +20,6 @@ import {
 const testCases = {
     [RaceType.JRA]: [
         {
-            name: 'PlaceRepositoryFromHtml',
-            repositoryClass: PlaceRepositoryFromHtml,
             startDate: new Date('2024-01-01'),
             endDate: new Date('2024-12-31'),
             expectedLength: 288,
@@ -29,8 +27,6 @@ const testCases = {
     ],
     [RaceType.NAR]: [
         {
-            name: 'PlaceRepositoryFromHtml',
-            repositoryClass: PlaceRepositoryFromHtml,
             startDate: new Date('2024-10-01'),
             endDate: new Date('2024-10-31'),
             expectedLength: 120,
@@ -38,8 +34,6 @@ const testCases = {
     ],
     [RaceType.KEIRIN]: [
         {
-            name: 'PlaceRepositoryFromHtml',
-            repositoryClass: PlaceRepositoryFromHtml,
             startDate: new Date('2024-10-01'),
             endDate: new Date('2024-10-31'),
             expectedLength: 233,
@@ -47,8 +41,6 @@ const testCases = {
     ],
     [RaceType.AUTORACE]: [
         {
-            name: 'PlaceRepositoryFromHtml',
-            repositoryClass: PlaceRepositoryFromHtml,
             startDate: new Date('2024-11-01'),
             endDate: new Date('2024-11-30'),
             expectedLength: 60,
@@ -56,8 +48,6 @@ const testCases = {
     ],
     [RaceType.BOATRACE]: [
         {
-            name: 'PlaceRepositoryFromHtml',
-            repositoryClass: PlaceRepositoryFromHtml,
             startDate: new Date('2025-04-01'),
             endDate: new Date('2025-06-30'),
             expectedLength: 66,
@@ -66,30 +56,27 @@ const testCases = {
 };
 
 describe.each(testRaceTypeListWithoutOverseas)(
-    'PlaceRepositoryFromHtml - %s',
+    'PlaceRepositoryFromHtml',
     (raceType) => {
-        for (const {
-            name,
-            repositoryClass,
-            startDate,
-            endDate,
-            expectedLength,
-        } of testCases[raceType]) {
-            describe(name, () => {
+        for (const { startDate, endDate, expectedLength } of testCases[
+            raceType
+        ]) {
+            describe(`PlaceRepositoryFromHtml(${raceType})`, () => {
                 let placeDataHtmlGateway: IPlaceDataHtmlGateway;
                 let repository: IPlaceRepository;
 
-                beforeEach(() => {
+                beforeAll(() => {
                     placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
                     container.registerInstance(
                         'PlaceDataHtmlGateway',
                         placeDataHtmlGateway,
                     );
-                    repository =
-                        container.resolve<IPlaceRepository>(repositoryClass);
+                    repository = container.resolve<IPlaceRepository>(
+                        PlaceRepositoryFromHtml,
+                    );
                 });
 
-                afterEach(() => {
+                afterAll(() => {
                     clearMocks();
                 });
 
