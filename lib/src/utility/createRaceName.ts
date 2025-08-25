@@ -2,10 +2,10 @@ import './format';
 
 import type { GradeType } from './data/common/gradeType';
 import type { RaceCourse } from './data/common/raceCourse';
-import type { RaceCourseType } from './data/common/raceCourseType';
 import type { RaceDateTime } from './data/common/raceDateTime';
 import type { RaceDistance } from './data/common/raceDistance';
 import type { RaceName } from './data/common/raceName';
+import type { RaceCourseType } from './data/common/raceSurfaceType';
 
 interface JraRaceDataForRaceName {
     name: RaceName;

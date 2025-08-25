@@ -13,8 +13,8 @@ import {
     RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
 import { validateRaceDistance } from '../../utility/data/common/raceDistance';
+import type { RaceCourseType } from '../../utility/data/common/raceSurfaceType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';

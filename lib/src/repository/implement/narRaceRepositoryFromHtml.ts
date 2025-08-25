@@ -9,7 +9,7 @@ import {
     GradeType,
     validateGradeType,
 } from '../../utility/data/common/gradeType';
-import type { RaceCourseType } from '../../utility/data/common/raceCourseType';
+import type { RaceCourseType } from '../../utility/data/common/raceSurfaceType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';

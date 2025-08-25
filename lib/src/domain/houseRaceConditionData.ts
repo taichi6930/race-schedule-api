@@ -1,7 +1,7 @@
-import type { RaceCourseType } from '../utility/data/common/raceCourseType';
-import { validateRaceCourseType } from '../utility/data/common/raceCourseType';
 import type { RaceDistance } from '../utility/data/common/raceDistance';
 import { validateRaceDistance } from '../utility/data/common/raceDistance';
+import type { RaceCourseType } from '../utility/data/common/raceSurfaceType';
+import { validateRaceCourseType } from '../utility/data/common/raceSurfaceType';
 
 export class HorseRaceConditionData {
     /**

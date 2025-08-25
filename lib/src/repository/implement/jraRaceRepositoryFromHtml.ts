@@ -11,7 +11,7 @@ import {
     RaceCourse,
     validateRaceCourse,
 } from '../../utility/data/common/raceCourse';
-import { RaceCourseType } from '../../utility/data/common/raceCourseType';
+import { RaceCourseType } from '../../utility/data/common/raceSurfaceType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';

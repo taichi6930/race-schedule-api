@@ -1,4 +1,4 @@
-import { validateRaceCourseType } from '../../../../../../lib/src/utility/data/common/raceCourseType';
+import { validateRaceCourseType } from '../../../../../../lib/src/utility/data/common/raceSurfaceType';
 
 /**
  * RaceCourseTypeのテスト
