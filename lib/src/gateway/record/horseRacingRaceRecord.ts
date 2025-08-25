@@ -17,7 +17,7 @@ import type { RaceNumber } from '../../utility/data/common/raceNumber';
 import { validateRaceNumber } from '../../utility/data/common/raceNumber';
 import {
     type RaceCourseType,
-    validateRaceCourseType,
+    validateRaceSurfaceType,
 } from '../../utility/data/common/raceSurfaceType';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
@@ -87,7 +87,7 @@ export class HorseRacingRaceRecord {
                 validateRaceName(name),
                 validateRaceDateTime(dateTime),
                 validateRaceCourse(raceType, location),
-                validateRaceCourseType(surfaceType),
+                validateRaceSurfaceType(surfaceType),
                 validateRaceDistance(distance),
                 validateGradeType(raceType, grade),
                 validateRaceNumber(number),

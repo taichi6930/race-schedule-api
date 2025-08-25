@@ -1,18 +1,18 @@
-import { validateRaceCourseType } from '../../../../../../lib/src/utility/data/common/raceSurfaceType';
+import { validateRaceSurfaceType } from '../../../../../../lib/src/utility/data/common/raceSurfaceType';
 
 /**
- * RaceCourseTypeのテスト
+ * RaceSurfaceTypeのテスト
  */
-describe('RaceCourseType', () => {
+describe('RaceSurfaceType', () => {
     it('正常系: 競馬場タイプが正常な場合', () => {
-        const courseType = '芝';
-        const result = validateRaceCourseType(courseType);
-        expect(result).toBe(courseType);
+        const surfaceType = '芝';
+        const result = validateRaceSurfaceType(surfaceType);
+        expect(result).toBe(surfaceType);
     });
 
     it('異常系: 競馬場タイプが異常な場合', () => {
-        const courseType = 'テスト';
-        expect(() => validateRaceCourseType(courseType)).toThrow(
+        const surfaceType = 'テスト';
+        expect(() => validateRaceSurfaceType(surfaceType)).toThrow(
             '有効な競馬場種別ではありません',
         );
     });

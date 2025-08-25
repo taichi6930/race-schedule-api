@@ -1,7 +1,7 @@
 import type { RaceDistance } from '../utility/data/common/raceDistance';
 import { validateRaceDistance } from '../utility/data/common/raceDistance';
 import type { RaceCourseType } from '../utility/data/common/raceSurfaceType';
-import { validateRaceCourseType } from '../utility/data/common/raceSurfaceType';
+import { validateRaceSurfaceType } from '../utility/data/common/raceSurfaceType';
 
 export class HorseRaceConditionData {
     /**
@@ -39,7 +39,7 @@ export class HorseRaceConditionData {
         distance: number,
     ): HorseRaceConditionData {
         return new HorseRaceConditionData(
-            validateRaceCourseType(surfaceType),
+            validateRaceSurfaceType(surfaceType),
             validateRaceDistance(distance),
         );
     }

@@ -21,6 +21,6 @@ export type RaceCourseType = z.infer<typeof RaceCourseTypeSchema>;
  * @param type - 競馬場種別
  * @returns - バリデーション済みの競馬場種別
  */
-export const validateRaceCourseType = (type: string): RaceCourseType => {
+export const validateRaceSurfaceType = (type: string): RaceCourseType => {
     return RaceCourseTypeSchema.parse(type);
 };
