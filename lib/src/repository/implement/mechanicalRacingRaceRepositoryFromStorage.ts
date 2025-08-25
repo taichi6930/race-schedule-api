@@ -22,6 +22,8 @@ import { IRaceRepository } from '../interface/IRaceRepository';
 export class MechanicalRacingRaceRepositoryFromStorage
     implements IRaceRepository
 {
+    // インメモリキャッシュ: key -> csv content
+    private static readonly s3CsvCache = new Map<string, string>();
     private readonly raceListFileName = CSV_FILE_NAME.RACE_LIST;
     private readonly racePlayerListFileName = CSV_FILE_NAME.RACE_PLAYER_LIST;
 
@@ -200,11 +202,21 @@ export class MechanicalRacingRaceRepositoryFromStorage
         raceType: RaceType,
         borderDate?: Date,
     ): Promise<MechanicalRacingRaceRecord[]> {
-        // S3からデータを取得する
-        const csv = await this.s3Gateway.fetchDataFromS3(
-            `${raceType.toLowerCase()}/`,
-            this.raceListFileName,
-        );
+        // S3からデータを取得する（キャッシュを優先）
+        const csvKey = `${raceType.toLowerCase()}/${this.raceListFileName}`;
+        let csv =
+            MechanicalRacingRaceRepositoryFromStorage.s3CsvCache.get(csvKey);
+        if (csv === undefined) {
+            csv = await this.s3Gateway.fetchDataFromS3(
+                `${raceType.toLowerCase()}/`,
+                this.raceListFileName,
+            );
+            // キャッシュに格納（空文字列や undefined も記録しておく）
+            MechanicalRacingRaceRepositoryFromStorage.s3CsvCache.set(
+                csvKey,
+                csv,
+            );
+        }
         // ファイルが空の場合は空のリストを返す
         if (!csv) {
             return [];
@@ -274,11 +286,20 @@ export class MechanicalRacingRaceRepositoryFromStorage
     private async getRacePlayerRecordListFromS3(
         raceType: RaceType,
     ): Promise<RacePlayerRecord[]> {
-        // S3からデータを取得する
-        const csv = await this.s3Gateway.fetchDataFromS3(
-            `${raceType.toLowerCase()}/`,
-            this.racePlayerListFileName,
-        );
+        // S3からデータを取得する（キャッシュを優先）
+        const csvKey = `${raceType.toLowerCase()}/${this.racePlayerListFileName}`;
+        let csv =
+            MechanicalRacingRaceRepositoryFromStorage.s3CsvCache.get(csvKey);
+        if (csv === undefined) {
+            csv = await this.s3Gateway.fetchDataFromS3(
+                `${raceType.toLowerCase()}/`,
+                this.racePlayerListFileName,
+            );
+            MechanicalRacingRaceRepositoryFromStorage.s3CsvCache.set(
+                csvKey,
+                csv,
+            );
+        }
 
         // ファイルが空の場合は空のリストを返す
         if (!csv) {
