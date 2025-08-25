@@ -3,18 +3,21 @@ import { validatePlaceId } from '../../../../../lib/src/utility/validateAndType/
 import { testRaceTypeListAll } from '../../mock/common/baseCommonData';
 
 describe('PlaceIdSchema', () => {
-    for (const { raceType, placeId } of [
-        { raceType: RaceType.JRA, placeId: 'jra2021080101' },
-        { raceType: RaceType.NAR, placeId: 'nar2021080101' },
-        { raceType: RaceType.OVERSEAS, placeId: 'overseas2021080101' },
-        { raceType: RaceType.KEIRIN, placeId: 'keirin2021080101' },
-        { raceType: RaceType.AUTORACE, placeId: 'autorace2021080101' },
-        { raceType: RaceType.BOATRACE, placeId: 'boatrace2021080101' },
-    ]) {
-        it(`正常系: ${raceType}のPlaceIdが正常な場合`, () => {
+    const validCases = [
+        [RaceType.JRA, 'jra2021080101'],
+        [RaceType.NAR, 'nar2021080101'],
+        [RaceType.OVERSEAS, 'overseas2021080101'],
+        [RaceType.KEIRIN, 'keirin2021080101'],
+        [RaceType.AUTORACE, 'autorace2021080101'],
+        [RaceType.BOATRACE, 'boatrace2021080101'],
+    ] as const;
+
+    test.each(validCases)(
+        '正常系: %s の PlaceId が正常な場合 (%s)',
+        (raceType, placeId) => {
             expect(validatePlaceId(raceType, placeId)).toBe(placeId);
-        });
-    }
+        },
+    );
 
     const invalidPlaceIdAndMessage = {
         [RaceType.JRA]: [
@@ -54,15 +57,19 @@ describe('PlaceIdSchema', () => {
             ['autorace202108010', 'autoracePlaceIdの形式ではありません'],
             ['jra2021080101', 'autoraceから始まる必要があります'],
         ],
-    };
+    } as Record<RaceType, [string, string][]>;
 
+    const invalidCases: [RaceType, string, string][] = [];
     for (const raceType of testRaceTypeListAll) {
         for (const [invalidId, message] of invalidPlaceIdAndMessage[raceType]) {
-            it(`異常系: ${raceType} の PlaceId が不正 (${invalidId})`, () => {
-                expect(() => validatePlaceId(raceType, invalidId)).toThrow(
-                    message,
-                );
-            });
+            invalidCases.push([raceType, invalidId, message]);
         }
     }
+
+    test.each(invalidCases)(
+        '異常系: %s の PlaceId が不正 (%s)',
+        (raceType, invalidId, message) => {
+            expect(() => validatePlaceId(raceType, invalidId)).toThrow(message);
+        },
+    );
 });
