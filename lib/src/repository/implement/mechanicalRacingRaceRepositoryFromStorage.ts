@@ -33,6 +33,40 @@ export class MechanicalRacingRaceRepositoryFromStorage
     ) {}
 
     /**
+     * 静的キャッシュをクリアする。
+     * key を指定すればそのキーのみ削除、未指定なら全削除。
+     * 主にテストやデータ更新時に使用する。
+     * @param key - オプションのキャッシュキー
+     */
+    public static clearCache(key?: string): void {
+        if (key) {
+            MechanicalRacingRaceRepositoryFromStorage.s3CsvCache.delete(key);
+        } else {
+            MechanicalRacingRaceRepositoryFromStorage.s3CsvCache.clear();
+        }
+    }
+
+    /**
+     * インスタンス経由で raceType に対応するキャッシュをクリアするユーティリティ。
+     * 指定しない場合は全キャッシュをクリアする。
+     * @param raceType - クリア対象の raceType（未指定で全てクリア）
+     */
+    public clearCacheForRaceType(raceType?: RaceType): void {
+        if (!raceType) {
+            MechanicalRacingRaceRepositoryFromStorage.s3CsvCache.clear();
+            return;
+        }
+        const prefix = `${raceType.toLowerCase()}/`;
+        for (const key of MechanicalRacingRaceRepositoryFromStorage.s3CsvCache.keys()) {
+            if (key.startsWith(prefix)) {
+                MechanicalRacingRaceRepositoryFromStorage.s3CsvCache.delete(
+                    key,
+                );
+            }
+        }
+    }
+
+    /**
      * 開催データを取得する
      * @param searchFilter
      */
@@ -53,22 +87,32 @@ export class MechanicalRacingRaceRepositoryFromStorage
         ]);
 
         // RaceEntityに変換
+        // racePlayerRecordList を raceId -> RacePlayerRecord[] の Map に変換して
+        // 各 raceRecord に対する検索を O(1) にする（全体 O(n)）
+        const racePlayerRecordMap = new Map<string, RacePlayerRecord[]>();
+        for (const rp of racePlayerRecordList) {
+            const arr = racePlayerRecordMap.get(rp.raceId);
+            if (arr === undefined) {
+                racePlayerRecordMap.set(rp.raceId, [rp]);
+            } else {
+                arr.push(rp);
+            }
+        }
+
         const raceEntityList: RaceEntity[] = raceRaceRecordList.map(
             (raceRecord) => {
-                // raceIdに対応したracePlayerRecordListを取得
+                // raceIdに対応したracePlayerRecordListを取得（Map lookup）
                 const filteredRacePlayerRecordList: RacePlayerRecord[] =
-                    racePlayerRecordList.filter((racePlayerRecord) => {
-                        return racePlayerRecord.raceId === raceRecord.id;
-                    });
+                    racePlayerRecordMap.get(raceRecord.id) ?? [];
                 // RacePlayerDataのリストを生成
                 const racePlayerDataList: RacePlayerData[] =
-                    filteredRacePlayerRecordList.map((racePlayerRecord) => {
-                        return RacePlayerData.create(
+                    filteredRacePlayerRecordList.map((racePlayerRecord) =>
+                        RacePlayerData.create(
                             searchFilter.raceType,
                             racePlayerRecord.positionNumber,
                             racePlayerRecord.playerNumber,
-                        );
-                    });
+                        ),
+                    );
                 // RaceDataを生成
                 const raceData = RaceData.create(
                     searchFilter.raceType,
@@ -133,48 +177,48 @@ export class MechanicalRacingRaceRepositoryFromStorage
                 raceEntity.toPlayerRecordList(),
             );
 
-            // raceデータでidが重複しているデータは上書きをし、新規のデータは追加する
-            for (const raceRecord of raceRecordList) {
-                // 既に登録されているデータがある場合は上書きする
-                const index = existFetchRaceRecordList.findIndex(
-                    (record) => record.id === raceRecord.id,
-                );
-                if (index === -1) {
-                    existFetchRaceRecordList.push(raceRecord);
-                } else {
-                    existFetchRaceRecordList[index] = raceRecord;
-                }
+            // race データのマージ: Map を使って O(n) に改善
+            const existRaceMap = new Map<string, MechanicalRacingRaceRecord>();
+            for (const r of existFetchRaceRecordList) {
+                existRaceMap.set(r.id, r);
             }
+            for (const r of raceRecordList) {
+                // 上書きまたは追加
+                existRaceMap.set(r.id, r);
+            }
+            // Map から配列に戻す
+            const mergedExistFetchRaceRecordList = [...existRaceMap.values()];
 
-            // racePlayerデータでidが重複しているデータは上書きをし、新規のデータは追加する
-            for (const racePlayerRecord of racePlayerRecordList) {
-                // 既に登録されているデータがある場合は上書きする
-                const index = existFetchRacePlayerRecordList.findIndex(
-                    (record) => record.id === racePlayerRecord.id,
-                );
-                if (index === -1) {
-                    existFetchRacePlayerRecordList.push(racePlayerRecord);
-                } else {
-                    existFetchRacePlayerRecordList[index] = racePlayerRecord;
-                }
+            // racePlayer データのマージ: Map を使って O(n) に改善
+            const existRacePlayerMap = new Map<string, RacePlayerRecord>();
+            for (const rp of existFetchRacePlayerRecordList) {
+                existRacePlayerMap.set(rp.id, rp);
             }
+            for (const rp of racePlayerRecordList) {
+                existRacePlayerMap.set(rp.id, rp);
+            }
+            const mergedExistFetchRacePlayerRecordList = [
+                ...existRacePlayerMap.values(),
+            ];
 
             // 日付の最新順にソート
-            existFetchRaceRecordList.sort(
+            mergedExistFetchRaceRecordList.sort(
                 (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
             );
 
-            // raceDataをS3にアップロードする
-            await this.s3Gateway.uploadDataToS3(
-                existFetchRaceRecordList,
-                `${raceType.toLowerCase()}/`,
-                this.raceListFileName,
-            );
-            await this.s3Gateway.uploadDataToS3(
-                existFetchRacePlayerRecordList,
-                `${raceType.toLowerCase()}/`,
-                this.racePlayerListFileName,
-            );
+            // raceDataをS3にアップロードする（並列化）
+            await Promise.all([
+                this.s3Gateway.uploadDataToS3(
+                    mergedExistFetchRaceRecordList,
+                    `${raceType.toLowerCase()}/`,
+                    this.raceListFileName,
+                ),
+                this.s3Gateway.uploadDataToS3(
+                    mergedExistFetchRacePlayerRecordList,
+                    `${raceType.toLowerCase()}/`,
+                    this.racePlayerListFileName,
+                ),
+            ]);
 
             return {
                 code: 200,
