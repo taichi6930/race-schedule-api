@@ -3,18 +3,19 @@ import { validatePlaceId } from '../../../../../lib/src/utility/validateAndType/
 import { testRaceTypeListAll } from '../../mock/common/baseCommonData';
 
 describe('PlaceIdSchema', () => {
-    const validCases = [
-        [RaceType.JRA, 'jra2021080101'],
-        [RaceType.NAR, 'nar2021080101'],
-        [RaceType.OVERSEAS, 'overseas2021080101'],
-        [RaceType.KEIRIN, 'keirin2021080101'],
-        [RaceType.AUTORACE, 'autorace2021080101'],
-        [RaceType.BOATRACE, 'boatrace2021080101'],
-    ] as const;
+    const validCases = {
+        [RaceType.JRA]: 'jra2021080101',
+        [RaceType.NAR]: 'nar2021080101',
+        [RaceType.OVERSEAS]: 'overseas2021080101',
+        [RaceType.KEIRIN]: 'keirin2021080101',
+        [RaceType.AUTORACE]: 'autorace2021080101',
+        [RaceType.BOATRACE]: 'boatrace2021080101',
+    } as const;
 
-    test.each(validCases)(
+    test.each(testRaceTypeListAll)(
         '正常系: %s の PlaceId が正常な場合 (%s)',
-        (raceType, placeId) => {
+        (raceType) => {
+            const placeId = validCases[raceType];
             expect(validatePlaceId(raceType, placeId)).toBe(placeId);
         },
     );

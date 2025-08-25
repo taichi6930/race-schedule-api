@@ -10,10 +10,13 @@ import { getJSTDate } from '../../../utility/date';
 import { Logger } from '../../../utility/logger';
 import { RaceType } from '../../../utility/raceType';
 import { GradeType } from '../../../utility/validateAndType/gradeType';
+import { HeldDayTimes } from '../../../utility/validateAndType/heldDayTimes';
+import { HeldTimes } from '../../../utility/validateAndType/heldTimes';
 import {
     RaceCourse,
     validateRaceCourse,
 } from '../../../utility/validateAndType/raceCourse';
+import { RaceDistance } from '../../../utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
 import { RaceEntity } from '../../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
@@ -89,13 +92,13 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
                     theadElementMatch,
                 );
                 // 開催回数を取得
-                const raceHeld: number | null =
+                const raceHeld: number =
                     this.extractRaceHeld(theadElementMatch);
                 // 開催日数を取得
-                const raceHeldDay: number | null =
+                const raceHeldDay: number =
                     this.extractRaceHeldDay(theadElementMatch);
                 // 競馬場、開催回数、開催日数が取得できない場合はreturn
-                if (raceHeld === null || raceHeldDay === null) {
+                if (raceHeld === 0 || raceHeldDay === 0) {
                     return;
                 }
 
@@ -121,7 +124,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
                         const raceDistance =
                             this.extractRaceDistance(distanceMatch);
                         // レース距離が取得できない場合はreturn
-                        if (raceDistance === null) {
+                        if (raceDistance === 0) {
                             return;
                         }
                         // レース時間を取得
@@ -229,10 +232,10 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
      */
     private readonly extractRaceHeld = (
         theadElementMatch: RegExpExecArray,
-    ): number | null => {
+    ): HeldTimes => {
         // 開催回数を取得 数字でない場合はreturn
         if (Number.isNaN(Number.parseInt(theadElementMatch[1]))) {
-            return null;
+            return 0;
         }
         const raceHeld: number = Number.parseInt(theadElementMatch[1]);
         return raceHeld;
@@ -244,10 +247,10 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
      */
     private readonly extractRaceHeldDay = (
         theadElementMatch: RegExpExecArray,
-    ): number | null => {
+    ): HeldDayTimes => {
         // 開催日程を取得 数字でない場合はreturn
         if (Number.isNaN(Number.parseInt(theadElementMatch[3]))) {
-            return null;
+            return 0;
         }
         const raceHeldDay: number = Number.parseInt(theadElementMatch[3]);
         return raceHeldDay;
@@ -269,10 +272,10 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
      */
     private readonly extractRaceDistance = (
         distanceMatch: RegExpExecArray | null,
-    ): number | null => {
-        const distance: number | null = distanceMatch
+    ): RaceDistance => {
+        const distance: number = distanceMatch
             ? Number.parseInt(distanceMatch[0].replace('m', ''))
-            : null;
+            : 0;
         return distance;
     };
 

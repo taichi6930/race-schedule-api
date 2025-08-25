@@ -49,6 +49,24 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         const periodPlaceEntityLists = await Promise.all(
             periodList.map(async (period) => {
                 switch (raceType) {
+                    case RaceType.JRA: {
+                        return this.fetchYearPlaceEntityListForJra(
+                            raceType,
+                            period,
+                        );
+                    }
+                    case RaceType.NAR: {
+                        return this.fetchMonthPlaceEntityListForNar(
+                            raceType,
+                            period,
+                        );
+                    }
+
+                    case RaceType.OVERSEAS: {
+                        throw new Error(
+                            `Race type ${raceType} is not supported by this repository`,
+                        );
+                    }
                     case RaceType.KEIRIN: {
                         return this.fetchMonthPlaceEntityListForKeirin(
                             raceType,
@@ -61,27 +79,10 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                             period,
                         );
                     }
-                    case RaceType.NAR: {
-                        return this.fetchMonthPlaceEntityListForNar(
-                            raceType,
-                            period,
-                        );
-                    }
-                    case RaceType.JRA: {
-                        return this.fetchYearPlaceEntityListForJra(
-                            raceType,
-                            period,
-                        );
-                    }
                     case RaceType.BOATRACE: {
                         return this.fetchQuarterPlaceEntityListForBoatrace(
                             raceType,
                             period,
-                        );
-                    }
-                    case RaceType.OVERSEAS: {
-                        throw new Error(
-                            `Race type ${raceType} is not supported by this repository`,
                         );
                     }
                 }
