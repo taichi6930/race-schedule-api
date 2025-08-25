@@ -34,7 +34,6 @@ export function clearMocks(): void {
 export interface TestRepositorySetup {
     calendarRepository: jest.Mocked<ICalendarRepository>;
     placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
-    boatracePlaceRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     placeRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
     jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
@@ -119,11 +118,6 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
         'PlaceRepositoryFromStorage',
         placeRepositoryFromStorage,
     );
-    const boatracePlaceRepositoryFromHtml = mockPlaceRepository();
-    container.registerInstance<IPlaceRepository>(
-        'BoatracePlaceRepositoryFromHtml',
-        boatracePlaceRepositoryFromHtml,
-    );
     const placeRepositoryFromHtml = mockPlaceRepository();
     container.registerInstance<IPlaceRepository>(
         'PlaceRepositoryFromHtml',
@@ -132,7 +126,6 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
     return {
         calendarRepository,
         placeRepositoryFromStorage,
-        boatracePlaceRepositoryFromHtml,
         placeRepositoryFromHtml,
         horseRacingRaceRepositoryFromStorage,
         jraRaceRepositoryFromHtml,

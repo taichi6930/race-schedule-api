@@ -83,9 +83,6 @@ describe('PublicGamblingPlaceDataService', () => {
                     }
                 },
             );
-            repositorySetup.boatracePlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.BOATRACE)],
-            );
 
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');

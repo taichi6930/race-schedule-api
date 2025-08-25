@@ -73,14 +73,16 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                             period,
                         );
                     }
-                    case RaceType.OVERSEAS:
                     case RaceType.BOATRACE: {
+                        return this.fetchQuarterPlaceEntityListForBoatrace(
+                            raceType,
+                            period,
+                        );
+                    }
+                    case RaceType.OVERSEAS: {
                         throw new Error(
                             `Race type ${raceType} is not supported by this repository`,
                         );
-                    }
-                    default: {
-                        throw new Error('Unsupported race type');
                     }
                 }
             }),
@@ -108,9 +110,39 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         startDate: Date,
         finishDate: Date,
     ): Date[] {
-        const periodType = raceType === RaceType.JRA ? 'year' : 'month';
+        const periodType =
+            raceType === RaceType.JRA
+                ? 'year'
+                : raceType === RaceType.BOATRACE
+                  ? 'quarter'
+                  : 'month';
 
         const periodList: Date[] = [];
+
+        if (periodType === 'quarter') {
+            const qStartDate = new Date(
+                startDate.getFullYear(),
+                Math.floor(startDate.getMonth() / 3) * 3,
+                1,
+            );
+
+            const qFinishDate = new Date(
+                finishDate.getFullYear(),
+                Math.floor(finishDate.getMonth() / 3) * 3,
+                1,
+            );
+
+            for (
+                let currentDate = new Date(qStartDate);
+                currentDate <= qFinishDate;
+                currentDate.setMonth(currentDate.getMonth() + 3)
+            ) {
+                periodList.push(new Date(currentDate));
+            }
+
+            return periodList;
+        }
+
         const currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
@@ -486,6 +518,82 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                     }
                 });
             });
+        });
+        return placeEntityList;
+    }
+
+    /**
+     * S3から開催データを取得する
+     * ファイル名を利用してS3から開催データを取得する
+     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * @param raceType - レース種別
+     * @param date
+     */
+    @Logger
+    private async fetchQuarterPlaceEntityListForBoatrace(
+        raceType: RaceType,
+        date: Date,
+    ): Promise<PlaceEntity[]> {
+        const placeEntityList: PlaceEntity[] = [];
+        // レース情報を取得
+        const htmlText: string =
+            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
+
+        const $ = cheerio.load(htmlText);
+
+        // id="r_list"を取得
+        const rList = $('#r_list');
+
+        // rListの中の、tr class="br-tableSchedule__row"を取得（複数ある）
+        const trs = rList.find('tr.br-tableSchedule__row');
+        trs.each((_: number, element) => {
+            // 日付を取得
+            const dateText = $(element)
+                .find('td.br-tableSchedule__data')
+                .eq(0)
+                .text()
+                .trim();
+            // 最初の日と最後の日を取得
+            const startDateString: string = dateText.split('～')[0];
+            const [, finishDateString] = dateText.split('～');
+            const startDate = new Date(
+                date.getFullYear(),
+                Number.parseInt(startDateString.split('/')[0]) - 1,
+                Number.parseInt(startDateString.split('/')[1].split('(')[0]),
+            );
+
+            const finishDate = new Date(
+                date.getFullYear(),
+                Number.parseInt(finishDateString.split('/')[0]) - 1,
+                Number.parseInt(finishDateString.split('/')[1].split('(')[0]),
+            );
+
+            // class="br-label"を取得
+            const grade = $(element).find('.br-label').text().trim();
+
+            // ボートレース場の名前を取得
+            const place = $(element)
+                .find('td.br-tableSchedule__data')
+                .eq(2)
+                .text()
+                .trim()
+                .replace(/\s+/g, '');
+
+            // startDateからfinishDateまでfor文で回す
+            // finishDateの1日後まで回す
+            for (
+                let currentDate = new Date(startDate);
+                currentDate <= finishDate;
+                currentDate.setDate(currentDate.getDate() + 1)
+            ) {
+                const placeEntity = PlaceEntity.createWithoutId(
+                    PlaceData.create(raceType, new Date(currentDate), place),
+                    undefined,
+                    grade,
+                    getJSTDate(new Date()),
+                );
+                placeEntityList.push(placeEntity);
+            }
         });
         return placeEntityList;
     }

@@ -5,7 +5,6 @@ import { container } from 'tsyringe';
 import type { IPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { BoatracePlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtml';
 import { PlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
@@ -57,8 +56,8 @@ const testCases = {
     ],
     [RaceType.BOATRACE]: [
         {
-            name: 'BoatracePlaceRepositoryFromHtml',
-            repositoryClass: BoatracePlaceRepositoryFromHtml,
+            name: 'PlaceRepositoryFromHtml',
+            repositoryClass: PlaceRepositoryFromHtml,
             startDate: new Date('2025-04-01'),
             endDate: new Date('2025-06-30'),
             expectedLength: 66,
