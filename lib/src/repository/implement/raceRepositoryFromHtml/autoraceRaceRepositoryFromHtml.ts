@@ -37,10 +37,10 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
-        const raceDataList: RaceEntity[] = [];
+        const raceEntityList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
         for (const placeEntity of placeEntityList) {
-            raceDataList.push(
+            raceEntityList.push(
                 ...(await this.fetchRaceListFromHtml(placeEntity)),
             );
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
@@ -52,7 +52,7 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
             await new Promise((resolve) => setTimeout(resolve, delayedTimeMs));
             console.debug('待機時間が経ちました');
         }
-        return raceDataList;
+        return raceEntityList;
     }
 
     @Logger
@@ -70,7 +70,7 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
-            const raceDataList: RaceEntity[] = [];
+            const raceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
@@ -117,7 +117,7 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
 
                         const raceGrade = placeEntity.grade;
                         if (raceStage !== null && raceStage.trim() !== '') {
-                            raceDataList.push(
+                            raceEntityList.push(
                                 RaceEntity.createWithoutId(
                                     RaceData.create(
                                         placeEntity.placeData.raceType,
@@ -137,7 +137,7 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
                         }
                     });
             });
-            return raceDataList;
+            return raceEntityList;
         } catch (error) {
             console.error('HTMLの取得に失敗しました', error);
             return [];

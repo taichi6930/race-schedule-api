@@ -97,7 +97,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
                 raceType,
                 date,
             );
-            const raceDataList: RaceEntity[] = [];
+            const raceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             const content = $('.racelist');
             // class="racelist__day"が複数あるのでeachで回す
@@ -221,7 +221,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
                                 surfaceType,
                                 distance,
                             });
-                            raceDataList.push(
+                            raceEntityList.push(
                                 RaceEntity.createWithoutId(
                                     RaceData.create(
                                         raceType,
@@ -249,7 +249,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
                         }
                     });
             });
-            return raceDataList;
+            return raceEntityList;
         } catch (error) {
             console.error('HTMLの取得に失敗しました', error);
             return [];

@@ -37,10 +37,10 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
-        const raceDataList: RaceEntity[] = [];
+        const raceEntityList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
         for (const placeEntity of placeEntityList) {
-            raceDataList.push(
+            raceEntityList.push(
                 ...(await this.fetchRaceListFromHtml(
                     placeEntity.placeData,
                     placeEntity.grade,
@@ -55,7 +55,7 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
             await new Promise((resolve) => setTimeout(resolve, delayedTimeMs));
             console.debug('待機時間が経ちました');
         }
-        return raceDataList;
+        return raceEntityList;
     }
 
     @Logger

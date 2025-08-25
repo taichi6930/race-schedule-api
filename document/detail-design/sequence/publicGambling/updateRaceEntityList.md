@@ -1,4 +1,4 @@
-# updateRaceDataList シーケンス図
+# updateRaceEntityList シーケンス図
 
 ```mermaid
 sequenceDiagram

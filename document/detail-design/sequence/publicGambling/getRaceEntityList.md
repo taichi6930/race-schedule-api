@@ -1,4 +1,4 @@
-# getRaceDataList シーケンス図
+# getRaceEntityList シーケンス図
 
 ```mermaid
 sequenceDiagram
@@ -14,8 +14,8 @@ sequenceDiagram
     alt 日付が不正
         PublicGamblingController-->>Client: 400エラー返却
     else 日付が正
-        PublicGamblingController->>PublicGamblingRaceDataUseCase: fetchRaceDataList(startDate, finishDate, {gradeList, locationList})
-        PublicGamblingRaceDataUseCase->>PublicGamblingRaceDataService: fetchRaceDataList(startDate, finishDate, {gradeList, locationList}, Storage)
+        PublicGamblingController->>PublicGamblingRaceDataUseCase: fetchRaceEntityList(startDate, finishDate, {gradeList, locationList})
+        PublicGamblingRaceDataUseCase->>PublicGamblingRaceDataService: fetchRaceEntityList(startDate, finishDate, {gradeList, locationList}, Storage)
         PublicGamblingRaceDataService->>JraRaceRepositoryFromStorage: fetchRaceEntityList(searchFilter)
         JraRaceRepositoryFromStorage->>S3Gateway: fetchDataFromS3(fileName)
         S3Gateway-->>JraRaceRepositoryFromStorage: raceRecordList

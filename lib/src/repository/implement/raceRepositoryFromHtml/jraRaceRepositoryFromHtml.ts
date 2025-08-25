@@ -63,7 +63,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
                     raceType,
                     raceDate,
                 );
-            const jraRaceDataList: RaceEntity[] = [];
+            const raceEntityList: RaceEntity[] = [];
 
             // mockHTML内のsection id="raceInfo"の中のtableを取得
             // HTMLをパースする
@@ -201,10 +201,10 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
                             undefined, // racePlayerDataList は未指定
                             getJSTDate(new Date()),
                         );
-                        jraRaceDataList.push(jraRaceData);
+                        raceEntityList.push(jraRaceData);
                     });
             });
-            return jraRaceDataList;
+            return raceEntityList;
         } catch (error) {
             console.error('HTMLの取得に失敗しました', error);
             return [];
