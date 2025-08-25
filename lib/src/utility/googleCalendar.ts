@@ -13,14 +13,15 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../domain/calendarData';
 import { RaceEntity } from '../repository/entity/raceEntity';
 import {
-    ChihoKeibaYoutubeUserIdMap,
-    getYoutubeLiveUrl,
+    createYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
+    NarYoutubeUserIdMap,
 } from './data/movie';
 import { NetkeibaBabacodeMap } from './data/netkeiba';
 import {
     createNetkeibaJraRaceVideoUrl,
     createNetkeibaJraShutubaUrl,
+    createNetkeibaNarShutubaUrl,
     createNetkeibaRedirectUrl,
     createNetkeirinRaceShutubaUrl,
     createNetkeirinRedirectUrl,
@@ -218,7 +219,7 @@ export function toGoogleCalendarData(
                             createNetkeirinRaceShutubaUrl(raceIdForNetkeirin),
                         ),
                     )}
-                    ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
+                    ${createAnchorTag('レース映像（YouTube）', createYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }
@@ -248,10 +249,11 @@ export function toGoogleCalendarData(
             raceEntity instanceof RaceEntity &&
             raceEntity.raceData.raceType === RaceType.NAR
         ) {
+            const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.raceData.dateTime.getXDigitMonth(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
             return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                     ${raceTimeStr}
-                    ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[raceEntity.raceData.location]))}
-                    ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${(raceEntity.raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`)}
+                    ${createAnchorTag('レース映像（YouTube）', createYoutubeLiveUrl(NarYoutubeUserIdMap[raceEntity.raceData.location]))}
+                    ${createAnchorTag('レース情報（netkeiba）', createNetkeibaRedirectUrl(createNetkeibaNarShutubaUrl(raceIdForNetkeiba)))}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
         }

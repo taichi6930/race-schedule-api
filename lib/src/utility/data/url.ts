@@ -26,6 +26,13 @@ export const createNetkeibaJraRaceVideoUrl = (raceId: string): string =>
     `https://race.sp.netkeiba.com/?pid=race_movie&race_id=${raceId}`;
 
 /**
+ * netkeibaのNAR出馬表のURLを生成する関数
+ * @param raceId
+ */
+export const createNetkeibaNarShutubaUrl = (raceId: string): string =>
+    `https://nar.sp.netkeiba.com/race/shutuba.html?race_id=${raceId}`;
+
+/**
  * netkeirinの出馬表のURLを生成する関数
  * @param raceId
  */
@@ -95,4 +102,31 @@ export const createBoatraceRaceUrl = (
         throw new Error('ボートレースのレース番号が指定されていません');
     }
     return `https://www.boatrace.jp/owpc/pc/race/racelist?rno=${number}&hd=${format(date, 'yyyyMMdd')}&jcd=${createPlaceCode(RaceType.BOATRACE, place)}`;
+};
+
+export const createPlaceUrl = (raceType: RaceType, date: Date): string => {
+    switch (raceType) {
+        case RaceType.JRA: {
+            return `https://prc.jp/jraracingviewer/contents/seiseki/${date.getFullYear().toString()}/`;
+        }
+        case RaceType.NAR: {
+            return `https://www.keiba.go.jp/KeibaWeb/MonthlyConveneInfo/MonthlyConveneInfoTop?k_year=${date.getFullYear()}&k_month=${date.getXDigitMonth(2)}`;
+        }
+        case RaceType.KEIRIN: {
+            return `https://www.oddspark.com/keirin/KaisaiCalendar.do?target=${format(date, 'yyyyMM')}`;
+        }
+        case RaceType.AUTORACE: {
+            return `https://www.oddspark.com/autorace/KaisaiCalendar.do?target=${format(date, 'yyyyMM')}`;
+        }
+        case RaceType.BOATRACE: {
+            // 1~3月は1、4月~6月は2、7月~9月は3、10月~12月は4
+            const quarter = Math.ceil((date.getMonth() + 1) / 3).toString();
+            // ボートレースのURLはquarterを使って生成
+            return `https://sports.yahoo.co.jp/boatrace/schedule/?quarter=${quarter}`;
+        }
+        case RaceType.OVERSEAS: {
+            // OVERSEASは未対応
+            throw new Error('未対応のraceTypeです');
+        }
+    }
 };
