@@ -20,8 +20,6 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
     public constructor(
         @inject('PlaceRepositoryFromStorage')
         protected placeRepositoryFromStorage: IPlaceRepository,
-        @inject('JraPlaceRepositoryFromHtml')
-        protected jraPlaceRepositoryFromHtml: IPlaceRepository,
         @inject('PlaceRepositoryFromHtml')
         protected placeRepositoryFromHtml: IPlaceRepository,
         @inject('BoatracePlaceRepositoryFromHtml')
@@ -46,7 +44,7 @@ export class PublicGamblingPlaceDataService implements IPlaceDataService {
         const result: PlaceEntity[] = [];
 
         const placeRepositoryFromHtml = {
-            [RaceType.JRA]: this.jraPlaceRepositoryFromHtml,
+            [RaceType.JRA]: this.placeRepositoryFromHtml,
             [RaceType.NAR]: this.placeRepositoryFromHtml,
             [RaceType.OVERSEAS]: undefined, // 海外競馬は対象外
             [RaceType.KEIRIN]: this.placeRepositoryFromHtml,

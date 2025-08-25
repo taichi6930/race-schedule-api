@@ -3,7 +3,6 @@ import { container } from 'tsyringe';
 import { AutoraceRaceRepositoryFromHtml } from '../../src/repository/implement/autoraceRaceRepositoryFromHtml';
 import { BoatracePlaceRepositoryFromHtml } from '../../src/repository/implement/boatracePlaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtml } from '../../src/repository/implement/boatraceRaceRepositoryFromHtml';
-import { JraPlaceRepositoryFromHtml } from '../../src/repository/implement/jraPlaceRepositoryFromHtml';
 import { JraRaceRepositoryFromHtml } from '../../src/repository/implement/jraRaceRepositoryFromHtml';
 import { KeirinRaceRepositoryFromHtml } from '../../src/repository/implement/keirinRaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from '../../src/repository/implement/narRaceRepositoryFromHtml';
@@ -26,9 +25,6 @@ switch (ENV) {
         });
         container.register<IRaceRepository>('JraRaceRepositoryFromHtml', {
             useClass: JraRaceRepositoryFromHtml,
-        });
-        container.register<IPlaceRepository>('JraPlaceRepositoryFromHtml', {
-            useClass: JraPlaceRepositoryFromHtml,
         });
         container.register<IRaceRepository>('KeirinRaceRepositoryFromHtml', {
             useClass: KeirinRaceRepositoryFromHtml,
@@ -63,9 +59,6 @@ switch (ENV) {
         });
         container.register<IRaceRepository>('JraRaceRepositoryFromHtml', {
             useClass: MockHorseRacingRaceRepositoryFromHtml,
-        });
-        container.register<IPlaceRepository>('JraPlaceRepositoryFromHtml', {
-            useClass: MockPlaceRepositoryFromHtml,
         });
         container.register<IRaceRepository>('KeirinRaceRepositoryFromHtml', {
             useClass: MockMechanicalRacingRaceRepositoryFromHtml,

@@ -108,9 +108,6 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => 
             );
 
             // モックの戻り値を設定
-            repositorySetup.jraPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.JRA)],
-            );
             repositorySetup.placeRepositoryFromHtml.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {

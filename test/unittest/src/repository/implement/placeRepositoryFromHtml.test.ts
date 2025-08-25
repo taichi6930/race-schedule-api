@@ -6,7 +6,6 @@ import type { IPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/inter
 import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { BoatracePlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtml';
-import { JraPlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtml';
 import { PlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
@@ -22,8 +21,8 @@ import {
 const testCases = {
     [RaceType.JRA]: [
         {
-            name: 'JraPlaceRepositoryFromHtml',
-            repositoryClass: JraPlaceRepositoryFromHtml,
+            name: 'PlaceRepositoryFromHtml',
+            repositoryClass: PlaceRepositoryFromHtml,
             startDate: new Date('2024-01-01'),
             endDate: new Date('2024-12-31'),
             expectedLength: 288,

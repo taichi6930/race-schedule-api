@@ -67,9 +67,6 @@ describe('PublicGamblingPlaceDataService', () => {
 
         it('正常に開催場データが取得できること（web）', async () => {
             // モックの戻り値を設定
-            repositorySetup.jraPlaceRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
-                [basePlaceEntity(RaceType.JRA)],
-            );
             repositorySetup.placeRepositoryFromHtml.fetchPlaceEntityList.mockImplementation(
                 async (searchFilter: SearchPlaceFilterEntity) => {
                     switch (searchFilter.raceType) {
