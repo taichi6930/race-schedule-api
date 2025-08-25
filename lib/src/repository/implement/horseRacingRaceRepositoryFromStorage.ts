@@ -297,19 +297,7 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
 
             // RaceEntityをRaceRecordに変換する
             const raceRecordList: HorseRacingRaceRecord[] = raceEntityList.map(
-                (raceEntity) =>
-                    HorseRacingRaceRecord.create(
-                        raceEntity.id,
-                        raceEntity.raceData.raceType,
-                        raceEntity.raceData.name,
-                        raceEntity.raceData.dateTime,
-                        raceEntity.raceData.location,
-                        raceEntity.conditionData.surfaceType,
-                        raceEntity.conditionData.distance,
-                        raceEntity.raceData.grade,
-                        raceEntity.raceData.number,
-                        raceEntity.updateDate,
-                    ),
+                (raceEntity) => raceEntity.toHorseRacingRaceRecord(),
             );
 
             // idが重複しているデータは上書きをし、新規のデータは追加する

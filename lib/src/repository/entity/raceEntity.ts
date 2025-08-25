@@ -4,6 +4,8 @@ import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
+import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
+import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import type { RaceId } from '../../utility/data/common/raceId';
 import {
@@ -261,6 +263,41 @@ export class RaceEntity {
             throw new Error('conditionData is missing for this race type');
         }
         return this._conditionData;
+    }
+
+    /**
+     * MechanicalRacingRaceRecordに変換する
+     */
+    public toMechanicalRacingRaceRecord(): MechanicalRacingRaceRecord {
+        return MechanicalRacingRaceRecord.create(
+            this.id,
+            this.raceData.raceType,
+            this.raceData.name,
+            this.stage,
+            this.raceData.dateTime,
+            this.raceData.location,
+            this.raceData.grade,
+            this.raceData.number,
+            this.updateDate,
+        );
+    }
+
+    /**
+     * RaceEntityをHorseRacingRaceRecordに変換する
+     */
+    public toHorseRacingRaceRecord(): HorseRacingRaceRecord {
+        return HorseRacingRaceRecord.create(
+            this.id,
+            this.raceData.raceType,
+            this.raceData.name,
+            this.raceData.dateTime,
+            this.raceData.location,
+            this.conditionData.surfaceType,
+            this.conditionData.distance,
+            this.raceData.grade,
+            this.raceData.number,
+            this.updateDate,
+        );
     }
 
     /**
