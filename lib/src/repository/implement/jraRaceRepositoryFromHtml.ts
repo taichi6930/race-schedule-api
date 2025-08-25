@@ -133,11 +133,8 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
                         const surfaceTypeMatch = /[ダ芝障]{1,2}/.exec(
                             element.find('td').eq(1).find('span').eq(1).text(),
                         );
-                        const raceSurfaceType =
+                        const raceSurfaceType: RaceCourseType =
                             this.extractSurfaceType(surfaceTypeMatch);
-                        if (raceSurfaceType === null) {
-                            return;
-                        }
 
                         // 2つ目はレース名、レースのグレード、馬の種類、距離、頭数
                         const rowRaceName = element
@@ -312,7 +309,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
      */
     private readonly extractSurfaceType = (
         surfaceTypeMatch: RegExpExecArray | null,
-    ): RaceCourseType | null => {
+    ): RaceCourseType => {
         // ダ である場合には ダート に、障 である場合には 障害 に変換する
         const surfaceType: string = (surfaceTypeMatch?.[0] ?? '')
             .replace('ダ', 'ダート')
@@ -322,7 +319,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
             surfaceType !== 'ダート' &&
             surfaceType !== '障害'
         ) {
-            return null;
+            return '不明';
         }
         return surfaceType;
     };

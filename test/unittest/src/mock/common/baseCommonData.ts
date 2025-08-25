@@ -8,7 +8,7 @@ import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { generatePlaceId } from '../../../../../lib/src/utility/data/common/placeId';
-import { createMaxFrameNumber } from '../../../../../lib/src/utility/data/common/positionNumber';
+import { maxFrameNumber } from '../../../../../lib/src/utility/data/common/positionNumber';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import {
@@ -35,7 +35,7 @@ export const baseRacePlayerDataList = (
         return undefined;
     }
 
-    return Array.from({ length: createMaxFrameNumber(raceType) }, (_, i) =>
+    return Array.from({ length: maxFrameNumber[raceType] }, (_, i) =>
         RacePlayerData.create(raceType, i + 1, i + 1),
     );
 };
