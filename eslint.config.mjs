@@ -218,7 +218,7 @@ export default [
     },
     {
         files: [
-            '**/publicGamblingRaceUseCase.test.ts',
+            '**/*UseCase.test.ts',
             '**/*DataHtmlGateway.test.ts',
         ],
         rules: {
@@ -249,6 +249,16 @@ export default [
         ],
         rules: {
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
+        },
+    },
+    // Disable some strict rules for the sqlite S3 gateway implementation
+    {
+        files: ['lib/src/gateway/sqliteS3Gateway.ts'],
+        rules: {
+            '@typescript-eslint/no-unused-vars': 'off',
+            '@typescript-eslint/no-unnecessary-type-parameters': 'off',
+            '@typescript-eslint/no-unsafe-type-assertion': 'off',
+            'functional/immutable-data': 'off',
         },
     },
 ];

@@ -14,37 +14,53 @@ import { MockPlaceDataHtmlGateway } from '../../src/gateway/mock/mockPlaceDataHt
 import { MockRaceDataHtmlGateway } from '../../src/gateway/mock/mockRaceDataHtmlGateway';
 import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
 import { MockSQLiteGateway } from '../../src/gateway/mock/mockSQLiteGateway';
+import { SqliteS3Gateway } from '../../src/gateway/sqliteS3Gateway';
 import { allowedEnvs, ENV } from '../../src/utility/env';
 
 // SQLiteGateway
+// Production/Test: use S3-backed gateway; Local/CI: use Mock gateway
 switch (ENV) {
-    // case allowedEnvs.local: {
-    //     container.register<ISQLiteGateway>('SQLiteGateway', {
-    //         useFactory: () => {
-    //             const dbPath = path.resolve(
-    //                 __dirname,
-    //                 '../../../volume/app.db',
-    //             );
-    //             return new SQLiteGateway(dbPath);
-    //         },
-    //     });
-    //     break;
-    // }
+    case allowedEnvs.production: {
+        container.register<ISQLiteGateway>('SQLiteGateway', {
+            useFactory: () => {
+                const bucket =
+                    process.env.S3_SQLITE_BUCKET ?? 'race-schedule-bucket';
+                const key = process.env.S3_SQLITE_KEY ?? 'prod/db.sqlite';
+                const tmpPath = process.env.SQLITE_TMP_PATH ?? '/tmp/db.sqlite';
+                return new SqliteS3Gateway(bucket, key, tmpPath);
+            },
+        });
+        break;
+    }
+    case allowedEnvs.test: {
+        container.register<ISQLiteGateway>('SQLiteGateway', {
+            useFactory: () => {
+                const bucket =
+                    process.env.S3_SQLITE_BUCKET ?? 'race-schedule-bucket-test';
+                const key = process.env.S3_SQLITE_KEY ?? 'test/db.sqlite';
+                const tmpPath = process.env.SQLITE_TMP_PATH ?? '/tmp/db.sqlite';
+                return new SqliteS3Gateway(bucket, key, tmpPath);
+            },
+        });
+        break;
+    }
     case allowedEnvs.local:
-    case allowedEnvs.production:
-    case allowedEnvs.test:
     case allowedEnvs.localNoInitData:
     case allowedEnvs.localInitMadeData:
     case allowedEnvs.githubActionsCi: {
-        {
-            container.register<ISQLiteGateway>('SQLiteGateway', {
-                useFactory: () => {
-                    const dbPath = 'test/volume/app.db';
-                    return new MockSQLiteGateway(dbPath);
-                },
-            });
-            break;
-        }
+        container.register<ISQLiteGateway>('SQLiteGateway', {
+            useFactory: () => {
+                const dbPath = 'test/volume/app.db';
+                return new MockSQLiteGateway(dbPath);
+            },
+        });
+        break;
+    }
+    default: {
+        // Fallback to mock for safety
+        container.register<ISQLiteGateway>('SQLiteGateway', {
+            useFactory: () => new MockSQLiteGateway('test/volume/app.db'),
+        });
     }
 }
 
