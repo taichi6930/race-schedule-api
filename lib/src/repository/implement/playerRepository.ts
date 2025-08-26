@@ -74,7 +74,7 @@ export class PlayerRepository implements IPlayerRepository {
                     return [
                         PlayerRecord.create(
                             raceType,
-                            columns[indices.playerNo],
+                            Number.parseInt(columns[indices.playerNo], 10),
                             columns[indices.playerName],
                             Number.parseInt(columns[indices.priority], 10),
                         ),

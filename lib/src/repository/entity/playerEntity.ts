@@ -1,5 +1,5 @@
+import type { PlayerData } from '../../domain/playerData';
 import { PlayerRecord } from '../../gateway/record/playerRecord';
-import type { RaceType } from '../../utility/raceType';
 
 /**
  * Repository層のEntity
@@ -7,43 +7,27 @@ import type { RaceType } from '../../utility/raceType';
 export class PlayerEntity {
     /**
      * コンストラクタ
-     * @param raceType - レース種別
-     * @param playerNo - プレイヤー番号
-     * @param playerName - プレイヤー名
-     * @param priority - 優先度
+     * @param playerData - プレイヤーデータ
      * @remarks
-     * レース開催場所データを生成する
+     * プレイヤーデータを元にインスタンスを生成する
      */
 
-    private constructor(
-        public readonly raceType: RaceType,
-        public readonly playerNo: string,
-        public readonly playerName: string,
-        public readonly priority: number,
-    ) {}
+    private constructor(public readonly playerData: PlayerData) {}
 
     /**
      * インスタンス生成メソッド
-     * @param raceType - レース種別
-     * @param playerNo - プレイヤー番号
-     * @param playerName - プレイヤー名
-     * @param priority - 優先度
+     * @param playerData - プレイヤーデータ
      */
-    public static create(
-        raceType: RaceType,
-        playerNo: string,
-        playerName: string,
-        priority: number,
-    ): PlayerEntity {
-        return new PlayerEntity(raceType, playerNo, playerName, priority);
+    public static create(playerData: PlayerData): PlayerEntity {
+        return new PlayerEntity(playerData);
     }
 
     public toRecord(): PlayerRecord {
         return PlayerRecord.create(
-            this.raceType,
-            this.playerNo,
-            this.playerName,
-            this.priority,
+            this.playerData.raceType,
+            this.playerData.playerNumber,
+            this.playerData.name,
+            this.playerData.priority,
         );
     }
 }
