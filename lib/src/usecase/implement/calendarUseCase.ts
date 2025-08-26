@@ -85,7 +85,6 @@ export class CalendarUseCase implements IRaceCalendarUseCase {
             raceTypeList,
             DataLocation.Storage,
         );
-        console.debug(`raceEntityList.length: ${raceEntityList.length}`);
 
         // 取得対象の公営競技種別を配列で定義し、並列で選手データを取得してオブジェクト化する
         const playerList: {
@@ -202,14 +201,22 @@ export class CalendarUseCase implements IRaceCalendarUseCase {
     ): RaceEntity[] {
         const filteredRaceEntityList: RaceEntity[] = raceEntityList.filter(
             (raceEntity) => {
+                console.log(raceEntityList, playerDataList[0]);
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {
                         const playerPriority =
-                            playerDataList.find(
-                                (player) =>
+                            playerDataList.find((player) => {
+                                console.log(
+                                    `playerData.playerNumber: ${playerData.playerNumber}, typeof: ${typeof playerData.playerNumber}`,
+                                );
+                                console.log(
+                                    `player.playerNumber: ${player.playerNumber}, typeof: ${typeof player.playerNumber}`,
+                                );
+                                return (
                                     playerData.playerNumber ===
-                                    player.playerNumber,
-                            )?.priority ?? 0;
+                                    player.playerNumber
+                                );
+                            })?.priority ?? 0;
                         return Math.max(maxPriority, playerPriority);
                     },
                     0,

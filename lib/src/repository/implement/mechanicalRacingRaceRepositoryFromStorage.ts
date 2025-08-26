@@ -211,6 +211,25 @@ export class MechanicalRacingRaceRepositoryFromStorage
                 }
             }
 
+            // 日付の最新順にソート
+            existFetchRacePlayerRecordList.sort((a, b) => {
+                const aDateTimeStr = a.id.substring(
+                    raceType.length,
+                    raceType.length + 8,
+                );
+                const bDateTimeStr = b.id.substring(
+                    raceType.length,
+                    raceType.length + 8,
+                );
+                const aDateTime = new Date(
+                    `${aDateTimeStr.substring(0, 4)}-${aDateTimeStr.substring(4, 6)}-${aDateTimeStr.substring(6, 8)}`,
+                );
+                const bDateTime = new Date(
+                    `${bDateTimeStr.substring(0, 4)}-${bDateTimeStr.substring(4, 6)}-${bDateTimeStr.substring(6, 8)}`,
+                );
+                return bDateTime.getTime() - aDateTime.getTime();
+            });
+
             // raceDataをS3にアップロードする
             await this.s3Gateway.uploadDataToS3(
                 existFetchRacePlayerRecordList,
