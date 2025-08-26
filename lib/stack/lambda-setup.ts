@@ -8,8 +8,9 @@ export function createLambdaFunction(
     role: Role,
     functionName: string,
     environment: Record<string, string>,
+    layerArns: string[] = [],
 ): aws_lambda_nodejs.NodejsFunction {
-    return new aws_lambda_nodejs.NodejsFunction(scope, functionName, {
+    const lambdaProps: aws_lambda_nodejs.NodejsFunctionProps = {
         functionName,
         architecture: lambda.Architecture.ARM_64,
         runtime: lambda.Runtime.NODEJS_20_X,
@@ -18,5 +19,22 @@ export function createLambdaFunction(
         environment,
         timeout: Duration.seconds(90),
         memorySize: 1024,
-    });
+        // include layers if provided
+        layers:
+            layerArns.length > 0
+                ? layerArns.map((arn, idx) =>
+                      lambda.LayerVersion.fromLayerVersionArn(
+                          scope,
+                          `${functionName}Layer${idx}`,
+                          arn,
+                      ),
+                  )
+                : undefined,
+    };
+
+    return new aws_lambda_nodejs.NodejsFunction(
+        scope,
+        functionName,
+        lambdaProps,
+    );
 }
