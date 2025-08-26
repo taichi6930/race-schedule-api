@@ -1,20 +1,20 @@
 import { inject, injectable } from 'tsyringe';
 
 import { PlaceEntity } from '../../repository/entity/placeEntity';
-import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IPlaceService } from '../../service/interface/IPlaceService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
+import { IPlaceUseCase } from '../interface/IPlaceUseCase';
 
 /**
  * 公営競技の開催場データ UseCase
  */
 @injectable()
-export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
+export class PublicGamblingPlaceUseCase implements IPlaceUseCase {
     public constructor(
-        @inject('PublicGamblingPlaceDataService')
-        private readonly placeDataService: IPlaceDataService,
+        @inject('PublicGamblingPlaceService')
+        private readonly placeService: IPlaceService,
     ) {}
 
     /**
@@ -29,7 +29,7 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
         finishDate: Date,
         raceTypeList: RaceType[],
     ): Promise<PlaceEntity[]> {
-        return this.placeDataService.fetchPlaceEntityList(
+        return this.placeService.fetchPlaceEntityList(
             startDate,
             finishDate,
             raceTypeList,
@@ -66,14 +66,13 @@ export class PublicGamblingPlaceDataUseCase implements IPlaceDataUseCase {
             finishDate.getMonth() + 1,
             0,
         );
-        const placeEntityList =
-            await this.placeDataService.fetchPlaceEntityList(
-                modifyStartDate,
-                modifyFinishDate,
-                raceTypeList,
-                DataLocation.Web,
-            );
+        const placeEntityList = await this.placeService.fetchPlaceEntityList(
+            modifyStartDate,
+            modifyFinishDate,
+            raceTypeList,
+            DataLocation.Web,
+        );
         // 開催場データを更新
-        return this.placeDataService.updatePlaceEntityList(placeEntityList);
+        return this.placeService.updatePlaceEntityList(placeEntityList);
     }
 }

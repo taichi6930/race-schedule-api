@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { PlayerData } from '../../domain/playerData';
-import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
+import { IPlayerService } from '../../service/interface/IPlayerService';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IPlayerDataUseCase } from '../interface/IPlayerDataUseCase';
@@ -13,7 +13,7 @@ import { IPlayerDataUseCase } from '../interface/IPlayerDataUseCase';
 export class PublicGamblingPlayerUseCase implements IPlayerDataUseCase {
     public constructor(
         @inject('PlayerDataService')
-        private readonly playerDataService: IPlayerDataService,
+        private readonly playerDataService: IPlayerService,
     ) {}
 
     @Logger

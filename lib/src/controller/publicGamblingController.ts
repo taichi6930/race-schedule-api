@@ -1,10 +1,10 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
+import { IPlaceUseCase } from '../usecase/interface/IPlaceUseCase';
 import { IPlayerDataUseCase } from '../usecase/interface/IPlayerDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
-import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
+import { IRaceUseCase } from '../usecase/interface/IRaceUseCase';
 import { Logger } from '../utility/logger';
 import { convertRaceTypeList, RaceType } from '../utility/raceType';
 import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
@@ -20,9 +20,9 @@ export class PublicGamblingController {
         @inject('PublicGamblingCalendarUseCase')
         private readonly calendarUseCase: IRaceCalendarUseCase,
         @inject('PublicGamblingPlaceUseCase')
-        private readonly placeUseCase: IPlaceDataUseCase,
-        @inject('PublicGamblingRaceDataUseCase')
-        private readonly raceDataUseCase: IRaceDataUseCase,
+        private readonly placeUseCase: IPlaceUseCase,
+        @inject('PublicGamblingRaceUseCase')
+        private readonly raceDataUseCase: IRaceUseCase,
         @inject('PublicGamblingPlayerUseCase')
         private readonly playerUseCase: IPlayerDataUseCase,
     ) {

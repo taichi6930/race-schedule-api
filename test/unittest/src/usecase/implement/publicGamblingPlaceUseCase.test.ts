@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { PublicGamblingPlaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingPlaceDataUseCase';
-import type { IPlaceDataUseCase } from '../../../../../lib/src/usecase/interface/IPlaceDataUseCase';
+import { PublicGamblingPlaceUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingPlaceUseCase';
+import type { IPlaceUseCase } from '../../../../../lib/src/usecase/interface/IPlaceUseCase';
 import type { TestServiceSetup } from '../../../../utility/testSetupHelper';
 import {
     clearMocks,
@@ -16,11 +16,11 @@ import {
 } from '../../mock/common/baseCommonData';
 describe('PublicGamblingPlaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
-    let useCase: IPlaceDataUseCase;
+    let useCase: IPlaceUseCase;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();
-        useCase = container.resolve(PublicGamblingPlaceDataUseCase);
+        useCase = container.resolve(PublicGamblingPlaceUseCase);
     });
 
     afterEach(() => {
@@ -30,7 +30,7 @@ describe('PublicGamblingPlaceUseCase', () => {
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること', async () => {
             // モックの戻り値を設定
-            serviceSetup.placeDataService.fetchPlaceEntityList.mockResolvedValue(
+            serviceSetup.placeService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntityList,
             );
 
@@ -47,13 +47,13 @@ describe('PublicGamblingPlaceUseCase', () => {
         });
     });
 
-    describe('updatePlaceDataList', () => {
+    describe('updatePlaceEntityList', () => {
         it('正常に開催場データが更新されること', async () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            serviceSetup.placeDataService.fetchPlaceEntityList.mockResolvedValue(
+            serviceSetup.placeService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntityList,
             );
 
@@ -64,10 +64,10 @@ describe('PublicGamblingPlaceUseCase', () => {
             );
 
             expect(
-                serviceSetup.placeDataService.fetchPlaceEntityList,
+                serviceSetup.placeService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                serviceSetup.placeDataService.updatePlaceEntityList,
+                serviceSetup.placeService.updatePlaceEntityList,
             ).toHaveBeenCalled();
         });
     });

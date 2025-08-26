@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { PublicGamblingRaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingRaceDataUseCase';
-import type { IRaceDataUseCase } from '../../../../../lib/src/usecase/interface/IRaceDataUseCase';
+import { PublicGamblingRaceUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingRaceUseCase';
+import type { IRaceUseCase } from '../../../../../lib/src/usecase/interface/IRaceUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestServiceSetup } from '../../../../utility/testSetupHelper';
 import {
@@ -18,13 +18,13 @@ import {
     testRaceTypeListWithoutOverseas,
 } from '../../mock/common/baseCommonData';
 
-describe('PublicGamblingRaceDataUseCase', () => {
+describe('PublicGamblingRaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
-    let useCase: IRaceDataUseCase;
+    let useCase: IRaceUseCase;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();
-        useCase = container.resolve(PublicGamblingRaceDataUseCase);
+        useCase = container.resolve(PublicGamblingRaceUseCase);
         jest.spyOn(console, 'log').mockImplementation();
     });
 
@@ -491,7 +491,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             } of testCases[raceType]) {
                 it(`(${raceTypeList.join(',')})正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                     // モックの戻り値を設定
-                    serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
+                    serviceSetup.raceService.fetchRaceEntityList.mockResolvedValue(
                         returnedRaceList,
                     );
 
@@ -516,12 +516,12 @@ describe('PublicGamblingRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            serviceSetup.placeDataService.fetchPlaceEntityList.mockResolvedValue(
+            serviceSetup.placeService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntityList,
             );
 
             // モックの戻り値を設定
-            serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
+            serviceSetup.raceService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntityList,
             );
 
@@ -532,13 +532,13 @@ describe('PublicGamblingRaceDataUseCase', () => {
             );
 
             expect(
-                serviceSetup.placeDataService.fetchPlaceEntityList,
+                serviceSetup.placeService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                serviceSetup.raceDataService.fetchRaceEntityList,
+                serviceSetup.raceService.fetchRaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                serviceSetup.raceDataService.updateRaceEntityList,
+                serviceSetup.raceService.updateRaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -546,12 +546,12 @@ describe('PublicGamblingRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            serviceSetup.placeDataService.fetchPlaceEntityList.mockResolvedValue(
+            serviceSetup.placeService.fetchPlaceEntityList.mockResolvedValue(
                 [],
             );
 
             // モックの戻り値を設定
-            serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
+            serviceSetup.raceService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntityList,
             );
 
@@ -562,14 +562,14 @@ describe('PublicGamblingRaceDataUseCase', () => {
             );
 
             expect(
-                serviceSetup.placeDataService.fetchPlaceEntityList,
+                serviceSetup.placeService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
-            //raceDataService.fetchRaceEntityListは呼ばれていないことを確認
+            //raceService.fetchRaceEntityListは呼ばれていないことを確認
             expect(
-                serviceSetup.raceDataService.fetchRaceEntityList,
+                serviceSetup.raceService.fetchRaceEntityList,
             ).not.toHaveBeenCalled();
             expect(
-                serviceSetup.raceDataService.updateRaceEntityList,
+                serviceSetup.raceService.updateRaceEntityList,
             ).not.toHaveBeenCalled();
 
             expect(console.log).toHaveBeenCalledWith(

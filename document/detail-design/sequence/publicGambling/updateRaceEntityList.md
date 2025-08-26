@@ -5,7 +5,7 @@ sequenceDiagram
     participant Client
     participant PublicGamblingController
     participant PublicGamblingRaceDataUseCase
-    participant PublicGamblingPlaceDataService
+    participant PublicGamblingPlaceService
     participant PublicGamblingRaceDataService
     participant JraRaceRepositoryFromHtml
     participant IRaceDataHtmlGateway
@@ -19,8 +19,8 @@ sequenceDiagram
         PublicGamblingController-->>Client: 400エラー返却
     else 日付指定
         PublicGamblingController->>PublicGamblingRaceDataUseCase: updateRaceEntityList(startDate, finishDate)
-        PublicGamblingRaceDataUseCase->>PublicGamblingPlaceDataService: fetchPlaceEntityList(startDate, finishDate, Storage)
-        PublicGamblingPlaceDataService-->>PublicGamblingRaceDataUseCase: placeEntityList
+        PublicGamblingRaceDataUseCase->>PublicGamblingPlaceService: fetchPlaceEntityList(startDate, finishDate, Storage)
+        PublicGamblingPlaceService-->>PublicGamblingRaceDataUseCase: placeEntityList
         PublicGamblingRaceDataUseCase->>PublicGamblingRaceDataService: fetchRaceEntityList(startDate, finishDate, Web, placeEntityList)
         PublicGamblingRaceDataService->>JraRaceRepositoryFromHtml: fetchRaceEntityList(searchFilter)
         JraRaceRepositoryFromHtml->>IRaceDataHtmlGateway: getRaceDataHtml(日付ごと)

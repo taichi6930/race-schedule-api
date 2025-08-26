@@ -8,16 +8,16 @@ import type { ICalendarRepository } from '../../lib/src/repository/interface/ICa
 import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../lib/src/service/interface/ICalendarService';
-import type { IPlaceDataService } from '../../lib/src/service/interface/IPlaceDataService';
-import type { IPlayerDataService } from '../../lib/src/service/interface/IPlayerDataService';
-import type { IRaceDataService } from '../../lib/src/service/interface/IRaceDataService';
+import type { IPlaceService } from '../../lib/src/service/interface/IPlaceService';
+import type { IPlayerService } from '../../lib/src/service/interface/IPlayerService';
+import type { IRaceService } from '../../lib/src/service/interface/IRaceService';
 import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockS3Gateway } from '../unittest/src/mock/gateway/mockS3Gateway';
 import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
 import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../unittest/src/mock/repository/mockRaceRepository';
 import { calendarServiceMock } from '../unittest/src/mock/service/calendarServiceMock';
-import { placeDataServiceMock } from '../unittest/src/mock/service/placeDataServiceMock';
+import { placeServiceMock } from '../unittest/src/mock/service/placeServiceMock';
 import { playerDataServiceMock } from '../unittest/src/mock/service/playerDataServiceMock';
 import { raceDataServiceMock } from '../unittest/src/mock/service/raceDataServiceMock';
 
@@ -55,9 +55,9 @@ export interface TestGatewaySetup {
 
 export interface TestServiceSetup {
     calendarService: jest.Mocked<ICalendarService>;
-    raceDataService: jest.Mocked<IRaceDataService>;
-    placeDataService: jest.Mocked<IPlaceDataService>;
-    playerDataService: jest.Mocked<IPlayerDataService>;
+    raceService: jest.Mocked<IRaceService>;
+    placeService: jest.Mocked<IPlaceService>;
+    playerService: jest.Mocked<IPlayerService>;
 }
 
 /**
@@ -164,26 +164,26 @@ export function setupTestServiceMock(): TestServiceSetup {
         'PublicGamblingCalendarService',
         calendarService,
     );
-    const raceDataService = raceDataServiceMock();
-    container.registerInstance<IRaceDataService>(
-        'PublicGamblingRaceDataService',
-        raceDataService,
+    const raceService = raceDataServiceMock();
+    container.registerInstance<IRaceService>(
+        'PublicGamblingRaceService',
+        raceService,
     );
-    const placeDataService = placeDataServiceMock();
-    container.registerInstance<IPlaceDataService>(
-        'PublicGamblingPlaceDataService',
-        placeDataService,
+    const placeService = placeServiceMock();
+    container.registerInstance<IPlaceService>(
+        'PublicGamblingPlaceService',
+        placeService,
     );
-    const playerDataService = playerDataServiceMock();
-    container.registerInstance<IPlayerDataService>(
+    const playerService = playerDataServiceMock();
+    container.registerInstance<IPlayerService>(
         'PlayerDataService',
-        playerDataService,
+        playerService,
     );
 
     return {
         calendarService,
-        raceDataService,
-        placeDataService,
-        playerDataService,
+        raceService,
+        placeService,
+        playerService,
     };
 }

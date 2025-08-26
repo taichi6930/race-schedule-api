@@ -1,8 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 
 import { RaceEntity } from '../../repository/entity/raceEntity';
-import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
+import { IPlaceService } from '../../service/interface/IPlaceService';
+import { IRaceService } from '../../service/interface/IRaceService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import {
@@ -13,18 +13,18 @@ import {
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import { RaceStage } from '../../utility/validateAndType/raceStage';
-import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
+import { IRaceUseCase } from '../interface/IRaceUseCase';
 
 /**
  * 公営競技のレースデータUseCase
  */
 @injectable()
-export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
+export class PublicGamblingRaceUseCase implements IRaceUseCase {
     public constructor(
-        @inject('PublicGamblingPlaceDataService')
-        private readonly placeDataService: IPlaceDataService,
-        @inject('PublicGamblingRaceDataService')
-        private readonly raceDataService: IRaceDataService,
+        @inject('PublicGamblingPlaceService')
+        private readonly placeService: IPlaceService,
+        @inject('PublicGamblingRaceService')
+        private readonly raceService: IRaceService,
     ) {}
 
     /**
@@ -72,15 +72,14 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             };
         },
     ): Promise<RaceEntity[]> {
-        const placeEntityList =
-            await this.placeDataService.fetchPlaceEntityList(
-                startDate,
-                finishDate,
-                raceTypeList,
-                DataLocation.Storage,
-            );
+        const placeEntityList = await this.placeService.fetchPlaceEntityList(
+            startDate,
+            finishDate,
+            raceTypeList,
+            DataLocation.Storage,
+        );
 
-        const raceEntityList = await this.raceDataService.fetchRaceEntityList(
+        const raceEntityList = await this.raceService.fetchRaceEntityList(
             startDate,
             finishDate,
             raceTypeList,
@@ -143,13 +142,12 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         failureDataCount: number;
     }> {
         // フィルタリング処理
-        const placeEntityList =
-            await this.placeDataService.fetchPlaceEntityList(
-                startDate,
-                finishDate,
-                raceTypeList,
-                DataLocation.Storage,
-            );
+        const placeEntityList = await this.placeService.fetchPlaceEntityList(
+            startDate,
+            finishDate,
+            raceTypeList,
+            DataLocation.Storage,
+        );
 
         const filteredPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.flatMap(
             (raceType) =>
@@ -177,7 +175,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             };
         }
 
-        const raceEntityList = await this.raceDataService.fetchRaceEntityList(
+        const raceEntityList = await this.raceService.fetchRaceEntityList(
             startDate,
             finishDate,
             raceTypeList,
@@ -185,7 +183,7 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             filteredPlaceEntityList,
         );
 
-        return this.raceDataService.updateRaceEntityList(raceEntityList);
+        return this.raceService.updateRaceEntityList(raceEntityList);
     }
 
     // 共通フィルタ関数

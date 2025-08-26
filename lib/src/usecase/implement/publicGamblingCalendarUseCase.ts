@@ -6,8 +6,8 @@ import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
+import { IPlayerService } from '../../service/interface/IPlayerService';
+import { IRaceService } from '../../service/interface/IRaceService';
 import { RaceGradeAndStageList } from '../../utility/data/stage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -28,10 +28,10 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly calendarService: ICalendarService,
-        @inject('PublicGamblingRaceDataService')
-        private readonly raceDataService: IRaceDataService,
+        @inject('PublicGamblingRaceService')
+        private readonly raceService: IRaceService,
         @inject('PlayerDataService')
-        private readonly playerDataService: IPlayerDataService,
+        private readonly playerDataService: IPlayerService,
     ) {}
 
     /**
@@ -79,7 +79,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         },
     ): Promise<void> {
         // レース情報を取得する
-        const raceEntityList = await this.raceDataService.fetchRaceEntityList(
+        const raceEntityList = await this.raceService.fetchRaceEntityList(
             startDate,
             finishDate,
             raceTypeList,

@@ -1,7 +1,7 @@
 import type { PlayerData } from '../../domain/playerData';
 import type { RaceType } from '../../utility/raceType';
 
-export interface IPlayerDataService {
+export interface IPlayerService {
     /**
      * プレイヤーデータをStorageから取得します
      *
