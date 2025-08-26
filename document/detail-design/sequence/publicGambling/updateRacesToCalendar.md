@@ -17,12 +17,12 @@ sequenceDiagram
     else 日付が正
         PublicGamblingController->>CalendarUseCase: updateRacesToCalendar(startDate, finishDate, gradeList)
         CalendarUseCase->>RaceService: fetchRaceEntityList(startDate, finishDate, Storage)
-        note right of RaceService: DataLocation.StorageでJraRaceRepositoryFromStorageを利用
-        RaceService->>JraRaceRepositoryFromStorage: fetchRaceEntityList
-        JraRaceRepositoryFromStorage->>S3Gateway: fetchDataFromS3
-        S3Gateway-->>JraRaceRepositoryFromStorage: CSVデータ
-        note right of JraRaceRepositoryFromStorage: CSV→JraRaceRecord[]→RaceEntity[]変換・filter
-        JraRaceRepositoryFromStorage-->>RaceService: RaceEntity[]
+        note right of RaceService: DataLocation.StorageでRaceRepositoryFromStorageを利用
+        RaceService->>RaceRepositoryFromStorage: fetchRaceEntityList
+        RaceRepositoryFromStorage->>S3Gateway: fetchDataFromS3
+        S3Gateway-->>RaceRepositoryFromStorage: CSVデータ
+        note right of RaceRepositoryFromStorage: CSV→JraRaceRecord[]→RaceEntity[]変換・filter
+        RaceRepositoryFromStorage-->>RaceService: RaceEntity[]
         RaceService-->>CalendarUseCase: RaceEntity[]
         CalendarUseCase->>CalendarService: getEvents(startDate, finishDate)
         CalendarService->>GoogleCalendarRepository: getEvents(SearchCalendarFilterEntity)

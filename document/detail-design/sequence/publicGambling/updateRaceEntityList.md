@@ -10,7 +10,7 @@ sequenceDiagram
     participant JraRaceRepositoryFromHtml
     participant IRaceDataHtmlGateway
     participant Web
-    participant JraRaceRepositoryFromStorage
+    participant RaceRepositoryFromStorage
     participant S3Gateway
 
     Client->>PublicGamblingController: POST /race (startDate, finishDate, raceList)
@@ -30,20 +30,20 @@ sequenceDiagram
         JraRaceRepositoryFromHtml-->>RaceService: raceEntityList
         RaceService-->>RaceUseCase: raceEntityList
         RaceUseCase->>RaceService: updateRaceEntityList(raceEntityList)
-        RaceService->>JraRaceRepositoryFromStorage: registerRaceEntityList(raceEntityList)
-        JraRaceRepositoryFromStorage->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
-        S3Gateway-->>JraRaceRepositoryFromStorage: 完了
-        JraRaceRepositoryFromStorage-->>RaceService: 完了
+        RaceService->>RaceRepositoryFromStorage: registerRaceEntityList(raceEntityList)
+        RaceRepositoryFromStorage->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
+        S3Gateway-->>RaceRepositoryFromStorage: 完了
+        RaceRepositoryFromStorage-->>RaceService: 完了
         RaceService-->>RaceUseCase: 完了
         RaceUseCase-->>PublicGamblingController: 完了
         PublicGamblingController-->>Client: 200 OK
     else raceList指定
         PublicGamblingController->>RaceUseCase: upsertRaceEntityList(jraRaceDataList)
         RaceUseCase->>RaceService: updateRaceEntityList(raceEntityList)
-        RaceService->>JraRaceRepositoryFromStorage: registerRaceEntityList(raceEntityList)
-        JraRaceRepositoryFromStorage->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
-        S3Gateway-->>JraRaceRepositoryFromStorage: 完了
-        JraRaceRepositoryFromStorage-->>RaceService: 完了
+        RaceService->>RaceRepositoryFromStorage: registerRaceEntityList(raceEntityList)
+        RaceRepositoryFromStorage->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
+        S3Gateway-->>RaceRepositoryFromStorage: 完了
+        RaceRepositoryFromStorage-->>RaceService: 完了
         RaceService-->>RaceUseCase: 完了
         RaceUseCase-->>PublicGamblingController: 完了
         PublicGamblingController-->>Client: 200 OK
