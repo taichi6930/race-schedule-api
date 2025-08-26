@@ -90,7 +90,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             calendarDataList,
         );
 
-        serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
+        serviceSetup.raceService.fetchRaceEntityList.mockResolvedValue(
             mockRaceEntityList,
         );
 

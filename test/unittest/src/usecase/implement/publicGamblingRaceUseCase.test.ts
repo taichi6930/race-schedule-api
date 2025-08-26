@@ -491,7 +491,7 @@ describe('PublicGamblingRaceUseCase', () => {
             } of testCases[raceType]) {
                 it(`(${raceTypeList.join(',')})正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                     // モックの戻り値を設定
-                    serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
+                    serviceSetup.raceService.fetchRaceEntityList.mockResolvedValue(
                         returnedRaceList,
                     );
 
@@ -521,7 +521,7 @@ describe('PublicGamblingRaceUseCase', () => {
             );
 
             // モックの戻り値を設定
-            serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
+            serviceSetup.raceService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntityList,
             );
 
@@ -535,10 +535,10 @@ describe('PublicGamblingRaceUseCase', () => {
                 serviceSetup.placeService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                serviceSetup.raceDataService.fetchRaceEntityList,
+                serviceSetup.raceService.fetchRaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                serviceSetup.raceDataService.updateRaceEntityList,
+                serviceSetup.raceService.updateRaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -551,7 +551,7 @@ describe('PublicGamblingRaceUseCase', () => {
             );
 
             // モックの戻り値を設定
-            serviceSetup.raceDataService.fetchRaceEntityList.mockResolvedValue(
+            serviceSetup.raceService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntityList,
             );
 
@@ -564,12 +564,12 @@ describe('PublicGamblingRaceUseCase', () => {
             expect(
                 serviceSetup.placeService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
-            //raceDataService.fetchRaceEntityListは呼ばれていないことを確認
+            //raceService.fetchRaceEntityListは呼ばれていないことを確認
             expect(
-                serviceSetup.raceDataService.fetchRaceEntityList,
+                serviceSetup.raceService.fetchRaceEntityList,
             ).not.toHaveBeenCalled();
             expect(
-                serviceSetup.raceDataService.updateRaceEntityList,
+                serviceSetup.raceService.updateRaceEntityList,
             ).not.toHaveBeenCalled();
 
             expect(console.log).toHaveBeenCalledWith(

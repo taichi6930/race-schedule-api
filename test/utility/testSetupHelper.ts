@@ -55,9 +55,9 @@ export interface TestGatewaySetup {
 
 export interface TestServiceSetup {
     calendarService: jest.Mocked<ICalendarService>;
-    raceDataService: jest.Mocked<IRaceService>;
+    raceService: jest.Mocked<IRaceService>;
     placeService: jest.Mocked<IPlaceService>;
-    playerDataService: jest.Mocked<IPlayerService>;
+    playerService: jest.Mocked<IPlayerService>;
 }
 
 /**
@@ -164,26 +164,26 @@ export function setupTestServiceMock(): TestServiceSetup {
         'PublicGamblingCalendarService',
         calendarService,
     );
-    const raceDataService = raceDataServiceMock();
+    const raceService = raceDataServiceMock();
     container.registerInstance<IRaceService>(
         'PublicGamblingRaceService',
-        raceDataService,
+        raceService,
     );
     const placeService = placeServiceMock();
     container.registerInstance<IPlaceService>(
         'PublicGamblingPlaceService',
         placeService,
     );
-    const playerDataService = playerDataServiceMock();
+    const playerService = playerDataServiceMock();
     container.registerInstance<IPlayerService>(
         'PlayerDataService',
-        playerDataService,
+        playerService,
     );
 
     return {
         calendarService,
-        raceDataService,
+        raceService,
         placeService,
-        playerDataService,
+        playerService,
     };
 }

@@ -24,7 +24,7 @@ export class PublicGamblingRaceUseCase implements IRaceUseCase {
         @inject('PublicGamblingPlaceService')
         private readonly placeService: IPlaceService,
         @inject('PublicGamblingRaceService')
-        private readonly raceDataService: IRaceService,
+        private readonly raceService: IRaceService,
     ) {}
 
     /**
@@ -79,7 +79,7 @@ export class PublicGamblingRaceUseCase implements IRaceUseCase {
             DataLocation.Storage,
         );
 
-        const raceEntityList = await this.raceDataService.fetchRaceEntityList(
+        const raceEntityList = await this.raceService.fetchRaceEntityList(
             startDate,
             finishDate,
             raceTypeList,
@@ -175,7 +175,7 @@ export class PublicGamblingRaceUseCase implements IRaceUseCase {
             };
         }
 
-        const raceEntityList = await this.raceDataService.fetchRaceEntityList(
+        const raceEntityList = await this.raceService.fetchRaceEntityList(
             startDate,
             finishDate,
             raceTypeList,
@@ -183,7 +183,7 @@ export class PublicGamblingRaceUseCase implements IRaceUseCase {
             filteredPlaceEntityList,
         );
 
-        return this.raceDataService.updateRaceEntityList(raceEntityList);
+        return this.raceService.updateRaceEntityList(raceEntityList);
     }
 
     // 共通フィルタ関数
