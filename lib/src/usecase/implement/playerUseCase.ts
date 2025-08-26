@@ -10,7 +10,7 @@ import { IPlayerDataUseCase } from '../interface/IPlayerDataUseCase';
  * 公営競技のプレイヤーデータUseCase
  */
 @injectable()
-export class PublicGamblingPlayerUseCase implements IPlayerDataUseCase {
+export class PlayerUseCase implements IPlayerDataUseCase {
     public constructor(
         @inject('PlayerDataService')
         private readonly playerDataService: IPlayerService,

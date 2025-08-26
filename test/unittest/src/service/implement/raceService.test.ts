@@ -3,7 +3,7 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { PublicGamblingRaceService } from '../../../../../lib/src/service/implement/raceService';
+import { RaceService } from '../../../../../lib/src/service/implement/raceService';
 import type { IRaceService } from '../../../../../lib/src/service/interface/IRaceService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -25,7 +25,7 @@ describe('PublicGamblingRaceService', () => {
     beforeEach(() => {
         repositorySetup = setupTestRepositoryMock();
         // AutoraceRaceCalendarServiceをコンテナから取得
-        service = container.resolve(PublicGamblingRaceService);
+        service = container.resolve(RaceService);
     });
 
     afterEach(() => {

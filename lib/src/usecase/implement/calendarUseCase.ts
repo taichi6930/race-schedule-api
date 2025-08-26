@@ -24,7 +24,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
  * 公営競技のレースカレンダーユースケース
  */
 @injectable()
-export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
+export class CalendarUseCase implements IRaceCalendarUseCase {
     public constructor(
         @inject('PublicGamblingCalendarService')
         private readonly calendarService: ICalendarService,

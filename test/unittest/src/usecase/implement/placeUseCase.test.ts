@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { PublicGamblingPlaceUseCase } from '../../../../../lib/src/usecase/implement/placeUseCase';
+import { PlaceUseCase } from '../../../../../lib/src/usecase/implement/placeUseCase';
 import type { IPlaceUseCase } from '../../../../../lib/src/usecase/interface/IPlaceUseCase';
 import type { TestServiceSetup } from '../../../../utility/testSetupHelper';
 import {
@@ -20,7 +20,7 @@ describe('PublicGamblingPlaceUseCase', () => {
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();
-        useCase = container.resolve(PublicGamblingPlaceUseCase);
+        useCase = container.resolve(PlaceUseCase);
     });
 
     afterEach(() => {

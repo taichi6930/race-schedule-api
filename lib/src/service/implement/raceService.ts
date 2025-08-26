@@ -13,7 +13,7 @@ import { IRaceService } from '../interface/IRaceService';
  * 開催場所データの取得と更新を担当する基底サービスクラス
  */
 @injectable()
-export class PublicGamblingRaceService implements IRaceService {
+export class RaceService implements IRaceService {
     private readonly raceRepositoryFromStorage: Record<
         RaceType,
         IRaceRepository

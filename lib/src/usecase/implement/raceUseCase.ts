@@ -19,7 +19,7 @@ import { IRaceUseCase } from '../interface/IRaceUseCase';
  * 公営競技のレースデータUseCase
  */
 @injectable()
-export class PublicGamblingRaceUseCase implements IRaceUseCase {
+export class RaceUseCase implements IRaceUseCase {
     public constructor(
         @inject('PublicGamblingPlaceService')
         private readonly placeService: IPlaceService,

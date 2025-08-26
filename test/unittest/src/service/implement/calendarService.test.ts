@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
-import { PublicGamblingCalendarService } from '../../../../../lib/src/service/implement/calendarService';
+import { CalendarService } from '../../../../../lib/src/service/implement/calendarService';
 import type { ICalendarService } from '../../../../../lib/src/service/interface/ICalendarService';
 import type { TestRepositorySetup } from '../../../../utility/testSetupHelper';
 import {
@@ -22,7 +22,7 @@ describe('PublicGamblingCalendarService', () => {
 
     beforeEach(() => {
         repositorySetup = setupTestRepositoryMock();
-        service = container.resolve(PublicGamblingCalendarService);
+        service = container.resolve(CalendarService);
     });
 
     afterEach(() => {
