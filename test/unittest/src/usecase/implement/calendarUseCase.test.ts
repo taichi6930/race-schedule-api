@@ -5,7 +5,7 @@ import { afterEach } from 'node:test';
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../../lib/src/domain/calendarData';
-import { PublicGamblingCalendarUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingCalendarUseCase';
+import { PublicGamblingCalendarUseCase } from '../../../../../lib/src/usecase/implement/calendarUseCase';
 import type { IRaceCalendarUseCase } from '../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SpecifiedGradeList } from '../../../../../lib/src/utility/validateAndType/gradeType';

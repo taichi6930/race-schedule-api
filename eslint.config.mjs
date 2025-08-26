@@ -218,7 +218,7 @@ export default [
     },
     {
         files: [
-            '**/publicGamblingRaceUseCase.test.ts',
+            '**/*raceUseCase.test.ts',
             '**/*DataHtmlGateway.test.ts',
         ],
         rules: {

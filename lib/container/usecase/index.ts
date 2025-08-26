@@ -1,9 +1,9 @@
 import { container } from 'tsyringe';
 
-import { PublicGamblingCalendarUseCase } from '../../src/usecase/implement/publicGamblingCalendarUseCase';
-import { PublicGamblingPlaceUseCase } from '../../src/usecase/implement/publicGamblingPlaceUseCase';
-import { PublicGamblingPlayerUseCase } from '../../src/usecase/implement/publicGamblingPlayerUseCase';
-import { PublicGamblingRaceUseCase } from '../../src/usecase/implement/publicGamblingRaceUseCase';
+import { PublicGamblingCalendarUseCase } from '../../src/usecase/implement/calendarUseCase';
+import { PublicGamblingPlaceUseCase } from '../../src/usecase/implement/placeUseCase';
+import { PublicGamblingPlayerUseCase } from '../../src/usecase/implement/playerUseCase';
+import { PublicGamblingRaceUseCase } from '../../src/usecase/implement/raceUseCase';
 import type { IPlaceUseCase } from '../../src/usecase/interface/IPlaceUseCase';
 import type { IPlayerDataUseCase } from '../../src/usecase/interface/IPlayerDataUseCase';
 import type { IRaceCalendarUseCase } from '../../src/usecase/interface/IRaceCalendarUseCase';

@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { PublicGamblingRaceUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingRaceUseCase';
+import { PublicGamblingRaceUseCase } from '../../../../../lib/src/usecase/implement/raceUseCase';
 import type { IRaceUseCase } from '../../../../../lib/src/usecase/interface/IRaceUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestServiceSetup } from '../../../../utility/testSetupHelper';

@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { PublicGamblingPlaceService } from '../../../../../lib/src/service/implement/publicGamblingPlaceService';
+import { PublicGamblingPlaceService } from '../../../../../lib/src/service/implement/placeService';
 import type { IPlaceService } from '../../../../../lib/src/service/interface/IPlaceService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
