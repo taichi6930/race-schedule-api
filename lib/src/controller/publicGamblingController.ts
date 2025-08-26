@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
+import { IPlaceUseCase } from '../usecase/interface/IPlaceUseCase';
 import { IPlayerDataUseCase } from '../usecase/interface/IPlayerDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
@@ -20,7 +20,7 @@ export class PublicGamblingController {
         @inject('PublicGamblingCalendarUseCase')
         private readonly calendarUseCase: IRaceCalendarUseCase,
         @inject('PublicGamblingPlaceUseCase')
-        private readonly placeUseCase: IPlaceDataUseCase,
+        private readonly placeUseCase: IPlaceUseCase,
         @inject('PublicGamblingRaceDataUseCase')
         private readonly raceDataUseCase: IRaceDataUseCase,
         @inject('PublicGamblingPlayerUseCase')

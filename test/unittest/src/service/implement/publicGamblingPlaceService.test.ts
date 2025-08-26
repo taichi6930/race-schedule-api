@@ -4,8 +4,8 @@ import { container } from 'tsyringe';
 
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { PublicGamblingPlaceDataService } from '../../../../../lib/src/service/implement/publicGamblingPlaceDataService';
-import type { IPlaceDataService } from '../../../../../lib/src/service/interface/IPlaceDataService';
+import { PublicGamblingPlaceService } from '../../../../../lib/src/service/implement/publicGamblingPlaceService';
+import type { IPlaceService } from '../../../../../lib/src/service/interface/IPlaceService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestRepositorySetup } from '../../../../utility/testSetupHelper';
@@ -19,13 +19,13 @@ import {
     testRaceTypeListWithoutOverseas,
 } from '../../mock/common/baseCommonData';
 
-describe('PublicGamblingPlaceDataService', () => {
+describe('PublicGamblingPlaceService', () => {
     let repositorySetup: TestRepositorySetup;
-    let service: IPlaceDataService;
+    let service: IPlaceService;
 
     beforeEach(() => {
         repositorySetup = setupTestRepositoryMock();
-        service = container.resolve(PublicGamblingPlaceDataService);
+        service = container.resolve(PublicGamblingPlaceService);
     });
 
     afterEach(() => {

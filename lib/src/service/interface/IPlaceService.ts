@@ -5,7 +5,7 @@ import type { RaceType } from '../../utility/raceType';
 /**
  * 開催場所データを提供するサービスインターフェース
  */
-export interface IPlaceDataService {
+export interface IPlaceService {
     /**
      * 指定期間・種別の開催場所データを取得
      * @param startDate - 取得開始日

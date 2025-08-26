@@ -516,7 +516,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            serviceSetup.placeDataService.fetchPlaceEntityList.mockResolvedValue(
+            serviceSetup.placeService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntityList,
             );
 
@@ -532,7 +532,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             );
 
             expect(
-                serviceSetup.placeDataService.fetchPlaceEntityList,
+                serviceSetup.placeService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
                 serviceSetup.raceDataService.fetchRaceEntityList,
@@ -546,7 +546,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            serviceSetup.placeDataService.fetchPlaceEntityList.mockResolvedValue(
+            serviceSetup.placeService.fetchPlaceEntityList.mockResolvedValue(
                 [],
             );
 
@@ -562,7 +562,7 @@ describe('PublicGamblingRaceDataUseCase', () => {
             );
 
             expect(
-                serviceSetup.placeDataService.fetchPlaceEntityList,
+                serviceSetup.placeService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             //raceDataService.fetchRaceEntityListは呼ばれていないことを確認
             expect(

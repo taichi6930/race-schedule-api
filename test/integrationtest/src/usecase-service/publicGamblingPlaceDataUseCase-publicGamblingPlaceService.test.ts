@@ -3,10 +3,11 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
-import { PublicGamblingPlaceDataService } from '../../../../lib/src/service/implement/publicGamblingPlaceDataService';
-import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
-import { PublicGamblingPlaceDataUseCase } from '../../../../lib/src/usecase/implement/publicGamblingPlaceDataUseCase';
-import type { IPlaceDataUseCase } from '../../../../lib/src/usecase/interface/IPlaceDataUseCase';
+import type { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
+import { PublicGamblingPlaceService } from '../../../../lib/src/service/implement/publicGamblingPlaceService';
+import type { IPlaceService } from '../../../../lib/src/service/interface/IPlaceService';
+import { PublicGamblingPlaceUseCase } from '../../../../lib/src/usecase/implement/publicGamblingPlaceUseCase';
+import type { IPlaceUseCase } from '../../../../lib/src/usecase/interface/IPlaceUseCase';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 import {
     basePlaceEntity,
@@ -18,22 +19,21 @@ import {
     clearMocks,
     setupTestRepositoryMock,
 } from '../../../utility/testSetupHelper';
-import type { SearchPlaceFilterEntity } from './../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 
-describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceDataService', () => {
+describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceService', () => {
     let repositorySetup: TestRepositorySetup;
-    let service: IPlaceDataService;
-    let useCase: IPlaceDataUseCase;
+    let service: IPlaceService;
+    let useCase: IPlaceUseCase;
 
     beforeEach(() => {
         repositorySetup = setupTestRepositoryMock();
 
-        service = container.resolve(PublicGamblingPlaceDataService);
-        container.registerInstance<IPlaceDataService>(
-            'PublicGamblingPlaceDataService',
+        service = container.resolve(PublicGamblingPlaceService);
+        container.registerInstance<IPlaceService>(
+            'PublicGamblingPlaceService',
             service,
         );
-        useCase = container.resolve(PublicGamblingPlaceDataUseCase);
+        useCase = container.resolve(PublicGamblingPlaceUseCase);
     });
 
     afterEach(() => {

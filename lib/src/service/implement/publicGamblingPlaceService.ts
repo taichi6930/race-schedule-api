@@ -10,13 +10,13 @@ import {
     RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RaceType,
 } from '../../utility/raceType';
-import { IPlaceDataService } from '../interface/IPlaceDataService';
+import { IPlaceService } from '../interface/IPlaceService';
 
 /**
  * 公営競技の開催場データを提供するサービス
  */
 @injectable()
-export class PublicGamblingPlaceDataService implements IPlaceDataService {
+export class PublicGamblingPlaceService implements IPlaceService {
     public constructor(
         @inject('PlaceRepositoryFromStorage')
         protected placeRepositoryFromStorage: IPlaceRepository,

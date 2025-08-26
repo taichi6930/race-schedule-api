@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { RaceEntity } from '../../repository/entity/raceEntity';
-import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IPlaceService } from '../../service/interface/IPlaceService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -21,8 +21,8 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 @injectable()
 export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
     public constructor(
-        @inject('PublicGamblingPlaceDataService')
-        private readonly placeDataService: IPlaceDataService,
+        @inject('PublicGamblingPlaceService')
+        private readonly placeService: IPlaceService,
         @inject('PublicGamblingRaceDataService')
         private readonly raceDataService: IRaceDataService,
     ) {}
@@ -72,13 +72,12 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
             };
         },
     ): Promise<RaceEntity[]> {
-        const placeEntityList =
-            await this.placeDataService.fetchPlaceEntityList(
-                startDate,
-                finishDate,
-                raceTypeList,
-                DataLocation.Storage,
-            );
+        const placeEntityList = await this.placeService.fetchPlaceEntityList(
+            startDate,
+            finishDate,
+            raceTypeList,
+            DataLocation.Storage,
+        );
 
         const raceEntityList = await this.raceDataService.fetchRaceEntityList(
             startDate,
@@ -143,13 +142,12 @@ export class PublicGamblingRaceDataUseCase implements IRaceDataUseCase {
         failureDataCount: number;
     }> {
         // フィルタリング処理
-        const placeEntityList =
-            await this.placeDataService.fetchPlaceEntityList(
-                startDate,
-                finishDate,
-                raceTypeList,
-                DataLocation.Storage,
-            );
+        const placeEntityList = await this.placeService.fetchPlaceEntityList(
+            startDate,
+            finishDate,
+            raceTypeList,
+            DataLocation.Storage,
+        );
 
         const filteredPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.flatMap(
             (raceType) =>
