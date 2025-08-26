@@ -591,7 +591,7 @@ export const RaceGradeAndStageList: {
     {
         grade: ['FⅠ', 'FⅡ'],
         stage: 'A級一般',
-        stageByWebSite: ['Ｓ級一般'],
+        stageByWebSite: ['Ａ級一般'],
         raceType: RaceType.KEIRIN,
         priority: 0,
         description: '一般レース。負け戦。',
