@@ -25,9 +25,16 @@ const prodEnv = loadEnvFile('.env.production');
 const testEnv = loadEnvFile('.env.test');
 const devEnv = loadEnvFile('.env.dev');
 
+// If LAMBDA_LAYER_ARN is present in the .env.production, pass it to the stack so the Lambda receives the native layer.
+const prodLayerArn =
+    prodEnv['LAMBDA_LAYER_ARN'] ||
+    process.env.LAMBDA_LAYER_ARN ||
+    'arn:aws:lambda:ap-northeast-1:485169041965:layer:better-sqlite3:3';
+
 new CdkRaceScheduleAppStack(app, 'CdkRaceScheduleAppStack-Prod', {
     env: stackEnv,
     lambdaEnv: prodEnv,
+    lambdaLayerArn: prodLayerArn,
 });
 new CdkRaceScheduleAppStack(app, 'CdkRaceScheduleAppStack-Test', {
     env: stackEnv,
