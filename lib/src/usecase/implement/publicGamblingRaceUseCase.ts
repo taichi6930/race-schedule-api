@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IPlaceService } from '../../service/interface/IPlaceService';
-import { IRaceDataService } from '../../service/interface/IRaceDataService';
+import { IRaceService } from '../../service/interface/IRaceService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import {
@@ -23,8 +23,8 @@ export class PublicGamblingRaceUseCase implements IRaceUseCase {
     public constructor(
         @inject('PublicGamblingPlaceService')
         private readonly placeService: IPlaceService,
-        @inject('PublicGamblingRaceDataService')
-        private readonly raceDataService: IRaceDataService,
+        @inject('PublicGamblingRaceService')
+        private readonly raceDataService: IRaceService,
     ) {}
 
     /**

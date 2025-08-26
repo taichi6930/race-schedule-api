@@ -13,7 +13,7 @@ import type { RaceType } from '../../utility/raceType';
  * レースデータは開催場所データと密接に関連しており、多くの場合開催場所の
  * 情報を参照して処理を行います。
  */
-export interface IRaceDataService {
+export interface IRaceService {
     /**
      * 指定された期間のレース開催データを取得します
      * @param startDate - 取得開始日

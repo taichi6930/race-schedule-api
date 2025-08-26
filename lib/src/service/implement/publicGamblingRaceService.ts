@@ -7,13 +7,13 @@ import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RACE_TYPE_LIST_ALL, RaceType } from '../../utility/raceType';
-import { IRaceDataService } from '../interface/IRaceDataService';
+import { IRaceService } from '../interface/IRaceService';
 
 /**
  * 開催場所データの取得と更新を担当する基底サービスクラス
  */
 @injectable()
-export class PublicGamblingRaceDataService implements IRaceDataService {
+export class PublicGamblingRaceService implements IRaceService {
     public constructor(
         @inject('HorseRacingRaceRepositoryFromStorage')
         protected horseRacingRaceRepositoryFromStorage: IRaceRepository,
