@@ -82,6 +82,7 @@ export class MockS3Gateway implements IS3Gateway {
             await this.setRacePlayerMockData();
             await this.setHeldDayMockData();
             await this.setPlaceGradeMockData();
+            await this.setPlayerMockData();
         })();
     }
 
@@ -250,6 +251,29 @@ export class MockS3Gateway implements IS3Gateway {
             case allowedEnvs.local: {
                 const csvPathList = RACE_TYPE_LIST_MECHANICAL_RACING.map(
                     (raceType) => csvPath('RACE_PLAYER_LIST', raceType),
+                );
+                await this.loadCsvFiles(csvPathList);
+                return;
+            }
+            default: {
+                throw new Error('Invalid ENV value');
+            }
+        }
+    }
+
+    /**
+     * モックデータを作成する
+     */
+    @Logger
+    private async setPlayerMockData() {
+        switch (ENV) {
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData: {
+                return;
+            }
+            case allowedEnvs.local: {
+                const csvPathList = RACE_TYPE_LIST_MECHANICAL_RACING.map(
+                    (raceType) => csvPath('PLAYER_LIST', raceType),
                 );
                 await this.loadCsvFiles(csvPathList);
                 return;
