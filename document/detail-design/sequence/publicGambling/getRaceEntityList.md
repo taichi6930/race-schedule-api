@@ -4,8 +4,8 @@
 sequenceDiagram
     participant Client
     participant PublicGamblingController
-    participant PublicGamblingRaceDataUseCase
-    participant PublicGamblingRaceDataService
+    participant RaceUseCase
+    participant RaceService
     participant JraRaceRepositoryFromStorage
     participant S3Gateway
 
@@ -14,14 +14,14 @@ sequenceDiagram
     alt 日付が不正
         PublicGamblingController-->>Client: 400エラー返却
     else 日付が正
-        PublicGamblingController->>PublicGamblingRaceDataUseCase: fetchRaceEntityList(startDate, finishDate, {gradeList, locationList})
-        PublicGamblingRaceDataUseCase->>PublicGamblingRaceDataService: fetchRaceEntityList(startDate, finishDate, {gradeList, locationList}, Storage)
-        PublicGamblingRaceDataService->>JraRaceRepositoryFromStorage: fetchRaceEntityList(searchFilter)
+        PublicGamblingController->>RaceUseCase: fetchRaceEntityList(startDate, finishDate, {gradeList, locationList})
+        RaceUseCase->>RaceService: fetchRaceEntityList(startDate, finishDate, {gradeList, locationList}, Storage)
+        RaceService->>JraRaceRepositoryFromStorage: fetchRaceEntityList(searchFilter)
         JraRaceRepositoryFromStorage->>S3Gateway: fetchDataFromS3(fileName)
         S3Gateway-->>JraRaceRepositoryFromStorage: raceRecordList
-        JraRaceRepositoryFromStorage-->>PublicGamblingRaceDataService: raceEntityList
-        PublicGamblingRaceDataService-->>PublicGamblingRaceDataUseCase: raceEntityList
-        PublicGamblingRaceDataUseCase-->>PublicGamblingController: レース情報リスト
+        JraRaceRepositoryFromStorage-->>RaceService: raceEntityList
+        RaceService-->>RaceUseCase: raceEntityList
+        RaceUseCase-->>PublicGamblingController: レース情報リスト
         PublicGamblingController-->>Client: レース情報をJSONで返却
     end
     alt 例外発生

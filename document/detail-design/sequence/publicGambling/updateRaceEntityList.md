@@ -4,9 +4,9 @@
 sequenceDiagram
     participant Client
     participant PublicGamblingController
-    participant PublicGamblingRaceDataUseCase
-    participant PublicGamblingPlaceService
-    participant PublicGamblingRaceDataService
+    participant RaceUseCase
+    participant PlaceService
+    participant RaceService
     participant JraRaceRepositoryFromHtml
     participant IRaceDataHtmlGateway
     participant Web
@@ -18,34 +18,34 @@ sequenceDiagram
     alt 全て未指定
         PublicGamblingController-->>Client: 400エラー返却
     else 日付指定
-        PublicGamblingController->>PublicGamblingRaceDataUseCase: updateRaceEntityList(startDate, finishDate)
-        PublicGamblingRaceDataUseCase->>PublicGamblingPlaceService: fetchPlaceEntityList(startDate, finishDate, Storage)
-        PublicGamblingPlaceService-->>PublicGamblingRaceDataUseCase: placeEntityList
-        PublicGamblingRaceDataUseCase->>PublicGamblingRaceDataService: fetchRaceEntityList(startDate, finishDate, Web, placeEntityList)
-        PublicGamblingRaceDataService->>JraRaceRepositoryFromHtml: fetchRaceEntityList(searchFilter)
+        PublicGamblingController->>RaceUseCase: updateRaceEntityList(startDate, finishDate)
+        RaceUseCase->>PlaceService: fetchPlaceEntityList(startDate, finishDate, Storage)
+        PlaceService-->>RaceUseCase: placeEntityList
+        RaceUseCase->>RaceService: fetchRaceEntityList(startDate, finishDate, Web, placeEntityList)
+        RaceService->>JraRaceRepositoryFromHtml: fetchRaceEntityList(searchFilter)
         JraRaceRepositoryFromHtml->>IRaceDataHtmlGateway: getRaceDataHtml(日付ごと)
         IRaceDataHtmlGateway->>Web: HTML取得リクエスト
         Web-->>IRaceDataHtmlGateway: HTMLレスポンス
         IRaceDataHtmlGateway-->>JraRaceRepositoryFromHtml: HTMLデータ
-        JraRaceRepositoryFromHtml-->>PublicGamblingRaceDataService: raceEntityList
-        PublicGamblingRaceDataService-->>PublicGamblingRaceDataUseCase: raceEntityList
-        PublicGamblingRaceDataUseCase->>PublicGamblingRaceDataService: updateRaceEntityList(raceEntityList)
-        PublicGamblingRaceDataService->>JraRaceRepositoryFromStorage: registerRaceEntityList(raceEntityList)
+        JraRaceRepositoryFromHtml-->>RaceService: raceEntityList
+        RaceService-->>RaceUseCase: raceEntityList
+        RaceUseCase->>RaceService: updateRaceEntityList(raceEntityList)
+        RaceService->>JraRaceRepositoryFromStorage: registerRaceEntityList(raceEntityList)
         JraRaceRepositoryFromStorage->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
         S3Gateway-->>JraRaceRepositoryFromStorage: 完了
-        JraRaceRepositoryFromStorage-->>PublicGamblingRaceDataService: 完了
-        PublicGamblingRaceDataService-->>PublicGamblingRaceDataUseCase: 完了
-        PublicGamblingRaceDataUseCase-->>PublicGamblingController: 完了
+        JraRaceRepositoryFromStorage-->>RaceService: 完了
+        RaceService-->>RaceUseCase: 完了
+        RaceUseCase-->>PublicGamblingController: 完了
         PublicGamblingController-->>Client: 200 OK
     else raceList指定
-        PublicGamblingController->>PublicGamblingRaceDataUseCase: upsertRaceEntityList(jraRaceDataList)
-        PublicGamblingRaceDataUseCase->>PublicGamblingRaceDataService: updateRaceEntityList(raceEntityList)
-        PublicGamblingRaceDataService->>JraRaceRepositoryFromStorage: registerRaceEntityList(raceEntityList)
+        PublicGamblingController->>RaceUseCase: upsertRaceEntityList(jraRaceDataList)
+        RaceUseCase->>RaceService: updateRaceEntityList(raceEntityList)
+        RaceService->>JraRaceRepositoryFromStorage: registerRaceEntityList(raceEntityList)
         JraRaceRepositoryFromStorage->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
         S3Gateway-->>JraRaceRepositoryFromStorage: 完了
-        JraRaceRepositoryFromStorage-->>PublicGamblingRaceDataService: 完了
-        PublicGamblingRaceDataService-->>PublicGamblingRaceDataUseCase: 完了
-        PublicGamblingRaceDataUseCase-->>PublicGamblingController: 完了
+        JraRaceRepositoryFromStorage-->>RaceService: 完了
+        RaceService-->>RaceUseCase: 完了
+        RaceUseCase-->>PublicGamblingController: 完了
         PublicGamblingController-->>Client: 200 OK
     end
     alt 例外発生

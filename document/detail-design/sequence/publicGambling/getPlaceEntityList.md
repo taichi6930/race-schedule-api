@@ -4,8 +4,8 @@
 sequenceDiagram
     participant Client
     participant PublicGamblingController
-    participant PublicGamblingPlaceDataUseCase
-    participant PublicGamblingPlaceDataService
+    participant PlaceUseCase
+    participant PlaceService
     participant PlaceRepositoryFromStorage
     participant S3Gateway
 
@@ -14,14 +14,14 @@ sequenceDiagram
     alt 日付が不正
         PublicGamblingController-->>Client: 400エラー返却
     else 日付が正
-        PublicGamblingController->>PublicGamblingPlaceDataUseCase: fetchPlaceEntityList(startDate, finishDate)
-        PublicGamblingPlaceDataUseCase->>PublicGamblingPlaceDataService: fetchPlaceEntityList(startDate, finishDate, Storage)
-        PublicGamblingPlaceDataService->>PlaceRepositoryFromStorage: fetchPlaceEntityList(searchFilter)
+        PublicGamblingController->>PlaceUseCase: fetchPlaceEntityList(startDate, finishDate)
+        PlaceUseCase->>PlaceService: fetchPlaceEntityList(startDate, finishDate, Storage)
+        PlaceService->>PlaceRepositoryFromStorage: fetchPlaceEntityList(searchFilter)
         PlaceRepositoryFromStorage->>S3Gateway: fetchDataFromS3(fileName)
         S3Gateway-->>PlaceRepositoryFromStorage: placeRecordList
-        PlaceRepositoryFromStorage-->>PublicGamblingPlaceDataService: placeEntityList
-        PublicGamblingPlaceDataService-->>PublicGamblingPlaceDataUseCase: placeEntityList
-        PublicGamblingPlaceDataUseCase-->>PublicGamblingController: 競馬場情報リスト
+        PlaceRepositoryFromStorage-->>PlaceService: placeEntityList
+        PlaceService-->>PlaceUseCase: placeEntityList
+        PlaceUseCase-->>PublicGamblingController: 競馬場情報リスト
         PublicGamblingController-->>Client: 開催場情報をJSONで返却
     end
     alt 例外発生
