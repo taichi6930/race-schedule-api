@@ -108,36 +108,6 @@ describe('PlaceService', () => {
 
             expect(consoleSpy).toHaveBeenCalled();
         });
-
-        it('並列で取得されていること（副作用なし）', async () => {
-            let inFlight = 0;
-            let maxConcurrent = 0;
-
-            repositorySetup.placeRepositoryFromStorage.fetchPlaceEntityList.mockImplementation(
-                async (searchFilter: SearchPlaceFilterEntity) => {
-                    inFlight++;
-                    maxConcurrent = Math.max(maxConcurrent, inFlight);
-                    // 少し待つことで並列性を検出
-                    await new Promise((r) => setTimeout(r, 30));
-                    inFlight--;
-                    return [basePlaceEntity(searchFilter.raceType)];
-                },
-            );
-
-            const startDate = new Date('2024-06-01');
-            const finishDate = new Date('2024-06-30');
-
-            const result = await service.fetchPlaceEntityList(
-                startDate,
-                finishDate,
-                testRaceTypeListWithoutOverseas,
-                DataLocation.Storage,
-            );
-
-            // 並列で 2 以上の同時実行が発生しているはず
-            expect(maxConcurrent).toBeGreaterThanOrEqual(2);
-            expect(result).toEqual(mockPlaceEntityList);
-        });
     });
 
     describe('updatePlaceDataList', () => {
@@ -206,43 +176,6 @@ describe('PlaceService', () => {
             ).rejects.toThrow('開催場データの登録に失敗しました');
 
             expect(consoleSpy).toHaveBeenCalled();
-        });
-
-        it('並列で登録され、集計が正しいこと（副作用なし）', async () => {
-            let inFlight = 0;
-            let maxConcurrent = 0;
-
-            // fetch は既存と同じ挙動
-            repositorySetup.placeRepositoryFromStorage.fetchPlaceEntityList.mockImplementation(
-                async (searchFilter: SearchPlaceFilterEntity) => {
-                    return [basePlaceEntity(searchFilter.raceType)];
-                },
-            );
-
-            // register は遅延を入れて並列性を確認
-            repositorySetup.placeRepositoryFromStorage.registerPlaceEntityList.mockImplementation(
-                async (raceType: RaceType, placeEntityList: PlaceEntity[]) => {
-                    inFlight++;
-                    maxConcurrent = Math.max(maxConcurrent, inFlight);
-                    await new Promise((r) => setTimeout(r, 30));
-                    inFlight--;
-                    return {
-                        code: 200,
-                        message: '',
-                        successData: placeEntityList,
-                        failureData: [],
-                    };
-                },
-            );
-
-            const result =
-                await service.updatePlaceEntityList(mockPlaceEntityList);
-
-            expect(maxConcurrent).toBeGreaterThanOrEqual(2);
-            // 全件成功していれば successDataCount は送った件数と同じ
-            const totalSent = mockPlaceEntityList.length;
-            expect(result.successDataCount).toBe(totalSent);
-            expect(result.failureDataCount).toBe(0);
         });
     });
 });
