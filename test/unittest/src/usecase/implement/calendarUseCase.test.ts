@@ -44,7 +44,7 @@ describe('RaceCalendarUseCase', () => {
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
 
-            const result = await useCase.fetchRacesFromCalendar(
+            const result = await useCase.fetchCalendarRaceList(
                 startDate,
                 finishDate,
                 testRaceTypeListAll,
@@ -97,7 +97,7 @@ describe('RaceCalendarUseCase', () => {
         const startDate = new Date('2024-02-01');
         const finishDate = new Date('2024-02-29');
 
-        await useCase.updateRacesToCalendar(
+        await useCase.updateCalendarRaceData(
             startDate,
             finishDate,
             testRaceTypeListAll,

@@ -41,7 +41,7 @@ export class CalendarUseCase implements IRaceCalendarUseCase {
      * @param raceTypeList - レース種別のリスト
      */
     @Logger
-    public async fetchRacesFromCalendar(
+    public async fetchCalendarRaceList(
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
@@ -65,7 +65,7 @@ export class CalendarUseCase implements IRaceCalendarUseCase {
      * @param displayGradeList
      */
     @Logger
-    public async updateRacesToCalendar(
+    public async updateCalendarRaceData(
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
