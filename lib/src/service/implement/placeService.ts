@@ -24,12 +24,6 @@ export class PlaceService implements IPlaceService {
         protected placeRepositoryFromHtml: IPlaceRepository,
     ) {}
 
-    private getRepository(type: DataLocationType): IPlaceRepository {
-        return type === DataLocation.Storage
-            ? this.placeRepositoryFromStorage
-            : this.placeRepositoryFromHtml;
-    }
-
     /**
      * 指定期間・種別の開催場所データを取得
      * @param startDate - 取得開始日
@@ -45,23 +39,25 @@ export class PlaceService implements IPlaceService {
         raceTypeList: RaceType[],
         type: DataLocationType,
     ): Promise<PlaceEntity[]> {
-        const repo = this.getRepository(type);
         try {
-            const tasks = RACE_TYPE_LIST_WITHOUT_OVERSEAS.filter((raceType) =>
-                raceTypeList.includes(raceType),
-            ).map(async (raceType) =>
-                repo.fetchPlaceEntityList(
+            const result: PlaceEntity[] = [];
+            for (const raceType of RACE_TYPE_LIST_WITHOUT_OVERSEAS) {
+                if (!raceTypeList.includes(raceType)) continue;
+
+                const placeEntityList: PlaceEntity[] = await (
+                    type === DataLocation.Storage
+                        ? this.placeRepositoryFromStorage
+                        : this.placeRepositoryFromHtml
+                ).fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
                         startDate,
                         finishDate,
                         raceType,
                     ),
-                ),
-            );
-
-            const results = await Promise.all(tasks);
-            // flatten array of arrays
-            return results.flat();
+                );
+                result.push(...placeEntityList);
+            }
+            return result;
         } catch (error) {
             console.error('開催場データの取得に失敗しました', error);
             return [];
@@ -90,37 +86,32 @@ export class PlaceService implements IPlaceService {
                 failureDataCount: 0,
             };
         try {
-            const tasks = RACE_TYPE_LIST_ALL.map(async (raceType) =>
-                this.placeRepositoryFromStorage.registerPlaceEntityList(
-                    raceType,
-                    placeEntityList.filter(
-                        (item) => item.placeData.raceType === raceType,
+            const responseList = await Promise.all(
+                RACE_TYPE_LIST_ALL.map(async (raceType) =>
+                    this.placeRepositoryFromStorage.registerPlaceEntityList(
+                        raceType,
+                        placeEntityList.filter(
+                            (item) => item.placeData.raceType === raceType,
+                        ),
                     ),
                 ),
             );
 
-            const responseList = await Promise.all(tasks);
-
-            const allSuccess = responseList.every((res) => res.code === 200);
-            const successDataCount = responseList.reduce(
-                (acc: number, res: { successData: PlaceEntity[] }) =>
-                    acc + res.successData.length,
-                0,
-            );
-
-            const failureDataCount = responseList.reduce(
-                (acc: number, res: { failureData: PlaceEntity[] }) =>
-                    acc + res.failureData.length,
-                0,
-            );
-
             return {
-                code: allSuccess ? 200 : 500,
-                message: allSuccess
+                code: responseList.every((res) => res.code === 200) ? 200 : 500,
+                message: responseList.every((res) => res.code === 200)
                     ? '保存に成功しました'
                     : '一部のデータの保存に失敗しました',
-                successDataCount,
-                failureDataCount,
+                successDataCount: responseList.reduce(
+                    (acc: number, res: { successData: PlaceEntity[] }) =>
+                        acc + res.successData.length,
+                    0,
+                ),
+                failureDataCount: responseList.reduce(
+                    (acc: number, res: { failureData: PlaceEntity[] }) =>
+                        acc + res.failureData.length,
+                    0,
+                ),
             };
         } catch (error) {
             console.error('開催場データの保存/更新に失敗しました', error);
