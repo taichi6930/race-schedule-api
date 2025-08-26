@@ -272,9 +272,7 @@ export class MockS3Gateway implements IS3Gateway {
                 return;
             }
             case allowedEnvs.local: {
-                const csvPathList = RACE_TYPE_LIST_MECHANICAL_RACING.map(
-                    (raceType) => csvPath('PLAYER_LIST', raceType),
-                );
+                const csvPathList = [csvPath('PLAYER_LIST', 'data')];
                 await this.loadCsvFiles(csvPathList);
                 return;
             }

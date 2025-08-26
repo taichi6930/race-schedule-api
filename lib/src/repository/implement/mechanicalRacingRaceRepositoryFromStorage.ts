@@ -39,7 +39,10 @@ export class MechanicalRacingRaceRepositoryFromStorage
     ): Promise<RaceEntity[]> {
         // ファイル名リストから選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =
-            await this.getRacePlayerRecordListFromS3(searchFilter.raceType);
+            await this.getRacePlayerRecordListFromS3(
+                searchFilter.raceType,
+                searchFilter.startDate,
+            );
 
         // レースデータを取得する
         const raceRaceRecordList: MechanicalRacingRaceRecord[] =
@@ -311,10 +314,12 @@ export class MechanicalRacingRaceRepositoryFromStorage
     /**
      * レースプレイヤーデータをS3から取得する
      * @param raceType - レース種別
+     * @param borderDate
      */
     @Logger
     private async getRacePlayerRecordListFromS3(
         raceType: RaceType,
+        borderDate?: Date,
     ): Promise<RacePlayerRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(
@@ -342,31 +347,40 @@ export class MechanicalRacingRaceRepositoryFromStorage
         };
 
         // データ行を解析してRaceDataのリストを生成
-        const racePlayerRecordList: RacePlayerRecord[] = lines
-            .slice(1)
-            .flatMap((line: string): RacePlayerRecord[] => {
-                try {
-                    const columns = line.split(',');
-
-                    const updateDate = columns[indices.updateDate]
-                        ? new Date(columns[indices.updateDate])
-                        : getJSTDate(new Date());
-
-                    return [
-                        RacePlayerRecord.create(
-                            columns[indices.id],
-                            raceType,
-                            columns[indices.raceId],
-                            Number.parseInt(columns[indices.positionNumber]),
-                            Number.parseInt(columns[indices.playerNumber]),
-                            updateDate,
-                        ),
-                    ];
-                } catch (error) {
-                    console.error('RacePlayerRecord create error', error);
-                    return [];
+        const racePlayerRecordList: RacePlayerRecord[] = [];
+        for (const line of lines.slice(1)) {
+            try {
+                const columns = line.split(',');
+                const dateTimeStr = columns[indices.id].substring(
+                    raceType.length,
+                    raceType.length + 8,
+                );
+                const dateTime = new Date(
+                    `${dateTimeStr.substring(0, 4)}-${dateTimeStr.substring(4, 6)}-${dateTimeStr.substring(6, 8)}`,
+                );
+                if (borderDate && borderDate > dateTime) {
+                    // borderDateより前のデータはスキップ
+                    break;
                 }
-            });
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
+                racePlayerRecordList.push(
+                    RacePlayerRecord.create(
+                        columns[indices.id],
+                        raceType,
+                        columns[indices.raceId],
+                        Number.parseInt(columns[indices.positionNumber]),
+                        Number.parseInt(columns[indices.playerNumber]),
+                        updateDate,
+                    ),
+                );
+            } catch (error) {
+                console.error('RacePlayerRecord create error', error);
+                // continue
+            }
+        }
         return racePlayerRecordList;
     }
 }

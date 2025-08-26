@@ -85,6 +85,7 @@ export class CalendarUseCase implements IRaceCalendarUseCase {
             raceTypeList,
             DataLocation.Storage,
         );
+        console.debug(`raceEntityList.length: ${raceEntityList.length}`);
 
         // 取得対象の公営競技種別を配列で定義し、並列で選手データを取得してオブジェクト化する
         const playerList: {
