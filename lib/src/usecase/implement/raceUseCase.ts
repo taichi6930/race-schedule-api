@@ -168,7 +168,7 @@ export class RaceUseCase implements IRaceUseCase {
                 '指定された条件に合致する開催場所が存在しません。レースデータの更新をスキップします。',
             );
             return {
-                code: 404,
+                code: 200,
                 message: '指定された条件に合致する開催場所が存在しません。',
                 successDataCount: 0,
                 failureDataCount: 0,
