@@ -7,7 +7,7 @@ import { PublicGamblingRaceDataUseCase } from '../../src/usecase/implement/publi
 import type { IPlaceUseCase } from '../../src/usecase/interface/IPlaceUseCase';
 import type { IPlayerDataUseCase } from '../../src/usecase/interface/IPlayerDataUseCase';
 import type { IRaceCalendarUseCase } from '../../src/usecase/interface/IRaceCalendarUseCase';
-import type { IRaceDataUseCase } from '../../src/usecase/interface/IRaceDataUseCase';
+import type { IRaceUseCase } from '../../src/usecase/interface/IRaceUseCase';
 
 container.register<IRaceCalendarUseCase>('PublicGamblingCalendarUseCase', {
     useClass: PublicGamblingCalendarUseCase,
@@ -15,7 +15,7 @@ container.register<IRaceCalendarUseCase>('PublicGamblingCalendarUseCase', {
 container.register<IPlaceUseCase>('PublicGamblingPlaceUseCase', {
     useClass: PublicGamblingPlaceUseCase,
 });
-container.register<IRaceDataUseCase>('PublicGamblingRaceDataUseCase', {
+container.register<IRaceUseCase>('PublicGamblingRaceDataUseCase', {
     useClass: PublicGamblingRaceDataUseCase,
 });
 container.register<IPlayerDataUseCase>('PublicGamblingPlayerUseCase', {

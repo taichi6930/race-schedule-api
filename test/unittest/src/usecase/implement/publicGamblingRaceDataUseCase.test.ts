@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { PublicGamblingRaceDataUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingRaceDataUseCase';
-import type { IRaceDataUseCase } from '../../../../../lib/src/usecase/interface/IRaceDataUseCase';
+import type { IRaceUseCase } from '../../../../../lib/src/usecase/interface/IRaceUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestServiceSetup } from '../../../../utility/testSetupHelper';
 import {
@@ -20,7 +20,7 @@ import {
 
 describe('PublicGamblingRaceDataUseCase', () => {
     let serviceSetup: TestServiceSetup;
-    let useCase: IRaceDataUseCase;
+    let useCase: IRaceUseCase;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();

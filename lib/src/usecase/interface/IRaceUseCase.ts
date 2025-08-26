@@ -7,7 +7,7 @@ import type { RaceStage } from '../../utility/validateAndType/raceStage';
 /**
  * レースデータUseCaseのインターフェース
  */
-export interface IRaceDataUseCase {
+export interface IRaceUseCase {
     /**
      * 指定期間・種別のレースデータを取得
      * @param startDate - 取得開始日
