@@ -3,7 +3,7 @@ import { container } from 'tsyringe';
 import { PublicGamblingCalendarUseCase } from '../../src/usecase/implement/publicGamblingCalendarUseCase';
 import { PublicGamblingPlaceUseCase } from '../../src/usecase/implement/publicGamblingPlaceUseCase';
 import { PublicGamblingPlayerUseCase } from '../../src/usecase/implement/publicGamblingPlayerUseCase';
-import { PublicGamblingRaceDataUseCase } from '../../src/usecase/implement/publicGamblingRaceDataUseCase';
+import { PublicGamblingRaceUseCase } from '../../src/usecase/implement/publicGamblingRaceUseCase';
 import type { IPlaceUseCase } from '../../src/usecase/interface/IPlaceUseCase';
 import type { IPlayerDataUseCase } from '../../src/usecase/interface/IPlayerDataUseCase';
 import type { IRaceCalendarUseCase } from '../../src/usecase/interface/IRaceCalendarUseCase';
@@ -15,8 +15,8 @@ container.register<IRaceCalendarUseCase>('PublicGamblingCalendarUseCase', {
 container.register<IPlaceUseCase>('PublicGamblingPlaceUseCase', {
     useClass: PublicGamblingPlaceUseCase,
 });
-container.register<IRaceUseCase>('PublicGamblingRaceDataUseCase', {
-    useClass: PublicGamblingRaceDataUseCase,
+container.register<IRaceUseCase>('PublicGamblingRaceUseCase', {
+    useClass: PublicGamblingRaceUseCase,
 });
 container.register<IPlayerDataUseCase>('PublicGamblingPlayerUseCase', {
     useClass: PublicGamblingPlayerUseCase,

@@ -21,7 +21,7 @@ export class PublicGamblingController {
         private readonly calendarUseCase: IRaceCalendarUseCase,
         @inject('PublicGamblingPlaceUseCase')
         private readonly placeUseCase: IPlaceUseCase,
-        @inject('PublicGamblingRaceDataUseCase')
+        @inject('PublicGamblingRaceUseCase')
         private readonly raceDataUseCase: IRaceUseCase,
         @inject('PublicGamblingPlayerUseCase')
         private readonly playerUseCase: IPlayerDataUseCase,
