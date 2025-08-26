@@ -21,9 +21,9 @@ import { IRaceUseCase } from '../interface/IRaceUseCase';
 @injectable()
 export class RaceUseCase implements IRaceUseCase {
     public constructor(
-        @inject('PublicGamblingPlaceService')
+        @inject('PlaceService')
         private readonly placeService: IPlaceService,
-        @inject('PublicGamblingRaceService')
+        @inject('RaceService')
         private readonly raceService: IRaceService,
     ) {}
 

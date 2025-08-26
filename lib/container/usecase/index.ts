@@ -9,15 +9,15 @@ import type { IPlayerDataUseCase } from '../../src/usecase/interface/IPlayerData
 import type { IRaceCalendarUseCase } from '../../src/usecase/interface/IRaceCalendarUseCase';
 import type { IRaceUseCase } from '../../src/usecase/interface/IRaceUseCase';
 
-container.register<IRaceCalendarUseCase>('PublicGamblingCalendarUseCase', {
+container.register<IRaceCalendarUseCase>('CalendarUseCase', {
     useClass: CalendarUseCase,
 });
-container.register<IPlaceUseCase>('PublicGamblingPlaceUseCase', {
+container.register<IPlaceUseCase>('PlaceUseCase', {
     useClass: PlaceUseCase,
 });
-container.register<IRaceUseCase>('PublicGamblingRaceUseCase', {
+container.register<IRaceUseCase>('RaceUseCase', {
     useClass: RaceUseCase,
 });
-container.register<IPlayerDataUseCase>('PublicGamblingPlayerUseCase', {
+container.register<IPlayerDataUseCase>('PlayerUseCase', {
     useClass: PlayerUseCase,
 });

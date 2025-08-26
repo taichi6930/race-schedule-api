@@ -13,7 +13,7 @@ import { IPlaceUseCase } from '../interface/IPlaceUseCase';
 @injectable()
 export class PlaceUseCase implements IPlaceUseCase {
     public constructor(
-        @inject('PublicGamblingPlaceService')
+        @inject('PlaceService')
         private readonly placeService: IPlaceService,
     ) {}
 

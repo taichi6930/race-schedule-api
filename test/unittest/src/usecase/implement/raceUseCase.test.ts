@@ -18,7 +18,7 @@ import {
     testRaceTypeListWithoutOverseas,
 } from '../../mock/common/baseCommonData';
 
-describe('PublicGamblingRaceUseCase', () => {
+describe('RaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
     let useCase: IRaceUseCase;
 

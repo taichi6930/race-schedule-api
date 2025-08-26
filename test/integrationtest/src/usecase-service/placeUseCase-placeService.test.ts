@@ -29,10 +29,7 @@ describe('placeUseCase-placeService', () => {
         repositorySetup = setupTestRepositoryMock();
 
         service = container.resolve(PlaceService);
-        container.registerInstance<IPlaceService>(
-            'PublicGamblingPlaceService',
-            service,
-        );
+        container.registerInstance<IPlaceService>('PlaceService', service);
         useCase = container.resolve(PlaceUseCase);
     });
 

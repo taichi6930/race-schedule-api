@@ -23,7 +23,7 @@ export class PlayerUseCase implements IPlayerDataUseCase {
         const playerDataList: PlayerData[] =
             await this.playerDataService.fetchPlayerDataList(raceTypeList[0]);
         console.log(
-            'PublicGamblingPlayerUseCase: fetchPlayerDataList executed',
+            'PlayerUseCase: fetchPlayerDataList executed',
             playerDataList[0],
         );
         return playerDataList;

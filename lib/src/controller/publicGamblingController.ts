@@ -17,13 +17,13 @@ export class PublicGamblingController {
     public router: Router;
 
     public constructor(
-        @inject('PublicGamblingCalendarUseCase')
+        @inject('CalendarUseCase')
         private readonly calendarUseCase: IRaceCalendarUseCase,
-        @inject('PublicGamblingPlaceUseCase')
+        @inject('PlaceUseCase')
         private readonly placeUseCase: IPlaceUseCase,
-        @inject('PublicGamblingRaceUseCase')
+        @inject('RaceUseCase')
         private readonly raceDataUseCase: IRaceUseCase,
-        @inject('PublicGamblingPlayerUseCase')
+        @inject('PlayerUseCase')
         private readonly playerUseCase: IPlayerDataUseCase,
     ) {
         this.router = Router();

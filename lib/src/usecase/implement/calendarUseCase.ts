@@ -26,9 +26,9 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 @injectable()
 export class CalendarUseCase implements IRaceCalendarUseCase {
     public constructor(
-        @inject('PublicGamblingCalendarService')
+        @inject('CalendarService')
         private readonly calendarService: ICalendarService,
-        @inject('PublicGamblingRaceService')
+        @inject('RaceService')
         private readonly raceService: IRaceService,
         @inject('PlayerDataService')
         private readonly playerDataService: IPlayerService,

@@ -16,7 +16,7 @@ import {
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 
-describe('PublicGamblingCalendarService', () => {
+describe('CalendarService', () => {
     let service: ICalendarService;
     let repositorySetup: TestRepositorySetup;
 

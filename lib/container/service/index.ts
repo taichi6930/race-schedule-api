@@ -12,12 +12,12 @@ import type { IRaceService } from '../../src/service/interface/IRaceService';
 container.register<IPlayerService>('PlayerDataService', {
     useClass: PlayerService,
 });
-container.register<IPlaceService>('PublicGamblingPlaceService', {
+container.register<IPlaceService>('PlaceService', {
     useClass: PlaceService,
 });
-container.register<ICalendarService>('PublicGamblingCalendarService', {
+container.register<ICalendarService>('CalendarService', {
     useClass: CalendarService,
 });
-container.register<IRaceService>('PublicGamblingRaceService', {
+container.register<IRaceService>('RaceService', {
     useClass: RaceService,
 });

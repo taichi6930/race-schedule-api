@@ -19,7 +19,7 @@ import {
     testRaceTypeListWithoutOverseas,
 } from '../../mock/common/baseCommonData';
 
-describe('PublicGamblingPlaceService', () => {
+describe('PlaceService', () => {
     let repositorySetup: TestRepositorySetup;
     let service: IPlaceService;
 

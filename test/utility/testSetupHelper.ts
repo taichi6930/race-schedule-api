@@ -161,19 +161,13 @@ export function setupTestGatewayMock(): TestGatewaySetup {
 export function setupTestServiceMock(): TestServiceSetup {
     const calendarService = calendarServiceMock();
     container.registerInstance<ICalendarService>(
-        'PublicGamblingCalendarService',
+        'CalendarService',
         calendarService,
     );
     const raceService = raceDataServiceMock();
-    container.registerInstance<IRaceService>(
-        'PublicGamblingRaceService',
-        raceService,
-    );
+    container.registerInstance<IRaceService>('RaceService', raceService);
     const placeService = placeServiceMock();
-    container.registerInstance<IPlaceService>(
-        'PublicGamblingPlaceService',
-        placeService,
-    );
+    container.registerInstance<IPlaceService>('PlaceService', placeService);
     const playerService = playerDataServiceMock();
     container.registerInstance<IPlayerService>(
         'PlayerDataService',

@@ -21,7 +21,7 @@ import {
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 
-describe('PublicGamblingRaceCalendarUseCase', () => {
+describe('RaceCalendarUseCase', () => {
     let serviceSetup: TestServiceSetup;
     let useCase: IRaceCalendarUseCase;
 

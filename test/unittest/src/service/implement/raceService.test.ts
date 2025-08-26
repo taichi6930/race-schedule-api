@@ -18,7 +18,7 @@ import {
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 
-describe('PublicGamblingRaceService', () => {
+describe('RaceService', () => {
     let repositorySetup: TestRepositorySetup;
     let service: IRaceService;
 
