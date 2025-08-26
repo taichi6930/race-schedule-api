@@ -5,6 +5,7 @@ export const CSV_FILE_NAME = {
     RACE_PLAYER_LIST: 'racePlayerList.csv',
     GRADE_LIST: 'gradeList.csv',
     HELD_DAY_LIST: 'heldDayList.csv',
+    PLAYER_LIST: 'playerList.csv',
 } as const;
 
 /**
@@ -41,4 +42,7 @@ export const CSV_HEADER_KEYS = {
     RACE_ID: 'raceId',
     POSITION_NUMBER: 'positionNumber',
     PLAYER_NUMBER: 'playerNumber',
+    PLAYER_NO: 'playerNo',
+    PLAYER_NAME: 'playerName',
+    PRIORITY: 'priority',
 } as const;

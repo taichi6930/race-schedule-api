@@ -150,6 +150,7 @@ export default [
             'jsdoc/sort-tags': 'error', // タグのソート
             'jsdoc/tag-lines': 'error', // タグの行数チェック
             'jsdoc/valid-types': 'error', // 有効な型のチェック
+            'unicorn/prefer-string-slice': 'off', // ✅ preferStringSliceを許可
             '@typescript-eslint/class-methods-use-this': 'off', // ✅ クラスメソッド内でthisを使う
             '@typescript-eslint/max-params': 'off', // ✅ 関数のパラメータ数の最大値を許可
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可

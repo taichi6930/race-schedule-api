@@ -10,7 +10,7 @@ export interface IPlayerService {
      */
     /**
      * 指定レースタイプのプレイヤーデータを取得
-     * @param type - レースタイプ
+     * @param raceType - レース種別
      */
-    fetchPlayerDataList: (type: RaceType) => Promise<PlayerData[]>;
+    fetchPlayerDataList: (raceType: RaceType) => Promise<PlayerData[]>;
 }

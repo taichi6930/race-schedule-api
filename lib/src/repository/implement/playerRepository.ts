@@ -1,54 +1,90 @@
-import 'reflect-metadata';
+import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
-import type { ISQLiteGateway } from '../../gateway/interface/ISQLiteGateway';
+import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
+import { PlayerRecord } from '../../gateway/record/playerRecord';
+import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { Logger } from '../../utility/logger';
-import type { IPlayerRepository, Player } from '../interface/IPlayerRepository';
+import { RaceType } from '../../utility/raceType';
+import { PlayerEntity } from '../entity/playerEntity';
+import { SearchPlayerFilterEntity } from '../entity/searchPlayerFilterEntity';
+import { IPlayerRepository } from '../interface/IPlayerRepository';
 
 @injectable()
 export class PlayerRepository implements IPlayerRepository {
     public constructor(
-        @inject('SQLiteGateway')
-        private readonly gateway: ISQLiteGateway,
+        @inject('S3Gateway')
+        private readonly s3Gateway: IS3Gateway,
     ) {}
 
+    /**
+     * 開催データを取得する
+     * このメソッドで日付の範囲を指定して開催データを取得する
+     * @param searchFilter
+     */
     @Logger
-    public upsert(player: Player): void {
-        const query = `INSERT INTO players (id, race_type, player_no, player_name, priority)
-      VALUES (?, ?, ?, ?, ?)
-      ON CONFLICT(id) DO UPDATE SET
-        race_type=excluded.race_type,
-        player_no=excluded.player_no,
-        player_name=excluded.player_name,
-        priority=excluded.priority`;
-        this.gateway.run(query, [
-            player.id,
-            player.race_type,
-            player.player_no,
-            player.player_name,
-            player.priority,
-        ]);
+    public async findAll(
+        searchFilter: SearchPlayerFilterEntity,
+    ): Promise<PlayerEntity[]> {
+        // 開催データを取得
+        const playerRecordList: PlayerRecord[] =
+            await this.getPlayerRecordListFromS3(searchFilter.raceType);
+
+        return playerRecordList.map((playerRecord) => playerRecord.toEntity());
     }
 
+    /**
+     * S3からプレイヤーデータを取得する
+     * @param raceType - レース種別
+     */
     @Logger
-    public findById(id: string): Player | undefined {
-        const query = 'SELECT * FROM players WHERE id = ?';
-        return this.gateway.get<Player>(query, [id]);
-    }
+    private async getPlayerRecordListFromS3(
+        raceType: RaceType,
+    ): Promise<PlayerRecord[]> {
+        const csv = await this.s3Gateway.fetchDataFromS3(
+            `data/`,
+            CSV_FILE_NAME.PLAYER_LIST,
+        );
 
-    @Logger
-    public async findAll(): Promise<Player[]> {
-        const query = 'SELECT * FROM players';
-        const result = await this.gateway.all<Player>(query);
-        return Array.isArray(result)
-            ? Promise.resolve(result)
-            : Promise.resolve([]);
-    }
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
 
-    @Logger
-    public deleteById(id: string): void {
-        const query = 'DELETE FROM players WHERE id = ?';
-        this.gateway.run(query, [id]);
+        // CSVを行ごとに分割
+        const lines = csv.split('\n');
+
+        // ヘッダー行を解析
+        const headers = lines[0].split(',');
+
+        // ヘッダーに基づいてインデックスを取得
+        const indices = {
+            playerNo: headers.indexOf(CSV_HEADER_KEYS.PLAYER_NO),
+            playerName: headers.indexOf(CSV_HEADER_KEYS.PLAYER_NAME),
+            priority: headers.indexOf(CSV_HEADER_KEYS.PRIORITY),
+        };
+
+        const playerRecordList: PlayerRecord[] = lines
+            .slice(1)
+            .flatMap((line: string): PlayerRecord[] => {
+                try {
+                    const columns = line.split(',');
+
+                    return [
+                        PlayerRecord.create(
+                            raceType,
+                            columns[indices.playerNo],
+                            columns[indices.playerName],
+                            Number.parseInt(columns[indices.priority], 10),
+                        ),
+                    ];
+                } catch (error) {
+                    console.error(error);
+                    return [];
+                }
+            });
+
+        return playerRecordList;
     }
 }

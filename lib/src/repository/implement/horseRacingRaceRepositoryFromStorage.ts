@@ -33,7 +33,10 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
     ): Promise<RaceEntity[]> {
         // ファイル名リストから開催データを取得する
         const raceRecordList: HorseRacingRaceRecord[] =
-            await this.getRaceRecordListFromS3(searchFilter.raceType);
+            await this.getRaceRecordListFromS3(
+                searchFilter.raceType,
+                searchFilter.startDate,
+            );
         const filteredRaceRecordList = raceRecordList.filter(
             (raceRecord) =>
                 raceRecord.dateTime >= searchFilter.startDate &&
@@ -111,10 +114,12 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
     /**
      * レースデータをS3から取得する
      * @param raceType - レース種別
+     * @param borderDate
      */
     @Logger
     private async getRaceRecordListFromS3(
         raceType: RaceType,
+        borderDate?: Date,
     ): Promise<HorseRacingRaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(
@@ -147,35 +152,42 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
         };
 
         // データ行を解析してRaceDataのリストを生成
-        return lines
-            .slice(1)
-            .flatMap((line: string): HorseRacingRaceRecord[] => {
-                try {
-                    const columns = line.split('\r').join('').split(',');
-
-                    const updateDate = columns[indices.updateDate]
-                        ? new Date(columns[indices.updateDate])
-                        : getJSTDate(new Date());
-
-                    return [
-                        HorseRacingRaceRecord.create(
-                            columns[indices.id],
-                            raceType,
-                            columns[indices.name],
-                            new Date(columns[indices.dateTime]),
-                            columns[indices.location],
-                            columns[indices.surfaceType],
-                            Number.parseInt(columns[indices.distance]),
-                            columns[indices.grade],
-                            Number.parseInt(columns[indices.number]),
-                            updateDate,
-                        ),
-                    ];
-                } catch (error) {
-                    console.error(error);
-                    return [];
+        const result: HorseRacingRaceRecord[] = [];
+        for (const line of lines.slice(1)) {
+            try {
+                const columns = line.split('\r').join('').split(',');
+                const dateTime = new Date(columns[indices.dateTime]);
+                if (borderDate && borderDate > dateTime) {
+                    console.log(
+                        'borderDateより前のデータはスキップします',
+                        dateTime,
+                    );
+                    break;
                 }
-            });
+
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
+                result.push(
+                    HorseRacingRaceRecord.create(
+                        columns[indices.id],
+                        raceType,
+                        columns[indices.name],
+                        new Date(columns[indices.dateTime]),
+                        columns[indices.location],
+                        columns[indices.surfaceType],
+                        Number.parseInt(columns[indices.distance]),
+                        columns[indices.grade],
+                        Number.parseInt(columns[indices.number]),
+                        updateDate,
+                    ),
+                );
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        return result;
     }
 
     /**
