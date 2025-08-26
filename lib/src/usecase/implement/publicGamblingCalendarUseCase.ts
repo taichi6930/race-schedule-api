@@ -6,7 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IPlayerDataService } from '../../service/interface/IPlayerDataService';
+import { IPlayerService } from '../../service/interface/IPlayerService';
 import { IRaceService } from '../../service/interface/IRaceService';
 import { RaceGradeAndStageList } from '../../utility/data/stage';
 import { DataLocation } from '../../utility/dataType';
@@ -31,7 +31,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
         @inject('PublicGamblingRaceService')
         private readonly raceService: IRaceService,
         @inject('PlayerDataService')
-        private readonly playerDataService: IPlayerDataService,
+        private readonly playerDataService: IPlayerService,
     ) {}
 
     /**

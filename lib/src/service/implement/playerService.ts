@@ -7,10 +7,10 @@ import { PlayerData } from '../../domain/playerData';
 import type { IPlayerRepository } from '../../repository/interface/IPlayerRepository';
 import { Logger } from '../../utility/logger';
 import { isRaceType, RaceType } from '../../utility/raceType';
-import type { IPlayerDataService } from '../interface/IPlayerDataService';
+import type { IPlayerService } from '../interface/IPlayerService';
 
 @injectable()
-export class PlayerDataService implements IPlayerDataService {
+export class PlayerService implements IPlayerService {
     public constructor(
         @inject('PlayerRepository')
         private readonly repository: IPlayerRepository,

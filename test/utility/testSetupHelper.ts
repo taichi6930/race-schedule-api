@@ -9,7 +9,7 @@ import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlace
 import type { IRaceRepository } from '../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../lib/src/service/interface/ICalendarService';
 import type { IPlaceService } from '../../lib/src/service/interface/IPlaceService';
-import type { IPlayerDataService } from '../../lib/src/service/interface/IPlayerDataService';
+import type { IPlayerService } from '../../lib/src/service/interface/IPlayerService';
 import type { IRaceService } from '../../lib/src/service/interface/IRaceService';
 import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockS3Gateway } from '../unittest/src/mock/gateway/mockS3Gateway';
@@ -57,7 +57,7 @@ export interface TestServiceSetup {
     calendarService: jest.Mocked<ICalendarService>;
     raceDataService: jest.Mocked<IRaceService>;
     placeService: jest.Mocked<IPlaceService>;
-    playerDataService: jest.Mocked<IPlayerDataService>;
+    playerDataService: jest.Mocked<IPlayerService>;
 }
 
 /**
@@ -175,7 +175,7 @@ export function setupTestServiceMock(): TestServiceSetup {
         placeService,
     );
     const playerDataService = playerDataServiceMock();
-    container.registerInstance<IPlayerDataService>(
+    container.registerInstance<IPlayerService>(
         'PlayerDataService',
         playerDataService,
     );
