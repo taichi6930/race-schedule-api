@@ -17,13 +17,13 @@ export class PublicGamblingController {
     public router: Router;
 
     public constructor(
-        @inject('PublicGamblingCalendarUseCase')
+        @inject('CalendarUseCase')
         private readonly calendarUseCase: IRaceCalendarUseCase,
-        @inject('PublicGamblingPlaceUseCase')
+        @inject('PlaceUseCase')
         private readonly placeUseCase: IPlaceUseCase,
-        @inject('PublicGamblingRaceUseCase')
+        @inject('RaceUseCase')
         private readonly raceDataUseCase: IRaceUseCase,
-        @inject('PublicGamblingPlayerUseCase')
+        @inject('PlayerUseCase')
         private readonly playerUseCase: IPlayerDataUseCase,
     ) {
         this.router = Router();
@@ -38,13 +38,13 @@ export class PublicGamblingController {
         // Calendar関連のAPI
         this.router.get('/calendar', this.getRacesFromCalendar.bind(this));
         this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
-        // RaceData関連のAPI
+        // Race関連のAPI
         this.router.get('/race', this.getRaceEntityList.bind(this));
         this.router.post('/race', this.updateRaceEntityList.bind(this));
-        // PlaceData関連のAPI
+        // Place関連のAPI
         this.router.get('/place', this.getPlaceEntityList.bind(this));
         this.router.post('/place', this.updatePlaceEntityList.bind(this));
-        // PlayerData関連のAPI
+        // Player関連のAPI
         this.router.get('/player', this.getPlayerDataList.bind(this));
     }
 
@@ -88,12 +88,13 @@ export class PublicGamblingController {
                 return;
             }
 
-            const races = await this.calendarUseCase.fetchRacesFromCalendar(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-                raceTypeList,
-            );
-            res.json(races);
+            const calendarDataList =
+                await this.calendarUseCase.fetchCalendarRaceList(
+                    new Date(startDate as string),
+                    new Date(finishDate as string),
+                    raceTypeList,
+                );
+            res.json(calendarDataList);
         } catch (error) {
             console.error(
                 'カレンダーからレース情報を取得中にエラーが発生しました:',
@@ -148,7 +149,7 @@ export class PublicGamblingController {
             }
 
             // カレンダーにレース情報を更新する
-            await this.calendarUseCase.updateRacesToCalendar(
+            await this.calendarUseCase.updateCalendarRaceData(
                 new Date(startDate),
                 new Date(finishDate),
                 raceTypeList,
@@ -367,41 +368,42 @@ export class PublicGamblingController {
             }
 
             // レース情報を取得する
-            const races = await this.raceDataUseCase.fetchRaceEntityList(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-                raceTypeList,
-                {
-                    [RaceType.JRA]: {
-                        gradeList,
-                        locationList,
+            const raceEntityList =
+                await this.raceDataUseCase.fetchRaceEntityList(
+                    new Date(startDate as string),
+                    new Date(finishDate as string),
+                    raceTypeList,
+                    {
+                        [RaceType.JRA]: {
+                            gradeList,
+                            locationList,
+                        },
+                        [RaceType.NAR]: {
+                            gradeList,
+                            locationList,
+                        },
+                        [RaceType.OVERSEAS]: {
+                            gradeList,
+                            locationList,
+                        },
+                        [RaceType.KEIRIN]: {
+                            gradeList,
+                            locationList,
+                            stageList,
+                        },
+                        [RaceType.AUTORACE]: {
+                            gradeList,
+                            locationList,
+                            stageList,
+                        },
+                        [RaceType.BOATRACE]: {
+                            gradeList,
+                            locationList,
+                            stageList,
+                        },
                     },
-                    [RaceType.NAR]: {
-                        gradeList,
-                        locationList,
-                    },
-                    [RaceType.OVERSEAS]: {
-                        gradeList,
-                        locationList,
-                    },
-                    [RaceType.KEIRIN]: {
-                        gradeList,
-                        locationList,
-                        stageList,
-                    },
-                    [RaceType.AUTORACE]: {
-                        gradeList,
-                        locationList,
-                        stageList,
-                    },
-                    [RaceType.BOATRACE]: {
-                        gradeList,
-                        locationList,
-                        stageList,
-                    },
-                },
-            );
-            res.json(races);
+                );
+            res.json(raceEntityList);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
             const errorMessage =

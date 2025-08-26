@@ -24,11 +24,11 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
  * 公営競技のレースカレンダーユースケース
  */
 @injectable()
-export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
+export class CalendarUseCase implements IRaceCalendarUseCase {
     public constructor(
-        @inject('PublicGamblingCalendarService')
+        @inject('CalendarService')
         private readonly calendarService: ICalendarService,
-        @inject('PublicGamblingRaceService')
+        @inject('RaceService')
         private readonly raceService: IRaceService,
         @inject('PlayerDataService')
         private readonly playerDataService: IPlayerService,
@@ -41,7 +41,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * @param raceTypeList - レース種別のリスト
      */
     @Logger
-    public async fetchRacesFromCalendar(
+    public async fetchCalendarRaceList(
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
@@ -65,7 +65,7 @@ export class PublicGamblingCalendarUseCase implements IRaceCalendarUseCase {
      * @param displayGradeList
      */
     @Logger
-    public async updateRacesToCalendar(
+    public async updateCalendarRaceData(
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],

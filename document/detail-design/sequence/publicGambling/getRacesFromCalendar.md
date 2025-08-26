@@ -4,8 +4,8 @@
 sequenceDiagram
     participant Client
     participant PublicGamblingController
-    participant PublicGamblingCalendarUseCase
-    participant PublicGamblingCalendarService
+    participant CalendarUseCase
+    participant CalendarService
     participant GoogleCalendarRepository
     participant GoogleCalendarGateway
 
@@ -14,14 +14,14 @@ sequenceDiagram
     alt 日付が不正
         PublicGamblingController-->>Client: 400エラー返却
     else 日付が正
-        PublicGamblingController->>PublicGamblingCalendarUseCase: getRacesFromCalendar(startDate, finishDate)
-        PublicGamblingCalendarUseCase->>PublicGamblingCalendarService: getEvents(startDate, finishDate)
-        PublicGamblingCalendarService->>GoogleCalendarRepository: getEvents(SearchCalendarFilterEntity)
+        PublicGamblingController->>CalendarUseCase: getRacesFromCalendar(startDate, finishDate)
+        CalendarUseCase->>CalendarService: getEvents(startDate, finishDate)
+        CalendarService->>GoogleCalendarRepository: getEvents(SearchCalendarFilterEntity)
         GoogleCalendarRepository->>GoogleCalendarGateway: fetchCalendarDataList(startDate, finishDate)
         GoogleCalendarGateway-->>GoogleCalendarRepository: Googleカレンダーイベントリスト
-        GoogleCalendarRepository-->>PublicGamblingCalendarService: CalendarData[]
-        PublicGamblingCalendarService-->>PublicGamblingCalendarUseCase: CalendarData[]
-        PublicGamblingCalendarUseCase-->>PublicGamblingController: CalendarData[]
+        GoogleCalendarRepository-->>CalendarService: CalendarData[]
+        CalendarService-->>CalendarUseCase: CalendarData[]
+        CalendarUseCase-->>PublicGamblingController: CalendarData[]
         PublicGamblingController-->>Client: レース情報をJSONで返却
     end
     alt 例外発生

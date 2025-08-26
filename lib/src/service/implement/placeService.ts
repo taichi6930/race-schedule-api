@@ -16,7 +16,7 @@ import { IPlaceService } from '../interface/IPlaceService';
  * 公営競技の開催場データを提供するサービス
  */
 @injectable()
-export class PublicGamblingPlaceService implements IPlaceService {
+export class PlaceService implements IPlaceService {
     public constructor(
         @inject('PlaceRepositoryFromStorage')
         protected placeRepositoryFromStorage: IPlaceRepository,

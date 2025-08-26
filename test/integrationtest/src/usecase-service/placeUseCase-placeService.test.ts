@@ -4,9 +4,9 @@ import { container } from 'tsyringe';
 
 import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import type { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { PublicGamblingPlaceService } from '../../../../lib/src/service/implement/publicGamblingPlaceService';
+import { PlaceService } from '../../../../lib/src/service/implement/placeService';
 import type { IPlaceService } from '../../../../lib/src/service/interface/IPlaceService';
-import { PublicGamblingPlaceUseCase } from '../../../../lib/src/usecase/implement/publicGamblingPlaceUseCase';
+import { PlaceUseCase } from '../../../../lib/src/usecase/implement/placeUseCase';
 import type { IPlaceUseCase } from '../../../../lib/src/usecase/interface/IPlaceUseCase';
 import { RaceType } from '../../../../lib/src/utility/raceType';
 import {
@@ -20,7 +20,7 @@ import {
     setupTestRepositoryMock,
 } from '../../../utility/testSetupHelper';
 
-describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceService', () => {
+describe('placeUseCase-placeService', () => {
     let repositorySetup: TestRepositorySetup;
     let service: IPlaceService;
     let useCase: IPlaceUseCase;
@@ -28,12 +28,9 @@ describe('PublicGamblingPlaceDataUseCase-publicGamblingPlaceService', () => {
     beforeEach(() => {
         repositorySetup = setupTestRepositoryMock();
 
-        service = container.resolve(PublicGamblingPlaceService);
-        container.registerInstance<IPlaceService>(
-            'PublicGamblingPlaceService',
-            service,
-        );
-        useCase = container.resolve(PublicGamblingPlaceUseCase);
+        service = container.resolve(PlaceService);
+        container.registerInstance<IPlaceService>('PlaceService', service);
+        useCase = container.resolve(PlaceUseCase);
     });
 
     afterEach(() => {

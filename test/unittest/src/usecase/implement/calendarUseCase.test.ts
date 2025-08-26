@@ -5,7 +5,7 @@ import { afterEach } from 'node:test';
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../../lib/src/domain/calendarData';
-import { PublicGamblingCalendarUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingCalendarUseCase';
+import { CalendarUseCase } from '../../../../../lib/src/usecase/implement/calendarUseCase';
 import type { IRaceCalendarUseCase } from '../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SpecifiedGradeList } from '../../../../../lib/src/utility/validateAndType/gradeType';
@@ -21,13 +21,13 @@ import {
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 
-describe('PublicGamblingRaceCalendarUseCase', () => {
+describe('RaceCalendarUseCase', () => {
     let serviceSetup: TestServiceSetup;
     let useCase: IRaceCalendarUseCase;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();
-        useCase = container.resolve(PublicGamblingCalendarUseCase);
+        useCase = container.resolve(CalendarUseCase);
     });
 
     afterEach(() => {
@@ -44,7 +44,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
 
-            const result = await useCase.fetchRacesFromCalendar(
+            const result = await useCase.fetchCalendarRaceList(
                 startDate,
                 finishDate,
                 testRaceTypeListAll,
@@ -97,7 +97,7 @@ describe('PublicGamblingRaceCalendarUseCase', () => {
         const startDate = new Date('2024-02-01');
         const finishDate = new Date('2024-02-29');
 
-        await useCase.updateRacesToCalendar(
+        await useCase.updateCalendarRaceData(
             startDate,
             finishDate,
             testRaceTypeListAll,

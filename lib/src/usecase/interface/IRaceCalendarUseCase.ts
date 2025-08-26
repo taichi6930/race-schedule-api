@@ -9,7 +9,7 @@ export interface IRaceCalendarUseCase {
      * @param finishDate - 取得終了日（含む）
      * @param raceTypeList - レース種別リスト
      */
-    fetchRacesFromCalendar: (
+    fetchCalendarRaceList: (
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
@@ -22,7 +22,7 @@ export interface IRaceCalendarUseCase {
      * @param raceTypeList - レース種別リスト
      * @param displayGradeList - 表示対象のグレードリスト
      */
-    updateRacesToCalendar: (
+    updateCalendarRaceData: (
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],

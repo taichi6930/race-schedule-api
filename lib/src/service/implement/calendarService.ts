@@ -17,7 +17,7 @@ import { ICalendarService } from '../interface/ICalendarService';
  * カレンダーイベントの取得・登録・削除などの共通機能を提供します。
  */
 @injectable()
-export class PublicGamblingCalendarService implements ICalendarService {
+export class CalendarService implements ICalendarService {
     public constructor(
         @inject('CalendarRepository')
         protected readonly calendarRepository: ICalendarRepository,

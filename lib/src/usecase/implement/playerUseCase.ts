@@ -10,7 +10,7 @@ import { IPlayerDataUseCase } from '../interface/IPlayerDataUseCase';
  * 公営競技のプレイヤーデータUseCase
  */
 @injectable()
-export class PublicGamblingPlayerUseCase implements IPlayerDataUseCase {
+export class PlayerUseCase implements IPlayerDataUseCase {
     public constructor(
         @inject('PlayerDataService')
         private readonly playerDataService: IPlayerService,
@@ -23,7 +23,7 @@ export class PublicGamblingPlayerUseCase implements IPlayerDataUseCase {
         const playerDataList: PlayerData[] =
             await this.playerDataService.fetchPlayerDataList(raceTypeList[0]);
         console.log(
-            'PublicGamblingPlayerUseCase: fetchPlayerDataList executed',
+            'PlayerUseCase: fetchPlayerDataList executed',
             playerDataList[0],
         );
         return playerDataList;

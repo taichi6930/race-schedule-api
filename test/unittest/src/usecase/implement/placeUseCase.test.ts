@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { PublicGamblingPlaceUseCase } from '../../../../../lib/src/usecase/implement/publicGamblingPlaceUseCase';
+import { PlaceUseCase } from '../../../../../lib/src/usecase/implement/placeUseCase';
 import type { IPlaceUseCase } from '../../../../../lib/src/usecase/interface/IPlaceUseCase';
 import type { TestServiceSetup } from '../../../../utility/testSetupHelper';
 import {
@@ -14,13 +14,13 @@ import {
     testRaceTypeListAll,
     testRaceTypeListWithoutOverseas,
 } from '../../mock/common/baseCommonData';
-describe('PublicGamblingPlaceUseCase', () => {
+describe('PlaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
     let useCase: IPlaceUseCase;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();
-        useCase = container.resolve(PublicGamblingPlaceUseCase);
+        useCase = container.resolve(PlaceUseCase);
     });
 
     afterEach(() => {
