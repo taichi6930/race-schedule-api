@@ -82,12 +82,8 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
                 content.find('h2').text().split('\n').filter(Boolean)[1] ??
                 `${placeData.location}${grade}`
             )
-                .replace(/[！-～]/g, (s: string) =>
-                    String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
-                )
-                .replace(/[０-９Ａ-Ｚａ-ｚ]/g, (s: string) =>
-                    String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
-                );
+                .replaceFromCodePoint(/[！-～]/g)
+                .replaceFromCodePoint(/[０-９Ａ-Ｚａ-ｚ]/g);
             // class="section1"を取得
             const section1 = content.find('.section1');
             section1.each((_, section1Element) => {
