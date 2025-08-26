@@ -87,14 +87,25 @@ export class PlaceService implements IPlaceService {
             };
         try {
             const responseList = await Promise.all(
-                RACE_TYPE_LIST_ALL.map(async (raceType) =>
-                    this.placeRepositoryFromStorage.registerPlaceEntityList(
+                RACE_TYPE_LIST_ALL.map(async (raceType) => {
+                    if (
+                        placeEntityList.filter(
+                            (item) => item.placeData.raceType === raceType,
+                        ).length === 0
+                    )
+                        return {
+                            code: 200,
+                            message: '保存するデータがありません',
+                            successDataCount: 0,
+                            failureDataCount: 0,
+                        };
+                    return this.placeRepositoryFromStorage.registerPlaceEntityList(
                         raceType,
                         placeEntityList.filter(
                             (item) => item.placeData.raceType === raceType,
                         ),
-                    ),
-                ),
+                    );
+                }),
             );
 
             return {
@@ -103,13 +114,19 @@ export class PlaceService implements IPlaceService {
                     ? '保存に成功しました'
                     : '一部のデータの保存に失敗しました',
                 successDataCount: responseList.reduce(
-                    (acc: number, res: { successData: PlaceEntity[] }) =>
-                        acc + res.successData.length,
+                    (acc: number, res) =>
+                        acc +
+                        ('successData' in res
+                            ? res.successData.length
+                            : res.successDataCount),
                     0,
                 ),
                 failureDataCount: responseList.reduce(
-                    (acc: number, res: { failureData: PlaceEntity[] }) =>
-                        acc + res.failureData.length,
+                    (acc: number, res) =>
+                        acc +
+                        ('failureData' in res
+                            ? res.failureData.length
+                            : res.failureDataCount),
                     0,
                 ),
             };
