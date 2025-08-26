@@ -58,7 +58,7 @@
         "eslint-plugin-prettier": "^5.5.4",
         "eslint-plugin-simple-import-sort": "^12.1.1",
         "express": "^5.1.0",
-        "google-auth-library": "^10.2.1",
+        "google-auth-library": "^10.3.0",
         "googleapis": "^157.0.0",
         "jest-html-reporters": "^3.1.7",
         "nodemon": "^3.1.10",
@@ -97,7 +97,7 @@
         "jest": "^30.0.5",
         "lint-staged": "^16.1.5",
         "typescript": "~5.9.2",
-        "typescript-eslint": "^8.40.0"
+        "typescript-eslint": "^8.41.0"
     },
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
