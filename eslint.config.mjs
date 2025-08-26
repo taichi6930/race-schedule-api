@@ -217,10 +217,7 @@ export default [
         },
     },
     {
-        files: [
-            '**/*UseCase.test.ts',
-            '**/*DataHtmlGateway.test.ts',
-        ],
+        files: ['**/*UseCase.test.ts', '**/*DataHtmlGateway.test.ts'],
         rules: {
             '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内での関数定義を禁止
         },
