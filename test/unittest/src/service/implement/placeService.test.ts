@@ -3,18 +3,16 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
-import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceService } from '../../../../../lib/src/service/implement/placeService';
 import type { IPlaceService } from '../../../../../lib/src/service/interface/IPlaceService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
-import { RaceType } from '../../../../../lib/src/utility/raceType';
+import type { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestRepositorySetup } from '../../../../utility/testSetupHelper';
 import {
     clearMocks,
     setupTestRepositoryMock,
 } from '../../../../utility/testSetupHelper';
 import {
-    basePlaceEntity,
     mockPlaceEntityList,
     testRaceTypeListWithoutOverseas,
 } from '../../mock/common/baseCommonData';
@@ -34,24 +32,6 @@ describe('PlaceService', () => {
 
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること(storage)', async () => {
-            // モックの戻り値を設定
-            repositorySetup.placeRepositoryFromStorage.fetchPlaceEntityList.mockImplementation(
-                async (searchFilter: SearchPlaceFilterEntity) => {
-                    switch (searchFilter.raceType) {
-                        case RaceType.OVERSEAS: {
-                            throw new Error('race type is not supported');
-                        }
-                        case RaceType.JRA:
-                        case RaceType.NAR:
-                        case RaceType.KEIRIN:
-                        case RaceType.AUTORACE:
-                        case RaceType.BOATRACE: {
-                            return [basePlaceEntity(searchFilter.raceType)];
-                        }
-                    }
-                },
-            );
-
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
@@ -66,13 +46,6 @@ describe('PlaceService', () => {
         });
 
         it('正常に開催場データが取得できること（web）', async () => {
-            // モックの戻り値を設定
-            repositorySetup.placeRepositoryFromHtml.fetchPlaceEntityList.mockImplementation(
-                async (searchFilter: SearchPlaceFilterEntity) => {
-                    return [basePlaceEntity(searchFilter.raceType)];
-                },
-            );
-
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
@@ -112,24 +85,6 @@ describe('PlaceService', () => {
 
     describe('updatePlaceDataList', () => {
         it('正常に開催場データが更新されること', async () => {
-            // モックの戻り値を設定
-            repositorySetup.placeRepositoryFromStorage.fetchPlaceEntityList.mockImplementation(
-                async (searchFilter: SearchPlaceFilterEntity) => {
-                    switch (searchFilter.raceType) {
-                        case RaceType.OVERSEAS: {
-                            throw new Error('race type is not supported');
-                        }
-                        case RaceType.JRA:
-                        case RaceType.NAR:
-                        case RaceType.KEIRIN:
-                        case RaceType.AUTORACE:
-                        case RaceType.BOATRACE: {
-                            return [basePlaceEntity(searchFilter.raceType)];
-                        }
-                    }
-                },
-            );
-
             // registerPlaceEntityList の戻り値を正しい型でモック
             repositorySetup.placeRepositoryFromStorage.registerPlaceEntityList.mockImplementation(
                 async (raceType: RaceType, placeEntityList: PlaceEntity[]) => {
