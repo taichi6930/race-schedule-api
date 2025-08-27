@@ -13,7 +13,7 @@ import { SkipEnv } from '../../../../utility/testDecorators';
 import { clearMocks } from '../../../../utility/testSetupHelper';
 import {
     basePlaceEntity,
-    testRaceTypeListWithoutOverseas,
+    testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 
 // テーブル駆動型テスト
@@ -30,6 +30,13 @@ const testCases = {
             startDate: new Date('2024-10-01'),
             endDate: new Date('2024-10-31'),
             expectedLength: 120,
+        },
+    ],
+    [RaceType.OVERSEAS]: [
+        {
+            startDate: new Date('2024-10-01'),
+            endDate: new Date('2024-10-31'),
+            expectedLength: 0,
         },
     ],
     [RaceType.KEIRIN]: [
@@ -55,66 +62,59 @@ const testCases = {
     ],
 };
 
-describe.each(testRaceTypeListWithoutOverseas)(
-    'PlaceRepositoryFromHtml',
-    (raceType) => {
-        for (const { startDate, endDate, expectedLength } of testCases[
-            raceType
-        ]) {
-            describe(`PlaceRepositoryFromHtml(${raceType})`, () => {
-                let placeDataHtmlGateway: IPlaceDataHtmlGateway;
-                let repository: IPlaceRepository;
+describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
+    for (const { startDate, endDate, expectedLength } of testCases[raceType]) {
+        describe(`PlaceRepositoryFromHtml(${raceType})`, () => {
+            let placeDataHtmlGateway: IPlaceDataHtmlGateway;
+            let repository: IPlaceRepository;
 
-                beforeAll(() => {
-                    placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
-                    container.registerInstance(
-                        'PlaceDataHtmlGateway',
-                        placeDataHtmlGateway,
-                    );
-                    repository = container.resolve<IPlaceRepository>(
-                        PlaceRepositoryFromHtml,
-                    );
-                });
+            beforeAll(() => {
+                placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
+                container.registerInstance(
+                    'PlaceDataHtmlGateway',
+                    placeDataHtmlGateway,
+                );
+                repository = container.resolve<IPlaceRepository>(
+                    PlaceRepositoryFromHtml,
+                );
+            });
 
-                afterAll(() => {
-                    clearMocks();
-                });
+            afterAll(() => {
+                clearMocks();
+            });
 
-                describe('fetchPlaceList', () => {
-                    SkipEnv(
-                        `正しいレース開催データを取得できる(${raceType})`,
-                        [allowedEnvs.githubActionsCi],
-                        async () => {
-                            const placeEntityList =
-                                await repository.fetchPlaceEntityList(
-                                    new SearchPlaceFilterEntity(
-                                        startDate,
-                                        endDate,
-                                        raceType,
-                                    ),
-                                );
-                            expect(placeEntityList).toHaveLength(
-                                expectedLength,
+            describe('fetchPlaceList', () => {
+                SkipEnv(
+                    `正しいレース開催データを取得できる(${raceType})`,
+                    [allowedEnvs.githubActionsCi],
+                    async () => {
+                        const placeEntityList =
+                            await repository.fetchPlaceEntityList(
+                                new SearchPlaceFilterEntity(
+                                    startDate,
+                                    endDate,
+                                    raceType,
+                                ),
                             );
-                        },
-                    );
-                });
+                        expect(placeEntityList).toHaveLength(expectedLength);
+                    },
+                );
+            });
 
-                describe('registerPlaceList', () => {
-                    it(`HTMLにはデータを登録できない(${raceType})`, async () => {
-                        await expect(
-                            repository.registerPlaceEntityList(raceType, [
-                                basePlaceEntity(raceType),
-                            ]),
-                        ).resolves.toEqual({
-                            code: 500,
-                            message: 'HTMLにはデータを登録出来ません',
-                            successData: [],
-                            failureData: [basePlaceEntity(raceType)],
-                        });
+            describe('registerPlaceList', () => {
+                it(`HTMLにはデータを登録できない(${raceType})`, async () => {
+                    await expect(
+                        repository.registerPlaceEntityList(raceType, [
+                            basePlaceEntity(raceType),
+                        ]),
+                    ).resolves.toEqual({
+                        code: 500,
+                        message: 'HTMLにはデータを登録出来ません',
+                        successData: [],
+                        failureData: [basePlaceEntity(raceType)],
                     });
                 });
             });
-        }
-    },
-);
+        });
+    }
+});

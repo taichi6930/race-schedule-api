@@ -63,9 +63,10 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                     }
 
                     case RaceType.OVERSEAS: {
-                        throw new Error(
+                        console.error(
                             `Race type ${raceType} is not supported by this repository`,
                         );
+                        return [];
                     }
                     case RaceType.KEIRIN: {
                         return this.fetchMonthPlaceEntityListForKeirin(
