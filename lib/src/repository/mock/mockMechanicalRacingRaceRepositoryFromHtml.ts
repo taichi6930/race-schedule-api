@@ -16,11 +16,11 @@ export class MockMechanicalRacingRaceRepositoryFromHtml
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
-        const { placeEntityList, raceType } = searchFilter;
+        const { placeEntityList } = searchFilter;
         const raceEntityList: RaceEntity[] = [];
         for (const placeEntity of placeEntityList) {
             const { placeData, grade } = placeEntity;
-            const { location, dateTime } = placeData;
+            const { raceType, location, dateTime } = placeData;
             // 1から12までのレースを作成
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                 const raceDate = new Date(dateTime);
