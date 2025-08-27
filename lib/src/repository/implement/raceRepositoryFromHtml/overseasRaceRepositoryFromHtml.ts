@@ -47,10 +47,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
         const raceEntityList: RaceEntity[] = [];
         for (const month of monthList) {
             raceEntityList.push(
-                ...(await this.fetchRaceListFromHtml(
-                    searchFilter.raceType,
-                    month,
-                )),
+                ...(await this.fetchRaceListFromHtml(RaceType.OVERSEAS, month)),
             );
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
             const delayedTimeMs = Number.parseInt(

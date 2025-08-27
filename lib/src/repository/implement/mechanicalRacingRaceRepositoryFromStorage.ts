@@ -15,7 +15,7 @@ import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 /**
- * 競輪場開催データリポジトリの実装
+ * 開催データリポジトリの実装
  */
 @injectable()
 export class MechanicalRacingRaceRepositoryFromStorage

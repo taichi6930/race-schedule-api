@@ -26,6 +26,7 @@ import {
     defaultHeldDayData,
     defaultLocation,
     defaultPlaceGrade,
+    testRaceTypeListAll,
     testRaceTypeListWithoutOverseas,
 } from '../../mock/common/baseCommonData';
 
@@ -44,7 +45,7 @@ describe('PlaceRepositoryFromStorage', () => {
     });
 
     describe('fetchPlaceList', () => {
-        test.each(testRaceTypeListWithoutOverseas)(
+        test.each(testRaceTypeListAll)(
             '正しい開催場データを取得できる(%s)',
             async (raceType) => {
                 // モックの戻り値を設定
@@ -70,7 +71,9 @@ describe('PlaceRepositoryFromStorage', () => {
                 );
 
                 // レスポンスの検証
-                expect(placeEntityList).toHaveLength(1);
+                expect(placeEntityList).toHaveLength(
+                    raceType === RaceType.OVERSEAS ? 0 : 1,
+                );
             },
         );
     });

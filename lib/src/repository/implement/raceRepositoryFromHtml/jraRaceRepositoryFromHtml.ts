@@ -38,14 +38,17 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
         searchFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         const jraRaceEntityList: RaceEntity[] = [];
-        const { placeEntityList, raceType } = searchFilter;
+        const { placeEntityList } = searchFilter;
         // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
-        const dateList = placeEntityList
-            .map((place) => place.placeData.dateTime)
+        const filteredPlaceDataList = placeEntityList
+            .map((place) => place.placeData)
             .filter((x, i, self) => self.indexOf(x) === i);
-        for (const date of dateList) {
+        for (const placeData of filteredPlaceDataList) {
             jraRaceEntityList.push(
-                ...(await this.fetchRaceListFromHtml(raceType, date)),
+                ...(await this.fetchRaceListFromHtml(
+                    placeData.raceType,
+                    placeData.dateTime,
+                )),
             );
         }
         return jraRaceEntityList;

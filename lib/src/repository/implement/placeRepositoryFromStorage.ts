@@ -40,6 +40,10 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
+        // 海外競馬はまだ対応していない
+        if (searchFilter.raceType === RaceType.OVERSEAS) {
+            return [];
+        }
         // 開催データを取得
         const placeRecordList: PlaceRecord[] =
             await this.getPlaceRecordListFromS3(searchFilter.raceType);
@@ -93,8 +97,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     });
                 return placeEntityList;
             }
-            case RaceType.NAR:
-            case RaceType.OVERSEAS: {
+            case RaceType.NAR: {
                 return filteredPlaceRecordList.map((placeRecord) =>
                     PlaceEntity.create(
                         placeRecord.id,
@@ -163,6 +166,14 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         successData: PlaceEntity[];
         failureData: PlaceEntity[];
     }> {
+        if (raceType === RaceType.OVERSEAS) {
+            return {
+                code: 404,
+                message: `Race type ${raceType} is not supported by this repository`,
+                successData: [],
+                failureData: placeEntityList,
+            };
+        }
         try {
             // 既に登録されているデータを取得する
             const existFetchPlaceRecordList: PlaceRecord[] =
