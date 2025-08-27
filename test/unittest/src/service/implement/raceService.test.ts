@@ -78,53 +78,8 @@ describe('RaceService', () => {
     });
 
     describe('updateRaceEntityList', () => {
-        beforeEach(() => {
-            repositorySetup.horseRacingRaceRepositoryFromStorage.registerRaceEntityList.mockImplementation(
-                async (raceType: RaceType) => {
-                    switch (raceType) {
-                        case RaceType.JRA:
-                        case RaceType.NAR:
-                        case RaceType.OVERSEAS: {
-                            return {
-                                code: 200,
-                                message: 'OK',
-                                successData: baseRaceEntityList(raceType),
-                                failureData: [],
-                            };
-                        }
-                        case RaceType.KEIRIN:
-                        case RaceType.BOATRACE:
-                        case RaceType.AUTORACE: {
-                            throw new Error('race type is not supported');
-                        }
-                    }
-                },
-            );
-            repositorySetup.mechanicalRacingRaceRepositoryFromStorage.registerRaceEntityList.mockImplementation(
-                async (raceType: RaceType) => {
-                    switch (raceType) {
-                        case RaceType.JRA:
-                        case RaceType.NAR:
-                        case RaceType.OVERSEAS: {
-                            throw new Error('race type is not supported');
-                        }
-                        case RaceType.KEIRIN:
-                        case RaceType.BOATRACE:
-                        case RaceType.AUTORACE: {
-                            return {
-                                code: 200,
-                                message: 'OK',
-                                successData: baseRaceEntityList(raceType),
-                                failureData: [],
-                            };
-                        }
-                    }
-                },
-            );
-        });
-
         test.each(testRaceTypeListAll)(
-            '正常にレース開催データが更新されること: %s',
+            '正常にレース開催データが更新されること(%s)',
             async (raceType) => {
                 await service.updateRaceEntityList(mockRaceEntityList);
                 const repository =
