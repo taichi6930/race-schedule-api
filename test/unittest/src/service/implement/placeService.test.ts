@@ -2,11 +2,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import { PlaceService } from '../../../../../lib/src/service/implement/placeService';
 import type { IPlaceService } from '../../../../../lib/src/service/interface/IPlaceService';
 import { DataLocation } from '../../../../../lib/src/utility/dataType';
-import type { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestRepositorySetup } from '../../../../utility/testSetupHelper';
 import {
     clearMocks,
@@ -85,20 +83,6 @@ describe('PlaceService', () => {
 
     describe('updatePlaceDataList', () => {
         it('正常に開催場データが更新されること', async () => {
-            // registerPlaceEntityList の戻り値を正しい型でモック
-            repositorySetup.placeRepositoryFromStorage.registerPlaceEntityList.mockImplementation(
-                async (raceType: RaceType, placeEntityList: PlaceEntity[]) => {
-                    {
-                        return {
-                            code: 200,
-                            message: '',
-                            successData: placeEntityList,
-                            failureData: [],
-                        };
-                    }
-                },
-            );
-
             await service.updatePlaceEntityList(mockPlaceEntityList);
 
             expect(

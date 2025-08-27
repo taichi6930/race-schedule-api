@@ -2,12 +2,10 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { PlaceEntity } from '../../../../lib/src/repository/entity/placeEntity';
 import { PlaceService } from '../../../../lib/src/service/implement/placeService';
 import type { IPlaceService } from '../../../../lib/src/service/interface/IPlaceService';
 import { PlaceUseCase } from '../../../../lib/src/usecase/implement/placeUseCase';
 import type { IPlaceUseCase } from '../../../../lib/src/usecase/interface/IPlaceUseCase';
-import type { RaceType } from '../../../../lib/src/utility/raceType';
 import {
     basePlaceEntity,
     testRaceTypeListAll,
@@ -57,17 +55,6 @@ describe('placeUseCase-placeService', () => {
 
     describe('updatePlaceDataList', () => {
         it('正常に開催場データが更新されること', async () => {
-            repositorySetup.placeRepositoryFromStorage.registerPlaceEntityList.mockImplementation(
-                async (raceType: RaceType, placeEntityList: PlaceEntity[]) => {
-                    return {
-                        code: 200,
-                        message: '',
-                        successData: placeEntityList,
-                        failureData: [],
-                    };
-                },
-            );
-
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 

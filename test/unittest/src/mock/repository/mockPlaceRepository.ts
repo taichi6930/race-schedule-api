@@ -1,3 +1,4 @@
+import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -23,6 +24,19 @@ export const mockPlaceRepository = (): jest.Mocked<IPlaceRepository> => {
                     }
                 },
             ),
-        registerPlaceEntityList: jest.fn().mockResolvedValue(Promise.resolve()),
+        registerPlaceEntityList: jest
+            .fn()
+            .mockImplementation(
+                async (raceType: RaceType, placeEntityList: PlaceEntity[]) => {
+                    {
+                        return {
+                            code: 200,
+                            message: '',
+                            successData: placeEntityList,
+                            failureData: [],
+                        };
+                    }
+                },
+            ),
     };
 };
