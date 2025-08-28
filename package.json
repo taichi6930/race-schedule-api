@@ -36,7 +36,8 @@
         "check:sqlite": "TZ=jst ENV=LOCAL ts-node lib/scripts/check-sqlite.ts",
         "sqliteInit": "TZ=jst npx tsx --tsconfig tsconfig.json lib/scripts/sqliteInit.ts",
         "db:init": "TZ=jst npx tsx scripts/init-db.ts",
-        "db:setup": "TZ=jst ts-node lib/scripts/sqliteSetting.ts"
+        "db:setup": "TZ=jst ts-node lib/scripts/sqliteSetting.ts",
+        "cdk-deploy:prod": "npm install -g aws-cdk && cdk deploy CdkRaceScheduleAppStack-Prod"
     },
     "engines": {
         "node": ">=24.0.0 <25.0.0"
@@ -51,6 +52,8 @@
         "better-sqlite3": "12.2.0",
         "cheerio": "^1.1.2",
         "constructs": "^10.4.2",
+        "csv-parse": "^6.1.0",
+        "csv-parser": "^3.2.0",
         "csv-writer": "^1.6.0",
         "date-fns": "^4.1.0",
         "dotenv": "^17.2.1",
@@ -61,6 +64,7 @@
         "google-auth-library": "^10.3.0",
         "googleapis": "^158.0.0",
         "jest-html-reporters": "^3.1.7",
+        "neat-csv": "^7.0.0",
         "nodemon": "^3.1.10",
         "only-allow": "^1.2.1",
         "prettier": "^3.6.2",
@@ -82,6 +86,7 @@
         "@swc/jest": "^0.2.39",
         "@types/better-sqlite3": "^7.6.13",
         "@types/jest": "^30.0.0",
+        "@types/neat-csv": "^5.1.1",
         "@types/node": "24.3.0",
         "@types/swagger-jsdoc": "^6.0.4",
         "@types/swagger-ui-express": "^4.1.8",

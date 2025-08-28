@@ -17,6 +17,6 @@ export function createLambdaFunction(
         role,
         environment,
         timeout: Duration.seconds(90),
-        memorySize: 1024,
+        memorySize: 8192,
     });
 }
