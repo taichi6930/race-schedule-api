@@ -36,7 +36,8 @@
         "check:sqlite": "TZ=jst ENV=LOCAL ts-node lib/scripts/check-sqlite.ts",
         "sqliteInit": "TZ=jst npx tsx --tsconfig tsconfig.json lib/scripts/sqliteInit.ts",
         "db:init": "TZ=jst npx tsx scripts/init-db.ts",
-        "db:setup": "TZ=jst ts-node lib/scripts/sqliteSetting.ts"
+        "db:setup": "TZ=jst ts-node lib/scripts/sqliteSetting.ts",
+        "cdk-deploy:prod": "npm install -g aws-cdk && cdk deploy CdkRaceScheduleAppStack-Prod"
     },
     "engines": {
         "node": ">=24.0.0 <25.0.0"
@@ -51,6 +52,7 @@
         "better-sqlite3": "12.2.0",
         "cheerio": "^1.1.2",
         "constructs": "^10.4.2",
+        "csv-parser": "^3.2.0",
         "csv-writer": "^1.6.0",
         "date-fns": "^4.1.0",
         "dotenv": "^17.2.1",
