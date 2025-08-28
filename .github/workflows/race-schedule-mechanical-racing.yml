@@ -1,4 +1,4 @@
-name: Race Schedule Mechanical Racing
+name: Race Schedule
 
 on:
   schedule:
@@ -62,7 +62,7 @@ jobs:
             exit 1
           fi
 
-  update-mechanical-racing-race-data:
+  update-race-data:
     needs: [set-dates, health-check]
     runs-on: ubuntu-latest
     steps:
@@ -83,7 +83,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": [\"autorace\", \"boatrace\"]
+                  \"raceType\": [\"overseas\", \"autorace\", \"boatrace\"]
                 }")
 
           # レスポンスチェック
@@ -92,8 +92,8 @@ jobs:
             exit 1
           fi
 
-  update-mechanical-racing-race-calendar:
-    needs: [set-dates, update-mechanical-racing-race-data]
+  update-race-calendar:
+    needs: [set-dates, update-race-data]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -112,7 +112,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": [\"autorace\", \"boatrace\"]
+                  \"raceType\": [\"overseas\", \"autorace\", \"boatrace\"]
                 }")
 
           # レスポンスチェック
