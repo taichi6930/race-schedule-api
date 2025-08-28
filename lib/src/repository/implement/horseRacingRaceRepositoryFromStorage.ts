@@ -1,5 +1,6 @@
 import '../../utility/format';
 
+import { parse } from 'csv-parse/sync';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
@@ -127,66 +128,45 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
             this.raceFileName,
         );
 
-        // ファイルが空の場合は空のリストを返す
         if (!csv) {
             return [];
         }
 
-        // CSVを行ごとに分割
-        const lines = csv.split('\n');
-
-        // ヘッダー行を解析
-        const headers = lines[0].split('\r').join('').split(',');
-
-        // ヘッダーに基づいてインデックスを取得
-        const indices = {
-            id: headers.indexOf(CSV_HEADER_KEYS.ID),
-            name: headers.indexOf(CSV_HEADER_KEYS.NAME),
-            dateTime: headers.indexOf(CSV_HEADER_KEYS.DATE_TIME),
-            location: headers.indexOf(CSV_HEADER_KEYS.LOCATION),
-            surfaceType: headers.indexOf(CSV_HEADER_KEYS.SURFACE_TYPE),
-            distance: headers.indexOf(CSV_HEADER_KEYS.DISTANCE),
-            grade: headers.indexOf(CSV_HEADER_KEYS.GRADE),
-            number: headers.indexOf(CSV_HEADER_KEYS.NUMBER),
-            updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
-        };
-
-        // データ行を解析してRaceDataのリストを生成
-        const result: HorseRacingRaceRecord[] = [];
-        for (const line of lines.slice(1)) {
-            try {
-                const columns = line.split('\r').join('').split(',');
-                const dateTime = new Date(columns[indices.dateTime]);
-                if (borderDate && borderDate > dateTime) {
-                    console.log(
-                        'borderDateより前のデータはスキップします',
-                        dateTime,
-                    );
-                    break;
-                }
-
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
-
-                result.push(
-                    HorseRacingRaceRecord.create(
-                        columns[indices.id],
+        // csv-parseでパース
+        const records: Record<string, string>[] = parse(csv, {
+            columns: true,
+            skip_empty_lines: true,
+            relax_column_count: true,
+        });
+        const result: HorseRacingRaceRecord[] = records
+            .map((row) => {
+                try {
+                    const dateTime = new Date(row[CSV_HEADER_KEYS.DATE_TIME]);
+                    if (borderDate && borderDate > dateTime) {
+                        // borderDateより前のデータはスキップ
+                        return undefined;
+                    }
+                    const updateDate = row[CSV_HEADER_KEYS.UPDATE_DATE]
+                        ? new Date(row[CSV_HEADER_KEYS.UPDATE_DATE])
+                        : getJSTDate(new Date());
+                    return HorseRacingRaceRecord.create(
+                        row[CSV_HEADER_KEYS.ID],
                         raceType,
-                        columns[indices.name],
-                        new Date(columns[indices.dateTime]),
-                        columns[indices.location],
-                        columns[indices.surfaceType],
-                        Number.parseInt(columns[indices.distance]),
-                        columns[indices.grade],
-                        Number.parseInt(columns[indices.number]),
+                        row[CSV_HEADER_KEYS.NAME],
+                        dateTime,
+                        row[CSV_HEADER_KEYS.LOCATION],
+                        row[CSV_HEADER_KEYS.SURFACE_TYPE],
+                        Number.parseInt(row[CSV_HEADER_KEYS.DISTANCE]),
+                        row[CSV_HEADER_KEYS.GRADE],
+                        Number.parseInt(row[CSV_HEADER_KEYS.NUMBER]),
                         updateDate,
-                    ),
-                );
-            } catch (error) {
-                console.error(error);
-            }
-        }
+                    );
+                } catch (error) {
+                    console.error(error);
+                    return undefined;
+                }
+            })
+            .filter((v): v is HorseRacingRaceRecord => v !== undefined);
         return result;
     }
 
@@ -204,54 +184,41 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
             this.heldDayFileName,
         );
 
-        // ファイルが空の場合は空のリストを返す
         if (!csv) {
             return [];
         }
 
-        // CSVを行ごとに分割
-        const lines = csv.split('\n');
-        // ヘッダー行を解析
-        const headers = lines[0].split(',');
-
-        // ヘッダーに基づいてインデックスを取得
-        const indices = {
-            id: headers.indexOf(CSV_HEADER_KEYS.ID),
-            raceType: headers.indexOf(CSV_HEADER_KEYS.RACE_TYPE),
-            heldTimes: headers.indexOf(CSV_HEADER_KEYS.HELD_TIMES),
-            heldDayTimes: headers.indexOf(CSV_HEADER_KEYS.HELD_DAY_TIMES),
-            updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
-        };
-
-        // データ行を解析して HeldDayRecord のリストを生成
-        const heldDayRecordList: HeldDayRecord[] = lines
-            .slice(1)
-            .flatMap((line: string): HeldDayRecord[] => {
+        // csv-parseでパース
+        const records: Record<string, string>[] = parse(csv, {
+            columns: true,
+            skip_empty_lines: true,
+            relax_column_count: true,
+        });
+        const heldDayRecordList: HeldDayRecord[] = records
+            .map((row) => {
                 try {
-                    const columns = line.split(',');
-
-                    const updateDate = columns[indices.updateDate]
-                        ? new Date(columns[indices.updateDate])
-                        : getJSTDate(new Date());
-
-                    if (columns[indices.raceType] !== raceType) {
-                        return [];
+                    if (row[CSV_HEADER_KEYS.RACE_TYPE] !== raceType) {
+                        return undefined;
                     }
-
-                    return [
-                        HeldDayRecord.create(
-                            columns[indices.id],
-                            raceType,
-                            Number.parseInt(columns[indices.heldTimes], 10),
-                            Number.parseInt(columns[indices.heldDayTimes], 10),
-                            updateDate,
+                    const updateDate = row[CSV_HEADER_KEYS.UPDATE_DATE]
+                        ? new Date(row[CSV_HEADER_KEYS.UPDATE_DATE])
+                        : getJSTDate(new Date());
+                    return HeldDayRecord.create(
+                        row[CSV_HEADER_KEYS.ID],
+                        raceType,
+                        Number.parseInt(row[CSV_HEADER_KEYS.HELD_TIMES], 10),
+                        Number.parseInt(
+                            row[CSV_HEADER_KEYS.HELD_DAY_TIMES],
+                            10,
                         ),
-                    ];
+                        updateDate,
+                    );
                 } catch (error) {
                     console.error(error);
-                    return [];
+                    return undefined;
                 }
-            });
+            })
+            .filter((v): v is HeldDayRecord => v !== undefined);
         return heldDayRecordList;
     }
 

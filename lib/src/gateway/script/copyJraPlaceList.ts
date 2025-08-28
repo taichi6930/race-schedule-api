@@ -1,64 +1,58 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-// 入出力ファイルパス
-const placeListPath = path.resolve(
-    __dirname,
-    '../mockData/csv/jra/placeList.csv',
-);
-const placeListOldPath = path.resolve(
-    __dirname,
-    '../mockData/csv/jra/placeList_old.csv',
-);
-const outputPath = placeListPath;
+import { CSV_FILE_NAME } from '../../utility/constants';
 
-// 2つのCSVを読み込む
-const csv1 = fs.readFileSync(placeListPath, 'utf8');
-const csv2 = fs.readFileSync(placeListOldPath, 'utf8');
-const lines1 = csv1.split(/\r?\n/).filter(Boolean);
-const lines2 = csv2.split(/\r?\n/).filter(Boolean);
+// 入出力ファイルパス
+const inputPath = path.resolve(
+    __dirname,
+    '../mockData/csv/jra/raceList_archive.csv',
+);
+const outputPath = path.resolve(
+    __dirname,
+    '../mockData/csv/jra',
+    CSV_FILE_NAME.PLACE_LIST,
+);
+
+// raceList_archive.csvの内容を読み込む
+const csv = fs.readFileSync(inputPath, 'utf8');
+const lines = csv.split(/\r?\n/).filter(Boolean);
 
 // ヘッダーを解析
-const header = lines1[0].split(',');
+const header = lines[0].split(',');
 const idIdx = header.indexOf('id');
-const raceTypeIdx = header.indexOf('raceType');
 const dateTimeIdx = header.indexOf('dateTime');
 const locationIdx = header.indexOf('location');
 const updateDateIdx = header.indexOf('updateDate');
 
-if (
-    [idIdx, raceTypeIdx, dateTimeIdx, locationIdx, updateDateIdx].includes(-1)
-) {
-    throw new Error('placeList.csvのヘッダーに必要なカラムがありません');
+if ([idIdx, dateTimeIdx, locationIdx, updateDateIdx].includes(-1)) {
+    throw new Error('raceList_archive.csvのヘッダーに必要なカラムがありません');
 }
 
-const outputHeader = header.join(',');
+// 新しいCSVデータを作成（raceTypeはJRAで固定）
+const outputHeader = [
+    'id',
+    'raceType',
+    'dateTime',
+    'location',
+    'updateDate',
+].join(',');
 const outputLines = [outputHeader];
 
-// idごとに最新のデータを保持
-const idMap = new Map();
-function addToMap(lines: string[]): void {
-    for (let i = 1; i < lines.length; i++) {
-        const cols = lines[i].split(',');
-        if (cols.length < header.length) {
-            continue;
-        }
-        const id = cols[idIdx];
-        const updateDate = cols[updateDateIdx];
-        if (
-            !idMap.has(id) ||
-            new Date(updateDate) > new Date(idMap.get(id)[updateDateIdx])
-        ) {
-            idMap.set(id, cols);
-        }
+for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(',');
+    if (cols.length < header.length) {
+        continue; // 空行や不正行はスキップ
     }
-}
-addToMap(lines1);
-addToMap(lines2);
-
-// 出力
-for (const cols of idMap.values()) {
-    outputLines.push(cols.join(','));
+    outputLines.push(
+        [
+            cols[idIdx],
+            'JRA',
+            cols[dateTimeIdx],
+            cols[locationIdx],
+            cols[updateDateIdx],
+        ].join(','),
+    );
 }
 
 // placeList.csvに書き込む

@@ -4,23 +4,21 @@ import path from 'node:path';
 import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 
 // 入出力ファイルパス
-const inputPath = path.resolve(
-    __dirname,
-    '../mockData/csv/jra/raceList_archive.csv',
-);
+const inputPath = path.resolve(__dirname, '../mockData/csv/jra/raceList.csv');
 const outputPath = path.resolve(
     __dirname,
     '../mockData/csv/jra',
     CSV_FILE_NAME.RACE_LIST,
 );
 
-// raceList_archive.csv の内容を読み込む
+// raceList.csv の内容を読み込む
 const csv = fs.readFileSync(inputPath, 'utf8');
 const lines = csv.split(/\r?\n/).filter(Boolean);
 
 // ヘッダーを解析して、必要なカラムのインデックスを取得
 const header = lines[0].split(',');
 const idIdx = header.indexOf(CSV_HEADER_KEYS.ID);
+const raceTypeIdx = header.indexOf(CSV_HEADER_KEYS.RACE_TYPE);
 const nameIdx = header.indexOf(CSV_HEADER_KEYS.NAME);
 const dateTimeIdx = header.indexOf(CSV_HEADER_KEYS.DATE_TIME);
 const locationIdx = header.indexOf(CSV_HEADER_KEYS.LOCATION);
@@ -33,6 +31,7 @@ const updateDateIdx = header.indexOf(CSV_HEADER_KEYS.UPDATE_DATE);
 if (
     [
         idIdx,
+        raceTypeIdx,
         nameIdx,
         dateTimeIdx,
         locationIdx,
@@ -43,12 +42,10 @@ if (
         updateDateIdx,
     ].includes(-1)
 ) {
-    throw new Error(
-        'raceList_archive.csv のヘッダーに必要なカラムがありません',
-    );
+    throw new Error('raceList.csv のヘッダーに必要なカラムがありません');
 }
 
-// 新しいCSVデータを作成（raceTypeはJRAで固定）
+// 新しいCSVデータを作成（heldTimes と heldDayTimes を除外）
 const outputHeader = [
     CSV_HEADER_KEYS.ID,
     CSV_HEADER_KEYS.RACE_TYPE,
@@ -71,7 +68,7 @@ for (let i = 1; i < lines.length; i++) {
     outputLines.push(
         [
             cols[idIdx],
-            'JRA',
+            cols[raceTypeIdx],
             cols[nameIdx],
             cols[dateTimeIdx],
             cols[locationIdx],
