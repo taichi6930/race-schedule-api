@@ -1,4 +1,4 @@
-name: Race Schedule Autorace
+name: Race Schedule Mechanical Racing
 
 on:
   schedule:
@@ -39,7 +39,7 @@ jobs:
             startDate=$(date -d "yesterday" +"%Y-%m-%d")
           fi
           if [ -z "$finishDate" ]; then
-            finishDate=$(date -d "+1 days" +"%Y-%m-%d")
+            finishDate=$(date -d "+1 day" +"%Y-%m-%d")
           fi
 
           # GITHUB_OUTPUTを使って出力設定
@@ -62,7 +62,7 @@ jobs:
             exit 1
           fi
 
-  update-autorace-race-data:
+  update-mechanical-racing-race-data:
     needs: [set-dates, health-check]
     runs-on: ubuntu-latest
     steps:
@@ -83,7 +83,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": [\"autorace\"]
+                  \"raceType\": [\"autorace\", \"boatrace\"]
                 }")
 
           # レスポンスチェック
@@ -92,8 +92,8 @@ jobs:
             exit 1
           fi
 
-  update-autorace-race-calendar:
-    needs: [set-dates, update-autorace-race-data]
+  update-mechanical-racing-race-calendar:
+    needs: [set-dates, update-mechanical-racing-race-data]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -112,7 +112,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": [\"autorace\"]
+                  \"raceType\": [\"autorace\", \"boatrace\"]
                 }")
 
           # レスポンスチェック
