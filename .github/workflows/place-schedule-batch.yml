@@ -65,25 +65,16 @@ jobs:
   update-place-data:
     needs: [set-dates, health-check]
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        raceType: [
-          "jra",
-          "nar",
-          "keirin",
-          "autorace"
-        ]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Send curl request to API
+      - name: Send curl request to API (all raceTypes)
         run: |
           # 日付はset-datesで設定済み
           startDate="${{ needs.set-dates.outputs.start-date }}"
           finishDate="${{ needs.set-dates.outputs.finish-date }}"
 
-          # レースデータの更新
           update_place_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
             "${API_PRODUCTION_URL}/api/races/all/place" \
             -H "accept: */*" \
@@ -91,7 +82,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": \"${{ matrix.raceType }}\"
+                  \"raceType\": [\"jra\", \"nar\", \"keirin\", \"autorace\"]
                 }")
 
           # レスポンスチェック
