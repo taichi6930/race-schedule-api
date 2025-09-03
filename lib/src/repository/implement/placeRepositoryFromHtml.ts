@@ -46,49 +46,67 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         );
 
         // 各月のデータを取得して結合
-        const periodPlaceEntityLists = await Promise.all(
-            periodList.map(async (period) => {
-                switch (raceType) {
-                    case RaceType.JRA: {
-                        return this.fetchYearPlaceEntityListForJra(
-                            raceType,
-                            period,
-                        );
-                    }
-                    case RaceType.NAR: {
-                        return this.fetchMonthPlaceEntityListForNar(
-                            raceType,
-                            period,
-                        );
-                    }
-
-                    case RaceType.OVERSEAS: {
-                        console.error(
-                            `Race type ${raceType} is not supported by this repository`,
-                        );
-                        return [];
-                    }
-                    case RaceType.KEIRIN: {
-                        return this.fetchMonthPlaceEntityListForKeirin(
-                            raceType,
-                            period,
-                        );
-                    }
-                    case RaceType.AUTORACE: {
-                        return this.fetchMonthPlaceEntityListForAutorace(
-                            raceType,
-                            period,
-                        );
-                    }
-                    case RaceType.BOATRACE: {
-                        return this.fetchQuarterPlaceEntityListForBoatrace(
-                            raceType,
-                            period,
-                        );
-                    }
+        const periodPlaceEntityLists: PlaceEntity[][] = [];
+        for (const period of periodList) {
+            let placeEntityList: PlaceEntity[];
+            switch (raceType) {
+                case RaceType.JRA: {
+                    placeEntityList = await this.fetchYearPlaceEntityListForJra(
+                        raceType,
+                        period,
+                    );
+                    break;
                 }
-            }),
-        );
+                case RaceType.NAR: {
+                    placeEntityList =
+                        await this.fetchMonthPlaceEntityListForNar(
+                            raceType,
+                            period,
+                        );
+                    break;
+                }
+                case RaceType.OVERSEAS: {
+                    console.error(
+                        `Race type ${raceType} is not supported by this repository`,
+                    );
+                    placeEntityList = [];
+                    break;
+                }
+                case RaceType.KEIRIN: {
+                    placeEntityList =
+                        await this.fetchMonthPlaceEntityListForKeirin(
+                            raceType,
+                            period,
+                        );
+                    break;
+                }
+                case RaceType.AUTORACE: {
+                    placeEntityList =
+                        await this.fetchMonthPlaceEntityListForAutorace(
+                            raceType,
+                            period,
+                        );
+                    break;
+                }
+                case RaceType.BOATRACE: {
+                    placeEntityList =
+                        await this.fetchQuarterPlaceEntityListForBoatrace(
+                            raceType,
+                            period,
+                        );
+                    break;
+                }
+            }
+            // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
+            const delayedTimeMs = Number.parseInt(
+                process.env.HTML_FETCH_DELAY_MS ?? '500',
+                10,
+            );
+            console.debug(`待機時間: ${delayedTimeMs}ms`);
+            await new Promise((resolve) => setTimeout(resolve, delayedTimeMs));
+            console.debug('待機時間が経ちました');
+            periodPlaceEntityLists.push(placeEntityList);
+        }
 
         const placeEntityList = periodPlaceEntityLists.flat();
 
