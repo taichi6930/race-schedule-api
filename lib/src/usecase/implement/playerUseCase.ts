@@ -4,13 +4,13 @@ import { PlayerData } from '../../domain/playerData';
 import { IPlayerService } from '../../service/interface/IPlayerService';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { IPlayerDataUseCase } from '../interface/IPlayerDataUseCase';
+import { IPlayerDataUseCaseForAWS } from '../interface/IPlayerDataUseCase';
 
 /**
  * 公営競技のプレイヤーデータUseCase
  */
 @injectable()
-export class PlayerUseCase implements IPlayerDataUseCase {
+export class PlayerUseCaseForAWS implements IPlayerDataUseCaseForAWS {
     public constructor(
         @inject('PlayerDataService')
         private readonly playerDataService: IPlayerService,

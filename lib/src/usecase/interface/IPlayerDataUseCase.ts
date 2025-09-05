@@ -4,7 +4,7 @@ import type { RaceType } from '../../utility/raceType';
 /**
  * プレイヤーデータUseCaseインターフェース
  */
-export interface IPlayerDataUseCase {
+export interface IPlayerDataUseCaseForAWS {
     /**
      * プレイヤーデータを取得する
      * @param startDate

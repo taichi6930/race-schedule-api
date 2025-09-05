@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { IPlaceUseCase } from '../usecase/interface/IPlaceUseCase';
-import { IPlayerDataUseCase } from '../usecase/interface/IPlayerDataUseCase';
+import { IPlayerDataUseCaseForAWS } from '../usecase/interface/IPlayerDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceUseCase } from '../usecase/interface/IRaceUseCase';
 import { Logger } from '../utility/logger';
@@ -24,7 +24,7 @@ export class PublicGamblingControllerFromAWS {
         @inject('RaceUseCase')
         private readonly raceDataUseCase: IRaceUseCase,
         @inject('PlayerUseCase')
-        private readonly playerUseCase: IPlayerDataUseCase,
+        private readonly playerUseCase: IPlayerDataUseCaseForAWS,
     ) {
         this.router = Router();
         this.initializeRoutes();
