@@ -9,7 +9,7 @@ export interface IPlayerService {
     ): Promise<PlayerEntity[]>;
 
     upsertPlayerEntity(
-        dto: PlayerRegisterDTO,
         commonParameter: CommonParameter,
+        entity: PlayerEntity,
     ): Promise<void>;
 }

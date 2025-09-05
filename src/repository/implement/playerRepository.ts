@@ -1,4 +1,5 @@
 import { CommonParameter } from '../..';
+import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
 import { IPlayerRepository } from '../interface/IPlayerRepository';
 
 export interface PlayerRegisterDTO {
@@ -64,14 +65,14 @@ export class PlayerRepository implements IPlayerRepository {
 
     // upsert: 存在すればupdate、なければinsert
     public async upsertPlayerEntity(
-        dto: PlayerRegisterDTO,
         commonParameter: CommonParameter,
+        entity: PlayerEntity,
     ): Promise<void> {
         // まず存在チェック
         const { results: exist } = await commonParameter.env.DB.prepare(
             `SELECT * FROM player WHERE race_type = ? AND player_no = ?`,
         )
-            .bind(dto.race_type, dto.player_no)
+            .bind(entity.raceType, entity.playerNo)
             .all();
 
         let result;
@@ -82,10 +83,10 @@ export class PlayerRepository implements IPlayerRepository {
                  WHERE race_type = ? AND player_no = ?`,
             )
                 .bind(
-                    dto.player_name,
-                    dto.priority,
-                    dto.race_type,
-                    dto.player_no,
+                    entity.playerName,
+                    entity.priority,
+                    entity.raceType,
+                    entity.playerNo,
                 )
                 .run();
         } else {
@@ -95,10 +96,10 @@ export class PlayerRepository implements IPlayerRepository {
                  VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
             )
                 .bind(
-                    dto.race_type,
-                    dto.player_no,
-                    dto.player_name,
-                    dto.priority,
+                    entity.raceType,
+                    entity.playerNo,
+                    entity.playerName,
+                    entity.priority,
                 )
                 .run();
         }
@@ -108,7 +109,7 @@ export class PlayerRepository implements IPlayerRepository {
             `SELECT race_type, player_no, player_name, priority, created_at, updated_at
              FROM player WHERE race_type = ? AND player_no = ?`,
         )
-            .bind(dto.race_type, dto.player_no)
+            .bind(entity.raceType, entity.playerNo)
             .all();
     }
 }

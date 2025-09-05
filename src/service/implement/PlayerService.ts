@@ -40,25 +40,10 @@ export class PlayerService implements IPlayerService {
 
     // 選手登録/更新（バリデーション＋upsert）
     public async upsertPlayerEntity(
-        dto: PlayerRegisterDTO,
         commonParameter: CommonParameter,
+        entity: PlayerEntity,
     ): Promise<void> {
-        // バリデーション
-        if (
-            !dto.race_type ||
-            !dto.player_no ||
-            !dto.player_name ||
-            dto.priority === undefined
-        ) {
-            throw new Error(
-                'race_type, player_no, player_name, priorityは必須です',
-            );
-        }
-        if (typeof dto.priority !== 'number' || dto.priority < 0) {
-            throw new Error('priorityは0以上の数値で指定してください');
-        }
-
         // DB登録/更新
-        await this.repository.upsertPlayerEntity(dto, commonParameter);
+        await this.repository.upsertPlayerEntity(commonParameter, entity);
     }
 }

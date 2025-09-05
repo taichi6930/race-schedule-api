@@ -1,6 +1,5 @@
 import { CommonParameter } from '../..';
 import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
-import { PlayerRegisterDTO } from '../../repository/implement/playerRepository';
 
 // UseCase層
 export interface IPlayerUseCase {
@@ -9,7 +8,7 @@ export interface IPlayerUseCase {
     ): Promise<PlayerEntity[]>;
 
     upsertPlayerEntity(
-        dto: PlayerRegisterDTO,
         commonParameter: CommonParameter,
+        entity: PlayerEntity,
     ): Promise<void>;
 }

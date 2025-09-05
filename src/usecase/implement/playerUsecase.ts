@@ -19,9 +19,9 @@ export class PlayerUseCase implements IPlayerUseCase {
 
     // 選手登録/更新
     public async upsertPlayerEntity(
-        dto: PlayerRegisterDTO,
         commonParameter: CommonParameter,
+        entity: PlayerEntity,
     ): Promise<void> {
-        await this.service.upsertPlayerEntity(dto, commonParameter);
+        await this.service.upsertPlayerEntity(commonParameter, entity);
     }
 }

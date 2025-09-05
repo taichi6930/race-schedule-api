@@ -53,23 +53,20 @@ export class PublicGamblingController {
     ): Promise<Response> {
         try {
             const body = (await request.json()) as PlayerRegisterDTO;
-            const dto: PlayerRegisterDTO = {
-                race_type: body.race_type,
-                player_no: body.player_no,
-                player_name: body.player_name,
-                priority: body.priority,
-            };
             const playerEntity = PlayerEntity.create(
-                dto.race_type,
-                dto.player_no,
-                dto.player_name,
-                dto.priority,
+                body.race_type,
+                body.player_no,
+                body.player_name,
+                body.priority,
             );
-            await this.usecase.upsertPlayerEntity(dto, commonParameter);
+            await this.usecase.upsertPlayerEntity(
+                commonParameter,
+                playerEntity,
+            );
             return Response.json(
                 {
                     message: '選手を登録/更新しました',
-                    dto: dto,
+                    playerEntity: playerEntity,
                 },
                 { status: 201, headers: this.corsHeaders },
             );
