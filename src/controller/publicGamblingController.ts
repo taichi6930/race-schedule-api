@@ -33,7 +33,7 @@ export class PublicGamblingController {
         // メインクエリ
         queryParams.push(limit);
 
-        const { count } = await this.usecase.getPlayerDataCount(
+        const { count, results } = await this.usecase.getPlayerDataCount(
             searchParams,
             db,
         );
@@ -47,11 +47,9 @@ export class PublicGamblingController {
 
         return Response.json(
             {
-                // players: results,
-                pagination: {
-                    limit,
-                    total: count,
-                },
+                players: results,
+                limit: limit,
+                total: count,
             },
             { headers: corsHeaders },
         );
@@ -64,9 +62,12 @@ class PlayerUseCase {
     public async getPlayerDataCount(
         searchParams: URLSearchParams,
         db: D1Database,
-    ): Promise<{ count: number }> {
-        const { count } = await this.service.getPlayerData(searchParams, db);
-        return { count };
+    ): Promise<{ count: number; results: any[] }> {
+        const { count, results } = await this.service.getPlayerData(
+            searchParams,
+            db,
+        );
+        return { count, results };
     }
 }
 
@@ -120,8 +121,9 @@ class PlayerRepository {
             whereClause = 'WHERE race_type = ?';
             queryParams.push(raceType);
         }
+        // LIMITは必ず渡す
+        queryParams.push(Number.parseInt(searchParams.get('limit') ?? '10000'));
 
-        // 件数取得
         const { results } = await db
             .prepare(
                 `
