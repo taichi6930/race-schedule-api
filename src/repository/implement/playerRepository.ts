@@ -16,7 +16,6 @@ export class PlayerRepository implements IPlayerRepository {
     public async fetchPlayerDataList(
         commonParameter: CommonParameter,
     ): Promise<PlayerRecord[]> {
-        // ...existing code...
         const { searchParams, env } = commonParameter;
         const raceType = searchParams.get('race_type');
         let whereClause = '';
@@ -24,12 +23,7 @@ export class PlayerRepository implements IPlayerRepository {
         const orderBy = searchParams.get('order_by') ?? 'priority';
         const orderDirRaw = searchParams.get('order_dir');
         const orderDir = orderDirRaw ?? 'ASC';
-        const allowedOrderBy = [
-            'priority',
-            'player_name',
-            'race_type',
-            'created_at',
-        ];
+        const allowedOrderBy = ['priority', 'race_type', 'created_at'];
         const validOrderBy = allowedOrderBy.includes(orderBy)
             ? orderBy
             : 'priority';
