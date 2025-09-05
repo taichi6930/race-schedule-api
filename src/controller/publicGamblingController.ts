@@ -7,6 +7,8 @@ import { injectable } from 'tsyringe';
  */
 @injectable()
 export class PublicGamblingController {
+    constructor(private usecase = new PlayerUseCase()) {}
+
     /**
      * 選手データを取得する
      * @param req - リクエスト
@@ -16,6 +18,26 @@ export class PublicGamblingController {
         searchParams: URLSearchParams,
         db: D1Database,
     ): Promise<Response> {
+        const limit = Number.parseInt(searchParams.get('limit') ?? '10000');
+        const raceType = searchParams.get('race_type'); // レース種別フィルタ
+
+        // WHERE句とパラメータを動的構築
+        let whereClause = '';
+        const queryParams: any[] = [];
+
+        if (raceType) {
+            whereClause = 'WHERE race_type = ?';
+            queryParams.push(raceType);
+        }
+
+        // メインクエリ
+        queryParams.push(limit);
+
+        const { count } = await this.usecase.getPlayerDataCount(
+            searchParams,
+            db,
+        );
+
         // CORS設定
         const corsHeaders = {
             'Access-Control-Allow-Origin': '*',
@@ -23,25 +45,62 @@ export class PublicGamblingController {
             'Access-Control-Allow-Headers': 'Content-Type',
         };
 
-        const page = Number.parseInt(searchParams.get('page') ?? '1');
-        const limit = Number.parseInt(searchParams.get('limit') ?? '20');
-        const raceType = searchParams.get('race_type'); // レース種別フィルタ
-        const orderBy = searchParams.get('order_by') ?? 'priority'; // ソート項目
-        const orderDir = searchParams.get('order_dir') ?? 'ASC'; // ソート方向
-        const offset = (page - 1) * limit;
+        return Response.json(
+            {
+                // players: results,
+                pagination: {
+                    limit,
+                    total: count,
+                },
+            },
+            { headers: corsHeaders },
+        );
+    }
+}
 
+class PlayerUseCase {
+    constructor(private service = new PlayerService()) {}
+
+    public async getPlayerDataCount(
+        searchParams: URLSearchParams,
+        db: D1Database,
+    ): Promise<{ count: number }> {
+        const { count } = await this.service.getPlayerData(searchParams, db);
+        return { count };
+    }
+}
+
+class PlayerService {
+    constructor(private repository = new PlayerRepository()) {}
+
+    public async getPlayerData(
+        searchParams: URLSearchParams,
+        db: D1Database,
+    ): Promise<{ count: number; results: any[] }> {
+        const count = await this.repository.getPlayerDataCount(
+            searchParams,
+            db,
+        );
+        const results = await this.repository.getPlayerDataList(
+            searchParams,
+            db,
+        );
+        return { count, results };
+    }
+}
+
+class PlayerRepository {
+    public async getPlayerDataList(
+        searchParams: URLSearchParams,
+        db: D1Database,
+    ): Promise<any[]> {
+        const raceType = searchParams.get('race_type'); // レース種別フィルタ
         // WHERE句とパラメータを動的構築
         let whereClause = '';
-        let countWhereClause = '';
         const queryParams: any[] = [];
-        const countParams: any[] = [];
 
-        if (raceType) {
-            whereClause = 'WHERE race_type = ?';
-            countWhereClause = 'WHERE race_type = ?';
-            queryParams.push(raceType);
-            countParams.push(raceType);
-        }
+        const orderBy = searchParams.get('order_by') ?? 'priority'; // ソート項目
+        const orderDir = searchParams.get('order_dir') ?? 'ASC'; // ソート方向
 
         // ソート項目のバリデーション
         const allowedOrderBy = [
@@ -57,8 +116,12 @@ export class PublicGamblingController {
             ? orderDir.toUpperCase()
             : 'ASC';
 
-        // メインクエリ
-        queryParams.push(limit, offset);
+        if (raceType) {
+            whereClause = 'WHERE race_type = ?';
+            queryParams.push(raceType);
+        }
+
+        // 件数取得
         const { results } = await db
             .prepare(
                 `
@@ -66,11 +129,28 @@ export class PublicGamblingController {
                     FROM player
                     ${whereClause}
                     ORDER BY ${validOrderBy} ${validOrderDir}, player_no ASC
-                    LIMIT ? OFFSET ?
+                    LIMIT ?
                     `,
             )
             .bind(...queryParams)
             .all();
+
+        return results;
+    }
+
+    public async getPlayerDataCount(
+        searchParams: URLSearchParams,
+        db: D1Database,
+    ): Promise<number> {
+        const raceType = searchParams.get('race_type'); // レース種別フィルタ
+        // WHERE句とパラメータを動的構築
+        let countWhereClause = '';
+        const countParams: any[] = [];
+
+        if (raceType) {
+            countWhereClause = 'WHERE race_type = ?';
+            countParams.push(raceType);
+        }
 
         // 件数取得
         const { count } = (await db
@@ -82,22 +162,6 @@ export class PublicGamblingController {
             .bind(...countParams)
             .first()) as { count: number };
 
-        return Response.json(
-            {
-                players: results,
-                pagination: {
-                    page,
-                    limit,
-                    total: count,
-                    totalPages: Math.ceil(count / limit),
-                },
-                filters: {
-                    race_type: raceType,
-                    order_by: validOrderBy,
-                    order_dir: validOrderDir,
-                },
-            },
-            { headers: corsHeaders },
-        );
+        return count;
     }
 }
