@@ -1,12 +1,11 @@
-import type { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
+import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
 import type { CommonParameter } from '../../commonParameter';
 import type { IPlayerRepository } from '../interface/IPlayerRepository';
-import { PlayerRecord } from '../record/playerRecord';
 
 export class PlayerRepository implements IPlayerRepository {
     public async fetchPlayerDataList(
         commonParameter: CommonParameter,
-    ): Promise<PlayerRecord[]> {
+    ): Promise<PlayerEntity[]> {
         const { searchParams, env } = commonParameter;
         const raceType = searchParams.get('race_type');
         let whereClause = '';
@@ -37,14 +36,12 @@ export class PlayerRepository implements IPlayerRepository {
             .all();
 
         return results.map(
-            (row: any): PlayerRecord =>
-                PlayerRecord.create(
+            (row: any): PlayerEntity =>
+                PlayerEntity.create(
                     row.race_type,
                     row.player_no,
                     row.player_name,
                     row.priority,
-                    row.created_at,
-                    row.updated_at,
                 ),
         );
     }

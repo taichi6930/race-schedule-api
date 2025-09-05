@@ -15,19 +15,7 @@ export class PlayerService implements IPlayerService {
     public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<PlayerEntity[]> {
-        const playerRecordList =
-            await this.repository.fetchPlayerDataList(commonParameter);
-        // PlayerEntityに変換する
-        return playerRecordList
-            .map((playerRecord) => {
-                try {
-                    return playerRecord.toEntity();
-                } catch (error) {
-                    console.error('Error creating PlayerEntity:', error);
-                    return null;
-                }
-            })
-            .filter((item): item is PlayerEntity => item !== null);
+        return this.repository.fetchPlayerDataList(commonParameter);
     }
 
     public async upsertPlayerEntityList(
