@@ -24,6 +24,7 @@ export default [
             },
             sourceType: 'module',
         },
+        // files: ['src/**/*.ts', 'lib/**/*.ts', 'test/**/*.ts'],
         files: ['lib/**/*.ts', 'test/**/*.ts'],
         ignores: ['**/cdk.out/**', '**/node_modules/**', 'dist/**'],
     },
