@@ -35,7 +35,7 @@ export class PublicGamblingController {
         return Response.json(
             {
                 players: players,
-                total: players.length,
+                count: players.length,
             },
             { headers: this.corsHeaders },
         );
