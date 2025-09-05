@@ -22,7 +22,7 @@ export class PublicGamblingController {
             searchParams,
             db,
         );
-        console.log(searchParams.toString());
+        console.log(searchParams);
 
         // CORS設定
         const corsHeaders = {
