@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+import { container } from 'tsyringe';
 import { PublicGamblingController } from './controller/publicGamblingController';
 
 export interface Env {
@@ -34,7 +36,7 @@ export default {
             return new Response(null, { headers: corsHeaders });
         }
 
-        const controller = new PublicGamblingController();
+        const controller = container.resolve(PublicGamblingController);
 
         try {
             if (pathname === '/players' && request.method === 'GET') {
