@@ -6,13 +6,15 @@ import type { Application } from 'express';
 import express from 'express';
 import { container } from 'tsyringe';
 
-import { PublicGamblingController } from './controller/publicGamblingController';
+import { PublicGamblingControllerFromAWS } from './controller/publicGamblingController';
 
 // Expressアプリケーションの設定
 const app: Application = express();
 
 // DIコンテナからControllerを取得
-const publicGamblingController = container.resolve(PublicGamblingController);
+const publicGamblingController = container.resolve(
+    PublicGamblingControllerFromAWS,
+);
 
 // Expressの設定
 app.use(express.json());

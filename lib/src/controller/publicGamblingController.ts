@@ -10,10 +10,10 @@ import { convertRaceTypeList, RaceType } from '../utility/raceType';
 import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
 
 /**
- * 公営競技のレース情報コントローラー
+ * 公営競技のレース情報コントローラー（AWS）
  */
 @injectable()
-export class PublicGamblingController {
+export class PublicGamblingControllerFromAWS {
     public router: Router;
 
     public constructor(

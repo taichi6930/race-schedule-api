@@ -43,6 +43,13 @@ export function isRaceType(value: string): value is RaceType {
     return (Object.values(RaceType) as string[]).includes(value);
 }
 
+export const validateRaceType = (value: string): RaceType => {
+    if (isRaceType(value)) {
+        return value;
+    }
+    throw new Error(`Invalid race type: ${value}`);
+};
+
 export const convertRaceTypeList = (
     raceTypeList: string[] | undefined,
 ): RaceType[] => {
