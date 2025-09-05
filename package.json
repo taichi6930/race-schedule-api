@@ -6,6 +6,7 @@
     },
     "scripts": {
         "preinstall": "npx only-allow pnpm",
+        "dev:cloudware:local": "TZ=jst wrangler dev --env development --local",
         "build": "tsc",
         "watch": "tsc -w",
         "s3-data-update": "aws s3 cp s3://race-schedule-bucket/ ./lib/src/gateway/mockData/csv --recursive",
