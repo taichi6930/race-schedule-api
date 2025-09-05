@@ -15,18 +15,13 @@ export class PlayerService implements IPlayerService {
     public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<PlayerEntity[]> {
-        const dataList =
+        const playerRecordList =
             await this.repository.fetchPlayerDataList(commonParameter);
         // PlayerEntityに変換する
-        return dataList
-            .map((item) => {
+        return playerRecordList
+            .map((playerRecord) => {
                 try {
-                    return PlayerEntity.create(
-                        item.race_type,
-                        item.player_no,
-                        item.player_name,
-                        item.priority,
-                    );
+                    return playerRecord.toEntity();
                 } catch (error) {
                     console.error('Error creating PlayerEntity:', error);
                     return null;

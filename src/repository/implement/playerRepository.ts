@@ -1,16 +1,7 @@
 import type { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
 import type { CommonParameter } from '../../commonParameter';
 import type { IPlayerRepository } from '../interface/IPlayerRepository';
-
-// DB登録後の選手エンティティ（必要なら拡張）
-export interface PlayerRecord {
-    race_type: string;
-    player_no: string;
-    player_name: string;
-    priority: number;
-    created_at: string;
-    updated_at: string;
-}
+import { PlayerRecord } from '../record/playerRecord';
 
 export class PlayerRepository implements IPlayerRepository {
     public async fetchPlayerDataList(
@@ -45,16 +36,16 @@ export class PlayerRepository implements IPlayerRepository {
             .bind(...queryParams)
             .all();
 
-        // Type-safe conversion with validation
         return results.map(
-            (row: any): PlayerRecord => ({
-                race_type: String(row.race_type ?? ''),
-                player_no: String(row.player_no ?? ''),
-                player_name: String(row.player_name ?? ''),
-                priority: Number(row.priority ?? 0),
-                created_at: String(row.created_at ?? ''),
-                updated_at: String(row.updated_at ?? ''),
-            }),
+            (row: any): PlayerRecord =>
+                PlayerRecord.create(
+                    row.race_type,
+                    row.player_no,
+                    row.player_name,
+                    row.priority,
+                    row.created_at,
+                    row.updated_at,
+                ),
         );
     }
 

@@ -1,5 +1,3 @@
-import '../../utility/format';
-
 import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
 import { createErrorMessage } from '../../../lib/src/utility/error';
 import {
