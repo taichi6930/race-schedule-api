@@ -1,11 +1,10 @@
 import type { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
 import type { CommonParameter } from '../../commonParameter';
-import type { PlayerRecord } from '../record/playerRecord';
 
 export interface IPlayerRepository {
     fetchPlayerDataList: (
         commonParameter: CommonParameter,
-    ) => Promise<PlayerRecord[]>;
+    ) => Promise<PlayerEntity[]>;
 
     upsertPlayerEntityList: (
         commonParameter: CommonParameter,

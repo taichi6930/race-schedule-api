@@ -2,10 +2,10 @@ import { container } from 'tsyringe';
 
 import { CalendarUseCase } from '../../src/usecase/implement/calendarUseCase';
 import { PlaceUseCase } from '../../src/usecase/implement/placeUseCase';
-import { PlayerUseCase } from '../../src/usecase/implement/playerUseCase';
+import { PlayerUseCaseForAWS } from '../../src/usecase/implement/playerUseCase';
 import { RaceUseCase } from '../../src/usecase/implement/raceUseCase';
 import type { IPlaceUseCase } from '../../src/usecase/interface/IPlaceUseCase';
-import type { IPlayerDataUseCase } from '../../src/usecase/interface/IPlayerDataUseCase';
+import type { IPlayerDataUseCaseForAWS } from '../../src/usecase/interface/IPlayerDataUseCase';
 import type { IRaceCalendarUseCase } from '../../src/usecase/interface/IRaceCalendarUseCase';
 import type { IRaceUseCase } from '../../src/usecase/interface/IRaceUseCase';
 
@@ -18,6 +18,6 @@ container.register<IPlaceUseCase>('PlaceUseCase', {
 container.register<IRaceUseCase>('RaceUseCase', {
     useClass: RaceUseCase,
 });
-container.register<IPlayerDataUseCase>('PlayerUseCase', {
-    useClass: PlayerUseCase,
+container.register<IPlayerDataUseCaseForAWS>('PlayerUseCase', {
+    useClass: PlayerUseCaseForAWS,
 });

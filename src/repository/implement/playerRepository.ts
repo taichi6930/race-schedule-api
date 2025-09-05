@@ -1,21 +1,20 @@
-import type { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
+import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
 import type { CommonParameter } from '../../commonParameter';
 import type { IPlayerRepository } from '../interface/IPlayerRepository';
-import { PlayerRecord } from '../record/playerRecord';
 
 export class PlayerRepository implements IPlayerRepository {
     public async fetchPlayerDataList(
         commonParameter: CommonParameter,
-    ): Promise<PlayerRecord[]> {
+    ): Promise<PlayerEntity[]> {
         const { searchParams, env } = commonParameter;
         const raceType = searchParams.get('race_type');
         let whereClause = '';
         const queryParams: any[] = [];
         const orderBy = searchParams.get('order_by') ?? 'priority';
-        const orderDirRaw = searchParams.get('order_dir');
-        const orderDir = orderDirRaw ?? 'ASC';
-        const allowedOrderBy = ['priority', 'race_type', 'created_at'];
-        const validOrderBy = allowedOrderBy.includes(orderBy)
+        const orderDir = searchParams.get('order_dir') ?? 'ASC';
+        const validOrderBy = ['priority', 'race_type', 'created_at'].includes(
+            orderBy,
+        )
             ? orderBy
             : 'priority';
         const validOrderDir = ['ASC', 'DESC'].includes(orderDir.toUpperCase())
@@ -37,19 +36,16 @@ export class PlayerRepository implements IPlayerRepository {
             .all();
 
         return results.map(
-            (row: any): PlayerRecord =>
-                PlayerRecord.create(
+            (row: any): PlayerEntity =>
+                PlayerEntity.create(
                     row.race_type,
                     row.player_no,
                     row.player_name,
                     row.priority,
-                    row.created_at,
-                    row.updated_at,
                 ),
         );
     }
 
-    // upsert: 存在すればupdate、なければinsert
     public async upsertPlayerEntityList(
         commonParameter: CommonParameter,
         entityList: PlayerEntity[],
