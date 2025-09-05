@@ -1,15 +1,17 @@
+import { PublicGamblingController } from './controller/publicGamblingController';
+
 interface Env {
     DB: D1Database;
 }
 
-interface Player {
-    race_type: string;
-    player_no: string;
-    player_name: string;
-    priority: number;
-    created_at: string;
-    updated_at: string;
-}
+// interface Player {
+//     race_type: string;
+//     player_no: string;
+//     player_name: string;
+//     priority: number;
+//     created_at: string;
+//     updated_at: string;
+// }
 
 interface PlayerRequest {
     race_type: string;
@@ -34,21 +36,26 @@ export default {
             return new Response(null, { headers: corsHeaders });
         }
 
+        const controller = new PublicGamblingController();
+
         try {
             if (pathname === '/player' && request.method === 'GET') {
+                const data = await controller.getPlayerDataList();
                 return Response.json(
-                    { message: '選手一覧取得API' },
+                    { message: data },
                     { headers: corsHeaders },
                 );
             }
 
             // GET /players - 選手一覧取得（フィルタリング対応）
             if (pathname === '/players' && request.method === 'GET') {
-                const page = parseInt(searchParams.get('page') || '1');
-                const limit = parseInt(searchParams.get('limit') || '20');
+                const page = Number.parseInt(searchParams.get('page') ?? '1');
+                const limit = Number.parseInt(
+                    searchParams.get('limit') ?? '20',
+                );
                 const raceType = searchParams.get('race_type'); // レース種別フィルタ
-                const orderBy = searchParams.get('order_by') || 'priority'; // ソート項目
-                const orderDir = searchParams.get('order_dir') || 'ASC'; // ソート方向
+                const orderBy = searchParams.get('order_by') ?? 'priority'; // ソート項目
+                const orderDir = searchParams.get('order_dir') ?? 'ASC'; // ソート方向
                 const offset = (page - 1) * limit;
 
                 // WHERE句とパラメータを動的構築
