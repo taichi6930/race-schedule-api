@@ -1,27 +1,34 @@
 import { CommonParameter } from '../..';
 import { IPlayerRepository } from '../interface/IPlayerRepository';
 
+export interface PlayerRegisterDTO {
+    race_type: string;
+    player_no: string;
+    player_name: string;
+    priority: number;
+}
+
+// DB登録後の選手エンティティ（必要なら拡張）
+export interface PlayerRecord {
+    race_type: string;
+    player_no: string;
+    player_name: string;
+    priority: number;
+    created_at: string;
+    updated_at: string;
+}
+
 export class PlayerRepository implements IPlayerRepository {
-    public async fetchPlayerDataList(commonParameter: CommonParameter): Promise<
-        {
-            race_type: string;
-            player_no: string;
-            player_name: string;
-            priority: number;
-            created_at: string;
-            updated_at: string;
-        }[]
-    > {
-        const raceType = commonParameter.searchParams.get('race_type'); // レース種別フィルタ
-        // WHERE句とパラメータを動的構築
+    public async fetchPlayerDataList(
+        commonParameter: CommonParameter,
+    ): Promise<PlayerRecord[]> {
+        // ...existing code...
+        const raceType = commonParameter.searchParams.get('race_type');
         let whereClause = '';
         const queryParams: any[] = [];
-
         const orderBy =
-            commonParameter.searchParams.get('order_by') ?? 'priority'; // ソート項目
-        const orderDir = commonParameter.searchParams.get('order_dir') ?? 'ASC'; // ソート方向
-
-        // ソート項目のバリデーション
+            commonParameter.searchParams.get('order_by') ?? 'priority';
+        const orderDir = commonParameter.searchParams.get('order_dir') ?? 'ASC';
         const allowedOrderBy = [
             'priority',
             'player_name',
@@ -34,38 +41,75 @@ export class PlayerRepository implements IPlayerRepository {
         const validOrderDir = ['ASC', 'DESC'].includes(orderDir.toUpperCase())
             ? orderDir.toUpperCase()
             : 'ASC';
-
         if (raceType) {
             whereClause = 'WHERE race_type = ?';
             queryParams.push(raceType);
         }
-        // LIMITは必ず渡す
         queryParams.push(
             Number.parseInt(
                 commonParameter.searchParams.get('limit') ?? '10000',
             ),
         );
-
         const { results } = await commonParameter.env.DB.prepare(
-            `
-                    SELECT race_type, player_no, player_name, priority, created_at, updated_at
-                    FROM player
-                    ${whereClause}
-                    ORDER BY ${validOrderBy} ${validOrderDir}, player_no ASC
-                    LIMIT ?
-                    `,
+            `SELECT race_type, player_no, player_name, priority, created_at, updated_at
+             FROM player
+             ${whereClause}
+             ORDER BY ${validOrderBy} ${validOrderDir}, player_no ASC
+             LIMIT ?`,
         )
             .bind(...queryParams)
             .all();
+        return results as unknown as PlayerRecord[];
+    }
 
-        // resultsはany型なのでキャストする
-        return results as {
-            race_type: string;
-            player_no: string;
-            player_name: string;
-            priority: number;
-            created_at: string;
-            updated_at: string;
-        }[];
+    // upsert: 存在すればupdate、なければinsert
+    public async upsertPlayer(
+        dto: PlayerRegisterDTO,
+        commonParameter: CommonParameter,
+    ): Promise<PlayerRecord> {
+        // まず存在チェック
+        const { results: exist } = await commonParameter.env.DB.prepare(
+            `SELECT * FROM player WHERE race_type = ? AND player_no = ?`,
+        )
+            .bind(dto.race_type, dto.player_no)
+            .all();
+
+        let result;
+        if (exist.length > 0) {
+            // UPDATE
+            result = await commonParameter.env.DB.prepare(
+                `UPDATE player SET player_name = ?, priority = ?, updated_at = CURRENT_TIMESTAMP
+                 WHERE race_type = ? AND player_no = ?`,
+            )
+                .bind(
+                    dto.player_name,
+                    dto.priority,
+                    dto.race_type,
+                    dto.player_no,
+                )
+                .run();
+        } else {
+            // INSERT
+            result = await commonParameter.env.DB.prepare(
+                `INSERT INTO player (race_type, player_no, player_name, priority, created_at, updated_at)
+                 VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
+            )
+                .bind(
+                    dto.race_type,
+                    dto.player_no,
+                    dto.player_name,
+                    dto.priority,
+                )
+                .run();
+        }
+
+        // 登録/更新後のデータを返す
+        const { results: after } = await commonParameter.env.DB.prepare(
+            `SELECT race_type, player_no, player_name, priority, created_at, updated_at
+             FROM player WHERE race_type = ? AND player_no = ?`,
+        )
+            .bind(dto.race_type, dto.player_no)
+            .all();
+        return after[0] as unknown as PlayerRecord;
     }
 }
