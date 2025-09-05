@@ -11,11 +11,11 @@ export class PlayerService implements IPlayerService {
         private readonly repository: IPlayerRepository,
     ) {}
 
-    public async getPlayerData(
+    public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<PlayerEntity[]> {
         const results =
-            await this.repository.getPlayerDataList(commonParameter);
+            await this.repository.fetchPlayerDataList(commonParameter);
         console.log(results);
         // PlayerEntityに変換する
         return results

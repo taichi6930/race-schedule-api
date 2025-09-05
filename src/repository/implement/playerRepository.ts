@@ -2,7 +2,7 @@ import { CommonParameter } from '../..';
 import { IPlayerRepository } from '../interface/IPlayerRepository';
 
 export class PlayerRepository implements IPlayerRepository {
-    public async getPlayerDataList(commonParameter: CommonParameter): Promise<
+    public async fetchPlayerDataList(commonParameter: CommonParameter): Promise<
         {
             race_type: string;
             player_no: string;

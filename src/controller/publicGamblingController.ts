@@ -18,10 +18,11 @@ export class PublicGamblingController {
      * 選手データを取得する
      * @param commonParameter - 共通パラメータ
      */
-    public async getPlayerDataList(
+    public async getPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<Response> {
-        const players = await this.usecase.getPlayerData(commonParameter);
+        const players =
+            await this.usecase.fetchPlayerEntityList(commonParameter);
 
         // CORS設定
         const corsHeaders = {

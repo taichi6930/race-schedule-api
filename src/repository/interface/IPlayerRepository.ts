@@ -1,8 +1,7 @@
 import { CommonParameter } from '../..';
-import { RaceType } from '../../../lib/src/utility/raceType';
 
 export interface IPlayerRepository {
-    getPlayerDataList(commonParameter: CommonParameter): Promise<
+    fetchPlayerDataList(commonParameter: CommonParameter): Promise<
         {
             race_type: string;
             player_no: string;

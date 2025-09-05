@@ -10,9 +10,9 @@ export class PlayerUseCase implements IPlayerUseCase {
         @inject('PlayerService')
         private readonly service: IPlayerService,
     ) {}
-    public async getPlayerData(
+    public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<PlayerEntity[]> {
-        return await this.service.getPlayerData(commonParameter);
+        return await this.service.fetchPlayerEntityList(commonParameter);
     }
 }
