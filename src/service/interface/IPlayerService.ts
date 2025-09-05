@@ -1,6 +1,5 @@
 import { CommonParameter } from '../..';
 import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
-import { PlayerRegisterDTO } from '../../repository/implement/playerRepository';
 
 // Service層
 export interface IPlayerService {
@@ -8,8 +7,8 @@ export interface IPlayerService {
         commonParameter: CommonParameter,
     ): Promise<PlayerEntity[]>;
 
-    upsertPlayerEntity(
+    upsertPlayerEntityList(
         commonParameter: CommonParameter,
-        entity: PlayerEntity,
+        entityList: PlayerEntity[],
     ): Promise<void>;
 }

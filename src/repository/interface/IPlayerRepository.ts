@@ -13,8 +13,8 @@ export interface IPlayerRepository {
         }[]
     >;
 
-    upsertPlayerEntity(
+    upsertPlayerEntityList(
         commonParameter: CommonParameter,
-        entity: PlayerEntity,
+        entityList: PlayerEntity[],
     ): Promise<void>;
 }

@@ -2,13 +2,6 @@ import { CommonParameter } from '../..';
 import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
 import { IPlayerRepository } from '../interface/IPlayerRepository';
 
-export interface PlayerRegisterDTO {
-    race_type: string;
-    player_no: string;
-    player_name: string;
-    priority: number;
-}
-
 // DB登録後の選手エンティティ（必要なら拡張）
 export interface PlayerRecord {
     race_type: string;
@@ -64,52 +57,54 @@ export class PlayerRepository implements IPlayerRepository {
     }
 
     // upsert: 存在すればupdate、なければinsert
-    public async upsertPlayerEntity(
+    public async upsertPlayerEntityList(
         commonParameter: CommonParameter,
-        entity: PlayerEntity,
+        entityList: PlayerEntity[],
     ): Promise<void> {
-        // まず存在チェック
-        const { results: exist } = await commonParameter.env.DB.prepare(
-            `SELECT * FROM player WHERE race_type = ? AND player_no = ?`,
-        )
-            .bind(entity.raceType, entity.playerNo)
-            .all();
+        for (const entity of entityList) {
+            // まず存在チェック
+            const { results: exist } = await commonParameter.env.DB.prepare(
+                `SELECT * FROM player WHERE race_type = ? AND player_no = ?`,
+            )
+                .bind(entity.raceType, entity.playerNo)
+                .all();
 
-        let result;
-        if (exist.length > 0) {
-            // UPDATE
-            result = await commonParameter.env.DB.prepare(
-                `UPDATE player SET player_name = ?, priority = ?, updated_at = CURRENT_TIMESTAMP
+            let result;
+            if (exist.length > 0) {
+                // UPDATE
+                result = await commonParameter.env.DB.prepare(
+                    `UPDATE player SET player_name = ?, priority = ?, updated_at = CURRENT_TIMESTAMP
                  WHERE race_type = ? AND player_no = ?`,
-            )
-                .bind(
-                    entity.playerName,
-                    entity.priority,
-                    entity.raceType,
-                    entity.playerNo,
                 )
-                .run();
-        } else {
-            // INSERT
-            result = await commonParameter.env.DB.prepare(
-                `INSERT INTO player (race_type, player_no, player_name, priority, created_at, updated_at)
+                    .bind(
+                        entity.playerName,
+                        entity.priority,
+                        entity.raceType,
+                        entity.playerNo,
+                    )
+                    .run();
+            } else {
+                // INSERT
+                result = await commonParameter.env.DB.prepare(
+                    `INSERT INTO player (race_type, player_no, player_name, priority, created_at, updated_at)
                  VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
-            )
-                .bind(
-                    entity.raceType,
-                    entity.playerNo,
-                    entity.playerName,
-                    entity.priority,
                 )
-                .run();
-        }
+                    .bind(
+                        entity.raceType,
+                        entity.playerNo,
+                        entity.playerName,
+                        entity.priority,
+                    )
+                    .run();
+            }
 
-        // 登録/更新後のデータを返す
-        const { results: after } = await commonParameter.env.DB.prepare(
-            `SELECT race_type, player_no, player_name, priority, created_at, updated_at
+            // 登録/更新後のデータを返す
+            const { results: after } = await commonParameter.env.DB.prepare(
+                `SELECT race_type, player_no, player_name, priority, created_at, updated_at
              FROM player WHERE race_type = ? AND player_no = ?`,
-        )
-            .bind(entity.raceType, entity.playerNo)
-            .all();
+            )
+                .bind(entity.raceType, entity.playerNo)
+                .all();
+        }
     }
 }

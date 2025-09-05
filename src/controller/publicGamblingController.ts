@@ -3,7 +3,6 @@ import { CommonParameter } from './../index';
 
 import { inject, injectable } from 'tsyringe';
 import { PlayerEntity } from '../../lib/src/repository/entity/playerEntity';
-import { PlayerRegisterDTO } from '../repository/implement/playerRepository';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
 
 /**
@@ -52,17 +51,21 @@ export class PublicGamblingController {
         commonParameter: CommonParameter,
     ): Promise<Response> {
         try {
-            const body = (await request.json()) as PlayerRegisterDTO;
+            const body = (await request.json()) as {
+                race_type: string;
+                player_no: string;
+                player_name: string;
+                priority: number;
+            };
             const playerEntity = PlayerEntity.create(
                 body.race_type,
                 body.player_no,
                 body.player_name,
                 body.priority,
             );
-            await this.usecase.upsertPlayerEntity(
-                commonParameter,
+            await this.usecase.upsertPlayerEntityList(commonParameter, [
                 playerEntity,
-            );
+            ]);
             return Response.json(
                 {
                     message: '選手を登録/更新しました',

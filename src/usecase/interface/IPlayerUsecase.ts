@@ -7,8 +7,8 @@ export interface IPlayerUseCase {
         commonParameter: CommonParameter,
     ): Promise<PlayerEntity[]>;
 
-    upsertPlayerEntity(
+    upsertPlayerEntityList(
         commonParameter: CommonParameter,
-        entity: PlayerEntity,
+        entityList: PlayerEntity[],
     ): Promise<void>;
 }
