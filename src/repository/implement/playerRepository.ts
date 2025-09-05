@@ -2,9 +2,16 @@ import { CommonParameter } from '../..';
 import { IPlayerRepository } from '../interface/IPlayerRepository';
 
 export class PlayerRepository implements IPlayerRepository {
-    public async getPlayerDataList(
-        commonParameter: CommonParameter,
-    ): Promise<any[]> {
+    public async getPlayerDataList(commonParameter: CommonParameter): Promise<
+        {
+            race_type: string;
+            player_no: string;
+            player_name: string;
+            priority: number;
+            created_at: string;
+            updated_at: string;
+        }[]
+    > {
         const raceType = commonParameter.searchParams.get('race_type'); // レース種別フィルタ
         // WHERE句とパラメータを動的構築
         let whereClause = '';
@@ -51,6 +58,14 @@ export class PlayerRepository implements IPlayerRepository {
             .bind(...queryParams)
             .all();
 
-        return results;
+        // resultsはany型なのでキャストする
+        return results as {
+            race_type: string;
+            player_no: string;
+            player_name: string;
+            priority: number;
+            created_at: string;
+            updated_at: string;
+        }[];
     }
 }

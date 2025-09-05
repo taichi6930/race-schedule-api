@@ -6,6 +6,7 @@
     },
     "scripts": {
         "preinstall": "npx only-allow pnpm",
+        "wrangler:deploy:production": "wrangler deploy --env production",
         "dev:cloudware:local": "TZ=jst wrangler dev --env development --local",
         "build": "tsc",
         "watch": "tsc -w",

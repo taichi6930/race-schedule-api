@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { CommonParameter } from '../..';
+import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
 import { IPlayerRepository } from '../../repository/interface/IPlayerRepository';
 import { IPlayerService } from '../interface/IPlayerService';
 
@@ -12,9 +13,25 @@ export class PlayerService implements IPlayerService {
 
     public async getPlayerData(
         commonParameter: CommonParameter,
-    ): Promise<{ results: any[] }> {
+    ): Promise<PlayerEntity[]> {
         const results =
             await this.repository.getPlayerDataList(commonParameter);
-        return { results };
+        console.log(results);
+        // PlayerEntityに変換する
+        return results
+            .map((item) => {
+                try {
+                    return PlayerEntity.create(
+                        item.race_type,
+                        item.player_no,
+                        item.player_name,
+                        item.priority,
+                    );
+                } catch (error) {
+                    console.error('Error creating PlayerEntity:', error);
+                    return null;
+                }
+            })
+            .filter((item): item is PlayerEntity => item !== null);
     }
 }

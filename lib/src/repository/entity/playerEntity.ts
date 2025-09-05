@@ -1,5 +1,5 @@
 import { PlayerRecord } from '../../gateway/record/playerRecord';
-import type { RaceType } from '../../utility/raceType';
+import { type RaceType, validateRaceType } from '../../utility/raceType';
 
 /**
  * Repository層のEntity
@@ -30,12 +30,22 @@ export class PlayerEntity {
      * @param priority - 優先度
      */
     public static create(
-        raceType: RaceType,
+        raceType: string,
         playerNo: string,
         playerName: string,
         priority: number,
     ): PlayerEntity {
-        return new PlayerEntity(raceType, playerNo, playerName, priority);
+        try {
+            return new PlayerEntity(
+                validateRaceType(raceType),
+                playerNo,
+                playerName,
+                priority,
+            );
+        } catch (error) {
+            console.error('Error creating PlayerEntity:', error);
+            throw error;
+        }
     }
 
     public toRecord(): PlayerRecord {

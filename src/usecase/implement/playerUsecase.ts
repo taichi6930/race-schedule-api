@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { CommonParameter } from '../..';
+import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
 import { IPlayerService } from '../../service/interface/IPlayerService';
 import { IPlayerUseCase } from '../interface/IPlayerUsecase';
 
@@ -11,7 +12,7 @@ export class PlayerUseCase implements IPlayerUseCase {
     ) {}
     public async getPlayerData(
         commonParameter: CommonParameter,
-    ): Promise<{ results: any[] }> {
+    ): Promise<PlayerEntity[]> {
         return await this.service.getPlayerData(commonParameter);
     }
 }

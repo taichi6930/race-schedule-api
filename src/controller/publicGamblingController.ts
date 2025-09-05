@@ -1,12 +1,7 @@
 import 'reflect-metadata';
 import { CommonParameter } from './../index';
 
-import { container, inject, injectable } from 'tsyringe';
-import { PlayerRepository } from '../repository/implement/playerRepository';
-import { IPlayerRepository } from '../repository/interface/IPlayerRepository';
-import { PlayerService } from '../service/implement/playerService';
-import { IPlayerService } from '../service/interface/IPlayerService';
-import { PlayerUseCase } from '../usecase/implement/playerUsecase';
+import { inject, injectable } from 'tsyringe';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
 
 /**
@@ -26,7 +21,7 @@ export class PublicGamblingController {
     public async getPlayerDataList(
         commonParameter: CommonParameter,
     ): Promise<Response> {
-        const { results } = await this.usecase.getPlayerData(commonParameter);
+        const players = await this.usecase.getPlayerData(commonParameter);
 
         // CORS設定
         const corsHeaders = {
@@ -37,8 +32,8 @@ export class PublicGamblingController {
 
         return Response.json(
             {
-                players: results,
-                total: results.length,
+                players: players,
+                total: players.length,
             },
             { headers: corsHeaders },
         );
