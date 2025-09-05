@@ -1,4 +1,5 @@
 import { CommonParameter } from '../..';
+import { PlayerRecord, PlayerRegisterDTO } from '../implement/playerRepository';
 
 export interface IPlayerRepository {
     fetchPlayerDataList(commonParameter: CommonParameter): Promise<
@@ -11,4 +12,9 @@ export interface IPlayerRepository {
             updated_at: string;
         }[]
     >;
+
+    upsertPlayerEntity(
+        dto: PlayerRegisterDTO,
+        commonParameter: CommonParameter,
+    ): Promise<void>;
 }

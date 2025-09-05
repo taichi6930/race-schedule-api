@@ -63,10 +63,10 @@ export class PlayerRepository implements IPlayerRepository {
     }
 
     // upsert: 存在すればupdate、なければinsert
-    public async upsertPlayer(
+    public async upsertPlayerEntity(
         dto: PlayerRegisterDTO,
         commonParameter: CommonParameter,
-    ): Promise<PlayerRecord> {
+    ): Promise<void> {
         // まず存在チェック
         const { results: exist } = await commonParameter.env.DB.prepare(
             `SELECT * FROM player WHERE race_type = ? AND player_no = ?`,
@@ -110,6 +110,5 @@ export class PlayerRepository implements IPlayerRepository {
         )
             .bind(dto.race_type, dto.player_no)
             .all();
-        return after[0] as unknown as PlayerRecord;
     }
 }
