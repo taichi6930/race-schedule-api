@@ -1,7 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 import { CommonParameter } from '../..';
 import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
-import { PlayerRegisterDTO, PlayerRecord } from '../../model/player';
+import {
+    PlayerRecord,
+    PlayerRegisterDTO,
+} from '../../repository/implement/playerRepository';
 import { IPlayerRepository } from '../../repository/interface/IPlayerRepository';
 import { IPlayerService } from '../interface/IPlayerService';
 
@@ -39,7 +42,7 @@ export class PlayerService implements IPlayerService {
     public async upsertPlayerEntity(
         dto: PlayerRegisterDTO,
         commonParameter: CommonParameter,
-    ): Promise<PlayerEntity> {
+    ): Promise<void> {
         // バリデーション
         if (
             !dto.race_type ||
@@ -56,16 +59,6 @@ export class PlayerService implements IPlayerService {
         }
 
         // DB登録/更新
-        const record: PlayerRecord = await this.repository.upsertPlayer(
-            dto,
-            commonParameter,
-        );
-        // PlayerEntityに変換
-        return PlayerEntity.create(
-            record.race_type,
-            record.player_no,
-            record.player_name,
-            record.priority,
-        );
+        await this.repository.upsertPlayerEntity(dto, commonParameter);
     }
 }
