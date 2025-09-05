@@ -18,25 +18,11 @@ export class PublicGamblingController {
         searchParams: URLSearchParams,
         db: D1Database,
     ): Promise<Response> {
-        const limit = Number.parseInt(searchParams.get('limit') ?? '10000');
-        const raceType = searchParams.get('race_type'); // レース種別フィルタ
-
-        // WHERE句とパラメータを動的構築
-        let whereClause = '';
-        const queryParams: any[] = [];
-
-        if (raceType) {
-            whereClause = 'WHERE race_type = ?';
-            queryParams.push(raceType);
-        }
-
-        // メインクエリ
-        queryParams.push(limit);
-
         const { count, results } = await this.usecase.getPlayerDataCount(
             searchParams,
             db,
         );
+        console.log(searchParams.toString());
 
         // CORS設定
         const corsHeaders = {
@@ -48,7 +34,6 @@ export class PublicGamblingController {
         return Response.json(
             {
                 players: results,
-                limit: limit,
                 total: count,
             },
             { headers: corsHeaders },
