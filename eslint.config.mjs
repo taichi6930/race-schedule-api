@@ -24,8 +24,7 @@ export default [
             },
             sourceType: 'module',
         },
-        // files: ['src/**/*.ts', 'lib/**/*.ts', 'test/**/*.ts'],
-        files: ['lib/**/*.ts', 'test/**/*.ts'],
+        files: ['src/**/*.ts', 'lib/**/*.ts', 'test/**/*.ts'],
         ignores: ['**/cdk.out/**', '**/node_modules/**', 'dist/**'],
     },
     eslintPluginUnicorn.configs.all, // ✅ unicornプラグインの全ルールを適用
@@ -205,6 +204,7 @@ export default [
             '@typescript-eslint/strict-boolean-expressions': 'off', // ✅ 厳格なブール型の評価を強制
             '@typescript-eslint/init-declarations': 'off', // ✅ 変数宣言時に初期化を強制
             'unicorn/no-null': 'off', // ✅ nullの使用を許可
+            '@typescript-eslint/no-explicit-any': 'off', // ✅ any型の使用を許可
         },
     },
     // YAMLファイルを除外する設定

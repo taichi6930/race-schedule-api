@@ -1,14 +1,14 @@
-import { CommonParameter } from '../..';
-import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
+import type { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
+import type { CommonParameter } from '../../commonParameter';
 
 // UseCase層
 export interface IPlayerUseCase {
-    fetchPlayerEntityList(
+    fetchPlayerEntityList: (
         commonParameter: CommonParameter,
-    ): Promise<PlayerEntity[]>;
+    ) => Promise<PlayerEntity[]>;
 
-    upsertPlayerEntityList(
+    upsertPlayerEntityList: (
         commonParameter: CommonParameter,
         entityList: PlayerEntity[],
-    ): Promise<void>;
+    ) => Promise<void>;
 }

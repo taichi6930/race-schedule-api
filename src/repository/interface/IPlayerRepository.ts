@@ -1,8 +1,8 @@
-import { CommonParameter } from '../..';
-import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
+import type { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
+import type { CommonParameter } from '../../commonParameter';
 
 export interface IPlayerRepository {
-    fetchPlayerDataList(commonParameter: CommonParameter): Promise<
+    fetchPlayerDataList: (commonParameter: CommonParameter) => Promise<
         {
             race_type: string;
             player_no: string;
@@ -13,8 +13,8 @@ export interface IPlayerRepository {
         }[]
     >;
 
-    upsertPlayerEntityList(
+    upsertPlayerEntityList: (
         commonParameter: CommonParameter,
         entityList: PlayerEntity[],
-    ): Promise<void>;
+    ) => Promise<void>;
 }

@@ -1,12 +1,13 @@
 import { inject, injectable } from 'tsyringe';
-import { CommonParameter } from '../..';
+
 import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
+import { CommonParameter } from '../../commonParameter';
 import { IPlayerRepository } from '../../repository/interface/IPlayerRepository';
 import { IPlayerService } from '../interface/IPlayerService';
 
 @injectable()
 export class PlayerService implements IPlayerService {
-    constructor(
+    public constructor(
         @inject('PlayerRepository')
         private readonly repository: IPlayerRepository,
     ) {}

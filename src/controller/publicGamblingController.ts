@@ -1,8 +1,9 @@
 import 'reflect-metadata';
-import { CommonParameter } from './../index';
 
 import { inject, injectable } from 'tsyringe';
+
 import { PlayerEntity } from '../../lib/src/repository/entity/playerEntity';
+import { CommonParameter } from '../commonParameter';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
 
 /**
@@ -10,13 +11,13 @@ import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
  */
 @injectable()
 export class PublicGamblingController {
-    constructor(
+    public constructor(
         @inject('PlayerUsecase')
         private readonly usecase: IPlayerUseCase,
     ) {}
 
     // CORS設定
-    private corsHeaders = {
+    private readonly corsHeaders = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',

@@ -1,6 +1,6 @@
-import { CommonParameter } from '../..';
-import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
-import { IPlayerRepository } from '../interface/IPlayerRepository';
+import type { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
+import type { CommonParameter } from '../../commonParameter';
+import type { IPlayerRepository } from '../interface/IPlayerRepository';
 
 // DB登録後の選手エンティティ（必要なら拡張）
 export interface PlayerRecord {
@@ -17,14 +17,13 @@ export class PlayerRepository implements IPlayerRepository {
         commonParameter: CommonParameter,
     ): Promise<PlayerRecord[]> {
         // ...existing code...
-        const searchParams =
-            commonParameter.searchParams ?? new URLSearchParams();
+        const { searchParams, env } = commonParameter;
         const raceType = searchParams.get('race_type');
         let whereClause = '';
         const queryParams: any[] = [];
         const orderBy = searchParams.get('order_by') ?? 'priority';
         const orderDirRaw = searchParams.get('order_dir');
-        const orderDir = orderDirRaw ? orderDirRaw : 'ASC';
+        const orderDir = orderDirRaw ?? 'ASC';
         const allowedOrderBy = [
             'priority',
             'player_name',
@@ -42,7 +41,7 @@ export class PlayerRepository implements IPlayerRepository {
             queryParams.push(raceType);
         }
         queryParams.push(Number.parseInt(searchParams.get('limit') ?? '10000'));
-        const { results } = await commonParameter.env.DB.prepare(
+        const { results } = await env.DB.prepare(
             `SELECT race_type, player_no, player_name, priority, created_at, updated_at
              FROM player
              ${whereClause}
@@ -51,7 +50,18 @@ export class PlayerRepository implements IPlayerRepository {
         )
             .bind(...queryParams)
             .all();
-        return results as unknown as PlayerRecord[];
+
+        // Type-safe conversion with validation
+        return results.map(
+            (row: any): PlayerRecord => ({
+                race_type: String(row.race_type ?? ''),
+                player_no: String(row.player_no ?? ''),
+                player_name: String(row.player_name ?? ''),
+                priority: Number(row.priority ?? 0),
+                created_at: String(row.created_at ?? ''),
+                updated_at: String(row.updated_at ?? ''),
+            }),
+        );
     }
 
     // upsert: 存在すればupdate、なければinsert

@@ -1,14 +1,17 @@
 import 'reflect-metadata';
-import { container } from 'tsyringe';
-import { PublicGamblingController } from './controller/publicGamblingController';
-import { PlayerRepository } from './repository/implement/playerRepository';
-import { IPlayerRepository } from './repository/interface/IPlayerRepository';
-import { PlayerService } from './service/implement/playerService';
-import { IPlayerService } from './service/interface/IPlayerService';
-import { PlayerUseCase } from './usecase/implement/playerUsecase';
-import { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
 
 import type { D1Database } from '@cloudflare/workers-types';
+import { container } from 'tsyringe';
+
+import type { CommonParameter } from './commonParameter';
+import { PublicGamblingController } from './controller/publicGamblingController';
+import { PlayerRepository } from './repository/implement/playerRepository';
+import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
+import { PlayerService } from './service/implement/playerService';
+import type { IPlayerService } from './service/interface/IPlayerService';
+import { PlayerUseCase } from './usecase/implement/playerUsecase';
+import type { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
+
 export interface Env {
     DB: D1Database;
 }
@@ -23,18 +26,6 @@ container.register<IPlayerService>('PlayerService', {
 container.register<IPlayerUseCase>('PlayerUsecase', {
     useClass: PlayerUseCase,
 });
-
-interface PlayerRequest {
-    race_type: string;
-    player_no: string;
-    player_name: string;
-    priority: number;
-}
-
-export interface CommonParameter {
-    searchParams: URLSearchParams;
-    env: Env;
-}
 
 export default {
     async fetch(request: Request, env: Env): Promise<Response> {
@@ -58,7 +49,7 @@ export default {
 
         try {
             if (pathname === '/players' && request.method === 'GET') {
-                return controller.getPlayerEntityList(commonParameter);
+                return await controller.getPlayerEntityList(commonParameter);
             }
 
             // POST /players - 選手登録/更新
