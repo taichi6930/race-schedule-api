@@ -27,3 +27,5 @@ volume/*
 
 # package managers
 package-lock.json
+
+.wrangler/
