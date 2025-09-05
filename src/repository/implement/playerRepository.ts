@@ -17,12 +17,14 @@ export class PlayerRepository implements IPlayerRepository {
         commonParameter: CommonParameter,
     ): Promise<PlayerRecord[]> {
         // ...existing code...
-        const raceType = commonParameter.searchParams.get('race_type');
+        const searchParams =
+            commonParameter.searchParams ?? new URLSearchParams();
+        const raceType = searchParams.get('race_type');
         let whereClause = '';
         const queryParams: any[] = [];
-        const orderBy =
-            commonParameter.searchParams.get('order_by') ?? 'priority';
-        const orderDir = commonParameter.searchParams.get('order_dir') ?? 'ASC';
+        const orderBy = searchParams.get('order_by') ?? 'priority';
+        const orderDirRaw = searchParams.get('order_dir');
+        const orderDir = orderDirRaw ? orderDirRaw : 'ASC';
         const allowedOrderBy = [
             'priority',
             'player_name',
@@ -39,11 +41,7 @@ export class PlayerRepository implements IPlayerRepository {
             whereClause = 'WHERE race_type = ?';
             queryParams.push(raceType);
         }
-        queryParams.push(
-            Number.parseInt(
-                commonParameter.searchParams.get('limit') ?? '10000',
-            ),
-        );
+        queryParams.push(Number.parseInt(searchParams.get('limit') ?? '10000'));
         const { results } = await commonParameter.env.DB.prepare(
             `SELECT race_type, player_no, player_name, priority, created_at, updated_at
              FROM player
@@ -61,50 +59,26 @@ export class PlayerRepository implements IPlayerRepository {
         commonParameter: CommonParameter,
         entityList: PlayerEntity[],
     ): Promise<void> {
-        for (const entity of entityList) {
-            // まず存在チェック
-            const { results: exist } = await commonParameter.env.DB.prepare(
-                `SELECT * FROM player WHERE race_type = ? AND player_no = ?`,
-            )
-                .bind(entity.raceType, entity.playerNo)
-                .all();
-
-            let result;
-            if (exist.length > 0) {
-                // UPDATE
-                result = await commonParameter.env.DB.prepare(
-                    `UPDATE player SET player_name = ?, priority = ?, updated_at = CURRENT_TIMESTAMP
-                 WHERE race_type = ? AND player_no = ?`,
-                )
-                    .bind(
-                        entity.playerName,
-                        entity.priority,
-                        entity.raceType,
-                        entity.playerNo,
-                    )
-                    .run();
-            } else {
-                // INSERT
-                result = await commonParameter.env.DB.prepare(
-                    `INSERT INTO player (race_type, player_no, player_name, priority, created_at, updated_at)
-                 VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
-                )
-                    .bind(
-                        entity.raceType,
-                        entity.playerNo,
-                        entity.playerName,
-                        entity.priority,
-                    )
-                    .run();
-            }
-
-            // 登録/更新後のデータを返す
-            const { results: after } = await commonParameter.env.DB.prepare(
-                `SELECT race_type, player_no, player_name, priority, created_at, updated_at
-             FROM player WHERE race_type = ? AND player_no = ?`,
-            )
-                .bind(entity.raceType, entity.playerNo)
-                .all();
-        }
+        if (entityList.length === 0) return;
+        // SQL生成
+        const valuesSql = entityList
+            .map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)')
+            .join(', ');
+        const sql = `INSERT INTO player (race_type, player_no, player_name, priority, created_at, updated_at)
+            VALUES ${valuesSql}
+            ON CONFLICT(race_type, player_no) DO UPDATE SET
+                player_name=excluded.player_name,
+                priority=excluded.priority,
+                updated_at=CURRENT_TIMESTAMP;`;
+        // bindパラメータ
+        const bindParams = entityList.flatMap((e) => [
+            e.raceType,
+            e.playerNo,
+            e.playerName,
+            e.priority,
+        ]);
+        await commonParameter.env.DB.prepare(sql)
+            .bind(...bindParams)
+            .run();
     }
 }
