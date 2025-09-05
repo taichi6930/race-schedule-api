@@ -221,7 +221,6 @@ export class MechanicalRacingRaceRepositoryFromStorage
                     b.id.substring(raceType.length),
                     10,
                 );
-                console.log(aDateTimeStr, bDateTimeStr);
                 return bDateTimeStr - aDateTimeStr;
             });
 
