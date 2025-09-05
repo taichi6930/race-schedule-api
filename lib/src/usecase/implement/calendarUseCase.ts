@@ -201,7 +201,6 @@ export class CalendarUseCase implements IRaceCalendarUseCase {
     ): RaceEntity[] {
         const filteredRaceEntityList: RaceEntity[] = raceEntityList.filter(
             (raceEntity) => {
-                console.log(raceEntityList, playerDataList[0]);
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {
                         const playerPriority =

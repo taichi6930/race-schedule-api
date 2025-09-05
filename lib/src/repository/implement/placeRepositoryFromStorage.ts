@@ -339,8 +339,6 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                         ? new Date(columns[indices.updateDate])
                         : getJSTDate(new Date());
 
-                    console.log(columns);
-                    console.log(indices);
                     return [
                         PlaceRecord.create(
                             columns[indices.id],
