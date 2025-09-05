@@ -30,13 +30,13 @@ export class PublicGamblingController {
     public async getPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<Response> {
-        const players =
+        const playerEntityList =
             await this.usecase.fetchPlayerEntityList(commonParameter);
 
         return Response.json(
             {
-                players: players,
-                count: players.length,
+                players: playerEntityList,
+                count: playerEntityList.length,
             },
             { headers: this.corsHeaders },
         );
@@ -53,9 +53,8 @@ export class PublicGamblingController {
     ): Promise<Response> {
         try {
             const body = await request.json();
-            // bodyが配列かどうか判定
             const playerList = Array.isArray(body) ? body : [body];
-            const playerEntities = playerList.map((item: any) =>
+            const playerEntityList = playerList.map((item: any) =>
                 PlayerEntity.create(
                     item.race_type,
                     item.player_no,
@@ -65,12 +64,12 @@ export class PublicGamblingController {
             );
             await this.usecase.upsertPlayerEntityList(
                 commonParameter,
-                playerEntities,
+                playerEntityList,
             );
             return Response.json(
                 {
                     message: '選手を登録/更新しました',
-                    playerEntities: playerEntities,
+                    playerEntities: playerEntityList,
                 },
                 { status: 201, headers: this.corsHeaders },
             );
