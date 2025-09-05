@@ -1,10 +1,27 @@
 import 'reflect-metadata';
 import { container } from 'tsyringe';
 import { PublicGamblingController } from './controller/publicGamblingController';
+import { PlayerRepository } from './repository/implement/playerRepository';
+import { IPlayerRepository } from './repository/interface/IPlayerRepository';
+import { PlayerService } from './service/implement/playerService';
+import { IPlayerService } from './service/interface/IPlayerService';
+import { PlayerUseCase } from './usecase/implement/playerUsecase';
+import { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
 
 export interface Env {
     DB: D1Database;
 }
+
+// DI登録
+container.register<IPlayerRepository>('PlayerRepository', {
+    useClass: PlayerRepository,
+});
+container.register<IPlayerService>('PlayerService', {
+    useClass: PlayerService,
+});
+container.register<IPlayerUseCase>('PlayerUsecase', {
+    useClass: PlayerUseCase,
+});
 
 interface PlayerRequest {
     race_type: string;

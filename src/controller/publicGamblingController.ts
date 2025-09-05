@@ -4,9 +4,10 @@ import { CommonParameter } from './../index';
 import { container, inject, injectable } from 'tsyringe';
 import { PlayerRepository } from '../repository/implement/playerRepository';
 import { IPlayerRepository } from '../repository/interface/IPlayerRepository';
-import { PlayerService } from '../service/implement/PlayerService';
+import { PlayerService } from '../service/implement/playerService';
 import { IPlayerService } from '../service/interface/IPlayerService';
-// ...existing code...
+import { PlayerUseCase } from '../usecase/implement/playerUsecase';
+import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
 
 /**
  * 公営競技のレース情報コントローラー
@@ -43,37 +44,3 @@ export class PublicGamblingController {
         );
     }
 }
-
-// DIコンテナからコントローラーを取得する例
-// const controller = container.resolve(PublicGamblingController);
-
-// UseCase層
-export interface IPlayerUseCase {
-    getPlayerData(
-        commonParameter: CommonParameter,
-    ): Promise<{ results: any[] }>;
-}
-
-@injectable()
-export class PlayerUseCase implements IPlayerUseCase {
-    constructor(
-        @inject('PlayerService')
-        private readonly service: IPlayerService,
-    ) {}
-    public async getPlayerData(
-        commonParameter: CommonParameter,
-    ): Promise<{ results: any[] }> {
-        return await this.service.getPlayerData(commonParameter);
-    }
-}
-
-// DI登録
-container.register<IPlayerRepository>('PlayerRepository', {
-    useClass: PlayerRepository,
-});
-container.register<IPlayerService>('PlayerService', {
-    useClass: PlayerService,
-});
-container.register<IPlayerUseCase>('PlayerUsecase', {
-    useClass: PlayerUseCase,
-});
