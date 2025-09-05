@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { CommonParameter } from './../index';
 
 import { injectable } from 'tsyringe';
 
@@ -15,14 +16,10 @@ export class PublicGamblingController {
      * @param res - レスポンス
      */
     public async getPlayerDataList(
-        searchParams: URLSearchParams,
-        db: D1Database,
+        commonParameter: CommonParameter,
     ): Promise<Response> {
-        const { count, results } = await this.usecase.getPlayerDataCount(
-            searchParams,
-            db,
-        );
-        console.log(searchParams);
+        const { results } =
+            await this.usecase.getPlayerDataCount(commonParameter);
 
         // CORS設定
         const corsHeaders = {
@@ -34,7 +31,7 @@ export class PublicGamblingController {
         return Response.json(
             {
                 players: results,
-                total: count,
+                total: results.length,
             },
             { headers: corsHeaders },
         );
@@ -45,14 +42,9 @@ class PlayerUseCase {
     constructor(private service = new PlayerService()) {}
 
     public async getPlayerDataCount(
-        searchParams: URLSearchParams,
-        db: D1Database,
-    ): Promise<{ count: number; results: any[] }> {
-        const { count, results } = await this.service.getPlayerData(
-            searchParams,
-            db,
-        );
-        return { count, results };
+        commonParameter: CommonParameter,
+    ): Promise<{ results: any[] }> {
+        return await this.service.getPlayerData(commonParameter);
     }
 }
 
@@ -60,33 +52,26 @@ class PlayerService {
     constructor(private repository = new PlayerRepository()) {}
 
     public async getPlayerData(
-        searchParams: URLSearchParams,
-        db: D1Database,
-    ): Promise<{ count: number; results: any[] }> {
-        const count = await this.repository.getPlayerDataCount(
-            searchParams,
-            db,
-        );
-        const results = await this.repository.getPlayerDataList(
-            searchParams,
-            db,
-        );
-        return { count, results };
+        commonParameter: CommonParameter,
+    ): Promise<{ results: any[] }> {
+        const results =
+            await this.repository.getPlayerDataList(commonParameter);
+        return { results };
     }
 }
 
 class PlayerRepository {
     public async getPlayerDataList(
-        searchParams: URLSearchParams,
-        db: D1Database,
+        commonParameter: CommonParameter,
     ): Promise<any[]> {
-        const raceType = searchParams.get('race_type'); // レース種別フィルタ
+        const raceType = commonParameter.searchParams.get('race_type'); // レース種別フィルタ
         // WHERE句とパラメータを動的構築
         let whereClause = '';
         const queryParams: any[] = [];
 
-        const orderBy = searchParams.get('order_by') ?? 'priority'; // ソート項目
-        const orderDir = searchParams.get('order_dir') ?? 'ASC'; // ソート方向
+        const orderBy =
+            commonParameter.searchParams.get('order_by') ?? 'priority'; // ソート項目
+        const orderDir = commonParameter.searchParams.get('order_dir') ?? 'ASC'; // ソート方向
 
         // ソート項目のバリデーション
         const allowedOrderBy = [
@@ -107,48 +92,24 @@ class PlayerRepository {
             queryParams.push(raceType);
         }
         // LIMITは必ず渡す
-        queryParams.push(Number.parseInt(searchParams.get('limit') ?? '10000'));
+        queryParams.push(
+            Number.parseInt(
+                commonParameter.searchParams.get('limit') ?? '10000',
+            ),
+        );
 
-        const { results } = await db
-            .prepare(
-                `
+        const { results } = await commonParameter.env.DB.prepare(
+            `
                     SELECT race_type, player_no, player_name, priority, created_at, updated_at
                     FROM player
                     ${whereClause}
                     ORDER BY ${validOrderBy} ${validOrderDir}, player_no ASC
                     LIMIT ?
                     `,
-            )
+        )
             .bind(...queryParams)
             .all();
 
         return results;
-    }
-
-    public async getPlayerDataCount(
-        searchParams: URLSearchParams,
-        db: D1Database,
-    ): Promise<number> {
-        const raceType = searchParams.get('race_type'); // レース種別フィルタ
-        // WHERE句とパラメータを動的構築
-        let countWhereClause = '';
-        const countParams: any[] = [];
-
-        if (raceType) {
-            countWhereClause = 'WHERE race_type = ?';
-            countParams.push(raceType);
-        }
-
-        // 件数取得
-        const { count } = (await db
-            .prepare(
-                `
-                SELECT COUNT(*) as count FROM player ${countWhereClause}
-        `,
-            )
-            .bind(...countParams)
-            .first()) as { count: number };
-
-        return count;
     }
 }

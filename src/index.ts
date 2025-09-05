@@ -11,10 +11,17 @@ interface PlayerRequest {
     priority: number;
 }
 
+export interface CommonParameter {
+    searchParams: URLSearchParams;
+    env: Env;
+}
+
 export default {
     async fetch(request: Request, env: Env): Promise<Response> {
         const url = new URL(request.url);
         const { pathname, searchParams } = url;
+
+        const commonParameter: CommonParameter = { searchParams, env };
 
         // CORS設定
         const corsHeaders = {
@@ -31,7 +38,7 @@ export default {
 
         try {
             if (pathname === '/players' && request.method === 'GET') {
-                return controller.getPlayerDataList(searchParams, env.DB);
+                return controller.getPlayerDataList(commonParameter);
             }
 
             //     // POST /players - 選手登録
