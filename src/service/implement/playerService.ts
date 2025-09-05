@@ -30,12 +30,10 @@ export class PlayerService implements IPlayerService {
             .filter((item): item is PlayerEntity => item !== null);
     }
 
-    // 選手登録/更新（バリデーション＋upsert）
     public async upsertPlayerEntityList(
         commonParameter: CommonParameter,
         entityList: PlayerEntity[],
     ): Promise<void> {
-        // DB登録/更新
         await this.repository.upsertPlayerEntityList(
             commonParameter,
             entityList,

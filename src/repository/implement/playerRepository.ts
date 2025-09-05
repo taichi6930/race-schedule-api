@@ -12,10 +12,10 @@ export class PlayerRepository implements IPlayerRepository {
         let whereClause = '';
         const queryParams: any[] = [];
         const orderBy = searchParams.get('order_by') ?? 'priority';
-        const orderDirRaw = searchParams.get('order_dir');
-        const orderDir = orderDirRaw ?? 'ASC';
-        const allowedOrderBy = ['priority', 'race_type', 'created_at'];
-        const validOrderBy = allowedOrderBy.includes(orderBy)
+        const orderDir = searchParams.get('order_dir') ?? 'ASC';
+        const validOrderBy = ['priority', 'race_type', 'created_at'].includes(
+            orderBy,
+        )
             ? orderBy
             : 'priority';
         const validOrderDir = ['ASC', 'DESC'].includes(orderDir.toUpperCase())
@@ -49,7 +49,6 @@ export class PlayerRepository implements IPlayerRepository {
         );
     }
 
-    // upsert: 存在すればupdate、なければinsert
     public async upsertPlayerEntityList(
         commonParameter: CommonParameter,
         entityList: PlayerEntity[],

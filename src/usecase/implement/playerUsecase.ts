@@ -11,13 +11,13 @@ export class PlayerUseCase implements IPlayerUseCase {
         @inject('PlayerService')
         private readonly service: IPlayerService,
     ) {}
+
     public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<PlayerEntity[]> {
         return this.service.fetchPlayerEntityList(commonParameter);
     }
 
-    // 選手登録/更新
     public async upsertPlayerEntityList(
         commonParameter: CommonParameter,
         entityList: PlayerEntity[],
