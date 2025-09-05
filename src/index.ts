@@ -57,13 +57,13 @@ export default {
 
         try {
             if (pathname === '/players' && request.method === 'GET') {
-                return controller.getPlayerDataList(commonParameter);
+                return controller.getPlayerEntityList(commonParameter);
             }
 
-            //     // POST /players - 選手登録
-            //     if (pathname === '/players' && request.method === 'POST') {
-            //         const { race_type, player_no, player_name, priority } =
-            //             (await request.json()) as PlayerRequest;
+            // // POST /players - 選手登録
+            // if (pathname === '/players' && request.method === 'POST') {
+            //     const { race_type, player_no, player_name, priority } =
+            //         (await request.json()) as PlayerRequest;
 
             //         // バリデーション
             //         if (
@@ -131,7 +131,7 @@ export default {
             //             }
             //             throw error;
             //         }
-            //     }
+            // }
 
             // ルートエンドポイント - API仕様表示
             if (pathname === '/' && request.method === 'GET') {
