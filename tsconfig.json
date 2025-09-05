@@ -25,5 +25,9 @@
         "skipLibCheck": true,
         "typeRoots": ["./node_modules/@types"]
     },
+    "types": [
+      "@cloudflare/workers-types",
+      "./worker-configuration.d.ts"
+    ],
     "exclude": ["node_modules", "cdk.out"]
 }
