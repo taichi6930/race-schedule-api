@@ -26,11 +26,12 @@ export class PlayerRepository implements IPlayerRepository {
         }
         queryParams.push(Number.parseInt(searchParams.get('limit') ?? '10000'));
         const { results } = await env.DB.prepare(
-            `SELECT race_type, player_no, player_name, priority, created_at, updated_at
-             FROM player
-             ${whereClause}
-             ORDER BY ${validOrderBy} ${validOrderDir}, player_no ASC
-             LIMIT ?`,
+            `
+            SELECT race_type, player_no, player_name, priority, created_at, updated_at
+            FROM player
+            ${whereClause}
+            ORDER BY ${validOrderBy} ${validOrderDir}, player_no ASC
+            LIMIT ?`,
         )
             .bind(...queryParams)
             .all();
