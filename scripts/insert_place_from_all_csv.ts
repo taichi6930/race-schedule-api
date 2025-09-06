@@ -43,13 +43,14 @@ files.forEach(({ file, raceType }) => {
         location: header.indexOf('location'),
     };
     const toSqliteDateTime = (src: string): string => {
-        // 例: Wed Oct 01 2025 00:00:00 GMT+0000 (Coordinated Universal Time)
-        // → 2025-10-01 00:00:00
+        // JST変換: UTC→JST(+9h)
         if (!src) return '';
         const d = new Date(src);
         if (isNaN(d.getTime())) return src; // パース失敗時はそのまま
+        // JSTへ変換
+        const jst = new Date(d.getTime() - 9 * 60 * 60 * 1000);
         const pad = (n: number) => n.toString().padStart(2, '0');
-        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+        return `${jst.getFullYear()}-${pad(jst.getMonth() + 1)}-${pad(jst.getDate())} ${pad(jst.getHours())}:${pad(jst.getMinutes())}:${pad(jst.getSeconds())}`;
     };
 
     const records: string[] = lines.slice(1).map((line) => {
