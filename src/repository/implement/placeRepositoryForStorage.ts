@@ -52,7 +52,7 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
                     row.id,
                     PlaceData.create(
                         row.race_type,
-                        row.date_time,
+                        new Date(row.date_time),
                         row.location_name,
                     ),
                 ),
