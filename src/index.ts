@@ -3,8 +3,11 @@ import 'reflect-metadata';
 import type { D1Database } from '@cloudflare/workers-types';
 import { container } from 'tsyringe';
 
+import { PlaceUseCase } from '../lib/src/usecase/implement/placeUseCase';
+import type { IPlaceUseCase } from '../lib/src/usecase/interface/IPlaceUseCase';
 import type { CommonParameter } from './commonParameter';
-import { PublicGamblingController } from './controller/publicGamblingController';
+import { PlaceController } from './controller/placeController';
+import { PlayerController } from './controller/playerController';
 import { PlayerRepository } from './repository/implement/playerRepository';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
 import { PlayerService } from './service/implement/playerService';
@@ -16,7 +19,6 @@ export interface Env {
     DB: D1Database;
 }
 
-// DI登録
 container.register<IPlayerRepository>('PlayerRepository', {
     useClass: PlayerRepository,
 });
@@ -25,6 +27,10 @@ container.register<IPlayerService>('PlayerService', {
 });
 container.register<IPlayerUseCase>('PlayerUsecase', {
     useClass: PlayerUseCase,
+});
+
+container.register<IPlaceUseCase>('PlaceUsecase', {
+    useClass: PlaceUseCase,
 });
 
 export default {
@@ -45,17 +51,25 @@ export default {
             return new Response(null, { headers: corsHeaders });
         }
 
-        const controller = container.resolve(PublicGamblingController);
+        const playerController = container.resolve(PlayerController);
+        const placeController = container.resolve(PlaceController);
 
         try {
             if (pathname === '/players' && request.method === 'GET') {
-                return await controller.getPlayerEntityList(commonParameter);
+                return await playerController.getPlayerEntityList(
+                    commonParameter,
+                );
             }
 
-            // POST /players - 選手登録/更新
             if (pathname === '/players' && request.method === 'POST') {
-                return await controller.postUpsertPlayer(
+                return await playerController.postUpsertPlayer(
                     request,
+                    commonParameter,
+                );
+            }
+
+            if (pathname === '/places' && request.method === 'GET') {
+                return await placeController.getPlaceEntityList(
                     commonParameter,
                 );
             }
