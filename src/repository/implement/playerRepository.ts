@@ -1,5 +1,5 @@
-import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
 import type { CommonParameter } from '../../commonParameter';
+import { PlayerEntity } from '../entity/playerEntity';
 import type { IPlayerRepository } from '../interface/IPlayerRepository';
 
 export class PlayerRepository implements IPlayerRepository {

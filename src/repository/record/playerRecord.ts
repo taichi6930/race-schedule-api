@@ -1,9 +1,9 @@
-import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
 import { createErrorMessage } from '../../../lib/src/utility/error';
 import {
     type RaceType,
     validateRaceType,
 } from '../../../lib/src/utility/raceType';
+import { PlayerEntity } from '../entity/playerEntity';
 
 /**
  * 選手データ

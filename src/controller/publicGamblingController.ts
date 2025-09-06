@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { PlayerEntity } from '../../lib/src/repository/entity/playerEntity';
 import { CommonParameter } from '../commonParameter';
+import { PlayerEntity } from '../repository/entity/playerEntity';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
 
 /**

@@ -1,7 +1,6 @@
-import type { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
 import type { CommonParameter } from '../../commonParameter';
+import type { PlayerEntity } from '../../repository/entity/playerEntity';
 
-// Service層
 export interface IPlayerService {
     fetchPlayerEntityList: (
         commonParameter: CommonParameter,
