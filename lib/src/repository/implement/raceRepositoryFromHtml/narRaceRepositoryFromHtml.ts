@@ -13,7 +13,7 @@ import {
     validateGradeType,
 } from '../../../utility/validateAndType/gradeType';
 import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
-import { PlaceEntity } from '../../entity/placeEntity';
+import { PlaceEntityForAWS } from '../../entity/placeEntity';
 import { RaceEntity } from '../../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../interface/IRaceRepository';
@@ -48,7 +48,7 @@ export class NarRaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     public async fetchRaceListFromHtml(
-        placeEntity: PlaceEntity,
+        placeEntity: PlaceEntityForAWS,
     ): Promise<RaceEntity[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(

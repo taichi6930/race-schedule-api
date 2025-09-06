@@ -1,7 +1,8 @@
 import type { CommonParameter } from '../../commonParameter';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
 
-export interface IPlaceUseCase {
+// Service層
+export interface IPlaceService {
     fetchPlaceEntityList: (
         commonParameter: CommonParameter,
     ) => Promise<PlaceEntity[]>;

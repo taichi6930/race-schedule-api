@@ -5,7 +5,7 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
-import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { PlaceEntityForAWS } from '../../../../../lib/src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
@@ -43,8 +43,8 @@ export const baseRacePlayerDataList = (
 export const basePlaceData = (raceType: RaceType): PlaceData =>
     PlaceData.create(raceType, basePlaceDateTime, defaultLocation[raceType]);
 
-export const basePlaceEntity = (raceType: RaceType): PlaceEntity =>
-    PlaceEntity.createWithoutId(
+export const basePlaceEntity = (raceType: RaceType): PlaceEntityForAWS =>
+    PlaceEntityForAWS.createWithoutId(
         basePlaceData(raceType),
         defaultHeldDayData[raceType],
         defaultPlaceGrade[raceType],

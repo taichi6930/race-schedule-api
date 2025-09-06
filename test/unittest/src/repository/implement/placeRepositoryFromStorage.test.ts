@@ -7,7 +7,7 @@ import { afterEach } from 'node:test';
 import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
-import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { PlaceEntityForAWS } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
@@ -104,7 +104,7 @@ describe('PlaceRepositoryFromStorage', () => {
     });
 
     // 1年間の開催場データを登録する
-    const placeEntityList = (raceType: RaceType): PlaceEntity[] => {
+    const placeEntityList = (raceType: RaceType): PlaceEntityForAWS[] => {
         const dayCount = IS_SHORT_TEST
             ? 3
             : IS_LARGE_AMOUNT_DATA_TEST
@@ -114,7 +114,7 @@ describe('PlaceRepositoryFromStorage', () => {
             const location = defaultLocation[raceType];
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return PlaceEntity.createWithoutId(
+            return PlaceEntityForAWS.createWithoutId(
                 PlaceData.create(raceType, date, location),
                 defaultHeldDayData[raceType],
                 defaultPlaceGrade[raceType],

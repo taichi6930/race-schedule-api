@@ -14,7 +14,7 @@ import {
     RaceStage,
     StageMap,
 } from '../../../utility/validateAndType/raceStage';
-import { PlaceEntity } from '../../entity/placeEntity';
+import { PlaceEntityForAWS } from '../../entity/placeEntity';
 import { RaceEntity } from '../../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../interface/IRaceRepository';
@@ -57,7 +57,7 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     public async fetchRaceListFromHtml(
-        placeEntity: PlaceEntity,
+        placeEntity: PlaceEntityForAWS,
     ): Promise<RaceEntity[]> {
         try {
             const [year, month, day] = [

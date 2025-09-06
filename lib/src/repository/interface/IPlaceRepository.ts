@@ -1,5 +1,5 @@
 import type { RaceType } from '../../utility/raceType';
-import type { PlaceEntity } from '../entity/placeEntity';
+import type { PlaceEntityForAWS } from '../entity/placeEntity';
 import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 
 /**
@@ -37,7 +37,7 @@ export interface IPlaceRepository {
      */
     fetchPlaceEntityList: (
         searchFilter: SearchPlaceFilterEntity,
-    ) => Promise<PlaceEntity[]>;
+    ) => Promise<PlaceEntityForAWS[]>;
 
     /**
      * 開催場所データを一括で登録/更新します
@@ -54,11 +54,11 @@ export interface IPlaceRepository {
      */
     registerPlaceEntityList: (
         raceType: RaceType,
-        placeEntityList: PlaceEntity[],
+        placeEntityList: PlaceEntityForAWS[],
     ) => Promise<{
         code: number;
         message: string;
-        successData: PlaceEntity[];
-        failureData: PlaceEntity[];
+        successData: PlaceEntityForAWS[];
+        failureData: PlaceEntityForAWS[];
     }>;
 }

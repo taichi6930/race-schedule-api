@@ -6,7 +6,7 @@ import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { PlaceEntity } from '../entity/placeEntity';
+import { PlaceEntityForAWS } from '../entity/placeEntity';
 import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -18,12 +18,12 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<PlaceEntityForAWS[]> {
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
 
         while (currentDate <= searchFilter.finishDate) {
-            const placeEntity = PlaceEntity.createWithoutId(
+            const placeEntity = PlaceEntityForAWS.createWithoutId(
                 PlaceData.create(
                     searchFilter.raceType,
                     new Date(currentDate),
@@ -49,12 +49,12 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: PlaceEntity[],
+        placeEntityList: PlaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;
-        successData: PlaceEntity[];
-        failureData: PlaceEntity[];
+        successData: PlaceEntityForAWS[];
+        failureData: PlaceEntityForAWS[];
     }> {
         console.debug(raceType, placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
