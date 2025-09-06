@@ -42,11 +42,22 @@ files.forEach(({ file, raceType }) => {
         dateTime: header.indexOf('dateTime'),
         location: header.indexOf('location'),
     };
+    const toSqliteDateTime = (src: string): string => {
+        // 例: Wed Oct 01 2025 00:00:00 GMT+0000 (Coordinated Universal Time)
+        // → 2025-10-01 00:00:00
+        if (!src) return '';
+        const d = new Date(src);
+        if (isNaN(d.getTime())) return src; // パース失敗時はそのまま
+        const pad = (n: number) => n.toString().padStart(2, '0');
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    };
+
     const records: string[] = lines.slice(1).map((line) => {
         const cols = line.split(',');
         const id = cols[idx.id]?.replace(/'/g, "''") || '';
         const raceTypeVal = cols[idx.raceType]?.replace(/'/g, "''") || raceType;
-        const dateTime = cols[idx.dateTime]?.replace(/'/g, "''") || '';
+        const dateTimeRaw = cols[idx.dateTime]?.replace(/'/g, "''") || '';
+        const dateTime = toSqliteDateTime(dateTimeRaw);
         const location = cols[idx.location]?.replace(/'/g, "''") || '';
         return `('${id}', '${raceTypeVal}', '${dateTime}', '${location}')`;
     });

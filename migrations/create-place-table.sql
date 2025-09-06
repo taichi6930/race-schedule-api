@@ -1,9 +1,7 @@
--- placeテーブル作成
-
 CREATE TABLE IF NOT EXISTS place (
     id TEXT PRIMARY KEY,
     race_type TEXT NOT NULL,
-    date_time TEXT NOT NULL,
+    date_time DATETIME NOT NULL,
     location_name TEXT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
