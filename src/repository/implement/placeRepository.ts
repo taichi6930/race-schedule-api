@@ -3,13 +3,15 @@ import type { CommonParameter } from '../../commonParameter';
 import { PlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
 
-export class PlaceRepository implements IPlaceRepository {
+export class PlaceRepositoryForStorage implements IPlaceRepository {
     public async fetchPlaceEntityList(
         commonParameter: CommonParameter,
     ): Promise<PlaceEntity[]> {
         const { searchParams, env } = commonParameter;
         const raceType = searchParams.get('race_type');
-        let whereClause = '';
+        const startDate = searchParams.get('start_date');
+        const endDate = searchParams.get('end_date');
+        const whereParts: string[] = [];
         const queryParams: any[] = [];
         const orderBy = searchParams.get('order_by') ?? 'priority';
         const orderDir = searchParams.get('order_dir') ?? 'ASC';
@@ -22,9 +24,19 @@ export class PlaceRepository implements IPlaceRepository {
             ? orderDir.toUpperCase()
             : 'ASC';
         if (raceType) {
-            whereClause = 'WHERE race_type = ?';
+            whereParts.push('race_type = ?');
             queryParams.push(raceType);
         }
+        if (startDate) {
+            whereParts.push('date_time >= ?');
+            queryParams.push(startDate);
+        }
+        if (endDate) {
+            whereParts.push('date_time <= ?');
+            queryParams.push(endDate);
+        }
+        const whereClause =
+            whereParts.length > 0 ? `WHERE ${whereParts.join(' AND ')}` : '';
         queryParams.push(Number.parseInt(searchParams.get('limit') ?? '10000'));
         const { results } = await env.DB.prepare(
             `
