@@ -1,4 +1,4 @@
-import { PlayerEntity } from '../../../lib/src/repository/entity/playerEntity';
+import { PlayerEntityForAWS } from '../../../lib/src/repository/entity/playerEntity';
 import { createErrorMessage } from '../../../lib/src/utility/error';
 import {
     type RaceType,
@@ -76,8 +76,8 @@ export class PlayerRecord {
         );
     }
 
-    public toEntity(): PlayerEntity {
-        return PlayerEntity.create(
+    public toEntity(): PlayerEntityForAWS {
+        return PlayerEntityForAWS.create(
             this.raceType,
             this.playerNo,
             this.playerName,

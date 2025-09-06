@@ -1,4 +1,4 @@
-import type { PlayerEntity } from '../entity/playerEntity';
+import type { PlayerEntityForAWS } from '../entity/playerEntity';
 import type { SearchPlayerFilterEntity } from '../entity/searchPlayerFilterEntity';
 
 // Playerエンティティ型定義
@@ -9,5 +9,5 @@ export interface IPlayerRepository {
      */
     findAll: (
         searchFilter: SearchPlayerFilterEntity,
-    ) => Promise<PlayerEntity[]>;
+    ) => Promise<PlayerEntityForAWS[]>;
 }

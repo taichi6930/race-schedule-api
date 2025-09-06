@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { PlayerEntity } from '../../lib/src/repository/entity/playerEntity';
+import { PlayerEntityForAWS } from '../../lib/src/repository/entity/playerEntity';
 import { CommonParameter } from '../commonParameter';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
 
@@ -55,7 +55,7 @@ export class PublicGamblingController {
             const body = await request.json();
             const playerList = Array.isArray(body) ? body : [body];
             const playerEntityList = playerList.map((item: any) =>
-                PlayerEntity.create(
+                PlayerEntityForAWS.create(
                     item.race_type,
                     item.player_no,
                     item.player_name,

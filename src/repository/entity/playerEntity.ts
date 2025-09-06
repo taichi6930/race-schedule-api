@@ -1,10 +1,10 @@
-import { PlayerRecord } from '../../gateway/record/playerRecord';
-import { type RaceType, validateRaceType } from '../../utility/raceType';
+import type { RaceType } from '../../../lib/src/utility/raceType';
+import { validateRaceType } from '../../../lib/src/utility/raceType';
 
 /**
  * Repository層のEntity
  */
-export class PlayerEntityForAWS {
+export class PlayerEntity {
     /**
      * コンストラクタ
      * @param raceType - レース種別
@@ -34,9 +34,9 @@ export class PlayerEntityForAWS {
         playerNo: string,
         playerName: string,
         priority: number,
-    ): PlayerEntityForAWS {
+    ): PlayerEntity {
         try {
-            return new PlayerEntityForAWS(
+            return new PlayerEntity(
                 validateRaceType(raceType),
                 playerNo,
                 playerName,
@@ -46,14 +46,5 @@ export class PlayerEntityForAWS {
             console.error('Error creating PlayerEntity:', error);
             throw error;
         }
-    }
-
-    public toRecord(): PlayerRecord {
-        return PlayerRecord.create(
-            this.raceType,
-            this.playerNo,
-            this.playerName,
-            this.priority,
-        );
     }
 }

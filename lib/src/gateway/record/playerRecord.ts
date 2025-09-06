@@ -1,6 +1,6 @@
 import '../../utility/format';
 
-import { PlayerEntity } from '../../repository/entity/playerEntity';
+import { PlayerEntityForAWS } from '../../repository/entity/playerEntity';
 import { createErrorMessage } from '../../utility/error';
 import type { RaceType } from '../../utility/raceType';
 
@@ -58,8 +58,8 @@ export class PlayerRecord {
         );
     }
 
-    public toEntity(): PlayerEntity {
-        return PlayerEntity.create(
+    public toEntity(): PlayerEntityForAWS {
+        return PlayerEntityForAWS.create(
             this.raceType,
             this.playerNo,
             this.playerName,
