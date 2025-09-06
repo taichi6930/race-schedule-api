@@ -14,8 +14,8 @@ import {
     RaceStage,
     StageMap,
 } from '../../../utility/validateAndType/raceStage';
-import { PlaceEntity } from '../../entity/placeEntity';
-import { RaceEntity } from '../../entity/raceEntity';
+import { PlaceEntityForAWS } from '../../entity/placeEntity';
+import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../interface/IRaceRepository';
 
@@ -36,8 +36,8 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
-    ): Promise<RaceEntity[]> {
-        const raceEntityList: RaceEntity[] = [];
+    ): Promise<RaceEntityForAWS[]> {
+        const raceEntityList: RaceEntityForAWS[] = [];
         const { placeEntityList } = searchFilter;
         for (const placeEntity of placeEntityList) {
             raceEntityList.push(
@@ -57,8 +57,8 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     public async fetchRaceListFromHtml(
-        placeEntity: PlaceEntity,
-    ): Promise<RaceEntity[]> {
+        placeEntity: PlaceEntityForAWS,
+    ): Promise<RaceEntityForAWS[]> {
         try {
             const [year, month, day] = [
                 placeEntity.placeData.dateTime.getFullYear(),
@@ -70,7 +70,7 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
-            const raceEntityList: RaceEntity[] = [];
+            const raceEntityList: RaceEntityForAWS[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
@@ -118,7 +118,7 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
                         const raceGrade = placeEntity.grade;
                         if (raceStage !== null && raceStage.trim() !== '') {
                             raceEntityList.push(
-                                RaceEntity.createWithoutId(
+                                RaceEntityForAWS.createWithoutId(
                                     RaceData.create(
                                         placeEntity.placeData.raceType,
                                         raceName,
@@ -213,12 +213,12 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntity[],
+        raceEntityList: RaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntity[];
-        failureData: RaceEntity[];
+        successData: RaceEntityForAWS[];
+        failureData: RaceEntityForAWS[];
     }> {
         console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

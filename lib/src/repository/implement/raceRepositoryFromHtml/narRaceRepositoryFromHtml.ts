@@ -13,8 +13,8 @@ import {
     validateGradeType,
 } from '../../../utility/validateAndType/gradeType';
 import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
-import { PlaceEntity } from '../../entity/placeEntity';
-import { RaceEntity } from '../../entity/raceEntity';
+import { PlaceEntityForAWS } from '../../entity/placeEntity';
+import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../interface/IRaceRepository';
 
@@ -35,8 +35,8 @@ export class NarRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
-    ): Promise<RaceEntity[]> {
-        const raceEntityList: RaceEntity[] = [];
+    ): Promise<RaceEntityForAWS[]> {
+        const raceEntityList: RaceEntityForAWS[] = [];
         const { placeEntityList } = searchFilter;
         for (const placeEntity of placeEntityList) {
             raceEntityList.push(
@@ -48,15 +48,15 @@ export class NarRaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     public async fetchRaceListFromHtml(
-        placeEntity: PlaceEntity,
-    ): Promise<RaceEntity[]> {
+        placeEntity: PlaceEntityForAWS,
+    ): Promise<RaceEntityForAWS[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
                 placeEntity.placeData.raceType,
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
-            const raceEntityList: RaceEntity[] = [];
+            const raceEntityList: RaceEntityForAWS[] = [];
             const $ = cheerio.load(htmlText);
             const raceTable = $('section.raceTable');
             const trs = raceTable.find('tr.data');
@@ -104,7 +104,7 @@ export class NarRaceRepositoryFromHtml implements IRaceRepository {
                         grade,
                     });
                     raceEntityList.push(
-                        RaceEntity.createWithoutId(
+                        RaceEntityForAWS.createWithoutId(
                             RaceData.create(
                                 placeEntity.placeData.raceType,
                                 processedRaceName,
@@ -230,12 +230,12 @@ export class NarRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntity[],
+        raceEntityList: RaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntity[];
-        failureData: RaceEntity[];
+        successData: RaceEntityForAWS[];
+        failureData: RaceEntityForAWS[];
     }> {
         console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

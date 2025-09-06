@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
 import { RaceData } from '../../../../../lib/src/domain/raceData';
-import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
+import { RaceEntityForAWS } from '../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { HorseRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorage';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
@@ -105,7 +105,7 @@ describe('RaceRepositoryFromStorage', () => {
             test.each(testRaceTypeListAll)(
                 `${description}: %s`,
                 async (raceType) => {
-                    const raceEntityList: RaceEntity[] =
+                    const raceEntityList: RaceEntityForAWS[] =
                         makeRaceEntityList(raceType);
 
                     if (hasRegisterData) {
@@ -148,7 +148,7 @@ describe('RaceRepositoryFromStorage', () => {
         });
     });
 
-    const makeRaceEntityList = (raceType: RaceType): RaceEntity[] => {
+    const makeRaceEntityList = (raceType: RaceType): RaceEntityForAWS[] => {
         const dayCount = IS_SHORT_TEST
             ? 3
             : IS_LARGE_AMOUNT_DATA_TEST
@@ -159,7 +159,7 @@ describe('RaceRepositoryFromStorage', () => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: raceNumberCount }, (__, raceNumber) =>
-                RaceEntity.createWithoutId(
+                RaceEntityForAWS.createWithoutId(
                     RaceData.create(
                         raceType,
                         `raceName${format(date, 'yyyyMMdd')}`,

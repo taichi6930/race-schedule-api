@@ -1,4 +1,4 @@
-import type { RaceEntity } from '../../repository/entity/raceEntity';
+import type { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import type { RaceType } from '../../utility/raceType';
 import type { GradeType } from '../../utility/validateAndType/gradeType';
 import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
@@ -49,7 +49,7 @@ export interface IRaceUseCase {
                 stageList?: RaceStage[];
             };
         },
-    ) => Promise<RaceEntity[]>;
+    ) => Promise<RaceEntityForAWS[]>;
 
     /**
      * レース開催データを更新する

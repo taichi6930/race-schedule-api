@@ -10,7 +10,7 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { RaceEntity } from '../entity/raceEntity';
+import { RaceEntityForAWS } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -36,7 +36,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
-    ): Promise<RaceEntity[]> {
+    ): Promise<RaceEntityForAWS[]> {
         // ファイル名リストから選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3(
@@ -57,7 +57,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
         );
 
         // RaceEntityに変換
-        const raceEntityList: RaceEntity[] = filteredRaceRecordList.map(
+        const raceEntityList: RaceEntityForAWS[] = filteredRaceRecordList.map(
             (raceRecord) => {
                 // raceIdに対応したracePlayerRecordListを取得
                 const filteredRacePlayerRecordList: RacePlayerRecord[] =
@@ -69,7 +69,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
                     filteredRacePlayerRecordList.map((racePlayerRecord) =>
                         racePlayerRecord.toRacePlayerData(),
                     );
-                return RaceEntity.create(
+                return RaceEntityForAWS.create(
                     raceRecord.id,
                     raceRecord.toRaceData(),
                     undefined, // heldDayDataは未設定
@@ -91,12 +91,12 @@ export class MechanicalRacingRaceRepositoryFromStorage
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntity[],
+        raceEntityList: RaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntity[];
-        failureData: RaceEntity[];
+        successData: RaceEntityForAWS[];
+        failureData: RaceEntityForAWS[];
     }> {
         try {
             await this.registerRaceRecordList(raceType, raceEntityList);
@@ -121,12 +121,12 @@ export class MechanicalRacingRaceRepositoryFromStorage
 
     private async registerRaceRecordList(
         raceType: RaceType,
-        raceEntityList: RaceEntity[],
+        raceEntityList: RaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntity[];
-        failureData: RaceEntity[];
+        successData: RaceEntityForAWS[];
+        failureData: RaceEntityForAWS[];
     }> {
         try {
             // 既に登録されているデータを取得する
@@ -181,12 +181,12 @@ export class MechanicalRacingRaceRepositoryFromStorage
 
     private async registerRacePlayerRecordList(
         raceType: RaceType,
-        raceEntityList: RaceEntity[],
+        raceEntityList: RaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntity[];
-        failureData: RaceEntity[];
+        successData: RaceEntityForAWS[];
+        failureData: RaceEntityForAWS[];
     }> {
         try {
             // 既に登録されているデータを取得する

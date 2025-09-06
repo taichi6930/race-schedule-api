@@ -5,8 +5,8 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
-import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
-import { RaceEntity } from '../../../../../lib/src/repository/entity/raceEntity';
+import { PlaceEntityForAWS } from '../../../../../lib/src/repository/entity/placeEntity';
+import { RaceEntityForAWS } from '../../../../../lib/src/repository/entity/raceEntity';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import {
@@ -43,8 +43,8 @@ export const baseRacePlayerDataList = (
 export const basePlaceData = (raceType: RaceType): PlaceData =>
     PlaceData.create(raceType, basePlaceDateTime, defaultLocation[raceType]);
 
-export const basePlaceEntity = (raceType: RaceType): PlaceEntity =>
-    PlaceEntity.createWithoutId(
+export const basePlaceEntity = (raceType: RaceType): PlaceEntityForAWS =>
+    PlaceEntityForAWS.createWithoutId(
         basePlaceData(raceType),
         defaultHeldDayData[raceType],
         defaultPlaceGrade[raceType],
@@ -86,8 +86,8 @@ export const baseConditionData = (
     );
 };
 
-export const baseRaceEntity = (raceType: RaceType): RaceEntity =>
-    RaceEntity.createWithoutId(
+export const baseRaceEntity = (raceType: RaceType): RaceEntityForAWS =>
+    RaceEntityForAWS.createWithoutId(
         baseRaceData(raceType),
         defaultHeldDayData[raceType],
         baseConditionData(raceType),
@@ -135,7 +135,7 @@ export const baseCalendarDataFromGoogleCalendar = (
     };
 };
 
-export const baseRaceEntityList = (raceType: RaceType): RaceEntity[] => {
+export const baseRaceEntityList = (raceType: RaceType): RaceEntityForAWS[] => {
     switch (raceType) {
         case RaceType.JRA:
         case RaceType.NAR:
@@ -152,7 +152,7 @@ export const baseRaceEntityList = (raceType: RaceType): RaceEntity[] => {
 
 const baseMechanicalRacingRaceEntityList = (
     _raceType: RaceType,
-): RaceEntity[] =>
+): RaceEntityForAWS[] =>
     [
         { raceType: RaceType.KEIRIN, location: '平塚', grade: 'GP' },
         { raceType: RaceType.KEIRIN, location: '立川', grade: 'GⅠ' },
@@ -183,7 +183,7 @@ const baseMechanicalRacingRaceEntityList = (
                     grade,
                     index + 1,
                 );
-                return RaceEntity.createWithoutId(
+                return RaceEntityForAWS.createWithoutId(
                     raceData,
                     defaultHeldDayData[raceType],
                     baseConditionData(raceType),
@@ -195,7 +195,9 @@ const baseMechanicalRacingRaceEntityList = (
         })
         .filter((entity) => entity !== 'undefined');
 
-const baseHorseRacingRaceEntityList = (_raceType: RaceType): RaceEntity[] =>
+const baseHorseRacingRaceEntityList = (
+    _raceType: RaceType,
+): RaceEntityForAWS[] =>
     [
         {
             raceType: RaceType.JRA,
@@ -309,7 +311,7 @@ const baseHorseRacingRaceEntityList = (_raceType: RaceType): RaceEntity[] =>
         .flatMap(({ raceType, location, gradeList }) => {
             return gradeList.map((grade, index) => {
                 if (raceType !== _raceType) return 'undefined';
-                return RaceEntity.createWithoutId(
+                return RaceEntityForAWS.createWithoutId(
                     RaceData.create(
                         raceType,
                         `テスト${location}${grade}${(index + 1).toString()}レース`,
@@ -326,7 +328,7 @@ const baseHorseRacingRaceEntityList = (_raceType: RaceType): RaceEntity[] =>
                 );
             });
         })
-        .filter((entity): entity is RaceEntity => entity !== 'undefined');
+        .filter((entity): entity is RaceEntityForAWS => entity !== 'undefined');
 
 const createLocationString = (raceType: RaceType, location: string): string => {
     switch (raceType) {

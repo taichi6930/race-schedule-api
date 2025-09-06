@@ -18,7 +18,7 @@ import {
 } from '../../../utility/validateAndType/raceCourse';
 import { validateRaceDistance } from '../../../utility/validateAndType/raceDistance';
 import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
-import { RaceEntity } from '../../entity/raceEntity';
+import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../interface/IRaceRepository';
 
@@ -39,12 +39,12 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
-    ): Promise<RaceEntity[]> {
+    ): Promise<RaceEntityForAWS[]> {
         const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,
             searchFilter.finishDate,
         );
-        const raceEntityList: RaceEntity[] = [];
+        const raceEntityList: RaceEntityForAWS[] = [];
         for (const month of monthList) {
             raceEntityList.push(
                 ...(await this.fetchRaceListFromHtml(RaceType.OVERSEAS, month)),
@@ -88,13 +88,13 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
     public async fetchRaceListFromHtml(
         raceType: RaceType,
         date: Date,
-    ): Promise<RaceEntity[]> {
+    ): Promise<RaceEntityForAWS[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
                 raceType,
                 date,
             );
-            const raceEntityList: RaceEntity[] = [];
+            const raceEntityList: RaceEntityForAWS[] = [];
             const $ = cheerio.load(htmlText);
             const content = $('.racelist');
             // class="racelist__day"が複数あるのでeachで回す
@@ -219,7 +219,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
                                 distance,
                             });
                             raceEntityList.push(
-                                RaceEntity.createWithoutId(
+                                RaceEntityForAWS.createWithoutId(
                                     RaceData.create(
                                         raceType,
                                         raceName,
@@ -270,12 +270,12 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntity[],
+        raceEntityList: RaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntity[];
-        failureData: RaceEntity[];
+        successData: RaceEntityForAWS[];
+        failureData: RaceEntityForAWS[];
     }> {
         console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

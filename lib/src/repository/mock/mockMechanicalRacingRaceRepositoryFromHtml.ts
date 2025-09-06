@@ -4,7 +4,7 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { RaceStage } from '../../utility/validateAndType/raceStage';
-import { RaceEntity } from '../entity/raceEntity';
+import { RaceEntityForAWS } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -15,9 +15,9 @@ export class MockMechanicalRacingRaceRepositoryFromHtml
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
-    ): Promise<RaceEntity[]> {
+    ): Promise<RaceEntityForAWS[]> {
         const { placeEntityList } = searchFilter;
-        const raceEntityList: RaceEntity[] = [];
+        const raceEntityList: RaceEntityForAWS[] = [];
         for (const placeEntity of placeEntityList) {
             const { placeData, grade } = placeEntity;
             const { raceType, location, dateTime } = placeData;
@@ -26,7 +26,7 @@ export class MockMechanicalRacingRaceRepositoryFromHtml
                 const raceDate = new Date(dateTime);
                 raceDate.setHours(raceNumber + 9, 0, 0, 0);
                 raceEntityList.push(
-                    RaceEntity.createWithoutId(
+                    RaceEntityForAWS.createWithoutId(
                         RaceData.create(
                             raceType,
                             `${raceType}${location}第${raceNumber.toString()}R`,
@@ -51,12 +51,12 @@ export class MockMechanicalRacingRaceRepositoryFromHtml
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntity[],
+        raceEntityList: RaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntity[];
-        failureData: RaceEntity[];
+        successData: RaceEntityForAWS[];
+        failureData: RaceEntityForAWS[];
     }> {
         console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

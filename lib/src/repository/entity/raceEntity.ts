@@ -21,7 +21,7 @@ import type { RaceStage } from '../../utility/validateAndType/raceStage';
 /**
  * 競馬のレース開催データ
  */
-export class RaceEntity {
+export class RaceEntityForAWS {
     private readonly _heldDayData: HeldDayData | undefined;
     private readonly _conditionData: HorseRaceConditionData | undefined;
     private readonly _stage: RaceStage | undefined;
@@ -72,7 +72,7 @@ export class RaceEntity {
         stage: RaceStage | undefined,
         racePlayerDataList: RacePlayerData[] | undefined,
         updateDate: Date,
-    ): RaceEntity {
+    ): RaceEntityForAWS {
         try {
             if (
                 (raceData.raceType === RaceType.JRA &&
@@ -120,7 +120,7 @@ export class RaceEntity {
             ) {
                 throw new Error(`conditionData is incorrect`);
             }
-            return new RaceEntity(
+            return new RaceEntityForAWS(
                 validateRaceId(raceData.raceType, id),
                 raceData,
                 heldDayData,
@@ -158,8 +158,8 @@ export class RaceEntity {
         stage: RaceStage | undefined,
         racePlayerDataList: RacePlayerData[] | undefined,
         updateDate: Date,
-    ): RaceEntity {
-        return RaceEntity.create(
+    ): RaceEntityForAWS {
+        return RaceEntityForAWS.create(
             generateRaceId(
                 raceData.raceType,
                 raceData.dateTime,
@@ -179,8 +179,8 @@ export class RaceEntity {
      * データのコピー
      * @param partial - 上書きする部分データ
      */
-    public copy(partial: Partial<RaceEntity> = {}): RaceEntity {
-        return RaceEntity.create(
+    public copy(partial: Partial<RaceEntityForAWS> = {}): RaceEntityForAWS {
+        return RaceEntityForAWS.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.heldDayData ?? this._heldDayData,

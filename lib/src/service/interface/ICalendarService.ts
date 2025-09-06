@@ -1,5 +1,5 @@
 import type { CalendarData } from '../../domain/calendarData';
-import type { RaceEntity } from '../../repository/entity/raceEntity';
+import type { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import type { RaceType } from '../../utility/raceType';
 
 export interface ICalendarService {
@@ -20,7 +20,7 @@ export interface ICalendarService {
      * レース情報をカレンダーイベントとして登録・更新
      * @param raceEntityList - 登録・更新するレースエンティティ配列
      */
-    upsertEvents: (raceEntityList: RaceEntity[]) => Promise<void>;
+    upsertEvents: (raceEntityList: RaceEntityForAWS[]) => Promise<void>;
 
     /**
      * 指定したカレンダーイベントを削除

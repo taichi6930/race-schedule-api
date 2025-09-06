@@ -11,7 +11,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../domain/calendarData';
-import type { RaceEntity } from '../repository/entity/raceEntity';
+import type { RaceEntityForAWS } from '../repository/entity/raceEntity';
 import {
     createYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
@@ -144,7 +144,7 @@ const GoogleCalendarColorIdMap = {
 } as Record<RaceType, Record<GradeType, GoogleCalendarColorIdType>>;
 
 export function toGoogleCalendarData(
-    raceEntity: RaceEntity,
+    raceEntity: RaceEntityForAWS,
 
     updateDate: Date = new Date(),
 ): calendar_v3.Schema$Event {

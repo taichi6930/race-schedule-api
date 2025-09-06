@@ -15,7 +15,7 @@ import {
 /**
  * Repository層のEntity 競馬のレース開催場所データ
  */
-export class PlaceEntity {
+export class PlaceEntityForAWS {
     /**
      * コンストラクタ
      * @param id - ID
@@ -53,7 +53,7 @@ export class PlaceEntity {
         heldDayData: HeldDayData | undefined,
         grade: GradeType | undefined,
         updateDate: Date,
-    ): PlaceEntity {
+    ): PlaceEntityForAWS {
         try {
             // placeData.raceType が JRA の場合, heldDayDataがundefinedの時はエラー
             // JRAの場合はheldDayDataが必須、JRA以外の場合はheldDayDataは不要
@@ -77,7 +77,7 @@ export class PlaceEntity {
                 throw new Error(`Grade is incorrect`);
             }
 
-            return new PlaceEntity(
+            return new PlaceEntityForAWS(
                 validatePlaceId(placeData.raceType, id),
                 placeData,
                 heldDayData,
@@ -106,8 +106,8 @@ export class PlaceEntity {
         heldDayData: HeldDayData | undefined,
         grade: GradeType | undefined,
         updateDate: Date,
-    ): PlaceEntity {
-        return PlaceEntity.create(
+    ): PlaceEntityForAWS {
+        return PlaceEntityForAWS.create(
             generatePlaceId(
                 placeData.raceType,
                 placeData.dateTime,
@@ -171,8 +171,8 @@ export class PlaceEntity {
      * データのコピー
      * @param partial - 上書きする部分データ
      */
-    public copy(partial: Partial<PlaceEntity> = {}): PlaceEntity {
-        return PlaceEntity.create(
+    public copy(partial: Partial<PlaceEntityForAWS> = {}): PlaceEntityForAWS {
+        return PlaceEntityForAWS.create(
             partial.id ?? this.id,
             partial.placeData ?? this.placeData,
             partial.heldDayData ?? this._heldDayData,

@@ -4,7 +4,7 @@ import { type RaceType, validateRaceType } from '../../utility/raceType';
 /**
  * Repository層のEntity
  */
-export class PlayerEntity {
+export class PlayerEntityForAWS {
     /**
      * コンストラクタ
      * @param raceType - レース種別
@@ -34,9 +34,9 @@ export class PlayerEntity {
         playerNo: string,
         playerName: string,
         priority: number,
-    ): PlayerEntity {
+    ): PlayerEntityForAWS {
         try {
-            return new PlayerEntity(
+            return new PlayerEntityForAWS(
                 validateRaceType(raceType),
                 playerNo,
                 playerName,
