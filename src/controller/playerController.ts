@@ -6,11 +6,8 @@ import { CommonParameter } from '../commonParameter';
 import { PlayerEntity } from '../repository/entity/playerEntity';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
 
-/**
- * 公営競技のレース情報コントローラー
- */
 @injectable()
-export class PublicGamblingController {
+export class PlayerController {
     public constructor(
         @inject('PlayerUsecase')
         private readonly usecase: IPlayerUseCase,

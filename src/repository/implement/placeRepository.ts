@@ -13,13 +13,11 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
         const endDate = searchParams.get('end_date');
         const whereParts: string[] = [];
         const queryParams: any[] = [];
-        const orderBy = searchParams.get('order_by') ?? 'priority';
+        const orderBy = searchParams.get('order_by') ?? 'race_type';
         const orderDir = searchParams.get('order_dir') ?? 'ASC';
-        const validOrderBy = ['priority', 'race_type', 'created_at'].includes(
-            orderBy,
-        )
+        const validOrderBy = ['race_type', 'created_at'].includes(orderBy)
             ? orderBy
-            : 'priority';
+            : 'race_type';
         const validOrderDir = ['ASC', 'DESC'].includes(orderDir.toUpperCase())
             ? orderDir.toUpperCase()
             : 'ASC';
@@ -43,7 +41,7 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
             SELECT id, race_type, date_time, location_name, created_at, updated_at
             FROM place
             ${whereClause}
-            ORDER BY ${validOrderBy} ${validOrderDir}, place_no ASC
+            ORDER BY ${validOrderBy} ${validOrderDir}
             LIMIT ?`,
         )
             .bind(...queryParams)
