@@ -4,13 +4,21 @@ import type { D1Database } from '@cloudflare/workers-types';
 import { container } from 'tsyringe';
 
 import type { CommonParameter } from './commonParameter';
-import { PublicGamblingController } from './controller/publicGamblingController';
+import { PlaceController } from './controller/placeController';
+import { PlayerController } from './controller/playerController';
+import { PlaceRepositoryForStorage } from './repository/implement/placeRepositoryForStorage';
 import { PlayerRepository } from './repository/implement/playerRepository';
+import type { IPlaceRepository } from './repository/interface/IPlaceRepository';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
+import { PlaceService } from './service/implement/placeService';
 import { PlayerService } from './service/implement/playerService';
+import type { IPlaceService } from './service/interface/IPlaceService';
 import type { IPlayerService } from './service/interface/IPlayerService';
+import { PlaceUseCase } from './usecase/implement/placeUsecase';
 import { PlayerUseCase } from './usecase/implement/playerUsecase';
+import type { IPlaceUseCase } from './usecase/interface/IPlaceUsecase';
 import type { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
+import { formatIsoWithOffsetJst } from './util/datetime';
 
 export interface Env {
     DB: D1Database;
@@ -25,6 +33,16 @@ container.register<IPlayerService>('PlayerService', {
 });
 container.register<IPlayerUseCase>('PlayerUsecase', {
     useClass: PlayerUseCase,
+});
+
+container.register<IPlaceRepository>('PlaceRepositoryForStorage', {
+    useClass: PlaceRepositoryForStorage,
+});
+container.register<IPlaceService>('PlaceService', {
+    useClass: PlaceService,
+});
+container.register<IPlaceUseCase>('PlaceUsecase', {
+    useClass: PlaceUseCase,
 });
 
 export default {
@@ -45,37 +63,33 @@ export default {
             return new Response(null, { headers: corsHeaders });
         }
 
-        const controller = container.resolve(PublicGamblingController);
+        const playerController = container.resolve(PlayerController);
+        const placeController = container.resolve(PlaceController);
 
         try {
             if (pathname === '/players' && request.method === 'GET') {
-                return await controller.getPlayerEntityList(commonParameter);
+                return await playerController.getPlayerEntityList(
+                    commonParameter,
+                );
             }
 
-            // POST /players - 選手登録/更新
             if (pathname === '/players' && request.method === 'POST') {
-                return await controller.postUpsertPlayer(
+                return await playerController.postUpsertPlayer(
                     request,
                     commonParameter,
                 );
             }
 
-            // ルートエンドポイント - API仕様表示
-            if (pathname === '/' && request.method === 'GET') {
-                return Response.json(
-                    {
-                        message: '選手管理システム API',
-                        version: '1.0.0',
-                        endpoints: {
-                            'GET /players':
-                                '選手一覧取得（?race_type, ?page, ?limit, ?order_by, ?order_dir）',
-                            'POST /players': '選手登録',
-                        },
-                        race_types_examples: ['KEIRIN', 'AUTORACE', 'BOATRACE'],
-                        priority_info:
-                            '数値が大きいほど優先度高（0が最高優先度）',
-                    },
-                    { headers: corsHeaders },
+            if (pathname === '/places' && request.method === 'GET') {
+                return await placeController.getPlaceEntityList(
+                    commonParameter,
+                );
+            }
+
+            if (pathname === '/places' && request.method === 'POST') {
+                return await placeController.postUpsertPlace(
+                    request,
+                    commonParameter,
                 );
             }
 
@@ -90,7 +104,7 @@ export default {
                 {
                     error: 'サーバーエラーが発生しました',
                     details: error.message,
-                    timestamp: new Date().toISOString(),
+                    timestamp: formatIsoWithOffsetJst(new Date()),
                 },
                 { status: 500, headers: corsHeaders },
             );

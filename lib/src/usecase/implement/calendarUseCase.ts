@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
-import { RaceEntity } from '../../repository/entity/raceEntity';
+import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IPlayerService } from '../../service/interface/IPlayerService';
 import { IRaceService } from '../../service/interface/IRaceService';
@@ -101,7 +101,7 @@ export class CalendarUseCase implements IRaceCalendarUseCase {
         );
 
         // フラット化して単一の RaceEntity[] にする（後続のオブジェクト型 filteredRaceEntityList と名前衝突しないよう別名）
-        const filteredRaceEntityList: RaceEntity[] = [
+        const filteredRaceEntityList: RaceEntityForAWS[] = [
             ...RACE_TYPE_LIST_HORSE_RACING.flatMap((raceType) =>
                 raceEntityList.filter(
                     (raceEntity) =>
@@ -148,7 +148,7 @@ export class CalendarUseCase implements IRaceCalendarUseCase {
                                     raceEntity.raceData.raceType === raceType,
                             )
                             .some(
-                                (raceEntity: RaceEntity) =>
+                                (raceEntity: RaceEntityForAWS) =>
                                     raceEntity.id === calendarData.id,
                             ),
                 ),
@@ -162,15 +162,15 @@ export class CalendarUseCase implements IRaceCalendarUseCase {
         );
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
-        const upsertRaceEntityList: RaceEntity[] = RACE_TYPE_LIST_ALL.flatMap(
-            (raceType) =>
+        const upsertRaceEntityList: RaceEntityForAWS[] =
+            RACE_TYPE_LIST_ALL.flatMap((raceType) =>
                 filteredRaceEntityList
                     .filter(
                         (raceEntity) =>
                             raceEntity.raceData.raceType === raceType,
                     )
                     .filter(
-                        (raceEntity: RaceEntity) =>
+                        (raceEntity: RaceEntityForAWS) =>
                             !deleteCalendarDataList[
                                 raceType as keyof typeof deleteCalendarDataList
                             ].some(
@@ -179,7 +179,7 @@ export class CalendarUseCase implements IRaceCalendarUseCase {
                                     deleteCalendarData.raceType === raceType,
                             ),
                     ),
-        );
+            );
 
         await this.calendarService.upsertEvents(upsertRaceEntityList);
     }
@@ -195,12 +195,12 @@ export class CalendarUseCase implements IRaceCalendarUseCase {
      */
     private filterRaceEntity(
         raceType: RaceType,
-        raceEntityList: RaceEntity[],
+        raceEntityList: RaceEntityForAWS[],
         displayGradeList: GradeType[],
         playerDataList: PlayerData[],
-    ): RaceEntity[] {
-        const filteredRaceEntityList: RaceEntity[] = raceEntityList.filter(
-            (raceEntity) => {
+    ): RaceEntityForAWS[] {
+        const filteredRaceEntityList: RaceEntityForAWS[] =
+            raceEntityList.filter((raceEntity) => {
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {
                         const playerPriority =
@@ -237,8 +237,7 @@ export class CalendarUseCase implements IRaceCalendarUseCase {
                     })?.priority ?? 0;
 
                 return racePriority + maxPlayerPriority >= 6;
-            },
-        );
+            });
         return filteredRaceEntityList;
     }
 }

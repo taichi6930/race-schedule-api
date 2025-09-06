@@ -30,3 +30,5 @@ package-lock.json
 
 .wrangler/
 wrangler.toml
+
+scripts/*.sql

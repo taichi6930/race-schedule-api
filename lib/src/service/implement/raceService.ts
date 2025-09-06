@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceEntity } from '../../repository/entity/placeEntity';
-import { RaceEntity } from '../../repository/entity/raceEntity';
+import { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
+import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
@@ -81,9 +81,9 @@ export class RaceService implements IRaceService {
         finishDate: Date,
         raceTypeList: RaceType[],
         type: DataLocationType,
-        placeEntityList?: PlaceEntity[],
-    ): Promise<RaceEntity[]> {
-        const result: RaceEntity[] = [];
+        placeEntityList?: PlaceEntityForAWS[],
+    ): Promise<RaceEntityForAWS[]> {
+        const result: RaceEntityForAWS[] = [];
         try {
             for (const raceType of RACE_TYPE_LIST_ALL) {
                 if (raceTypeList.includes(raceType)) {
@@ -121,7 +121,9 @@ export class RaceService implements IRaceService {
      * @throws Error データの保存/更新に失敗した場合
      */
     @Logger
-    public async updateRaceEntityList(raceEntityList: RaceEntity[]): Promise<{
+    public async updateRaceEntityList(
+        raceEntityList: RaceEntityForAWS[],
+    ): Promise<{
         code: number;
         message: string;
         successDataCount: number;
@@ -170,7 +172,7 @@ export class RaceService implements IRaceService {
     private async saveRaceEntityList(
         repository: IRaceRepository,
         raceType: RaceType,
-        entityList?: RaceEntity[],
+        entityList?: RaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;

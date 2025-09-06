@@ -1,4 +1,4 @@
-import type { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import type { PlaceEntityForAWS } from '../../../../../lib/src/repository/entity/placeEntity';
 import type { IPlaceService } from '../../../../../lib/src/service/interface/IPlaceService';
 
 /**
@@ -7,7 +7,9 @@ import type { IPlaceService } from '../../../../../lib/src/service/interface/IPl
  */
 export const placeServiceMock = (): jest.Mocked<IPlaceService> => {
     return {
-        fetchPlaceEntityList: jest.fn().mockResolvedValue([] as PlaceEntity[]),
+        fetchPlaceEntityList: jest
+            .fn()
+            .mockResolvedValue([] as PlaceEntityForAWS[]),
         updatePlaceEntityList: jest.fn().mockResolvedValue([]),
     };
 };

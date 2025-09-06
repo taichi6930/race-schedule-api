@@ -1,4 +1,4 @@
-import type { PlaceEntity } from '../../repository/entity/placeEntity';
+import type { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import type { RaceType } from '../../utility/raceType';
 
 /**
@@ -15,7 +15,7 @@ export interface IPlaceUseCase {
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
-    ) => Promise<PlaceEntity[]>;
+    ) => Promise<PlaceEntityForAWS[]>;
 
     /**
      * 開催場データを更新する

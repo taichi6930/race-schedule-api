@@ -7,7 +7,9 @@
     "scripts": {
         "preinstall": "npx only-allow pnpm",
         "wrangler:deploy:production": "wrangler deploy --env production",
-        "dev:cloudware:local": "TZ=jst wrangler dev --env development --local",
+        "dev:cloudware:local": "TZ=Asia/Tokyo wrangler dev --env development --local",
+        "wrangler:d1:migrations:apply:local": "wrangler d1 migrations apply my-database --local",
+        "wrangler:d1:migrations:apply:remote": "wrangler d1 migrations apply my-database --remote",
         "build": "tsc",
         "watch": "tsc -w",
         "s3-data-update": "aws s3 cp s3://race-schedule-bucket/ ./lib/src/gateway/mockData/csv --recursive",

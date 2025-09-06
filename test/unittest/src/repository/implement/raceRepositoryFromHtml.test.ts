@@ -7,7 +7,7 @@ import { container } from 'tsyringe';
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import { PlaceEntity } from '../../../../../lib/src/repository/entity/placeEntity';
+import { PlaceEntityForAWS } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
@@ -157,7 +157,7 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
                                     raceType === RaceType.OVERSEAS
                                         ? []
                                         : [
-                                              PlaceEntity.createWithoutId(
+                                              PlaceEntityForAWS.createWithoutId(
                                                   PlaceData.create(
                                                       raceType,
                                                       placeDate,

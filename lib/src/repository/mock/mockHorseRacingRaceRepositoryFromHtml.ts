@@ -6,7 +6,7 @@ import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { RaceEntity } from '../entity/raceEntity';
+import { RaceEntityForAWS } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -14,9 +14,9 @@ export class MockHorseRacingRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
-    ): Promise<RaceEntity[]> {
+    ): Promise<RaceEntityForAWS[]> {
         const { placeEntityList } = searchFilter;
-        const raceEntityList: RaceEntity[] = [];
+        const raceEntityList: RaceEntityForAWS[] = [];
         const { raceType, startDate } = searchFilter;
         if (raceType === RaceType.NAR || raceType === RaceType.JRA) {
             for (const placeEntity of placeEntityList) {
@@ -26,7 +26,7 @@ export class MockHorseRacingRaceRepositoryFromHtml implements IRaceRepository {
                     const raceDate = new Date(dateTime);
                     raceDate.setHours(raceNumber + 9, 0, 0, 0);
                     raceEntityList.push(
-                        RaceEntity.createWithoutId(
+                        RaceEntityForAWS.createWithoutId(
                             RaceData.create(
                                 raceType,
                                 `${location}第${raceNumber.toString()}R`,
@@ -50,7 +50,7 @@ export class MockHorseRacingRaceRepositoryFromHtml implements IRaceRepository {
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
                     raceEntityList.push(
-                        RaceEntity.createWithoutId(
+                        RaceEntityForAWS.createWithoutId(
                             RaceData.create(
                                 raceType,
                                 `第${i.toString()}R`,
@@ -82,12 +82,12 @@ export class MockHorseRacingRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntity[],
+        raceEntityList: RaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntity[];
-        failureData: RaceEntity[];
+        successData: RaceEntityForAWS[];
+        failureData: RaceEntityForAWS[];
     }> {
         console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

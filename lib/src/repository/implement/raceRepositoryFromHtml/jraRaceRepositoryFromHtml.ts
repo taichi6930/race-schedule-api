@@ -18,7 +18,7 @@ import {
 } from '../../../utility/validateAndType/raceCourse';
 import { RaceDistance } from '../../../utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
-import { RaceEntity } from '../../entity/raceEntity';
+import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../interface/IRaceRepository';
 
@@ -36,8 +36,8 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
-    ): Promise<RaceEntity[]> {
-        const jraRaceEntityList: RaceEntity[] = [];
+    ): Promise<RaceEntityForAWS[]> {
+        const jraRaceEntityList: RaceEntityForAWS[] = [];
         const { placeEntityList } = searchFilter;
         // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
         const filteredPlaceDataList = placeEntityList
@@ -58,7 +58,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
     public async fetchRaceListFromHtml(
         raceType: RaceType,
         raceDate: Date,
-    ): Promise<RaceEntity[]> {
+    ): Promise<RaceEntityForAWS[]> {
         try {
             // レース情報を取得
             const htmlText: string =
@@ -66,7 +66,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
                     raceType,
                     raceDate,
                 );
-            const raceEntityList: RaceEntity[] = [];
+            const raceEntityList: RaceEntityForAWS[] = [];
 
             // mockHTML内のsection id="raceInfo"の中のtableを取得
             // HTMLをパースする
@@ -186,7 +186,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
                             grade: raceGrade,
                         });
 
-                        const jraRaceData = RaceEntity.createWithoutId(
+                        const jraRaceData = RaceEntityForAWS.createWithoutId(
                             RaceData.create(
                                 raceType,
                                 raceName,
@@ -447,12 +447,12 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntity[],
+        raceEntityList: RaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntity[];
-        failureData: RaceEntity[];
+        successData: RaceEntityForAWS[];
+        failureData: RaceEntityForAWS[];
     }> {
         console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

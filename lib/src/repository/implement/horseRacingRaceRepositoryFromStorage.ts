@@ -10,7 +10,7 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { RaceEntity } from '../entity/raceEntity';
+import { RaceEntityForAWS } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -31,7 +31,7 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
-    ): Promise<RaceEntity[]> {
+    ): Promise<RaceEntityForAWS[]> {
         // ファイル名リストから開催データを取得する
         const raceRecordList: HorseRacingRaceRecord[] =
             await this.getRaceRecordListFromS3(
@@ -50,7 +50,7 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
         ) {
             // フィルタリング処理（日付の範囲指定）
             return filteredRaceRecordList.map((raceRecord) =>
-                RaceEntity.create(
+                RaceEntityForAWS.create(
                     raceRecord.id,
                     raceRecord.toRaceData(),
                     undefined,
@@ -90,23 +90,24 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
             }
 
             // RaceRecordをRaceEntityに変換
-            const raceEntityList: RaceEntity[] = [...recordMap.values()].map(
-                ({ raceRecord, heldDayRecord }) =>
-                    RaceEntity.create(
-                        raceRecord.id,
-                        raceRecord.toRaceData(),
-                        heldDayRecord.toHeldDayData(),
-                        raceRecord.toHorseRaceConditionData(),
-                        undefined, // stage は未指定
-                        undefined, // racePlayerDataList は未指定
-                        // raceRecordとheldDayRecordのupdateDateの早い方を使用
-                        new Date(
-                            Math.min(
-                                raceRecord.updateDate.getTime(),
-                                heldDayRecord.updateDate.getTime(),
-                            ),
+            const raceEntityList: RaceEntityForAWS[] = [
+                ...recordMap.values(),
+            ].map(({ raceRecord, heldDayRecord }) =>
+                RaceEntityForAWS.create(
+                    raceRecord.id,
+                    raceRecord.toRaceData(),
+                    heldDayRecord.toHeldDayData(),
+                    raceRecord.toHorseRaceConditionData(),
+                    undefined, // stage は未指定
+                    undefined, // racePlayerDataList は未指定
+                    // raceRecordとheldDayRecordのupdateDateの早い方を使用
+                    new Date(
+                        Math.min(
+                            raceRecord.updateDate.getTime(),
+                            heldDayRecord.updateDate.getTime(),
                         ),
                     ),
+                ),
             );
             return raceEntityList;
         }
@@ -230,12 +231,12 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntity[],
+        raceEntityList: RaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntity[];
-        failureData: RaceEntity[];
+        successData: RaceEntityForAWS[];
+        failureData: RaceEntityForAWS[];
     }> {
         try {
             // 既に登録されているデータを取得する

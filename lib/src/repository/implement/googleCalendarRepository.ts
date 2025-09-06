@@ -9,7 +9,7 @@ import {
     toGoogleCalendarData,
 } from '../../utility/googleCalendar';
 import { Logger } from '../../utility/logger';
-import { RaceEntity } from '../entity/raceEntity';
+import { RaceEntityForAWS } from '../entity/raceEntity';
 import { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 
@@ -65,7 +65,9 @@ export class GoogleCalendarRepository implements ICalendarRepository {
      * @param raceEntityList
      */
     @Logger
-    public async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
+    public async upsertEvents(
+        raceEntityList: RaceEntityForAWS[],
+    ): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(
             raceEntityList.map(async (raceEntity) => {

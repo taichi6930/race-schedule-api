@@ -2,15 +2,12 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { PlayerEntity } from '../../lib/src/repository/entity/playerEntity';
 import { CommonParameter } from '../commonParameter';
+import { PlayerEntity } from '../repository/entity/playerEntity';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
 
-/**
- * 公営競技のレース情報コントローラー
- */
 @injectable()
-export class PublicGamblingController {
+export class PlayerController {
     public constructor(
         @inject('PlayerUsecase')
         private readonly usecase: IPlayerUseCase,
@@ -35,8 +32,8 @@ export class PublicGamblingController {
 
         return Response.json(
             {
-                players: playerEntityList,
                 count: playerEntityList.length,
+                players: playerEntityList,
             },
             { headers: this.corsHeaders },
         );

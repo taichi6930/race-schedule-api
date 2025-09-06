@@ -15,7 +15,7 @@ import {
     RaceStage,
     StageMap,
 } from '../../../utility/validateAndType/raceStage';
-import { RaceEntity } from '../../entity/raceEntity';
+import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../interface/IRaceRepository';
 
@@ -36,8 +36,8 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity,
-    ): Promise<RaceEntity[]> {
-        const raceEntityList: RaceEntity[] = [];
+    ): Promise<RaceEntityForAWS[]> {
+        const raceEntityList: RaceEntityForAWS[] = [];
         for (const placeEntity of searchFilter.placeEntityList) {
             raceEntityList.push(
                 ...(await this.fetchRaceListFromHtml(
@@ -61,7 +61,7 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
     public async fetchRaceListFromHtml(
         placeData: PlaceData,
         grade: GradeType,
-    ): Promise<RaceEntity[]> {
+    ): Promise<RaceEntityForAWS[]> {
         try {
             const [year, month, day] = [
                 placeData.dateTime.getFullYear(),
@@ -76,7 +76,7 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
                 placeData.location,
                 raceNumber,
             );
-            const raceEntityList: RaceEntity[] = [];
+            const raceEntityList: RaceEntityForAWS[] = [];
             const $ = cheerio.load(htmlText);
 
             // raceNameを取得 class="heading2_titleName"のtext
@@ -111,7 +111,7 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
             const racePlayerDataList: RacePlayerData[] = [];
 
             raceEntityList.push(
-                RaceEntity.createWithoutId(
+                RaceEntityForAWS.createWithoutId(
                     RaceData.create(
                         placeData.raceType,
                         raceName,
@@ -190,12 +190,12 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntity[],
+        raceEntityList: RaceEntityForAWS[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntity[];
-        failureData: RaceEntity[];
+        successData: RaceEntityForAWS[];
+        failureData: RaceEntityForAWS[];
     }> {
         console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

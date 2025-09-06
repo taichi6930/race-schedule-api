@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS player (
 );
 
 -- インデックス作成
+CREATE INDEX IF NOT EXISTS idx_player_race_type ON player(race_type);
 CREATE INDEX IF NOT EXISTS idx_player_player_name ON player(player_name);
 CREATE INDEX IF NOT EXISTS idx_player_priority ON player(priority);
 
