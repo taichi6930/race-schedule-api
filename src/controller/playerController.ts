@@ -32,8 +32,8 @@ export class PlayerController {
 
         return Response.json(
             {
-                players: playerEntityList,
                 count: playerEntityList.length,
+                players: playerEntityList,
             },
             { headers: this.corsHeaders },
         );

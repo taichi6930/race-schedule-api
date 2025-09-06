@@ -1,16 +1,18 @@
 import { PlaceData } from '../../../lib/src/domain/placeData';
+import type { RaceType } from '../../../lib/src/utility/raceType';
 import type { CommonParameter } from '../../commonParameter';
+import { parseDbStringJst, toDbStringJst } from '../../util/datetime';
 import { PlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
 
 export class PlaceRepositoryForStorage implements IPlaceRepository {
     public async fetchPlaceEntityList(
         commonParameter: CommonParameter,
+        raceType: RaceType,
+        startDate: Date,
+        endDate: Date,
     ): Promise<PlaceEntity[]> {
         const { searchParams, env } = commonParameter;
-        const raceType = searchParams.get('race_type');
-        const startDate = searchParams.get('start_date');
-        const endDate = searchParams.get('end_date');
         const whereParts: string[] = [];
         const queryParams: any[] = [];
         const orderBy = searchParams.get('order_by') ?? 'race_type';
@@ -21,18 +23,11 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
         const validOrderDir = ['ASC', 'DESC'].includes(orderDir.toUpperCase())
             ? orderDir.toUpperCase()
             : 'ASC';
-        if (raceType) {
-            whereParts.push('race_type = ?');
-            queryParams.push(raceType);
-        }
-        if (startDate) {
-            whereParts.push('date_time >= ?');
-            queryParams.push(startDate);
-        }
-        if (endDate) {
-            whereParts.push('date_time <= ?');
-            queryParams.push(endDate);
-        }
+        whereParts.push('race_type = ?');
+        queryParams.push(raceType);
+        whereParts.push('date_time >= ?', 'date_time <= ?');
+
+        queryParams.push(toDbStringJst(startDate), toDbStringJst(endDate));
         const whereClause =
             whereParts.length > 0 ? `WHERE ${whereParts.join(' AND ')}` : '';
         queryParams.push(Number.parseInt(searchParams.get('limit') ?? '10000'));
@@ -52,10 +47,41 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
                     row.id,
                     PlaceData.create(
                         row.race_type,
-                        new Date(row.date_time),
+                        // DB上の date_time は 'YYYY-MM-DD HH:mm:ss' (JST) で保存されている想定
+                        parseDbStringJst(row.date_time),
                         row.location_name,
                     ),
                 ),
         );
+    }
+
+    public async upsertPlaceEntityList(
+        commonParameter: CommonParameter,
+        entityList: PlaceEntity[],
+    ): Promise<void> {
+        if (entityList.length === 0) return;
+        const { env } = commonParameter;
+        // SQL生成
+        const valuesSql = entityList
+            .map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)')
+            .join(', ');
+        const sql = `INSERT INTO place (id, race_type, date_time, location_name, created_at, updated_at) VALUES
+            ${valuesSql}
+            ON CONFLICT(id) DO UPDATE SET
+                race_type = excluded.race_type,
+                date_time = excluded.date_time,
+                location_name = excluded.location_name,
+                updated_at = CURRENT_TIMESTAMP;
+        `;
+        // bindパラメータ（JST 前提で DB 形式に変換）
+        const bindParams = entityList.flatMap((e) => [
+            e.id,
+            e.placeData.raceType,
+            toDbStringJst(e.placeData.dateTime),
+            e.placeData.location,
+        ]);
+        await env.DB.prepare(sql)
+            .bind(...bindParams)
+            .run();
     }
 }

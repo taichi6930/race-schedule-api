@@ -18,6 +18,7 @@ import { PlaceUseCase } from './usecase/implement/placeUsecase';
 import { PlayerUseCase } from './usecase/implement/playerUsecase';
 import type { IPlaceUseCase } from './usecase/interface/IPlaceUsecase';
 import type { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
+import { formatIsoWithOffsetJst } from './util/datetime';
 
 export interface Env {
     DB: D1Database;
@@ -85,33 +86,12 @@ export default {
                 );
             }
 
-            // // ルートエンドポイント - API仕様表示
-            // if (pathname === '/' && request.method === 'GET') {
-            //     return Response.json(
-            //         {
-            //             message: '選手管理システム API',
-            //             version: '1.0.0',
-            //             endpoints: {
-            //                 'GET /players':
-            //                     '選手一覧取得（?race_type, ?limit, ?order_by, ?order_dir）',
-            //                 'POST /players': '選手登録',
-            //                 'GET /places':
-            //                     '開催場所一覧取得（?race_type, ?limit, ?order_by, ?order_dir）',
-            //             },
-            //             race_types_examples: [
-            //                 RaceType.JRA,
-            //                 RaceType.NAR,
-            //                 RaceType.OVERSEAS,
-            //                 RaceType.KEIRIN,
-            //                 RaceType.AUTORACE,
-            //                 RaceType.BOATRACE,
-            //             ],
-            //             priority_info:
-            //                 '数値が大きいほど優先度高（10が最高優先度）',
-            //         },
-            //         { headers: corsHeaders },
-            //     );
-            // }
+            if (pathname === '/places' && request.method === 'POST') {
+                return await placeController.postUpsertPlace(
+                    request,
+                    commonParameter,
+                );
+            }
 
             // 404 Not Found
             return Response.json(
@@ -124,7 +104,7 @@ export default {
                 {
                     error: 'サーバーエラーが発生しました',
                     details: error.message,
-                    timestamp: new Date().toISOString(),
+                    timestamp: formatIsoWithOffsetJst(new Date()),
                 },
                 { status: 500, headers: corsHeaders },
             );
