@@ -6,7 +6,7 @@ import { container } from 'tsyringe';
 import type { CommonParameter } from './commonParameter';
 import { PlaceController } from './controller/placeController';
 import { PlayerController } from './controller/playerController';
-import { PlaceRepositoryForStorage } from './repository/implement/placeRepository';
+import { PlaceRepositoryForStorage } from './repository/implement/placeRepositoryForStorage';
 import { PlayerRepository } from './repository/implement/playerRepository';
 import type { IPlaceRepository } from './repository/interface/IPlaceRepository';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
