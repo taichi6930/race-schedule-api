@@ -8,7 +8,7 @@ import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import { PlaceEntityForAWS } from '../../../../../lib/src/repository/entity/placeEntity';
-import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
+import { SearchPlaceFilterEntityForAWS } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
@@ -63,7 +63,7 @@ describe('PlaceRepositoryFromStorage', () => {
                 );
                 // テスト実行
                 const placeEntityList = await repository.fetchPlaceEntityList(
-                    new SearchPlaceFilterEntity(
+                    new SearchPlaceFilterEntityForAWS(
                         new Date('2024-01-01'),
                         new Date('2024-02-01'),
                         raceType,

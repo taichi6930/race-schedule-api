@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import type { IPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
-import { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
+import { SearchPlaceFilterEntityForAWS } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
@@ -90,7 +90,7 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
                     async () => {
                         const placeEntityList =
                             await repository.fetchPlaceEntityList(
-                                new SearchPlaceFilterEntity(
+                                new SearchPlaceFilterEntityForAWS(
                                     startDate,
                                     endDate,
                                     raceType,

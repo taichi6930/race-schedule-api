@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
-import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
+import { SearchPlaceFilterEntityForAWS } from '../../repository/entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -49,7 +49,7 @@ export class PlaceService implements IPlaceService {
                         ? this.placeRepositoryFromStorage
                         : this.placeRepositoryFromHtml
                 ).fetchPlaceEntityList(
-                    new SearchPlaceFilterEntity(
+                    new SearchPlaceFilterEntityForAWS(
                         startDate,
                         finishDate,
                         raceType,

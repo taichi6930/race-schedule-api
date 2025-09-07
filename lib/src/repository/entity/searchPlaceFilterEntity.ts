@@ -1,6 +1,6 @@
 import type { RaceType } from '../../utility/raceType';
 
-export class SearchPlaceFilterEntity {
+export class SearchPlaceFilterEntityForAWS {
     public constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,
