@@ -1,3 +1,4 @@
+import type { DataLocationType } from '../../../lib/src/utility/dataType';
 import type { RaceType } from '../../../lib/src/utility/raceType';
 import type { CommonParameter } from '../../commonParameter';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
@@ -8,6 +9,7 @@ export interface IPlaceService {
         raceType: RaceType,
         startDate: Date,
         endDate: Date,
+        dataLocationType: DataLocationType,
     ) => Promise<PlaceEntity[]>;
 
     upsertPlaceEntityList: (

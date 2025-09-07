@@ -1,5 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 
+import {
+    DataLocation,
+    DataLocationType,
+} from '../../../lib/src/utility/dataType';
 import { RaceType } from '../../../lib/src/utility/raceType';
 import { CommonParameter } from '../../commonParameter';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
@@ -11,6 +15,8 @@ export class PlaceService implements IPlaceService {
     public constructor(
         @inject('PlaceRepositoryForStorage')
         private readonly repositoryForStorage: IPlaceRepository,
+        @inject('PlaceRepositoryForHtml')
+        private readonly repositoryForHtml: IPlaceRepository,
     ) {}
 
     public async fetchPlaceEntityList(
@@ -18,8 +24,13 @@ export class PlaceService implements IPlaceService {
         raceType: RaceType,
         startDate: Date,
         endDate: Date,
+        dataLocationType: DataLocationType,
     ): Promise<PlaceEntity[]> {
-        return this.repositoryForStorage.fetchPlaceEntityList(
+        const repository =
+            dataLocationType === DataLocation.Web
+                ? this.repositoryForHtml
+                : this.repositoryForStorage;
+        return repository.fetchPlaceEntityList(
             commonParameter,
             raceType,
             startDate,

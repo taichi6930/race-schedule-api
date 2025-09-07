@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
+import { DataLocation } from '../../../lib/src/utility/dataType';
 import { RaceType } from '../../../lib/src/utility/raceType';
 import { CommonParameter } from '../../commonParameter';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
@@ -24,6 +25,7 @@ export class PlaceUseCase implements IPlaceUseCase {
             raceType,
             startDate,
             endDate,
+            DataLocation.Storage,
         );
     }
 
@@ -33,13 +35,13 @@ export class PlaceUseCase implements IPlaceUseCase {
         startDate: Date,
         endDate: Date,
     ): Promise<void> {
-        const entityList = await this.fetchPlaceEntityList(
+        const entityList = await this.service.fetchPlaceEntityList(
             commonParameter,
             raceType,
             startDate,
             endDate,
+            DataLocation.Web,
         );
-        console.log(entityList);
         await this.service.upsertPlaceEntityList(commonParameter, entityList);
     }
 }
