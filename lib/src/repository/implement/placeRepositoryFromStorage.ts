@@ -11,7 +11,7 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { PlaceEntityForAWS } from '../entity/placeEntity';
-import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
+import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
@@ -38,7 +38,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
      */
     @Logger
     public async fetchPlaceEntityList(
-        searchFilter: SearchPlaceFilterEntity,
+        searchFilter: SearchPlaceFilterEntityForAWS,
     ): Promise<PlaceEntityForAWS[]> {
         // 海外競馬はまだ対応していない
         if (searchFilter.raceType === RaceType.OVERSEAS) {

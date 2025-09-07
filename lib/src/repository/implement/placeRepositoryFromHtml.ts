@@ -15,7 +15,7 @@ import {
     validateRaceCourse,
 } from '../../utility/validateAndType/raceCourse';
 import { PlaceEntityForAWS } from '../entity/placeEntity';
-import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
+import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
@@ -35,7 +35,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
      */
     @Logger
     public async fetchPlaceEntityList(
-        searchFilter: SearchPlaceFilterEntity,
+        searchFilter: SearchPlaceFilterEntityForAWS,
     ): Promise<PlaceEntityForAWS[]> {
         const { startDate, finishDate, raceType } = searchFilter;
         // リストを生成

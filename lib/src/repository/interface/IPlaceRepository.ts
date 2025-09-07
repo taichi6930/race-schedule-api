@@ -1,6 +1,6 @@
 import type { RaceType } from '../../utility/raceType';
 import type { PlaceEntityForAWS } from '../entity/placeEntity';
-import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
+import type { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
 
 /**
  * 開催場所データの永続化を担当するリポジトリインターフェース
@@ -36,7 +36,7 @@ export interface IPlaceRepository {
      * @throws Error データの取得に失敗した場合
      */
     fetchPlaceEntityList: (
-        searchFilter: SearchPlaceFilterEntity,
+        searchFilter: SearchPlaceFilterEntityForAWS,
     ) => Promise<PlaceEntityForAWS[]>;
 
     /**

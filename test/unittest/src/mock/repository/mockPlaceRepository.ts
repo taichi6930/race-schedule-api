@@ -1,5 +1,5 @@
 import type { PlaceEntityForAWS } from '../../../../../lib/src/repository/entity/placeEntity';
-import type { SearchPlaceFilterEntity } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
+import type { SearchPlaceFilterEntityForAWS } from '../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import type { IPlaceRepository } from '../../../../../lib/src/repository/interface/IPlaceRepository';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { basePlaceEntity } from '../common/baseCommonData';
@@ -9,7 +9,7 @@ export const mockPlaceRepository = (): jest.Mocked<IPlaceRepository> => {
         fetchPlaceEntityList: jest
             .fn()
             .mockImplementation(
-                async (searchFilter: SearchPlaceFilterEntity) => {
+                async (searchFilter: SearchPlaceFilterEntityForAWS) => {
                     switch (searchFilter.raceType) {
                         case RaceType.OVERSEAS: {
                             throw new Error('race type is not supported');

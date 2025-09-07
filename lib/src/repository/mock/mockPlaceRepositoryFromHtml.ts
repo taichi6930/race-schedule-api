@@ -7,7 +7,7 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { PlaceEntityForAWS } from '../entity/placeEntity';
-import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
+import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
@@ -17,7 +17,7 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
      */
     @Logger
     public async fetchPlaceEntityList(
-        searchFilter: SearchPlaceFilterEntity,
+        searchFilter: SearchPlaceFilterEntityForAWS,
     ): Promise<PlaceEntityForAWS[]> {
         const placeEntityList = [];
         const currentDate = new Date(searchFilter.startDate);
