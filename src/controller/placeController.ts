@@ -7,8 +7,8 @@ import {
     validateRaceType,
 } from '../../lib/src/utility/raceType';
 import { CommonParameter } from '../commonParameter';
+import { SearchPlaceFilterEntity } from '../repository/entity/searchPlaceFilterEntity';
 import { IPlaceUseCase } from '../usecase/interface/IPlaceUsecase';
-import { parseToDateAssumeJst } from '../util/datetime';
 
 @injectable()
 export class PlaceController {
@@ -46,14 +46,18 @@ export class PlaceController {
         }
 
         const raceType: RaceType = validateRaceType(raceTypeParam);
-        const startDate: Date = parseToDateAssumeJst(startDateParam);
-        const endDate: Date = parseToDateAssumeJst(endDateParam);
+        const startDate: Date = new Date(startDateParam);
+        const endDate: Date = new Date(endDateParam);
+
+        const searchPlaceFilterEntity = new SearchPlaceFilterEntity(
+            [raceType],
+            startDate,
+            endDate,
+        );
 
         const placeEntityList = await this.usecase.fetchPlaceEntityList(
             commonParameter,
-            raceType,
-            startDate,
-            endDate,
+            searchPlaceFilterEntity,
         );
 
         return Response.json(
@@ -71,9 +75,24 @@ export class PlaceController {
     ): Promise<Response> {
         try {
             const body: any = await request.json();
-            const raceType = validateRaceType(body.race_type);
-            const startDate = parseToDateAssumeJst(body.start_date);
-            const endDate = parseToDateAssumeJst(body.end_date);
+
+            const raceTypeParam = body.race_type;
+            const startDateParam = body.start_date;
+            const endDateParam = body.end_date;
+
+            // 必須パラメータが揃っていない場合は 404 を返す
+            if (!raceTypeParam || !startDateParam || !endDateParam) {
+                return Response.json(
+                    {
+                        error: 'Required query parameters missing: race_type, start_date, end_date',
+                    },
+                    { status: 404, headers: this.corsHeaders },
+                );
+            }
+
+            const raceType: RaceType = validateRaceType(raceTypeParam);
+            const startDate: Date = new Date(startDateParam);
+            const endDate: Date = new Date(endDateParam);
 
             await this.usecase.upsertPlaceEntityList(
                 commonParameter,
