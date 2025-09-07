@@ -94,11 +94,15 @@ export class PlaceController {
             const startDate: Date = new Date(startDateParam);
             const endDate: Date = new Date(endDateParam);
 
-            await this.usecase.upsertPlaceEntityList(
-                commonParameter,
-                raceType,
+            const searchPlaceFilterEntity = new SearchPlaceFilterEntity(
+                [raceType],
                 startDate,
                 endDate,
+            );
+
+            await this.usecase.upsertPlaceEntityList(
+                commonParameter,
+                searchPlaceFilterEntity,
             );
             return Response.json(
                 {

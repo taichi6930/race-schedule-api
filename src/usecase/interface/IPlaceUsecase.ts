@@ -1,20 +1,16 @@
-import type { RaceType } from '../../../lib/src/utility/raceType';
 import type { CommonParameter } from '../../commonParameter';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
+import type { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
 
 // UseCase層
 export interface IPlaceUseCase {
     fetchPlaceEntityList: (
         commonParameter: CommonParameter,
-        raceType: RaceType,
-        startDate: Date,
-        endDate: Date,
+        searchPlaceFilterEntity: SearchPlaceFilterEntity,
     ) => Promise<PlaceEntity[]>;
 
     upsertPlaceEntityList: (
         commonParameter: CommonParameter,
-        raceType: RaceType,
-        startDate: Date,
-        endDate: Date,
+        searchPlaceFilterEntity: SearchPlaceFilterEntity,
     ) => Promise<void>;
 }

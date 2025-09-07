@@ -1,14 +1,12 @@
 import type { DataLocationType } from '../../../lib/src/utility/dataType';
-import type { RaceType } from '../../../lib/src/utility/raceType';
 import type { CommonParameter } from '../../commonParameter';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
+import type { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
 
 export interface IPlaceService {
     fetchPlaceEntityList: (
         commonParameter: CommonParameter,
-        raceType: RaceType,
-        startDate: Date,
-        endDate: Date,
+        searchPlaceFilterEntity: SearchPlaceFilterEntity,
         dataLocationType: DataLocationType,
     ) => Promise<PlaceEntity[]>;
 
