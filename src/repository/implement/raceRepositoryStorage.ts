@@ -62,4 +62,79 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             );
         });
     }
+
+    @Logger
+    public async upsertRaceEntityList(
+        commonParameter: CommonParameter,
+        entityList: RaceEntity[],
+    ): Promise<void> {
+        const { env } = commonParameter;
+        const insertStmt = env.DB.prepare(
+            `
+            INSERT INTO race (
+                id,
+                race_type,
+                race_name,
+                date_time,
+                location_name,
+                grade,
+                race_number,
+                created_at,
+                updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            ON CONFLICT(id) DO UPDATE SET
+                race_type = excluded.race_type,
+                race_name = excluded.race_name,
+                date_time = excluded.date_time,
+                location_name = excluded.location_name,
+                grade = excluded.grade,
+                race_number = excluded.race_number,
+                updated_at = CURRENT_TIMESTAMP
+            `,
+        );
+        const insertConditionStmt = env.DB.prepare(
+            `
+            INSERT INTO race_condition (
+                id,
+                race_type,
+                surface_type,
+                distance,
+                created_at,
+                updated_at
+            ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            ON CONFLICT(id) DO UPDATE SET
+                race_type = excluded.race_type,
+                surface_type = excluded.surface_type,
+                distance = excluded.distance,
+                updated_at=CURRENT_TIMESTAMP
+            `,
+        );
+        for (const entity of entityList) {
+            const { id, raceData, conditionData } = entity;
+            // JST変換
+            const dateJST = new Date(
+                new Date(raceData.dateTime).getTime() + 9 * 60 * 60 * 1000,
+            );
+            const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
+            await insertStmt
+                .bind(
+                    id,
+                    raceData.raceType,
+                    raceData.name,
+                    dateTimeStr,
+                    raceData.location,
+                    raceData.grade,
+                    raceData.number,
+                )
+                .run();
+            await insertConditionStmt
+                .bind(
+                    id,
+                    raceData.raceType,
+                    conditionData.surfaceType,
+                    conditionData.distance,
+                )
+                .run();
+        }
+    }
 }

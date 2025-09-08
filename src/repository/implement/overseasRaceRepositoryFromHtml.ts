@@ -66,7 +66,6 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
      * @param startDate
      * @param finishDate
      */
-    @Logger
     private generateMonthList(startDate: Date, finishDate: Date): Date[] {
         const monthList: Date[] = [];
         const currentDate = new Date(startDate);
@@ -255,5 +254,14 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
             race.some((item) => item.includes(type)),
         );
         return found ?? '不明';
+    }
+
+    @Logger
+    public async upsertRaceEntityList(
+        commonParameter: CommonParameter,
+        entityList: RaceEntity[],
+    ): Promise<void> {
+        console.log(commonParameter, entityList);
+        throw new Error('Method not implemented.');
     }
 }

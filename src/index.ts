@@ -92,6 +92,13 @@ export default {
                 return await raceController.getRaceEntityList(commonParameter);
             }
 
+            if (pathname === '/race' && request.method === 'POST') {
+                return await raceController.postUpsertRace(
+                    request,
+                    commonParameter,
+                );
+            }
+
             // 404 Not Found
             return Response.json(
                 { error: 'エンドポイントが見つかりません' },

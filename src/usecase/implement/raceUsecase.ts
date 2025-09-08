@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
+import { DataLocation } from '../../../lib/src/utility/dataType';
 import { CommonParameter } from '../../commonParameter';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
@@ -22,6 +23,20 @@ export class RaceUseCase implements IRaceUseCase {
         return this.service.fetchRaceEntityList(
             commonParameter,
             searchRaceFilter,
+            DataLocation.Storage,
         );
+    }
+
+    @Logger
+    public async upsertRaceEntityList(
+        commonParameter: CommonParameter,
+        searchRaceFilter: SearchRaceFilterEntity,
+    ): Promise<void> {
+        const entityList: RaceEntity[] = await this.service.fetchRaceEntityList(
+            commonParameter,
+            searchRaceFilter,
+            DataLocation.Web,
+        );
+        return this.service.upsertRaceEntityList(commonParameter, entityList);
     }
 }

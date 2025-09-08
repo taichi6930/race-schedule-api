@@ -7,4 +7,9 @@ export interface IRaceUseCase {
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ) => Promise<RaceEntity[]>;
+
+    upsertRaceEntityList: (
+        commonParameter: CommonParameter,
+        searchRaceFilter: SearchRaceFilterEntity,
+    ) => Promise<void>;
 }
