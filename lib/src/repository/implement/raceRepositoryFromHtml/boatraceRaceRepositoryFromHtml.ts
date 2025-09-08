@@ -6,7 +6,7 @@ import { inject, injectable } from 'tsyringe';
 import { PlaceData } from '../../../domain/placeData';
 import { RaceData } from '../../../domain/raceData';
 import { RacePlayerData } from '../../../domain/racePlayerData';
-import { IRaceDataHtmlGateway } from '../../../gateway/interface/iRaceDataHtmlGateway';
+import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { getJSTDate } from '../../../utility/date';
 import { Logger } from '../../../utility/logger';
 import { RaceType } from '../../../utility/raceType';
@@ -17,16 +17,16 @@ import {
 } from '../../../utility/validateAndType/raceStage';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
-import { IRaceRepository } from '../../interface/IRaceRepository';
+import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
 
 /**
  * ボートレース場開催データリポジトリの実装
  */
 @injectable()
-export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
+export class BoatraceRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
     public constructor(
         @inject('RaceDataHtmlGateway')
-        private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
+        private readonly raceDataHtmlGateway: IRaceDataHtmlGatewayForAWS,
     ) {}
 
     /**

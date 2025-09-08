@@ -11,11 +11,11 @@ import {
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { RaceCourse } from '../../utility/validateAndType/raceCourse';
-import { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
+import { IRaceDataHtmlGatewayForAWS } from '../interface/iRaceDataHtmlGateway';
 /**
  * レースデータのHTMLを取得するGateway
  */
-export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
+export class RaceDataHtmlGatewayForAWS implements IRaceDataHtmlGatewayForAWS {
     private buildUrl(
         raceType: RaceType,
         date: Date,

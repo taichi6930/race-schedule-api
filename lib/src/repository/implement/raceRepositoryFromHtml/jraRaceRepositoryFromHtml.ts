@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../../domain/houseRaceConditionData';
 import { RaceData } from '../../../domain/raceData';
-import { IRaceDataHtmlGateway } from '../../../gateway/interface/iRaceDataHtmlGateway';
+import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { processJraRaceName } from '../../../utility/createRaceName';
 import { getJSTDate } from '../../../utility/date';
 import { Logger } from '../../../utility/logger';
@@ -20,13 +20,12 @@ import { RaceDistance } from '../../../utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
-import { IRaceRepository } from '../../interface/IRaceRepository';
 
 @injectable()
-export class JraRaceRepositoryFromHtml implements IRaceRepository {
+export class JraRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
     public constructor(
         @inject('RaceDataHtmlGateway')
-        private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
+        private readonly raceDataHtmlGateway: IRaceDataHtmlGatewayForAWS,
     ) {}
 
     /**

@@ -5,7 +5,7 @@ import { afterEach } from 'node:test';
 import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
-import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
+import type { IRaceDataHtmlGatewayForAWS } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { PlaceEntityForAWS } from '../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntityForAWS } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
@@ -15,7 +15,7 @@ import { JraRaceRepositoryFromHtml } from '../../../../../lib/src/repository/imp
 import { KeirinRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
-import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
+import type { IRaceRepositoryForAWS } from '../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -126,8 +126,8 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
         expectedLength,
     } of testCases[raceType]) {
         describe(name, () => {
-            let raceDataHtmlGateway: IRaceDataHtmlGateway;
-            let repository: IRaceRepository;
+            let raceDataHtmlGateway: IRaceDataHtmlGatewayForAWS;
+            let repository: IRaceRepositoryForAWS;
 
             beforeEach(() => {
                 raceDataHtmlGateway = new MockRaceDataHtmlGateway();
@@ -136,7 +136,7 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
                     raceDataHtmlGateway,
                 );
                 repository =
-                    container.resolve<IRaceRepository>(repositoryClass);
+                    container.resolve<IRaceRepositoryForAWS>(repositoryClass);
             });
 
             afterEach(() => {

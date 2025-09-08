@@ -10,7 +10,7 @@ import { PlayerRepository } from '../../src/repository/implement/playerRepositor
 import type { ICalendarRepository } from '../../src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { IPlayerRepository } from '../../src/repository/interface/IPlayerRepository';
-import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
+import type { IRaceRepositoryForAWS } from '../../src/repository/interface/IRaceRepositoryForAWS';
 
 container.register<IPlayerRepository>('PlayerRepository', {
     useClass: PlayerRepository,
@@ -24,11 +24,14 @@ container.register<IPlaceRepository>('PlaceRepositoryFromStorage', {
     useClass: PlaceRepositoryFromStorage,
 });
 
-container.register<IRaceRepository>('HorseRacingRaceRepositoryFromStorage', {
-    useClass: HorseRacingRaceRepositoryFromStorage,
-});
+container.register<IRaceRepositoryForAWS>(
+    'HorseRacingRaceRepositoryFromStorage',
+    {
+        useClass: HorseRacingRaceRepositoryFromStorage,
+    },
+);
 
-container.register<IRaceRepository>(
+container.register<IRaceRepositoryForAWS>(
     'MechanicalRacingRaceRepositoryFromStorage',
     { useClass: MechanicalRacingRaceRepositoryFromStorage },
 );

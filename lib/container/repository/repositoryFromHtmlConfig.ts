@@ -8,7 +8,7 @@ import { KeirinRaceRepositoryFromHtml } from '../../src/repository/implement/rac
 import { NarRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
-import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
+import type { IRaceRepositoryForAWS } from '../../src/repository/interface/IRaceRepositoryForAWS';
 import { MockHorseRacingRaceRepositoryFromHtml } from '../../src/repository/mock/mockHorseRacingRaceRepositoryFromHtml';
 import { MockMechanicalRacingRaceRepositoryFromHtml } from '../../src/repository/mock/mockMechanicalRacingRaceRepositoryFromHtml';
 import { MockPlaceRepositoryFromHtml } from '../../src/repository/mock/mockPlaceRepositoryFromHtml';
@@ -19,57 +19,84 @@ import { allowedEnvs, ENV } from '../../src/utility/env';
 switch (ENV) {
     case allowedEnvs.production:
     case allowedEnvs.local: {
-        container.register<IRaceRepository>('NarRaceRepositoryFromHtml', {
+        container.register<IRaceRepositoryForAWS>('NarRaceRepositoryFromHtml', {
             useClass: NarRaceRepositoryFromHtml,
         });
-        container.register<IRaceRepository>('JraRaceRepositoryFromHtml', {
+        container.register<IRaceRepositoryForAWS>('JraRaceRepositoryFromHtml', {
             useClass: JraRaceRepositoryFromHtml,
         });
-        container.register<IRaceRepository>('KeirinRaceRepositoryFromHtml', {
-            useClass: KeirinRaceRepositoryFromHtml,
-        });
-        container.register<IRaceRepository>('AutoraceRaceRepositoryFromHtml', {
-            useClass: AutoraceRaceRepositoryFromHtml,
-        });
+        container.register<IRaceRepositoryForAWS>(
+            'KeirinRaceRepositoryFromHtml',
+            {
+                useClass: KeirinRaceRepositoryFromHtml,
+            },
+        );
+        container.register<IRaceRepositoryForAWS>(
+            'AutoraceRaceRepositoryFromHtml',
+            {
+                useClass: AutoraceRaceRepositoryFromHtml,
+            },
+        );
         container.register<IPlaceRepository>('PlaceRepositoryFromHtml', {
             useClass: PlaceRepositoryFromHtml,
         });
-        container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
-            useClass: OverseasRaceRepositoryFromHtmlForAWS,
-        });
-        container.register<IRaceRepository>('AutoraceRaceRepositoryFromHtml', {
-            useClass: AutoraceRaceRepositoryFromHtml,
-        });
-        container.register<IRaceRepository>('BoatraceRaceRepositoryFromHtml', {
-            useClass: BoatraceRaceRepositoryFromHtml,
-        });
+        container.register<IRaceRepositoryForAWS>(
+            'OverseasRaceRepositoryFromHtml',
+            {
+                useClass: OverseasRaceRepositoryFromHtmlForAWS,
+            },
+        );
+        container.register<IRaceRepositoryForAWS>(
+            'AutoraceRaceRepositoryFromHtml',
+            {
+                useClass: AutoraceRaceRepositoryFromHtml,
+            },
+        );
+        container.register<IRaceRepositoryForAWS>(
+            'BoatraceRaceRepositoryFromHtml',
+            {
+                useClass: BoatraceRaceRepositoryFromHtml,
+            },
+        );
         break;
     }
     case allowedEnvs.test:
     case allowedEnvs.localNoInitData:
     case allowedEnvs.localInitMadeData:
     case allowedEnvs.githubActionsCi: {
-        container.register<IRaceRepository>('NarRaceRepositoryFromHtml', {
+        container.register<IRaceRepositoryForAWS>('NarRaceRepositoryFromHtml', {
             useClass: MockHorseRacingRaceRepositoryFromHtml,
         });
-        container.register<IRaceRepository>('JraRaceRepositoryFromHtml', {
+        container.register<IRaceRepositoryForAWS>('JraRaceRepositoryFromHtml', {
             useClass: MockHorseRacingRaceRepositoryFromHtml,
         });
-        container.register<IRaceRepository>('KeirinRaceRepositoryFromHtml', {
-            useClass: MockMechanicalRacingRaceRepositoryFromHtml,
-        });
-        container.register<IRaceRepository>('AutoraceRaceRepositoryFromHtml', {
-            useClass: MockMechanicalRacingRaceRepositoryFromHtml,
-        });
+        container.register<IRaceRepositoryForAWS>(
+            'KeirinRaceRepositoryFromHtml',
+            {
+                useClass: MockMechanicalRacingRaceRepositoryFromHtml,
+            },
+        );
+        container.register<IRaceRepositoryForAWS>(
+            'AutoraceRaceRepositoryFromHtml',
+            {
+                useClass: MockMechanicalRacingRaceRepositoryFromHtml,
+            },
+        );
         container.register<IPlaceRepository>('PlaceRepositoryFromHtml', {
             useClass: MockPlaceRepositoryFromHtml,
         });
-        container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
-            useClass: MockHorseRacingRaceRepositoryFromHtml,
-        });
-        container.register<IRaceRepository>('BoatraceRaceRepositoryFromHtml', {
-            useClass: MockMechanicalRacingRaceRepositoryFromHtml,
-        });
+        container.register<IRaceRepositoryForAWS>(
+            'OverseasRaceRepositoryFromHtml',
+            {
+                useClass: MockHorseRacingRaceRepositoryFromHtml,
+            },
+        );
+        container.register<IRaceRepositoryForAWS>(
+            'BoatraceRaceRepositoryFromHtml',
+            {
+                useClass: MockMechanicalRacingRaceRepositoryFromHtml,
+            },
+        );
         break;
     }
     default: {

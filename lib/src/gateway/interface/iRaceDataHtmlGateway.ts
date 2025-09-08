@@ -4,7 +4,7 @@ import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
 /**
  * レースデータのHTMLを取得するGatewayのInterface
  */
-export interface IRaceDataHtmlGateway {
+export interface IRaceDataHtmlGatewayForAWS {
     /**
      * レースデータのHTMLを取得する
      * @param raceType - レース種別

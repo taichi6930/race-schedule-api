@@ -7,7 +7,7 @@ import type { CommonParameter } from './commonParameter';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
 import { PlayerRepository } from './repository/implement/playerRepository';
-import { RaceRepositoryForStorage } from './repository/implement/raceRepository';
+import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryStorage';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
 import type { IRaceRepository } from './repository/interface/IRaceRepository';
 import { PlayerService } from './service/implement/playerService';

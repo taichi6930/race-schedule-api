@@ -25,7 +25,7 @@ import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEnt
  * - データベース（SQLite, RDBMSなど）
  * - 外部API（HTMLスクレイピングなど）
  */
-export interface IRaceRepository {
+export interface IRaceRepositoryForAWS {
     /**
      * 指定された検索条件に基づいてレース開催データを取得します
      *
