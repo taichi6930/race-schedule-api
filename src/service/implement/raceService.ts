@@ -11,13 +11,19 @@ export class RaceService implements IRaceService {
     public constructor(
         @inject('RaceRepositoryForStorage')
         private readonly repositoryForStorage: IRaceRepository,
+        @inject('OverseasRaceRepositoryFromHtml')
+        protected overseasRaceRepositoryFromHtml: IRaceRepository,
     ) {}
 
     public async fetchRaceEntityList(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
-        return this.repositoryForStorage.fetchRaceEntityList(
+        // return this.repositoryForStorage.fetchRaceEntityList(
+        //     commonParameter,
+        //     searchRaceFilter,
+        // );
+        return this.overseasRaceRepositoryFromHtml.fetchRaceEntityList(
             commonParameter,
             searchRaceFilter,
         );

@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../repository/entity/searchRaceFilterEntity';
-import { IRaceRepository } from '../../repository/interface/IRaceRepository';
+import { IRaceRepositoryForAWS } from '../../repository/interface/IRaceRepositoryForAWS';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RACE_TYPE_LIST_ALL, RaceType } from '../../utility/raceType';
@@ -16,27 +16,30 @@ import { IRaceService } from '../interface/IRaceService';
 export class RaceService implements IRaceService {
     private readonly raceRepositoryFromStorage: Record<
         RaceType,
-        IRaceRepository
+        IRaceRepositoryForAWS
     >;
-    private readonly raceRepositoryFromHtml: Record<RaceType, IRaceRepository>;
+    private readonly raceRepositoryFromHtml: Record<
+        RaceType,
+        IRaceRepositoryForAWS
+    >;
 
     public constructor(
         @inject('HorseRacingRaceRepositoryFromStorage')
-        protected horseRacingRaceRepositoryFromStorage: IRaceRepository,
+        protected horseRacingRaceRepositoryFromStorage: IRaceRepositoryForAWS,
         @inject('JraRaceRepositoryFromHtml')
-        protected jraRaceRepositoryFromHtml: IRaceRepository,
+        protected jraRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('NarRaceRepositoryFromHtml')
-        protected narRaceRepositoryFromHtml: IRaceRepository,
+        protected narRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('OverseasRaceRepositoryFromHtml')
-        protected overseasRaceRepositoryFromHtml: IRaceRepository,
+        protected overseasRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('KeirinRaceRepositoryFromHtml')
-        protected keirinRaceRepositoryFromHtml: IRaceRepository,
+        protected keirinRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('AutoraceRaceRepositoryFromHtml')
-        protected autoraceRaceRepositoryFromHtml: IRaceRepository,
+        protected autoraceRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('BoatraceRaceRepositoryFromHtml')
-        protected boatraceRaceRepositoryFromHtml: IRaceRepository,
+        protected boatraceRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('MechanicalRacingRaceRepositoryFromStorage')
-        protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepository,
+        protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepositoryForAWS,
     ) {
         this.raceRepositoryFromStorage = {
             [RaceType.JRA]: this.horseRacingRaceRepositoryFromStorage,
@@ -170,7 +173,7 @@ export class RaceService implements IRaceService {
      * @param entityList
      */
     private async saveRaceEntityList(
-        repository: IRaceRepository,
+        repository: IRaceRepositoryForAWS,
         raceType: RaceType,
         entityList?: RaceEntityForAWS[],
     ): Promise<{

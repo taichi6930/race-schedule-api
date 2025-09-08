@@ -12,14 +12,14 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { RaceEntityForAWS } from '../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
-import { IRaceRepository } from '../interface/IRaceRepository';
+import { IRaceRepositoryForAWS } from '../interface/IRaceRepositoryForAWS';
 
 /**
  * 開催データリポジトリの実装
  */
 @injectable()
 export class MechanicalRacingRaceRepositoryFromStorage
-    implements IRaceRepository
+    implements IRaceRepositoryForAWS
 {
     private readonly raceListFileName = CSV_FILE_NAME.RACE_LIST;
     private readonly racePlayerListFileName = CSV_FILE_NAME.RACE_PLAYER_LIST;

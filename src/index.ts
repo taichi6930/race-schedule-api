@@ -34,9 +34,15 @@ container.register<IPlayerUseCase>('PlayerUsecase', {
     useClass: PlayerUseCase,
 });
 
+// container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
+//     useClass: RaceDataHtmlGateway,
+// });
 container.register<IRaceRepository>('RaceRepositoryForStorage', {
     useClass: RaceRepositoryForStorage,
 });
+// container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
+//     useClass: OverseasRaceRepositoryFromHtml,
+// });
 container.register<IRaceService>('RaceService', {
     useClass: RaceService,
 });

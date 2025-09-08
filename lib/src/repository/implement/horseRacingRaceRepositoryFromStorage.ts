@@ -12,10 +12,12 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { RaceEntityForAWS } from '../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
-import { IRaceRepository } from '../interface/IRaceRepository';
+import { IRaceRepositoryForAWS } from '../interface/IRaceRepositoryForAWS';
 
 @injectable()
-export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
+export class HorseRacingRaceRepositoryFromStorage
+    implements IRaceRepositoryForAWS
+{
     private readonly raceFileName = CSV_FILE_NAME.RACE_LIST;
     private readonly heldDayFileName = CSV_FILE_NAME.HELD_DAY_LIST;
 
