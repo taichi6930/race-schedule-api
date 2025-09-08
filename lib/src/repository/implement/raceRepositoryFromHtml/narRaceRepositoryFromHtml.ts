@@ -16,6 +16,7 @@ import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfa
 import { PlaceEntityForAWS } from '../../entity/placeEntity';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
+import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
 
 /**
  * 競馬場開催データリポジトリの実装

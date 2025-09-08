@@ -20,6 +20,7 @@ import { RaceDistance } from '../../../utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
+import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
 
 @injectable()
 export class JraRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
