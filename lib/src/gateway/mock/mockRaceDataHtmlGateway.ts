@@ -9,11 +9,11 @@ import {
     createPlaceCode,
     RaceCourse,
 } from '../../utility/validateAndType/raceCourse';
-import { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
+import { IRaceDataHtmlGatewayForAWS } from '../interface/iRaceDataHtmlGateway';
 /**
  * レースデータのHTMLを取得するGateway
  */
-export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
+export class MockRaceDataHtmlGateway implements IRaceDataHtmlGatewayForAWS {
     private buildUrl(
         raceType: RaceType,
         date: Date,

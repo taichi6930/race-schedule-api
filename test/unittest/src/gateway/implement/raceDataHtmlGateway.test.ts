@@ -1,14 +1,14 @@
-import { RaceDataHtmlGateway } from '../../../../../lib/src/gateway/implement/raceDataHtmlGateway';
-import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
+import { RaceDataHtmlGatewayForAWS } from '../../../../../lib/src/gateway/implement/raceDataHtmlGateway';
+import type { IRaceDataHtmlGatewayForAWS } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { clearMocks } from '../../../../utility/testSetupHelper';
 
 describe('RaceDataHtmlGateway', () => {
-    let gateway: IRaceDataHtmlGateway;
+    let gateway: IRaceDataHtmlGatewayForAWS;
     let fetchMock: jest.Mock;
 
     beforeEach(() => {
-        gateway = new RaceDataHtmlGateway();
+        gateway = new RaceDataHtmlGatewayForAWS();
 
         // fetch をモックし、型定義を追加
         fetchMock = jest.fn();

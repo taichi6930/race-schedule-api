@@ -6,7 +6,7 @@ import type { ICalendarGateway } from '../../lib/src/gateway/interface/iCalendar
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
 import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
-import type { IRaceRepository } from '../../lib/src/repository/interface/IRaceRepository';
+import type { IRaceRepositoryForAWS } from '../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import type { ICalendarService } from '../../lib/src/service/interface/ICalendarService';
 import type { IPlaceService } from '../../lib/src/service/interface/IPlaceService';
 import type { IPlayerService } from '../../lib/src/service/interface/IPlayerService';
@@ -35,14 +35,14 @@ export interface TestRepositorySetup {
     calendarRepository: jest.Mocked<ICalendarRepository>;
     placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
     placeRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
-    horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
-    jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    overseasRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    mechanicalRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
-    keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepositoryForAWS>;
+    jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
+    narRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
+    overseasRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
+    mechanicalRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepositoryForAWS>;
+    keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
+    boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
+    autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
 }
 
 /**
@@ -66,46 +66,46 @@ export interface TestServiceSetup {
  */
 export function setupTestRepositoryMock(): TestRepositorySetup {
     const horseRacingRaceRepositoryFromStorage = mockRaceRepository();
-    container.registerInstance<IRaceRepository>(
+    container.registerInstance<IRaceRepositoryForAWS>(
         'HorseRacingRaceRepositoryFromStorage',
         horseRacingRaceRepositoryFromStorage,
     );
     const jraRaceRepositoryFromHtml = mockRaceRepository();
-    container.registerInstance<IRaceRepository>(
+    container.registerInstance<IRaceRepositoryForAWS>(
         'JraRaceRepositoryFromHtml',
         jraRaceRepositoryFromHtml,
     );
     const narRaceRepositoryFromHtml = mockRaceRepository();
-    container.registerInstance<IRaceRepository>(
+    container.registerInstance<IRaceRepositoryForAWS>(
         'NarRaceRepositoryFromHtml',
         narRaceRepositoryFromHtml,
     );
     const overseasRaceRepositoryFromHtml = mockRaceRepository();
-    container.registerInstance<IRaceRepository>(
+    container.registerInstance<IRaceRepositoryForAWS>(
         'OverseasRaceRepositoryFromHtml',
         overseasRaceRepositoryFromHtml,
     );
 
     const mechanicalRacingRaceRepositoryFromStorage = mockRaceRepository();
-    container.registerInstance<IRaceRepository>(
+    container.registerInstance<IRaceRepositoryForAWS>(
         'MechanicalRacingRaceRepositoryFromStorage',
         mechanicalRacingRaceRepositoryFromStorage,
     );
 
     const keirinRaceRepositoryFromHtml = mockRaceRepository();
-    container.registerInstance<IRaceRepository>(
+    container.registerInstance<IRaceRepositoryForAWS>(
         'KeirinRaceRepositoryFromHtml',
         keirinRaceRepositoryFromHtml,
     );
 
     const boatraceRaceRepositoryFromHtml = mockRaceRepository();
-    container.registerInstance<IRaceRepository>(
+    container.registerInstance<IRaceRepositoryForAWS>(
         'BoatraceRaceRepositoryFromHtml',
         boatraceRaceRepositoryFromHtml,
     );
 
     const autoraceRaceRepositoryFromHtml = mockRaceRepository();
-    container.registerInstance<IRaceRepository>(
+    container.registerInstance<IRaceRepositoryForAWS>(
         'AutoraceRaceRepositoryFromHtml',
         autoraceRaceRepositoryFromHtml,
     );

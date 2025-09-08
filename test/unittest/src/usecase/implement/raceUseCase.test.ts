@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { RaceUseCase } from '../../../../../lib/src/usecase/implement/raceUseCase';
-import type { IRaceUseCase } from '../../../../../lib/src/usecase/interface/IRaceUseCase';
+import { RaceUseCaseForAWS } from '../../../../../lib/src/usecase/implement/raceUseCase';
+import type { IRaceUseCaseForAWS } from '../../../../../lib/src/usecase/interface/IRaceUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import type { TestServiceSetup } from '../../../../utility/testSetupHelper';
 import {
@@ -20,11 +20,11 @@ import {
 
 describe('RaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
-    let useCase: IRaceUseCase;
+    let useCase: IRaceUseCaseForAWS;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();
-        useCase = container.resolve(RaceUseCase);
+        useCase = container.resolve(RaceUseCaseForAWS);
         jest.spyOn(console, 'log').mockImplementation();
     });
 

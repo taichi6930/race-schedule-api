@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { PlaceData } from '../../../domain/placeData';
 import { RaceData } from '../../../domain/raceData';
-import { IRaceDataHtmlGateway } from '../../../gateway/interface/iRaceDataHtmlGateway';
+import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { getJSTDate } from '../../../utility/date';
 import { Logger } from '../../../utility/logger';
 import { RaceType } from '../../../utility/raceType';
@@ -16,17 +16,17 @@ import {
 } from '../../../utility/validateAndType/raceStage';
 import { PlaceEntityForAWS } from '../../entity/placeEntity';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
-import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
-import { IRaceRepository } from '../../interface/IRaceRepository';
+import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
+import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
 
 /**
  * オートレース場開催データリポジトリの実装
  */
 @injectable()
-export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
+export class AutoraceRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
     public constructor(
         @inject('RaceDataHtmlGateway')
-        private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
+        private readonly raceDataHtmlGateway: IRaceDataHtmlGatewayForAWS,
     ) {}
 
     /**
@@ -35,7 +35,7 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity,
+        searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntityForAWS[]> {
         const raceEntityList: RaceEntityForAWS[] = [];
         const { placeEntityList } = searchFilter;

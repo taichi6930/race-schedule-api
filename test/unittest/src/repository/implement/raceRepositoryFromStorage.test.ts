@@ -8,10 +8,10 @@ import { container } from 'tsyringe';
 
 import { RaceData } from '../../../../../lib/src/domain/raceData';
 import { RaceEntityForAWS } from '../../../../../lib/src/repository/entity/raceEntity';
-import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
+import { SearchRaceFilterEntityForAWS } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { HorseRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorage';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
-import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
+import type { IRaceRepositoryForAWS } from '../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import {
     IS_LARGE_AMOUNT_DATA_TEST,
@@ -35,8 +35,8 @@ import {
 
 describe('RaceRepositoryFromStorage', () => {
     let gatewaySetup: TestGatewaySetup;
-    let horseRacingRaceRepository: IRaceRepository;
-    let mechanicalRacingRaceRepository: IRaceRepository;
+    let horseRacingRaceRepository: IRaceRepositoryForAWS;
+    let mechanicalRacingRaceRepository: IRaceRepositoryForAWS;
 
     beforeEach(() => {
         gatewaySetup = setupTestGatewayMock();
@@ -79,7 +79,7 @@ describe('RaceRepositoryFromStorage', () => {
                         : mechanicalRacingRaceRepository;
 
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new SearchRaceFilterEntity(
+                    new SearchRaceFilterEntityForAWS(
                         new Date('2024-01-01'),
                         new Date('2024-02-01'),
                         raceType,

@@ -11,15 +11,15 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { RaceEntityForAWS } from '../entity/raceEntity';
-import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
-import { IRaceRepository } from '../interface/IRaceRepository';
+import { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
+import { IRaceRepositoryForAWS } from '../interface/IRaceRepositoryForAWS';
 
 /**
  * 開催データリポジトリの実装
  */
 @injectable()
 export class MechanicalRacingRaceRepositoryFromStorage
-    implements IRaceRepository
+    implements IRaceRepositoryForAWS
 {
     private readonly raceListFileName = CSV_FILE_NAME.RACE_LIST;
     private readonly racePlayerListFileName = CSV_FILE_NAME.RACE_PLAYER_LIST;
@@ -35,7 +35,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity,
+        searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntityForAWS[]> {
         // ファイル名リストから選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =

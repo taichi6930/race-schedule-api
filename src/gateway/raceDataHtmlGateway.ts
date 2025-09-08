@@ -1,5 +1,3 @@
-import '../../utility/format';
-
 import {
     createAutoraceRaceUrl,
     createBoatraceRaceUrl,
@@ -7,15 +5,15 @@ import {
     createKeirinRaceUrl,
     createNarRaceUrl,
     createOverseasRaceUrl,
-} from '../../utility/data/url';
-import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
-import { RaceCourse } from '../../utility/validateAndType/raceCourse';
-import { IRaceDataHtmlGatewayForAWS } from '../interface/iRaceDataHtmlGateway';
+} from '../../lib/src/utility/data/url';
+import { RaceType } from '../../lib/src/utility/raceType';
+import type { RaceCourse } from '../../lib/src/utility/validateAndType/raceCourse';
+import type { IRaceDataHtmlGateway } from './iRaceDataHtmlGateway';
+
 /**
  * レースデータのHTMLを取得するGateway
  */
-export class RaceDataHtmlGatewayForAWS implements IRaceDataHtmlGatewayForAWS {
+export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
     private buildUrl(
         raceType: RaceType,
         date: Date,
@@ -52,7 +50,7 @@ export class RaceDataHtmlGatewayForAWS implements IRaceDataHtmlGatewayForAWS {
      * @param number - レース番号
      * @returns Promise<string> - レースデータのHTML
      */
-    @Logger
+
     public async getRaceDataHtml(
         raceType: RaceType,
         date: Date,

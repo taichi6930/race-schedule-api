@@ -7,13 +7,15 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { RaceEntityForAWS } from '../entity/raceEntity';
-import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
-import type { IRaceRepository } from '../interface/IRaceRepository';
+import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
+import { IRaceRepositoryForAWS } from '../interface/IRaceRepositoryForAWS';
 
-export class MockHorseRacingRaceRepositoryFromHtml implements IRaceRepository {
+export class MockHorseRacingRaceRepositoryFromHtml
+    implements IRaceRepositoryForAWS
+{
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity,
+        searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntityForAWS[]> {
         const { placeEntityList } = searchFilter;
         const raceEntityList: RaceEntityForAWS[] = [];

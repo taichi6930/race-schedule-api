@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { CommonParameter } from '../../commonParameter';
 import { PlayerEntity } from '../../repository/entity/playerEntity';
 import { IPlayerRepository } from '../../repository/interface/IPlayerRepository';
+import { Logger } from '../../utility/logger';
 import { IPlayerService } from '../interface/IPlayerService';
 
 @injectable()
@@ -12,12 +13,14 @@ export class PlayerService implements IPlayerService {
         private readonly repository: IPlayerRepository,
     ) {}
 
+    @Logger
     public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<PlayerEntity[]> {
-        return this.repository.fetchPlayerDataList(commonParameter);
+        return this.repository.fetchPlayerEntityList(commonParameter);
     }
 
+    @Logger
     public async upsertPlayerEntityList(
         commonParameter: CommonParameter,
         entityList: PlayerEntity[],

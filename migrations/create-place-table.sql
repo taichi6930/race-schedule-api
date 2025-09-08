@@ -20,6 +20,3 @@ BEGIN
     UPDATE place SET updated_at = CURRENT_TIMESTAMP
     WHERE id = NEW.id;
 END;
-
-INSERT INTO place (id, race_type, date_time, location_name) VALUES
-('keirin2025100111', 'KEIRIN', '2025-10-01 00:00:00', '函館');

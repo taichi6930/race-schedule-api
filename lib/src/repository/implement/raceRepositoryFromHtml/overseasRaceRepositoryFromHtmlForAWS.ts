@@ -6,7 +6,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { HorseRaceConditionData } from '../../../domain/houseRaceConditionData';
 import { RaceData } from '../../../domain/raceData';
-import { IRaceDataHtmlGateway } from '../../../gateway/interface/iRaceDataHtmlGateway';
+import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { processOverseasRaceName } from '../../../utility/createRaceName';
 import { getJSTDate } from '../../../utility/date';
 import { Logger } from '../../../utility/logger';
@@ -19,17 +19,19 @@ import {
 import { validateRaceDistance } from '../../../utility/validateAndType/raceDistance';
 import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
-import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
-import { IRaceRepository } from '../../interface/IRaceRepository';
+import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
+import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
 
 /**
  * 競馬場開催データリポジトリの実装
  */
 @injectable()
-export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
+export class OverseasRaceRepositoryFromHtmlForAWS
+    implements IRaceRepositoryForAWS
+{
     public constructor(
         @inject('RaceDataHtmlGateway')
-        private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
+        private readonly raceDataHtmlGateway: IRaceDataHtmlGatewayForAWS,
     ) {}
 
     /**
@@ -38,7 +40,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity,
+        searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntityForAWS[]> {
         const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,

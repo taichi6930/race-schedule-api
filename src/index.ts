@@ -5,12 +5,22 @@ import { container } from 'tsyringe';
 
 import type { CommonParameter } from './commonParameter';
 import { PlayerController } from './controller/playerController';
+import { RaceController } from './controller/raceController';
+import type { IRaceDataHtmlGateway } from './gateway/iRaceDataHtmlGateway';
+import { RaceDataHtmlGateway } from './gateway/raceDataHtmlGateway';
+import { OverseasRaceRepositoryFromHtml } from './repository/implement/overseasRaceRepositoryFromHtml';
 import { PlayerRepository } from './repository/implement/playerRepository';
+import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryStorage';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
+import type { IRaceRepository } from './repository/interface/IRaceRepository';
 import { PlayerService } from './service/implement/playerService';
+import { RaceService } from './service/implement/raceService';
 import type { IPlayerService } from './service/interface/IPlayerService';
+import type { IRaceService } from './service/interface/IRaceService';
 import { PlayerUseCase } from './usecase/implement/playerUsecase';
+import { RaceUseCase } from './usecase/implement/raceUsecase';
 import type { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
+import type { IRaceUseCase } from './usecase/interface/IRaceUsecase';
 
 export interface Env {
     DB: D1Database;
@@ -25,6 +35,22 @@ container.register<IPlayerService>('PlayerService', {
 });
 container.register<IPlayerUseCase>('PlayerUsecase', {
     useClass: PlayerUseCase,
+});
+
+container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
+    useClass: RaceDataHtmlGateway,
+});
+container.register<IRaceRepository>('RaceRepositoryForStorage', {
+    useClass: RaceRepositoryForStorage,
+});
+container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
+    useClass: OverseasRaceRepositoryFromHtml,
+});
+container.register<IRaceService>('RaceService', {
+    useClass: RaceService,
+});
+container.register<IRaceUseCase>('RaceUsecase', {
+    useClass: RaceUseCase,
 });
 
 export default {
@@ -46,6 +72,7 @@ export default {
         }
 
         const playerController = container.resolve(PlayerController);
+        const raceController = container.resolve(RaceController);
 
         try {
             if (pathname === '/players' && request.method === 'GET') {
@@ -56,6 +83,17 @@ export default {
 
             if (pathname === '/players' && request.method === 'POST') {
                 return await playerController.postUpsertPlayer(
+                    request,
+                    commonParameter,
+                );
+            }
+
+            if (pathname === '/race' && request.method === 'GET') {
+                return await raceController.getRaceEntityList(commonParameter);
+            }
+
+            if (pathname === '/race' && request.method === 'POST') {
+                return await raceController.postUpsertRace(
                     request,
                     commonParameter,
                 );

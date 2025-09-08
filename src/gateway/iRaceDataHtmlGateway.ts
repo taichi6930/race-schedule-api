@@ -1,10 +1,10 @@
-import type { RaceType } from '../../utility/raceType';
-import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
+import type { RaceType } from '../../lib/src/utility/raceType';
+import type { RaceCourse } from '../../lib/src/utility/validateAndType/raceCourse';
 
 /**
  * レースデータのHTMLを取得するGatewayのInterface
  */
-export interface IRaceDataHtmlGatewayForAWS {
+export interface IRaceDataHtmlGateway {
     /**
      * レースデータのHTMLを取得する
      * @param raceType - レース種別

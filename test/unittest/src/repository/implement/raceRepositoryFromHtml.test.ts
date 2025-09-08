@@ -5,17 +5,17 @@ import { afterEach } from 'node:test';
 import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../lib/src/domain/placeData';
-import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
+import type { IRaceDataHtmlGatewayForAWS } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { PlaceEntityForAWS } from '../../../../../lib/src/repository/entity/placeEntity';
-import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
+import { SearchRaceFilterEntityForAWS } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
 import { JraRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
 import { KeirinRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
-import { OverseasRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtml';
-import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
+import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
+import type { IRaceRepositoryForAWS } from '../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
@@ -63,7 +63,7 @@ const testCases = {
     [RaceType.OVERSEAS]: [
         {
             name: 'OverseasRaceRepositoryFromHtml',
-            repositoryClass: OverseasRaceRepositoryFromHtml,
+            repositoryClass: OverseasRaceRepositoryFromHtmlForAWS,
             startDate: new Date('2025-05-01'),
             endDate: new Date('2025-06-30'),
             placeName: 'パリロンシャン',
@@ -72,7 +72,7 @@ const testCases = {
         },
         {
             name: 'OverseasRaceRepositoryFromHtml',
-            repositoryClass: OverseasRaceRepositoryFromHtml,
+            repositoryClass: OverseasRaceRepositoryFromHtmlForAWS,
             startDate: new Date('2025-06-01'),
             endDate: new Date('2025-07-31'),
             placeName: 'パリロンシャン',
@@ -126,8 +126,8 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
         expectedLength,
     } of testCases[raceType]) {
         describe(name, () => {
-            let raceDataHtmlGateway: IRaceDataHtmlGateway;
-            let repository: IRaceRepository;
+            let raceDataHtmlGateway: IRaceDataHtmlGatewayForAWS;
+            let repository: IRaceRepositoryForAWS;
 
             beforeEach(() => {
                 raceDataHtmlGateway = new MockRaceDataHtmlGateway();
@@ -136,7 +136,7 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
                     raceDataHtmlGateway,
                 );
                 repository =
-                    container.resolve<IRaceRepository>(repositoryClass);
+                    container.resolve<IRaceRepositoryForAWS>(repositoryClass);
             });
 
             afterEach(() => {
@@ -150,7 +150,7 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
                     async () => {
                         const raceEntityList =
                             await repository.fetchRaceEntityList(
-                                new SearchRaceFilterEntity(
+                                new SearchRaceFilterEntityForAWS(
                                     startDate,
                                     endDate,
                                     raceType,
