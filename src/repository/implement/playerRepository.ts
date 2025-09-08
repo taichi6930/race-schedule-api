@@ -10,29 +10,16 @@ export class PlayerRepository implements IPlayerRepository {
         commonParameter: CommonParameter,
         raceType: RaceType,
     ): Promise<PlayerEntity[]> {
-        const { searchParams, env } = commonParameter;
+        const { env } = commonParameter;
         const queryParams: any[] = [];
-        const orderBy = searchParams.get('order_by') ?? 'priority';
-        const orderDir = searchParams.get('order_dir') ?? 'ASC';
-        const validOrderBy = ['priority', 'race_type', 'created_at'].includes(
-            orderBy,
-        )
-            ? orderBy
-            : 'priority';
-        const validOrderDir = ['ASC', 'DESC'].includes(orderDir.toUpperCase())
-            ? orderDir.toUpperCase()
-            : 'ASC';
-        queryParams.push(
-            raceType,
-            Number.parseInt(searchParams.get('limit') ?? '10000'),
-        );
+        queryParams.push(raceType);
         const { results } = await env.DB.prepare(
             `
             SELECT race_type, player_no, player_name, priority, created_at, updated_at
             FROM player
             WHERE race_type = ?
-            ORDER BY ${validOrderBy} ${validOrderDir}, player_no ASC
-            LIMIT ?`,
+            ORDER BY player_no ASC
+            LIMIT 10000`,
         )
             .bind(...queryParams)
             .all();
