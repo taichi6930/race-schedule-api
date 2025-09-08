@@ -3,7 +3,7 @@ import { PlayerEntity } from '../entity/playerEntity';
 import type { IPlayerRepository } from '../interface/IPlayerRepository';
 
 export class PlayerRepository implements IPlayerRepository {
-    public async fetchPlayerDataList(
+    public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<PlayerEntity[]> {
         const { searchParams, env } = commonParameter;

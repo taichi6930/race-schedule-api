@@ -15,7 +15,7 @@ export class PlayerService implements IPlayerService {
     public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<PlayerEntity[]> {
-        return this.repository.fetchPlayerDataList(commonParameter);
+        return this.repository.fetchPlayerEntityList(commonParameter);
     }
 
     public async upsertPlayerEntityList(
