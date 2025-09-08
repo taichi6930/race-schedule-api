@@ -108,10 +108,12 @@ export class RaceController {
             const body: any = await request.json();
             if (
                 !body ||
-                typeof body.raceType !== 'string' ||
+                (typeof body.raceType !== 'string' &&
+                    !Array.isArray(body.raceType)) ||
                 typeof body.startDate !== 'string' ||
                 typeof body.finishDate !== 'string'
             ) {
+                console.log('Bad Request: body is missing or invalid', body);
                 return new Response('Bad Request: body is missing or invalid', {
                     status: 400,
                     headers: this.corsHeaders,
