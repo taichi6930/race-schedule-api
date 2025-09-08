@@ -1,9 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 
+import { RaceType } from '../../../../src/utility/raceType';
 import { PlayerData } from '../../domain/playerData';
 import { IPlayerService } from '../../service/interface/IPlayerService';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import { IPlayerDataUseCaseForAWS } from '../interface/IPlayerDataUseCase';
 
 /**

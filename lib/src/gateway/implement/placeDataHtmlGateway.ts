@@ -1,8 +1,8 @@
 import '../../utility/format';
 
+import { RaceType } from '../../../../src/utility/raceType';
 import { createPlaceUrl } from '../../utility/data/url';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import { IPlaceDataHtmlGateway } from '../interface/iPlaceDataHtmlGateway';
 
 export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {

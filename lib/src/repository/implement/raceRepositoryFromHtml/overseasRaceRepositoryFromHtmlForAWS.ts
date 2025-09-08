@@ -4,13 +4,13 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { RaceType } from '../../../../../src/utility/raceType';
 import { HorseRaceConditionData } from '../../../domain/houseRaceConditionData';
 import { RaceData } from '../../../domain/raceData';
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { processOverseasRaceName } from '../../../utility/createRaceName';
 import { getJSTDate } from '../../../utility/date';
 import { Logger } from '../../../utility/logger';
-import { RaceType } from '../../../utility/raceType';
 import { GradeType } from '../../../utility/validateAndType/gradeType';
 import {
     RaceCourse,

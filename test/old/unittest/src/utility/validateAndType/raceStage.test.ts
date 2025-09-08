@@ -1,5 +1,5 @@
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
 import { validateRaceStage } from '../../../../../../lib/src/utility/validateAndType/raceStage';
+import { RaceType } from '../../../../../../src/utility/raceType';
 import { testRaceTypeListMechanicalRacing } from '../../mock/common/baseCommonData';
 
 const testCases = {

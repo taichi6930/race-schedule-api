@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { RaceType } from '../../../../../src/utility/raceType';
 import { HeldDayData } from '../../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../../domain/houseRaceConditionData';
 import { RaceData } from '../../../domain/raceData';
@@ -8,7 +9,6 @@ import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceData
 import { processJraRaceName } from '../../../utility/createRaceName';
 import { getJSTDate } from '../../../utility/date';
 import { Logger } from '../../../utility/logger';
-import { RaceType } from '../../../utility/raceType';
 import { GradeType } from '../../../utility/validateAndType/gradeType';
 import { HeldDayTimes } from '../../../utility/validateAndType/heldDayTimes';
 import { HeldTimes } from '../../../utility/validateAndType/heldTimes';

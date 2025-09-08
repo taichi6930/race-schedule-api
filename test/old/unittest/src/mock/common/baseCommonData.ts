@@ -9,15 +9,15 @@ import { PlaceEntityForAWS } from '../../../../../../lib/src/repository/entity/p
 import { RaceEntityForAWS } from '../../../../../../lib/src/repository/entity/raceEntity';
 import { getJSTDate } from '../../../../../../lib/src/utility/date';
 import { IS_SHORT_TEST } from '../../../../../../lib/src/utility/env';
+import { generatePlaceId } from '../../../../../../lib/src/utility/validateAndType/placeId';
+import { maxFrameNumber } from '../../../../../../lib/src/utility/validateAndType/positionNumber';
 import {
     RACE_TYPE_LIST_ALL,
     RACE_TYPE_LIST_HORSE_RACING,
     RACE_TYPE_LIST_MECHANICAL_RACING,
     RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RaceType,
-} from '../../../../../../lib/src/utility/raceType';
-import { generatePlaceId } from '../../../../../../lib/src/utility/validateAndType/placeId';
-import { maxFrameNumber } from '../../../../../../lib/src/utility/validateAndType/positionNumber';
+} from '../../../../../../src/utility/raceType';
 
 /**
  * 基本的なレースプレイヤーデータのリストを生成します。

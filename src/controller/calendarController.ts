@@ -2,16 +2,12 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import {
-    isRaceType,
-    RaceType,
-    validateRaceType,
-} from '../../lib/src/utility/raceType';
 import { SpecifiedGradeList } from '../../lib/src/utility/validateAndType/gradeType';
 import { SearchRaceFilterEntity } from '../repository/entity/searchRaceFilterEntity';
 import { ICalendarUseCase } from '../usecase/interface/ICalendarUseCase';
 import { CommonParameter } from '../utility/commonParameter';
 import { Logger } from '../utility/logger';
+import { isRaceType, RaceType, validateRaceType } from '../utility/raceType';
 
 @injectable()
 export class CalendarController {

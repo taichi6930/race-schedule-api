@@ -1,4 +1,4 @@
-import type { RaceType } from '../../utility/raceType';
+import type { RaceType } from '../../../../src/utility/raceType';
 
 export class SearchPlaceFilterEntityForAWS {
     public constructor(

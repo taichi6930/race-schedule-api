@@ -4,6 +4,7 @@ import { PlayerEntity } from '../../repository/entity/playerEntity';
 import { IPlayerService } from '../../service/interface/IPlayerService';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { IPlayerUseCase } from '../interface/IPlayerUsecase';
 
 @injectable()
@@ -16,8 +17,9 @@ export class PlayerUseCase implements IPlayerUseCase {
     @Logger
     public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
+        raceType: RaceType,
     ): Promise<PlayerEntity[]> {
-        return this.service.fetchPlayerEntityList(commonParameter);
+        return this.service.fetchPlayerEntityList(commonParameter, raceType);
     }
 
     @Logger

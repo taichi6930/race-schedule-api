@@ -1,11 +1,11 @@
 import type { HorseRaceConditionData } from '../../../lib/src/domain/houseRaceConditionData';
 import type { RaceData } from '../../../lib/src/domain/raceData';
-import { RaceType } from '../../../lib/src/utility/raceType';
 import type { RaceId } from '../../../lib/src/utility/validateAndType/raceId';
 import {
     generateRaceId,
     validateRaceId,
 } from '../../../lib/src/utility/validateAndType/raceId';
+import { RaceType } from '../../utility/raceType';
 
 /**
  * 競馬のレース開催データ

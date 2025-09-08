@@ -1,5 +1,5 @@
 import { CalendarData } from '../../../../../lib/src/domain/calendarData';
-import type { RaceType } from '../../../../../lib/src/utility/raceType';
+import type { RaceType } from '../../../../../src/utility/raceType';
 import { testRaceTypeListAll } from '../mock/common/baseCommonData';
 
 describe.each([testRaceTypeListAll])(

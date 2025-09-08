@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import { RaceUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/raceUseCase';
 import type { IRaceUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IRaceUseCase';
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../../src/utility/raceType';
 import type { TestServiceSetup } from '../../../../../utility/testSetupHelper';
 import {
     clearMocks,

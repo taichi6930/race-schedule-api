@@ -1,3 +1,4 @@
+import { RaceType } from '../../../../src/utility/raceType';
 import {
     defaultHeldDayData,
     defaultLocation,
@@ -5,7 +6,6 @@ import {
 import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import { PlaceEntityForAWS } from '../entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';

@@ -8,7 +8,7 @@ import { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/reposit
 import { PlaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
 import type { IPlaceRepository } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../../src/utility/raceType';
 import { SkipEnv } from '../../../../../utility/testDecorators';
 import { clearMocks } from '../../../../../utility/testSetupHelper';
 import {

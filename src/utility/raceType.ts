@@ -40,13 +40,15 @@ export type RaceType = (typeof RaceType)[keyof typeof RaceType];
 export function isRaceType(value: string | null): value is RaceType {
     // 大文字と小文字を区別しないために、すべて大文字に変換して比較
     if (value === null) return false;
-    value = value.toUpperCase();
     return (Object.values(RaceType) as string[]).includes(value);
 }
 
 export const validateRaceType = (value: string | null): RaceType => {
-    if (value !== null && isRaceType(value)) {
-        return value;
+    if (value) {
+        const upperValue = value.toUpperCase();
+        if (isRaceType(upperValue)) {
+            return upperValue;
+        }
     }
     throw new Error(`Invalid race type: ${value}`);
 };

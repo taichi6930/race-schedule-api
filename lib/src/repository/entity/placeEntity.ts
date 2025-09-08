@@ -1,9 +1,9 @@
+import { RaceType } from '../../../../src/utility/raceType';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
 import { PlaceGradeRecord } from '../../gateway/record/placeGradeRecord';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
-import { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { GradeType } from '../../utility/validateAndType/gradeType';
 import type { PlaceId } from '../../utility/validateAndType/placeId';

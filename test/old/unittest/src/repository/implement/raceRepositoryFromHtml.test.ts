@@ -18,7 +18,7 @@ import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import { getJSTDate } from '../../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../../src/utility/raceType';
 import { SkipEnv } from '../../../../../utility/testDecorators';
 import { clearMocks } from '../../../../../utility/testSetupHelper';
 import {

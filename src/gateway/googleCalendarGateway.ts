@@ -2,10 +2,10 @@ import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
 
 import { createErrorMessage } from '../../lib/src/utility/error';
-import { RaceType } from '../../lib/src/utility/raceType';
 import { SearchCalendarFilterEntity } from '../repository/entity/searchCalendarFilterEntity';
 import { CloudFlareEnv, CommonParameter } from '../utility/commonParameter';
 import { Logger } from '../utility/logger';
+import { RaceType } from '../utility/raceType';
 import { ICalendarGateway } from './iCalendarGateway';
 
 export class GoogleCalendarGateway implements ICalendarGateway {

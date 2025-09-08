@@ -1,6 +1,6 @@
+import type { RaceType } from '../../../../src/utility/raceType';
 import type { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import type { DataLocationType } from '../../utility/dataType';
-import type { RaceType } from '../../utility/raceType';
 
 /**
  * 開催場所データを提供するサービスインターフェース

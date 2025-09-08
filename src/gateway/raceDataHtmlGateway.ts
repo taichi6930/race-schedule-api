@@ -6,8 +6,8 @@ import {
     createNarRaceUrl,
     createOverseasRaceUrl,
 } from '../../lib/src/utility/data/url';
-import { RaceType } from '../../lib/src/utility/raceType';
 import type { RaceCourse } from '../../lib/src/utility/validateAndType/raceCourse';
+import { RaceType } from '../utility/raceType';
 import type { IRaceDataHtmlGateway } from './iRaceDataHtmlGateway';
 
 /**

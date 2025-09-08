@@ -1,15 +1,15 @@
 import { inject, injectable } from 'tsyringe';
 
+import {
+    RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+    RaceType,
+} from '../../../../src/utility/raceType';
 import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import { IPlaceService } from '../../service/interface/IPlaceService';
 import { IRaceService } from '../../service/interface/IRaceService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import {
-    RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
-    RaceType,
-} from '../../utility/raceType';
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import { RaceStage } from '../../utility/validateAndType/raceStage';

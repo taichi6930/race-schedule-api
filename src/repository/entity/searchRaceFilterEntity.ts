@@ -1,4 +1,4 @@
-import type { RaceType } from '../../../lib/src/utility/raceType';
+import type { RaceType } from '../../utility/raceType';
 
 export class SearchRaceFilterEntity {
     public constructor(

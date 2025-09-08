@@ -1,6 +1,6 @@
 import { RaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gateway/implement/raceDataHtmlGateway';
 import type { IRaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../../src/utility/raceType';
 import { clearMocks } from '../../../../../utility/testSetupHelper';
 
 describe('RaceDataHtmlGateway', () => {

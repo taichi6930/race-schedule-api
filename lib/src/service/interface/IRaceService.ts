@@ -1,7 +1,7 @@
+import type { RaceType } from '../../../../src/utility/raceType';
 import type { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import type { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import type { DataLocationType } from '../../utility/dataType';
-import type { RaceType } from '../../utility/raceType';
 
 /**
  * レース開催データを管理するサービスのインターフェース

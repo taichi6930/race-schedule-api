@@ -1,5 +1,6 @@
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { PlayerEntity } from '../entity/playerEntity';
 import type { IPlayerRepository } from '../interface/IPlayerRepository';
 
@@ -7,10 +8,9 @@ export class PlayerRepository implements IPlayerRepository {
     @Logger
     public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
+        raceType: RaceType,
     ): Promise<PlayerEntity[]> {
         const { searchParams, env } = commonParameter;
-        const raceType = searchParams.get('race_type');
-        let whereClause = '';
         const queryParams: any[] = [];
         const orderBy = searchParams.get('order_by') ?? 'priority';
         const orderDir = searchParams.get('order_dir') ?? 'ASC';
@@ -22,16 +22,15 @@ export class PlayerRepository implements IPlayerRepository {
         const validOrderDir = ['ASC', 'DESC'].includes(orderDir.toUpperCase())
             ? orderDir.toUpperCase()
             : 'ASC';
-        if (raceType) {
-            whereClause = 'WHERE race_type = ?';
-            queryParams.push(raceType);
-        }
-        queryParams.push(Number.parseInt(searchParams.get('limit') ?? '10000'));
+        queryParams.push(
+            raceType,
+            Number.parseInt(searchParams.get('limit') ?? '10000'),
+        );
         const { results } = await env.DB.prepare(
             `
             SELECT race_type, player_no, player_name, priority, created_at, updated_at
             FROM player
-            ${whereClause}
+            WHERE race_type = ?
             ORDER BY ${validOrderBy} ${validOrderDir}, player_no ASC
             LIMIT ?`,
         )

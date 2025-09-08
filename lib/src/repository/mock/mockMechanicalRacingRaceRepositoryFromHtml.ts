@@ -1,8 +1,8 @@
+import { RaceType } from '../../../../src/utility/raceType';
 import { baseRacePlayerDataList } from '../../../../test/old/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import { RaceStage } from '../../utility/validateAndType/raceStage';
 import { RaceEntityForAWS } from '../entity/raceEntity';
 import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';

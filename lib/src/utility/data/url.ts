@@ -7,7 +7,7 @@ import '../format';
 
 import { format } from 'date-fns';
 
-import { RaceType } from '../raceType';
+import { RaceType } from '../../../../src/utility/raceType';
 import type { RaceCourse } from '../validateAndType/raceCourse';
 import { createPlaceCode } from '../validateAndType/raceCourse';
 

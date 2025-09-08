@@ -17,7 +17,7 @@ import {
     IS_LARGE_AMOUNT_DATA_TEST,
     IS_SHORT_TEST,
 } from '../../../../../../lib/src/utility/env';
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../../src/utility/raceType';
 import type { TestGatewaySetup } from '../../../../../utility/testSetupHelper';
 import {
     clearMocks,

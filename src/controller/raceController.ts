@@ -2,11 +2,11 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { isRaceType, validateRaceType } from '../../lib/src/utility/raceType';
 import { SearchRaceFilterEntity } from '../repository/entity/searchRaceFilterEntity';
 import { IRaceUseCase } from '../usecase/interface/IRaceUsecase';
 import { CommonParameter } from '../utility/commonParameter';
 import { Logger } from '../utility/logger';
+import { isRaceType, validateRaceType } from '../utility/raceType';
 
 @injectable()
 export class RaceController {

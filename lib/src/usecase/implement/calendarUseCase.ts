@@ -2,6 +2,12 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { inject, injectable } from 'tsyringe';
 
+import {
+    RACE_TYPE_LIST_ALL,
+    RACE_TYPE_LIST_HORSE_RACING,
+    RACE_TYPE_LIST_MECHANICAL_RACING,
+    RaceType,
+} from '../../../../src/utility/raceType';
 import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
 import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
@@ -11,12 +17,6 @@ import { IRaceService } from '../../service/interface/IRaceService';
 import { RaceGradeAndStageList } from '../../utility/data/stage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import {
-    RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_HORSE_RACING,
-    RACE_TYPE_LIST_MECHANICAL_RACING,
-    RaceType,
-} from '../../utility/raceType';
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import { IRaceCalendarUseCaseForAWS } from '../interface/IRaceCalendarUseCase';
 

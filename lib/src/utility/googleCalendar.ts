@@ -10,6 +10,7 @@ export const getGoogleCalendarColorId = (
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
+import { RaceType } from '../../../src/utility/raceType';
 import { CalendarData } from '../domain/calendarData';
 import type { RaceEntityForAWS } from '../repository/entity/raceEntity';
 import {
@@ -28,7 +29,6 @@ import {
 } from './data/url';
 import { getJSTDate } from './date';
 import { createAnchorTag, formatDate } from './format';
-import { RaceType } from './raceType';
 import type { GradeType } from './validateAndType/gradeType';
 import { createPlaceCode } from './validateAndType/raceCourse';
 

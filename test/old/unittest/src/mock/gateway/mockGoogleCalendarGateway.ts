@@ -1,5 +1,5 @@
 import type { ICalendarGatewayForAWS } from '../../../../../../lib/src/gateway/interface/iCalendarGateway';
-import type { RaceType } from '../../../../../../lib/src/utility/raceType';
+import type { RaceType } from '../../../../../../src/utility/raceType';
 import { baseCalendarDataFromGoogleCalendar } from '../common/baseCommonData';
 
 export const mockGoogleCalendarGateway =

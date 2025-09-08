@@ -4,10 +4,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../../lib/src/domain/calendarData';
 import { DataLocation } from '../../../lib/src/utility/dataType';
-import {
-    RACE_TYPE_LIST_ALL,
-    RaceType,
-} from '../../../lib/src/utility/raceType';
 import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
@@ -15,6 +11,7 @@ import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IRaceService } from '../../service/interface/IRaceService';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
+import { RACE_TYPE_LIST_ALL, RaceType } from '../../utility/raceType';
 import { ICalendarUseCase } from '../interface/ICalendarUseCase';
 
 /**

@@ -1,4 +1,4 @@
-import { RaceType } from '../raceType';
+import { RaceType } from '../../../../src/utility/raceType';
 
 /**
  * RaceCourseのマスターデータ

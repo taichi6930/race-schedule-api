@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import type { RaceType } from '../raceType';
+import type { RaceType } from '../../../../src/utility/raceType';
 import { type PositionNumber, validatePositionNumber } from './positionNumber';
 import type { RaceCourse } from './raceCourse';
 import { generateRaceId } from './raceId';
