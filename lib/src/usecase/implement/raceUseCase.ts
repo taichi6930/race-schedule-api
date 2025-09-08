@@ -13,13 +13,13 @@ import {
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import { RaceStage } from '../../utility/validateAndType/raceStage';
-import { IRaceUseCase } from '../interface/IRaceUseCase';
+import { IRaceUseCaseForAWS } from '../interface/IRaceUseCase';
 
 /**
  * 公営競技のレースデータUseCase
  */
 @injectable()
-export class RaceUseCase implements IRaceUseCase {
+export class RaceUseCase implements IRaceUseCaseForAWS {
     public constructor(
         @inject('PlaceService')
         private readonly placeService: IPlaceService,

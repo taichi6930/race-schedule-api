@@ -7,7 +7,7 @@ import { RaceUseCase } from '../../src/usecase/implement/raceUseCase';
 import type { IPlaceUseCase } from '../../src/usecase/interface/IPlaceUseCase';
 import type { IPlayerDataUseCaseForAWS } from '../../src/usecase/interface/IPlayerDataUseCase';
 import type { IRaceCalendarUseCase } from '../../src/usecase/interface/IRaceCalendarUseCase';
-import type { IRaceUseCase } from '../../src/usecase/interface/IRaceUseCase';
+import type { IRaceUseCaseForAWS } from '../../src/usecase/interface/IRaceUseCase';
 
 container.register<IRaceCalendarUseCase>('CalendarUseCase', {
     useClass: CalendarUseCase,
@@ -15,7 +15,7 @@ container.register<IRaceCalendarUseCase>('CalendarUseCase', {
 container.register<IPlaceUseCase>('PlaceUseCase', {
     useClass: PlaceUseCase,
 });
-container.register<IRaceUseCase>('RaceUseCase', {
+container.register<IRaceUseCaseForAWS>('RaceUseCase', {
     useClass: RaceUseCase,
 });
 container.register<IPlayerDataUseCaseForAWS>('PlayerUseCase', {

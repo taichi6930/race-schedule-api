@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { IPlaceUseCase } from '../usecase/interface/IPlaceUseCase';
 import { IPlayerDataUseCaseForAWS } from '../usecase/interface/IPlayerDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
-import { IRaceUseCase } from '../usecase/interface/IRaceUseCase';
+import { IRaceUseCaseForAWS } from '../usecase/interface/IRaceUseCase';
 import { Logger } from '../utility/logger';
 import { convertRaceTypeList, RaceType } from '../utility/raceType';
 import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
@@ -22,7 +22,7 @@ export class PublicGamblingControllerFromAWS {
         @inject('PlaceUseCase')
         private readonly placeUseCase: IPlaceUseCase,
         @inject('RaceUseCase')
-        private readonly raceDataUseCase: IRaceUseCase,
+        private readonly raceDataUseCase: IRaceUseCaseForAWS,
         @inject('PlayerUseCase')
         private readonly playerUseCase: IPlayerDataUseCaseForAWS,
     ) {
