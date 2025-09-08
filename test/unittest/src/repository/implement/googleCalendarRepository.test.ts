@@ -2,9 +2,9 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
-import { GoogleCalendarRepository } from '../../../../../lib/src/repository/implement/googleCalendarRepository';
-import type { ICalendarRepository } from '../../../../../lib/src/repository/interface/ICalendarRepository';
+import { SearchCalendarFilterEntityForAWS } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
+import { GoogleCalendarRepositoryForAWS } from '../../../../../lib/src/repository/implement/googleCalendarRepository';
+import type { ICalendarRepositoryForAWS } from '../../../../../lib/src/repository/interface/ICalendarRepository';
 import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
 import {
     clearMocks,
@@ -20,12 +20,12 @@ import {
 } from '../../mock/common/baseCommonData';
 
 describe('GoogleCalendarRepository', () => {
-    let repository: ICalendarRepository;
+    let repository: ICalendarRepositoryForAWS;
     let gatewaySetup: TestGatewaySetup;
 
     beforeEach(() => {
         gatewaySetup = setupTestGatewayMock();
-        repository = container.resolve(GoogleCalendarRepository);
+        repository = container.resolve(GoogleCalendarRepositoryForAWS);
     });
 
     afterEach(() => {
@@ -33,7 +33,7 @@ describe('GoogleCalendarRepository', () => {
     });
 
     it('カレンダー情報が正常に取得できること', async () => {
-        const searchFilter = new SearchCalendarFilterEntity(
+        const searchFilter = new SearchCalendarFilterEntityForAWS(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
             testRaceTypeListAll,
@@ -56,7 +56,7 @@ describe('GoogleCalendarRepository', () => {
             new Error('API Error'),
         );
 
-        const searchFilter = new SearchCalendarFilterEntity(
+        const searchFilter = new SearchCalendarFilterEntityForAWS(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
             testRaceTypeListAll,

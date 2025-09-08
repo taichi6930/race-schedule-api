@@ -2,17 +2,22 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { isRaceType, validateRaceType } from '../../lib/src/utility/raceType';
+import {
+    isRaceType,
+    RaceType,
+    validateRaceType,
+} from '../../lib/src/utility/raceType';
+import { SpecifiedGradeList } from '../../lib/src/utility/validateAndType/gradeType';
 import { SearchRaceFilterEntity } from '../repository/entity/searchRaceFilterEntity';
-import { IRaceUseCase } from '../usecase/interface/IRaceUsecase';
+import { ICalendarUseCase } from '../usecase/interface/ICalendarUseCase';
 import { CommonParameter } from '../utility/commonParameter';
 import { Logger } from '../utility/logger';
 
 @injectable()
-export class RaceController {
+export class CalendarController {
     public constructor(
-        @inject('RaceUsecase')
-        private readonly usecase: IRaceUseCase,
+        @inject('CalendarUsecase')
+        private readonly usecase: ICalendarUseCase,
     ) {}
 
     // CORS設定
@@ -27,7 +32,7 @@ export class RaceController {
      * @param commonParameter - 共通パラメータ
      */
     @Logger
-    public async getRaceEntityList(
+    public async getCalendarEntityList(
         commonParameter: CommonParameter,
     ): Promise<Response> {
         const raceTypeParam = commonParameter.searchParams.get('raceType');
@@ -66,7 +71,7 @@ export class RaceController {
             raceType,
         );
 
-        const raceEntityList = await this.usecase.fetchRaceEntityList(
+        const raceEntityList = await this.usecase.fetchCalendarRaceList(
             commonParameter,
             searchRaceFilter,
         );
@@ -86,7 +91,7 @@ export class RaceController {
      * @param commonParameter - 共通パラメータ
      */
     @Logger
-    public async postUpsertRace(
+    public async postUpsertCalendar(
         request: Request,
         commonParameter: CommonParameter,
     ): Promise<Response> {
@@ -130,9 +135,17 @@ export class RaceController {
                 validRaceType,
             );
 
-            await this.usecase.upsertRaceEntityList(
+            await this.usecase.updateCalendarRaceData(
                 commonParameter,
                 searchRaceFilter,
+                {
+                    [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
+                    [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),
+                    [RaceType.OVERSEAS]: SpecifiedGradeList(RaceType.OVERSEAS),
+                    [RaceType.KEIRIN]: SpecifiedGradeList(RaceType.KEIRIN),
+                    [RaceType.AUTORACE]: SpecifiedGradeList(RaceType.AUTORACE),
+                    [RaceType.BOATRACE]: SpecifiedGradeList(RaceType.BOATRACE),
+                },
             );
 
             return new Response('OK', {

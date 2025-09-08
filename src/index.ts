@@ -1,30 +1,34 @@
 import 'reflect-metadata';
 
-import type { D1Database } from '@cloudflare/workers-types';
 import { container } from 'tsyringe';
 
-import type { CommonParameter } from './commonParameter';
+import { CalendarController } from './controller/calendarController';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
+import { GoogleCalendarGateway } from './gateway/googleCalendarGateway';
+import type { ICalendarGateway } from './gateway/iCalendarGateway';
 import type { IRaceDataHtmlGateway } from './gateway/iRaceDataHtmlGateway';
 import { RaceDataHtmlGateway } from './gateway/raceDataHtmlGateway';
+import { GoogleCalendarRepository } from './repository/implement/googleCalendarRepository';
 import { OverseasRaceRepositoryFromHtml } from './repository/implement/overseasRaceRepositoryFromHtml';
 import { PlayerRepository } from './repository/implement/playerRepository';
 import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryStorage';
+import type { ICalendarRepository } from './repository/interface/ICalendarRepository';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
 import type { IRaceRepository } from './repository/interface/IRaceRepository';
+import { CalendarService } from './service/implement/calendarService';
 import { PlayerService } from './service/implement/playerService';
 import { RaceService } from './service/implement/raceService';
+import type { ICalendarService } from './service/interface/ICalendarService';
 import type { IPlayerService } from './service/interface/IPlayerService';
 import type { IRaceService } from './service/interface/IRaceService';
+import { CalendarUseCase } from './usecase/implement/calendarUseCase';
 import { PlayerUseCase } from './usecase/implement/playerUsecase';
 import { RaceUseCase } from './usecase/implement/raceUsecase';
+import type { ICalendarUseCase } from './usecase/interface/ICalendarUseCase';
 import type { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
 import type { IRaceUseCase } from './usecase/interface/IRaceUsecase';
-
-export interface Env {
-    DB: D1Database;
-}
+import type { CloudFlareEnv, CommonParameter } from './utility/commonParameter';
 
 // DI登録
 container.register<IPlayerRepository>('PlayerRepository', {
@@ -53,8 +57,21 @@ container.register<IRaceUseCase>('RaceUsecase', {
     useClass: RaceUseCase,
 });
 
+container.register<ICalendarGateway>('GoogleCalendarGateway', {
+    useClass: GoogleCalendarGateway,
+});
+container.register<ICalendarRepository>('CalendarRepository', {
+    useClass: GoogleCalendarRepository,
+});
+container.register<ICalendarService>('CalendarService', {
+    useClass: CalendarService,
+});
+container.register<ICalendarUseCase>('CalendarUsecase', {
+    useClass: CalendarUseCase,
+});
+
 export default {
-    async fetch(request: Request, env: Env): Promise<Response> {
+    async fetch(request: Request, env: CloudFlareEnv): Promise<Response> {
         const url = new URL(request.url);
         const { pathname, searchParams } = url;
 
@@ -73,6 +90,7 @@ export default {
 
         const playerController = container.resolve(PlayerController);
         const raceController = container.resolve(RaceController);
+        const calendarController = container.resolve(CalendarController);
 
         try {
             if (pathname === '/players' && request.method === 'GET') {
@@ -94,6 +112,19 @@ export default {
 
             if (pathname === '/race' && request.method === 'POST') {
                 return await raceController.postUpsertRace(
+                    request,
+                    commonParameter,
+                );
+            }
+
+            if (pathname === '/calendar' && request.method === 'GET') {
+                return await calendarController.getCalendarEntityList(
+                    commonParameter,
+                );
+            }
+
+            if (pathname === '/calendar' && request.method === 'POST') {
+                return await calendarController.postUpsertCalendar(
                     request,
                     commonParameter,
                 );

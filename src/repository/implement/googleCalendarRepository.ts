@@ -2,47 +2,48 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import type { CalendarData } from '../../domain/calendarData';
-import type { ICalendarGatewayForAWS } from '../../gateway/interface/iCalendarGateway';
+import { CalendarData } from '../../../lib/src/domain/calendarData';
+import { ICalendarGateway } from '../../gateway/iCalendarGateway';
+import { CommonParameter } from '../../utility/commonParameter';
 import {
     fromGoogleCalendarDataToCalendarData,
-    toGoogleCalendarDataForAWS,
+    toGoogleCalendarData,
 } from '../../utility/googleCalendar';
 import { Logger } from '../../utility/logger';
-import { RaceEntityForAWS } from '../entity/raceEntity';
-import { SearchCalendarFilterEntityForAWS } from '../entity/searchCalendarFilterEntity';
-import type { ICalendarRepositoryForAWS } from '../interface/ICalendarRepository';
+import { RaceEntity } from '../entity/raceEntity';
+import { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
+import { ICalendarRepository } from '../interface/ICalendarRepository';
 
 /**
  * Googleカレンダーリポジトリの実装
  */
 @injectable()
-export class GoogleCalendarRepositoryForAWS
-    implements ICalendarRepositoryForAWS
-{
+export class GoogleCalendarRepository implements ICalendarRepository {
     public constructor(
         @inject('GoogleCalendarGateway')
-        protected readonly googleCalendarGateway: ICalendarGatewayForAWS,
+        protected readonly googleCalendarGateway: ICalendarGateway,
     ) {}
 
     /**
      * カレンダーのイベントの取得を行う
      * @param raceTypeList - レース種別のリスト
+     * @param commonParameter
      * @param searchFilter
      */
     @Logger
     public async getEvents(
-        searchFilter: SearchCalendarFilterEntityForAWS,
+        commonParameter: CommonParameter,
+        searchFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
+        const raceTypeList = [searchFilter.raceType];
         const calendarDataList: CalendarData[] = [];
-        for (const raceType of searchFilter.raceTypeList) {
+        for (const raceType of raceTypeList) {
             // GoogleカレンダーAPIからイベントを取得
             try {
                 const _calendarDataList =
                     await this.googleCalendarGateway.fetchCalendarDataList(
-                        raceType,
-                        searchFilter.startDate,
-                        searchFilter.finishDate,
+                        commonParameter,
+                        searchFilter,
                     );
                 calendarDataList.push(
                     ..._calendarDataList.map((calendarData) =>
@@ -64,11 +65,13 @@ export class GoogleCalendarRepositoryForAWS
 
     /**
      * カレンダーのイベントの更新を行う
+     * @param commonParameter
      * @param raceEntityList
      */
     @Logger
     public async upsertEvents(
-        raceEntityList: RaceEntityForAWS[],
+        commonParameter: CommonParameter,
+        raceEntityList: RaceEntity[],
     ): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(
@@ -79,6 +82,7 @@ export class GoogleCalendarRepositoryForAWS
                     try {
                         await this.googleCalendarGateway
                             .fetchCalendarData(
+                                commonParameter,
                                 raceEntity.raceData.raceType,
                                 raceEntity.id,
                             )
@@ -95,12 +99,14 @@ export class GoogleCalendarRepositoryForAWS
                     // 既存のデータがあれば更新、なければ新規登録
                     await (isExist
                         ? this.googleCalendarGateway.updateCalendarData(
+                              commonParameter,
                               raceEntity.raceData.raceType,
-                              toGoogleCalendarDataForAWS(raceEntity),
+                              toGoogleCalendarData(raceEntity),
                           )
                         : this.googleCalendarGateway.insertCalendarData(
+                              commonParameter,
                               raceEntity.raceData.raceType,
-                              toGoogleCalendarDataForAWS(raceEntity),
+                              toGoogleCalendarData(raceEntity),
                           ));
                 } catch (error) {
                     console.error(
@@ -114,14 +120,19 @@ export class GoogleCalendarRepositoryForAWS
 
     /**
      * カレンダーのイベントの削除を行う
+     * @param commonParameter
      * @param calendarDataList
      */
     @Logger
-    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
+    public async deleteEvents(
+        commonParameter: CommonParameter,
+        calendarDataList: CalendarData[],
+    ): Promise<void> {
         await Promise.all(
             calendarDataList.map(async (calendarData) => {
                 try {
                     await this.googleCalendarGateway.deleteCalendarData(
+                        commonParameter,
                         calendarData.raceType,
                         calendarData.id,
                     );

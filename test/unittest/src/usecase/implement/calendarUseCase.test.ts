@@ -5,8 +5,8 @@ import { afterEach } from 'node:test';
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../../lib/src/domain/calendarData';
-import { CalendarUseCase } from '../../../../../lib/src/usecase/implement/calendarUseCase';
-import type { IRaceCalendarUseCase } from '../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
+import { CalendarUseCaseForAWS } from '../../../../../lib/src/usecase/implement/calendarUseCase';
+import type { IRaceCalendarUseCaseForAWS } from '../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
 import { RaceType } from '../../../../../lib/src/utility/raceType';
 import { SpecifiedGradeList } from '../../../../../lib/src/utility/validateAndType/gradeType';
 import type { TestServiceSetup } from '../../../../utility/testSetupHelper';
@@ -23,11 +23,11 @@ import {
 
 describe('RaceCalendarUseCase', () => {
     let serviceSetup: TestServiceSetup;
-    let useCase: IRaceCalendarUseCase;
+    let useCase: IRaceCalendarUseCaseForAWS;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();
-        useCase = container.resolve(CalendarUseCase);
+        useCase = container.resolve(CalendarUseCaseForAWS);
     });
 
     afterEach(() => {

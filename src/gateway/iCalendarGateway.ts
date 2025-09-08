@@ -1,6 +1,8 @@
 import type { calendar_v3 } from 'googleapis';
 
-import type { RaceType } from '../../utility/raceType';
+import type { RaceType } from '../../lib/src/utility/raceType';
+import type { SearchCalendarFilterEntity } from '../repository/entity/searchCalendarFilterEntity';
+import type { CommonParameter } from '../utility/commonParameter';
 
 /**
  * Googleカレンダーとの連携を担当するゲートウェイインターフェース
@@ -22,7 +24,7 @@ import type { RaceType } from '../../utility/raceType';
  * - 認証情報の適切な管理が必要です
  * - タイムゾーンの正確な処理が重要です
  */
-export interface ICalendarGatewayForAWS {
+export interface ICalendarGateway {
     /**
      * 指定された期間のカレンダーイベントを一括取得します
      *
@@ -40,9 +42,8 @@ export interface ICalendarGatewayForAWS {
      *               - 認証/認可エラー
      */
     fetchCalendarDataList: (
-        raceType: RaceType,
-        startDate: Date,
-        finishDate: Date,
+        commonParameter: CommonParameter,
+        searchCalendarFilter: SearchCalendarFilterEntity,
     ) => Promise<calendar_v3.Schema$Event[]>;
 
     /**
@@ -59,6 +60,7 @@ export interface ICalendarGatewayForAWS {
      *               - 認証/認可エラー
      */
     fetchCalendarData: (
+        commonParameter: CommonParameter,
         raceType: RaceType,
         eventId: string,
     ) => Promise<calendar_v3.Schema$Event>;
@@ -84,6 +86,7 @@ export interface ICalendarGatewayForAWS {
      *               - 認証/認可エラー
      */
     updateCalendarData: (
+        commonParameter: CommonParameter,
         raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
     ) => Promise<void>;
@@ -110,6 +113,7 @@ export interface ICalendarGatewayForAWS {
      *               - 認証/認可エラー
      */
     insertCalendarData: (
+        commonParameter: CommonParameter,
         raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
     ) => Promise<void>;
@@ -131,5 +135,9 @@ export interface ICalendarGatewayForAWS {
      *               - API呼び出しに失敗
      *               - 認証/認可エラー
      */
-    deleteCalendarData: (raceType: RaceType, eventId: string) => Promise<void>;
+    deleteCalendarData: (
+        commonParameter: CommonParameter,
+        raceType: RaceType,
+        eventId: string,
+    ) => Promise<void>;
 }

@@ -5,13 +5,13 @@ import { IPlaceService } from '../../service/interface/IPlaceService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { IPlaceUseCase } from '../interface/IPlaceUseCase';
+import { IPlaceUseCaseForAWS } from '../interface/IPlaceUseCase';
 
 /**
  * 公営競技の開催場データ UseCase
  */
 @injectable()
-export class PlaceUseCase implements IPlaceUseCase {
+export class PlaceUseCaseForAWS implements IPlaceUseCaseForAWS {
     public constructor(
         @inject('PlaceService')
         private readonly placeService: IPlaceService,

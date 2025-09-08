@@ -1,0 +1,154 @@
+import 'reflect-metadata'; // reflect-metadataをインポート
+
+import { inject, injectable } from 'tsyringe';
+
+import { CalendarData } from '../../../lib/src/domain/calendarData';
+import { DataLocation } from '../../../lib/src/utility/dataType';
+import {
+    RACE_TYPE_LIST_ALL,
+    RaceType,
+} from '../../../lib/src/utility/raceType';
+import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
+import { RaceEntity } from '../../repository/entity/raceEntity';
+import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
+import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IRaceService } from '../../service/interface/IRaceService';
+import { CommonParameter } from '../../utility/commonParameter';
+import { Logger } from '../../utility/logger';
+import { ICalendarUseCase } from '../interface/ICalendarUseCase';
+
+/**
+ * 公営競技のレースカレンダーユースケース
+ */
+@injectable()
+export class CalendarUseCase implements ICalendarUseCase {
+    public constructor(
+        @inject('CalendarService')
+        private readonly calendarService: ICalendarService,
+        @inject('RaceService')
+        private readonly raceService: IRaceService,
+    ) {}
+
+    /**
+     * カレンダーからレース情報の取得を行う
+     * @param commonParameter
+     * @param startDate
+     * @param finishDate
+     * @param raceTypeList - レース種別のリスト
+     * @param searchCalendarFilter
+     */
+    @Logger
+    public async fetchCalendarRaceList(
+        commonParameter: CommonParameter,
+        searchCalendarFilter: SearchCalendarFilterEntity,
+    ): Promise<CalendarData[]> {
+        const calendarDataList: CalendarData[] = [];
+        calendarDataList.push(
+            ...(await this.calendarService.fetchEvents(
+                commonParameter,
+                searchCalendarFilter,
+            )),
+        );
+        return calendarDataList;
+    }
+
+    /**
+     * カレンダーの更新を行う
+     * @param commonParameter
+     * @param startDate
+     * @param finishDate
+     * @param raceTypeList
+     * @param displayGradeList
+     * @param searchCalendarFilter
+     */
+    @Logger
+    public async updateCalendarRaceData(
+        commonParameter: CommonParameter,
+        searchCalendarFilter: SearchCalendarFilterEntity,
+        displayGradeList: {
+            [RaceType.JRA]: GradeType[];
+            [RaceType.NAR]: GradeType[];
+            [RaceType.OVERSEAS]: GradeType[];
+            [RaceType.KEIRIN]: GradeType[];
+            [RaceType.AUTORACE]: GradeType[];
+            [RaceType.BOATRACE]: GradeType[];
+        },
+    ): Promise<void> {
+        // レース情報を取得する
+        const raceEntityList = await this.raceService.fetchRaceEntityList(
+            commonParameter,
+            searchCalendarFilter,
+            DataLocation.Storage,
+        );
+
+        // フラット化して単一の RaceEntity[] にする（後続のオブジェクト型 filteredRaceEntityList と名前衝突しないよう別名）
+        const filteredRaceEntityList: RaceEntity[] = [
+            RaceType.OVERSEAS,
+        ].flatMap((raceType) =>
+            raceEntityList.filter(
+                (raceEntity) =>
+                    raceEntity.raceData.raceType === raceType &&
+                    displayGradeList[raceType].includes(
+                        raceEntity.raceData.grade,
+                    ),
+            ),
+        );
+        // カレンダーの取得を行う
+        const calendarDataList: CalendarData[] =
+            await this.calendarService.fetchEvents(
+                commonParameter,
+                searchCalendarFilter,
+            );
+
+        const deleteCalendarDataList = Object.fromEntries(
+            RACE_TYPE_LIST_ALL.map((raceType) => [
+                raceType,
+                calendarDataList.filter(
+                    (calendarData: CalendarData) =>
+                        calendarData.raceType === raceType &&
+                        !filteredRaceEntityList
+                            .filter(
+                                (raceEntity) =>
+                                    raceEntity.raceData.raceType === raceType,
+                            )
+                            .some(
+                                (raceEntity: RaceEntity) =>
+                                    raceEntity.id === calendarData.id,
+                            ),
+                ),
+            ]),
+        );
+
+        await this.calendarService.deleteEvents(
+            commonParameter,
+            RACE_TYPE_LIST_ALL.flatMap(
+                (raceType) => deleteCalendarDataList[raceType],
+            ),
+        );
+
+        // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
+        const upsertRaceEntityList: RaceEntity[] = RACE_TYPE_LIST_ALL.flatMap(
+            (raceType) =>
+                filteredRaceEntityList
+                    .filter(
+                        (raceEntity) =>
+                            raceEntity.raceData.raceType === raceType,
+                    )
+                    .filter(
+                        (raceEntity: RaceEntity) =>
+                            !deleteCalendarDataList[
+                                raceType as keyof typeof deleteCalendarDataList
+                            ].some(
+                                (deleteCalendarData: CalendarData) =>
+                                    deleteCalendarData.id === raceEntity.id &&
+                                    deleteCalendarData.raceType === raceType,
+                            ),
+                    ),
+        );
+
+        await this.calendarService.upsertEvents(
+            commonParameter,
+            upsertRaceEntityList,
+        );
+    }
+}

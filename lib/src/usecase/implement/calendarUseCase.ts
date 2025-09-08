@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
 import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
+import { ICalendarServiceForAWS } from '../../service/interface/ICalendarService';
 import { IPlayerService } from '../../service/interface/IPlayerService';
 import { IRaceService } from '../../service/interface/IRaceService';
 import { RaceGradeAndStageList } from '../../utility/data/stage';
@@ -18,16 +18,16 @@ import {
     RaceType,
 } from '../../utility/raceType';
 import { GradeType } from '../../utility/validateAndType/gradeType';
-import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
+import { IRaceCalendarUseCaseForAWS } from '../interface/IRaceCalendarUseCase';
 
 /**
  * 公営競技のレースカレンダーユースケース
  */
 @injectable()
-export class CalendarUseCase implements IRaceCalendarUseCase {
+export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
     public constructor(
         @inject('CalendarService')
-        private readonly calendarService: ICalendarService,
+        private readonly calendarService: ICalendarServiceForAWS,
         @inject('RaceService')
         private readonly raceService: IRaceService,
         @inject('PlayerDataService')

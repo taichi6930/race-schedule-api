@@ -5,11 +5,11 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
-import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
-import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
+import { SearchCalendarFilterEntityForAWS } from '../../repository/entity/searchCalendarFilterEntity';
+import { ICalendarRepositoryForAWS } from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { ICalendarService } from '../interface/ICalendarService';
+import { ICalendarServiceForAWS } from '../interface/ICalendarService';
 
 /**
  * 公営競技レース情報をGoogleカレンダーと同期するサービス
@@ -17,10 +17,10 @@ import { ICalendarService } from '../interface/ICalendarService';
  * カレンダーイベントの取得・登録・削除などの共通機能を提供します。
  */
 @injectable()
-export class CalendarService implements ICalendarService {
+export class CalendarServiceForAWS implements ICalendarServiceForAWS {
     public constructor(
         @inject('CalendarRepository')
-        protected readonly calendarRepository: ICalendarRepository,
+        protected readonly calendarRepository: ICalendarRepositoryForAWS,
     ) {}
 
     /**
@@ -36,7 +36,7 @@ export class CalendarService implements ICalendarService {
         finishDate: Date,
         raceTypeList: RaceType[],
     ): Promise<CalendarData[]> {
-        const searchFilter = new SearchCalendarFilterEntity(
+        const searchFilter = new SearchCalendarFilterEntityForAWS(
             startDate,
             finishDate,
             raceTypeList,

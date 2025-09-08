@@ -1,4 +1,4 @@
-import type { CommonParameter } from '../../commonParameter';
+import type { CommonParameter } from '../../utility/commonParameter';
 import type { PlayerEntity } from '../entity/playerEntity';
 
 export interface IPlayerRepository {

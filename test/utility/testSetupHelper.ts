@@ -2,12 +2,12 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { ICalendarGateway } from '../../lib/src/gateway/interface/iCalendarGateway';
+import type { ICalendarGatewayForAWS } from '../../lib/src/gateway/interface/iCalendarGateway';
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
-import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
+import type { ICalendarRepositoryForAWS } from '../../lib/src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepositoryForAWS } from '../../lib/src/repository/interface/IRaceRepositoryForAWS';
-import type { ICalendarService } from '../../lib/src/service/interface/ICalendarService';
+import type { ICalendarServiceForAWS } from '../../lib/src/service/interface/ICalendarService';
 import type { IPlaceService } from '../../lib/src/service/interface/IPlaceService';
 import type { IPlayerService } from '../../lib/src/service/interface/IPlayerService';
 import type { IRaceService } from '../../lib/src/service/interface/IRaceService';
@@ -32,7 +32,7 @@ export function clearMocks(): void {
  * テスト用のセットアップ
  */
 export interface TestRepositorySetup {
-    calendarRepository: jest.Mocked<ICalendarRepository>;
+    calendarRepository: jest.Mocked<ICalendarRepositoryForAWS>;
     placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
     placeRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepositoryForAWS>;
@@ -49,12 +49,12 @@ export interface TestRepositorySetup {
  * テスト用のセットアップ
  */
 export interface TestGatewaySetup {
-    googleCalendarGateway: jest.Mocked<ICalendarGateway>;
+    googleCalendarGateway: jest.Mocked<ICalendarGatewayForAWS>;
     s3Gateway: jest.Mocked<IS3Gateway>;
 }
 
 export interface TestServiceSetup {
-    calendarService: jest.Mocked<ICalendarService>;
+    calendarService: jest.Mocked<ICalendarServiceForAWS>;
     raceService: jest.Mocked<IRaceService>;
     placeService: jest.Mocked<IPlaceService>;
     playerService: jest.Mocked<IPlayerService>;
@@ -160,7 +160,7 @@ export function setupTestGatewayMock(): TestGatewaySetup {
  */
 export function setupTestServiceMock(): TestServiceSetup {
     const calendarService = calendarServiceMock();
-    container.registerInstance<ICalendarService>(
+    container.registerInstance<ICalendarServiceForAWS>(
         'CalendarService',
         calendarService,
     );

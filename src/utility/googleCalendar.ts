@@ -1,36 +1,25 @@
-export const getGoogleCalendarColorId = (
-    raceType: RaceType,
-    gradeType: GradeType,
-): GoogleCalendarColorIdType => {
-    return (
-        GoogleCalendarColorIdMap[raceType][gradeType] ??
-        GoogleCalendarColorId.GRAPHITE
-    );
-};
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import { CalendarData } from '../domain/calendarData';
-import type { RaceEntityForAWS } from '../repository/entity/raceEntity';
+import { CalendarData } from '../../lib/src/domain/calendarData';
 import {
     createYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
     NarYoutubeUserIdMap,
-} from './data/movie';
-import { NetkeibaBabacodeMap } from './data/netkeiba';
+} from '../../lib/src/utility/data/movie';
+import { NetkeibaBabacodeMap } from '../../lib/src/utility/data/netkeiba';
 import {
-    createNetkeibaJraRaceVideoUrl,
-    createNetkeibaJraShutubaUrl,
     createNetkeibaNarShutubaUrl,
     createNetkeibaRedirectUrl,
     createNetkeirinRaceShutubaUrl,
     createNetkeirinRedirectUrl,
-} from './data/url';
-import { getJSTDate } from './date';
-import { createAnchorTag, formatDate } from './format';
-import { RaceType } from './raceType';
-import type { GradeType } from './validateAndType/gradeType';
-import { createPlaceCode } from './validateAndType/raceCourse';
+} from '../../lib/src/utility/data/url';
+import { getJSTDate } from '../../lib/src/utility/date';
+import { createAnchorTag, formatDate } from '../../lib/src/utility/format';
+import { RaceType } from '../../lib/src/utility/raceType';
+import type { GradeType } from '../../lib/src/utility/validateAndType/gradeType';
+import { createPlaceCode } from '../../lib/src/utility/validateAndType/raceCourse';
+import type { RaceEntity } from '../repository/entity/raceEntity';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール
@@ -143,8 +132,18 @@ const GoogleCalendarColorIdMap = {
     },
 } as Record<RaceType, Record<GradeType, GoogleCalendarColorIdType>>;
 
-export function toGoogleCalendarDataForAWS(
-    raceEntity: RaceEntityForAWS,
+export const getGoogleCalendarColorId = (
+    raceType: RaceType,
+    gradeType: GradeType,
+): GoogleCalendarColorIdType => {
+    return (
+        GoogleCalendarColorIdMap[raceType][gradeType] ??
+        GoogleCalendarColorId.GRAPHITE
+    );
+};
+
+export function toGoogleCalendarData(
+    raceEntity: RaceEntity,
 
     updateDate: Date = new Date(),
 ): calendar_v3.Schema$Event {
@@ -181,7 +180,8 @@ export function toGoogleCalendarDataForAWS(
             case RaceType.KEIRIN:
             case RaceType.AUTORACE:
             case RaceType.BOATRACE: {
-                return raceEntity.stage;
+                throw new Error('Not implemented');
+                // return raceEntity.stage;
             }
         }
     }
@@ -221,23 +221,24 @@ export function toGoogleCalendarDataForAWS(
                     `.replace(/\n\s+/g, '\n');
             }
             case RaceType.JRA: {
-                const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
-                return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
-                ${raceTimeStr}
-                ${createAnchorTag(
-                    'レース情報',
-                    createNetkeibaRedirectUrl(
-                        createNetkeibaJraShutubaUrl(raceIdForNetkeiba),
-                    ),
-                )}
-                ${createAnchorTag(
-                    'レース動画',
-                    createNetkeibaRedirectUrl(
-                        createNetkeibaJraRaceVideoUrl(raceIdForNetkeiba),
-                    ),
-                )}
-                ${updateStr}
-                `.replace(/\n\s+/g, '\n');
+                throw new Error('Not implemented');
+                // const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
+                // return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
+                // ${raceTimeStr}
+                // ${createAnchorTag(
+                //     'レース情報',
+                //     createNetkeibaRedirectUrl(
+                //         createNetkeibaJraShutubaUrl(raceIdForNetkeiba),
+                //     ),
+                // )}
+                // ${createAnchorTag(
+                //     'レース動画',
+                //     createNetkeibaRedirectUrl(
+                //         createNetkeibaJraRaceVideoUrl(raceIdForNetkeiba),
+                //     ),
+                // )}
+                // ${updateStr}
+                // `.replace(/\n\s+/g, '\n');
             }
             case RaceType.NAR: {
                 const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.raceData.dateTime.getXDigitMonth(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
