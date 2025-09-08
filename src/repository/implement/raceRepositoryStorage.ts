@@ -45,9 +45,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             .bind(...queryParams)
             .all();
         return results.map((row: any): RaceEntity => {
-            const dateJST = new Date(
-                new Date(row.date_time).getTime() + 9 * 60 * 60 * 1000,
-            );
+            const dateJST = new Date(new Date(row.date_time));
             return RaceEntity.create(
                 row.id,
                 RaceData.create(
@@ -112,9 +110,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
         for (const entity of entityList) {
             const { id, raceData, conditionData } = entity;
             // JST変換
-            const dateJST = new Date(
-                new Date(raceData.dateTime).getTime() + 9 * 60 * 60 * 1000,
-            );
+            const dateJST = new Date(new Date(raceData.dateTime));
             const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
             await insertStmt
                 .bind(
