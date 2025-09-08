@@ -1,7 +1,7 @@
 import {
     baseConditionData,
     defaultHeldDayData,
-} from '../../../../test/unittest/src/mock/common/baseCommonData';
+} from '../../../../test/old/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';

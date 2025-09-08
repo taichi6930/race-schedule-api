@@ -233,9 +233,9 @@ export default [
             'lib/src/utility/googleCalendar.ts',
             'src/utility/googleCalendar.ts',
             'lib/src/utility/sqlite/settings/dbConfig.ts',
-            'test/unittest/src/mock/common/baseCommonData.ts',
-            'test/unittest/src/repository/implement/placeRepositoryFromStorage.test.ts',
-            'test/unittest/src/repository/implement/raceRepositoryFromStorage.test.ts',
+            'test/**/baseCommonData.ts',
+            'test/**/placeRepositoryFromStorage.test.ts',
+            'test/**/raceRepositoryFromStorage.test.ts',
         ],
         rules: {
             '@typescript-eslint/no-use-before-define': 'off', // 対象ファイル限定で許可
