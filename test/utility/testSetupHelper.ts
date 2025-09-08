@@ -11,15 +11,15 @@ import type { ICalendarServiceForAWS } from '../../lib/src/service/interface/ICa
 import type { IPlaceService } from '../../lib/src/service/interface/IPlaceService';
 import type { IPlayerService } from '../../lib/src/service/interface/IPlayerService';
 import type { IRaceService } from '../../lib/src/service/interface/IRaceService';
-import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
-import { mockS3Gateway } from '../unittest/src/mock/gateway/mockS3Gateway';
-import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
-import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
-import { mockRaceRepository } from '../unittest/src/mock/repository/mockRaceRepository';
-import { calendarServiceMock } from '../unittest/src/mock/service/calendarServiceMock';
-import { placeServiceMock } from '../unittest/src/mock/service/placeServiceMock';
-import { playerDataServiceMock } from '../unittest/src/mock/service/playerDataServiceMock';
-import { raceDataServiceMock } from '../unittest/src/mock/service/raceDataServiceMock';
+import { mockGoogleCalendarGateway } from '../old/unittest/src/mock/gateway/mockGoogleCalendarGateway';
+import { mockS3Gateway } from '../old/unittest/src/mock/gateway/mockS3Gateway';
+import { mockCalendarRepository } from '../old/unittest/src/mock/repository/mockCalendarRepository';
+import { mockPlaceRepository } from '../old/unittest/src/mock/repository/mockPlaceRepository';
+import { mockRaceRepository } from '../old/unittest/src/mock/repository/mockRaceRepository';
+import { calendarServiceMock } from '../old/unittest/src/mock/service/calendarServiceMock';
+import { placeServiceMock } from '../old/unittest/src/mock/service/placeServiceMock';
+import { playerDataServiceMock } from '../old/unittest/src/mock/service/playerDataServiceMock';
+import { raceDataServiceMock } from '../old/unittest/src/mock/service/raceDataServiceMock';
 
 /**
  * afterEach処理の共通化

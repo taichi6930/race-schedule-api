@@ -1,7 +1,7 @@
 import {
     defaultHeldDayData,
     defaultLocation,
-} from '../../../../test/unittest/src/mock/common/baseCommonData';
+} from '../../../../test/old/unittest/src/mock/common/baseCommonData';
 import { PlaceData } from '../../domain/placeData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';

@@ -1,6 +1,6 @@
 import type { calendar_v3 } from 'googleapis';
 
-import { defaultLocation } from '../../../../test/unittest/src/mock/common/baseCommonData';
+import { defaultLocation } from '../../../../test/old/unittest/src/mock/common/baseCommonData';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';

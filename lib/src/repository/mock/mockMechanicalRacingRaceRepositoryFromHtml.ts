@@ -1,4 +1,4 @@
-import { baseRacePlayerDataList } from '../../../../test/unittest/src/mock/common/baseCommonData';
+import { baseRacePlayerDataList } from '../../../../test/old/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
