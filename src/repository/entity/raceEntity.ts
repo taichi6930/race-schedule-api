@@ -1,5 +1,3 @@
-import '../../utility/format';
-
 import type { HorseRaceConditionData } from '../../../lib/src/domain/houseRaceConditionData';
 import type { RaceData } from '../../../lib/src/domain/raceData';
 import { RaceType } from '../../../lib/src/utility/raceType';
