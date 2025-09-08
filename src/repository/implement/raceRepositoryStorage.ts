@@ -4,8 +4,8 @@ import { HorseRaceConditionData } from '../../../lib/src/domain/houseRaceConditi
 import { RaceData } from '../../../lib/src/domain/raceData';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
+import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
-import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 export class RaceRepositoryForStorage implements IRaceRepository {

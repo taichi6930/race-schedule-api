@@ -14,12 +14,12 @@ import {
 } from '../../../lib/src/utility/validateAndType/raceCourse';
 import { validateRaceDistance } from '../../../lib/src/utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../../lib/src/utility/validateAndType/raceSurfaceType';
-import { IRaceDataHtmlGateway } from '../../gateway/iRaceDataHtmlGateway';
+import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
-import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 /**

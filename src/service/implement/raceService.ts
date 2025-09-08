@@ -4,8 +4,8 @@ import {
     DataLocation,
     DataLocationType,
 } from '../../../lib/src/utility/dataType';
+import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
-import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';

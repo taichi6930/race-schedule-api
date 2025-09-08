@@ -5,10 +5,10 @@ import {
     createKeirinRaceUrl,
     createNarRaceUrl,
     createOverseasRaceUrl,
-} from '../../lib/src/utility/data/url';
-import type { RaceCourse } from '../../lib/src/utility/validateAndType/raceCourse';
-import { RaceType } from '../utility/raceType';
-import type { IRaceDataHtmlGateway } from './iRaceDataHtmlGateway';
+} from '../../../lib/src/utility/data/url';
+import type { RaceCourse } from '../../../lib/src/utility/validateAndType/raceCourse';
+import { RaceType } from '../../utility/raceType';
+import type { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
 
 /**
  * レースデータのHTMLを取得するGateway

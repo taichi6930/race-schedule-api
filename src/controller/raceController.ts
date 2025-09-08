@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { SearchRaceFilterEntity } from '../repository/entity/searchRaceFilterEntity';
+import { SearchRaceFilterEntity } from '../repository/entity/filter/searchRaceFilterEntity';
 import { IRaceUseCase } from '../usecase/interface/IRaceUsecase';
 import { CommonParameter } from '../utility/commonParameter';
 import { Logger } from '../utility/logger';

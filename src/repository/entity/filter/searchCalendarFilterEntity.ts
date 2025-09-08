@@ -1,6 +1,6 @@
-import type { RaceType } from '../../utility/raceType';
+import type { RaceType } from '../../../utility/raceType';
 
-export class SearchRaceFilterEntity {
+export class SearchCalendarFilterEntity {
     public constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,

@@ -1,6 +1,6 @@
 import type { CommonParameter } from '../../utility/commonParameter';
+import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import type { RaceEntity } from '../entity/raceEntity';
-import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 
 export interface IRaceRepository {
     fetchRaceEntityList: (

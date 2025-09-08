@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../../lib/src/domain/calendarData';
+import { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
-import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
