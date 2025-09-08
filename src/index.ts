@@ -123,6 +123,13 @@ export default {
                 );
             }
 
+            if (pathname === '/calendar' && request.method === 'POST') {
+                return await calendarController.postUpsertCalendar(
+                    request,
+                    commonParameter,
+                );
+            }
+
             // 404 Not Found
             return Response.json(
                 { error: 'エンドポイントが見つかりません' },

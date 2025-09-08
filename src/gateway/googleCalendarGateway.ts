@@ -162,7 +162,6 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         }
     }
 
-    @Logger
     private async getCalendarId(
         raceType: RaceType,
         env: CloudFlareEnv,
