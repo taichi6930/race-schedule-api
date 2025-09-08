@@ -109,7 +109,8 @@ export class CalendarController {
             const body: any = await request.json();
             if (
                 !body ||
-                typeof body.raceType !== 'string' ||
+                (typeof body.raceType !== 'string' &&
+                    !Array.isArray(body.raceType)) ||
                 typeof body.startDate !== 'string' ||
                 typeof body.finishDate !== 'string'
             ) {
