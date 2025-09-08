@@ -6,7 +6,7 @@ import { BoatraceRaceRepositoryFromHtml } from '../../src/repository/implement/r
 import { JraRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
 import { KeirinRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
-import { OverseasRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtml';
+import { OverseasRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
 import { MockHorseRacingRaceRepositoryFromHtml } from '../../src/repository/mock/mockHorseRacingRaceRepositoryFromHtml';
@@ -35,7 +35,7 @@ switch (ENV) {
             useClass: PlaceRepositoryFromHtml,
         });
         container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
-            useClass: OverseasRaceRepositoryFromHtml,
+            useClass: OverseasRaceRepositoryFromHtmlForAWS,
         });
         container.register<IRaceRepository>('AutoraceRaceRepositoryFromHtml', {
             useClass: AutoraceRaceRepositoryFromHtml,

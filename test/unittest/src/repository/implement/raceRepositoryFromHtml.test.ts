@@ -14,7 +14,7 @@ import { BoatraceRaceRepositoryFromHtml } from '../../../../../lib/src/repositor
 import { JraRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
 import { KeirinRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
-import { OverseasRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtml';
+import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IRaceRepository } from '../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../lib/src/utility/env';
@@ -63,7 +63,7 @@ const testCases = {
     [RaceType.OVERSEAS]: [
         {
             name: 'OverseasRaceRepositoryFromHtml',
-            repositoryClass: OverseasRaceRepositoryFromHtml,
+            repositoryClass: OverseasRaceRepositoryFromHtmlForAWS,
             startDate: new Date('2025-05-01'),
             endDate: new Date('2025-06-30'),
             placeName: 'パリロンシャン',
@@ -72,7 +72,7 @@ const testCases = {
         },
         {
             name: 'OverseasRaceRepositoryFromHtml',
-            repositoryClass: OverseasRaceRepositoryFromHtml,
+            repositoryClass: OverseasRaceRepositoryFromHtmlForAWS,
             startDate: new Date('2025-06-01'),
             endDate: new Date('2025-07-31'),
             placeName: 'パリロンシャン',
