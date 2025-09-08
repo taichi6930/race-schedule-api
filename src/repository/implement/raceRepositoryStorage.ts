@@ -3,11 +3,13 @@ import { formatDate } from 'date-fns';
 import { HorseRaceConditionData } from '../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../lib/src/domain/raceData';
 import type { CommonParameter } from '../../commonParameter';
+import { Logger } from '../../utility/logger';
 import { RaceEntity } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 export class RaceRepositoryForStorage implements IRaceRepository {
+    @Logger
     public async fetchRaceEntityList(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,

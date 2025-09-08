@@ -6,10 +6,9 @@ import {
     createNarRaceUrl,
     createOverseasRaceUrl,
 } from '../../lib/src/utility/data/url';
-import { Logger } from '../../lib/src/utility/logger';
 import { RaceType } from '../../lib/src/utility/raceType';
-import { RaceCourse } from '../../lib/src/utility/validateAndType/raceCourse';
-import { IRaceDataHtmlGateway } from './iRaceDataHtmlGateway';
+import type { RaceCourse } from '../../lib/src/utility/validateAndType/raceCourse';
+import type { IRaceDataHtmlGateway } from './iRaceDataHtmlGateway';
 
 /**
  * レースデータのHTMLを取得するGateway
@@ -51,7 +50,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
      * @param number - レース番号
      * @returns Promise<string> - レースデータのHTML
      */
-    @Logger
+
     public async getRaceDataHtml(
         raceType: RaceType,
         date: Date,

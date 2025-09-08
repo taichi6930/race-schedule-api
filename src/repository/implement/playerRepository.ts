@@ -1,8 +1,10 @@
 import type { CommonParameter } from '../../commonParameter';
+import { Logger } from '../../utility/logger';
 import { PlayerEntity } from '../entity/playerEntity';
 import type { IPlayerRepository } from '../interface/IPlayerRepository';
 
 export class PlayerRepository implements IPlayerRepository {
+    @Logger
     public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<PlayerEntity[]> {
@@ -47,6 +49,7 @@ export class PlayerRepository implements IPlayerRepository {
         );
     }
 
+    @Logger
     public async upsertPlayerEntityList(
         commonParameter: CommonParameter,
         entityList: PlayerEntity[],

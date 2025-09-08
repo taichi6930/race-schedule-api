@@ -7,7 +7,6 @@ import { inject, injectable } from 'tsyringe';
 import { HorseRaceConditionData } from '../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../lib/src/domain/raceData';
 import { processOverseasRaceName } from '../../../lib/src/utility/createRaceName';
-import { Logger } from '../../../lib/src/utility/logger';
 import { RaceType } from '../../../lib/src/utility/raceType';
 import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import {
@@ -18,6 +17,7 @@ import { validateRaceDistance } from '../../../lib/src/utility/validateAndType/r
 import { RaceSurfaceType } from '../../../lib/src/utility/validateAndType/raceSurfaceType';
 import { CommonParameter } from '../../commonParameter';
 import { IRaceDataHtmlGateway } from '../../gateway/iRaceDataHtmlGateway';
+import { Logger } from '../../utility/logger';
 import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -52,10 +52,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
                 ...(await this.fetchRaceListFromHtml(RaceType.OVERSEAS, month)),
             );
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
-            const delayedTimeMs = Number.parseInt(
-                process.env.HTML_FETCH_DELAY_MS ?? '500',
-                10,
-            );
+            const delayedTimeMs = 1000;
             console.debug(`待機時間: ${delayedTimeMs}ms`);
             await new Promise((resolve) => setTimeout(resolve, delayedTimeMs));
             console.debug('待機時間が経ちました');
@@ -69,6 +66,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
      * @param startDate
      * @param finishDate
      */
+    @Logger
     private generateMonthList(startDate: Date, finishDate: Date): Date[] {
         const monthList: Date[] = [];
         const currentDate = new Date(startDate);

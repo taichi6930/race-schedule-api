@@ -6,6 +6,9 @@ import { container } from 'tsyringe';
 import type { CommonParameter } from './commonParameter';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
+import type { IRaceDataHtmlGateway } from './gateway/iRaceDataHtmlGateway';
+import { RaceDataHtmlGateway } from './gateway/raceDataHtmlGateway';
+import { OverseasRaceRepositoryFromHtml } from './repository/implement/overseasRaceRepositoryFromHtml';
 import { PlayerRepository } from './repository/implement/playerRepository';
 import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryStorage';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
@@ -34,15 +37,15 @@ container.register<IPlayerUseCase>('PlayerUsecase', {
     useClass: PlayerUseCase,
 });
 
-// container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
-//     useClass: RaceDataHtmlGateway,
-// });
+container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
+    useClass: RaceDataHtmlGateway,
+});
 container.register<IRaceRepository>('RaceRepositoryForStorage', {
     useClass: RaceRepositoryForStorage,
 });
-// container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
-//     useClass: OverseasRaceRepositoryFromHtml,
-// });
+container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
+    useClass: OverseasRaceRepositoryFromHtml,
+});
 container.register<IRaceService>('RaceService', {
     useClass: RaceService,
 });

@@ -4,6 +4,7 @@ import { CommonParameter } from '../../commonParameter';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
 import { IRaceService } from '../../service/interface/IRaceService';
+import { Logger } from '../../utility/logger';
 import { IRaceUseCase } from '../interface/IRaceUsecase';
 
 @injectable()
@@ -13,6 +14,7 @@ export class RaceUseCase implements IRaceUseCase {
         private readonly service: IRaceService,
     ) {}
 
+    @Logger
     public async fetchRaceEntityList(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,

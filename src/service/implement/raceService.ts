@@ -19,11 +19,7 @@ export class RaceService implements IRaceService {
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
-        // return this.repositoryForStorage.fetchRaceEntityList(
-        //     commonParameter,
-        //     searchRaceFilter,
-        // );
-        return this.overseasRaceRepositoryFromHtml.fetchRaceEntityList(
+        return this.repositoryForStorage.fetchRaceEntityList(
             commonParameter,
             searchRaceFilter,
         );
