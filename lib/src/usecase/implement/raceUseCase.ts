@@ -19,7 +19,7 @@ import { IRaceUseCaseForAWS } from '../interface/IRaceUseCase';
  * 公営競技のレースデータUseCase
  */
 @injectable()
-export class RaceUseCase implements IRaceUseCaseForAWS {
+export class RaceUseCaseForAWS implements IRaceUseCaseForAWS {
     public constructor(
         @inject('PlaceService')
         private readonly placeService: IPlaceService,
