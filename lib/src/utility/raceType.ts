@@ -37,14 +37,15 @@ export const RACE_TYPE_LIST_HORSE_RACING = [
 
 export type RaceType = (typeof RaceType)[keyof typeof RaceType];
 
-export function isRaceType(value: string): value is RaceType {
+export function isRaceType(value: string | null): value is RaceType {
     // 大文字と小文字を区別しないために、すべて大文字に変換して比較
+    if (value === null) return false;
     value = value.toUpperCase();
     return (Object.values(RaceType) as string[]).includes(value);
 }
 
-export const validateRaceType = (value: string): RaceType => {
-    if (isRaceType(value)) {
+export const validateRaceType = (value: string | null): RaceType => {
+    if (value !== null && isRaceType(value)) {
         return value;
     }
     throw new Error(`Invalid race type: ${value}`);
