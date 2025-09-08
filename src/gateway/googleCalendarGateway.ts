@@ -13,7 +13,11 @@ export class GoogleCalendarGateway implements ICalendarGateway {
 
     private authInit(commonParameter: CommonParameter): void {
         const client_email = commonParameter.env.GOOGLE_CLIENT_EMAIL;
-        const private_key = commonParameter.env.GOOGLE_PRIVATE_KEY;
+        // Cloudflare環境変数は\nで渡されることが多いので、\n→\n変換
+        const private_key = commonParameter.env.GOOGLE_PRIVATE_KEY.replace(
+            /\\n/g,
+            '\n',
+        );
         const auth = new google.auth.GoogleAuth({
             credentials: {
                 client_email,

@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import { CalendarController } from './controller/calendarController';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
 import { GoogleCalendarGateway } from './gateway/googleCalendarGateway';
@@ -56,7 +57,7 @@ container.register<IRaceUseCase>('RaceUsecase', {
     useClass: RaceUseCase,
 });
 
-container.register<ICalendarGateway>('CalendarGateway', {
+container.register<ICalendarGateway>('GoogleCalendarGateway', {
     useClass: GoogleCalendarGateway,
 });
 container.register<ICalendarRepository>('CalendarRepository', {
@@ -89,7 +90,7 @@ export default {
 
         const playerController = container.resolve(PlayerController);
         const raceController = container.resolve(RaceController);
-        // const calendarController = container.resolve(CalendarController);
+        const calendarController = container.resolve(CalendarController);
 
         try {
             if (pathname === '/players' && request.method === 'GET') {
@@ -116,11 +117,11 @@ export default {
                 );
             }
 
-            // if (pathname === '/calendar' && request.method === 'GET') {
-            //     return await calendarController.getCalendarEntityList(
-            //         commonParameter,
-            //     );
-            // }
+            if (pathname === '/calendar' && request.method === 'GET') {
+                return await calendarController.getCalendarEntityList(
+                    commonParameter,
+                );
+            }
 
             // 404 Not Found
             return Response.json(
