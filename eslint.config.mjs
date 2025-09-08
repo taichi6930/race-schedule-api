@@ -255,5 +255,5 @@ export default [
         rules: {
             'unicorn/no-array-sort': 'off', // ✅ Array.prototype.sort()の使用を許可
         },
-    }
+    },
 ];
