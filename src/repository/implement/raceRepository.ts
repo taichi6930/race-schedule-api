@@ -42,23 +42,22 @@ export class RaceRepositoryForStorage implements IRaceRepository {
         )
             .bind(...queryParams)
             .all();
-        return results.map(
-            (row: any): RaceEntity =>
-                RaceEntity.create(
-                    row.id,
-                    RaceData.create(
-                        row.race_type,
-                        row.name,
-                        row.date_time,
-                        row.location_name,
-                        row.grade,
-                        row.race_number,
-                    ),
-                    HorseRaceConditionData.create(
-                        row.surface_type,
-                        row.distance,
-                    ),
+        return results.map((row: any): RaceEntity => {
+            const dateJST = new Date(
+                new Date(row.date_time).getTime() + 9 * 60 * 60 * 1000,
+            );
+            return RaceEntity.create(
+                row.id,
+                RaceData.create(
+                    row.race_type,
+                    row.race_name,
+                    dateJST,
+                    row.location_name,
+                    row.grade,
+                    row.race_number,
                 ),
-        );
+                HorseRaceConditionData.create(row.surface_type, row.distance),
+            );
+        });
     }
 }
