@@ -17,7 +17,7 @@ export class RaceService implements IRaceService {
         @inject('RaceRepositoryForStorage')
         private readonly repositoryForStorage: IRaceRepository,
         @inject('OverseasRaceRepositoryFromHtml')
-        protected overseasRaceRepositoryFromHtml: IRaceRepository,
+        protected readonly overseasRaceRepositoryFromHtml: IRaceRepository,
     ) {}
 
     @Logger
