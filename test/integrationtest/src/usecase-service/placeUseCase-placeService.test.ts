@@ -4,8 +4,8 @@ import { container } from 'tsyringe';
 
 import { PlaceService } from '../../../../lib/src/service/implement/placeService';
 import type { IPlaceService } from '../../../../lib/src/service/interface/IPlaceService';
-import { PlaceUseCase } from '../../../../lib/src/usecase/implement/placeUseCase';
-import type { IPlaceUseCase } from '../../../../lib/src/usecase/interface/IPlaceUseCase';
+import { PlaceUseCaseForAWS } from '../../../../lib/src/usecase/implement/placeUseCase';
+import type { IPlaceUseCaseForAWS } from '../../../../lib/src/usecase/interface/IPlaceUseCase';
 import {
     basePlaceEntity,
     testRaceTypeListAll,
@@ -20,14 +20,14 @@ import {
 describe('placeUseCase-placeService', () => {
     let repositorySetup: TestRepositorySetup;
     let service: IPlaceService;
-    let useCase: IPlaceUseCase;
+    let useCase: IPlaceUseCaseForAWS;
 
     beforeEach(() => {
         repositorySetup = setupTestRepositoryMock();
 
         service = container.resolve(PlaceService);
         container.registerInstance<IPlaceService>('PlaceService', service);
-        useCase = container.resolve(PlaceUseCase);
+        useCase = container.resolve(PlaceUseCaseForAWS);
     });
 
     afterEach(() => {

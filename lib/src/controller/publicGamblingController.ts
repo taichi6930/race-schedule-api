@@ -1,9 +1,9 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { IPlaceUseCase } from '../usecase/interface/IPlaceUseCase';
+import { IPlaceUseCaseForAWS } from '../usecase/interface/IPlaceUseCase';
 import { IPlayerDataUseCaseForAWS } from '../usecase/interface/IPlayerDataUseCase';
-import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
+import { IRaceCalendarUseCaseForAWS } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceUseCaseForAWS } from '../usecase/interface/IRaceUseCase';
 import { Logger } from '../utility/logger';
 import { convertRaceTypeList, RaceType } from '../utility/raceType';
@@ -18,9 +18,9 @@ export class PublicGamblingControllerFromAWS {
 
     public constructor(
         @inject('CalendarUseCase')
-        private readonly calendarUseCase: IRaceCalendarUseCase,
+        private readonly calendarUseCase: IRaceCalendarUseCaseForAWS,
         @inject('PlaceUseCase')
-        private readonly placeUseCase: IPlaceUseCase,
+        private readonly placeUseCase: IPlaceUseCaseForAWS,
         @inject('RaceUseCase')
         private readonly raceDataUseCase: IRaceUseCaseForAWS,
         @inject('PlayerUseCase')

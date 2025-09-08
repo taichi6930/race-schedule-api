@@ -7,7 +7,7 @@ import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
 import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepositoryForAWS } from '../../lib/src/repository/interface/IRaceRepositoryForAWS';
-import type { ICalendarService } from '../../lib/src/service/interface/ICalendarService';
+import type { ICalendarServiceForAWS } from '../../lib/src/service/interface/ICalendarService';
 import type { IPlaceService } from '../../lib/src/service/interface/IPlaceService';
 import type { IPlayerService } from '../../lib/src/service/interface/IPlayerService';
 import type { IRaceService } from '../../lib/src/service/interface/IRaceService';
@@ -54,7 +54,7 @@ export interface TestGatewaySetup {
 }
 
 export interface TestServiceSetup {
-    calendarService: jest.Mocked<ICalendarService>;
+    calendarService: jest.Mocked<ICalendarServiceForAWS>;
     raceService: jest.Mocked<IRaceService>;
     placeService: jest.Mocked<IPlaceService>;
     playerService: jest.Mocked<IPlayerService>;
@@ -160,7 +160,7 @@ export function setupTestGatewayMock(): TestGatewaySetup {
  */
 export function setupTestServiceMock(): TestServiceSetup {
     const calendarService = calendarServiceMock();
-    container.registerInstance<ICalendarService>(
+    container.registerInstance<ICalendarServiceForAWS>(
         'CalendarService',
         calendarService,
     );

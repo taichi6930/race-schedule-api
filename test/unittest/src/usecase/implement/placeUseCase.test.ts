@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { PlaceUseCase } from '../../../../../lib/src/usecase/implement/placeUseCase';
-import type { IPlaceUseCase } from '../../../../../lib/src/usecase/interface/IPlaceUseCase';
+import { PlaceUseCaseForAWS } from '../../../../../lib/src/usecase/implement/placeUseCase';
+import type { IPlaceUseCaseForAWS } from '../../../../../lib/src/usecase/interface/IPlaceUseCase';
 import type { TestServiceSetup } from '../../../../utility/testSetupHelper';
 import {
     clearMocks,
@@ -16,11 +16,11 @@ import {
 } from '../../mock/common/baseCommonData';
 describe('PlaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
-    let useCase: IPlaceUseCase;
+    let useCase: IPlaceUseCaseForAWS;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();
-        useCase = container.resolve(PlaceUseCase);
+        useCase = container.resolve(PlaceUseCaseForAWS);
     });
 
     afterEach(() => {

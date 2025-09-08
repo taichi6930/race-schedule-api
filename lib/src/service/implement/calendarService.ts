@@ -9,7 +9,7 @@ import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalend
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import { ICalendarService } from '../interface/ICalendarService';
+import { ICalendarServiceForAWS } from '../interface/ICalendarService';
 
 /**
  * 公営競技レース情報をGoogleカレンダーと同期するサービス
@@ -17,7 +17,7 @@ import { ICalendarService } from '../interface/ICalendarService';
  * カレンダーイベントの取得・登録・削除などの共通機能を提供します。
  */
 @injectable()
-export class CalendarService implements ICalendarService {
+export class CalendarServiceForAWS implements ICalendarServiceForAWS {
     public constructor(
         @inject('CalendarRepository')
         protected readonly calendarRepository: ICalendarRepository,

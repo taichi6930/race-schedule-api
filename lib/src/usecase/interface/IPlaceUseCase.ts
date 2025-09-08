@@ -4,7 +4,7 @@ import type { RaceType } from '../../utility/raceType';
 /**
  * 開催場データUseCase Interface
  */
-export interface IPlaceUseCase {
+export interface IPlaceUseCaseForAWS {
     /**
      * 開催場データを取得する
      * @param startDate - 開始日

@@ -2,7 +2,7 @@ import type { CalendarData } from '../../domain/calendarData';
 import type { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import type { RaceType } from '../../utility/raceType';
 
-export interface ICalendarService {
+export interface ICalendarServiceForAWS {
     /**
      * 指定期間・種別のカレンダーイベントを取得
      * @param startDate - 取得開始日
