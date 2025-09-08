@@ -250,4 +250,10 @@ export default [
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
         },
     },
+    {
+        files: ['**/mockGoogleCalendarGateway.ts'],
+        rules: {
+            'unicorn/no-array-sort': 'off', // ✅ Array.prototype.sort()の使用を許可
+        },
+    },
 ];

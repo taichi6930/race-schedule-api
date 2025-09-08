@@ -119,7 +119,6 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         startDate: Date,
         finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
-        console.log(MockGoogleCalendarGateway.mockCalendarData[raceType]);
         const raceData = MockGoogleCalendarGateway.mockCalendarData[raceType]
             .filter(
                 (data) =>
