@@ -2,7 +2,7 @@ import { formatDate } from 'date-fns';
 
 import { HorseRaceConditionData } from '../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../lib/src/domain/raceData';
-import type { CommonParameter } from '../../commonParameter';
+import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceEntity } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';

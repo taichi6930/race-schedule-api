@@ -1,6 +1,7 @@
-import type { CalendarData } from '../../domain/calendarData';
-import type { RaceEntityForAWS } from '../entity/raceEntity';
-import type { SearchCalendarFilterEntityForAWS } from '../entity/searchCalendarFilterEntity';
+import type { CalendarData } from '../../../lib/src/domain/calendarData';
+import type { CommonParameter } from '../../utility/commonParameter';
+import type { RaceEntity } from '../entity/raceEntity';
+import type { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 
 /**
  * 外部カレンダーサービスとの連携を担当するリポジトリインターフェース
@@ -17,7 +18,7 @@ import type { SearchCalendarFilterEntityForAWS } from '../entity/searchCalendarF
  * - カレンダー固有のフォーマット変換
  * - APIレート制限への対応
  */
-export interface ICalendarRepositoryForAWS {
+export interface ICalendarRepository {
     /**
      * 指定された条件に基づいてカレンダーイベントを取得します
      *
@@ -36,7 +37,8 @@ export interface ICalendarRepositoryForAWS {
      *               - 認証/認可エラー
      */
     getEvents: (
-        searchFilter: SearchCalendarFilterEntityForAWS,
+        commonParameter: CommonParameter,
+        searchFilter: SearchCalendarFilterEntity,
     ) => Promise<CalendarData[]>;
 
     /**
@@ -53,7 +55,10 @@ export interface ICalendarRepositoryForAWS {
      *               - APIのレート制限に到達
      *               - 認証/認可エラー
      */
-    upsertEvents: (raceEntityList: RaceEntityForAWS[]) => Promise<void>;
+    upsertEvents: (
+        commonParameter: CommonParameter,
+        raceEntityList: RaceEntity[],
+    ) => Promise<void>;
 
     /**
      * 指定されたカレンダーイベントを一括削除します
@@ -69,5 +74,8 @@ export interface ICalendarRepositoryForAWS {
      *               - APIのレート制限に到達
      *               - 認証/認可エラー
      */
-    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
+    deleteEvents: (
+        commonParameter: CommonParameter,
+        calendarDataList: CalendarData[],
+    ) => Promise<void>;
 }

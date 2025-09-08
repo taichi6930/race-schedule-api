@@ -5,8 +5,8 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
-import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
-import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
+import { SearchCalendarFilterEntityForAWS } from '../../repository/entity/searchCalendarFilterEntity';
+import { ICalendarRepositoryForAWS } from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { ICalendarServiceForAWS } from '../interface/ICalendarService';
@@ -20,7 +20,7 @@ import { ICalendarServiceForAWS } from '../interface/ICalendarService';
 export class CalendarServiceForAWS implements ICalendarServiceForAWS {
     public constructor(
         @inject('CalendarRepository')
-        protected readonly calendarRepository: ICalendarRepository,
+        protected readonly calendarRepository: ICalendarRepositoryForAWS,
     ) {}
 
     /**
@@ -36,7 +36,7 @@ export class CalendarServiceForAWS implements ICalendarServiceForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
     ): Promise<CalendarData[]> {
-        const searchFilter = new SearchCalendarFilterEntity(
+        const searchFilter = new SearchCalendarFilterEntityForAWS(
             startDate,
             finishDate,
             raceTypeList,

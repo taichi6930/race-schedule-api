@@ -1,10 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
 import { DataLocation } from '../../../lib/src/utility/dataType';
-import { CommonParameter } from '../../commonParameter';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
 import { IRaceService } from '../../service/interface/IRaceService';
+import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { IRaceUseCase } from '../interface/IRaceUsecase';
 

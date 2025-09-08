@@ -231,6 +231,7 @@ export default [
             'lib/src/utility/**/positionNumber.ts',
             'lib/src/utility/**/raceStage.ts',
             'lib/src/utility/googleCalendar.ts',
+            'src/utility/googleCalendar.ts',
             'lib/src/utility/sqlite/settings/dbConfig.ts',
             'test/unittest/src/mock/common/baseCommonData.ts',
             'test/unittest/src/repository/implement/placeRepositoryFromStorage.test.ts',

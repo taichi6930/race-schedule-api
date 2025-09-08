@@ -15,8 +15,8 @@ import {
 } from '../../../lib/src/utility/validateAndType/raceCourse';
 import { validateRaceDistance } from '../../../lib/src/utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../../lib/src/utility/validateAndType/raceSurfaceType';
-import { CommonParameter } from '../../commonParameter';
 import { IRaceDataHtmlGateway } from '../../gateway/iRaceDataHtmlGateway';
+import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';

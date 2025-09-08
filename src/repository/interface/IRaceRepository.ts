@@ -1,4 +1,4 @@
-import type { CommonParameter } from '../../commonParameter';
+import type { CommonParameter } from '../../utility/commonParameter';
 import type { RaceEntity } from '../entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 

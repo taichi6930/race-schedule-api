@@ -2,9 +2,9 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { ICalendarGateway } from '../../lib/src/gateway/interface/iCalendarGateway';
+import type { ICalendarGatewayForAWS } from '../../lib/src/gateway/interface/iCalendarGateway';
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
-import type { ICalendarRepository } from '../../lib/src/repository/interface/ICalendarRepository';
+import type { ICalendarRepositoryForAWS } from '../../lib/src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepositoryForAWS } from '../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import type { ICalendarServiceForAWS } from '../../lib/src/service/interface/ICalendarService';
@@ -32,7 +32,7 @@ export function clearMocks(): void {
  * テスト用のセットアップ
  */
 export interface TestRepositorySetup {
-    calendarRepository: jest.Mocked<ICalendarRepository>;
+    calendarRepository: jest.Mocked<ICalendarRepositoryForAWS>;
     placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
     placeRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepositoryForAWS>;
@@ -49,7 +49,7 @@ export interface TestRepositorySetup {
  * テスト用のセットアップ
  */
 export interface TestGatewaySetup {
-    googleCalendarGateway: jest.Mocked<ICalendarGateway>;
+    googleCalendarGateway: jest.Mocked<ICalendarGatewayForAWS>;
     s3Gateway: jest.Mocked<IS3Gateway>;
 }
 

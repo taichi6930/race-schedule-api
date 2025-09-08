@@ -6,12 +6,12 @@ import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import { RACE_TYPE_LIST_ALL, RaceType } from '../../utility/raceType';
 import { generateRaceId } from '../../utility/validateAndType/raceId';
-import { ICalendarGateway } from '../interface/iCalendarGateway';
+import { ICalendarGatewayForAWS } from '../interface/iCalendarGateway';
 
 /**
  * Googleカレンダーのモックサービス
  */
-export class MockGoogleCalendarGateway implements ICalendarGateway {
+export class MockGoogleCalendarGateway implements ICalendarGatewayForAWS {
     public constructor() {
         this.setCalendarData();
     }

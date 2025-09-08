@@ -2,9 +2,9 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { CommonParameter } from '../commonParameter';
 import { PlayerEntity } from '../repository/entity/playerEntity';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
+import { CommonParameter } from '../utility/commonParameter';
 
 @injectable()
 export class PlayerController {

@@ -1,8 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 
-import { CommonParameter } from '../../commonParameter';
 import { PlayerEntity } from '../../repository/entity/playerEntity';
 import { IPlayerService } from '../../service/interface/IPlayerService';
+import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { IPlayerUseCase } from '../interface/IPlayerUsecase';
 

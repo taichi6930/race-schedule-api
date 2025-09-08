@@ -1,10 +1,10 @@
 import { container } from 'tsyringe';
 
-import { GoogleCalendarGateway } from '../../src/gateway/implement/googleCalendarGateway';
+import { GoogleCalendarGatewayForAWS } from '../../src/gateway/implement/googleCalendarGateway';
 import { PlaceDataHtmlGateway } from '../../src/gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGatewayForAWS } from '../../src/gateway/implement/raceDataHtmlGateway';
 import { S3Gateway } from '../../src/gateway/implement/s3Gateway';
-import type { ICalendarGateway } from '../../src/gateway/interface/iCalendarGateway';
+import type { ICalendarGatewayForAWS } from '../../src/gateway/interface/iCalendarGateway';
 import type { IPlaceDataHtmlGateway } from '../../src/gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGatewayForAWS } from '../../src/gateway/interface/iRaceDataHtmlGateway';
 import type { IS3Gateway } from '../../src/gateway/interface/iS3Gateway';
@@ -48,14 +48,14 @@ switch (ENV) {
     }
 }
 
-container.register<ICalendarGateway>('GoogleCalendarGateway', {
+container.register<ICalendarGatewayForAWS>('GoogleCalendarGateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new GoogleCalendarGateway();
+                return new GoogleCalendarGatewayForAWS();
             }
             case allowedEnvs.test: {
-                return new GoogleCalendarGateway();
+                return new GoogleCalendarGatewayForAWS();
             }
             case allowedEnvs.localNoInitData:
             case allowedEnvs.localInitMadeData:

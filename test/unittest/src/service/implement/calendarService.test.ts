@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { SearchCalendarFilterEntity } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
+import { SearchCalendarFilterEntityForAWS } from '../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { CalendarServiceForAWS } from '../../../../../lib/src/service/implement/calendarService';
 import type { ICalendarServiceForAWS } from '../../../../../lib/src/service/interface/ICalendarService';
 import type { TestRepositorySetup } from '../../../../utility/testSetupHelper';
@@ -42,7 +42,7 @@ describe('CalendarService', () => {
             expect(
                 repositorySetup.calendarRepository.getEvents,
             ).toHaveBeenCalledWith(
-                new SearchCalendarFilterEntity(
+                new SearchCalendarFilterEntityForAWS(
                     startDate,
                     finishDate,
                     testRaceTypeListAll,

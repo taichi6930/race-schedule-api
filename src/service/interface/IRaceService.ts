@@ -1,7 +1,7 @@
 import type { DataLocationType } from '../../../lib/src/utility/dataType';
-import type { CommonParameter } from '../../commonParameter';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
 import type { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
+import type { CommonParameter } from '../../utility/commonParameter';
 
 export interface IRaceService {
     fetchRaceEntityList: (
