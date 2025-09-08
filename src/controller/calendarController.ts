@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { SpecifiedGradeList } from '../../lib/src/utility/validateAndType/gradeType';
-import { SearchCalendarFilterEntity } from '../repository/entity/searchCalendarFilterEntity';
-import { SearchRaceFilterEntity } from '../repository/entity/searchRaceFilterEntity';
+import { SearchCalendarFilterEntity } from '../repository/entity/filter/searchCalendarFilterEntity';
+import { SearchRaceFilterEntity } from '../repository/entity/filter/searchRaceFilterEntity';
 import { ICalendarUseCase } from '../usecase/interface/ICalendarUseCase';
 import { CommonParameter } from '../utility/commonParameter';
 import { Logger } from '../utility/logger';

@@ -3,15 +3,15 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../../lib/src/domain/calendarData';
-import { ICalendarGateway } from '../../gateway/iCalendarGateway';
+import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import { CommonParameter } from '../../utility/commonParameter';
 import {
     fromGoogleCalendarDataToCalendarData,
     toGoogleCalendarData,
 } from '../../utility/googleCalendar';
 import { Logger } from '../../utility/logger';
+import { SearchCalendarFilterEntity } from '../entity/filter/searchCalendarFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
-import { SearchCalendarFilterEntity } from '../entity/searchCalendarFilterEntity';
 import { ICalendarRepository } from '../interface/ICalendarRepository';
 
 /**

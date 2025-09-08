@@ -1,7 +1,7 @@
 import type { calendar_v3 } from 'googleapis';
 
-import type { CommonParameter } from '../utility/commonParameter';
-import type { RaceType } from '../utility/raceType';
+import type { CommonParameter } from '../../utility/commonParameter';
+import type { RaceType } from '../../utility/raceType';
 
 /**
  * Googleカレンダーとの連携を担当するゲートウェイインターフェース
