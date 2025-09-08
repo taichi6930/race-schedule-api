@@ -1,6 +1,6 @@
+import type { RaceType } from '../../../../src/utility/raceType';
 import { PlaceData } from '../../domain/placeData';
 import { createErrorMessage } from '../../utility/error';
-import type { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { PlaceId } from '../../utility/validateAndType/placeId';

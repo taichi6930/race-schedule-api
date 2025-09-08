@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { RaceType } from '../raceType';
+import { RaceType } from '../../../../src/utility/raceType';
 
 /**
  * 枠順の最高値を取得します。

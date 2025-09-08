@@ -1,5 +1,6 @@
 import '../../utility/format';
 
+import { RaceType } from '../../../../src/utility/raceType';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
@@ -7,7 +8,6 @@ import type { RacePlayerData } from '../../domain/racePlayerData';
 import { HorseRacingRaceRecord } from '../../gateway/record/horseRacingRaceRecord';
 import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
-import { RaceType } from '../../utility/raceType';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { RaceId } from '../../utility/validateAndType/raceId';

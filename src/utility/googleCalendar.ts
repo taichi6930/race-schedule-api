@@ -16,10 +16,10 @@ import {
 } from '../../lib/src/utility/data/url';
 import { getJSTDate } from '../../lib/src/utility/date';
 import { createAnchorTag, formatDate } from '../../lib/src/utility/format';
-import { RaceType } from '../../lib/src/utility/raceType';
 import type { GradeType } from '../../lib/src/utility/validateAndType/gradeType';
 import { createPlaceCode } from '../../lib/src/utility/validateAndType/raceCourse';
 import type { RaceEntity } from '../repository/entity/raceEntity';
+import { RaceType } from './raceType';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール

@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
+import { RaceType } from '../../../../src/utility/raceType';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
 import { PlaceGradeRecord } from '../../gateway/record/placeGradeRecord';
@@ -9,7 +10,6 @@ import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import { PlaceEntityForAWS } from '../entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';

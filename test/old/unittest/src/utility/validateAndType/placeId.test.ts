@@ -1,5 +1,5 @@
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
 import { validatePlaceId } from '../../../../../../lib/src/utility/validateAndType/placeId';
+import { RaceType } from '../../../../../../src/utility/raceType';
 import { testRaceTypeListAll } from '../../mock/common/baseCommonData';
 
 describe('PlaceIdSchema', () => {

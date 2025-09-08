@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
+import { RaceType } from '../../../../src/utility/raceType';
 import { RaceCourseMasterList } from '../data/course';
-import { RaceType } from '../raceType';
 
 /**
  * 場リスト

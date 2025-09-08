@@ -1,5 +1,6 @@
 import '../../utility/format';
 
+import { RaceType } from '../../../../src/utility/raceType';
 import {
     createAutoraceRaceUrl,
     createBoatraceRaceUrl,
@@ -9,7 +10,6 @@ import {
     createOverseasRaceUrl,
 } from '../../utility/data/url';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import { IRaceDataHtmlGatewayForAWS } from '../interface/iRaceDataHtmlGateway';
 /**

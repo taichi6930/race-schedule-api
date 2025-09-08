@@ -7,8 +7,8 @@ import { container } from 'tsyringe';
 import type { CalendarData } from '../../../../../../lib/src/domain/calendarData';
 import { CalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/calendarUseCase';
 import type { IRaceCalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
 import { SpecifiedGradeList } from '../../../../../../lib/src/utility/validateAndType/gradeType';
+import { RaceType } from '../../../../../../src/utility/raceType';
 import type { TestServiceSetup } from '../../../../../utility/testSetupHelper';
 import {
     clearMocks,

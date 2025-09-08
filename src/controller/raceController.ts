@@ -2,11 +2,11 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { isRaceType, validateRaceType } from '../../lib/src/utility/raceType';
 import { SearchRaceFilterEntity } from '../repository/entity/searchRaceFilterEntity';
 import { IRaceUseCase } from '../usecase/interface/IRaceUsecase';
 import { CommonParameter } from '../utility/commonParameter';
 import { Logger } from '../utility/logger';
+import { convertRaceTypeList, RaceType } from '../utility/raceType';
 
 @injectable()
 export class RaceController {
@@ -30,54 +30,68 @@ export class RaceController {
     public async getRaceEntityList(
         commonParameter: CommonParameter,
     ): Promise<Response> {
-        const raceTypeParam = commonParameter.searchParams.get('raceType');
-        const startDateParam = commonParameter.searchParams.get('startDate');
-        const finishDateParam = commonParameter.searchParams.get('finishDate');
+        try {
+            const raceTypeParam =
+                commonParameter.searchParams.getAll('raceType');
+            const startDateParam =
+                commonParameter.searchParams.get('startDate');
+            const finishDateParam =
+                commonParameter.searchParams.get('finishDate');
 
-        if (!isRaceType(raceTypeParam)) {
-            return new Response('Bad Request: Invalid raceType', {
-                status: 400,
+            const raceTypeList: RaceType[] = convertRaceTypeList(raceTypeParam);
+
+            if (raceTypeList.length === 0) {
+                return new Response('Bad Request: Invalid raceType', {
+                    status: 400,
+                    headers: this.corsHeaders,
+                });
+            }
+            // startDateとfinishDateのバリデーションも行う
+            if (
+                (startDateParam &&
+                    !/^\d{4}-\d{2}-\d{2}$/.test(startDateParam)) ||
+                !startDateParam
+            ) {
+                return new Response('Bad Request: Invalid startDate', {
+                    status: 400,
+                    headers: this.corsHeaders,
+                });
+            }
+            if (
+                (finishDateParam &&
+                    !/^\d{4}-\d{2}-\d{2}$/.test(finishDateParam)) ||
+                !finishDateParam
+            ) {
+                return new Response('Bad Request: Invalid finishDate', {
+                    status: 400,
+                    headers: this.corsHeaders,
+                });
+            }
+            const searchRaceFilter = new SearchRaceFilterEntity(
+                new Date(startDateParam),
+                new Date(finishDateParam),
+                raceTypeList,
+            );
+
+            const raceEntityList = await this.usecase.fetchRaceEntityList(
+                commonParameter,
+                searchRaceFilter,
+            );
+
+            return Response.json(
+                {
+                    count: raceEntityList.length,
+                    races: raceEntityList,
+                },
+                { headers: this.corsHeaders },
+            );
+        } catch (error) {
+            console.error('Error in getCalendarEntityList:', error);
+            return new Response('Internal Server Error', {
+                status: 500,
                 headers: this.corsHeaders,
             });
         }
-        // startDateとfinishDateのバリデーションも行う
-        if (
-            (startDateParam && !/^\d{4}-\d{2}-\d{2}$/.test(startDateParam)) ||
-            !startDateParam
-        ) {
-            return new Response('Bad Request: Invalid startDate', {
-                status: 400,
-                headers: this.corsHeaders,
-            });
-        }
-        if (
-            (finishDateParam && !/^\d{4}-\d{2}-\d{2}$/.test(finishDateParam)) ||
-            !finishDateParam
-        ) {
-            return new Response('Bad Request: Invalid finishDate', {
-                status: 400,
-                headers: this.corsHeaders,
-            });
-        }
-        const raceType = validateRaceType(raceTypeParam);
-        const searchRaceFilter = new SearchRaceFilterEntity(
-            new Date(startDateParam),
-            new Date(finishDateParam),
-            raceType,
-        );
-
-        const raceEntityList = await this.usecase.fetchRaceEntityList(
-            commonParameter,
-            searchRaceFilter,
-        );
-
-        return Response.json(
-            {
-                count: raceEntityList.length,
-                races: raceEntityList,
-            },
-            { headers: this.corsHeaders },
-        );
     }
 
     /**
@@ -105,7 +119,18 @@ export class RaceController {
             }
             const { raceType, startDate, finishDate } = body;
 
-            if (!isRaceType(raceType)) {
+            // raceTypeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            const raceTypeList = convertRaceTypeList(
+                typeof raceType === 'string'
+                    ? [raceType]
+                    : typeof raceType === 'object'
+                      ? Array.isArray(raceType)
+                          ? (raceType as string[]).map((r: string) => r)
+                          : undefined
+                      : undefined,
+            );
+
+            if (raceTypeList.length === 0) {
                 return new Response('Bad Request: Invalid raceType', {
                     status: 400,
                     headers: this.corsHeaders,
@@ -123,11 +148,10 @@ export class RaceController {
                     headers: this.corsHeaders,
                 });
             }
-            const validRaceType = validateRaceType(raceType);
             const searchRaceFilter = new SearchRaceFilterEntity(
                 new Date(startDate),
                 new Date(finishDate),
-                validRaceType,
+                raceTypeList,
             );
 
             await this.usecase.upsertRaceEntityList(

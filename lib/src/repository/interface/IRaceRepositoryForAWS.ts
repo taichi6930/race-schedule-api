@@ -1,4 +1,4 @@
-import type { RaceType } from '../../utility/raceType';
+import type { RaceType } from '../../../../src/utility/raceType';
 import type { RaceEntityForAWS } from '../entity/raceEntity';
 import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
 

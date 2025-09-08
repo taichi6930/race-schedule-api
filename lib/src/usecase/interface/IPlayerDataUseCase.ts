@@ -1,5 +1,5 @@
+import type { RaceType } from '../../../../src/utility/raceType';
 import type { PlayerData } from '../../domain/playerData';
-import type { RaceType } from '../../utility/raceType';
 
 /**
  * プレイヤーデータUseCaseインターフェース

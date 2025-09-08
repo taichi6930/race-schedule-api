@@ -1,15 +1,15 @@
 import { inject, injectable } from 'tsyringe';
 
+import {
+    RACE_TYPE_LIST_ALL_FOR_AWS,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
+    RaceType,
+} from '../../../../src/utility/raceType';
 import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import { IPlaceService } from '../../service/interface/IPlaceService';
 import { IRaceService } from '../../service/interface/IRaceService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import {
-    RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
-    RaceType,
-} from '../../utility/raceType';
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import { RaceStage } from '../../utility/validateAndType/raceStage';
@@ -88,7 +88,7 @@ export class RaceUseCaseForAWS implements IRaceUseCaseForAWS {
         );
 
         // 共通フィルタ関数で簡潔に
-        return RACE_TYPE_LIST_ALL.flatMap((raceType) =>
+        return RACE_TYPE_LIST_ALL_FOR_AWS.flatMap((raceType) =>
             this.filterRaceEntityList(
                 raceEntityList.filter(
                     (raceEntity) => raceEntity.raceData.raceType === raceType,
@@ -149,15 +149,15 @@ export class RaceUseCaseForAWS implements IRaceUseCaseForAWS {
             DataLocation.Storage,
         );
 
-        const filteredPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.flatMap(
-            (raceType) =>
+        const filteredPlaceEntityList =
+            RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS.flatMap((raceType) =>
                 this.filterPlaceEntityList(
                     placeEntityList.filter(
                         (item) => item.placeData.raceType === raceType,
                     ),
                     searchList?.[raceType],
                 ),
-        );
+            );
 
         // placeEntityListが空の場合は処理を終了する
         if (

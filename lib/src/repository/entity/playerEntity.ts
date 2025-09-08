@@ -1,5 +1,8 @@
+import {
+    type RaceType,
+    validateRaceType,
+} from '../../../../src/utility/raceType';
 import { PlayerRecord } from '../../gateway/record/playerRecord';
-import { type RaceType, validateRaceType } from '../../utility/raceType';
 
 /**
  * Repository層のEntity

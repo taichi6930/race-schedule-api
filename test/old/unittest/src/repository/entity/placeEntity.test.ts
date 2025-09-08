@@ -1,4 +1,4 @@
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../../src/utility/raceType';
 import {
     basePlaceData,
     basePlaceEntity,

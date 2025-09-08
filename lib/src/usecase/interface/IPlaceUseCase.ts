@@ -1,5 +1,5 @@
+import type { RaceType } from '../../../../src/utility/raceType';
 import type { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
-import type { RaceType } from '../../utility/raceType';
 
 /**
  * 開催場データUseCase Interface

@@ -83,7 +83,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": \"OVERSEAS\"
+                  \"raceType\": [\"OVERSEAS\"]
                 }")
 
           # レスポンスチェック
@@ -112,7 +112,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": \"OVERSEAS\"
+                  \"raceType\": [\"OVERSEAS\"]
                 }")
 
           # レスポンスチェック

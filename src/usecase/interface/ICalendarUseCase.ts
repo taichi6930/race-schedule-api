@@ -1,8 +1,8 @@
 import type { CalendarData } from '../../../lib/src/domain/calendarData';
-import type { RaceType } from '../../../lib/src/utility/raceType';
 import type { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import type { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import type { CommonParameter } from '../../utility/commonParameter';
+import type { RaceType } from '../../utility/raceType';
 
 export interface ICalendarUseCase {
     /**

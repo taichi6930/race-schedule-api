@@ -1,15 +1,15 @@
 import { inject, injectable } from 'tsyringe';
 
+import {
+    RACE_TYPE_LIST_ALL_FOR_AWS,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
+    RaceType,
+} from '../../../../src/utility/raceType';
 import { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../../repository/entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import {
-    RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
-    RaceType,
-} from '../../utility/raceType';
 import { IPlaceService } from '../interface/IPlaceService';
 
 /**
@@ -41,7 +41,7 @@ export class PlaceService implements IPlaceService {
     ): Promise<PlaceEntityForAWS[]> {
         try {
             const result: PlaceEntityForAWS[] = [];
-            for (const raceType of RACE_TYPE_LIST_WITHOUT_OVERSEAS) {
+            for (const raceType of RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS) {
                 if (!raceTypeList.includes(raceType)) continue;
 
                 const placeEntityList: PlaceEntityForAWS[] = await (
@@ -87,7 +87,7 @@ export class PlaceService implements IPlaceService {
             };
         try {
             const responseList = await Promise.all(
-                RACE_TYPE_LIST_ALL.map(async (raceType) => {
+                RACE_TYPE_LIST_ALL_FOR_AWS.map(async (raceType) => {
                     if (
                         placeEntityList.filter(
                             (item) => item.placeData.raceType === raceType,

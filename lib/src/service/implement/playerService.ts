@@ -3,11 +3,11 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
+import { RaceType } from '../../../../src/utility/raceType';
 import { PlayerData } from '../../domain/playerData';
 import { SearchPlayerFilterEntity } from '../../repository/entity/searchPlayerFilterEntity';
 import type { IPlayerRepository } from '../../repository/interface/IPlayerRepository';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import type { IPlayerService } from '../interface/IPlayerService';
 
 @injectable()

@@ -1,8 +1,8 @@
 import '../../utility/format';
 
+import type { RaceType } from '../../../../src/utility/raceType';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { createErrorMessage } from '../../utility/error';
-import type { RaceType } from '../../utility/raceType';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { PlayerNumber } from '../../utility/validateAndType/playerNumber';
 import { validatePlayerNumber } from '../../utility/validateAndType/playerNumber';

@@ -10,7 +10,7 @@ export const RaceType = {
     BOATRACE: 'BOATRACE',
 } as const;
 
-export const RACE_TYPE_LIST_ALL: RaceType[] = [
+export const RACE_TYPE_LIST_ALL_FOR_AWS: RaceType[] = [
     RaceType.JRA,
     RaceType.NAR,
     RaceType.OVERSEAS,
@@ -18,35 +18,48 @@ export const RACE_TYPE_LIST_ALL: RaceType[] = [
     RaceType.AUTORACE,
     RaceType.BOATRACE,
 ];
+
+export const RACE_TYPE_LIST_ALL: RaceType[] = [RaceType.OVERSEAS];
+
+export const RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS =
+    RACE_TYPE_LIST_ALL_FOR_AWS.filter(
+        (raceType) => raceType !== RaceType.OVERSEAS,
+    );
 
 export const RACE_TYPE_LIST_WITHOUT_OVERSEAS = RACE_TYPE_LIST_ALL.filter(
     (raceType) => raceType !== RaceType.OVERSEAS,
 );
 
-export const RACE_TYPE_LIST_MECHANICAL_RACING = [
+export const RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS = [
     RaceType.KEIRIN,
     RaceType.AUTORACE,
     RaceType.BOATRACE,
 ];
 
-export const RACE_TYPE_LIST_HORSE_RACING = [
+export const RACE_TYPE_LIST_MECHANICAL_RACING = [];
+
+export const RACE_TYPE_LIST_HORSE_RACING_FOR_AWS = [
     RaceType.JRA,
     RaceType.NAR,
     RaceType.OVERSEAS,
 ];
+
+export const RACE_TYPE_LIST_HORSE_RACING = [RaceType.OVERSEAS];
 
 export type RaceType = (typeof RaceType)[keyof typeof RaceType];
 
 export function isRaceType(value: string | null): value is RaceType {
     // 大文字と小文字を区別しないために、すべて大文字に変換して比較
     if (value === null) return false;
-    value = value.toUpperCase();
     return (Object.values(RaceType) as string[]).includes(value);
 }
 
 export const validateRaceType = (value: string | null): RaceType => {
-    if (value !== null && isRaceType(value)) {
-        return value;
+    if (value) {
+        const upperValue = value.toUpperCase();
+        if (isRaceType(upperValue)) {
+            return upperValue;
+        }
     }
     throw new Error(`Invalid race type: ${value}`);
 };

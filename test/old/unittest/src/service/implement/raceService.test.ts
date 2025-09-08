@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import { RaceService } from '../../../../../../lib/src/service/implement/raceService';
 import type { IRaceService } from '../../../../../../lib/src/service/interface/IRaceService';
 import { DataLocation } from '../../../../../../lib/src/utility/dataType';
-import { RaceType } from '../../../../../../lib/src/utility/raceType';
+import { RaceType } from '../../../../../../src/utility/raceType';
 import type { TestRepositorySetup } from '../../../../../utility/testSetupHelper';
 import {
     clearMocks,

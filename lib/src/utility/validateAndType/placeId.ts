@@ -1,8 +1,8 @@
 import { format } from 'date-fns';
 import { z } from 'zod';
 
+import { RaceType } from '../../../../src/utility/raceType';
 import { NetkeibaBabacodeMap } from '../data/netkeiba';
-import { RaceType } from '../raceType';
 import { createPlaceCode, type RaceCourse } from './raceCourse';
 
 /**

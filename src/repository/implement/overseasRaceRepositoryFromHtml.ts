@@ -7,7 +7,6 @@ import { inject, injectable } from 'tsyringe';
 import { HorseRaceConditionData } from '../../../lib/src/domain/houseRaceConditionData';
 import { RaceData } from '../../../lib/src/domain/raceData';
 import { processOverseasRaceName } from '../../../lib/src/utility/createRaceName';
-import { RaceType } from '../../../lib/src/utility/raceType';
 import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import {
     RaceCourse,
@@ -18,6 +17,7 @@ import { RaceSurfaceType } from '../../../lib/src/utility/validateAndType/raceSu
 import { IRaceDataHtmlGateway } from '../../gateway/iRaceDataHtmlGateway';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import { RaceEntity } from '../entity/raceEntity';
 import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';

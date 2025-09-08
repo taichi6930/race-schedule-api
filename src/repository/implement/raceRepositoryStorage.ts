@@ -15,15 +15,21 @@ export class RaceRepositoryForStorage implements IRaceRepository {
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         const { env } = commonParameter;
-        const { raceType, startDate, finishDate } = searchRaceFilter;
+        const { raceTypeList, startDate, finishDate } = searchRaceFilter;
 
         const startDateFormatted = formatDate(startDate, 'yyyy-MM-dd');
         const finishDateFormatted = formatDate(finishDate, 'yyyy-MM-dd');
 
-        const whereClause =
-            'WHERE race.race_type = ? AND race.date_time >= ? AND race.date_time <= ?';
+        // raceTypeListの数に応じて動的にWHERE句を生成
+        const raceTypePlaceholders = raceTypeList.map(() => '?').join(', ');
+        const whereClause = `WHERE race.race_type IN (${raceTypePlaceholders}) AND race.date_time >= ? AND race.date_time <= ?`;
+
         const queryParams: any[] = [];
-        queryParams.push(raceType, startDateFormatted, finishDateFormatted);
+        queryParams.push(
+            ...raceTypeList,
+            startDateFormatted,
+            finishDateFormatted,
+        );
         const { results } = await env.DB.prepare(
             `
             SELECT

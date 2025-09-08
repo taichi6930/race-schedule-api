@@ -1,5 +1,5 @@
+import type { RaceType } from '../../../../src/utility/raceType';
 import type { CalendarData } from '../../domain/calendarData';
-import type { RaceType } from '../../utility/raceType';
 import type { GradeType } from '../../utility/validateAndType/gradeType';
 
 export interface IRaceCalendarUseCaseForAWS {

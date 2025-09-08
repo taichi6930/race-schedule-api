@@ -1,10 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
+import { RaceType } from '../../../../src/utility/raceType';
 import { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import { IPlaceService } from '../../service/interface/IPlaceService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import { IPlaceUseCaseForAWS } from '../interface/IPlaceUseCase';
 
 /**

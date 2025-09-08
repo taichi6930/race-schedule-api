@@ -5,6 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { PlayerEntity } from '../repository/entity/playerEntity';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
 import { CommonParameter } from '../utility/commonParameter';
+import { isRaceType, validateRaceType } from '../utility/raceType';
 
 @injectable()
 export class PlayerController {
@@ -27,8 +28,19 @@ export class PlayerController {
     public async getPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<Response> {
-        const playerEntityList =
-            await this.usecase.fetchPlayerEntityList(commonParameter);
+        const raceTypeParam = commonParameter.searchParams.get('raceType');
+        if (!isRaceType(raceTypeParam)) {
+            return new Response('Bad Request: Invalid raceType', {
+                status: 400,
+                headers: this.corsHeaders,
+            });
+        }
+        const raceType = validateRaceType(raceTypeParam);
+
+        const playerEntityList = await this.usecase.fetchPlayerEntityList(
+            commonParameter,
+            raceType,
+        );
 
         return Response.json(
             {

@@ -2,11 +2,11 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
+import { RaceType } from '../../../../src/utility/raceType';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { PlayerRecord } from '../../gateway/record/playerRecord';
 import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import { PlayerEntityForAWS } from '../entity/playerEntity';
 import { SearchPlayerFilterEntity } from '../entity/searchPlayerFilterEntity';
 import { IPlayerRepository } from '../interface/IPlayerRepository';

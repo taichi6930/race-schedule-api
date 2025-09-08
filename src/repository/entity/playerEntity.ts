@@ -1,5 +1,5 @@
-import type { RaceType } from '../../../lib/src/utility/raceType';
-import { validateRaceType } from '../../../lib/src/utility/raceType';
+import type { RaceType } from '../../utility/raceType';
+import { validateRaceType } from '../../utility/raceType';
 
 /**
  * Repository層のEntity
