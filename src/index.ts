@@ -93,6 +93,13 @@ export default {
         const calendarController = container.resolve(CalendarController);
 
         try {
+            if (pathname === '/health' && request.method === 'GET') {
+                return new Response('ok health check', {
+                    status: 200,
+                    headers: corsHeaders,
+                });
+            }
+
             if (pathname === '/players' && request.method === 'GET') {
                 return await playerController.getPlayerEntityList(
                     commonParameter,

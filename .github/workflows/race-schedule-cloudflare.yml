@@ -14,7 +14,7 @@ on:
         required: false
 
 env:
-  API_PRODUCTION_URL: "${{ secrets.CLOUDFLARE_API_PRODUCTION_URL }}"
+  CLOUDFLARE_API_PRODUCTION_URL: "${{ secrets.CLOUDFLARE_API_PRODUCTION_URL }}"
 
 permissions:
   contents: write
@@ -54,7 +54,7 @@ jobs:
 
       - name: Start server in background
         run: |
-          health_check_response=$(curl -s -o /dev/null -w "%{http_code}" ${API_PRODUCTION_URL}/health)
+          health_check_response=$(curl -s -o /dev/null -w "%{http_code}" ${CLOUDFLARE_API_PRODUCTION_URL}/health)
 
           # レスポンスチェック
           if [[ "$health_check_response" != "200" ]]; then
@@ -77,13 +77,13 @@ jobs:
 
           # レースデータの更新
           update_race_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/race" \
+            "${CLOUDFLARE_API_PRODUCTION_URL}/race" \
             -H "accept: */*" \
             -H "Content-Type: application/json" \
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": \"overseas\"
+                  \"raceType\": \"OVERSEAS\"
                 }")
 
           # レスポンスチェック
@@ -106,13 +106,13 @@ jobs:
 
           # カレンダーの更新
           update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/calendar" \
+            "${CLOUDFLARE_API_PRODUCTION_URL}/calendar" \
             -H "accept: */*" \
             -H "Content-Type: application/json" \
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": \"overseas\"
+                  \"raceType\": \"OVERSEAS\"
                 }")
 
           # レスポンスチェック
