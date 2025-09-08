@@ -3,9 +3,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import {
-    RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_HORSE_RACING,
-    RACE_TYPE_LIST_MECHANICAL_RACING,
+    RACE_TYPE_LIST_ALL_FOR_AWS,
+    RACE_TYPE_LIST_HORSE_RACING_FOR_AWS,
+    RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
 import { CalendarData } from '../../domain/calendarData';
@@ -93,16 +93,20 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
             [RaceType.BOATRACE]: PlayerData[];
         } = Object.fromEntries(
             await Promise.all(
-                RACE_TYPE_LIST_MECHANICAL_RACING.map(async (raceType) => [
-                    raceType,
-                    await this.playerDataService.fetchPlayerDataList(raceType),
-                ]),
+                RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS.map(
+                    async (raceType) => [
+                        raceType,
+                        await this.playerDataService.fetchPlayerDataList(
+                            raceType,
+                        ),
+                    ],
+                ),
             ),
         );
 
         // フラット化して単一の RaceEntity[] にする（後続のオブジェクト型 filteredRaceEntityList と名前衝突しないよう別名）
         const filteredRaceEntityList: RaceEntityForAWS[] = [
-            ...RACE_TYPE_LIST_HORSE_RACING.flatMap((raceType) =>
+            ...RACE_TYPE_LIST_HORSE_RACING_FOR_AWS.flatMap((raceType) =>
                 raceEntityList.filter(
                     (raceEntity) =>
                         raceEntity.raceData.raceType === raceType &&
@@ -111,7 +115,7 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
                         ),
                 ),
             ),
-            ...RACE_TYPE_LIST_MECHANICAL_RACING.flatMap((raceType) =>
+            ...RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS.flatMap((raceType) =>
                 this.filterRaceEntity(
                     raceType,
                     raceEntityList.filter(
@@ -137,7 +141,7 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
             );
 
         const deleteCalendarDataList = Object.fromEntries(
-            RACE_TYPE_LIST_ALL.map((raceType) => [
+            RACE_TYPE_LIST_ALL_FOR_AWS.map((raceType) => [
                 raceType,
                 calendarDataList.filter(
                     (calendarData: CalendarData) =>
@@ -156,14 +160,14 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
         );
 
         await this.calendarService.deleteEvents(
-            RACE_TYPE_LIST_ALL.flatMap(
+            RACE_TYPE_LIST_ALL_FOR_AWS.flatMap(
                 (raceType) => deleteCalendarDataList[raceType],
             ),
         );
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: RaceEntityForAWS[] =
-            RACE_TYPE_LIST_ALL.flatMap((raceType) =>
+            RACE_TYPE_LIST_ALL_FOR_AWS.flatMap((raceType) =>
                 filteredRaceEntityList
                     .filter(
                         (raceEntity) =>

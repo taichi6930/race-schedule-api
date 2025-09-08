@@ -6,10 +6,10 @@ import { injectable } from 'tsyringe';
 
 import path from 'node:path';
 import {
-    RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_HORSE_RACING,
-    RACE_TYPE_LIST_MECHANICAL_RACING,
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+    RACE_TYPE_LIST_ALL_FOR_AWS,
+    RACE_TYPE_LIST_HORSE_RACING_FOR_AWS,
+    RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
 import {
@@ -184,14 +184,14 @@ export class MockS3Gateway implements IS3Gateway {
                 // 最初にmockStorageに値を入れておく
                 // 2024年のデータ366日分を作成
                 await Promise.all(
-                    RACE_TYPE_LIST_WITHOUT_OVERSEAS.map((raceType) =>
+                    RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS.map((raceType) =>
                         this.setRaceTypePlaceMockData(raceType),
                     ),
                 );
                 return;
             }
             case allowedEnvs.local: {
-                const csvPathList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.map(
+                const csvPathList = RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS.map(
                     (raceType) => csvPath('PLACE_LIST', raceType),
                 );
                 await this.loadCsvFiles(csvPathList);
@@ -216,17 +216,18 @@ export class MockS3Gateway implements IS3Gateway {
                 // 最初にmockStorageに値を入れておく
                 // 2024年のデータ366日分を作成
                 await Promise.all([
-                    ...RACE_TYPE_LIST_HORSE_RACING.map((raceType) =>
+                    ...RACE_TYPE_LIST_HORSE_RACING_FOR_AWS.map((raceType) =>
                         this.setHorseRacingRaceMockData(raceType),
                     ),
-                    ...RACE_TYPE_LIST_MECHANICAL_RACING.map((raceType) =>
-                        this.setMechanicalRacingRaceMockData(raceType),
+                    ...RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS.map(
+                        (raceType) =>
+                            this.setMechanicalRacingRaceMockData(raceType),
                     ),
                 ]);
                 return;
             }
             case allowedEnvs.local: {
-                const csvPathList = RACE_TYPE_LIST_ALL.map((raceType) =>
+                const csvPathList = RACE_TYPE_LIST_ALL_FOR_AWS.map((raceType) =>
                     csvPath('RACE_LIST', raceType),
                 );
                 await this.loadCsvFiles(csvPathList);
@@ -249,9 +250,10 @@ export class MockS3Gateway implements IS3Gateway {
                 return;
             }
             case allowedEnvs.local: {
-                const csvPathList = RACE_TYPE_LIST_MECHANICAL_RACING.map(
-                    (raceType) => csvPath('RACE_PLAYER_LIST', raceType),
-                );
+                const csvPathList =
+                    RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS.map((raceType) =>
+                        csvPath('RACE_PLAYER_LIST', raceType),
+                    );
                 await this.loadCsvFiles(csvPathList);
                 return;
             }
@@ -438,7 +440,7 @@ export class MockS3Gateway implements IS3Gateway {
                 // 最初にmockStorageに値を入れておく
                 // 2024年のデータ366日分を作成
                 await Promise.all(
-                    RACE_TYPE_LIST_MECHANICAL_RACING.map((raceType) =>
+                    RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS.map((raceType) =>
                         this.setRaceTypePlaceGradeMockData(raceType),
                     ),
                 );
@@ -446,9 +448,10 @@ export class MockS3Gateway implements IS3Gateway {
                 return;
             }
             case allowedEnvs.local: {
-                const csvPathList = RACE_TYPE_LIST_MECHANICAL_RACING.map(
-                    (raceType) => csvPath('GRADE_LIST', raceType),
-                );
+                const csvPathList =
+                    RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS.map((raceType) =>
+                        csvPath('GRADE_LIST', raceType),
+                    );
                 await this.loadCsvFiles(csvPathList);
                 return;
             }

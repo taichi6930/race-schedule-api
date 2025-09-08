@@ -12,10 +12,10 @@ import { IS_SHORT_TEST } from '../../../../../../lib/src/utility/env';
 import { generatePlaceId } from '../../../../../../lib/src/utility/validateAndType/placeId';
 import { maxFrameNumber } from '../../../../../../lib/src/utility/validateAndType/positionNumber';
 import {
-    RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_HORSE_RACING,
-    RACE_TYPE_LIST_MECHANICAL_RACING,
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+    RACE_TYPE_LIST_ALL_FOR_AWS,
+    RACE_TYPE_LIST_HORSE_RACING_FOR_AWS,
+    RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
     RaceType,
 } from '../../../../../../src/utility/raceType';
 
@@ -483,19 +483,19 @@ const defaultStageList = {
  */
 export const testRaceTypeListAll = IS_SHORT_TEST
     ? [RaceType.JRA]
-    : RACE_TYPE_LIST_ALL;
+    : RACE_TYPE_LIST_ALL_FOR_AWS;
 
 export const testRaceTypeListWithoutOverseas = IS_SHORT_TEST
     ? [RaceType.JRA]
-    : RACE_TYPE_LIST_WITHOUT_OVERSEAS;
+    : RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS;
 
 export const testRaceTypeListHorseRacing = IS_SHORT_TEST
     ? [RaceType.JRA]
-    : RACE_TYPE_LIST_HORSE_RACING;
+    : RACE_TYPE_LIST_HORSE_RACING_FOR_AWS;
 
 export const testRaceTypeListMechanicalRacing = IS_SHORT_TEST
     ? [RaceType.KEIRIN]
-    : RACE_TYPE_LIST_MECHANICAL_RACING;
+    : RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS;
 
 export const mockCalendarDataList = testRaceTypeListAll.map((raceType) =>
     baseCalendarData(raceType),

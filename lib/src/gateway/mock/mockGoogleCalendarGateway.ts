@@ -1,6 +1,9 @@
 import type { calendar_v3 } from 'googleapis';
 
-import { RACE_TYPE_LIST_ALL, RaceType } from '../../../../src/utility/raceType';
+import {
+    RACE_TYPE_LIST_ALL_FOR_AWS,
+    RaceType,
+} from '../../../../src/utility/raceType';
 import { defaultLocation } from '../../../../test/old/unittest/src/mock/common/baseCommonData';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
@@ -52,7 +55,7 @@ export class MockGoogleCalendarGateway implements ICalendarGatewayForAWS {
                     while (
                         currentDate.getFullYear() === startDate.getFullYear()
                     ) {
-                        for (const raceType of RACE_TYPE_LIST_ALL) {
+                        for (const raceType of RACE_TYPE_LIST_ALL_FOR_AWS) {
                             const location = defaultLocation[raceType];
                             for (
                                 let raceNumber = 1;
