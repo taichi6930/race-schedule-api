@@ -19,7 +19,7 @@ import {
 import { validateRaceDistance } from '../../../utility/validateAndType/raceDistance';
 import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
-import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
+import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../interface/IRaceRepository';
 
 /**
@@ -38,7 +38,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity,
+        searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntityForAWS[]> {
         const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,

@@ -11,7 +11,7 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { RaceEntityForAWS } from '../entity/raceEntity';
-import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
+import { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
 @injectable()
@@ -30,7 +30,7 @@ export class HorseRacingRaceRepositoryFromStorage implements IRaceRepository {
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity,
+        searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntityForAWS[]> {
         // ファイル名リストから開催データを取得する
         const raceRecordList: HorseRacingRaceRecord[] =

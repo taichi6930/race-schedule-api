@@ -16,7 +16,7 @@ import {
     StageMap,
 } from '../../../utility/validateAndType/raceStage';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
-import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
+import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../interface/IRaceRepository';
 
 /**
@@ -35,7 +35,7 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity,
+        searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntityForAWS[]> {
         const raceEntityList: RaceEntityForAWS[] = [];
         for (const placeEntity of searchFilter.placeEntityList) {

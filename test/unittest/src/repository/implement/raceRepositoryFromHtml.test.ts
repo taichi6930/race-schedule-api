@@ -8,7 +8,7 @@ import { PlaceData } from '../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { PlaceEntityForAWS } from '../../../../../lib/src/repository/entity/placeEntity';
-import { SearchRaceFilterEntity } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
+import { SearchRaceFilterEntityForAWS } from '../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
 import { JraRaceRepositoryFromHtml } from '../../../../../lib/src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
@@ -150,7 +150,7 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
                     async () => {
                         const raceEntityList =
                             await repository.fetchRaceEntityList(
-                                new SearchRaceFilterEntity(
+                                new SearchRaceFilterEntityForAWS(
                                     startDate,
                                     endDate,
                                     raceType,

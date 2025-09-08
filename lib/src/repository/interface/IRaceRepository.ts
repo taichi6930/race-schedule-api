@@ -1,6 +1,6 @@
 import type { RaceType } from '../../utility/raceType';
 import type { RaceEntityForAWS } from '../entity/raceEntity';
-import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
+import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
 
 /**
  * レース開催データの永続化を担当するリポジトリインターフェース
@@ -43,7 +43,7 @@ export interface IRaceRepository {
      * @throws Error データの取得に失敗した場合
      */
     fetchRaceEntityList: (
-        searchFilter: SearchRaceFilterEntity,
+        searchFilter: SearchRaceFilterEntityForAWS,
     ) => Promise<RaceEntityForAWS[]>;
 
     /**

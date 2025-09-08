@@ -5,7 +5,7 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { RaceStage } from '../../utility/validateAndType/raceStage';
 import { RaceEntityForAWS } from '../entity/raceEntity';
-import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
+import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // MechanicalRacingRaceRepositoryFromHtmlのモックを作成
@@ -14,7 +14,7 @@ export class MockMechanicalRacingRaceRepositoryFromHtml
 {
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity,
+        searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntityForAWS[]> {
         const { placeEntityList } = searchFilter;
         const raceEntityList: RaceEntityForAWS[] = [];

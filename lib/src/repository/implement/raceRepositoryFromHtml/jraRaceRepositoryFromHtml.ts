@@ -19,7 +19,7 @@ import {
 import { RaceDistance } from '../../../utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
-import { SearchRaceFilterEntity } from '../../entity/searchRaceFilterEntity';
+import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../../interface/IRaceRepository';
 
 @injectable()
@@ -35,7 +35,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntity,
+        searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntityForAWS[]> {
         const jraRaceEntityList: RaceEntityForAWS[] = [];
         const { placeEntityList } = searchFilter;
