@@ -1,6 +1,5 @@
 import type { calendar_v3 } from 'googleapis';
 
-import type { SearchCalendarFilterEntity } from '../repository/entity/searchCalendarFilterEntity';
 import type { CommonParameter } from '../utility/commonParameter';
 import type { RaceType } from '../utility/raceType';
 
@@ -43,7 +42,9 @@ export interface ICalendarGateway {
      */
     fetchCalendarDataList: (
         commonParameter: CommonParameter,
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        raceType: RaceType,
+        startDate: Date,
+        finishDate: Date,
     ) => Promise<calendar_v3.Schema$Event[]>;
 
     /**

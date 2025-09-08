@@ -2,7 +2,6 @@ import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
 
 import { createErrorMessage } from '../../lib/src/utility/error';
-import { SearchCalendarFilterEntity } from '../repository/entity/searchCalendarFilterEntity';
 import { CloudFlareEnv, CommonParameter } from '../utility/commonParameter';
 import { Logger } from '../utility/logger';
 import { RaceType } from '../utility/raceType';
@@ -35,26 +34,28 @@ export class GoogleCalendarGateway implements ICalendarGateway {
     @Logger
     public async fetchCalendarDataList(
         commonParameter: CommonParameter,
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        raceType: RaceType,
+        startDate: Date,
+        finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
         try {
             this.authInit(commonParameter);
             const calendarId = await this.getCalendarId(
-                searchCalendarFilter.raceType,
+                raceType,
                 commonParameter.env,
             );
             // orderBy: 'startTime'で開始時刻順に取得
             const response = await this.calendar.events.list({
                 calendarId,
-                timeMin: searchCalendarFilter.startDate.toISOString(),
-                timeMax: searchCalendarFilter.finishDate.toISOString(),
+                timeMin: startDate.toISOString(),
+                timeMax: finishDate.toISOString(),
                 singleEvents: true,
                 orderBy: 'startTime',
             });
             return response.data.items ?? [];
         } catch (error) {
             const calendarId = await this.getCalendarId(
-                searchCalendarFilter.raceType,
+                raceType,
                 commonParameter.env,
             );
             const clientEmail = commonParameter.env.GOOGLE_CLIENT_EMAIL;

@@ -35,15 +35,16 @@ export class GoogleCalendarRepository implements ICalendarRepository {
         commonParameter: CommonParameter,
         searchFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
-        const raceTypeList = [searchFilter.raceType];
         const calendarDataList: CalendarData[] = [];
-        for (const raceType of raceTypeList) {
+        for (const raceType of searchFilter.raceTypeList) {
             // GoogleカレンダーAPIからイベントを取得
             try {
                 const _calendarDataList =
                     await this.googleCalendarGateway.fetchCalendarDataList(
                         commonParameter,
-                        searchFilter,
+                        raceType,
+                        searchFilter.startDate,
+                        searchFilter.finishDate,
                     );
                 calendarDataList.push(
                     ..._calendarDataList.map((calendarData) =>

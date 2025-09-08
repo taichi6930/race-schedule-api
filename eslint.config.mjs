@@ -243,7 +243,7 @@ export default [
     },
     {
         files: [
-            '**/publicGamblingController.ts',
+            '**/*Controller.ts',
             '**/*s3Gateway.ts',
             '**/utility/env.ts',
         ],
