@@ -77,19 +77,18 @@ export class CalendarUseCase implements ICalendarUseCase {
             searchCalendarFilter,
             DataLocation.Storage,
         );
-
         // フラット化して単一の RaceEntity[] にする（後続のオブジェクト型 filteredRaceEntityList と名前衝突しないよう別名）
-        const filteredRaceEntityList: RaceEntity[] = [
-            RaceType.OVERSEAS,
-        ].flatMap((raceType) =>
-            raceEntityList.filter(
-                (raceEntity) =>
-                    raceEntity.raceData.raceType === raceType &&
-                    displayGradeList[raceType].includes(
-                        raceEntity.raceData.grade,
-                    ),
-            ),
+        const filteredRaceEntityList: RaceEntity[] = RACE_TYPE_LIST_ALL.flatMap(
+            (raceType) =>
+                raceEntityList.filter(
+                    (raceEntity) =>
+                        raceEntity.raceData.raceType === raceType &&
+                        displayGradeList[raceType].includes(
+                            raceEntity.raceData.grade,
+                        ),
+                ),
         );
+
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
             await this.calendarService.fetchEvents(
