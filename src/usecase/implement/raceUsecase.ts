@@ -69,23 +69,30 @@ export class RaceUseCase implements IRaceUseCase {
         const filteredRaceEntityList = RACE_TYPE_LIST_ALL.flatMap(
             (raceType) => {
                 return raceEntityList.filter((raceEntity) => {
+                    const searchFilter = searchList?.[raceType];
+                    // const hasStageSupport =
+                    //     raceType === RaceType.KEIRIN ||
+                    //     raceType === RaceType.AUTORACE ||
+                    //     raceType === RaceType.BOATRACE;
+
                     return (
                         raceEntity.raceData.raceType === raceType &&
-                        (!searchList?.[raceType] ||
-                            searchList[raceType].gradeList?.length === 0 ||
-                            searchList[raceType].gradeList?.includes(
+                        (!searchFilter ||
+                            searchFilter.gradeList?.length === 0 ||
+                            searchFilter.gradeList?.includes(
                                 raceEntity.raceData.grade,
                             )) &&
-                        (!searchList?.[raceType] ||
-                            searchList[raceType].locationList?.length === 0 ||
-                            searchList[raceType].locationList?.includes(
+                        (!searchFilter ||
+                            searchFilter.locationList?.length === 0 ||
+                            searchFilter.locationList?.includes(
                                 raceEntity.raceData.location,
-                            )) &&
-                        (!searchList?.[raceType]?.stageList ||
-                            searchList[raceType].stageList?.length === 0 ||
-                            searchList[raceType].stageList?.includes(
-                                raceEntity.raceData.stage,
                             ))
+                        //    &&(!hasStageSupport ||
+                        //         !searchFilter ||
+                        //         !('stageList' in searchFilter) ||
+                        //         searchFilter.stageList?.length === 0 ||
+                        //         raceEntity.stage === undefined ||
+                        //         searchFilter.stageList?.includes(raceEntity.stage))
                     );
                 });
             },
