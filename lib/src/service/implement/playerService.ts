@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../../src/utility/raceType';
 import { PlayerData } from '../../domain/playerData';
-import { SearchPlayerFilterEntity } from '../../repository/entity/searchPlayerFilterEntity';
+import { SearchPlayerFilterEntityForAWS } from '../../repository/entity/searchPlayerFilterEntity';
 import type { IPlayerRepository } from '../../repository/interface/IPlayerRepository';
 import { Logger } from '../../utility/logger';
 import type { IPlayerService } from '../interface/IPlayerService';
@@ -26,7 +26,7 @@ export class PlayerService implements IPlayerService {
         raceType: RaceType,
     ): Promise<PlayerData[]> {
         const allPlayers = await this.repository.findAll(
-            new SearchPlayerFilterEntity(raceType),
+            new SearchPlayerFilterEntityForAWS(raceType),
         );
         return allPlayers
             .filter((p) => p.raceType === raceType)

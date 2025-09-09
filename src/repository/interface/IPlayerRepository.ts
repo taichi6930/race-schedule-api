@@ -1,11 +1,11 @@
 import type { CommonParameter } from '../../utility/commonParameter';
-import type { RaceType } from '../../utility/raceType';
+import type { SearchPlayerFilterEntity } from '../entity/filter/searchPlayerFilterEntity';
 import type { PlayerEntity } from '../entity/playerEntity';
 
 export interface IPlayerRepository {
     fetchPlayerEntityList: (
         commonParameter: CommonParameter,
-        raceType: RaceType,
+        searchPlayerFilter: SearchPlayerFilterEntity,
     ) => Promise<PlayerEntity[]>;
 
     upsertPlayerEntityList: (

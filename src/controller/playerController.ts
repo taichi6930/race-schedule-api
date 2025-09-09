@@ -2,10 +2,11 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import { SearchPlayerFilterEntity } from '../repository/entity/filter/searchPlayerFilterEntity';
 import { PlayerEntity } from '../repository/entity/playerEntity';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
 import { CommonParameter } from '../utility/commonParameter';
-import { isRaceType, validateRaceType } from '../utility/raceType';
+import { convertRaceTypeList, RaceType } from '../utility/raceType';
 
 @injectable()
 export class PlayerController {
@@ -28,18 +29,20 @@ export class PlayerController {
     public async getPlayerEntityList(
         commonParameter: CommonParameter,
     ): Promise<Response> {
-        const raceTypeParam = commonParameter.searchParams.get('raceType');
-        if (!isRaceType(raceTypeParam)) {
+        const raceTypeParam = commonParameter.searchParams.getAll('raceType');
+        const raceTypeList: RaceType[] = convertRaceTypeList(raceTypeParam);
+
+        if (raceTypeList.length === 0) {
             return new Response('Bad Request: Invalid raceType', {
                 status: 400,
                 headers: this.corsHeaders,
             });
         }
-        const raceType = validateRaceType(raceTypeParam);
+        const searchPlayerFilter = new SearchPlayerFilterEntity(raceTypeList);
 
         const playerEntityList = await this.usecase.fetchPlayerEntityList(
             commonParameter,
-            raceType,
+            searchPlayerFilter,
         );
 
         return Response.json(

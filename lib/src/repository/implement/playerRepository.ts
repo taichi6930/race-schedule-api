@@ -8,7 +8,7 @@ import { PlayerRecord } from '../../gateway/record/playerRecord';
 import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { Logger } from '../../utility/logger';
 import { PlayerEntityForAWS } from '../entity/playerEntity';
-import { SearchPlayerFilterEntity } from '../entity/searchPlayerFilterEntity';
+import { SearchPlayerFilterEntityForAWS } from '../entity/searchPlayerFilterEntity';
 import { IPlayerRepository } from '../interface/IPlayerRepository';
 
 @injectable()
@@ -25,7 +25,7 @@ export class PlayerRepository implements IPlayerRepository {
      */
     @Logger
     public async findAll(
-        searchFilter: SearchPlayerFilterEntity,
+        searchFilter: SearchPlayerFilterEntityForAWS,
     ): Promise<PlayerEntityForAWS[]> {
         // 開催データを取得
         const playerRecordList: PlayerRecord[] =
