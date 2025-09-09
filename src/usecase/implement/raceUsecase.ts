@@ -65,10 +65,6 @@ export class RaceUseCase implements IRaceUseCase {
             searchRaceFilter,
             DataLocation.Storage,
         );
-        console.log(
-            `フィルタリング前のraceEntityListの件数: ${raceEntityList.length}`,
-        );
-
         // 共通フィルタ関数で簡潔に
         const filteredRaceEntityList = RACE_TYPE_LIST_ALL.flatMap(
             (raceType) => {
@@ -84,6 +80,11 @@ export class RaceUseCase implements IRaceUseCase {
                             searchList[raceType].locationList?.length === 0 ||
                             searchList[raceType].locationList?.includes(
                                 raceEntity.raceData.location,
+                            )) &&
+                        (!searchList?.[raceType]?.stageList ||
+                            searchList[raceType].stageList?.length === 0 ||
+                            searchList[raceType].stageList?.includes(
+                                raceEntity.raceData.stage,
                             ))
                     );
                 });
