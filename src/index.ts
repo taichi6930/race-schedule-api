@@ -105,11 +105,6 @@ export default {
             return new Response(null, { headers: corsHeaders });
         }
 
-        const playerController = container.resolve(PlayerController);
-        const placeController = container.resolve(PlaceController);
-        const raceController = container.resolve(RaceController);
-        const calendarController = container.resolve(CalendarController);
-
         try {
             if (pathname === '/health' && request.method === 'GET') {
                 return new Response('ok health check', {
@@ -118,53 +113,66 @@ export default {
                 });
             }
 
-            if (pathname === '/players' && request.method === 'GET') {
-                return await playerController.getPlayerEntityList(
-                    commonParameter,
-                    searchParams,
-                );
+            if (pathname === '/player') {
+                const playerController = container.resolve(PlayerController);
+                if (request.method === 'GET') {
+                    return await playerController.getPlayerEntityList(
+                        commonParameter,
+                        searchParams,
+                    );
+                }
+
+                if (request.method === 'POST') {
+                    return await playerController.postUpsertPlayer(
+                        request,
+                        commonParameter,
+                    );
+                }
             }
 
-            if (pathname === '/players' && request.method === 'POST') {
-                return await playerController.postUpsertPlayer(
-                    request,
-                    commonParameter,
-                );
+            if (pathname === '/race') {
+                const raceController = container.resolve(RaceController);
+                if (request.method === 'GET') {
+                    return await raceController.getRaceEntityList(
+                        commonParameter,
+                        searchParams,
+                    );
+                }
+
+                if (request.method === 'POST') {
+                    return await raceController.postUpsertRace(
+                        request,
+                        commonParameter,
+                    );
+                }
             }
 
-            if (pathname === '/race' && request.method === 'GET') {
-                return await raceController.getRaceEntityList(
-                    commonParameter,
-                    searchParams,
-                );
+            if (pathname === '/calendar') {
+                const calendarController =
+                    container.resolve(CalendarController);
+                if (request.method === 'GET') {
+                    return await calendarController.getCalendarEntityList(
+                        commonParameter,
+                        searchParams,
+                    );
+                }
+
+                if (request.method === 'POST') {
+                    return await calendarController.postUpsertCalendar(
+                        request,
+                        commonParameter,
+                    );
+                }
             }
 
-            if (pathname === '/race' && request.method === 'POST') {
-                return await raceController.postUpsertRace(
-                    request,
-                    commonParameter,
-                );
-            }
-
-            if (pathname === '/calendar' && request.method === 'GET') {
-                return await calendarController.getCalendarEntityList(
-                    commonParameter,
-                    searchParams,
-                );
-            }
-
-            if (pathname === '/calendar' && request.method === 'POST') {
-                return await calendarController.postUpsertCalendar(
-                    request,
-                    commonParameter,
-                );
-            }
-
-            if (pathname === '/place' && request.method === 'GET') {
-                return await placeController.getPlaceEntityList(
-                    commonParameter,
-                    searchParams,
-                );
+            if (pathname === '/place') {
+                const placeController = container.resolve(PlaceController);
+                if (request.method === 'GET') {
+                    return await placeController.getPlaceEntityList(
+                        commonParameter,
+                        searchParams,
+                    );
+                }
             }
 
             // 404 Not Found
