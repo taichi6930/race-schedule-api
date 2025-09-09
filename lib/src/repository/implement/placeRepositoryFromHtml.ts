@@ -16,13 +16,13 @@ import {
 } from '../../utility/validateAndType/raceCourse';
 import { PlaceEntityForAWS } from '../entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepository';
 
 /**
  * 開催場データリポジトリの実装
  */
 @injectable()
-export class PlaceRepositoryFromHtml implements IPlaceRepository {
+export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
     public constructor(
         @inject('PlaceDataHtmlGateway')
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGatewayForAWS,

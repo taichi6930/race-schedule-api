@@ -1,10 +1,10 @@
 import type { PlaceEntityForAWS } from '../../../../../../lib/src/repository/entity/placeEntity';
 import type { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import type { IPlaceRepository } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
+import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import { basePlaceEntity } from '../common/baseCommonData';
 
-export const mockPlaceRepository = (): jest.Mocked<IPlaceRepository> => {
+export const mockPlaceRepository = (): jest.Mocked<IPlaceRepositoryForAWS> => {
     return {
         fetchPlaceEntityList: jest
             .fn()

@@ -8,9 +8,9 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { PlaceEntityForAWS } from '../entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepository';
 
-export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
+export class MockPlaceRepositoryFromHtml implements IPlaceRepositoryForAWS {
     /**
      * 場データを取得する
      * @param searchFilter

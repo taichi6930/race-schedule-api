@@ -29,9 +29,6 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
             startDateFormatted,
             finishDateFormatted,
         );
-        //         race_type TEXT NOT NULL,
-        // date_time DATETIME NOT NULL,
-        // location_name TEXT NOT NULL,
         const { results } = await env.DB.prepare(
             `
             SELECT
@@ -60,7 +57,32 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
         commonParameter: CommonParameter,
         entityList: PlaceEntity[],
     ): Promise<void> {
-        console.log(commonParameter, entityList);
-        throw new Error('Method not implemented.');
+        const { env } = commonParameter;
+        const insertStmt = env.DB.prepare(
+            `
+            INSERT INTO place (
+                id,
+                race_type,
+                date_time,
+                location_name,
+                created_at,
+                updated_at
+            ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            ON CONFLICT(id) DO UPDATE SET
+                race_type = excluded.race_type,
+                date_time = excluded.date_time,
+                location_name = excluded.location_name,
+                updated_at = CURRENT_TIMESTAMP
+            `,
+        );
+        for (const entity of entityList) {
+            const { id, placeData } = entity;
+            // JST変換
+            const dateJST = new Date(new Date(placeData.dateTime));
+            const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
+            await insertStmt
+                .bind(id, placeData.raceType, dateTimeStr, placeData.location)
+                .run();
+        }
     }
 }

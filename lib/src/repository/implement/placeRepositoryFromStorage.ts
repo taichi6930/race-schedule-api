@@ -12,10 +12,12 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { PlaceEntityForAWS } from '../entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepository';
 
 @injectable()
-export class PlaceRepositoryFromStorage implements IPlaceRepository {
+export class PlaceRepositoryFromStorageForAWS
+    implements IPlaceRepositoryForAWS
+{
     // S3にアップロードするファイル名
     private readonly placeFileName = CSV_FILE_NAME.PLACE_LIST;
     private readonly heldDayFileName = CSV_FILE_NAME.HELD_DAY_LIST;

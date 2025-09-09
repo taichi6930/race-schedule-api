@@ -20,7 +20,7 @@ import type { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterE
  * - データベース（SQLite, RDBMSなど）
  * - 外部API（HTMLスクレイピングなど）
  */
-export interface IPlaceRepository {
+export interface IPlaceRepositoryForAWS {
     /**
      * 指定された検索条件に基づいて開催場所データを取得します
      *

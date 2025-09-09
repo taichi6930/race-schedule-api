@@ -9,8 +9,8 @@ import { container } from 'tsyringe';
 import { PlaceData } from '../../../../../../lib/src/domain/placeData';
 import { PlaceEntityForAWS } from '../../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { PlaceRepositoryFromStorage } from '../../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
-import type { IPlaceRepository } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
+import { PlaceRepositoryFromStorageForAWS } from '../../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
+import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
 import { getJSTDate } from '../../../../../../lib/src/utility/date';
 import {
     IS_LARGE_AMOUNT_DATA_TEST,
@@ -32,12 +32,12 @@ import {
 
 describe('PlaceRepositoryFromStorage', () => {
     let gatewaySetup: TestGatewaySetup;
-    let repository: IPlaceRepository;
+    let repository: IPlaceRepositoryForAWS;
 
     beforeEach(() => {
         gatewaySetup = setupTestGatewayMock();
         // テスト対象のリポジトリを生成
-        repository = container.resolve(PlaceRepositoryFromStorage);
+        repository = container.resolve(PlaceRepositoryFromStorageForAWS);
     });
 
     afterEach(() => {

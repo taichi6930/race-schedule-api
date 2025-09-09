@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import type { ICalendarGatewayForAWS } from '../../lib/src/gateway/interface/iCalendarGateway';
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
 import type { ICalendarRepositoryForAWS } from '../../lib/src/repository/interface/ICalendarRepository';
-import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
+import type { IPlaceRepositoryForAWS } from '../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepositoryForAWS } from '../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import type { ICalendarServiceForAWS } from '../../lib/src/service/interface/ICalendarService';
 import type { IPlaceServiceForAWS } from '../../lib/src/service/interface/IPlaceService';
@@ -33,8 +33,8 @@ export function clearMocks(): void {
  */
 export interface TestRepositorySetup {
     calendarRepository: jest.Mocked<ICalendarRepositoryForAWS>;
-    placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
-    placeRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    placeRepositoryFromStorage: jest.Mocked<IPlaceRepositoryForAWS>;
+    placeRepositoryFromHtml: jest.Mocked<IPlaceRepositoryForAWS>;
     horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepositoryForAWS>;
     jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
     narRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
@@ -114,12 +114,12 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
     container.registerInstance('CalendarRepository', calendarRepository);
 
     const placeRepositoryFromStorage = mockPlaceRepository();
-    container.registerInstance<IPlaceRepository>(
+    container.registerInstance<IPlaceRepositoryForAWS>(
         'PlaceRepositoryFromStorage',
         placeRepositoryFromStorage,
     );
     const placeRepositoryFromHtml = mockPlaceRepository();
-    container.registerInstance<IPlaceRepository>(
+    container.registerInstance<IPlaceRepositoryForAWS>(
         'PlaceRepositoryFromHtml',
         placeRepositoryFromHtml,
     );
