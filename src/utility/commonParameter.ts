@@ -1,7 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 
 export interface CommonParameter {
-    searchParams: URLSearchParams;
     env: CloudFlareEnv;
 }
 export interface CloudFlareEnv {

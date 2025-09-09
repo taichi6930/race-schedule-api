@@ -25,18 +25,17 @@ export class RaceController {
     /**
      * 選手データを取得する
      * @param commonParameter - 共通パラメータ
+     * @param searchParams
      */
     @Logger
     public async getRaceEntityList(
         commonParameter: CommonParameter,
+        searchParams: URLSearchParams,
     ): Promise<Response> {
         try {
-            const raceTypeParam =
-                commonParameter.searchParams.getAll('raceType');
-            const startDateParam =
-                commonParameter.searchParams.get('startDate');
-            const finishDateParam =
-                commonParameter.searchParams.get('finishDate');
+            const raceTypeParam = searchParams.getAll('raceType');
+            const startDateParam = searchParams.get('startDate');
+            const finishDateParam = searchParams.get('finishDate');
 
             const raceTypeList: RaceType[] = convertRaceTypeList(raceTypeParam);
 

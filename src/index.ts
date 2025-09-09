@@ -75,7 +75,7 @@ export default {
         const url = new URL(request.url);
         const { pathname, searchParams } = url;
 
-        const commonParameter: CommonParameter = { searchParams, env };
+        const commonParameter: CommonParameter = { env };
 
         // CORS設定
         const corsHeaders = {
@@ -103,6 +103,7 @@ export default {
             if (pathname === '/players' && request.method === 'GET') {
                 return await playerController.getPlayerEntityList(
                     commonParameter,
+                    searchParams,
                 );
             }
 
@@ -114,7 +115,10 @@ export default {
             }
 
             if (pathname === '/race' && request.method === 'GET') {
-                return await raceController.getRaceEntityList(commonParameter);
+                return await raceController.getRaceEntityList(
+                    commonParameter,
+                    searchParams,
+                );
             }
 
             if (pathname === '/race' && request.method === 'POST') {
@@ -127,6 +131,7 @@ export default {
             if (pathname === '/calendar' && request.method === 'GET') {
                 return await calendarController.getCalendarEntityList(
                     commonParameter,
+                    searchParams,
                 );
             }
 

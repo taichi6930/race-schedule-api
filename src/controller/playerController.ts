@@ -25,11 +25,13 @@ export class PlayerController {
     /**
      * 選手データを取得する
      * @param commonParameter - 共通パラメータ
+     * @param searchParams
      */
     public async getPlayerEntityList(
         commonParameter: CommonParameter,
+        searchParams: URLSearchParams,
     ): Promise<Response> {
-        const raceTypeParam = commonParameter.searchParams.getAll('raceType');
+        const raceTypeParam = searchParams.getAll('raceType');
         const raceTypeList: RaceType[] = convertRaceTypeList(raceTypeParam);
 
         if (raceTypeList.length === 0) {
