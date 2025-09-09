@@ -1,9 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
-import {
-    DataLocation,
-    DataLocationType,
-} from '../../../lib/src/utility/dataType';
+import { DataLocationType } from '../../../lib/src/utility/dataType';
 import { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
@@ -12,12 +9,12 @@ import { Logger } from '../../utility/logger';
 import { IPlaceService } from '../interface/IPlaceService';
 
 @injectable()
-export class PlaceDataService implements IPlaceService {
+export class PlaceService implements IPlaceService {
     public constructor(
         @inject('PlaceRepositoryForStorage')
         private readonly repositoryForStorage: IPlaceRepository,
-        @inject('PlaceRepositoryFromHtml')
-        private readonly repositoryFromHtml: IPlaceRepository,
+        // @inject('PlaceRepositoryFromHtml')
+        // private readonly repositoryFromHtml: IPlaceRepository,
     ) {}
 
     @Logger
@@ -26,10 +23,12 @@ export class PlaceDataService implements IPlaceService {
         searchPlaceFilter: SearchPlaceFilterEntity,
         dataLocation: DataLocationType,
     ): Promise<PlaceEntity[]> {
-        const repository =
-            dataLocation === DataLocation.Storage
-                ? this.repositoryForStorage
-                : this.repositoryFromHtml;
+        // const repository =
+        //     dataLocation === DataLocation.Storage
+        //         ? this.repositoryForStorage
+        //         : this.repositoryFromHtml;
+        console.log(dataLocation);
+        const repository = this.repositoryForStorage;
         return repository.fetchPlaceEntityList(
             commonParameter,
             searchPlaceFilter,

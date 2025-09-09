@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { CalendarController } from './controller/calendarController';
+import { PlaceController } from './controller/placeController';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
 import { GoogleCalendarGateway } from './gateway/implement/googleCalendarGateway';
@@ -11,21 +12,27 @@ import type { ICalendarGateway } from './gateway/interface/iCalendarGateway';
 import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
 import { GoogleCalendarRepository } from './repository/implement/googleCalendarRepository';
 import { OverseasRaceRepositoryFromHtml } from './repository/implement/overseasRaceRepositoryFromHtml';
+import { PlaceRepositoryForStorage } from './repository/implement/placeRepositoryStorage';
 import { PlayerRepository } from './repository/implement/playerRepository';
 import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryStorage';
 import type { ICalendarRepository } from './repository/interface/ICalendarRepository';
+import type { IPlaceRepository } from './repository/interface/IPlaceRepository';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
 import type { IRaceRepository } from './repository/interface/IRaceRepository';
 import { CalendarService } from './service/implement/calendarService';
+import { PlaceService } from './service/implement/placeService';
 import { PlayerService } from './service/implement/playerService';
 import { RaceService } from './service/implement/raceService';
 import type { ICalendarService } from './service/interface/ICalendarService';
+import type { IPlaceService } from './service/interface/IPlaceService';
 import type { IPlayerService } from './service/interface/IPlayerService';
 import type { IRaceService } from './service/interface/IRaceService';
 import { CalendarUseCase } from './usecase/implement/calendarUseCase';
+import { PlaceUseCase } from './usecase/implement/placeUsecase';
 import { PlayerUseCase } from './usecase/implement/playerUsecase';
 import { RaceUseCase } from './usecase/implement/raceUsecase';
 import type { ICalendarUseCase } from './usecase/interface/ICalendarUseCase';
+import type { IPlaceUseCase } from './usecase/interface/IPlaceUsecase';
 import type { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
 import type { IRaceUseCase } from './usecase/interface/IRaceUsecase';
 import type { CloudFlareEnv, CommonParameter } from './utility/commonParameter';
@@ -55,6 +62,16 @@ container.register<IRaceService>('RaceService', {
 });
 container.register<IRaceUseCase>('RaceUsecase', {
     useClass: RaceUseCase,
+});
+
+container.register<IPlaceRepository>('PlaceRepositoryForStorage', {
+    useClass: PlaceRepositoryForStorage,
+});
+container.register<IPlaceService>('PlaceService', {
+    useClass: PlaceService,
+});
+container.register<IPlaceUseCase>('PlaceUsecase', {
+    useClass: PlaceUseCase,
 });
 
 container.register<ICalendarGateway>('GoogleCalendarGateway', {
@@ -89,6 +106,7 @@ export default {
         }
 
         const playerController = container.resolve(PlayerController);
+        const placeController = container.resolve(PlaceController);
         const raceController = container.resolve(RaceController);
         const calendarController = container.resolve(CalendarController);
 
@@ -139,6 +157,13 @@ export default {
                 return await calendarController.postUpsertCalendar(
                     request,
                     commonParameter,
+                );
+            }
+
+            if (pathname === '/place' && request.method === 'GET') {
+                return await placeController.getPlaceEntityList(
+                    commonParameter,
+                    searchParams,
                 );
             }
 
