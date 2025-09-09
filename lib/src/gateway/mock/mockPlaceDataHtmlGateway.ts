@@ -5,13 +5,13 @@ import { format } from 'date-fns';
 
 import { RaceType } from '../../../../src/utility/raceType';
 import { Logger } from '../../utility/logger';
-import { IPlaceDataHtmlGateway } from '../interface/iPlaceDataHtmlGateway';
+import { IPlaceDataHtmlGatewayForAWS } from '../interface/iPlaceDataHtmlGateway';
 /**
  * MockPlaceDataHtmlGatewayは、IPlaceDataHtmlGatewayのモック実装です。
  * 実際のHTML取得を行わず、モックデータを返します。
  * 主にテストや開発環境で使用されます。
  */
-export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
+export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGatewayForAWS {
     /**
      * raceTypeとdateからURLを生成
      * @param raceType - レース種別

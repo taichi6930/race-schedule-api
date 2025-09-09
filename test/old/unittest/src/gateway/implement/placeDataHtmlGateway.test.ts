@@ -1,14 +1,14 @@
-import { PlaceDataHtmlGateway } from '../../../../../../lib/src/gateway/implement/placeDataHtmlGateway';
-import type { IPlaceDataHtmlGateway } from '../../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
+import { PlaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gateway/implement/placeDataHtmlGateway';
+import type { IPlaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import { clearMocks } from '../../../../../utility/testSetupHelper';
 
 describe('PlaceDataHtmlGateway', () => {
-    let gateway: IPlaceDataHtmlGateway;
+    let gateway: IPlaceDataHtmlGatewayForAWS;
     let fetchMock: jest.Mock;
 
     beforeEach(() => {
-        gateway = new PlaceDataHtmlGateway();
+        gateway = new PlaceDataHtmlGatewayForAWS();
 
         // fetch をモックし、型定義を追加
         fetchMock = jest.fn();

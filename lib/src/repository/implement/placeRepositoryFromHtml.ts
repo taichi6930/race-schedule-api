@@ -6,7 +6,7 @@ import { inject, injectable } from 'tsyringe';
 import { RaceType } from '../../../../src/utility/raceType';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
-import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
+import { IPlaceDataHtmlGatewayForAWS } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { GradeType } from '../../utility/validateAndType/gradeType';
@@ -25,7 +25,7 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 export class PlaceRepositoryFromHtml implements IPlaceRepository {
     public constructor(
         @inject('PlaceDataHtmlGateway')
-        private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
+        private readonly placeDataHtmlGateway: IPlaceDataHtmlGatewayForAWS,
     ) {}
 
     /**

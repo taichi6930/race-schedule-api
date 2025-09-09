@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IPlaceDataHtmlGateway } from '../../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
+import type { IPlaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
@@ -65,7 +65,7 @@ const testCases = {
 describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
     for (const { startDate, endDate, expectedLength } of testCases[raceType]) {
         describe(`PlaceRepositoryFromHtml(${raceType})`, () => {
-            let placeDataHtmlGateway: IPlaceDataHtmlGateway;
+            let placeDataHtmlGateway: IPlaceDataHtmlGatewayForAWS;
             let repository: IPlaceRepository;
 
             beforeAll(() => {
