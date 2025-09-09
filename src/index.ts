@@ -13,6 +13,7 @@ import type { ICalendarGateway } from './gateway/interface/iCalendarGateway';
 import type { IPlaceDataHtmlGateway } from './gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
 import { GoogleCalendarRepository } from './repository/implement/googleCalendarRepository';
+import { NarRaceRepositoryFromHtml } from './repository/implement/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtml } from './repository/implement/overseasRaceRepositoryFromHtml';
 import { PlaceRepositoryFromHtml } from './repository/implement/placeRepositoryFromHtml';
 import { PlaceRepositoryForStorage } from './repository/implement/placeRepositoryStorage';
@@ -59,6 +60,9 @@ container.register<IRaceRepository>('RaceRepositoryForStorage', {
 });
 container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
     useClass: OverseasRaceRepositoryFromHtml,
+});
+container.register<IRaceRepository>('NarRaceRepositoryFromHtml', {
+    useClass: NarRaceRepositoryFromHtml,
 });
 container.register<IRaceService>('RaceService', {
     useClass: RaceService,
