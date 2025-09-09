@@ -6,11 +6,11 @@ import type { ICalendarGatewayForAWS } from '../../lib/src/gateway/interface/iCa
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
 import type { ICalendarRepositoryForAWS } from '../../lib/src/repository/interface/ICalendarRepository';
 import type { IPlaceRepositoryForAWS } from '../../lib/src/repository/interface/IPlaceRepository';
-import type { IRaceRepositoryForAWS } from '../../lib/src/repository/interface/IRaceRepositoryForAWS';
+import type { IRaceRepositoryForAWS } from '../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarServiceForAWS } from '../../lib/src/service/interface/ICalendarService';
 import type { IPlaceServiceForAWS } from '../../lib/src/service/interface/IPlaceService';
-import type { IPlayerService } from '../../lib/src/service/interface/IPlayerService';
-import type { IRaceService } from '../../lib/src/service/interface/IRaceService';
+import type { IPlayerServiceForAWS } from '../../lib/src/service/interface/IPlayerService';
+import type { IRaceServiceForAWS } from '../../lib/src/service/interface/IRaceService';
 import { mockGoogleCalendarGateway } from '../old/unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockS3Gateway } from '../old/unittest/src/mock/gateway/mockS3Gateway';
 import { mockCalendarRepository } from '../old/unittest/src/mock/repository/mockCalendarRepository';
@@ -55,9 +55,9 @@ export interface TestGatewaySetup {
 
 export interface TestServiceSetup {
     calendarService: jest.Mocked<ICalendarServiceForAWS>;
-    raceService: jest.Mocked<IRaceService>;
+    raceService: jest.Mocked<IRaceServiceForAWS>;
     placeService: jest.Mocked<IPlaceServiceForAWS>;
-    playerService: jest.Mocked<IPlayerService>;
+    playerService: jest.Mocked<IPlayerServiceForAWS>;
 }
 
 /**
@@ -165,14 +165,14 @@ export function setupTestServiceMock(): TestServiceSetup {
         calendarService,
     );
     const raceService = raceDataServiceMock();
-    container.registerInstance<IRaceService>('RaceService', raceService);
+    container.registerInstance<IRaceServiceForAWS>('RaceService', raceService);
     const placeService = placeServiceMock();
     container.registerInstance<IPlaceServiceForAWS>(
         'PlaceService',
         placeService,
     );
     const playerService = playerDataServiceMock();
-    container.registerInstance<IPlayerService>(
+    container.registerInstance<IPlayerServiceForAWS>(
         'PlayerDataService',
         playerService,
     );

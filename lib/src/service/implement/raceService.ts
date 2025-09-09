@@ -7,16 +7,16 @@ import {
 import { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../repository/entity/searchRaceFilterEntity';
-import { IRaceRepositoryForAWS } from '../../repository/interface/IRaceRepositoryForAWS';
+import { IRaceRepositoryForAWS } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IRaceService } from '../interface/IRaceService';
+import { IRaceServiceForAWS } from '../interface/IRaceService';
 
 /**
  * 開催場所データの取得と更新を担当する基底サービスクラス
  */
 @injectable()
-export class RaceService implements IRaceService {
+export class RaceServiceForAWS implements IRaceServiceForAWS {
     private readonly raceRepositoryFromStorage: Record<
         RaceType,
         IRaceRepositoryForAWS

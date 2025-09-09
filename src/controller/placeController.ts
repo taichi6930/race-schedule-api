@@ -92,4 +92,84 @@ export class PlaceController {
             });
         }
     }
+
+    /**
+     * 開催場データを登録・更新する
+     * @param request - Requestオブジェクト
+     * @param commonParameter - 共通パラメータ
+     */
+    @Logger
+    public async postUpsertPlace(
+        request: Request,
+        commonParameter: CommonParameter,
+    ): Promise<Response> {
+        try {
+            const body: any = await request.json();
+            if (
+                !body ||
+                (typeof body.raceType !== 'string' &&
+                    !Array.isArray(body.raceType)) ||
+                typeof body.startDate !== 'string' ||
+                typeof body.finishDate !== 'string'
+            ) {
+                console.log('Bad Request: body is missing or invalid', body);
+                return new Response('Bad Request: body is missing or invalid', {
+                    status: 400,
+                    headers: this.corsHeaders,
+                });
+            }
+            const { raceType, startDate, finishDate } = body;
+
+            // raceTypeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            const raceTypeList = convertRaceTypeList(
+                typeof raceType === 'string'
+                    ? [raceType]
+                    : typeof raceType === 'object'
+                      ? Array.isArray(raceType)
+                          ? (raceType as string[]).map((r: string) => r)
+                          : undefined
+                      : undefined,
+            );
+
+            if (raceTypeList.length === 0) {
+                return new Response('Bad Request: Invalid raceType', {
+                    status: 400,
+                    headers: this.corsHeaders,
+                });
+            }
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate)) {
+                return new Response('Bad Request: Invalid startDate', {
+                    status: 400,
+                    headers: this.corsHeaders,
+                });
+            }
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(finishDate)) {
+                return new Response('Bad Request: Invalid finishDate', {
+                    status: 400,
+                    headers: this.corsHeaders,
+                });
+            }
+            const searchPlaceFilter = new SearchPlaceFilterEntity(
+                new Date(startDate),
+                new Date(finishDate),
+                raceTypeList,
+            );
+
+            await this.usecase.upsertPlaceEntityList(
+                commonParameter,
+                searchPlaceFilter,
+            );
+
+            return new Response('OK', {
+                status: 200,
+                headers: this.corsHeaders,
+            });
+        } catch (error) {
+            console.error('Error in postUpsertRace:', error);
+            return new Response('Internal Server Error', {
+                status: 500,
+                headers: this.corsHeaders,
+            });
+        }
+    }
 }

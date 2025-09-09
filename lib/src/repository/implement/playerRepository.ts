@@ -9,10 +9,10 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { Logger } from '../../utility/logger';
 import { PlayerEntityForAWS } from '../entity/playerEntity';
 import { SearchPlayerFilterEntityForAWS } from '../entity/searchPlayerFilterEntity';
-import { IPlayerRepository } from '../interface/IPlayerRepository';
+import { IPlayerRepositoryForAWS } from '../interface/IPlayerRepository';
 
 @injectable()
-export class PlayerRepository implements IPlayerRepository {
+export class PlayerRepositoryForAWS implements IPlayerRepositoryForAWS {
     public constructor(
         @inject('S3Gateway')
         private readonly s3Gateway: IS3Gateway,

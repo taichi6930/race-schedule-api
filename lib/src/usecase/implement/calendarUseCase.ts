@@ -12,8 +12,8 @@ import { CalendarData } from '../../domain/calendarData';
 import { PlayerData } from '../../domain/playerData';
 import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import { ICalendarServiceForAWS } from '../../service/interface/ICalendarService';
-import { IPlayerService } from '../../service/interface/IPlayerService';
-import { IRaceService } from '../../service/interface/IRaceService';
+import { IPlayerServiceForAWS } from '../../service/interface/IPlayerService';
+import { IRaceServiceForAWS } from '../../service/interface/IRaceService';
 import { RaceGradeAndStageList } from '../../utility/data/stage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -29,9 +29,9 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
         @inject('CalendarService')
         private readonly calendarService: ICalendarServiceForAWS,
         @inject('RaceService')
-        private readonly raceService: IRaceService,
+        private readonly raceService: IRaceServiceForAWS,
         @inject('PlayerDataService')
-        private readonly playerDataService: IPlayerService,
+        private readonly playerDataService: IPlayerServiceForAWS,
     ) {}
 
     /**

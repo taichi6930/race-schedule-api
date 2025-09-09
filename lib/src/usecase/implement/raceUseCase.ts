@@ -7,7 +7,7 @@ import {
 } from '../../../../src/utility/raceType';
 import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import { IPlaceServiceForAWS } from '../../service/interface/IPlaceService';
-import { IRaceService } from '../../service/interface/IRaceService';
+import { IRaceServiceForAWS } from '../../service/interface/IRaceService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { GradeType } from '../../utility/validateAndType/gradeType';
@@ -24,7 +24,7 @@ export class RaceUseCaseForAWS implements IRaceUseCaseForAWS {
         @inject('PlaceService')
         private readonly placeService: IPlaceServiceForAWS,
         @inject('RaceService')
-        private readonly raceService: IRaceService,
+        private readonly raceService: IRaceServiceForAWS,
     ) {}
 
     /**

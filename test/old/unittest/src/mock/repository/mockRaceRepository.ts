@@ -1,5 +1,5 @@
 import type { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
+import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepository';
 import type { RaceType } from '../../../../../../src/utility/raceType';
 import { baseRaceEntityList } from '../common/baseCommonData';
 

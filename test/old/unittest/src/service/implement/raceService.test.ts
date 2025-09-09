@@ -2,8 +2,8 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { RaceService } from '../../../../../../lib/src/service/implement/raceService';
-import type { IRaceService } from '../../../../../../lib/src/service/interface/IRaceService';
+import { RaceServiceForAWS } from '../../../../../../lib/src/service/implement/raceService';
+import type { IRaceServiceForAWS } from '../../../../../../lib/src/service/interface/IRaceService';
 import { DataLocation } from '../../../../../../lib/src/utility/dataType';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import type { TestRepositorySetup } from '../../../../../utility/testSetupHelper';
@@ -19,12 +19,12 @@ import {
 
 describe('RaceService', () => {
     let repositorySetup: TestRepositorySetup;
-    let service: IRaceService;
+    let service: IRaceServiceForAWS;
 
     beforeEach(() => {
         repositorySetup = setupTestRepositoryMock();
         // AutoraceRaceCalendarServiceをコンテナから取得
-        service = container.resolve(RaceService);
+        service = container.resolve(RaceServiceForAWS);
     });
 
     afterEach(() => {

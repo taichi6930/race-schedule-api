@@ -8,7 +8,7 @@ import { KeirinRaceRepositoryFromHtml } from '../../src/repository/implement/rac
 import { NarRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IPlaceRepositoryForAWS } from '../../src/repository/interface/IPlaceRepository';
-import type { IRaceRepositoryForAWS } from '../../src/repository/interface/IRaceRepositoryForAWS';
+import type { IRaceRepositoryForAWS } from '../../src/repository/interface/IRaceRepository';
 import { MockHorseRacingRaceRepositoryFromHtml } from '../../src/repository/mock/mockHorseRacingRaceRepositoryFromHtml';
 import { MockMechanicalRacingRaceRepositoryFromHtml } from '../../src/repository/mock/mockMechanicalRacingRaceRepositoryFromHtml';
 import { MockPlaceRepositoryFromHtml } from '../../src/repository/mock/mockPlaceRepositoryFromHtml';

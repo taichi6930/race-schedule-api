@@ -7,11 +7,14 @@ import { PlaceController } from './controller/placeController';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
 import { GoogleCalendarGateway } from './gateway/implement/googleCalendarGateway';
+import { PlaceDataHtmlGateway } from './gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGateway } from './gateway/implement/raceDataHtmlGateway';
 import type { ICalendarGateway } from './gateway/interface/iCalendarGateway';
+import type { IPlaceDataHtmlGateway } from './gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
 import { GoogleCalendarRepository } from './repository/implement/googleCalendarRepository';
 import { OverseasRaceRepositoryFromHtml } from './repository/implement/overseasRaceRepositoryFromHtml';
+import { PlaceRepositoryFromHtml } from './repository/implement/placeRepositoryFromHtml';
 import { PlaceRepositoryForStorage } from './repository/implement/placeRepositoryStorage';
 import { PlayerRepository } from './repository/implement/playerRepository';
 import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryStorage';
@@ -64,8 +67,14 @@ container.register<IRaceUseCase>('RaceUsecase', {
     useClass: RaceUseCase,
 });
 
+container.register<IPlaceDataHtmlGateway>('PlaceDataHtmlGateway', {
+    useClass: PlaceDataHtmlGateway,
+});
 container.register<IPlaceRepository>('PlaceRepositoryForStorage', {
     useClass: PlaceRepositoryForStorage,
+});
+container.register<IPlaceRepository>('PlaceRepositoryFromHtml', {
+    useClass: PlaceRepositoryFromHtml,
 });
 container.register<IPlaceService>('PlaceService', {
     useClass: PlaceService,
@@ -171,6 +180,13 @@ export default {
                     return await placeController.getPlaceEntityList(
                         commonParameter,
                         searchParams,
+                    );
+                }
+
+                if (request.method === 'POST') {
+                    return await placeController.postUpsertPlace(
+                        request,
+                        commonParameter,
                     );
                 }
             }
