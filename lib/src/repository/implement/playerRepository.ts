@@ -8,11 +8,11 @@ import { PlayerRecord } from '../../gateway/record/playerRecord';
 import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { Logger } from '../../utility/logger';
 import { PlayerEntityForAWS } from '../entity/playerEntity';
-import { SearchPlayerFilterEntity } from '../entity/searchPlayerFilterEntity';
-import { IPlayerRepository } from '../interface/IPlayerRepository';
+import { SearchPlayerFilterEntityForAWS } from '../entity/searchPlayerFilterEntity';
+import { IPlayerRepositoryForAWS } from '../interface/IPlayerRepository';
 
 @injectable()
-export class PlayerRepository implements IPlayerRepository {
+export class PlayerRepositoryForAWS implements IPlayerRepositoryForAWS {
     public constructor(
         @inject('S3Gateway')
         private readonly s3Gateway: IS3Gateway,
@@ -25,7 +25,7 @@ export class PlayerRepository implements IPlayerRepository {
      */
     @Logger
     public async findAll(
-        searchFilter: SearchPlayerFilterEntity,
+        searchFilter: SearchPlayerFilterEntityForAWS,
     ): Promise<PlayerEntityForAWS[]> {
         // 開催データを取得
         const playerRecordList: PlayerRecord[] =

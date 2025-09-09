@@ -15,7 +15,7 @@ import { JraRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/
 import { KeirinRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
-import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
+import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../../src/utility/raceType';

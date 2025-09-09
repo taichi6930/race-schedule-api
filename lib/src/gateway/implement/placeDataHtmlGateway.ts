@@ -3,13 +3,9 @@ import '../../utility/format';
 import { RaceType } from '../../../../src/utility/raceType';
 import { createPlaceUrl } from '../../utility/data/url';
 import { Logger } from '../../utility/logger';
-import { IPlaceDataHtmlGateway } from '../interface/iPlaceDataHtmlGateway';
+import { IPlaceDataHtmlGatewayForAWS } from '../interface/iPlaceDataHtmlGateway';
 
-export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
-    public constructor() {
-        console.debug('PlaceDataHtmlGatewayが呼ばれました');
-    }
-
+export class PlaceDataHtmlGatewayForAWS implements IPlaceDataHtmlGatewayForAWS {
     /**
      * 開催場データのHTMLを取得する
      * @param raceType - レース種別

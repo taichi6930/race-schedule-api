@@ -5,12 +5,12 @@ import { container } from 'tsyringe';
 import type { ICalendarGatewayForAWS } from '../../lib/src/gateway/interface/iCalendarGateway';
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
 import type { ICalendarRepositoryForAWS } from '../../lib/src/repository/interface/ICalendarRepository';
-import type { IPlaceRepository } from '../../lib/src/repository/interface/IPlaceRepository';
-import type { IRaceRepositoryForAWS } from '../../lib/src/repository/interface/IRaceRepositoryForAWS';
+import type { IPlaceRepositoryForAWS } from '../../lib/src/repository/interface/IPlaceRepository';
+import type { IRaceRepositoryForAWS } from '../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarServiceForAWS } from '../../lib/src/service/interface/ICalendarService';
-import type { IPlaceService } from '../../lib/src/service/interface/IPlaceService';
-import type { IPlayerService } from '../../lib/src/service/interface/IPlayerService';
-import type { IRaceService } from '../../lib/src/service/interface/IRaceService';
+import type { IPlaceServiceForAWS } from '../../lib/src/service/interface/IPlaceService';
+import type { IPlayerServiceForAWS } from '../../lib/src/service/interface/IPlayerService';
+import type { IRaceServiceForAWS } from '../../lib/src/service/interface/IRaceService';
 import { mockGoogleCalendarGateway } from '../old/unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockS3Gateway } from '../old/unittest/src/mock/gateway/mockS3Gateway';
 import { mockCalendarRepository } from '../old/unittest/src/mock/repository/mockCalendarRepository';
@@ -33,8 +33,8 @@ export function clearMocks(): void {
  */
 export interface TestRepositorySetup {
     calendarRepository: jest.Mocked<ICalendarRepositoryForAWS>;
-    placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
-    placeRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    placeRepositoryFromStorage: jest.Mocked<IPlaceRepositoryForAWS>;
+    placeRepositoryFromHtml: jest.Mocked<IPlaceRepositoryForAWS>;
     horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepositoryForAWS>;
     jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
     narRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
@@ -55,9 +55,9 @@ export interface TestGatewaySetup {
 
 export interface TestServiceSetup {
     calendarService: jest.Mocked<ICalendarServiceForAWS>;
-    raceService: jest.Mocked<IRaceService>;
-    placeService: jest.Mocked<IPlaceService>;
-    playerService: jest.Mocked<IPlayerService>;
+    raceService: jest.Mocked<IRaceServiceForAWS>;
+    placeService: jest.Mocked<IPlaceServiceForAWS>;
+    playerService: jest.Mocked<IPlayerServiceForAWS>;
 }
 
 /**
@@ -114,12 +114,12 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
     container.registerInstance('CalendarRepository', calendarRepository);
 
     const placeRepositoryFromStorage = mockPlaceRepository();
-    container.registerInstance<IPlaceRepository>(
+    container.registerInstance<IPlaceRepositoryForAWS>(
         'PlaceRepositoryFromStorage',
         placeRepositoryFromStorage,
     );
     const placeRepositoryFromHtml = mockPlaceRepository();
-    container.registerInstance<IPlaceRepository>(
+    container.registerInstance<IPlaceRepositoryForAWS>(
         'PlaceRepositoryFromHtml',
         placeRepositoryFromHtml,
     );
@@ -165,11 +165,14 @@ export function setupTestServiceMock(): TestServiceSetup {
         calendarService,
     );
     const raceService = raceDataServiceMock();
-    container.registerInstance<IRaceService>('RaceService', raceService);
+    container.registerInstance<IRaceServiceForAWS>('RaceService', raceService);
     const placeService = placeServiceMock();
-    container.registerInstance<IPlaceService>('PlaceService', placeService);
+    container.registerInstance<IPlaceServiceForAWS>(
+        'PlaceService',
+        placeService,
+    );
     const playerService = playerDataServiceMock();
-    container.registerInstance<IPlayerService>(
+    container.registerInstance<IPlayerServiceForAWS>(
         'PlayerDataService',
         playerService,
     );

@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../../src/utility/raceType';
 import { PlayerData } from '../../domain/playerData';
-import { IPlayerService } from '../../service/interface/IPlayerService';
+import { IPlayerServiceForAWS } from '../../service/interface/IPlayerService';
 import { Logger } from '../../utility/logger';
 import { IPlayerDataUseCaseForAWS } from '../interface/IPlayerDataUseCase';
 
@@ -13,7 +13,7 @@ import { IPlayerDataUseCaseForAWS } from '../interface/IPlayerDataUseCase';
 export class PlayerUseCaseForAWS implements IPlayerDataUseCaseForAWS {
     public constructor(
         @inject('PlayerDataService')
-        private readonly playerDataService: IPlayerService,
+        private readonly playerDataService: IPlayerServiceForAWS,
     ) {}
 
     @Logger

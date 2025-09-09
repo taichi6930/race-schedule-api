@@ -1,0 +1,254 @@
+import 'reflect-metadata';
+
+import console from 'node:console';
+
+import * as cheerio from 'cheerio';
+import { inject, injectable } from 'tsyringe';
+
+import { PlaceData } from '../../../lib/src/domain/placeData';
+import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
+import { CommonParameter } from '../../utility/commonParameter';
+import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
+import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
+import { PlaceEntity } from '../entity/placeEntity';
+import { IPlaceRepository } from '../interface/IPlaceRepository';
+
+/**
+ * 開催場データリポジトリの実装
+ */
+@injectable()
+export class PlaceRepositoryFromHtml implements IPlaceRepository {
+    public constructor(
+        @inject('PlaceDataHtmlGateway')
+        private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
+    ) {}
+
+    /**
+     * 開催データを取得する
+     * このメソッドで日付の範囲を指定して開催データを取得する
+     * @param commonParameter
+     * @param searchFilter
+     */
+    @Logger
+    public async fetchPlaceEntityList(
+        commonParameter: CommonParameter,
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<PlaceEntity[]> {
+        const { raceTypeList, startDate, finishDate } = searchFilter;
+
+        // 各月のデータを取得して結合
+        const periodPlaceEntityLists: PlaceEntity[][] = [];
+        for (const raceType of raceTypeList) {
+            // リストを生成
+            const periodList = this.generatePeriodList(
+                raceType,
+                startDate,
+                finishDate,
+            );
+
+            for (const period of periodList) {
+                let placeEntityList: PlaceEntity[];
+                switch (raceType) {
+                    case RaceType.NAR: {
+                        placeEntityList =
+                            await this.fetchMonthPlaceEntityListForNar(
+                                raceType,
+                                period,
+                            );
+                        break;
+                    }
+                    case RaceType.JRA:
+                    case RaceType.OVERSEAS:
+                    case RaceType.KEIRIN:
+                    case RaceType.AUTORACE:
+                    case RaceType.BOATRACE: {
+                        console.error(
+                            `Race type ${raceType} is not supported by this repository`,
+                        );
+                        placeEntityList = [];
+                        break;
+                    }
+                }
+                // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
+                const delayedTimeMs = 1000;
+                console.debug(`待機時間: ${delayedTimeMs}ms`);
+                await new Promise((resolve) =>
+                    setTimeout(resolve, delayedTimeMs),
+                );
+                console.debug('待機時間が経ちました');
+                periodPlaceEntityLists.push(placeEntityList);
+            }
+        }
+
+        const placeEntityList = periodPlaceEntityLists.flat();
+
+        // 日付でフィルタリング
+        return placeEntityList.filter(
+            (placeEntity) =>
+                placeEntity.placeData.dateTime >= startDate &&
+                placeEntity.placeData.dateTime <= finishDate,
+        );
+    }
+
+    /**
+     * ターゲットの月リストを生成する
+     *startDateからfinishDateまでの月のリストを生成する
+     * @param raceType
+     * @param startDate
+     * @param finishDate
+     */
+    private generatePeriodList(
+        raceType: RaceType,
+        startDate: Date,
+        finishDate: Date,
+    ): Date[] {
+        const periodType =
+            raceType === RaceType.JRA
+                ? 'year'
+                : raceType === RaceType.BOATRACE
+                  ? 'quarter'
+                  : 'month';
+
+        const periodList: Date[] = [];
+
+        if (periodType === 'quarter') {
+            const qStartDate = new Date(
+                startDate.getFullYear(),
+                Math.floor(startDate.getMonth() / 3) * 3,
+                1,
+            );
+
+            const qFinishDate = new Date(
+                finishDate.getFullYear(),
+                Math.floor(finishDate.getMonth() / 3) * 3,
+                1,
+            );
+
+            for (
+                let currentDate = new Date(qStartDate);
+                currentDate <= qFinishDate;
+                currentDate.setMonth(currentDate.getMonth() + 3)
+            ) {
+                periodList.push(new Date(currentDate));
+            }
+
+            return periodList;
+        }
+
+        const currentDate = new Date(startDate);
+
+        while (currentDate <= finishDate) {
+            switch (periodType) {
+                case 'month': {
+                    periodList.push(
+                        new Date(
+                            currentDate.getFullYear(),
+                            currentDate.getMonth(),
+                            1,
+                        ),
+                    );
+                    currentDate.setMonth(currentDate.getMonth() + 1);
+                    continue;
+                }
+                case 'year': {
+                    periodList.push(new Date(currentDate.getFullYear(), 0, 1));
+                    currentDate.setFullYear(currentDate.getFullYear() + 1);
+                    continue;
+                }
+            }
+        }
+        return periodList;
+    }
+
+    /**
+     * S3から開催データを取得する
+     * ファイル名を利用してS3から開催データを取得する
+     * placeDataが存在しない場合はundefinedを返すので、filterで除外する
+     * @param raceType - レース種別
+     * @param date - 取得対象の月（Dateオブジェクトの年月部分のみ使用）
+     */
+    @Logger
+    private async fetchMonthPlaceEntityListForNar(
+        raceType: RaceType,
+        date: Date,
+    ): Promise<PlaceEntity[]> {
+        // レース情報を取得
+        const htmlText: string =
+            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
+
+        const $ = cheerio.load(htmlText);
+        // <div class="chartWrapprer">を取得
+        const chartWrapprer = $('.chartWrapprer');
+        // <div class="chartWrapprer">内のテーブルを取得
+        const table = chartWrapprer.find('table');
+        // その中のtbodyを取得
+        const tbody = table.find('tbody');
+        // tbody内のtrたちを取得
+        // 1行目のtrはヘッダーとして取得
+        // 2行目のtrは曜日
+        // ３行目のtr以降はレース情報
+        const trs = tbody.find('tr');
+        const placeDataDict: Record<string, number[]> = {};
+
+        trs.each((index: number, element) => {
+            if (index < 2) {
+                return;
+            }
+            const tds = $(element).find('td');
+            const placeData = $(tds[0]).text();
+            tds.each((tdIndex: number, tdElement) => {
+                if (tdIndex === 0) {
+                    if (!(placeData in placeDataDict)) {
+                        placeDataDict[placeData] = [];
+                    }
+                    return;
+                }
+                if (
+                    $(tdElement).text().includes('●') ||
+                    $(tdElement).text().includes('☆') ||
+                    $(tdElement).text().includes('Ｄ')
+                ) {
+                    placeDataDict[placeData].push(tdIndex);
+                }
+            });
+        });
+
+        const placeDataList: PlaceEntity[] = [];
+        for (const [place, raceDays] of Object.entries(placeDataDict)) {
+            for (const raceDay of raceDays) {
+                placeDataList.push(
+                    PlaceEntity.createWithoutId(
+                        PlaceData.create(
+                            raceType,
+                            new Date(
+                                date.getFullYear(),
+                                date.getMonth(),
+                                raceDay,
+                            ),
+                            place,
+                        ),
+                    ),
+                );
+            }
+        }
+        return placeDataList;
+    }
+
+    /**
+     * 開催データを登録する
+     * HTMLにはデータを登録しない
+     * @param raceType - レース種別
+     * @param commonParameter
+     * @param placeEntityList
+     */
+    @Logger
+    public async upsertPlaceEntityList(
+        commonParameter: CommonParameter,
+        placeEntityList: PlaceEntity[],
+    ): Promise<void> {
+        console.debug(commonParameter, placeEntityList);
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        throw new Error('Method not implemented.');
+    }
+}

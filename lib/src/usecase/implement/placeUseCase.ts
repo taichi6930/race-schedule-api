@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../../src/utility/raceType';
 import { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
-import { IPlaceService } from '../../service/interface/IPlaceService';
+import { IPlaceServiceForAWS } from '../../service/interface/IPlaceService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceUseCaseForAWS } from '../interface/IPlaceUseCase';
@@ -14,7 +14,7 @@ import { IPlaceUseCaseForAWS } from '../interface/IPlaceUseCase';
 export class PlaceUseCaseForAWS implements IPlaceUseCaseForAWS {
     public constructor(
         @inject('PlaceService')
-        private readonly placeService: IPlaceService,
+        private readonly placeService: IPlaceServiceForAWS,
     ) {}
 
     /**

@@ -12,7 +12,7 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceEntityForAWS } from '../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
-import { IRaceRepositoryForAWS } from '../interface/IRaceRepositoryForAWS';
+import { IRaceRepositoryForAWS } from '../interface/IRaceRepository';
 
 @injectable()
 export class HorseRacingRaceRepositoryFromStorage

@@ -1,6 +1,6 @@
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import { SearchPlayerFilterEntity } from '../entity/filter/searchPlayerFilterEntity';
 import { PlayerEntity } from '../entity/playerEntity';
 import type { IPlayerRepository } from '../interface/IPlayerRepository';
 
@@ -8,16 +8,21 @@ export class PlayerRepository implements IPlayerRepository {
     @Logger
     public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
-        raceType: RaceType,
+        searchPlayerFilter: SearchPlayerFilterEntity,
     ): Promise<PlayerEntity[]> {
         const { env } = commonParameter;
+        const { raceTypeList } = searchPlayerFilter;
+
+        const raceTypePlaceholders = raceTypeList.map(() => '?').join(', ');
+        const whereClause = `WHERE race_type IN (${raceTypePlaceholders})`;
+
         const queryParams: any[] = [];
-        queryParams.push(raceType);
+        queryParams.push(...raceTypeList);
         const { results } = await env.DB.prepare(
             `
             SELECT race_type, player_no, player_name, priority, created_at, updated_at
             FROM player
-            WHERE race_type = ?
+            ${whereClause}
             ORDER BY player_no ASC
             LIMIT 10000`,
         )

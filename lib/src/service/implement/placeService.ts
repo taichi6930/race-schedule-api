@@ -7,21 +7,21 @@ import {
 } from '../../../../src/utility/raceType';
 import { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../../repository/entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
+import { IPlaceRepositoryForAWS } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { IPlaceService } from '../interface/IPlaceService';
+import { IPlaceServiceForAWS } from '../interface/IPlaceService';
 
 /**
  * 公営競技の開催場データを提供するサービス
  */
 @injectable()
-export class PlaceService implements IPlaceService {
+export class PlaceServiceForAWS implements IPlaceServiceForAWS {
     public constructor(
         @inject('PlaceRepositoryFromStorage')
-        protected placeRepositoryFromStorage: IPlaceRepository,
+        protected placeRepositoryFromStorage: IPlaceRepositoryForAWS,
         @inject('PlaceRepositoryFromHtml')
-        protected placeRepositoryFromHtml: IPlaceRepository,
+        protected placeRepositoryFromHtml: IPlaceRepositoryForAWS,
     ) {}
 
     /**

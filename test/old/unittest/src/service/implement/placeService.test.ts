@@ -2,8 +2,8 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { PlaceService } from '../../../../../../lib/src/service/implement/placeService';
-import type { IPlaceService } from '../../../../../../lib/src/service/interface/IPlaceService';
+import { PlaceServiceForAWS } from '../../../../../../lib/src/service/implement/placeService';
+import type { IPlaceServiceForAWS } from '../../../../../../lib/src/service/interface/IPlaceService';
 import { DataLocation } from '../../../../../../lib/src/utility/dataType';
 import type { TestRepositorySetup } from '../../../../../utility/testSetupHelper';
 import {
@@ -17,11 +17,11 @@ import {
 
 describe('PlaceService', () => {
     let repositorySetup: TestRepositorySetup;
-    let service: IPlaceService;
+    let service: IPlaceServiceForAWS;
 
     beforeEach(() => {
         repositorySetup = setupTestRepositoryMock();
-        service = container.resolve(PlaceService);
+        service = container.resolve(PlaceServiceForAWS);
     });
 
     afterEach(() => {

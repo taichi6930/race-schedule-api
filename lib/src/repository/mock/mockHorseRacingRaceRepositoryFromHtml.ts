@@ -8,7 +8,7 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceEntityForAWS } from '../entity/raceEntity';
 import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
-import { IRaceRepositoryForAWS } from '../interface/IRaceRepositoryForAWS';
+import { IRaceRepositoryForAWS } from '../interface/IRaceRepository';
 
 export class MockHorseRacingRaceRepositoryFromHtml
     implements IRaceRepositoryForAWS

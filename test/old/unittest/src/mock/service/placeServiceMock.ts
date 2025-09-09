@@ -1,11 +1,11 @@
 import type { PlaceEntityForAWS } from '../../../../../../lib/src/repository/entity/placeEntity';
-import type { IPlaceService } from '../../../../../../lib/src/service/interface/IPlaceService';
+import type { IPlaceServiceForAWS } from '../../../../../../lib/src/service/interface/IPlaceService';
 
 /**
  * PlaceServiceのモックを作成する
  * @returns モック化されたIPlaceServiceインターフェースのインスタンス
  */
-export const placeServiceMock = (): jest.Mocked<IPlaceService> => {
+export const placeServiceMock = (): jest.Mocked<IPlaceServiceForAWS> => {
     return {
         fetchPlaceEntityList: jest
             .fn()

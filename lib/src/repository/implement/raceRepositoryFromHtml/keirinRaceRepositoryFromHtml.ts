@@ -17,7 +17,7 @@ import {
 } from '../../../utility/validateAndType/raceStage';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
-import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
+import { IRaceRepositoryForAWS } from '../../interface/IRaceRepository';
 
 /**
  * 競輪場開催データリポジトリの実装

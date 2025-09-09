@@ -3,29 +3,40 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { CalendarController } from './controller/calendarController';
+import { PlaceController } from './controller/placeController';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
 import { GoogleCalendarGateway } from './gateway/implement/googleCalendarGateway';
+import { PlaceDataHtmlGateway } from './gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGateway } from './gateway/implement/raceDataHtmlGateway';
 import type { ICalendarGateway } from './gateway/interface/iCalendarGateway';
+import type { IPlaceDataHtmlGateway } from './gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
 import { GoogleCalendarRepository } from './repository/implement/googleCalendarRepository';
+import { NarRaceRepositoryFromHtml } from './repository/implement/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtml } from './repository/implement/overseasRaceRepositoryFromHtml';
+import { PlaceRepositoryFromHtml } from './repository/implement/placeRepositoryFromHtml';
+import { PlaceRepositoryForStorage } from './repository/implement/placeRepositoryStorage';
 import { PlayerRepository } from './repository/implement/playerRepository';
 import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryStorage';
 import type { ICalendarRepository } from './repository/interface/ICalendarRepository';
+import type { IPlaceRepository } from './repository/interface/IPlaceRepository';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
 import type { IRaceRepository } from './repository/interface/IRaceRepository';
 import { CalendarService } from './service/implement/calendarService';
+import { PlaceService } from './service/implement/placeService';
 import { PlayerService } from './service/implement/playerService';
 import { RaceService } from './service/implement/raceService';
 import type { ICalendarService } from './service/interface/ICalendarService';
+import type { IPlaceService } from './service/interface/IPlaceService';
 import type { IPlayerService } from './service/interface/IPlayerService';
 import type { IRaceService } from './service/interface/IRaceService';
 import { CalendarUseCase } from './usecase/implement/calendarUseCase';
+import { PlaceUseCase } from './usecase/implement/placeUsecase';
 import { PlayerUseCase } from './usecase/implement/playerUsecase';
 import { RaceUseCase } from './usecase/implement/raceUsecase';
 import type { ICalendarUseCase } from './usecase/interface/ICalendarUseCase';
+import type { IPlaceUseCase } from './usecase/interface/IPlaceUsecase';
 import type { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
 import type { IRaceUseCase } from './usecase/interface/IRaceUsecase';
 import type { CloudFlareEnv, CommonParameter } from './utility/commonParameter';
@@ -50,11 +61,30 @@ container.register<IRaceRepository>('RaceRepositoryForStorage', {
 container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
     useClass: OverseasRaceRepositoryFromHtml,
 });
+container.register<IRaceRepository>('NarRaceRepositoryFromHtml', {
+    useClass: NarRaceRepositoryFromHtml,
+});
 container.register<IRaceService>('RaceService', {
     useClass: RaceService,
 });
 container.register<IRaceUseCase>('RaceUsecase', {
     useClass: RaceUseCase,
+});
+
+container.register<IPlaceDataHtmlGateway>('PlaceDataHtmlGateway', {
+    useClass: PlaceDataHtmlGateway,
+});
+container.register<IPlaceRepository>('PlaceRepositoryForStorage', {
+    useClass: PlaceRepositoryForStorage,
+});
+container.register<IPlaceRepository>('PlaceRepositoryFromHtml', {
+    useClass: PlaceRepositoryFromHtml,
+});
+container.register<IPlaceService>('PlaceService', {
+    useClass: PlaceService,
+});
+container.register<IPlaceUseCase>('PlaceUsecase', {
+    useClass: PlaceUseCase,
 });
 
 container.register<ICalendarGateway>('GoogleCalendarGateway', {
@@ -75,7 +105,7 @@ export default {
         const url = new URL(request.url);
         const { pathname, searchParams } = url;
 
-        const commonParameter: CommonParameter = { searchParams, env };
+        const commonParameter: CommonParameter = { env };
 
         // CORS設定
         const corsHeaders = {
@@ -88,10 +118,6 @@ export default {
             return new Response(null, { headers: corsHeaders });
         }
 
-        const playerController = container.resolve(PlayerController);
-        const raceController = container.resolve(RaceController);
-        const calendarController = container.resolve(CalendarController);
-
         try {
             if (pathname === '/health' && request.method === 'GET') {
                 return new Response('ok health check', {
@@ -100,41 +126,73 @@ export default {
                 });
             }
 
-            if (pathname === '/players' && request.method === 'GET') {
-                return await playerController.getPlayerEntityList(
-                    commonParameter,
-                );
+            if (pathname === '/player') {
+                const playerController = container.resolve(PlayerController);
+                if (request.method === 'GET') {
+                    return await playerController.getPlayerEntityList(
+                        commonParameter,
+                        searchParams,
+                    );
+                }
+
+                if (request.method === 'POST') {
+                    return await playerController.postUpsertPlayer(
+                        request,
+                        commonParameter,
+                    );
+                }
             }
 
-            if (pathname === '/players' && request.method === 'POST') {
-                return await playerController.postUpsertPlayer(
-                    request,
-                    commonParameter,
-                );
+            if (pathname === '/race') {
+                const raceController = container.resolve(RaceController);
+                if (request.method === 'GET') {
+                    return await raceController.getRaceEntityList(
+                        commonParameter,
+                        searchParams,
+                    );
+                }
+
+                if (request.method === 'POST') {
+                    return await raceController.postUpsertRace(
+                        request,
+                        commonParameter,
+                    );
+                }
             }
 
-            if (pathname === '/race' && request.method === 'GET') {
-                return await raceController.getRaceEntityList(commonParameter);
+            if (pathname === '/calendar') {
+                const calendarController =
+                    container.resolve(CalendarController);
+                if (request.method === 'GET') {
+                    return await calendarController.getCalendarEntityList(
+                        commonParameter,
+                        searchParams,
+                    );
+                }
+
+                if (request.method === 'POST') {
+                    return await calendarController.postUpsertCalendar(
+                        request,
+                        commonParameter,
+                    );
+                }
             }
 
-            if (pathname === '/race' && request.method === 'POST') {
-                return await raceController.postUpsertRace(
-                    request,
-                    commonParameter,
-                );
-            }
+            if (pathname === '/place') {
+                const placeController = container.resolve(PlaceController);
+                if (request.method === 'GET') {
+                    return await placeController.getPlaceEntityList(
+                        commonParameter,
+                        searchParams,
+                    );
+                }
 
-            if (pathname === '/calendar' && request.method === 'GET') {
-                return await calendarController.getCalendarEntityList(
-                    commonParameter,
-                );
-            }
-
-            if (pathname === '/calendar' && request.method === 'POST') {
-                return await calendarController.postUpsertCalendar(
-                    request,
-                    commonParameter,
-                );
+                if (request.method === 'POST') {
+                    return await placeController.postUpsertPlace(
+                        request,
+                        commonParameter,
+                    );
+                }
             }
 
             // 404 Not Found

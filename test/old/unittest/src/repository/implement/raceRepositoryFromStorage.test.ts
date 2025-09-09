@@ -11,7 +11,7 @@ import { RaceEntityForAWS } from '../../../../../../lib/src/repository/entity/ra
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { HorseRacingRaceRepositoryFromStorage } from '../../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorage';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
-import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
+import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepository';
 import { getJSTDate } from '../../../../../../lib/src/utility/date';
 import {
     IS_LARGE_AMOUNT_DATA_TEST,

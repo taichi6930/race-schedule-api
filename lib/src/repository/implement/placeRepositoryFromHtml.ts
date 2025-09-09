@@ -6,7 +6,7 @@ import { inject, injectable } from 'tsyringe';
 import { RaceType } from '../../../../src/utility/raceType';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
-import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
+import { IPlaceDataHtmlGatewayForAWS } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { GradeType } from '../../utility/validateAndType/gradeType';
@@ -16,16 +16,16 @@ import {
 } from '../../utility/validateAndType/raceCourse';
 import { PlaceEntityForAWS } from '../entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepository';
 
 /**
  * 開催場データリポジトリの実装
  */
 @injectable()
-export class PlaceRepositoryFromHtml implements IPlaceRepository {
+export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
     public constructor(
         @inject('PlaceDataHtmlGateway')
-        private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
+        private readonly placeDataHtmlGateway: IPlaceDataHtmlGatewayForAWS,
     ) {}
 
     /**

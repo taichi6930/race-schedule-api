@@ -2,11 +2,11 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IPlaceDataHtmlGateway } from '../../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
+import type { IPlaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { PlaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
-import type { IPlaceRepository } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
+import { PlaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
+import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import { SkipEnv } from '../../../../../utility/testDecorators';
@@ -65,8 +65,8 @@ const testCases = {
 describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
     for (const { startDate, endDate, expectedLength } of testCases[raceType]) {
         describe(`PlaceRepositoryFromHtml(${raceType})`, () => {
-            let placeDataHtmlGateway: IPlaceDataHtmlGateway;
-            let repository: IPlaceRepository;
+            let placeDataHtmlGateway: IPlaceDataHtmlGatewayForAWS;
+            let repository: IPlaceRepositoryForAWS;
 
             beforeAll(() => {
                 placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
@@ -74,8 +74,8 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
                     'PlaceDataHtmlGateway',
                     placeDataHtmlGateway,
                 );
-                repository = container.resolve<IPlaceRepository>(
-                    PlaceRepositoryFromHtml,
+                repository = container.resolve<IPlaceRepositoryForAWS>(
+                    PlaceRepositoryFromHtmlForAWS,
                 );
             });
 

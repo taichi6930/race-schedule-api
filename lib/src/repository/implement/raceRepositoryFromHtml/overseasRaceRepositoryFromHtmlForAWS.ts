@@ -20,7 +20,7 @@ import { validateRaceDistance } from '../../../utility/validateAndType/raceDista
 import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
-import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
+import { IRaceRepositoryForAWS } from '../../interface/IRaceRepository';
 
 /**
  * 競馬場開催データリポジトリの実装

@@ -5,7 +5,7 @@ import type { DataLocationType } from '../../utility/dataType';
 /**
  * 開催場所データを提供するサービスインターフェース
  */
-export interface IPlaceService {
+export interface IPlaceServiceForAWS {
     /**
      * 指定期間・種別の開催場所データを取得
      * @param startDate - 取得開始日
