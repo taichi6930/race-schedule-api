@@ -65,16 +65,31 @@ export class RaceUseCase implements IRaceUseCase {
             searchRaceFilter,
             DataLocation.Storage,
         );
+        console.log(
+            `フィルタリング前のraceEntityListの件数: ${raceEntityList.length}`,
+        );
 
         // 共通フィルタ関数で簡潔に
-        return RACE_TYPE_LIST_ALL.flatMap((raceType) =>
-            this.filterRaceEntityList(
-                raceEntityList.filter(
-                    (raceEntity) => raceEntity.raceData.raceType === raceType,
-                ),
-                searchList?.[raceType],
-            ),
+        const filteredRaceEntityList = RACE_TYPE_LIST_ALL.flatMap(
+            (raceType) => {
+                return raceEntityList.filter((raceEntity) => {
+                    return (
+                        raceEntity.raceData.raceType === raceType &&
+                        (!searchList?.[raceType] ||
+                            searchList[raceType].gradeList?.length === 0 ||
+                            searchList[raceType].gradeList?.includes(
+                                raceEntity.raceData.grade,
+                            )) &&
+                        (!searchList?.[raceType] ||
+                            searchList[raceType].locationList?.length === 0 ||
+                            searchList[raceType].locationList?.includes(
+                                raceEntity.raceData.location,
+                            ))
+                    );
+                });
+            },
         );
+        return filteredRaceEntityList;
     }
 
     @Logger
@@ -139,25 +154,6 @@ export class RaceUseCase implements IRaceUseCase {
             filteredPlaceEntityList,
         );
         return this.service.upsertRaceEntityList(commonParameter, entityList);
-    }
-
-    private filterRaceEntityList<
-        T extends {
-            raceData?: { grade?: GradeType; location?: RaceCourse };
-            stage?: RaceStage;
-        },
-    >(
-        list: T[],
-        filter: {
-            gradeList?: GradeType[];
-            locationList?: RaceCourse[];
-            stageList?: RaceStage[];
-        } = {},
-    ): T[] {
-        let result = this.filterByGrade(list, filter.gradeList);
-        result = this.filterByLocation(result, filter.locationList);
-        result = this.filterByStage(result, filter.stageList);
-        return result;
     }
 
     // 共通フィルタ関数

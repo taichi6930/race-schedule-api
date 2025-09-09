@@ -34,10 +34,41 @@ export class RaceController {
     ): Promise<Response> {
         try {
             const raceTypeParam = searchParams.getAll('raceType');
+            const gradeParam = searchParams.getAll('grade');
+            const stageParam = searchParams.getAll('stage');
+            const locationParam = searchParams.getAll('location');
             const startDateParam = searchParams.get('startDate');
             const finishDateParam = searchParams.get('finishDate');
 
             const raceTypeList: RaceType[] = convertRaceTypeList(raceTypeParam);
+
+            // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            const gradeList =
+                typeof gradeParam === 'string'
+                    ? [gradeParam]
+                    : typeof gradeParam === 'object'
+                      ? Array.isArray(gradeParam)
+                          ? gradeParam.map((g: string) => g)
+                          : undefined
+                      : undefined;
+
+            const locationList =
+                typeof locationParam === 'string'
+                    ? [locationParam]
+                    : typeof locationParam === 'object'
+                      ? Array.isArray(locationParam)
+                          ? locationParam.map((l: string) => l)
+                          : undefined
+                      : undefined;
+
+            const stageList =
+                typeof stageParam === 'string'
+                    ? [stageParam]
+                    : typeof stageParam === 'object'
+                      ? Array.isArray(stageParam)
+                          ? stageParam.map((s: string) => s)
+                          : undefined
+                      : undefined;
 
             if (raceTypeList.length === 0) {
                 return new Response('Bad Request: Invalid raceType', {
@@ -75,6 +106,35 @@ export class RaceController {
             const raceEntityList = await this.usecase.fetchRaceEntityList(
                 commonParameter,
                 searchRaceFilter,
+                {
+                    [RaceType.JRA]: {
+                        gradeList,
+                        locationList,
+                    },
+                    [RaceType.NAR]: {
+                        gradeList,
+                        locationList,
+                    },
+                    [RaceType.OVERSEAS]: {
+                        gradeList,
+                        locationList,
+                    },
+                    [RaceType.KEIRIN]: {
+                        gradeList,
+                        locationList,
+                        stageList,
+                    },
+                    [RaceType.AUTORACE]: {
+                        gradeList,
+                        locationList,
+                        stageList,
+                    },
+                    [RaceType.BOATRACE]: {
+                        gradeList,
+                        locationList,
+                        stageList,
+                    },
+                },
             );
 
             return Response.json(
