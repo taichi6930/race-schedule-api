@@ -57,4 +57,76 @@ runs:
         curl -sS --fail http://127.0.0.1:8787/health
       shell: bash
 
+    - name: Curl API for Overseas Race
+      run: |
+        BASE=http://127.0.0.1:8787
+
+        # Initial GET request
+        response=$(curl -s -X 'GET' "${BASE}/api/races/all/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+
+        # Initial GET Response Check
+        overseas_items=$(echo "$response" | jq 'if type=="object" and has("OVERSEAS") then .OVERSEAS else . end')
+        if [[ "$overseas_items" != "[]" ]]; then
+          echo "❌ Initial GET request failed. Expected [], but got $response"
+          exit 1
+        fi
+
+        # POST request
+        post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' "${BASE}/api/races/all/race" -H 'accept: */*' -H 'Content-Type: application/json' -d '{"startDate":"2024-10-01","finishDate":"2024-11-01","raceType":["overseas"]}')
+
+        # POST Response Check
+        if [[ "$post_response" != "200" ]]; then
+          echo "❌ POST request failed with status code $post_response"
+          exit 1
+        fi
+
+        # Updated GET request
+        response=$(curl -s -X 'GET' "${BASE}/api/races/all/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+
+        # Final GET Response Check: 要素数が372個であることを確認
+        item_count=$(echo "$response" | jq 'if type=="object" and has("OVERSEAS") then .OVERSEAS | length else length end')
+        if [[ "$item_count" -ne 372 ]]; then
+          echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
+          exit 1
+        fi
+
+        echo "✅ Overseas Race checks passed successfully."
+      shell: bash
+
+    - name: Curl API for Overseas Calendar
+      run: |
+        BASE=http://127.0.0.1:8787
+
+        # Initial GET request
+        response=$(curl -s -X 'GET' "${BASE}/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+
+        # Initial GET Response Check
+        overseas_items=$(echo "$response" | jq 'if type=="object" and has("OVERSEAS") then .OVERSEAS else . end')
+        if [[ "$overseas_items" != "[]" ]]; then
+          echo "❌ Initial GET request failed. Expected [], but got $response"
+          exit 1
+        fi
+
+        # POST request
+        post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' "${BASE}/api/races/all/calendar" -H 'accept: */*' -H 'Content-Type: application/json' -d '{"startDate":"2024-10-01","finishDate":"2024-11-01","raceType":["overseas"]}')
+
+        # POST Response Check
+        if [[ "$post_response" != "200" ]]; then
+          echo "❌ POST request failed with status code $post_response"
+          exit 1
+        fi
+
+        # Updated GET request
+        response=$(curl -s -X 'GET' "${BASE}/api/races/all/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+
+        # Final GET Response Check: 要素数が372個であることを確認
+        item_count=$(echo "$response" | jq 'if type=="object" and has("OVERSEAS") then .OVERSEAS | length else length end')
+        if [[ "$item_count" -ne 372 ]]; then
+          echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
+          exit 1
+        fi
+
+        echo "✅ Overseas Calendar checks passed successfully."
+      shell: bash
+
     # Next steps (to add later): create wrangler.toml, run D1 migrations, start wrangler dev, run curl tests
