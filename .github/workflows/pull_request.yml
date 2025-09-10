@@ -79,7 +79,7 @@ jobs:
       - name: Run ITA Tests For Overseas
         uses: ./.github/actions/test/ita/overseas
 
-  call-ita-test-overseas-Cloudflare:
+  call-ita-test-overseas-cloudflare:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
