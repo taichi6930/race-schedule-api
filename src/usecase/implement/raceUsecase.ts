@@ -138,10 +138,6 @@ export class RaceUseCase implements IRaceUseCase {
             ),
             DataLocation.Storage,
         );
-        console.log(
-            `フィルタリング前のplaceEntityListの件数: ${placeEntityList.length}`,
-        );
-
         const filteredPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.flatMap(
             (raceType) =>
                 this.filterPlaceEntityList(
@@ -151,10 +147,6 @@ export class RaceUseCase implements IRaceUseCase {
                     searchList?.[raceType],
                 ),
         );
-        console.log(
-            `フィルタリング後のplaceEntityListの件数: ${filteredPlaceEntityList.length}`,
-        );
-
         const entityList: RaceEntity[] = await this.service.fetchRaceEntityList(
             commonParameter,
             searchRaceFilter,
