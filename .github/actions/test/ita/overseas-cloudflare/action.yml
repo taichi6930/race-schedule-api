@@ -7,6 +7,11 @@ runs:
     - name: Check out the repository
       uses: actions/checkout@v4
 
+    - name: Set up Node.js 24
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+
     - name: Set up pnpm
       uses: pnpm/action-setup@v2
       with:
@@ -78,31 +83,69 @@ runs:
     - name: Start wrangler dev in background and wait for /health
       run: |
         # set ENV expected by the worker and start wrangler in local mode
-        ENV=GITHUB_ACTIONS_CI TZ=Asia/Tokyo pnpm run dev:cloudflare:local &
-        # wait for health endpoint
-        for i in {1..24}; do
-          curl --silent --head http://localhost:8787/health && break || true
+        export ENV=GITHUB_ACTIONS_CI
+        echo "Starting wrangler dev (logs -> wrangler.log)"
+        TZ=Asia/Tokyo pnpm run dev:cloudflare:local > wrangler.log 2>&1 &
+        echo $! > wrangler.pid
+
+        # wait for health endpoint with extended timeout and process liveness checks
+        started=false
+        for i in {1..60}; do
+          if curl --silent --head http://localhost:8787/health >/dev/null 2>&1; then
+            started=true
+            break
+          fi
+          # check process is still running
+          if [ -s wrangler.pid ] && ! kill -0 "$(cat wrangler.pid)" >/dev/null 2>&1; then
+            echo "wrangler dev process exited unexpectedly. Dumping last 200 lines of wrangler.log:"
+            tail -n 200 wrangler.log || true
+            exit 1
+          fi
           echo "Waiting for wrangler dev to start... ($i)"
           sleep 5
         done
+
+        if [ "$started" != true ]; then
+          echo "Timed out waiting for /health. Dumping last 400 lines of wrangler.log:"
+          tail -n 400 wrangler.log || true
+          echo "Contents of wrangler.pid:"; cat wrangler.pid || true
+          exit 1
+        fi
       shell: bash
 
     - name: Simple health check
       run: |
-        curl -sS --fail http://localhost:8787/health
+        if ! curl -sS --fail http://localhost:8787/health; then
+          echo "Health check failed. Dumping wrangler.log (last 400 lines):"
+          tail -n 400 wrangler.log || true
+          echo "Contents of wrangler.pid:"; cat wrangler.pid || true
+          exit 1
+        fi
       shell: bash
 
     - name: Curl API for Overseas Race
       run: |
         BASE=http://localhost:8787
 
-        # Initial GET request
-        response=$(curl -s -X 'GET' "${BASE}/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+        # Initial GET request (capture body + status)
+        resp=$(curl -s -w "\n%{http_code}" -X 'GET' "${BASE}/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+        http_code=$(printf "%s\n" "$resp" | tail -n1)
+        body=$(printf "%s\n" "$resp" | sed '$d')
+
+        echo "Initial GET status: $http_code"
+        if [[ "$http_code" -ne 200 ]]; then
+          echo "❌ Initial GET failed with status $http_code. Body:"
+          printf '%s\n' "$body"
+          exit 1
+        fi
+
+        # Validate JSON before using jq
+        echo "$body" | jq -e . >/dev/null 2>&1 || { echo "❌ Initial GET returned non-JSON: $body"; exit 1; }
 
         # Initial GET Response Check
-        overseas_items=$(echo "$response" | jq 'if type=="object" and has("OVERSEAS") then .OVERSEAS else . end')
+        overseas_items=$(echo "$body" | jq -c 'if type=="object" and has("OVERSEAS") then .OVERSEAS else . end')
         if [[ "$overseas_items" != "[]" ]]; then
-          echo "❌ Initial GET request failed. Expected [], but got $response"
+          echo "❌ Initial GET request failed. Expected [], but got $overseas_items"
           exit 1
         fi
 
@@ -115,11 +158,23 @@ runs:
           exit 1
         fi
 
-        # Updated GET request
-        response=$(curl -s -X 'GET' "${BASE}/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+        # Updated GET request (capture body + status)
+        resp=$(curl -s -w "\n%{http_code}" -X 'GET' "${BASE}/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+        http_code=$(printf "%s\n" "$resp" | tail -n1)
+        body=$(printf "%s\n" "$resp" | sed '$d')
+
+        echo "Updated GET status: $http_code"
+        if [[ "$http_code" -ne 200 ]]; then
+          echo "❌ Updated GET failed with status $http_code. Body:"
+          printf '%s\n' "$body"
+          exit 1
+        fi
+
+        # Validate JSON before using jq
+        echo "$body" | jq -e . >/dev/null 2>&1 || { echo "❌ Updated GET returned non-JSON: $body"; exit 1; }
 
         # Final GET Response Check: 要素数が372個であることを確認
-        item_count=$(echo "$response" | jq 'if type=="object" and has("OVERSEAS") then .OVERSEAS | length else length end')
+        item_count=$(echo "$body" | jq 'if type=="object" and has("OVERSEAS") then .OVERSEAS | length else length end')
         if [[ "$item_count" -ne 372 ]]; then
           echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
           exit 1
@@ -132,13 +187,25 @@ runs:
       run: |
         BASE=http://localhost:8787
 
-        # Initial GET request
-        response=$(curl -s -X 'GET' "${BASE}/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+        # Initial GET request (capture body + status)
+        resp=$(curl -s -w "\n%{http_code}" -X 'GET' "${BASE}/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+        http_code=$(printf "%s\n" "$resp" | tail -n1)
+        body=$(printf "%s\n" "$resp" | sed '$d')
+
+        echo "Initial GET status: $http_code"
+        if [[ "$http_code" -ne 200 ]]; then
+          echo "❌ Initial GET failed with status $http_code. Body:"
+          printf '%s\n' "$body"
+          exit 1
+        fi
+
+        # Validate JSON before using jq
+        echo "$body" | jq -e . >/dev/null 2>&1 || { echo "❌ Initial GET returned non-JSON: $body"; exit 1; }
 
         # Initial GET Response Check
-        overseas_items=$(echo "$response" | jq 'if type=="object" and has("OVERSEAS") then .OVERSEAS else . end')
+        overseas_items=$(echo "$body" | jq -c 'if type=="object" and has("OVERSEAS") then .OVERSEAS else . end')
         if [[ "$overseas_items" != "[]" ]]; then
-          echo "❌ Initial GET request failed. Expected [], but got $response"
+          echo "❌ Initial GET request failed. Expected [], but got $overseas_items"
           exit 1
         fi
 
@@ -151,11 +218,23 @@ runs:
           exit 1
         fi
 
-        # Updated GET request
-        response=$(curl -s -X 'GET' "${BASE}/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+        # Updated GET request (capture body + status)
+        resp=$(curl -s -w "\n%{http_code}" -X 'GET' "${BASE}/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+        http_code=$(printf "%s\n" "$resp" | tail -n1)
+        body=$(printf "%s\n" "$resp" | sed '$d')
+
+        echo "Updated GET status: $http_code"
+        if [[ "$http_code" -ne 200 ]]; then
+          echo "❌ Updated GET failed with status $http_code. Body:"
+          printf '%s\n' "$body"
+          exit 1
+        fi
+
+        # Validate JSON before using jq
+        echo "$body" | jq -e . >/dev/null 2>&1 || { echo "❌ Updated GET returned non-JSON: $body"; exit 1; }
 
         # Final GET Response Check: 要素数が372個であることを確認
-        item_count=$(echo "$response" | jq 'if type=="object" and has("OVERSEAS") then .OVERSEAS | length else length end')
+        item_count=$(echo "$body" | jq 'if type=="object" and has("OVERSEAS") then .OVERSEAS | length else length end')
         if [[ "$item_count" -ne 372 ]]; then
           echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
           exit 1
