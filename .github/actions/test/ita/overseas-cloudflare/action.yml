@@ -20,7 +20,7 @@ runs:
       run: |
         printf '%s
         ' "name = \"race-schedule-local\"" \
-          "main = \"./lib/src/index.ts\"" \
+          "main = \"./src/index.ts\"" \
           "compatibility_date = \"2025-01-01\"" \
           "# enable Node.js built-in module compatibility (path, stream, etc.) for local dev" \
           "compatibility_flags = [\"nodejs_compat\"]" \
@@ -29,7 +29,7 @@ runs:
           "ENV = \"GITHUB_ACTIONS_CI\"" \
           "" \
           "[env.development]" \
-          "main = \"./lib/src/index.ts\"" \
+          "main = \"./src/index.ts\"" \
           "compatibility_date = \"2025-01-01\"" \
           "compatibility_flags = [\"nodejs_compat\"]" \
           "" \
