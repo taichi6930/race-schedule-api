@@ -54,6 +54,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             `
             SELECT
                 race.id,
+                race.place_id,
                 race.race_type,
                 race.race_name,
                 race.date_time,
@@ -68,7 +69,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                 race.updated_at
             FROM race
             INNER JOIN race_condition ON race.id = race_condition.id
-            LEFT JOIN held_day ON substr(race.id, 1, length(race.id) - 2) = held_day.id
+            LEFT JOIN held_day ON race.place_id = held_day.id
             ${whereClause}`,
         )
             .bind(...queryParams)
@@ -77,6 +78,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             const dateJST = new Date(new Date(row.date_time));
             return RaceEntity.create(
                 row.id,
+                row.place_id,
                 RaceData.create(
                     row.race_type,
                     row.race_name,
@@ -117,6 +119,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             `
             SELECT
                 race.id,
+                race.place_id,
                 race.race_type,
                 race.race_name,
                 race.date_time,
@@ -137,6 +140,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             const dateJST = new Date(new Date(row.date_time));
             return RaceEntity.create(
                 row.id,
+                row.place_id,
                 RaceData.create(
                     row.race_type,
                     row.race_name,
@@ -163,6 +167,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             `
             INSERT INTO race (
                 id,
+                place_id,
                 race_type,
                 race_name,
                 date_time,
@@ -178,6 +183,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                 date_time = excluded.date_time,
                 location_name = excluded.location_name,
                 grade = excluded.grade,
+                place_id = excluded.place_id,
                 race_number = excluded.race_number,
                 updated_at = CURRENT_TIMESTAMP
             `,
@@ -200,13 +206,14 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             `,
         );
         for (const entity of entityList) {
-            const { id, raceData, conditionData } = entity;
+            const { id, placeId, raceData, conditionData } = entity;
             // JST変換
             const dateJST = new Date(new Date(raceData.dateTime));
             const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
             await insertStmt
                 .bind(
                     id,
+                    placeId,
                     raceData.raceType,
                     raceData.name,
                     dateTimeStr,

@@ -132,4 +132,8 @@ export class MechanicalRacingRaceRecord {
             this.number,
         );
     }
+
+    public toPlaceId(): string {
+        return this.id.slice(0, -2);
+    }
 }

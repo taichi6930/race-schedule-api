@@ -2,6 +2,7 @@ import { HorseRacingRaceRecord } from '../../../lib/src/gateway/record/horseRaci
 import { MechanicalRacingRaceRecord } from '../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../../lib/src/gateway/record/racePlayerRecord';
 import { getJSTDate } from '../../../lib/src/utility/date';
+import { generatePlaceId } from '../../../lib/src/utility/validateAndType/placeId';
 import type { RaceId } from '../../../lib/src/utility/validateAndType/raceId';
 import {
     generateRaceId,
@@ -27,6 +28,7 @@ export class RaceEntity {
     /**
      * コンストラクタ
      * @param id - ID
+     * @param placeId
      * @param raceData - レースデータ
      * @param heldDayData - 開催日データ
      * @param conditionData - レース条件データ
@@ -38,6 +40,7 @@ export class RaceEntity {
      */
     private constructor(
         public readonly id: RaceId,
+        public readonly placeId: string,
         public readonly raceData: RaceData,
         heldDayData: HeldDayData | undefined,
         conditionData: HorseRaceConditionData | undefined,
@@ -53,6 +56,7 @@ export class RaceEntity {
     /**
      * インスタンス生成メソッド
      * @param id - ID
+     * @param placeId
      * @param raceData - レースデータ
      * @param heldDayData - 開催日データ
      * @param conditionData - レース条件データ
@@ -62,6 +66,7 @@ export class RaceEntity {
      */
     public static create(
         id: string,
+        placeId: string,
         raceData: RaceData,
         heldDayData: HeldDayData | undefined,
         conditionData: HorseRaceConditionData | undefined,
@@ -117,6 +122,7 @@ export class RaceEntity {
             }
             return new RaceEntity(
                 validateRaceId(raceData.raceType, id),
+                placeId,
                 raceData,
                 heldDayData,
                 conditionData,
@@ -126,6 +132,7 @@ export class RaceEntity {
         } catch {
             throw new Error(`Failed to create RaceEntity:
                 id: ${id},
+                placeId: ${placeId},
                 raceData: ${JSON.stringify(raceData)},
                 heldDayData: ${JSON.stringify(heldDayData)},
                 conditionData: ${JSON.stringify(conditionData)},
@@ -158,6 +165,11 @@ export class RaceEntity {
                 raceData.location,
                 raceData.number,
             ),
+            generatePlaceId(
+                raceData.raceType,
+                raceData.dateTime,
+                raceData.location,
+            ),
             raceData,
             heldDayData,
             conditionData,
@@ -173,6 +185,7 @@ export class RaceEntity {
     public copy(partial: Partial<RaceEntity> = {}): RaceEntity {
         return RaceEntity.create(
             partial.id ?? this.id,
+            partial.placeId ?? this.placeId,
             partial.raceData ?? this.raceData,
             partial.heldDayData ?? this._heldDayData,
             partial.conditionData ?? this._conditionData,

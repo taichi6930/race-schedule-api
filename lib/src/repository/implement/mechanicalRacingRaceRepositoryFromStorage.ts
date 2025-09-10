@@ -71,6 +71,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
                     );
                 return RaceEntity.create(
                     raceRecord.id,
+                    raceRecord.toPlaceId(),
                     raceRecord.toRaceData(),
                     undefined, // heldDayDataは未設定
                     undefined, // conditionDataは未設定
