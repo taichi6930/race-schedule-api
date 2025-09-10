@@ -116,19 +116,19 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
             if (placeData.raceType === RaceType.JRA) {
                 const insertHeldDayStmt = env.DB.prepare(
                     `
-                        INSERT INTO held_day (
-                            id,
-                            race_type,
-                            held_times,
-                            held_day_times,
-                            created_at,
-                            updated_at
-                        ) VALUES (?, ?, ?, ?,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                        ON CONFLICT(id) DO UPDATE SET
-                            race_type = excluded.race_type,
-                            held_times = excluded.held_times,
-                            held_day_times = excluded.held_day_times,
-                            updated_at = CURRENT_TIMESTAMP
+                    INSERT INTO held_day (
+                        id,
+                        race_type,
+                        held_times,
+                        held_day_times,
+                        created_at,
+                        updated_at
+                    ) VALUES (?, ?, ?, ?,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                    ON CONFLICT(id) DO UPDATE SET
+                        race_type = excluded.race_type,
+                        held_times = excluded.held_times,
+                        held_day_times = excluded.held_day_times,
+                        updated_at = CURRENT_TIMESTAMP
                     `,
                 );
                 const { heldDayData } = entity;
@@ -148,18 +148,18 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
             ) {
                 const insertGradeStmt = env.DB.prepare(
                     `
-            INSERT INTO place_grade (
-                id,
-                race_type,
-                grade,
-                created_at,
-                updated_at
-            ) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-            ON CONFLICT(id) DO UPDATE SET
-                race_type = excluded.race_type,
-                grade = excluded.grade,
-                updated_at = CURRENT_TIMESTAMP
-            `,
+                    INSERT INTO place_grade (
+                        id,
+                        race_type,
+                        grade,
+                        created_at,
+                        updated_at
+                    ) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                    ON CONFLICT(id) DO UPDATE SET
+                        race_type = excluded.race_type,
+                        grade = excluded.grade,
+                        updated_at = CURRENT_TIMESTAMP
+                    `,
                 );
                 await insertGradeStmt.bind(id, placeData.raceType, grade).run();
             }
