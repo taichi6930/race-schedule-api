@@ -23,7 +23,7 @@ export class RaceUseCase implements IRaceUseCase {
         @inject('PlaceService')
         private readonly placeService: IPlaceService,
         @inject('RaceService')
-        private readonly service: IRaceService,
+        private readonly raceService: IRaceService,
     ) {}
 
     @Logger
@@ -60,7 +60,7 @@ export class RaceUseCase implements IRaceUseCase {
             };
         },
     ): Promise<RaceEntity[]> {
-        const raceEntityList = await this.service.fetchRaceEntityList(
+        const raceEntityList = await this.raceService.fetchRaceEntityList(
             commonParameter,
             searchRaceFilter,
             DataLocation.Storage,
@@ -147,13 +147,17 @@ export class RaceUseCase implements IRaceUseCase {
                     searchList?.[raceType],
                 ),
         );
-        const entityList: RaceEntity[] = await this.service.fetchRaceEntityList(
+        const entityList: RaceEntity[] =
+            await this.raceService.fetchRaceEntityList(
+                commonParameter,
+                searchRaceFilter,
+                DataLocation.Web,
+                filteredPlaceEntityList,
+            );
+        return this.raceService.upsertRaceEntityList(
             commonParameter,
-            searchRaceFilter,
-            DataLocation.Web,
-            filteredPlaceEntityList,
+            entityList,
         );
-        return this.service.upsertRaceEntityList(commonParameter, entityList);
     }
 
     // 共通フィルタ関数

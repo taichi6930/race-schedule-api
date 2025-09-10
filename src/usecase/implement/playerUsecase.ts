@@ -11,7 +11,7 @@ import { IPlayerUseCase } from '../interface/IPlayerUsecase';
 export class PlayerUseCase implements IPlayerUseCase {
     public constructor(
         @inject('PlayerService')
-        private readonly service: IPlayerService,
+        private readonly playerService: IPlayerService,
     ) {}
 
     @Logger
@@ -19,7 +19,7 @@ export class PlayerUseCase implements IPlayerUseCase {
         commonParameter: CommonParameter,
         searchPlayerFilter: SearchPlayerFilterEntity,
     ): Promise<PlayerEntity[]> {
-        return this.service.fetchPlayerEntityList(
+        return this.playerService.fetchPlayerEntityList(
             commonParameter,
             searchPlayerFilter,
         );
@@ -30,6 +30,9 @@ export class PlayerUseCase implements IPlayerUseCase {
         commonParameter: CommonParameter,
         entityList: PlayerEntity[],
     ): Promise<void> {
-        await this.service.upsertPlayerEntityList(commonParameter, entityList);
+        await this.playerService.upsertPlayerEntityList(
+            commonParameter,
+            entityList,
+        );
     }
 }
