@@ -4,8 +4,9 @@ import type { IPlayerServiceForAWS } from '../../../../../../lib/src/service/int
  * PlayerDataServiceのモックを作成する
  * @returns モック化されたIPlayerDataServiceインターフェースのインスタンス
  */
-export const playerDataServiceMock = (): jest.Mocked<IPlayerServiceForAWS> => {
-    return {
-        fetchPlayerDataList: jest.fn().mockReturnValue([]),
+export const playerDataServiceForAWSMock =
+    (): jest.Mocked<IPlayerServiceForAWS> => {
+        return {
+            fetchPlayerDataList: jest.fn().mockReturnValue([]),
+        };
     };
-};

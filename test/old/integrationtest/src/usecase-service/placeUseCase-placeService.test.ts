@@ -11,19 +11,19 @@ import {
     testRaceTypeListAll,
     testRaceTypeListWithoutOverseas,
 } from '../../../../unittest/src/mock/common/baseCommonData';
-import type { TestRepositorySetup } from '../../../../utility/testSetupHelper';
+import type { TestRepositoryForAWSSetup } from '../../../../utility/testSetupHelper';
 import {
     clearMocks,
-    setupTestRepositoryMock,
+    setupTestRepositoryForAWSMock,
 } from '../../../../utility/testSetupHelper';
 
 describe('placeUseCase-placeService', () => {
-    let repositorySetup: TestRepositorySetup;
+    let repositorySetup: TestRepositoryForAWSSetup;
     let service: IPlaceServiceForAWS;
     let useCase: IPlaceUseCaseForAWS;
 
     beforeEach(() => {
-        repositorySetup = setupTestRepositoryMock();
+        repositorySetup = setupTestRepositoryForAWSMock();
 
         service = container.resolve(PlaceServiceForAWS);
         container.registerInstance<IPlaceServiceForAWS>(

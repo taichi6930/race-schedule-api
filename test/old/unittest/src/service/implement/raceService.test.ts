@@ -11,18 +11,18 @@ import {
     mockRaceEntityList,
     testRaceTypeListAll,
 } from '../../../../../unittest/src/mock/common/baseCommonData';
-import type { TestRepositorySetup } from '../../../../../utility/testSetupHelper';
+import type { TestRepositoryForAWSSetup } from '../../../../../utility/testSetupHelper';
 import {
     clearMocks,
-    setupTestRepositoryMock,
+    setupTestRepositoryForAWSMock,
 } from '../../../../../utility/testSetupHelper';
 
 describe('RaceService', () => {
-    let repositorySetup: TestRepositorySetup;
+    let repositorySetup: TestRepositoryForAWSSetup;
     let service: IRaceServiceForAWS;
 
     beforeEach(() => {
-        repositorySetup = setupTestRepositoryMock();
+        repositorySetup = setupTestRepositoryForAWSMock();
         // AutoraceRaceCalendarServiceをコンテナから取得
         service = container.resolve(RaceServiceForAWS);
     });

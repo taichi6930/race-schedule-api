@@ -6,6 +6,7 @@ import { DataLocation } from '../../../lib/src/utility/dataType';
 import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import { CalendarData } from '../../domain/calendarData';
 import { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
+import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IRaceService } from '../../service/interface/IRaceService';
@@ -74,7 +75,14 @@ export class CalendarUseCase implements ICalendarUseCase {
         // レース情報を取得する
         const raceEntityList = await this.raceService.fetchRaceEntityList(
             commonParameter,
-            searchCalendarFilter,
+            new SearchRaceFilterEntity(
+                searchCalendarFilter.startDate,
+                searchCalendarFilter.finishDate,
+                searchCalendarFilter.raceTypeList,
+                [],
+                [],
+                [],
+            ),
             DataLocation.Storage,
         );
         // フラット化して単一の RaceEntity[] にする（後続のオブジェクト型 filteredRaceEntityList と名前衝突しないよう別名）

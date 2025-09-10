@@ -5,7 +5,7 @@ import type { PlaceEntity } from '../../../../../../src/repository/entity/placeE
  * PlaceServiceのモックを作成する
  * @returns モック化されたIPlaceServiceインターフェースのインスタンス
  */
-export const placeServiceMock = (): jest.Mocked<IPlaceServiceForAWS> => {
+export const placeServiceForAWSMock = (): jest.Mocked<IPlaceServiceForAWS> => {
     return {
         fetchPlaceEntityList: jest.fn().mockResolvedValue([] as PlaceEntity[]),
         updatePlaceEntityList: jest.fn().mockResolvedValue([]),

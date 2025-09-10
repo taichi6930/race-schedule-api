@@ -12,18 +12,18 @@ import {
     testRaceTypeListAll,
     testRaceTypeListWithoutOverseas,
 } from '../../../../../unittest/src/mock/common/baseCommonData';
-import type { TestServiceSetup } from '../../../../../utility/testSetupHelper';
+import type { TestServiceForAWSSetup } from '../../../../../utility/testSetupHelper';
 import {
     clearMocks,
-    setupTestServiceMock,
+    setupTestServiceForAWSMock,
 } from '../../../../../utility/testSetupHelper';
 
 describe('RaceUseCase', () => {
-    let serviceSetup: TestServiceSetup;
+    let serviceSetup: TestServiceForAWSSetup;
     let useCase: IRaceUseCaseForAWS;
 
     beforeEach(() => {
-        serviceSetup = setupTestServiceMock();
+        serviceSetup = setupTestServiceForAWSMock();
         useCase = container.resolve(RaceUseCaseForAWS);
         jest.spyOn(console, 'log').mockImplementation();
     });

@@ -3,24 +3,25 @@ import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository
 import type { RaceType } from '../../../../../../src/utility/raceType';
 import { baseRaceEntityList } from '../../../../../unittest/src/mock/common/baseCommonData';
 
-export const mockRaceRepository = (): jest.Mocked<IRaceRepositoryForAWS> => {
-    return {
-        fetchRaceEntityList: jest
-            .fn()
-            .mockImplementation(
-                async (searchFilter: SearchPlaceFilterEntityForAWS) => {
-                    return baseRaceEntityList(searchFilter.raceType);
-                },
-            ),
-        registerRaceEntityList: jest
-            .fn()
-            .mockImplementation(async (raceType: RaceType) => {
-                return {
-                    code: 200,
-                    message: 'OK',
-                    successData: baseRaceEntityList(raceType),
-                    failureData: [],
-                };
-            }),
+export const mockRaceRepositoryForAWS =
+    (): jest.Mocked<IRaceRepositoryForAWS> => {
+        return {
+            fetchRaceEntityList: jest
+                .fn()
+                .mockImplementation(
+                    async (searchFilter: SearchPlaceFilterEntityForAWS) => {
+                        return baseRaceEntityList(searchFilter.raceType);
+                    },
+                ),
+            registerRaceEntityList: jest
+                .fn()
+                .mockImplementation(async (raceType: RaceType) => {
+                    return {
+                        code: 200,
+                        message: 'OK',
+                        successData: baseRaceEntityList(raceType),
+                        failureData: [],
+                    };
+                }),
+        };
     };
-};

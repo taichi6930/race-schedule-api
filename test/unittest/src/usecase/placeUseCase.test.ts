@@ -2,25 +2,27 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { PlaceUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/placeUseCase';
-import type { IPlaceUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IPlaceUseCase';
+import { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/searchPlaceFilterEntity';
+import { PlaceUseCase } from '../../../../src/usecase/implement/placeUsecase';
+import type { IPlaceUseCase } from '../../../../src/usecase/interface/IPlaceUsecase';
+import { commonParameterMock } from '../../../old/unittest/src/mock/common/commonParameterMock';
+import type { TestServiceSetup } from '../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestServiceMock,
+} from '../../../utility/testSetupHelper';
 import {
     mockPlaceEntityList,
     testRaceTypeListAll,
-    testRaceTypeListWithoutOverseas,
-} from '../../../../../unittest/src/mock/common/baseCommonData';
-import type { TestServiceForAWSSetup } from '../../../../../utility/testSetupHelper';
-import {
-    clearMocks,
-    setupTestServiceForAWSMock,
-} from '../../../../../utility/testSetupHelper';
+} from '../mock/common/baseCommonData';
+
 describe('PlaceUseCase', () => {
-    let serviceSetup: TestServiceForAWSSetup;
-    let useCase: IPlaceUseCaseForAWS;
+    let serviceSetup: TestServiceSetup;
+    let useCase: IPlaceUseCase;
 
     beforeEach(() => {
-        serviceSetup = setupTestServiceForAWSMock();
-        useCase = container.resolve(PlaceUseCaseForAWS);
+        serviceSetup = setupTestServiceMock();
+        useCase = container.resolve(PlaceUseCase);
     });
 
     afterEach(() => {
@@ -37,10 +39,16 @@ describe('PlaceUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchPlaceEntityList(
+            const searchPlaceFilter = new SearchPlaceFilterEntity(
                 startDate,
                 finishDate,
-                testRaceTypeListWithoutOverseas,
+                testRaceTypeListAll,
+                [],
+            );
+
+            const result = await useCase.fetchPlaceEntityList(
+                commonParameterMock(),
+                searchPlaceFilter,
             );
 
             expect(result).toEqual(mockPlaceEntityList);
@@ -52,22 +60,28 @@ describe('PlaceUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
+            const searchPlaceFilter = new SearchPlaceFilterEntity(
+                startDate,
+                finishDate,
+                testRaceTypeListAll,
+                [],
+            );
+
             // モックの戻り値を設定
             serviceSetup.placeService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntityList,
             );
 
-            await useCase.updatePlaceEntityList(
-                startDate,
-                finishDate,
-                testRaceTypeListAll,
+            await useCase.upsertPlaceEntityList(
+                commonParameterMock(),
+                searchPlaceFilter,
             );
 
             expect(
                 serviceSetup.placeService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                serviceSetup.placeService.updatePlaceEntityList,
+                serviceSetup.placeService.upsertPlaceEntityList,
             ).toHaveBeenCalled();
         });
     });
