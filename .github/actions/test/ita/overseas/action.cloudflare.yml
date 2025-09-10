@@ -1,0 +1,19 @@
+name: "ITa Test (Cloudflare)"
+description: "Run ITa tests against Cloudflare worker (incremental: install deps)"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check out the repository
+      uses: actions/checkout@v4
+
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: '9.10.0'
+
+    - name: Install dependencies
+      run: pnpm install
+      shell: bash
+
+    # Next steps (to add later): create wrangler.toml, run D1 migrations, start wrangler dev, run curl tests
