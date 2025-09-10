@@ -128,7 +128,7 @@ runs:
         BASE=http://localhost:8787
 
         # Initial GET request (capture body + status)
-        resp=$(curl -s -w "\n%{http_code}" -X 'GET' "${BASE}/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+        resp=$(curl -s -w "\n%{http_code}" -X 'GET' "${BASE}/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=OVERSEAS" -H 'accept: application/json')
         http_code=$(printf "%s\n" "$resp" | tail -n1)
         body=$(printf "%s\n" "$resp" | sed '$d')
 
@@ -150,7 +150,7 @@ runs:
         fi
 
         # POST request
-        post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' "${BASE}/race" -H 'accept: */*' -H 'Content-Type: application/json' -d '{"startDate":"2024-10-01","finishDate":"2024-11-01","raceType":["overseas"]}')
+        post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' "${BASE}/race" -H 'accept: */*' -H 'Content-Type: application/json' -d '{"startDate":"2024-10-01","finishDate":"2024-11-01","raceType":["OVERSEAS"]}')
 
         # POST Response Check
         if [[ "$post_response" != "200" ]]; then
@@ -159,7 +159,7 @@ runs:
         fi
 
         # Updated GET request (capture body + status)
-        resp=$(curl -s -w "\n%{http_code}" -X 'GET' "${BASE}/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+        resp=$(curl -s -w "\n%{http_code}" -X 'GET' "${BASE}/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=OVERSEAS" -H 'accept: application/json')
         http_code=$(printf "%s\n" "$resp" | tail -n1)
         body=$(printf "%s\n" "$resp" | sed '$d')
 
@@ -188,7 +188,7 @@ runs:
         BASE=http://localhost:8787
 
         # Initial GET request (capture body + status)
-        resp=$(curl -s -w "\n%{http_code}" -X 'GET' "${BASE}/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+        resp=$(curl -s -w "\n%{http_code}" -X 'GET' "${BASE}/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=OVERSEAS" -H 'accept: application/json')
         http_code=$(printf "%s\n" "$resp" | tail -n1)
         body=$(printf "%s\n" "$resp" | sed '$d')
 
@@ -210,7 +210,7 @@ runs:
         fi
 
         # POST request
-        post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' "${BASE}/calendar" -H 'accept: */*' -H 'Content-Type: application/json' -d '{"startDate":"2024-10-01","finishDate":"2024-11-01","raceType":["overseas"]}')
+        post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' "${BASE}/calendar" -H 'accept: */*' -H 'Content-Type: application/json' -d '{"startDate":"2024-10-01","finishDate":"2024-11-01","raceType":["OVERSEAS"]}')
 
         # POST Response Check
         if [[ "$post_response" != "200" ]]; then
@@ -219,7 +219,7 @@ runs:
         fi
 
         # Updated GET request (capture body + status)
-        resp=$(curl -s -w "\n%{http_code}" -X 'GET' "${BASE}/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
+        resp=$(curl -s -w "\n%{http_code}" -X 'GET' "${BASE}/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=OVERSEAS" -H 'accept: application/json')
         http_code=$(printf "%s\n" "$resp" | tail -n1)
         body=$(printf "%s\n" "$resp" | sed '$d')
 
