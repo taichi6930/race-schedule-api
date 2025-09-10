@@ -15,8 +15,8 @@ import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGate
 import { GoogleCalendarRepository } from './repository/implement/googleCalendarRepository';
 import { NarRaceRepositoryFromHtml } from './repository/implement/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtml } from './repository/implement/overseasRaceRepositoryFromHtml';
+import { PlaceRepositoryForStorage } from './repository/implement/placeRepositoryForStorage';
 import { PlaceRepositoryFromHtml } from './repository/implement/placeRepositoryFromHtml';
-import { PlaceRepositoryForStorage } from './repository/implement/placeRepositoryStorage';
 import { PlayerRepository } from './repository/implement/playerRepository';
 import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryStorage';
 import type { ICalendarRepository } from './repository/interface/ICalendarRepository';
