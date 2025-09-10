@@ -55,11 +55,10 @@ runs:
         pnpm run wrangler:d1:migrations:apply:local || true
       shell: bash
 
-    - name: Create .env for worker
+    - name: Create .env (temp)
       run: |
-        cat > .env <<'ENV'
-ENV=GITHUB_ACTIONS_CI
-ENV
+        printf '%s
+' "ENV=GITHUB_ACTIONS_CI" > .env
       shell: bash
 
     - name: Start wrangler dev in background and wait for /health
