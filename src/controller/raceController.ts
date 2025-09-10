@@ -62,13 +62,13 @@ export class RaceController {
                       : undefined) ?? [];
 
             const stageList =
-                typeof stageParam === 'string'
+                (typeof stageParam === 'string'
                     ? [stageParam]
                     : typeof stageParam === 'object'
                       ? Array.isArray(stageParam)
                           ? stageParam.map((s: string) => s)
                           : undefined
-                      : undefined;
+                      : undefined) ?? [];
 
             if (raceTypeList.length === 0) {
                 return new Response('Bad Request: Invalid raceType', {
@@ -103,22 +103,12 @@ export class RaceController {
                 raceTypeList,
                 locationList,
                 gradeList,
+                stageList,
             );
 
             const raceEntityList = await this.usecase.fetchRaceEntityList(
                 commonParameter,
                 searchRaceFilter,
-                {
-                    [RaceType.KEIRIN]: {
-                        stageList,
-                    },
-                    [RaceType.AUTORACE]: {
-                        stageList,
-                    },
-                    [RaceType.BOATRACE]: {
-                        stageList,
-                    },
-                },
             );
 
             return Response.json(
@@ -162,7 +152,8 @@ export class RaceController {
                     headers: this.corsHeaders,
                 });
             }
-            const { raceType, startDate, finishDate, location, grade } = body;
+            const { raceType, startDate, finishDate, location, grade, stage } =
+                body;
 
             // raceTypeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const raceTypeList = convertRaceTypeList(
@@ -211,12 +202,22 @@ export class RaceController {
                           : undefined
                       : undefined) ?? [];
 
+            const stageList =
+                (typeof stage === 'string'
+                    ? [stage]
+                    : typeof stage === 'object'
+                      ? Array.isArray(stage)
+                          ? (stage as string[]).map((r: string) => r)
+                          : undefined
+                      : undefined) ?? [];
+
             const searchRaceFilter = new SearchRaceFilterEntity(
                 new Date(startDate),
                 new Date(finishDate),
                 raceTypeList,
                 locationList,
                 gradeList,
+                stageList,
             );
 
             await this.usecase.upsertRaceEntityList(

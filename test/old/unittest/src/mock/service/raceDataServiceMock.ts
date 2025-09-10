@@ -4,9 +4,10 @@ import type { IRaceServiceForAWS } from '../../../../../../lib/src/service/inter
  * RaceDataServiceのモックを作成する
  * @returns モック化されたIRaceDataServiceインターフェースのインスタンス
  */
-export const raceDataServiceMock = (): jest.Mocked<IRaceServiceForAWS> => {
-    return {
-        fetchRaceEntityList: jest.fn().mockResolvedValue([]),
-        updateRaceEntityList: jest.fn().mockResolvedValue([]),
+export const raceDataServiceForAWSMock =
+    (): jest.Mocked<IRaceServiceForAWS> => {
+        return {
+            fetchRaceEntityList: jest.fn().mockResolvedValue([]),
+            updateRaceEntityList: jest.fn().mockResolvedValue([]),
+        };
     };
-};

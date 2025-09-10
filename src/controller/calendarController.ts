@@ -4,7 +4,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { SpecifiedGradeList } from '../../lib/src/utility/validateAndType/gradeType';
 import { SearchCalendarFilterEntity } from '../repository/entity/filter/searchCalendarFilterEntity';
-import { SearchRaceFilterEntity } from '../repository/entity/filter/searchRaceFilterEntity';
 import { ICalendarUseCase } from '../usecase/interface/ICalendarUseCase';
 import { CommonParameter } from '../utility/commonParameter';
 import { Logger } from '../utility/logger';
@@ -149,7 +148,7 @@ export class CalendarController {
                     headers: this.corsHeaders,
                 });
             }
-            const searchRaceFilter = new SearchRaceFilterEntity(
+            const searchCalendarFilter = new SearchCalendarFilterEntity(
                 new Date(startDate),
                 new Date(finishDate),
                 raceTypeList,
@@ -157,7 +156,7 @@ export class CalendarController {
 
             await this.usecase.updateCalendarRaceData(
                 commonParameter,
-                searchRaceFilter,
+                searchCalendarFilter,
                 {
                     [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
                     [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),

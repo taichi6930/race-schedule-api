@@ -11,15 +11,23 @@ import type { ICalendarServiceForAWS } from '../../lib/src/service/interface/ICa
 import type { IPlaceServiceForAWS } from '../../lib/src/service/interface/IPlaceService';
 import type { IPlayerServiceForAWS } from '../../lib/src/service/interface/IPlayerService';
 import type { IRaceServiceForAWS } from '../../lib/src/service/interface/IRaceService';
+import type { ICalendarService } from '../../src/service/interface/ICalendarService';
+import type { IPlaceService } from '../../src/service/interface/IPlaceService';
+import type { IPlayerService } from '../../src/service/interface/IPlayerService';
+import type { IRaceService } from '../../src/service/interface/IRaceService';
 import { mockGoogleCalendarGateway } from '../old/unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockS3Gateway } from '../old/unittest/src/mock/gateway/mockS3Gateway';
 import { mockCalendarRepository } from '../old/unittest/src/mock/repository/mockCalendarRepository';
 import { mockPlaceRepository } from '../old/unittest/src/mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../old/unittest/src/mock/repository/mockRaceRepository';
-import { calendarServiceMock } from '../old/unittest/src/mock/service/calendarServiceMock';
-import { placeServiceMock } from '../old/unittest/src/mock/service/placeServiceMock';
-import { playerDataServiceMock } from '../old/unittest/src/mock/service/playerDataServiceMock';
-import { raceDataServiceMock } from '../old/unittest/src/mock/service/raceDataServiceMock';
+import { calendarServiceForAWSMock } from '../old/unittest/src/mock/service/calendarServiceMock';
+import { placeServiceForAWSMock } from '../old/unittest/src/mock/service/placeServiceMock';
+import { playerDataServiceMock as playerServiceForAWSMock } from '../old/unittest/src/mock/service/playerDataServiceMock';
+import { raceDataServiceForAWSMock } from '../old/unittest/src/mock/service/raceDataServiceMock';
+import { calendarServiceMock } from '../unittest/src/mock/service/calendarServiceMock';
+import { placeServiceMock } from '../unittest/src/mock/service/placeServiceMock';
+import { playerServiceMock } from '../unittest/src/mock/service/playerServiceMock';
+import { raceServiceMock } from '../unittest/src/mock/service/raceDataServiceMock';
 
 /**
  * afterEach処理の共通化
@@ -53,11 +61,18 @@ export interface TestGatewaySetup {
     s3Gateway: jest.Mocked<IS3Gateway>;
 }
 
-export interface TestServiceSetup {
+export interface TestServiceForAWSSetup {
     calendarService: jest.Mocked<ICalendarServiceForAWS>;
     raceService: jest.Mocked<IRaceServiceForAWS>;
     placeService: jest.Mocked<IPlaceServiceForAWS>;
     playerService: jest.Mocked<IPlayerServiceForAWS>;
+}
+
+export interface TestServiceSetup {
+    calendarService: jest.Mocked<ICalendarService>;
+    raceService: jest.Mocked<IRaceService>;
+    placeService: jest.Mocked<IPlaceService>;
+    playerService: jest.Mocked<IPlayerService>;
 }
 
 /**
@@ -158,21 +173,49 @@ export function setupTestGatewayMock(): TestGatewaySetup {
  * テスト用のセットアップ（Serviceクラス）
  * @returns セットアップ済みのサービス
  */
-export function setupTestServiceMock(): TestServiceSetup {
-    const calendarService = calendarServiceMock();
+export function setupTestServiceForAWSMock(): TestServiceForAWSSetup {
+    const calendarService = calendarServiceForAWSMock();
     container.registerInstance<ICalendarServiceForAWS>(
         'CalendarService',
         calendarService,
     );
-    const raceService = raceDataServiceMock();
+    const raceService = raceDataServiceForAWSMock();
     container.registerInstance<IRaceServiceForAWS>('RaceService', raceService);
-    const placeService = placeServiceMock();
+    const placeService = placeServiceForAWSMock();
     container.registerInstance<IPlaceServiceForAWS>(
         'PlaceService',
         placeService,
     );
-    const playerService = playerDataServiceMock();
+    const playerService = playerServiceForAWSMock();
     container.registerInstance<IPlayerServiceForAWS>(
+        'PlayerDataService',
+        playerService,
+    );
+
+    return {
+        calendarService,
+        raceService,
+        placeService,
+        playerService,
+    };
+}
+
+/**
+ * テスト用のセットアップ（Serviceクラス）
+ * @returns セットアップ済みのサービス
+ */
+export function setupTestServiceMock(): TestServiceSetup {
+    const calendarService = calendarServiceMock();
+    container.registerInstance<ICalendarService>(
+        'CalendarService',
+        calendarService,
+    );
+    const raceService = raceServiceMock();
+    container.registerInstance<IRaceService>('RaceService', raceService);
+    const placeService = placeServiceMock();
+    container.registerInstance<IPlaceService>('PlaceService', placeService);
+    const playerService = playerServiceMock();
+    container.registerInstance<IPlayerService>(
         'PlayerDataService',
         playerService,
     );

@@ -15,18 +15,18 @@ import {
     mockCalendarDataList,
     testRaceTypeListAll,
 } from '../../../../../unittest/src/mock/common/baseCommonData';
-import type { TestServiceSetup } from '../../../../../utility/testSetupHelper';
+import type { TestServiceForAWSSetup } from '../../../../../utility/testSetupHelper';
 import {
     clearMocks,
-    setupTestServiceMock,
+    setupTestServiceForAWSMock,
 } from '../../../../../utility/testSetupHelper';
 
 describe('RaceCalendarUseCase', () => {
-    let serviceSetup: TestServiceSetup;
+    let serviceSetup: TestServiceForAWSSetup;
     let useCase: IRaceCalendarUseCaseForAWS;
 
     beforeEach(() => {
-        serviceSetup = setupTestServiceMock();
+        serviceSetup = setupTestServiceForAWSMock();
         useCase = container.resolve(CalendarUseCaseForAWS);
     });
 
