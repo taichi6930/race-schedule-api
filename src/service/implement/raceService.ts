@@ -20,13 +20,15 @@ export class RaceService implements IRaceService {
     public constructor(
         @inject('RaceRepositoryForStorage')
         private readonly repositoryForStorage: IRaceRepository,
+        @inject('JraRaceRepositoryFromHtml')
+        private readonly jraRaceRepositoryFromHtml: IRaceRepository,
         @inject('NarRaceRepositoryFromHtml')
         private readonly narRaceRepositoryFromHtml: IRaceRepository,
         @inject('OverseasRaceRepositoryFromHtml')
         private readonly overseasRaceRepositoryFromHtml: IRaceRepository,
     ) {
         this.raceRepositoryFromHtml = {
-            [RaceType.JRA]: this.narRaceRepositoryFromHtml,
+            [RaceType.JRA]: this.jraRaceRepositoryFromHtml,
             [RaceType.NAR]: this.narRaceRepositoryFromHtml,
             [RaceType.OVERSEAS]: this.overseasRaceRepositoryFromHtml,
             [RaceType.KEIRIN]: this.narRaceRepositoryFromHtml,

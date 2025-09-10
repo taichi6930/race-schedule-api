@@ -1,5 +1,6 @@
 import { formatDate } from 'date-fns';
 
+import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import type { CommonParameter } from '../../utility/commonParameter';
@@ -11,6 +12,88 @@ import type { IRaceRepository } from '../interface/IRaceRepository';
 export class RaceRepositoryForStorage implements IRaceRepository {
     @Logger
     public async fetchRaceEntityList(
+        commonParameter: CommonParameter,
+        searchRaceFilter: SearchRaceFilterEntity,
+    ): Promise<RaceEntity[]> {
+        const fetchRaceEntityListForJra = await this.fetchRaceEntityListForJra(
+            commonParameter,
+            searchRaceFilter,
+        );
+        const fetchRaceEntityListForNarAndOverseas =
+            await this.fetchRaceEntityListForNarAndOverseas(
+                commonParameter,
+                searchRaceFilter,
+            );
+        return [
+            ...fetchRaceEntityListForJra,
+            ...fetchRaceEntityListForNarAndOverseas,
+        ];
+    }
+
+    public async fetchRaceEntityListForJra(
+        commonParameter: CommonParameter,
+        searchRaceFilter: SearchRaceFilterEntity,
+    ): Promise<RaceEntity[]> {
+        const { env } = commonParameter;
+        const { raceTypeList, startDate, finishDate } = searchRaceFilter;
+
+        const startDateFormatted = formatDate(startDate, 'yyyy-MM-dd');
+        const finishDateFormatted = formatDate(finishDate, 'yyyy-MM-dd');
+
+        // raceTypeListの数に応じて動的にWHERE句を生成
+        const raceTypePlaceholders = raceTypeList.map(() => '?').join(', ');
+        const whereClause = `WHERE race.race_type IN (${raceTypePlaceholders}) AND race.date_time >= ? AND race.date_time <= ?`;
+
+        const queryParams: any[] = [];
+        queryParams.push(
+            ...raceTypeList,
+            startDateFormatted,
+            finishDateFormatted,
+        );
+        const { results } = await env.DB.prepare(
+            `
+            SELECT
+                race.id,
+                race.race_type,
+                race.race_name,
+                race.date_time,
+                race.location_name,
+                race_condition.surface_type,
+                race_condition.distance,
+                race.grade,
+                race.race_number,
+                held_day.held_times,
+                held_day.held_day_times,
+                race.created_at,
+                race.updated_at
+            FROM race
+            INNER JOIN race_condition ON race.id = race_condition.id
+            LEFT JOIN held_day ON substr(race.id, 1, length(race.id) - 2) = held_day.id
+            ${whereClause}`,
+        )
+            .bind(...queryParams)
+            .all();
+        return results.map((row: any): RaceEntity => {
+            const dateJST = new Date(new Date(row.date_time));
+            return RaceEntity.create(
+                row.id,
+                RaceData.create(
+                    row.race_type,
+                    row.race_name,
+                    dateJST,
+                    row.location_name,
+                    row.grade,
+                    row.race_number,
+                ),
+                HeldDayData.create(row.held_times, row.held_day_times),
+                HorseRaceConditionData.create(row.surface_type, row.distance),
+                undefined, // TODO: stageを設定する
+                undefined, // TODO: racePlayerDataListを設定する
+            );
+        });
+    }
+
+    public async fetchRaceEntityListForNarAndOverseas(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {

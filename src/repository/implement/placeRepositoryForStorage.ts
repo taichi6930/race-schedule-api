@@ -15,24 +15,24 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<PlaceEntity[]> {
-        const fetchPlaceEntityListForJRA =
-            await this.fetchPlaceEntityListForJRA(
+        const fetchPlaceEntityListForJra =
+            await this.fetchPlaceEntityListForJra(
                 commonParameter,
                 searchRaceFilter,
             );
-        const fetchPlaceEntityListForNARAndOVERSEAS =
-            await this.fetchPlaceEntityListForNARAndOVERSEAS(
+        const fetchPlaceEntityListForNarAndOverseas =
+            await this.fetchPlaceEntityListForNarAndOverseas(
                 commonParameter,
                 searchRaceFilter,
             );
         return [
-            ...fetchPlaceEntityListForJRA,
-            ...fetchPlaceEntityListForNARAndOVERSEAS,
+            ...fetchPlaceEntityListForJra,
+            ...fetchPlaceEntityListForNarAndOverseas,
         ];
     }
 
     @Logger
-    private async fetchPlaceEntityListForJRA(
+    private async fetchPlaceEntityListForJra(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<PlaceEntity[]> {
@@ -91,7 +91,7 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
     }
 
     @Logger
-    private async fetchPlaceEntityListForNARAndOVERSEAS(
+    private async fetchPlaceEntityListForNarAndOverseas(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<PlaceEntity[]> {
