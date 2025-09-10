@@ -58,8 +58,8 @@ runs:
     - name: Create .env for worker
       run: |
         cat > .env <<'ENV'
-        ENV=GITHUB_ACTIONS_CI
-        ENV
+ENV=GITHUB_ACTIONS_CI
+ENV
       shell: bash
 
     - name: Start wrangler dev in background and wait for /health
