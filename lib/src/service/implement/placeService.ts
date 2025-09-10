@@ -1,11 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 
+import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
     RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
-import { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../../repository/entity/searchPlaceFilterEntity';
 import { IPlaceRepositoryForAWS } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
@@ -38,13 +38,13 @@ export class PlaceServiceForAWS implements IPlaceServiceForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
         type: DataLocationType,
-    ): Promise<PlaceEntityForAWS[]> {
+    ): Promise<PlaceEntity[]> {
         try {
-            const result: PlaceEntityForAWS[] = [];
+            const result: PlaceEntity[] = [];
             for (const raceType of RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS) {
                 if (!raceTypeList.includes(raceType)) continue;
 
-                const placeEntityList: PlaceEntityForAWS[] = await (
+                const placeEntityList: PlaceEntity[] = await (
                     type === DataLocation.Storage
                         ? this.placeRepositoryFromStorage
                         : this.placeRepositoryFromHtml
@@ -71,7 +71,7 @@ export class PlaceServiceForAWS implements IPlaceServiceForAWS {
      */
     @Logger
     public async updatePlaceEntityList(
-        placeEntityList: PlaceEntityForAWS[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;

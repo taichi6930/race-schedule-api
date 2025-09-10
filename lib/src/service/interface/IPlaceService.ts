@@ -1,5 +1,5 @@
+import type { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import type { RaceType } from '../../../../src/utility/raceType';
-import type { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import type { DataLocationType } from '../../utility/dataType';
 
 /**
@@ -19,14 +19,14 @@ export interface IPlaceServiceForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
         type: DataLocationType,
-    ) => Promise<PlaceEntityForAWS[]>;
+    ) => Promise<PlaceEntity[]>;
 
     /**
      * 開催場所データをStorageに保存・更新
      * @param placeEntityList - 保存・更新する開催場所エンティティ配列
      * @throws Error 保存・更新に失敗した場合
      */
-    updatePlaceEntityList: (placeEntityList: PlaceEntityForAWS[]) => Promise<{
+    updatePlaceEntityList: (placeEntityList: PlaceEntity[]) => Promise<{
         code: number;
         message: string;
         successDataCount: number;

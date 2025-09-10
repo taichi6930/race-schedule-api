@@ -7,7 +7,6 @@ import { container } from 'tsyringe';
 import { PlaceData } from '../../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
-import { PlaceEntityForAWS } from '../../../../../../lib/src/repository/entity/placeEntity';
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
@@ -16,8 +15,8 @@ import { KeirinRaceRepositoryFromHtml } from '../../../../../../lib/src/reposito
 import { NarRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepository';
-import { getJSTDate } from '../../../../../../lib/src/utility/date';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
+import { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import { SkipEnv } from '../../../../../utility/testDecorators';
 import { clearMocks } from '../../../../../utility/testSetupHelper';
@@ -157,7 +156,7 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
                                     raceType === RaceType.OVERSEAS
                                         ? []
                                         : [
-                                              PlaceEntityForAWS.createWithoutId(
+                                              PlaceEntity.createWithoutId(
                                                   PlaceData.create(
                                                       raceType,
                                                       placeDate,
@@ -165,7 +164,6 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
                                                   ),
                                                   defaultHeldDayData[raceType],
                                                   defaultPlaceGrade[raceType],
-                                                  getJSTDate(new Date()),
                                               ),
                                           ],
                                 ),

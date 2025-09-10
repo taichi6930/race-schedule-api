@@ -1,10 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
+import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
-import { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../repository/entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../repository/interface/IRaceRepository';
@@ -87,7 +87,7 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
         type: DataLocationType,
-        placeEntityList?: PlaceEntityForAWS[],
+        placeEntityList?: PlaceEntity[],
     ): Promise<RaceEntityForAWS[]> {
         const result: RaceEntityForAWS[] = [];
         try {

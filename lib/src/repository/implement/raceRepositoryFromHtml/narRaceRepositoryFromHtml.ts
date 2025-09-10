@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
 import { HorseRaceConditionData } from '../../../domain/houseRaceConditionData';
 import { RaceData } from '../../../domain/raceData';
@@ -13,7 +14,6 @@ import {
     validateGradeType,
 } from '../../../utility/validateAndType/gradeType';
 import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
-import { PlaceEntityForAWS } from '../../entity/placeEntity';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../interface/IRaceRepository';
@@ -48,7 +48,7 @@ export class NarRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
 
     @Logger
     public async fetchRaceListFromHtml(
-        placeEntity: PlaceEntityForAWS,
+        placeEntity: PlaceEntity,
     ): Promise<RaceEntityForAWS[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(

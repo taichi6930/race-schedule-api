@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
 import { PlaceData } from '../../../domain/placeData';
 import { RaceData } from '../../../domain/raceData';
@@ -14,7 +15,6 @@ import {
     RaceStage,
     StageMap,
 } from '../../../utility/validateAndType/raceStage';
-import { PlaceEntityForAWS } from '../../entity/placeEntity';
 import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../interface/IRaceRepository';
@@ -57,7 +57,7 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
 
     @Logger
     public async fetchRaceListFromHtml(
-        placeEntity: PlaceEntityForAWS,
+        placeEntity: PlaceEntity,
     ): Promise<RaceEntityForAWS[]> {
         try {
             const [year, month, day] = [

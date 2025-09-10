@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
+import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../src/utility/raceType';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
@@ -10,7 +11,6 @@ import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { PlaceEntityForAWS } from '../entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepository';
 
@@ -41,7 +41,7 @@ export class PlaceRepositoryFromStorageForAWS
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntityForAWS,
-    ): Promise<PlaceEntityForAWS[]> {
+    ): Promise<PlaceEntity[]> {
         // 海外競馬はまだ対応していない
         if (searchFilter.raceType === RaceType.OVERSEAS) {
             return [];
@@ -66,48 +66,39 @@ export class PlaceRepositoryFromStorageForAWS
                 const heldDayMap = this.toIdMap(heldDayRecordList);
 
                 // placeRecordをplaceEntityに変換
-                const placeEntityList: PlaceEntityForAWS[] =
-                    filteredPlaceRecordList
-                        .map((placeRecord) => {
-                            const heldDayRecordItem = heldDayMap.get(
-                                placeRecord.id,
-                            );
-                            if (!heldDayRecordItem) return null;
-                            return { placeRecord, heldDayRecordItem };
-                        })
-                        .filter(
-                            (
-                                v,
-                            ): v is {
-                                placeRecord: PlaceRecord;
-                                heldDayRecordItem: HeldDayRecord;
-                            } => v !== null,
-                        )
-                        .map(({ placeRecord, heldDayRecordItem }) => {
-                            return PlaceEntityForAWS.create(
-                                placeRecord.id,
-                                placeRecord.toPlaceData(),
-                                heldDayRecordItem.toHeldDayData(),
-                                undefined, // グレードは未指定
-                                // placeRecordとheldDayRecordのupdateDateの早い方を使用
-                                new Date(
-                                    Math.min(
-                                        placeRecord.updateDate.getTime(),
-                                        heldDayRecordItem.updateDate.getTime(),
-                                    ),
-                                ),
-                            );
-                        });
+                const placeEntityList: PlaceEntity[] = filteredPlaceRecordList
+                    .map((placeRecord) => {
+                        const heldDayRecordItem = heldDayMap.get(
+                            placeRecord.id,
+                        );
+                        if (!heldDayRecordItem) return null;
+                        return { placeRecord, heldDayRecordItem };
+                    })
+                    .filter(
+                        (
+                            v,
+                        ): v is {
+                            placeRecord: PlaceRecord;
+                            heldDayRecordItem: HeldDayRecord;
+                        } => v !== null,
+                    )
+                    .map(({ placeRecord, heldDayRecordItem }) => {
+                        return PlaceEntity.create(
+                            placeRecord.id,
+                            placeRecord.toPlaceData(),
+                            heldDayRecordItem.toHeldDayData(),
+                            undefined, // グレードは未指定
+                        );
+                    });
                 return placeEntityList;
             }
             case RaceType.NAR: {
                 return filteredPlaceRecordList.map((placeRecord) =>
-                    PlaceEntityForAWS.create(
+                    PlaceEntity.create(
                         placeRecord.id,
                         placeRecord.toPlaceData(),
                         undefined,
                         undefined,
-                        placeRecord.updateDate,
                     ),
                 );
             }
@@ -123,38 +114,30 @@ export class PlaceRepositoryFromStorageForAWS
                 const placeGradeMap = this.toIdMap(placeGradeRecordList);
 
                 // raceEntityListに変換
-                const placeEntityList: PlaceEntityForAWS[] =
-                    filteredPlaceRecordList
-                        .map((placeRecord) => {
-                            const placeGradeRecord = placeGradeMap.get(
-                                placeRecord.id,
-                            );
-                            if (!placeGradeRecord) return null;
-                            return { placeRecord, placeGradeRecord };
-                        })
-                        .filter(
-                            (
-                                v,
-                            ): v is {
-                                placeRecord: PlaceRecord;
-                                placeGradeRecord: PlaceGradeRecord;
-                            } => v !== null,
-                        )
-                        .map(({ placeRecord, placeGradeRecord }) => {
-                            return PlaceEntityForAWS.create(
-                                placeRecord.id,
-                                placeRecord.toPlaceData(),
-                                undefined,
-                                placeGradeRecord.grade,
-                                // placeRecordとplaceRecordのupdateDateの早い方を使用
-                                new Date(
-                                    Math.min(
-                                        placeRecord.updateDate.getTime(),
-                                        placeGradeRecord.updateDate.getTime(),
-                                    ),
-                                ),
-                            );
-                        });
+                const placeEntityList: PlaceEntity[] = filteredPlaceRecordList
+                    .map((placeRecord) => {
+                        const placeGradeRecord = placeGradeMap.get(
+                            placeRecord.id,
+                        );
+                        if (!placeGradeRecord) return null;
+                        return { placeRecord, placeGradeRecord };
+                    })
+                    .filter(
+                        (
+                            v,
+                        ): v is {
+                            placeRecord: PlaceRecord;
+                            placeGradeRecord: PlaceGradeRecord;
+                        } => v !== null,
+                    )
+                    .map(({ placeRecord, placeGradeRecord }) => {
+                        return PlaceEntity.create(
+                            placeRecord.id,
+                            placeRecord.toPlaceData(),
+                            undefined,
+                            placeGradeRecord.grade,
+                        );
+                    });
                 return placeEntityList;
             }
         }
@@ -163,12 +146,12 @@ export class PlaceRepositoryFromStorageForAWS
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: PlaceEntityForAWS[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: PlaceEntityForAWS[];
-        failureData: PlaceEntityForAWS[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         if (raceType === RaceType.OVERSEAS) {
             return {
@@ -184,7 +167,14 @@ export class PlaceRepositoryFromStorageForAWS
                 await this.getPlaceRecordListFromS3(raceType);
 
             const placeRecordList: PlaceRecord[] = placeEntityList.map(
-                (placeEntity) => placeEntity.toPlaceRecord(),
+                (placeEntity) =>
+                    PlaceRecord.create(
+                        placeEntity.id,
+                        raceType,
+                        placeEntity.placeData.dateTime,
+                        placeEntity.placeData.location,
+                        getJSTDate(new Date()),
+                    ),
             );
 
             // idが重複しているデータは上書きをし、新規のデータは追加する
@@ -216,7 +206,14 @@ export class PlaceRepositoryFromStorageForAWS
                     await this.getHeldDayRecordListFromS3(raceType);
 
                 const heldDayRecordList: HeldDayRecord[] = placeEntityList.map(
-                    (placeEntity) => placeEntity.toHeldDayRecord(),
+                    (placeEntity) =>
+                        HeldDayRecord.create(
+                            placeEntity.id,
+                            raceType,
+                            placeEntity.heldDayData.heldTimes,
+                            placeEntity.heldDayData.heldDayTimes,
+                            getJSTDate(new Date()),
+                        ),
                 );
 
                 // idが重複しているデータは上書きをし、新規のデータは追加する
@@ -255,7 +252,12 @@ export class PlaceRepositoryFromStorageForAWS
                 // PlaceEntityをPlaceRecordに変換する
                 const placeGradeRecordList: PlaceGradeRecord[] =
                     placeEntityList.map((placeEntity) =>
-                        placeEntity.toPlaceGradeRecord(),
+                        PlaceGradeRecord.create(
+                            placeEntity.id,
+                            raceType,
+                            placeEntity.grade,
+                            getJSTDate(new Date()),
+                        ),
                     );
 
                 // idが重複しているデータは上書きをし、新規のデータは追加する

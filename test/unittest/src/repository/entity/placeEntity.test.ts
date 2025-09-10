@@ -1,11 +1,11 @@
-import { RaceType } from '../../../../../../src/utility/raceType';
+import { RaceType } from '../../../../../src/utility/raceType';
 import {
     basePlaceData,
     basePlaceEntity,
     defaultHeldDayData,
     defaultPlaceGrade,
     testRaceTypeListAll,
-} from '../../mock/common/baseCommonData';
+} from '../../../../old/unittest/src/mock/common/baseCommonData';
 
 describe.each(testRaceTypeListAll)('PlaceEntity(%s)', (raceType) => {
     it(`正しい入力でPlaceEntityのインスタンスを作成できることを確認`, () => {

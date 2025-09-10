@@ -5,12 +5,12 @@ import { PlaceData } from '../../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../../../lib/src/domain/racePlayerData';
 import { PlaceRecord } from '../../../../../../lib/src/gateway/record/placeRecord';
-import { PlaceEntityForAWS } from '../../../../../../lib/src/repository/entity/placeEntity';
 import { RaceEntityForAWS } from '../../../../../../lib/src/repository/entity/raceEntity';
 import { getJSTDate } from '../../../../../../lib/src/utility/date';
 import { IS_SHORT_TEST } from '../../../../../../lib/src/utility/env';
 import { generatePlaceId } from '../../../../../../lib/src/utility/validateAndType/placeId';
 import { maxFrameNumber } from '../../../../../../lib/src/utility/validateAndType/positionNumber';
+import { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
     RACE_TYPE_LIST_HORSE_RACING_FOR_AWS,
@@ -43,12 +43,11 @@ export const baseRacePlayerDataList = (
 export const basePlaceData = (raceType: RaceType): PlaceData =>
     PlaceData.create(raceType, basePlaceDateTime, defaultLocation[raceType]);
 
-export const basePlaceEntity = (raceType: RaceType): PlaceEntityForAWS =>
-    PlaceEntityForAWS.createWithoutId(
+export const basePlaceEntity = (raceType: RaceType): PlaceEntity =>
+    PlaceEntity.createWithoutId(
         basePlaceData(raceType),
         defaultHeldDayData[raceType],
         defaultPlaceGrade[raceType],
-        baseRaceUpdateDate,
     );
 
 export const baseRaceData = (raceType: RaceType): RaceData =>

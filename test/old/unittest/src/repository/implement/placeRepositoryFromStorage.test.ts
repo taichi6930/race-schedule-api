@@ -7,15 +7,14 @@ import { afterEach } from 'node:test';
 import { container } from 'tsyringe';
 
 import { PlaceData } from '../../../../../../lib/src/domain/placeData';
-import { PlaceEntityForAWS } from '../../../../../../lib/src/repository/entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorageForAWS } from '../../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
 import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
-import { getJSTDate } from '../../../../../../lib/src/utility/date';
 import {
     IS_LARGE_AMOUNT_DATA_TEST,
     IS_SHORT_TEST,
 } from '../../../../../../lib/src/utility/env';
+import { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import type { TestGatewaySetup } from '../../../../../utility/testSetupHelper';
 import {
@@ -104,7 +103,7 @@ describe('PlaceRepositoryFromStorage', () => {
     });
 
     // 1年間の開催場データを登録する
-    const placeEntityList = (raceType: RaceType): PlaceEntityForAWS[] => {
+    const placeEntityList = (raceType: RaceType): PlaceEntity[] => {
         const dayCount = IS_SHORT_TEST
             ? 3
             : IS_LARGE_AMOUNT_DATA_TEST
@@ -114,11 +113,10 @@ describe('PlaceRepositoryFromStorage', () => {
             const location = defaultLocation[raceType];
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return PlaceEntityForAWS.createWithoutId(
+            return PlaceEntity.createWithoutId(
                 PlaceData.create(raceType, date, location),
                 defaultHeldDayData[raceType],
                 defaultPlaceGrade[raceType],
-                getJSTDate(new Date()),
             );
         });
     };

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
+import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../src/utility/raceType';
-import { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import { IPlaceServiceForAWS } from '../../service/interface/IPlaceService';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -28,7 +28,7 @@ export class PlaceUseCaseForAWS implements IPlaceUseCaseForAWS {
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
-    ): Promise<PlaceEntityForAWS[]> {
+    ): Promise<PlaceEntity[]> {
         return this.placeService.fetchPlaceEntityList(
             startDate,
             finishDate,

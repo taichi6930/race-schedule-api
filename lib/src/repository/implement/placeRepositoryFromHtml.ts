@@ -3,18 +3,17 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../src/utility/raceType';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGatewayForAWS } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import {
     RaceCourse,
     validateRaceCourse,
 } from '../../utility/validateAndType/raceCourse';
-import { PlaceEntityForAWS } from '../entity/placeEntity';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepository';
 
@@ -36,7 +35,7 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntityForAWS,
-    ): Promise<PlaceEntityForAWS[]> {
+    ): Promise<PlaceEntity[]> {
         const { startDate, finishDate, raceType } = searchFilter;
         // リストを生成
         const periodList = this.generatePeriodList(
@@ -46,9 +45,9 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
         );
 
         // 各月のデータを取得して結合
-        const periodPlaceEntityLists: PlaceEntityForAWS[][] = [];
+        const periodPlaceEntityLists: PlaceEntity[][] = [];
         for (const period of periodList) {
-            let placeEntityList: PlaceEntityForAWS[];
+            let placeEntityList: PlaceEntity[];
             switch (raceType) {
                 case RaceType.JRA: {
                     placeEntityList = await this.fetchYearPlaceEntityListForJra(
@@ -199,12 +198,12 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
     private async fetchYearPlaceEntityListForJra(
         raceType: RaceType,
         date: Date,
-    ): Promise<PlaceEntityForAWS[]> {
+    ): Promise<PlaceEntity[]> {
         // レースHTMLを取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
-        const placeEntityList: PlaceEntityForAWS[] = [];
+        const placeEntityList: PlaceEntity[] = [];
 
         // 競馬場のイニシャルと名前のマッピング
         const placeMap: Record<string, RaceCourse> = {
@@ -270,7 +269,7 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
                             placeHeldDayTimesCountMap[place][heldTimes];
 
                         placeEntityList.push(
-                            PlaceEntityForAWS.createWithoutId(
+                            PlaceEntity.createWithoutId(
                                 PlaceData.create(
                                     raceType,
                                     new Date(
@@ -282,7 +281,6 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
                                 ),
                                 HeldDayData.create(heldTimes, heldDayTimes),
                                 undefined, // grade は中央競馬では不要
-                                getJSTDate(new Date()),
                             ),
                         );
                     });
@@ -302,7 +300,7 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
     private async fetchMonthPlaceEntityListForNar(
         raceType: RaceType,
         date: Date,
-    ): Promise<PlaceEntityForAWS[]> {
+    ): Promise<PlaceEntity[]> {
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -344,11 +342,11 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
             });
         });
 
-        const placeDataList: PlaceEntityForAWS[] = [];
+        const placeDataList: PlaceEntity[] = [];
         for (const [place, raceDays] of Object.entries(placeDataDict)) {
             for (const raceDay of raceDays) {
                 placeDataList.push(
-                    PlaceEntityForAWS.createWithoutId(
+                    PlaceEntity.createWithoutId(
                         PlaceData.create(
                             raceType,
                             new Date(
@@ -360,7 +358,6 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
                         ),
                         undefined, // heldDayData は地方競馬では不要
                         undefined, // grade は地方競馬では不要
-                        getJSTDate(new Date()),
                     ),
                 );
             }
@@ -379,8 +376,8 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
     private async fetchMonthPlaceEntityListForKeirin(
         raceType: RaceType,
         date: Date,
-    ): Promise<PlaceEntityForAWS[]> {
-        const placeEntityList: PlaceEntityForAWS[] = [];
+    ): Promise<PlaceEntity[]> {
+        const placeEntityList: PlaceEntity[] = [];
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -432,11 +429,10 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
                         // alt属性を出力
                         if (grade) {
                             placeEntityList.push(
-                                PlaceEntityForAWS.createWithoutId(
+                                PlaceEntity.createWithoutId(
                                     PlaceData.create(raceType, datetime, place),
                                     undefined,
                                     grade,
-                                    getJSTDate(new Date()),
                                 ),
                             );
                         }
@@ -460,8 +456,8 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
     private async fetchMonthPlaceEntityListForAutorace(
         raceType: RaceType,
         date: Date,
-    ): Promise<PlaceEntityForAWS[]> {
-        const placeEntityList: PlaceEntityForAWS[] = [];
+    ): Promise<PlaceEntity[]> {
+        const placeEntityList: PlaceEntity[] = [];
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -528,11 +524,10 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
                     // alt属性を出力
                     if (grade) {
                         placeEntityList.push(
-                            PlaceEntityForAWS.createWithoutId(
+                            PlaceEntity.createWithoutId(
                                 PlaceData.create(raceType, datetime, place),
                                 undefined,
                                 grade,
-                                getJSTDate(new Date()),
                             ),
                         );
                     }
@@ -553,8 +548,8 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
     private async fetchQuarterPlaceEntityListForBoatrace(
         raceType: RaceType,
         date: Date,
-    ): Promise<PlaceEntityForAWS[]> {
-        const placeEntityList: PlaceEntityForAWS[] = [];
+    ): Promise<PlaceEntity[]> {
+        const placeEntityList: PlaceEntity[] = [];
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -606,11 +601,10 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
                 currentDate <= finishDate;
                 currentDate.setDate(currentDate.getDate() + 1)
             ) {
-                const placeEntity = PlaceEntityForAWS.createWithoutId(
+                const placeEntity = PlaceEntity.createWithoutId(
                     PlaceData.create(raceType, new Date(currentDate), place),
                     undefined,
                     grade,
-                    getJSTDate(new Date()),
                 );
                 placeEntityList.push(placeEntity);
             }
@@ -627,12 +621,12 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
     @Logger
     public async registerPlaceEntityList(
         raceType: RaceType,
-        placeEntityList: PlaceEntityForAWS[],
+        placeEntityList: PlaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: PlaceEntityForAWS[];
-        failureData: PlaceEntityForAWS[];
+        successData: PlaceEntity[];
+        failureData: PlaceEntity[];
     }> {
         console.debug(raceType, placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

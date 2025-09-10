@@ -1,5 +1,5 @@
+import type { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import type { RaceType } from '../../../../src/utility/raceType';
-import type { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
 import type { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import type { DataLocationType } from '../../utility/dataType';
 
@@ -32,7 +32,7 @@ export interface IRaceServiceForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
         type: DataLocationType,
-        placeEntityList?: PlaceEntityForAWS[],
+        placeEntityList?: PlaceEntity[],
     ) => Promise<RaceEntityForAWS[]>;
 
     /**
