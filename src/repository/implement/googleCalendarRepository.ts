@@ -88,7 +88,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                                 raceEntity.id,
                             )
                             .then((calendarData) => {
-                                console.debug('calendarData', calendarData);
+                                console.debug('calendarData', calendarData.id);
                             });
                         isExist = true;
                     } catch (error) {
