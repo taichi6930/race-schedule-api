@@ -19,7 +19,11 @@ export const RACE_TYPE_LIST_ALL_FOR_AWS: RaceType[] = [
     RaceType.BOATRACE,
 ];
 
-export const RACE_TYPE_LIST_ALL: RaceType[] = [RaceType.NAR, RaceType.OVERSEAS];
+export const RACE_TYPE_LIST_ALL: RaceType[] = [
+    RaceType.JRA,
+    RaceType.NAR,
+    RaceType.OVERSEAS,
+];
 
 export const RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS =
     RACE_TYPE_LIST_ALL_FOR_AWS.filter(

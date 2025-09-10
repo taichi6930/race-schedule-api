@@ -5,6 +5,8 @@ import console from 'node:console';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { RaceCourse } from '../../../lib/src/utility/validateAndType/raceCourse';
+import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { CommonParameter } from '../../utility/commonParameter';
@@ -50,6 +52,14 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
             for (const period of periodList) {
                 let placeEntityList: PlaceEntity[];
                 switch (raceType) {
+                    case RaceType.JRA: {
+                        placeEntityList =
+                            await this.fetchYearPlaceEntityListForJra(
+                                raceType,
+                                period,
+                            );
+                        break;
+                    }
                     case RaceType.NAR: {
                         placeEntityList =
                             await this.fetchMonthPlaceEntityListForNar(
@@ -58,7 +68,6 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                             );
                         break;
                     }
-                    case RaceType.JRA:
                     case RaceType.OVERSEAS:
                     case RaceType.KEIRIN:
                     case RaceType.AUTORACE:
@@ -159,6 +168,108 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
             }
         }
         return periodList;
+    }
+
+    /**
+     * S3から開催データを取得する
+     * ファイル名を利用してS3から開催データを取得する
+     * placeDataが存在しない場合はundefinedを返すので、filterで除外する
+     * @param raceType - レース種別
+     * @param date
+     */
+    @Logger
+    private async fetchYearPlaceEntityListForJra(
+        raceType: RaceType,
+        date: Date,
+    ): Promise<PlaceEntity[]> {
+        // レースHTMLを取得
+        const htmlText: string =
+            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
+
+        const placeEntityList: PlaceEntity[] = [];
+
+        // 競馬場のイニシャルと名前のマッピング
+        const placeMap: Record<string, RaceCourse> = {
+            札: '札幌',
+            函: '函館',
+            福: '福島',
+            新: '新潟',
+            東: '東京',
+            中: '中山',
+            名: '中京',
+            京: '京都',
+            阪: '阪神',
+            小: '小倉',
+        };
+
+        // 競馬場名を取得する関数
+        const getPlaceName = (placeInitial: string): RaceCourse =>
+            placeMap[placeInitial];
+
+        // 開催日数を計算するためのdict
+        // keyは競馬場、valueは「key: 開催回数、value: 開催日数」のdict
+        const placeHeldDayTimesCountMap: Record<
+            string,
+            Record<string, number>
+        > = {};
+
+        // cheerioでHTMLを解析
+        const $ = cheerio.load(htmlText);
+
+        for (const month of Array.from({ length: 12 }, (_, k) => k + 1)) {
+            const monthData = $(`#mon_${month.toString()}`);
+            for (const day of Array.from({ length: 31 }, (_, k) => k + 1)) {
+                monthData
+                    .find(`.d${day.toString()}`)
+                    .each((_: number, element) => {
+                        // 開催競馬場のイニシャルを取得
+                        const placeInitial: string = $(element)
+                            .find('span')
+                            .text();
+                        const place: RaceCourse = getPlaceName(placeInitial);
+                        // 競馬場が存在しない場合はスキップ
+                        if (!place) return;
+
+                        // aタグの中の数字を取得、spanタグの中の文字はいらない
+                        const heldTimesInitial = $(element).text();
+                        // 数字のみを取得（3東の形になっているので、placeInitialの分を削除）
+                        const heldTimes: number = Number.parseInt(
+                            heldTimesInitial.replace(placeInitial, ''),
+                        );
+                        // placeCountDictに競馬場が存在しない場合は初期化
+                        if (!(place in placeHeldDayTimesCountMap)) {
+                            placeHeldDayTimesCountMap[place] = {};
+                        }
+                        // 開催回数が存在しない場合は初期化
+                        if (!(heldTimes in placeHeldDayTimesCountMap[place])) {
+                            placeHeldDayTimesCountMap[place][heldTimes] = 0;
+                        }
+                        // placeCountDict[place][heldTimes]に1を加算
+                        placeHeldDayTimesCountMap[place][heldTimes] += 1;
+
+                        // 開催日数を取得
+                        const heldDayTimes: number =
+                            placeHeldDayTimesCountMap[place][heldTimes];
+
+                        placeEntityList.push(
+                            PlaceEntity.createWithoutId(
+                                PlaceData.create(
+                                    raceType,
+                                    new Date(
+                                        date.getFullYear(),
+                                        month - 1,
+                                        day,
+                                    ),
+                                    place,
+                                ),
+                                HeldDayData.create(heldTimes, heldDayTimes),
+                                undefined, // grade は中央競馬では不要
+                            ),
+                        );
+                    });
+            }
+        }
+        return placeEntityList;
     }
 
     /**

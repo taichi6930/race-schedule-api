@@ -7,6 +7,7 @@ import {
     createOverseasRaceUrl,
 } from '../../../lib/src/utility/data/url';
 import type { RaceCourse } from '../../../lib/src/utility/validateAndType/raceCourse';
+import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import type { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
 
@@ -50,7 +51,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
      * @param number - レース番号
      * @returns Promise<string> - レースデータのHTML
      */
-
+    @Logger
     public async getRaceDataHtml(
         raceType: RaceType,
         date: Date,
@@ -60,7 +61,12 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
         // gokeibaのURLからHTMLを取得する
         try {
             const url = this.buildUrl(raceType, date, place, number);
-            const html = await fetch(url);
+            const html = await fetch(url, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0',
+                    'Accept': 'text/html',
+                },
+            });
             const htmlText = await html.text();
             return htmlText;
         } catch (error: unknown) {
