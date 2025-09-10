@@ -16,4 +16,38 @@ runs:
       run: pnpm install
       shell: bash
 
+    - name: Create wrangler.toml (temp)
+      run: |
+        cat > wrangler.toml <<'TOML'
+        name = "race-schedule-local"
+        main = "./lib/src/index.ts"
+        compatibility_date = "2025-01-01"
+        [[d1_databases]]
+        binding = "MY_DB"
+        database_name = "my-database"
+        TOML
+      shell: bash
+
+    - name: Apply D1 migrations (local)
+      run: |
+        # run migrations locally; if no migrations exist this will still exit zero in many setups
+        pnpm run wrangler:d1:migrations:apply:local || true
+      shell: bash
+
+    - name: Start wrangler dev in background and wait for /health
+      run: |
+        TZ=jst pnpm run dev:cloudflare:local &
+        # wait for health endpoint
+        for i in {1..12}; do
+          curl --silent --head http://127.0.0.1:8787/health && break || true
+          echo "Waiting for wrangler dev to start... ($i)"
+          sleep 5
+        done
+      shell: bash
+
+    - name: Simple health check
+      run: |
+        curl -sS --fail http://127.0.0.1:8787/health
+      shell: bash
+
     # Next steps (to add later): create wrangler.toml, run D1 migrations, start wrangler dev, run curl tests
