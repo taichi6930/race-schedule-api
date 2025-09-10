@@ -6,16 +6,16 @@ import { PlaceServiceForAWS } from '../../../../../lib/src/service/implement/pla
 import type { IPlaceServiceForAWS } from '../../../../../lib/src/service/interface/IPlaceService';
 import { PlaceUseCaseForAWS } from '../../../../../lib/src/usecase/implement/placeUseCase';
 import type { IPlaceUseCaseForAWS } from '../../../../../lib/src/usecase/interface/IPlaceUseCase';
+import {
+    basePlaceEntity,
+    testRaceTypeListAll,
+    testRaceTypeListWithoutOverseas,
+} from '../../../../unittest/src/mock/common/baseCommonData';
 import type { TestRepositorySetup } from '../../../../utility/testSetupHelper';
 import {
     clearMocks,
     setupTestRepositoryMock,
 } from '../../../../utility/testSetupHelper';
-import {
-    basePlaceEntity,
-    testRaceTypeListAll,
-    testRaceTypeListWithoutOverseas,
-} from '../../../unittest/src/mock/common/baseCommonData';
 
 describe('placeUseCase-placeService', () => {
     let repositorySetup: TestRepositorySetup;

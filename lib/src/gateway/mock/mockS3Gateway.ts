@@ -20,7 +20,7 @@ import {
     defaultRaceName,
     defaultRaceSurfaceType,
     defaultStage,
-} from '../../../../test/old/unittest/src/mock/common/baseCommonData';
+} from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { CSV_HEADER_KEYS, csvPath } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { allowedEnvs, ENV } from '../../utility/env';

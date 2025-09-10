@@ -15,7 +15,7 @@ import {
     defaultRaceDistance,
     defaultRaceSurfaceType,
     testRaceTypeListHorseRacing,
-} from '../mock/common/baseCommonData';
+} from '../../../../unittest/src/mock/common/baseCommonData';
 
 describe.each(testRaceTypeListHorseRacing)(
     'HorseRaceConditionDataクラスのテスト(%s)',

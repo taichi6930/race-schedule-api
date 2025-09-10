@@ -6,7 +6,6 @@ import { afterEach } from 'node:test';
 
 import { container } from 'tsyringe';
 
-import { PlaceData } from '../../../../../../lib/src/domain/placeData';
 import { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorageForAWS } from '../../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
 import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
@@ -14,20 +13,21 @@ import {
     IS_LARGE_AMOUNT_DATA_TEST,
     IS_SHORT_TEST,
 } from '../../../../../../lib/src/utility/env';
+import { PlaceData } from '../../../../../../src/domain/placeData';
 import { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../../../src/utility/raceType';
-import type { TestGatewaySetup } from '../../../../../utility/testSetupHelper';
-import {
-    clearMocks,
-    setupTestGatewayMock,
-} from '../../../../../utility/testSetupHelper';
 import {
     defaultHeldDayData,
     defaultLocation,
     defaultPlaceGrade,
     testRaceTypeListAll,
     testRaceTypeListWithoutOverseas,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
+import type { TestGatewaySetup } from '../../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestGatewayMock,
+} from '../../../../../utility/testSetupHelper';
 
 describe('PlaceRepositoryFromStorage', () => {
     let gatewaySetup: TestGatewaySetup;

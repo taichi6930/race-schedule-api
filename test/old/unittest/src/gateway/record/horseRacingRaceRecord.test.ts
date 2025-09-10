@@ -26,7 +26,7 @@ import {
     defaultLocation,
     defaultRaceGrade,
     testRaceTypeListHorseRacing,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
 
 describe.each(testRaceTypeListHorseRacing)(
     'HorseRacingRaceRecord(%s)',

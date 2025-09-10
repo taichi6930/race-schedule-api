@@ -2,7 +2,7 @@ import {
     baseRaceData,
     baseRaceEntity,
     testRaceTypeListAll,
-} from '../../../../old/unittest/src/mock/common/baseCommonData';
+} from '../../mock/common/baseCommonData';
 
 describe.each(testRaceTypeListAll)('RaceEntity(%s)', (raceType) => {
     it('正しい入力でRaceEntityのインスタンスを作成できることを確認', () => {

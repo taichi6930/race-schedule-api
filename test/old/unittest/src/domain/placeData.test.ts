@@ -10,11 +10,11 @@
  * |6 |有効    |有効          |有効          |{ dateTime: invalidDateTime }|copyで不正値→Error      |copy異常系（dateTime）             |
  * |7 |有効    |有効          |有効          |{} または undefined         |全プロパティ同値        |copyでpartial空                    |
  */
-import { PlaceData } from '../../../../../lib/src/domain/placeData';
+import { PlaceData } from '../../../../../src/domain/placeData';
 import {
     defaultLocation,
     testRaceTypeListAll,
-} from '../mock/common/baseCommonData';
+} from '../../../../unittest/src/mock/common/baseCommonData';
 
 describe.each(testRaceTypeListAll)(
     'PlaceDataクラスのテスト(%s)',

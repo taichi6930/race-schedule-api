@@ -1,6 +1,6 @@
 import { formatDate } from 'date-fns';
 
-import { PlaceData } from '../../../lib/src/domain/placeData';
+import { PlaceData } from '../../domain/placeData';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';

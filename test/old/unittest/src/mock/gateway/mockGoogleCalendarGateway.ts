@@ -1,6 +1,6 @@
 import type { ICalendarGatewayForAWS } from '../../../../../../lib/src/gateway/interface/iCalendarGateway';
 import type { RaceType } from '../../../../../../src/utility/raceType';
-import { baseCalendarDataFromGoogleCalendar } from '../common/baseCommonData';
+import { baseCalendarDataFromGoogleCalendar } from '../../../../../unittest/src/mock/common/baseCommonData';
 
 export const mockGoogleCalendarGateway =
     (): jest.Mocked<ICalendarGatewayForAWS> => {

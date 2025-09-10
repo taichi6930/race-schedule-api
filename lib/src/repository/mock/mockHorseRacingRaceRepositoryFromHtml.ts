@@ -3,7 +3,7 @@ import { RaceType } from '../../../../src/utility/raceType';
 import {
     baseConditionData,
     defaultHeldDayData,
-} from '../../../../test/old/unittest/src/mock/common/baseCommonData';
+} from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
 import { Logger } from '../../utility/logger';
 import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';

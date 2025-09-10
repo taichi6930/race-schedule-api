@@ -20,7 +20,7 @@ import {
     basePlaceRecord,
     defaultLocation,
     testRaceTypeListAll,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
 
 describe.each(testRaceTypeListAll)('PlaceRecord(%s)', (raceType) => {
     const validDate = new Date('2024-12-29');

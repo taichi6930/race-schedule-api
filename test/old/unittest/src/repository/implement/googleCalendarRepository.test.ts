@@ -5,11 +5,6 @@ import { container } from 'tsyringe';
 import { SearchCalendarFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { GoogleCalendarRepositoryForAWS } from '../../../../../../lib/src/repository/implement/googleCalendarRepository';
 import type { ICalendarRepositoryForAWS } from '../../../../../../lib/src/repository/interface/ICalendarRepository';
-import type { TestGatewaySetup } from '../../../../../utility/testSetupHelper';
-import {
-    clearMocks,
-    setupTestGatewayMock,
-} from '../../../../../utility/testSetupHelper';
 import {
     baseCalendarData,
     baseCalendarDataFromGoogleCalendar,
@@ -17,7 +12,12 @@ import {
     mockCalendarDataList,
     mockRaceEntityList,
     testRaceTypeListAll,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
+import type { TestGatewaySetup } from '../../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestGatewayMock,
+} from '../../../../../utility/testSetupHelper';
 
 describe('GoogleCalendarRepository', () => {
     let repository: ICalendarRepositoryForAWS;

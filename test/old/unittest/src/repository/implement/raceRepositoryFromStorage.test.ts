@@ -17,11 +17,6 @@ import {
 } from '../../../../../../lib/src/utility/env';
 import { RaceEntity } from '../../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../../src/utility/raceType';
-import type { TestGatewaySetup } from '../../../../../utility/testSetupHelper';
-import {
-    clearMocks,
-    setupTestGatewayMock,
-} from '../../../../../utility/testSetupHelper';
 import {
     baseConditionData,
     baseRacePlayerDataList,
@@ -30,7 +25,12 @@ import {
     defaultRaceGrade,
     defaultStage,
     testRaceTypeListAll,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
+import type { TestGatewaySetup } from '../../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestGatewayMock,
+} from '../../../../../utility/testSetupHelper';
 
 describe('RaceRepositoryFromStorage', () => {
     let gatewaySetup: TestGatewaySetup;

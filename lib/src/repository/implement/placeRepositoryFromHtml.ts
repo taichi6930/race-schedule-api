@@ -3,10 +3,10 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { PlaceData } from '../../../../src/domain/placeData';
 import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../src/utility/raceType';
 import { HeldDayData } from '../../domain/heldDayData';
-import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGatewayForAWS } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { Logger } from '../../utility/logger';
 import { GradeType } from '../../utility/validateAndType/gradeType';

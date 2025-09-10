@@ -3,9 +3,9 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { PlaceData } from '../../../../../src/domain/placeData';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
-import { PlaceData } from '../../../domain/placeData';
 import { RaceData } from '../../../domain/raceData';
 import { RacePlayerData } from '../../../domain/racePlayerData';
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';

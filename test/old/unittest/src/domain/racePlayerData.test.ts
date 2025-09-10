@@ -12,7 +12,7 @@
  */
 
 import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
-import { testRaceTypeListMechanicalRacing } from '../mock/common/baseCommonData';
+import { testRaceTypeListMechanicalRacing } from '../../../../unittest/src/mock/common/baseCommonData';
 
 describe.each(testRaceTypeListMechanicalRacing)(
     'RacePlayerDataクラスのテスト(%s)',

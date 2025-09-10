@@ -4,7 +4,6 @@ import { afterEach } from 'node:test';
 
 import { container } from 'tsyringe';
 
-import { PlaceData } from '../../../../../../lib/src/domain/placeData';
 import type { IRaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
@@ -16,15 +15,16 @@ import { NarRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepository';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
+import { PlaceData } from '../../../../../../src/domain/placeData';
 import { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../../../src/utility/raceType';
-import { SkipEnv } from '../../../../../utility/testDecorators';
-import { clearMocks } from '../../../../../utility/testSetupHelper';
 import {
     defaultHeldDayData,
     defaultPlaceGrade,
     testRaceTypeListAll,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
+import { SkipEnv } from '../../../../../utility/testDecorators';
+import { clearMocks } from '../../../../../utility/testSetupHelper';
 
 // テーブル駆動型テスト
 const testCases = {

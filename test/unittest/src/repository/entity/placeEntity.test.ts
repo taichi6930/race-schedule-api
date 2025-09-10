@@ -5,7 +5,7 @@ import {
     defaultHeldDayData,
     defaultPlaceGrade,
     testRaceTypeListAll,
-} from '../../../../old/unittest/src/mock/common/baseCommonData';
+} from '../../mock/common/baseCommonData';
 
 describe.each(testRaceTypeListAll)('PlaceEntity(%s)', (raceType) => {
     it(`正しい入力でPlaceEntityのインスタンスを作成できることを確認`, () => {

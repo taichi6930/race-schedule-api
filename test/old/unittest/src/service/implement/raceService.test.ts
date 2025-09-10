@@ -6,16 +6,16 @@ import { RaceServiceForAWS } from '../../../../../../lib/src/service/implement/r
 import type { IRaceServiceForAWS } from '../../../../../../lib/src/service/interface/IRaceService';
 import { DataLocation } from '../../../../../../lib/src/utility/dataType';
 import { RaceType } from '../../../../../../src/utility/raceType';
+import {
+    baseRaceEntityList,
+    mockRaceEntityList,
+    testRaceTypeListAll,
+} from '../../../../../unittest/src/mock/common/baseCommonData';
 import type { TestRepositorySetup } from '../../../../../utility/testSetupHelper';
 import {
     clearMocks,
     setupTestRepositoryMock,
 } from '../../../../../utility/testSetupHelper';
-import {
-    baseRaceEntityList,
-    mockRaceEntityList,
-    testRaceTypeListAll,
-} from '../../mock/common/baseCommonData';
 
 describe('RaceService', () => {
     let repositorySetup: TestRepositorySetup;

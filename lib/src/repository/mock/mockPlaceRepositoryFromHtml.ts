@@ -1,10 +1,10 @@
+import { PlaceData } from '../../../../src/domain/placeData';
 import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../src/utility/raceType';
 import {
     defaultHeldDayData,
     defaultLocation,
-} from '../../../../test/old/unittest/src/mock/common/baseCommonData';
-import { PlaceData } from '../../domain/placeData';
+} from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { Logger } from '../../utility/logger';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepository';

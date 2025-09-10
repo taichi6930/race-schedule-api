@@ -5,18 +5,18 @@ import { container } from 'tsyringe';
 import { RaceUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/raceUseCase';
 import type { IRaceUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IRaceUseCase';
 import { RaceType } from '../../../../../../src/utility/raceType';
-import type { TestServiceSetup } from '../../../../../utility/testSetupHelper';
-import {
-    clearMocks,
-    setupTestServiceMock,
-} from '../../../../../utility/testSetupHelper';
 import {
     baseRaceEntityList,
     mockPlaceEntityList,
     mockRaceEntityList,
     testRaceTypeListAll,
     testRaceTypeListWithoutOverseas,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
+import type { TestServiceSetup } from '../../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestServiceMock,
+} from '../../../../../utility/testSetupHelper';
 
 describe('RaceUseCase', () => {
     let serviceSetup: TestServiceSetup;

@@ -1,50 +1,28 @@
-import type { RaceType } from '../../../src/utility/raceType';
-import type { RaceCourse } from '../utility/validateAndType/raceCourse';
-import { validateRaceCourse } from '../utility/validateAndType/raceCourse';
+import type { RaceCourse } from '../../lib/src/utility/validateAndType/raceCourse';
+import { validateRaceCourse } from '../../lib/src/utility/validateAndType/raceCourse';
 import {
     type RaceDateTime,
     validateRaceDateTime,
-} from '../utility/validateAndType/raceDateTime';
+} from '../../lib/src/utility/validateAndType/raceDateTime';
+import type { RaceType } from '../utility/raceType';
 
 /**
- * レース開催場所データ
+ * 開催場所データ
  */
 export class PlaceData {
-    /**
-     * レース種別
-     * @type {RaceType}
-     */
-    public readonly raceType: RaceType;
-
-    /**
-     * 開催日時
-     * @type {RaceDateTime}
-     */
-    public readonly dateTime: RaceDateTime;
-
-    /**
-     * 開催場所
-     * @type {RaceCourse}
-     */
-    public readonly location: RaceCourse;
-
     /**
      * コンストラクタ
      * @param raceType - レース種別
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @remarks
-     * レース開催場所データを生成する
+     * 開催場所データを生成する
      */
     private constructor(
-        raceType: RaceType,
-        dateTime: RaceDateTime,
-        location: RaceCourse,
-    ) {
-        this.raceType = raceType;
-        this.dateTime = dateTime;
-        this.location = location;
-    }
+        public readonly raceType: RaceType,
+        public readonly dateTime: RaceDateTime,
+        public readonly location: RaceCourse,
+    ) {}
 
     /**
      * インスタンス生成メソッド
@@ -58,11 +36,18 @@ export class PlaceData {
         dateTime: Date,
         location: string,
     ): PlaceData {
-        return new PlaceData(
-            raceType,
-            validateRaceDateTime(dateTime),
-            validateRaceCourse(raceType, location),
-        );
+        try {
+            return new PlaceData(
+                raceType,
+                validateRaceDateTime(dateTime),
+                validateRaceCourse(raceType, location),
+            );
+        } catch {
+            throw new Error(`Failed to create PlaceData:
+                raceType: ${JSON.stringify(raceType)},
+                dateTime: ${JSON.stringify(dateTime)},
+                location: ${JSON.stringify(location)}`);
+        }
     }
 
     /**

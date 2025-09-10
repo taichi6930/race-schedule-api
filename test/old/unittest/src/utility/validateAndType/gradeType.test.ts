@@ -1,5 +1,5 @@
 import { validateGradeType } from '../../../../../../lib/src/utility/validateAndType/gradeType';
-import { testRaceTypeListAll } from '../../mock/common/baseCommonData';
+import { testRaceTypeListAll } from '../../../../../unittest/src/mock/common/baseCommonData';
 
 /**
  * RaceCourseのテスト

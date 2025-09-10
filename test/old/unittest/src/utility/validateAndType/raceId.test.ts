@@ -1,6 +1,6 @@
 import { validateRaceId } from '../../../../../../lib/src/utility/validateAndType/raceId';
 import { RaceType } from '../../../../../../src/utility/raceType';
-import { testRaceTypeListAll } from '../../mock/common/baseCommonData';
+import { testRaceTypeListAll } from '../../../../../unittest/src/mock/common/baseCommonData';
 
 describe('raceIdSchema', () => {
     // 正常系

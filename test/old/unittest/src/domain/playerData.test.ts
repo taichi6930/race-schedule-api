@@ -10,7 +10,7 @@
  * |6 |有効    |有効             |有効         |有効   |{ playerNumber: undefined }               |playerNumberは元値維持   |copyでplayerNumber: undefined      |
  */
 import { PlayerData } from '../../../../../lib/src/domain/playerData';
-import { testRaceTypeListMechanicalRacing } from '../mock/common/baseCommonData';
+import { testRaceTypeListMechanicalRacing } from '../../../../unittest/src/mock/common/baseCommonData';
 
 describe.each(testRaceTypeListMechanicalRacing)(
     'PlayerDataクラスのテスト(%s)',

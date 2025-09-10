@@ -9,17 +9,17 @@ import { CalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/impleme
 import type { IRaceCalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
 import { SpecifiedGradeList } from '../../../../../../lib/src/utility/validateAndType/gradeType';
 import { RaceType } from '../../../../../../src/utility/raceType';
-import type { TestServiceSetup } from '../../../../../utility/testSetupHelper';
-import {
-    clearMocks,
-    setupTestServiceMock,
-} from '../../../../../utility/testSetupHelper';
 import {
     baseCalendarData,
     baseRaceEntity,
     mockCalendarDataList,
     testRaceTypeListAll,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
+import type { TestServiceSetup } from '../../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestServiceMock,
+} from '../../../../../utility/testSetupHelper';
 
 describe('RaceCalendarUseCase', () => {
     let serviceSetup: TestServiceSetup;

@@ -1,6 +1,6 @@
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../src/utility/raceType';
-import { baseRacePlayerDataList } from '../../../../test/old/unittest/src/mock/common/baseCommonData';
+import { baseRacePlayerDataList } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
 import { Logger } from '../../utility/logger';
 import { RaceStage } from '../../utility/validateAndType/raceStage';

@@ -23,7 +23,7 @@ import {
     defaultLocation,
     defaultStage,
     testRaceTypeListMechanicalRacing,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
 
 describe.each(testRaceTypeListMechanicalRacing)(
     'MechanicalRacingRaceRecord(%s)',
