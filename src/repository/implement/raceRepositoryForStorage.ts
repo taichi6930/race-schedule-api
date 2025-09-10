@@ -15,14 +15,14 @@ export class RaceRepositoryForStorage implements IRaceRepository {
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
-        return this.fetchRaceEntityListForType(
+        return this.fetchRaceEntityListForHorseRacing(
             commonParameter,
             searchRaceFilter,
         );
     }
 
     @Logger
-    private async fetchRaceEntityListForType(
+    private async fetchRaceEntityListForHorseRacing(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
@@ -70,13 +70,11 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                 race.race_number,
                 held_day.held_times,
                 held_day.held_day_times,
-                race_stage.stage,
                 race.created_at,
                 race.updated_at
             FROM race
             INNER JOIN race_condition ON race.id = race_condition.id
             LEFT JOIN held_day ON race.place_id = held_day.id
-            LEFT JOIN race_stage ON race.id = race_stage.id
             ${whereClause}`,
         )
             .bind(...queryParams)
@@ -90,7 +88,6 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                           Number(row.held_day_times),
                       )
                     : undefined;
-            const stage = row.stage === null ? undefined : row.stage;
             return RaceEntity.create(
                 row.id,
                 row.place_id,
@@ -104,7 +101,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                 ),
                 heldDayData,
                 HorseRaceConditionData.create(row.surface_type, row.distance),
-                stage,
+                undefined,
                 undefined,
             );
         });
