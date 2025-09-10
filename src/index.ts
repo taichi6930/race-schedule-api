@@ -19,7 +19,7 @@ import { OverseasRaceRepositoryFromHtml } from './repository/implement/overseasR
 import { PlaceRepositoryForStorage } from './repository/implement/placeRepositoryForStorage';
 import { PlaceRepositoryFromHtml } from './repository/implement/placeRepositoryFromHtml';
 import { PlayerRepository } from './repository/implement/playerRepository';
-import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryStorage';
+import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryForStorage';
 import type { ICalendarRepository } from './repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from './repository/interface/IPlaceRepository';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';

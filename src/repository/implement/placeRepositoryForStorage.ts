@@ -15,55 +15,33 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<PlaceEntity[]> {
-        const fetchPlaceEntityListForJra =
-            await this.fetchPlaceEntityListForJra(
-                commonParameter,
-                searchRaceFilter,
-            );
-        const fetchPlaceEntityListForNarAndOverseas =
-            await this.fetchPlaceEntityListForNarAndOverseas(
-                commonParameter,
-                searchRaceFilter,
-            );
-        return [
-            ...fetchPlaceEntityListForJra,
-            ...fetchPlaceEntityListForNarAndOverseas,
-        ];
+        return this.fetchPlaceEntityListByType(
+            commonParameter,
+            searchRaceFilter,
+        );
     }
 
     @Logger
-    private async fetchPlaceEntityListForJra(
+    private async fetchPlaceEntityListByType(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         const { env } = commonParameter;
         const { raceTypeList, startDate, finishDate } = searchRaceFilter;
-
-        // raceTypeListにNARもしくはOVERSEASが含まれている場合のみに絞る
-        const filteredRaceTypeList = raceTypeList.filter(
-            (raceType) => raceType === RaceType.JRA,
-        );
-        if (filteredRaceTypeList.length === 0) {
+        if (raceTypeList.length === 0) {
             return [];
         }
-
         const startDateFormatted = formatDate(startDate, 'yyyy-MM-dd');
         const finishDateFormatted = formatDate(finishDate, 'yyyy-MM-dd');
-
-        // raceTypeListの数に応じて動的にWHERE句を生成
-        const raceTypePlaceholders = filteredRaceTypeList
-            .map(() => '?')
-            .join(', ');
+        const raceTypePlaceholders = raceTypeList.map(() => '?').join(', ');
         const whereClause = `WHERE place.race_type IN (${raceTypePlaceholders}) AND place.date_time >= ? AND place.date_time <= ?`;
-
         const queryParams: any[] = [];
         queryParams.push(
-            ...filteredRaceTypeList,
+            ...raceTypeList,
             startDateFormatted,
             finishDateFormatted,
         );
-        const { results } = await env.DB.prepare(
-            `
+        const selectSQL = `
             SELECT
                 place.id,
                 place.race_type,
@@ -73,76 +51,28 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
                 held_day.held_day_times,
                 place.created_at,
                 place.updated_at
-            FROM place
-            LEFT JOIN held_day ON place.id = held_day.id
-            ${whereClause}`,
-        )
-            .bind(...queryParams)
-            .all();
-        return results.map((row: any): PlaceEntity => {
-            const dateJST = new Date(new Date(row.date_time));
-            return PlaceEntity.create(
-                row.id,
-                PlaceData.create(row.race_type, dateJST, row.location_name),
-                HeldDayData.create(row.held_times, row.held_day_times),
-                undefined, // TODO: gradeを設定する
-            );
-        });
-    }
-
-    @Logger
-    private async fetchPlaceEntityListForNarAndOverseas(
-        commonParameter: CommonParameter,
-        searchRaceFilter: SearchRaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
-        const { env } = commonParameter;
-        const { raceTypeList, startDate, finishDate } = searchRaceFilter;
-
-        // raceTypeListにNARもしくはOVERSEASが含まれている場合のみに絞る
-        const filteredRaceTypeList = raceTypeList.filter(
-            (raceType) =>
-                raceType === RaceType.NAR || raceType === RaceType.OVERSEAS,
-        );
-        if (filteredRaceTypeList.length === 0) {
-            return [];
-        }
-
-        const startDateFormatted = formatDate(startDate, 'yyyy-MM-dd');
-        const finishDateFormatted = formatDate(finishDate, 'yyyy-MM-dd');
-
-        // raceTypeListの数に応じて動的にWHERE句を生成
-        const raceTypePlaceholders = filteredRaceTypeList
-            .map(() => '?')
-            .join(', ');
-        const whereClause = `WHERE place.race_type IN (${raceTypePlaceholders}) AND place.date_time >= ? AND place.date_time <= ?`;
-
-        const queryParams: any[] = [];
-        queryParams.push(
-            ...filteredRaceTypeList,
-            startDateFormatted,
-            finishDateFormatted,
-        );
+        `;
+        const fromSQL = `FROM place LEFT JOIN held_day ON place.id = held_day.id`;
         const { results } = await env.DB.prepare(
             `
-            SELECT
-                place.id,
-                place.race_type,
-                place.date_time,
-                place.location_name,
-                place.created_at,
-                place.updated_at
-            FROM place
-            ${whereClause}`,
+            ${selectSQL}
+            ${fromSQL}
+            ${whereClause}
+            `,
         )
             .bind(...queryParams)
             .all();
         return results.map((row: any): PlaceEntity => {
             const dateJST = new Date(new Date(row.date_time));
+            const heldDayData =
+                row.held_times !== undefined && row.held_day_times !== undefined
+                    ? HeldDayData.create(row.held_times, row.held_day_times)
+                    : undefined;
             return PlaceEntity.create(
                 row.id,
                 PlaceData.create(row.race_type, dateJST, row.location_name),
-                undefined, // heldDayDataはNARとOVERSEASには存在しないためundefined
-                undefined, // gradeはNARとOVERSEASには存在しないためundefined
+                heldDayData,
+                undefined, // TODO: gradeを設定する
             );
         });
     }
