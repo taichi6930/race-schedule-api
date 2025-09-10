@@ -12,7 +12,7 @@ import { IPlaceUseCase } from '../interface/IPlaceUsecase';
 export class PlaceUseCase implements IPlaceUseCase {
     public constructor(
         @inject('PlaceService')
-        private readonly service: IPlaceService,
+        private readonly placeService: IPlaceService,
     ) {}
 
     @Logger
@@ -20,7 +20,7 @@ export class PlaceUseCase implements IPlaceUseCase {
         commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
-        return this.service.fetchPlaceEntityList(
+        return this.placeService.fetchPlaceEntityList(
             commonParameter,
             searchPlaceFilter,
             DataLocation.Storage,
@@ -33,11 +33,14 @@ export class PlaceUseCase implements IPlaceUseCase {
         searchPlaceFilter: SearchPlaceFilterEntity,
     ): Promise<void> {
         const entityList: PlaceEntity[] =
-            await this.service.fetchPlaceEntityList(
+            await this.placeService.fetchPlaceEntityList(
                 commonParameter,
                 searchPlaceFilter,
                 DataLocation.Web,
             );
-        return this.service.upsertPlaceEntityList(commonParameter, entityList);
+        return this.placeService.upsertPlaceEntityList(
+            commonParameter,
+            entityList,
+        );
     }
 }

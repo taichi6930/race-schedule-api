@@ -4,8 +4,6 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { HorseRaceConditionData } from '../../../lib/src/domain/houseRaceConditionData';
-import { RaceData } from '../../../lib/src/domain/raceData';
 import { processOverseasRaceName } from '../../../lib/src/utility/createRaceName';
 import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import {
@@ -14,6 +12,8 @@ import {
 } from '../../../lib/src/utility/validateAndType/raceCourse';
 import { validateRaceDistance } from '../../../lib/src/utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../../lib/src/utility/validateAndType/raceSurfaceType';
+import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
+import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
@@ -227,10 +227,13 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
                                         grade,
                                         number,
                                     ),
+                                    undefined, // heldDayData は未指定
                                     HorseRaceConditionData.create(
                                         surfaceType,
                                         distance,
                                     ),
+                                    undefined, // stage は未指定
+                                    undefined, // racePlayerDataList は未指定
                                 ),
                             );
                         } catch (error) {

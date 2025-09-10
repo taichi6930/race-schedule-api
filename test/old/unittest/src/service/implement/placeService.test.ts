@@ -5,15 +5,15 @@ import { container } from 'tsyringe';
 import { PlaceServiceForAWS } from '../../../../../../lib/src/service/implement/placeService';
 import type { IPlaceServiceForAWS } from '../../../../../../lib/src/service/interface/IPlaceService';
 import { DataLocation } from '../../../../../../lib/src/utility/dataType';
+import {
+    mockPlaceEntityList,
+    testRaceTypeListWithoutOverseas,
+} from '../../../../../unittest/src/mock/common/baseCommonData';
 import type { TestRepositorySetup } from '../../../../../utility/testSetupHelper';
 import {
     clearMocks,
     setupTestRepositoryMock,
 } from '../../../../../utility/testSetupHelper';
-import {
-    mockPlaceEntityList,
-    testRaceTypeListWithoutOverseas,
-} from '../../mock/common/baseCommonData';
 
 describe('PlaceService', () => {
     let repositorySetup: TestRepositorySetup;

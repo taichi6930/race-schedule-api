@@ -1,11 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 
+import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
     RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
-import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import { IPlaceServiceForAWS } from '../../service/interface/IPlaceService';
 import { IRaceServiceForAWS } from '../../service/interface/IRaceService';
 import { DataLocation } from '../../utility/dataType';
@@ -71,7 +71,7 @@ export class RaceUseCaseForAWS implements IRaceUseCaseForAWS {
                 stageList?: RaceStage[];
             };
         },
-    ): Promise<RaceEntityForAWS[]> {
+    ): Promise<RaceEntity[]> {
         const placeEntityList = await this.placeService.fetchPlaceEntityList(
             startDate,
             finishDate,

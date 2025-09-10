@@ -4,16 +4,16 @@ import { container } from 'tsyringe';
 
 import { PlaceUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/placeUseCase';
 import type { IPlaceUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IPlaceUseCase';
+import {
+    mockPlaceEntityList,
+    testRaceTypeListAll,
+    testRaceTypeListWithoutOverseas,
+} from '../../../../../unittest/src/mock/common/baseCommonData';
 import type { TestServiceSetup } from '../../../../../utility/testSetupHelper';
 import {
     clearMocks,
     setupTestServiceMock,
 } from '../../../../../utility/testSetupHelper';
-import {
-    mockPlaceEntityList,
-    testRaceTypeListAll,
-    testRaceTypeListWithoutOverseas,
-} from '../../mock/common/baseCommonData';
 describe('PlaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
     let useCase: IPlaceUseCaseForAWS;

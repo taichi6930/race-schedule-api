@@ -21,7 +21,7 @@ import { generateRacePlayerId } from '../../../../../../lib/src/utility/validate
 import {
     defaultLocation,
     testRaceTypeListMechanicalRacing,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
 
 describe.each(testRaceTypeListMechanicalRacing)(
     'RacePlayerRecord(%s)',

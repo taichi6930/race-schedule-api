@@ -9,8 +9,8 @@
  * |5 |有効    |有効             |有効         |有効   |{} または undefined                      |全プロパティ同値        |copyでpartial空                    |
  * |6 |有効    |有効             |有効         |有効   |{ playerNumber: undefined }               |playerNumberは元値維持   |copyでplayerNumber: undefined      |
  */
-import { PlayerData } from '../../../../../lib/src/domain/playerData';
-import { testRaceTypeListMechanicalRacing } from '../mock/common/baseCommonData';
+import { PlayerDataForAWS } from '../../../../../lib/src/domain/playerData';
+import { testRaceTypeListMechanicalRacing } from '../../../../unittest/src/mock/common/baseCommonData';
 
 describe.each(testRaceTypeListMechanicalRacing)(
     'PlayerDataクラスのテスト(%s)',
@@ -22,7 +22,7 @@ describe.each(testRaceTypeListMechanicalRacing)(
 
         // 1. 正常系
         it('|1|有効|有効|有効|有効|OK|', () => {
-            const data = PlayerData.create(
+            const data = PlayerDataForAWS.create(
                 raceType,
                 validPlayerNumber,
                 validName,
@@ -37,7 +37,7 @@ describe.each(testRaceTypeListMechanicalRacing)(
         // 2. playerNumber無効
         it('|2|有効|無効|有効|有効|Error|', () => {
             expect(() =>
-                PlayerData.create(
+                PlayerDataForAWS.create(
                     raceType,
                     invalidPlayerNumber,
                     validName,
@@ -48,7 +48,7 @@ describe.each(testRaceTypeListMechanicalRacing)(
 
         // 3. copyで値変更
         it('|3|有効|有効|有効|有効|copyで値変更OK|', () => {
-            const data = PlayerData.create(
+            const data = PlayerDataForAWS.create(
                 raceType,
                 validPlayerNumber,
                 validName,
@@ -66,7 +66,7 @@ describe.each(testRaceTypeListMechanicalRacing)(
 
         // 4. copyで不正値
         it('|4|有効|有効|有効|有効|copyで不正値→Error|', () => {
-            const data = PlayerData.create(
+            const data = PlayerDataForAWS.create(
                 raceType,
                 validPlayerNumber,
                 validName,
@@ -79,7 +79,7 @@ describe.each(testRaceTypeListMechanicalRacing)(
 
         // 5. copyでpartialが空
         it('|5|有効|有効|有効|有効|copyでpartial空→全プロパティ同値|', () => {
-            const data = PlayerData.create(
+            const data = PlayerDataForAWS.create(
                 raceType,
                 validPlayerNumber,
                 validName,
@@ -94,7 +94,7 @@ describe.each(testRaceTypeListMechanicalRacing)(
 
         // 6. copyでplayerNumber: undefined
         it('|6|有効|有効|有効|有効|copyでplayerNumber: undefined→元値維持|', () => {
-            const data = PlayerData.create(
+            const data = PlayerDataForAWS.create(
                 raceType,
                 validPlayerNumber,
                 validName,

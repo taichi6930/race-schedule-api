@@ -2,15 +2,15 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import { RacePlayerData } from '../../../../src/domain/racePlayerData';
+import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../src/utility/raceType';
-import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { RaceEntityForAWS } from '../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../interface/IRaceRepository';
 
@@ -36,7 +36,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntityForAWS,
-    ): Promise<RaceEntityForAWS[]> {
+    ): Promise<RaceEntity[]> {
         // ファイル名リストから選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3(
@@ -57,7 +57,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
         );
 
         // RaceEntityに変換
-        const raceEntityList: RaceEntityForAWS[] = filteredRaceRecordList.map(
+        const raceEntityList: RaceEntity[] = filteredRaceRecordList.map(
             (raceRecord) => {
                 // raceIdに対応したracePlayerRecordListを取得
                 const filteredRacePlayerRecordList: RacePlayerRecord[] =
@@ -69,14 +69,13 @@ export class MechanicalRacingRaceRepositoryFromStorage
                     filteredRacePlayerRecordList.map((racePlayerRecord) =>
                         racePlayerRecord.toRacePlayerData(),
                     );
-                return RaceEntityForAWS.create(
+                return RaceEntity.create(
                     raceRecord.id,
                     raceRecord.toRaceData(),
                     undefined, // heldDayDataは未設定
                     undefined, // conditionDataは未設定
                     raceRecord.stage,
                     racePlayerDataList,
-                    raceRecord.updateDate,
                 );
             },
         );
@@ -91,12 +90,12 @@ export class MechanicalRacingRaceRepositoryFromStorage
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntityForAWS[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntityForAWS[];
-        failureData: RaceEntityForAWS[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         try {
             await this.registerRaceRecordList(raceType, raceEntityList);
@@ -121,12 +120,12 @@ export class MechanicalRacingRaceRepositoryFromStorage
 
     private async registerRaceRecordList(
         raceType: RaceType,
-        raceEntityList: RaceEntityForAWS[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntityForAWS[];
-        failureData: RaceEntityForAWS[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         try {
             // 既に登録されているデータを取得する
@@ -181,12 +180,12 @@ export class MechanicalRacingRaceRepositoryFromStorage
 
     private async registerRacePlayerRecordList(
         raceType: RaceType,
-        raceEntityList: RaceEntityForAWS[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntityForAWS[];
-        failureData: RaceEntityForAWS[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         try {
             // 既に登録されているデータを取得する

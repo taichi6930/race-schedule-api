@@ -1,23 +1,27 @@
-import { CalendarData } from '../../../../../../lib/src/domain/calendarData';
-import { HeldDayData } from '../../../../../../lib/src/domain/heldDayData';
-import { HorseRaceConditionData } from '../../../../../../lib/src/domain/houseRaceConditionData';
-import { PlaceData } from '../../../../../../lib/src/domain/placeData';
-import { RaceData } from '../../../../../../lib/src/domain/raceData';
-import { RacePlayerData } from '../../../../../../lib/src/domain/racePlayerData';
-import { PlaceRecord } from '../../../../../../lib/src/gateway/record/placeRecord';
-import { PlaceEntityForAWS } from '../../../../../../lib/src/repository/entity/placeEntity';
-import { RaceEntityForAWS } from '../../../../../../lib/src/repository/entity/raceEntity';
-import { getJSTDate } from '../../../../../../lib/src/utility/date';
-import { IS_SHORT_TEST } from '../../../../../../lib/src/utility/env';
-import { generatePlaceId } from '../../../../../../lib/src/utility/validateAndType/placeId';
-import { maxFrameNumber } from '../../../../../../lib/src/utility/validateAndType/positionNumber';
+import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
+import { getJSTDate } from '../../../../../lib/src/utility/date';
+import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
+import { generatePlaceId } from '../../../../../lib/src/utility/validateAndType/placeId';
+import { maxFrameNumber } from '../../../../../lib/src/utility/validateAndType/positionNumber';
+import { CalendarData } from '../../../../../src/domain/calendarData';
+import { HeldDayData } from '../../../../../src/domain/heldDayData';
+import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceConditionData';
+import { PlaceData } from '../../../../../src/domain/placeData';
+import { RaceData } from '../../../../../src/domain/raceData';
+import { RacePlayerData } from '../../../../../src/domain/racePlayerData';
+import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import {
+    RACE_TYPE_LIST_ALL,
     RACE_TYPE_LIST_ALL_FOR_AWS,
+    RACE_TYPE_LIST_HORSE_RACING,
     RACE_TYPE_LIST_HORSE_RACING_FOR_AWS,
+    RACE_TYPE_LIST_MECHANICAL_RACING,
     RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS,
+    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
     RaceType,
-} from '../../../../../../src/utility/raceType';
+} from '../../../../../src/utility/raceType';
 
 /**
  * 基本的なレースプレイヤーデータのリストを生成します。
@@ -43,12 +47,11 @@ export const baseRacePlayerDataList = (
 export const basePlaceData = (raceType: RaceType): PlaceData =>
     PlaceData.create(raceType, basePlaceDateTime, defaultLocation[raceType]);
 
-export const basePlaceEntity = (raceType: RaceType): PlaceEntityForAWS =>
-    PlaceEntityForAWS.createWithoutId(
+export const basePlaceEntity = (raceType: RaceType): PlaceEntity =>
+    PlaceEntity.createWithoutId(
         basePlaceData(raceType),
         defaultHeldDayData[raceType],
         defaultPlaceGrade[raceType],
-        baseRaceUpdateDate,
     );
 
 export const baseRaceData = (raceType: RaceType): RaceData =>
@@ -86,14 +89,13 @@ export const baseConditionData = (
     );
 };
 
-export const baseRaceEntity = (raceType: RaceType): RaceEntityForAWS =>
-    RaceEntityForAWS.createWithoutId(
+export const baseRaceEntity = (raceType: RaceType): RaceEntity =>
+    RaceEntity.createWithoutId(
         baseRaceData(raceType),
         defaultHeldDayData[raceType],
         baseConditionData(raceType),
         defaultStage[raceType],
         baseRacePlayerDataList(raceType),
-        baseRaceUpdateDate,
     );
 
 export const baseCalendarData = (raceType: RaceType): CalendarData =>
@@ -135,7 +137,7 @@ export const baseCalendarDataFromGoogleCalendar = (
     };
 };
 
-export const baseRaceEntityList = (raceType: RaceType): RaceEntityForAWS[] => {
+export const baseRaceEntityList = (raceType: RaceType): RaceEntity[] => {
     switch (raceType) {
         case RaceType.JRA:
         case RaceType.NAR:
@@ -152,7 +154,7 @@ export const baseRaceEntityList = (raceType: RaceType): RaceEntityForAWS[] => {
 
 const baseMechanicalRacingRaceEntityList = (
     _raceType: RaceType,
-): RaceEntityForAWS[] =>
+): RaceEntity[] =>
     [
         { raceType: RaceType.KEIRIN, location: '平塚', grade: 'GP' },
         { raceType: RaceType.KEIRIN, location: '立川', grade: 'GⅠ' },
@@ -183,21 +185,18 @@ const baseMechanicalRacingRaceEntityList = (
                     grade,
                     index + 1,
                 );
-                return RaceEntityForAWS.createWithoutId(
+                return RaceEntity.createWithoutId(
                     raceData,
                     defaultHeldDayData[raceType],
                     baseConditionData(raceType),
                     stage,
                     baseRacePlayerDataList(raceType),
-                    baseRaceUpdateDate,
                 );
             });
         })
         .filter((entity) => entity !== 'undefined');
 
-const baseHorseRacingRaceEntityList = (
-    _raceType: RaceType,
-): RaceEntityForAWS[] =>
+const baseHorseRacingRaceEntityList = (_raceType: RaceType): RaceEntity[] =>
     [
         {
             raceType: RaceType.JRA,
@@ -311,7 +310,7 @@ const baseHorseRacingRaceEntityList = (
         .flatMap(({ raceType, location, gradeList }) => {
             return gradeList.map((grade, index) => {
                 if (raceType !== _raceType) return 'undefined';
-                return RaceEntityForAWS.createWithoutId(
+                return RaceEntity.createWithoutId(
                     RaceData.create(
                         raceType,
                         `テスト${location}${grade}${(index + 1).toString()}レース`,
@@ -324,11 +323,10 @@ const baseHorseRacingRaceEntityList = (
                     baseConditionData(raceType),
                     undefined, // stage は未指定
                     baseRacePlayerDataList(raceType),
-                    baseRaceUpdateDate,
                 );
             });
         })
-        .filter((entity): entity is RaceEntityForAWS => entity !== 'undefined');
+        .filter((entity): entity is RaceEntity => entity !== 'undefined');
 
 const createLocationString = (raceType: RaceType, location: string): string => {
     switch (raceType) {
@@ -483,19 +481,34 @@ const defaultStageList = {
  */
 export const testRaceTypeListAll = IS_SHORT_TEST
     ? [RaceType.JRA]
-    : RACE_TYPE_LIST_ALL_FOR_AWS;
+    : [...new Set([...RACE_TYPE_LIST_ALL_FOR_AWS, ...RACE_TYPE_LIST_ALL])];
 
 export const testRaceTypeListWithoutOverseas = IS_SHORT_TEST
     ? [RaceType.JRA]
-    : RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS;
+    : [
+          ...new Set([
+              ...RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
+              ...RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+          ]),
+      ];
 
 export const testRaceTypeListHorseRacing = IS_SHORT_TEST
     ? [RaceType.JRA]
-    : RACE_TYPE_LIST_HORSE_RACING_FOR_AWS;
+    : [
+          ...new Set([
+              ...RACE_TYPE_LIST_HORSE_RACING_FOR_AWS,
+              ...RACE_TYPE_LIST_HORSE_RACING,
+          ]),
+      ];
 
 export const testRaceTypeListMechanicalRacing = IS_SHORT_TEST
     ? [RaceType.KEIRIN]
-    : RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS;
+    : [
+          ...new Set([
+              ...RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS,
+              ...RACE_TYPE_LIST_MECHANICAL_RACING,
+          ]),
+      ];
 
 export const mockCalendarDataList = testRaceTypeListAll.map((raceType) =>
     baseCalendarData(raceType),

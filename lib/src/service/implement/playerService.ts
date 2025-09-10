@@ -4,7 +4,7 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../../src/utility/raceType';
-import { PlayerData } from '../../domain/playerData';
+import { PlayerDataForAWS } from '../../domain/playerData';
 import { SearchPlayerFilterEntityForAWS } from '../../repository/entity/searchPlayerFilterEntity';
 import type { IPlayerRepositoryForAWS } from '../../repository/interface/IPlayerRepository';
 import { Logger } from '../../utility/logger';
@@ -24,14 +24,14 @@ export class PlayerServiceForAWS implements IPlayerServiceForAWS {
     @Logger
     public async fetchPlayerDataList(
         raceType: RaceType,
-    ): Promise<PlayerData[]> {
+    ): Promise<PlayerDataForAWS[]> {
         const allPlayers = await this.repository.findAll(
             new SearchPlayerFilterEntityForAWS(raceType),
         );
         return allPlayers
             .filter((p) => p.raceType === raceType)
             .map((p) =>
-                PlayerData.create(
+                PlayerDataForAWS.create(
                     p.raceType,
                     Number.parseInt(p.playerNo),
                     p.playerName,

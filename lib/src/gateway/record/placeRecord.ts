@@ -1,5 +1,5 @@
+import { PlaceData } from '../../../../src/domain/placeData';
 import type { RaceType } from '../../../../src/utility/raceType';
-import { PlaceData } from '../../domain/placeData';
 import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';

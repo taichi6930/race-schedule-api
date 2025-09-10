@@ -9,12 +9,12 @@ import { PlaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/reposit
 import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../../src/utility/raceType';
-import { SkipEnv } from '../../../../../utility/testDecorators';
-import { clearMocks } from '../../../../../utility/testSetupHelper';
 import {
     basePlaceEntity,
     testRaceTypeListAll,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
+import { SkipEnv } from '../../../../../utility/testDecorators';
+import { clearMocks } from '../../../../../utility/testSetupHelper';
 
 // テーブル駆動型テスト
 const testCases = {

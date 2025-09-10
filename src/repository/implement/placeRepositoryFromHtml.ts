@@ -5,7 +5,7 @@ import console from 'node:console';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceData } from '../../../lib/src/domain/placeData';
+import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
@@ -228,6 +228,8 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                             ),
                             place,
                         ),
+                        undefined, // TODO: heldDayDataを設定する
+                        undefined, // TODO: gradeを設定する
                     ),
                 );
             }

@@ -1,6 +1,6 @@
+import type { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
+import type { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import type { RaceType } from '../../../../src/utility/raceType';
-import type { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
-import type { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import type { DataLocationType } from '../../utility/dataType';
 
 /**
@@ -32,8 +32,8 @@ export interface IRaceServiceForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
         type: DataLocationType,
-        placeEntityList?: PlaceEntityForAWS[],
-    ) => Promise<RaceEntityForAWS[]>;
+        placeEntityList?: PlaceEntity[],
+    ) => Promise<RaceEntity[]>;
 
     /**
      * レース開催データをStorageに保存/更新します
@@ -43,7 +43,7 @@ export interface IRaceServiceForAWS {
      * @param raceEntityList - 保存/更新するレース開催エンティティの配列
      * @throws Error データの保存/更新に失敗した場合
      */
-    updateRaceEntityList: (raceEntityList: RaceEntityForAWS[]) => Promise<{
+    updateRaceEntityList: (raceEntityList: RaceEntity[]) => Promise<{
         code: number;
         message: string;
         successDataCount: number;

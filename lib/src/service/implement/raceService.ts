@@ -1,11 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 
+import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
-import { PlaceEntityForAWS } from '../../repository/entity/placeEntity';
-import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../repository/entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
@@ -87,9 +87,9 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
         type: DataLocationType,
-        placeEntityList?: PlaceEntityForAWS[],
-    ): Promise<RaceEntityForAWS[]> {
-        const result: RaceEntityForAWS[] = [];
+        placeEntityList?: PlaceEntity[],
+    ): Promise<RaceEntity[]> {
+        const result: RaceEntity[] = [];
         try {
             for (const raceType of RACE_TYPE_LIST_ALL_FOR_AWS) {
                 if (raceTypeList.includes(raceType)) {
@@ -127,9 +127,7 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
      * @throws Error データの保存/更新に失敗した場合
      */
     @Logger
-    public async updateRaceEntityList(
-        raceEntityList: RaceEntityForAWS[],
-    ): Promise<{
+    public async updateRaceEntityList(raceEntityList: RaceEntity[]): Promise<{
         code: number;
         message: string;
         successDataCount: number;
@@ -178,7 +176,7 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
     private async saveRaceEntityList(
         repository: IRaceRepositoryForAWS,
         raceType: RaceType,
-        entityList?: RaceEntityForAWS[],
+        entityList?: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;

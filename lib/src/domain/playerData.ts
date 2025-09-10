@@ -4,7 +4,7 @@ import { validatePlayerNumber } from '../utility/validateAndType/playerNumber';
 /**
  * 選手情報
  */
-export class PlayerData {
+export class PlayerDataForAWS {
     /**
      * コンストラクタ
      * @param raceType - レース種別
@@ -32,7 +32,7 @@ export class PlayerData {
         playerNumber: number,
         name: string,
         priority: number,
-    ): PlayerData {
+    ): PlayerDataForAWS {
         try {
             if (
                 raceType !== RaceType.KEIRIN &&
@@ -44,7 +44,7 @@ export class PlayerData {
                 );
             }
 
-            return new PlayerData(
+            return new PlayerDataForAWS(
                 raceType,
                 validatePlayerNumber(playerNumber),
                 name,
@@ -63,8 +63,8 @@ export class PlayerData {
      * @param partial - 上書きする部分データ
      * @returns 新しいPlayerDataインスタンス
      */
-    public copy(partial: Partial<PlayerData> = {}): PlayerData {
-        return PlayerData.create(
+    public copy(partial: Partial<PlayerDataForAWS> = {}): PlayerDataForAWS {
+        return PlayerDataForAWS.create(
             partial.raceType ?? this.raceType,
             partial.playerNumber ?? this.playerNumber,
             partial.name ?? this.name,

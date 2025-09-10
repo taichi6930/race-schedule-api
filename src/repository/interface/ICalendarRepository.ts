@@ -1,4 +1,4 @@
-import type { CalendarData } from '../../../lib/src/domain/calendarData';
+import type { CalendarData } from '../../domain/calendarData';
 import type { CommonParameter } from '../../utility/commonParameter';
 import type { SearchCalendarFilterEntity } from '../entity/filter/searchCalendarFilterEntity';
 import type { RaceEntity } from '../entity/raceEntity';

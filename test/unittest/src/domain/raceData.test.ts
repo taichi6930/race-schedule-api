@@ -1,4 +1,4 @@
-import { RaceData } from '../../../../../lib/src/domain/raceData';
+import { RaceData } from '../../../../src/domain/raceData';
 import {
     defaultLocation,
     testRaceTypeListAll,

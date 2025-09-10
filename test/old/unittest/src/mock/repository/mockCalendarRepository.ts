@@ -1,6 +1,6 @@
 import type { SearchCalendarFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import type { ICalendarRepositoryForAWS } from '../../../../../../lib/src/repository/interface/ICalendarRepository';
-import { baseCalendarData } from '../common/baseCommonData';
+import { baseCalendarData } from '../../../../../unittest/src/mock/common/baseCommonData';
 
 export const mockCalendarRepository =
     (): jest.Mocked<ICalendarRepositoryForAWS> => {

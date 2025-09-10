@@ -2,15 +2,15 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { inject, injectable } from 'tsyringe';
 
+import { CalendarData } from '../../../../src/domain/calendarData';
+import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
     RACE_TYPE_LIST_HORSE_RACING_FOR_AWS,
     RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
-import { CalendarData } from '../../domain/calendarData';
-import { PlayerData } from '../../domain/playerData';
-import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
+import { PlayerDataForAWS } from '../../domain/playerData';
 import { ICalendarServiceForAWS } from '../../service/interface/ICalendarService';
 import { IPlayerServiceForAWS } from '../../service/interface/IPlayerService';
 import { IRaceServiceForAWS } from '../../service/interface/IRaceService';
@@ -88,9 +88,9 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
 
         // 取得対象の公営競技種別を配列で定義し、並列で選手データを取得してオブジェクト化する
         const playerList: {
-            [RaceType.KEIRIN]: PlayerData[];
-            [RaceType.AUTORACE]: PlayerData[];
-            [RaceType.BOATRACE]: PlayerData[];
+            [RaceType.KEIRIN]: PlayerDataForAWS[];
+            [RaceType.AUTORACE]: PlayerDataForAWS[];
+            [RaceType.BOATRACE]: PlayerDataForAWS[];
         } = Object.fromEntries(
             await Promise.all(
                 RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS.map(
@@ -105,7 +105,7 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
         );
 
         // フラット化して単一の RaceEntity[] にする（後続のオブジェクト型 filteredRaceEntityList と名前衝突しないよう別名）
-        const filteredRaceEntityList: RaceEntityForAWS[] = [
+        const filteredRaceEntityList: RaceEntity[] = [
             ...RACE_TYPE_LIST_HORSE_RACING_FOR_AWS.flatMap((raceType) =>
                 raceEntityList.filter(
                     (raceEntity) =>
@@ -152,7 +152,7 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
                                     raceEntity.raceData.raceType === raceType,
                             )
                             .some(
-                                (raceEntity: RaceEntityForAWS) =>
+                                (raceEntity: RaceEntity) =>
                                     raceEntity.id === calendarData.id,
                             ),
                 ),
@@ -166,7 +166,7 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
         );
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
-        const upsertRaceEntityList: RaceEntityForAWS[] =
+        const upsertRaceEntityList: RaceEntity[] =
             RACE_TYPE_LIST_ALL_FOR_AWS.flatMap((raceType) =>
                 filteredRaceEntityList
                     .filter(
@@ -174,7 +174,7 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
                             raceEntity.raceData.raceType === raceType,
                     )
                     .filter(
-                        (raceEntity: RaceEntityForAWS) =>
+                        (raceEntity: RaceEntity) =>
                             !deleteCalendarDataList[
                                 raceType as keyof typeof deleteCalendarDataList
                             ].some(
@@ -199,12 +199,12 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
      */
     private filterRaceEntity(
         raceType: RaceType,
-        raceEntityList: RaceEntityForAWS[],
+        raceEntityList: RaceEntity[],
         displayGradeList: GradeType[],
-        playerDataList: PlayerData[],
-    ): RaceEntityForAWS[] {
-        const filteredRaceEntityList: RaceEntityForAWS[] =
-            raceEntityList.filter((raceEntity) => {
+        playerDataList: PlayerDataForAWS[],
+    ): RaceEntity[] {
+        const filteredRaceEntityList: RaceEntity[] = raceEntityList.filter(
+            (raceEntity) => {
                 const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
                     (maxPriority, playerData) => {
                         const playerPriority =
@@ -241,7 +241,8 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
                     })?.priority ?? 0;
 
                 return racePriority + maxPlayerPriority >= 6;
-            });
+            },
+        );
         return filteredRaceEntityList;
     }
 }

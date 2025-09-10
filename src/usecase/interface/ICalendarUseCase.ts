@@ -1,5 +1,5 @@
-import type { CalendarData } from '../../../lib/src/domain/calendarData';
 import type { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
+import type { CalendarData } from '../../domain/calendarData';
 import type { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
 import type { CommonParameter } from '../../utility/commonParameter';
 import type { RaceType } from '../../utility/raceType';

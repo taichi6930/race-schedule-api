@@ -6,23 +6,17 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { RaceData } from '../../../../../../lib/src/domain/raceData';
-import { RaceEntityForAWS } from '../../../../../../lib/src/repository/entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { HorseRacingRaceRepositoryFromStorage } from '../../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorage';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepository';
-import { getJSTDate } from '../../../../../../lib/src/utility/date';
 import {
     IS_LARGE_AMOUNT_DATA_TEST,
     IS_SHORT_TEST,
 } from '../../../../../../lib/src/utility/env';
+import { RaceData } from '../../../../../../src/domain/raceData';
+import { RaceEntity } from '../../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../../src/utility/raceType';
-import type { TestGatewaySetup } from '../../../../../utility/testSetupHelper';
-import {
-    clearMocks,
-    setupTestGatewayMock,
-} from '../../../../../utility/testSetupHelper';
 import {
     baseConditionData,
     baseRacePlayerDataList,
@@ -31,7 +25,12 @@ import {
     defaultRaceGrade,
     defaultStage,
     testRaceTypeListAll,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
+import type { TestGatewaySetup } from '../../../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestGatewayMock,
+} from '../../../../../utility/testSetupHelper';
 
 describe('RaceRepositoryFromStorage', () => {
     let gatewaySetup: TestGatewaySetup;
@@ -105,7 +104,7 @@ describe('RaceRepositoryFromStorage', () => {
             test.each(testRaceTypeListAll)(
                 `${description}: %s`,
                 async (raceType) => {
-                    const raceEntityList: RaceEntityForAWS[] =
+                    const raceEntityList: RaceEntity[] =
                         makeRaceEntityList(raceType);
 
                     if (hasRegisterData) {
@@ -148,7 +147,7 @@ describe('RaceRepositoryFromStorage', () => {
         });
     });
 
-    const makeRaceEntityList = (raceType: RaceType): RaceEntityForAWS[] => {
+    const makeRaceEntityList = (raceType: RaceType): RaceEntity[] => {
         const dayCount = IS_SHORT_TEST
             ? 3
             : IS_LARGE_AMOUNT_DATA_TEST
@@ -159,7 +158,7 @@ describe('RaceRepositoryFromStorage', () => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: raceNumberCount }, (__, raceNumber) =>
-                RaceEntityForAWS.createWithoutId(
+                RaceEntity.createWithoutId(
                     RaceData.create(
                         raceType,
                         `raceName${format(date, 'yyyyMMdd')}`,
@@ -172,7 +171,6 @@ describe('RaceRepositoryFromStorage', () => {
                     baseConditionData(raceType),
                     defaultStage[raceType],
                     baseRacePlayerDataList(raceType),
-                    getJSTDate(new Date()),
                 ),
             );
         }).flat();

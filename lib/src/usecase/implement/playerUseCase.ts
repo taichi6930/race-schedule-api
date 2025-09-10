@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../../src/utility/raceType';
-import { PlayerData } from '../../domain/playerData';
+import { PlayerDataForAWS } from '../../domain/playerData';
 import { IPlayerServiceForAWS } from '../../service/interface/IPlayerService';
 import { Logger } from '../../utility/logger';
 import { IPlayerDataUseCaseForAWS } from '../interface/IPlayerDataUseCase';
@@ -19,8 +19,8 @@ export class PlayerUseCaseForAWS implements IPlayerDataUseCaseForAWS {
     @Logger
     public async fetchPlayerDataList(
         raceTypeList: RaceType[],
-    ): Promise<PlayerData[]> {
-        const playerDataList: PlayerData[] =
+    ): Promise<PlayerDataForAWS[]> {
+        const playerDataList: PlayerDataForAWS[] =
             await this.playerDataService.fetchPlayerDataList(raceTypeList[0]);
         console.log(
             'PlayerUseCase: fetchPlayerDataList executed',

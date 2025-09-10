@@ -3,7 +3,7 @@ import { generatePlaceId } from '../../../../../../lib/src/utility/validateAndTy
 import {
     defaultLocation,
     testRaceTypeListAll,
-} from '../../mock/common/baseCommonData';
+} from '../../../../../unittest/src/mock/common/baseCommonData';
 
 /**
  * ディシジョンテーブル

@@ -1,61 +1,25 @@
-import type { RaceType } from '../../../src/utility/raceType';
-import type { GradeType } from '../utility/validateAndType/gradeType';
-import { validateGradeType } from '../utility/validateAndType/gradeType';
+import type { GradeType } from '../../lib/src/utility/validateAndType/gradeType';
+import { validateGradeType } from '../../lib/src/utility/validateAndType/gradeType';
 import {
     type RaceCourse,
     validateRaceCourse,
-} from '../utility/validateAndType/raceCourse';
+} from '../../lib/src/utility/validateAndType/raceCourse';
 import {
     type RaceDateTime,
     validateRaceDateTime,
-} from '../utility/validateAndType/raceDateTime';
+} from '../../lib/src/utility/validateAndType/raceDateTime';
 import {
     type RaceName,
     validateRaceName,
-} from '../utility/validateAndType/raceName';
-import type { RaceNumber } from '../utility/validateAndType/raceNumber';
-import { validateRaceNumber } from '../utility/validateAndType/raceNumber';
+} from '../../lib/src/utility/validateAndType/raceName';
+import type { RaceNumber } from '../../lib/src/utility/validateAndType/raceNumber';
+import { validateRaceNumber } from '../../lib/src/utility/validateAndType/raceNumber';
+import type { RaceType } from '../utility/raceType';
 
 /**
  * 競馬のレース開催データ
  */
 export class RaceData {
-    /**
-     * レース種別
-     * @type {RaceType}
-     */
-    public readonly raceType: RaceType;
-
-    /**
-     * レース名
-     * @type {RaceName}
-     */
-    public readonly name: RaceName;
-
-    /**
-     * 開催日時
-     * @type {RaceDateTime}
-     */
-    public readonly dateTime: RaceDateTime;
-
-    /**
-     * 開催場所
-     * @type {RaceCourse}
-     */
-    public readonly location: RaceCourse;
-
-    /**
-     * グレード
-     * @type {GradeType}
-     */
-    public readonly grade: GradeType;
-
-    /**
-     * レース番号
-     * @type {RaceNumber}
-     */
-    public readonly number: RaceNumber;
-
     /**
      * コンストラクタ
      * @param raceType - レース種別
@@ -68,20 +32,13 @@ export class RaceData {
      * レース開催データを生成する
      */
     private constructor(
-        raceType: RaceType,
-        name: RaceName,
-        dateTime: RaceDateTime,
-        location: RaceCourse,
-        grade: GradeType,
-        number: RaceNumber,
-    ) {
-        this.raceType = raceType;
-        this.name = name;
-        this.dateTime = dateTime;
-        this.location = location;
-        this.grade = grade;
-        this.number = number;
-    }
+        public readonly raceType: RaceType,
+        public readonly name: RaceName,
+        public readonly dateTime: RaceDateTime,
+        public readonly location: RaceCourse,
+        public readonly grade: GradeType,
+        public readonly number: RaceNumber,
+    ) {}
 
     /**
      * インスタンス生成メソッド

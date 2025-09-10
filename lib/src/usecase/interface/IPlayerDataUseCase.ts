@@ -1,5 +1,5 @@
 import type { RaceType } from '../../../../src/utility/raceType';
-import type { PlayerData } from '../../domain/playerData';
+import type { PlayerDataForAWS } from '../../domain/playerData';
 
 /**
  * プレイヤーデータUseCaseインターフェース
@@ -10,5 +10,7 @@ export interface IPlayerDataUseCaseForAWS {
      * @param startDate
      * @param finishDate
      */
-    fetchPlayerDataList: (raceTypeList: RaceType[]) => Promise<PlayerData[]>;
+    fetchPlayerDataList: (
+        raceTypeList: RaceType[],
+    ) => Promise<PlayerDataForAWS[]>;
 }

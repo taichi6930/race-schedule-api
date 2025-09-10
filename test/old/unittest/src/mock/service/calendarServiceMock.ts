@@ -1,5 +1,5 @@
-import type { CalendarData } from '../../../../../../lib/src/domain/calendarData';
 import type { ICalendarServiceForAWS } from '../../../../../../lib/src/service/interface/ICalendarService';
+import type { CalendarData } from '../../../../../../src/domain/calendarData';
 
 /**
  * CalendarServiceのモックを作成する

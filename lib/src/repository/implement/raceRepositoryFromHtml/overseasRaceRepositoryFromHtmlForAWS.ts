@@ -4,12 +4,12 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceConditionData';
+import { RaceData } from '../../../../../src/domain/raceData';
+import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
-import { HorseRaceConditionData } from '../../../domain/houseRaceConditionData';
-import { RaceData } from '../../../domain/raceData';
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { processOverseasRaceName } from '../../../utility/createRaceName';
-import { getJSTDate } from '../../../utility/date';
 import { Logger } from '../../../utility/logger';
 import { GradeType } from '../../../utility/validateAndType/gradeType';
 import {
@@ -18,7 +18,6 @@ import {
 } from '../../../utility/validateAndType/raceCourse';
 import { validateRaceDistance } from '../../../utility/validateAndType/raceDistance';
 import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
-import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../interface/IRaceRepository';
 
@@ -41,12 +40,12 @@ export class OverseasRaceRepositoryFromHtmlForAWS
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntityForAWS,
-    ): Promise<RaceEntityForAWS[]> {
+    ): Promise<RaceEntity[]> {
         const monthList: Date[] = this.generateMonthList(
             searchFilter.startDate,
             searchFilter.finishDate,
         );
-        const raceEntityList: RaceEntityForAWS[] = [];
+        const raceEntityList: RaceEntity[] = [];
         for (const month of monthList) {
             raceEntityList.push(
                 ...(await this.fetchRaceListFromHtml(RaceType.OVERSEAS, month)),
@@ -90,13 +89,13 @@ export class OverseasRaceRepositoryFromHtmlForAWS
     public async fetchRaceListFromHtml(
         raceType: RaceType,
         date: Date,
-    ): Promise<RaceEntityForAWS[]> {
+    ): Promise<RaceEntity[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
                 raceType,
                 date,
             );
-            const raceEntityList: RaceEntityForAWS[] = [];
+            const raceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             const content = $('.racelist');
             // class="racelist__day"が複数あるのでeachで回す
@@ -221,7 +220,7 @@ export class OverseasRaceRepositoryFromHtmlForAWS
                                 distance,
                             });
                             raceEntityList.push(
-                                RaceEntityForAWS.createWithoutId(
+                                RaceEntity.createWithoutId(
                                     RaceData.create(
                                         raceType,
                                         raceName,
@@ -237,7 +236,6 @@ export class OverseasRaceRepositoryFromHtmlForAWS
                                     ),
                                     undefined, // stage は未指定
                                     undefined, // racePlayerDataList は未指定
-                                    getJSTDate(new Date()),
                                 ),
                             );
                         } catch (error) {
@@ -272,12 +270,12 @@ export class OverseasRaceRepositoryFromHtmlForAWS
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntityForAWS[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntityForAWS[];
-        failureData: RaceEntityForAWS[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

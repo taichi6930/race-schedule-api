@@ -1,5 +1,5 @@
+import { HeldDayData } from '../../../../src/domain/heldDayData';
 import type { RaceType } from '../../../../src/utility/raceType';
-import { HeldDayData } from '../../domain/heldDayData';
 import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';

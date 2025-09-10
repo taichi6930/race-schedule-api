@@ -10,7 +10,8 @@
  * |6 |有効    |有効          |有効          |{ dateTime: invalidDateTime }|copyで不正値→Error      |copy異常系（dateTime）             |
  * |7 |有効    |有効          |有効          |{} または undefined         |全プロパティ同値        |copyでpartial空                    |
  */
-import { PlaceData } from '../../../../../lib/src/domain/placeData';
+
+import { PlaceData } from '../../../../src/domain/placeData';
 import {
     defaultLocation,
     testRaceTypeListAll,
@@ -21,8 +22,8 @@ describe.each(testRaceTypeListAll)(
     (raceType) => {
         const validDateTime = new Date('2024-05-26');
         const invalidDateTime = new Date(''); // 無効な日付
-        const validLocation = defaultLocation[raceType]; // JRAの有効な場所
-        const invalidLocation = '日本'; // JRAでは無効な場所
+        const validLocation = defaultLocation[raceType]; // 有効な場所
+        const invalidLocation = '日本'; // 無効な場所
 
         // 1. 正常系
         it('|1|有効|有効|有効|OK|', () => {

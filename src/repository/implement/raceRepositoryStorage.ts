@@ -1,7 +1,7 @@
 import { formatDate } from 'date-fns';
 
-import { HorseRaceConditionData } from '../../../lib/src/domain/houseRaceConditionData';
-import { RaceData } from '../../../lib/src/domain/raceData';
+import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
+import { RaceData } from '../../domain/raceData';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
@@ -62,7 +62,10 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                     row.grade,
                     row.race_number,
                 ),
+                undefined, // TODO: heldDayDataを設定する
                 HorseRaceConditionData.create(row.surface_type, row.distance),
+                undefined, // TODO: stageを設定する
+                undefined, // TODO: racePlayerDataListを設定する
             );
         });
     }

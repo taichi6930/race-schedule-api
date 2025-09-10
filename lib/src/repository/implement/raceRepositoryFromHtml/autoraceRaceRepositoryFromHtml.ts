@@ -3,19 +3,18 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { PlaceData } from '../../../../../src/domain/placeData';
+import { RaceData } from '../../../../../src/domain/raceData';
+import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
-import { PlaceData } from '../../../domain/placeData';
-import { RaceData } from '../../../domain/raceData';
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
-import { getJSTDate } from '../../../utility/date';
 import { Logger } from '../../../utility/logger';
 import { GradeType } from '../../../utility/validateAndType/gradeType';
 import {
     RaceStage,
     StageMap,
 } from '../../../utility/validateAndType/raceStage';
-import { PlaceEntityForAWS } from '../../entity/placeEntity';
-import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../interface/IRaceRepository';
 
@@ -36,8 +35,8 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntityForAWS,
-    ): Promise<RaceEntityForAWS[]> {
-        const raceEntityList: RaceEntityForAWS[] = [];
+    ): Promise<RaceEntity[]> {
+        const raceEntityList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
         for (const placeEntity of placeEntityList) {
             raceEntityList.push(
@@ -57,8 +56,8 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
 
     @Logger
     public async fetchRaceListFromHtml(
-        placeEntity: PlaceEntityForAWS,
-    ): Promise<RaceEntityForAWS[]> {
+        placeEntity: PlaceEntity,
+    ): Promise<RaceEntity[]> {
         try {
             const [year, month, day] = [
                 placeEntity.placeData.dateTime.getFullYear(),
@@ -70,7 +69,7 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
-            const raceEntityList: RaceEntityForAWS[] = [];
+            const raceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
@@ -118,7 +117,7 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
                         const raceGrade = placeEntity.grade;
                         if (raceStage !== null && raceStage.trim() !== '') {
                             raceEntityList.push(
-                                RaceEntityForAWS.createWithoutId(
+                                RaceEntity.createWithoutId(
                                     RaceData.create(
                                         placeEntity.placeData.raceType,
                                         raceName,
@@ -131,7 +130,6 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
                                     undefined, // conditionDataは未設定
                                     raceStage,
                                     [],
-                                    getJSTDate(new Date()),
                                 ),
                             );
                         }
@@ -213,12 +211,12 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntityForAWS[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntityForAWS[];
-        failureData: RaceEntityForAWS[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
