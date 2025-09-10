@@ -1,5 +1,5 @@
-import type { EnvType } from '../../lib/src/utility/env';
-import { ENV } from '../../lib/src/utility/env';
+import type { EnvType } from '../../lib/src/utility/envForAws';
+import { ENV } from '../../lib/src/utility/envForAws';
 
 /**
  * 特定の環境でのみテストをSkipするデコレータ関数

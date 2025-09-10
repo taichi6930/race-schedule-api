@@ -13,7 +13,7 @@ import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository
 import {
     IS_LARGE_AMOUNT_DATA_TEST,
     IS_SHORT_TEST,
-} from '../../../../../../lib/src/utility/env';
+} from '../../../../../../lib/src/utility/envForAws';
 import { RaceData } from '../../../../../../src/domain/raceData';
 import { RaceEntity } from '../../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../../src/utility/raceType';

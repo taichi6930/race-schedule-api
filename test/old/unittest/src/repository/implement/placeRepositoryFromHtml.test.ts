@@ -7,7 +7,7 @@ import { MockPlaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock
 import { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
 import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
-import { allowedEnvs } from '../../../../../../lib/src/utility/env';
+import { allowedEnvs } from '../../../../../../lib/src/utility/envForAws';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import {
     basePlaceEntity,

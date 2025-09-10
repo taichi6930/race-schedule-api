@@ -1,6 +1,6 @@
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
-import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
+import { IS_SHORT_TEST } from '../../../../../lib/src/utility/envForAws';
 import { generatePlaceId } from '../../../../../lib/src/utility/validateAndType/placeId';
 import { maxFrameNumber } from '../../../../../lib/src/utility/validateAndType/positionNumber';
 import { CalendarData } from '../../../../../src/domain/calendarData';

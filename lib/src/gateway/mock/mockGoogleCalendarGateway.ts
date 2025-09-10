@@ -5,7 +5,7 @@ import {
     RaceType,
 } from '../../../../src/utility/raceType';
 import { defaultLocation } from '../../../../test/unittest/src/mock/common/baseCommonData';
-import { allowedEnvs, ENV } from '../../utility/env';
+import { allowedEnvs, ENV } from '../../utility/envForAws';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import { generateRaceId } from '../../utility/validateAndType/raceId';

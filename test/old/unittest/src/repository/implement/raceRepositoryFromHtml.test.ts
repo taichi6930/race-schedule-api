@@ -14,7 +14,7 @@ import { KeirinRaceRepositoryFromHtml } from '../../../../../../lib/src/reposito
 import { NarRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepository';
-import { allowedEnvs } from '../../../../../../lib/src/utility/env';
+import { allowedEnvs } from '../../../../../../lib/src/utility/envForAws';
 import { PlaceData } from '../../../../../../src/domain/placeData';
 import { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../../../src/utility/raceType';

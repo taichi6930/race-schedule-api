@@ -14,7 +14,7 @@ import { MockPlaceDataHtmlGateway } from '../../src/gateway/mock/mockPlaceDataHt
 import { MockRaceDataHtmlGateway } from '../../src/gateway/mock/mockRaceDataHtmlGateway';
 import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
 import { MockSQLiteGateway } from '../../src/gateway/mock/mockSQLiteGateway';
-import { allowedEnvs, ENV } from '../../src/utility/env';
+import { allowedEnvs, ENV } from '../../src/utility/envForAws';
 
 // SQLiteGateway
 switch (ENV) {

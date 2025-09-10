@@ -12,7 +12,7 @@ import type { IRaceRepositoryForAWS } from '../../src/repository/interface/IRace
 import { MockHorseRacingRaceRepositoryFromHtml } from '../../src/repository/mock/mockHorseRacingRaceRepositoryFromHtml';
 import { MockMechanicalRacingRaceRepositoryFromHtml } from '../../src/repository/mock/mockMechanicalRacingRaceRepositoryFromHtml';
 import { MockPlaceRepositoryFromHtml } from '../../src/repository/mock/mockPlaceRepositoryFromHtml';
-import { allowedEnvs, ENV } from '../../src/utility/env';
+import { allowedEnvs, ENV } from '../../src/utility/envForAws';
 // Repositoryの実装クラスをDIコンテナに登録する
 
 // 環境ごとの設定

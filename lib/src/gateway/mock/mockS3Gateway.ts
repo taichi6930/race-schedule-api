@@ -23,7 +23,7 @@ import {
 } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { CSV_HEADER_KEYS, csvPath } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
-import { allowedEnvs, ENV } from '../../utility/env';
+import { allowedEnvs, ENV } from '../../utility/envForAws';
 import { Logger } from '../../utility/logger';
 import { generatePlaceId } from '../../utility/validateAndType/placeId';
 import { generateRaceId } from '../../utility/validateAndType/raceId';

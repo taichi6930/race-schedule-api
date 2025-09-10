@@ -8,7 +8,7 @@ module.exports = {
     coverageDirectory: 'coverage',
     coveragePathIgnorePatterns: [
         'logger.ts',
-        'lib/src/utility/env.ts',
+        'lib/src/utility/envForAws.ts',
         'lib/src/gateway/mock/mockPlaceDataHtmlGateway.ts',
         'lib/src/gateway/mock/mockRaceDataHtmlGateway.ts',
         'lib/src/gateway/record/placeGradeRecord.ts',

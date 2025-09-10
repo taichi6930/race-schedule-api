@@ -12,7 +12,7 @@ import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repositor
 import {
     IS_LARGE_AMOUNT_DATA_TEST,
     IS_SHORT_TEST,
-} from '../../../../../../lib/src/utility/env';
+} from '../../../../../../lib/src/utility/envForAws';
 import { PlaceData } from '../../../../../../src/domain/placeData';
 import { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../../../src/utility/raceType';
