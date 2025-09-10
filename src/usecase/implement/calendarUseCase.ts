@@ -81,6 +81,7 @@ export class CalendarUseCase implements ICalendarUseCase {
                 searchCalendarFilter.raceTypeList,
                 [],
                 [],
+                [],
             ),
             DataLocation.Storage,
         );
