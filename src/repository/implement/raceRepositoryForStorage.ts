@@ -75,6 +75,16 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             .all();
         return results.map((row: any): RaceEntity => {
             const dateJST = new Date(new Date(row.date_time));
+            // held_day may be missing (LEFT JOIN). Only create HeldDayData when values exist and race_type is JRA
+            const heldDayData =
+                row.race_type === 'JRA' &&
+                row.held_times != null &&
+                row.held_day_times != null
+                    ? HeldDayData.create(
+                          Number(row.held_times),
+                          Number(row.held_day_times),
+                      )
+                    : undefined;
             return RaceEntity.create(
                 row.id,
                 RaceData.create(
@@ -85,7 +95,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                     row.grade,
                     row.race_number,
                 ),
-                HeldDayData.create(row.held_times, row.held_day_times),
+                heldDayData,
                 HorseRaceConditionData.create(row.surface_type, row.distance),
                 undefined, // TODO: stageを設定する
                 undefined, // TODO: racePlayerDataListを設定する
