@@ -34,6 +34,7 @@ export class PlaceController {
     ): Promise<Response> {
         try {
             const raceTypeParam = searchParams.getAll('raceType');
+            const locationList = searchParams.getAll('location');
             const startDateParam = searchParams.get('startDate');
             const finishDateParam = searchParams.get('finishDate');
 
@@ -70,6 +71,7 @@ export class PlaceController {
                 new Date(startDateParam),
                 new Date(finishDateParam),
                 raceTypeList,
+                locationList,
             );
 
             const placeEntityList = await this.usecase.fetchPlaceEntityList(
@@ -104,11 +106,24 @@ export class PlaceController {
         commonParameter: CommonParameter,
     ): Promise<Response> {
         try {
-            const body: any = await request.json();
+            let body: any;
+            try {
+                body = await request.json();
+            } catch (error) {
+                // JSON parse error (bad request body)
+                console.log('Bad Request: Invalid JSON', error);
+                return new Response('Bad Request: Invalid JSON', {
+                    status: 400,
+                    headers: this.corsHeaders,
+                });
+            }
+
             if (
                 !body ||
                 (typeof body.raceType !== 'string' &&
                     !Array.isArray(body.raceType)) ||
+                (typeof body.location !== 'string' &&
+                    !Array.isArray(body.location)) ||
                 typeof body.startDate !== 'string' ||
                 typeof body.finishDate !== 'string'
             ) {
@@ -118,7 +133,7 @@ export class PlaceController {
                     headers: this.corsHeaders,
                 });
             }
-            const { raceType, startDate, finishDate } = body;
+            const { raceType, startDate, finishDate, location } = body;
 
             // raceTypeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const raceTypeList = convertRaceTypeList(
@@ -149,10 +164,21 @@ export class PlaceController {
                     headers: this.corsHeaders,
                 });
             }
+
+            const locationList =
+                (typeof location === 'string'
+                    ? [location]
+                    : typeof location === 'object'
+                      ? Array.isArray(location)
+                          ? (location as string[]).map((r: string) => r)
+                          : undefined
+                      : undefined) ?? [];
+
             const searchPlaceFilter = new SearchPlaceFilterEntity(
                 new Date(startDate),
                 new Date(finishDate),
                 raceTypeList,
+                locationList,
             );
 
             await this.usecase.upsertPlaceEntityList(
@@ -165,7 +191,7 @@ export class PlaceController {
                 headers: this.corsHeaders,
             });
         } catch (error) {
-            console.error('Error in postUpsertRace:', error);
+            console.error('Error in postUpsertPlace:', error);
             return new Response('Internal Server Error', {
                 status: 500,
                 headers: this.corsHeaders,

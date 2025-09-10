@@ -4,6 +4,7 @@ import { DataLocation } from '../../../lib/src/utility/dataType';
 import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import { RaceCourse } from '../../../lib/src/utility/validateAndType/raceCourse';
 import { RaceStage } from '../../../lib/src/utility/validateAndType/raceStage';
+import { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IPlaceService } from '../../service/interface/IPlaceService';
@@ -131,10 +132,11 @@ export class RaceUseCase implements IRaceUseCase {
         // フィルタリング処理
         const placeEntityList = await this.placeService.fetchPlaceEntityList(
             commonParameter,
-            new SearchRaceFilterEntity(
+            new SearchPlaceFilterEntity(
                 searchRaceFilter.startDate,
                 searchRaceFilter.finishDate,
                 searchRaceFilter.raceTypeList,
+                [],
             ),
             DataLocation.Storage,
         );

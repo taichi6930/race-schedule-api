@@ -5,7 +5,7 @@ import { PlaceData } from '../../domain/placeData';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -13,34 +13,28 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
     @Logger
     public async fetchPlaceEntityList(
         commonParameter: CommonParameter,
-        searchRaceFilter: SearchRaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
-        return this.fetchPlaceEntityListByType(
-            commonParameter,
-            searchRaceFilter,
-        );
-    }
-
-    @Logger
-    private async fetchPlaceEntityListByType(
-        commonParameter: CommonParameter,
-        searchRaceFilter: SearchRaceFilterEntity,
+        searchPlaceFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         const { env } = commonParameter;
-        const { raceTypeList, startDate, finishDate } = searchRaceFilter;
+        const { raceTypeList, startDate, finishDate, locationList } =
+            searchPlaceFilter;
         if (raceTypeList.length === 0) {
             return [];
         }
         const startDateFormatted = formatDate(startDate, 'yyyy-MM-dd');
         const finishDateFormatted = formatDate(finishDate, 'yyyy-MM-dd');
         const raceTypePlaceholders = raceTypeList.map(() => '?').join(', ');
-        const whereClause = `WHERE place.race_type IN (${raceTypePlaceholders}) AND place.date_time >= ? AND place.date_time <= ?`;
-        const queryParams: any[] = [];
-        queryParams.push(
+        let whereClause = `WHERE place.race_type IN (${raceTypePlaceholders}) AND place.date_time >= ? AND place.date_time <= ?`;
+        const queryParams: any[] = [
             ...raceTypeList,
             startDateFormatted,
             finishDateFormatted,
-        );
+        ];
+        if (locationList.length > 0) {
+            const locationPlaceholders = locationList.map(() => '?').join(', ');
+            whereClause += ` AND place.location_name IN (${locationPlaceholders})`;
+            queryParams.push(...locationList);
+        }
         const selectSQL = `
             SELECT
                 place.id,

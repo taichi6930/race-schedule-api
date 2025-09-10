@@ -36,14 +36,15 @@ export class RaceRepositoryForStorage implements IRaceRepository {
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         const { env } = commonParameter;
-        const { raceTypeList, startDate, finishDate } = searchRaceFilter;
+        const { raceTypeList, startDate, finishDate, locationList } =
+            searchRaceFilter;
 
         const startDateFormatted = formatDate(startDate, 'yyyy-MM-dd');
         const finishDateFormatted = formatDate(finishDate, 'yyyy-MM-dd');
 
         // raceTypeListの数に応じて動的にWHERE句を生成
         const raceTypePlaceholders = raceTypeList.map(() => '?').join(', ');
-        const whereClause = `WHERE race.race_type IN (${raceTypePlaceholders}) AND race.date_time >= ? AND race.date_time <= ?`;
+        let whereClause = `WHERE race.race_type IN (${raceTypePlaceholders}) AND race.date_time >= ? AND race.date_time <= ?`;
 
         const queryParams: any[] = [];
         queryParams.push(
@@ -51,6 +52,12 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             startDateFormatted,
             finishDateFormatted,
         );
+
+        if (locationList.length > 0) {
+            const locationPlaceholders = locationList.map(() => '?').join(', ');
+            whereClause += ` AND place.location_name IN (${locationPlaceholders})`;
+            queryParams.push(...locationList);
+        }
         const { results } = await env.DB.prepare(
             `
             SELECT
@@ -109,14 +116,15 @@ export class RaceRepositoryForStorage implements IRaceRepository {
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         const { env } = commonParameter;
-        const { raceTypeList, startDate, finishDate } = searchRaceFilter;
+        const { raceTypeList, startDate, finishDate, locationList } =
+            searchRaceFilter;
 
         const startDateFormatted = formatDate(startDate, 'yyyy-MM-dd');
         const finishDateFormatted = formatDate(finishDate, 'yyyy-MM-dd');
 
         // raceTypeListの数に応じて動的にWHERE句を生成
         const raceTypePlaceholders = raceTypeList.map(() => '?').join(', ');
-        const whereClause = `WHERE race.race_type IN (${raceTypePlaceholders}) AND race.date_time >= ? AND race.date_time <= ?`;
+        let whereClause = `WHERE race.race_type IN (${raceTypePlaceholders}) AND race.date_time >= ? AND race.date_time <= ?`;
 
         const queryParams: any[] = [];
         queryParams.push(
@@ -124,6 +132,12 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             startDateFormatted,
             finishDateFormatted,
         );
+
+        if (locationList.length > 0) {
+            const locationPlaceholders = locationList.map(() => '?').join(', ');
+            whereClause += ` AND place.location_name IN (${locationPlaceholders})`;
+            queryParams.push(...locationList);
+        }
         const { results } = await env.DB.prepare(
             `
             SELECT
@@ -137,16 +151,26 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                 race_condition.distance,
                 race.grade,
                 race.race_number,
+                held_day.held_times,
+                held_day.held_day_times,
                 race.created_at,
                 race.updated_at
             FROM race
             INNER JOIN race_condition ON race.id = race_condition.id
+            LEFT JOIN held_day ON race.place_id = held_day.id
             ${whereClause}`,
         )
             .bind(...queryParams)
             .all();
         return results.map((row: any): RaceEntity => {
             const dateJST = new Date(new Date(row.date_time));
+            const heldDayData =
+                row.held_times !== null && row.held_day_times !== null
+                    ? HeldDayData.create(
+                          Number(row.held_times),
+                          Number(row.held_day_times),
+                      )
+                    : undefined;
             return RaceEntity.create(
                 row.id,
                 row.place_id,
@@ -158,7 +182,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                     row.grade,
                     row.race_number,
                 ),
-                undefined, // TODO: heldDayDataを設定する
+                heldDayData,
                 HorseRaceConditionData.create(row.surface_type, row.distance),
                 undefined, // TODO: stageを設定する
                 undefined, // TODO: racePlayerDataListを設定する
