@@ -22,10 +22,13 @@ runs:
         name = "race-schedule-local"
         main = "./lib/src/index.ts"
         compatibility_date = "2025-01-01"
+        # enable Node.js built-in module compatibility (path, stream, etc.) for local dev
+        compatibility_flags = ["nodejs_compat"]
 
         [env.development]
         main = "./lib/src/index.ts"
         compatibility_date = "2025-01-01"
+        compatibility_flags = ["nodejs_compat"]
 
         [[d1_databases]]
         binding = "MY_DB"
