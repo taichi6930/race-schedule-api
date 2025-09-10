@@ -79,6 +79,14 @@ jobs:
       - name: Run ITA Tests For Overseas
         uses: ./.github/actions/test/ita/overseas
 
+  call-ita-test-overseas-Cloudflare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Run ITA Tests For Overseas
+        uses: ./.github/actions/test/ita/overseas-cloudflare
+
   call-ita-test-keirin:
     runs-on: ubuntu-latest
     steps:
