@@ -198,7 +198,6 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
                 .run();
             if (placeData.raceType === RaceType.JRA) {
                 const { heldDayData } = entity;
-                console.log(heldDayData);
                 await insertHeldDayStmt
                     .bind(
                         id,
