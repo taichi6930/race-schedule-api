@@ -37,7 +37,8 @@ export class MockGoogleCalendarGateway implements ICalendarGatewayForAWS {
             return;
         }
         MockGoogleCalendarGateway.isInitialized = true;
-        switch (ENV) {
+        const env = ENV ?? 'LOCAL';
+        switch (env) {
             case allowedEnvs.production: // ENV が production の場合、GoogleCalendarGateway を使用
             case allowedEnvs.test:
             case allowedEnvs.localNoInitData:

@@ -12,6 +12,11 @@ export function SkipEnv(
     envList: EnvType[],
     fn: jest.ProvidesCallback,
 ): void {
+    if (!ENV) {
+        // ENVがundefinedの場合は全てのテストを実行
+        it(name, fn);
+        return;
+    }
     if (envList.includes(ENV)) {
         it.skip(name, fn);
     } else {

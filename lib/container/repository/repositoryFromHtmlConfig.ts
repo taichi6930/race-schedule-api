@@ -16,7 +16,8 @@ import { allowedEnvs, ENV } from '../../src/utility/envForAws';
 // Repositoryの実装クラスをDIコンテナに登録する
 
 // 環境ごとの設定
-switch (ENV) {
+const env = ENV ?? 'LOCAL';
+switch (env) {
     case allowedEnvs.production:
     case allowedEnvs.local: {
         container.register<IRaceRepositoryForAWS>('NarRaceRepositoryFromHtml', {

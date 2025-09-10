@@ -17,7 +17,8 @@ import { MockSQLiteGateway } from '../../src/gateway/mock/mockSQLiteGateway';
 import { allowedEnvs, ENV } from '../../src/utility/envForAws';
 
 // SQLiteGateway
-switch (ENV) {
+const env = ENV ?? 'LOCAL';
+switch (env) {
     // case allowedEnvs.local: {
     //     container.register<ISQLiteGateway>('SQLiteGateway', {
     //         useFactory: () => {
@@ -50,7 +51,7 @@ switch (ENV) {
 
 container.register<ICalendarGatewayForAWS>('GoogleCalendarGateway', {
     useFactory: () => {
-        switch (ENV) {
+        switch (env) {
             case allowedEnvs.production: {
                 return new GoogleCalendarGatewayForAWS();
             }
@@ -72,7 +73,7 @@ container.register<ICalendarGatewayForAWS>('GoogleCalendarGateway', {
 
 container.register<IPlaceDataHtmlGatewayForAWS>('PlaceDataHtmlGateway', {
     useFactory: () => {
-        switch (ENV) {
+        switch (env) {
             case allowedEnvs.production: {
                 return new PlaceDataHtmlGatewayForAWS();
             }
@@ -92,7 +93,7 @@ container.register<IPlaceDataHtmlGatewayForAWS>('PlaceDataHtmlGateway', {
 
 container.register<IRaceDataHtmlGatewayForAWS>('RaceDataHtmlGateway', {
     useFactory: () => {
-        switch (ENV) {
+        switch (env) {
             case allowedEnvs.production: {
                 return new RaceDataHtmlGatewayForAWS();
             }
@@ -112,7 +113,7 @@ container.register<IRaceDataHtmlGatewayForAWS>('RaceDataHtmlGateway', {
 
 container.register<IS3Gateway>('S3Gateway', {
     useFactory: () => {
-        switch (ENV) {
+        switch (env) {
             case allowedEnvs.production: {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway('race-schedule-bucket');

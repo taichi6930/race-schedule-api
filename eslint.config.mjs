@@ -242,7 +242,11 @@ export default [
         },
     },
     {
-        files: ['**/*Controller.ts', '**/*s3Gateway.ts', '**/utility/envForAws.ts'],
+        files: [
+            '**/*Controller.ts',
+            '**/*s3Gateway.ts',
+            '**/utility/envForAws.ts',
+        ],
         rules: {
             '@typescript-eslint/no-unsafe-type-assertion': 'off', // ✅ any型の型アサーションを許可
         },

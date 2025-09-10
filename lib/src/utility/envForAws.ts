@@ -11,8 +11,22 @@
 
 import * as dotenv from 'dotenv';
 
-// .envファイルから環境変数を読み込み
-dotenv.config();
+// Node.js実行時のみ .env を読み込む
+// Cloudflare Workers等のブラウザ/ワーカ系ランタイムでは `process` が存在しないため
+// トップレベルで dotenv.config() を実行すると例外になる。したがって Node 環境で
+// あることが明らかな場合にのみ読み込むガードを置く。
+// runtimeで process が存在するかを globalThis 経由で確認する。
+// TypeScript の型定義上 process が存在するケースでも、Cloudflare Workers のような
+// ランタイムでは globalThis.process が undefined になるため、この方法で安全に判定できる。
+const gwProcess = (globalThis as any).process;
+if (gwProcess !== undefined && gwProcess.versions?.node !== undefined) {
+    // .envファイルから環境変数を読み込み
+    try {
+        dotenv.config();
+    } catch {
+        // 念のため安全に無視する（読み込み失敗でプロセスを止めたくない）
+    }
+}
 
 /**
  * アプリケーションがサポートする環境の定義
@@ -91,10 +105,18 @@ const getEnv = (env: string | undefined): EnvType => {
  * 安全な環境値を提供します。アプリケーション起動時に
  * 一度だけ評価され、以降は変更されません。
  */
-export const ENV = getEnv(process.env.ENV);
+/**
+ * アプリケーションの現在の実行環境
+ *
+ * Cloudflare Workers のように `process` / `process.env` が存在しないランタイムでは
+ * この値は undefined になります。Node.js 実行時は従来どおり検証済みの EnvType を返します。
+ */
+export const ENV: EnvType | undefined = gwProcess?.env?.ENV
+    ? getEnv(gwProcess.env.ENV)
+    : undefined;
 
-// process.env.IS_SHORT_TEST === 'TRUE'かどうかの判定
-export const IS_SHORT_TEST = process.env.IS_SHORT_TEST === 'TRUE';
+// process.env が存在しないランタイムでは false を返す安全なフラグ
+export const IS_SHORT_TEST = gwProcess?.env?.IS_SHORT_TEST === 'TRUE';
 
 export const IS_LARGE_AMOUNT_DATA_TEST =
-    process.env.IS_LARGE_AMOUNT_DATA_TEST === 'TRUE';
+    gwProcess?.env?.IS_LARGE_AMOUNT_DATA_TEST === 'TRUE';
