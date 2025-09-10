@@ -3,9 +3,9 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
+import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../src/utility/raceType';
 import { CalendarData } from '../../domain/calendarData';
-import { RaceEntityForAWS } from '../../repository/entity/raceEntity';
 import { SearchCalendarFilterEntityForAWS } from '../../repository/entity/searchCalendarFilterEntity';
 import { ICalendarRepositoryForAWS } from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';
@@ -49,9 +49,7 @@ export class CalendarServiceForAWS implements ICalendarServiceForAWS {
      * @param raceEntityList - 登録・更新するレースエンティティ配列
      */
     @Logger
-    public async upsertEvents(
-        raceEntityList: RaceEntityForAWS[],
-    ): Promise<void> {
+    public async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
         await this.calendarRepository.upsertEvents(raceEntityList);
     }
 

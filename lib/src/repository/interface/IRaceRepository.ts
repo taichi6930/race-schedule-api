@@ -1,5 +1,5 @@
+import type { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import type { RaceType } from '../../../../src/utility/raceType';
-import type { RaceEntityForAWS } from '../entity/raceEntity';
 import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
 
 /**
@@ -44,7 +44,7 @@ export interface IRaceRepositoryForAWS {
      */
     fetchRaceEntityList: (
         searchFilter: SearchRaceFilterEntityForAWS,
-    ) => Promise<RaceEntityForAWS[]>;
+    ) => Promise<RaceEntity[]>;
 
     /**
      * レース開催データを一括で登録/更新します
@@ -61,11 +61,11 @@ export interface IRaceRepositoryForAWS {
      */
     registerRaceEntityList: (
         raceType: RaceType,
-        raceEntityList: RaceEntityForAWS[],
+        raceEntityList: RaceEntity[],
     ) => Promise<{
         code: number;
         message: string;
-        successData: RaceEntityForAWS[];
-        failureData: RaceEntityForAWS[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }>;
 }

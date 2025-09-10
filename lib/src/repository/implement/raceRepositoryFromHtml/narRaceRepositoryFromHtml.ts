@@ -2,19 +2,18 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
 import { HorseRaceConditionData } from '../../../domain/houseRaceConditionData';
 import { RaceData } from '../../../domain/raceData';
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { processNarRaceName } from '../../../utility/createRaceName';
-import { getJSTDate } from '../../../utility/date';
 import { Logger } from '../../../utility/logger';
 import {
     GradeType,
     validateGradeType,
 } from '../../../utility/validateAndType/gradeType';
 import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
-import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../interface/IRaceRepository';
 
@@ -35,8 +34,8 @@ export class NarRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntityForAWS,
-    ): Promise<RaceEntityForAWS[]> {
-        const raceEntityList: RaceEntityForAWS[] = [];
+    ): Promise<RaceEntity[]> {
+        const raceEntityList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
         for (const placeEntity of placeEntityList) {
             raceEntityList.push(
@@ -49,14 +48,14 @@ export class NarRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
     @Logger
     public async fetchRaceListFromHtml(
         placeEntity: PlaceEntity,
-    ): Promise<RaceEntityForAWS[]> {
+    ): Promise<RaceEntity[]> {
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
                 placeEntity.placeData.raceType,
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );
-            const raceEntityList: RaceEntityForAWS[] = [];
+            const raceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             const raceTable = $('section.raceTable');
             const trs = raceTable.find('tr.data');
@@ -104,7 +103,7 @@ export class NarRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
                         grade,
                     });
                     raceEntityList.push(
-                        RaceEntityForAWS.createWithoutId(
+                        RaceEntity.createWithoutId(
                             RaceData.create(
                                 placeEntity.placeData.raceType,
                                 processedRaceName,
@@ -120,7 +119,6 @@ export class NarRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
                             ),
                             undefined, // stage は未指定
                             undefined, // racePlayerDataList は未指定
-                            getJSTDate(new Date()),
                         ),
                     );
                 } catch (error) {
@@ -230,12 +228,12 @@ export class NarRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntityForAWS[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntityForAWS[];
-        failureData: RaceEntityForAWS[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

@@ -1,13 +1,13 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
 import { HeldDayData } from '../../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../../domain/houseRaceConditionData';
 import { RaceData } from '../../../domain/raceData';
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { processJraRaceName } from '../../../utility/createRaceName';
-import { getJSTDate } from '../../../utility/date';
 import { Logger } from '../../../utility/logger';
 import { GradeType } from '../../../utility/validateAndType/gradeType';
 import { HeldDayTimes } from '../../../utility/validateAndType/heldDayTimes';
@@ -18,7 +18,6 @@ import {
 } from '../../../utility/validateAndType/raceCourse';
 import { RaceDistance } from '../../../utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
-import { RaceEntityForAWS } from '../../entity/raceEntity';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../interface/IRaceRepository';
 
@@ -36,8 +35,8 @@ export class JraRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntityForAWS,
-    ): Promise<RaceEntityForAWS[]> {
-        const jraRaceEntityList: RaceEntityForAWS[] = [];
+    ): Promise<RaceEntity[]> {
+        const jraRaceEntityList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
         // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
         const filteredPlaceDataList = placeEntityList
@@ -58,7 +57,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
     public async fetchRaceListFromHtml(
         raceType: RaceType,
         raceDate: Date,
-    ): Promise<RaceEntityForAWS[]> {
+    ): Promise<RaceEntity[]> {
         try {
             // レース情報を取得
             const htmlText: string =
@@ -66,7 +65,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
                     raceType,
                     raceDate,
                 );
-            const raceEntityList: RaceEntityForAWS[] = [];
+            const raceEntityList: RaceEntity[] = [];
 
             // mockHTML内のsection id="raceInfo"の中のtableを取得
             // HTMLをパースする
@@ -186,7 +185,7 @@ export class JraRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
                             grade: raceGrade,
                         });
 
-                        const jraRaceData = RaceEntityForAWS.createWithoutId(
+                        const jraRaceData = RaceEntity.createWithoutId(
                             RaceData.create(
                                 raceType,
                                 raceName,
@@ -202,7 +201,6 @@ export class JraRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
                             ),
                             undefined, // stage は未指定
                             undefined, // racePlayerDataList は未指定
-                            getJSTDate(new Date()),
                         );
                         raceEntityList.push(jraRaceData);
                     });
@@ -447,12 +445,12 @@ export class JraRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntityForAWS[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntityForAWS[];
-        failureData: RaceEntityForAWS[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));

@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import type { CalendarData } from '../../domain/calendarData';
 import type { ICalendarGatewayForAWS } from '../../gateway/interface/iCalendarGateway';
 import {
@@ -9,7 +10,6 @@ import {
     toGoogleCalendarDataForAWS,
 } from '../../utility/googleCalendar';
 import { Logger } from '../../utility/logger';
-import { RaceEntityForAWS } from '../entity/raceEntity';
 import { SearchCalendarFilterEntityForAWS } from '../entity/searchCalendarFilterEntity';
 import type { ICalendarRepositoryForAWS } from '../interface/ICalendarRepository';
 
@@ -67,9 +67,7 @@ export class GoogleCalendarRepositoryForAWS
      * @param raceEntityList
      */
     @Logger
-    public async upsertEvents(
-        raceEntityList: RaceEntityForAWS[],
-    ): Promise<void> {
+    public async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(
             raceEntityList.map(async (raceEntity) => {

@@ -1,46 +1,108 @@
+import type { HeldDayData } from '../../../lib/src/domain/heldDayData';
 import type { HorseRaceConditionData } from '../../../lib/src/domain/houseRaceConditionData';
 import type { RaceData } from '../../../lib/src/domain/raceData';
+import type { RacePlayerData } from '../../../lib/src/domain/racePlayerData';
+import { HorseRacingRaceRecord } from '../../../lib/src/gateway/record/horseRacingRaceRecord';
+import { MechanicalRacingRaceRecord } from '../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
+import { RacePlayerRecord } from '../../../lib/src/gateway/record/racePlayerRecord';
+import { getJSTDate } from '../../../lib/src/utility/date';
 import type { RaceId } from '../../../lib/src/utility/validateAndType/raceId';
 import {
     generateRaceId,
     validateRaceId,
 } from '../../../lib/src/utility/validateAndType/raceId';
+import { generateRacePlayerId } from '../../../lib/src/utility/validateAndType/racePlayerId';
+import type { RaceStage } from '../../../lib/src/utility/validateAndType/raceStage';
 import { RaceType } from '../../utility/raceType';
 
 /**
- * 競馬のレース開催データ
+ * レース開催データ
  */
 export class RaceEntity {
+    private readonly _heldDayData: HeldDayData | undefined;
     private readonly _conditionData: HorseRaceConditionData | undefined;
+    private readonly _stage: RaceStage | undefined;
+    private readonly _racePlayerDataList: RacePlayerData[] | undefined;
 
     /**
      * コンストラクタ
      * @param id - ID
      * @param raceData - レースデータ
+     * @param heldDayData - 開催日データ
      * @param conditionData - レース条件データ
+     * @param stage - レースステージ
+     * @param racePlayerDataList - レース出走メンバーデータリスト
+     * @param updateDate - 更新日時
      * @remarks
      * レース開催データを生成する
      */
     private constructor(
         public readonly id: RaceId,
         public readonly raceData: RaceData,
+        heldDayData: HeldDayData | undefined,
         conditionData: HorseRaceConditionData | undefined,
+        stage: RaceStage | undefined,
+        racePlayerDataList: RacePlayerData[] | undefined,
     ) {
+        this._heldDayData = heldDayData;
         this._conditionData = conditionData;
+        this._stage = stage;
+        this._racePlayerDataList = racePlayerDataList;
     }
 
     /**
      * インスタンス生成メソッド
      * @param id - ID
      * @param raceData - レースデータ
+     * @param heldDayData - 開催日データ
      * @param conditionData - レース条件データ
+     * @param stage
+     * @param racePlayerDataList
+     * @param updateDate - 更新日時
      */
     public static create(
         id: string,
         raceData: RaceData,
+        heldDayData: HeldDayData | undefined,
         conditionData: HorseRaceConditionData | undefined,
+        stage: RaceStage | undefined,
+        racePlayerDataList: RacePlayerData[] | undefined,
     ): RaceEntity {
         try {
+            if (
+                (raceData.raceType === RaceType.JRA &&
+                    heldDayData === undefined) ||
+                (raceData.raceType !== RaceType.JRA &&
+                    heldDayData !== undefined)
+            ) {
+                throw new Error(`HeldDayData is incorrect`);
+            }
+            // placeData.raceType が KEIRIN, AUTORACE, BOATRACE の場合, stageがundefinedの時はエラー
+            if (
+                ((raceData.raceType === RaceType.KEIRIN ||
+                    raceData.raceType === RaceType.AUTORACE ||
+                    raceData.raceType === RaceType.BOATRACE) &&
+                    stage === undefined) ||
+                ((raceData.raceType === RaceType.JRA ||
+                    raceData.raceType === RaceType.NAR ||
+                    raceData.raceType === RaceType.OVERSEAS) &&
+                    stage !== undefined)
+            ) {
+                throw new Error(`Stage is incorrect`);
+            }
+            // placeData.raceType が KEIRIN, AUTORACE, BOATRACE の場合, racePlayerDataListがundefinedの時はエラー
+            if (
+                ((raceData.raceType === RaceType.KEIRIN ||
+                    raceData.raceType === RaceType.AUTORACE ||
+                    raceData.raceType === RaceType.BOATRACE) &&
+                    racePlayerDataList === undefined) ||
+                ((raceData.raceType === RaceType.JRA ||
+                    raceData.raceType === RaceType.NAR ||
+                    raceData.raceType === RaceType.OVERSEAS) &&
+                    racePlayerDataList !== undefined)
+            ) {
+                throw new Error(`racePlayerDataList is incorrect`);
+            }
             if (
                 ((raceData.raceType === RaceType.JRA ||
                     raceData.raceType === RaceType.NAR ||
@@ -56,13 +118,19 @@ export class RaceEntity {
             return new RaceEntity(
                 validateRaceId(raceData.raceType, id),
                 raceData,
+                heldDayData,
                 conditionData,
+                stage,
+                racePlayerDataList,
             );
         } catch {
             throw new Error(`Failed to create RaceEntity:
                 id: ${id},
                 raceData: ${JSON.stringify(raceData)},
-                conditionData: ${JSON.stringify(conditionData)}
+                heldDayData: ${JSON.stringify(heldDayData)},
+                conditionData: ${JSON.stringify(conditionData)},
+                stage: ${JSON.stringify(stage)},
+                racePlayerDataList: ${JSON.stringify(racePlayerDataList)}
             `);
         }
     }
@@ -70,11 +138,18 @@ export class RaceEntity {
     /**
      * idがない場合でのcreate
      * @param raceData - レースデータ
+     * @param heldDayData - 開催日データ
      * @param conditionData - レース条件データ
+     * @param stage
+     * @param racePlayerDataList
+     * @param updateDate - 更新日時
      */
     public static createWithoutId(
         raceData: RaceData,
+        heldDayData: HeldDayData | undefined,
         conditionData: HorseRaceConditionData | undefined,
+        stage: RaceStage | undefined,
+        racePlayerDataList: RacePlayerData[] | undefined,
     ): RaceEntity {
         return RaceEntity.create(
             generateRaceId(
@@ -84,7 +159,10 @@ export class RaceEntity {
                 raceData.number,
             ),
             raceData,
+            heldDayData,
             conditionData,
+            stage,
+            racePlayerDataList,
         );
     }
 
@@ -96,8 +174,65 @@ export class RaceEntity {
         return RaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
+            partial.heldDayData ?? this._heldDayData,
             partial.conditionData ?? this._conditionData,
+            partial.stage ?? this._stage,
+            partial.racePlayerDataList ?? this._racePlayerDataList,
         );
+    }
+
+    /**
+     * JRA のみ有効な heldDayData のアクセサ
+     * raceType が JRA 以外の場合にアクセスされると例外を投げる
+     */
+    public get heldDayData(): HeldDayData {
+        if (this.raceData.raceType !== RaceType.JRA) {
+            throw new Error('heldDayData is only available for JRA');
+        }
+        if (this._heldDayData === undefined) {
+            throw new Error('heldDayData is missing for JRA');
+        }
+        return this._heldDayData;
+    }
+
+    /**
+     * KEIRIN, AUTORACE, BOATRACE のみ有効な grade のアクセサ
+     * それ以外の raceType でアクセスされると例外を投げる
+     */
+    public get stage(): RaceStage {
+        if (
+            this.raceData.raceType !== RaceType.KEIRIN &&
+            this.raceData.raceType !== RaceType.AUTORACE &&
+            this.raceData.raceType !== RaceType.BOATRACE
+        ) {
+            throw new Error(
+                'stage is only available for KEIRIN/AUTORACE/BOATRACE',
+            );
+        }
+        if (this._stage === undefined) {
+            throw new Error('stage is missing for this race type');
+        }
+        return this._stage;
+    }
+
+    /**
+     * KEIRIN, AUTORACE, BOATRACE のみ有効な grade のアクセサ
+     * それ以外の raceType でアクセスされると例外を投げる
+     */
+    public get racePlayerDataList(): RacePlayerData[] {
+        if (
+            this.raceData.raceType !== RaceType.KEIRIN &&
+            this.raceData.raceType !== RaceType.AUTORACE &&
+            this.raceData.raceType !== RaceType.BOATRACE
+        ) {
+            throw new Error(
+                'racePlayerDataList is only available for KEIRIN/AUTORACE/BOATRACE',
+            );
+        }
+        if (this._racePlayerDataList === undefined) {
+            throw new Error('racePlayerDataList is missing for this race type');
+        }
+        return this._racePlayerDataList;
     }
 
     /**
@@ -118,5 +253,62 @@ export class RaceEntity {
             throw new Error('conditionData is missing for this race type');
         }
         return this._conditionData;
+    }
+
+    /**
+     * MechanicalRacingRaceRecordに変換する
+     */
+    public toMechanicalRacingRaceRecord(): MechanicalRacingRaceRecord {
+        return MechanicalRacingRaceRecord.create(
+            this.id,
+            this.raceData.raceType,
+            this.raceData.name,
+            this.stage,
+            this.raceData.dateTime,
+            this.raceData.location,
+            this.raceData.grade,
+            this.raceData.number,
+            getJSTDate(new Date()),
+        );
+    }
+
+    /**
+     * RaceEntityをHorseRacingRaceRecordに変換する
+     */
+    public toHorseRacingRaceRecord(): HorseRacingRaceRecord {
+        return HorseRacingRaceRecord.create(
+            this.id,
+            this.raceData.raceType,
+            this.raceData.name,
+            this.raceData.dateTime,
+            this.raceData.location,
+            this.conditionData.surfaceType,
+            this.conditionData.distance,
+            this.raceData.grade,
+            this.raceData.number,
+            getJSTDate(new Date()),
+        );
+    }
+
+    /**
+     * RacePlayerRecordに変換する
+     */
+    public toPlayerRecordList(): RacePlayerRecord[] {
+        return this.racePlayerDataList.map((playerData) =>
+            RacePlayerRecord.create(
+                generateRacePlayerId(
+                    this.raceData.raceType,
+                    this.raceData.dateTime,
+                    this.raceData.location,
+                    this.raceData.number,
+                    playerData.positionNumber,
+                ),
+                this.raceData.raceType,
+                this.id,
+                playerData.positionNumber,
+                playerData.playerNumber,
+                getJSTDate(new Date()),
+            ),
+        );
     }
 }

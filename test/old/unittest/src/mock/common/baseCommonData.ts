@@ -5,12 +5,12 @@ import { PlaceData } from '../../../../../../lib/src/domain/placeData';
 import { RaceData } from '../../../../../../lib/src/domain/raceData';
 import { RacePlayerData } from '../../../../../../lib/src/domain/racePlayerData';
 import { PlaceRecord } from '../../../../../../lib/src/gateway/record/placeRecord';
-import { RaceEntityForAWS } from '../../../../../../lib/src/repository/entity/raceEntity';
 import { getJSTDate } from '../../../../../../lib/src/utility/date';
 import { IS_SHORT_TEST } from '../../../../../../lib/src/utility/env';
 import { generatePlaceId } from '../../../../../../lib/src/utility/validateAndType/placeId';
 import { maxFrameNumber } from '../../../../../../lib/src/utility/validateAndType/positionNumber';
 import { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
+import { RaceEntity } from '../../../../../../src/repository/entity/raceEntity';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
     RACE_TYPE_LIST_HORSE_RACING_FOR_AWS,
@@ -85,14 +85,13 @@ export const baseConditionData = (
     );
 };
 
-export const baseRaceEntity = (raceType: RaceType): RaceEntityForAWS =>
-    RaceEntityForAWS.createWithoutId(
+export const baseRaceEntity = (raceType: RaceType): RaceEntity =>
+    RaceEntity.createWithoutId(
         baseRaceData(raceType),
         defaultHeldDayData[raceType],
         baseConditionData(raceType),
         defaultStage[raceType],
         baseRacePlayerDataList(raceType),
-        baseRaceUpdateDate,
     );
 
 export const baseCalendarData = (raceType: RaceType): CalendarData =>
@@ -134,7 +133,7 @@ export const baseCalendarDataFromGoogleCalendar = (
     };
 };
 
-export const baseRaceEntityList = (raceType: RaceType): RaceEntityForAWS[] => {
+export const baseRaceEntityList = (raceType: RaceType): RaceEntity[] => {
     switch (raceType) {
         case RaceType.JRA:
         case RaceType.NAR:
@@ -151,7 +150,7 @@ export const baseRaceEntityList = (raceType: RaceType): RaceEntityForAWS[] => {
 
 const baseMechanicalRacingRaceEntityList = (
     _raceType: RaceType,
-): RaceEntityForAWS[] =>
+): RaceEntity[] =>
     [
         { raceType: RaceType.KEIRIN, location: '平塚', grade: 'GP' },
         { raceType: RaceType.KEIRIN, location: '立川', grade: 'GⅠ' },
@@ -182,21 +181,18 @@ const baseMechanicalRacingRaceEntityList = (
                     grade,
                     index + 1,
                 );
-                return RaceEntityForAWS.createWithoutId(
+                return RaceEntity.createWithoutId(
                     raceData,
                     defaultHeldDayData[raceType],
                     baseConditionData(raceType),
                     stage,
                     baseRacePlayerDataList(raceType),
-                    baseRaceUpdateDate,
                 );
             });
         })
         .filter((entity) => entity !== 'undefined');
 
-const baseHorseRacingRaceEntityList = (
-    _raceType: RaceType,
-): RaceEntityForAWS[] =>
+const baseHorseRacingRaceEntityList = (_raceType: RaceType): RaceEntity[] =>
     [
         {
             raceType: RaceType.JRA,
@@ -310,7 +306,7 @@ const baseHorseRacingRaceEntityList = (
         .flatMap(({ raceType, location, gradeList }) => {
             return gradeList.map((grade, index) => {
                 if (raceType !== _raceType) return 'undefined';
-                return RaceEntityForAWS.createWithoutId(
+                return RaceEntity.createWithoutId(
                     RaceData.create(
                         raceType,
                         `テスト${location}${grade}${(index + 1).toString()}レース`,
@@ -323,11 +319,10 @@ const baseHorseRacingRaceEntityList = (
                     baseConditionData(raceType),
                     undefined, // stage は未指定
                     baseRacePlayerDataList(raceType),
-                    baseRaceUpdateDate,
                 );
             });
         })
-        .filter((entity): entity is RaceEntityForAWS => entity !== 'undefined');
+        .filter((entity): entity is RaceEntity => entity !== 'undefined');
 
 const createLocationString = (raceType: RaceType, location: string): string => {
     switch (raceType) {

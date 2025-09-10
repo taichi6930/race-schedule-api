@@ -1,12 +1,11 @@
+import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../src/utility/raceType';
 import {
     baseConditionData,
     defaultHeldDayData,
 } from '../../../../test/old/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
-import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { RaceEntityForAWS } from '../entity/raceEntity';
 import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../interface/IRaceRepository';
 
@@ -16,9 +15,9 @@ export class MockHorseRacingRaceRepositoryFromHtml
     @Logger
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntityForAWS,
-    ): Promise<RaceEntityForAWS[]> {
+    ): Promise<RaceEntity[]> {
         const { placeEntityList } = searchFilter;
-        const raceEntityList: RaceEntityForAWS[] = [];
+        const raceEntityList: RaceEntity[] = [];
         const { raceType, startDate } = searchFilter;
         if (raceType === RaceType.NAR || raceType === RaceType.JRA) {
             for (const placeEntity of placeEntityList) {
@@ -28,7 +27,7 @@ export class MockHorseRacingRaceRepositoryFromHtml
                     const raceDate = new Date(dateTime);
                     raceDate.setHours(raceNumber + 9, 0, 0, 0);
                     raceEntityList.push(
-                        RaceEntityForAWS.createWithoutId(
+                        RaceEntity.createWithoutId(
                             RaceData.create(
                                 raceType,
                                 `${location}第${raceNumber.toString()}R`,
@@ -41,7 +40,6 @@ export class MockHorseRacingRaceRepositoryFromHtml
                             baseConditionData(raceType),
                             undefined, // stage は未指定
                             undefined, // racePlayerDataList は未指定
-                            getJSTDate(new Date()),
                         ),
                     );
                 }
@@ -52,7 +50,7 @@ export class MockHorseRacingRaceRepositoryFromHtml
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
                     raceEntityList.push(
-                        RaceEntityForAWS.createWithoutId(
+                        RaceEntity.createWithoutId(
                             RaceData.create(
                                 raceType,
                                 `第${i.toString()}R`,
@@ -70,7 +68,6 @@ export class MockHorseRacingRaceRepositoryFromHtml
                             baseConditionData(raceType),
                             undefined, // stage は未指定
                             undefined, // racePlayerDataList は未指定
-                            getJSTDate(new Date()),
                         ),
                     );
                 }
@@ -84,12 +81,12 @@ export class MockHorseRacingRaceRepositoryFromHtml
     @Logger
     public async registerRaceEntityList(
         raceType: RaceType,
-        raceEntityList: RaceEntityForAWS[],
+        raceEntityList: RaceEntity[],
     ): Promise<{
         code: number;
         message: string;
-        successData: RaceEntityForAWS[];
-        failureData: RaceEntityForAWS[];
+        successData: RaceEntity[];
+        failureData: RaceEntity[];
     }> {
         console.debug(raceType, raceEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
