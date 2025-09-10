@@ -5,7 +5,6 @@ import {
     defaultLocation,
 } from '../../../../test/old/unittest/src/mock/common/baseCommonData';
 import { PlaceData } from '../../domain/placeData';
-import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepository';
@@ -31,7 +30,6 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepositoryForAWS {
                 ),
                 defaultHeldDayData[searchFilter.raceType],
                 this.defaultGrade[searchFilter.raceType],
-                getJSTDate(new Date()),
             );
             placeEntityList.push(placeEntity);
             currentDate.setDate(currentDate.getDate() + 1);

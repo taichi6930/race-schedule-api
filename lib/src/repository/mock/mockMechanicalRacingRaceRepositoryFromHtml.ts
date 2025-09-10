@@ -2,7 +2,6 @@ import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../src/utility/raceType';
 import { baseRacePlayerDataList } from '../../../../test/old/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
-import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { RaceStage } from '../../utility/validateAndType/raceStage';
 import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
@@ -39,7 +38,6 @@ export class MockMechanicalRacingRaceRepositoryFromHtml
                         undefined, // conditionDataは未設定
                         this.createStage(raceType, raceNumber),
                         baseRacePlayerDataList(raceType),
-                        getJSTDate(new Date()),
                     ),
                 );
             }
