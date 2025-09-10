@@ -55,6 +55,20 @@ runs:
         pnpm run wrangler:d1:migrations:apply:local || true
       shell: bash
 
+    - name: Debug .env and runner ENV (temp)
+      run: |
+        echo "Listing .env file (if present):"
+        ls -la .env || true
+        echo "--- .env contents ---"
+        sed -n '1,200p' .env || true
+        echo "--- node process.env.ENV (from runner) ---"
+        node -e "console.log(process.env.ENV || '')" || true
+        echo "--- shell export and printenv check ---"
+        export ENV=GITHUB_ACTIONS_CI
+        echo "exported ENV=$ENV"
+        printenv | grep -i '^ENV=' || true
+      shell: bash
+
     - name: Create .env (temp)
       run: |
         printf '%s
