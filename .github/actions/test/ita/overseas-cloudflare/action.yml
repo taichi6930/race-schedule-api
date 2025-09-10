@@ -81,7 +81,7 @@ runs:
         ENV=GITHUB_ACTIONS_CI TZ=Asia/Tokyo pnpm run dev:cloudflare:local &
         # wait for health endpoint
         for i in {1..24}; do
-          curl --silent --head http://127.0.0.1:8787/health && break || true
+          curl --silent --head http://localhost:8787/health && break || true
           echo "Waiting for wrangler dev to start... ($i)"
           sleep 5
         done
@@ -89,12 +89,12 @@ runs:
 
     - name: Simple health check
       run: |
-        curl -sS --fail http://127.0.0.1:8787/health
+        curl -sS --fail http://localhost:8787/health
       shell: bash
 
     - name: Curl API for Overseas Race
       run: |
-        BASE=http://127.0.0.1:8787
+        BASE=http://localhost:8787
 
         # Initial GET request
         response=$(curl -s -X 'GET' "${BASE}/race?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
@@ -130,7 +130,7 @@ runs:
 
     - name: Curl API for Overseas Calendar
       run: |
-        BASE=http://127.0.0.1:8787
+        BASE=http://localhost:8787
 
         # Initial GET request
         response=$(curl -s -X 'GET' "${BASE}/calendar?startDate=2024-10-01&finishDate=2024-11-01&raceType=overseas" -H 'accept: application/json')
