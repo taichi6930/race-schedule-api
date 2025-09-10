@@ -44,22 +44,22 @@ export class RaceController {
 
             // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const gradeList =
-                typeof gradeParam === 'string'
+                (typeof gradeParam === 'string'
                     ? [gradeParam]
                     : typeof gradeParam === 'object'
                       ? Array.isArray(gradeParam)
                           ? gradeParam.map((g: string) => g)
                           : undefined
-                      : undefined;
+                      : undefined) ?? [];
 
             const locationList =
-                typeof locationParam === 'string'
+                (typeof locationParam === 'string'
                     ? [locationParam]
                     : typeof locationParam === 'object'
                       ? Array.isArray(locationParam)
                           ? locationParam.map((l: string) => l)
                           : undefined
-                      : undefined;
+                      : undefined) ?? [];
 
             const stageList =
                 typeof stageParam === 'string'
@@ -101,37 +101,21 @@ export class RaceController {
                 new Date(startDateParam),
                 new Date(finishDateParam),
                 raceTypeList,
+                locationList,
+                gradeList,
             );
 
             const raceEntityList = await this.usecase.fetchRaceEntityList(
                 commonParameter,
                 searchRaceFilter,
                 {
-                    [RaceType.JRA]: {
-                        gradeList,
-                        locationList,
-                    },
-                    [RaceType.NAR]: {
-                        gradeList,
-                        locationList,
-                    },
-                    [RaceType.OVERSEAS]: {
-                        gradeList,
-                        locationList,
-                    },
                     [RaceType.KEIRIN]: {
-                        gradeList,
-                        locationList,
                         stageList,
                     },
                     [RaceType.AUTORACE]: {
-                        gradeList,
-                        locationList,
                         stageList,
                     },
                     [RaceType.BOATRACE]: {
-                        gradeList,
-                        locationList,
                         stageList,
                     },
                 },
@@ -178,7 +162,7 @@ export class RaceController {
                     headers: this.corsHeaders,
                 });
             }
-            const { raceType, startDate, finishDate } = body;
+            const { raceType, startDate, finishDate, location, grade } = body;
 
             // raceTypeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const raceTypeList = convertRaceTypeList(
@@ -209,10 +193,30 @@ export class RaceController {
                     headers: this.corsHeaders,
                 });
             }
+            const locationList =
+                (typeof location === 'string'
+                    ? [location]
+                    : typeof location === 'object'
+                      ? Array.isArray(location)
+                          ? (location as string[]).map((r: string) => r)
+                          : undefined
+                      : undefined) ?? [];
+
+            const gradeList =
+                (typeof grade === 'string'
+                    ? [grade]
+                    : typeof grade === 'object'
+                      ? Array.isArray(grade)
+                          ? (grade as string[]).map((r: string) => r)
+                          : undefined
+                      : undefined) ?? [];
+
             const searchRaceFilter = new SearchRaceFilterEntity(
                 new Date(startDate),
                 new Date(finishDate),
                 raceTypeList,
+                locationList,
+                gradeList,
             );
 
             await this.usecase.upsertRaceEntityList(

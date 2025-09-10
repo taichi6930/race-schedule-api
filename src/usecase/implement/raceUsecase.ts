@@ -13,7 +13,8 @@ import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import {
     RACE_TYPE_LIST_ALL,
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
+    RACE_TYPE_LIST_HORSE_RACING,
+    RACE_TYPE_LIST_MECHANICAL_RACING,
     RaceType,
 } from '../../utility/raceType';
 import { IRaceUseCase } from '../interface/IRaceUsecase';
@@ -34,29 +35,23 @@ export class RaceUseCase implements IRaceUseCase {
         searchList?: {
             [RaceType.JRA]?: {
                 gradeList?: GradeType[];
-                locationList?: RaceCourse[];
             };
             [RaceType.NAR]?: {
                 gradeList?: GradeType[];
-                locationList?: RaceCourse[];
             };
             [RaceType.OVERSEAS]?: {
                 gradeList?: GradeType[];
-                locationList?: RaceCourse[];
             };
             [RaceType.KEIRIN]?: {
                 gradeList?: GradeType[];
-                locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
             [RaceType.AUTORACE]?: {
                 gradeList?: GradeType[];
-                locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
             [RaceType.BOATRACE]?: {
                 gradeList?: GradeType[];
-                locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
         },
@@ -82,11 +77,6 @@ export class RaceUseCase implements IRaceUseCase {
                             searchFilter.gradeList?.length === 0 ||
                             searchFilter.gradeList?.includes(
                                 raceEntity.raceData.grade,
-                            )) &&
-                        (!searchFilter ||
-                            searchFilter.locationList?.length === 0 ||
-                            searchFilter.locationList?.includes(
-                                raceEntity.raceData.location,
                             ))
                         //    &&(!hasStageSupport ||
                         //         !searchFilter ||
@@ -106,26 +96,14 @@ export class RaceUseCase implements IRaceUseCase {
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
         searchList?: {
-            [RaceType.JRA]?: {
-                locationList?: RaceCourse[];
-            };
-            [RaceType.NAR]?: {
-                locationList?: RaceCourse[];
-            };
-            [RaceType.OVERSEAS]?: {
-                locationList?: RaceCourse[];
-            };
             [RaceType.KEIRIN]?: {
                 gradeList?: GradeType[];
-                locationList?: RaceCourse[];
             };
             [RaceType.AUTORACE]?: {
                 gradeList?: GradeType[];
-                locationList?: RaceCourse[];
             };
             [RaceType.BOATRACE]?: {
                 gradeList?: GradeType[];
-                locationList?: RaceCourse[];
             };
         },
     ): Promise<void> {
@@ -140,17 +118,21 @@ export class RaceUseCase implements IRaceUseCase {
             ),
             DataLocation.Storage,
         );
-        console.log('フィルタリング前', placeEntityList.length);
-        const filteredPlaceEntityList = RACE_TYPE_LIST_WITHOUT_OVERSEAS.flatMap(
-            (raceType) =>
+        const filteredPlaceEntityList = [
+            ...RACE_TYPE_LIST_HORSE_RACING.flatMap((raceType) =>
+                placeEntityList.filter(
+                    (item) => item.placeData.raceType === raceType,
+                ),
+            ),
+            ...RACE_TYPE_LIST_MECHANICAL_RACING.flatMap((raceType) =>
                 this.filterPlaceEntityList(
                     placeEntityList.filter(
                         (item) => item.placeData.raceType === raceType,
                     ),
                     searchList?.[raceType],
                 ),
-        );
-        console.log('フィルタリング後', filteredPlaceEntityList.length);
+            ),
+        ];
         const entityList: RaceEntity[] =
             await this.raceService.fetchRaceEntityList(
                 commonParameter,
@@ -206,11 +188,9 @@ export class RaceUseCase implements IRaceUseCase {
         list: T[],
         filter: {
             gradeList?: GradeType[];
-            locationList?: RaceCourse[];
         } = {},
     ): T[] {
-        let result = this.filterByGrade(list, filter.gradeList);
-        result = this.filterByLocation(result, filter.locationList);
+        const result = this.filterByGrade(list, filter.gradeList);
         return result;
     }
 }

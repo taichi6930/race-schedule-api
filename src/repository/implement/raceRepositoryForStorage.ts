@@ -36,7 +36,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         const { env } = commonParameter;
-        const { raceTypeList, startDate, finishDate, locationList } =
+        const { raceTypeList, startDate, finishDate, locationList, gradeList } =
             searchRaceFilter;
 
         const startDateFormatted = formatDate(startDate, 'yyyy-MM-dd');
@@ -58,6 +58,12 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             whereClause += ` AND place.location_name IN (${locationPlaceholders})`;
             queryParams.push(...locationList);
         }
+        if (gradeList.length > 0) {
+            const gradePlaceholders = gradeList.map(() => '?').join(', ');
+            whereClause += ` AND race.grade IN (${gradePlaceholders})`;
+            queryParams.push(...gradeList);
+        }
+
         const { results } = await env.DB.prepare(
             `
             SELECT
@@ -116,7 +122,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         const { env } = commonParameter;
-        const { raceTypeList, startDate, finishDate, locationList } =
+        const { raceTypeList, startDate, finishDate, locationList, gradeList } =
             searchRaceFilter;
 
         const startDateFormatted = formatDate(startDate, 'yyyy-MM-dd');
@@ -138,6 +144,13 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             whereClause += ` AND place.location_name IN (${locationPlaceholders})`;
             queryParams.push(...locationList);
         }
+
+        if (gradeList.length > 0) {
+            const gradePlaceholders = gradeList.map(() => '?').join(', ');
+            whereClause += ` AND race.grade IN (${gradePlaceholders})`;
+            queryParams.push(...gradeList);
+        }
+
         const { results } = await env.DB.prepare(
             `
             SELECT
