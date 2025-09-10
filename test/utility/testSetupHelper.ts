@@ -11,18 +11,22 @@ import type { ICalendarServiceForAWS } from '../../lib/src/service/interface/ICa
 import type { IPlaceServiceForAWS } from '../../lib/src/service/interface/IPlaceService';
 import type { IPlayerServiceForAWS } from '../../lib/src/service/interface/IPlayerService';
 import type { IRaceServiceForAWS } from '../../lib/src/service/interface/IRaceService';
+import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { ICalendarService } from '../../src/service/interface/ICalendarService';
 import type { IPlaceService } from '../../src/service/interface/IPlaceService';
 import type { IPlayerService } from '../../src/service/interface/IPlayerService';
 import type { IRaceService } from '../../src/service/interface/IRaceService';
 import { mockGoogleCalendarGateway } from '../old/unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockS3Gateway } from '../old/unittest/src/mock/gateway/mockS3Gateway';
-import { mockCalendarRepository } from '../old/unittest/src/mock/repository/mockCalendarRepository';
-import { mockPlaceRepository } from '../old/unittest/src/mock/repository/mockPlaceRepository';
-import { mockRaceRepository } from '../old/unittest/src/mock/repository/mockRaceRepository';
+import { mockCalendarRepositoryForAWS } from '../old/unittest/src/mock/repository/mockCalendarRepository';
+import {
+    mockPlaceRepository,
+    mockPlaceRepositoryForAWS,
+} from '../old/unittest/src/mock/repository/mockPlaceRepository';
+import { mockRaceRepositoryForAWS } from '../old/unittest/src/mock/repository/mockRaceRepository';
 import { calendarServiceForAWSMock } from '../old/unittest/src/mock/service/calendarServiceMock';
 import { placeServiceForAWSMock } from '../old/unittest/src/mock/service/placeServiceMock';
-import { playerDataServiceMock as playerServiceForAWSMock } from '../old/unittest/src/mock/service/playerDataServiceMock';
+import { playerDataServiceForAWSMock as playerServiceForAWSMock } from '../old/unittest/src/mock/service/playerDataServiceMock';
 import { raceDataServiceForAWSMock } from '../old/unittest/src/mock/service/raceDataServiceMock';
 import { calendarServiceMock } from '../unittest/src/mock/service/calendarServiceMock';
 import { placeServiceMock } from '../unittest/src/mock/service/placeServiceMock';
@@ -39,7 +43,7 @@ export function clearMocks(): void {
 /**
  * テスト用のセットアップ
  */
-export interface TestRepositorySetup {
+export interface TestRepositoryForAWSSetup {
     calendarRepository: jest.Mocked<ICalendarRepositoryForAWS>;
     placeRepositoryFromStorage: jest.Mocked<IPlaceRepositoryForAWS>;
     placeRepositoryFromHtml: jest.Mocked<IPlaceRepositoryForAWS>;
@@ -51,6 +55,11 @@ export interface TestRepositorySetup {
     keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
     boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
     autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
+}
+
+export interface TestRepositorySetup {
+    placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
+    placeRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
 }
 
 /**
@@ -79,61 +88,62 @@ export interface TestServiceSetup {
  * テスト用のセットアップ
  * @returns セットアップ済みのサービス
  */
-export function setupTestRepositoryMock(): TestRepositorySetup {
-    const horseRacingRaceRepositoryFromStorage = mockRaceRepository();
+export function setupTestRepositoryForAWSMock(): TestRepositoryForAWSSetup {
+    const horseRacingRaceRepositoryFromStorage = mockRaceRepositoryForAWS();
     container.registerInstance<IRaceRepositoryForAWS>(
         'HorseRacingRaceRepositoryFromStorage',
         horseRacingRaceRepositoryFromStorage,
     );
-    const jraRaceRepositoryFromHtml = mockRaceRepository();
+    const jraRaceRepositoryFromHtml = mockRaceRepositoryForAWS();
     container.registerInstance<IRaceRepositoryForAWS>(
         'JraRaceRepositoryFromHtml',
         jraRaceRepositoryFromHtml,
     );
-    const narRaceRepositoryFromHtml = mockRaceRepository();
+    const narRaceRepositoryFromHtml = mockRaceRepositoryForAWS();
     container.registerInstance<IRaceRepositoryForAWS>(
         'NarRaceRepositoryFromHtml',
         narRaceRepositoryFromHtml,
     );
-    const overseasRaceRepositoryFromHtml = mockRaceRepository();
+    const overseasRaceRepositoryFromHtml = mockRaceRepositoryForAWS();
     container.registerInstance<IRaceRepositoryForAWS>(
         'OverseasRaceRepositoryFromHtml',
         overseasRaceRepositoryFromHtml,
     );
 
-    const mechanicalRacingRaceRepositoryFromStorage = mockRaceRepository();
+    const mechanicalRacingRaceRepositoryFromStorage =
+        mockRaceRepositoryForAWS();
     container.registerInstance<IRaceRepositoryForAWS>(
         'MechanicalRacingRaceRepositoryFromStorage',
         mechanicalRacingRaceRepositoryFromStorage,
     );
 
-    const keirinRaceRepositoryFromHtml = mockRaceRepository();
+    const keirinRaceRepositoryFromHtml = mockRaceRepositoryForAWS();
     container.registerInstance<IRaceRepositoryForAWS>(
         'KeirinRaceRepositoryFromHtml',
         keirinRaceRepositoryFromHtml,
     );
 
-    const boatraceRaceRepositoryFromHtml = mockRaceRepository();
+    const boatraceRaceRepositoryFromHtml = mockRaceRepositoryForAWS();
     container.registerInstance<IRaceRepositoryForAWS>(
         'BoatraceRaceRepositoryFromHtml',
         boatraceRaceRepositoryFromHtml,
     );
 
-    const autoraceRaceRepositoryFromHtml = mockRaceRepository();
+    const autoraceRaceRepositoryFromHtml = mockRaceRepositoryForAWS();
     container.registerInstance<IRaceRepositoryForAWS>(
         'AutoraceRaceRepositoryFromHtml',
         autoraceRaceRepositoryFromHtml,
     );
 
-    const calendarRepository = mockCalendarRepository();
+    const calendarRepository = mockCalendarRepositoryForAWS();
     container.registerInstance('CalendarRepository', calendarRepository);
 
-    const placeRepositoryFromStorage = mockPlaceRepository();
+    const placeRepositoryFromStorage = mockPlaceRepositoryForAWS();
     container.registerInstance<IPlaceRepositoryForAWS>(
         'PlaceRepositoryFromStorage',
         placeRepositoryFromStorage,
     );
-    const placeRepositoryFromHtml = mockPlaceRepository();
+    const placeRepositoryFromHtml = mockPlaceRepositoryForAWS();
     container.registerInstance<IPlaceRepositoryForAWS>(
         'PlaceRepositoryFromHtml',
         placeRepositoryFromHtml,
@@ -150,6 +160,27 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
         keirinRaceRepositoryFromHtml,
         boatraceRaceRepositoryFromHtml,
         autoraceRaceRepositoryFromHtml,
+    };
+}
+
+/**
+ * テスト用のセットアップ
+ * @returns セットアップ済みのサービス
+ */
+export function setupTestRepositoryMock(): TestRepositorySetup {
+    const placeRepositoryFromStorage = mockPlaceRepository();
+    container.registerInstance<IPlaceRepository>(
+        'PlaceRepositoryFromStorage',
+        placeRepositoryFromStorage,
+    );
+    const placeRepositoryFromHtml = mockPlaceRepository();
+    container.registerInstance<IPlaceRepository>(
+        'PlaceRepositoryFromHtml',
+        placeRepositoryFromHtml,
+    );
+    return {
+        placeRepositoryFromStorage,
+        placeRepositoryFromHtml,
     };
 }
 

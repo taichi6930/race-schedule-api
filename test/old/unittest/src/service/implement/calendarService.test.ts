@@ -10,18 +10,18 @@ import {
     mockRaceEntityList,
     testRaceTypeListAll,
 } from '../../../../../unittest/src/mock/common/baseCommonData';
-import type { TestRepositorySetup } from '../../../../../utility/testSetupHelper';
+import type { TestRepositoryForAWSSetup } from '../../../../../utility/testSetupHelper';
 import {
     clearMocks,
-    setupTestRepositoryMock,
+    setupTestRepositoryForAWSMock,
 } from '../../../../../utility/testSetupHelper';
 
 describe('CalendarService', () => {
     let service: ICalendarServiceForAWS;
-    let repositorySetup: TestRepositorySetup;
+    let repositorySetup: TestRepositoryForAWSSetup;
 
     beforeEach(() => {
-        repositorySetup = setupTestRepositoryMock();
+        repositorySetup = setupTestRepositoryForAWSMock();
         service = container.resolve(CalendarServiceForAWS);
     });
 
