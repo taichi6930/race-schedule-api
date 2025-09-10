@@ -22,9 +22,16 @@ runs:
         name = "race-schedule-local"
         main = "./lib/src/index.ts"
         compatibility_date = "2025-01-01"
+
+        [env.development]
+        main = "./lib/src/index.ts"
+        compatibility_date = "2025-01-01"
+
         [[d1_databases]]
         binding = "MY_DB"
         database_name = "my-database"
+        # For wrangler config, d1 database bindings require a database_id field
+        database_id = "my-database"
         TOML
       shell: bash
 
