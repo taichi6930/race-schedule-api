@@ -54,6 +54,7 @@ export class HorseRacingRaceRepositoryFromStorage
             return filteredRaceRecordList.map((raceRecord) =>
                 RaceEntity.create(
                     raceRecord.id,
+                    raceRecord.toPlaceId(),
                     raceRecord.toRaceData(),
                     undefined,
                     raceRecord.toHorseRaceConditionData(),
@@ -95,6 +96,7 @@ export class HorseRacingRaceRepositoryFromStorage
                 ({ raceRecord, heldDayRecord }) =>
                     RaceEntity.create(
                         raceRecord.id,
+                        raceRecord.toPlaceId(),
                         raceRecord.toRaceData(),
                         heldDayRecord.toHeldDayData(),
                         raceRecord.toHorseRaceConditionData(),

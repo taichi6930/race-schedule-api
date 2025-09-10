@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS race (
     id TEXT PRIMARY KEY,
+    place_id TEXT NOT NULL,
     race_type TEXT NOT NULL,
     race_name TEXT NOT NULL,
     date_time DATETIME NOT NULL,

@@ -138,6 +138,10 @@ export class HorseRacingRaceRecord {
         );
     }
 
+    public toPlaceId(): string {
+        return this.id.slice(0, -2);
+    }
+
     /**
      * HorseRaceConditionDataに変換する
      */
