@@ -124,10 +124,13 @@ export class NarRaceRepositoryFromHtml implements IRaceRepository {
                                 grade,
                                 raceNumber,
                             ),
+                            undefined, // heldDayData は未指定
                             HorseRaceConditionData.create(
                                 surfaceType,
                                 distance,
                             ),
+                            undefined, // stage は未指定
+                            undefined, // racePlayerDataList は未指定
                         ),
                     );
                 } catch (error) {

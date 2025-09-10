@@ -228,6 +228,8 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                             ),
                             place,
                         ),
+                        undefined, // TODO: heldDayDataを設定する
+                        undefined, // TODO: gradeを設定する
                     ),
                 );
             }

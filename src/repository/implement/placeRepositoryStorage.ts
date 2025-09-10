@@ -48,6 +48,8 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
             return PlaceEntity.create(
                 row.id,
                 PlaceData.create(row.race_type, dateJST, row.location_name),
+                undefined, // TODO: heldDayDataを設定する
+                undefined, // TODO: gradeを設定する
             );
         });
     }

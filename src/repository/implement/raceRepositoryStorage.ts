@@ -62,7 +62,10 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                     row.grade,
                     row.race_number,
                 ),
+                undefined, // TODO: heldDayDataを設定する
                 HorseRaceConditionData.create(row.surface_type, row.distance),
+                undefined, // TODO: stageを設定する
+                undefined, // TODO: racePlayerDataListを設定する
             );
         });
     }
