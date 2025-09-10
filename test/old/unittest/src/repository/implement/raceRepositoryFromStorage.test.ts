@@ -6,7 +6,6 @@ import path from 'node:path';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { RaceData } from '../../../../../../lib/src/domain/raceData';
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { HorseRacingRaceRepositoryFromStorage } from '../../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorage';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
@@ -15,6 +14,7 @@ import {
     IS_LARGE_AMOUNT_DATA_TEST,
     IS_SHORT_TEST,
 } from '../../../../../../lib/src/utility/env';
+import { RaceData } from '../../../../../../src/domain/raceData';
 import { RaceEntity } from '../../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import {

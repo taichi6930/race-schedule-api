@@ -1,5 +1,5 @@
+import type { CalendarData } from '../../../../src/domain/calendarData';
 import type { RaceEntity } from '../../../../src/repository/entity/raceEntity';
-import type { CalendarData } from '../../domain/calendarData';
 import type { SearchCalendarFilterEntityForAWS } from '../entity/searchCalendarFilterEntity';
 
 /**

@@ -1,7 +1,3 @@
-import type { HeldDayData } from '../../../lib/src/domain/heldDayData';
-import type { HorseRaceConditionData } from '../../../lib/src/domain/houseRaceConditionData';
-import type { RaceData } from '../../../lib/src/domain/raceData';
-import type { RacePlayerData } from '../../../lib/src/domain/racePlayerData';
 import { HorseRacingRaceRecord } from '../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { MechanicalRacingRaceRecord } from '../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../../lib/src/gateway/record/racePlayerRecord';
@@ -13,6 +9,10 @@ import {
 } from '../../../lib/src/utility/validateAndType/raceId';
 import { generateRacePlayerId } from '../../../lib/src/utility/validateAndType/racePlayerId';
 import type { RaceStage } from '../../../lib/src/utility/validateAndType/raceStage';
+import type { HeldDayData } from '../../domain/heldDayData';
+import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
+import type { RaceData } from '../../domain/raceData';
+import type { RacePlayerData } from '../../domain/racePlayerData';
 import { RaceType } from '../../utility/raceType';
 
 /**

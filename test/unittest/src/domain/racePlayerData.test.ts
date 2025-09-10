@@ -11,8 +11,8 @@
  * |7 |有効    |有効         |有効       |{} または undefined|全プロパティ同値|copyでpartial空|
  */
 
-import { RacePlayerData } from '../../../../../lib/src/domain/racePlayerData';
-import { testRaceTypeListMechanicalRacing } from '../../../../unittest/src/mock/common/baseCommonData';
+import { RacePlayerData } from '../../../../src/domain/racePlayerData';
+import { testRaceTypeListMechanicalRacing } from '../mock/common/baseCommonData';
 
 describe.each(testRaceTypeListMechanicalRacing)(
     'RacePlayerDataクラスのテスト(%s)',

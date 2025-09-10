@@ -1,7 +1,8 @@
 import '../../utility/format';
 
+import { HorseRaceConditionData } from '../../../../src/domain/houseRaceConditionData';
+import { RaceData } from '../../../../src/domain/raceData';
 import type { RaceType } from '../../../../src/utility/raceType';
-import { RaceData } from '../../domain/raceData';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { GradeType } from '../../utility/validateAndType/gradeType';
@@ -26,7 +27,6 @@ import {
     type RaceSurfaceType,
     validateRaceSurfaceType,
 } from '../../utility/validateAndType/raceSurfaceType';
-import { HorseRaceConditionData } from './../../domain/houseRaceConditionData';
 
 /**
  * 競馬のレース開催データ

@@ -1,5 +1,5 @@
 import type { RaceType } from '../../../../src/utility/raceType';
-import type { PlayerData } from '../../domain/playerData';
+import type { PlayerDataForAWS } from '../../domain/playerData';
 
 export interface IPlayerServiceForAWS {
     /**
@@ -12,5 +12,5 @@ export interface IPlayerServiceForAWS {
      * 指定レースタイプのプレイヤーデータを取得
      * @param raceType - レース種別
      */
-    fetchPlayerDataList: (raceType: RaceType) => Promise<PlayerData[]>;
+    fetchPlayerDataList: (raceType: RaceType) => Promise<PlayerDataForAWS[]>;
 }

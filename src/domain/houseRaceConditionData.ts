@@ -1,21 +1,9 @@
-import type { RaceDistance } from '../utility/validateAndType/raceDistance';
-import { validateRaceDistance } from '../utility/validateAndType/raceDistance';
-import type { RaceSurfaceType } from '../utility/validateAndType/raceSurfaceType';
-import { validateRaceSurfaceType } from '../utility/validateAndType/raceSurfaceType';
+import type { RaceDistance } from '../../lib/src/utility/validateAndType/raceDistance';
+import { validateRaceDistance } from '../../lib/src/utility/validateAndType/raceDistance';
+import type { RaceSurfaceType } from '../../lib/src/utility/validateAndType/raceSurfaceType';
+import { validateRaceSurfaceType } from '../../lib/src/utility/validateAndType/raceSurfaceType';
 
 export class HorseRaceConditionData {
-    /**
-     * 馬場種別
-     * @type {RaceSurfaceType}
-     */
-    public readonly surfaceType: RaceSurfaceType;
-
-    /**
-     * 距離
-     * @type {RaceDistance}
-     */
-    public readonly distance: RaceDistance;
-
     /**
      * コンストラクタ
      * @param surfaceType - 馬場種別
@@ -23,10 +11,10 @@ export class HorseRaceConditionData {
      * @remarks
      * 馬場種別と距離を指定してレース条件データを生成する
      */
-    private constructor(surfaceType: RaceSurfaceType, distance: RaceDistance) {
-        this.surfaceType = surfaceType;
-        this.distance = distance;
-    }
+    private constructor(
+        public readonly surfaceType: RaceSurfaceType,
+        public readonly distance: RaceDistance,
+    ) {}
 
     /**
      * インスタンス生成メソッド

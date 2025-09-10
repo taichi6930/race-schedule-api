@@ -1,10 +1,10 @@
+import { RaceData } from '../../../../src/domain/raceData';
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../src/utility/raceType';
 import {
     baseConditionData,
     defaultHeldDayData,
 } from '../../../../test/unittest/src/mock/common/baseCommonData';
-import { RaceData } from '../../domain/raceData';
 import { Logger } from '../../utility/logger';
 import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../interface/IRaceRepository';

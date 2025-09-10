@@ -1,11 +1,11 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { HeldDayData } from '../../../../../src/domain/heldDayData';
+import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceConditionData';
+import { RaceData } from '../../../../../src/domain/raceData';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
-import { HeldDayData } from '../../../domain/heldDayData';
-import { HorseRaceConditionData } from '../../../domain/houseRaceConditionData';
-import { RaceData } from '../../../domain/raceData';
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { processJraRaceName } from '../../../utility/createRaceName';
 import { Logger } from '../../../utility/logger';

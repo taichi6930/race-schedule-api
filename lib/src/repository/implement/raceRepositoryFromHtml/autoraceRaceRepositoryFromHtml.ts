@@ -4,10 +4,10 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { PlaceData } from '../../../../../src/domain/placeData';
+import { RaceData } from '../../../../../src/domain/raceData';
 import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
-import { RaceData } from '../../../domain/raceData';
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { Logger } from '../../../utility/logger';
 import { GradeType } from '../../../utility/validateAndType/gradeType';

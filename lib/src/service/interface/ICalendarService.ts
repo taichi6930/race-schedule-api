@@ -1,6 +1,6 @@
+import type { CalendarData } from '../../../../src/domain/calendarData';
 import type { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import type { RaceType } from '../../../../src/utility/raceType';
-import type { CalendarData } from '../../domain/calendarData';
 
 export interface ICalendarServiceForAWS {
     /**

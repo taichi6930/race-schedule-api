@@ -1,4 +1,4 @@
-import type { RaceType } from '../../../src/utility/raceType';
+import type { RaceType } from '../utility/raceType';
 
 /**
  * カレンダーのデータを表すクラス

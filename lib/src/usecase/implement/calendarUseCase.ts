@@ -2,6 +2,7 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { inject, injectable } from 'tsyringe';
 
+import { CalendarData } from '../../../../src/domain/calendarData';
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
@@ -9,8 +10,7 @@ import {
     RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
-import { CalendarData } from '../../domain/calendarData';
-import { PlayerData } from '../../domain/playerData';
+import { PlayerDataForAWS } from '../../domain/playerData';
 import { ICalendarServiceForAWS } from '../../service/interface/ICalendarService';
 import { IPlayerServiceForAWS } from '../../service/interface/IPlayerService';
 import { IRaceServiceForAWS } from '../../service/interface/IRaceService';
@@ -88,9 +88,9 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
 
         // 取得対象の公営競技種別を配列で定義し、並列で選手データを取得してオブジェクト化する
         const playerList: {
-            [RaceType.KEIRIN]: PlayerData[];
-            [RaceType.AUTORACE]: PlayerData[];
-            [RaceType.BOATRACE]: PlayerData[];
+            [RaceType.KEIRIN]: PlayerDataForAWS[];
+            [RaceType.AUTORACE]: PlayerDataForAWS[];
+            [RaceType.BOATRACE]: PlayerDataForAWS[];
         } = Object.fromEntries(
             await Promise.all(
                 RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS.map(
@@ -201,7 +201,7 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
         raceType: RaceType,
         raceEntityList: RaceEntity[],
         displayGradeList: GradeType[],
-        playerDataList: PlayerData[],
+        playerDataList: PlayerDataForAWS[],
     ): RaceEntity[] {
         const filteredRaceEntityList: RaceEntity[] = raceEntityList.filter(
             (raceEntity) => {

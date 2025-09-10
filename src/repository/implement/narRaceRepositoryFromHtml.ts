@@ -1,14 +1,14 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { HorseRaceConditionData } from '../../../lib/src/domain/houseRaceConditionData';
-import { RaceData } from '../../../lib/src/domain/raceData';
 import { processNarRaceName } from '../../../lib/src/utility/createRaceName';
 import {
     GradeType,
     validateGradeType,
 } from '../../../lib/src/utility/validateAndType/gradeType';
 import { RaceSurfaceType } from '../../../lib/src/utility/validateAndType/raceSurfaceType';
+import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
+import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';

@@ -1,28 +1,16 @@
 import {
     type HeldDayTimes,
     validateHeldDayTimes,
-} from '../utility/validateAndType/heldDayTimes';
+} from '../../lib/src/utility/validateAndType/heldDayTimes';
 import {
     type HeldTimes,
     validateHeldTimes,
-} from '../utility/validateAndType/heldTimes';
+} from '../../lib/src/utility/validateAndType/heldTimes';
 
 /**
  * 競馬の開催日データ
  */
 export class HeldDayData {
-    /**
-     * 開催回数
-     * @type {HeldTimes}
-     */
-    public readonly heldTimes: HeldTimes;
-
-    /**
-     * 開催日数
-     * @type {HeldDayTimes}
-     */
-    public readonly heldDayTimes: HeldDayTimes;
-
     /**
      * コンストラクタ
      * @param heldTimes - 開催回数
@@ -30,10 +18,10 @@ export class HeldDayData {
      * @remarks
      * レース開催データを生成する
      */
-    private constructor(heldTimes: HeldTimes, heldDayTimes: HeldDayTimes) {
-        this.heldTimes = heldTimes;
-        this.heldDayTimes = heldDayTimes;
-    }
+    private constructor(
+        public readonly heldTimes: HeldTimes,
+        public readonly heldDayTimes: HeldDayTimes,
+    ) {}
 
     /**
      * インスタンス生成メソッド

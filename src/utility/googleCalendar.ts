@@ -1,7 +1,6 @@
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import { CalendarData } from '../../lib/src/domain/calendarData';
 import {
     createYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
@@ -18,6 +17,7 @@ import { getJSTDate } from '../../lib/src/utility/date';
 import { createAnchorTag, formatDate } from '../../lib/src/utility/format';
 import type { GradeType } from '../../lib/src/utility/validateAndType/gradeType';
 import { createPlaceCode } from '../../lib/src/utility/validateAndType/raceCourse';
+import { CalendarData } from '../domain/calendarData';
 import type { RaceEntity } from '../repository/entity/raceEntity';
 import { RaceType } from './raceType';
 

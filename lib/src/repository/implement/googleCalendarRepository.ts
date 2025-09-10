@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import type { CalendarData } from '../../../../src/domain/calendarData';
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
-import type { CalendarData } from '../../domain/calendarData';
 import type { ICalendarGatewayForAWS } from '../../gateway/interface/iCalendarGateway';
 import {
     fromGoogleCalendarDataToCalendarData,

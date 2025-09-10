@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { CalendarData } from '../../../lib/src/domain/calendarData';
+import { CalendarData } from '../../domain/calendarData';
 import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import { CommonParameter } from '../../utility/commonParameter';
 import {

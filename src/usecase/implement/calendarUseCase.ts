@@ -2,9 +2,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { inject, injectable } from 'tsyringe';
 
-import { CalendarData } from '../../../lib/src/domain/calendarData';
 import { DataLocation } from '../../../lib/src/utility/dataType';
 import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
+import { CalendarData } from '../../domain/calendarData';
 import { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';

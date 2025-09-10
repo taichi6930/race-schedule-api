@@ -2,9 +2,9 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import { RacePlayerData } from '../../../../src/domain/racePlayerData';
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../src/utility/raceType';
-import { RacePlayerData } from '../../domain/racePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';

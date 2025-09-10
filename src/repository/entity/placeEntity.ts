@@ -1,10 +1,10 @@
-import type { HeldDayData } from '../../../lib/src/domain/heldDayData';
 import type { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import type { PlaceId } from '../../../lib/src/utility/validateAndType/placeId';
 import {
     generatePlaceId,
     validatePlaceId,
 } from '../../../lib/src/utility/validateAndType/placeId';
+import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import { RaceType } from '../../utility/raceType';
 

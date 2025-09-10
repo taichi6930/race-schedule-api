@@ -3,9 +3,9 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
+import { CalendarData } from '../../../../src/domain/calendarData';
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../src/utility/raceType';
-import { CalendarData } from '../../domain/calendarData';
 import { SearchCalendarFilterEntityForAWS } from '../../repository/entity/searchCalendarFilterEntity';
 import { ICalendarRepositoryForAWS } from '../../repository/interface/ICalendarRepository';
 import { Logger } from '../../utility/logger';

@@ -1,8 +1,8 @@
-import { RaceData } from '../../../../../lib/src/domain/raceData';
+import { RaceData } from '../../../../src/domain/raceData';
 import {
     defaultLocation,
     testRaceTypeListAll,
-} from '../../../../unittest/src/mock/common/baseCommonData';
+} from '../mock/common/baseCommonData';
 
 describe.each(testRaceTypeListAll)('RaceDataクラスのテスト(%s)', (raceType) => {
     const validName = 'テストレース';

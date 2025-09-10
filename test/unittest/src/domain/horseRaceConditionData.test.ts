@@ -10,12 +10,12 @@
  * |6 |有効       |有効    |{} または undefined  |全プロパティ同値  |copyでpartial空        |
  */
 
-import { HorseRaceConditionData } from '../../../../../lib/src/domain/houseRaceConditionData';
+import { HorseRaceConditionData } from '../../../../src/domain/houseRaceConditionData';
 import {
     defaultRaceDistance,
     defaultRaceSurfaceType,
     testRaceTypeListHorseRacing,
-} from '../../../../unittest/src/mock/common/baseCommonData';
+} from '../mock/common/baseCommonData';
 
 describe.each(testRaceTypeListHorseRacing)(
     'HorseRaceConditionDataクラスのテスト(%s)',
