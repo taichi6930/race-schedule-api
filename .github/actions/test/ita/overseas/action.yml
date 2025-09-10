@@ -7,6 +7,11 @@ runs:
     - name: Check out the repository
       uses: actions/checkout@v4
 
+    - name: Set up Node.js 24
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+
     - name: Set up pnpm
       uses: pnpm/action-setup@v2
       with:
@@ -23,8 +28,8 @@ runs:
         pnpm run wrangler:d1:migrations:apply:local
 
         # Start wrangler dev (Cloudflare Workers local) in background
-        # dev:cloudflare:local uses wrangler dev --env development --local
-        pnpm run dev:cloudflare:local &
+        # Use explicit entry file to avoid "Missing entry-point" errors in CI
+        pnpm exec wrangler dev src/index.ts --env development --local &
 
         # Wait for worker to be ready on port 8787
         for i in {1..10}; do
