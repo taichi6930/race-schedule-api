@@ -24,32 +24,47 @@ runs:
     # Cloudflare Workers & D1 のセットアップ
     - name: Setup Cloudflare Workers with local D1
       run: |
+        echo "Creating minimal wrangler.toml for CI..."
+        cat > wrangler.toml << 'EOF'
+        name = "race-schedule-api-test"
+        main = "src/index.ts"
+        compatibility_date = "2025-09-10"
+        
+        [[d1_databases]]
+        binding = "DB"
+        database_name = "my-database"
+        database_id = "local-test-db"
+        
+        [env.development]
+        # テスト環境用の最小設定
+        EOF
+        
         echo "Setting up local D1 database..."
-
+        
         # ローカルD1データベースのマイグレーション適用
         pnpm run wrangler:d1:migrations:apply:local
-
+        
         echo "Starting Cloudflare Workers in development mode..."
-
-        # バックグラウンドでwrangler devを起動（ローカルD1付き）
-        pnpm run dev:cloudflare:local &
-
+        
+        # バックグラウンドでwrangler devを起動
+        TZ=Asia/Tokyo pnpm exec wrangler dev src/index.ts --local &
+        
         # ワーカーの起動を待機（ヘルスチェック）
         echo "Waiting for Cloudflare Workers to start..."
         timeout=60
         counter=0
-
+        
         while [ $counter -lt $timeout ]; do
           if curl --silent --fail http://localhost:8787/health > /dev/null 2>&1; then
             echo "✅ Cloudflare Workers is ready!"
             break
           fi
-
+          
           echo "Waiting... ($((counter + 1))/$timeout)"
           sleep 2
           counter=$((counter + 1))
         done
-
+        
         if [ $counter -eq $timeout ]; then
           echo "❌ Timeout: Cloudflare Workers failed to start within $timeout seconds"
           exit 1
@@ -59,25 +74,25 @@ runs:
     - name: Test Overseas Race API
       run: |
         echo "🧪 Testing Overseas Race API..."
-
+        
         BASE_URL="http://localhost:8787"
         API_PARAMS="startDate=2024-10-01&finishDate=2024-11-01&raceType=OVERSEAS"
-
+        
         # Step 1: 初期状態確認（空の結果を期待）
         echo "📋 Step 1: Checking initial empty state..."
         initial_response=$(curl -s -X GET \
           "${BASE_URL}/race?${API_PARAMS}" \
           -H 'accept: application/json')
-
+        
         echo "Initial response: $initial_response"
-
+        
         overseas_items=$(echo "$initial_response" | jq -r 'if type=="object" and has("OVERSEAS") then .OVERSEAS else . end')
         if [[ "$overseas_items" != "[]" ]]; then
           echo "❌ Initial GET failed. Expected [], got: $overseas_items"
           exit 1
         fi
         echo "✅ Initial state is empty as expected"
-
+        
         # Step 2: データ作成（POST）
         echo "📋 Step 2: Creating test data..."
         post_response=$(curl -s -w "%{http_code}" -o /tmp/post_response.txt -X POST \
@@ -89,59 +104,59 @@ runs:
                 "finishDate": "2024-11-01",
                 "raceType": ["OVERSEAS"]
               }')
-
+        
         post_body=$(cat /tmp/post_response.txt)
         echo "POST response code: $post_response"
         echo "POST response body: $post_body"
-
+        
         if [[ "$post_response" != "200" ]]; then
           echo "❌ POST failed with status: $post_response"
           echo "Response body: $post_body"
           exit 1
         fi
         echo "✅ Data created successfully"
-
+        
         # Step 3: データ取得確認
         echo "📋 Step 3: Verifying created data..."
         final_response=$(curl -s -X GET \
           "${BASE_URL}/race?${API_PARAMS}" \
           -H 'accept: application/json')
-
+        
         echo "Final response length: $(echo "$final_response" | wc -c) characters"
-
+        
         item_count=$(echo "$final_response" | jq -r 'if type=="object" and has("OVERSEAS") then .OVERSEAS | length else length end')
         echo "Item count: $item_count"
-
+        
         if [[ "$item_count" != "372" ]]; then
           echo "❌ Final GET failed. Expected 372 items, got: $item_count"
           echo "Response preview: $(echo "$final_response" | head -c 500)..."
           exit 1
         fi
         echo "✅ Data verification successful (372 items)"
-
+        
         echo "🎉 Overseas Race API test completed successfully!"
       shell: bash
 
     - name: Test Overseas Calendar API
       run: |
         echo "🧪 Testing Overseas Calendar API..."
-
+        
         BASE_URL="http://localhost:8787"
         API_PARAMS="startDate=2024-10-01&finishDate=2024-11-01&raceType=OVERSEAS"
-
+        
         # Step 1: 初期状態確認
         echo "📋 Step 1: Checking initial calendar state..."
         initial_response=$(curl -s -X GET \
           "${BASE_URL}/calendar?${API_PARAMS}" \
           -H 'accept: application/json')
-
+        
         overseas_items=$(echo "$initial_response" | jq -r 'if type=="object" and has("OVERSEAS") then .OVERSEAS else . end')
         if [[ "$overseas_items" != "[]" ]]; then
           echo "❌ Initial calendar GET failed. Expected [], got: $overseas_items"
           exit 1
         fi
         echo "✅ Initial calendar state is empty"
-
+        
         # Step 2: カレンダーデータ作成
         echo "📋 Step 2: Creating calendar data..."
         post_response=$(curl -s -w "%{http_code}" -o /tmp/calendar_post_response.txt -X POST \
@@ -153,32 +168,32 @@ runs:
                 "finishDate": "2024-11-01",
                 "raceType": ["OVERSEAS"]
               }')
-
+        
         post_body=$(cat /tmp/calendar_post_response.txt)
         echo "Calendar POST response: $post_response"
-
+        
         if [[ "$post_response" != "200" ]]; then
           echo "❌ Calendar POST failed with status: $post_response"
           echo "Response body: $post_body"
           exit 1
         fi
         echo "✅ Calendar data created"
-
+        
         # Step 3: カレンダーデータ確認
         echo "📋 Step 3: Verifying calendar data..."
         final_response=$(curl -s -X GET \
           "${BASE_URL}/calendar?${API_PARAMS}" \
           -H 'accept: application/json')
-
+        
         item_count=$(echo "$final_response" | jq -r 'if type=="object" and has("OVERSEAS") then .OVERSEAS | length else length end')
         echo "Calendar item count: $item_count"
-
+        
         if [[ "$item_count" != "372" ]]; then
           echo "❌ Final calendar GET failed. Expected 372 items, got: $item_count"
           exit 1
         fi
         echo "✅ Calendar verification successful"
-
+        
         echo "🎉 Overseas Calendar API test completed successfully!"
       shell: bash
 
