@@ -58,7 +58,7 @@ runs:
     - name: Create .env (temp)
       run: |
         printf '%s
-' "ENV=GITHUB_ACTIONS_CI" > .env
+        ' "ENV=GITHUB_ACTIONS_CI" > .env
       shell: bash
 
     - name: Start wrangler dev in background and wait for /health
