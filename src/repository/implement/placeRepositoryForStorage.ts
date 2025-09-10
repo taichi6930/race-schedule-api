@@ -49,10 +49,13 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
                 place.location_name,
                 held_day.held_times,
                 held_day.held_day_times,
+                place_grade.grade,
                 place.created_at,
                 place.updated_at
         `;
-        const fromSQL = `FROM place LEFT JOIN held_day ON place.id = held_day.id`;
+        const fromSQL = `FROM place
+            LEFT JOIN held_day ON place.id = held_day.id
+            LEFT JOIN place_grade ON place.id = place_grade.id`;
         const { results } = await env.DB.prepare(
             `
             ${selectSQL}
@@ -65,14 +68,15 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
         return results.map((row: any): PlaceEntity => {
             const dateJST = new Date(new Date(row.date_time));
             const heldDayData =
-                row.held_times !== undefined && row.held_day_times !== undefined
+                row.held_times !== null && row.held_day_times !== null
                     ? HeldDayData.create(row.held_times, row.held_day_times)
                     : undefined;
+            const grade = row.grade ?? undefined;
             return PlaceEntity.create(
                 row.id,
                 PlaceData.create(row.race_type, dateJST, row.location_name),
                 heldDayData,
-                undefined, // TODO: gradeを設定する
+                grade,
             );
         });
     }
@@ -100,26 +104,9 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
                 updated_at = CURRENT_TIMESTAMP
             `,
         );
-        const insertHeldDayStmt = env.DB.prepare(
-            `
-            INSERT INTO held_day (
-                id,
-                race_type,
-                held_times,
-                held_day_times,
-                created_at,
-                updated_at
-            ) VALUES (?, ?, ?, ?,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-            ON CONFLICT(id) DO UPDATE SET
-                race_type = excluded.race_type,
-                held_times = excluded.held_times,
-                held_day_times = excluded.held_day_times,
-                updated_at = CURRENT_TIMESTAMP
-            `,
-        );
         // トランザクション開始
         for (const entity of entityList) {
-            const { id, placeData } = entity;
+            const { id, placeData, grade } = entity;
             // JST変換
             const dateJST = new Date(new Date(placeData.dateTime));
             const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
@@ -127,6 +114,23 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
                 .bind(id, placeData.raceType, dateTimeStr, placeData.location)
                 .run();
             if (placeData.raceType === RaceType.JRA) {
+                const insertHeldDayStmt = env.DB.prepare(
+                    `
+                    INSERT INTO held_day (
+                        id,
+                        race_type,
+                        held_times,
+                        held_day_times,
+                        created_at,
+                        updated_at
+                    ) VALUES (?, ?, ?, ?,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                    ON CONFLICT(id) DO UPDATE SET
+                        race_type = excluded.race_type,
+                        held_times = excluded.held_times,
+                        held_day_times = excluded.held_day_times,
+                        updated_at = CURRENT_TIMESTAMP
+                    `,
+                );
                 const { heldDayData } = entity;
                 await insertHeldDayStmt
                     .bind(
@@ -136,6 +140,28 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
                         heldDayData.heldDayTimes,
                     )
                     .run();
+            }
+            if (
+                placeData.raceType === RaceType.KEIRIN ||
+                placeData.raceType === RaceType.AUTORACE ||
+                placeData.raceType === RaceType.BOATRACE
+            ) {
+                const insertGradeStmt = env.DB.prepare(
+                    `
+                    INSERT INTO place_grade (
+                        id,
+                        race_type,
+                        grade,
+                        created_at,
+                        updated_at
+                    ) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                    ON CONFLICT(id) DO UPDATE SET
+                        race_type = excluded.race_type,
+                        grade = excluded.grade,
+                        updated_at = CURRENT_TIMESTAMP
+                    `,
+                );
+                await insertGradeStmt.bind(id, placeData.raceType, grade).run();
             }
         }
     }
