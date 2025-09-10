@@ -18,24 +18,35 @@ runs:
 
     - name: Create wrangler.toml (temp)
       run: |
-        cat > wrangler.toml <<'TOML'
-        name = "race-schedule-local"
-        main = "./lib/src/index.ts"
-        compatibility_date = "2025-01-01"
-        # enable Node.js built-in module compatibility (path, stream, etc.) for local dev
-        compatibility_flags = ["nodejs_compat"]
-
-        [env.development]
-        main = "./lib/src/index.ts"
-        compatibility_date = "2025-01-01"
-        compatibility_flags = ["nodejs_compat"]
-
-        [[d1_databases]]
-        binding = "MY_DB"
-        database_name = "my-database"
-        # For wrangler config, d1 database bindings require a database_id field
-        database_id = "my-database"
-        TOML
+        printf '%s
+        ' "name = \"race-schedule-local\"" \
+          "main = \"./lib/src/index.ts\"" \
+          "compatibility_date = \"2025-01-01\"" \
+          "# enable Node.js built-in module compatibility (path, stream, etc.) for local dev" \
+          "compatibility_flags = [\"nodejs_compat\"]" \
+          "" \
+          "[vars]" \
+          "ENV = \"GITHUB_ACTIONS_CI\"" \
+          "" \
+          "[env.development]" \
+          "main = \"./lib/src/index.ts\"" \
+          "compatibility_date = \"2025-01-01\"" \
+          "compatibility_flags = [\"nodejs_compat\"]" \
+          "" \
+          "[env.development.vars]" \
+          "ENV = \"GITHUB_ACTIONS_CI\"" \
+          "" \
+          "# D1 database binding for development environment" \
+          "[[env.development.d1_databases]]" \
+          "binding = \"MY_DB\"" \
+          "database_name = \"my-database\"" \
+          "database_id = \"my-database\"" \
+          "" \
+          "[[d1_databases]]" \
+          "binding = \"MY_DB\"" \
+          "database_name = \"my-database\"" \
+          "# For wrangler config, d1 database bindings require a database_id field" \
+          "database_id = \"my-database\"" > wrangler.toml
       shell: bash
 
     - name: Apply D1 migrations (local)
@@ -46,9 +57,10 @@ runs:
 
     - name: Start wrangler dev in background and wait for /health
       run: |
-        TZ=jst pnpm run dev:cloudflare:local &
+        # set ENV expected by the worker and start wrangler in local mode
+        ENV=GITHUB_ACTIONS_CI TZ=Asia/Tokyo pnpm run dev:cloudflare:local &
         # wait for health endpoint
-        for i in {1..12}; do
+        for i in {1..24}; do
           curl --silent --head http://127.0.0.1:8787/health && break || true
           echo "Waiting for wrangler dev to start... ($i)"
           sleep 5
