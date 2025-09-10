@@ -30,7 +30,8 @@ export class RaceRepositoryForStorage implements IRaceRepository {
         ];
     }
 
-    public async fetchRaceEntityListForJra(
+    @Logger
+    private async fetchRaceEntityListForJra(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
@@ -76,6 +77,13 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             .all();
         return results.map((row: any): RaceEntity => {
             const dateJST = new Date(new Date(row.date_time));
+            const heldDayData =
+                row.held_times !== null && row.held_day_times !== null
+                    ? HeldDayData.create(
+                          Number(row.held_times),
+                          Number(row.held_day_times),
+                      )
+                    : undefined;
             return RaceEntity.create(
                 row.id,
                 row.place_id,
@@ -87,7 +95,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                     row.grade,
                     row.race_number,
                 ),
-                HeldDayData.create(row.held_times, row.held_day_times),
+                heldDayData,
                 HorseRaceConditionData.create(row.surface_type, row.distance),
                 undefined, // TODO: stageを設定する
                 undefined, // TODO: racePlayerDataListを設定する
@@ -95,7 +103,8 @@ export class RaceRepositoryForStorage implements IRaceRepository {
         });
     }
 
-    public async fetchRaceEntityListForNarAndOverseas(
+    @Logger
+    private async fetchRaceEntityListForNarAndOverseas(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {

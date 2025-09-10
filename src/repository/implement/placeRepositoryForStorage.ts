@@ -69,7 +69,10 @@ export class PlaceRepositoryForStorage implements IPlaceRepository {
             const dateJST = new Date(new Date(row.date_time));
             const heldDayData =
                 row.held_times !== null && row.held_day_times !== null
-                    ? HeldDayData.create(row.held_times, row.held_day_times)
+                    ? HeldDayData.create(
+                          Number(row.held_times),
+                          Number(row.held_day_times),
+                      )
                     : undefined;
             const grade = row.grade ?? undefined;
             return PlaceEntity.create(
