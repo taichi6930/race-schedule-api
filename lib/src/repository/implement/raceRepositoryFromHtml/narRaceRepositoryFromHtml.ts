@@ -226,7 +226,7 @@ export class NarRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
      * @param raceEntityList
      */
     @Logger
-    public async registerRaceEntityList(
+    public async upsertRaceEntityList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{

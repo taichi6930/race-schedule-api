@@ -69,7 +69,7 @@ describe('placeUseCase-placeService', () => {
 
             expect(
                 repositorySetup.placeRepositoryFromStorage
-                    .registerPlaceEntityList,
+                    .upsertPlaceEntityList,
             ).toHaveBeenCalled();
         });
     });

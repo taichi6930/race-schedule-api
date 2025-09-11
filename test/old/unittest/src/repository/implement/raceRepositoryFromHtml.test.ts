@@ -173,10 +173,10 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
                 );
             });
 
-            describe('registerRaceList', () => {
+            describe('upsertRaceList', () => {
                 it('HTMLにはデータを登録できない', async () => {
                     await expect(
-                        repository.registerRaceEntityList(raceType, []),
+                        repository.upsertRaceEntityList(raceType, []),
                     ).rejects.toThrow('HTMLにはデータを登録出来ません');
                 });
             });

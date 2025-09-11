@@ -30,7 +30,7 @@ sequenceDiagram
         JraRaceRepositoryFromHtml-->>RaceService: raceEntityList
         RaceService-->>RaceUseCase: raceEntityList
         RaceUseCase->>RaceService: updateRaceEntityList(raceEntityList)
-        RaceService->>RaceRepositoryFromStorage: registerRaceEntityList(raceEntityList)
+        RaceService->>RaceRepositoryFromStorage: upsertRaceEntityList(raceEntityList)
         RaceRepositoryFromStorage->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
         S3Gateway-->>RaceRepositoryFromStorage: 完了
         RaceRepositoryFromStorage-->>RaceService: 完了
@@ -40,7 +40,7 @@ sequenceDiagram
     else raceList指定
         PublicGamblingController->>RaceUseCase: upsertRaceEntityList(jraRaceDataList)
         RaceUseCase->>RaceService: updateRaceEntityList(raceEntityList)
-        RaceService->>RaceRepositoryFromStorage: registerRaceEntityList(raceEntityList)
+        RaceService->>RaceRepositoryFromStorage: upsertRaceEntityList(raceEntityList)
         RaceRepositoryFromStorage->>S3Gateway: uploadDataToS3(raceRecordList, fileName)
         S3Gateway-->>RaceRepositoryFromStorage: 完了
         RaceRepositoryFromStorage-->>RaceService: 完了

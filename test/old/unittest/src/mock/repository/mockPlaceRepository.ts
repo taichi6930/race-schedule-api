@@ -27,7 +27,7 @@ export const mockPlaceRepositoryForAWS =
                         }
                     },
                 ),
-            registerPlaceEntityList: jest
+            upsertPlaceEntityList: jest
                 .fn()
                 .mockImplementation(
                     async (

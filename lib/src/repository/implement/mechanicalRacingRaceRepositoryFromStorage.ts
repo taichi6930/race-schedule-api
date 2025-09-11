@@ -89,7 +89,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
      * @param raceEntityList - 登録するレースエンティティ配列
      */
     @Logger
-    public async registerRaceEntityList(
+    public async upsertRaceEntityList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{
@@ -99,8 +99,8 @@ export class MechanicalRacingRaceRepositoryFromStorage
         failureData: RaceEntity[];
     }> {
         try {
-            await this.registerRaceRecordList(raceType, raceEntityList);
-            await this.registerRacePlayerRecordList(raceType, raceEntityList);
+            await this.upsertRaceRecordList(raceType, raceEntityList);
+            await this.upsertRacePlayerRecordList(raceType, raceEntityList);
 
             return {
                 code: 200,
@@ -119,7 +119,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
         }
     }
 
-    private async registerRaceRecordList(
+    private async upsertRaceRecordList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{
@@ -179,7 +179,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
         }
     }
 
-    private async registerRacePlayerRecordList(
+    private async upsertRacePlayerRecordList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{

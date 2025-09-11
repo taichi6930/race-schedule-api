@@ -52,7 +52,7 @@ export interface IPlaceRepositoryForAWS {
      *               - データストアへの書き込みに失敗
      *               - 一意制約違反が発生
      */
-    registerPlaceEntityList: (
+    upsertPlaceEntityList: (
         raceType: RaceType,
         placeEntityList: PlaceEntity[],
     ) => Promise<{

@@ -77,14 +77,14 @@ describe('PlaceRepositoryFromStorage', () => {
         );
     });
 
-    describe('registerPlaceList', () => {
+    describe('upsertPlaceList', () => {
         test.each(testRaceTypeListWithoutOverseas)(
             '正しい開催場データを登録できる(%s)',
             async (raceType) => {
                 const _placeEntityList = placeEntityList(raceType);
                 // テスト実行
                 await expect(
-                    repository.registerPlaceEntityList(
+                    repository.upsertPlaceEntityList(
                         raceType,
                         _placeEntityList,
                     ),

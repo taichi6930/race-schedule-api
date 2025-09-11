@@ -144,7 +144,7 @@ export class PlaceRepositoryFromStorageForAWS
     }
 
     @Logger
-    public async registerPlaceEntityList(
+    public async upsertPlaceEntityList(
         raceType: RaceType,
         placeEntityList: PlaceEntity[],
     ): Promise<{

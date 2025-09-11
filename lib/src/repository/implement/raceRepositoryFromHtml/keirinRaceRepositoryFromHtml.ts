@@ -301,7 +301,7 @@ export class KeirinRaceRepositoryFromHtmlForAWS
      * @param raceEntityList
      */
     @Logger
-    public async registerRaceEntityList(
+    public async upsertRaceEntityList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{

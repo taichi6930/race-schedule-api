@@ -34,7 +34,7 @@ sequenceDiagram
         end
         PlaceService-->>PlaceUseCase: placeEntityList
         PlaceUseCase->>PlaceService: updatePlaceEntityList(placeEntityList)
-        PlaceService->>PlaceRepositoryFromStorage: registerPlaceEntityList(placeEntityList)
+        PlaceService->>PlaceRepositoryFromStorage: upsertPlaceEntityList(placeEntityList)
         note right of PlaceRepositoryFromStorage: 既存データ取得
         PlaceRepositoryFromStorage->>S3Gateway: fetchDataFromS3
         S3Gateway-->>PlaceRepositoryFromStorage: CSVデータ

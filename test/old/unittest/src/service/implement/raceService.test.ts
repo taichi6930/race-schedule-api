@@ -88,7 +88,7 @@ describe('RaceService', () => {
                     raceType === RaceType.OVERSEAS
                         ? repositorySetup.horseRacingRaceRepositoryFromStorage
                         : repositorySetup.mechanicalRacingRaceRepositoryFromStorage;
-                expect(repository.registerRaceEntityList).toHaveBeenCalledWith(
+                expect(repository.upsertRaceEntityList).toHaveBeenCalledWith(
                     raceType,
                     baseRaceEntityList(raceType),
                 );
@@ -100,11 +100,11 @@ describe('RaceService', () => {
 
             expect(
                 repositorySetup.horseRacingRaceRepositoryFromStorage
-                    .registerRaceEntityList,
+                    .upsertRaceEntityList,
             ).not.toHaveBeenCalled();
             expect(
                 repositorySetup.mechanicalRacingRaceRepositoryFromStorage
-                    .registerRaceEntityList,
+                    .upsertRaceEntityList,
             ).not.toHaveBeenCalled();
         });
     });

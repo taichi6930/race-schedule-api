@@ -184,7 +184,7 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
         failureDataCount: number;
     }> {
         if (entityList !== undefined && entityList.length > 0) {
-            const response = await repository.registerRaceEntityList(
+            const response = await repository.upsertRaceEntityList(
                 raceType,
                 entityList,
             );

@@ -79,7 +79,7 @@ export class MockHorseRacingRaceRepositoryFromHtml
     }
 
     @Logger
-    public async registerRaceEntityList(
+    public async upsertRaceEntityList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{
