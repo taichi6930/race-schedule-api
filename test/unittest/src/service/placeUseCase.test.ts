@@ -57,34 +57,20 @@ describe('PlaceUseCase', () => {
         });
     });
 
-    // describe('updatePlaceEntityList', () => {
-    //     it('正常に開催場データが更新されること', async () => {
-    //         const startDate = new Date('2024-06-01');
-    //         const finishDate = new Date('2024-06-30');
+    describe('updatePlaceEntityList', () => {
+        it('正常に開催場データが更新されること', async () => {
+            await service.upsertPlaceEntityList(
+                commonParameterMock(),
+                mockPlaceEntityList,
+            );
 
-    //         const searchPlaceFilter = new SearchPlaceFilterEntity(
-    //             startDate,
-    //             finishDate,
-    //             testRaceTypeListAll,
-    //             [],
-    //         );
-
-    //         // モックの戻り値を設定
-    //         serviceSetup.placeService.fetchPlaceEntityList.mockResolvedValue(
-    //             mockPlaceEntityList,
-    //         );
-
-    //         await service.upsertPlaceEntityList(
-    //             commonParameterMock(),
-    //             searchPlaceFilter,
-    //         );
-
-    //         expect(
-    //             serviceSetup.placeService.fetchPlaceEntityList,
-    //         ).toHaveBeenCalled();
-    //         expect(
-    //             serviceSetup.placeService.upsertPlaceEntityList,
-    //         ).toHaveBeenCalled();
-    //     });
-    // });
+            expect(
+                repositorySetup.placeRepositoryFromHtml.fetchPlaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(
+                repositorySetup.placeRepositoryFromStorage
+                    .upsertPlaceEntityList,
+            ).toHaveBeenCalled();
+        });
+    });
 });
