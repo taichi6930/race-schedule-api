@@ -5,11 +5,12 @@ import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
 import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
-export class RaceRepositoryForStorage implements IRaceRepository {
+export class RaceRepositoryFromStorage implements IRaceRepository {
     @Logger
     public async fetchRaceEntityList(
         commonParameter: CommonParameter,
@@ -126,7 +127,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                 race_number,
                 created_at,
                 updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
             ON CONFLICT(id) DO UPDATE SET
                 race_type = excluded.race_type,
                 race_name = excluded.race_name,
@@ -138,40 +139,8 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                 updated_at = CURRENT_TIMESTAMP
             `,
         );
-        const insertConditionStmt = env.DB.prepare(
-            `
-            INSERT INTO race_condition (
-                id,
-                race_type,
-                surface_type,
-                distance,
-                created_at,
-                updated_at
-            ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-            ON CONFLICT(id) DO UPDATE SET
-                race_type = excluded.race_type,
-                surface_type = excluded.surface_type,
-                distance = excluded.distance,
-                updated_at=CURRENT_TIMESTAMP
-            `,
-        );
-        const insertStageStmt = env.DB.prepare(
-            `
-            INSERT INTO race_stage (
-                id,
-                race_type,
-                stage,
-                created_at,
-                updated_at
-            ) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-            ON CONFLICT(id) DO UPDATE SET
-                race_type = excluded.race_type,
-                stage = excluded.stage,
-                updated_at=CURRENT_TIMESTAMP
-            `,
-        );
         for (const entity of entityList) {
-            const { id, placeId, raceData, conditionData, stage } = entity;
+            const { id, placeId, raceData } = entity;
             // JST変換
             const dateJST = new Date(new Date(raceData.dateTime));
             const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
@@ -187,15 +156,59 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                     raceData.number,
                 )
                 .run();
-            await insertConditionStmt
-                .bind(
-                    id,
-                    raceData.raceType,
-                    conditionData.surfaceType,
-                    conditionData.distance,
-                )
-                .run();
-            if (stage) {
+            if (
+                raceData.raceType === RaceType.JRA ||
+                raceData.raceType === RaceType.NAR ||
+                raceData.raceType === RaceType.OVERSEAS
+            ) {
+                const { conditionData } = entity;
+                const insertConditionStmt = env.DB.prepare(
+                    `
+                    INSERT INTO race_condition (
+                        id,
+                        race_type,
+                        surface_type,
+                        distance,
+                        created_at,
+                        updated_at
+                    ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                    ON CONFLICT(id) DO UPDATE SET
+                        race_type = excluded.race_type,
+                        surface_type = excluded.surface_type,
+                        distance = excluded.distance,
+                        updated_at=CURRENT_TIMESTAMP
+                    `,
+                );
+                await insertConditionStmt
+                    .bind(
+                        id,
+                        raceData.raceType,
+                        conditionData.surfaceType,
+                        conditionData.distance,
+                    )
+                    .run();
+            }
+            if (
+                raceData.raceType === RaceType.KEIRIN ||
+                raceData.raceType === RaceType.AUTORACE ||
+                raceData.raceType === RaceType.BOATRACE
+            ) {
+                const { stage } = entity;
+                const insertStageStmt = env.DB.prepare(
+                    `
+                    INSERT INTO race_stage (
+                        id,
+                        race_type,
+                        stage,
+                        created_at,
+                        updated_at
+                    ) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                    ON CONFLICT(id) DO UPDATE SET
+                        race_type = excluded.race_type,
+                        stage = excluded.stage,
+                        updated_at=CURRENT_TIMESTAMP
+                    `,
+                );
                 await insertStageStmt.bind(id, raceData.raceType, stage).run();
             }
         }

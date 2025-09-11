@@ -9,7 +9,7 @@ import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntit
 import { PlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
 
-export class PlaceRepositoryForStorage implements IPlaceRepository {
+export class PlaceRepositoryFromStorage implements IPlaceRepository {
     @Logger
     public async fetchPlaceEntityList(
         commonParameter: CommonParameter,
