@@ -12,8 +12,11 @@ import { RaceDataHtmlGateway } from './gateway/implement/raceDataHtmlGateway';
 import type { ICalendarGateway } from './gateway/interface/iCalendarGateway';
 import type { IPlaceDataHtmlGateway } from './gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
+import { AutoraceRaceRepositoryFromHtml } from './repository/implement/autoraceRaceRepositoryFromHtml';
+import { BoatraceRaceRepositoryFromHtml } from './repository/implement/boatraceRaceRepositoryFromHtml';
 import { GoogleCalendarRepository } from './repository/implement/googleCalendarRepository';
 import { JraRaceRepositoryFromHtml } from './repository/implement/jraRaceRepositoryFromHtml';
+import { KeirinRaceRepositoryFromHtml } from './repository/implement/keirinRaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from './repository/implement/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtml } from './repository/implement/overseasRaceRepositoryFromHtml';
 import { PlaceRepositoryFromHtml } from './repository/implement/placeRepositoryFromHtml';
@@ -59,14 +62,23 @@ container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
 container.register<IRaceRepository>('RaceRepositoryFromStorage', {
     useClass: RaceRepositoryFromStorage,
 });
-container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
-    useClass: OverseasRaceRepositoryFromHtml,
+container.register<IRaceRepository>('JraRaceRepositoryFromHtml', {
+    useClass: JraRaceRepositoryFromHtml,
 });
 container.register<IRaceRepository>('NarRaceRepositoryFromHtml', {
     useClass: NarRaceRepositoryFromHtml,
 });
-container.register<IRaceRepository>('JraRaceRepositoryFromHtml', {
-    useClass: JraRaceRepositoryFromHtml,
+container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
+    useClass: OverseasRaceRepositoryFromHtml,
+});
+container.register<IRaceRepository>('KeirinRaceRepositoryFromHtml', {
+    useClass: KeirinRaceRepositoryFromHtml,
+});
+container.register<IRaceRepository>('AutoraceRaceRepositoryFromHtml', {
+    useClass: AutoraceRaceRepositoryFromHtml,
+});
+container.register<IRaceRepository>('BoatraceRaceRepositoryFromHtml', {
+    useClass: BoatraceRaceRepositoryFromHtml,
 });
 container.register<IRaceService>('RaceService', {
     useClass: RaceService,

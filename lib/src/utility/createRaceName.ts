@@ -190,6 +190,14 @@ export const processNarRaceName = (
         .replace(/カップ/, 'C')
         .replace(/J([交指認]) /g, '')
         .replace(/\u3000/g, ' ');
+
+    if (tempRaceName.includes('西日本3歳優駿')) {
+        return '西日本3歳優駿';
+    }
+    if (tempRaceName.includes('西日本ダービー')) {
+        return '西日本ダービー';
+    }
+
     // 帯広競馬
     if (['帯広ば'].includes(raceInfo.place)) {
         tempRaceName = tempRaceName

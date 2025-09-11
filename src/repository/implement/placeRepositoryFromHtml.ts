@@ -401,7 +401,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                     const th = $(trElement).find('th');
 
                     // thのテキストが RaceCourseに含まれているか
-                    if (!th.text()) {
+                    if (!th.text().replace(' ', '')) {
                         return;
                     }
                     const place: RaceCourse = validateRaceCourse(

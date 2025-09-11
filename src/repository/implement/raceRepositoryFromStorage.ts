@@ -31,33 +31,39 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
         const { raceTypeList, startDate, finishDate, locationList, gradeList } =
             searchRaceFilter;
 
-        const startDateFormatted = formatDate(startDate, 'yyyy-MM-dd');
-        const finishDateFormatted = formatDate(finishDate, 'yyyy-MM-dd');
-
-        // raceTypeListの数に応じて動的にWHERE句を生成
-        const raceTypePlaceholders = raceTypeList.map(() => '?').join(', ');
-        let whereClause = `WHERE race.race_type IN (${raceTypePlaceholders}) AND race.date_time >= ? AND race.date_time <= ?`;
-
-        const queryParams: any[] = [];
-        queryParams.push(
-            ...raceTypeList,
-            startDateFormatted,
-            finishDateFormatted,
-        );
-
-        if (locationList.length > 0) {
-            const locationPlaceholders = locationList.map(() => '?').join(', ');
-            whereClause += ` AND place.location_name IN (${locationPlaceholders})`;
-            queryParams.push(...locationList);
+        // WHERE句とパラメータ生成を関数化
+        function buildWhereClauseAndParams(): {
+            clause: string;
+            params: any[];
+        } {
+            const startDateFormatted = formatDate(startDate, 'yyyy-MM-dd');
+            const finishDateFormatted = formatDate(finishDate, 'yyyy-MM-dd');
+            const raceTypePlaceholders = raceTypeList.map(() => '?').join(', ');
+            let clause = `WHERE race.race_type IN (${raceTypePlaceholders}) AND race.date_time >= ? AND race.date_time <= ?`;
+            const params: any[] = [
+                ...raceTypeList,
+                startDateFormatted,
+                finishDateFormatted,
+            ];
+            if (locationList.length > 0) {
+                const locationPlaceholders = locationList
+                    .map(() => '?')
+                    .join(', ');
+                clause += ` AND race.location_name IN (${locationPlaceholders})`;
+                params.push(...locationList);
+            }
+            if (gradeList.length > 0) {
+                const gradePlaceholders = gradeList.map(() => '?').join(', ');
+                clause += ` AND race.grade IN (${gradePlaceholders})`;
+                params.push(...gradeList);
+            }
+            return { clause, params };
         }
-        if (gradeList.length > 0) {
-            const gradePlaceholders = gradeList.map(() => '?').join(', ');
-            whereClause += ` AND race.grade IN (${gradePlaceholders})`;
-            queryParams.push(...gradeList);
-        }
 
-        const { results } = await env.DB.prepare(
-            `
+        const { clause: whereClause, params: queryParams } =
+            buildWhereClauseAndParams();
+
+        const sql = `
             SELECT
                 race.id,
                 race.place_id,
@@ -76,12 +82,15 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
             FROM race
             INNER JOIN race_condition ON race.id = race_condition.id
             LEFT JOIN held_day ON race.place_id = held_day.id
-            ${whereClause}`,
-        )
+            ${whereClause}
+        `;
+
+        const { results } = await env.DB.prepare(sql)
             .bind(...queryParams)
             .all();
+
         return results.map((row: any): RaceEntity => {
-            const dateJST = new Date(new Date(row.date_time));
+            const dateJST = new Date(row.date_time);
             const heldDayData =
                 row.held_times !== null && row.held_day_times !== null
                     ? HeldDayData.create(
