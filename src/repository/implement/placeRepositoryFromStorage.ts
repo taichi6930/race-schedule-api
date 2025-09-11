@@ -2,6 +2,7 @@ import { formatDate } from 'date-fns';
 
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
+import { DBGateway } from '../../gateway/dbGateway';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -50,15 +51,15 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         const fromSQL = `FROM place
             LEFT JOIN held_day ON place.id = held_day.id
             LEFT JOIN place_grade ON place.id = place_grade.id`;
-        const { results } = await env.DB.prepare(
+        const { results } = await DBGateway.queryAll(
+            env,
             `
             ${selectSQL}
             ${fromSQL}
             ${whereClause}
             `,
-        )
-            .bind(...queryParams)
-            .all();
+            queryParams,
+        );
         return results
             .map((row: any): PlaceEntity | undefined => {
                 try {
@@ -95,8 +96,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         entityList: PlaceEntity[],
     ): Promise<void> {
         const { env } = commonParameter;
-        const insertStmt = env.DB.prepare(
-            `
+        const insertPlaceSql = `
             INSERT INTO place (
                 id,
                 race_type,
@@ -110,20 +110,21 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                 date_time = excluded.date_time,
                 location_name = excluded.location_name,
                 updated_at = CURRENT_TIMESTAMP
-            `,
-        );
+            `;
         // トランザクション開始
         for (const entity of entityList) {
             const { id, placeData, grade } = entity;
             // JST変換
             const dateJST = new Date(new Date(placeData.dateTime));
             const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
-            await insertStmt
-                .bind(id, placeData.raceType, dateTimeStr, placeData.location)
-                .run();
+            await DBGateway.run(env, insertPlaceSql, [
+                id,
+                placeData.raceType,
+                dateTimeStr,
+                placeData.location,
+            ]);
             if (placeData.raceType === RaceType.JRA) {
-                const insertHeldDayStmt = env.DB.prepare(
-                    `
+                const insertHeldDaySql = `
                     INSERT INTO held_day (
                         id,
                         race_type,
@@ -137,25 +138,21 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                         held_times = excluded.held_times,
                         held_day_times = excluded.held_day_times,
                         updated_at = CURRENT_TIMESTAMP
-                    `,
-                );
+                    `;
                 const { heldDayData } = entity;
-                await insertHeldDayStmt
-                    .bind(
-                        id,
-                        placeData.raceType,
-                        heldDayData.heldTimes,
-                        heldDayData.heldDayTimes,
-                    )
-                    .run();
+                await DBGateway.run(env, insertHeldDaySql, [
+                    id,
+                    placeData.raceType,
+                    heldDayData.heldTimes,
+                    heldDayData.heldDayTimes,
+                ]);
             }
             if (
                 placeData.raceType === RaceType.KEIRIN ||
                 placeData.raceType === RaceType.AUTORACE ||
                 placeData.raceType === RaceType.BOATRACE
             ) {
-                const insertGradeStmt = env.DB.prepare(
-                    `
+                const insertGradeSql = `
                     INSERT INTO place_grade (
                         id,
                         race_type,
@@ -167,9 +164,12 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                         race_type = excluded.race_type,
                         grade = excluded.grade,
                         updated_at = CURRENT_TIMESTAMP
-                    `,
-                );
-                await insertGradeStmt.bind(id, placeData.raceType, grade).run();
+                    `;
+                await DBGateway.run(env, insertGradeSql, [
+                    id,
+                    placeData.raceType,
+                    grade,
+                ]);
             }
         }
     }

@@ -3,6 +3,7 @@ import { formatDate } from 'date-fns';
 import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
+import { DBGateway } from '../../gateway/dbGateway';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -85,9 +86,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
             ${whereClause}
         `;
 
-        const { results } = await env.DB.prepare(sql)
-            .bind(...queryParams)
-            .all();
+        const { results } = await DBGateway.queryAll(env, sql, queryParams);
 
         return results.map((row: any): RaceEntity => {
             const dateJST = new Date(row.date_time);
@@ -123,8 +122,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
         entityList: RaceEntity[],
     ): Promise<void> {
         const { env } = commonParameter;
-        const insertStmt = env.DB.prepare(
-            `
+        const insertRaceSql = `
             INSERT INTO race (
                 id,
                 place_id,
@@ -146,33 +144,32 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                 place_id = excluded.place_id,
                 race_number = excluded.race_number,
                 updated_at = CURRENT_TIMESTAMP
-            `,
-        );
+            `;
+
         for (const entity of entityList) {
             const { id, placeId, raceData } = entity;
             // JST変換
             const dateJST = new Date(new Date(raceData.dateTime));
             const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
-            await insertStmt
-                .bind(
-                    id,
-                    placeId,
-                    raceData.raceType,
-                    raceData.name,
-                    dateTimeStr,
-                    raceData.location,
-                    raceData.grade,
-                    raceData.number,
-                )
-                .run();
+
+            await DBGateway.run(env, insertRaceSql, [
+                id,
+                placeId,
+                raceData.raceType,
+                raceData.name,
+                dateTimeStr,
+                raceData.location,
+                raceData.grade,
+                raceData.number,
+            ]);
+
             if (
                 raceData.raceType === RaceType.JRA ||
                 raceData.raceType === RaceType.NAR ||
                 raceData.raceType === RaceType.OVERSEAS
             ) {
                 const { conditionData } = entity;
-                const insertConditionStmt = env.DB.prepare(
-                    `
+                const insertConditionSql = `
                     INSERT INTO race_condition (
                         id,
                         race_type,
@@ -186,25 +183,22 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                         surface_type = excluded.surface_type,
                         distance = excluded.distance,
                         updated_at=CURRENT_TIMESTAMP
-                    `,
-                );
-                await insertConditionStmt
-                    .bind(
-                        id,
-                        raceData.raceType,
-                        conditionData.surfaceType,
-                        conditionData.distance,
-                    )
-                    .run();
+                    `;
+                await DBGateway.run(env, insertConditionSql, [
+                    id,
+                    raceData.raceType,
+                    conditionData.surfaceType,
+                    conditionData.distance,
+                ]);
             }
+
             if (
                 raceData.raceType === RaceType.KEIRIN ||
                 raceData.raceType === RaceType.AUTORACE ||
                 raceData.raceType === RaceType.BOATRACE
             ) {
                 const { stage } = entity;
-                const insertStageStmt = env.DB.prepare(
-                    `
+                const insertStageSql = `
                     INSERT INTO race_stage (
                         id,
                         race_type,
@@ -216,9 +210,12 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                         race_type = excluded.race_type,
                         stage = excluded.stage,
                         updated_at=CURRENT_TIMESTAMP
-                    `,
-                );
-                await insertStageStmt.bind(id, raceData.raceType, stage).run();
+                    `;
+                await DBGateway.run(env, insertStageSql, [
+                    id,
+                    raceData.raceType,
+                    stage,
+                ]);
             }
         }
     }
