@@ -39,7 +39,9 @@ export class BoatraceRaceRepositoryFromHtmlForAWS
         searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntity[]> {
         const raceEntityList: RaceEntity[] = [];
-        for (const placeEntity of searchFilter.placeEntityList) {
+
+        const { placeEntityList } = searchFilter;
+        for (const placeEntity of placeEntityList) {
             raceEntityList.push(
                 ...(await this.fetchRaceListFromHtml(
                     placeEntity.placeData,

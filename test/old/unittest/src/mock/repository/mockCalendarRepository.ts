@@ -9,7 +9,8 @@ export const mockCalendarRepositoryForAWS =
                 .fn()
                 .mockImplementation(
                     async (searchFilter: SearchCalendarFilterEntityForAWS) => {
-                        return searchFilter.raceTypeList.map((raceType) =>
+                        const { raceTypeList } = searchFilter;
+                        return raceTypeList.map((raceType) =>
                             baseCalendarData(raceType),
                         );
                     },

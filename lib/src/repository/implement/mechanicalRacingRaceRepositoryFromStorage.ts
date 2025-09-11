@@ -37,23 +37,18 @@ export class MechanicalRacingRaceRepositoryFromStorage
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntity[]> {
+        const { startDate, finishDate, raceType } = searchFilter;
         // ファイル名リストから選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =
-            await this.getRacePlayerRecordListFromS3(
-                searchFilter.raceType,
-                searchFilter.startDate,
-            );
+            await this.getRacePlayerRecordListFromS3(raceType, startDate);
 
         // レースデータを取得する
         const raceRaceRecordList: MechanicalRacingRaceRecord[] =
-            await this.getRaceRecordListFromS3(
-                searchFilter.raceType,
-                searchFilter.startDate,
-            );
+            await this.getRaceRecordListFromS3(raceType, startDate);
         const filteredRaceRecordList = raceRaceRecordList.filter(
             (raceRecord) =>
-                raceRecord.dateTime >= searchFilter.startDate &&
-                raceRecord.dateTime <= searchFilter.finishDate,
+                raceRecord.dateTime >= startDate &&
+                raceRecord.dateTime <= finishDate,
         );
 
         // RaceEntityに変換

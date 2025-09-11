@@ -42,25 +42,24 @@ export class PlaceRepositoryFromStorageForAWS
     public async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntityForAWS,
     ): Promise<PlaceEntity[]> {
+        const { startDate, finishDate, raceType } = searchFilter;
         // 海外競馬はまだ対応していない
-        if (searchFilter.raceType === RaceType.OVERSEAS) {
+        if (raceType === RaceType.OVERSEAS) {
             return [];
         }
         // 開催データを取得
         const placeRecordList: PlaceRecord[] =
-            await this.getPlaceRecordListFromS3(searchFilter.raceType);
+            await this.getPlaceRecordListFromS3(raceType);
         const filteredPlaceRecordList = placeRecordList.filter(
             (placeRecord) =>
-                placeRecord.dateTime >= searchFilter.startDate &&
-                placeRecord.dateTime <= searchFilter.finishDate,
+                placeRecord.dateTime >= startDate &&
+                placeRecord.dateTime <= finishDate,
         );
 
-        switch (searchFilter.raceType) {
+        switch (raceType) {
             case RaceType.JRA: {
                 const heldDayRecordList: HeldDayRecord[] =
-                    await this.getHeldDayRecordListFromS3(
-                        searchFilter.raceType,
-                    );
+                    await this.getHeldDayRecordListFromS3(raceType);
 
                 // placeRecordListのidと、heldDayRecordListのidが一致するものを取得
                 const heldDayMap = this.toIdMap(heldDayRecordList);
@@ -106,9 +105,7 @@ export class PlaceRepositoryFromStorageForAWS
             case RaceType.AUTORACE:
             case RaceType.BOATRACE: {
                 const placeGradeRecordList: PlaceGradeRecord[] =
-                    await this.getPlaceGradeRecordListFromS3(
-                        searchFilter.raceType,
-                    );
+                    await this.getPlaceGradeRecordListFromS3(raceType);
 
                 // placeRecordListのidと、placeRecordListのidが一致するものを取得
                 const placeGradeMap = this.toIdMap(placeGradeRecordList);

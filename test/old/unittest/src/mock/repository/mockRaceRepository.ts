@@ -10,7 +10,8 @@ export const mockRaceRepositoryForAWS =
                 .fn()
                 .mockImplementation(
                     async (searchFilter: SearchPlaceFilterEntityForAWS) => {
-                        return baseRaceEntityList(searchFilter.raceType);
+                        const { raceType } = searchFilter;
+                        return baseRaceEntityList(raceType);
                     },
                 ),
             upsertRaceEntityList: jest
