@@ -45,9 +45,8 @@ export class JraRaceRepositoryFromHtml implements IRaceRepository {
     ): Promise<RaceEntity[]> {
         const raceEntityList: RaceEntity[] = [];
         console.log(placeEntityList);
-        if (!placeEntityList) {
-            return raceEntityList;
-        }
+        if (!placeEntityList) return raceEntityList;
+
         // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
         const filteredPlaceDataList = placeEntityList
             .map((place) => place.placeData)

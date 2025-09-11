@@ -42,9 +42,8 @@ export class NarRaceRepositoryFromHtml implements IRaceRepository {
         placeEntityList?: PlaceEntity[],
     ): Promise<RaceEntity[]> {
         const raceEntityList: RaceEntity[] = [];
-        if (!placeEntityList) {
-            return raceEntityList;
-        }
+        if (!placeEntityList) return raceEntityList;
+
         for (const placeEntity of placeEntityList) {
             raceEntityList.push(
                 ...(await this.fetchRaceListFromHtml(placeEntity)),
