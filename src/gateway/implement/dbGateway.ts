@@ -16,10 +16,10 @@ export class DBGateway implements IDBGateway {
     public async queryAll(
         env: CloudFlareEnv,
         sql: string,
-        params?: any[],
+        params: any[],
     ): Promise<{ results: any[] }> {
         return env.DB.prepare(sql)
-            .bind(...(params ?? []))
+            .bind(...params)
             .all();
     }
 
@@ -33,10 +33,10 @@ export class DBGateway implements IDBGateway {
     public async run(
         env: CloudFlareEnv,
         sql: string,
-        params?: any[],
+        params: any[],
     ): Promise<any> {
         return env.DB.prepare(sql)
-            .bind(...(params ?? []))
+            .bind(...params)
             .run();
     }
 }

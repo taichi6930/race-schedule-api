@@ -5,9 +5,9 @@ export interface IDBGateway {
     queryAll: (
         env: CloudFlareEnv,
         sql: string,
-        params?: any[],
+        params: any[],
     ) => Promise<{ results: any[] }>;
 
     /** Execute a statement that doesn't return rows. */
-    run: (env: CloudFlareEnv, sql: string, params?: any[]) => Promise<any>;
+    run: (env: CloudFlareEnv, sql: string, params: any[]) => Promise<any>;
 }
