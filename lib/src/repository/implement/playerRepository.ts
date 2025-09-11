@@ -27,9 +27,10 @@ export class PlayerRepositoryForAWS implements IPlayerRepositoryForAWS {
     public async findAll(
         searchFilter: SearchPlayerFilterEntityForAWS,
     ): Promise<PlayerEntityForAWS[]> {
+        const { raceType } = searchFilter;
         // 開催データを取得
         const playerRecordList: PlayerRecord[] =
-            await this.getPlayerRecordListFromS3(searchFilter.raceType);
+            await this.getPlayerRecordListFromS3(raceType);
 
         return playerRecordList.map((playerRecord) => playerRecord.toEntity());
     }

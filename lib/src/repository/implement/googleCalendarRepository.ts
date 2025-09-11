@@ -35,14 +35,15 @@ export class GoogleCalendarRepositoryForAWS
         searchFilter: SearchCalendarFilterEntityForAWS,
     ): Promise<CalendarData[]> {
         const calendarDataList: CalendarData[] = [];
-        for (const raceType of searchFilter.raceTypeList) {
+        const { startDate, finishDate, raceTypeList } = searchFilter;
+        for (const raceType of raceTypeList) {
             // GoogleカレンダーAPIからイベントを取得
             try {
                 const _calendarDataList =
                     await this.googleCalendarGateway.fetchCalendarDataList(
                         raceType,
-                        searchFilter.startDate,
-                        searchFilter.finishDate,
+                        startDate,
+                        finishDate,
                     );
                 calendarDataList.push(
                     ..._calendarDataList.map((calendarData) =>

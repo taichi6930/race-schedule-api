@@ -19,17 +19,18 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepositoryForAWS {
         searchFilter: SearchPlaceFilterEntityForAWS,
     ): Promise<PlaceEntity[]> {
         const placeEntityList = [];
-        const currentDate = new Date(searchFilter.startDate);
+        const { raceType, startDate, finishDate } = searchFilter;
+        const currentDate = new Date(startDate);
 
-        while (currentDate <= searchFilter.finishDate) {
+        while (currentDate <= finishDate) {
             const placeEntity = PlaceEntity.createWithoutId(
                 PlaceData.create(
-                    searchFilter.raceType,
+                    raceType,
                     new Date(currentDate),
-                    defaultLocation[searchFilter.raceType],
+                    defaultLocation[raceType],
                 ),
-                defaultHeldDayData[searchFilter.raceType],
-                this.defaultGrade[searchFilter.raceType],
+                defaultHeldDayData[raceType],
+                this.defaultGrade[raceType],
             );
             placeEntityList.push(placeEntity);
             currentDate.setDate(currentDate.getDate() + 1);
@@ -45,7 +46,7 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepositoryForAWS {
      * @param placeEntityList
      */
     @Logger
-    public async registerPlaceEntityList(
+    public async upsertPlaceEntityList(
         raceType: RaceType,
         placeEntityList: PlaceEntity[],
     ): Promise<{

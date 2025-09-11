@@ -87,7 +87,7 @@ describe('PlaceService', () => {
 
             expect(
                 repositorySetup.placeRepositoryFromStorage
-                    .registerPlaceEntityList,
+                    .upsertPlaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -96,13 +96,13 @@ describe('PlaceService', () => {
 
             expect(
                 repositorySetup.placeRepositoryFromStorage
-                    .registerPlaceEntityList,
+                    .upsertPlaceEntityList,
             ).not.toHaveBeenCalled();
         });
 
         it('開催場データが更新できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            repositorySetup.placeRepositoryFromStorage.registerPlaceEntityList.mockRejectedValue(
+            repositorySetup.placeRepositoryFromStorage.upsertPlaceEntityList.mockRejectedValue(
                 new Error('開催場データの登録に失敗しました'),
             );
 

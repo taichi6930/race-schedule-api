@@ -13,7 +13,8 @@ export const mockPlaceRepositoryForAWS =
                 .fn()
                 .mockImplementation(
                     async (searchFilter: SearchPlaceFilterEntityForAWS) => {
-                        switch (searchFilter.raceType) {
+                        const { raceType } = searchFilter;
+                        switch (raceType) {
                             case RaceType.OVERSEAS: {
                                 throw new Error('race type is not supported');
                             }
@@ -22,12 +23,12 @@ export const mockPlaceRepositoryForAWS =
                             case RaceType.KEIRIN:
                             case RaceType.AUTORACE:
                             case RaceType.BOATRACE: {
-                                return [basePlaceEntity(searchFilter.raceType)];
+                                return [basePlaceEntity(raceType)];
                             }
                         }
                     },
                 ),
-            registerPlaceEntityList: jest
+            upsertPlaceEntityList: jest
                 .fn()
                 .mockImplementation(
                     async (
@@ -51,10 +52,13 @@ export const mockPlaceRepository = (): jest.Mocked<IPlaceRepository> => {
     return {
         fetchPlaceEntityList: jest
             .fn()
-            .mockImplementation(async (searchFilter: SearchPlaceFilterEntity) =>
-                searchFilter.raceTypeList.map((raceType) =>
-                    basePlaceEntity(raceType),
-                ),
+            .mockImplementation(
+                async (searchFilter: SearchPlaceFilterEntity) => {
+                    const { raceTypeList } = searchFilter;
+                    return raceTypeList.map((raceType) =>
+                        basePlaceEntity(raceType),
+                    );
+                },
             ),
         upsertPlaceEntityList: jest.fn().mockImplementation(),
     };

@@ -1,7 +1,9 @@
 import { formatDate } from 'date-fns';
+import { inject, injectable } from 'tsyringe';
 
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
+import type { IDBGateway } from '../../gateway/interface/iDbGateway';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -9,7 +11,12 @@ import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntit
 import { PlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
 
+@injectable()
 export class PlaceRepositoryFromStorage implements IPlaceRepository {
+    public constructor(
+        @inject('DBGateway')
+        private readonly dbGateway: IDBGateway,
+    ) {}
     @Logger
     public async fetchPlaceEntityList(
         commonParameter: CommonParameter,
@@ -50,15 +57,15 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         const fromSQL = `FROM place
             LEFT JOIN held_day ON place.id = held_day.id
             LEFT JOIN place_grade ON place.id = place_grade.id`;
-        const { results } = await env.DB.prepare(
+        const { results } = await this.dbGateway.queryAll(
+            env,
             `
             ${selectSQL}
             ${fromSQL}
             ${whereClause}
             `,
-        )
-            .bind(...queryParams)
-            .all();
+            queryParams,
+        );
         return results
             .map((row: any): PlaceEntity | undefined => {
                 try {
@@ -95,82 +102,117 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         entityList: PlaceEntity[],
     ): Promise<void> {
         const { env } = commonParameter;
-        const insertStmt = env.DB.prepare(
-            `
-            INSERT INTO place (
-                id,
-                race_type,
-                date_time,
-                location_name,
-                created_at,
-                updated_at
-            ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-            ON CONFLICT(id) DO UPDATE SET
-                race_type = excluded.race_type,
-                date_time = excluded.date_time,
-                location_name = excluded.location_name,
-                updated_at = CURRENT_TIMESTAMP
-            `,
+
+        const chunkSize = 10;
+        // chunk分割関数
+        function chunkArray<T>(array: T[], size: number): T[][] {
+            const result: T[][] = [];
+            for (let i = 0; i < array.length; i += size) {
+                result.push(array.slice(i, i + size));
+            }
+            return result;
+        }
+
+        if (entityList.length === 0) return;
+        // placeテーブル バルクinsert
+        for (const chunk of chunkArray(entityList, chunkSize)) {
+            const insertPlaceSql = `
+                INSERT INTO place (
+                    id,
+                    race_type,
+                    date_time,
+                    location_name,
+                    created_at,
+                    updated_at
+                ) VALUES
+                    ${chunk.map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                ON CONFLICT(id) DO UPDATE SET
+                    race_type = excluded.race_type,
+                    date_time = excluded.date_time,
+                    location_name = excluded.location_name,
+                    updated_at = CURRENT_TIMESTAMP
+            `;
+            const placeParams: any[] = [];
+            for (const entity of chunk) {
+                const { id, placeData } = entity;
+                const dateJST = new Date(new Date(placeData.dateTime));
+                const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
+                placeParams.push(
+                    id,
+                    placeData.raceType,
+                    dateTimeStr,
+                    placeData.location,
+                );
+            }
+            await this.dbGateway.run(env, insertPlaceSql, placeParams);
+        }
+
+        // held_day バルクinsert（JRAのみ）
+        const heldDayEntities = entityList.filter(
+            (e) => e.placeData.raceType === RaceType.JRA,
         );
-        // トランザクション開始
-        for (const entity of entityList) {
-            const { id, placeData, grade } = entity;
-            // JST変換
-            const dateJST = new Date(new Date(placeData.dateTime));
-            const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
-            await insertStmt
-                .bind(id, placeData.raceType, dateTimeStr, placeData.location)
-                .run();
-            if (placeData.raceType === RaceType.JRA) {
-                const insertHeldDayStmt = env.DB.prepare(
-                    `
-                    INSERT INTO held_day (
-                        id,
-                        race_type,
-                        held_times,
-                        held_day_times,
-                        created_at,
-                        updated_at
-                    ) VALUES (?, ?, ?, ?,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                    ON CONFLICT(id) DO UPDATE SET
-                        race_type = excluded.race_type,
-                        held_times = excluded.held_times,
-                        held_day_times = excluded.held_day_times,
-                        updated_at = CURRENT_TIMESTAMP
-                    `,
+        for (const chunk of chunkArray(heldDayEntities, chunkSize)) {
+            if (chunk.length === 0) continue;
+            const insertHeldDaySql = `
+                INSERT INTO held_day (
+                    id,
+                    race_type,
+                    held_times,
+                    held_day_times,
+                    created_at,
+                    updated_at
+                ) VALUES
+                    ${chunk.map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                ON CONFLICT(id) DO UPDATE SET
+                    race_type = excluded.race_type,
+                    held_times = excluded.held_times,
+                    held_day_times = excluded.held_day_times,
+                    updated_at = CURRENT_TIMESTAMP
+            `;
+            const heldDayParams: any[] = [];
+            for (const entity of chunk) {
+                heldDayParams.push(
+                    entity.id,
+                    entity.placeData.raceType,
+                    entity.heldDayData.heldTimes,
+                    entity.heldDayData.heldDayTimes,
                 );
-                const { heldDayData } = entity;
-                await insertHeldDayStmt
-                    .bind(
-                        id,
-                        placeData.raceType,
-                        heldDayData.heldTimes,
-                        heldDayData.heldDayTimes,
-                    )
-                    .run();
             }
-            if (
-                placeData.raceType === RaceType.KEIRIN ||
-                placeData.raceType === RaceType.AUTORACE ||
-                placeData.raceType === RaceType.BOATRACE
-            ) {
-                const insertGradeStmt = env.DB.prepare(
-                    `
-                    INSERT INTO place_grade (
-                        id,
-                        race_type,
-                        grade,
-                        created_at,
-                        updated_at
-                    ) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                    ON CONFLICT(id) DO UPDATE SET
-                        race_type = excluded.race_type,
-                        grade = excluded.grade,
-                        updated_at = CURRENT_TIMESTAMP
-                    `,
+            await this.dbGateway.run(env, insertHeldDaySql, heldDayParams);
+        }
+
+        // place_grade バルクinsert（KEIRIN/AUTORACE/BOATRACEのみ）
+        const gradeEntities = entityList.filter(
+            (e) =>
+                e.placeData.raceType === RaceType.KEIRIN ||
+                e.placeData.raceType === RaceType.AUTORACE ||
+                e.placeData.raceType === RaceType.BOATRACE,
+        );
+        for (const chunk of chunkArray(gradeEntities, chunkSize)) {
+            if (chunk.length === 0) continue;
+            const insertGradeSql = `
+                INSERT INTO place_grade (
+                    id,
+                    race_type,
+                    grade,
+                    created_at,
+                    updated_at
+                ) VALUES
+                    ${chunk.map(() => '(?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                ON CONFLICT(id) DO UPDATE SET
+                    race_type = excluded.race_type,
+                    grade = excluded.grade,
+                    updated_at = CURRENT_TIMESTAMP
+            `;
+            const gradeParams: any[] = [];
+            for (const entity of chunk) {
+                gradeParams.push(
+                    entity.id,
+                    entity.placeData.raceType,
+                    entity.grade,
                 );
-                await insertGradeStmt.bind(id, placeData.raceType, grade).run();
             }
+            await this.dbGateway.run(env, insertGradeSql, gradeParams);
         }
     }
 }

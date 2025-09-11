@@ -101,10 +101,10 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
                 );
             });
 
-            describe('registerPlaceList', () => {
+            describe('upsertPlaceList', () => {
                 it(`HTMLにはデータを登録できない(${raceType})`, async () => {
                     await expect(
-                        repository.registerPlaceEntityList(raceType, [
+                        repository.upsertPlaceEntityList(raceType, [
                             basePlaceEntity(raceType),
                         ]),
                     ).resolves.toEqual({

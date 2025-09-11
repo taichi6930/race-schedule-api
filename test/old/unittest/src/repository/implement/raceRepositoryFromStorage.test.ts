@@ -90,7 +90,7 @@ describe('RaceRepositoryFromStorage', () => {
         );
     });
 
-    describe('registerRaceList', () => {
+    describe('upsertRaceList', () => {
         describe.each([
             [
                 true,
@@ -129,7 +129,7 @@ describe('RaceRepositoryFromStorage', () => {
                             ? horseRacingRaceRepository
                             : mechanicalRacingRaceRepository;
 
-                    await repository.registerRaceEntityList(
+                    await repository.upsertRaceEntityList(
                         raceType,
                         raceEntityList,
                     );

@@ -59,7 +59,7 @@ export interface IRaceRepositoryForAWS {
      *               - データストアへの書き込みに失敗
      *               - 一意制約違反が発生（重複するレースIDなど）
      */
-    registerRaceEntityList: (
+    upsertRaceEntityList: (
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ) => Promise<{

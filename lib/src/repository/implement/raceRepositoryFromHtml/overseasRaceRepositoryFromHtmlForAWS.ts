@@ -41,10 +41,8 @@ export class OverseasRaceRepositoryFromHtmlForAWS
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntity[]> {
-        const monthList: Date[] = this.generateMonthList(
-            searchFilter.startDate,
-            searchFilter.finishDate,
-        );
+        const { startDate, finishDate } = searchFilter;
+        const monthList: Date[] = this.generateMonthList(startDate, finishDate);
         const raceEntityList: RaceEntity[] = [];
         for (const month of monthList) {
             raceEntityList.push(
@@ -268,7 +266,7 @@ export class OverseasRaceRepositoryFromHtmlForAWS
      * @param raceEntityList
      */
     @Logger
-    public async registerRaceEntityList(
+    public async upsertRaceEntityList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{

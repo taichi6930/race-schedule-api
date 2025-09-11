@@ -34,22 +34,17 @@ export class HorseRacingRaceRepositoryFromStorage
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntity[]> {
+        const { startDate, finishDate, raceType } = searchFilter;
         // ファイル名リストから開催データを取得する
         const raceRecordList: HorseRacingRaceRecord[] =
-            await this.getRaceRecordListFromS3(
-                searchFilter.raceType,
-                searchFilter.startDate,
-            );
+            await this.getRaceRecordListFromS3(raceType, startDate);
         const filteredRaceRecordList = raceRecordList.filter(
             (raceRecord) =>
-                raceRecord.dateTime >= searchFilter.startDate &&
-                raceRecord.dateTime <= searchFilter.finishDate,
+                raceRecord.dateTime >= startDate &&
+                raceRecord.dateTime <= finishDate,
         );
 
-        if (
-            searchFilter.raceType === RaceType.NAR ||
-            searchFilter.raceType === RaceType.OVERSEAS
-        ) {
+        if (raceType === RaceType.NAR || raceType === RaceType.OVERSEAS) {
             // フィルタリング処理（日付の範囲指定）
             return filteredRaceRecordList.map((raceRecord) =>
                 RaceEntity.create(
@@ -64,7 +59,7 @@ export class HorseRacingRaceRepositoryFromStorage
             );
         } else {
             const heldDayRecordList: HeldDayRecord[] =
-                await this.getHeldDayRecordListFromS3(searchFilter.raceType);
+                await this.getHeldDayRecordListFromS3(raceType);
 
             const recordMap = new Map<
                 string,
@@ -224,7 +219,7 @@ export class HorseRacingRaceRepositoryFromStorage
      * @param raceEntityList
      */
     @Logger
-    public async registerRaceEntityList(
+    public async upsertRaceEntityList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{

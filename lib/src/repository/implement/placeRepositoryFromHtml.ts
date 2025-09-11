@@ -619,7 +619,7 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
      * @param placeEntityList
      */
     @Logger
-    public async registerPlaceEntityList(
+    public async upsertPlaceEntityList(
         raceType: RaceType,
         placeEntityList: PlaceEntity[],
     ): Promise<{

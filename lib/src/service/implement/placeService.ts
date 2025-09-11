@@ -99,7 +99,7 @@ export class PlaceServiceForAWS implements IPlaceServiceForAWS {
                             successDataCount: 0,
                             failureDataCount: 0,
                         };
-                    return this.placeRepositoryFromStorage.registerPlaceEntityList(
+                    return this.placeRepositoryFromStorage.upsertPlaceEntityList(
                         raceType,
                         placeEntityList.filter(
                             (item) => item.placeData.raceType === raceType,

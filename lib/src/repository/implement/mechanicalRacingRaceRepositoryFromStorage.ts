@@ -37,23 +37,18 @@ export class MechanicalRacingRaceRepositoryFromStorage
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntity[]> {
+        const { startDate, finishDate, raceType } = searchFilter;
         // ファイル名リストから選手データを取得する
         const racePlayerRecordList: RacePlayerRecord[] =
-            await this.getRacePlayerRecordListFromS3(
-                searchFilter.raceType,
-                searchFilter.startDate,
-            );
+            await this.getRacePlayerRecordListFromS3(raceType, startDate);
 
         // レースデータを取得する
         const raceRaceRecordList: MechanicalRacingRaceRecord[] =
-            await this.getRaceRecordListFromS3(
-                searchFilter.raceType,
-                searchFilter.startDate,
-            );
+            await this.getRaceRecordListFromS3(raceType, startDate);
         const filteredRaceRecordList = raceRaceRecordList.filter(
             (raceRecord) =>
-                raceRecord.dateTime >= searchFilter.startDate &&
-                raceRecord.dateTime <= searchFilter.finishDate,
+                raceRecord.dateTime >= startDate &&
+                raceRecord.dateTime <= finishDate,
         );
 
         // RaceEntityに変換
@@ -89,7 +84,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
      * @param raceEntityList - 登録するレースエンティティ配列
      */
     @Logger
-    public async registerRaceEntityList(
+    public async upsertRaceEntityList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{
@@ -99,8 +94,8 @@ export class MechanicalRacingRaceRepositoryFromStorage
         failureData: RaceEntity[];
     }> {
         try {
-            await this.registerRaceRecordList(raceType, raceEntityList);
-            await this.registerRacePlayerRecordList(raceType, raceEntityList);
+            await this.upsertRaceRecordList(raceType, raceEntityList);
+            await this.upsertRacePlayerRecordList(raceType, raceEntityList);
 
             return {
                 code: 200,
@@ -119,7 +114,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
         }
     }
 
-    private async registerRaceRecordList(
+    private async upsertRaceRecordList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{
@@ -179,7 +174,7 @@ export class MechanicalRacingRaceRepositoryFromStorage
         }
     }
 
-    private async registerRacePlayerRecordList(
+    private async upsertRacePlayerRecordList(
         raceType: RaceType,
         raceEntityList: RaceEntity[],
     ): Promise<{
