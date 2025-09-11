@@ -48,7 +48,7 @@
         "node": ">=24.0.0 <25.0.0"
     },
     "dependencies": {
-        "@aws-sdk/client-s3": "^3.886.0",
+        "@aws-sdk/client-s3": "^3.887.0",
         "@codegenie/serverless-express": "^4.17.0",
         "@types/aws-lambda": "^8.10.152",
         "@types/express": "^5.0.3",
@@ -86,7 +86,7 @@
         "zod": "^4.1.8"
     },
     "devDependencies": {
-        "@cloudflare/workers-types": "^4.20250910.0",
+        "@cloudflare/workers-types": "^4.20250911.0",
         "@eslint/js": "^9.35.0",
         "@swc/core": "^1.13.5",
         "@swc/jest": "^0.2.39",
