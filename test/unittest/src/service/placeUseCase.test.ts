@@ -1,0 +1,90 @@
+import 'reflect-metadata';
+
+import { container } from 'tsyringe';
+
+import { DataLocation } from '../../../../lib/src/utility/dataType';
+import { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/searchPlaceFilterEntity';
+import { PlaceService } from '../../../../src/service/implement/placeService';
+import type { IPlaceService } from '../../../../src/service/interface/IPlaceService';
+import { commonParameterMock } from '../../../old/unittest/src/mock/common/commonParameterMock';
+import type { TestRepositorySetup } from '../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestRepositoryMock,
+} from '../../../utility/testSetupHelper';
+import {
+    mockPlaceEntityList,
+    testRaceTypeListAll,
+} from '../mock/common/baseCommonData';
+
+describe('PlaceUseCase', () => {
+    let repositorySetup: TestRepositorySetup;
+    let service: IPlaceService;
+
+    beforeEach(() => {
+        repositorySetup = setupTestRepositoryMock();
+        service = container.resolve(PlaceService);
+    });
+
+    afterEach(() => {
+        clearMocks();
+    });
+
+    describe('fetchRaceEntityList', () => {
+        it('正常に開催場データが取得できること', async () => {
+            // モックの戻り値を設定
+            repositorySetup.placeRepositoryFromStorage.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntityList,
+            );
+
+            const startDate = new Date('2024-06-01');
+            const finishDate = new Date('2024-06-30');
+
+            const searchPlaceFilter = new SearchPlaceFilterEntity(
+                startDate,
+                finishDate,
+                testRaceTypeListAll,
+                [],
+            );
+
+            const result = await service.fetchPlaceEntityList(
+                commonParameterMock(),
+                searchPlaceFilter,
+                DataLocation.Storage,
+            );
+
+            expect(result).toEqual(mockPlaceEntityList);
+        });
+    });
+
+    // describe('updatePlaceEntityList', () => {
+    //     it('正常に開催場データが更新されること', async () => {
+    //         const startDate = new Date('2024-06-01');
+    //         const finishDate = new Date('2024-06-30');
+
+    //         const searchPlaceFilter = new SearchPlaceFilterEntity(
+    //             startDate,
+    //             finishDate,
+    //             testRaceTypeListAll,
+    //             [],
+    //         );
+
+    //         // モックの戻り値を設定
+    //         serviceSetup.placeService.fetchPlaceEntityList.mockResolvedValue(
+    //             mockPlaceEntityList,
+    //         );
+
+    //         await service.upsertPlaceEntityList(
+    //             commonParameterMock(),
+    //             searchPlaceFilter,
+    //         );
+
+    //         expect(
+    //             serviceSetup.placeService.fetchPlaceEntityList,
+    //         ).toHaveBeenCalled();
+    //         expect(
+    //             serviceSetup.placeService.upsertPlaceEntityList,
+    //         ).toHaveBeenCalled();
+    //     });
+    // });
+});

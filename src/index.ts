@@ -16,10 +16,10 @@ import { GoogleCalendarRepository } from './repository/implement/googleCalendarR
 import { JraRaceRepositoryFromHtml } from './repository/implement/jraRaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from './repository/implement/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtml } from './repository/implement/overseasRaceRepositoryFromHtml';
-import { PlaceRepositoryForStorage } from './repository/implement/placeRepositoryForStorage';
 import { PlaceRepositoryFromHtml } from './repository/implement/placeRepositoryFromHtml';
+import { PlaceRepositoryFromStorage } from './repository/implement/placeRepositoryFromStorage';
 import { PlayerRepository } from './repository/implement/playerRepository';
-import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryForStorage';
+import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryFromStorage';
 import type { ICalendarRepository } from './repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from './repository/interface/IPlaceRepository';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
@@ -78,8 +78,8 @@ container.register<IRaceUseCase>('RaceUsecase', {
 container.register<IPlaceDataHtmlGateway>('PlaceDataHtmlGateway', {
     useClass: PlaceDataHtmlGateway,
 });
-container.register<IPlaceRepository>('PlaceRepositoryForStorage', {
-    useClass: PlaceRepositoryForStorage,
+container.register<IPlaceRepository>('PlaceRepositoryFromStorage', {
+    useClass: PlaceRepositoryFromStorage,
 });
 container.register<IPlaceRepository>('PlaceRepositoryFromHtml', {
     useClass: PlaceRepositoryFromHtml,

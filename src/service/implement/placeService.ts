@@ -14,7 +14,7 @@ import { IPlaceService } from '../interface/IPlaceService';
 @injectable()
 export class PlaceService implements IPlaceService {
     public constructor(
-        @inject('PlaceRepositoryForStorage')
+        @inject('PlaceRepositoryFromStorage')
         private readonly repositoryForStorage: IPlaceRepository,
         @inject('PlaceRepositoryFromHtml')
         private readonly repositoryFromHtml: IPlaceRepository,
