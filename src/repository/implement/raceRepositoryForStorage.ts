@@ -172,7 +172,7 @@ export class RaceRepositoryForStorage implements IRaceRepository {
             `,
         );
         for (const entity of entityList) {
-            const { id, placeId, raceData, conditionData } = entity;
+            const { id, placeId, raceData } = entity;
             // JST変換
             const dateJST = new Date(new Date(raceData.dateTime));
             const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
@@ -188,14 +188,21 @@ export class RaceRepositoryForStorage implements IRaceRepository {
                     raceData.number,
                 )
                 .run();
-            await insertConditionStmt
-                .bind(
-                    id,
-                    raceData.raceType,
-                    conditionData.surfaceType,
-                    conditionData.distance,
-                )
-                .run();
+            if (
+                raceData.raceType === RaceType.JRA ||
+                raceData.raceType === RaceType.NAR ||
+                raceData.raceType === RaceType.OVERSEAS
+            ) {
+                const { conditionData } = entity;
+                await insertConditionStmt
+                    .bind(
+                        id,
+                        raceData.raceType,
+                        conditionData.surfaceType,
+                        conditionData.distance,
+                    )
+                    .run();
+            }
             if (
                 raceData.raceType === RaceType.KEIRIN ||
                 raceData.raceType === RaceType.AUTORACE ||
