@@ -26,14 +26,20 @@ export class RaceService implements IRaceService {
         private readonly narRaceRepositoryFromHtml: IRaceRepository,
         @inject('OverseasRaceRepositoryFromHtml')
         private readonly overseasRaceRepositoryFromHtml: IRaceRepository,
+        @inject('KeirinRaceRepositoryFromHtml')
+        private readonly keirinRaceRepositoryFromHtml: IRaceRepository,
+        @inject('AutoRaceRepositoryFromHtml')
+        private readonly autoRaceRepositoryFromHtml: IRaceRepository,
+        @inject('BoatRaceRepositoryFromHtml')
+        private readonly boatRaceRepositoryFromHtml: IRaceRepository,
     ) {
         this.raceRepositoryFromHtml = {
             [RaceType.JRA]: this.jraRaceRepositoryFromHtml,
             [RaceType.NAR]: this.narRaceRepositoryFromHtml,
             [RaceType.OVERSEAS]: this.overseasRaceRepositoryFromHtml,
-            [RaceType.KEIRIN]: this.narRaceRepositoryFromHtml,
-            [RaceType.AUTORACE]: this.narRaceRepositoryFromHtml,
-            [RaceType.BOATRACE]: this.narRaceRepositoryFromHtml,
+            [RaceType.KEIRIN]: this.keirinRaceRepositoryFromHtml,
+            [RaceType.AUTORACE]: this.autoRaceRepositoryFromHtml,
+            [RaceType.BOATRACE]: this.boatRaceRepositoryFromHtml,
         };
     }
 

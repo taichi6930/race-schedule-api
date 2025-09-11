@@ -1,10 +1,10 @@
 import { container } from 'tsyringe';
 
 import { PlaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/placeRepositoryFromHtml';
-import { AutoraceRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
-import { BoatraceRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
+import { AutoraceRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
+import { BoatraceRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
 import { JraRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
-import { KeirinRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
+import { KeirinRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IPlaceRepositoryForAWS } from '../../src/repository/interface/IPlaceRepository';
@@ -28,13 +28,13 @@ switch (ENV) {
         container.register<IRaceRepositoryForAWS>(
             'KeirinRaceRepositoryFromHtml',
             {
-                useClass: KeirinRaceRepositoryFromHtml,
+                useClass: KeirinRaceRepositoryFromHtmlForAWS,
             },
         );
         container.register<IRaceRepositoryForAWS>(
             'AutoraceRaceRepositoryFromHtml',
             {
-                useClass: AutoraceRaceRepositoryFromHtml,
+                useClass: AutoraceRaceRepositoryFromHtmlForAWS,
             },
         );
         container.register<IPlaceRepositoryForAWS>('PlaceRepositoryFromHtml', {
@@ -49,13 +49,13 @@ switch (ENV) {
         container.register<IRaceRepositoryForAWS>(
             'AutoraceRaceRepositoryFromHtml',
             {
-                useClass: AutoraceRaceRepositoryFromHtml,
+                useClass: AutoraceRaceRepositoryFromHtmlForAWS,
             },
         );
         container.register<IRaceRepositoryForAWS>(
             'BoatraceRaceRepositoryFromHtml',
             {
-                useClass: BoatraceRaceRepositoryFromHtml,
+                useClass: BoatraceRaceRepositoryFromHtmlForAWS,
             },
         );
         break;
