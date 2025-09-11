@@ -119,7 +119,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
             `;
         // トランザクション開始
         for (const entity of entityList) {
-            const { id, placeData, grade } = entity;
+            const { id, placeData } = entity;
             // JST変換
             const dateJST = new Date(new Date(placeData.dateTime));
             const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
@@ -158,6 +158,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                 placeData.raceType === RaceType.AUTORACE ||
                 placeData.raceType === RaceType.BOATRACE
             ) {
+                const { grade } = entity;
                 const insertGradeSql = `
                     INSERT INTO place_grade (
                         id,
