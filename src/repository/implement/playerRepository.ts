@@ -1,11 +1,19 @@
-import { DBGateway } from '../../gateway/dbGateway';
+import { inject, injectable } from 'tsyringe';
+
+import type { IDBGateway } from '../../gateway/interface/iDbGateway';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { SearchPlayerFilterEntity } from '../entity/filter/searchPlayerFilterEntity';
 import { PlayerEntity } from '../entity/playerEntity';
 import type { IPlayerRepository } from '../interface/IPlayerRepository';
 
+@injectable()
 export class PlayerRepository implements IPlayerRepository {
+    public constructor(
+        @inject('DBGateway')
+        private readonly dbGateway: IDBGateway,
+    ) {}
+
     @Logger
     public async fetchPlayerEntityList(
         commonParameter: CommonParameter,
@@ -19,7 +27,7 @@ export class PlayerRepository implements IPlayerRepository {
 
         const queryParams: any[] = [];
         queryParams.push(...raceTypeList);
-        const { results } = await DBGateway.queryAll(
+        const { results } = await this.dbGateway.queryAll(
             env,
             `
             SELECT race_type, player_no, player_name, priority, created_at, updated_at
@@ -64,6 +72,6 @@ export class PlayerRepository implements IPlayerRepository {
             e.playerName,
             e.priority,
         ]);
-        await DBGateway.run(commonParameter.env, sql, bindParams);
+        await this.dbGateway.run(commonParameter.env, sql, bindParams);
     }
 }

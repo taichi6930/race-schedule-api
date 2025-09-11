@@ -6,10 +6,12 @@ import { CalendarController } from './controller/calendarController';
 import { PlaceController } from './controller/placeController';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
+import { DBGateway } from './gateway/implement/dbGateway';
 import { GoogleCalendarGateway } from './gateway/implement/googleCalendarGateway';
 import { PlaceDataHtmlGateway } from './gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGateway } from './gateway/implement/raceDataHtmlGateway';
 import type { ICalendarGateway } from './gateway/interface/iCalendarGateway';
+import type { IDBGateway } from './gateway/interface/iDbGateway';
 import type { IPlaceDataHtmlGateway } from './gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
 import { AutoraceRaceRepositoryFromHtml } from './repository/implement/autoraceRaceRepositoryFromHtml';
@@ -56,6 +58,9 @@ container.register<IPlayerUseCase>('PlayerUsecase', {
     useClass: PlayerUseCase,
 });
 
+container.register<IDBGateway>('DBGateway', {
+    useClass: DBGateway,
+});
 container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
     useClass: RaceDataHtmlGateway,
 });

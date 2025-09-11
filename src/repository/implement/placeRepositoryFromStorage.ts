@@ -1,8 +1,9 @@
 import { formatDate } from 'date-fns';
+import { inject, injectable } from 'tsyringe';
 
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
-import { DBGateway } from '../../gateway/dbGateway';
+import type { IDBGateway } from '../../gateway/interface/iDbGateway';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -10,7 +11,12 @@ import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntit
 import { PlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
 
+@injectable()
 export class PlaceRepositoryFromStorage implements IPlaceRepository {
+    public constructor(
+        @inject('DBGateway')
+        private readonly dbGateway: IDBGateway,
+    ) {}
     @Logger
     public async fetchPlaceEntityList(
         commonParameter: CommonParameter,
@@ -51,7 +57,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         const fromSQL = `FROM place
             LEFT JOIN held_day ON place.id = held_day.id
             LEFT JOIN place_grade ON place.id = place_grade.id`;
-        const { results } = await DBGateway.queryAll(
+        const { results } = await this.dbGateway.queryAll(
             env,
             `
             ${selectSQL}
@@ -117,7 +123,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
             // JST変換
             const dateJST = new Date(new Date(placeData.dateTime));
             const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
-            await DBGateway.run(env, insertPlaceSql, [
+            await this.dbGateway.run(env, insertPlaceSql, [
                 id,
                 placeData.raceType,
                 dateTimeStr,
@@ -140,7 +146,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                         updated_at = CURRENT_TIMESTAMP
                     `;
                 const { heldDayData } = entity;
-                await DBGateway.run(env, insertHeldDaySql, [
+                await this.dbGateway.run(env, insertHeldDaySql, [
                     id,
                     placeData.raceType,
                     heldDayData.heldTimes,
@@ -165,7 +171,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                         grade = excluded.grade,
                         updated_at = CURRENT_TIMESTAMP
                     `;
-                await DBGateway.run(env, insertGradeSql, [
+                await this.dbGateway.run(env, insertGradeSql, [
                     id,
                     placeData.raceType,
                     grade,

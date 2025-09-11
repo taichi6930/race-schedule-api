@@ -1,9 +1,10 @@
 import { formatDate } from 'date-fns';
+import { inject, injectable } from 'tsyringe';
 
 import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
-import { DBGateway } from '../../gateway/dbGateway';
+import type { IDBGateway } from '../../gateway/interface/iDbGateway';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -11,7 +12,12 @@ import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEn
 import { RaceEntity } from '../entity/raceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
+@injectable()
 export class RaceRepositoryFromStorage implements IRaceRepository {
+    public constructor(
+        @inject('DBGateway')
+        private readonly dbGateway: IDBGateway,
+    ) {}
     @Logger
     public async fetchRaceEntityList(
         commonParameter: CommonParameter,
@@ -86,7 +92,11 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
             ${whereClause}
         `;
 
-        const { results } = await DBGateway.queryAll(env, sql, queryParams);
+        const { results } = await this.dbGateway.queryAll(
+            env,
+            sql,
+            queryParams,
+        );
 
         return results.map((row: any): RaceEntity => {
             const dateJST = new Date(row.date_time);
@@ -152,7 +162,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
             const dateJST = new Date(new Date(raceData.dateTime));
             const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
 
-            await DBGateway.run(env, insertRaceSql, [
+            await this.dbGateway.run(env, insertRaceSql, [
                 id,
                 placeId,
                 raceData.raceType,
@@ -184,7 +194,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                         distance = excluded.distance,
                         updated_at=CURRENT_TIMESTAMP
                     `;
-                await DBGateway.run(env, insertConditionSql, [
+                await this.dbGateway.run(env, insertConditionSql, [
                     id,
                     raceData.raceType,
                     conditionData.surfaceType,
@@ -211,7 +221,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                         stage = excluded.stage,
                         updated_at=CURRENT_TIMESTAMP
                     `;
-                await DBGateway.run(env, insertStageSql, [
+                await this.dbGateway.run(env, insertStageSql, [
                     id,
                     raceData.raceType,
                     stage,
