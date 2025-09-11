@@ -15,7 +15,7 @@ import { IPlaceService } from '../interface/IPlaceService';
 export class PlaceService implements IPlaceService {
     public constructor(
         @inject('PlaceRepositoryFromStorage')
-        private readonly repositoryForStorage: IPlaceRepository,
+        private readonly repositoryFromStorage: IPlaceRepository,
         @inject('PlaceRepositoryFromHtml')
         private readonly repositoryFromHtml: IPlaceRepository,
     ) {}
@@ -28,7 +28,7 @@ export class PlaceService implements IPlaceService {
     ): Promise<PlaceEntity[]> {
         const repository =
             dataLocation === DataLocation.Storage
-                ? this.repositoryForStorage
+                ? this.repositoryFromStorage
                 : this.repositoryFromHtml;
         return repository.fetchPlaceEntityList(
             commonParameter,
@@ -41,7 +41,7 @@ export class PlaceService implements IPlaceService {
         commonParameter: CommonParameter,
         entityList: PlaceEntity[],
     ): Promise<void> {
-        await this.repositoryForStorage.upsertPlaceEntityList(
+        await this.repositoryFromStorage.upsertPlaceEntityList(
             commonParameter,
             entityList,
         );

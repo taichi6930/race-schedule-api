@@ -18,8 +18,8 @@ export class RaceService implements IRaceService {
     private readonly raceRepositoryFromHtml: Record<RaceType, IRaceRepository>;
 
     public constructor(
-        @inject('RaceRepositoryForStorage')
-        private readonly repositoryForStorage: IRaceRepository,
+        @inject('RaceRepositoryFromStorage')
+        private readonly repositoryFromStorage: IRaceRepository,
         @inject('JraRaceRepositoryFromHtml')
         private readonly jraRaceRepositoryFromHtml: IRaceRepository,
         @inject('NarRaceRepositoryFromHtml')
@@ -48,7 +48,7 @@ export class RaceService implements IRaceService {
         for (const raceType of searchRaceFilter.raceTypeList) {
             const repository =
                 dataLocation === DataLocation.Storage
-                    ? this.repositoryForStorage
+                    ? this.repositoryFromStorage
                     : this.raceRepositoryFromHtml[raceType];
             const fetchedRaceEntityList = await repository.fetchRaceEntityList(
                 commonParameter,
@@ -65,7 +65,7 @@ export class RaceService implements IRaceService {
         commonParameter: CommonParameter,
         entityList: RaceEntity[],
     ): Promise<void> {
-        await this.repositoryForStorage.upsertRaceEntityList(
+        await this.repositoryFromStorage.upsertRaceEntityList(
             commonParameter,
             entityList,
         );

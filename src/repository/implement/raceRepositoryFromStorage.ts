@@ -10,7 +10,7 @@ import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEn
 import { RaceEntity } from '../entity/raceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
-export class RaceRepositoryForStorage implements IRaceRepository {
+export class RaceRepositoryFromStorage implements IRaceRepository {
     @Logger
     public async fetchRaceEntityList(
         commonParameter: CommonParameter,

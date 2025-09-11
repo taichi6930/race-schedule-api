@@ -19,7 +19,7 @@ import { OverseasRaceRepositoryFromHtml } from './repository/implement/overseasR
 import { PlaceRepositoryFromHtml } from './repository/implement/placeRepositoryFromHtml';
 import { PlaceRepositoryFromStorage } from './repository/implement/placeRepositoryFromStorage';
 import { PlayerRepository } from './repository/implement/playerRepository';
-import { RaceRepositoryForStorage } from './repository/implement/raceRepositoryFromStorage';
+import { RaceRepositoryFromStorage } from './repository/implement/raceRepositoryFromStorage';
 import type { ICalendarRepository } from './repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from './repository/interface/IPlaceRepository';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
@@ -56,8 +56,8 @@ container.register<IPlayerUseCase>('PlayerUsecase', {
 container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
     useClass: RaceDataHtmlGateway,
 });
-container.register<IRaceRepository>('RaceRepositoryForStorage', {
-    useClass: RaceRepositoryForStorage,
+container.register<IRaceRepository>('RaceRepositoryFromStorage', {
+    useClass: RaceRepositoryFromStorage,
 });
 container.register<IRaceRepository>('OverseasRaceRepositoryFromHtml', {
     useClass: OverseasRaceRepositoryFromHtml,
