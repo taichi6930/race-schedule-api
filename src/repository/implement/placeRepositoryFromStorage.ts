@@ -102,6 +102,8 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         entityList: PlaceEntity[],
     ): Promise<void> {
         const { env } = commonParameter;
+        // placeテーブル バルクinsert
+        if (entityList.length === 0) return;
         const insertPlaceSql = `
             INSERT INTO place (
                 id,
@@ -110,74 +112,92 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                 location_name,
                 created_at,
                 updated_at
-            ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            ) VALUES
+                ${entityList.map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
             ON CONFLICT(id) DO UPDATE SET
                 race_type = excluded.race_type,
                 date_time = excluded.date_time,
                 location_name = excluded.location_name,
                 updated_at = CURRENT_TIMESTAMP
-            `;
-        // トランザクション開始
+        `;
+        const placeParams: any[] = [];
         for (const entity of entityList) {
             const { id, placeData } = entity;
-            // JST変換
             const dateJST = new Date(new Date(placeData.dateTime));
             const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
-            await this.dbGateway.run(env, insertPlaceSql, [
+            placeParams.push(
                 id,
                 placeData.raceType,
                 dateTimeStr,
                 placeData.location,
-            ]);
-            if (placeData.raceType === RaceType.JRA) {
-                const insertHeldDaySql = `
-                    INSERT INTO held_day (
-                        id,
-                        race_type,
-                        held_times,
-                        held_day_times,
-                        created_at,
-                        updated_at
-                    ) VALUES (?, ?, ?, ?,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                    ON CONFLICT(id) DO UPDATE SET
-                        race_type = excluded.race_type,
-                        held_times = excluded.held_times,
-                        held_day_times = excluded.held_day_times,
-                        updated_at = CURRENT_TIMESTAMP
-                    `;
-                const { heldDayData } = entity;
-                await this.dbGateway.run(env, insertHeldDaySql, [
+            );
+        }
+        await this.dbGateway.run(env, insertPlaceSql, placeParams);
+
+        // held_day バルクinsert（JRAのみ）
+        const heldDayEntities = entityList.filter(
+            (e) => e.placeData.raceType === RaceType.JRA,
+        );
+        if (heldDayEntities.length > 0) {
+            const insertHeldDaySql = `
+                INSERT INTO held_day (
                     id,
-                    placeData.raceType,
-                    heldDayData.heldTimes,
-                    heldDayData.heldDayTimes,
-                ]);
+                    race_type,
+                    held_times,
+                    held_day_times,
+                    created_at,
+                    updated_at
+                ) VALUES
+                    ${heldDayEntities.map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                ON CONFLICT(id) DO UPDATE SET
+                    race_type = excluded.race_type,
+                    held_times = excluded.held_times,
+                    held_day_times = excluded.held_day_times,
+                    updated_at = CURRENT_TIMESTAMP
+            `;
+            const heldDayParams: any[] = [];
+            for (const entity of heldDayEntities) {
+                heldDayParams.push(
+                    entity.id,
+                    entity.placeData.raceType,
+                    entity.heldDayData.heldTimes,
+                    entity.heldDayData.heldDayTimes,
+                );
             }
-            if (
-                placeData.raceType === RaceType.KEIRIN ||
-                placeData.raceType === RaceType.AUTORACE ||
-                placeData.raceType === RaceType.BOATRACE
-            ) {
-                const { grade } = entity;
-                const insertGradeSql = `
-                    INSERT INTO place_grade (
-                        id,
-                        race_type,
-                        grade,
-                        created_at,
-                        updated_at
-                    ) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                    ON CONFLICT(id) DO UPDATE SET
-                        race_type = excluded.race_type,
-                        grade = excluded.grade,
-                        updated_at = CURRENT_TIMESTAMP
-                    `;
-                await this.dbGateway.run(env, insertGradeSql, [
+            await this.dbGateway.run(env, insertHeldDaySql, heldDayParams);
+        }
+
+        // place_grade バルクinsert（KEIRIN/AUTORACE/BOATRACEのみ）
+        const gradeEntities = entityList.filter(
+            (e) =>
+                e.placeData.raceType === RaceType.KEIRIN ||
+                e.placeData.raceType === RaceType.AUTORACE ||
+                e.placeData.raceType === RaceType.BOATRACE,
+        );
+        if (gradeEntities.length > 0) {
+            const insertGradeSql = `
+                INSERT INTO place_grade (
                     id,
-                    placeData.raceType,
+                    race_type,
                     grade,
-                ]);
+                    created_at,
+                    updated_at
+                ) VALUES
+                    ${gradeEntities.map(() => '(?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                ON CONFLICT(id) DO UPDATE SET
+                    race_type = excluded.race_type,
+                    grade = excluded.grade,
+                    updated_at = CURRENT_TIMESTAMP
+            `;
+            const gradeParams: any[] = [];
+            for (const entity of gradeEntities) {
+                gradeParams.push(
+                    entity.id,
+                    entity.placeData.raceType,
+                    entity.grade,
+                );
             }
+            await this.dbGateway.run(env, insertGradeSql, gradeParams);
         }
     }
 }
