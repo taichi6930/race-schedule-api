@@ -122,8 +122,6 @@ export class PlaceController {
                 !body ||
                 (typeof body.raceType !== 'string' &&
                     !Array.isArray(body.raceType)) ||
-                (typeof body.location !== 'string' &&
-                    !Array.isArray(body.location)) ||
                 typeof body.startDate !== 'string' ||
                 typeof body.finishDate !== 'string'
             ) {

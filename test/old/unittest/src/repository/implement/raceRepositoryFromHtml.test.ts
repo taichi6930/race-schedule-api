@@ -7,10 +7,10 @@ import { container } from 'tsyringe';
 import type { IRaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import { AutoraceRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
-import { BoatraceRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
+import { AutoraceRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
+import { BoatraceRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
 import { JraRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
-import { KeirinRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
+import { KeirinRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepository';
@@ -82,7 +82,7 @@ const testCases = {
     [RaceType.KEIRIN]: [
         {
             name: 'KeirinRaceRepositoryFromHtml',
-            repositoryClass: KeirinRaceRepositoryFromHtml,
+            repositoryClass: KeirinRaceRepositoryFromHtmlForAWS,
             startDate: new Date('2024-10-20'),
             endDate: new Date('2024-10-20'),
             placeName: '弥彦',
@@ -93,7 +93,7 @@ const testCases = {
     [RaceType.AUTORACE]: [
         {
             name: 'AutoraceRaceRepositoryFromHtml',
-            repositoryClass: AutoraceRaceRepositoryFromHtml,
+            repositoryClass: AutoraceRaceRepositoryFromHtmlForAWS,
             startDate: new Date('2024-11-01'),
             endDate: new Date('2024-11-30'),
             placeName: '川口',
@@ -104,7 +104,7 @@ const testCases = {
     [RaceType.BOATRACE]: [
         {
             name: 'BoatraceRaceRepositoryFromHtml',
-            repositoryClass: BoatraceRaceRepositoryFromHtml,
+            repositoryClass: BoatraceRaceRepositoryFromHtmlForAWS,
             startDate: new Date('2024-11-01'),
             endDate: new Date('2024-11-30'),
             placeName: '下関',

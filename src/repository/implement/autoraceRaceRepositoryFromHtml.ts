@@ -3,43 +3,49 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceData } from '../../../../../src/domain/placeData';
-import { RaceData } from '../../../../../src/domain/raceData';
-import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
-import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
-import { RaceType } from '../../../../../src/utility/raceType';
-import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
-import { Logger } from '../../../utility/logger';
-import { GradeType } from '../../../utility/validateAndType/gradeType';
+import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import {
     RaceStage,
     StageMap,
-} from '../../../utility/validateAndType/raceStage';
-import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
-import { IRaceRepositoryForAWS } from '../../interface/IRaceRepository';
+} from '../../../lib/src/utility/validateAndType/raceStage';
+import { PlaceData } from '../../domain/placeData';
+import { RaceData } from '../../domain/raceData';
+import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
+import { CommonParameter } from '../../utility/commonParameter';
+import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
+import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
+import { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
+import { IRaceRepository } from '../interface/IRaceRepository';
 
 /**
  * オートレース場開催データリポジトリの実装
  */
 @injectable()
-export class AutoraceRaceRepositoryFromHtmlForAWS
-    implements IRaceRepositoryForAWS
-{
+export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
     public constructor(
         @inject('RaceDataHtmlGateway')
-        private readonly raceDataHtmlGateway: IRaceDataHtmlGatewayForAWS,
+        private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
     /**
      * 開催データを取得する
      * @param searchFilter
+     * @param commonParameter
+     * @param searchRaceFilter
+     * @param placeEntityList
      */
     @Logger
     public async fetchRaceEntityList(
-        searchFilter: SearchRaceFilterEntityForAWS,
+        commonParameter: CommonParameter,
+        searchRaceFilter: SearchRaceFilterEntity,
+        placeEntityList?: PlaceEntity[],
     ): Promise<RaceEntity[]> {
         const raceEntityList: RaceEntity[] = [];
-        const { placeEntityList } = searchFilter;
+        if (!placeEntityList) {
+            return raceEntityList;
+        }
         for (const placeEntity of placeEntityList) {
             raceEntityList.push(
                 ...(await this.fetchRaceListFromHtml(placeEntity)),
@@ -207,21 +213,15 @@ export class AutoraceRaceRepositoryFromHtmlForAWS
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param raceEntityList
+     * @param commonParameter
+     * @param entityList
      */
     @Logger
-    public async registerRaceEntityList(
-        raceType: RaceType,
-        raceEntityList: RaceEntity[],
-    ): Promise<{
-        code: number;
-        message: string;
-        successData: RaceEntity[];
-        failureData: RaceEntity[];
-    }> {
-        console.debug(raceType, raceEntityList);
-        await new Promise((resolve) => setTimeout(resolve, 0));
-        throw new Error('HTMLにはデータを登録出来ません');
+    public async upsertRaceEntityList(
+        commonParameter: CommonParameter,
+        entityList: RaceEntity[],
+    ): Promise<void> {
+        console.log(commonParameter, entityList);
+        throw new Error('Method not implemented.');
     }
 }
