@@ -59,23 +59,34 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         )
             .bind(...queryParams)
             .all();
-        return results.map((row: any): PlaceEntity => {
-            const dateJST = new Date(new Date(row.date_time));
-            const heldDayData =
-                row.held_times !== null && row.held_day_times !== null
-                    ? HeldDayData.create(
-                          Number(row.held_times),
-                          Number(row.held_day_times),
-                      )
-                    : undefined;
-            const grade = row.grade ?? undefined;
-            return PlaceEntity.create(
-                row.id,
-                PlaceData.create(row.race_type, dateJST, row.location_name),
-                heldDayData,
-                grade,
-            );
-        });
+        return results
+            .map((row: any): PlaceEntity | undefined => {
+                try {
+                    const dateJST = new Date(new Date(row.date_time));
+                    const heldDayData =
+                        row.held_times !== null && row.held_day_times !== null
+                            ? HeldDayData.create(
+                                  Number(row.held_times),
+                                  Number(row.held_day_times),
+                              )
+                            : undefined;
+                    const grade = row.grade ?? undefined;
+                    return PlaceEntity.create(
+                        row.id,
+                        PlaceData.create(
+                            row.race_type,
+                            dateJST,
+                            row.location_name,
+                        ),
+                        heldDayData,
+                        grade,
+                    );
+                } catch (error) {
+                    console.error('データのパースに失敗しました', row, error);
+                    return undefined;
+                }
+            })
+            .filter((entity): entity is PlaceEntity => entity !== undefined);
     }
 
     @Logger
