@@ -102,43 +102,57 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         entityList: PlaceEntity[],
     ): Promise<void> {
         const { env } = commonParameter;
-        // placeテーブル バルクinsert
-        if (entityList.length === 0) return;
-        const insertPlaceSql = `
-            INSERT INTO place (
-                id,
-                race_type,
-                date_time,
-                location_name,
-                created_at,
-                updated_at
-            ) VALUES
-                ${entityList.map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
-            ON CONFLICT(id) DO UPDATE SET
-                race_type = excluded.race_type,
-                date_time = excluded.date_time,
-                location_name = excluded.location_name,
-                updated_at = CURRENT_TIMESTAMP
-        `;
-        const placeParams: any[] = [];
-        for (const entity of entityList) {
-            const { id, placeData } = entity;
-            const dateJST = new Date(new Date(placeData.dateTime));
-            const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
-            placeParams.push(
-                id,
-                placeData.raceType,
-                dateTimeStr,
-                placeData.location,
-            );
+
+        const chunkSize = 10;
+        // chunk分割関数
+        function chunkArray<T>(array: T[], size: number): T[][] {
+            const result: T[][] = [];
+            for (let i = 0; i < array.length; i += size) {
+                result.push(array.slice(i, i + size));
+            }
+            return result;
         }
-        await this.dbGateway.run(env, insertPlaceSql, placeParams);
+
+        if (entityList.length === 0) return;
+        // placeテーブル バルクinsert
+        for (const chunk of chunkArray(entityList, chunkSize)) {
+            const insertPlaceSql = `
+                INSERT INTO place (
+                    id,
+                    race_type,
+                    date_time,
+                    location_name,
+                    created_at,
+                    updated_at
+                ) VALUES
+                    ${chunk.map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                ON CONFLICT(id) DO UPDATE SET
+                    race_type = excluded.race_type,
+                    date_time = excluded.date_time,
+                    location_name = excluded.location_name,
+                    updated_at = CURRENT_TIMESTAMP
+            `;
+            const placeParams: any[] = [];
+            for (const entity of chunk) {
+                const { id, placeData } = entity;
+                const dateJST = new Date(new Date(placeData.dateTime));
+                const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
+                placeParams.push(
+                    id,
+                    placeData.raceType,
+                    dateTimeStr,
+                    placeData.location,
+                );
+            }
+            await this.dbGateway.run(env, insertPlaceSql, placeParams);
+        }
 
         // held_day バルクinsert（JRAのみ）
         const heldDayEntities = entityList.filter(
             (e) => e.placeData.raceType === RaceType.JRA,
         );
-        if (heldDayEntities.length > 0) {
+        for (const chunk of chunkArray(heldDayEntities, chunkSize)) {
+            if (chunk.length === 0) continue;
             const insertHeldDaySql = `
                 INSERT INTO held_day (
                     id,
@@ -148,7 +162,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     created_at,
                     updated_at
                 ) VALUES
-                    ${heldDayEntities.map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                    ${chunk.map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
                 ON CONFLICT(id) DO UPDATE SET
                     race_type = excluded.race_type,
                     held_times = excluded.held_times,
@@ -156,7 +170,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     updated_at = CURRENT_TIMESTAMP
             `;
             const heldDayParams: any[] = [];
-            for (const entity of heldDayEntities) {
+            for (const entity of chunk) {
                 heldDayParams.push(
                     entity.id,
                     entity.placeData.raceType,
@@ -174,7 +188,8 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                 e.placeData.raceType === RaceType.AUTORACE ||
                 e.placeData.raceType === RaceType.BOATRACE,
         );
-        if (gradeEntities.length > 0) {
+        for (const chunk of chunkArray(gradeEntities, chunkSize)) {
+            if (chunk.length === 0) continue;
             const insertGradeSql = `
                 INSERT INTO place_grade (
                     id,
@@ -183,14 +198,14 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     created_at,
                     updated_at
                 ) VALUES
-                    ${gradeEntities.map(() => '(?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                    ${chunk.map(() => '(?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
                 ON CONFLICT(id) DO UPDATE SET
                     race_type = excluded.race_type,
                     grade = excluded.grade,
                     updated_at = CURRENT_TIMESTAMP
             `;
             const gradeParams: any[] = [];
-            for (const entity of gradeEntities) {
+            for (const entity of chunk) {
                 gradeParams.push(
                     entity.id,
                     entity.placeData.raceType,

@@ -132,101 +132,130 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
         entityList: RaceEntity[],
     ): Promise<void> {
         const { env } = commonParameter;
-        const insertRaceSql = `
-            INSERT INTO race (
-                id,
-                place_id,
-                race_type,
-                race_name,
-                date_time,
-                location_name,
-                grade,
-                race_number,
-                created_at,
-                updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-            ON CONFLICT(id) DO UPDATE SET
-                race_type = excluded.race_type,
-                race_name = excluded.race_name,
-                date_time = excluded.date_time,
-                location_name = excluded.location_name,
-                grade = excluded.grade,
-                place_id = excluded.place_id,
-                race_number = excluded.race_number,
-                updated_at = CURRENT_TIMESTAMP
+        const chunkSize = 5;
+        // chunk分割関数
+        function chunkArray<T>(array: T[], size: number): T[][] {
+            const result: T[][] = [];
+            for (let i = 0; i < array.length; i += size) {
+                result.push(array.slice(i, i + size));
+            }
+            return result;
+        }
+
+        // raceテーブル バルクinsert
+        for (const chunk of chunkArray(entityList, chunkSize)) {
+            const insertRaceSql = `
+                INSERT INTO race (
+                    id,
+                    place_id,
+                    race_type,
+                    race_name,
+                    date_time,
+                    location_name,
+                    grade,
+                    race_number,
+                    created_at,
+                    updated_at
+                ) VALUES
+                    ${chunk.map(() => '(?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                ON CONFLICT(id) DO UPDATE SET
+                    race_type = excluded.race_type,
+                    race_name = excluded.race_name,
+                    date_time = excluded.date_time,
+                    location_name = excluded.location_name,
+                    grade = excluded.grade,
+                    place_id = excluded.place_id,
+                    race_number = excluded.race_number,
+                    updated_at = CURRENT_TIMESTAMP
             `;
-
-        for (const entity of entityList) {
-            const { id, placeId, raceData } = entity;
-            // JST変換
-            const dateJST = new Date(new Date(raceData.dateTime));
-            const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
-
-            await this.dbGateway.run(env, insertRaceSql, [
-                id,
-                placeId,
-                raceData.raceType,
-                raceData.name,
-                dateTimeStr,
-                raceData.location,
-                raceData.grade,
-                raceData.number,
-            ]);
-
-            if (
-                raceData.raceType === RaceType.JRA ||
-                raceData.raceType === RaceType.NAR ||
-                raceData.raceType === RaceType.OVERSEAS
-            ) {
-                const { conditionData } = entity;
-                const insertConditionSql = `
-                    INSERT INTO race_condition (
-                        id,
-                        race_type,
-                        surface_type,
-                        distance,
-                        created_at,
-                        updated_at
-                    ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                    ON CONFLICT(id) DO UPDATE SET
-                        race_type = excluded.race_type,
-                        surface_type = excluded.surface_type,
-                        distance = excluded.distance,
-                        updated_at=CURRENT_TIMESTAMP
-                    `;
-                await this.dbGateway.run(env, insertConditionSql, [
+            const raceParams: any[] = [];
+            for (const entity of chunk) {
+                const { id, placeId, raceData } = entity;
+                const dateJST = new Date(new Date(raceData.dateTime));
+                const dateTimeStr = formatDate(dateJST, 'yyyy-MM-dd HH:mm:ss');
+                raceParams.push(
                     id,
+                    placeId,
                     raceData.raceType,
-                    conditionData.surfaceType,
-                    conditionData.distance,
-                ]);
+                    raceData.name,
+                    dateTimeStr,
+                    raceData.location,
+                    raceData.grade,
+                    raceData.number,
+                );
             }
+            await this.dbGateway.run(env, insertRaceSql, raceParams);
+        }
 
-            if (
-                raceData.raceType === RaceType.KEIRIN ||
-                raceData.raceType === RaceType.AUTORACE ||
-                raceData.raceType === RaceType.BOATRACE
-            ) {
-                const { stage } = entity;
-                const insertStageSql = `
-                    INSERT INTO race_stage (
-                        id,
-                        race_type,
-                        stage,
-                        created_at,
-                        updated_at
-                    ) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                    ON CONFLICT(id) DO UPDATE SET
-                        race_type = excluded.race_type,
-                        stage = excluded.stage,
-                        updated_at=CURRENT_TIMESTAMP
-                    `;
-                await this.dbGateway.run(env, insertStageSql, [
+        // race_condition バルクinsert（JRA/NAR/OVERSEASのみ）
+        const conditionEntities = entityList.filter(
+            (e) =>
+                e.raceData.raceType === RaceType.JRA ||
+                e.raceData.raceType === RaceType.NAR ||
+                e.raceData.raceType === RaceType.OVERSEAS,
+        );
+        for (const chunk of chunkArray(conditionEntities, chunkSize)) {
+            if (chunk.length === 0) continue;
+            const insertConditionSql = `
+                INSERT INTO race_condition (
                     id,
-                    raceData.raceType,
+                    race_type,
+                    surface_type,
+                    distance,
+                    created_at,
+                    updated_at
+                ) VALUES
+                    ${chunk.map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                ON CONFLICT(id) DO UPDATE SET
+                    race_type = excluded.race_type,
+                    surface_type = excluded.surface_type,
+                    distance = excluded.distance,
+                    updated_at=CURRENT_TIMESTAMP
+            `;
+            const conditionParams: any[] = [];
+            for (const entity of chunk) {
+                conditionParams.push(
+                    entity.id,
+                    entity.raceData.raceType,
+                    entity.conditionData.surfaceType,
+                    entity.conditionData.distance,
+                );
+            }
+            await this.dbGateway.run(env, insertConditionSql, conditionParams);
+        }
+
+        // race_stage バルクinsert（KEIRIN/AUTORACE/BOATRACEのみ）
+        const stageEntities = entityList.filter(
+            (e) =>
+                e.raceData.raceType === RaceType.KEIRIN ||
+                e.raceData.raceType === RaceType.AUTORACE ||
+                e.raceData.raceType === RaceType.BOATRACE,
+        );
+        for (const chunk of chunkArray(stageEntities, chunkSize)) {
+            if (chunk.length === 0) continue;
+            const insertStageSql = `
+                INSERT INTO race_stage (
+                    id,
+                    race_type,
                     stage,
-                ]);
+                    created_at,
+                    updated_at
+                ) VALUES
+                    ${chunk.map(() => '(?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                ON CONFLICT(id) DO UPDATE SET
+                    race_type = excluded.race_type,
+                    stage = excluded.stage,
+                    updated_at=CURRENT_TIMESTAMP
+            `;
+            const stageParams: any[] = [];
+            for (const entity of chunk) {
+                stageParams.push(
+                    entity.id,
+                    entity.raceData.raceType,
+                    entity.stage,
+                );
             }
+            await this.dbGateway.run(env, insertStageSql, stageParams);
         }
     }
 }
