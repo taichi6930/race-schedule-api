@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const file = '../lib/src/gateway/mockData/csv/overseas/raceList.csv';
+const file = '../lib/src/gateway/mockData/csv/nar/raceList.csv';
 const chunkSize = 500;
 
 const csvFile = path.resolve(__dirname, file);
@@ -47,6 +47,8 @@ const raceConditionRecords: string[] = [];
 lines.slice(1).forEach((line) => {
     const cols = line.split(',');
     const id = cols[idx.id]?.replace(/'/g, "''") || '';
+    // idの下2桁を削除してplace_idとする
+    const place_id = id.slice(0, -2);
     const raceType = cols[idx.raceType]?.replace(/'/g, "''") || '';
     const name = cols[idx.name]?.replace(/'/g, "''") || '';
     const dateTimeRaw = cols[idx.dateTime]?.replace(/'/g, "''") || '';
@@ -60,8 +62,12 @@ lines.slice(1).forEach((line) => {
     const updateDate = toSqliteDateTime(updateDateRaw);
     const createdAt = now();
     const updatedAt = updateDate || createdAt;
+    // gradeがJpnⅠもしくはJpnⅡではない場合はreturn 配列で判定
+    if (grade && !['重賞', '地方重賞', '地方準重賞'].includes(grade)) {
+        return;
+    }
     raceRecords.push(
-        `('${id}', '${raceType}', '${name}', '${dateTime}', '${location}', '${grade}', '${number}', '${createdAt}', '${updatedAt}')`,
+        `('${id}', '${place_id}', '${raceType}', '${name}', '${dateTime}', '${location}', '${grade}', '${number}', '${createdAt}', '${updatedAt}')`,
     );
     raceConditionRecords.push(
         `('${id}', '${raceType}', '${surfaceType}', '${distance}', '${createdAt}', '${updatedAt}')`,
@@ -70,7 +76,7 @@ lines.slice(1).forEach((line) => {
 let fileCount = 0;
 for (let i = 0; i < raceRecords.length; i += chunkSize) {
     const raceChunk = raceRecords.slice(i, i + chunkSize);
-    const raceSql = `INSERT INTO race (id, race_type, race_name, date_time, location_name, grade, race_number, created_at, updated_at) VALUES\n${raceChunk.join(',\n')}\nON CONFLICT(id) DO UPDATE SET race_type=excluded.race_type, race_name=excluded.race_name, date_time=excluded.date_time, location_name=excluded.location_name, grade=excluded.grade, race_number=excluded.race_number, updated_at=excluded.updated_at;\n`;
+    const raceSql = `INSERT INTO race (id, place_id, race_type, race_name, date_time, location_name, grade, race_number, created_at, updated_at) VALUES\n${raceChunk.join(',\n')}\nON CONFLICT(id) DO UPDATE SET place_id=excluded.place_id, race_type=excluded.race_type, race_name=excluded.race_name, date_time=excluded.date_time, location_name=excluded.location_name, grade=excluded.grade, race_number=excluded.race_number, updated_at=excluded.updated_at;\n`;
     const raceOutFile = path.resolve(__dirname, `insert_race_${fileCount}.sql`);
     fs.writeFileSync(raceOutFile, raceSql);
     const raceConditionChunk = raceConditionRecords.slice(i, i + chunkSize);
