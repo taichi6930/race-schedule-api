@@ -231,6 +231,11 @@ export class PlaceRepositoryFromStorageForAWS
                     (a, b) => b.updateDate.getTime() - a.updateDate.getTime(),
                 );
 
+                console.log(
+                    'existFetchHeldDayRecordList',
+                    existFetchHeldDayRecordList.length,
+                );
+
                 await this.s3Gateway.uploadDataToS3(
                     existFetchHeldDayRecordList,
                     `${raceType.toLowerCase()}/`,

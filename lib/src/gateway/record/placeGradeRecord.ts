@@ -49,7 +49,7 @@ export class PlaceGradeRecord {
             );
         } catch (error) {
             throw new Error(
-                createErrorMessage('Failed to create PlaceRecord', error),
+                createErrorMessage('Failed to create PlaceGradeRecord', error),
             );
         }
     }

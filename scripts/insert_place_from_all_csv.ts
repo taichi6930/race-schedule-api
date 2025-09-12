@@ -15,13 +15,13 @@ const files: CsvFile[] = [
         file: '../lib/src/gateway/mockData/csv/keirin/placeList.csv',
         raceType: 'KEIRIN',
     },
-    {
-        file: '../lib/src/gateway/mockData/csv/nar/placeList.csv',
-        raceType: 'NAR',
-    },
+    // {
+    //     file: '../lib/src/gateway/mockData/csv/nar/placeList.csv',
+    //     raceType: 'NAR',
+    // },
 ];
 
-const chunkSize = 500;
+const chunkSize = 1500;
 
 files.forEach(({ file, raceType }) => {
     const csvFile = path.resolve(__dirname, file);
