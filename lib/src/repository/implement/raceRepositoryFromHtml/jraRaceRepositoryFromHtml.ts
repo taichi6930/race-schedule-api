@@ -6,6 +6,7 @@ import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceCondi
 import { RaceData } from '../../../../../src/domain/raceData';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
+import { GradeType } from '../../../../../src/utility/validateAndType/gradeType';
 import {
     RaceCourse,
     validateRaceCourse,
@@ -13,7 +14,6 @@ import {
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { processJraRaceName } from '../../../utility/createRaceName';
 import { Logger } from '../../../utility/logger';
-import { GradeType } from '../../../utility/validateAndType/gradeType';
 import { HeldDayTimes } from '../../../utility/validateAndType/heldDayTimes';
 import { HeldTimes } from '../../../utility/validateAndType/heldTimes';
 import { RaceDistance } from '../../../utility/validateAndType/raceDistance';

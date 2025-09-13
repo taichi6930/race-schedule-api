@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import {
     RaceStage,
     StageMap,
@@ -16,6 +15,7 @@ import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';
+import { GradeType } from '../../utility/validateAndType/gradeType';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';

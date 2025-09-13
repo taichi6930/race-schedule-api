@@ -6,13 +6,13 @@ import { RaceData } from '../../../../../src/domain/raceData';
 import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
-import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
-import { processNarRaceName } from '../../../utility/createRaceName';
-import { Logger } from '../../../utility/logger';
 import {
     GradeType,
     validateGradeType,
-} from '../../../utility/validateAndType/gradeType';
+} from '../../../../../src/utility/validateAndType/gradeType';
+import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
+import { processNarRaceName } from '../../../utility/createRaceName';
+import { Logger } from '../../../utility/logger';
 import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';

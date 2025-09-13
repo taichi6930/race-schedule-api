@@ -15,10 +15,10 @@ import {
 } from '../../lib/src/utility/data/url';
 import { getJSTDate } from '../../lib/src/utility/date';
 import { createAnchorTag, formatDate } from '../../lib/src/utility/format';
-import type { GradeType } from '../../lib/src/utility/validateAndType/gradeType';
 import { CalendarData } from '../domain/calendarData';
 import type { RaceEntity } from '../repository/entity/raceEntity';
 import { RaceType } from './raceType';
+import type { GradeType } from './validateAndType/gradeType';
 import { createPlaceCode } from './validateAndType/raceCourse';
 
 /**

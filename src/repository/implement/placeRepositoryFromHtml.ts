@@ -5,13 +5,13 @@ import console from 'node:console';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { GradeType } from '../../utility/validateAndType/gradeType';
 import {
     RaceCourse,
     validateRaceCourse,

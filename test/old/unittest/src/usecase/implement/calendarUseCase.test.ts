@@ -6,9 +6,9 @@ import { container } from 'tsyringe';
 
 import { CalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/calendarUseCaseForAWS';
 import type { IRaceCalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IRaceCalendarUseCaseForAWS';
-import { SpecifiedGradeList } from '../../../../../../lib/src/utility/validateAndType/gradeType';
 import type { CalendarData } from '../../../../../../src/domain/calendarData';
 import { RaceType } from '../../../../../../src/utility/raceType';
+import { SpecifiedGradeList } from '../../../../../../src/utility/validateAndType/gradeType';
 import {
     baseCalendarData,
     baseRaceEntity,

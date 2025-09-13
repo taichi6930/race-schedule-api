@@ -3,15 +3,15 @@ import '../../utility/format';
 import { RaceData } from '../../../../src/domain/raceData';
 import type { RaceType } from '../../../../src/utility/raceType';
 import {
+    type GradeType,
+    validateGradeType,
+} from '../../../../src/utility/validateAndType/gradeType';
+import {
     type RaceCourse,
     validateRaceCourse,
 } from '../../../../src/utility/validateAndType/raceCourse';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import {
-    type GradeType,
-    validateGradeType,
-} from '../../utility/validateAndType/gradeType';
 import {
     type RaceDateTime,
     validateRaceDateTime,

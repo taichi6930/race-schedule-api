@@ -8,9 +8,9 @@ import { RaceData } from '../../../../../src/domain/raceData';
 import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
+import { GradeType } from '../../../../../src/utility/validateAndType/gradeType';
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { Logger } from '../../../utility/logger';
-import { GradeType } from '../../../utility/validateAndType/gradeType';
 import {
     RaceStage,
     StageMap,

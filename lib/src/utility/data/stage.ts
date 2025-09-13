@@ -1,5 +1,5 @@
 import { RaceType } from '../../../../src/utility/raceType';
-import type { GradeType } from '../validateAndType/gradeType';
+import type { GradeType } from '../../../../src/utility/validateAndType/gradeType';
 import type { RaceStage } from '../validateAndType/raceStage';
 
 /**

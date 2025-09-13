@@ -11,13 +11,13 @@ import {
     RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
+import { GradeType } from '../../../../src/utility/validateAndType/gradeType';
 import { PlayerDataForAWS } from '../../domain/playerData';
 import { ICalendarServiceForAWS } from '../../service/interface/ICalendarServiceForAWS';
 import { IPlayerServiceForAWS } from '../../service/interface/IPlayerServiceForAWS';
 import { IRaceServiceForAWS } from '../../service/interface/IRaceServiceForAWS';
 import { RaceGradeAndStageList } from '../../utility/data/stage';
 import { Logger } from '../../utility/logger';
-import { GradeType } from '../../utility/validateAndType/gradeType';
 import { IRaceCalendarUseCaseForAWS } from '../interface/IRaceCalendarUseCaseForAWS';
 
 /**

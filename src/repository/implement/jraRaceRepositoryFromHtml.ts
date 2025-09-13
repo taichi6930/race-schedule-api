@@ -2,7 +2,6 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { processJraRaceName } from '../../../lib/src/utility/createRaceName';
-import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import { HeldDayTimes } from '../../../lib/src/utility/validateAndType/heldDayTimes';
 import { HeldTimes } from '../../../lib/src/utility/validateAndType/heldTimes';
 import { RaceDistance } from '../../../lib/src/utility/validateAndType/raceDistance';
@@ -15,6 +14,7 @@ import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';
+import { GradeType } from '../../utility/validateAndType/gradeType';
 import {
     RaceCourse,
     validateRaceCourse,

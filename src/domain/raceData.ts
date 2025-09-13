@@ -1,5 +1,3 @@
-import type { GradeType } from '../../lib/src/utility/validateAndType/gradeType';
-import { validateGradeType } from '../../lib/src/utility/validateAndType/gradeType';
 import {
     type RaceDateTime,
     validateRaceDateTime,
@@ -11,6 +9,8 @@ import {
 import type { RaceNumber } from '../../lib/src/utility/validateAndType/raceNumber';
 import { validateRaceNumber } from '../../lib/src/utility/validateAndType/raceNumber';
 import type { RaceType } from '../utility/raceType';
+import type { GradeType } from '../utility/validateAndType/gradeType';
+import { validateGradeType } from '../utility/validateAndType/gradeType';
 import {
     type RaceCourse,
     validateRaceCourse,
