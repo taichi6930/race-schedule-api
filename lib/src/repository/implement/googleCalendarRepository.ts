@@ -6,7 +6,7 @@ import type { CalendarData } from '../../../../src/domain/calendarData';
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { fromGoogleCalendarDataToCalendarData } from '../../../../src/utility/googleCalendar';
 import type { ICalendarGatewayForAWS } from '../../gateway/interface/iCalendarGateway';
-import { toGoogleCalendarDataForAWS } from '../../utility/googleCalendar';
+import { toGoogleCalendarDataForAWS } from '../../utility/googleCalendarForAWS';
 import { Logger } from '../../utility/logger';
 import { SearchCalendarFilterEntityForAWS } from '../entity/searchCalendarFilterEntity';
 import type { ICalendarRepositoryForAWS } from '../interface/ICalendarRepositoryForAWS';
