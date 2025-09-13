@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import type { RaceType } from '../../../../src/utility/raceType';
 import { RaceGradeAndStageList } from '../data/stage';
+import type { RaceType } from '../raceType';
 
 /**
  * ステージ のバリデーション

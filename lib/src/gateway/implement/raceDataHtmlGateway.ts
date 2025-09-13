@@ -9,8 +9,8 @@ import {
     createOverseasRaceUrl,
 } from '../../../../src/utility/data/url';
 import { RaceType } from '../../../../src/utility/raceType';
+import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
 import { Logger } from '../../utility/logger';
-import { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import { IRaceDataHtmlGatewayForAWS } from '../interface/iRaceDataHtmlGateway';
 /**
  * レースデータのHTMLを取得するGateway

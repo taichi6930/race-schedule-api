@@ -1,8 +1,8 @@
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import { CalendarData } from '../domain/calendarData';
-import type { RaceEntity } from '../repository/entity/raceEntity';
+import { CalendarData } from '../../../../src/domain/calendarData';
+import type { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import {
     createYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
