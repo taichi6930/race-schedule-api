@@ -6,7 +6,11 @@ import { SearchPlaceFilterEntity } from '../repository/entity/filter/searchPlace
 import { IPlaceUseCase } from '../usecase/interface/IPlaceUsecase';
 import { CommonParameter } from '../utility/commonParameter';
 import { Logger } from '../utility/logger';
-import { convertRaceTypeList, RaceType } from '../utility/raceType';
+import {
+    parseBodyToFilter,
+    parseSearchDatesAndRaceTypes,
+    ValidationError,
+} from './requestParser';
 
 @injectable()
 export class PlaceController {
@@ -33,43 +37,12 @@ export class PlaceController {
         searchParams: URLSearchParams,
     ): Promise<Response> {
         try {
-            const raceTypeParam = searchParams.getAll('raceType');
-            const locationList = searchParams.getAll('location');
-            const startDateParam = searchParams.get('startDate');
-            const finishDateParam = searchParams.get('finishDate');
+            const { start, finish, raceTypeList, locationList } =
+                parseSearchDatesAndRaceTypes(searchParams);
 
-            const raceTypeList: RaceType[] = convertRaceTypeList(raceTypeParam);
-
-            if (raceTypeList.length === 0) {
-                return new Response('Bad Request: Invalid raceType', {
-                    status: 400,
-                    headers: this.corsHeaders,
-                });
-            }
-            // startDateとfinishDateのバリデーションも行う
-            if (
-                (startDateParam &&
-                    !/^\d{4}-\d{2}-\d{2}$/.test(startDateParam)) ||
-                !startDateParam
-            ) {
-                return new Response('Bad Request: Invalid startDate', {
-                    status: 400,
-                    headers: this.corsHeaders,
-                });
-            }
-            if (
-                (finishDateParam &&
-                    !/^\d{4}-\d{2}-\d{2}$/.test(finishDateParam)) ||
-                !finishDateParam
-            ) {
-                return new Response('Bad Request: Invalid finishDate', {
-                    status: 400,
-                    headers: this.corsHeaders,
-                });
-            }
             const searchPlaceFilter = new SearchPlaceFilterEntity(
-                new Date(startDateParam),
-                new Date(finishDateParam),
+                start,
+                finish,
                 raceTypeList,
                 locationList,
             );
@@ -87,6 +60,12 @@ export class PlaceController {
                 { headers: this.corsHeaders },
             );
         } catch (error) {
+            if (error instanceof ValidationError) {
+                return new Response(`Bad Request: ${error.message}`, {
+                    status: error.status,
+                    headers: this.corsHeaders,
+                });
+            }
             console.error('Error in getCalendarEntityList:', error);
             return new Response('Internal Server Error', {
                 status: 500,
@@ -106,78 +85,8 @@ export class PlaceController {
         commonParameter: CommonParameter,
     ): Promise<Response> {
         try {
-            let body: any;
-            try {
-                body = await request.json();
-            } catch (error) {
-                // JSON parse error (bad request body)
-                console.log('Bad Request: Invalid JSON', error);
-                return new Response('Bad Request: Invalid JSON', {
-                    status: 400,
-                    headers: this.corsHeaders,
-                });
-            }
-
-            if (
-                !body ||
-                (typeof body.raceType !== 'string' &&
-                    !Array.isArray(body.raceType)) ||
-                typeof body.startDate !== 'string' ||
-                typeof body.finishDate !== 'string'
-            ) {
-                console.log('Bad Request: body is missing or invalid', body);
-                return new Response('Bad Request: body is missing or invalid', {
-                    status: 400,
-                    headers: this.corsHeaders,
-                });
-            }
-            const { raceType, startDate, finishDate, location } = body;
-
-            // raceTypeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
-            const raceTypeList = convertRaceTypeList(
-                typeof raceType === 'string'
-                    ? [raceType]
-                    : typeof raceType === 'object'
-                      ? Array.isArray(raceType)
-                          ? (raceType as string[]).map((r: string) => r)
-                          : undefined
-                      : undefined,
-            );
-
-            if (raceTypeList.length === 0) {
-                return new Response('Bad Request: Invalid raceType', {
-                    status: 400,
-                    headers: this.corsHeaders,
-                });
-            }
-            if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate)) {
-                return new Response('Bad Request: Invalid startDate', {
-                    status: 400,
-                    headers: this.corsHeaders,
-                });
-            }
-            if (!/^\d{4}-\d{2}-\d{2}$/.test(finishDate)) {
-                return new Response('Bad Request: Invalid finishDate', {
-                    status: 400,
-                    headers: this.corsHeaders,
-                });
-            }
-
-            const locationList =
-                (typeof location === 'string'
-                    ? [location]
-                    : typeof location === 'object'
-                      ? Array.isArray(location)
-                          ? (location as string[]).map((r: string) => r)
-                          : undefined
-                      : undefined) ?? [];
-
-            const searchPlaceFilter = new SearchPlaceFilterEntity(
-                new Date(startDate),
-                new Date(finishDate),
-                raceTypeList,
-                locationList,
-            );
+            const body = await request.json();
+            const searchPlaceFilter = parseBodyToFilter(body as any);
 
             await this.usecase.upsertPlaceEntityList(
                 commonParameter,
@@ -189,6 +98,12 @@ export class PlaceController {
                 headers: this.corsHeaders,
             });
         } catch (error) {
+            if (error instanceof ValidationError) {
+                return new Response(`Bad Request: ${error.message}`, {
+                    status: error.status,
+                    headers: this.corsHeaders,
+                });
+            }
             console.error('Error in postUpsertPlace:', error);
             return new Response('Internal Server Error', {
                 status: 500,
