@@ -39,16 +39,15 @@ import { createPlaceCode } from './validateAndType/raceCourse';
  * 中央競馬の特徴的なグレード体系に対応
  */
 
-export function toGoogleCalendarDataForAWS(
+export const toGoogleCalendarDataForAWS = (
     raceEntity: RaceEntity,
 
     updateDate: Date = new Date(),
-): calendar_v3.Schema$Event {
-    function createSummary(): string {
-        return `${createStage()} ${raceEntity.raceData.name}`;
-    }
+): calendar_v3.Schema$Event => {
+    const createSummary = (): string =>
+        `${createStage()} ${raceEntity.raceData.name}`;
 
-    function createLocation(): string {
+    const createLocation = (): string => {
         switch (raceEntity.raceData.raceType) {
             case RaceType.JRA:
             case RaceType.NAR:
@@ -65,9 +64,9 @@ export function toGoogleCalendarDataForAWS(
                 return `${raceEntity.raceData.location}ボートレース場`;
             }
         }
-    }
+    };
 
-    function createStage(): string {
+    const createStage = (): string => {
         switch (raceEntity.raceData.raceType) {
             case RaceType.JRA:
             case RaceType.NAR:
@@ -80,14 +79,14 @@ export function toGoogleCalendarDataForAWS(
                 return raceEntity.stage;
             }
         }
-    }
+    };
 
     /**
      * レースデータをGoogleカレンダーのイベントに変換する
      * @param raceEntity
      * @param updateDate - 更新日時
      */
-    function createDescription(): string {
+    const createDescription = (): string => {
         const raceTimeStr = `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}`;
         const updateStr = `更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}`;
         switch (raceEntity.raceData.raceType) {
@@ -151,7 +150,7 @@ export function toGoogleCalendarDataForAWS(
                 `.replace(/\n\s+/g, '\n');
             }
         }
-    }
+    };
 
     return {
         id: raceEntity.id,
@@ -188,13 +187,13 @@ export function toGoogleCalendarDataForAWS(
             },
         },
     };
-}
+};
 
-export function fromGoogleCalendarDataToCalendarData(
+export const fromGoogleCalendarDataToCalendarData = (
     raceType: RaceType,
     event: calendar_v3.Schema$Event,
-): CalendarData {
-    return CalendarData.create(
+): CalendarData =>
+    CalendarData.create(
         event.id,
         raceType,
         event.summary,
@@ -203,4 +202,3 @@ export function fromGoogleCalendarDataToCalendarData(
         event.location,
         event.description,
     );
-}
