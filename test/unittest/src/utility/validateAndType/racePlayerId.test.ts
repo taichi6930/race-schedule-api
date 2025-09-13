@@ -1,5 +1,5 @@
-import { validateRacePlayerId } from '../../../../../../lib/src/utility/validateAndType/racePlayerId';
-import { RaceType } from '../../../../../../src/utility/raceType';
+import { RaceType } from '../../../../../src/utility/raceType';
+import { validateRacePlayerId } from '../../../../../src/utility/validateAndType/racePlayerId';
 
 describe('racePlayerIdSchema', () => {
     for (const { raceType, racePlayerId } of [
