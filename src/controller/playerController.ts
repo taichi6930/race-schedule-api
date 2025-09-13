@@ -6,7 +6,7 @@ import { SearchPlayerFilterEntity } from '../repository/entity/filter/searchPlay
 import { PlayerEntity } from '../repository/entity/playerEntity';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
 import { CommonParameter } from '../utility/commonParameter';
-import { convertRaceTypeList, RaceType } from '../utility/raceType';
+import { parseRaceTypeListFromSearch, ValidationError } from './requestParser';
 
 @injectable()
 export class PlayerController {
@@ -31,29 +31,37 @@ export class PlayerController {
         commonParameter: CommonParameter,
         searchParams: URLSearchParams,
     ): Promise<Response> {
-        const raceTypeParam = searchParams.getAll('raceType');
-        const raceTypeList: RaceType[] = convertRaceTypeList(raceTypeParam);
+        try {
+            const raceTypeList = parseRaceTypeListFromSearch(searchParams);
+            const searchPlayerFilter = new SearchPlayerFilterEntity(
+                raceTypeList,
+            );
 
-        if (raceTypeList.length === 0) {
-            return new Response('Bad Request: Invalid raceType', {
-                status: 400,
+            const playerEntityList = await this.usecase.fetchPlayerEntityList(
+                commonParameter,
+                searchPlayerFilter,
+            );
+
+            return Response.json(
+                {
+                    count: playerEntityList.length,
+                    players: playerEntityList,
+                },
+                { headers: this.corsHeaders },
+            );
+        } catch (error) {
+            if (error instanceof ValidationError) {
+                return new Response(`Bad Request: ${error.message}`, {
+                    status: error.status,
+                    headers: this.corsHeaders,
+                });
+            }
+            console.error('Error in getPlayerEntityList:', error);
+            return new Response('Internal Server Error', {
+                status: 500,
                 headers: this.corsHeaders,
             });
         }
-        const searchPlayerFilter = new SearchPlayerFilterEntity(raceTypeList);
-
-        const playerEntityList = await this.usecase.fetchPlayerEntityList(
-            commonParameter,
-            searchPlayerFilter,
-        );
-
-        return Response.json(
-            {
-                count: playerEntityList.length,
-                players: playerEntityList,
-            },
-            { headers: this.corsHeaders },
-        );
     }
 
     /**

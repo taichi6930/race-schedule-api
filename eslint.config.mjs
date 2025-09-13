@@ -168,6 +168,7 @@ export default [
             'jsdoc/no-restricted-syntax': 'off', // テストファイルでは構文制限を無効に
             'jsdoc/require-example': 'off', // テストファイルではサンプルを任意に
             '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
+            '@typescript-eslint/no-unnecessary-type-assertion': 'off', // ✅ 不必要な型アサーションを許可
             'unused-imports/no-unused-vars': [
                 'error',
                 {
