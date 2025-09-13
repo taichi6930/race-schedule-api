@@ -1,7 +1,7 @@
 import type { ZodString } from 'zod';
 import { z } from 'zod';
 
-import { GradeMasterList } from '../../../lib/src/utility/data/grade';
+import { GradeMasterList } from '../data/grade';
 import type { RaceType } from '../raceType';
 
 /**

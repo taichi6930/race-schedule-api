@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../../../src/domain/calendarData';
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
+import { RaceGradeAndStageList } from '../../../../src/utility/data/stage';
 import { DataLocation } from '../../../../src/utility/dataType';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
@@ -16,7 +17,6 @@ import { PlayerDataForAWS } from '../../domain/playerData';
 import { ICalendarServiceForAWS } from '../../service/interface/ICalendarServiceForAWS';
 import { IPlayerServiceForAWS } from '../../service/interface/IPlayerServiceForAWS';
 import { IRaceServiceForAWS } from '../../service/interface/IRaceServiceForAWS';
-import { RaceGradeAndStageList } from '../../utility/data/stage';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCaseForAWS } from '../interface/IRaceCalendarUseCaseForAWS';
 
