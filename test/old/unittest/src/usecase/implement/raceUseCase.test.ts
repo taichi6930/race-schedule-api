@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { RaceUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/raceUseCase';
-import type { IRaceUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IRaceUseCase';
+import { RaceUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/raceUseCaseForAWS';
+import type { IRaceUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IRaceUseCaseForAWS';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import {
     baseRaceEntityList,

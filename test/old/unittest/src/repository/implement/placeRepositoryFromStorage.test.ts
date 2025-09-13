@@ -8,7 +8,7 @@ import { container } from 'tsyringe';
 
 import { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorageForAWS } from '../../../../../../lib/src/repository/implement/placeRepositoryFromStorage';
-import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
+import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepositoryForAWS';
 import {
     IS_LARGE_AMOUNT_DATA_TEST,
     IS_SHORT_TEST,

@@ -15,7 +15,7 @@ import {
     validateRaceCourse,
 } from '../../utility/validateAndType/raceCourse';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepository';
+import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepositoryForAWS';
 
 /**
  * 開催場データリポジトリの実装

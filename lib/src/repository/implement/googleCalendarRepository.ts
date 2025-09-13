@@ -11,7 +11,7 @@ import {
 } from '../../utility/googleCalendar';
 import { Logger } from '../../utility/logger';
 import { SearchCalendarFilterEntityForAWS } from '../entity/searchCalendarFilterEntity';
-import type { ICalendarRepositoryForAWS } from '../interface/ICalendarRepository';
+import type { ICalendarRepositoryForAWS } from '../interface/ICalendarRepositoryForAWS';
 
 /**
  * Googleカレンダーリポジトリの実装

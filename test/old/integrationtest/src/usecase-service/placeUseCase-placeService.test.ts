@@ -2,10 +2,10 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { PlaceServiceForAWS } from '../../../../../lib/src/service/implement/placeService';
-import type { IPlaceServiceForAWS } from '../../../../../lib/src/service/interface/IPlaceService';
-import { PlaceUseCaseForAWS } from '../../../../../lib/src/usecase/implement/placeUseCase';
-import type { IPlaceUseCaseForAWS } from '../../../../../lib/src/usecase/interface/IPlaceUseCase';
+import { PlaceServiceForAWS } from '../../../../../lib/src/service/implement/placeServiceForAWS';
+import type { IPlaceServiceForAWS } from '../../../../../lib/src/service/interface/IPlaceServiceForAWS';
+import { PlaceUseCaseForAWS } from '../../../../../lib/src/usecase/implement/placeUseCaseForAWS';
+import type { IPlaceUseCaseForAWS } from '../../../../../lib/src/usecase/interface/IPlaceUseCaseForAWS';
 import {
     basePlaceEntity,
     testRaceTypeListAll,

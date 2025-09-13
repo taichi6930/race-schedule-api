@@ -7,10 +7,10 @@ import { HorseRacingRaceRepositoryFromStorage } from '../../src/repository/imple
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
 import { PlaceRepositoryFromStorageForAWS } from '../../src/repository/implement/placeRepositoryFromStorage';
 import { PlayerRepositoryForAWS } from '../../src/repository/implement/playerRepository';
-import type { ICalendarRepositoryForAWS } from '../../src/repository/interface/ICalendarRepository';
-import type { IPlaceRepositoryForAWS } from '../../src/repository/interface/IPlaceRepository';
-import type { IPlayerRepositoryForAWS } from '../../src/repository/interface/IPlayerRepository';
-import type { IRaceRepositoryForAWS } from '../../src/repository/interface/IRaceRepository';
+import type { ICalendarRepositoryForAWS } from '../../src/repository/interface/ICalendarRepositoryForAWS';
+import type { IPlaceRepositoryForAWS } from '../../src/repository/interface/IPlaceRepositoryForAWS';
+import type { IPlayerRepositoryForAWS } from '../../src/repository/interface/IPlayerRepositoryForAWS';
+import type { IRaceRepositoryForAWS } from '../../src/repository/interface/IRaceRepositoryForAWS';
 
 container.register<IPlayerRepositoryForAWS>('PlayerRepository', {
     useClass: PlayerRepositoryForAWS,

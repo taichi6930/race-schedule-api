@@ -7,7 +7,7 @@ import {
 } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { Logger } from '../../utility/logger';
 import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
-import { IRaceRepositoryForAWS } from '../interface/IRaceRepository';
+import { IRaceRepositoryForAWS } from '../interface/IRaceRepositoryForAWS';
 
 export class MockHorseRacingRaceRepositoryFromHtml
     implements IRaceRepositoryForAWS

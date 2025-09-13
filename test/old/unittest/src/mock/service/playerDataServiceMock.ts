@@ -1,4 +1,4 @@
-import type { IPlayerServiceForAWS } from '../../../../../../lib/src/service/interface/IPlayerService';
+import type { IPlayerServiceForAWS } from '../../../../../../lib/src/service/interface/IPlayerServiceForAWS';
 
 /**
  * PlayerDataServiceのモックを作成する

@@ -7,9 +7,9 @@ import { CalendarData } from '../../../../src/domain/calendarData';
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../src/utility/raceType';
 import { SearchCalendarFilterEntityForAWS } from '../../repository/entity/searchCalendarFilterEntity';
-import { ICalendarRepositoryForAWS } from '../../repository/interface/ICalendarRepository';
+import { ICalendarRepositoryForAWS } from '../../repository/interface/ICalendarRepositoryForAWS';
 import { Logger } from '../../utility/logger';
-import { ICalendarServiceForAWS } from '../interface/ICalendarService';
+import { ICalendarServiceForAWS } from '../interface/ICalendarServiceForAWS';
 
 /**
  * 公営競技レース情報をGoogleカレンダーと同期するサービス

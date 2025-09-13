@@ -1,4 +1,4 @@
-import type { IRaceServiceForAWS } from '../../../../../../lib/src/service/interface/IRaceService';
+import type { IRaceServiceForAWS } from '../../../../../../lib/src/service/interface/IRaceServiceForAWS';
 
 /**
  * RaceDataServiceのモックを作成する
