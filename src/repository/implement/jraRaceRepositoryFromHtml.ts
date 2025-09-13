@@ -2,9 +2,6 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { processJraRaceName } from '../../../lib/src/utility/createRaceName';
-import { HeldDayTimes } from '../../../lib/src/utility/validateAndType/heldDayTimes';
-import { HeldTimes } from '../../../lib/src/utility/validateAndType/heldTimes';
-import { RaceDistance } from '../../../lib/src/utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../../lib/src/utility/validateAndType/raceSurfaceType';
 import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
@@ -15,10 +12,13 @@ import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';
 import { GradeType } from '../../utility/validateAndType/gradeType';
+import { HeldDayTimes } from '../../utility/validateAndType/heldDayTimes';
+import { HeldTimes } from '../../utility/validateAndType/heldTimes';
 import {
     RaceCourse,
     validateRaceCourse,
 } from '../../utility/validateAndType/raceCourse';
+import { RaceDistance } from '../../utility/validateAndType/raceDistance';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';

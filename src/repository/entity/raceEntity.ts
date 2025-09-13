@@ -9,12 +9,12 @@ import {
     validateRaceId,
 } from '../../../lib/src/utility/validateAndType/raceId';
 import { generateRacePlayerId } from '../../../lib/src/utility/validateAndType/racePlayerId';
-import type { RaceStage } from '../../../lib/src/utility/validateAndType/raceStage';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
 import { RaceType } from '../../utility/raceType';
+import type { RaceStage } from '../../utility/validateAndType/raceStage';
 
 /**
  * レース開催データ

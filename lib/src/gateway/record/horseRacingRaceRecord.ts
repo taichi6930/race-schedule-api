@@ -7,22 +7,22 @@ import type { GradeType } from '../../../../src/utility/validateAndType/gradeTyp
 import { validateGradeType } from '../../../../src/utility/validateAndType/gradeType';
 import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
 import { validateRaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import type { RaceDateTime } from '../../../../src/utility/validateAndType/raceDateTime';
+import { validateRaceDateTime } from '../../../../src/utility/validateAndType/raceDateTime';
+import type { RaceDistance } from '../../../../src/utility/validateAndType/raceDistance';
+import { validateRaceDistance } from '../../../../src/utility/validateAndType/raceDistance';
+import {
+    type RaceName,
+    validateRaceName,
+} from '../../../../src/utility/validateAndType/raceName';
+import type { RaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
+import { validateRaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import type { RaceDateTime } from '../../utility/validateAndType/raceDateTime';
-import { validateRaceDateTime } from '../../utility/validateAndType/raceDateTime';
-import type { RaceDistance } from '../../utility/validateAndType/raceDistance';
-import { validateRaceDistance } from '../../utility/validateAndType/raceDistance';
 import {
     type RaceId,
     validateRaceId,
 } from '../../utility/validateAndType/raceId';
-import {
-    type RaceName,
-    validateRaceName,
-} from '../../utility/validateAndType/raceName';
-import type { RaceNumber } from '../../utility/validateAndType/raceNumber';
-import { validateRaceNumber } from '../../utility/validateAndType/raceNumber';
 import {
     type RaceSurfaceType,
     validateRaceSurfaceType,

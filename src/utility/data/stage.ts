@@ -1,6 +1,6 @@
-import type { RaceStage } from '../../../lib/src/utility/validateAndType/raceStage';
 import { RaceType } from '../raceType';
 import type { GradeType } from '../validateAndType/gradeType';
+import type { RaceStage } from '../validateAndType/raceStage';
 
 /**
  * 指定グレード・ステージリスト

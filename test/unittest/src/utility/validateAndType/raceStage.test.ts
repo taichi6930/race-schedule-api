@@ -1,6 +1,6 @@
-import { validateRaceStage } from '../../../../../../lib/src/utility/validateAndType/raceStage';
-import { RaceType } from '../../../../../../src/utility/raceType';
-import { testRaceTypeListMechanicalRacing } from '../../../../../unittest/src/mock/common/baseCommonData';
+import { RaceType } from '../../../../../src/utility/raceType';
+import { validateRaceStage } from '../../../../../src/utility/validateAndType/raceStage';
+import { testRaceTypeListMechanicalRacing } from '../../mock/common/baseCommonData';
 
 const testCases = {
     [RaceType.KEIRIN]: ['S級決勝'],

@@ -9,12 +9,12 @@ import { RacePlayerData } from '../../../../../src/domain/racePlayerData';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
 import { GradeType } from '../../../../../src/utility/validateAndType/gradeType';
-import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
-import { Logger } from '../../../utility/logger';
 import {
     RaceStage,
     StageMap,
-} from '../../../utility/validateAndType/raceStage';
+} from '../../../../../src/utility/validateAndType/raceStage';
+import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
+import { Logger } from '../../../utility/logger';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
 

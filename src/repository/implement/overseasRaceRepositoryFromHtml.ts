@@ -5,7 +5,6 @@ import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { processOverseasRaceName } from '../../../lib/src/utility/createRaceName';
-import { validateRaceDistance } from '../../../lib/src/utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../../lib/src/utility/validateAndType/raceSurfaceType';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
@@ -19,6 +18,7 @@ import {
     RaceCourse,
     validateRaceCourse,
 } from '../../utility/validateAndType/raceCourse';
+import { validateRaceDistance } from '../../utility/validateAndType/raceDistance';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';

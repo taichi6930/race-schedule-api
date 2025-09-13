@@ -9,10 +9,10 @@ import {
 } from '../../../../src/utility/raceType';
 import { GradeType } from '../../../../src/utility/validateAndType/gradeType';
 import { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import { RaceStage } from '../../../../src/utility/validateAndType/raceStage';
 import { IPlaceServiceForAWS } from '../../service/interface/IPlaceServiceForAWS';
 import { IRaceServiceForAWS } from '../../service/interface/IRaceServiceForAWS';
 import { Logger } from '../../utility/logger';
-import { RaceStage } from '../../utility/validateAndType/raceStage';
 import { IRaceUseCaseForAWS } from '../interface/IRaceUseCaseForAWS';
 
 /**
