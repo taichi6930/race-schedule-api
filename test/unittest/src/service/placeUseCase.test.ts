@@ -2,10 +2,10 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/searchPlaceFilterEntity';
 import { PlaceService } from '../../../../src/service/implement/placeService';
 import type { IPlaceService } from '../../../../src/service/interface/IPlaceService';
+import { DataLocation } from '../../../../src/utility/dataType';
 import { commonParameterMock } from '../../../old/unittest/src/mock/common/commonParameterMock';
 import type { TestRepositorySetup } from '../../../utility/testSetupHelper';
 import {
