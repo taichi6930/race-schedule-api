@@ -7,11 +7,11 @@ import {
     RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
+import { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
 import { IPlaceServiceForAWS } from '../../service/interface/IPlaceServiceForAWS';
 import { IRaceServiceForAWS } from '../../service/interface/IRaceServiceForAWS';
 import { Logger } from '../../utility/logger';
 import { GradeType } from '../../utility/validateAndType/gradeType';
-import { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import { RaceStage } from '../../utility/validateAndType/raceStage';
 import { IRaceUseCaseForAWS } from '../interface/IRaceUseCaseForAWS';
 

@@ -5,10 +5,6 @@ import { processJraRaceName } from '../../../lib/src/utility/createRaceName';
 import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import { HeldDayTimes } from '../../../lib/src/utility/validateAndType/heldDayTimes';
 import { HeldTimes } from '../../../lib/src/utility/validateAndType/heldTimes';
-import {
-    RaceCourse,
-    validateRaceCourse,
-} from '../../../lib/src/utility/validateAndType/raceCourse';
 import { RaceDistance } from '../../../lib/src/utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../../lib/src/utility/validateAndType/raceSurfaceType';
 import { HeldDayData } from '../../domain/heldDayData';
@@ -19,6 +15,10 @@ import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';
+import {
+    RaceCourse,
+    validateRaceCourse,
+} from '../../utility/validateAndType/raceCourse';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';

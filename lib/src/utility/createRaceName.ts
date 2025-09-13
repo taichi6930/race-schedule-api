@@ -1,7 +1,7 @@
 import './format';
 
+import type { RaceCourse } from '../../../src/utility/validateAndType/raceCourse';
 import type { GradeType } from './validateAndType/gradeType';
-import type { RaceCourse } from './validateAndType/raceCourse';
 import type { RaceDateTime } from './validateAndType/raceDateTime';
 import type { RaceDistance } from './validateAndType/raceDistance';
 import type { RaceName } from './validateAndType/raceName';

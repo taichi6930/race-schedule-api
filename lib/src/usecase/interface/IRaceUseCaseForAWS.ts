@@ -1,7 +1,7 @@
 import type { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import type { RaceType } from '../../../../src/utility/raceType';
+import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
 import type { GradeType } from '../../utility/validateAndType/gradeType';
-import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import type { RaceStage } from '../../utility/validateAndType/raceStage';
 
 /**

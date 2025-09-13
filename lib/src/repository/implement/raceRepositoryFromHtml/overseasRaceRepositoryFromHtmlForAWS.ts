@@ -8,14 +8,14 @@ import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceCondi
 import { RaceData } from '../../../../../src/domain/raceData';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
+import {
+    RaceCourse,
+    validateRaceCourse,
+} from '../../../../../src/utility/validateAndType/raceCourse';
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { processOverseasRaceName } from '../../../utility/createRaceName';
 import { Logger } from '../../../utility/logger';
 import { GradeType } from '../../../utility/validateAndType/gradeType';
-import {
-    RaceCourse,
-    validateRaceCourse,
-} from '../../../utility/validateAndType/raceCourse';
 import { validateRaceDistance } from '../../../utility/validateAndType/raceDistance';
 import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';

@@ -1,7 +1,7 @@
 import type { GradeType } from '../../../../lib/src/utility/validateAndType/gradeType';
-import type { RaceCourse } from '../../../../lib/src/utility/validateAndType/raceCourse';
 import type { RaceStage } from '../../../../lib/src/utility/validateAndType/raceStage';
 import type { RaceType } from '../../../utility/raceType';
+import type { RaceCourse } from '../../../utility/validateAndType/raceCourse';
 
 export class SearchRaceFilterEntity {
     public constructor(

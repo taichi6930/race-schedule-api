@@ -6,16 +6,16 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
-import {
-    RaceCourse,
-    validateRaceCourse,
-} from '../../../lib/src/utility/validateAndType/raceCourse';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import {
+    RaceCourse,
+    validateRaceCourse,
+} from '../../utility/validateAndType/raceCourse';
 import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';

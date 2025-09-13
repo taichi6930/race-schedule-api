@@ -1,10 +1,6 @@
 import type { GradeType } from '../../lib/src/utility/validateAndType/gradeType';
 import { validateGradeType } from '../../lib/src/utility/validateAndType/gradeType';
 import {
-    type RaceCourse,
-    validateRaceCourse,
-} from '../../lib/src/utility/validateAndType/raceCourse';
-import {
     type RaceDateTime,
     validateRaceDateTime,
 } from '../../lib/src/utility/validateAndType/raceDateTime';
@@ -15,6 +11,10 @@ import {
 import type { RaceNumber } from '../../lib/src/utility/validateAndType/raceNumber';
 import { validateRaceNumber } from '../../lib/src/utility/validateAndType/raceNumber';
 import type { RaceType } from '../utility/raceType';
+import {
+    type RaceCourse,
+    validateRaceCourse,
+} from '../utility/validateAndType/raceCourse';
 
 /**
  * 競馬のレース開催データ
