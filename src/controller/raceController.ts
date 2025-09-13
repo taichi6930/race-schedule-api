@@ -220,15 +220,20 @@ export class RaceController {
                 stageList,
             );
 
-            await this.usecase.upsertRaceEntityList(
+            const upsertResult = await this.usecase.upsertRaceEntityList(
                 commonParameter,
                 searchRaceFilter,
             );
 
-            return new Response('OK', {
-                status: 200,
-                headers: this.corsHeaders,
-            });
+            return Response.json(
+                {
+                    message: 'Upsert completed',
+                    successCount: upsertResult.successCount,
+                    failureCount: upsertResult.failureCount,
+                    failures: upsertResult.failures,
+                },
+                { headers: this.corsHeaders },
+            );
         } catch (error) {
             console.error('Error in postUpsertRace:', error);
             return new Response('Internal Server Error', {

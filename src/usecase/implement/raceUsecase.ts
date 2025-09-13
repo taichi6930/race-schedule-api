@@ -8,6 +8,7 @@ import { IPlaceService } from '../../service/interface/IPlaceService';
 import { IRaceService } from '../../service/interface/IRaceService';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
+import type { UpsertResult } from '../../utility/upsertResult';
 import { IRaceUseCase } from '../interface/IRaceUsecase';
 
 @injectable()
@@ -35,7 +36,7 @@ export class RaceUseCase implements IRaceUseCase {
     public async upsertRaceEntityList(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
-    ): Promise<void> {
+    ): Promise<UpsertResult> {
         // フィルタリング処理
         const placeEntityList = await this.placeService.fetchPlaceEntityList(
             commonParameter,

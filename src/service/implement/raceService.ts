@@ -11,6 +11,7 @@ import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import type { UpsertResult } from '../../utility/upsertResult';
 import { IRaceService } from '../interface/IRaceService';
 
 @injectable()
@@ -70,8 +71,8 @@ export class RaceService implements IRaceService {
     public async upsertRaceEntityList(
         commonParameter: CommonParameter,
         entityList: RaceEntity[],
-    ): Promise<void> {
-        await this.repositoryFromStorage.upsertRaceEntityList(
+    ): Promise<UpsertResult> {
+        return this.repositoryFromStorage.upsertRaceEntityList(
             commonParameter,
             entityList,
         );

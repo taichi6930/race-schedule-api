@@ -8,6 +8,7 @@ import type { IDBGateway } from '../../gateway/interface/iDbGateway';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import type { FailureDetail, UpsertResult } from '../../utility/upsertResult';
 import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
@@ -130,16 +131,21 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
     public async upsertRaceEntityList(
         commonParameter: CommonParameter,
         entityList: RaceEntity[],
-    ): Promise<void> {
+    ): Promise<UpsertResult> {
+        const result: UpsertResult = {
+            successCount: 0,
+            failureCount: 0,
+            failures: [] as FailureDetail[],
+        };
         const { env } = commonParameter;
         const chunkSize = 5;
         // chunk分割関数
         function chunkArray<T>(array: T[], size: number): T[][] {
-            const result: T[][] = [];
+            const chunks: T[][] = [];
             for (let i = 0; i < array.length; i += size) {
-                result.push(array.slice(i, i + size));
+                chunks.push(array.slice(i, i + size));
             }
-            return result;
+            return chunks;
         }
 
         // raceテーブル バルクinsert
@@ -184,7 +190,19 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                     raceData.number,
                 );
             }
-            await this.dbGateway.run(env, insertRaceSql, raceParams);
+            try {
+                await this.dbGateway.run(env, insertRaceSql, raceParams);
+                result.successCount += chunk.length;
+            } catch (error: any) {
+                result.failureCount += chunk.length;
+                for (const entity of chunk) {
+                    result.failures.push({
+                        db: 'race',
+                        id: entity.id,
+                        reason: error?.message ?? String(error),
+                    });
+                }
+            }
         }
 
         // race_condition バルクinsert（JRA/NAR/OVERSEASのみ）
@@ -221,7 +239,23 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                     entity.conditionData.distance,
                 );
             }
-            await this.dbGateway.run(env, insertConditionSql, conditionParams);
+            try {
+                await this.dbGateway.run(
+                    env,
+                    insertConditionSql,
+                    conditionParams,
+                );
+                result.successCount += chunk.length;
+            } catch (error: any) {
+                result.failureCount += chunk.length;
+                for (const entity of chunk) {
+                    result.failures.push({
+                        db: 'race_condition',
+                        id: entity.id,
+                        reason: error?.message ?? String(error),
+                    });
+                }
+            }
         }
 
         // race_stage バルクinsert（KEIRIN/AUTORACE/BOATRACEのみ）
@@ -255,7 +289,21 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                     entity.stage,
                 );
             }
-            await this.dbGateway.run(env, insertStageSql, stageParams);
+            try {
+                await this.dbGateway.run(env, insertStageSql, stageParams);
+                result.successCount += chunk.length;
+            } catch (error: any) {
+                result.failureCount += chunk.length;
+                for (const entity of chunk) {
+                    result.failures.push({
+                        db: 'race_stage',
+                        id: entity.id,
+                        reason: error?.message ?? String(error),
+                    });
+                }
+            }
         }
+
+        return result;
     }
 }
