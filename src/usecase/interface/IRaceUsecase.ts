@@ -1,6 +1,7 @@
 import type { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
 import type { CommonParameter } from '../../utility/commonParameter';
+import type { UpsertResult } from '../../utility/upsertResult';
 
 export interface IRaceUseCase {
     fetchRaceEntityList: (
@@ -11,5 +12,5 @@ export interface IRaceUseCase {
     upsertRaceEntityList: (
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
-    ) => Promise<void>;
+    ) => Promise<UpsertResult>;
 }

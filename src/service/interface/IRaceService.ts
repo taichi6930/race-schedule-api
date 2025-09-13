@@ -3,6 +3,7 @@ import type { SearchRaceFilterEntity } from '../../repository/entity/filter/sear
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
 import type { CommonParameter } from '../../utility/commonParameter';
+import type { UpsertResult } from '../../utility/upsertResult';
 
 export interface IRaceService {
     fetchRaceEntityList: (
@@ -15,5 +16,5 @@ export interface IRaceService {
     upsertRaceEntityList: (
         commonParameter: CommonParameter,
         entityList: RaceEntity[],
-    ) => Promise<void>;
+    ) => Promise<UpsertResult>;
 }

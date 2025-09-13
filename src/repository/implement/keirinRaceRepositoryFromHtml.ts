@@ -15,6 +15,7 @@ import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGatew
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import type { UpsertResult } from '../../utility/upsertResult';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';
@@ -302,15 +303,21 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
-     * @param commonParameter
-     * @param entityList
+     * @param _commonParameter
+     * @param _entityList
      */
     @Logger
     public async upsertRaceEntityList(
-        commonParameter: CommonParameter,
-        entityList: RaceEntity[],
-    ): Promise<void> {
-        console.log(commonParameter, entityList);
-        throw new Error('Method not implemented.');
+        _commonParameter: CommonParameter,
+        _entityList: RaceEntity[],
+    ): Promise<UpsertResult> {
+        // HTML repositories do not perform DB writes here. Return empty result.
+        void _commonParameter;
+        void _entityList;
+        return {
+            successCount: 0,
+            failureCount: 0,
+            failures: [],
+        };
     }
 }

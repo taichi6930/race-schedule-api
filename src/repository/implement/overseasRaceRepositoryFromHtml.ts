@@ -18,6 +18,7 @@ import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGatew
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import type { UpsertResult } from '../../utility/upsertResult';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -260,11 +261,16 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
     }
 
     @Logger
+    /**
+     * レースデータを登録する
+     * HTMLリポジトリはDB書き込みを行わないため、デフォルト結果を返す
+     */
     public async upsertRaceEntityList(
-        commonParameter: CommonParameter,
-        entityList: RaceEntity[],
-    ): Promise<void> {
-        console.log(commonParameter, entityList);
-        throw new Error('Method not implemented.');
+        _commonParameter: CommonParameter,
+        _entityList: RaceEntity[],
+    ): Promise<UpsertResult> {
+        void _commonParameter;
+        void _entityList;
+        return { successCount: 0, failureCount: 0, failures: [] };
     }
 }
