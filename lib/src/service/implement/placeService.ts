@@ -2,13 +2,16 @@ import { inject, injectable } from 'tsyringe';
 
 import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import {
+    DataLocation,
+    DataLocationType,
+} from '../../../../src/utility/dataType';
+import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
     RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
 import { SearchPlaceFilterEntityForAWS } from '../../repository/entity/searchPlaceFilterEntity';
 import { IPlaceRepositoryForAWS } from '../../repository/interface/IPlaceRepository';
-import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceServiceForAWS } from '../interface/IPlaceService';
 

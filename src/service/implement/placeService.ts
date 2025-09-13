@@ -1,13 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
-import {
-    DataLocation,
-    DataLocationType,
-} from '../../../lib/src/utility/dataType';
 import { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { CommonParameter } from '../../utility/commonParameter';
+import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceService } from '../interface/IPlaceService';
 

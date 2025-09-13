@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import { RaceServiceForAWS } from '../../../../../../lib/src/service/implement/raceService';
 import type { IRaceServiceForAWS } from '../../../../../../lib/src/service/interface/IRaceService';
-import { DataLocation } from '../../../../../../lib/src/utility/dataType';
+import { DataLocation } from '../../../../../../src/utility/dataType';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import {
     baseRaceEntityList,
