@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { RaceType } from '../../../../src/utility/raceType';
+import { RaceType } from '../raceType';
 
 /**
  * 枠順の最高値を取得します。
@@ -16,11 +16,6 @@ export const maxFrameNumber = {
     [RaceType.OVERSEAS]: 48,
 };
 
-export const validatePositionNumber = (
-    raceType: RaceType,
-    positionNumber: number,
-): PositionNumber => PositionNumberSchema(raceType).parse(positionNumber);
-
 /**
  * PositionNumber zod型定義
  * @param raceType - レース種別
@@ -35,6 +30,11 @@ const PositionNumberSchema: (raceType: RaceType) => z.ZodNumber = (
         .min(1, `枠番は1以上である必要があります`)
         .max(max, `枠番は${max}以下である必要があります`);
 };
+
+export const validatePositionNumber = (
+    raceType: RaceType,
+    positionNumber: number,
+): PositionNumber => PositionNumberSchema(raceType).parse(positionNumber);
 
 /**
  * 共通のPositionNumber型定義

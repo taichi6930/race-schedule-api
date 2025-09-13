@@ -2,12 +2,12 @@ import '../../utility/format';
 
 import { RacePlayerData } from '../../../../src/domain/racePlayerData';
 import type { RaceType } from '../../../../src/utility/raceType';
+import type { PlayerNumber } from '../../../../src/utility/validateAndType/playerNumber';
+import { validatePlayerNumber } from '../../../../src/utility/validateAndType/playerNumber';
+import type { PositionNumber } from '../../../../src/utility/validateAndType/positionNumber';
+import { validatePositionNumber } from '../../../../src/utility/validateAndType/positionNumber';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import type { PlayerNumber } from '../../utility/validateAndType/playerNumber';
-import { validatePlayerNumber } from '../../utility/validateAndType/playerNumber';
-import type { PositionNumber } from '../../utility/validateAndType/positionNumber';
-import { validatePositionNumber } from '../../utility/validateAndType/positionNumber';
 import type { RaceId } from '../../utility/validateAndType/raceId';
 import { validateRaceId } from '../../utility/validateAndType/raceId';
 import type { RacePlayerId } from '../../utility/validateAndType/racePlayerId';

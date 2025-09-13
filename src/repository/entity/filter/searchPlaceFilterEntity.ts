@@ -1,5 +1,5 @@
-import type { RaceCourse } from '../../../../lib/src/utility/validateAndType/raceCourse';
 import type { RaceType } from '../../../utility/raceType';
+import type { RaceCourse } from '../../../utility/validateAndType/raceCourse';
 
 export class SearchPlaceFilterEntity {
     public constructor(

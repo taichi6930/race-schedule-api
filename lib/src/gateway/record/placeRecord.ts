@@ -1,14 +1,14 @@
 import { PlaceData } from '../../../../src/domain/placeData';
 import type { RaceType } from '../../../../src/utility/raceType';
+import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import { validateRaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import type { RaceDateTime } from '../../../../src/utility/validateAndType/raceDateTime';
+import { validateRaceDateTime } from '../../../../src/utility/validateAndType/raceDateTime';
 import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { PlaceId } from '../../utility/validateAndType/placeId';
 import { validatePlaceId } from '../../utility/validateAndType/placeId';
-import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
-import { validateRaceCourse } from '../../utility/validateAndType/raceCourse';
-import type { RaceDateTime } from '../../utility/validateAndType/raceDateTime';
-import { validateRaceDateTime } from '../../utility/validateAndType/raceDateTime';
 
 /**
  * Repository層のRecord レース開催場所データ

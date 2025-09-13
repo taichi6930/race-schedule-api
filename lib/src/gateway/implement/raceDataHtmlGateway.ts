@@ -1,6 +1,7 @@
 import '../../utility/format';
 
 import { RaceType } from '../../../../src/utility/raceType';
+import { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
 import {
     createAutoraceRaceUrl,
     createBoatraceRaceUrl,
@@ -10,7 +11,6 @@ import {
     createOverseasRaceUrl,
 } from '../../utility/data/url';
 import { Logger } from '../../utility/logger';
-import { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import { IRaceDataHtmlGatewayForAWS } from '../interface/iRaceDataHtmlGateway';
 /**
  * レースデータのHTMLを取得するGateway

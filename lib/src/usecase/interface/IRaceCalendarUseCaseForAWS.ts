@@ -1,6 +1,6 @@
 import type { CalendarData } from '../../../../src/domain/calendarData';
 import type { RaceType } from '../../../../src/utility/raceType';
-import type { GradeType } from '../../utility/validateAndType/gradeType';
+import type { GradeType } from '../../../../src/utility/validateAndType/gradeType';
 
 export interface IRaceCalendarUseCaseForAWS {
     /**

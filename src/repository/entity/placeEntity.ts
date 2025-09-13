@@ -1,4 +1,3 @@
-import type { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import type { PlaceId } from '../../../lib/src/utility/validateAndType/placeId';
 import {
     generatePlaceId,
@@ -7,6 +6,7 @@ import {
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import { RaceType } from '../../utility/raceType';
+import type { GradeType } from '../../utility/validateAndType/gradeType';
 
 /**
  * Repository層のEntity レース開催場所データ

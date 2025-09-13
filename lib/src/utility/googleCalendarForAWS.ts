@@ -4,6 +4,7 @@ import type { calendar_v3 } from 'googleapis';
 import type { RaceEntity } from '../../../src/repository/entity/raceEntity';
 import { getGoogleCalendarColorId } from '../../../src/utility/googleCalendar';
 import { RaceType } from '../../../src/utility/raceType';
+import { createPlaceCode } from '../../../src/utility/validateAndType/raceCourse';
 import {
     createYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
@@ -20,7 +21,6 @@ import {
 } from './data/url';
 import { getJSTDate } from './date';
 import { createAnchorTag, formatDate } from './format';
-import { createPlaceCode } from './validateAndType/raceCourse';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール

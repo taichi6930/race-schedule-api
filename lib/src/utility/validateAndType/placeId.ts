@@ -2,8 +2,11 @@ import { format } from 'date-fns';
 import { z } from 'zod';
 
 import { RaceType } from '../../../../src/utility/raceType';
+import {
+    createPlaceCode,
+    type RaceCourse,
+} from '../../../../src/utility/validateAndType/raceCourse';
 import { NetkeibaBabacodeMap } from '../data/netkeiba';
-import { createPlaceCode, type RaceCourse } from './raceCourse';
 
 /**
  * placeIdを作成する

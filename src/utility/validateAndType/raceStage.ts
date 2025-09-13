@@ -1,18 +1,7 @@
 import { z } from 'zod';
 
-import type { RaceType } from '../../../../src/utility/raceType';
 import { RaceGradeAndStageList } from '../data/stage';
-
-/**
- * ステージ のバリデーション
- * @param raceType - レース種別
- * @param stage - 開催ステージ
- * @returns - バリデーション済みのステージ
- */
-export const validateRaceStage = (
-    raceType: RaceType,
-    stage: string,
-): RaceStage => RaceStageSchema(raceType).parse(stage);
+import type { RaceType } from '../raceType';
 
 /**
  * ステージ リスト
@@ -24,6 +13,26 @@ const RaceStageList: (raceType: RaceType) => Set<string> = (raceType) =>
             (item) => item.stage,
         ),
     );
+
+/**
+ * RaceCourseのzod型定義
+ * @param raceType - レース種別
+ */
+const RaceStageSchema = (raceType: RaceType): z.ZodString =>
+    z.string().refine((value) => {
+        return RaceStageList(raceType).has(value);
+    }, `${raceType}の開催ステージではありません`);
+
+/**
+ * ステージ のバリデーション
+ * @param raceType - レース種別
+ * @param stage - 開催ステージ
+ * @returns - バリデーション済みのステージ
+ */
+export const validateRaceStage = (
+    raceType: RaceType,
+    stage: string,
+): RaceStage => RaceStageSchema(raceType).parse(stage);
 
 /**
  * HTML表記・oddspark表記の両方をカバーするステージ名マップ
@@ -42,15 +51,6 @@ export const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
             ]),
         ),
     );
-
-/**
- * RaceCourseのzod型定義
- * @param raceType - レース種別
- */
-const RaceStageSchema = (raceType: RaceType): z.ZodString =>
-    z.string().refine((value) => {
-        return RaceStageList(raceType).has(value);
-    }, `${raceType}の開催ステージではありません`);
 
 /**
  * RaceStageの型定義

@@ -2,7 +2,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { inject, injectable } from 'tsyringe';
 
-import { GradeType } from '../../../lib/src/utility/validateAndType/gradeType';
 import { CalendarData } from '../../domain/calendarData';
 import { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
@@ -13,6 +12,7 @@ import { CommonParameter } from '../../utility/commonParameter';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RACE_TYPE_LIST_ALL, RaceType } from '../../utility/raceType';
+import { GradeType } from '../../utility/validateAndType/gradeType';
 import { ICalendarUseCase } from '../interface/ICalendarUseCase';
 
 /**

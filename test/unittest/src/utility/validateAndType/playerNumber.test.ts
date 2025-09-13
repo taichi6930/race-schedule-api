@@ -1,4 +1,4 @@
-import { validatePlayerNumber } from '../../../../../../lib/src/utility/validateAndType/playerNumber';
+import { validatePlayerNumber } from '../../../../../src/utility/validateAndType/playerNumber';
 
 /**
  * PlayerNumberのテスト

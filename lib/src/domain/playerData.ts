@@ -1,5 +1,5 @@
 import { RaceType } from '../../../src/utility/raceType';
-import { validatePlayerNumber } from '../utility/validateAndType/playerNumber';
+import { validatePlayerNumber } from '../../../src/utility/validateAndType/playerNumber';
 
 /**
  * 選手情報

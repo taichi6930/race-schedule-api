@@ -2,12 +2,12 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { SpecifiedGradeList } from '../../lib/src/utility/validateAndType/gradeType';
 import { SearchCalendarFilterEntity } from '../repository/entity/filter/searchCalendarFilterEntity';
 import { ICalendarUseCase } from '../usecase/interface/ICalendarUseCase';
 import { CommonParameter } from '../utility/commonParameter';
 import { Logger } from '../utility/logger';
 import { RaceType } from '../utility/raceType';
+import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
 import {
     parseBodyToFilter,
     parseSearchDatesAndRaceTypes,

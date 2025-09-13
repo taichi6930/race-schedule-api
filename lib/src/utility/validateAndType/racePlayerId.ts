@@ -1,10 +1,16 @@
 import { z } from 'zod';
 
 import type { RaceType } from '../../../../src/utility/raceType';
-import { type PositionNumber, validatePositionNumber } from './positionNumber';
-import type { RaceCourse } from './raceCourse';
+import {
+    type PositionNumber,
+    validatePositionNumber,
+} from '../../../../src/utility/validateAndType/positionNumber';
+import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import {
+    type RaceNumber,
+    validateRaceNumber,
+} from '../../../../src/utility/validateAndType/raceNumber';
 import { generateRaceId } from './raceId';
-import { type RaceNumber, validateRaceNumber } from './raceNumber';
 
 /**
  * racePlayerIdを作成する
