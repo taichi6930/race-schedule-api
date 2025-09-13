@@ -12,13 +12,12 @@ import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../../src/domain/calendarData';
 import type { RaceEntity } from '../../../src/repository/entity/raceEntity';
-import { RaceType } from '../../../src/utility/raceType';
 import {
     createYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
     NarYoutubeUserIdMap,
-} from './data/movie';
-import { NetkeibaBabacodeMap } from './data/netkeiba';
+} from '../../../src/utility/data/movie';
+import { NetkeibaBabacodeMap } from '../../../src/utility/data/netkeiba';
 import {
     createNetkeibaJraRaceVideoUrl,
     createNetkeibaJraShutubaUrl,
@@ -26,11 +25,12 @@ import {
     createNetkeibaRedirectUrl,
     createNetkeirinRaceShutubaUrl,
     createNetkeirinRedirectUrl,
-} from './data/url';
-import { getJSTDate } from './date';
-import { createAnchorTag, formatDate } from './format';
-import type { GradeType } from './validateAndType/gradeType';
-import { createPlaceCode } from './validateAndType/raceCourse';
+} from '../../../src/utility/data/url';
+import { getJSTDate } from '../../../src/utility/date';
+import { createAnchorTag, formatDate } from '../../../src/utility/format';
+import { RaceType } from '../../../src/utility/raceType';
+import type { GradeType } from '../../../src/utility/validateAndType/gradeType';
+import { createPlaceCode } from '../../../src/utility/validateAndType/raceCourse';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール

@@ -1,8 +1,8 @@
 import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
 
-import { createErrorMessage } from '../../../lib/src/utility/error';
 import { CloudFlareEnv, CommonParameter } from '../../utility/commonParameter';
+import { createErrorMessage } from '../../utility/error';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { ICalendarGateway } from '../interface/iCalendarGateway';

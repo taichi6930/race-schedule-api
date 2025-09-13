@@ -1,7 +1,7 @@
-import '../../utility/format';
+import '../../../../src/utility/format';
 
+import { createPlaceUrl } from '../../../../src/utility/data/url';
 import { RaceType } from '../../../../src/utility/raceType';
-import { createPlaceUrl } from '../../utility/data/url';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataHtmlGatewayForAWS } from '../interface/iPlaceDataHtmlGateway';
 

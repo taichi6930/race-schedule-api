@@ -1,34 +1,23 @@
-import '../../utility/format';
+import '../../../../src/utility/format';
 
 import { RaceData } from '../../../../src/domain/raceData';
+import { createErrorMessage } from '../../../../src/utility/error';
 import type { RaceType } from '../../../../src/utility/raceType';
-import { createErrorMessage } from '../../utility/error';
+import type { GradeType } from '../../../../src/utility/validateAndType/gradeType';
+import { validateGradeType } from '../../../../src/utility/validateAndType/gradeType';
+import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import { validateRaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import type { RaceDateTime } from '../../../../src/utility/validateAndType/raceDateTime';
+import { validateRaceDateTime } from '../../../../src/utility/validateAndType/raceDateTime';
+import type { RaceId } from '../../../../src/utility/validateAndType/raceId';
+import { validateRaceId } from '../../../../src/utility/validateAndType/raceId';
+import type { RaceName } from '../../../../src/utility/validateAndType/raceName';
+import { validateRaceName } from '../../../../src/utility/validateAndType/raceName';
+import type { RaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
+import { validateRaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
+import type { RaceStage } from '../../../../src/utility/validateAndType/raceStage';
+import { validateRaceStage } from '../../../../src/utility/validateAndType/raceStage';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import {
-    type GradeType,
-    validateGradeType,
-} from '../../utility/validateAndType/gradeType';
-import {
-    type RaceCourse,
-    validateRaceCourse,
-} from '../../utility/validateAndType/raceCourse';
-import {
-    type RaceDateTime,
-    validateRaceDateTime,
-} from '../../utility/validateAndType/raceDateTime';
-import type { RaceId } from '../../utility/validateAndType/raceId';
-import { validateRaceId } from '../../utility/validateAndType/raceId';
-import type { RaceName } from '../../utility/validateAndType/raceName';
-import { validateRaceName } from '../../utility/validateAndType/raceName';
-import {
-    type RaceNumber,
-    validateRaceNumber,
-} from '../../utility/validateAndType/raceNumber';
-import {
-    type RaceStage,
-    validateRaceStage,
-} from '../../utility/validateAndType/raceStage';
-
 /**
  * レース開催データ
  */

@@ -1,8 +1,8 @@
 import type { ZodString } from 'zod';
 import { z } from 'zod';
 
-import type { RaceType } from '../../../../src/utility/raceType';
 import { GradeMasterList } from '../data/grade';
+import type { RaceType } from '../raceType';
 
 /**
  * グレードのバリデーション

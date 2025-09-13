@@ -3,12 +3,15 @@ import { inject, injectable } from 'tsyringe';
 import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import {
+    DataLocation,
+    DataLocationType,
+} from '../../../../src/utility/dataType';
+import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
 import { SearchRaceFilterEntityForAWS } from '../../repository/entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../repository/interface/IRaceRepository';
-import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IRaceServiceForAWS } from '../interface/IRaceService';
 

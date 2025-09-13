@@ -1,7 +1,7 @@
-import type { RaceDistance } from '../../lib/src/utility/validateAndType/raceDistance';
-import { validateRaceDistance } from '../../lib/src/utility/validateAndType/raceDistance';
-import type { RaceSurfaceType } from '../../lib/src/utility/validateAndType/raceSurfaceType';
-import { validateRaceSurfaceType } from '../../lib/src/utility/validateAndType/raceSurfaceType';
+import type { RaceDistance } from '../utility/validateAndType/raceDistance';
+import { validateRaceDistance } from '../utility/validateAndType/raceDistance';
+import type { RaceSurfaceType } from '../utility/validateAndType/raceSurfaceType';
+import { validateRaceSurfaceType } from '../utility/validateAndType/raceSurfaceType';
 
 export class HorseRaceConditionData {
     /**

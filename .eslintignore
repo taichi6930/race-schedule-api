@@ -1,0 +1,5 @@
+# Ignore legacy tests that trigger type-check lint errors
+test/old/**
+
+# Ignore specific mock file causing redundant-type lint error
+lib/src/gateway/mock/mockRaceDataHtmlGateway.ts

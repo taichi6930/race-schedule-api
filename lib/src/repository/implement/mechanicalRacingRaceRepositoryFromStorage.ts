@@ -4,12 +4,12 @@ import { inject, injectable } from 'tsyringe';
 
 import { RacePlayerData } from '../../../../src/domain/racePlayerData';
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
+import { getJSTDate } from '../../../../src/utility/date';
 import { RaceType } from '../../../../src/utility/raceType';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { MechanicalRacingRaceRecord } from '../../gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../gateway/record/racePlayerRecord';
 import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
-import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../interface/IRaceRepository';

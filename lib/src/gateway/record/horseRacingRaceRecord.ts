@@ -1,32 +1,27 @@
-import '../../utility/format';
+import '../../../../src/utility/format';
 
 import { HorseRaceConditionData } from '../../../../src/domain/houseRaceConditionData';
 import { RaceData } from '../../../../src/domain/raceData';
+import { createErrorMessage } from '../../../../src/utility/error';
 import type { RaceType } from '../../../../src/utility/raceType';
-import { createErrorMessage } from '../../utility/error';
-import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import type { GradeType } from '../../utility/validateAndType/gradeType';
-import { validateGradeType } from '../../utility/validateAndType/gradeType';
-import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
-import { validateRaceCourse } from '../../utility/validateAndType/raceCourse';
-import type { RaceDateTime } from '../../utility/validateAndType/raceDateTime';
-import { validateRaceDateTime } from '../../utility/validateAndType/raceDateTime';
-import type { RaceDistance } from '../../utility/validateAndType/raceDistance';
-import { validateRaceDistance } from '../../utility/validateAndType/raceDistance';
-import {
-    type RaceId,
-    validateRaceId,
-} from '../../utility/validateAndType/raceId';
-import {
-    type RaceName,
-    validateRaceName,
-} from '../../utility/validateAndType/raceName';
-import type { RaceNumber } from '../../utility/validateAndType/raceNumber';
-import { validateRaceNumber } from '../../utility/validateAndType/raceNumber';
-import {
-    type RaceSurfaceType,
-    validateRaceSurfaceType,
-} from '../../utility/validateAndType/raceSurfaceType';
+import type { GradeType } from '../../../../src/utility/validateAndType/gradeType';
+import { validateGradeType } from '../../../../src/utility/validateAndType/gradeType';
+import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import { validateRaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import type { RaceDateTime } from '../../../../src/utility/validateAndType/raceDateTime';
+import { validateRaceDateTime } from '../../../../src/utility/validateAndType/raceDateTime';
+import type { RaceDistance } from '../../../../src/utility/validateAndType/raceDistance';
+import { validateRaceDistance } from '../../../../src/utility/validateAndType/raceDistance';
+import type { RaceId } from '../../../../src/utility/validateAndType/raceId';
+import { validateRaceId } from '../../../../src/utility/validateAndType/raceId';
+import type { RaceName } from '../../../../src/utility/validateAndType/raceName';
+import { validateRaceName } from '../../../../src/utility/validateAndType/raceName';
+import type { RaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
+import { validateRaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
+import type { RaceSurfaceType } from '../../../../src/utility/validateAndType/raceSurfaceType';
+import { validateRaceSurfaceType } from '../../../../src/utility/validateAndType/raceSurfaceType';
+import type { UpdateDate } from '../../utility/updateDate';
+import { validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * 競馬のレース開催データ

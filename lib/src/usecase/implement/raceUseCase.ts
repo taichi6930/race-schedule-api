@@ -1,18 +1,18 @@
 import { inject, injectable } from 'tsyringe';
 
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
+import { DataLocation } from '../../../../src/utility/dataType';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
     RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
+import { GradeType } from '../../../../src/utility/validateAndType/gradeType';
+import { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import { RaceStage } from '../../../../src/utility/validateAndType/raceStage';
 import { IPlaceServiceForAWS } from '../../service/interface/IPlaceService';
 import { IRaceServiceForAWS } from '../../service/interface/IRaceService';
-import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { GradeType } from '../../utility/validateAndType/gradeType';
-import { RaceCourse } from '../../utility/validateAndType/raceCourse';
-import { RaceStage } from '../../utility/validateAndType/raceStage';
 import { IRaceUseCaseForAWS } from '../interface/IRaceUseCase';
 
 /**

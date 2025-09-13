@@ -1,10 +1,8 @@
-import type { RaceCourse } from '../../lib/src/utility/validateAndType/raceCourse';
-import { validateRaceCourse } from '../../lib/src/utility/validateAndType/raceCourse';
-import {
-    type RaceDateTime,
-    validateRaceDateTime,
-} from '../../lib/src/utility/validateAndType/raceDateTime';
 import type { RaceType } from '../utility/raceType';
+import type { RaceCourse } from '../utility/validateAndType/raceCourse';
+import { validateRaceCourse } from '../utility/validateAndType/raceCourse';
+import type { RaceDateTime } from '../utility/validateAndType/raceDateTime';
+import { validateRaceDateTime } from '../utility/validateAndType/raceDateTime';
 
 /**
  * 開催場所データ

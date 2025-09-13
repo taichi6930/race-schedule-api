@@ -1,14 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 
-import {
-    DataLocation,
-    DataLocationType,
-} from '../../../lib/src/utility/dataType';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { CommonParameter } from '../../utility/commonParameter';
+import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';

@@ -1,9 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 
 import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
+import { DataLocation } from '../../../../src/utility/dataType';
 import { RaceType } from '../../../../src/utility/raceType';
 import { IPlaceServiceForAWS } from '../../service/interface/IPlaceService';
-import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceUseCaseForAWS } from '../interface/IPlaceUseCase';
 

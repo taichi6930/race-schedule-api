@@ -2,12 +2,12 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { convertRaceTypeList, RaceType } from '../../../src/utility/raceType';
+import { SpecifiedGradeList } from '../../../src/utility/validateAndType/gradeType';
 import { IPlaceUseCaseForAWS } from '../usecase/interface/IPlaceUseCase';
 import { IPlayerDataUseCaseForAWS } from '../usecase/interface/IPlayerDataUseCase';
 import { IRaceCalendarUseCaseForAWS } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceUseCaseForAWS } from '../usecase/interface/IRaceUseCase';
 import { Logger } from '../utility/logger';
-import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
 
 /**
  * 公営競技のレース情報コントローラー（AWS）

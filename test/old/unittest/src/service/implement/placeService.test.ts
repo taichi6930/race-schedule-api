@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import { PlaceServiceForAWS } from '../../../../../../lib/src/service/implement/placeService';
 import type { IPlaceServiceForAWS } from '../../../../../../lib/src/service/interface/IPlaceService';
-import { DataLocation } from '../../../../../../lib/src/utility/dataType';
+import { DataLocation } from '../../../../../../src/utility/dataType';
 import {
     mockPlaceEntityList,
     testRaceTypeListWithoutOverseas,

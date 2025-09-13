@@ -1,7 +1,7 @@
 import type { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import type { RaceEntity } from '../../../../src/repository/entity/raceEntity';
+import type { DataLocationType } from '../../../../src/utility/dataType';
 import type { RaceType } from '../../../../src/utility/raceType';
-import type { DataLocationType } from '../../utility/dataType';
 
 /**
  * レース開催データを管理するサービスのインターフェース

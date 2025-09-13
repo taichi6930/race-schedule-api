@@ -1,9 +1,9 @@
 import { RaceData } from '../../../../src/domain/raceData';
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../src/utility/raceType';
+import { RaceStage } from '../../../../src/utility/validateAndType/raceStage';
 import { baseRacePlayerDataList } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { Logger } from '../../utility/logger';
-import { RaceStage } from '../../utility/validateAndType/raceStage';
 import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepositoryForAWS } from '../interface/IRaceRepository';
 

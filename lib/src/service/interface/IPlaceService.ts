@@ -1,6 +1,6 @@
 import type { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
+import type { DataLocationType } from '../../../../src/utility/dataType';
 import type { RaceType } from '../../../../src/utility/raceType';
-import type { DataLocationType } from '../../utility/dataType';
 
 /**
  * 開催場所データを提供するサービスインターフェース
