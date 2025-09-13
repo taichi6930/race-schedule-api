@@ -6,7 +6,7 @@ import type { IPlaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gate
 import { MockPlaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
-import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
+import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepositoryForAWS';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import {

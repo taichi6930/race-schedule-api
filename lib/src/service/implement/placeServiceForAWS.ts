@@ -11,9 +11,9 @@ import {
     RaceType,
 } from '../../../../src/utility/raceType';
 import { SearchPlaceFilterEntityForAWS } from '../../repository/entity/searchPlaceFilterEntity';
-import { IPlaceRepositoryForAWS } from '../../repository/interface/IPlaceRepository';
+import { IPlaceRepositoryForAWS } from '../../repository/interface/IPlaceRepositoryForAWS';
 import { Logger } from '../../utility/logger';
-import { IPlaceServiceForAWS } from '../interface/IPlaceService';
+import { IPlaceServiceForAWS } from '../interface/IPlaceServiceForAWS';
 
 /**
  * 公営競技の開催場データを提供するサービス

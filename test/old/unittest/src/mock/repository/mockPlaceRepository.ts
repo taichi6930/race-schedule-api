@@ -1,5 +1,5 @@
 import type { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepository';
+import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepositoryForAWS';
 import type { SearchPlaceFilterEntity } from '../../../../../../src/repository/entity/filter/searchPlaceFilterEntity';
 import type { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
 import type { IPlaceRepository } from '../../../../../../src/repository/interface/IPlaceRepository';

@@ -7,7 +7,7 @@ import {
 } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { Logger } from '../../utility/logger';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepository';
+import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepositoryForAWS';
 
 export class MockPlaceRepositoryFromHtml implements IPlaceRepositoryForAWS {
     /**

@@ -9,7 +9,7 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { Logger } from '../../utility/logger';
 import { PlayerEntityForAWS } from '../entity/playerEntity';
 import { SearchPlayerFilterEntityForAWS } from '../entity/searchPlayerFilterEntity';
-import { IPlayerRepositoryForAWS } from '../interface/IPlayerRepository';
+import { IPlayerRepositoryForAWS } from '../interface/IPlayerRepositoryForAWS';
 
 @injectable()
 export class PlayerRepositoryForAWS implements IPlayerRepositoryForAWS {

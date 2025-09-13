@@ -13,7 +13,7 @@ import { JraRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/
 import { KeirinRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
-import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepository';
+import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
 import { PlaceData } from '../../../../../../src/domain/placeData';
 import { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';

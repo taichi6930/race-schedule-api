@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import { SearchCalendarFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { GoogleCalendarRepositoryForAWS } from '../../../../../../lib/src/repository/implement/googleCalendarRepository';
-import type { ICalendarRepositoryForAWS } from '../../../../../../lib/src/repository/interface/ICalendarRepository';
+import type { ICalendarRepositoryForAWS } from '../../../../../../lib/src/repository/interface/ICalendarRepositoryForAWS';
 import {
     baseCalendarData,
     baseCalendarDataFromGoogleCalendar,

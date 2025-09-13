@@ -1,4 +1,4 @@
-import type { IPlaceServiceForAWS } from '../../../../../../lib/src/service/interface/IPlaceService';
+import type { IPlaceServiceForAWS } from '../../../../../../lib/src/service/interface/IPlaceServiceForAWS';
 import type { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
 
 /**

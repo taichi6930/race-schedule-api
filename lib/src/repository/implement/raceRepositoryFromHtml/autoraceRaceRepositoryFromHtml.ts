@@ -16,7 +16,7 @@ import {
     StageMap,
 } from '../../../utility/validateAndType/raceStage';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
-import { IRaceRepositoryForAWS } from '../../interface/IRaceRepository';
+import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
 
 /**
  * オートレース場開催データリポジトリの実装

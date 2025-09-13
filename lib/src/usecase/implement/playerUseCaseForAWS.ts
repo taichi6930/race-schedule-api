@@ -2,9 +2,9 @@ import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../../src/utility/raceType';
 import { PlayerDataForAWS } from '../../domain/playerData';
-import { IPlayerServiceForAWS } from '../../service/interface/IPlayerService';
+import { IPlayerServiceForAWS } from '../../service/interface/IPlayerServiceForAWS';
 import { Logger } from '../../utility/logger';
-import { IPlayerDataUseCaseForAWS } from '../interface/IPlayerDataUseCase';
+import { IPlayerDataUseCaseForAWS } from '../interface/IPlayerDataUseCaseForAWS';
 
 /**
  * 公営競技のプレイヤーデータUseCase

@@ -7,8 +7,8 @@ import { JraRaceRepositoryFromHtml } from '../../src/repository/implement/raceRe
 import { KeirinRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
 import { NarRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
-import type { IPlaceRepositoryForAWS } from '../../src/repository/interface/IPlaceRepository';
-import type { IRaceRepositoryForAWS } from '../../src/repository/interface/IRaceRepository';
+import type { IPlaceRepositoryForAWS } from '../../src/repository/interface/IPlaceRepositoryForAWS';
+import type { IRaceRepositoryForAWS } from '../../src/repository/interface/IRaceRepositoryForAWS';
 import { MockHorseRacingRaceRepositoryFromHtml } from '../../src/repository/mock/mockHorseRacingRaceRepositoryFromHtml';
 import { MockMechanicalRacingRaceRepositoryFromHtml } from '../../src/repository/mock/mockMechanicalRacingRaceRepositoryFromHtml';
 import { MockPlaceRepositoryFromHtml } from '../../src/repository/mock/mockPlaceRepositoryFromHtml';

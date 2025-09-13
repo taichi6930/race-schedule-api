@@ -11,9 +11,9 @@ import {
     RaceType,
 } from '../../../../src/utility/raceType';
 import { SearchRaceFilterEntityForAWS } from '../../repository/entity/searchRaceFilterEntity';
-import { IRaceRepositoryForAWS } from '../../repository/interface/IRaceRepository';
+import { IRaceRepositoryForAWS } from '../../repository/interface/IRaceRepositoryForAWS';
 import { Logger } from '../../utility/logger';
-import { IRaceServiceForAWS } from '../interface/IRaceService';
+import { IRaceServiceForAWS } from '../interface/IRaceServiceForAWS';
 
 /**
  * 開催場所データの取得と更新を担当する基底サービスクラス

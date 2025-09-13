@@ -4,8 +4,8 @@ import { afterEach } from 'node:test';
 
 import { container } from 'tsyringe';
 
-import { CalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/calendarUseCase';
-import type { IRaceCalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IRaceCalendarUseCase';
+import { CalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/calendarUseCaseForAWS';
+import type { IRaceCalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IRaceCalendarUseCaseForAWS';
 import { SpecifiedGradeList } from '../../../../../../lib/src/utility/validateAndType/gradeType';
 import type { CalendarData } from '../../../../../../src/domain/calendarData';
 import { RaceType } from '../../../../../../src/utility/raceType';

@@ -2,10 +2,10 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { convertRaceTypeList, RaceType } from '../../../src/utility/raceType';
-import { IPlaceUseCaseForAWS } from '../usecase/interface/IPlaceUseCase';
-import { IPlayerDataUseCaseForAWS } from '../usecase/interface/IPlayerDataUseCase';
-import { IRaceCalendarUseCaseForAWS } from '../usecase/interface/IRaceCalendarUseCase';
-import { IRaceUseCaseForAWS } from '../usecase/interface/IRaceUseCase';
+import { IPlaceUseCaseForAWS } from '../usecase/interface/IPlaceUseCaseForAWS';
+import { IPlayerDataUseCaseForAWS } from '../usecase/interface/IPlayerDataUseCaseForAWS';
+import { IRaceCalendarUseCaseForAWS } from '../usecase/interface/IRaceCalendarUseCaseForAWS';
+import { IRaceUseCaseForAWS } from '../usecase/interface/IRaceUseCaseForAWS';
 import { Logger } from '../utility/logger';
 import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
 

@@ -1,5 +1,5 @@
 import type { SearchCalendarFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
-import type { ICalendarRepositoryForAWS } from '../../../../../../lib/src/repository/interface/ICalendarRepository';
+import type { ICalendarRepositoryForAWS } from '../../../../../../lib/src/repository/interface/ICalendarRepositoryForAWS';
 import { baseCalendarData } from '../../../../../unittest/src/mock/common/baseCommonData';
 
 export const mockCalendarRepositoryForAWS =

@@ -2,8 +2,8 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { PlaceServiceForAWS } from '../../../../../../lib/src/service/implement/placeService';
-import type { IPlaceServiceForAWS } from '../../../../../../lib/src/service/interface/IPlaceService';
+import { PlaceServiceForAWS } from '../../../../../../lib/src/service/implement/placeServiceForAWS';
+import type { IPlaceServiceForAWS } from '../../../../../../lib/src/service/interface/IPlaceServiceForAWS';
 import { DataLocation } from '../../../../../../src/utility/dataType';
 import {
     mockPlaceEntityList,

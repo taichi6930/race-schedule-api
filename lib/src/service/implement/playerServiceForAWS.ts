@@ -6,9 +6,9 @@ import { inject, injectable } from 'tsyringe';
 import { RaceType } from '../../../../src/utility/raceType';
 import { PlayerDataForAWS } from '../../domain/playerData';
 import { SearchPlayerFilterEntityForAWS } from '../../repository/entity/searchPlayerFilterEntity';
-import type { IPlayerRepositoryForAWS } from '../../repository/interface/IPlayerRepository';
+import type { IPlayerRepositoryForAWS } from '../../repository/interface/IPlayerRepositoryForAWS';
 import { Logger } from '../../utility/logger';
-import type { IPlayerServiceForAWS } from '../interface/IPlayerService';
+import type { IPlayerServiceForAWS } from '../interface/IPlayerServiceForAWS';
 
 @injectable()
 export class PlayerServiceForAWS implements IPlayerServiceForAWS {

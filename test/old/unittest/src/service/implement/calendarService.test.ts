@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { SearchCalendarFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchCalendarFilterEntity';
-import { CalendarServiceForAWS } from '../../../../../../lib/src/service/implement/calendarService';
-import type { ICalendarServiceForAWS } from '../../../../../../lib/src/service/interface/ICalendarService';
+import { CalendarServiceForAWS } from '../../../../../../lib/src/service/implement/calendarServiceForAWS';
+import type { ICalendarServiceForAWS } from '../../../../../../lib/src/service/interface/ICalendarServiceForAWS';
 import {
     mockCalendarDataList,
     mockRaceEntityList,

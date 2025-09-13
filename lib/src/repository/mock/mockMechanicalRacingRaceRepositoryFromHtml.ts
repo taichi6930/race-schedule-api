@@ -5,7 +5,7 @@ import { baseRacePlayerDataList } from '../../../../test/unittest/src/mock/commo
 import { Logger } from '../../utility/logger';
 import { RaceStage } from '../../utility/validateAndType/raceStage';
 import type { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
-import type { IRaceRepositoryForAWS } from '../interface/IRaceRepository';
+import type { IRaceRepositoryForAWS } from '../interface/IRaceRepositoryForAWS';
 
 // MechanicalRacingRaceRepositoryFromHtmlのモックを作成
 export class MockMechanicalRacingRaceRepositoryFromHtml

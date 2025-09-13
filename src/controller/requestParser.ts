@@ -61,7 +61,7 @@ export function parseQueryToFilter(
     );
 }
 
-export interface RaceRequestBody {
+interface RaceRequestBody {
     raceType: string | string[];
     startDate: string;
     finishDate: string;

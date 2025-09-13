@@ -12,7 +12,7 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { SearchRaceFilterEntityForAWS } from '../entity/searchRaceFilterEntity';
-import { IRaceRepositoryForAWS } from '../interface/IRaceRepository';
+import { IRaceRepositoryForAWS } from '../interface/IRaceRepositoryForAWS';
 
 @injectable()
 export class HorseRacingRaceRepositoryFromStorage

@@ -8,45 +8,11 @@ import type { ICalendarGatewayForAWS } from '../../src/gateway/interface/iCalend
 import type { IPlaceDataHtmlGatewayForAWS } from '../../src/gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGatewayForAWS } from '../../src/gateway/interface/iRaceDataHtmlGateway';
 import type { IS3Gateway } from '../../src/gateway/interface/iS3Gateway';
-import type { ISQLiteGateway } from '../../src/gateway/interface/ISQLiteGateway';
 import { MockGoogleCalendarGateway } from '../../src/gateway/mock/mockGoogleCalendarGateway';
 import { MockPlaceDataHtmlGateway } from '../../src/gateway/mock/mockPlaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../src/gateway/mock/mockRaceDataHtmlGateway';
 import { MockS3Gateway } from '../../src/gateway/mock/mockS3Gateway';
-import { MockSQLiteGateway } from '../../src/gateway/mock/mockSQLiteGateway';
 import { allowedEnvs, ENV } from '../../src/utility/env';
-
-// SQLiteGateway
-switch (ENV) {
-    // case allowedEnvs.local: {
-    //     container.register<ISQLiteGateway>('SQLiteGateway', {
-    //         useFactory: () => {
-    //             const dbPath = path.resolve(
-    //                 __dirname,
-    //                 '../../../volume/app.db',
-    //             );
-    //             return new SQLiteGateway(dbPath);
-    //         },
-    //     });
-    //     break;
-    // }
-    case allowedEnvs.local:
-    case allowedEnvs.production:
-    case allowedEnvs.test:
-    case allowedEnvs.localNoInitData:
-    case allowedEnvs.localInitMadeData:
-    case allowedEnvs.githubActionsCi: {
-        {
-            container.register<ISQLiteGateway>('SQLiteGateway', {
-                useFactory: () => {
-                    const dbPath = 'test/volume/app.db';
-                    return new MockSQLiteGateway(dbPath);
-                },
-            });
-            break;
-        }
-    }
-}
 
 container.register<ICalendarGatewayForAWS>('GoogleCalendarGateway', {
     useFactory: () => {

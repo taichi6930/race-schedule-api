@@ -12,7 +12,7 @@ import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
-import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepository';
+import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepositoryForAWS';
 
 @injectable()
 export class PlaceRepositoryFromStorageForAWS

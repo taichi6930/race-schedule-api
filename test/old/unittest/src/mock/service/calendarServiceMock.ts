@@ -1,4 +1,4 @@
-import type { ICalendarServiceForAWS } from '../../../../../../lib/src/service/interface/ICalendarService';
+import type { ICalendarServiceForAWS } from '../../../../../../lib/src/service/interface/ICalendarServiceForAWS';
 import type { CalendarData } from '../../../../../../src/domain/calendarData';
 
 /**

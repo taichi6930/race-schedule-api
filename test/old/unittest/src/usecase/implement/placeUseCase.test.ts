@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { PlaceUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/placeUseCase';
-import type { IPlaceUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IPlaceUseCase';
+import { PlaceUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/placeUseCaseForAWS';
+import type { IPlaceUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IPlaceUseCaseForAWS';
 import {
     mockPlaceEntityList,
     testRaceTypeListAll,
