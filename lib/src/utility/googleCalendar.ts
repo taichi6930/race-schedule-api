@@ -1,7 +1,6 @@
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import { CalendarData } from '../../../src/domain/calendarData';
 import type { RaceEntity } from '../../../src/repository/entity/raceEntity';
 import { getGoogleCalendarColorId } from '../../../src/utility/googleCalendar';
 import { RaceType } from '../../../src/utility/raceType';
@@ -188,17 +187,3 @@ export const toGoogleCalendarDataForAWS = (
         },
     };
 };
-
-export const fromGoogleCalendarDataToCalendarData = (
-    raceType: RaceType,
-    event: calendar_v3.Schema$Event,
-): CalendarData =>
-    CalendarData.create(
-        event.id,
-        raceType,
-        event.summary,
-        event.start?.dateTime,
-        event.end?.dateTime,
-        event.location,
-        event.description,
-    );
