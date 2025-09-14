@@ -2,7 +2,6 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { processJraRaceName } from '../../../lib/src/utility/createRaceName';
-import { RaceSurfaceType } from '../../../lib/src/utility/validateAndType/raceSurfaceType';
 import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
@@ -19,6 +18,7 @@ import {
     validateRaceCourse,
 } from '../../utility/validateAndType/raceCourse';
 import { RaceDistance } from '../../utility/validateAndType/raceDistance';
+import { RaceSurfaceType } from '../../utility/validateAndType/raceSurfaceType';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';

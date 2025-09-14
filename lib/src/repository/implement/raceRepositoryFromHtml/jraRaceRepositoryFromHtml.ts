@@ -14,10 +14,10 @@ import {
     validateRaceCourse,
 } from '../../../../../src/utility/validateAndType/raceCourse';
 import { RaceDistance } from '../../../../../src/utility/validateAndType/raceDistance';
+import { RaceSurfaceType } from '../../../../../src/utility/validateAndType/raceSurfaceType';
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { processJraRaceName } from '../../../utility/createRaceName';
 import { Logger } from '../../../utility/logger';
-import { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
 

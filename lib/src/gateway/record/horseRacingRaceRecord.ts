@@ -17,16 +17,14 @@ import {
 } from '../../../../src/utility/validateAndType/raceName';
 import type { RaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
 import { validateRaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
+import type { RaceSurfaceType } from '../../../../src/utility/validateAndType/raceSurfaceType';
+import { validateRaceSurfaceType } from '../../../../src/utility/validateAndType/raceSurfaceType';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import {
     type RaceId,
     validateRaceId,
 } from '../../utility/validateAndType/raceId';
-import {
-    type RaceSurfaceType,
-    validateRaceSurfaceType,
-} from '../../utility/validateAndType/raceSurfaceType';
 
 /**
  * 競馬のレース開催データ

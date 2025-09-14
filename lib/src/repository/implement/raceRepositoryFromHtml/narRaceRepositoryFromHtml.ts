@@ -10,10 +10,10 @@ import {
     GradeType,
     validateGradeType,
 } from '../../../../../src/utility/validateAndType/gradeType';
+import { RaceSurfaceType } from '../../../../../src/utility/validateAndType/raceSurfaceType';
 import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { processNarRaceName } from '../../../utility/createRaceName';
 import { Logger } from '../../../utility/logger';
-import type { RaceSurfaceType } from '../../../utility/validateAndType/raceSurfaceType';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
 
