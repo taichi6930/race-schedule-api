@@ -52,7 +52,7 @@ export const RACE_TYPE_LIST_HORSE_RACING = [RaceType.OVERSEAS];
 
 export type RaceType = (typeof RaceType)[keyof typeof RaceType];
 
-export function isRaceType(value: string | null): value is RaceType {
+function isRaceType(value: string | null): value is RaceType {
     // 大文字と小文字を区別しないために、すべて大文字に変換して比較
     if (value === null) return false;
     return (Object.values(RaceType) as string[]).includes(value);

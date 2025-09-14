@@ -4,11 +4,11 @@ import path from 'node:path';
 import { format } from 'date-fns';
 
 import { RaceType } from '../../../../src/utility/raceType';
-import { Logger } from '../../utility/logger';
 import {
     createPlaceCode,
     RaceCourse,
-} from '../../utility/validateAndType/raceCourse';
+} from '../../../../src/utility/validateAndType/raceCourse';
+import { Logger } from '../../utility/logger';
 import { IRaceDataHtmlGatewayForAWS } from '../interface/iRaceDataHtmlGateway';
 /**
  * レースデータのHTMLを取得するGateway

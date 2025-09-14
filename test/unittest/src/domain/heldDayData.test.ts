@@ -10,9 +10,9 @@
  * |6 |有効     |有効        |{ heldTimes: 0 }, { heldDayTimes: 0 }|copyで不正値→Error|copy異常系|
  * |7 |有効     |有効        |{} または undefined|全プロパティ同値|copyでpartial空|
  */
-import { validateHeldDayTimes } from '../../../../lib/src/utility/validateAndType/heldDayTimes';
-import { validateHeldTimes } from '../../../../lib/src/utility/validateAndType/heldTimes';
 import { HeldDayData } from '../../../../src/domain/heldDayData';
+import { validateHeldDayTimes } from '../../../../src/utility/validateAndType/heldDayTimes';
+import { validateHeldTimes } from '../../../../src/utility/validateAndType/heldTimes';
 
 describe('HeldDayDataクラスのテスト', () => {
     const validHeldTimes = 1; // 仮: 有効値

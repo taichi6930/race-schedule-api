@@ -1,5 +1,5 @@
 import type { RaceType } from '../../../../src/utility/raceType';
-import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
+import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
 
 /**
  * レースデータのHTMLを取得するGatewayのInterface

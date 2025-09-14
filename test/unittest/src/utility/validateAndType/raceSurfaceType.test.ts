@@ -1,4 +1,4 @@
-import { validateRaceSurfaceType } from '../../../../../../lib/src/utility/validateAndType/raceSurfaceType';
+import { validateRaceSurfaceType } from '../../../../../src/utility/validateAndType/raceSurfaceType';
 
 /**
  * RaceSurfaceTypeのテスト

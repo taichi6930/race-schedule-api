@@ -1,9 +1,12 @@
 import { z } from 'zod';
 
 import type { RaceType } from '../../../../src/utility/raceType';
+import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import {
+    type RaceNumber,
+    validateRaceNumber,
+} from '../../../../src/utility/validateAndType/raceNumber';
 import { generatePlaceId } from './placeId';
-import type { RaceCourse } from './raceCourse';
-import { type RaceNumber, validateRaceNumber } from './raceNumber';
 
 /**
  * raceIdを作成する

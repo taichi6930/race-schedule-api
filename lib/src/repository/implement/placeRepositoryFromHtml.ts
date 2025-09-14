@@ -7,13 +7,13 @@ import { HeldDayData } from '../../../../src/domain/heldDayData';
 import { PlaceData } from '../../../../src/domain/placeData';
 import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../src/utility/raceType';
-import { IPlaceDataHtmlGatewayForAWS } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { Logger } from '../../utility/logger';
-import { GradeType } from '../../utility/validateAndType/gradeType';
+import { GradeType } from '../../../../src/utility/validateAndType/gradeType';
 import {
     RaceCourse,
     validateRaceCourse,
-} from '../../utility/validateAndType/raceCourse';
+} from '../../../../src/utility/validateAndType/raceCourse';
+import { IPlaceDataHtmlGatewayForAWS } from '../../gateway/interface/iPlaceDataHtmlGateway';
+import { Logger } from '../../utility/logger';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepositoryForAWS';
 
