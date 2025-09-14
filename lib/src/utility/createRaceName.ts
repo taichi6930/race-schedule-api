@@ -5,7 +5,7 @@ import type { RaceCourse } from '../../../src/utility/validateAndType/raceCourse
 import type { RaceDateTime } from '../../../src/utility/validateAndType/raceDateTime';
 import type { RaceDistance } from '../../../src/utility/validateAndType/raceDistance';
 import type { RaceName } from '../../../src/utility/validateAndType/raceName';
-import type { RaceSurfaceType } from './validateAndType/raceSurfaceType';
+import type { RaceSurfaceType } from '../../../src/utility/validateAndType/raceSurfaceType';
 
 interface JraRaceDataForRaceName {
     name: RaceName;
