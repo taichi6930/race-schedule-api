@@ -1,6 +1,6 @@
 import { HeldDayRecord } from '../../../../../../lib/src/gateway/record/heldDayRecord';
 import {
-    generatePlaceId,
+    generateId,
     IdType,
 } from '../../../../../../lib/src/utility/validateAndType/idUtility';
 import {
@@ -28,7 +28,7 @@ import {
  */
 
 describe.each(testRaceTypeListAll)('heldDayRecord(%s)', (raceType) => {
-    const validId = generatePlaceId(IdType.PLACE, {
+    const validId = generateId(IdType.PLACE, {
         raceType: raceType,
         dateTime: new Date('2024-12-22'),
         location: defaultLocation[raceType],

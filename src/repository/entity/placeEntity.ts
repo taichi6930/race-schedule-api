@@ -1,6 +1,6 @@
 import type { PlaceId } from '../../../lib/src/utility/validateAndType/idUtility';
 import {
-    generatePlaceId,
+    generateId,
     IdType,
     validateId,
 } from '../../../lib/src/utility/validateAndType/idUtility';
@@ -102,7 +102,7 @@ export class PlaceEntity {
         grade: GradeType | undefined,
     ): PlaceEntity {
         return PlaceEntity.create(
-            generatePlaceId(IdType.PLACE, {
+            generateId(IdType.PLACE, {
                 raceType: placeData.raceType,
                 dateTime: placeData.dateTime,
                 location: placeData.location,

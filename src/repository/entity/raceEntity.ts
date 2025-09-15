@@ -4,9 +4,7 @@ import { RacePlayerRecord } from '../../../lib/src/gateway/record/racePlayerReco
 import { getJSTDate } from '../../../lib/src/utility/date';
 import type { RaceId } from '../../../lib/src/utility/validateAndType/idUtility';
 import {
-    generatePlaceId,
-    generateRaceId,
-    generateRacePlayerId,
+    generateId,
     IdType,
     validateId,
 } from '../../../lib/src/utility/validateAndType/idUtility';
@@ -160,14 +158,14 @@ export class RaceEntity {
         racePlayerDataList: RacePlayerData[] | undefined,
     ): RaceEntity {
         return RaceEntity.create(
-            generateRaceId(IdType.RACE, {
+            generateId(IdType.RACE, {
                 raceType: raceData.raceType,
                 dateTime: raceData.dateTime,
                 location: raceData.location,
                 number: raceData.number,
             }),
 
-            generatePlaceId(IdType.PLACE, {
+            generateId(IdType.PLACE, {
                 raceType: raceData.raceType,
                 dateTime: raceData.dateTime,
                 location: raceData.location,
@@ -311,7 +309,7 @@ export class RaceEntity {
     public toPlayerRecordList(): RacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
             RacePlayerRecord.create(
-                generateRacePlayerId(IdType.PLAYER, {
+                generateId(IdType.PLAYER, {
                     raceType: this.raceData.raceType,
                     dateTime: this.raceData.dateTime,
                     location: this.raceData.location,

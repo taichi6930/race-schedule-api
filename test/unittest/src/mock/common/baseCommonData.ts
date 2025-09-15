@@ -2,7 +2,7 @@ import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import {
-    generatePlaceId,
+    generateId,
     IdType,
 } from '../../../../../lib/src/utility/validateAndType/idUtility';
 import { CalendarData } from '../../../../../src/domain/calendarData';
@@ -69,7 +69,7 @@ export const baseRaceData = (raceType: RaceType): RaceData =>
 
 export const basePlaceRecord = (raceType: RaceType): PlaceRecord =>
     PlaceRecord.create(
-        generatePlaceId(IdType.PLACE, {
+        generateId(IdType.PLACE, {
             raceType,
             dateTime: basePlaceDateTime,
             location: defaultLocation[raceType],
