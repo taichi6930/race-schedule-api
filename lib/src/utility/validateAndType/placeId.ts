@@ -12,7 +12,6 @@ import {
 } from '../../../../src/utility/validateAndType/raceCourse';
 import { validateRaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
 import { NetkeibaBabacodeMap } from '../data/netkeiba';
-import { generateRaceId } from './raceId';
 
 /**
  * IDタイプの列挙型
@@ -105,12 +104,70 @@ export type PlaceId = z.infer<ReturnType<typeof PlaceIdSchema>>;
  */
 export const validatePlaceId = (raceType: RaceType, value: string): PlaceId =>
     PlaceIdSchema(raceType).parse(value);
+
+/**
+ * raceIdを作成する
+ * @param idType
+ * @param raceIdParams
+ */
+export const generateRaceId = (
+    idType: IdType,
+    raceIdParams: RaceIdParams,
+): RaceId => {
+    const { raceType, dateTime, location, number } = raceIdParams;
+    const numberCode = number.toXDigits(2);
+    const placeIdParams: PlaceIdParams = { raceType, dateTime, location };
+    return `${generatePlaceId(idType, placeIdParams)}${numberCode}`;
+};
+
+/**
+ * RaceIdのzod型定義
+ * @param raceType - レース種別
+ */
+const RaceIdSchema = (raceType: RaceType): z.ZodString => {
+    const lowerCaseRaceType = raceType.toLowerCase();
+    return (
+        z
+            .string()
+            .refine((value) => {
+                return value.startsWith(lowerCaseRaceType);
+            }, `${lowerCaseRaceType}から始まる必要があります`)
+            // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号)
+            .refine((value) => {
+                return new RegExp(`^${lowerCaseRaceType}\\d{12}$`).test(value);
+            }, `${lowerCaseRaceType}RaceIdの形式ではありません`)
+            // レース番号は1~12の範囲
+            .refine((value) => {
+                const raceNumber = Number.parseInt(value.slice(-2));
+                try {
+                    validateRaceNumber(raceNumber);
+                    return true;
+                } catch {
+                    return false;
+                }
+            }, 'レース番号は1~12の範囲である必要があります')
+    );
+};
+
+/**
+ * RaceIdのzod型定義
+ */
+export type RaceId = z.infer<ReturnType<typeof RaceIdSchema>>;
+
+/**
+ * RaceIdのバリデーション
+ * @param raceType - レース種別
+ * @param value - バリデーション対象
+ * @returns バリデーション済みのRaceId
+ */
+export const validateRaceId = (raceType: RaceType, value: string): RaceId =>
+    RaceIdSchema(raceType).parse(value);
+
 /**
  * racePlayerIdを作成する
  * @param idType
  * @param params
  */
-
 export const generateRacePlayerId = (
     idType: IdType,
     params: RacePlayerIdParams,

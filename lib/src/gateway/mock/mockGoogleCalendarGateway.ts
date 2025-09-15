@@ -8,8 +8,7 @@ import { defaultLocation } from '../../../../test/unittest/src/mock/common/baseC
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
-import { IdType } from '../../utility/validateAndType/placeId';
-import { generateRaceId } from '../../utility/validateAndType/raceId';
+import { generateRaceId, IdType } from '../../utility/validateAndType/placeId';
 import { ICalendarGatewayForAWS } from '../interface/iCalendarGateway';
 
 /**

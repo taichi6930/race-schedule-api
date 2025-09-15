@@ -8,10 +8,14 @@ import type { PositionNumber } from '../../../../src/utility/validateAndType/pos
 import { validatePositionNumber } from '../../../../src/utility/validateAndType/positionNumber';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import type { RacePlayerId } from '../../utility/validateAndType/placeId';
-import { validateRacePlayerId } from '../../utility/validateAndType/placeId';
-import type { RaceId } from '../../utility/validateAndType/raceId';
-import { validateRaceId } from '../../utility/validateAndType/raceId';
+import type {
+    RaceId,
+    RacePlayerId,
+} from '../../utility/validateAndType/placeId';
+import {
+    validateRaceId,
+    validateRacePlayerId,
+} from '../../utility/validateAndType/placeId';
 
 /**
  * レース選手データ
