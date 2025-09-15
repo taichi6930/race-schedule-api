@@ -24,7 +24,7 @@ applyTo: '**'
     - 作業ブランチをリモートにpushしてください。
 
 5. **PR作成**
-    - GitHub上でPull Request（PR）を作成してください。
+    - GitHub上でPull Request（PR）を作成する必要はないです。pushしたら自動で作成されると思うので、されたらPRの文章、BODYを作成して、修正してください。
     - PRのbodyは空でOKです。
 
 6. **タスク完了時**
