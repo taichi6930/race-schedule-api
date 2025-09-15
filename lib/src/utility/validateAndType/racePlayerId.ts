@@ -8,13 +8,8 @@ import { generateRaceId } from './raceId';
 
 /**
  * racePlayerIdを作成する
- * @param raceType - レース種別
- * @param dateTime - 開催日時
- * @param location - 開催場所
- * @param number - レース番号
- * @param positionNumber - 枠番
+ * @param params
  */
-
 export const generateRacePlayerId = (
     params: RacePlayerIdParams,
 ): RacePlayerId => {
