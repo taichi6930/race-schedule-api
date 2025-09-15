@@ -1,9 +1,9 @@
+import { RaceType } from '../../../../../src/utility/raceType';
 import {
     IdType,
     validateId,
-} from '../../../../../../lib/src/utility/validateAndType/idUtility';
-import { RaceType } from '../../../../../../src/utility/raceType';
-import { testRaceTypeListAll } from '../../../../../unittest/src/mock/common/baseCommonData';
+} from '../../../../../src/utility/validateAndType/idUtility';
+import { testRaceTypeListAll } from '../../mock/common/baseCommonData';
 
 describe('PlaceIdSchema', () => {
     const validCases = {

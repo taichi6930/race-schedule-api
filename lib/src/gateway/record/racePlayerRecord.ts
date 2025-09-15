@@ -2,17 +2,20 @@ import '../../utility/format';
 
 import { RacePlayerData } from '../../../../src/domain/racePlayerData';
 import type { RaceType } from '../../../../src/utility/raceType';
+import type {
+    RaceId,
+    RacePlayerId,
+} from '../../../../src/utility/validateAndType/idUtility';
+import {
+    IdType,
+    validateId,
+} from '../../../../src/utility/validateAndType/idUtility';
 import type { PlayerNumber } from '../../../../src/utility/validateAndType/playerNumber';
 import { validatePlayerNumber } from '../../../../src/utility/validateAndType/playerNumber';
 import type { PositionNumber } from '../../../../src/utility/validateAndType/positionNumber';
 import { validatePositionNumber } from '../../../../src/utility/validateAndType/positionNumber';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import type {
-    RaceId,
-    RacePlayerId,
-} from '../../utility/validateAndType/idUtility';
-import { IdType, validateId } from '../../utility/validateAndType/idUtility';
 
 /**
  * レース選手データ

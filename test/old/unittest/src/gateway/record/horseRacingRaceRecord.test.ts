@@ -24,7 +24,7 @@ import { HorseRacingRaceRecord } from '../../../../../../lib/src/gateway/record/
 import {
     generateId,
     IdType,
-} from '../../../../../../lib/src/utility/validateAndType/idUtility';
+} from '../../../../../../src/utility/validateAndType/idUtility';
 import {
     defaultLocation,
     defaultRaceGrade,

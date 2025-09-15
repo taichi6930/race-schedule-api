@@ -2,7 +2,7 @@ import { HeldDayRecord } from '../../../../../../lib/src/gateway/record/heldDayR
 import {
     generateId,
     IdType,
-} from '../../../../../../lib/src/utility/validateAndType/idUtility';
+} from '../../../../../../src/utility/validateAndType/idUtility';
 import {
     defaultLocation,
     testRaceTypeListAll,

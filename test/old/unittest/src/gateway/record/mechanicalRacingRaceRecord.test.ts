@@ -21,7 +21,7 @@ import { MechanicalRacingRaceRecord } from '../../../../../../lib/src/gateway/re
 import {
     generateId,
     IdType,
-} from '../../../../../../lib/src/utility/validateAndType/idUtility';
+} from '../../../../../../src/utility/validateAndType/idUtility';
 import {
     defaultLocation,
     defaultStage,

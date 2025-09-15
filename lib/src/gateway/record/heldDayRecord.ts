@@ -6,11 +6,14 @@ import {
 } from '../../../../src/utility/validateAndType/heldDayTimes';
 import type { HeldTimes } from '../../../../src/utility/validateAndType/heldTimes';
 import { validateHeldTimes } from '../../../../src/utility/validateAndType/heldTimes';
+import type { PlaceId } from '../../../../src/utility/validateAndType/idUtility';
+import {
+    IdType,
+    validateId,
+} from '../../../../src/utility/validateAndType/idUtility';
 import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
-import type { PlaceId } from '../../utility/validateAndType/idUtility';
-import { IdType, validateId } from '../../utility/validateAndType/idUtility';
 
 /**
  * Repository層のRecord

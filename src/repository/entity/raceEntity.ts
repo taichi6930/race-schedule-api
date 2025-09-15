@@ -2,17 +2,17 @@ import { HorseRacingRaceRecord } from '../../../lib/src/gateway/record/horseRaci
 import { MechanicalRacingRaceRecord } from '../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../../lib/src/gateway/record/racePlayerRecord';
 import { getJSTDate } from '../../../lib/src/utility/date';
-import type { RaceId } from '../../../lib/src/utility/validateAndType/idUtility';
-import {
-    generateId,
-    IdType,
-    validateId,
-} from '../../../lib/src/utility/validateAndType/idUtility';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
 import { RaceType } from '../../utility/raceType';
+import type { RaceId } from '../../utility/validateAndType/idUtility';
+import {
+    generateId,
+    IdType,
+    validateId,
+} from '../../utility/validateAndType/idUtility';
 import type { RaceStage } from '../../utility/validateAndType/raceStage';
 
 /**

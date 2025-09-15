@@ -5,6 +5,11 @@ import { RaceData } from '../../../../src/domain/raceData';
 import type { RaceType } from '../../../../src/utility/raceType';
 import type { GradeType } from '../../../../src/utility/validateAndType/gradeType';
 import { validateGradeType } from '../../../../src/utility/validateAndType/gradeType';
+import {
+    IdType,
+    type RaceId,
+    validateId,
+} from '../../../../src/utility/validateAndType/idUtility';
 import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
 import { validateRaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
 import type { RaceDateTime } from '../../../../src/utility/validateAndType/raceDateTime';
@@ -21,11 +26,6 @@ import type { RaceSurfaceType } from '../../../../src/utility/validateAndType/ra
 import { validateRaceSurfaceType } from '../../../../src/utility/validateAndType/raceSurfaceType';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import {
-    IdType,
-    type RaceId,
-    validateId,
-} from '../../utility/validateAndType/idUtility';
 
 /**
  * 競馬のレース開催データ

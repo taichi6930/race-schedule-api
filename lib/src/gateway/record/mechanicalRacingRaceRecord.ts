@@ -7,6 +7,11 @@ import {
     validateGradeType,
 } from '../../../../src/utility/validateAndType/gradeType';
 import {
+    IdType,
+    type RaceId,
+    validateId,
+} from '../../../../src/utility/validateAndType/idUtility';
+import {
     type RaceCourse,
     validateRaceCourse,
 } from '../../../../src/utility/validateAndType/raceCourse';
@@ -26,11 +31,6 @@ import {
 } from '../../../../src/utility/validateAndType/raceStage';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import {
-    IdType,
-    type RaceId,
-    validateId,
-} from '../../utility/validateAndType/idUtility';
 
 /**
  * レース開催データ

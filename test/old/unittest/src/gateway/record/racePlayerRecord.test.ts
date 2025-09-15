@@ -19,7 +19,7 @@ import { RacePlayerRecord } from '../../../../../../lib/src/gateway/record/raceP
 import {
     generateId,
     IdType,
-} from '../../../../../../lib/src/utility/validateAndType/idUtility';
+} from '../../../../../../src/utility/validateAndType/idUtility';
 import {
     defaultLocation,
     testRaceTypeListMechanicalRacing,

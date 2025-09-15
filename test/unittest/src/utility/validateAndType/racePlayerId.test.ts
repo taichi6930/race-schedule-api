@@ -1,8 +1,8 @@
+import { RaceType } from '../../../../../src/utility/raceType';
 import {
     IdType,
     validateId,
-} from '../../../../../../lib/src/utility/validateAndType/idUtility';
-import { RaceType } from '../../../../../../src/utility/raceType';
+} from '../../../../../src/utility/validateAndType/idUtility';
 
 describe('racePlayerIdSchema', () => {
     for (const { raceType, racePlayerId } of [
