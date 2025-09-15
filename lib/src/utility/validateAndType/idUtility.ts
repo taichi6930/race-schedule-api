@@ -194,7 +194,6 @@ export interface RacePlayerIdParams {
 
 /**
  * placeIdを作成する
- * @param idTYpe
  * @param idType
  * @param placeIdParams - PlaceIdのパラメータ
  */
@@ -217,14 +216,7 @@ const PlaceIdSchema = (raceType: RaceType): z.ZodString =>
  */
 export type PlaceId = z.infer<ReturnType<typeof PlaceIdSchema>>;
 
-/**
- * PlaceIdのバリデーション
- * @param raceType - レース種別
- * @param value - バリデーション対象
- * @returns バリデーション済みのPlaceId
- */
-export const validatePlaceId = (raceType: RaceType, value: string): PlaceId =>
-    PlaceIdSchema(raceType).parse(value);
+export type PublicGamblingId = z.infer<ReturnType<typeof makeIdSchema>>;
 
 /**
  * raceIdを作成する
@@ -252,15 +244,6 @@ const RaceIdSchema = (raceType: RaceType): z.ZodString =>
 export type RaceId = z.infer<ReturnType<typeof RaceIdSchema>>;
 
 /**
- * RaceIdのバリデーション
- * @param raceType - レース種別
- * @param value - バリデーション対象
- * @returns バリデーション済みのRaceId
- */
-export const validateRaceId = (raceType: RaceType, value: string): RaceId =>
-    RaceIdSchema(raceType).parse(value);
-
-/**
  * racePlayerIdを作成する
  * @param idType
  * @param params
@@ -285,14 +268,28 @@ const RacePlayerIdSchema = (raceType: RaceType): z.ZodString =>
  */
 
 export type RacePlayerId = z.infer<ReturnType<typeof RacePlayerIdSchema>>;
+
 /**
- * RacePlayerIdのバリデーション
+ * Idのバリデーション
+ * @param idType - `IdType` のいずれか
  * @param raceType - レース種別
  * @param value - バリデーション対象
- * @returns バリデーション済みのRacePlayerId
+ * @returns バリデーション済みのId
  */
-
-export const validateRacePlayerId = (
+export const validateId = (
+    idType: IdType,
     raceType: RaceType,
     value: string,
-): RacePlayerId => RacePlayerIdSchema(raceType).parse(value);
+): PublicGamblingId => {
+    switch (idType) {
+        case IdType.PLACE: {
+            return PlaceIdSchema(raceType).parse(value);
+        }
+        case IdType.RACE: {
+            return RaceIdSchema(raceType).parse(value);
+        }
+        case IdType.PLAYER: {
+            return RacePlayerIdSchema(raceType).parse(value);
+        }
+    }
+};

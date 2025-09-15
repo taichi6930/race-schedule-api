@@ -8,7 +8,7 @@ import {
     generateRaceId,
     generateRacePlayerId,
     IdType,
-    validateRaceId,
+    validateId,
 } from '../../../lib/src/utility/validateAndType/idUtility';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
@@ -122,7 +122,7 @@ export class RaceEntity {
                 throw new Error(`conditionData is incorrect`);
             }
             return new RaceEntity(
-                validateRaceId(raceData.raceType, id),
+                validateId(IdType.RACE, raceData.raceType, id),
                 placeId,
                 raceData,
                 heldDayData,

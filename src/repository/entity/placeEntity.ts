@@ -2,7 +2,7 @@ import type { PlaceId } from '../../../lib/src/utility/validateAndType/idUtility
 import {
     generatePlaceId,
     IdType,
-    validatePlaceId,
+    validateId,
 } from '../../../lib/src/utility/validateAndType/idUtility';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
@@ -72,7 +72,7 @@ export class PlaceEntity {
             }
 
             return new PlaceEntity(
-                validatePlaceId(placeData.raceType, id),
+                validateId(IdType.PLACE, placeData.raceType, id),
                 placeData,
                 heldDayData,
                 grade,

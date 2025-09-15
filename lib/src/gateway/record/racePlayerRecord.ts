@@ -12,10 +12,7 @@ import type {
     RaceId,
     RacePlayerId,
 } from '../../utility/validateAndType/idUtility';
-import {
-    validateRaceId,
-    validateRacePlayerId,
-} from '../../utility/validateAndType/idUtility';
+import { IdType, validateId } from '../../utility/validateAndType/idUtility';
 
 /**
  * レース選手データ
@@ -60,9 +57,9 @@ export class RacePlayerRecord {
     ): RacePlayerRecord {
         try {
             return new RacePlayerRecord(
-                validateRacePlayerId(raceType, id),
+                validateId(IdType.PLAYER, raceType, id),
                 raceType,
-                validateRaceId(raceType, raceId),
+                validateId(IdType.RACE, raceType, raceId),
                 validatePositionNumber(raceType, positionNumber),
                 validatePlayerNumber(playerNumber),
                 validateUpdateDate(updateDate),

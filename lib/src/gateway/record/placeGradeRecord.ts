@@ -4,8 +4,11 @@ import { validateGradeType } from '../../../../src/utility/validateAndType/grade
 import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
-import type { PlaceId } from '../../utility/validateAndType/idUtility';
-import { validatePlaceId } from '../../utility/validateAndType/idUtility';
+import {
+    IdType,
+    type PlaceId,
+    validateId,
+} from '../../utility/validateAndType/idUtility';
 
 /**
  * Repository層のRecord レース開催場所データ
@@ -42,7 +45,7 @@ export class PlaceGradeRecord {
     ): PlaceGradeRecord {
         try {
             return new PlaceGradeRecord(
-                validatePlaceId(raceType, id),
+                validateId(IdType.PLACE, raceType, id),
                 raceType,
                 validateGradeType(raceType, grade),
                 validateUpdateDate(updateDate),

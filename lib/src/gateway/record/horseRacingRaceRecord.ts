@@ -22,8 +22,9 @@ import { validateRaceSurfaceType } from '../../../../src/utility/validateAndType
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import {
+    IdType,
     type RaceId,
-    validateRaceId,
+    validateId,
 } from '../../utility/validateAndType/idUtility';
 
 /**
@@ -85,7 +86,7 @@ export class HorseRacingRaceRecord {
     ): HorseRacingRaceRecord {
         try {
             return new HorseRacingRaceRecord(
-                validateRaceId(raceType, id),
+                validateId(IdType.RACE, raceType, id),
                 raceType,
                 validateRaceName(name),
                 validateRaceDateTime(dateTime),

@@ -10,7 +10,7 @@ import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 import type { PlaceId } from '../../utility/validateAndType/idUtility';
-import { validatePlaceId } from '../../utility/validateAndType/idUtility';
+import { IdType, validateId } from '../../utility/validateAndType/idUtility';
 
 /**
  * Repository層のRecord
@@ -51,7 +51,7 @@ export class HeldDayRecord {
     ): HeldDayRecord {
         try {
             return new HeldDayRecord(
-                validatePlaceId(raceType, id),
+                validateId(IdType.PLACE, raceType, id),
                 raceType,
                 validateHeldTimes(heldTimes),
                 validateHeldDayTimes(heldDayTimes),
