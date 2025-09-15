@@ -14,6 +14,67 @@ import { validateRaceNumber } from '../../../../src/utility/validateAndType/race
 import { NetkeibaBabacodeMap } from '../data/netkeiba';
 
 /**
+ * 共通のIDスキーマ生成ヘルパー
+ * @param raceType - レース種別
+ * @param digitsAfterPrefix - 種別プレフィックスの後に来る数字の合計桁数
+ * @param raceNumberSlice - レース番号が格納されているスライスの [start, end]（slice の引数）
+ * @param positionNumberSlice - 枠番（/艇番）が格納されているスライスの [start, end]
+ * @param idSuffix - エラーメッセージで使うID種別のサフィックス（例: "PlaceId"）
+ */
+const makeIdSchema = (
+    raceType: RaceType,
+    digitsAfterPrefix: number,
+    raceNumberSlice?: [number, number?],
+    positionNumberSlice?: [number, number?],
+    idSuffix?: string,
+): z.ZodString => {
+    const lowerCaseRaceType = raceType.toLowerCase();
+    let schema = z
+        .string()
+        .refine(
+            (value) => value.startsWith(lowerCaseRaceType),
+            `${lowerCaseRaceType}から始まる必要があります`,
+        )
+        .refine(
+            (value) =>
+                new RegExp(
+                    `^${lowerCaseRaceType}\\d{${digitsAfterPrefix}}$`,
+                ).test(value),
+            `${lowerCaseRaceType}${idSuffix ?? ''}の形式ではありません`,
+        );
+
+    if (raceNumberSlice) {
+        schema = schema.refine((value) => {
+            const raceNumber = Number.parseInt(
+                value.slice(raceNumberSlice[0], raceNumberSlice[1]),
+            );
+            try {
+                validateRaceNumber(raceNumber);
+                return true;
+            } catch {
+                return false;
+            }
+        }, 'レース番号は1~12の範囲である必要があります');
+    }
+
+    if (positionNumberSlice) {
+        schema = schema.refine((value) => {
+            const positionNumber = Number.parseInt(
+                value.slice(positionNumberSlice[0], positionNumberSlice[1]),
+            );
+            try {
+                validatePositionNumber(raceType, positionNumber);
+                return true;
+            } catch {
+                return false;
+            }
+        }, '枠番が不正です');
+    }
+
+    return schema as z.ZodString;
+};
+
+/**
  * IDタイプの列挙型
  */
 export const IdType = {
@@ -79,17 +140,8 @@ export const generatePlaceId = (
  * PlaceIdのzod型定義
  * @param raceType - レース種別
  */
-const PlaceIdSchema = (raceType: RaceType): z.ZodString => {
-    const lowerCaseRaceType = raceType.toLowerCase();
-    return z
-        .string()
-        .refine((value) => {
-            return value.startsWith(lowerCaseRaceType);
-        }, `${lowerCaseRaceType}から始まる必要があります`)
-        .refine((value) => {
-            return new RegExp(`^${lowerCaseRaceType}\\d{10}$`).test(value);
-        }, `${lowerCaseRaceType}PlaceIdの形式ではありません`);
-};
+const PlaceIdSchema = (raceType: RaceType): z.ZodString =>
+    makeIdSchema(raceType, 10, undefined, undefined, 'PlaceId');
 
 /**
  * PlaceIdのzod型定義
@@ -124,30 +176,9 @@ export const generateRaceId = (
  * RaceIdのzod型定義
  * @param raceType - レース種別
  */
-const RaceIdSchema = (raceType: RaceType): z.ZodString => {
-    const lowerCaseRaceType = raceType.toLowerCase();
-    return (
-        z
-            .string()
-            .refine((value) => {
-                return value.startsWith(lowerCaseRaceType);
-            }, `${lowerCaseRaceType}から始まる必要があります`)
-            // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号)
-            .refine((value) => {
-                return new RegExp(`^${lowerCaseRaceType}\\d{12}$`).test(value);
-            }, `${lowerCaseRaceType}RaceIdの形式ではありません`)
-            // レース番号は1~12の範囲
-            .refine((value) => {
-                const raceNumber = Number.parseInt(value.slice(-2));
-                try {
-                    validateRaceNumber(raceNumber);
-                    return true;
-                } catch {
-                    return false;
-                }
-            }, 'レース番号は1~12の範囲である必要があります')
-    );
-};
+const RaceIdSchema = (raceType: RaceType): z.ZodString =>
+    // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号)
+    makeIdSchema(raceType, 12, [-2], undefined, 'RaceId');
 
 /**
  * RaceIdのzod型定義
@@ -181,40 +212,10 @@ export const generateRacePlayerId = (
  * RacePlayerIdのzod型定義
  * @param raceType - レース種別
  */
-const RacePlayerIdSchema = (raceType: RaceType): z.ZodString => {
-    const lowerCaseRaceType = raceType.toLowerCase();
-    return (
-        z
-            .string()
-            .refine((value) => {
-                return value.startsWith(lowerCaseRaceType);
-            }, `${lowerCaseRaceType}から始まる必要があります`)
-            // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
-            .refine((value) => {
-                return new RegExp(`^${lowerCaseRaceType}\\d{14}$`).test(value);
-            }, `${lowerCaseRaceType}RacePlayerIdの形式ではありません`)
-            // レース番号は1~12の範囲
-            .refine((value) => {
-                const raceNumber = Number.parseInt(value.slice(-4, -2));
-                try {
-                    validateRaceNumber(raceNumber);
-                    return true;
-                } catch {
-                    return false;
-                }
-            }, 'レース番号は1~12の範囲である必要があります')
-            // 枠番はRaceTypeに応じた範囲
-            .refine((value) => {
-                const positionNumber = Number.parseInt(value.slice(-2));
-                try {
-                    validatePositionNumber(raceType, positionNumber);
-                    return true;
-                } catch {
-                    return false;
-                }
-            }, '枠番が不正です')
-    );
-};
+const RacePlayerIdSchema = (raceType: RaceType): z.ZodString =>
+    // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
+    // レース番号は (slice -4, -2)、枠番は (slice -2)
+    makeIdSchema(raceType, 14, [-4, -2], [-2], 'RacePlayerId');
 /**
  * RacePlayerIdのzod型定義
  */
