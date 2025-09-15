@@ -15,7 +15,7 @@ import { NetkeibaBabacodeMap } from '../data/netkeiba';
 export const IdType = {
     PLACE: 'place',
     RACE: 'race',
-    // 今後追加する場合はここに
+    PLAYER: 'player',
 } as const;
 
 export type IdType = (typeof IdType)[keyof typeof IdType];

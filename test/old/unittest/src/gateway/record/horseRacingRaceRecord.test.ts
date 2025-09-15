@@ -21,6 +21,7 @@
  * | 15  | copy   | undefined  | undefined | undefined | undefined   | 不正値     | undefined     | undefined  | undefined| undefined| undefined    | 例外発生         | distanceバリデーション失敗 |
  */
 import { HorseRacingRaceRecord } from '../../../../../../lib/src/gateway/record/horseRacingRaceRecord';
+import { IdType } from '../../../../../../lib/src/utility/validateAndType/placeId';
 import { generateRaceId } from '../../../../../../lib/src/utility/validateAndType/raceId';
 import {
     defaultLocation,
@@ -36,12 +37,12 @@ describe.each(testRaceTypeListHorseRacing)(
         const validSurfaceType = 'ダート';
         const validDistance = 1600;
         const validNumber = 1;
-        const validRaceId = generateRaceId(
-            raceType,
-            validDate,
-            validLocation,
-            validNumber,
-        );
+        const validRaceId = generateRaceId(IdType.RACE, {
+            raceType: raceType,
+            dateTime: validDate,
+            location: validLocation,
+            number: validNumber,
+        });
         const validName = '第1レース';
         const validGrade = defaultRaceGrade[raceType];
         const validUpdateDate = new Date('2026-01-01T12:00:00Z');

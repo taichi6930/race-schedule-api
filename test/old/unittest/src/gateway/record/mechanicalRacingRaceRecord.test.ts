@@ -18,6 +18,7 @@
  * | 12  | copy   | undefined  | undefined | 不正値    | undefined | undefined     | undefined  | undefined| undefined| undefined    | 例外発生         | nameバリデーション失敗    |
  */
 import { MechanicalRacingRaceRecord } from '../../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
+import { IdType } from '../../../../../../lib/src/utility/validateAndType/placeId';
 import { generateRaceId } from '../../../../../../lib/src/utility/validateAndType/raceId';
 import {
     defaultLocation,
@@ -31,12 +32,12 @@ describe.each(testRaceTypeListMechanicalRacing)(
         const validDate = new Date('2026-01-01T00:00:00Z');
         const validLocation = defaultLocation[raceType];
         const validNumber = 1;
-        const validRaceId = generateRaceId(
-            raceType,
-            validDate,
-            validLocation,
-            validNumber,
-        );
+        const validRaceId = generateRaceId(IdType.RACE, {
+            raceType: raceType,
+            dateTime: validDate,
+            location: validLocation,
+            number: validNumber,
+        });
         const validName = '第1レース';
         const validStage = defaultStage[raceType];
         const validGrade = 'GⅠ';

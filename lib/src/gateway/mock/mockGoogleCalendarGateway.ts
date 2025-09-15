@@ -8,6 +8,7 @@ import { defaultLocation } from '../../../../test/unittest/src/mock/common/baseC
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
+import { IdType } from '../../utility/validateAndType/placeId';
 import { generateRaceId } from '../../utility/validateAndType/raceId';
 import { ICalendarGatewayForAWS } from '../interface/iCalendarGateway';
 
@@ -62,12 +63,12 @@ export class MockGoogleCalendarGateway implements ICalendarGatewayForAWS {
                                 raceNumber <= 12;
                                 raceNumber++
                             ) {
-                                const raceId = generateRaceId(
-                                    raceType,
-                                    currentDate,
-                                    location,
-                                    raceNumber,
-                                );
+                                const raceId = generateRaceId(IdType.RACE, {
+                                    raceType: raceType,
+                                    dateTime: currentDate,
+                                    location: location,
+                                    number: raceNumber,
+                                });
                                 const calendarData: calendar_v3.Schema$Event = {
                                     id: raceId,
                                     summary: `テストレース${raceId}`,

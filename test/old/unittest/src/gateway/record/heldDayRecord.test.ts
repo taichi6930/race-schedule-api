@@ -1,5 +1,8 @@
 import { HeldDayRecord } from '../../../../../../lib/src/gateway/record/heldDayRecord';
-import { generatePlaceId } from '../../../../../../lib/src/utility/validateAndType/placeId';
+import {
+    generatePlaceId,
+    IdType,
+} from '../../../../../../lib/src/utility/validateAndType/placeId';
 import {
     defaultLocation,
     testRaceTypeListAll,
@@ -25,11 +28,11 @@ import {
  */
 
 describe.each(testRaceTypeListAll)('heldDayRecord(%s)', (raceType) => {
-    const validId = generatePlaceId(
-        raceType,
-        new Date('2024-12-22'),
-        defaultLocation[raceType],
-    );
+    const validId = generatePlaceId(IdType.PLACE, {
+        raceType: raceType,
+        dateTime: new Date('2024-12-22'),
+        location: defaultLocation[raceType],
+    });
     const validHeldTimes = 1;
     const validHeldDayTimes = 1;
     const validUpdateDate = new Date('2024-01-01T12:00:00Z');
