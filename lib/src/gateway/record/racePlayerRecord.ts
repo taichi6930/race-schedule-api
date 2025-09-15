@@ -11,11 +11,11 @@ import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type {
     RaceId,
     RacePlayerId,
-} from '../../utility/validateAndType/placeId';
+} from '../../utility/validateAndType/idUtility';
 import {
     validateRaceId,
     validateRacePlayerId,
-} from '../../utility/validateAndType/placeId';
+} from '../../utility/validateAndType/idUtility';
 
 /**
  * レース選手データ

@@ -29,7 +29,7 @@ import {
     generatePlaceId,
     generateRaceId,
     IdType,
-} from '../../utility/validateAndType/placeId';
+} from '../../utility/validateAndType/idUtility';
 import { IS3Gateway } from '../interface/iS3Gateway';
 
 /**

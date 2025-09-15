@@ -20,7 +20,7 @@ import {
     generateRaceId,
     generateRacePlayerId,
     IdType,
-} from '../../../../../../lib/src/utility/validateAndType/placeId';
+} from '../../../../../../lib/src/utility/validateAndType/idUtility';
 import {
     defaultLocation,
     testRaceTypeListMechanicalRacing,

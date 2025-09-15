@@ -4,7 +4,7 @@ import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import {
     generatePlaceId,
     IdType,
-} from '../../../../../lib/src/utility/validateAndType/placeId';
+} from '../../../../../lib/src/utility/validateAndType/idUtility';
 import { CalendarData } from '../../../../../src/domain/calendarData';
 import { HeldDayData } from '../../../../../src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceConditionData';
