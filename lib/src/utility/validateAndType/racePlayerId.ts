@@ -1,15 +1,9 @@
 import { z } from 'zod';
 
 import type { RaceType } from '../../../../src/utility/raceType';
-import {
-    type PositionNumber,
-    validatePositionNumber,
-} from '../../../../src/utility/validateAndType/positionNumber';
-import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
-import {
-    type RaceNumber,
-    validateRaceNumber,
-} from '../../../../src/utility/validateAndType/raceNumber';
+import { validatePositionNumber } from '../../../../src/utility/validateAndType/positionNumber';
+import { validateRaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
+import type { RaceIdParams, RacePlayerIdParams } from './placeId';
 import { generateRaceId } from './raceId';
 
 /**
@@ -22,14 +16,12 @@ import { generateRaceId } from './raceId';
  */
 
 export const generateRacePlayerId = (
-    raceType: RaceType,
-    dateTime: Date,
-    location: RaceCourse,
-    number: RaceNumber,
-    positionNumber: PositionNumber,
+    params: RacePlayerIdParams,
 ): RacePlayerId => {
+    const { raceType, dateTime, location, number, positionNumber } = params;
     const positionNumberCode = positionNumber.toXDigits(2);
-    return `${generateRaceId(raceType, dateTime, location, number)}${positionNumberCode}`;
+    const raceIdParams: RaceIdParams = { raceType, dateTime, location, number };
+    return `${generateRaceId(raceIdParams)}${positionNumberCode}`;
 };
 
 /**

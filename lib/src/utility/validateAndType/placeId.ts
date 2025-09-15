@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import { z } from 'zod';
 
 import { RaceType } from '../../../../src/utility/raceType';
+import type { PositionNumber } from '../../../../src/utility/validateAndType/positionNumber';
 import {
     createPlaceCode,
     type RaceCourse,
@@ -9,16 +10,52 @@ import {
 import { NetkeibaBabacodeMap } from '../data/netkeiba';
 
 /**
- * placeIdを作成する
- * @param raceType - レース種別
- * @param dateTime - 開催日時
- * @param location - 開催場所
+ * IDタイプの列挙型
  */
-export const generatePlaceId = (
-    raceType: RaceType,
-    dateTime: Date,
-    location: RaceCourse,
-): PlaceId => {
+export const IdType = {
+    PLACE: 'place',
+    RACE: 'race',
+    // 今後追加する場合はここに
+} as const;
+
+export type IdType = (typeof IdType)[keyof typeof IdType];
+
+/**
+ * PlaceIdのパラメータ
+ */
+export interface PlaceIdParams {
+    raceType: RaceType;
+    dateTime: Date;
+    location: RaceCourse;
+}
+
+/**
+ * RaceIdのパラメータ
+ */
+export interface RaceIdParams {
+    raceType: RaceType;
+    dateTime: Date;
+    location: RaceCourse;
+    number: number;
+}
+
+/**
+ * RacePlayerIdのパラメータ
+ */
+export interface RacePlayerIdParams {
+    raceType: RaceType;
+    dateTime: Date;
+    location: RaceCourse;
+    number: number;
+    positionNumber: PositionNumber;
+}
+
+/**
+ * placeIdを作成する
+ * @param placeIdParams - PlaceIdのパラメータ
+ */
+export const generatePlaceId = (placeIdParams: PlaceIdParams): PlaceId => {
+    const { raceType, dateTime, location } = placeIdParams;
     const dateCode = format(dateTime, 'yyyyMMdd');
 
     const locationCode =
@@ -58,3 +95,9 @@ export type PlaceId = z.infer<ReturnType<typeof PlaceIdSchema>>;
  */
 export const validatePlaceId = (raceType: RaceType, value: string): PlaceId =>
     PlaceIdSchema(raceType).parse(value);
+
+/**
+ * IdTypeの判定関数
+ * @param value - 判定対象の文字列
+ * @returns IdTypeかどうかの真偽値
+ */
