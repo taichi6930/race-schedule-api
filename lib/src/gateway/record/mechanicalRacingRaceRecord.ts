@@ -26,8 +26,11 @@ import {
 } from '../../../../src/utility/validateAndType/raceStage';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import type { RaceId } from '../../utility/validateAndType/idUtility';
-import { validateRaceId } from '../../utility/validateAndType/idUtility';
+import {
+    IdType,
+    type RaceId,
+    validateId,
+} from '../../utility/validateAndType/idUtility';
 
 /**
  * レース開催データ
@@ -84,7 +87,7 @@ export class MechanicalRacingRaceRecord {
     ): MechanicalRacingRaceRecord {
         try {
             return new MechanicalRacingRaceRecord(
-                validateRaceId(raceType, id),
+                validateId(IdType.RACE, raceType, id),
                 raceType,
                 validateRaceName(name),
                 validateRaceStage(raceType, stage),

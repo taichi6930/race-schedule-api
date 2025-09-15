@@ -1,4 +1,7 @@
-import { validateRacePlayerId } from '../../../../../../lib/src/utility/validateAndType/idUtility';
+import {
+    IdType,
+    validateId,
+} from '../../../../../../lib/src/utility/validateAndType/idUtility';
 import { RaceType } from '../../../../../../src/utility/raceType';
 
 describe('racePlayerIdSchema', () => {
@@ -17,7 +20,7 @@ describe('racePlayerIdSchema', () => {
         },
     ]) {
         it(`正常系: ${raceType}のRacePlayerIdが正常な場合`, () => {
-            expect(validateRacePlayerId(raceType, racePlayerId)).toBe(
+            expect(validateId(IdType.PLAYER, raceType, racePlayerId)).toBe(
                 racePlayerId,
             );
         });
@@ -92,7 +95,7 @@ describe('racePlayerIdSchema', () => {
     ]) {
         it(`異常系: ${raceType}のRacePlayerIdが不正な場合`, () => {
             expect(() =>
-                validateRacePlayerId(raceType, invalidRacePlayerId),
+                validateId(IdType.PLAYER, raceType, invalidRacePlayerId),
             ).toThrow(message);
         });
     }

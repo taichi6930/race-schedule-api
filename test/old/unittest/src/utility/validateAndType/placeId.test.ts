@@ -1,4 +1,7 @@
-import { validatePlaceId } from '../../../../../../lib/src/utility/validateAndType/idUtility';
+import {
+    IdType,
+    validateId,
+} from '../../../../../../lib/src/utility/validateAndType/idUtility';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import { testRaceTypeListAll } from '../../../../../unittest/src/mock/common/baseCommonData';
 
@@ -16,7 +19,7 @@ describe('PlaceIdSchema', () => {
         '正常系: %s の PlaceId が正常な場合 (%s)',
         (raceType) => {
             const placeId = validCases[raceType];
-            expect(validatePlaceId(raceType, placeId)).toBe(placeId);
+            expect(validateId(IdType.PLACE, raceType, placeId)).toBe(placeId);
         },
     );
 
@@ -70,7 +73,9 @@ describe('PlaceIdSchema', () => {
     test.each(invalidCases)(
         '異常系: %s の PlaceId が不正 (%s)',
         (raceType, invalidId, message) => {
-            expect(() => validatePlaceId(raceType, invalidId)).toThrow(message);
+            expect(() => validateId(IdType.PLACE, raceType, invalidId)).toThrow(
+                message,
+            );
         },
     );
 });

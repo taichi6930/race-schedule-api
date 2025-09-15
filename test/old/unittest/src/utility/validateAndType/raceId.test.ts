@@ -1,4 +1,7 @@
-import { validateRaceId } from '../../../../../../lib/src/utility/validateAndType/idUtility';
+import {
+    IdType,
+    validateId,
+} from '../../../../../../lib/src/utility/validateAndType/idUtility';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import { testRaceTypeListAll } from '../../../../../unittest/src/mock/common/baseCommonData';
 
@@ -13,7 +16,7 @@ describe('raceIdSchema', () => {
         { raceType: RaceType.AUTORACE, raceId: 'autorace202108010101' },
     ]) {
         it(`正常系: ${raceType}のRaceIdが正常な場合`, () => {
-            expect(validateRaceId(raceType, raceId)).toBe(raceId);
+            expect(validateId(IdType.RACE, raceType, raceId)).toBe(raceId);
         });
     }
 
@@ -85,9 +88,9 @@ describe('raceIdSchema', () => {
             raceType
         ]) {
             it(`異常系: ${raceType}のRaceIdが不正 (${invalidRaceId})`, () => {
-                expect(() => validateRaceId(raceType, invalidRaceId)).toThrow(
-                    message,
-                );
+                expect(() =>
+                    validateId(IdType.RACE, raceType, invalidRaceId),
+                ).toThrow(message);
             });
         }
     }
