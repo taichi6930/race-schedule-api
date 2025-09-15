@@ -75,6 +75,51 @@ const makeIdSchema = (
 };
 
 /**
+ * 汎用ビルダ: idType に応じて適切な ID を構築する
+ * @param idType - `IdType` のいずれか
+ * @param params - PlaceIdParams | RaceIdParams | RacePlayerIdParams
+ */
+// 型ガード: idType と params の整合性をチェック
+/**
+ * @param p - 任意のパラメータ
+ */
+const isPlaceParams = (p: any): p is PlaceIdParams => {
+    return (
+        p !== undefined &&
+        p.dateTime !== undefined &&
+        p.location !== undefined &&
+        p.raceType !== undefined
+    );
+};
+
+/**
+ * @param p - 任意のパラメータ
+ */
+const isRaceParams = (p: any): p is RaceIdParams => {
+    return (
+        p !== undefined &&
+        p.dateTime !== undefined &&
+        p.location !== undefined &&
+        p.raceType !== undefined &&
+        p.number !== undefined
+    );
+};
+
+/**
+ * @param p - 任意のパラメータ
+ */
+const isRacePlayerParams = (p: any): p is RacePlayerIdParams => {
+    return (
+        p !== undefined &&
+        p.dateTime !== undefined &&
+        p.location !== undefined &&
+        p.raceType !== undefined &&
+        p.number !== undefined &&
+        p.positionNumber !== undefined
+    );
+};
+
+/**
  * IDタイプの列挙型
  */
 export const IdType = {
@@ -84,6 +129,38 @@ export const IdType = {
 } as const;
 
 export type IdType = (typeof IdType)[keyof typeof IdType];
+
+const buildId = (
+    idType: IdType,
+    params: PlaceIdParams | RaceIdParams | RacePlayerIdParams,
+): string => {
+    const raceTypePrefix = params.raceType.toLowerCase();
+    const locationCode =
+        params.raceType === RaceType.JRA || params.raceType === RaceType.NAR
+            ? NetkeibaBabacodeMap[params.location]
+            : createPlaceCode(params.raceType, params.location);
+    const dateCode = format(params.dateTime, 'yyyyMMdd');
+    switch (idType) {
+        case IdType.PLACE: {
+            if (!isPlaceParams(params))
+                throw new Error('Invalid params for PLACE');
+            return `${raceTypePrefix}${dateCode}${locationCode}`;
+        }
+        case IdType.RACE: {
+            if (!isRaceParams(params))
+                throw new Error('Invalid params for RACE');
+            const numberCode = params.number.toXDigits(2);
+            return `${raceTypePrefix}${dateCode}${locationCode}${numberCode}`;
+        }
+        case IdType.PLAYER: {
+            if (!isRacePlayerParams(params))
+                throw new Error('Invalid params for PLAYER');
+            const numberCode = params.number.toXDigits(2);
+            const positionNumberCode = params.positionNumber.toXDigits(2);
+            return `${raceTypePrefix}${dateCode}${locationCode}${numberCode}${positionNumberCode}`;
+        }
+    }
+};
 
 /**
  * PlaceIdのパラメータ
@@ -125,15 +202,7 @@ export const generatePlaceId = (
     idType: IdType,
     placeIdParams: PlaceIdParams,
 ): PlaceId => {
-    const { raceType, dateTime, location } = placeIdParams;
-    const dateCode = format(dateTime, 'yyyyMMdd');
-
-    const locationCode =
-        raceType === RaceType.JRA || raceType === RaceType.NAR
-            ? NetkeibaBabacodeMap[location]
-            : createPlaceCode(raceType, location);
-    const raceTypePrefix = raceType.toLowerCase();
-    return `${raceTypePrefix}${dateCode}${locationCode}`;
+    return buildId(idType, placeIdParams) as PlaceId;
 };
 
 /**
@@ -166,10 +235,7 @@ export const generateRaceId = (
     idType: IdType,
     raceIdParams: RaceIdParams,
 ): RaceId => {
-    const { raceType, dateTime, location, number } = raceIdParams;
-    const numberCode = number.toXDigits(2);
-    const placeIdParams: PlaceIdParams = { raceType, dateTime, location };
-    return `${generatePlaceId(idType, placeIdParams)}${numberCode}`;
+    return buildId(idType, raceIdParams) as RaceId;
 };
 
 /**
@@ -203,11 +269,9 @@ export const generateRacePlayerId = (
     idType: IdType,
     params: RacePlayerIdParams,
 ): RacePlayerId => {
-    const { raceType, dateTime, location, number, positionNumber } = params;
-    const positionNumberCode = positionNumber.toXDigits(2);
-    const raceIdParams: RaceIdParams = { raceType, dateTime, location, number };
-    return `${generateRaceId(idType, raceIdParams)}${positionNumberCode}`;
+    return buildId(idType, params) as RacePlayerId;
 };
+
 /**
  * RacePlayerIdのzod型定義
  * @param raceType - レース種別
