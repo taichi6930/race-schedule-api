@@ -2,15 +2,12 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import type { RaceEntity } from '../../../src/repository/entity/raceEntity';
-import { getGoogleCalendarColorId } from '../../../src/utility/googleCalendar';
-import { RaceType } from '../../../src/utility/raceType';
-import { createPlaceCode } from '../../../src/utility/validateAndType/raceCourse';
 import {
     createYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
     NarYoutubeUserIdMap,
-} from './data/movie';
-import { NetkeibaBabacodeMap } from './data/netkeiba';
+} from '../../../src/utility/data/movie';
+import { NetkeibaBabacodeMap } from '../../../src/utility/data/netkeiba';
 import {
     createNetkeibaJraRaceVideoUrl,
     createNetkeibaJraShutubaUrl,
@@ -18,7 +15,10 @@ import {
     createNetkeibaRedirectUrl,
     createNetkeirinRaceShutubaUrl,
     createNetkeirinRedirectUrl,
-} from './data/url';
+} from '../../../src/utility/data/url';
+import { getGoogleCalendarColorId } from '../../../src/utility/googleCalendar';
+import { RaceType } from '../../../src/utility/raceType';
+import { createPlaceCode } from '../../../src/utility/validateAndType/raceCourse';
 import { getJSTDate } from './date';
 import { createAnchorTag, formatDate } from './format';
 

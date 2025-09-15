@@ -1,6 +1,7 @@
 import '../../utility/format';
 
 import { RacePlayerData } from '../../../../src/domain/racePlayerData';
+import { createErrorMessage } from '../../../../src/utility/error';
 import type { RaceType } from '../../../../src/utility/raceType';
 import type { PublicGamblingId } from '../../../../src/utility/validateAndType/idUtility';
 import {
@@ -11,7 +12,6 @@ import type { PlayerNumber } from '../../../../src/utility/validateAndType/playe
 import { validatePlayerNumber } from '../../../../src/utility/validateAndType/playerNumber';
 import type { PositionNumber } from '../../../../src/utility/validateAndType/positionNumber';
 import { validatePositionNumber } from '../../../../src/utility/validateAndType/positionNumber';
-import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**

@@ -1,3 +1,4 @@
+import { createErrorMessage } from '../../../../src/utility/error';
 import type { RaceType } from '../../../../src/utility/raceType';
 import type { GradeType } from '../../../../src/utility/validateAndType/gradeType';
 import { validateGradeType } from '../../../../src/utility/validateAndType/gradeType';
@@ -6,7 +7,6 @@ import {
     type PublicGamblingId,
     validateId,
 } from '../../../../src/utility/validateAndType/idUtility';
-import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 

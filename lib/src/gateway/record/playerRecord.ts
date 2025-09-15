@@ -1,8 +1,8 @@
 import '../../utility/format';
 
+import { createErrorMessage } from '../../../../src/utility/error';
 import type { RaceType } from '../../../../src/utility/raceType';
 import { PlayerEntityForAWS } from '../../repository/entity/playerEntity';
-import { createErrorMessage } from '../../utility/error';
 
 /**
  * 選手データ

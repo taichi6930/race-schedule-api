@@ -1,6 +1,7 @@
 import '../../utility/format';
 
 import { RaceData } from '../../../../src/domain/raceData';
+import { createErrorMessage } from '../../../../src/utility/error';
 import type { RaceType } from '../../../../src/utility/raceType';
 import {
     type GradeType,
@@ -29,7 +30,6 @@ import {
     type RaceStage,
     validateRaceStage,
 } from '../../../../src/utility/validateAndType/raceStage';
-import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**

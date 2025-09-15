@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { z } from 'zod';
 
-import { NetkeibaBabacodeMap } from '../../../lib/src/utility/data/netkeiba';
+import { NetkeibaBabacodeMap } from '../data/netkeiba';
 import { RaceType } from '../raceType';
 import { type PositionNumber, validatePositionNumber } from './positionNumber';
 import { createPlaceCode, type RaceCourse } from './raceCourse';

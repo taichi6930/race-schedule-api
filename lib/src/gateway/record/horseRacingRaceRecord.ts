@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import { HorseRaceConditionData } from '../../../../src/domain/houseRaceConditionData';
 import { RaceData } from '../../../../src/domain/raceData';
+import { createErrorMessage } from '../../../../src/utility/error';
 import type { RaceType } from '../../../../src/utility/raceType';
 import type { GradeType } from '../../../../src/utility/validateAndType/gradeType';
 import { validateGradeType } from '../../../../src/utility/validateAndType/gradeType';
@@ -24,7 +25,6 @@ import type { RaceNumber } from '../../../../src/utility/validateAndType/raceNum
 import { validateRaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
 import type { RaceSurfaceType } from '../../../../src/utility/validateAndType/raceSurfaceType';
 import { validateRaceSurfaceType } from '../../../../src/utility/validateAndType/raceSurfaceType';
-import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**

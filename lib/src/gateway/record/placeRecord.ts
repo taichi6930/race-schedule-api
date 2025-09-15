@@ -1,4 +1,5 @@
 import { PlaceData } from '../../../../src/domain/placeData';
+import { createErrorMessage } from '../../../../src/utility/error';
 import type { RaceType } from '../../../../src/utility/raceType';
 import {
     IdType,
@@ -9,7 +10,6 @@ import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCou
 import { validateRaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
 import type { RaceDateTime } from '../../../../src/utility/validateAndType/raceDateTime';
 import { validateRaceDateTime } from '../../../../src/utility/validateAndType/raceDateTime';
-import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
 

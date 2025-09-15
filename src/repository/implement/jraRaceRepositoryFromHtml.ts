@@ -1,12 +1,12 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { processJraRaceName } from '../../../lib/src/utility/createRaceName';
 import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { CommonParameter } from '../../utility/commonParameter';
+import { processJraRaceName } from '../../utility/createRaceName';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';
