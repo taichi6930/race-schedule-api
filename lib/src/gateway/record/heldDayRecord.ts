@@ -1,4 +1,5 @@
 import { HeldDayData } from '../../../../src/domain/heldDayData';
+import { createErrorMessage } from '../../../../src/utility/error';
 import type { RaceType } from '../../../../src/utility/raceType';
 import {
     type HeldDayTimes,
@@ -6,11 +7,13 @@ import {
 } from '../../../../src/utility/validateAndType/heldDayTimes';
 import type { HeldTimes } from '../../../../src/utility/validateAndType/heldTimes';
 import { validateHeldTimes } from '../../../../src/utility/validateAndType/heldTimes';
-import { createErrorMessage } from '../../utility/error';
+import type { PublicGamblingId } from '../../../../src/utility/validateAndType/idUtility';
+import {
+    IdType,
+    validateId,
+} from '../../../../src/utility/validateAndType/idUtility';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
-import type { PlaceId } from '../../utility/validateAndType/idUtility';
-import { IdType, validateId } from '../../utility/validateAndType/idUtility';
 
 /**
  * Repository層のRecord
@@ -27,7 +30,7 @@ export class HeldDayRecord {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: PlaceId,
+        public readonly id: PublicGamblingId,
         public readonly raceType: RaceType,
         public readonly heldTimes: HeldTimes,
         public readonly heldDayTimes: HeldDayTimes,

@@ -1,4 +1,4 @@
-import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import type { RaceCourse } from '../validateAndType/raceCourse';
 
 /**
  * YoutubeのライブURLを取得する

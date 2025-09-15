@@ -1,13 +1,13 @@
-import type { PlaceId } from '../../../lib/src/utility/validateAndType/idUtility';
-import {
-    generatePlaceId,
-    IdType,
-    validateId,
-} from '../../../lib/src/utility/validateAndType/idUtility';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import { RaceType } from '../../utility/raceType';
 import type { GradeType } from '../../utility/validateAndType/gradeType';
+import type { PublicGamblingId } from '../../utility/validateAndType/idUtility';
+import {
+    generateId,
+    IdType,
+    validateId,
+} from '../../utility/validateAndType/idUtility';
 
 /**
  * Repository層のEntity レース開催場所データ
@@ -26,7 +26,7 @@ export class PlaceEntity {
     private readonly _grade: GradeType | undefined;
 
     private constructor(
-        public readonly id: PlaceId,
+        public readonly id: PublicGamblingId,
         public readonly placeData: PlaceData,
         heldDayData: HeldDayData | undefined,
         grade: GradeType | undefined,
@@ -102,7 +102,7 @@ export class PlaceEntity {
         grade: GradeType | undefined,
     ): PlaceEntity {
         return PlaceEntity.create(
-            generatePlaceId(IdType.PLACE, {
+            generateId(IdType.PLACE, {
                 raceType: placeData.raceType,
                 dateTime: placeData.dateTime,
                 location: placeData.location,

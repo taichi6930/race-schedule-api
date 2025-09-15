@@ -1,17 +1,11 @@
 import { format } from 'date-fns';
 import { z } from 'zod';
 
-import { RaceType } from '../../../../src/utility/raceType';
-import {
-    type PositionNumber,
-    validatePositionNumber,
-} from '../../../../src/utility/validateAndType/positionNumber';
-import {
-    createPlaceCode,
-    type RaceCourse,
-} from '../../../../src/utility/validateAndType/raceCourse';
-import { validateRaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
 import { NetkeibaBabacodeMap } from '../data/netkeiba';
+import { RaceType } from '../raceType';
+import { type PositionNumber, validatePositionNumber } from './positionNumber';
+import { createPlaceCode, type RaceCourse } from './raceCourse';
+import { validateRaceNumber } from './raceNumber';
 
 /**
  * 共通のIDスキーマ生成ヘルパー
@@ -193,81 +187,9 @@ export interface RacePlayerIdParams {
 }
 
 /**
- * placeIdを作成する
- * @param idType
- * @param placeIdParams - PlaceIdのパラメータ
+ * 公営ギャンブルID（PlaceId, RaceId, RacePlayerId）のzod型定義
  */
-export const generatePlaceId = (
-    idType: IdType,
-    placeIdParams: PlaceIdParams,
-): PlaceId => {
-    return buildId(idType, placeIdParams) as PlaceId;
-};
-
-/**
- * PlaceIdのzod型定義
- * @param raceType - レース種別
- */
-const PlaceIdSchema = (raceType: RaceType): z.ZodString =>
-    makeIdSchema(raceType, 10, undefined, undefined, 'PlaceId');
-
-/**
- * PlaceIdのzod型定義
- */
-export type PlaceId = z.infer<ReturnType<typeof PlaceIdSchema>>;
-
 export type PublicGamblingId = z.infer<ReturnType<typeof makeIdSchema>>;
-
-/**
- * raceIdを作成する
- * @param idType
- * @param raceIdParams
- */
-export const generateRaceId = (
-    idType: IdType,
-    raceIdParams: RaceIdParams,
-): RaceId => {
-    return buildId(idType, raceIdParams) as RaceId;
-};
-
-/**
- * RaceIdのzod型定義
- * @param raceType - レース種別
- */
-const RaceIdSchema = (raceType: RaceType): z.ZodString =>
-    // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号)
-    makeIdSchema(raceType, 12, [-2], undefined, 'RaceId');
-
-/**
- * RaceIdのzod型定義
- */
-export type RaceId = z.infer<ReturnType<typeof RaceIdSchema>>;
-
-/**
- * racePlayerIdを作成する
- * @param idType
- * @param params
- */
-export const generateRacePlayerId = (
-    idType: IdType,
-    params: RacePlayerIdParams,
-): RacePlayerId => {
-    return buildId(idType, params) as RacePlayerId;
-};
-
-/**
- * RacePlayerIdのzod型定義
- * @param raceType - レース種別
- */
-const RacePlayerIdSchema = (raceType: RaceType): z.ZodString =>
-    // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
-    // レース番号は (slice -4, -2)、枠番は (slice -2)
-    makeIdSchema(raceType, 14, [-4, -2], [-2], 'RacePlayerId');
-/**
- * RacePlayerIdのzod型定義
- */
-
-export type RacePlayerId = z.infer<ReturnType<typeof RacePlayerIdSchema>>;
 
 /**
  * Idのバリデーション
@@ -283,13 +205,41 @@ export const validateId = (
 ): PublicGamblingId => {
     switch (idType) {
         case IdType.PLACE: {
-            return PlaceIdSchema(raceType).parse(value);
+            return makeIdSchema(
+                raceType,
+                10,
+                undefined,
+                undefined,
+                'PlaceId',
+            ).parse(value);
         }
         case IdType.RACE: {
-            return RaceIdSchema(raceType).parse(value);
+            // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号)
+            return makeIdSchema(raceType, 12, [-2], undefined, 'RaceId').parse(
+                value,
+            );
         }
         case IdType.PLAYER: {
-            return RacePlayerIdSchema(raceType).parse(value);
+            // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
+            return makeIdSchema(
+                raceType,
+                14,
+                [-4, -2],
+                [-2],
+                'RacePlayerId',
+            ).parse(value);
         }
     }
+};
+
+/**
+ * placeIdを作成する
+ * @param idType
+ * @param idParams
+ */
+export const generateId = (
+    idType: IdType,
+    idParams: PlaceIdParams | RaceIdParams | RacePlayerIdParams,
+): PublicGamblingId => {
+    return buildId(idType, idParams) as PublicGamblingId;
 };

@@ -1,11 +1,17 @@
 import '../../utility/format';
 
 import { RaceData } from '../../../../src/domain/raceData';
+import { createErrorMessage } from '../../../../src/utility/error';
 import type { RaceType } from '../../../../src/utility/raceType';
 import {
     type GradeType,
     validateGradeType,
 } from '../../../../src/utility/validateAndType/gradeType';
+import {
+    IdType,
+    type PublicGamblingId,
+    validateId,
+} from '../../../../src/utility/validateAndType/idUtility';
 import {
     type RaceCourse,
     validateRaceCourse,
@@ -24,13 +30,7 @@ import {
     type RaceStage,
     validateRaceStage,
 } from '../../../../src/utility/validateAndType/raceStage';
-import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import {
-    IdType,
-    type RaceId,
-    validateId,
-} from '../../utility/validateAndType/idUtility';
 
 /**
  * レース開催データ
@@ -51,7 +51,7 @@ export class MechanicalRacingRaceRecord {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: RaceId,
+        public readonly id: PublicGamblingId,
         public readonly raceType: RaceType,
         public readonly name: RaceName,
         public readonly stage: RaceStage,

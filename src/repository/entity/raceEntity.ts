@@ -2,19 +2,17 @@ import { HorseRacingRaceRecord } from '../../../lib/src/gateway/record/horseRaci
 import { MechanicalRacingRaceRecord } from '../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../../lib/src/gateway/record/racePlayerRecord';
 import { getJSTDate } from '../../../lib/src/utility/date';
-import type { RaceId } from '../../../lib/src/utility/validateAndType/idUtility';
-import {
-    generatePlaceId,
-    generateRaceId,
-    generateRacePlayerId,
-    IdType,
-    validateId,
-} from '../../../lib/src/utility/validateAndType/idUtility';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
 import { RaceType } from '../../utility/raceType';
+import type { PublicGamblingId } from '../../utility/validateAndType/idUtility';
+import {
+    generateId,
+    IdType,
+    validateId,
+} from '../../utility/validateAndType/idUtility';
 import type { RaceStage } from '../../utility/validateAndType/raceStage';
 
 /**
@@ -40,7 +38,7 @@ export class RaceEntity {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: RaceId,
+        public readonly id: PublicGamblingId,
         public readonly placeId: string,
         public readonly raceData: RaceData,
         heldDayData: HeldDayData | undefined,
@@ -160,14 +158,14 @@ export class RaceEntity {
         racePlayerDataList: RacePlayerData[] | undefined,
     ): RaceEntity {
         return RaceEntity.create(
-            generateRaceId(IdType.RACE, {
+            generateId(IdType.RACE, {
                 raceType: raceData.raceType,
                 dateTime: raceData.dateTime,
                 location: raceData.location,
                 number: raceData.number,
             }),
 
-            generatePlaceId(IdType.PLACE, {
+            generateId(IdType.PLACE, {
                 raceType: raceData.raceType,
                 dateTime: raceData.dateTime,
                 location: raceData.location,
@@ -311,7 +309,7 @@ export class RaceEntity {
     public toPlayerRecordList(): RacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>
             RacePlayerRecord.create(
-                generateRacePlayerId(IdType.PLAYER, {
+                generateId(IdType.PLAYER, {
                     raceType: this.raceData.raceType,
                     dateTime: this.raceData.dateTime,
                     location: this.raceData.location,

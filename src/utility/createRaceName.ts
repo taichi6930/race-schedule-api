@@ -1,11 +1,11 @@
-import './format';
+import '../../lib/src/utility/format';
 
-import type { GradeType } from '../../../src/utility/validateAndType/gradeType';
-import type { RaceCourse } from '../../../src/utility/validateAndType/raceCourse';
-import type { RaceDateTime } from '../../../src/utility/validateAndType/raceDateTime';
-import type { RaceDistance } from '../../../src/utility/validateAndType/raceDistance';
-import type { RaceName } from '../../../src/utility/validateAndType/raceName';
-import type { RaceSurfaceType } from '../../../src/utility/validateAndType/raceSurfaceType';
+import type { GradeType } from './validateAndType/gradeType';
+import type { RaceCourse } from './validateAndType/raceCourse';
+import type { RaceDateTime } from './validateAndType/raceDateTime';
+import type { RaceDistance } from './validateAndType/raceDistance';
+import type { RaceName } from './validateAndType/raceName';
+import type { RaceSurfaceType } from './validateAndType/raceSurfaceType';
 
 interface JraRaceDataForRaceName {
     name: RaceName;
@@ -15,39 +15,6 @@ interface JraRaceDataForRaceName {
     surfaceType: RaceSurfaceType;
     distance: RaceDistance;
 }
-
-export const processJraRaceName = (
-    raceInfo: JraRaceDataForRaceName,
-): string => {
-    if (isHanshinJuvenileFillies(raceInfo)) {
-        return '阪神JF';
-    }
-    if (isAsahiHaiFuturityStakes(raceInfo)) {
-        return '朝日杯FS';
-    }
-    if (isMileChampionship(raceInfo)) {
-        return 'マイルCS';
-    }
-    if (isAmericanJockeyClubCup(raceInfo)) {
-        return 'AJCC';
-    }
-    if (isFuchuHimbaStakes(raceInfo)) {
-        return '府中牝馬S';
-    }
-    if (isIbisSummerDash(raceInfo)) {
-        return 'アイビスサマーD';
-    }
-    if (isKeiseiHaiAutumnHandicap(raceInfo)) {
-        return '京成杯オータムH';
-    }
-    if (isSaudiArabiaRoyalCup(raceInfo)) {
-        return 'サウジアラビアRC';
-    }
-    if (isLumiereAutumnDash(raceInfo)) {
-        return 'ルミエールオータムD';
-    }
-    return raceInfo.name;
-};
 
 /**
  * レース情報から、このレースは阪神JFかどうかを判定する
@@ -171,6 +138,39 @@ const isLumiereAutumnDash = (raceInfo: JraRaceDataForRaceName): boolean =>
     raceInfo.name.includes('ルミエール') &&
     raceInfo.distance === 1000;
 
+export const processJraRaceName = (
+    raceInfo: JraRaceDataForRaceName,
+): string => {
+    if (isHanshinJuvenileFillies(raceInfo)) {
+        return '阪神JF';
+    }
+    if (isAsahiHaiFuturityStakes(raceInfo)) {
+        return '朝日杯FS';
+    }
+    if (isMileChampionship(raceInfo)) {
+        return 'マイルCS';
+    }
+    if (isAmericanJockeyClubCup(raceInfo)) {
+        return 'AJCC';
+    }
+    if (isFuchuHimbaStakes(raceInfo)) {
+        return '府中牝馬S';
+    }
+    if (isIbisSummerDash(raceInfo)) {
+        return 'アイビスサマーD';
+    }
+    if (isKeiseiHaiAutumnHandicap(raceInfo)) {
+        return '京成杯オータムH';
+    }
+    if (isSaudiArabiaRoyalCup(raceInfo)) {
+        return 'サウジアラビアRC';
+    }
+    if (isLumiereAutumnDash(raceInfo)) {
+        return 'ルミエールオータムD';
+    }
+    return raceInfo.name;
+};
+
 interface NarRaceDataForRaceName {
     name: RaceName;
     place: RaceCourse;
@@ -179,6 +179,7 @@ interface NarRaceDataForRaceName {
     surfaceType: RaceSurfaceType;
     distance: RaceDistance;
 }
+
 export const processNarRaceName = (
     raceInfo: NarRaceDataForRaceName,
 ): string => {

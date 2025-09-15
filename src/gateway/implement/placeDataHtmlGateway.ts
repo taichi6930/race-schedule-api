@@ -1,4 +1,4 @@
-import { createPlaceUrl } from '../../../lib/src/utility/data/url';
+import { createPlaceUrl } from '../../utility/data/url';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IPlaceDataHtmlGateway } from '../interface/iPlaceDataHtmlGateway';

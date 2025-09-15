@@ -1,8 +1,8 @@
 import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
 
+import { createErrorMessage } from '../../../../src/utility/error';
 import { RaceType } from '../../../../src/utility/raceType';
-import { createErrorMessage } from '../../utility/error';
 import { Logger } from '../../utility/logger';
 import type { ICalendarGatewayForAWS } from '../interface/iCalendarGateway';
 

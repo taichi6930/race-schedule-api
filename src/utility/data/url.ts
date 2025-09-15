@@ -1,15 +1,12 @@
 /**
- * @module lib/src/utility/data/url
  * @fileoverview URL関連のユーティリティ関数を提供するモジュール
  */
 
-import '../format';
-
 import { format } from 'date-fns';
 
-import { RaceType } from '../../../../src/utility/raceType';
-import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
-import { createPlaceCode } from '../../../../src/utility/validateAndType/raceCourse';
+import { RaceType } from '../raceType';
+import type { RaceCourse } from '../validateAndType/raceCourse';
+import { createPlaceCode } from '../validateAndType/raceCourse';
 
 /**
  * netkeibaのJRA出馬表のURLを生成する関数

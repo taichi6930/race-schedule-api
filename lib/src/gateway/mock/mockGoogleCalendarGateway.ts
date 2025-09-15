@@ -4,14 +4,14 @@ import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
+import {
+    generateId,
+    IdType,
+} from '../../../../src/utility/validateAndType/idUtility';
 import { defaultLocation } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
-import {
-    generateRaceId,
-    IdType,
-} from '../../utility/validateAndType/idUtility';
 import { ICalendarGatewayForAWS } from '../interface/iCalendarGateway';
 
 /**
@@ -65,7 +65,7 @@ export class MockGoogleCalendarGateway implements ICalendarGatewayForAWS {
                                 raceNumber <= 12;
                                 raceNumber++
                             ) {
-                                const raceId = generateRaceId(IdType.RACE, {
+                                const raceId = generateId(IdType.RACE, {
                                     raceType: raceType,
                                     dateTime: currentDate,
                                     location: location,

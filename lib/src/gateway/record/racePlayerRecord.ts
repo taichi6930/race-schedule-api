@@ -1,18 +1,18 @@
 import '../../utility/format';
 
 import { RacePlayerData } from '../../../../src/domain/racePlayerData';
+import { createErrorMessage } from '../../../../src/utility/error';
 import type { RaceType } from '../../../../src/utility/raceType';
+import type { PublicGamblingId } from '../../../../src/utility/validateAndType/idUtility';
+import {
+    IdType,
+    validateId,
+} from '../../../../src/utility/validateAndType/idUtility';
 import type { PlayerNumber } from '../../../../src/utility/validateAndType/playerNumber';
 import { validatePlayerNumber } from '../../../../src/utility/validateAndType/playerNumber';
 import type { PositionNumber } from '../../../../src/utility/validateAndType/positionNumber';
 import { validatePositionNumber } from '../../../../src/utility/validateAndType/positionNumber';
-import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import type {
-    RaceId,
-    RacePlayerId,
-} from '../../utility/validateAndType/idUtility';
-import { IdType, validateId } from '../../utility/validateAndType/idUtility';
 
 /**
  * レース選手データ
@@ -30,9 +30,9 @@ export class RacePlayerRecord {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: RacePlayerId,
+        public readonly id: PublicGamblingId,
         public readonly raceType: RaceType,
-        public readonly raceId: RaceId,
+        public readonly raceId: PublicGamblingId,
         public readonly positionNumber: PositionNumber,
         public readonly playerNumber: PlayerNumber,
         public readonly updateDate: UpdateDate,

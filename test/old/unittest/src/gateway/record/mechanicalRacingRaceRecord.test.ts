@@ -19,9 +19,9 @@
  */
 import { MechanicalRacingRaceRecord } from '../../../../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import {
-    generateRaceId,
+    generateId,
     IdType,
-} from '../../../../../../lib/src/utility/validateAndType/idUtility';
+} from '../../../../../../src/utility/validateAndType/idUtility';
 import {
     defaultLocation,
     defaultStage,
@@ -34,7 +34,7 @@ describe.each(testRaceTypeListMechanicalRacing)(
         const validDate = new Date('2026-01-01T00:00:00Z');
         const validLocation = defaultLocation[raceType];
         const validNumber = 1;
-        const validRaceId = generateRaceId(IdType.RACE, {
+        const validRaceId = generateId(IdType.RACE, {
             raceType: raceType,
             dateTime: validDate,
             location: validLocation,

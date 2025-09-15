@@ -1,10 +1,6 @@
 import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
 import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
-import {
-    generatePlaceId,
-    IdType,
-} from '../../../../../lib/src/utility/validateAndType/idUtility';
 import { CalendarData } from '../../../../../src/domain/calendarData';
 import { HeldDayData } from '../../../../../src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceConditionData';
@@ -24,6 +20,10 @@ import {
     RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
     RaceType,
 } from '../../../../../src/utility/raceType';
+import {
+    generateId,
+    IdType,
+} from '../../../../../src/utility/validateAndType/idUtility';
 import { maxFrameNumber } from '../../../../../src/utility/validateAndType/positionNumber';
 
 /**
@@ -69,7 +69,7 @@ export const baseRaceData = (raceType: RaceType): RaceData =>
 
 export const basePlaceRecord = (raceType: RaceType): PlaceRecord =>
     PlaceRecord.create(
-        generatePlaceId(IdType.PLACE, {
+        generateId(IdType.PLACE, {
             raceType,
             dateTime: basePlaceDateTime,
             location: defaultLocation[raceType],

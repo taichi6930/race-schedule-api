@@ -22,9 +22,9 @@
  */
 import { HorseRacingRaceRecord } from '../../../../../../lib/src/gateway/record/horseRacingRaceRecord';
 import {
-    generateRaceId,
+    generateId,
     IdType,
-} from '../../../../../../lib/src/utility/validateAndType/idUtility';
+} from '../../../../../../src/utility/validateAndType/idUtility';
 import {
     defaultLocation,
     defaultRaceGrade,
@@ -39,7 +39,7 @@ describe.each(testRaceTypeListHorseRacing)(
         const validSurfaceType = 'ダート';
         const validDistance = 1600;
         const validNumber = 1;
-        const validRaceId = generateRaceId(IdType.RACE, {
+        const validRaceId = generateId(IdType.RACE, {
             raceType: raceType,
             dateTime: validDate,
             location: validLocation,

@@ -1,4 +1,4 @@
-import { createErrorMessage } from '../../../lib/src/utility/error';
+import { createErrorMessage } from '../../utility/error';
 import { type RaceType, validateRaceType } from '../../utility/raceType';
 import { PlayerEntity } from '../entity/playerEntity';
 
