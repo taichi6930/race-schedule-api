@@ -187,22 +187,9 @@ export interface RacePlayerIdParams {
 }
 
 /**
- * PlaceIdのzod型定義
+ * 公営ギャンブルID（PlaceId, RaceId, RacePlayerId）のzod型定義
  */
-export type PlaceId = z.infer<ReturnType<typeof makeIdSchema>>;
-
 export type PublicGamblingId = z.infer<ReturnType<typeof makeIdSchema>>;
-
-/**
- * RaceIdのzod型定義
- */
-export type RaceId = z.infer<ReturnType<typeof makeIdSchema>>;
-
-/**
- * RacePlayerIdのzod型定義
- */
-
-export type RacePlayerId = z.infer<ReturnType<typeof makeIdSchema>>;
 
 /**
  * Idのバリデーション

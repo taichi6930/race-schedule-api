@@ -2,7 +2,7 @@ import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import { RaceType } from '../../utility/raceType';
 import type { GradeType } from '../../utility/validateAndType/gradeType';
-import type { PlaceId } from '../../utility/validateAndType/idUtility';
+import type { PublicGamblingId } from '../../utility/validateAndType/idUtility';
 import {
     generateId,
     IdType,
@@ -26,7 +26,7 @@ export class PlaceEntity {
     private readonly _grade: GradeType | undefined;
 
     private constructor(
-        public readonly id: PlaceId,
+        public readonly id: PublicGamblingId,
         public readonly placeData: PlaceData,
         heldDayData: HeldDayData | undefined,
         grade: GradeType | undefined,

@@ -3,7 +3,7 @@ import type { GradeType } from '../../../../src/utility/validateAndType/gradeTyp
 import { validateGradeType } from '../../../../src/utility/validateAndType/gradeType';
 import {
     IdType,
-    type PlaceId,
+    type PublicGamblingId,
     validateId,
 } from '../../../../src/utility/validateAndType/idUtility';
 import { createErrorMessage } from '../../utility/error';
@@ -24,7 +24,7 @@ export class PlaceGradeRecord {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: PlaceId,
+        public readonly id: PublicGamblingId,
         public readonly raceType: RaceType,
         public readonly grade: GradeType,
         public readonly updateDate: UpdateDate,
@@ -38,7 +38,7 @@ export class PlaceGradeRecord {
      * @param updateDate - 更新日時
      */
     public static create(
-        id: PlaceId,
+        id: PublicGamblingId,
         raceType: RaceType,
         grade: string,
         updateDate: Date,

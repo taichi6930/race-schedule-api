@@ -2,10 +2,7 @@ import '../../utility/format';
 
 import { RacePlayerData } from '../../../../src/domain/racePlayerData';
 import type { RaceType } from '../../../../src/utility/raceType';
-import type {
-    RaceId,
-    RacePlayerId,
-} from '../../../../src/utility/validateAndType/idUtility';
+import type { PublicGamblingId } from '../../../../src/utility/validateAndType/idUtility';
 import {
     IdType,
     validateId,
@@ -33,9 +30,9 @@ export class RacePlayerRecord {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: RacePlayerId,
+        public readonly id: PublicGamblingId,
         public readonly raceType: RaceType,
-        public readonly raceId: RaceId,
+        public readonly raceId: PublicGamblingId,
         public readonly positionNumber: PositionNumber,
         public readonly playerNumber: PlayerNumber,
         public readonly updateDate: UpdateDate,

@@ -6,7 +6,7 @@ import {
 } from '../../../../src/utility/validateAndType/heldDayTimes';
 import type { HeldTimes } from '../../../../src/utility/validateAndType/heldTimes';
 import { validateHeldTimes } from '../../../../src/utility/validateAndType/heldTimes';
-import type { PlaceId } from '../../../../src/utility/validateAndType/idUtility';
+import type { PublicGamblingId } from '../../../../src/utility/validateAndType/idUtility';
 import {
     IdType,
     validateId,
@@ -30,7 +30,7 @@ export class HeldDayRecord {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: PlaceId,
+        public readonly id: PublicGamblingId,
         public readonly raceType: RaceType,
         public readonly heldTimes: HeldTimes,
         public readonly heldDayTimes: HeldDayTimes,

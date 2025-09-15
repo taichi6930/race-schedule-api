@@ -7,7 +7,7 @@ import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData
 import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
 import { RaceType } from '../../utility/raceType';
-import type { RaceId } from '../../utility/validateAndType/idUtility';
+import type { PublicGamblingId } from '../../utility/validateAndType/idUtility';
 import {
     generateId,
     IdType,
@@ -38,7 +38,7 @@ export class RaceEntity {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: RaceId,
+        public readonly id: PublicGamblingId,
         public readonly placeId: string,
         public readonly raceData: RaceData,
         heldDayData: HeldDayData | undefined,

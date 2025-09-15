@@ -8,7 +8,7 @@ import {
 } from '../../../../src/utility/validateAndType/gradeType';
 import {
     IdType,
-    type RaceId,
+    type PublicGamblingId,
     validateId,
 } from '../../../../src/utility/validateAndType/idUtility';
 import {
@@ -51,7 +51,7 @@ export class MechanicalRacingRaceRecord {
      * レース開催データを生成する
      */
     private constructor(
-        public readonly id: RaceId,
+        public readonly id: PublicGamblingId,
         public readonly raceType: RaceType,
         public readonly name: RaceName,
         public readonly stage: RaceStage,

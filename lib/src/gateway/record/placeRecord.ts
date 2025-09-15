@@ -2,7 +2,7 @@ import { PlaceData } from '../../../../src/domain/placeData';
 import type { RaceType } from '../../../../src/utility/raceType';
 import {
     IdType,
-    type PlaceId,
+    type PublicGamblingId,
     validateId,
 } from '../../../../src/utility/validateAndType/idUtility';
 import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
@@ -28,7 +28,7 @@ export class PlaceRecord {
      * レース開催場所データを生成する
      */
     private constructor(
-        public readonly id: PlaceId,
+        public readonly id: PublicGamblingId,
         public readonly raceType: RaceType,
         public readonly dateTime: RaceDateTime,
         public readonly location: RaceCourse,
@@ -44,7 +44,7 @@ export class PlaceRecord {
      * @param updateDate - 更新日時
      */
     public static create(
-        id: PlaceId,
+        id: PublicGamblingId,
         raceType: RaceType,
         dateTime: Date,
         location: string,
