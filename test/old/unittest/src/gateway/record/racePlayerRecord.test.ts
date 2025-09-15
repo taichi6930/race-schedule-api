@@ -16,9 +16,11 @@
  */
 
 import { RacePlayerRecord } from '../../../../../../lib/src/gateway/record/racePlayerRecord';
-import { IdType } from '../../../../../../lib/src/utility/validateAndType/placeId';
+import {
+    generateRacePlayerId,
+    IdType,
+} from '../../../../../../lib/src/utility/validateAndType/placeId';
 import { generateRaceId } from '../../../../../../lib/src/utility/validateAndType/raceId';
-import { generateRacePlayerId } from '../../../../../../lib/src/utility/validateAndType/racePlayerId';
 import {
     defaultLocation,
     testRaceTypeListMechanicalRacing,

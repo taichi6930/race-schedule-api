@@ -4,6 +4,7 @@ import { RacePlayerRecord } from '../../../lib/src/gateway/record/racePlayerReco
 import { getJSTDate } from '../../../lib/src/utility/date';
 import {
     generatePlaceId,
+    generateRacePlayerId,
     IdType,
 } from '../../../lib/src/utility/validateAndType/placeId';
 import type { RaceId } from '../../../lib/src/utility/validateAndType/raceId';
@@ -11,7 +12,6 @@ import {
     generateRaceId,
     validateRaceId,
 } from '../../../lib/src/utility/validateAndType/raceId';
-import { generateRacePlayerId } from '../../../lib/src/utility/validateAndType/racePlayerId';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
