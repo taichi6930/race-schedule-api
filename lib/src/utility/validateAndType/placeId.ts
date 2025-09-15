@@ -52,9 +52,14 @@ export interface RacePlayerIdParams {
 
 /**
  * placeIdを作成する
+ * @param idTYpe
+ * @param idType
  * @param placeIdParams - PlaceIdのパラメータ
  */
-export const generatePlaceId = (placeIdParams: PlaceIdParams): PlaceId => {
+export const generatePlaceId = (
+    idType: IdType,
+    placeIdParams: PlaceIdParams,
+): PlaceId => {
     const { raceType, dateTime, location } = placeIdParams;
     const dateCode = format(dateTime, 'yyyyMMdd');
 

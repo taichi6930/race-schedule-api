@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import type { RaceType } from '../../../../src/utility/raceType';
 import { validateRaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
-import type { PlaceIdParams, RaceIdParams } from './placeId';
+import type { IdType, PlaceIdParams, RaceIdParams } from './placeId';
 import { generatePlaceId } from './placeId';
 
 /**
@@ -13,11 +13,14 @@ import { generatePlaceId } from './placeId';
  * @param number - レース番号
  */
 
-export const generateRaceId = (raceIdParams: RaceIdParams): RaceId => {
+export const generateRaceId = (
+    idType: IdType,
+    raceIdParams: RaceIdParams,
+): RaceId => {
     const { raceType, dateTime, location, number } = raceIdParams;
     const numberCode = number.toXDigits(2);
     const placeIdParams: PlaceIdParams = { raceType, dateTime, location };
-    return `${generatePlaceId(placeIdParams)}${numberCode}`;
+    return `${generatePlaceId(idType, placeIdParams)}${numberCode}`;
 };
 
 /**

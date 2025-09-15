@@ -3,20 +3,22 @@ import { z } from 'zod';
 import type { RaceType } from '../../../../src/utility/raceType';
 import { validatePositionNumber } from '../../../../src/utility/validateAndType/positionNumber';
 import { validateRaceNumber } from '../../../../src/utility/validateAndType/raceNumber';
-import type { RaceIdParams, RacePlayerIdParams } from './placeId';
+import type { IdType, RaceIdParams, RacePlayerIdParams } from './placeId';
 import { generateRaceId } from './raceId';
 
 /**
  * racePlayerIdを作成する
+ * @param idType
  * @param params
  */
 export const generateRacePlayerId = (
+    idType: IdType,
     params: RacePlayerIdParams,
 ): RacePlayerId => {
     const { raceType, dateTime, location, number, positionNumber } = params;
     const positionNumberCode = positionNumber.toXDigits(2);
     const raceIdParams: RaceIdParams = { raceType, dateTime, location, number };
-    return `${generateRaceId(raceIdParams)}${positionNumberCode}`;
+    return `${generateRaceId(idType, raceIdParams)}${positionNumberCode}`;
 };
 
 /**
