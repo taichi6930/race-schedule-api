@@ -16,8 +16,11 @@
  */
 
 import { RacePlayerRecord } from '../../../../../../lib/src/gateway/record/racePlayerRecord';
-import { generateRaceId } from '../../../../../../lib/src/utility/validateAndType/raceId';
-import { generateRacePlayerId } from '../../../../../../lib/src/utility/validateAndType/racePlayerId';
+import {
+    generateRaceId,
+    generateRacePlayerId,
+    IdType,
+} from '../../../../../../lib/src/utility/validateAndType/idUtility';
 import {
     defaultLocation,
     testRaceTypeListMechanicalRacing,
@@ -29,23 +32,23 @@ describe.each(testRaceTypeListMechanicalRacing)(
         const validDate = new Date('2026-01-01T00:00:00Z');
         const validLocation = defaultLocation[raceType];
         const validNumber = 1;
-        const validRaceId = generateRaceId(
-            raceType,
-            validDate,
-            validLocation,
-            validNumber,
-        );
+        const validRaceId = generateRaceId(IdType.RACE, {
+            raceType: raceType,
+            dateTime: validDate,
+            location: validLocation,
+            number: validNumber,
+        });
         const validUpdateDate = new Date('2026-01-01T12:00:00Z');
 
         const validPositionNumber = 1;
         const validPlayerNumber = 10000;
-        const validRacePlayerId = generateRacePlayerId(
-            raceType,
-            validDate,
-            validLocation,
-            validNumber,
-            validPositionNumber,
-        );
+        const validRacePlayerId = generateRacePlayerId(IdType.PLAYER, {
+            raceType: raceType,
+            dateTime: validDate,
+            location: validLocation,
+            number: validNumber,
+            positionNumber: validPositionNumber,
+        });
         it('正常値ですべて生成できる', () => {
             const record = RacePlayerRecord.create(
                 validRacePlayerId,

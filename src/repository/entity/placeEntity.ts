@@ -1,8 +1,9 @@
-import type { PlaceId } from '../../../lib/src/utility/validateAndType/placeId';
+import type { PlaceId } from '../../../lib/src/utility/validateAndType/idUtility';
 import {
     generatePlaceId,
+    IdType,
     validatePlaceId,
-} from '../../../lib/src/utility/validateAndType/placeId';
+} from '../../../lib/src/utility/validateAndType/idUtility';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import { RaceType } from '../../utility/raceType';
@@ -101,11 +102,11 @@ export class PlaceEntity {
         grade: GradeType | undefined,
     ): PlaceEntity {
         return PlaceEntity.create(
-            generatePlaceId(
-                placeData.raceType,
-                placeData.dateTime,
-                placeData.location,
-            ),
+            generatePlaceId(IdType.PLACE, {
+                raceType: placeData.raceType,
+                dateTime: placeData.dateTime,
+                location: placeData.location,
+            }),
             placeData,
             heldDayData,
             grade,

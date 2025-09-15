@@ -24,7 +24,7 @@ import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import {
     type RaceId,
     validateRaceId,
-} from '../../utility/validateAndType/raceId';
+} from '../../utility/validateAndType/idUtility';
 
 /**
  * 競馬のレース開催データ

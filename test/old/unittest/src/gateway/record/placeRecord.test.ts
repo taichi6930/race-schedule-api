@@ -15,7 +15,10 @@
  */
 
 import { PlaceRecord } from '../../../../../../lib/src/gateway/record/placeRecord';
-import { generatePlaceId } from '../../../../../../lib/src/utility/validateAndType/placeId';
+import {
+    generatePlaceId,
+    IdType,
+} from '../../../../../../lib/src/utility/validateAndType/idUtility';
 import {
     basePlaceRecord,
     defaultLocation,
@@ -25,7 +28,11 @@ import {
 describe.each(testRaceTypeListAll)('PlaceRecord(%s)', (raceType) => {
     const validDate = new Date('2024-12-29');
     const validLocation = defaultLocation[raceType];
-    const validPlaceId = generatePlaceId(raceType, validDate, validLocation);
+    const validPlaceId = generatePlaceId(IdType.PLACE, {
+        raceType: raceType,
+        dateTime: validDate,
+        location: validLocation,
+    });
     const validUpdateDate = new Date('2025-10-01T16:30:00Z');
 
     describe('PlaceRecord.create', () => {

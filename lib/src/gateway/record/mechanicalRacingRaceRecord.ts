@@ -26,8 +26,8 @@ import {
 } from '../../../../src/utility/validateAndType/raceStage';
 import { createErrorMessage } from '../../utility/error';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
-import type { RaceId } from '../../utility/validateAndType/raceId';
-import { validateRaceId } from '../../utility/validateAndType/raceId';
+import type { RaceId } from '../../utility/validateAndType/idUtility';
+import { validateRaceId } from '../../utility/validateAndType/idUtility';
 
 /**
  * レース開催データ

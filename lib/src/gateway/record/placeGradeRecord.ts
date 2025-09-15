@@ -4,8 +4,8 @@ import { validateGradeType } from '../../../../src/utility/validateAndType/grade
 import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
-import type { PlaceId } from '../../utility/validateAndType/placeId';
-import { validatePlaceId } from '../../utility/validateAndType/placeId';
+import type { PlaceId } from '../../utility/validateAndType/idUtility';
+import { validatePlaceId } from '../../utility/validateAndType/idUtility';
 
 /**
  * Repository層のRecord レース開催場所データ

@@ -9,8 +9,8 @@ import { validateHeldTimes } from '../../../../src/utility/validateAndType/heldT
 import { createErrorMessage } from '../../utility/error';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
-import type { PlaceId } from '../../utility/validateAndType/placeId';
-import { validatePlaceId } from '../../utility/validateAndType/placeId';
+import type { PlaceId } from '../../utility/validateAndType/idUtility';
+import { validatePlaceId } from '../../utility/validateAndType/idUtility';
 
 /**
  * Repository層のRecord

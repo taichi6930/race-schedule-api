@@ -25,8 +25,11 @@ import { CSV_HEADER_KEYS, csvPath } from '../../utility/constants';
 import { getJSTDate } from '../../utility/date';
 import { allowedEnvs, ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
-import { generatePlaceId } from '../../utility/validateAndType/placeId';
-import { generateRaceId } from '../../utility/validateAndType/raceId';
+import {
+    generatePlaceId,
+    generateRaceId,
+    IdType,
+} from '../../utility/validateAndType/idUtility';
 import { IS3Gateway } from '../interface/iS3Gateway';
 
 /**
@@ -303,12 +306,12 @@ export class MockS3Gateway implements IS3Gateway {
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                 mockData.push(
                     [
-                        generateRaceId(
-                            raceType,
-                            currentDate,
-                            defaultLocation[raceType],
-                            raceNumber,
-                        ),
+                        generateRaceId(IdType.RACE, {
+                            raceType: raceType,
+                            dateTime: currentDate,
+                            location: defaultLocation[raceType],
+                            number: raceNumber,
+                        }),
                         defaultRaceName[raceType],
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
                         defaultLocation[raceType],
@@ -342,12 +345,12 @@ export class MockS3Gateway implements IS3Gateway {
             for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                 mockData.push(
                     [
-                        generateRaceId(
-                            raceType,
-                            currentDate,
-                            defaultLocation[raceType],
-                            raceNumber,
-                        ),
+                        generateRaceId(IdType.RACE, {
+                            raceType: raceType,
+                            dateTime: currentDate,
+                            location: defaultLocation[raceType],
+                            number: raceNumber,
+                        }),
                         defaultRaceName[raceType],
                         defaultStage[raceType],
                         `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
@@ -385,11 +388,11 @@ export class MockS3Gateway implements IS3Gateway {
                 this.iterateDates(startDate, nextMonth, (currentDate) => {
                     mockData.push(
                         [
-                            generatePlaceId(
-                                raceType,
-                                currentDate,
-                                defaultLocation[raceType],
-                            ),
+                            generatePlaceId(IdType.PLACE, {
+                                raceType: raceType,
+                                dateTime: currentDate,
+                                location: defaultLocation[raceType],
+                            }),
                             format(currentDate, 'yyyy-MM-dd'),
                             defaultLocation[raceType],
                             getJSTDate(new Date()),
@@ -485,11 +488,11 @@ export class MockS3Gateway implements IS3Gateway {
                 this.iterateDates(startDate, nextMonth, (currentDate) => {
                     mockData.push(
                         [
-                            generatePlaceId(
-                                raceType,
-                                currentDate,
-                                defaultLocation[raceType],
-                            ),
+                            generatePlaceId(IdType.PLACE, {
+                                raceType: raceType,
+                                dateTime: currentDate,
+                                location: defaultLocation[raceType],
+                            }),
                             raceType,
                             '1',
                             '1',
@@ -523,11 +526,11 @@ export class MockS3Gateway implements IS3Gateway {
                 this.iterateDates(startDate, nextMonth, (currentDate) => {
                     mockData.push(
                         [
-                            generatePlaceId(
-                                raceType,
-                                currentDate,
-                                defaultLocation[raceType],
-                            ),
+                            generatePlaceId(IdType.PLACE, {
+                                raceType: raceType,
+                                dateTime: currentDate,
+                                location: defaultLocation[raceType],
+                            }),
                             raceType,
                             defaultPlaceGrade[raceType],
                             getJSTDate(new Date()),
