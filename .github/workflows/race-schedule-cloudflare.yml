@@ -39,7 +39,7 @@ jobs:
             startDate=$(date -d "yesterday" +"%Y-%m-%d")
           fi
           if [ -z "$finishDate" ]; then
-            finishDate=$(date -d "+1 day" +"%Y-%m-%d")
+            finishDate=$(date -d "+2 day" +"%Y-%m-%d")
           fi
 
           # GITHUB_OUTPUTを使って出力設定
