@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { RaceType } from '../raceType';
 import type { RaceCourse } from '../validateAndType/raceCourse';
 import { createPlaceCode } from '../validateAndType/raceCourse';
+import { NetkeibaBabacodeMap } from './netkeiba';
 
 /**
  * netkeibaのJRA出馬表のURLを生成する関数
@@ -53,9 +54,20 @@ export const createNetkeirinRedirectUrl = (url: string): string =>
 /**
  * JRAレースのURLを生成する関数
  * @param date
+ * @param place
+ * @param number
  */
-export const createJraRaceUrl = (date: Date): string => {
-    return `https://www.keibalab.jp/db/race/${format(date, 'yyyyMMdd')}/`;
+export const createJraRaceUrl = (
+    date: Date,
+    place?: RaceCourse,
+    number?: number,
+): string => {
+    // yearの下2桁 2025 -> 25, 2001 -> 01
+    const year = String(date.getFullYear()).slice(-2);
+    const babaCode = NetkeibaBabacodeMap[place ?? ''];
+    // numberを4桁にフォーマット（頭を0埋め 100 -> 0100, 2 -> 0002）
+    const num = number === undefined ? '' : String(number).padStart(4, '0');
+    return `https://sports.yahoo.co.jp/keiba/race/list/${year}${babaCode}${num}`;
 };
 
 export const createNarRaceUrl = (date: Date, place?: RaceCourse): string => {

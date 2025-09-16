@@ -1,11 +1,9 @@
 import * as cheerio from 'cheerio';
+import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { HeldDayData } from '../../../../../src/domain/heldDayData';
-import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceConditionData';
-import { RaceData } from '../../../../../src/domain/raceData';
+import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
-import { processJraRaceName } from '../../../../../src/utility/createRaceName';
 import { RaceType } from '../../../../../src/utility/raceType';
 import { GradeType } from '../../../../../src/utility/validateAndType/gradeType';
 import { HeldDayTimes } from '../../../../../src/utility/validateAndType/heldDayTimes';
@@ -36,175 +34,195 @@ export class JraRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
     public async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntityForAWS,
     ): Promise<RaceEntity[]> {
-        const jraRaceEntityList: RaceEntity[] = [];
+        const raceEntityList: RaceEntity[] = [];
         const { placeEntityList } = searchFilter;
-        // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
-        const filteredPlaceDataList = placeEntityList
-            .map((place) => place.placeData)
-            .filter((x, i, self) => self.indexOf(x) === i);
-        for (const placeData of filteredPlaceDataList) {
-            jraRaceEntityList.push(
-                ...(await this.fetchRaceListFromHtml(
-                    placeData.raceType,
-                    placeData.dateTime,
-                )),
+        for (const placeEntity of placeEntityList) {
+            raceEntityList.push(
+                ...(await this.fetchRaceListFromHtml(placeEntity)),
             );
+            // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
+            const delayedTimeMs = Number.parseInt(
+                process.env.HTML_FETCH_DELAY_MS ?? '500',
+                10,
+            );
+            console.debug(`待機時間: ${delayedTimeMs}ms`);
+            await new Promise((resolve) => setTimeout(resolve, delayedTimeMs));
+            console.debug('待機時間が経ちました');
         }
-        return jraRaceEntityList;
+        return raceEntityList;
     }
 
     @Logger
     public async fetchRaceListFromHtml(
-        raceType: RaceType,
-        raceDate: Date,
+        placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
         try {
+            console.log('placeEntity:', placeEntity);
             // レース情報を取得
             const htmlText: string =
                 await this.raceDataHtmlGateway.getRaceDataHtml(
-                    raceType,
-                    raceDate,
+                    placeEntity.placeData.raceType,
+                    placeEntity.placeData.dateTime,
+                    placeEntity.placeData.location,
+                    placeEntity.heldDayData.heldTimes * 100 +
+                        placeEntity.heldDayData.heldDayTimes,
                 );
             const raceEntityList: RaceEntity[] = [];
 
-            // mockHTML内のsection id="raceInfo"の中のtableを取得
+            // // mockHTML内のsection id="raceInfo"の中のtableを取得
             // HTMLをパースする
             const $ = cheerio.load(htmlText);
-            const doc = $(`#raceInfo`);
-            const table = doc.find('table');
-
-            table.each((i: number, tableElem) => {
-                // theadタグを取得
-                const thead = $(tableElem).find('thead');
-
-                // thead内のthタグ内に「x回yyz日目」が含まれている
-                // 「2回東京8日目」のような文字列が取得できる
-                // xは回数、yyは競馬場名、zは日目
-                // xには2、yyには東京、zには8が取得できるようにしたい
-                // これを取得してレースの開催場所と日程を取得する
-                const theadElementMatch = /(\d+)回(.*?)(\d+)日目/.exec(
-                    thead.text(),
+            // "hr-tableSchedule"クラスのtableを取得
+            const raceTable = $('table.hr-tableSchedule');
+            // tableが存在しない場合は空の配列を返す
+            if (raceTable.length === 0) {
+                console.warn(
+                    `開催データが見つかりませんでした: ${placeEntity.placeData.location} ${format(
+                        placeEntity.placeData.dateTime,
+                        'yyyy-MM-dd',
+                    )}`,
                 );
-                if (theadElementMatch === null) {
-                    return;
-                }
-                // 競馬場を取得
-                const raceCourse: RaceCourse = this.extractRaceCourse(
-                    raceType,
-                    theadElementMatch,
-                );
-                // 開催回数を取得
-                const raceHeld: number =
-                    this.extractRaceHeld(theadElementMatch);
-                // 開催日数を取得
-                const raceHeldDay: number =
-                    this.extractRaceHeldDay(theadElementMatch);
-                // 競馬場、開催回数、開催日数が取得できない場合はreturn
-                if (raceHeld === 0 || raceHeldDay === 0) {
-                    return;
-                }
+                return [];
+            }
+            console.log('raceTable:', raceTable.html());
+            // raceTable内の hr-tableSchedule__data hr-tableSchedule__data--date クラスのtrを取得
+            const trs = raceTable.find('td.hr-tableSchedule__data');
+            console.log('trs length:', trs.length);
+            // const doc = $(`#raceInfo`);
+            // const table = doc.find('table');
 
-                // tbody内のtrタグを取得
-                $(tableElem)
-                    .find('tbody')
-                    .find('tr')
-                    .each((_: number, elem) => {
-                        const element = $(elem);
-                        // レース番号を取得
-                        const [raceNumAndTime] = element
-                            .find('td')
-                            .eq(0)
-                            .text()
-                            .split(' ');
-                        const raceNumber =
-                            this.extractRaceNumber(raceNumAndTime);
-                        // レース距離を取得
-                        // tdの2つ目の要素からレース距離を取得
-                        const distanceMatch = /\d+m/.exec(
-                            element.find('td').eq(1).find('span').eq(1).text(),
-                        );
-                        const raceDistance =
-                            this.extractRaceDistance(distanceMatch);
-                        // レース距離が取得できない場合はreturn
-                        if (raceDistance === 0) {
-                            return;
-                        }
-                        // レース時間を取得
-                        const raceDateTime: Date = this.extractRaceTime(
-                            raceNumAndTime,
-                            raceDate,
-                        );
-                        // surfaceTypeを取得
-                        const surfaceTypeMatch = /[ダ芝障]{1,2}/.exec(
-                            element.find('td').eq(1).find('span').eq(1).text(),
-                        );
-                        const raceSurfaceType: RaceSurfaceType =
-                            this.extractSurfaceType(surfaceTypeMatch);
+            // table.each((i: number, tableElem) => {
+            //     // theadタグを取得
+            //     const thead = $(tableElem).find('thead');
 
-                        // 2つ目はレース名、レースのグレード、馬の種類、距離、頭数
-                        const rowRaceName = element
-                            .find('td')
-                            .eq(1)
-                            .find('a')
-                            .text()
-                            .replace(/[！-～]/g, (s: string) =>
-                                String.fromCodePoint(
-                                    (s.codePointAt(0) ?? 0) - 0xfee0,
-                                ),
-                            )
-                            .replace(/[０-９Ａ-Ｚａ-ｚ]/g, (s: string) =>
-                                String.fromCodePoint(
-                                    (s.codePointAt(0) ?? 0) - 0xfee0,
-                                ),
-                            )
-                            .replace(/ステークス/, 'S')
-                            .replace(/カップ/, 'C')
-                            .replace('サラ系', '');
+            //     // thead内のthタグ内に「x回yyz日目」が含まれている
+            //     // 「2回東京8日目」のような文字列が取得できる
+            //     // xは回数、yyは競馬場名、zは日目
+            //     // xには2、yyには東京、zには8が取得できるようにしたい
+            //     // これを取得してレースの開催場所と日程を取得する
+            //     const theadElementMatch = /(\d+)回(.*?)(\d+)日目/.exec(
+            //         thead.text(),
+            //     );
+            //     if (theadElementMatch === null) {
+            //         return;
+            //     }
+            //     // 競馬場を取得
+            //     const raceCourse: RaceCourse = this.extractRaceCourse(
+            //         raceType,
+            //         theadElementMatch,
+            //     );
+            //     // 開催回数を取得
+            //     const raceHeld: number =
+            //         this.extractRaceHeld(theadElementMatch);
+            //     // 開催日数を取得
+            //     const raceHeldDay: number =
+            //         this.extractRaceHeldDay(theadElementMatch);
+            //     // 競馬場、開催回数、開催日数が取得できない場合はreturn
+            //     if (raceHeld === 0 || raceHeldDay === 0) {
+            //         return;
+            //     }
 
-                        // レースのグレードを取得
-                        const tbodyTrTdElement1 = element
-                            .find('td')
-                            .eq(1)
-                            .find('span')
-                            .eq(0)
-                            .text();
-                        const [raceGrade, _raceName] =
-                            this.extractRaceGradeAndRaceName(
-                                tbodyTrTdElement1,
-                                raceSurfaceType,
-                                rowRaceName,
-                            );
+            //     // tbody内のtrタグを取得
+            //     $(tableElem)
+            //         .find('tbody')
+            //         .find('tr')
+            //         .each((_: number, elem) => {
+            //             const element = $(elem);
+            //             // レース番号を取得
+            //             const [raceNumAndTime] = element
+            //                 .find('td')
+            //                 .eq(0)
+            //                 .text()
+            //                 .split(' ');
+            //             const raceNumber =
+            //                 this.extractRaceNumber(raceNumAndTime);
+            //             // レース距離を取得
+            //             // tdの2つ目の要素からレース距離を取得
+            //             const distanceMatch = /\d+m/.exec(
+            //                 element.find('td').eq(1).find('span').eq(1).text(),
+            //             );
+            //             const raceDistance =
+            //                 this.extractRaceDistance(distanceMatch);
+            //             // レース距離が取得できない場合はreturn
+            //             if (raceDistance === 0) {
+            //                 return;
+            //             }
+            //             // レース時間を取得
+            //             const raceDateTime: Date = this.extractRaceTime(
+            //                 raceNumAndTime,
+            //                 raceDate,
+            //             );
+            //             // surfaceTypeを取得
+            //             const surfaceTypeMatch = /[ダ芝障]{1,2}/.exec(
+            //                 element.find('td').eq(1).find('span').eq(1).text(),
+            //             );
+            //             const raceSurfaceType: RaceSurfaceType =
+            //                 this.extractSurfaceType(surfaceTypeMatch);
 
-                        // レース名を取得
-                        const raceName = processJraRaceName({
-                            name: _raceName,
-                            place: raceCourse,
-                            date: raceDate,
-                            surfaceType: raceSurfaceType,
-                            distance: raceDistance,
-                            grade: raceGrade,
-                        });
+            //             // 2つ目はレース名、レースのグレード、馬の種類、距離、頭数
+            //             const rowRaceName = element
+            //                 .find('td')
+            //                 .eq(1)
+            //                 .find('a')
+            //                 .text()
+            //                 .replace(/[！-～]/g, (s: string) =>
+            //                     String.fromCodePoint(
+            //                         (s.codePointAt(0) ?? 0) - 0xfee0,
+            //                     ),
+            //                 )
+            //                 .replace(/[０-９Ａ-Ｚａ-ｚ]/g, (s: string) =>
+            //                     String.fromCodePoint(
+            //                         (s.codePointAt(0) ?? 0) - 0xfee0,
+            //                     ),
+            //                 )
+            //                 .replace(/ステークス/, 'S')
+            //                 .replace(/カップ/, 'C')
+            //                 .replace('サラ系', '');
 
-                        const jraRaceData = RaceEntity.createWithoutId(
-                            RaceData.create(
-                                raceType,
-                                raceName,
-                                raceDateTime,
-                                raceCourse,
-                                raceGrade,
-                                raceNumber,
-                            ),
-                            HeldDayData.create(raceHeld, raceHeldDay),
-                            HorseRaceConditionData.create(
-                                raceSurfaceType,
-                                raceDistance,
-                            ),
-                            undefined, // stage は未指定
-                            undefined, // racePlayerDataList は未指定
-                        );
-                        raceEntityList.push(jraRaceData);
-                    });
-            });
+            //             // レースのグレードを取得
+            //             const tbodyTrTdElement1 = element
+            //                 .find('td')
+            //                 .eq(1)
+            //                 .find('span')
+            //                 .eq(0)
+            //                 .text();
+            //             const [raceGrade, _raceName] =
+            //                 this.extractRaceGradeAndRaceName(
+            //                     tbodyTrTdElement1,
+            //                     raceSurfaceType,
+            //                     rowRaceName,
+            //                 );
+
+            //             // レース名を取得
+            //             const raceName = processJraRaceName({
+            //                 name: _raceName,
+            //                 place: raceCourse,
+            //                 date: raceDate,
+            //                 surfaceType: raceSurfaceType,
+            //                 distance: raceDistance,
+            //                 grade: raceGrade,
+            //             });
+
+            //             const jraRaceData = RaceEntity.createWithoutId(
+            //                 RaceData.create(
+            //                     raceType,
+            //                     raceName,
+            //                     raceDateTime,
+            //                     raceCourse,
+            //                     raceGrade,
+            //                     raceNumber,
+            //                 ),
+            //                 HeldDayData.create(raceHeld, raceHeldDay),
+            //                 HorseRaceConditionData.create(
+            //                     raceSurfaceType,
+            //                     raceDistance,
+            //                 ),
+            //                 undefined, // stage は未指定
+            //                 undefined, // racePlayerDataList は未指定
+            //             );
+            //             raceEntityList.push(jraRaceData);
+            //         });
+            // });
             return raceEntityList;
         } catch (error) {
             console.error('HTMLの取得に失敗しました', error);
