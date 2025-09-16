@@ -57,13 +57,14 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         const fromSQL = `FROM place
             LEFT JOIN held_day ON place.id = held_day.id
             LEFT JOIN place_grade ON place.id = place_grade.id`;
-        const { results } = await this.dbGateway.queryAll(
-            env,
-            `
+        const finalSQL = `
             ${selectSQL}
             ${fromSQL}
             ${whereClause}
-            `,
+        `;
+        const { results } = await this.dbGateway.queryAll(
+            env,
+            finalSQL,
             queryParams,
         );
         return results
