@@ -32,14 +32,14 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
     public constructor(
         @inject('HorseRacingRaceRepositoryFromStorage')
         protected horseRacingRaceRepositoryFromStorage: IRaceRepositoryForAWS,
+        @inject('MechanicalRacingRaceRepositoryFromStorage')
+        protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepositoryForAWS,
         @inject('KeirinRaceRepositoryFromHtml')
         protected keirinRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('AutoraceRaceRepositoryFromHtml')
         protected autoraceRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('BoatraceRaceRepositoryFromHtml')
         protected boatraceRaceRepositoryFromHtml: IRaceRepositoryForAWS,
-        @inject('MechanicalRacingRaceRepositoryFromStorage')
-        protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepositoryForAWS,
     ) {
         this.raceRepositoryFromStorage = {
             [RaceType.JRA]: this.horseRacingRaceRepositoryFromStorage,
