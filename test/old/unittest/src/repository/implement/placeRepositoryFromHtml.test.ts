@@ -7,7 +7,7 @@ import { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/reposit
 import { PlaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
 import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepositoryForAWS';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
-import type { IPlaceDataHtmlGatewayForAWS } from '../../../../../../src/gateway/interface/iPlaceDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../../../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import {
     basePlaceEntity,
@@ -69,7 +69,7 @@ describe.each(testRaceTypeListMechanicalRacing)(
             raceType
         ]) {
             describe(`PlaceRepositoryFromHtml(${raceType})`, () => {
-                let placeDataHtmlGateway: IPlaceDataHtmlGatewayForAWS;
+                let placeDataHtmlGateway: IPlaceDataHtmlGateway;
                 let repository: IPlaceRepositoryForAWS;
 
                 beforeAll(() => {

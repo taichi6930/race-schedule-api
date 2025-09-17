@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { PlaceData } from '../../../../src/domain/placeData';
-import { IPlaceDataHtmlGatewayForAWS } from '../../../../src/gateway/interface/iPlaceDataHtmlGateway';
+import { IPlaceDataHtmlGateway } from '../../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../src/utility/raceType';
 import { GradeType } from '../../../../src/utility/validateAndType/gradeType';
@@ -23,7 +23,7 @@ import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepositoryForAWS';
 export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
     public constructor(
         @inject('PlaceDataHtmlGateway')
-        private readonly placeDataHtmlGateway: IPlaceDataHtmlGatewayForAWS,
+        private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
     ) {}
 
     /**

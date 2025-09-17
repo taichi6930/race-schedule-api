@@ -1,10 +1,10 @@
-import { PlaceDataHtmlGateway } from '../../../../../../src/gateway/implement/placeDataHtmlGateway';
-import type { IPlaceDataHtmlGatewayForAWS } from '../../../../../../src/gateway/interface/iPlaceDataHtmlGateway';
-import { RaceType } from '../../../../../../src/utility/raceType';
-import { clearMocks } from '../../../../../utility/testSetupHelper';
+import { PlaceDataHtmlGateway } from '../../../src/gateway/implement/placeDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../../src/gateway/interface/iPlaceDataHtmlGateway';
+import { RaceType } from '../../../src/utility/raceType';
+import { clearMocks } from '../../utility/testSetupHelper';
 
 describe('PlaceDataHtmlGateway', () => {
-    let gateway: IPlaceDataHtmlGatewayForAWS;
+    let gateway: IPlaceDataHtmlGateway;
     let fetchMock: jest.Mock;
 
     beforeEach(() => {

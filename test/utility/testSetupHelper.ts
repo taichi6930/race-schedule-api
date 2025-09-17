@@ -26,8 +26,8 @@ import {
 import { mockRaceRepositoryForAWS } from '../old/unittest/src/mock/repository/mockRaceRepository';
 import { calendarServiceForAWSMock } from '../old/unittest/src/mock/service/calendarServiceMock';
 import { placeServiceForAWSMock } from '../old/unittest/src/mock/service/placeServiceMock';
-import { playerDataServiceForAWSMock as playerServiceForAWSMock } from '../old/unittest/src/mock/service/playerDataServiceMock';
-import { raceDataServiceForAWSMock } from '../old/unittest/src/mock/service/raceDataServiceMock';
+import { playerServiceForAWSMock } from '../old/unittest/src/mock/service/playerDataServiceMock';
+import { raceServiceForAWSMock } from '../old/unittest/src/mock/service/raceServiceMock';
 import { calendarServiceMock } from '../unittest/src/mock/service/calendarServiceMock';
 import { placeServiceMock } from '../unittest/src/mock/service/placeServiceMock';
 import { playerServiceMock } from '../unittest/src/mock/service/playerServiceMock';
@@ -210,7 +210,7 @@ export function setupTestServiceForAWSMock(): TestServiceForAWSSetup {
         'CalendarService',
         calendarService,
     );
-    const raceService = raceDataServiceForAWSMock();
+    const raceService = raceServiceForAWSMock();
     container.registerInstance<IRaceServiceForAWS>('RaceService', raceService);
     const placeService = placeServiceForAWSMock();
     container.registerInstance<IPlaceServiceForAWS>(

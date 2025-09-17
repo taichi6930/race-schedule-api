@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
-import { IPlaceDataHtmlGatewayForAWS } from '../../../../src/gateway/interface/iPlaceDataHtmlGateway';
+import { IPlaceDataHtmlGateway } from '../../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../../src/utility/raceType';
 import { Logger } from '../../utility/logger';
 /**
@@ -11,7 +11,7 @@ import { Logger } from '../../utility/logger';
  * 実際のHTML取得を行わず、モックデータを返します。
  * 主にテストや開発環境で使用されます。
  */
-export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGatewayForAWS {
+export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
     /**
      * raceTypeとdateからURLを生成
      * @param raceType - レース種別
