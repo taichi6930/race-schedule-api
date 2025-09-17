@@ -23,7 +23,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
     ): string {
         switch (raceType) {
             case RaceType.JRA: {
-                return createJraRaceUrl(date);
+                return createJraRaceUrl(date, place, number);
             }
             case RaceType.NAR: {
                 return createNarRaceUrl(date, place);

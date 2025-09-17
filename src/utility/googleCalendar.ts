@@ -12,6 +12,8 @@ import {
 } from './data/movie';
 import { NetkeibaBabacodeMap } from './data/netkeiba';
 import {
+    createNetkeibaJraRaceVideoUrl,
+    createNetkeibaJraShutubaUrl,
     createNetkeibaNarShutubaUrl,
     createNetkeibaRedirectUrl,
     createNetkeirinRaceShutubaUrl,
@@ -219,24 +221,23 @@ export const toGoogleCalendarData = (
                     `.replace(/\n\s+/g, '\n');
             }
             case RaceType.JRA: {
-                throw new Error('Not implemented');
-                // const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
-                // return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
-                // ${raceTimeStr}
-                // ${createAnchorTag(
-                //     'レース情報',
-                //     createNetkeibaRedirectUrl(
-                //         createNetkeibaJraShutubaUrl(raceIdForNetkeiba),
-                //     ),
-                // )}
-                // ${createAnchorTag(
-                //     'レース動画',
-                //     createNetkeibaRedirectUrl(
-                //         createNetkeibaJraRaceVideoUrl(raceIdForNetkeiba),
-                //     ),
-                // )}
-                // ${updateStr}
-                // `.replace(/\n\s+/g, '\n');
+                const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
+                return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
+                ${raceTimeStr}
+                ${createAnchorTag(
+                    'レース情報',
+                    createNetkeibaRedirectUrl(
+                        createNetkeibaJraShutubaUrl(raceIdForNetkeiba),
+                    ),
+                )}
+                ${createAnchorTag(
+                    'レース動画',
+                    createNetkeibaRedirectUrl(
+                        createNetkeibaJraRaceVideoUrl(raceIdForNetkeiba),
+                    ),
+                )}
+                ${updateStr}
+                `.replace(/\n\s+/g, '\n');
             }
             case RaceType.NAR: {
                 const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.raceData.dateTime.getXDigitMonth(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
