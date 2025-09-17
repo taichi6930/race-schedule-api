@@ -3,9 +3,9 @@ import { container } from 'tsyringe';
 import { PlaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/placeRepositoryFromHtml';
 import { AutoraceRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
-import { JraRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
+import { JraRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
 import { KeirinRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
-import { NarRaceRepositoryFromHtml } from '../../src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
+import { NarRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IPlaceRepositoryForAWS } from '../../src/repository/interface/IPlaceRepositoryForAWS';
 import type { IRaceRepositoryForAWS } from '../../src/repository/interface/IRaceRepositoryForAWS';
@@ -20,10 +20,10 @@ switch (ENV) {
     case allowedEnvs.production:
     case allowedEnvs.local: {
         container.register<IRaceRepositoryForAWS>('NarRaceRepositoryFromHtml', {
-            useClass: NarRaceRepositoryFromHtml,
+            useClass: NarRaceRepositoryFromHtmlForAWS,
         });
         container.register<IRaceRepositoryForAWS>('JraRaceRepositoryFromHtml', {
-            useClass: JraRaceRepositoryFromHtml,
+            useClass: JraRaceRepositoryFromHtmlForAWS,
         });
         container.register<IRaceRepositoryForAWS>(
             'KeirinRaceRepositoryFromHtml',
