@@ -22,7 +22,7 @@ import { IRaceServiceForAWS } from '../interface/IRaceServiceForAWS';
 export class RaceServiceForAWS implements IRaceServiceForAWS {
     private readonly raceRepositoryFromStorage: Record<
         RaceType,
-        IRaceRepositoryForAWS
+        IRaceRepositoryForAWS | undefined
     >;
     private readonly raceRepositoryFromHtml: Record<
         RaceType,
@@ -30,8 +30,6 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
     >;
 
     public constructor(
-        @inject('HorseRacingRaceRepositoryFromStorage')
-        protected horseRacingRaceRepositoryFromStorage: IRaceRepositoryForAWS,
         @inject('MechanicalRacingRaceRepositoryFromStorage')
         protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepositoryForAWS,
         @inject('KeirinRaceRepositoryFromHtml')
@@ -42,9 +40,9 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
         protected boatraceRaceRepositoryFromHtml: IRaceRepositoryForAWS,
     ) {
         this.raceRepositoryFromStorage = {
-            [RaceType.JRA]: this.horseRacingRaceRepositoryFromStorage,
-            [RaceType.NAR]: this.horseRacingRaceRepositoryFromStorage,
-            [RaceType.OVERSEAS]: this.horseRacingRaceRepositoryFromStorage,
+            [RaceType.JRA]: undefined,
+            [RaceType.NAR]: undefined,
+            [RaceType.OVERSEAS]: undefined,
             [RaceType.KEIRIN]: this.mechanicalRacingRaceRepositoryFromStorage,
             [RaceType.AUTORACE]: this.mechanicalRacingRaceRepositoryFromStorage,
             [RaceType.BOATRACE]: this.mechanicalRacingRaceRepositoryFromStorage,
@@ -136,15 +134,23 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
     }> {
         try {
             const response = await Promise.all(
-                RACE_TYPE_LIST_ALL_FOR_AWS.map(async (raceType) =>
-                    this.saveRaceEntityList(
+                RACE_TYPE_LIST_ALL_FOR_AWS.map(async (raceType) => {
+                    if (!this.raceRepositoryFromStorage[raceType]) {
+                        return {
+                            code: 200,
+                            message: `No repository for ${raceType}`,
+                            successDataCount: 0,
+                            failureDataCount: 0,
+                        };
+                    }
+                    return this.saveRaceEntityList(
                         this.raceRepositoryFromStorage[raceType],
                         raceType,
                         raceEntityList.filter(
                             (race) => race.raceData.raceType === raceType,
                         ),
-                    ),
-                ),
+                    );
+                }),
             );
             return {
                 // 全てが200なら200を返す

@@ -5,11 +5,12 @@ import { container } from 'tsyringe';
 import { RaceServiceForAWS } from '../../../../../../lib/src/service/implement/raceServiceForAWS';
 import type { IRaceServiceForAWS } from '../../../../../../lib/src/service/interface/IRaceServiceForAWS';
 import { DataLocation } from '../../../../../../src/utility/dataType';
-import { RaceType } from '../../../../../../src/utility/raceType';
 import {
     baseRaceEntityList,
     mockRaceEntityList,
+    mockRaceEntityListMechanicalRacing,
     testRaceTypeListAll,
+    testRaceTypeListMechanicalRacing,
 } from '../../../../../unittest/src/mock/common/baseCommonData';
 import type { TestRepositoryForAWSSetup } from '../../../../../utility/testSetupHelper';
 import {
@@ -47,15 +48,15 @@ describe('RaceService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                testRaceTypeListAll,
+                testRaceTypeListMechanicalRacing,
                 location,
             );
-            expect(result).toEqual(mockRaceEntityList);
+            expect(result).toEqual(mockRaceEntityListMechanicalRacing);
         });
 
         it('レース開催データが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            repositorySetup.horseRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockRejectedValue(
+            repositorySetup.mechanicalRacingRaceRepositoryFromStorage.fetchRaceEntityList.mockRejectedValue(
                 new Error('レース開催データの取得に失敗しました'),
             );
 
@@ -78,16 +79,12 @@ describe('RaceService', () => {
     });
 
     describe('updateRaceEntityList', () => {
-        test.each(testRaceTypeListAll)(
+        test.each(testRaceTypeListMechanicalRacing)(
             '正常にレース開催データが更新されること(%s)',
             async (raceType) => {
                 await service.updateRaceEntityList(mockRaceEntityList);
                 const repository =
-                    raceType === RaceType.JRA ||
-                    raceType === RaceType.NAR ||
-                    raceType === RaceType.OVERSEAS
-                        ? repositorySetup.horseRacingRaceRepositoryFromStorage
-                        : repositorySetup.mechanicalRacingRaceRepositoryFromStorage;
+                    repositorySetup.mechanicalRacingRaceRepositoryFromStorage;
                 expect(repository.upsertRaceEntityList).toHaveBeenCalledWith(
                     raceType,
                     baseRaceEntityList(raceType),

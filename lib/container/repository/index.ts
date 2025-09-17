@@ -3,7 +3,6 @@ import './repositoryFromHtmlConfig';
 import { container } from 'tsyringe';
 
 import { GoogleCalendarRepositoryForAWS } from '../../src/repository/implement/googleCalendarRepository';
-import { HorseRacingRaceRepositoryFromStorage } from '../../src/repository/implement/horseRacingRaceRepositoryFromStorage';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
 import { PlaceRepositoryFromStorageForAWS } from '../../src/repository/implement/placeRepositoryFromStorage';
 import { PlayerRepositoryForAWS } from '../../src/repository/implement/playerRepository';
@@ -23,13 +22,6 @@ container.register<ICalendarRepositoryForAWS>('CalendarRepository', {
 container.register<IPlaceRepositoryForAWS>('PlaceRepositoryFromStorage', {
     useClass: PlaceRepositoryFromStorageForAWS,
 });
-
-container.register<IRaceRepositoryForAWS>(
-    'HorseRacingRaceRepositoryFromStorage',
-    {
-        useClass: HorseRacingRaceRepositoryFromStorage,
-    },
-);
 
 container.register<IRaceRepositoryForAWS>(
     'MechanicalRacingRaceRepositoryFromStorage',
