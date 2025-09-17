@@ -55,30 +55,6 @@ jobs:
         uses: ./.github/actions/test/unit
 
   # ITAテストの実行
-  call-ita-test-jra:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v4
-      - name: Run ITA Tests For Jra
-        uses: ./.github/actions/test/ita/jra
-
-  call-ita-test-nar:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v4
-      - name: Run ITA Tests For Nar
-        uses: ./.github/actions/test/ita/nar
-
-  call-ita-test-overseas:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v4
-      - name: Run ITA Tests For Overseas
-        uses: ./.github/actions/test/ita/overseas
-
   call-ita-test-keirin:
     runs-on: ubuntu-latest
     steps:
