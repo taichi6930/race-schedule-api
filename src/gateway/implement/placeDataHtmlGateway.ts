@@ -1,5 +1,5 @@
+import { Logger } from '../../../lib/src/utility/logger';
 import { createPlaceUrl } from '../../utility/data/url';
-import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { IPlaceDataHtmlGateway } from '../interface/iPlaceDataHtmlGateway';
 
