@@ -1,4 +1,3 @@
-import { HorseRacingRaceRecord } from '../../../lib/src/gateway/record/horseRacingRaceRecord';
 import { MechanicalRacingRaceRecord } from '../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
 import { RacePlayerRecord } from '../../../lib/src/gateway/record/racePlayerRecord';
 import { getJSTDate } from '../../../lib/src/utility/date';
@@ -279,24 +278,6 @@ export class RaceEntity {
             this.stage,
             this.raceData.dateTime,
             this.raceData.location,
-            this.raceData.grade,
-            this.raceData.number,
-            getJSTDate(new Date()),
-        );
-    }
-
-    /**
-     * RaceEntityをHorseRacingRaceRecordに変換する
-     */
-    public toHorseRacingRaceRecord(): HorseRacingRaceRecord {
-        return HorseRacingRaceRecord.create(
-            this.id,
-            this.raceData.raceType,
-            this.raceData.name,
-            this.raceData.dateTime,
-            this.raceData.location,
-            this.conditionData.surfaceType,
-            this.conditionData.distance,
             this.raceData.grade,
             this.raceData.number,
             getJSTDate(new Date()),
