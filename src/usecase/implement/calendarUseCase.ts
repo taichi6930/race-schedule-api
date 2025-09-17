@@ -86,6 +86,7 @@ export class CalendarUseCase implements ICalendarUseCase {
             ),
             DataLocation.Storage,
         );
+        console.log(`raceEntityList: ${raceEntityList.length}`);
 
         // フラット化して単一の RaceEntity[] にする（後続のオブジェクト型 filteredRaceEntityList と名前衝突しないよう別名）
         const filteredRaceEntityListForHorseRacing: RaceEntity[] = [
@@ -101,6 +102,9 @@ export class CalendarUseCase implements ICalendarUseCase {
                     )
                 );
             }),
+        );
+        console.log(
+            `filteredRaceEntityListForHorseRacing: ${filteredRaceEntityListForHorseRacing.length}`,
         );
 
         // KEIRIN/AUTORACE/BOATRACEは、RaceGradeAndStageListからpriorityを取得し6以上で絞る
@@ -124,6 +128,10 @@ export class CalendarUseCase implements ICalendarUseCase {
                     })?.priority ?? 0;
                 return racePriority >= 6;
             });
+
+        console.log(
+            `filteredRaceEntityListForMechanicalRacing: ${filteredRaceEntityListForMechanicalRacing.length}`,
+        );
 
         const filteredRaceEntityList: RaceEntity[] = [
             ...filteredRaceEntityListForHorseRacing,
