@@ -13,9 +13,7 @@ import {
     RACE_TYPE_LIST_ALL,
     RACE_TYPE_LIST_ALL_FOR_AWS,
     RACE_TYPE_LIST_HORSE_RACING,
-    RACE_TYPE_LIST_HORSE_RACING_FOR_AWS,
     RACE_TYPE_LIST_MECHANICAL_RACING,
-    RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS,
     RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
     RaceType,
@@ -501,18 +499,13 @@ export const testRaceTypeListWithoutOverseas = IS_SHORT_TEST
 
 export const testRaceTypeListHorseRacing = IS_SHORT_TEST
     ? [RaceType.JRA]
-    : [
-          ...new Set([
-              ...RACE_TYPE_LIST_HORSE_RACING_FOR_AWS,
-              ...RACE_TYPE_LIST_HORSE_RACING,
-          ]),
-      ];
+    : [...new Set(RACE_TYPE_LIST_HORSE_RACING)];
 
 export const testRaceTypeListMechanicalRacing = IS_SHORT_TEST
     ? [RaceType.KEIRIN]
     : [
           ...new Set([
-              ...RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS,
+              ...RACE_TYPE_LIST_ALL_FOR_AWS,
               ...RACE_TYPE_LIST_MECHANICAL_RACING,
           ]),
       ];

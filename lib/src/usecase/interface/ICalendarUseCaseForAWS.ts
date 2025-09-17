@@ -27,6 +27,9 @@ export interface ICalendarUseCaseForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
         displayGradeList: {
+            [RaceType.JRA]: GradeType[];
+            [RaceType.NAR]: GradeType[];
+            [RaceType.OVERSEAS]: GradeType[];
             [RaceType.KEIRIN]: GradeType[];
             [RaceType.AUTORACE]: GradeType[];
             [RaceType.BOATRACE]: GradeType[];

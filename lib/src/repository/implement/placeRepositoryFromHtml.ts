@@ -50,7 +50,8 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
             switch (raceType) {
                 case RaceType.JRA:
                 case RaceType.NAR:
-                case RaceType.OVERSEAS: {
+                case RaceType.OVERSEAS:
+                case RaceType.AUTORACE: {
                     console.error(
                         `Race type ${raceType} is not supported by this repository`,
                     );
@@ -60,14 +61,6 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
                 case RaceType.KEIRIN: {
                     placeEntityList =
                         await this.fetchMonthPlaceEntityListForKeirin(
-                            raceType,
-                            period,
-                        );
-                    break;
-                }
-                case RaceType.AUTORACE: {
-                    placeEntityList =
-                        await this.fetchMonthPlaceEntityListForAutorace(
                             raceType,
                             period,
                         );
@@ -248,98 +241,6 @@ export class PlaceRepositoryFromHtmlForAWS implements IPlaceRepositoryForAWS {
                 } catch (error) {
                     console.error(error);
                 }
-            });
-        });
-        return placeEntityList;
-    }
-
-    /**
-     * S3から開催データを取得する
-     * ファイル名を利用してS3から開催データを取得する
-     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
-     * @param raceType - レース種別
-     * @param date
-     */
-    @Logger
-    private async fetchMonthPlaceEntityListForAutorace(
-        raceType: RaceType,
-        date: Date,
-    ): Promise<PlaceEntity[]> {
-        const placeEntityList: PlaceEntity[] = [];
-        // レース情報を取得
-        const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
-
-        const $ = cheerio.load(htmlText);
-
-        const chartWrapprer = $('#content');
-
-        // tableタグが複数あるので、全て取得
-        const tables = chartWrapprer.find('table');
-
-        tables.each((_: number, element) => {
-            // その中のtbodyを取得
-            const tbody = $(element).find('tbody');
-            // tr class="ref_sche"を取得
-            tbody.find('tr').each((__: number, trElement) => {
-                // thを取得
-                const th = $(trElement).find('th');
-
-                // thのテキストが RaceCourseに含まれているか
-                if (!th.text()) {
-                    return;
-                }
-
-                // 川口２を川口に変換して、placeに代入
-                // TODO: どこかのタイミングで処理をリファクタリングする
-                const place: RaceCourse = th.text().replace('２', '');
-
-                const tds = $(trElement).find('td');
-                // <td valign="top" class="bg-4-lt">
-                //   <img src="/ud_shared/pc/autorace/autorace/shared/images/ico-night3.gif?20221013111450" width = "10" height = "10" alt = "ico" class="time_ref" >
-                //   <div class="ico-kaisai">開催</div>
-                // </td>
-                tds.each((index: number, tdElement) => {
-                    const div = $(tdElement).find('div');
-                    let grade: GradeType | undefined;
-                    // divのclassを取得
-                    switch (div.attr('class')) {
-                        case 'ico-kaisai': {
-                            grade = '開催';
-                            break;
-                        }
-                        case 'ico-sg': {
-                            grade = 'SG';
-                            break;
-                        }
-                        case 'ico-g1': {
-                            grade = 'GⅠ';
-                            break;
-                        }
-                        case 'ico-g2': {
-                            grade = 'GⅡ';
-                            break;
-                        }
-                        case undefined: {
-                            break;
-                        }
-                    }
-                    const datetime = new Date(
-                        date.getFullYear(),
-                        date.getMonth(),
-                        index + 1,
-                    );
-                    // alt属性を出力
-                    if (grade) {
-                        placeEntityList.push(
-                            PlaceEntity.createWithoutId(
-                                PlaceData.create(raceType, datetime, place),
-                                undefined,
-                                grade,
-                            ),
-                        );
-                    }
-                });
             });
         });
         return placeEntityList;

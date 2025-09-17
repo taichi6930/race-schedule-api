@@ -65,7 +65,7 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepositoryForAWS {
         [RaceType.NAR]: undefined,
         [RaceType.OVERSEAS]: undefined,
         [RaceType.KEIRIN]: 'GⅠ',
-        [RaceType.AUTORACE]: 'SG',
+        [RaceType.AUTORACE]: undefined,
         [RaceType.BOATRACE]: 'SG',
     };
 }

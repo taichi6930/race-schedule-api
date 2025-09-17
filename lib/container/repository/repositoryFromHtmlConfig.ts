@@ -1,7 +1,6 @@
 import { container } from 'tsyringe';
 
 import { PlaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/placeRepositoryFromHtml';
-import { AutoraceRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
 import { KeirinRaceRepositoryFromHtmlForAWS } from '../../src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
 import type { IPlaceRepositoryForAWS } from '../../src/repository/interface/IPlaceRepositoryForAWS';
@@ -25,12 +24,6 @@ switch (ENV) {
             },
         );
         container.register<IRaceRepositoryForAWS>(
-            'AutoraceRaceRepositoryFromHtml',
-            {
-                useClass: AutoraceRaceRepositoryFromHtmlForAWS,
-            },
-        );
-        container.register<IRaceRepositoryForAWS>(
             'BoatraceRaceRepositoryFromHtml',
             {
                 useClass: BoatraceRaceRepositoryFromHtmlForAWS,
@@ -47,12 +40,6 @@ switch (ENV) {
         });
         container.register<IRaceRepositoryForAWS>(
             'KeirinRaceRepositoryFromHtml',
-            {
-                useClass: MockMechanicalRacingRaceRepositoryFromHtml,
-            },
-        );
-        container.register<IRaceRepositoryForAWS>(
-            'AutoraceRaceRepositoryFromHtml',
             {
                 useClass: MockMechanicalRacingRaceRepositoryFromHtml,
             },

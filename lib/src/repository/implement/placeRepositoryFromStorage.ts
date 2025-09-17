@@ -46,7 +46,8 @@ export class PlaceRepositoryFromStorageForAWS
         if (
             raceType === RaceType.JRA ||
             raceType === RaceType.NAR ||
-            raceType === RaceType.OVERSEAS
+            raceType === RaceType.OVERSEAS ||
+            raceType === RaceType.AUTORACE
         ) {
             return [];
         }
@@ -61,7 +62,6 @@ export class PlaceRepositoryFromStorageForAWS
 
         switch (raceType) {
             case RaceType.KEIRIN:
-            case RaceType.AUTORACE:
             case RaceType.BOATRACE: {
                 const placeGradeRecordList: PlaceGradeRecord[] =
                     await this.getPlaceGradeRecordListFromS3(raceType);

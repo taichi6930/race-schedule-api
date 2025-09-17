@@ -6,7 +6,6 @@ import { container } from 'tsyringe';
 
 import { MockRaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import { AutoraceRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
 import { KeirinRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
@@ -25,6 +24,9 @@ import { clearMocks } from '../../../../../utility/testSetupHelper';
 
 // テーブル駆動型テスト
 const testCases = {
+    [RaceType.JRA]: [],
+    [RaceType.NAR]: [],
+    [RaceType.OVERSEAS]: [],
     [RaceType.KEIRIN]: [
         {
             name: 'KeirinRaceRepositoryFromHtml',
@@ -36,17 +38,7 @@ const testCases = {
             expectedLength: 12,
         },
     ],
-    [RaceType.AUTORACE]: [
-        {
-            name: 'AutoraceRaceRepositoryFromHtml',
-            repositoryClass: AutoraceRaceRepositoryFromHtmlForAWS,
-            startDate: new Date('2024-11-01'),
-            endDate: new Date('2024-11-30'),
-            placeName: '川口',
-            placeDate: new Date('2024-11-04'),
-            expectedLength: 12,
-        },
-    ],
+    [RaceType.AUTORACE]: [],
     [RaceType.BOATRACE]: [
         {
             name: 'BoatraceRaceRepositoryFromHtml',

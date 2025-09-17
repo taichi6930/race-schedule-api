@@ -8,7 +8,6 @@ import { RaceGradeAndStageList } from '../../../../src/utility/data/stage';
 import { DataLocation } from '../../../../src/utility/dataType';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
-    RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
 import { GradeType } from '../../../../src/utility/validateAndType/gradeType';
@@ -69,6 +68,9 @@ export class CalendarUseCaseForAWS implements ICalendarUseCaseForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
         displayGradeList: {
+            [RaceType.JRA]: GradeType[];
+            [RaceType.NAR]: GradeType[];
+            [RaceType.OVERSEAS]: GradeType[];
             [RaceType.KEIRIN]: GradeType[];
             [RaceType.AUTORACE]: GradeType[];
             [RaceType.BOATRACE]: GradeType[];
@@ -85,38 +87,32 @@ export class CalendarUseCaseForAWS implements ICalendarUseCaseForAWS {
         // 取得対象の公営競技種別を配列で定義し、並列で選手データを取得してオブジェクト化する
         const playerList: {
             [RaceType.KEIRIN]: PlayerDataForAWS[];
-            [RaceType.AUTORACE]: PlayerDataForAWS[];
             [RaceType.BOATRACE]: PlayerDataForAWS[];
         } = Object.fromEntries(
             await Promise.all(
-                RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS.map(
-                    async (raceType) => [
-                        raceType,
-                        await this.playerDataService.fetchPlayerDataList(
-                            raceType,
-                        ),
-                    ],
-                ),
+                RACE_TYPE_LIST_ALL_FOR_AWS.map(async (raceType) => [
+                    raceType,
+                    await this.playerDataService.fetchPlayerDataList(raceType),
+                ]),
             ),
         );
 
         // フラット化して単一の RaceEntity[] にする（後続のオブジェクト型 filteredRaceEntityList と名前衝突しないよう別名）
-        const filteredRaceEntityList: RaceEntity[] =
-            RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS.flatMap((raceType) =>
-                this.filterRaceEntity(
-                    raceType,
-                    raceEntityList.filter(
-                        (raceEntity) =>
-                            raceEntity.raceData.raceType === raceType,
-                    ),
-                    displayGradeList[raceType],
-                    playerList[raceType],
-                ).filter((raceEntity) =>
-                    displayGradeList[raceType].includes(
-                        raceEntity.raceData.grade,
-                    ),
+        const filteredRaceEntityList: RaceEntity[] = [
+            RaceType.KEIRIN,
+            RaceType.BOATRACE,
+        ].flatMap((raceType) =>
+            this.filterRaceEntity(
+                raceType,
+                raceEntityList.filter(
+                    (raceEntity) => raceEntity.raceData.raceType === raceType,
                 ),
-            );
+                displayGradeList[raceType],
+                playerList[raceType],
+            ).filter((raceEntity) =>
+                displayGradeList[raceType].includes(raceEntity.raceData.grade),
+            ),
+        );
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
             await this.calendarService.fetchEvents(

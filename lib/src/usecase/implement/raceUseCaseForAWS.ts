@@ -101,10 +101,7 @@ export class RaceUseCaseForAWS implements IRaceUseCaseForAWS {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };
-            [RaceType.AUTORACE]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-            };
+            [RaceType.AUTORACE]?: undefined;
             [RaceType.BOATRACE]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
