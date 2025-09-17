@@ -4,81 +4,27 @@ import { afterEach } from 'node:test';
 
 import { container } from 'tsyringe';
 
-import type { IRaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
-import { JraRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
 import { KeirinRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
-import { NarRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
-import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
 import { PlaceData } from '../../../../../../src/domain/placeData';
+import type { IRaceDataHtmlGateway } from '../../../../../../src/gateway/interface/iRaceDataHtmlGateway';
 import { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import {
     defaultHeldDayData,
     defaultPlaceGrade,
-    testRaceTypeListAll,
+    testRaceTypeListMechanicalRacing,
 } from '../../../../../unittest/src/mock/common/baseCommonData';
 import { SkipEnv } from '../../../../../utility/testDecorators';
 import { clearMocks } from '../../../../../utility/testSetupHelper';
 
 // テーブル駆動型テスト
 const testCases = {
-    [RaceType.JRA]: [
-        {
-            name: 'JraRaceRepositoryFromHtml',
-            repositoryClass: JraRaceRepositoryFromHtmlForAWS,
-            startDate: new Date('2024-05-26'),
-            endDate: new Date('2024-05-26'),
-            placeName: '東京',
-            placeDate: new Date('2024-05-26'),
-            expectedLength: 12,
-        },
-    ],
-    [RaceType.NAR]: [
-        {
-            name: 'NarRaceRepositoryFromHtml',
-            repositoryClass: NarRaceRepositoryFromHtmlForAWS,
-            startDate: new Date('2024-10-02'),
-            endDate: new Date('2024-10-02'),
-            placeName: '大井',
-            placeDate: new Date('2024-10-02'),
-            expectedLength: 12,
-        },
-        {
-            name: 'NarRaceRepositoryFromHtml',
-            repositoryClass: NarRaceRepositoryFromHtmlForAWS,
-            startDate: new Date('2023-10-08'),
-            endDate: new Date('2023-10-08'),
-            placeName: '盛岡',
-            placeDate: new Date('2023-10-08'),
-            expectedLength: 12,
-        },
-    ],
-    [RaceType.OVERSEAS]: [
-        {
-            name: 'OverseasRaceRepositoryFromHtml',
-            repositoryClass: OverseasRaceRepositoryFromHtmlForAWS,
-            startDate: new Date('2025-05-01'),
-            endDate: new Date('2025-06-30'),
-            placeName: 'パリロンシャン',
-            placeDate: new Date('2025-05-01'),
-            expectedLength: 35,
-        },
-        {
-            name: 'OverseasRaceRepositoryFromHtml',
-            repositoryClass: OverseasRaceRepositoryFromHtmlForAWS,
-            startDate: new Date('2025-06-01'),
-            endDate: new Date('2025-07-31'),
-            placeName: 'パリロンシャン',
-            placeDate: new Date('2025-06-01'),
-            expectedLength: 30,
-        },
-    ],
     [RaceType.KEIRIN]: [
         {
             name: 'KeirinRaceRepositoryFromHtml',
@@ -114,72 +60,75 @@ const testCases = {
     ],
 };
 
-describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
-    for (const {
-        name,
-        repositoryClass,
-        startDate,
-        endDate,
-        placeName,
-        placeDate,
-        expectedLength,
-    } of testCases[raceType]) {
-        describe(name, () => {
-            let raceDataHtmlGateway: IRaceDataHtmlGatewayForAWS;
-            let repository: IRaceRepositoryForAWS;
+describe.each(testRaceTypeListMechanicalRacing)(
+    'RaceRepositoryFromHtml(%s)',
+    (raceType) => {
+        for (const {
+            name,
+            repositoryClass,
+            startDate,
+            endDate,
+            placeName,
+            placeDate,
+            expectedLength,
+        } of testCases[raceType]) {
+            describe(name, () => {
+                let raceDataHtmlGateway: IRaceDataHtmlGateway;
+                let repository: IRaceRepositoryForAWS;
 
-            beforeEach(() => {
-                raceDataHtmlGateway = new MockRaceDataHtmlGateway();
-                container.registerInstance(
-                    'RaceDataHtmlGateway',
-                    raceDataHtmlGateway,
-                );
-                repository =
-                    container.resolve<IRaceRepositoryForAWS>(repositoryClass);
-            });
+                beforeEach(() => {
+                    raceDataHtmlGateway = new MockRaceDataHtmlGateway();
+                    container.registerInstance(
+                        'RaceDataHtmlGateway',
+                        raceDataHtmlGateway,
+                    );
+                    repository =
+                        container.resolve<IRaceRepositoryForAWS>(
+                            repositoryClass,
+                        );
+                });
 
-            afterEach(() => {
-                clearMocks();
-            });
+                afterEach(() => {
+                    clearMocks();
+                });
 
-            describe('fetchRaceList', () => {
-                SkipEnv(
-                    `正しいレース開催データを取得できる(${raceType})`,
-                    [allowedEnvs.githubActionsCi],
-                    async () => {
-                        const raceEntityList =
-                            await repository.fetchRaceEntityList(
-                                new SearchRaceFilterEntityForAWS(
-                                    startDate,
-                                    endDate,
-                                    raceType,
-                                    raceType === RaceType.OVERSEAS
-                                        ? []
-                                        : [
-                                              PlaceEntity.createWithoutId(
-                                                  PlaceData.create(
-                                                      raceType,
-                                                      placeDate,
-                                                      placeName,
-                                                  ),
-                                                  defaultHeldDayData[raceType],
-                                                  defaultPlaceGrade[raceType],
-                                              ),
-                                          ],
-                                ),
-                            );
-                        expect(raceEntityList).toHaveLength(expectedLength);
-                    },
-                );
-            });
+                describe('fetchRaceList', () => {
+                    SkipEnv(
+                        `正しいレース開催データを取得できる(${raceType})`,
+                        [allowedEnvs.githubActionsCi],
+                        async () => {
+                            const raceEntityList =
+                                await repository.fetchRaceEntityList(
+                                    new SearchRaceFilterEntityForAWS(
+                                        startDate,
+                                        endDate,
+                                        raceType,
+                                        [
+                                            PlaceEntity.createWithoutId(
+                                                PlaceData.create(
+                                                    raceType,
+                                                    placeDate,
+                                                    placeName,
+                                                ),
+                                                defaultHeldDayData[raceType],
+                                                defaultPlaceGrade[raceType],
+                                            ),
+                                        ],
+                                    ),
+                                );
+                            expect(raceEntityList).toHaveLength(expectedLength);
+                        },
+                    );
+                });
 
-            describe('upsertRaceList', () => {
-                it('HTMLにはデータを登録できない', async () => {
-                    await expect(
-                        repository.upsertRaceEntityList(raceType, []),
-                    ).rejects.toThrow('HTMLにはデータを登録出来ません');
+                describe('upsertRaceList', () => {
+                    it('HTMLにはデータを登録できない', async () => {
+                        await expect(
+                            repository.upsertRaceEntityList(raceType, []),
+                        ).rejects.toThrow('HTMLにはデータを登録出来ません');
+                    });
                 });
             });
-        });
-    }
-});
+        }
+    },
+);

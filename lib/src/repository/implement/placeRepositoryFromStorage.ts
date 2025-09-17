@@ -5,7 +5,6 @@ import { inject, injectable } from 'tsyringe';
 import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../src/utility/raceType';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { HeldDayRecord } from '../../gateway/record/heldDayRecord';
 import { PlaceGradeRecord } from '../../gateway/record/placeGradeRecord';
 import { PlaceRecord } from '../../gateway/record/placeRecord';
 import { CSV_FILE_NAME, CSV_HEADER_KEYS } from '../../utility/constants';
@@ -43,8 +42,12 @@ export class PlaceRepositoryFromStorageForAWS
         searchFilter: SearchPlaceFilterEntityForAWS,
     ): Promise<PlaceEntity[]> {
         const { startDate, finishDate, raceType } = searchFilter;
-        // 海外競馬はまだ対応していない
-        if (raceType === RaceType.OVERSEAS) {
+        // 競馬は対象外
+        if (
+            raceType === RaceType.JRA ||
+            raceType === RaceType.NAR ||
+            raceType === RaceType.OVERSEAS
+        ) {
             return [];
         }
         // 開催データを取得
@@ -57,50 +60,6 @@ export class PlaceRepositoryFromStorageForAWS
         );
 
         switch (raceType) {
-            case RaceType.JRA: {
-                const heldDayRecordList: HeldDayRecord[] =
-                    await this.getHeldDayRecordListFromS3(raceType);
-
-                // placeRecordListのidと、heldDayRecordListのidが一致するものを取得
-                const heldDayMap = this.toIdMap(heldDayRecordList);
-
-                // placeRecordをplaceEntityに変換
-                const placeEntityList: PlaceEntity[] = filteredPlaceRecordList
-                    .map((placeRecord) => {
-                        const heldDayRecordItem = heldDayMap.get(
-                            placeRecord.id,
-                        );
-                        if (!heldDayRecordItem) return null;
-                        return { placeRecord, heldDayRecordItem };
-                    })
-                    .filter(
-                        (
-                            v,
-                        ): v is {
-                            placeRecord: PlaceRecord;
-                            heldDayRecordItem: HeldDayRecord;
-                        } => v !== null,
-                    )
-                    .map(({ placeRecord, heldDayRecordItem }) => {
-                        return PlaceEntity.create(
-                            placeRecord.id,
-                            placeRecord.toPlaceData(),
-                            heldDayRecordItem.toHeldDayData(),
-                            undefined, // グレードは未指定
-                        );
-                    });
-                return placeEntityList;
-            }
-            case RaceType.NAR: {
-                return filteredPlaceRecordList.map((placeRecord) =>
-                    PlaceEntity.create(
-                        placeRecord.id,
-                        placeRecord.toPlaceData(),
-                        undefined,
-                        undefined,
-                    ),
-                );
-            }
             case RaceType.KEIRIN:
             case RaceType.AUTORACE:
             case RaceType.BOATRACE: {
@@ -150,7 +109,11 @@ export class PlaceRepositoryFromStorageForAWS
         successData: PlaceEntity[];
         failureData: PlaceEntity[];
     }> {
-        if (raceType === RaceType.OVERSEAS) {
+        if (
+            raceType === RaceType.JRA ||
+            raceType === RaceType.NAR ||
+            raceType === RaceType.OVERSEAS
+        ) {
             return {
                 code: 404,
                 message: `Race type ${raceType} is not supported by this repository`,
@@ -198,95 +161,44 @@ export class PlaceRepositoryFromStorageForAWS
                 this.placeFileName,
             );
 
-            if (raceType === RaceType.JRA) {
-                const existFetchHeldDayRecordList: HeldDayRecord[] =
-                    await this.getHeldDayRecordListFromS3(raceType);
+            // 既に登録されているデータを取得する
+            const existFetchPlaceGradeRecordList: PlaceGradeRecord[] =
+                await this.getPlaceGradeRecordListFromS3(raceType);
 
-                const heldDayRecordList: HeldDayRecord[] = placeEntityList.map(
-                    (placeEntity) =>
-                        HeldDayRecord.create(
-                            placeEntity.id,
-                            raceType,
-                            placeEntity.heldDayData.heldTimes,
-                            placeEntity.heldDayData.heldDayTimes,
-                            getJSTDate(new Date()),
-                        ),
+            // PlaceEntityをPlaceRecordに変換する
+            const placeGradeRecordList: PlaceGradeRecord[] =
+                placeEntityList.map((placeEntity) =>
+                    PlaceGradeRecord.create(
+                        placeEntity.id,
+                        raceType,
+                        placeEntity.grade,
+                        getJSTDate(new Date()),
+                    ),
                 );
 
-                // idが重複しているデータは上書きをし、新規のデータは追加する
-                for (const heldDayRecordItem of heldDayRecordList) {
-                    // 既に登録されているデータがある場合は上書きする
-                    const index = existFetchHeldDayRecordList.findIndex(
-                        (record) => record.id === heldDayRecordItem.id,
-                    );
-                    if (index === -1) {
-                        existFetchHeldDayRecordList.push(heldDayRecordItem);
-                    } else {
-                        existFetchHeldDayRecordList[index] = heldDayRecordItem;
-                    }
+            // idが重複しているデータは上書きをし、新規のデータは追加する
+            for (const placeGradeRecord of placeGradeRecordList) {
+                // 既に登録されているデータがある場合は上書きする
+                const index = existFetchPlaceGradeRecordList.findIndex(
+                    (record) => record.id === placeGradeRecord.id,
+                );
+                if (index === -1) {
+                    existFetchPlaceGradeRecordList.push(placeGradeRecord);
+                } else {
+                    existFetchPlaceGradeRecordList[index] = placeGradeRecord;
                 }
-
-                // 日付の最新順にソート
-                existFetchHeldDayRecordList.sort(
-                    (a, b) => b.updateDate.getTime() - a.updateDate.getTime(),
-                );
-
-                console.log(
-                    'existFetchHeldDayRecordList',
-                    existFetchHeldDayRecordList.length,
-                );
-
-                await this.s3Gateway.uploadDataToS3(
-                    existFetchHeldDayRecordList,
-                    `${raceType.toLowerCase()}/`,
-                    this.heldDayFileName,
-                );
             }
-            if (
-                raceType === RaceType.KEIRIN ||
-                raceType == RaceType.AUTORACE ||
-                raceType === RaceType.BOATRACE
-            ) {
-                // 既に登録されているデータを取得する
-                const existFetchPlaceGradeRecordList: PlaceGradeRecord[] =
-                    await this.getPlaceGradeRecordListFromS3(raceType);
 
-                // PlaceEntityをPlaceRecordに変換する
-                const placeGradeRecordList: PlaceGradeRecord[] =
-                    placeEntityList.map((placeEntity) =>
-                        PlaceGradeRecord.create(
-                            placeEntity.id,
-                            raceType,
-                            placeEntity.grade,
-                            getJSTDate(new Date()),
-                        ),
-                    );
+            // 日付の最新順にソート
+            existFetchPlaceGradeRecordList.sort(
+                (a, b) => b.updateDate.getTime() - a.updateDate.getTime(),
+            );
 
-                // idが重複しているデータは上書きをし、新規のデータは追加する
-                for (const placeGradeRecord of placeGradeRecordList) {
-                    // 既に登録されているデータがある場合は上書きする
-                    const index = existFetchPlaceGradeRecordList.findIndex(
-                        (record) => record.id === placeGradeRecord.id,
-                    );
-                    if (index === -1) {
-                        existFetchPlaceGradeRecordList.push(placeGradeRecord);
-                    } else {
-                        existFetchPlaceGradeRecordList[index] =
-                            placeGradeRecord;
-                    }
-                }
-
-                // 日付の最新順にソート
-                existFetchPlaceGradeRecordList.sort(
-                    (a, b) => b.updateDate.getTime() - a.updateDate.getTime(),
-                );
-
-                await this.s3Gateway.uploadDataToS3(
-                    existFetchPlaceGradeRecordList,
-                    `${raceType.toLowerCase()}/`,
-                    this.placeGradeFileName,
-                );
-            }
+            await this.s3Gateway.uploadDataToS3(
+                existFetchPlaceGradeRecordList,
+                `${raceType.toLowerCase()}/`,
+                this.placeGradeFileName,
+            );
 
             return {
                 code: 200,
@@ -363,71 +275,6 @@ export class PlaceRepositoryFromStorageForAWS
             });
 
         return placeRecordList;
-    }
-
-    /**
-     * 開催場データをS3から取得する
-     * @param raceType - レース種別
-     */
-    @Logger
-    private async getHeldDayRecordListFromS3(
-        raceType: RaceType,
-    ): Promise<HeldDayRecord[]> {
-        // S3からデータを取得する
-        const csv = await this.s3Gateway.fetchDataFromS3(
-            `${raceType.toLowerCase()}/`,
-            this.heldDayFileName,
-        );
-
-        // ファイルが空の場合は空のリストを返す
-        if (!csv) {
-            return [];
-        }
-
-        // CSVを行ごとに分割
-        const lines = csv.split('\n');
-        // ヘッダー行を解析
-        const headers = lines[0].split(',');
-
-        // ヘッダーに基づいてインデックスを取得
-        const indices = {
-            id: headers.indexOf(CSV_HEADER_KEYS.ID),
-            raceType: headers.indexOf(CSV_HEADER_KEYS.RACE_TYPE),
-            heldTimes: headers.indexOf(CSV_HEADER_KEYS.HELD_TIMES),
-            heldDayTimes: headers.indexOf(CSV_HEADER_KEYS.HELD_DAY_TIMES),
-            updateDate: headers.indexOf(CSV_HEADER_KEYS.UPDATE_DATE),
-        };
-
-        // データ行を解析して HeldDayRecord のリストを生成
-        const heldDayRecordList: HeldDayRecord[] = lines
-            .slice(1)
-            .flatMap((line: string): HeldDayRecord[] => {
-                try {
-                    const columns = line.split(',');
-
-                    const updateDate = columns[indices.updateDate]
-                        ? new Date(columns[indices.updateDate])
-                        : getJSTDate(new Date());
-
-                    if (columns[indices.raceType] !== raceType) {
-                        return [];
-                    }
-
-                    return [
-                        HeldDayRecord.create(
-                            columns[indices.id],
-                            raceType,
-                            Number.parseInt(columns[indices.heldTimes], 10),
-                            Number.parseInt(columns[indices.heldDayTimes], 10),
-                            updateDate,
-                        ),
-                    ];
-                } catch (error) {
-                    console.error(error);
-                    return [];
-                }
-            });
-        return heldDayRecordList;
     }
 
     /**

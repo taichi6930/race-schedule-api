@@ -525,6 +525,16 @@ export const mockRaceEntityList = testRaceTypeListAll.flatMap((raceType) =>
     baseRaceEntityList(raceType),
 );
 
+export const mockRaceEntityListMechanicalRacing =
+    testRaceTypeListMechanicalRacing.flatMap((raceType) =>
+        baseRaceEntityList(raceType),
+    );
+
 export const mockPlaceEntityList = testRaceTypeListWithoutOverseas.map(
     (raceType) => basePlaceEntity(raceType),
 );
+
+export const mockPlaceEntityListMechanicalRacing =
+    testRaceTypeListMechanicalRacing.map((raceType) =>
+        basePlaceEntity(raceType),
+    );

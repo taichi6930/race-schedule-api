@@ -8,7 +8,6 @@ import { RaceGradeAndStageList } from '../../../../src/utility/data/stage';
 import { DataLocation } from '../../../../src/utility/dataType';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
-    RACE_TYPE_LIST_HORSE_RACING_FOR_AWS,
     RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
@@ -18,13 +17,13 @@ import { ICalendarServiceForAWS } from '../../service/interface/ICalendarService
 import { IPlayerServiceForAWS } from '../../service/interface/IPlayerServiceForAWS';
 import { IRaceServiceForAWS } from '../../service/interface/IRaceServiceForAWS';
 import { Logger } from '../../utility/logger';
-import { IRaceCalendarUseCaseForAWS } from '../interface/IRaceCalendarUseCaseForAWS';
+import { ICalendarUseCaseForAWS } from '../interface/ICalendarUseCaseForAWS';
 
 /**
  * 公営競技のレースカレンダーユースケース
  */
 @injectable()
-export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
+export class CalendarUseCaseForAWS implements ICalendarUseCaseForAWS {
     public constructor(
         @inject('CalendarService')
         private readonly calendarService: ICalendarServiceForAWS,
@@ -70,9 +69,6 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
         displayGradeList: {
-            [RaceType.JRA]: GradeType[];
-            [RaceType.NAR]: GradeType[];
-            [RaceType.OVERSEAS]: GradeType[];
             [RaceType.KEIRIN]: GradeType[];
             [RaceType.AUTORACE]: GradeType[];
             [RaceType.BOATRACE]: GradeType[];
@@ -105,17 +101,8 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
         );
 
         // フラット化して単一の RaceEntity[] にする（後続のオブジェクト型 filteredRaceEntityList と名前衝突しないよう別名）
-        const filteredRaceEntityList: RaceEntity[] = [
-            ...RACE_TYPE_LIST_HORSE_RACING_FOR_AWS.flatMap((raceType) =>
-                raceEntityList.filter(
-                    (raceEntity) =>
-                        raceEntity.raceData.raceType === raceType &&
-                        displayGradeList[raceType].includes(
-                            raceEntity.raceData.grade,
-                        ),
-                ),
-            ),
-            ...RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS.flatMap((raceType) =>
+        const filteredRaceEntityList: RaceEntity[] =
+            RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS.flatMap((raceType) =>
                 this.filterRaceEntity(
                     raceType,
                     raceEntityList.filter(
@@ -129,9 +116,7 @@ export class CalendarUseCaseForAWS implements IRaceCalendarUseCaseForAWS {
                         raceEntity.raceData.grade,
                     ),
                 ),
-            ),
-        ];
-
+            );
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
             await this.calendarService.fetchEvents(

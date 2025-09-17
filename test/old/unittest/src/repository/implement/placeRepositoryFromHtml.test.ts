@@ -11,7 +11,7 @@ import { allowedEnvs } from '../../../../../../lib/src/utility/env';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import {
     basePlaceEntity,
-    testRaceTypeListAll,
+    testRaceTypeListMechanicalRacing,
 } from '../../../../../unittest/src/mock/common/baseCommonData';
 import { SkipEnv } from '../../../../../utility/testDecorators';
 import { clearMocks } from '../../../../../utility/testSetupHelper';
@@ -62,59 +62,66 @@ const testCases = {
     ],
 };
 
-describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
-    for (const { startDate, endDate, expectedLength } of testCases[raceType]) {
-        describe(`PlaceRepositoryFromHtml(${raceType})`, () => {
-            let placeDataHtmlGateway: IPlaceDataHtmlGatewayForAWS;
-            let repository: IPlaceRepositoryForAWS;
+describe.each(testRaceTypeListMechanicalRacing)(
+    'PlaceRepositoryFromHtml',
+    (raceType) => {
+        for (const { startDate, endDate, expectedLength } of testCases[
+            raceType
+        ]) {
+            describe(`PlaceRepositoryFromHtml(${raceType})`, () => {
+                let placeDataHtmlGateway: IPlaceDataHtmlGatewayForAWS;
+                let repository: IPlaceRepositoryForAWS;
 
-            beforeAll(() => {
-                placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
-                container.registerInstance(
-                    'PlaceDataHtmlGateway',
-                    placeDataHtmlGateway,
-                );
-                repository = container.resolve<IPlaceRepositoryForAWS>(
-                    PlaceRepositoryFromHtmlForAWS,
-                );
-            });
+                beforeAll(() => {
+                    placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
+                    container.registerInstance(
+                        'PlaceDataHtmlGateway',
+                        placeDataHtmlGateway,
+                    );
+                    repository = container.resolve<IPlaceRepositoryForAWS>(
+                        PlaceRepositoryFromHtmlForAWS,
+                    );
+                });
 
-            afterAll(() => {
-                clearMocks();
-            });
+                afterAll(() => {
+                    clearMocks();
+                });
 
-            describe('fetchPlaceList', () => {
-                SkipEnv(
-                    `正しいレース開催データを取得できる(${raceType})`,
-                    [allowedEnvs.githubActionsCi],
-                    async () => {
-                        const placeEntityList =
-                            await repository.fetchPlaceEntityList(
-                                new SearchPlaceFilterEntityForAWS(
-                                    startDate,
-                                    endDate,
-                                    raceType,
-                                ),
+                describe('fetchPlaceList', () => {
+                    SkipEnv(
+                        `正しいレース開催データを取得できる(${raceType})`,
+                        [allowedEnvs.githubActionsCi],
+                        async () => {
+                            const placeEntityList =
+                                await repository.fetchPlaceEntityList(
+                                    new SearchPlaceFilterEntityForAWS(
+                                        startDate,
+                                        endDate,
+                                        raceType,
+                                    ),
+                                );
+                            expect(placeEntityList).toHaveLength(
+                                expectedLength,
                             );
-                        expect(placeEntityList).toHaveLength(expectedLength);
-                    },
-                );
-            });
+                        },
+                    );
+                });
 
-            describe('upsertPlaceList', () => {
-                it(`HTMLにはデータを登録できない(${raceType})`, async () => {
-                    await expect(
-                        repository.upsertPlaceEntityList(raceType, [
-                            basePlaceEntity(raceType),
-                        ]),
-                    ).resolves.toEqual({
-                        code: 500,
-                        message: 'HTMLにはデータを登録出来ません',
-                        successData: [],
-                        failureData: [basePlaceEntity(raceType)],
+                describe('upsertPlaceList', () => {
+                    it(`HTMLにはデータを登録できない(${raceType})`, async () => {
+                        await expect(
+                            repository.upsertPlaceEntityList(raceType, [
+                                basePlaceEntity(raceType),
+                            ]),
+                        ).resolves.toEqual({
+                            code: 500,
+                            message: 'HTMLにはデータを登録出来ません',
+                            successData: [],
+                            failureData: [basePlaceEntity(raceType)],
+                        });
                     });
                 });
             });
-        });
-    }
-});
+        }
+    },
+);

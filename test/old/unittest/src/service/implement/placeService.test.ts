@@ -7,6 +7,8 @@ import type { IPlaceServiceForAWS } from '../../../../../../lib/src/service/inte
 import { DataLocation } from '../../../../../../src/utility/dataType';
 import {
     mockPlaceEntityList,
+    mockPlaceEntityListMechanicalRacing,
+    testRaceTypeListMechanicalRacing,
     testRaceTypeListWithoutOverseas,
 } from '../../../../../unittest/src/mock/common/baseCommonData';
 import type { TestRepositoryForAWSSetup } from '../../../../../utility/testSetupHelper';
@@ -36,11 +38,11 @@ describe('PlaceService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                testRaceTypeListWithoutOverseas,
+                testRaceTypeListMechanicalRacing,
                 DataLocation.Storage,
             );
 
-            expect(result).toEqual(mockPlaceEntityList);
+            expect(result).toEqual(mockPlaceEntityListMechanicalRacing);
         });
 
         it('正常に開催場データが取得できること（web）', async () => {
@@ -50,11 +52,11 @@ describe('PlaceService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                testRaceTypeListWithoutOverseas,
+                testRaceTypeListMechanicalRacing,
                 DataLocation.Web,
             );
 
-            expect(result).toEqual(mockPlaceEntityList);
+            expect(result).toEqual(mockPlaceEntityListMechanicalRacing);
         });
 
         it('開催場データが取得できない場合、エラーが発生すること', async () => {

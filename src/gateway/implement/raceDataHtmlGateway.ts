@@ -61,12 +61,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
         // gokeibaのURLからHTMLを取得する
         try {
             const url = this.buildUrl(raceType, date, place, number);
-            const html = await fetch(url, {
-                headers: {
-                    'User-Agent': 'Mozilla/5.0',
-                    'Accept': 'text/html',
-                },
-            });
+            const html = await fetch(url);
             const htmlText = await html.text();
             return htmlText;
         } catch (error: unknown) {

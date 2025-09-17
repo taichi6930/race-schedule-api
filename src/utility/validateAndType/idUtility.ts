@@ -159,7 +159,7 @@ const buildId = (
 /**
  * PlaceIdのパラメータ
  */
-export interface PlaceIdParams {
+interface PlaceIdParams {
     raceType: RaceType;
     dateTime: Date;
     location: RaceCourse;
@@ -168,7 +168,7 @@ export interface PlaceIdParams {
 /**
  * RaceIdのパラメータ
  */
-export interface RaceIdParams {
+interface RaceIdParams {
     raceType: RaceType;
     dateTime: Date;
     location: RaceCourse;
@@ -178,7 +178,7 @@ export interface RaceIdParams {
 /**
  * RacePlayerIdのパラメータ
  */
-export interface RacePlayerIdParams {
+interface RacePlayerIdParams {
     raceType: RaceType;
     dateTime: Date;
     location: RaceCourse;

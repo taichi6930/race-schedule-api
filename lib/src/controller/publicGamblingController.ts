@@ -3,9 +3,9 @@ import { inject, injectable } from 'tsyringe';
 
 import { convertRaceTypeList, RaceType } from '../../../src/utility/raceType';
 import { SpecifiedGradeList } from '../../../src/utility/validateAndType/gradeType';
+import { ICalendarUseCaseForAWS } from '../usecase/interface/ICalendarUseCaseForAWS';
 import { IPlaceUseCaseForAWS } from '../usecase/interface/IPlaceUseCaseForAWS';
 import { IPlayerDataUseCaseForAWS } from '../usecase/interface/IPlayerDataUseCaseForAWS';
-import { IRaceCalendarUseCaseForAWS } from '../usecase/interface/IRaceCalendarUseCaseForAWS';
 import { IRaceUseCaseForAWS } from '../usecase/interface/IRaceUseCaseForAWS';
 import { Logger } from '../utility/logger';
 
@@ -18,7 +18,7 @@ export class PublicGamblingControllerFromAWS {
 
     public constructor(
         @inject('CalendarUseCase')
-        private readonly calendarUseCase: IRaceCalendarUseCaseForAWS,
+        private readonly calendarUseCase: ICalendarUseCaseForAWS,
         @inject('PlaceUseCase')
         private readonly placeUseCase: IPlaceUseCaseForAWS,
         @inject('RaceUseCase')
@@ -154,9 +154,6 @@ export class PublicGamblingControllerFromAWS {
                 new Date(finishDate),
                 raceTypeList,
                 {
-                    [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
-                    [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),
-                    [RaceType.OVERSEAS]: SpecifiedGradeList(RaceType.OVERSEAS),
                     [RaceType.KEIRIN]: SpecifiedGradeList(RaceType.KEIRIN),
                     [RaceType.AUTORACE]: SpecifiedGradeList(RaceType.AUTORACE),
                     [RaceType.BOATRACE]: SpecifiedGradeList(RaceType.BOATRACE),
@@ -374,18 +371,6 @@ export class PublicGamblingControllerFromAWS {
                     new Date(finishDate as string),
                     raceTypeList,
                     {
-                        [RaceType.JRA]: {
-                            gradeList,
-                            locationList,
-                        },
-                        [RaceType.NAR]: {
-                            gradeList,
-                            locationList,
-                        },
-                        [RaceType.OVERSEAS]: {
-                            gradeList,
-                            locationList,
-                        },
                         [RaceType.KEIRIN]: {
                             gradeList,
                             locationList,

@@ -21,18 +21,6 @@ export interface IRaceUseCaseForAWS {
         raceTypeList: RaceType[],
         // Optional parameters
         searchList?: {
-            [RaceType.JRA]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-            };
-            [RaceType.NAR]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-            };
-            [RaceType.OVERSEAS]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-            };
             [RaceType.KEIRIN]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
@@ -62,15 +50,6 @@ export interface IRaceUseCaseForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
         searchList?: {
-            [RaceType.JRA]?: {
-                locationList?: RaceCourse[];
-            };
-            [RaceType.NAR]?: {
-                locationList?: RaceCourse[];
-            };
-            [RaceType.OVERSEAS]?: {
-                locationList?: RaceCourse[];
-            };
             [RaceType.KEIRIN]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];

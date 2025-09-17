@@ -22,44 +22,36 @@ import { IRaceServiceForAWS } from '../interface/IRaceServiceForAWS';
 export class RaceServiceForAWS implements IRaceServiceForAWS {
     private readonly raceRepositoryFromStorage: Record<
         RaceType,
-        IRaceRepositoryForAWS
+        IRaceRepositoryForAWS | undefined
     >;
     private readonly raceRepositoryFromHtml: Record<
         RaceType,
-        IRaceRepositoryForAWS
+        IRaceRepositoryForAWS | undefined
     >;
 
     public constructor(
-        @inject('HorseRacingRaceRepositoryFromStorage')
-        protected horseRacingRaceRepositoryFromStorage: IRaceRepositoryForAWS,
-        @inject('JraRaceRepositoryFromHtml')
-        protected jraRaceRepositoryFromHtml: IRaceRepositoryForAWS,
-        @inject('NarRaceRepositoryFromHtml')
-        protected narRaceRepositoryFromHtml: IRaceRepositoryForAWS,
-        @inject('OverseasRaceRepositoryFromHtml')
-        protected overseasRaceRepositoryFromHtml: IRaceRepositoryForAWS,
+        @inject('MechanicalRacingRaceRepositoryFromStorage')
+        protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepositoryForAWS,
         @inject('KeirinRaceRepositoryFromHtml')
         protected keirinRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('AutoraceRaceRepositoryFromHtml')
         protected autoraceRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('BoatraceRaceRepositoryFromHtml')
         protected boatraceRaceRepositoryFromHtml: IRaceRepositoryForAWS,
-        @inject('MechanicalRacingRaceRepositoryFromStorage')
-        protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepositoryForAWS,
     ) {
         this.raceRepositoryFromStorage = {
-            [RaceType.JRA]: this.horseRacingRaceRepositoryFromStorage,
-            [RaceType.NAR]: this.horseRacingRaceRepositoryFromStorage,
-            [RaceType.OVERSEAS]: this.horseRacingRaceRepositoryFromStorage,
+            [RaceType.JRA]: undefined,
+            [RaceType.NAR]: undefined,
+            [RaceType.OVERSEAS]: undefined,
             [RaceType.KEIRIN]: this.mechanicalRacingRaceRepositoryFromStorage,
             [RaceType.AUTORACE]: this.mechanicalRacingRaceRepositoryFromStorage,
             [RaceType.BOATRACE]: this.mechanicalRacingRaceRepositoryFromStorage,
         };
 
         this.raceRepositoryFromHtml = {
-            [RaceType.JRA]: this.jraRaceRepositoryFromHtml,
-            [RaceType.NAR]: this.narRaceRepositoryFromHtml,
-            [RaceType.OVERSEAS]: this.overseasRaceRepositoryFromHtml,
+            [RaceType.JRA]: undefined,
+            [RaceType.NAR]: undefined,
+            [RaceType.OVERSEAS]: undefined,
             [RaceType.KEIRIN]: this.keirinRaceRepositoryFromHtml,
             [RaceType.AUTORACE]: this.autoraceRaceRepositoryFromHtml,
             [RaceType.BOATRACE]: this.boatraceRaceRepositoryFromHtml,
@@ -105,11 +97,15 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
                                 placeEntity.placeData.raceType === raceType,
                         ) ?? [],
                     );
-                    const raceEntityList = await (
+                    const raceRepository =
                         type === DataLocation.Storage
                             ? this.raceRepositoryFromStorage[raceType]
-                            : this.raceRepositoryFromHtml[raceType]
-                    ).fetchRaceEntityList(searchFilter);
+                            : this.raceRepositoryFromHtml[raceType];
+                    if (!raceRepository) {
+                        continue;
+                    }
+                    const raceEntityList =
+                        await raceRepository.fetchRaceEntityList(searchFilter);
                     result.push(...raceEntityList);
                 }
             }
@@ -138,15 +134,23 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
     }> {
         try {
             const response = await Promise.all(
-                RACE_TYPE_LIST_ALL_FOR_AWS.map(async (raceType) =>
-                    this.saveRaceEntityList(
+                RACE_TYPE_LIST_ALL_FOR_AWS.map(async (raceType) => {
+                    if (!this.raceRepositoryFromStorage[raceType]) {
+                        return {
+                            code: 200,
+                            message: `No repository for ${raceType}`,
+                            successDataCount: 0,
+                            failureDataCount: 0,
+                        };
+                    }
+                    return this.saveRaceEntityList(
                         this.raceRepositoryFromStorage[raceType],
                         raceType,
                         raceEntityList.filter(
                             (race) => race.raceData.raceType === raceType,
                         ),
-                    ),
-                ),
+                    );
+                }),
             );
             return {
                 // 全てが200なら200を返す
