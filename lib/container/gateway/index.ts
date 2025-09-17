@@ -2,7 +2,7 @@ import { container } from 'tsyringe';
 
 import { PlaceDataHtmlGateway } from '../../../src/gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGateway } from '../../../src/gateway/implement/raceDataHtmlGateway';
-import type { IPlaceDataHtmlGatewayForAWS } from '../../../src/gateway/interface/iPlaceDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from '../../../src/gateway/interface/iRaceDataHtmlGateway';
 import { GoogleCalendarGatewayForAWS } from '../../src/gateway/implement/googleCalendarGateway';
 import { S3Gateway } from '../../src/gateway/implement/s3Gateway';
@@ -36,7 +36,7 @@ container.register<ICalendarGatewayForAWS>('GoogleCalendarGateway', {
     },
 });
 
-container.register<IPlaceDataHtmlGatewayForAWS>('PlaceDataHtmlGateway', {
+container.register<IPlaceDataHtmlGateway>('PlaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
