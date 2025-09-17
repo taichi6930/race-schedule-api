@@ -6,6 +6,7 @@ import { inject, injectable } from 'tsyringe';
 import { PlaceData } from '../../../../../src/domain/placeData';
 import { RaceData } from '../../../../../src/domain/raceData';
 import { RacePlayerData } from '../../../../../src/domain/racePlayerData';
+import { IRaceDataHtmlGateway } from '../../../../../src/gateway/interface/iRaceDataHtmlGateway';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
 import { GradeType } from '../../../../../src/utility/validateAndType/gradeType';
@@ -13,7 +14,6 @@ import {
     RaceStage,
     StageMap,
 } from '../../../../../src/utility/validateAndType/raceStage';
-import { IRaceDataHtmlGatewayForAWS } from '../../../gateway/interface/iRaceDataHtmlGateway';
 import { Logger } from '../../../utility/logger';
 import { SearchRaceFilterEntityForAWS } from '../../entity/searchRaceFilterEntity';
 import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
@@ -27,7 +27,7 @@ export class BoatraceRaceRepositoryFromHtmlForAWS
 {
     public constructor(
         @inject('RaceDataHtmlGateway')
-        private readonly raceDataHtmlGateway: IRaceDataHtmlGatewayForAWS,
+        private readonly raceDataHtmlGateway: IRaceDataHtmlGateway,
     ) {}
 
     /**

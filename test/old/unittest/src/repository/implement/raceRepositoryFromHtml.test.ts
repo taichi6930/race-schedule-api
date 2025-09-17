@@ -4,7 +4,6 @@ import { afterEach } from 'node:test';
 
 import { container } from 'tsyringe';
 
-import type { IRaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
@@ -13,6 +12,7 @@ import { KeirinRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/re
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
 import { PlaceData } from '../../../../../../src/domain/placeData';
+import type { IRaceDataHtmlGateway } from '../../../../../../src/gateway/interface/iRaceDataHtmlGateway';
 import { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import {
@@ -74,7 +74,7 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
         expectedLength,
     } of testCases[raceType]) {
         describe(name, () => {
-            let raceDataHtmlGateway: IRaceDataHtmlGatewayForAWS;
+            let raceDataHtmlGateway: IRaceDataHtmlGateway;
             let repository: IRaceRepositoryForAWS;
 
             beforeEach(() => {

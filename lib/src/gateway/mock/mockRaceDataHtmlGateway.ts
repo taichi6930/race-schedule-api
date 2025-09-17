@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
+import { IRaceDataHtmlGateway } from '../../../../src/gateway/interface/iRaceDataHtmlGateway';
 import { NetkeibaBabacodeMap } from '../../../../src/utility/data/netkeiba';
 import { RaceType } from '../../../../src/utility/raceType';
 import {
@@ -10,11 +11,10 @@ import {
     RaceCourse,
 } from '../../../../src/utility/validateAndType/raceCourse';
 import { Logger } from '../../utility/logger';
-import { IRaceDataHtmlGatewayForAWS } from '../interface/iRaceDataHtmlGateway';
 /**
  * レースデータのHTMLを取得するGateway
  */
-export class MockRaceDataHtmlGateway implements IRaceDataHtmlGatewayForAWS {
+export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
     private buildUrl(
         raceType: RaceType,
         date: Date,
