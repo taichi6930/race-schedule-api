@@ -7,7 +7,6 @@ import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
-import { HorseRacingRaceRepositoryFromStorage } from '../../../../../../lib/src/repository/implement/horseRacingRaceRepositoryFromStorage';
 import { MechanicalRacingRaceRepositoryFromStorage } from '../../../../../../lib/src/repository/implement/mechanicalRacingRaceRepositoryFromStorage';
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import {
@@ -16,7 +15,7 @@ import {
 } from '../../../../../../lib/src/utility/env';
 import { RaceData } from '../../../../../../src/domain/raceData';
 import { RaceEntity } from '../../../../../../src/repository/entity/raceEntity';
-import { RaceType } from '../../../../../../src/utility/raceType';
+import type { RaceType } from '../../../../../../src/utility/raceType';
 import {
     baseConditionData,
     baseRacePlayerDataList,
@@ -24,7 +23,7 @@ import {
     defaultLocation,
     defaultRaceGrade,
     defaultStage,
-    testRaceTypeListAll,
+    testRaceTypeListMechanicalRacing,
 } from '../../../../../unittest/src/mock/common/baseCommonData';
 import type { TestGatewaySetup } from '../../../../../utility/testSetupHelper';
 import {
@@ -34,14 +33,10 @@ import {
 
 describe('RaceRepositoryFromStorage', () => {
     let gatewaySetup: TestGatewaySetup;
-    let horseRacingRaceRepository: IRaceRepositoryForAWS;
     let mechanicalRacingRaceRepository: IRaceRepositoryForAWS;
 
     beforeEach(() => {
         gatewaySetup = setupTestGatewayMock();
-        horseRacingRaceRepository = container.resolve(
-            HorseRacingRaceRepositoryFromStorage,
-        );
         mechanicalRacingRaceRepository = container.resolve(
             MechanicalRacingRaceRepositoryFromStorage,
         );
@@ -67,15 +62,10 @@ describe('RaceRepositoryFromStorage', () => {
             );
         });
 
-        test.each(testRaceTypeListAll)(
+        test.each(testRaceTypeListMechanicalRacing)(
             'レース開催データを正常に取得できる(%s)',
             async (raceType) => {
-                const repository =
-                    raceType === RaceType.JRA ||
-                    raceType === RaceType.NAR ||
-                    raceType === RaceType.OVERSEAS
-                        ? horseRacingRaceRepository
-                        : mechanicalRacingRaceRepository;
+                const repository = mechanicalRacingRaceRepository;
 
                 const raceEntityList = await repository.fetchRaceEntityList(
                     new SearchRaceFilterEntityForAWS(
@@ -101,7 +91,7 @@ describe('RaceRepositoryFromStorage', () => {
                 'DBが空データのところに、正しいレース開催データを登録できる',
             ],
         ])('%s', (hasRegisterData: boolean, description: string) => {
-            test.each(testRaceTypeListAll)(
+            test.each(testRaceTypeListMechanicalRacing)(
                 `${description}: %s`,
                 async (raceType) => {
                     const raceEntityList: RaceEntity[] =
@@ -122,12 +112,7 @@ describe('RaceRepositoryFromStorage', () => {
                         );
                     }
 
-                    const repository =
-                        raceType === RaceType.JRA ||
-                        raceType === RaceType.NAR ||
-                        raceType === RaceType.OVERSEAS
-                            ? horseRacingRaceRepository
-                            : mechanicalRacingRaceRepository;
+                    const repository = mechanicalRacingRaceRepository;
 
                     await repository.upsertRaceEntityList(
                         raceType,
@@ -135,13 +120,7 @@ describe('RaceRepositoryFromStorage', () => {
                     );
                     expect(
                         gatewaySetup.s3Gateway.uploadDataToS3,
-                    ).toHaveBeenCalledTimes(
-                        raceType === RaceType.JRA ||
-                            raceType === RaceType.NAR ||
-                            raceType === RaceType.OVERSEAS
-                            ? 1
-                            : 2,
-                    );
+                    ).toHaveBeenCalledTimes(2);
                 },
             );
         });

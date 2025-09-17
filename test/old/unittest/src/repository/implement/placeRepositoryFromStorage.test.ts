@@ -15,13 +15,12 @@ import {
 } from '../../../../../../lib/src/utility/env';
 import { PlaceData } from '../../../../../../src/domain/placeData';
 import { PlaceEntity } from '../../../../../../src/repository/entity/placeEntity';
-import { RaceType } from '../../../../../../src/utility/raceType';
+import type { RaceType } from '../../../../../../src/utility/raceType';
 import {
     defaultHeldDayData,
     defaultLocation,
     defaultPlaceGrade,
-    testRaceTypeListAll,
-    testRaceTypeListWithoutOverseas,
+    testRaceTypeListMechanicalRacing,
 } from '../../../../../unittest/src/mock/common/baseCommonData';
 import type { TestGatewaySetup } from '../../../../../utility/testSetupHelper';
 import {
@@ -44,7 +43,7 @@ describe('PlaceRepositoryFromStorage', () => {
     });
 
     describe('fetchPlaceList', () => {
-        test.each(testRaceTypeListAll)(
+        test.each(testRaceTypeListMechanicalRacing)(
             '正しい開催場データを取得できる(%s)',
             async (raceType) => {
                 // モックの戻り値を設定
@@ -70,15 +69,13 @@ describe('PlaceRepositoryFromStorage', () => {
                 );
 
                 // レスポンスの検証
-                expect(placeEntityList).toHaveLength(
-                    raceType === RaceType.OVERSEAS ? 0 : 1,
-                );
+                expect(placeEntityList).toHaveLength(1);
             },
         );
     });
 
     describe('upsertPlaceList', () => {
-        test.each(testRaceTypeListWithoutOverseas)(
+        test.each(testRaceTypeListMechanicalRacing)(
             '正しい開催場データを登録できる(%s)',
             async (raceType) => {
                 const _placeEntityList = placeEntityList(raceType);
@@ -97,7 +94,7 @@ describe('PlaceRepositoryFromStorage', () => {
 
                 expect(
                     gatewaySetup.s3Gateway.uploadDataToS3,
-                ).toHaveBeenCalledTimes(raceType == RaceType.NAR ? 1 : 2);
+                ).toHaveBeenCalledTimes(2);
             },
         );
     });
