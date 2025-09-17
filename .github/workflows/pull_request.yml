@@ -55,6 +55,36 @@ jobs:
         uses: ./.github/actions/test/unit
 
   # ITAテストの実行
+  # TODO: テストをcloudflare用に移行し切ったらこのif: falseを戻す
+  call-ita-test-jra:
+    if: false # テストをcloudflare用に移行仕切ったら戻す
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Run ITA Tests For Jra
+        uses: ./.github/actions/test/ita/jra
+
+  # TODO: テストをcloudflare用に移行し切ったらこのif: falseを戻す
+  call-ita-test-nar:
+    if: false # テストをcloudflare用に移行仕切ったら戻す
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Run ITA Tests For Nar
+        uses: ./.github/actions/test/ita/nar
+
+  # TODO: テストをcloudflare用に移行し切ったらこのif: falseを戻す
+  call-ita-test-overseas:
+    if: false # テストをcloudflare用に移行仕切ったら戻す
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Run ITA Tests For Overseas
+        uses: ./.github/actions/test/ita/overseas
+
   call-ita-test-keirin:
     runs-on: ubuntu-latest
     steps:
