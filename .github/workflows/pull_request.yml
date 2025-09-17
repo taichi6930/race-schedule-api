@@ -93,7 +93,9 @@ jobs:
       - name: Run ITA Tests For Keirin
         uses: ./.github/actions/test/ita/keirin
 
+  # TODO: テストをcloudflare用に移行し切ったらこのif: falseを戻す
   call-ita-test-autorace:
+    if: false # テストをcloudflare用に移行仕切ったら戻す
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository

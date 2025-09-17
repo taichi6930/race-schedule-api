@@ -2,8 +2,8 @@ name: Race Schedule Cloudflare
 
 on:
   schedule:
-    # 日本時間の毎日6,16,22時に実行
-    - cron: '0 7,13,21 * * *'
+    # 日本時間の毎日4,10,16,22時に実行
+    - cron: '0 1,7,13,19 * * *'
   workflow_dispatch:
     inputs:
       start-date:
@@ -33,6 +33,7 @@ jobs:
           # 日付を計算、デフォルトは昨日から2日後
           startDate="${{ github.event.inputs.start-date }}"
           finishDate="${{ github.event.inputs.finish-date }}"
+          finishDateForMechanicalRacing="${{ github.event.inputs.finish-date }}"
 
           # 入力がない場合のデフォルト設定
           if [ -z "$startDate" ]; then
@@ -40,11 +41,13 @@ jobs:
           fi
           if [ -z "$finishDate" ]; then
             finishDate=$(date -d "+2 day" +"%Y-%m-%d")
+            finishDateForMechanicalRacing=$(date -d "+1 day" +"%Y-%m-%d")
           fi
 
           # GITHUB_OUTPUTを使って出力設定
           echo "start-date=$startDate" >> $GITHUB_OUTPUT
           echo "finish-date=$finishDate" >> $GITHUB_OUTPUT
+          echo "finish-date-for-mechanical-racing=$finishDateForMechanicalRacing" >> $GITHUB_OUTPUT
 
   health-check:
     runs-on: ubuntu-latest
@@ -92,6 +95,36 @@ jobs:
             exit 1
           fi
 
+  update-race-data-mechanical-racing:
+    needs: [set-dates, health-check]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Send curl request to API
+        run: |
+          # 日付はset-datesで設定済み
+          startDate="${{ needs.set-dates.outputs.start-date }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date-for-mechanical-racing }}"
+
+          # レースデータの更新
+          update_race_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "${CLOUDFLARE_API_PRODUCTION_URL}/race" \
+            -H "accept: */*" \
+            -H "Content-Type: application/json" \
+            -d "{
+                  \"startDate\": \"$startDate\",
+                  \"finishDate\": \"$finishDate\",
+                  \"raceType\": [\"AUTORACE\"]
+                }")
+
+          # レスポンスチェック
+          if [[ "$update_race_data_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $update_race_data_response"
+            exit 1
+          fi
+
   update-race-calendar:
     needs: [set-dates, update-race-data]
     runs-on: ubuntu-latest
@@ -113,6 +146,35 @@ jobs:
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
                   \"raceType\": [\"JRA\", \"NAR\", \"OVERSEAS\"]
+                }")
+
+          # レスポンスチェック
+          if [[ "$update_race_calendar_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $update_race_calendar_response"
+            exit 1
+          fi
+
+  update-race-calendar-mechanical-racing:
+    needs: [set-dates, update-race-data-mechanical-racing]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Send curl request to API
+        run: |
+          startDate="${{ needs.set-dates.outputs.start-date }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date-for-mechanical-racing }}"
+
+          # カレンダーの更新
+          update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "${CLOUDFLARE_API_PRODUCTION_URL}/calendar" \
+            -H "accept: */*" \
+            -H "Content-Type: application/json" \
+            -d "{
+                  \"startDate\": \"$startDate\",
+                  \"finishDate\": \"$finishDate\",
+                  \"raceType\": [\"AUTORACE\"]
                 }")
 
           # レスポンスチェック
