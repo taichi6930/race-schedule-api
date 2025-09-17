@@ -89,6 +89,12 @@ describe('RaceDataHtmlGateway', () => {
 
     for (const { descriptions, raceType, place, number, expectedMessage } of [
         {
+            descriptions: 'JRAの開催レースデータでplaceが足りない',
+            raceType: RaceType.JRA,
+            place: undefined,
+            expectedMessage: 'JRAレースの開催場が指定されていません',
+        },
+        {
             descriptions: 'NARの開催レースデータでplaceが足りない',
             raceType: RaceType.NAR,
             place: undefined,
