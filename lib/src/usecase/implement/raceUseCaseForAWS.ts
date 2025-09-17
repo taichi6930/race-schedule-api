@@ -42,26 +42,16 @@ export class RaceUseCaseForAWS implements IRaceUseCaseForAWS {
         startDate: Date,
         finishDate: Date,
         raceTypeList: RaceType[],
-        searchList?: {
-            [RaceType.JRA]?: undefined;
-            [RaceType.NAR]?: undefined;
-            [RaceType.OVERSEAS]?: undefined;
-            [RaceType.KEIRIN]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-                stageList?: RaceStage[];
-            };
-            [RaceType.AUTORACE]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-                stageList?: RaceStage[];
-            };
-            [RaceType.BOATRACE]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-                stageList?: RaceStage[];
-            };
-        },
+        searchList?: Partial<
+            Record<
+                RaceType,
+                {
+                    gradeList?: GradeType[];
+                    locationList?: RaceCourse[];
+                    stageList?: RaceStage[];
+                }
+            >
+        >,
     ): Promise<RaceEntity[]> {
         const placeEntityList = await this.placeService.fetchPlaceEntityList(
             startDate,
