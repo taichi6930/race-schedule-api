@@ -4,6 +4,7 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { PlaceData } from '../../../../src/domain/placeData';
+import { IPlaceDataHtmlGatewayForAWS } from '../../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
 import { RaceType } from '../../../../src/utility/raceType';
 import { GradeType } from '../../../../src/utility/validateAndType/gradeType';
@@ -11,7 +12,6 @@ import {
     RaceCourse,
     validateRaceCourse,
 } from '../../../../src/utility/validateAndType/raceCourse';
-import { IPlaceDataHtmlGatewayForAWS } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { Logger } from '../../utility/logger';
 import { SearchPlaceFilterEntityForAWS } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepositoryForAWS } from '../interface/IPlaceRepositoryForAWS';

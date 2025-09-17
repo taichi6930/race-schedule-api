@@ -2,12 +2,12 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IPlaceDataHtmlGatewayForAWS } from '../../../../../../lib/src/gateway/interface/iPlaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
 import { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { PlaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
 import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepositoryForAWS';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
+import type { IPlaceDataHtmlGatewayForAWS } from '../../../../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import {
     basePlaceEntity,

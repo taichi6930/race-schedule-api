@@ -1,12 +1,12 @@
 import { container } from 'tsyringe';
 
+import { PlaceDataHtmlGateway } from '../../../src/gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGateway } from '../../../src/gateway/implement/raceDataHtmlGateway';
+import type { IPlaceDataHtmlGatewayForAWS } from '../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from '../../../src/gateway/interface/iRaceDataHtmlGateway';
 import { GoogleCalendarGatewayForAWS } from '../../src/gateway/implement/googleCalendarGateway';
-import { PlaceDataHtmlGatewayForAWS } from '../../src/gateway/implement/placeDataHtmlGateway';
 import { S3Gateway } from '../../src/gateway/implement/s3Gateway';
 import type { ICalendarGatewayForAWS } from '../../src/gateway/interface/iCalendarGateway';
-import type { IPlaceDataHtmlGatewayForAWS } from '../../src/gateway/interface/iPlaceDataHtmlGateway';
 import type { IS3Gateway } from '../../src/gateway/interface/iS3Gateway';
 import { MockGoogleCalendarGateway } from '../../src/gateway/mock/mockGoogleCalendarGateway';
 import { MockPlaceDataHtmlGateway } from '../../src/gateway/mock/mockPlaceDataHtmlGateway';
@@ -40,7 +40,7 @@ container.register<IPlaceDataHtmlGatewayForAWS>('PlaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
             case allowedEnvs.production: {
-                return new PlaceDataHtmlGatewayForAWS();
+                return new PlaceDataHtmlGateway();
             }
             case allowedEnvs.local:
             case allowedEnvs.localNoInitData:

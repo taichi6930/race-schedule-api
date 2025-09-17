@@ -3,9 +3,9 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
+import { IPlaceDataHtmlGatewayForAWS } from '../../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../../src/utility/raceType';
 import { Logger } from '../../utility/logger';
-import { IPlaceDataHtmlGatewayForAWS } from '../interface/iPlaceDataHtmlGateway';
 /**
  * MockPlaceDataHtmlGatewayは、IPlaceDataHtmlGatewayのモック実装です。
  * 実際のHTML取得を行わず、モックデータを返します。
