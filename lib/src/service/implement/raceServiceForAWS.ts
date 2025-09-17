@@ -26,18 +26,12 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
     >;
     private readonly raceRepositoryFromHtml: Record<
         RaceType,
-        IRaceRepositoryForAWS
+        IRaceRepositoryForAWS | undefined
     >;
 
     public constructor(
         @inject('HorseRacingRaceRepositoryFromStorage')
         protected horseRacingRaceRepositoryFromStorage: IRaceRepositoryForAWS,
-        @inject('JraRaceRepositoryFromHtml')
-        protected jraRaceRepositoryFromHtml: IRaceRepositoryForAWS,
-        @inject('NarRaceRepositoryFromHtml')
-        protected narRaceRepositoryFromHtml: IRaceRepositoryForAWS,
-        @inject('OverseasRaceRepositoryFromHtml')
-        protected overseasRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('KeirinRaceRepositoryFromHtml')
         protected keirinRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('AutoraceRaceRepositoryFromHtml')
@@ -57,9 +51,9 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
         };
 
         this.raceRepositoryFromHtml = {
-            [RaceType.JRA]: this.jraRaceRepositoryFromHtml,
-            [RaceType.NAR]: this.narRaceRepositoryFromHtml,
-            [RaceType.OVERSEAS]: this.overseasRaceRepositoryFromHtml,
+            [RaceType.JRA]: undefined,
+            [RaceType.NAR]: undefined,
+            [RaceType.OVERSEAS]: undefined,
             [RaceType.KEIRIN]: this.keirinRaceRepositoryFromHtml,
             [RaceType.AUTORACE]: this.autoraceRaceRepositoryFromHtml,
             [RaceType.BOATRACE]: this.boatraceRaceRepositoryFromHtml,
@@ -105,11 +99,15 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
                                 placeEntity.placeData.raceType === raceType,
                         ) ?? [],
                     );
-                    const raceEntityList = await (
+                    const raceRepository =
                         type === DataLocation.Storage
                             ? this.raceRepositoryFromStorage[raceType]
-                            : this.raceRepositoryFromHtml[raceType]
-                    ).fetchRaceEntityList(searchFilter);
+                            : this.raceRepositoryFromHtml[raceType];
+                    if (!raceRepository) {
+                        continue;
+                    }
+                    const raceEntityList =
+                        await raceRepository.fetchRaceEntityList(searchFilter);
                     result.push(...raceEntityList);
                 }
             }

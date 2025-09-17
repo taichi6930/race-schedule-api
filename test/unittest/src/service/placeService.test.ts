@@ -17,7 +17,7 @@ import {
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
 
-describe('PlaceUseCase', () => {
+describe('PlaceService', () => {
     let repositorySetup: TestRepositorySetup;
     let service: IPlaceService;
 
