@@ -533,3 +533,8 @@ export const mockRaceEntityListMechanicalRacing =
 export const mockPlaceEntityList = testRaceTypeListWithoutOverseas.map(
     (raceType) => basePlaceEntity(raceType),
 );
+
+export const mockPlaceEntityListMechanicalRacing =
+    testRaceTypeListMechanicalRacing.map((raceType) =>
+        basePlaceEntity(raceType),
+    );

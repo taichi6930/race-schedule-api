@@ -5,7 +5,7 @@ import { afterEach } from 'node:test';
 import { container } from 'tsyringe';
 
 import { CalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/implement/calendarUseCaseForAWS';
-import type { IRaceCalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/IRaceCalendarUseCaseForAWS';
+import type { ICalendarUseCaseForAWS } from '../../../../../../lib/src/usecase/interface/ICalendarUseCaseForAWS';
 import type { CalendarData } from '../../../../../../src/domain/calendarData';
 import { RaceType } from '../../../../../../src/utility/raceType';
 import { SpecifiedGradeList } from '../../../../../../src/utility/validateAndType/gradeType';
@@ -13,7 +13,7 @@ import {
     baseCalendarData,
     baseRaceEntity,
     mockCalendarDataList,
-    testRaceTypeListAll,
+    testRaceTypeListMechanicalRacing,
 } from '../../../../../unittest/src/mock/common/baseCommonData';
 import type { TestServiceForAWSSetup } from '../../../../../utility/testSetupHelper';
 import {
@@ -23,7 +23,7 @@ import {
 
 describe('RaceCalendarUseCase', () => {
     let serviceSetup: TestServiceForAWSSetup;
-    let useCase: IRaceCalendarUseCaseForAWS;
+    let useCase: ICalendarUseCaseForAWS;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceForAWSMock();
@@ -47,42 +47,47 @@ describe('RaceCalendarUseCase', () => {
             const result = await useCase.fetchCalendarRaceList(
                 startDate,
                 finishDate,
-                testRaceTypeListAll,
+                testRaceTypeListMechanicalRacing,
             );
 
             expect(
                 serviceSetup.calendarService.fetchEvents,
-            ).toHaveBeenCalledWith(startDate, finishDate, testRaceTypeListAll);
+            ).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+                testRaceTypeListMechanicalRacing,
+            );
             expect(result).toEqual(mockCalendarDataList);
         });
     });
 
     it('イベントが追加・削除されること（複数）', async () => {
-        const calendarDataList: CalendarData[] = testRaceTypeListAll.flatMap(
-            (raceType) =>
+        const calendarDataList: CalendarData[] =
+            testRaceTypeListMechanicalRacing.flatMap((raceType) =>
                 Array.from({ length: 8 }, (_, i: number) =>
                     baseCalendarData(raceType).copy({
                         id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
                     }),
                 ),
-        );
+            );
 
-        const mockRaceEntityList = testRaceTypeListAll.flatMap((raceType) =>
-            Array.from({ length: 5 }, (_, i: number) =>
-                baseRaceEntity(raceType).copy({
-                    id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
-                }),
-            ),
-        );
-
-        const expectDeleteCalendarDataList = testRaceTypeListAll.flatMap(
+        const mockRaceEntityList = testRaceTypeListMechanicalRacing.flatMap(
             (raceType) =>
+                Array.from({ length: 5 }, (_, i: number) =>
+                    baseRaceEntity(raceType).copy({
+                        id: `${raceType.toLowerCase()}2024122920${(i + 1).toXDigits(2)}`,
+                    }),
+                ),
+        );
+
+        const expectDeleteCalendarDataList =
+            testRaceTypeListMechanicalRacing.flatMap((raceType) =>
                 Array.from({ length: 3 }, (_, i: number) =>
                     baseCalendarData(raceType).copy({
                         id: `${raceType.toLowerCase()}2024122920${(i + 6).toXDigits(2)}`,
                     }),
                 ),
-        );
+            );
         const expectRaceEntityList = mockRaceEntityList;
 
         // モックの戻り値を設定
@@ -100,11 +105,8 @@ describe('RaceCalendarUseCase', () => {
         await useCase.updateCalendarRaceData(
             startDate,
             finishDate,
-            testRaceTypeListAll,
+            testRaceTypeListMechanicalRacing,
             {
-                [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
-                [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),
-                [RaceType.OVERSEAS]: SpecifiedGradeList(RaceType.OVERSEAS),
                 [RaceType.KEIRIN]: SpecifiedGradeList(RaceType.KEIRIN),
                 [RaceType.AUTORACE]: SpecifiedGradeList(RaceType.AUTORACE),
                 [RaceType.BOATRACE]: SpecifiedGradeList(RaceType.BOATRACE),
@@ -115,7 +117,7 @@ describe('RaceCalendarUseCase', () => {
         expect(serviceSetup.calendarService.fetchEvents).toHaveBeenCalledWith(
             startDate,
             finishDate,
-            testRaceTypeListAll,
+            testRaceTypeListMechanicalRacing,
         );
 
         // deleteEventsが呼び出された回数を確認

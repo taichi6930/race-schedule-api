@@ -22,10 +22,6 @@ export class PlayerUseCaseForAWS implements IPlayerDataUseCaseForAWS {
     ): Promise<PlayerDataForAWS[]> {
         const playerDataList: PlayerDataForAWS[] =
             await this.playerDataService.fetchPlayerDataList(raceTypeList[0]);
-        console.log(
-            'PlayerUseCase: fetchPlayerDataList executed',
-            playerDataList[0],
-        );
         return playerDataList;
     }
 }

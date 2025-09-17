@@ -11,9 +11,6 @@ export const RaceType = {
 } as const;
 
 export const RACE_TYPE_LIST_ALL_FOR_AWS: RaceType[] = [
-    RaceType.JRA,
-    RaceType.NAR,
-    RaceType.OVERSEAS,
     RaceType.KEIRIN,
     RaceType.AUTORACE,
     RaceType.BOATRACE,

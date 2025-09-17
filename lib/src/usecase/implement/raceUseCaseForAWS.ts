@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { DataLocation } from '../../../../src/utility/dataType';
 import {
-    RACE_TYPE_LIST_ALL_FOR_AWS,
+    // RACE_TYPE_LIST_ALL_FOR_AWS, // unused
     RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
@@ -43,18 +43,9 @@ export class RaceUseCaseForAWS implements IRaceUseCaseForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
         searchList?: {
-            [RaceType.JRA]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-            };
-            [RaceType.NAR]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-            };
-            [RaceType.OVERSEAS]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-            };
+            [RaceType.JRA]?: undefined;
+            [RaceType.NAR]?: undefined;
+            [RaceType.OVERSEAS]?: undefined;
             [RaceType.KEIRIN]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
@@ -88,14 +79,14 @@ export class RaceUseCaseForAWS implements IRaceUseCaseForAWS {
         );
 
         // 共通フィルタ関数で簡潔に
-        return RACE_TYPE_LIST_ALL_FOR_AWS.flatMap((raceType) =>
-            this.filterRaceEntityList(
+        return raceTypeList.flatMap((raceType) => {
+            return this.filterRaceEntityList(
                 raceEntityList.filter(
                     (raceEntity) => raceEntity.raceData.raceType === raceType,
                 ),
                 searchList?.[raceType],
-            ),
-        );
+            );
+        });
     }
 
     /**
@@ -113,15 +104,9 @@ export class RaceUseCaseForAWS implements IRaceUseCaseForAWS {
         finishDate: Date,
         raceTypeList: RaceType[],
         searchList?: {
-            [RaceType.JRA]?: {
-                locationList?: RaceCourse[];
-            };
-            [RaceType.NAR]?: {
-                locationList?: RaceCourse[];
-            };
-            [RaceType.OVERSEAS]?: {
-                locationList?: RaceCourse[];
-            };
+            [RaceType.JRA]?: undefined;
+            [RaceType.NAR]?: undefined;
+            [RaceType.OVERSEAS]?: undefined;
             [RaceType.KEIRIN]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];

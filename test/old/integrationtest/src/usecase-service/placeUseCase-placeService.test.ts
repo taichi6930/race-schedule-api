@@ -7,9 +7,9 @@ import type { IPlaceServiceForAWS } from '../../../../../lib/src/service/interfa
 import { PlaceUseCaseForAWS } from '../../../../../lib/src/usecase/implement/placeUseCaseForAWS';
 import type { IPlaceUseCaseForAWS } from '../../../../../lib/src/usecase/interface/IPlaceUseCaseForAWS';
 import {
-    basePlaceEntity,
+    mockPlaceEntityListMechanicalRacing,
     testRaceTypeListAll,
-    testRaceTypeListWithoutOverseas,
+    testRaceTypeListMechanicalRacing,
 } from '../../../../unittest/src/mock/common/baseCommonData';
 import type { TestRepositoryForAWSSetup } from '../../../../utility/testSetupHelper';
 import {
@@ -37,10 +37,6 @@ describe('placeUseCase-placeService', () => {
         clearMocks();
     });
 
-    const mockPlaceEntity = testRaceTypeListWithoutOverseas.map((raceType) =>
-        basePlaceEntity(raceType),
-    );
-
     describe('fetchRaceEntityList', () => {
         it('正常に開催場データが取得できること', async () => {
             const startDate = new Date('2024-06-01');
@@ -49,10 +45,10 @@ describe('placeUseCase-placeService', () => {
             const result = await useCase.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                testRaceTypeListAll,
+                testRaceTypeListMechanicalRacing,
             );
 
-            expect(result).toEqual(mockPlaceEntity);
+            expect(result).toEqual(mockPlaceEntityListMechanicalRacing);
         });
     });
 
