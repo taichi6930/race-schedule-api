@@ -7,7 +7,7 @@ import { RaceData } from '../../domain/raceData';
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import { RaceType, validateRaceType } from '../../utility/raceType';
 import type { FailureDetail, UpsertResult } from '../../utility/upsertResult';
 import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
@@ -85,13 +85,16 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                 race.race_number,
                 held_day.held_times,
                 held_day.held_day_times,
+                race_stage.stage,
                 race.created_at,
                 race.updated_at
             FROM race
-            INNER JOIN race_condition ON race.id = race_condition.id
+            LEFT JOIN race_condition ON race.id = race_condition.id
             LEFT JOIN held_day ON race.place_id = held_day.id
+            LEFT JOIN race_stage ON race.id = race_stage.id
             ${whereClause}
         `;
+        console.log(sql, queryParams);
 
         const { results } = await this.dbGateway.queryAll(
             env,
@@ -108,6 +111,26 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                           Number(row.held_day_times),
                       )
                     : undefined;
+            const conditionData =
+                row.surface_type !== null && row.distance !== null
+                    ? HorseRaceConditionData.create(
+                          row.surface_type,
+                          row.distance,
+                      )
+                    : undefined;
+            const raceType = validateRaceType(row.race_type);
+            const racePlayerList =
+                raceType === RaceType.KEIRIN ||
+                raceType === RaceType.AUTORACE ||
+                raceType === RaceType.BOATRACE
+                    ? []
+                    : undefined;
+            const stage =
+                raceType === RaceType.KEIRIN ||
+                raceType === RaceType.AUTORACE ||
+                raceType === RaceType.BOATRACE
+                    ? row.stage
+                    : undefined;
             return RaceEntity.create(
                 row.id,
                 row.place_id,
@@ -120,9 +143,9 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                     row.race_number,
                 ),
                 heldDayData,
-                HorseRaceConditionData.create(row.surface_type, row.distance),
-                undefined,
-                undefined,
+                conditionData,
+                stage,
+                racePlayerList,
             );
         });
     }

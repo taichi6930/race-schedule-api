@@ -20,6 +20,7 @@ export const RACE_TYPE_LIST_ALL: RaceType[] = [
     RaceType.JRA,
     RaceType.NAR,
     RaceType.OVERSEAS,
+    RaceType.AUTORACE,
 ];
 
 export const RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS =
