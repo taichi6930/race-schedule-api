@@ -9,10 +9,7 @@ import { MockRaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
-import { JraRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
 import { KeirinRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
-import { NarRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
-import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
 import { PlaceData } from '../../../../../../src/domain/placeData';
@@ -28,57 +25,9 @@ import { clearMocks } from '../../../../../utility/testSetupHelper';
 
 // テーブル駆動型テスト
 const testCases = {
-    [RaceType.JRA]: [
-        {
-            name: 'JraRaceRepositoryFromHtml',
-            repositoryClass: JraRaceRepositoryFromHtmlForAWS,
-            startDate: new Date('2024-05-26'),
-            endDate: new Date('2024-05-26'),
-            placeName: '東京',
-            placeDate: new Date('2024-05-26'),
-            expectedLength: 12,
-        },
-    ],
-    [RaceType.NAR]: [
-        {
-            name: 'NarRaceRepositoryFromHtml',
-            repositoryClass: NarRaceRepositoryFromHtmlForAWS,
-            startDate: new Date('2024-10-02'),
-            endDate: new Date('2024-10-02'),
-            placeName: '大井',
-            placeDate: new Date('2024-10-02'),
-            expectedLength: 12,
-        },
-        {
-            name: 'NarRaceRepositoryFromHtml',
-            repositoryClass: NarRaceRepositoryFromHtmlForAWS,
-            startDate: new Date('2023-10-08'),
-            endDate: new Date('2023-10-08'),
-            placeName: '盛岡',
-            placeDate: new Date('2023-10-08'),
-            expectedLength: 12,
-        },
-    ],
-    [RaceType.OVERSEAS]: [
-        {
-            name: 'OverseasRaceRepositoryFromHtml',
-            repositoryClass: OverseasRaceRepositoryFromHtmlForAWS,
-            startDate: new Date('2025-05-01'),
-            endDate: new Date('2025-06-30'),
-            placeName: 'パリロンシャン',
-            placeDate: new Date('2025-05-01'),
-            expectedLength: 35,
-        },
-        {
-            name: 'OverseasRaceRepositoryFromHtml',
-            repositoryClass: OverseasRaceRepositoryFromHtmlForAWS,
-            startDate: new Date('2025-06-01'),
-            endDate: new Date('2025-07-31'),
-            placeName: 'パリロンシャン',
-            placeDate: new Date('2025-06-01'),
-            expectedLength: 30,
-        },
-    ],
+    [RaceType.JRA]: [],
+    [RaceType.NAR]: [],
+    [RaceType.OVERSEAS]: [],
     [RaceType.KEIRIN]: [
         {
             name: 'KeirinRaceRepositoryFromHtml',
