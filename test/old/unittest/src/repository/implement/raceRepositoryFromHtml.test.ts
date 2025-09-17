@@ -9,9 +9,9 @@ import { MockRaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/autoraceRaceRepositoryFromHtml';
 import { BoatraceRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
-import { JraRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
+import { JraRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/jraRaceRepositoryFromHtml';
 import { KeirinRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
-import { NarRaceRepositoryFromHtml } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
+import { NarRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/narRaceRepositoryFromHtml';
 import { OverseasRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/overseasRaceRepositoryFromHtmlForAWS';
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
@@ -31,18 +31,18 @@ const testCases = {
     [RaceType.JRA]: [
         {
             name: 'JraRaceRepositoryFromHtml',
-            repositoryClass: JraRaceRepositoryFromHtml,
+            repositoryClass: JraRaceRepositoryFromHtmlForAWS,
             startDate: new Date('2024-05-26'),
             endDate: new Date('2024-05-26'),
             placeName: '東京',
             placeDate: new Date('2024-05-26'),
-            expectedLength: 24,
+            expectedLength: 12,
         },
     ],
     [RaceType.NAR]: [
         {
             name: 'NarRaceRepositoryFromHtml',
-            repositoryClass: NarRaceRepositoryFromHtml,
+            repositoryClass: NarRaceRepositoryFromHtmlForAWS,
             startDate: new Date('2024-10-02'),
             endDate: new Date('2024-10-02'),
             placeName: '大井',
@@ -51,7 +51,7 @@ const testCases = {
         },
         {
             name: 'NarRaceRepositoryFromHtml',
-            repositoryClass: NarRaceRepositoryFromHtml,
+            repositoryClass: NarRaceRepositoryFromHtmlForAWS,
             startDate: new Date('2023-10-08'),
             endDate: new Date('2023-10-08'),
             placeName: '盛岡',

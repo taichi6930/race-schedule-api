@@ -24,7 +24,7 @@ export class RaceDataHtmlGatewayForAWS implements IRaceDataHtmlGatewayForAWS {
     ): string {
         switch (raceType) {
             case RaceType.JRA: {
-                return createJraRaceUrl(date);
+                return createJraRaceUrl(date, place, number);
             }
             case RaceType.NAR: {
                 return createNarRaceUrl(date, place);
@@ -62,6 +62,7 @@ export class RaceDataHtmlGatewayForAWS implements IRaceDataHtmlGatewayForAWS {
         // gokeibaのURLからHTMLを取得する
         try {
             const url = this.buildUrl(raceType, date, place, number);
+            console.log('raceUrl:', url);
             const html = await fetch(url);
             const htmlText = await html.text();
             return htmlText;

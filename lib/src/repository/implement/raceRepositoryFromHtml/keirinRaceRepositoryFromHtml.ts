@@ -3,9 +3,9 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceData } from '../../../../../src/domain/placeData';
 import { RaceData } from '../../../../../src/domain/raceData';
 import { RacePlayerData } from '../../../../../src/domain/racePlayerData';
+import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { RaceType } from '../../../../../src/utility/raceType';
 import { GradeType } from '../../../../../src/utility/validateAndType/gradeType';
@@ -42,10 +42,7 @@ export class KeirinRaceRepositoryFromHtmlForAWS
         const { placeEntityList } = searchFilter;
         for (const placeEntity of placeEntityList) {
             raceEntityList.push(
-                ...(await this.fetchRaceListFromHtml(
-                    placeEntity.placeData,
-                    placeEntity.grade,
-                )),
+                ...(await this.fetchRaceListFromHtml(placeEntity)),
             );
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
             const delayedTimeMs = Number.parseInt(
@@ -60,20 +57,19 @@ export class KeirinRaceRepositoryFromHtmlForAWS
     }
 
     @Logger
-    public async fetchRaceListFromHtml(
-        placeData: PlaceData,
-        grade: GradeType,
+    private async fetchRaceListFromHtml(
+        placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
         try {
             const [year, month, day] = [
-                placeData.dateTime.getFullYear(),
-                placeData.dateTime.getMonth() + 1,
-                placeData.dateTime.getDate(),
+                placeEntity.placeData.dateTime.getFullYear(),
+                placeEntity.placeData.dateTime.getMonth() + 1,
+                placeEntity.placeData.dateTime.getDate(),
             ];
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                placeData.raceType,
-                placeData.dateTime,
-                placeData.location,
+                placeEntity.placeData.raceType,
+                placeEntity.placeData.dateTime,
+                placeEntity.placeData.location,
             );
             const raceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
@@ -81,7 +77,7 @@ export class KeirinRaceRepositoryFromHtmlForAWS
             const content = $('#content');
             const seriesRaceName = (
                 content.find('h2').text().split('\n').filter(Boolean)[1] ??
-                `${placeData.location}${grade}`
+                `${placeEntity.placeData.location}${placeEntity.grade}`
             )
                 .replaceFromCodePoint(/[！-～]/g)
                 .replaceFromCodePoint(/[０-９Ａ-Ｚａ-ｚ]/g);
@@ -113,7 +109,7 @@ export class KeirinRaceRepositoryFromHtmlForAWS
                         );
                         const raceGrade = this.extractRaceGrade(
                             raceName,
-                            grade,
+                            placeEntity.grade,
                             raceStage ?? '',
                             new Date(year, month - 1, day),
                         );
@@ -143,7 +139,7 @@ export class KeirinRaceRepositoryFromHtmlForAWS
                                 if (positionNumber && playerNumber !== null) {
                                     racePlayerDataList.push(
                                         RacePlayerData.create(
-                                            placeData.raceType,
+                                            placeEntity.placeData.raceType,
                                             Number(positionNumber),
                                             Number(playerNumber),
                                         ),
@@ -154,7 +150,7 @@ export class KeirinRaceRepositoryFromHtmlForAWS
                             raceStage === null
                                 ? null
                                 : RaceData.create(
-                                      placeData.raceType,
+                                      placeEntity.placeData.raceType,
                                       raceName,
                                       new Date(
                                           year,
@@ -163,7 +159,7 @@ export class KeirinRaceRepositoryFromHtmlForAWS
                                           hour,
                                           minute,
                                       ),
-                                      placeData.location,
+                                      placeEntity.placeData.location,
                                       raceGrade,
                                       Number(raceNumber),
                                   );

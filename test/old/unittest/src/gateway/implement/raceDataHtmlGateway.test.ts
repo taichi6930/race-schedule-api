@@ -23,7 +23,9 @@ describe('RaceDataHtmlGateway', () => {
         {
             descriptions: 'JRAの開催レースデータ',
             raceType: RaceType.JRA,
-            expectedUrl: `https://www.keibalab.jp/db/race/20241001/`,
+            place: '東京',
+            number: 101,
+            expectedUrl: `https://sports.yahoo.co.jp/keiba/race/list/24050101`,
         },
         {
             descriptions: 'NARの開催レースデータ',
@@ -86,6 +88,12 @@ describe('RaceDataHtmlGateway', () => {
     }
 
     for (const { descriptions, raceType, place, number, expectedMessage } of [
+        {
+            descriptions: 'JRAの開催レースデータでplaceが足りない',
+            raceType: RaceType.JRA,
+            place: undefined,
+            expectedMessage: 'JRAレースの開催場が指定されていません',
+        },
         {
             descriptions: 'NARの開催レースデータでplaceが足りない',
             raceType: RaceType.NAR,

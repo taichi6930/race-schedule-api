@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
+import { NetkeibaBabacodeMap } from '../../../../src/utility/data/netkeiba';
 import { RaceType } from '../../../../src/utility/raceType';
 import {
     createPlaceCode,
@@ -22,7 +23,7 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGatewayForAWS {
     ): string {
         switch (raceType) {
             case RaceType.JRA: {
-                return this.buildJraUrl(date);
+                return this.buildJraUrl(date, place, number);
             }
             case RaceType.NAR: {
                 return this.buildNarUrl(date, place);
@@ -42,8 +43,23 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGatewayForAWS {
         }
     }
 
-    private buildJraUrl(date: Date): string {
-        return `../mockData/html/jra/race/${format(date, 'yyyyMMdd')}.html`;
+    private buildJraUrl(
+        date: Date,
+        place?: RaceCourse,
+        number?: number,
+    ): string {
+        if (place === undefined) {
+            throw new Error('JRAレースの開催場が指定されていません');
+        }
+        if (number === undefined || Number.isNaN(number)) {
+            throw new Error('JRAの番号が指定されていません');
+        }
+        // yearの下2桁 2025 -> 25, 2001 -> 01
+        const year = String(date.getFullYear()).slice(-2);
+        const babaCode = NetkeibaBabacodeMap[place];
+        // numberを4桁にフォーマット（頭を0埋め 100 -> 0100, 2 -> 0002）
+        const num = String(number).padStart(4, '0');
+        return `../mockData/html/jra/race/${year}${babaCode}${num}.html`;
     }
 
     private buildNarUrl(date: Date, place?: RaceCourse): string {
@@ -110,6 +126,7 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGatewayForAWS {
         try {
             // mockDataフォルダにあるhtmlを取得
             const testHtmlUrl = this.buildUrl(raceType, date, place, number);
+            console.log('testHtmlUrl:', testHtmlUrl);
             // lib/src/gateway/mockData/html/nar/placeの中にあるhtmlを取得
             const htmlFilePath = path.join(__dirname, testHtmlUrl);
             const htmlContent = await fs.readFile(htmlFilePath, 'utf8');

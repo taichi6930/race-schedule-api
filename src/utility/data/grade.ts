@@ -147,8 +147,8 @@ export const GradeMasterList: {
     {
         gradeName: 'オープン',
         detail: [
-            { raceType: RaceType.JRA, isSpecified: false },
-            { raceType: RaceType.NAR, isSpecified: false },
+            { raceType: RaceType.JRA, isSpecified: true },
+            { raceType: RaceType.NAR, isSpecified: true },
         ],
     },
     {

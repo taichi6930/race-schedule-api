@@ -21,7 +21,7 @@ import { IRaceRepositoryForAWS } from '../../interface/IRaceRepositoryForAWS';
  * 競馬場開催データリポジトリの実装
  */
 @injectable()
-export class NarRaceRepositoryFromHtml implements IRaceRepositoryForAWS {
+export class NarRaceRepositoryFromHtmlForAWS implements IRaceRepositoryForAWS {
     public constructor(
         @inject('RaceDataHtmlGateway')
         private readonly raceDataHtmlGateway: IRaceDataHtmlGatewayForAWS,

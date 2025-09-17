@@ -82,7 +82,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": [\"jra\", \"nar\", \"keirin\", \"autorace\"]
+                  \"raceType\": [\"keirin\", \"autorace\"]
                 }")
 
           # レスポンスチェック
