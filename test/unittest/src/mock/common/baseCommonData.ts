@@ -174,7 +174,8 @@ const baseMechanicalRacingRaceEntityList = (
                     defaultHeldDayData[raceType],
                     baseConditionData(raceType),
                     stage,
-                    baseRacePlayerDataList(raceType),
+                    [],
+                    // baseRacePlayerDataList(raceType),
                 );
             });
         })

@@ -1,4 +1,4 @@
-import type { SearchPlaceFilterEntity } from '../../../../../src/repository/entity/filter/searchPlaceFilterEntity';
+import type { SearchRaceFilterEntity } from '../../../../../src/repository/entity/filter/searchRaceFilterEntity';
 import type { IRaceRepository } from '../../../../../src/repository/interface/IRaceRepository';
 import type { RaceType } from '../../../../../src/utility/raceType';
 import { baseRaceEntity, baseRaceEntityList } from '../common/baseCommonData';
@@ -10,7 +10,7 @@ export const mockRaceRepository = (): jest.Mocked<IRaceRepository> => {
             .mockImplementation(
                 async (
                     _commonParameter,
-                    searchFilter: SearchPlaceFilterEntity,
+                    searchFilter: SearchRaceFilterEntity,
                 ) => {
                     const { raceTypeList } = searchFilter;
                     return raceTypeList.map((raceType) =>

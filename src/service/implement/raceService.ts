@@ -42,20 +42,40 @@ export class RaceService implements IRaceService {
         dataLocation: DataLocationType,
         placeEntityList?: PlaceEntity[],
     ): Promise<RaceEntity[]> {
-        const raceEntityList: RaceEntity[] = [];
-        for (const raceType of searchRaceFilter.raceTypeList) {
-            const repository =
-                dataLocation === DataLocation.Storage
-                    ? this.repositoryFromStorage
-                    : this.raceRepositoryFromHtml[raceType];
-            const fetchedRaceEntityList = await repository.fetchRaceEntityList(
-                commonParameter,
-                searchRaceFilter,
-                placeEntityList,
-            );
-            raceEntityList.push(...fetchedRaceEntityList);
+        switch (dataLocation) {
+            case DataLocation.Storage: {
+                const repository = this.repositoryFromStorage;
+                const fetchedRaceEntityList =
+                    await repository.fetchRaceEntityList(
+                        commonParameter,
+                        searchRaceFilter,
+                        placeEntityList,
+                    );
+                return fetchedRaceEntityList;
+            }
+            case DataLocation.Web: {
+                const raceEntityList: RaceEntity[] = [];
+                for (const raceType of searchRaceFilter.raceTypeList) {
+                    const repository = this.raceRepositoryFromHtml[raceType];
+                    const fetchedRaceEntityList =
+                        await repository.fetchRaceEntityList(
+                            commonParameter,
+                            new SearchRaceFilterEntity(
+                                searchRaceFilter.startDate,
+                                searchRaceFilter.finishDate,
+                                [raceType],
+                                searchRaceFilter.locationList,
+                                searchRaceFilter.gradeList,
+                                searchRaceFilter.stageList,
+                            ),
+                            placeEntityList,
+                        );
+                    raceEntityList.push(...fetchedRaceEntityList);
+                    return raceEntityList;
+                }
+            }
         }
-        return raceEntityList;
+        return [];
     }
 
     @Logger
