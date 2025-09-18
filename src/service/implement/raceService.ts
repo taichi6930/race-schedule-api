@@ -18,25 +18,19 @@ export class RaceService implements IRaceService {
     public constructor(
         @inject('RaceRepositoryFromStorage')
         private readonly repositoryFromStorage: IRaceRepository,
-        @inject('JraRaceRepositoryFromHtml')
-        private readonly jraRaceRepositoryFromHtml: IRaceRepository,
-        @inject('NarRaceRepositoryFromHtml')
-        private readonly narRaceRepositoryFromHtml: IRaceRepository,
+        @inject('RaceRepositoryFromHtml')
+        private readonly _raceRepositoryFromHtml: IRaceRepository,
         @inject('OverseasRaceRepositoryFromHtml')
         private readonly overseasRaceRepositoryFromHtml: IRaceRepository,
-        @inject('KeirinRaceRepositoryFromHtml')
-        private readonly keirinRaceRepositoryFromHtml: IRaceRepository,
-        @inject('AutoraceRaceRepositoryFromHtml')
-        private readonly autoraceRaceRepositoryFromHtml: IRaceRepository,
         @inject('BoatraceRaceRepositoryFromHtml')
         private readonly boatraceRaceRepositoryFromHtml: IRaceRepository,
     ) {
         this.raceRepositoryFromHtml = {
-            [RaceType.JRA]: this.jraRaceRepositoryFromHtml,
-            [RaceType.NAR]: this.narRaceRepositoryFromHtml,
+            [RaceType.JRA]: this._raceRepositoryFromHtml,
+            [RaceType.NAR]: this._raceRepositoryFromHtml,
             [RaceType.OVERSEAS]: this.overseasRaceRepositoryFromHtml,
-            [RaceType.KEIRIN]: this.keirinRaceRepositoryFromHtml,
-            [RaceType.AUTORACE]: this.autoraceRaceRepositoryFromHtml,
+            [RaceType.KEIRIN]: this._raceRepositoryFromHtml,
+            [RaceType.AUTORACE]: this._raceRepositoryFromHtml,
             [RaceType.BOATRACE]: this.boatraceRaceRepositoryFromHtml,
         };
     }

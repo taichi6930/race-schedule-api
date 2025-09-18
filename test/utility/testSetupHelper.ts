@@ -36,12 +36,9 @@ export interface TestRepositorySetup {
     placeRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
     calendarRepository: jest.Mocked<ICalendarRepository>;
     raceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
-    jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    raceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     overseasRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
     boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
 }
 
 /**
@@ -82,26 +79,15 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
         'RaceRepositoryFromStorage',
         raceRepositoryFromStorage,
     );
-    const jraRaceRepositoryFromHtml = mockRaceRepository();
+    const raceRepositoryFromHtml = mockRaceRepository();
     container.registerInstance<IRaceRepository>(
-        'JraRaceRepositoryFromHtml',
-        jraRaceRepositoryFromHtml,
-    );
-    const narRaceRepositoryFromHtml = mockRaceRepository();
-    container.registerInstance<IRaceRepository>(
-        'NarRaceRepositoryFromHtml',
-        narRaceRepositoryFromHtml,
+        'RaceRepositoryFromHtml',
+        raceRepositoryFromHtml,
     );
     const overseasRaceRepositoryFromHtml = mockRaceRepository();
     container.registerInstance<IRaceRepository>(
         'OverseasRaceRepositoryFromHtml',
         overseasRaceRepositoryFromHtml,
-    );
-
-    const keirinRaceRepositoryFromHtml = mockRaceRepository();
-    container.registerInstance<IRaceRepository>(
-        'KeirinRaceRepositoryFromHtml',
-        keirinRaceRepositoryFromHtml,
     );
 
     const boatraceRaceRepositoryFromHtml = mockRaceRepository();
@@ -110,23 +96,14 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
         boatraceRaceRepositoryFromHtml,
     );
 
-    const autoraceRaceRepositoryFromHtml = mockRaceRepository();
-    container.registerInstance<IRaceRepository>(
-        'AutoraceRaceRepositoryFromHtml',
-        autoraceRaceRepositoryFromHtml,
-    );
-
     return {
         placeRepositoryFromStorage,
         placeRepositoryFromHtml,
         calendarRepository,
         raceRepositoryFromStorage,
-        jraRaceRepositoryFromHtml,
-        narRaceRepositoryFromHtml,
+        raceRepositoryFromHtml,
         overseasRaceRepositoryFromHtml,
-        keirinRaceRepositoryFromHtml,
         boatraceRaceRepositoryFromHtml,
-        autoraceRaceRepositoryFromHtml,
     };
 }
 

@@ -45,7 +45,7 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
         if (!placeEntityList) return raceEntityList;
         for (const placeEntity of placeEntityList) {
             raceEntityList.push(
-                ...(await this.fetchRaceListFromHtml(
+                ...(await this.fetchRaceListFromHtmlForBoatrace(
                     placeEntity.placeData,
                     placeEntity.grade,
                 )),
@@ -62,10 +62,60 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
     }
 
     @Logger
-    public async fetchRaceListFromHtml(
+    private async fetchRaceListFromHtmlForBoatrace(
         placeData: PlaceData,
         grade: GradeType,
     ): Promise<RaceEntity[]> {
+        function extractRaceStage(
+            raceSummaryInfoChild: string,
+        ): RaceStage | null {
+            for (const [pattern, stage] of Object.entries(
+                StageMap(RaceType.BOATRACE),
+            )) {
+                if (new RegExp(pattern).test(raceSummaryInfoChild)) {
+                    return stage;
+                }
+            }
+            return null;
+        }
+
+        function extractRaceName(
+            raceName: string,
+            raceStage: RaceStage,
+            raceNumber: number,
+        ): string {
+            // レース名に「チャレンジカップ」が含まれている場合で、
+            // レースステージが「優勝戦」、
+            // レース番号が12の場合は「チャレンジカップ」とする
+            if (
+                raceName.includes('チャレンジカップ') &&
+                raceStage === '優勝戦' &&
+                raceNumber === 12
+            ) {
+                return 'チャレンジカップ';
+            }
+            // 11レースの場合は「レディースチャレンジカップ」
+            if (
+                raceName.includes('チャレンジカップ') &&
+                raceStage === '優勝戦' &&
+                raceNumber === 11
+            ) {
+                return 'レディースチャレンジカップ';
+            }
+            return raceName;
+        }
+
+        function extractRaceGrade(
+            raceName: string,
+            raceGrade: GradeType,
+        ): GradeType {
+            // レース名に「レディースチャレンジカップ」が含まれている場合は「GⅡ」
+            if (raceName.includes('レディースチャレンジカップ')) {
+                return 'GⅡ';
+            }
+            return raceGrade;
+        }
+
         try {
             const [year, month, day] = [
                 placeData.dateTime.getFullYear(),
@@ -87,15 +137,15 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
             const raceNameText = $('.heading2_titleName').text();
 
             const raceStageString = $('h3').text();
-            const raceStage = this.extractRaceStage(raceStageString);
+            const raceStage = extractRaceStage(raceStageString);
             if (raceStage === null) {
                 console.error('レースステージが取得できませんでした');
                 return [];
             }
 
-            const raceName = this.extractRaceName(raceNameText, raceStage, 12);
+            const raceName = extractRaceName(raceNameText, raceStage, 12);
 
-            const raceGrade = this.extractRaceGrade(raceName, grade);
+            const raceGrade = extractRaceGrade(raceName, grade);
 
             // contentsFrame1_innerのクラスを持つ要素を取得
             const raceSummaryInfo = $('.contentsFrame1_inner');
@@ -136,54 +186,6 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
             return [];
         }
     }
-    private extractRaceStage(raceSummaryInfoChild: string): RaceStage | null {
-        for (const [pattern, stage] of Object.entries(
-            StageMap(RaceType.BOATRACE),
-        )) {
-            if (new RegExp(pattern).test(raceSummaryInfoChild)) {
-                return stage;
-            }
-        }
-        return null;
-    }
-
-    private extractRaceName(
-        raceName: string,
-        raceStage: RaceStage,
-        raceNumber: number,
-    ): string {
-        // レース名に「チャレンジカップ」が含まれている場合で、
-        // レースステージが「優勝戦」、
-        // レース番号が12の場合は「チャレンジカップ」とする
-        if (
-            raceName.includes('チャレンジカップ') &&
-            raceStage === '優勝戦' &&
-            raceNumber === 12
-        ) {
-            return 'チャレンジカップ';
-        }
-        // 11レースの場合は「レディースチャレンジカップ」
-        if (
-            raceName.includes('チャレンジカップ') &&
-            raceStage === '優勝戦' &&
-            raceNumber === 11
-        ) {
-            return 'レディースチャレンジカップ';
-        }
-        return raceName;
-    }
-
-    private extractRaceGrade(
-        raceName: string,
-        raceGrade: GradeType,
-    ): GradeType {
-        // レース名に「レディースチャレンジカップ」が含まれている場合は「GⅡ」
-        if (raceName.includes('レディースチャレンジカップ')) {
-            return 'GⅡ';
-        }
-        return raceGrade;
-    }
-
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
