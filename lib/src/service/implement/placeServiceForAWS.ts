@@ -7,7 +7,6 @@ import {
 } from '../../../../src/utility/dataType';
 import {
     RACE_TYPE_LIST_ALL_FOR_AWS,
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
 import { SearchPlaceFilterEntityForAWS } from '../../repository/entity/searchPlaceFilterEntity';
@@ -44,7 +43,7 @@ export class PlaceServiceForAWS implements IPlaceServiceForAWS {
     ): Promise<PlaceEntity[]> {
         try {
             const result: PlaceEntity[] = [];
-            for (const raceType of RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS) {
+            for (const raceType of RACE_TYPE_LIST_ALL_FOR_AWS) {
                 if (!raceTypeList.includes(raceType)) continue;
 
                 const placeEntityList: PlaceEntity[] = await (

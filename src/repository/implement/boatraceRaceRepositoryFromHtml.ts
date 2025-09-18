@@ -52,10 +52,7 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
                 )),
             );
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
-            const delayedTimeMs = Number.parseInt(
-                process.env.HTML_FETCH_DELAY_MS ?? '500',
-                10,
-            );
+            const delayedTimeMs = 1000;
             console.debug(`待機時間: ${delayedTimeMs}ms`);
             await new Promise((resolve) => setTimeout(resolve, delayedTimeMs));
             console.debug('待機時間が経ちました');
