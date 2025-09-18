@@ -29,7 +29,7 @@ export class RaceController {
     /**
      * 選手データを取得する
      * @param commonParameter - 共通パラメータ
-     * @param searchParams
+     * @param searchParams - 検索パラメータ
      */
     @Logger
     public async getRaceEntityList(
@@ -39,15 +39,15 @@ export class RaceController {
         try {
             const searchRaceFilter = parseQueryToFilter(searchParams);
 
-            const raceEntityList = await this.usecase.fetchRaceEntityList(
+            const entityList = await this.usecase.fetchRaceEntityList(
                 commonParameter,
                 searchRaceFilter,
             );
 
             return Response.json(
                 {
-                    count: raceEntityList.length,
-                    races: raceEntityList,
+                    count: entityList.length,
+                    races: entityList,
                 },
                 { headers: this.corsHeaders },
             );

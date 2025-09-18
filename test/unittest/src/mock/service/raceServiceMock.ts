@@ -1,8 +1,8 @@
 import type { IRaceService } from '../../../../../src/service/interface/IRaceService';
 
 /**
- * RaceDataServiceのモックを作成する
- * @returns モック化されたIRaceDataServiceインターフェースのインスタンス
+ * RaceServiceのモックを作成する
+ * @returns モック化されたIRaceServiceインターフェースのインスタンス
  */
 export const raceServiceMock = (): jest.Mocked<IRaceService> => {
     return {
