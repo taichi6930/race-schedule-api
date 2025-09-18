@@ -1,4 +1,4 @@
-name: Place Schedule Cloudflare
+name: Place Schedule
 
 on:
   schedule:

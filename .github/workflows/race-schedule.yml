@@ -1,4 +1,4 @@
-name: Race Schedule Cloudflare
+name: Race Schedule
 
 on:
   schedule:
