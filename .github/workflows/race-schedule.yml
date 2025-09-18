@@ -33,7 +33,7 @@ jobs:
           # 日付を計算、デフォルトは昨日から2日後
           startDate="${{ github.event.inputs.start-date }}"
           finishDate="${{ github.event.inputs.finish-date }}"
-          finishDateForMechanicalRacing="${{ github.event.inputs.finish-date }}"
+          finishDateForMechanicalRacing="$finishDate"
 
           # 入力がない場合のデフォルト設定
           if [ -z "$startDate" ]; then
