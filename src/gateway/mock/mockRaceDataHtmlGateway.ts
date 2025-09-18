@@ -3,11 +3,12 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
-import type { IRaceDataHtmlGateway } from '../../../../src/gateway/interface/iRaceDataHtmlGateway';
-import { NetkeibaBabacodeMap } from '../../../../src/utility/data/netkeiba';
-import { RaceType } from '../../../../src/utility/raceType';
-import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
-import { createPlaceCode } from '../../../../src/utility/validateAndType/raceCourse';
+import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
+import { RaceType } from '../../utility/raceType';
+import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
+import { createPlaceCode } from '../../utility/validateAndType/raceCourse';
+import type { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
+
 /**
  * レースデータのHTMLを取得するGateway
  */
