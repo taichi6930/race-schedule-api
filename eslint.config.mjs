@@ -93,7 +93,6 @@ export default [
             ],
             'jsdoc/no-undefined-types': 'error', // 未定義の型のチェック
             'jsdoc/require-asterisk-prefix': 'error', // アスタリスクプレフィックスの要求
-            'jsdoc/require-example': 'off', // サンプルの要求
             'jsdoc/require-file-overview': [
                 'off',
                 {
