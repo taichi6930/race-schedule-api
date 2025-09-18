@@ -4,7 +4,7 @@ import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
 import { DataLocation } from '../../../../src/utility/dataType';
 import {
     // RACE_TYPE_LIST_ALL_FOR_AWS, // unused
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS,
+    RACE_TYPE_LIST_ALL_FOR_AWS,
     RaceType,
 } from '../../../../src/utility/raceType';
 import { GradeType } from '../../../../src/utility/validateAndType/gradeType';
@@ -121,15 +121,15 @@ export class RaceUseCaseForAWS implements IRaceUseCaseForAWS {
             DataLocation.Storage,
         );
 
-        const filteredPlaceEntityList =
-            RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS.flatMap((raceType) =>
+        const filteredPlaceEntityList = RACE_TYPE_LIST_ALL_FOR_AWS.flatMap(
+            (raceType) =>
                 this.filterPlaceEntityList(
                     placeEntityList.filter(
                         (item) => item.placeData.raceType === raceType,
                     ),
                     searchList?.[raceType],
                 ),
-            );
+        );
 
         // placeEntityListが空の場合は処理を終了する
         if (
