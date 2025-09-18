@@ -151,6 +151,7 @@ export default [
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
+            ' @typescript-eslint/no-unnecessary-type-assertion': 'off', // ✅ 不必要な型アサーションを許可
             'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
             'jsdoc/require-example': 'off', // テストファイルではサンプルを任意に
             'unused-imports/no-unused-vars': [
