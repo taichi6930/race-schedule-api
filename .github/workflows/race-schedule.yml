@@ -26,6 +26,7 @@ jobs:
     outputs:
       start-date: ${{ steps.set-dates.outputs.start-date }}
       finish-date: ${{ steps.set-dates.outputs.finish-date }}
+      finish-date-for-mechanical-racing: ${{ steps.set-dates.outputs.finish-date }}
     steps:
       - name: Outputを設定
         id: set-dates
@@ -48,6 +49,11 @@ jobs:
           echo "start-date=$startDate" >> $GITHUB_OUTPUT
           echo "finish-date=$finishDate" >> $GITHUB_OUTPUT
           echo "finish-date-for-mechanical-racing=$finishDateForMechanicalRacing" >> $GITHUB_OUTPUT
+
+          # デバッグ用に出力
+          echo "Start Date: $startDate"
+          echo "Finish Date: $finishDate"
+          echo "Finish Date for Mechanical Racing: $finishDateForMechanicalRacing"
 
   health-check:
     runs-on: ubuntu-latest
