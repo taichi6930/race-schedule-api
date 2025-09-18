@@ -66,7 +66,9 @@ export class MockMechanicalRacingRaceRepositoryFromHtml
             case RaceType.BOATRACE: {
                 return raceNumber === 12 ? '優勝戦' : '一般戦';
             }
-            case RaceType.AUTORACE:
+            case RaceType.AUTORACE: {
+                return raceNumber === 12 ? '優勝戦' : '一般戦';
+            }
             case RaceType.JRA:
             case RaceType.NAR:
             case RaceType.OVERSEAS: {
