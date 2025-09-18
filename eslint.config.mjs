@@ -127,7 +127,7 @@ export default [
                 },
             ],
             'jsdoc/require-param': 'error', // パラメータの要求
-            'jsdoc/require-param-description': 'off', // TODO: パラメータの説明を後で必須にする
+            // 'jsdoc/require-param-description': 'off', // TODO: パラメータの説明を後で必須にする
             'jsdoc/require-param-name': 'error', // パラメータ名の要求
             'jsdoc/require-param-type': 'off', // TypeScriptと併用するため無効化
             'jsdoc/require-property': 'error', // プロパティの要求
@@ -154,7 +154,7 @@ export default [
             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
             'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
-            'jsdoc/require-param-description': 'off', // テストファイルではパラメータの説明を任意に
+            // 'jsdoc/require-param-description': 'off', // テストファイルではパラメータの説明を任意に
             'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
             'jsdoc/require-example': 'off', // テストファイルではサンプルを任意に
             '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
