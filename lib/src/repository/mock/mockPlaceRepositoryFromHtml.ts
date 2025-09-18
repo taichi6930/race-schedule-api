@@ -65,7 +65,7 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
         [RaceType.NAR]: undefined,
         [RaceType.OVERSEAS]: undefined,
         [RaceType.KEIRIN]: 'GⅠ',
-        [RaceType.AUTORACE]: undefined,
+        [RaceType.AUTORACE]: 'SG',
         [RaceType.BOATRACE]: 'SG',
     };
 }
