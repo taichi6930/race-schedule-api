@@ -1,11 +1,4 @@
-import {
-    createAutoraceRaceUrl,
-    createBoatraceRaceUrl,
-    createJraRaceUrl,
-    createKeirinRaceUrl,
-    createNarRaceUrl,
-    createOverseasRaceUrl,
-} from '../../utility/data/url';
+import { createRaceUrl } from '../../utility/data/url';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
@@ -15,34 +8,6 @@ import type { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
  * レースデータのHTMLを取得するGateway
  */
 export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
-    private buildUrl(
-        raceType: RaceType,
-        date: Date,
-        place?: RaceCourse,
-        number?: number,
-    ): string {
-        switch (raceType) {
-            case RaceType.JRA: {
-                return createJraRaceUrl(date, place, number);
-            }
-            case RaceType.NAR: {
-                return createNarRaceUrl(date, place);
-            }
-            case RaceType.OVERSEAS: {
-                return createOverseasRaceUrl(date);
-            }
-            case RaceType.KEIRIN: {
-                return createKeirinRaceUrl(date, place);
-            }
-            case RaceType.AUTORACE: {
-                return createAutoraceRaceUrl(date, place);
-            }
-            case RaceType.BOATRACE: {
-                return createBoatraceRaceUrl(date, place, number);
-            }
-        }
-    }
-
     /**
      * レースデータのHTMLを取得する
      * @param raceType - レース種別
@@ -60,7 +25,7 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
     ): Promise<string> {
         // gokeibaのURLからHTMLを取得する
         try {
-            const url = this.buildUrl(raceType, date, place, number);
+            const url = createRaceUrl(raceType, date, place, number);
             const html = await fetch(url);
             const htmlText = await html.text();
             return htmlText;

@@ -331,12 +331,14 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                 );
 
                 console.log(
-                    RaceEntity.createWithoutId(
-                        raceData,
-                        placeEntity.heldDayData,
-                        conditionData,
-                        undefined, // stage は未指定
-                        undefined, // racePlayerDataList は未指定
+                    JSON.stringify(
+                        RaceEntity.createWithoutId(
+                            raceData,
+                            placeEntity.heldDayData,
+                            conditionData,
+                            undefined, // stage は未指定
+                            undefined, // racePlayerDataList は未指定
+                        ),
                     ),
                 );
 
