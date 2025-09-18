@@ -182,7 +182,6 @@ export default [
             'unicorn/numeric-separators-style': 'off',
             'unicorn/prefer-string-replace-all': 'off', // ✅ String.prototype.replaceAll()の使用を許可
             '@typescript-eslint/no-unsafe-member-access': 'off', // ✅ any型のプロパティアクセスを許可
-            '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
             '@typescript-eslint/no-unsafe-argument': 'off', // ✅ any型の引数を許可
             'unicorn/no-useless-undefined': 'off', // ✅ 不要なundefinedの使用を許可
             '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
@@ -208,6 +207,13 @@ export default [
         files: ['**/*raceUseCase.test.ts', '**/*DataHtmlGateway.test.ts'],
         rules: {
             '@typescript-eslint/no-loop-func': 'off', // ✅ ループ内での関数定義を禁止
+        },
+    },
+    {
+        files: ['**/utility/logger.ts'],
+        rules: {
+            '@typescript-eslint/no-unsafe-call': 'off', // ✅ any型の関数呼び出しを許可
+
         },
     },
     {
