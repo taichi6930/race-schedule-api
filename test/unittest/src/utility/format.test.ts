@@ -1,4 +1,4 @@
-import '../../../../../src/utility/format';
+import '../../../../src/utility/format';
 
 describe('String.prototype.replaceFromCodePoint', () => {
     // 基本的な全角数字の変換テスト

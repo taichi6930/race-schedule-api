@@ -1,4 +1,4 @@
-import { createErrorMessage } from '../../../../../src/utility/error';
+import { createErrorMessage } from '../../../../src/utility/error';
 
 describe('error utility のテスト', () => {
     describe('createErrorMessage のテスト', () => {

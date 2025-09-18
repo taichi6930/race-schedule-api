@@ -1,7 +1,8 @@
 import {
     processJraRaceName,
     processNarRaceName,
-} from '../../../../../src/utility/createRaceName';
+} from '../../../../src/utility/createRaceName';
+
 describe('processJraRaceName', () => {
     it('should return 阪神JF for Hanshin Juvenile Fillies', () => {
         const raceInfo = {
