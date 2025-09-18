@@ -54,7 +54,6 @@ export default [
             ],
             'jsdoc/check-property-names': 'error', // プロパティ名のチェック
             'jsdoc/check-syntax': 'error', // 構文チェック
-            'jsdoc/check-tag-names': 'off', // Typescriptと併用するため無効化
             'jsdoc/check-types': 'error', // 型のチェック
             'jsdoc/check-values': 'error', // 値のチェック
             'jsdoc/empty-tags': 'error', // 空タグのチェック
