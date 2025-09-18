@@ -49,6 +49,11 @@ jobs:
           echo "finish-date=$finishDate" >> $GITHUB_OUTPUT
           echo "finish-date-for-mechanical-racing=$finishDateForMechanicalRacing" >> $GITHUB_OUTPUT
 
+          # デバッグ用に出力
+          echo "Start Date: $startDate"
+          echo "Finish Date: $finishDate"
+          echo "Finish Date for Mechanical Racing: $finishDateForMechanicalRacing"
+
   health-check:
     runs-on: ubuntu-latest
     steps:
