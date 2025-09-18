@@ -1,4 +1,4 @@
-import type { IS3Gateway } from '../../../../../../lib/src/gateway/interface/iS3Gateway';
+import type { IS3Gateway } from '../../../../../lib/src/gateway/interface/iS3Gateway';
 
 export const mockS3Gateway = (): jest.Mocked<IS3Gateway> => {
     return {
