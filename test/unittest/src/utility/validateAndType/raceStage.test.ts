@@ -3,8 +3,11 @@ import { validateRaceStage } from '../../../../../src/utility/validateAndType/ra
 import { testRaceTypeListMechanicalRacing } from '../../mock/common/baseCommonData';
 
 const testCases = {
+    [RaceType.JRA]: [],
+    [RaceType.NAR]: [],
+    [RaceType.OVERSEAS]: [],
     [RaceType.KEIRIN]: ['S級決勝'],
-    [RaceType.AUTORACE]: ['優勝戦', '準決勝戦', '特別選抜戦'],
+    [RaceType.AUTORACE]: [],
     [RaceType.BOATRACE]: ['優勝戦'],
 };
 
