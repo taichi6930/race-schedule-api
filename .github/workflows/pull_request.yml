@@ -85,7 +85,9 @@ jobs:
       - name: Run ITA Tests For Overseas
         uses: ./.github/actions/test/ita/overseas
 
+# TODO: テストをcloudflare用に移行し切ったらこのif: falseを戻す
   call-ita-test-keirin:
+    if: false # テストをcloudflare用に移行仕切ったら戻す
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
@@ -103,7 +105,9 @@ jobs:
       - name: Run ITA Tests For Autorace
         uses: ./.github/actions/test/ita/autorace
 
+# TODO: テストをcloudflare用に移行し切ったらこのif: falseを戻す
   call-ita-test-boatrace:
+    if: false # テストをcloudflare用に移行仕切ったら戻す
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
