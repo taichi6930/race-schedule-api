@@ -4,7 +4,7 @@ process.env.TZ = process.env.TZ || 'Asia/Tokyo';
 
 module.exports = {
     collectCoverage: true,
-    collectCoverageFrom: ['lib/src/**/*.ts'],
+    collectCoverageFrom: ['src/**/*.ts'],
     coverageDirectory: 'coverage',
     coveragePathIgnorePatterns: [
         'logger.ts',
