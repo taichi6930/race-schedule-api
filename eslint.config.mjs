@@ -152,7 +152,7 @@ export default [
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
-            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
+            // 'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
             // 'jsdoc/require-param-description': 'off', // テストファイルではパラメータの説明を任意に
             'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
