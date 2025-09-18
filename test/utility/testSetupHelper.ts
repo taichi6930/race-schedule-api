@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { ICalendarGatewayForAWS } from '../../lib/src/gateway/interface/iCalendarGateway';
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
+import type { ICalendarGateway } from '../../src/gateway/interface/iCalendarGateway';
 import type { ICalendarRepository } from '../../src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
@@ -48,7 +48,7 @@ export interface TestRepositorySetup {
  * テスト用のセットアップ
  */
 export interface TestGatewaySetup {
-    googleCalendarGateway: jest.Mocked<ICalendarGatewayForAWS>;
+    googleCalendarGateway: jest.Mocked<ICalendarGateway>;
     s3Gateway: jest.Mocked<IS3Gateway>;
 }
 

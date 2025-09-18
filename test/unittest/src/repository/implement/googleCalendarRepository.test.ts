@@ -32,24 +32,24 @@ describe('GoogleCalendarRepository', () => {
         clearMocks();
     });
 
-    // it('カレンダー情報が正常に取得できること', async () => {
-    //     const searchFilter = new SearchCalendarFilterEntity(
-    //         new Date('2023-01-01'),
-    //         new Date('2023-12-31'),
-    //         testRaceTypeListAll,
-    //     );
-    //     const calendarDataList = await repository.getEvents(
-    //         commonParameter,
-    //         searchFilter,
-    //     );
+    it('カレンダー情報が正常に取得できること', async () => {
+        const searchFilter = new SearchCalendarFilterEntity(
+            new Date('2023-01-01'),
+            new Date('2023-12-31'),
+            testRaceTypeListAll,
+        );
+        const calendarDataList = await repository.getEvents(
+            commonParameter,
+            searchFilter,
+        );
 
-    //     expect(calendarDataList).toHaveLength(testRaceTypeListAll.length);
-    //     expect(calendarDataList).toContainEqual(mockCalendarDataList);
+        expect(calendarDataList).toHaveLength(testRaceTypeListAll.length);
+        expect(calendarDataList).toEqual(mockCalendarDataList);
 
-    //     expect(
-    //         gatewaySetup.googleCalendarGateway.fetchCalendarDataList,
-    //     ).toHaveBeenCalled();
-    // });
+        expect(
+            gatewaySetup.googleCalendarGateway.fetchCalendarDataList,
+        ).toHaveBeenCalled();
+    });
 
     it('カレンダー情報が正常に取得できないこと', async () => {
         gatewaySetup.googleCalendarGateway.fetchCalendarDataList.mockRejectedValue(
@@ -110,15 +110,20 @@ describe('GoogleCalendarRepository', () => {
     // test.each(testRaceTypeListAll)(
     //     'カレンダー情報が正常に更新できること(%s)',
     //     async (raceType) => {
+    //         const calendarDataFromGoogleCalendar =
+    //             baseCalendarDataFromGoogleCalendar(raceType);
     //         gatewaySetup.googleCalendarGateway.fetchCalendarData.mockResolvedValue(
-    //             baseCalendarDataFromGoogleCalendar(raceType),
+    //             calendarDataFromGoogleCalendar,
+    //         );
+    //         console.log(
+    //             'calendarDataFromGoogleCalendar:',
+    //             calendarDataFromGoogleCalendar,
     //         );
 
-    //         await repository.upsertEvents(
-    //             commonParameter,
-    //             baseRaceEntityList(raceType),
-    //         );
+    //         const raceEntityList = baseRaceEntityList(raceType);
+    //         console.log('raceEntityList:', raceEntityList);
 
+    //         await repository.upsertEvents(commonParameter, raceEntityList);
     //         expect(
     //             gatewaySetup.googleCalendarGateway.updateCalendarData,
     //         ).toHaveBeenCalled();
