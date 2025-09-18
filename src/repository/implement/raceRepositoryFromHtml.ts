@@ -51,12 +51,10 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
         for (const placeEntity of placeEntityList) {
             switch (placeEntity.placeData.raceType) {
                 case RaceType.JRA: {
-                    {
-                        const entityList =
-                            await this.fetchRaceListFromHtmlForJra(placeEntity);
-                        raceEntityList.push(...entityList);
-                        break;
-                    }
+                    const entityList =
+                        await this.fetchRaceListFromHtmlForJra(placeEntity);
+                    raceEntityList.push(...entityList);
+                    break;
                 }
                 case RaceType.NAR: {
                     const entityList =
