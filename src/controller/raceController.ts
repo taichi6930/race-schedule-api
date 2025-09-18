@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import './../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
