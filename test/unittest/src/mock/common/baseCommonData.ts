@@ -1,5 +1,3 @@
-import { PlaceRecord } from '../../../../../lib/src/gateway/record/placeRecord';
-import { getJSTDate } from '../../../../../lib/src/utility/date';
 import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import { CalendarData } from '../../../../../src/domain/calendarData';
 import { HeldDayData } from '../../../../../src/domain/heldDayData';
@@ -17,10 +15,6 @@ import {
     RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RaceType,
 } from '../../../../../src/utility/raceType';
-import {
-    generateId,
-    IdType,
-} from '../../../../../src/utility/validateAndType/idUtility';
 import { maxFrameNumber } from '../../../../../src/utility/validateAndType/positionNumber';
 
 /**
@@ -62,19 +56,6 @@ export const baseRaceData = (raceType: RaceType): RaceData =>
         defaultLocation[raceType],
         defaultRaceGrade[raceType],
         baseRaceNumber,
-    );
-
-export const basePlaceRecord = (raceType: RaceType): PlaceRecord =>
-    PlaceRecord.create(
-        generateId(IdType.PLACE, {
-            raceType,
-            dateTime: basePlaceDateTime,
-            location: defaultLocation[raceType],
-        }),
-        raceType,
-        basePlaceDateTime,
-        defaultLocation[raceType],
-        baseRaceUpdateDate,
     );
 
 export const baseConditionData = (
@@ -355,8 +336,6 @@ const createLocationString = (raceType: RaceType, location: string): string => {
  * 基本的なレース番号を定義します。
  */
 const baseRaceNumber = 12;
-
-const baseRaceUpdateDate = getJSTDate(new Date('2025-10-01 16:30'));
 
 const basePlaceDateTime = new Date('2024-12-29');
 const baseRaceDateTime = new Date('2024-12-29 16:30');
