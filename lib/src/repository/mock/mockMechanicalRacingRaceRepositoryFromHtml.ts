@@ -5,7 +5,7 @@ import { RaceType } from '../../../../src/utility/raceType';
 import type { RaceStage } from '../../../../src/utility/validateAndType/raceStage';
 import { baseRacePlayerDataList } from '../../../../test/unittest/src/mock/common/baseCommonData';
 
-export class SearchRaceFilterEntityForAWS {
+class SearchRaceFilterEntityForAWS {
     public constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,
@@ -37,7 +37,7 @@ export class SearchRaceFilterEntityForAWS {
  * - データベース（SQLite, RDBMSなど）
  * - 外部API（HTMLスクレイピングなど）
  */
-export interface IRaceRepositoryForAWS {
+interface IRaceRepositoryForAWS {
     /**
      * 指定された検索条件に基づいてレース開催データを取得します
      *

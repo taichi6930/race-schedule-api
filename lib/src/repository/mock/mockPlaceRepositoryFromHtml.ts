@@ -5,7 +5,7 @@ import {
     defaultHeldDayData,
     defaultLocation,
 } from '../../../../test/unittest/src/mock/common/baseCommonData';
-export class SearchPlaceFilterEntityForAWS {
+class SearchPlaceFilterEntityForAWS {
     public constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,
@@ -31,7 +31,7 @@ export class SearchPlaceFilterEntityForAWS {
  * - データベース（SQLite, RDBMSなど）
  * - 外部API（HTMLスクレイピングなど）
  */
-export interface IPlaceRepositoryForAWS {
+interface IPlaceRepositoryForAWS {
     /**
      * 指定された検索条件に基づいて開催場所データを取得します
      *
