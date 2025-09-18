@@ -58,7 +58,7 @@ export const baseRaceData = (raceType: RaceType): RaceData =>
         baseRaceNumber,
     );
 
-export const baseConditionData = (
+const baseConditionData = (
     raceType: RaceType,
 ): HorseRaceConditionData | undefined => {
     if (
@@ -349,7 +349,7 @@ export const defaultLocation = {
     [RaceType.BOATRACE]: '浜名湖',
 };
 
-export const defaultStage = {
+const defaultStage = {
     [RaceType.JRA]: undefined,
     [RaceType.NAR]: undefined,
     [RaceType.OVERSEAS]: undefined,
@@ -367,7 +367,7 @@ export const defaultPlaceGrade = {
     [RaceType.BOATRACE]: 'SG',
 };
 
-export const defaultRaceGrade = {
+const defaultRaceGrade = {
     [RaceType.JRA]: 'GⅠ',
     [RaceType.NAR]: 'GⅠ',
     [RaceType.OVERSEAS]: 'GⅠ',
