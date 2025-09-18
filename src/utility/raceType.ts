@@ -19,6 +19,7 @@ export const RACE_TYPE_LIST_ALL: RaceType[] = [
     RaceType.JRA,
     RaceType.NAR,
     RaceType.OVERSEAS,
+    RaceType.KEIRIN,
     RaceType.AUTORACE,
 ];
 
