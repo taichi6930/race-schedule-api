@@ -1,4 +1,4 @@
-import '../../lib/src/utility/format';
+import './format';
 
 import type { GradeType } from './validateAndType/gradeType';
 import type { RaceCourse } from './validateAndType/raceCourse';

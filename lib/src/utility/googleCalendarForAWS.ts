@@ -16,11 +16,11 @@ import {
     createNetkeirinRaceShutubaUrl,
     createNetkeirinRedirectUrl,
 } from '../../../src/utility/data/url';
+import { createAnchorTag, formatDate } from '../../../src/utility/format';
 import { getGoogleCalendarColorId } from '../../../src/utility/googleCalendar';
 import { RaceType } from '../../../src/utility/raceType';
 import { createPlaceCode } from '../../../src/utility/validateAndType/raceCourse';
 import { getJSTDate } from './date';
-import { createAnchorTag, formatDate } from './format';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール

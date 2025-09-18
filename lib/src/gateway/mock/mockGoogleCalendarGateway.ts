@@ -1,5 +1,6 @@
 import type { calendar_v3 } from 'googleapis';
 
+import { formatDate } from '../../../../src/utility/format';
 import type { RaceType } from '../../../../src/utility/raceType';
 import { RACE_TYPE_LIST_ALL_FOR_AWS } from '../../../../src/utility/raceType';
 import {
@@ -8,7 +9,6 @@ import {
 } from '../../../../src/utility/validateAndType/idUtility';
 import { defaultLocation } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { allowedEnvs, ENV } from '../../utility/env';
-import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 
 /**

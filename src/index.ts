@@ -1,4 +1,5 @@
 import './di';
+import './utility/format';
 
 import { router } from './router';
 

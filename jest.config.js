@@ -3,6 +3,7 @@
 process.env.TZ = process.env.TZ || 'Asia/Tokyo';
 
 module.exports = {
+    setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
     collectCoverage: true,
     collectCoverageFrom: ['src/**/*.ts'],
     coverageDirectory: 'coverage',
