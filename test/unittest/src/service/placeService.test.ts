@@ -30,7 +30,7 @@ describe('PlaceService', () => {
         clearMocks();
     });
 
-    describe('fetchRaceEntityList', () => {
+    describe('fetchPlaceEntityList', () => {
         it('正常に開催場データが取得できること', async () => {
             // モックの戻り値を設定
             repositorySetup.placeRepositoryFromStorage.fetchPlaceEntityList.mockResolvedValue(

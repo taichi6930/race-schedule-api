@@ -116,7 +116,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": [\"AUTORACE\"]
+                  \"raceType\": [\"KEIRIN\", \"AUTORACE\"]
                 }")
 
           # レスポンスチェック
@@ -174,7 +174,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": [\"AUTORACE\"]
+                  \"raceType\": [\"KEIRIN\", \"AUTORACE\"]
                 }")
 
           # レスポンスチェック
