@@ -397,7 +397,7 @@ export const defaultRaceGrade = {
     [RaceType.BOATRACE]: 'SG',
 };
 
-export const defaultRaceName = {
+const defaultRaceName = {
     [RaceType.JRA]: '有馬記念',
     [RaceType.NAR]: '東京大賞典',
     [RaceType.OVERSEAS]: '凱旋門賞',
@@ -487,7 +487,7 @@ export const testRaceTypeListAll = IS_SHORT_TEST
     ? [RaceType.JRA]
     : [...new Set(RACE_TYPE_LIST_ALL)];
 
-export const testRaceTypeListWithoutOverseas = IS_SHORT_TEST
+const testRaceTypeListWithoutOverseas = IS_SHORT_TEST
     ? [RaceType.JRA]
     : [
           ...new Set([
@@ -517,16 +517,6 @@ export const mockRaceEntityList = testRaceTypeListAll.flatMap((raceType) =>
     baseRaceEntityList(raceType),
 );
 
-export const mockRaceEntityListMechanicalRacing =
-    testRaceTypeListMechanicalRacing.flatMap((raceType) =>
-        baseRaceEntityList(raceType),
-    );
-
 export const mockPlaceEntityList = testRaceTypeListWithoutOverseas.map(
     (raceType) => basePlaceEntity(raceType),
 );
-
-export const mockPlaceEntityListMechanicalRacing =
-    testRaceTypeListMechanicalRacing.map((raceType) =>
-        basePlaceEntity(raceType),
-    );
