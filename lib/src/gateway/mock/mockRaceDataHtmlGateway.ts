@@ -3,14 +3,11 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
-import { IRaceDataHtmlGateway } from '../../../../src/gateway/interface/iRaceDataHtmlGateway';
+import type { IRaceDataHtmlGateway } from '../../../../src/gateway/interface/iRaceDataHtmlGateway';
 import { NetkeibaBabacodeMap } from '../../../../src/utility/data/netkeiba';
 import { RaceType } from '../../../../src/utility/raceType';
-import {
-    createPlaceCode,
-    RaceCourse,
-} from '../../../../src/utility/validateAndType/raceCourse';
-import { Logger } from '../../utility/logger';
+import type { RaceCourse } from '../../../../src/utility/validateAndType/raceCourse';
+import { createPlaceCode } from '../../../../src/utility/validateAndType/raceCourse';
 /**
  * レースデータのHTMLを取得するGateway
  */
@@ -116,7 +113,7 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
      * @param number - レース番号
      * @returns Promise<string> - レースデータのHTML
      */
-    @Logger
+
     public async getRaceDataHtml(
         raceType: RaceType,
         date: Date,

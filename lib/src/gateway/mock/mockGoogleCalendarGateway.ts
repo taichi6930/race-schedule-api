@@ -9,7 +9,6 @@ import {
 } from '../../../../src/utility/validateAndType/idUtility';
 import { defaultLocation } from '../../../../test/unittest/src/mock/common/baseCommonData';
 import { allowedEnvs, ENV } from '../../utility/env';
-import { Logger } from '../../utility/logger';
 
 /**
  * Googleカレンダーとの連携を担当するゲートウェイインターフェース
@@ -248,7 +247,6 @@ export class MockGoogleCalendarGateway implements ICalendarGatewayForAWS {
         }
     }
 
-    @Logger
     public async fetchCalendarDataList(
         raceType: RaceType,
         startDate: Date,
@@ -284,7 +282,6 @@ export class MockGoogleCalendarGateway implements ICalendarGatewayForAWS {
         return raceData;
     }
 
-    @Logger
     public async updateCalendarData(
         raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
