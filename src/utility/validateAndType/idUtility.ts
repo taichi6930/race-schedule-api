@@ -65,7 +65,7 @@ const makeIdSchema = (
         }, '枠番が不正です');
     }
 
-    return schema as z.ZodString;
+    return schema;
 };
 
 /**
@@ -241,5 +241,5 @@ export const generateId = (
     idType: IdType,
     idParams: PlaceIdParams | RaceIdParams | RacePlayerIdParams,
 ): PublicGamblingId => {
-    return buildId(idType, idParams) as PublicGamblingId;
+    return buildId(idType, idParams);
 };
