@@ -3,9 +3,8 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
-import { IPlaceDataHtmlGateway } from '../../../../src/gateway/interface/iPlaceDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../../src/utility/raceType';
-import { Logger } from '../../utility/logger';
 /**
  * MockPlaceDataHtmlGatewayは、IPlaceDataHtmlGatewayのモック実装です。
  * 実際のHTML取得を行わず、モックデータを返します。
@@ -39,7 +38,7 @@ export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
      * @param date - 取得する年月
      * @returns Promise<string> - 開催データのHTML
      */
-    @Logger
+
     public async getPlaceDataHtml(
         raceType: RaceType,
         date: Date,

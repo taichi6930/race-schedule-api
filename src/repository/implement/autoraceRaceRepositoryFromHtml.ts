@@ -42,13 +42,14 @@ export class AutoraceRaceRepositoryFromHtml implements IRaceRepository {
     ): Promise<RaceEntity[]> {
         const raceEntityList: RaceEntity[] = [];
         if (!placeEntityList) return raceEntityList;
-
         for (const placeEntity of placeEntityList) {
             raceEntityList.push(
                 ...(await this.fetchRaceListFromHtml(placeEntity)),
             );
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
-            const delayedTimeMs = 1000;
+            const delayedTimeMs = Number.parseInt(
+                commonParameter.env.HTML_FETCH_DELAY_MS || '1000',
+            );
             console.debug(`待機時間: ${delayedTimeMs}ms`);
             await new Promise((resolve) => setTimeout(resolve, delayedTimeMs));
             console.debug('待機時間が経ちました');

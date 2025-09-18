@@ -2,32 +2,20 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { ICalendarGatewayForAWS } from '../../lib/src/gateway/interface/iCalendarGateway';
 import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
-import type { ICalendarRepositoryForAWS } from '../../lib/src/repository/interface/ICalendarRepositoryForAWS';
-import type { IPlaceRepositoryForAWS } from '../../lib/src/repository/interface/IPlaceRepositoryForAWS';
-import type { IRaceRepositoryForAWS } from '../../lib/src/repository/interface/IRaceRepositoryForAWS';
-import type { ICalendarServiceForAWS } from '../../lib/src/service/interface/ICalendarServiceForAWS';
-import type { IPlaceServiceForAWS } from '../../lib/src/service/interface/IPlaceServiceForAWS';
-import type { IPlayerServiceForAWS } from '../../lib/src/service/interface/IPlayerServiceForAWS';
-import type { IRaceServiceForAWS } from '../../lib/src/service/interface/IRaceServiceForAWS';
+import type { ICalendarGateway } from '../../src/gateway/interface/iCalendarGateway';
+import type { ICalendarRepository } from '../../src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
+import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../src/service/interface/ICalendarService';
 import type { IPlaceService } from '../../src/service/interface/IPlaceService';
 import type { IPlayerService } from '../../src/service/interface/IPlayerService';
 import type { IRaceService } from '../../src/service/interface/IRaceService';
-import { mockGoogleCalendarGateway } from '../old/unittest/src/mock/gateway/mockGoogleCalendarGateway';
-import { mockS3Gateway } from '../old/unittest/src/mock/gateway/mockS3Gateway';
-import { mockCalendarRepositoryForAWS } from '../old/unittest/src/mock/repository/mockCalendarRepository';
-import {
-    mockPlaceRepository,
-    mockPlaceRepositoryForAWS,
-} from '../old/unittest/src/mock/repository/mockPlaceRepository';
-import { mockRaceRepositoryForAWS } from '../old/unittest/src/mock/repository/mockRaceRepository';
-import { calendarServiceForAWSMock } from '../old/unittest/src/mock/service/calendarServiceMock';
-import { placeServiceForAWSMock } from '../old/unittest/src/mock/service/placeServiceMock';
-import { playerServiceForAWSMock } from '../old/unittest/src/mock/service/playerDataServiceMock';
-import { raceServiceForAWSMock } from '../old/unittest/src/mock/service/raceServiceMock';
+import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
+import { mockS3Gateway } from '../unittest/src/mock/gateway/mockS3Gateway';
+import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
+import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
+import { mockRaceRepository } from '../unittest/src/mock/repository/mockRaceRepository';
 import { calendarServiceMock } from '../unittest/src/mock/service/calendarServiceMock';
 import { placeServiceMock } from '../unittest/src/mock/service/placeServiceMock';
 import { playerServiceMock } from '../unittest/src/mock/service/playerServiceMock';
@@ -43,38 +31,25 @@ export function clearMocks(): void {
 /**
  * テスト用のセットアップ
  */
-export interface TestRepositoryForAWSSetup {
-    calendarRepository: jest.Mocked<ICalendarRepositoryForAWS>;
-    placeRepositoryFromStorage: jest.Mocked<IPlaceRepositoryForAWS>;
-    placeRepositoryFromHtml: jest.Mocked<IPlaceRepositoryForAWS>;
-    horseRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepositoryForAWS>;
-    jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
-    narRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
-    overseasRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
-    mechanicalRacingRaceRepositoryFromStorage: jest.Mocked<IRaceRepositoryForAWS>;
-    keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
-    boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
-    autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepositoryForAWS>;
-}
-
 export interface TestRepositorySetup {
     placeRepositoryFromStorage: jest.Mocked<IPlaceRepository>;
     placeRepositoryFromHtml: jest.Mocked<IPlaceRepository>;
+    calendarRepository: jest.Mocked<ICalendarRepository>;
+    raceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
+    jraRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    narRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    overseasRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    keirinRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    boatraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
+    autoraceRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
 }
 
 /**
  * テスト用のセットアップ
  */
 export interface TestGatewaySetup {
-    googleCalendarGateway: jest.Mocked<ICalendarGatewayForAWS>;
+    googleCalendarGateway: jest.Mocked<ICalendarGateway>;
     s3Gateway: jest.Mocked<IS3Gateway>;
-}
-
-export interface TestServiceForAWSSetup {
-    calendarService: jest.Mocked<ICalendarServiceForAWS>;
-    raceService: jest.Mocked<IRaceServiceForAWS>;
-    placeService: jest.Mocked<IPlaceServiceForAWS>;
-    playerService: jest.Mocked<IPlayerServiceForAWS>;
 }
 
 export interface TestServiceSetup {
@@ -82,85 +57,6 @@ export interface TestServiceSetup {
     raceService: jest.Mocked<IRaceService>;
     placeService: jest.Mocked<IPlaceService>;
     playerService: jest.Mocked<IPlayerService>;
-}
-
-/**
- * テスト用のセットアップ
- * @returns セットアップ済みのサービス
- */
-export function setupTestRepositoryForAWSMock(): TestRepositoryForAWSSetup {
-    const horseRacingRaceRepositoryFromStorage = mockRaceRepositoryForAWS();
-    container.registerInstance<IRaceRepositoryForAWS>(
-        'HorseRacingRaceRepositoryFromStorage',
-        horseRacingRaceRepositoryFromStorage,
-    );
-    const jraRaceRepositoryFromHtml = mockRaceRepositoryForAWS();
-    container.registerInstance<IRaceRepositoryForAWS>(
-        'JraRaceRepositoryFromHtml',
-        jraRaceRepositoryFromHtml,
-    );
-    const narRaceRepositoryFromHtml = mockRaceRepositoryForAWS();
-    container.registerInstance<IRaceRepositoryForAWS>(
-        'NarRaceRepositoryFromHtml',
-        narRaceRepositoryFromHtml,
-    );
-    const overseasRaceRepositoryFromHtml = mockRaceRepositoryForAWS();
-    container.registerInstance<IRaceRepositoryForAWS>(
-        'OverseasRaceRepositoryFromHtml',
-        overseasRaceRepositoryFromHtml,
-    );
-
-    const mechanicalRacingRaceRepositoryFromStorage =
-        mockRaceRepositoryForAWS();
-    container.registerInstance<IRaceRepositoryForAWS>(
-        'MechanicalRacingRaceRepositoryFromStorage',
-        mechanicalRacingRaceRepositoryFromStorage,
-    );
-
-    const keirinRaceRepositoryFromHtml = mockRaceRepositoryForAWS();
-    container.registerInstance<IRaceRepositoryForAWS>(
-        'KeirinRaceRepositoryFromHtml',
-        keirinRaceRepositoryFromHtml,
-    );
-
-    const boatraceRaceRepositoryFromHtml = mockRaceRepositoryForAWS();
-    container.registerInstance<IRaceRepositoryForAWS>(
-        'BoatraceRaceRepositoryFromHtml',
-        boatraceRaceRepositoryFromHtml,
-    );
-
-    const autoraceRaceRepositoryFromHtml = mockRaceRepositoryForAWS();
-    container.registerInstance<IRaceRepositoryForAWS>(
-        'AutoraceRaceRepositoryFromHtml',
-        autoraceRaceRepositoryFromHtml,
-    );
-
-    const calendarRepository = mockCalendarRepositoryForAWS();
-    container.registerInstance('CalendarRepository', calendarRepository);
-
-    const placeRepositoryFromStorage = mockPlaceRepositoryForAWS();
-    container.registerInstance<IPlaceRepositoryForAWS>(
-        'PlaceRepositoryFromStorage',
-        placeRepositoryFromStorage,
-    );
-    const placeRepositoryFromHtml = mockPlaceRepositoryForAWS();
-    container.registerInstance<IPlaceRepositoryForAWS>(
-        'PlaceRepositoryFromHtml',
-        placeRepositoryFromHtml,
-    );
-    return {
-        calendarRepository,
-        placeRepositoryFromStorage,
-        placeRepositoryFromHtml,
-        horseRacingRaceRepositoryFromStorage,
-        jraRaceRepositoryFromHtml,
-        narRaceRepositoryFromHtml,
-        overseasRaceRepositoryFromHtml,
-        mechanicalRacingRaceRepositoryFromStorage,
-        keirinRaceRepositoryFromHtml,
-        boatraceRaceRepositoryFromHtml,
-        autoraceRaceRepositoryFromHtml,
-    };
 }
 
 /**
@@ -178,9 +74,59 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
         'PlaceRepositoryFromHtml',
         placeRepositoryFromHtml,
     );
+    const calendarRepository = mockCalendarRepository();
+    container.registerInstance('CalendarRepository', calendarRepository);
+
+    const raceRepositoryFromStorage = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
+        'RaceRepositoryFromStorage',
+        raceRepositoryFromStorage,
+    );
+    const jraRaceRepositoryFromHtml = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
+        'JraRaceRepositoryFromHtml',
+        jraRaceRepositoryFromHtml,
+    );
+    const narRaceRepositoryFromHtml = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
+        'NarRaceRepositoryFromHtml',
+        narRaceRepositoryFromHtml,
+    );
+    const overseasRaceRepositoryFromHtml = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
+        'OverseasRaceRepositoryFromHtml',
+        overseasRaceRepositoryFromHtml,
+    );
+
+    const keirinRaceRepositoryFromHtml = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
+        'KeirinRaceRepositoryFromHtml',
+        keirinRaceRepositoryFromHtml,
+    );
+
+    const boatraceRaceRepositoryFromHtml = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
+        'BoatraceRaceRepositoryFromHtml',
+        boatraceRaceRepositoryFromHtml,
+    );
+
+    const autoraceRaceRepositoryFromHtml = mockRaceRepository();
+    container.registerInstance<IRaceRepository>(
+        'AutoraceRaceRepositoryFromHtml',
+        autoraceRaceRepositoryFromHtml,
+    );
+
     return {
         placeRepositoryFromStorage,
         placeRepositoryFromHtml,
+        calendarRepository,
+        raceRepositoryFromStorage,
+        jraRaceRepositoryFromHtml,
+        narRaceRepositoryFromHtml,
+        overseasRaceRepositoryFromHtml,
+        keirinRaceRepositoryFromHtml,
+        boatraceRaceRepositoryFromHtml,
+        autoraceRaceRepositoryFromHtml,
     };
 }
 
@@ -197,37 +143,6 @@ export function setupTestGatewayMock(): TestGatewaySetup {
     return {
         googleCalendarGateway,
         s3Gateway,
-    };
-}
-
-/**
- * テスト用のセットアップ（Serviceクラス）
- * @returns セットアップ済みのサービス
- */
-export function setupTestServiceForAWSMock(): TestServiceForAWSSetup {
-    const calendarService = calendarServiceForAWSMock();
-    container.registerInstance<ICalendarServiceForAWS>(
-        'CalendarService',
-        calendarService,
-    );
-    const raceService = raceServiceForAWSMock();
-    container.registerInstance<IRaceServiceForAWS>('RaceService', raceService);
-    const placeService = placeServiceForAWSMock();
-    container.registerInstance<IPlaceServiceForAWS>(
-        'PlaceService',
-        placeService,
-    );
-    const playerService = playerServiceForAWSMock();
-    container.registerInstance<IPlayerServiceForAWS>(
-        'PlayerDataService',
-        playerService,
-    );
-
-    return {
-        calendarService,
-        raceService,
-        placeService,
-        playerService,
     };
 }
 

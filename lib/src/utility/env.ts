@@ -95,6 +95,3 @@ export const ENV = getEnv(process.env.ENV);
 
 // process.env.IS_SHORT_TEST === 'TRUE'かどうかの判定
 export const IS_SHORT_TEST = process.env.IS_SHORT_TEST === 'TRUE';
-
-export const IS_LARGE_AMOUNT_DATA_TEST =
-    process.env.IS_LARGE_AMOUNT_DATA_TEST === 'TRUE';

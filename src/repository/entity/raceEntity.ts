@@ -1,6 +1,3 @@
-import { MechanicalRacingRaceRecord } from '../../../lib/src/gateway/record/mechanicalRacingRaceRecord';
-import { RacePlayerRecord } from '../../../lib/src/gateway/record/racePlayerRecord';
-import { getJSTDate } from '../../../lib/src/utility/date';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
@@ -265,44 +262,5 @@ export class RaceEntity {
             throw new Error('conditionData is missing for this race type');
         }
         return this._conditionData;
-    }
-
-    /**
-     * MechanicalRacingRaceRecordに変換する
-     */
-    public toMechanicalRacingRaceRecord(): MechanicalRacingRaceRecord {
-        return MechanicalRacingRaceRecord.create(
-            this.id,
-            this.raceData.raceType,
-            this.raceData.name,
-            this.stage,
-            this.raceData.dateTime,
-            this.raceData.location,
-            this.raceData.grade,
-            this.raceData.number,
-            getJSTDate(new Date()),
-        );
-    }
-
-    /**
-     * RacePlayerRecordに変換する
-     */
-    public toPlayerRecordList(): RacePlayerRecord[] {
-        return this.racePlayerDataList.map((playerData) =>
-            RacePlayerRecord.create(
-                generateId(IdType.PLAYER, {
-                    raceType: this.raceData.raceType,
-                    dateTime: this.raceData.dateTime,
-                    location: this.raceData.location,
-                    number: this.raceData.number,
-                    positionNumber: playerData.positionNumber,
-                }),
-                this.raceData.raceType,
-                this.id,
-                playerData.positionNumber,
-                playerData.playerNumber,
-                getJSTDate(new Date()),
-            ),
-        );
     }
 }

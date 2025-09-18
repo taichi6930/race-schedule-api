@@ -98,7 +98,9 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                     }
                 }
                 // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
-                const delayedTimeMs = 1000;
+                const delayedTimeMs = Number.parseInt(
+                    commonParameter.env.HTML_FETCH_DELAY_MS || '1000',
+                );
                 console.debug(`待機時間: ${delayedTimeMs}ms`);
                 await new Promise((resolve) =>
                     setTimeout(resolve, delayedTimeMs),
@@ -400,10 +402,16 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                     // thを取得
                     const th = $(trElement).find('th');
 
+                    const rowPlace = th.text().replace(' ', '');
                     // thのテキストが RaceCourseに含まれているか
-                    if (!th.text().replace(' ', '')) {
+                    if (!rowPlace) {
                         return;
                     }
+                    // rowPlaceが10文字以上にはならないので、SKIP
+                    if (rowPlace.length > 10) {
+                        return;
+                    }
+
                     const place: RaceCourse = validateRaceCourse(
                         raceType,
                         th.text(),
@@ -550,7 +558,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         commonParameter: CommonParameter,
         placeEntityList: PlaceEntity[],
     ): Promise<void> {
-        console.debug(commonParameter, placeEntityList);
+        console.log(commonParameter, placeEntityList);
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('Method not implemented.');
     }

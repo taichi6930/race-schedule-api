@@ -15,4 +15,5 @@ export interface CloudFlareEnv {
     GOOGLE_CLIENT_EMAIL: string;
     GOOGLE_PRIVATE_KEY: string;
     IS_HTML_FETCH_ENABLED: string;
+    HTML_FETCH_DELAY_MS: string;
 }

@@ -5,7 +5,6 @@ import { container } from 'tsyringe';
 import { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/searchPlaceFilterEntity';
 import { PlaceUseCase } from '../../../../src/usecase/implement/placeUsecase';
 import type { IPlaceUseCase } from '../../../../src/usecase/interface/IPlaceUsecase';
-import { commonParameterMock } from '../../../old/unittest/src/mock/common/commonParameterMock';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';
 import {
     clearMocks,
@@ -15,6 +14,7 @@ import {
     mockPlaceEntityList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
+import { commonParameterMock } from '../mock/common/commonParameterMock';
 
 describe('PlaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
