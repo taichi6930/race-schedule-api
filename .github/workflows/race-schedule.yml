@@ -26,6 +26,7 @@ jobs:
     outputs:
       start-date: ${{ steps.set-dates.outputs.start-date }}
       finish-date: ${{ steps.set-dates.outputs.finish-date }}
+      finish-date-for-mechanical-racing: ${{ steps.set-dates.outputs.finish-date }}
     steps:
       - name: Outputを設定
         id: set-dates
