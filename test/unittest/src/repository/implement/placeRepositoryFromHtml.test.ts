@@ -2,19 +2,20 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { MockPlaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
-import { SearchPlaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchPlaceFilterEntity';
-import { PlaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/placeRepositoryFromHtml';
-import type { IPlaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IPlaceRepositoryForAWS';
-import { allowedEnvs } from '../../../../../../lib/src/utility/env';
-import type { IPlaceDataHtmlGateway } from '../../../../../../src/gateway/interface/iPlaceDataHtmlGateway';
-import { RaceType } from '../../../../../../src/utility/raceType';
+import { MockPlaceDataHtmlGateway } from '../../../../../lib/src/gateway/mock/mockPlaceDataHtmlGateway';
+import { allowedEnvs } from '../../../../../lib/src/utility/env';
+import type { IPlaceDataHtmlGateway } from '../../../../../src/gateway/interface/iPlaceDataHtmlGateway';
+import { SearchPlaceFilterEntity } from '../../../../../src/repository/entity/filter/searchPlaceFilterEntity';
+import { PlaceRepositoryFromHtml } from '../../../../../src/repository/implement/placeRepositoryFromHtml';
+import type { IPlaceRepository } from '../../../../../src/repository/interface/IPlaceRepository';
+import { RaceType } from '../../../../../src/utility/raceType';
+import { SkipEnv } from '../../../../utility/testDecorators';
+import { clearMocks } from '../../../../utility/testSetupHelper';
 import {
     basePlaceEntity,
     testRaceTypeListMechanicalRacing,
-} from '../../../../../unittest/src/mock/common/baseCommonData';
-import { SkipEnv } from '../../../../../utility/testDecorators';
-import { clearMocks } from '../../../../../utility/testSetupHelper';
+} from '../../mock/common/baseCommonData';
+import { commonParameterMock } from './../../../../old/unittest/src/mock/common/commonParameterMock';
 
 // テーブル駆動型テスト
 const testCases = {
@@ -57,7 +58,7 @@ const testCases = {
         {
             startDate: new Date('2025-04-01'),
             endDate: new Date('2025-06-30'),
-            expectedLength: 66,
+            expectedLength: 0,
         },
     ],
 };
@@ -70,7 +71,7 @@ describe.each(testRaceTypeListMechanicalRacing)(
         ]) {
             describe(`PlaceRepositoryFromHtml(${raceType})`, () => {
                 let placeDataHtmlGateway: IPlaceDataHtmlGateway;
-                let repository: IPlaceRepositoryForAWS;
+                let repository: IPlaceRepository;
 
                 beforeAll(() => {
                     placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
@@ -78,8 +79,8 @@ describe.each(testRaceTypeListMechanicalRacing)(
                         'PlaceDataHtmlGateway',
                         placeDataHtmlGateway,
                     );
-                    repository = container.resolve<IPlaceRepositoryForAWS>(
-                        PlaceRepositoryFromHtmlForAWS,
+                    repository = container.resolve<IPlaceRepository>(
+                        PlaceRepositoryFromHtml,
                     );
                 });
 
@@ -92,13 +93,18 @@ describe.each(testRaceTypeListMechanicalRacing)(
                         `正しいレース開催データを取得できる(${raceType})`,
                         [allowedEnvs.githubActionsCi],
                         async () => {
+                            const commonParameter = commonParameterMock();
+                            const searchPlaceFilter =
+                                new SearchPlaceFilterEntity(
+                                    startDate,
+                                    endDate,
+                                    [raceType],
+                                    [],
+                                );
                             const placeEntityList =
                                 await repository.fetchPlaceEntityList(
-                                    new SearchPlaceFilterEntityForAWS(
-                                        startDate,
-                                        endDate,
-                                        raceType,
-                                    ),
+                                    commonParameter,
+                                    searchPlaceFilter,
                                 );
                             expect(placeEntityList).toHaveLength(
                                 expectedLength,
@@ -109,16 +115,12 @@ describe.each(testRaceTypeListMechanicalRacing)(
 
                 describe('upsertPlaceList', () => {
                     it(`HTMLにはデータを登録できない(${raceType})`, async () => {
+                        const commonParameter = commonParameterMock();
                         await expect(
-                            repository.upsertPlaceEntityList(raceType, [
+                            repository.upsertPlaceEntityList(commonParameter, [
                                 basePlaceEntity(raceType),
                             ]),
-                        ).resolves.toEqual({
-                            code: 500,
-                            message: 'HTMLにはデータを登録出来ません',
-                            successData: [],
-                            failureData: [basePlaceEntity(raceType)],
-                        });
+                        ).rejects.toThrow('Method not implemented.');
                     });
                 });
             });

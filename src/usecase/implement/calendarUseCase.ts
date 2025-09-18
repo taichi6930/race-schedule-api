@@ -9,6 +9,7 @@ import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IRaceService } from '../../service/interface/IRaceService';
 import { CommonParameter } from '../../utility/commonParameter';
+import { RaceGradeAndStageList } from '../../utility/data/stage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { RACE_TYPE_LIST_ALL, RaceType } from '../../utility/raceType';
@@ -85,17 +86,57 @@ export class CalendarUseCase implements ICalendarUseCase {
             ),
             DataLocation.Storage,
         );
+        console.log(`raceEntityList: ${raceEntityList.length}`);
+
         // フラット化して単一の RaceEntity[] にする（後続のオブジェクト型 filteredRaceEntityList と名前衝突しないよう別名）
-        const filteredRaceEntityList: RaceEntity[] = RACE_TYPE_LIST_ALL.flatMap(
-            (raceType) =>
-                raceEntityList.filter(
-                    (raceEntity) =>
-                        raceEntity.raceData.raceType === raceType &&
-                        displayGradeList[raceType].includes(
-                            raceEntity.raceData.grade,
-                        ),
-                ),
+        const filteredRaceEntityListForHorseRacing: RaceEntity[] = [
+            RaceType.JRA,
+            RaceType.NAR,
+            RaceType.OVERSEAS,
+        ].flatMap((raceType) =>
+            raceEntityList.filter((raceEntity) => {
+                return (
+                    raceEntity.raceData.raceType === raceType &&
+                    displayGradeList[raceType].includes(
+                        raceEntity.raceData.grade,
+                    )
+                );
+            }),
         );
+        console.log(
+            `filteredRaceEntityListForHorseRacing: ${filteredRaceEntityListForHorseRacing.length}`,
+        );
+
+        // KEIRIN/AUTORACE/BOATRACEは、RaceGradeAndStageListからpriorityを取得し6以上で絞る
+        const filteredRaceEntityListForMechanicalRacing: RaceEntity[] =
+            raceEntityList.filter((raceEntity) => {
+                const racePriority =
+                    RaceGradeAndStageList.filter(
+                        (raceGradeList) =>
+                            raceGradeList.raceType ===
+                            raceEntity.raceData.raceType,
+                    ).find((raceGradeList) => {
+                        return (
+                            displayGradeList[
+                                raceEntity.raceData.raceType
+                            ].includes(raceEntity.raceData.grade) &&
+                            raceGradeList.grade.includes(
+                                raceEntity.raceData.grade,
+                            ) &&
+                            raceGradeList.stage === raceEntity.stage
+                        );
+                    })?.priority ?? 0;
+                return racePriority >= 6;
+            });
+
+        console.log(
+            `filteredRaceEntityListForMechanicalRacing: ${filteredRaceEntityListForMechanicalRacing.length}`,
+        );
+
+        const filteredRaceEntityList: RaceEntity[] = [
+            ...filteredRaceEntityListForHorseRacing,
+            ...filteredRaceEntityListForMechanicalRacing,
+        ];
 
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =

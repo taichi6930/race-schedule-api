@@ -37,6 +37,7 @@ describe('RaceUseCase', () => {
         [RaceType.JRA]: [],
         [RaceType.NAR]: [],
         [RaceType.OVERSEAS]: [],
+        [RaceType.AUTORACE]: [],
         [RaceType.KEIRIN]: [
             {
                 raceTypeList: [RaceType.KEIRIN],
@@ -132,103 +133,6 @@ describe('RaceUseCase', () => {
                 descriptions: '検索条件なし',
                 expectedLength: 72,
                 returnedRaceList: baseRaceEntityList(RaceType.KEIRIN),
-            },
-        ],
-        [RaceType.AUTORACE]: [
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: { gradeList: ['SG'] },
-                },
-                descriptions: 'gradeを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: { locationList: ['飯塚'] },
-                },
-                descriptions: 'locationを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: { stageList: ['優勝戦'] },
-                },
-                descriptions: 'stageを検索条件に入れて',
-                expectedLength: 5,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: {
-                        gradeList: ['SG'],
-                        locationList: ['飯塚'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 12,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: {
-                        gradeList: ['SG'],
-                        locationList: ['川口'],
-                    },
-                },
-                descriptions: 'gradeとlocationを検索条件に入れて',
-                expectedLength: 0,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: {
-                        gradeList: ['SG'],
-                        stageList: ['優勝戦'],
-                    },
-                },
-                descriptions: 'gradeとstageを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: {
-                        locationList: ['飯塚'],
-                        stageList: ['優勝戦'],
-                    },
-                },
-                descriptions: 'locationとstageを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: {
-                    [RaceType.AUTORACE]: {
-                        gradeList: ['SG'],
-                        locationList: ['飯塚'],
-                        stageList: ['優勝戦'],
-                    },
-                },
-                descriptions: 'gradeとlocation、stageを検索条件に入れて',
-                expectedLength: 1,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
-            },
-            {
-                raceTypeList: [RaceType.AUTORACE],
-                searchConditions: { [RaceType.AUTORACE]: {} },
-                descriptions: '検索条件なし',
-                expectedLength: 60,
-                returnedRaceList: baseRaceEntityList(RaceType.AUTORACE),
             },
         ],
         [RaceType.BOATRACE]: [

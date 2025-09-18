@@ -12,7 +12,6 @@ export const RaceType = {
 
 export const RACE_TYPE_LIST_ALL_FOR_AWS: RaceType[] = [
     RaceType.KEIRIN,
-    RaceType.AUTORACE,
     RaceType.BOATRACE,
 ];
 
@@ -20,6 +19,7 @@ export const RACE_TYPE_LIST_ALL: RaceType[] = [
     RaceType.JRA,
     RaceType.NAR,
     RaceType.OVERSEAS,
+    RaceType.AUTORACE,
 ];
 
 export const RACE_TYPE_LIST_WITHOUT_OVERSEAS_FOR_AWS =
@@ -31,21 +31,13 @@ export const RACE_TYPE_LIST_WITHOUT_OVERSEAS = RACE_TYPE_LIST_ALL.filter(
     (raceType) => raceType !== RaceType.OVERSEAS,
 );
 
-export const RACE_TYPE_LIST_MECHANICAL_RACING_FOR_AWS = [
-    RaceType.KEIRIN,
-    RaceType.AUTORACE,
-    RaceType.BOATRACE,
-];
+export const RACE_TYPE_LIST_MECHANICAL_RACING = [RaceType.AUTORACE];
 
-export const RACE_TYPE_LIST_MECHANICAL_RACING = [];
-
-export const RACE_TYPE_LIST_HORSE_RACING_FOR_AWS = [
+export const RACE_TYPE_LIST_HORSE_RACING = [
     RaceType.JRA,
     RaceType.NAR,
     RaceType.OVERSEAS,
 ];
-
-export const RACE_TYPE_LIST_HORSE_RACING = [RaceType.OVERSEAS];
 
 export type RaceType = (typeof RaceType)[keyof typeof RaceType];
 

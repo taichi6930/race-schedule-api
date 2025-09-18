@@ -34,8 +34,6 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
         protected mechanicalRacingRaceRepositoryFromStorage: IRaceRepositoryForAWS,
         @inject('KeirinRaceRepositoryFromHtml')
         protected keirinRaceRepositoryFromHtml: IRaceRepositoryForAWS,
-        @inject('AutoraceRaceRepositoryFromHtml')
-        protected autoraceRaceRepositoryFromHtml: IRaceRepositoryForAWS,
         @inject('BoatraceRaceRepositoryFromHtml')
         protected boatraceRaceRepositoryFromHtml: IRaceRepositoryForAWS,
     ) {
@@ -44,7 +42,7 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
             [RaceType.NAR]: undefined,
             [RaceType.OVERSEAS]: undefined,
             [RaceType.KEIRIN]: this.mechanicalRacingRaceRepositoryFromStorage,
-            [RaceType.AUTORACE]: this.mechanicalRacingRaceRepositoryFromStorage,
+            [RaceType.AUTORACE]: undefined,
             [RaceType.BOATRACE]: this.mechanicalRacingRaceRepositoryFromStorage,
         };
 
@@ -53,7 +51,7 @@ export class RaceServiceForAWS implements IRaceServiceForAWS {
             [RaceType.NAR]: undefined,
             [RaceType.OVERSEAS]: undefined,
             [RaceType.KEIRIN]: this.keirinRaceRepositoryFromHtml,
-            [RaceType.AUTORACE]: this.autoraceRaceRepositoryFromHtml,
+            [RaceType.AUTORACE]: undefined,
             [RaceType.BOATRACE]: this.boatraceRaceRepositoryFromHtml,
         };
     }

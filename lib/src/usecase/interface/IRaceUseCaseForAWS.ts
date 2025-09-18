@@ -26,11 +26,6 @@ export interface IRaceUseCaseForAWS {
                 locationList?: RaceCourse[];
                 stageList?: RaceStage[];
             };
-            [RaceType.AUTORACE]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-                stageList?: RaceStage[];
-            };
             [RaceType.BOATRACE]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
@@ -51,10 +46,6 @@ export interface IRaceUseCaseForAWS {
         raceTypeList: RaceType[],
         searchList?: {
             [RaceType.KEIRIN]?: {
-                gradeList?: GradeType[];
-                locationList?: RaceCourse[];
-            };
-            [RaceType.AUTORACE]?: {
                 gradeList?: GradeType[];
                 locationList?: RaceCourse[];
             };

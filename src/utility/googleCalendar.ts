@@ -177,11 +177,12 @@ export const toGoogleCalendarData = (
             case RaceType.OVERSEAS: {
                 return ``;
             }
+            case RaceType.AUTORACE: {
+                return raceEntity.stage;
+            }
             case RaceType.KEIRIN:
-            case RaceType.AUTORACE:
             case RaceType.BOATRACE: {
                 throw new Error('Not implemented');
-                // return raceEntity.stage;
             }
         }
     };

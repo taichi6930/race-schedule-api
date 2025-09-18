@@ -154,6 +154,9 @@ export class PublicGamblingControllerFromAWS {
                 new Date(finishDate),
                 raceTypeList,
                 {
+                    [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
+                    [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),
+                    [RaceType.OVERSEAS]: SpecifiedGradeList(RaceType.OVERSEAS),
                     [RaceType.KEIRIN]: SpecifiedGradeList(RaceType.KEIRIN),
                     [RaceType.AUTORACE]: SpecifiedGradeList(RaceType.AUTORACE),
                     [RaceType.BOATRACE]: SpecifiedGradeList(RaceType.BOATRACE),
@@ -372,11 +375,6 @@ export class PublicGamblingControllerFromAWS {
                     raceTypeList,
                     {
                         [RaceType.KEIRIN]: {
-                            gradeList,
-                            locationList,
-                            stageList,
-                        },
-                        [RaceType.AUTORACE]: {
                             gradeList,
                             locationList,
                             stageList,

@@ -66,7 +66,7 @@ export class PlaceController {
                     headers: this.corsHeaders,
                 });
             }
-            console.error('Error in getCalendarEntityList:', error);
+            console.error('Error in getPlaceEntityList:', error);
             return new Response('Internal Server Error', {
                 status: 500,
                 headers: this.corsHeaders,
