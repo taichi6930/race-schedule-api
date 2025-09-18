@@ -24,6 +24,7 @@ export const commonParameterMock = (): CommonParameter => {
             GOOGLE_CLIENT_EMAIL: 'GOOGLE_CLIENT_EMAIL_dummy',
             GOOGLE_PRIVATE_KEY: 'GOOGLE_PRIVATE_KEY_dummy',
             IS_HTML_FETCH_ENABLED: 'false',
+            HTML_FETCH_DELAY_MS: '0',
         },
     };
 };

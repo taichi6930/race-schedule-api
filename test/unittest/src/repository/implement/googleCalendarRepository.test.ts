@@ -115,14 +115,7 @@ describe('GoogleCalendarRepository', () => {
     //         gatewaySetup.googleCalendarGateway.fetchCalendarData.mockResolvedValue(
     //             calendarDataFromGoogleCalendar,
     //         );
-    //         console.log(
-    //             'calendarDataFromGoogleCalendar:',
-    //             calendarDataFromGoogleCalendar,
-    //         );
-
     //         const raceEntityList = baseRaceEntityList(raceType);
-    //         console.log('raceEntityList:', raceEntityList);
-
     //         await repository.upsertEvents(commonParameter, raceEntityList);
     //         expect(
     //             gatewaySetup.googleCalendarGateway.updateCalendarData,
