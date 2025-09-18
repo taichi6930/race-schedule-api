@@ -3,14 +3,13 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
-import type { UpsertResult } from '../../utility/upsertResult';
+import { UpsertResult } from '../../utility/upsertResult';
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import { RaceStage, StageMap } from '../../utility/validateAndType/raceStage';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
@@ -30,9 +29,9 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
 
     /**
      * 開催データを取得する
-     * @param searchFilter
      * @param commonParameter
      * @param searchRaceFilter
+     * @param searchFilter
      * @param placeEntityList
      */
     @Logger
@@ -46,16 +45,10 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
 
         for (const placeEntity of placeEntityList) {
             raceEntityList.push(
-                ...(await this.fetchRaceListFromHtml(
-                    placeEntity.placeData,
-                    placeEntity.grade,
-                )),
+                ...(await this.fetchRaceListFromHtml(placeEntity)),
             );
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
-            const delayedTimeMs = Number.parseInt(
-                process.env.HTML_FETCH_DELAY_MS ?? '500',
-                10,
-            );
+            const delayedTimeMs = 1000;
             console.debug(`待機時間: ${delayedTimeMs}ms`);
             await new Promise((resolve) => setTimeout(resolve, delayedTimeMs));
             console.debug('待機時間が経ちました');
@@ -64,20 +57,19 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
     }
 
     @Logger
-    public async fetchRaceListFromHtml(
-        placeData: PlaceData,
-        grade: GradeType,
+    private async fetchRaceListFromHtml(
+        placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
         try {
             const [year, month, day] = [
-                placeData.dateTime.getFullYear(),
-                placeData.dateTime.getMonth() + 1,
-                placeData.dateTime.getDate(),
+                placeEntity.placeData.dateTime.getFullYear(),
+                placeEntity.placeData.dateTime.getMonth() + 1,
+                placeEntity.placeData.dateTime.getDate(),
             ];
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                placeData.raceType,
-                placeData.dateTime,
-                placeData.location,
+                placeEntity.placeData.raceType,
+                placeEntity.placeData.dateTime,
+                placeEntity.placeData.location,
             );
             const raceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
@@ -85,7 +77,7 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
             const content = $('#content');
             const seriesRaceName = (
                 content.find('h2').text().split('\n').filter(Boolean)[1] ??
-                `${placeData.location}${grade}`
+                `${placeEntity.placeData.location}${placeEntity.grade}`
             )
                 .replaceFromCodePoint(/[！-～]/g)
                 .replaceFromCodePoint(/[０-９Ａ-Ｚａ-ｚ]/g);
@@ -117,7 +109,7 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
                         );
                         const raceGrade = this.extractRaceGrade(
                             raceName,
-                            grade,
+                            placeEntity.grade,
                             raceStage ?? '',
                             new Date(year, month - 1, day),
                         );
@@ -147,7 +139,7 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
                                 if (positionNumber && playerNumber !== null) {
                                     racePlayerDataList.push(
                                         RacePlayerData.create(
-                                            placeData.raceType,
+                                            placeEntity.placeData.raceType,
                                             Number(positionNumber),
                                             Number(playerNumber),
                                         ),
@@ -158,7 +150,7 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
                             raceStage === null
                                 ? null
                                 : RaceData.create(
-                                      placeData.raceType,
+                                      placeEntity.placeData.raceType,
                                       raceName,
                                       new Date(
                                           year,
@@ -167,7 +159,7 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
                                           hour,
                                           minute,
                                       ),
-                                      placeData.location,
+                                      placeEntity.placeData.location,
                                       raceGrade,
                                       Number(raceNumber),
                                   );
@@ -297,24 +289,20 @@ export class KeirinRaceRepositoryFromHtml implements IRaceRepository {
         }
         return raceGrade;
     }
+
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
-     * @param _commonParameter
-     * @param _entityList
+     * @param _commonParameter - unused
+     * @param _entityList - unused
      */
     @Logger
     public async upsertRaceEntityList(
         _commonParameter: CommonParameter,
         _entityList: RaceEntity[],
     ): Promise<UpsertResult> {
-        // HTML repositories do not perform DB writes here. Return empty result.
         void _commonParameter;
         void _entityList;
-        return {
-            successCount: 0,
-            failureCount: 0,
-            failures: [],
-        };
+        return { successCount: 0, failureCount: 0, failures: [] };
     }
 }

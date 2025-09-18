@@ -7,7 +7,6 @@ import { container } from 'tsyringe';
 import { MockRaceDataHtmlGateway } from '../../../../../../lib/src/gateway/mock/mockRaceDataHtmlGateway';
 import { SearchRaceFilterEntityForAWS } from '../../../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { BoatraceRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/boatraceRaceRepositoryFromHtml';
-import { KeirinRaceRepositoryFromHtmlForAWS } from '../../../../../../lib/src/repository/implement/raceRepositoryFromHtml/keirinRaceRepositoryFromHtml';
 import type { IRaceRepositoryForAWS } from '../../../../../../lib/src/repository/interface/IRaceRepositoryForAWS';
 import { allowedEnvs } from '../../../../../../lib/src/utility/env';
 import { PlaceData } from '../../../../../../src/domain/placeData';
@@ -27,17 +26,7 @@ const testCases = {
     [RaceType.JRA]: [],
     [RaceType.NAR]: [],
     [RaceType.OVERSEAS]: [],
-    [RaceType.KEIRIN]: [
-        {
-            name: 'KeirinRaceRepositoryFromHtml',
-            repositoryClass: KeirinRaceRepositoryFromHtmlForAWS,
-            startDate: new Date('2024-10-20'),
-            endDate: new Date('2024-10-20'),
-            placeName: '弥彦',
-            placeDate: new Date('2024-10-20'),
-            expectedLength: 12,
-        },
-    ],
+    [RaceType.KEIRIN]: [],
     [RaceType.AUTORACE]: [],
     [RaceType.BOATRACE]: [
         {
