@@ -48,7 +48,7 @@
         "node": ">=24.0.0 <25.0.0"
     },
     "dependencies": {
-        "@aws-sdk/client-s3": "^3.891.0",
+        "@aws-sdk/client-s3": "^3.892.0",
         "@codegenie/serverless-express": "^4.17.0",
         "@types/aws-lambda": "^8.10.152",
         "@types/express": "^5.0.3",
@@ -79,27 +79,27 @@
         "swagger-autogen": "^2.23.7",
         "swagger-jsdoc": "^6.2.8",
         "swagger-ui-express": "^5.0.1",
-        "ts-jest": "^29.4.2",
+        "ts-jest": "^29.4.3",
         "ts-node": "^10.9.2",
         "tsyringe": "^4.10.0",
         "typedoc": "^0.28.13",
         "zod": "^4.1.9"
     },
     "devDependencies": {
-        "@cloudflare/workers-types": "^4.20250917.0",
+        "@cloudflare/workers-types": "^4.20250918.0",
         "@eslint/js": "^9.35.0",
         "@swc/core": "^1.13.5",
         "@swc/jest": "^0.2.39",
         "@types/better-sqlite3": "^7.6.13",
         "@types/jest": "^30.0.0",
         "@types/neat-csv": "^5.1.1",
-        "@types/node": "24.5.1",
+        "@types/node": "24.5.2",
         "@types/swagger-jsdoc": "^6.0.4",
         "@types/swagger-ui-express": "^4.1.8",
         "aws-cdk": "2.1029.2",
         "esbuild": "^0.25.10",
         "eslint": "^9.35.0",
-        "eslint-plugin-jsdoc": "^58.1.1",
+        "eslint-plugin-jsdoc": "^59.0.1",
         "eslint-plugin-promise": "^7.2.1",
         "eslint-plugin-unicorn": "^61.0.2",
         "eslint-plugin-unused-imports": "^4.2.0",
@@ -109,7 +109,7 @@
         "lint-staged": "^16.1.6",
         "typescript": "~5.9.2",
         "typescript-eslint": "^8.44.0",
-        "wrangler": "^4.37.1"
+        "wrangler": "^4.38.0"
     },
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
