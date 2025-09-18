@@ -486,7 +486,7 @@ const defaultStageList = {
  */
 export const testRaceTypeListAll = IS_SHORT_TEST
     ? [RaceType.JRA]
-    : [...new Set([...RACE_TYPE_LIST_ALL_FOR_AWS, ...RACE_TYPE_LIST_ALL])];
+    : [...new Set(RACE_TYPE_LIST_ALL)];
 
 export const testRaceTypeListWithoutOverseas = IS_SHORT_TEST
     ? [RaceType.JRA]
