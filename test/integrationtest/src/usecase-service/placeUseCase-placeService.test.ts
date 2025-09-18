@@ -4,19 +4,19 @@ describe('placeUseCase-placeService', () => {
     it('ダミー', () => {
         expect(true).toBe(true);
     });
-    // let repositorySetup: TestRepositoryForAWSSetup;
-    // let service: IPlaceServiceForAWS;
-    // let useCase: IPlaceUseCaseForAWS;
+    // let repositorySetup: TestRepositorySetup;
+    // let service: IPlaceService;
+    // let useCase: IPlaceUseCase;
 
     // beforeEach(() => {
-    //     repositorySetup = setupTestRepositoryForAWSMock();
+    //     repositorySetup = setupTestRepositoryMock();
 
-    //     service = container.resolve(PlaceServiceForAWS);
-    //     container.registerInstance<IPlaceServiceForAWS>(
+    //     service = container.resolve(PlaceService);
+    //     container.registerInstance<IPlaceService>(
     //         'PlaceService',
     //         service,
     //     );
-    //     useCase = container.resolve(PlaceUseCaseForAWS);
+    //     useCase = container.resolve(PlaceUseCase);
     // });
 
     // afterEach(() => {

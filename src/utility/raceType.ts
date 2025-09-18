@@ -10,8 +10,6 @@ export const RaceType = {
     BOATRACE: 'BOATRACE',
 } as const;
 
-export const RACE_TYPE_LIST_ALL_FOR_AWS: RaceType[] = [];
-
 export const RACE_TYPE_LIST_ALL: RaceType[] = [
     RaceType.JRA,
     RaceType.NAR,
