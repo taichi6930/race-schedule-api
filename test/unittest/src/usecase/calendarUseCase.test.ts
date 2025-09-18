@@ -8,7 +8,6 @@ import { CalendarUseCase } from '../../../../src/usecase/implement/calendarUseCa
 import type { ICalendarUseCase } from '../../../../src/usecase/interface/ICalendarUseCase';
 import { RaceType } from '../../../../src/utility/raceType';
 import { SpecifiedGradeList } from '../../../../src/utility/validateAndType/gradeType';
-import { commonParameterMock } from '../../../old/unittest/src/mock/common/commonParameterMock';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';
 import {
     clearMocks,
@@ -20,6 +19,7 @@ import {
     mockCalendarDataList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
+import { commonParameterMock } from '../mock/common/commonParameterMock';
 
 describe('RaceCalendarUseCase', () => {
     let serviceSetup: TestServiceSetup;

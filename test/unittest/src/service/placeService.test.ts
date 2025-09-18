@@ -6,7 +6,6 @@ import { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filte
 import { PlaceService } from '../../../../src/service/implement/placeService';
 import type { IPlaceService } from '../../../../src/service/interface/IPlaceService';
 import { DataLocation } from '../../../../src/utility/dataType';
-import { commonParameterMock } from '../../../old/unittest/src/mock/common/commonParameterMock';
 import type { TestRepositorySetup } from '../../../utility/testSetupHelper';
 import {
     clearMocks,
@@ -16,6 +15,7 @@ import {
     mockPlaceEntityList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
+import { commonParameterMock } from '../mock/common/commonParameterMock';
 
 describe('PlaceService', () => {
     let repositorySetup: TestRepositorySetup;

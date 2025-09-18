@@ -15,7 +15,7 @@ import {
     basePlaceEntity,
     testRaceTypeListMechanicalRacing,
 } from '../../mock/common/baseCommonData';
-import { commonParameterMock } from './../../../../old/unittest/src/mock/common/commonParameterMock';
+import { commonParameterMock } from '../../mock/common/commonParameterMock';
 
 // テーブル駆動型テスト
 const testCases = {

@@ -1,6 +1,6 @@
-import type { SearchCalendarFilterEntity } from '../../../../../../src/repository/entity/filter/searchCalendarFilterEntity';
-import type { ICalendarRepository } from '../../../../../../src/repository/interface/ICalendarRepository';
-import { baseCalendarData } from '../../../../../unittest/src/mock/common/baseCommonData';
+import type { SearchCalendarFilterEntity } from '../../../../../src/repository/entity/filter/searchCalendarFilterEntity';
+import type { ICalendarRepository } from '../../../../../src/repository/interface/ICalendarRepository';
+import { baseCalendarData } from '../common/baseCommonData';
 
 export const mockCalendarRepository = (): jest.Mocked<ICalendarRepository> => {
     return {

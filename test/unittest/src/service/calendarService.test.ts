@@ -15,7 +15,7 @@ import {
     mockRaceEntityList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
-import { commonParameterMock } from './../../../old/unittest/src/mock/common/commonParameterMock';
+import { commonParameterMock } from '../mock/common/commonParameterMock';
 
 describe('CalendarService', () => {
     let service: ICalendarService;

@@ -5,7 +5,6 @@ import { container } from 'tsyringe';
 import { SearchRaceFilterEntity } from '../../../../src/repository/entity/filter/searchRaceFilterEntity';
 import { RaceUseCase } from '../../../../src/usecase/implement/raceUsecase';
 import type { IRaceUseCase } from '../../../../src/usecase/interface/IRaceUsecase';
-import { commonParameterMock } from '../../../old/unittest/src/mock/common/commonParameterMock';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';
 import {
     clearMocks,
@@ -16,6 +15,7 @@ import {
     mockRaceEntityList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
+import { commonParameterMock } from '../mock/common/commonParameterMock';
 
 describe('RaceUseCase', () => {
     let serviceSetup: TestServiceSetup;

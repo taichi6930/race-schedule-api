@@ -1,4 +1,4 @@
-import type { CommonParameter } from '../../../../../../src/utility/commonParameter';
+import type { CommonParameter } from '../../../../../src/utility/commonParameter';
 
 /**
  * CalendarServiceのモックを作成する
