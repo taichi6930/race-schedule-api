@@ -54,7 +54,6 @@ export default [
             ],
             'jsdoc/check-property-names': 'error', // プロパティ名のチェック
             'jsdoc/check-syntax': 'error', // 構文チェック
-            'jsdoc/check-tag-names': 'off', // Typescriptと併用するため無効化
             'jsdoc/check-types': 'error', // 型のチェック
             'jsdoc/check-values': 'error', // 値のチェック
             'jsdoc/empty-tags': 'error', // 空タグのチェック
@@ -92,12 +91,8 @@ export default [
                     ],
                 },
             ],
-            'jsdoc/no-types': 'off', // TypeScriptと併用するため無効化
             'jsdoc/no-undefined-types': 'error', // 未定義の型のチェック
             'jsdoc/require-asterisk-prefix': 'error', // アスタリスクプレフィックスの要求
-            'jsdoc/require-description': 'off', // 説明の要求
-            'jsdoc/require-description-complete-sentence': 'off', // 完全な文章での説明要求
-            'jsdoc/require-example': 'off', // サンプルの要求
             'jsdoc/require-file-overview': [
                 'off',
                 {
@@ -132,7 +127,6 @@ export default [
                 },
             ],
             'jsdoc/require-param': 'error', // パラメータの要求
-            'jsdoc/require-param-description': 'off', // TODO: パラメータの説明を後で必須にする
             'jsdoc/require-param-name': 'error', // パラメータ名の要求
             'jsdoc/require-param-type': 'off', // TypeScriptと併用するため無効化
             'jsdoc/require-property': 'error', // プロパティの要求
@@ -148,7 +142,6 @@ export default [
             'jsdoc/sort-tags': 'error', // タグのソート
             'jsdoc/tag-lines': 'error', // タグの行数チェック
             'jsdoc/valid-types': 'error', // 有効な型のチェック
-            'unicorn/prefer-string-slice': 'off', // ✅ preferStringSliceを許可
             '@typescript-eslint/class-methods-use-this': 'off', // ✅ クラスメソッド内でthisを使う
             '@typescript-eslint/max-params': 'off', // ✅ 関数のパラメータ数の最大値を許可
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可
@@ -157,16 +150,10 @@ export default [
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
-            'unicorn/no-abusive-eslint-disable': 'off', // ✅ eslint-disableの乱用を許可
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
-            'jsdoc/require-param-description': 'off', // テストファイルではパラメータの説明を任意に
-            'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
-            'jsdoc/require-file-overview': 'off', // テストファイルではファイル概要を任意に
-            'jsdoc/no-missing-syntax': 'off', // テストファイルでは構文チェックを無効に
-            'jsdoc/no-restricted-syntax': 'off', // テストファイルでは構文制限を無効に
-            'jsdoc/require-example': 'off', // テストファイルではサンプルを任意に
-            '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
             '@typescript-eslint/no-unnecessary-type-assertion': 'off', // ✅ 不必要な型アサーションを許可
+            'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
+            'jsdoc/require-example': 'off', // テストファイルではサンプルを任意に
             'unused-imports/no-unused-vars': [
                 'error',
                 {
