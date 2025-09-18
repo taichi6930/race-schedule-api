@@ -91,7 +91,6 @@ export default [
                     ],
                 },
             ],
-            'jsdoc/no-types': 'off', // TypeScriptと併用するため無効化
             'jsdoc/no-undefined-types': 'error', // 未定義の型のチェック
             'jsdoc/require-asterisk-prefix': 'error', // アスタリスクプレフィックスの要求
             'jsdoc/require-description': 'off', // 説明の要求
