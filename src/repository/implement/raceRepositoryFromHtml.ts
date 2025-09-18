@@ -88,9 +88,6 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                     break;
                 }
             }
-            raceEntityList.push(
-                ...(await this.fetchRaceListFromHtmlForJra(placeEntity)),
-            );
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
             const delayedTimeMs = Number.parseInt(
                 commonParameter.env.HTML_FETCH_DELAY_MS || '1000',
@@ -130,7 +127,6 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
         placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
         try {
-            console.log('placeEntity:', placeEntity);
             // レース情報を取得
             const htmlText: string =
                 await this.raceDataHtmlGateway.getRaceDataHtml(
@@ -365,6 +361,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
         }
     }
 
+    @Logger
     private async fetchRaceListFromHtmlForNar(
         placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
