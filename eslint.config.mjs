@@ -43,7 +43,6 @@ export default [
             // JSDoc関連のルール
             'jsdoc/check-access': 'error', // アクセス修飾子のチェック
             'jsdoc/check-alignment': 'error', // 整列のチェック
-            'jsdoc/check-indentation': 'off', // TypeScriptのデフォルトのインデントスタイルを許可
             'jsdoc/check-line-alignment': 'error', // 行の整列チェック
             'jsdoc/check-param-names': [
                 'error',
