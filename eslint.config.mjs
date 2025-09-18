@@ -156,8 +156,6 @@ export default [
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
             'jsdoc/require-param-description': 'off', // テストファイルではパラメータの説明を任意に
             'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
-            'jsdoc/no-missing-syntax': 'off', // テストファイルでは構文チェックを無効に
-            'jsdoc/no-restricted-syntax': 'off', // テストファイルでは構文制限を無効に
             'jsdoc/require-example': 'off', // テストファイルではサンプルを任意に
             '@typescript-eslint/no-misused-promises': 'off', // ✅ Promiseの誤用を許可
             '@typescript-eslint/no-unnecessary-type-assertion': 'off', // ✅ 不必要な型アサーションを許可
