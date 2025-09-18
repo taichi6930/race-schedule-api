@@ -231,7 +231,6 @@ export default [
             'src/utility/**/gradeType.ts',
             'src/utility/**/positionNumber.ts',
             'src/utility/**/raceStage.ts',
-            'src/utility/googleCalendarForAWS.ts',
             'src/utility/googleCalendar.ts',
             'src/utility/sqlite/settings/dbConfig.ts',
             'test/**/baseCommonData.ts',

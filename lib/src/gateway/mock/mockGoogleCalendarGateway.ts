@@ -2,7 +2,7 @@ import type { calendar_v3 } from 'googleapis';
 
 import { formatDate } from '../../../../src/utility/format';
 import type { RaceType } from '../../../../src/utility/raceType';
-import { RACE_TYPE_LIST_ALL_FOR_AWS } from '../../../../src/utility/raceType';
+import { RACE_TYPE_LIST_ALL } from '../../../../src/utility/raceType';
 import {
     generateId,
     IdType,
@@ -30,7 +30,7 @@ import { allowedEnvs, ENV } from '../../utility/env';
  * - 認証情報の適切な管理が必要です
  * - タイムゾーンの正確な処理が重要です
  */
-interface ICalendarGatewayForAWS {
+interface ICalendarGateway {
     /**
      * 指定された期間のカレンダーイベントを一括取得します
      *
@@ -145,7 +145,7 @@ interface ICalendarGatewayForAWS {
 /**
  * Googleカレンダーのモックサービス
  */
-export class MockGoogleCalendarGateway implements ICalendarGatewayForAWS {
+export class MockGoogleCalendarGateway implements ICalendarGateway {
     public constructor() {
         this.setCalendarData();
     }
@@ -186,7 +186,7 @@ export class MockGoogleCalendarGateway implements ICalendarGatewayForAWS {
                     while (
                         currentDate.getFullYear() === startDate.getFullYear()
                     ) {
-                        for (const raceType of RACE_TYPE_LIST_ALL_FOR_AWS) {
+                        for (const raceType of RACE_TYPE_LIST_ALL) {
                             const location = defaultLocation[raceType];
                             for (
                                 let raceNumber = 1;

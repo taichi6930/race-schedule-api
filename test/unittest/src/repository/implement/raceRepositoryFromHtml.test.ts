@@ -39,7 +39,7 @@ it('ダミーテスト', () => {
 //             expect(true).toBe(true);
 //             // describe(name, () => {
 //             //     let raceDataHtmlGateway: IRaceDataHtmlGateway;
-//             //     let repository: IRaceRepositoryForAWS;
+//             //     let repository: IRaceRepository;
 
 //             //     beforeEach(() => {
 //             //         raceDataHtmlGateway = new MockRaceDataHtmlGateway();
@@ -48,7 +48,7 @@ it('ダミーテスト', () => {
 //             //             raceDataHtmlGateway,
 //             //         );
 //             //         repository =
-//             //             container.resolve<IRaceRepositoryForAWS>(
+//             //             container.resolve<IRaceRepository>(
 //             //                 repositoryClass,
 //             //             );
 //             //     });
@@ -64,7 +64,7 @@ it('ダミーテスト', () => {
 //             //             async () => {
 //             //                 const raceEntityList =
 //             //                     await repository.fetchRaceEntityList(
-//             //                         new SearchRaceFilterEntityForAWS(
+//             //                         new SearchRaceFilterEntity(
 //             //                             startDate,
 //             //                             endDate,
 //             //                             raceType,
