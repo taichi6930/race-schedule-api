@@ -50,7 +50,10 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
         const raceEntityList: RaceEntity[] = [];
         for (const month of monthList) {
             raceEntityList.push(
-                ...(await this.fetchRaceListFromHtml(RaceType.OVERSEAS, month)),
+                ...(await this.fetchRaceListFromHtmlForOverseas(
+                    RaceType.OVERSEAS,
+                    month,
+                )),
             );
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
             const delayedTimeMs = Number.parseInt(
@@ -87,10 +90,17 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
     }
 
     @Logger
-    public async fetchRaceListFromHtml(
+    private async fetchRaceListFromHtmlForOverseas(
         raceType: RaceType,
         date: Date,
     ): Promise<RaceEntity[]> {
+        function extractSurfaceType(race: string[]): RaceSurfaceType {
+            const types = ['芝', 'ダート', '障害', 'AW'];
+            const found = types.find((type) =>
+                race.some((item) => item.includes(type)),
+            );
+            return found ?? '不明';
+        }
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
                 raceType,
@@ -151,7 +161,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
                                 .text()
                                 .trim(); // テキストをトリムして不要な空白を削除
 
-                            const surfaceType: string = this.extractSurfaceType(
+                            const surfaceType: string = extractSurfaceType(
                                 ['芝', 'ダート', '障害', 'AW'].filter((type) =>
                                     surfaceTypeAndDistanceText.includes(type),
                                 ),
@@ -252,14 +262,6 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
             console.error('HTMLの取得に失敗しました', error);
             return [];
         }
-    }
-
-    private extractSurfaceType(race: string[]): RaceSurfaceType {
-        const types = ['芝', 'ダート', '障害', 'AW'];
-        const found = types.find((type) =>
-            race.some((item) => item.includes(type)),
-        );
-        return found ?? '不明';
     }
 
     @Logger
