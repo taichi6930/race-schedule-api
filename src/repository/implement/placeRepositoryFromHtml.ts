@@ -400,10 +400,16 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                     // thを取得
                     const th = $(trElement).find('th');
 
+                    const rowPlace = th.text().replace(' ', '');
                     // thのテキストが RaceCourseに含まれているか
-                    if (!th.text().replace(' ', '')) {
+                    if (!rowPlace) {
                         return;
                     }
+                    // rowPlaceが10文字以上にはならないので、SKIP
+                    if (rowPlace.length > 10) {
+                        return;
+                    }
+
                     const place: RaceCourse = validateRaceCourse(
                         raceType,
                         th.text(),
