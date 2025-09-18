@@ -7,7 +7,6 @@ export interface RaceScheduleAppStackProps extends cdk.StackProps {
     lambdaEnv: Record<string, string>;
 }
 
-import { createApiGateway } from './stack/api-setup';
 import { createLambdaExecutionRole } from './stack/iam-setup';
 import { createLambdaFunction } from './stack/lambda-setup';
 
@@ -55,13 +54,6 @@ export class CdkRaceScheduleAppStack extends cdk.Stack {
             lambdaFunctionName,
             lambdaEnv,
         );
-
-        // API Gatewayの設定
-        const api = createApiGateway(this, lambdaFunction);
-
-        // API Gateway エンドポイントの出力
-        new cdk.CfnOutput(this, 'RaceScheduleAppApiGatewayEndpoint', {
-            value: api.deploymentStage.urlForPath(),
-        });
+        console.log(`Lambda Function Name: ${lambdaFunction.functionName}`);
     }
 }
