@@ -3,7 +3,7 @@
     "includeVersion": true,
     "out": "./docs",
     "entryPointStrategy": "expand",
-    "entryPoints": ["./lib/src/"],
+    "entryPoints": ["./src/"],
     "theme": "default",
     "hideGenerator": true,
     "validation": {

@@ -30,7 +30,7 @@ import { allowedEnvs, ENV } from '../../utility/env';
  * - 認証情報の適切な管理が必要です
  * - タイムゾーンの正確な処理が重要です
  */
-export interface ICalendarGatewayForAWS {
+interface ICalendarGatewayForAWS {
     /**
      * 指定された期間のカレンダーイベントを一括取得します
      *
