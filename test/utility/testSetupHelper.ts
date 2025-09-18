@@ -19,7 +19,7 @@ import { mockRaceRepository } from '../unittest/src/mock/repository/mockRaceRepo
 import { calendarServiceMock } from '../unittest/src/mock/service/calendarServiceMock';
 import { placeServiceMock } from '../unittest/src/mock/service/placeServiceMock';
 import { playerServiceMock } from '../unittest/src/mock/service/playerServiceMock';
-import { raceServiceMock } from '../unittest/src/mock/service/raceDataServiceMock';
+import { raceServiceMock } from '../unittest/src/mock/service/raceServiceMock';
 
 /**
  * afterEach処理の共通化
