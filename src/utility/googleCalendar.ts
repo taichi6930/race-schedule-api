@@ -65,9 +65,9 @@ type GoogleCalendarColorIdType =
     (typeof GoogleCalendarColorId)[keyof typeof GoogleCalendarColorId];
 
 /**
- * 中央競馬（JRA）のグレードごとの色設定
+ * グレードごとの色設定
  *
- * 中央競馬の特徴的なグレード体系に対応
+ * 特徴的なグレード体系に対応
  */
 
 /**

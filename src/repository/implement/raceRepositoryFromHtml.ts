@@ -124,6 +124,78 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
     private async fetchRaceListFromHtmlForJra(
         placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
+        const extractRaceGrade = (
+            raceSurfaceType: RaceSurfaceType,
+            highGrade: string,
+            rowGrade: string,
+        ): GradeType => {
+            // highGradeに値が入っていたらそれを優先する
+            // 例: GⅠ, GⅡ, GⅢ, Listed
+            if (highGrade.length > 0) {
+                return raceSurfaceType === '障害'
+                    ? `J.${highGrade}`
+                    : highGrade;
+            }
+            if (rowGrade.includes('オープン')) {
+                return 'オープン';
+            }
+            if (rowGrade.includes('3勝クラス')) {
+                return '3勝クラス';
+            }
+            if (rowGrade.includes('2勝クラス')) {
+                return '2勝クラス';
+            }
+            if (rowGrade.includes('1勝クラス')) {
+                return '1勝クラス';
+            }
+            if (rowGrade.includes('1600万')) {
+                return '1600万下';
+            }
+            if (rowGrade.includes('1000万')) {
+                return '1000万下';
+            }
+            if (rowGrade.includes('900万')) {
+                return '900万下';
+            }
+            if (rowGrade.includes('500万')) {
+                return '500万下';
+            }
+            if (rowGrade.includes('未勝利')) {
+                return '未勝利';
+            }
+            if (rowGrade.includes('未出走')) {
+                return '未出走';
+            }
+            if (rowGrade.includes('新馬')) {
+                return '新馬';
+            }
+            return '格付けなし';
+        };
+
+        /**
+         * レース時間を取得
+         * @param raceNumAndTime
+         * @param date
+         */
+        const extractRaceTime = (raceNumAndTime: string, date: Date): Date => {
+            // tdが3つある
+            // 1つ目はレース番号とレース開始時間
+            // hh:mmの形式で取得
+            // tdの最初の要素からレース開始時間を取得 raceNumAndTimeのhh:mmを取得
+            const [, raceTime] = raceNumAndTime.split('R');
+            // hh:mmの形式からhhとmmを取得
+            const [hour, minute] = raceTime
+                .split(':')
+                .map((time: string) => Number.parseInt(time));
+            return new Date(
+                date.getFullYear(),
+                date.getMonth(),
+                date.getDate(),
+                hour,
+                minute,
+            );
+        };
+
         try {
             // レース情報を取得
             const htmlText: string =
@@ -166,33 +238,6 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                 const raceNumber = Number.parseInt(
                     raceNumExec ? raceNumExec[1].replace('R', '') : '0',
                 );
-
-                /**
-                 * レース時間を取得
-                 * @param raceNumAndTime
-                 * @param date
-                 */
-                const extractRaceTime = (
-                    raceNumAndTime: string,
-                    date: Date,
-                ): Date => {
-                    // tdが3つある
-                    // 1つ目はレース番号とレース開始時間
-                    // hh:mmの形式で取得
-                    // tdの最初の要素からレース開始時間を取得 raceNumAndTimeのhh:mmを取得
-                    const [, raceTime] = raceNumAndTime.split('R');
-                    // hh:mmの形式からhhとmmを取得
-                    const [hour, minute] = raceTime
-                        .split(':')
-                        .map((time: string) => Number.parseInt(time));
-                    return new Date(
-                        date.getFullYear(),
-                        date.getMonth(),
-                        date.getDate(),
-                        hour,
-                        minute,
-                    );
-                };
 
                 // 時間 1R9:40のR以降
                 const raceTime = extractRaceTime(
@@ -239,54 +284,6 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                         statusText,
                     );
                 if (gradeExec) [, rowGrade] = gradeExec;
-
-                const extractRaceGrade = (
-                    raceSurfaceType: RaceSurfaceType,
-                    _highGrade: string,
-                    _rowGrade: string,
-                ): GradeType => {
-                    // highGradeに値が入っていたらそれを優先する
-                    // 例: GⅠ, GⅡ, GⅢ, Listed
-                    if (_highGrade.length > 0) {
-                        return raceSurfaceType === '障害'
-                            ? `J.${_highGrade}`
-                            : _highGrade;
-                    }
-                    if (_rowGrade.includes('オープン')) {
-                        return 'オープン';
-                    }
-                    if (_rowGrade.includes('3勝クラス')) {
-                        return '3勝クラス';
-                    }
-                    if (_rowGrade.includes('2勝クラス')) {
-                        return '2勝クラス';
-                    }
-                    if (_rowGrade.includes('1勝クラス')) {
-                        return '1勝クラス';
-                    }
-                    if (_rowGrade.includes('1600万')) {
-                        return '1600万下';
-                    }
-                    if (_rowGrade.includes('1000万')) {
-                        return '1000万下';
-                    }
-                    if (_rowGrade.includes('900万')) {
-                        return '900万下';
-                    }
-                    if (_rowGrade.includes('500万')) {
-                        return '500万下';
-                    }
-                    if (_rowGrade.includes('未勝利')) {
-                        return '未勝利';
-                    }
-                    if (_rowGrade.includes('未出走')) {
-                        return '未出走';
-                    }
-                    if (_rowGrade.includes('新馬')) {
-                        return '新馬';
-                    }
-                    return '格付けなし';
-                };
 
                 const raceGrade = extractRaceGrade(
                     surfaceType,
@@ -365,55 +362,58 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
     private async fetchRaceListFromHtmlForNar(
         placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
-        function extractDistance(_race: string[]): number {
+        const extractDistance = (race: string[]): number => {
             return (
-                _race
+                race
                     .map((item) => {
                         const match = /(\d+)m/.exec(item);
                         return match ? Number.parseInt(match[1]) : 0;
                     })
                     .find((item) => item !== 0) ?? 0
             );
-        }
-        function extractSurfaceType(_race: string[]): RaceSurfaceType {
+        };
+        const extractSurfaceType = (race: string[]): RaceSurfaceType => {
             const regex = /(芝)[右左直]+\d+m/;
-            const trackType = _race.find((item) => regex.test(item));
+            const trackType = race.find((item) => regex.test(item));
             if (!trackType) {
                 return 'ダート';
             }
             return '芝';
-        }
+        };
 
-        function extractRaceNumber(_race: string[]): number {
+        const extractRaceNumber = (race: string[]): number => {
             return (
-                _race
+                race
                     .map((item) => {
                         const match = /(\d+)[Rr]/.exec(item);
                         return match ? Number.parseInt(match[1]) : 0;
                     })
                     .find((item) => item !== 0) ?? 0
             );
-        }
+        };
 
-        function extractRaceDateTime(_race: string[], _date: Date): Date {
+        const extractRaceDateTime = (race: string[], date: Date): Date => {
             const timeString =
-                _race.find((item) => /(\d+):(\d+)/.test(item)) ?? '0:0';
+                race.find((item) => /(\d+):(\d+)/.test(item)) ?? '0:0';
             const [hour, minute] = timeString.split(':').map(Number);
             return new Date(
-                _date.getFullYear(),
-                _date.getMonth(),
-                _date.getDate(),
+                date.getFullYear(),
+                date.getMonth(),
+                date.getDate(),
                 hour,
                 minute,
             );
-        }
+        };
 
-        function extractGrade(_raceType: RaceType, _race: string[]): GradeType {
+        const extractGrade = (
+            raceType: RaceType,
+            race: string[],
+        ): GradeType => {
             let grade: GradeType = '一般';
-            if (_race.includes('準重賞')) {
+            if (race.includes('準重賞')) {
                 return '地方準重賞';
             }
-            if (_race.includes('重賞')) {
+            if (race.includes('重賞')) {
                 grade = '地方重賞';
             }
             const regexMap: Record<string, string> = {
@@ -425,20 +425,20 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
             };
             const regexList = ['JpnIII', 'JpnII', 'JpnI', 'JpnＩ', 'ＧＩ'];
             for (const regex of regexList) {
-                if (_race.some((item) => item.includes(regex))) {
+                if (race.some((item) => item.includes(regex))) {
                     grade = regexMap[regex];
                     break;
                 }
             }
-            return validateGradeType(_raceType, grade);
-        }
+            return validateGradeType(raceType, grade);
+        };
 
-        function extractRaceName(_race: string[]): string {
+        const extractRaceName = (race: string[]): string => {
             // 重賞の取得
             const regexList = ['JpnIII', 'JpnII', 'JpnI', 'JpnＩ', 'ＧＩ'];
             let raceName: string | null = null;
             for (const regex of regexList) {
-                for (const item of _race) {
+                for (const item of race) {
                     const _raceName = item.match(regex);
                     if (_raceName !== null) {
                         raceName = item.replace(regex, '');
@@ -448,8 +448,8 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                     break;
                 }
             }
-            return (raceName ?? _race[4]).replace(/\n/g, '');
-        }
+            return (raceName ?? race[4]).replace(/\n/g, '');
+        };
 
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
@@ -542,10 +542,10 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
     private async fetchRaceListFromHtmlForKeirin(
         placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
-        function extractRaceName(
+        const extractRaceName = (
             raceSummaryInfoChild: string,
             raceStage: string,
-        ): string {
+        ): string => {
             // raceNameに競輪祭が含まれている場合かつ
             // raceStageにガールズが含まれている場合、
             // raceNameを「競輪祭女子王座戦」にする
@@ -592,11 +592,11 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                 return '寺内大吉記念杯競輪';
             }
             return raceSummaryInfoChild;
-        }
+        };
 
-        function extractRaceStage(
+        const extractRaceStage = (
             raceSummaryInfoChild: string,
-        ): RaceStage | null {
+        ): RaceStage | null => {
             for (const [pattern, stage] of Object.entries(
                 StageMap(RaceType.KEIRIN),
             )) {
@@ -605,14 +605,14 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                 }
             }
             return null;
-        }
+        };
 
-        function extractRaceGrade(
+        const extractRaceGrade = (
             raceName: string,
             raceGrade: GradeType,
             raceStage: RaceStage,
             raceDate: Date,
-        ): GradeType {
+        ): GradeType => {
             // raceStageが「ヤンググランプリ」の場合、GⅡを返す
             if (raceStage === 'SA混合ヤンググランプリ') {
                 return 'GⅡ';
@@ -645,7 +645,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                 return 'FⅠ';
             }
             return raceGrade;
-        }
+        };
 
         try {
             const [year, month, day] = [
@@ -777,9 +777,9 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
         placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractRaceName = (
-            _raceSummaryInfoChild: string,
-            _placeData: PlaceData,
-            _grade: GradeType,
+            raceSummaryInfoChild: string,
+            placeData: PlaceData,
+            grade: GradeType,
         ): string => {
             const raceConditions = [
                 {
@@ -816,23 +816,23 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
             for (const condition of raceConditions) {
                 if (
-                    _raceSummaryInfoChild.includes(condition.keyword) &&
-                    _grade === condition.grade
+                    raceSummaryInfoChild.includes(condition.keyword) &&
+                    grade === condition.grade
                 ) {
                     return condition.name;
                 }
             }
 
-            return `${_placeData.location}${_grade}`;
+            return `${placeData.location}${grade}`;
         };
 
         const extractRaceStage = (
-            _raceSummaryInfoChild: string,
+            raceSummaryInfoChild: string,
         ): RaceStage | null => {
             for (const [pattern, stage] of Object.entries(
                 StageMap(RaceType.AUTORACE),
             )) {
-                if (new RegExp(pattern).test(_raceSummaryInfoChild)) {
+                if (new RegExp(pattern).test(raceSummaryInfoChild)) {
                     return stage;
                 }
             }
