@@ -679,15 +679,24 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                             $(element).find('a').text(),
                         )?.[1];
                         const raceStage = extractRaceStage($(element).text());
+                        if (raceStage === null) return;
                         const raceName = extractRaceName(
                             seriesRaceName,
-                            raceStage ?? '',
+                            raceStage,
                         );
                         const raceGrade = extractRaceGrade(
                             raceName,
                             placeEntity.grade,
-                            raceStage ?? '',
+                            raceStage,
                             new Date(year, month - 1, day),
+                        );
+                        const raceData = RaceData.create(
+                            placeEntity.placeData.raceType,
+                            raceName,
+                            new Date(year, month - 1, day, hour, minute),
+                            placeEntity.placeData.location,
+                            raceGrade,
+                            Number(raceNumber),
                         );
                         const racePlayerDataList: RacePlayerData[] = [];
                         // tableを取得
@@ -722,38 +731,15 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                                     );
                                 }
                             });
-                        const raceData =
-                            raceStage === null
-                                ? null
-                                : RaceData.create(
-                                      placeEntity.placeData.raceType,
-                                      raceName,
-                                      new Date(
-                                          year,
-                                          month - 1,
-                                          day,
-                                          hour,
-                                          minute,
-                                      ),
-                                      placeEntity.placeData.location,
-                                      raceGrade,
-                                      Number(raceNumber),
-                                  );
-                        if (
-                            raceData != null &&
-                            racePlayerDataList.length > 0 &&
-                            raceStage != null
-                        ) {
-                            raceEntityList.push(
-                                RaceEntity.createWithoutId(
-                                    raceData,
-                                    undefined, // heldDayDataは未設定
-                                    undefined, // conditionDataは未設定
-                                    raceStage,
-                                    racePlayerDataList,
-                                ),
-                            );
-                        }
+                        raceEntityList.push(
+                            RaceEntity.createWithoutId(
+                                raceData,
+                                undefined, // heldDayDataは未設定
+                                undefined, // conditionDataは未設定
+                                raceStage,
+                                racePlayerDataList,
+                            ),
+                        );
                     });
             });
             return raceEntityList;
