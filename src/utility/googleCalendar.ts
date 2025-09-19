@@ -223,13 +223,13 @@ export const toGoogleCalendarData = (
                 return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                 ${raceTimeStr}
                 ${createAnchorTag(
-                    'レース情報',
+                    'レース情報(netkeiba)',
                     createNetkeibaRedirectUrl(
                         createNetkeibaJraShutubaUrl(raceIdForNetkeiba),
                     ),
                 )}
                 ${createAnchorTag(
-                    'レース動画',
+                    'レース動画(netkeiba)',
                     createNetkeibaRedirectUrl(
                         createNetkeibaJraRaceVideoUrl(raceIdForNetkeiba),
                     ),
