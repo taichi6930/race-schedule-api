@@ -618,17 +618,8 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                 return 'GⅡ';
             }
             // raceNameに女子オールスター競輪が入っている場合、2024年であればFⅡ、2025年以降であればGⅠを返す
-            if (
-                raceName.includes('女子オールスター競輪') &&
-                raceDate.getFullYear() >= 2025
-            ) {
-                return 'GⅠ';
-            }
-            if (
-                raceName.includes('女子オールスター競輪') &&
-                raceDate.getFullYear() === 2024
-            ) {
-                return 'FⅡ';
+            if (raceName.includes('女子オールスター競輪')) {
+                return raceDate.getFullYear() >= 2025 ? 'GⅠ' : 'FⅡ';
             }
             // raceNameにサマーナイトフェスティバルが入っている場合、raceStageが「ガールズ」が含まれている場合、FⅡを返す
             if (
