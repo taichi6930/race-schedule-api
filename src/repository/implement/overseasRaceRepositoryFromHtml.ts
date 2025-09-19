@@ -95,8 +95,8 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
         date: Date,
     ): Promise<RaceEntity[]> {
         function extractSurfaceType(race: string[]): RaceSurfaceType {
-            const types = ['芝', 'ダート', '障害', 'AW'];
-            const found = types.find((type) =>
+            const typeList = ['芝', 'ダート', '障害', 'AW'];
+            const found = typeList.find((type) =>
                 race.some((item) => item.includes(type)),
             );
             return found ?? '不明';
