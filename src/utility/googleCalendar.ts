@@ -177,12 +177,10 @@ export const toGoogleCalendarData = (
             case RaceType.OVERSEAS: {
                 return ``;
             }
-            case RaceType.AUTORACE: {
-                return raceEntity.stage;
-            }
             case RaceType.KEIRIN:
+            case RaceType.AUTORACE:
             case RaceType.BOATRACE: {
-                throw new Error('Not implemented');
+                return raceEntity.stage;
             }
         }
     };
@@ -208,8 +206,7 @@ export const toGoogleCalendarData = (
                 const raceIdForNetkeirin = `${format(
                     raceEntity.raceData.dateTime,
                     'yyyyMMdd',
-                )}${createPlaceCode(RaceType.KEIRIN, raceEntity.raceData.location)}
-            ${raceEntity.raceData.number.toXDigits(2)}`;
+                )}${createPlaceCode(RaceType.KEIRIN, raceEntity.raceData.location)}${raceEntity.raceData.number.toXDigits(2)}`;
                 return `${raceTimeStr}
                     ${createAnchorTag(
                         'レース情報（netkeirin）',
