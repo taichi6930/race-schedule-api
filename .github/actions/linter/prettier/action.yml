@@ -43,5 +43,5 @@ runs:
       shell: bash
 
     - name: Check code style
-      run: pnpm prettier --cache --cache-strategy=metadata --check 'lib/**/*.{ts,tsx,js,jsx,json,md}'
+      run: pnpm prettier --cache --cache-strategy=metadata --check 'src/**/*.{ts,tsx,js,jsx,json,md}'
       shell: bash
