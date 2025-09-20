@@ -106,13 +106,13 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
 
         const chunkSize = 10;
         // chunk分割関数
-        function chunkArray<T>(array: T[], size: number): T[][] {
+        const chunkArray = <T>(array: T[], size: number): T[][] => {
             const result: T[][] = [];
             for (let i = 0; i < array.length; i += size) {
                 result.push(array.slice(i, i + size));
             }
             return result;
-        }
+        };
 
         if (entityList.length === 0) return;
         // placeテーブル バルクinsert

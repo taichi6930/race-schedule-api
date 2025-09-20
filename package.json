@@ -6,7 +6,7 @@
     },
     "scripts": {
         "preinstall": "npx only-allow pnpm",
-        "wrangler:deploy:production": "wrangler deploy --env production",
+        "wrangler:deploy:production": "pnpm up wrangler@latest && wrangler deploy --env production",
         "dev:cloudflare:local": "TZ=Asia/Tokyo wrangler dev --env development --local",
         "wrangler:d1:migrations:apply:local": "wrangler d1 migrations apply my-database --local",
         "wrangler:d1:migrations:apply:remote": "wrangler d1 migrations apply my-database --remote",

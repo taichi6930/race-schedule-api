@@ -27,20 +27,7 @@ export const DataLocation = {
  * データ取得元を表すユニオン型
  *
  * この型は、DataLocationオブジェクトから自動的に生成され、
- * 有効なデータ取得元のみを受け入れる型安全性を提供します。
- * @example
- * ```typescript
- * function fetchData(source: DataLocationType) {
- *   switch (source) {
- *     case DataLocation.Storage:
- *       return fetchFromStorage();
- *     case DataLocation.Web:
- *       return fetchFromWeb();
- *     default:
- *       // 型チェックにより、ここには到達しない
- *       throw new Error('Invalid data location');
- *   }
- * }
+ * 有効なデータ取得元のみを受け入れる型安全性を提供します。¥
  * ```
  */
 export type DataLocationType = (typeof DataLocation)[keyof typeof DataLocation];

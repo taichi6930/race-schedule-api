@@ -40,10 +40,10 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
             searchRaceFilter;
 
         // WHERE句とパラメータ生成を関数化
-        function buildWhereClauseAndParams(): {
+        const buildWhereClauseAndParams = (): {
             clause: string;
             params: any[];
-        } {
+        } => {
             const startDateFormatted = formatDate(startDate, 'yyyy-MM-dd');
             const finishDateFormatted = formatDate(finishDate, 'yyyy-MM-dd');
             const raceTypePlaceholders = raceTypeList.map(() => '?').join(', ');
@@ -66,7 +66,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                 params.push(...gradeList);
             }
             return { clause, params };
-        }
+        };
 
         const { clause: whereClause, params: queryParams } =
             buildWhereClauseAndParams();
@@ -163,13 +163,13 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
         const { env } = commonParameter;
         const chunkSize = 5;
         // chunk分割関数
-        function chunkArray<T>(array: T[], size: number): T[][] {
+        const chunkArray = <T>(array: T[], size: number): T[][] => {
             const chunks: T[][] = [];
             for (let i = 0; i < array.length; i += size) {
                 chunks.push(array.slice(i, i + size));
             }
             return chunks;
-        }
+        };
 
         // raceテーブル バルクinsert
         for (const chunk of chunkArray(entityList, chunkSize)) {

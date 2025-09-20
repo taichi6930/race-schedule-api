@@ -12,6 +12,8 @@ import {
 } from '../../../../utility/testSetupHelper';
 import {
     baseCalendarData,
+    baseCalendarDataFromGoogleCalendar,
+    baseRaceEntityList,
     mockCalendarDataList,
     mockRaceEntityList,
     testRaceTypeListAll,
@@ -107,21 +109,21 @@ describe('GoogleCalendarRepository', () => {
         ).toHaveBeenCalled();
     });
 
-    // test.each(testRaceTypeListAll)(
-    //     'カレンダー情報が正常に更新できること(%s)',
-    //     async (raceType) => {
-    //         const calendarDataFromGoogleCalendar =
-    //             baseCalendarDataFromGoogleCalendar(raceType);
-    //         gatewaySetup.googleCalendarGateway.fetchCalendarData.mockResolvedValue(
-    //             calendarDataFromGoogleCalendar,
-    //         );
-    //         const raceEntityList = baseRaceEntityList(raceType);
-    //         await repository.upsertEvents(commonParameter, raceEntityList);
-    //         expect(
-    //             gatewaySetup.googleCalendarGateway.updateCalendarData,
-    //         ).toHaveBeenCalled();
-    //     },
-    // );
+    test.each(testRaceTypeListAll)(
+        'カレンダー情報が正常に更新できること(%s)',
+        async (raceType) => {
+            const calendarDataFromGoogleCalendar =
+                baseCalendarDataFromGoogleCalendar(raceType);
+            gatewaySetup.googleCalendarGateway.fetchCalendarData.mockResolvedValue(
+                calendarDataFromGoogleCalendar,
+            );
+            const raceEntityList = baseRaceEntityList(raceType);
+            await repository.upsertEvents(commonParameter, raceEntityList);
+            expect(
+                gatewaySetup.googleCalendarGateway.updateCalendarData,
+            ).toHaveBeenCalled();
+        },
+    );
 
     it('カレンダー情報が正常に更新できないこと', async () => {
         gatewaySetup.googleCalendarGateway.insertCalendarData.mockRejectedValue(

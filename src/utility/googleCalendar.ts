@@ -65,9 +65,9 @@ type GoogleCalendarColorIdType =
     (typeof GoogleCalendarColorId)[keyof typeof GoogleCalendarColorId];
 
 /**
- * 中央競馬（JRA）のグレードごとの色設定
+ * グレードごとの色設定
  *
- * 中央競馬の特徴的なグレード体系に対応
+ * 特徴的なグレード体系に対応
  */
 
 /**
@@ -177,12 +177,10 @@ export const toGoogleCalendarData = (
             case RaceType.OVERSEAS: {
                 return ``;
             }
-            case RaceType.AUTORACE: {
-                return raceEntity.stage;
-            }
             case RaceType.KEIRIN:
+            case RaceType.AUTORACE:
             case RaceType.BOATRACE: {
-                throw new Error('Not implemented');
+                return raceEntity.stage;
             }
         }
     };
@@ -208,8 +206,7 @@ export const toGoogleCalendarData = (
                 const raceIdForNetkeirin = `${format(
                     raceEntity.raceData.dateTime,
                     'yyyyMMdd',
-                )}${createPlaceCode(RaceType.KEIRIN, raceEntity.raceData.location)}
-            ${raceEntity.raceData.number.toXDigits(2)}`;
+                )}${createPlaceCode(RaceType.KEIRIN, raceEntity.raceData.location)}${raceEntity.raceData.number.toXDigits(2)}`;
                 return `${raceTimeStr}
                     ${createAnchorTag(
                         'レース情報（netkeirin）',
@@ -226,13 +223,13 @@ export const toGoogleCalendarData = (
                 return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                 ${raceTimeStr}
                 ${createAnchorTag(
-                    'レース情報',
+                    'レース情報(netkeiba)',
                     createNetkeibaRedirectUrl(
                         createNetkeibaJraShutubaUrl(raceIdForNetkeiba),
                     ),
                 )}
                 ${createAnchorTag(
-                    'レース動画',
+                    'レース動画(netkeiba)',
                     createNetkeibaRedirectUrl(
                         createNetkeibaJraRaceVideoUrl(raceIdForNetkeiba),
                     ),
