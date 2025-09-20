@@ -1,5 +1,5 @@
-import type { EnvType } from '../../lib/src/utility/env';
-import { ENV } from '../../lib/src/utility/env';
+import type { EnvType } from '../../src/utility/env';
+import { ENV } from '../../src/utility/env';
 
 /**
  * 特定の環境でのみテストをSkipするデコレータ関数

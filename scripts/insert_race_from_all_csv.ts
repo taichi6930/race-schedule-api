@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const file = '../lib/src/gateway/mockData/csv/nar/raceList.csv';
+const file = '../src/gateway/mockData/csv/nar/raceList.csv';
 const chunkSize = 500;
 
 const csvFile = path.resolve(__dirname, file);

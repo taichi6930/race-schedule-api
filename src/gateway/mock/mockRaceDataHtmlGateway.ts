@@ -103,7 +103,7 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
             RaceType.BOATRACE,
             place,
         )}${number.toString()}.html`;
-        // lib/src/gateway/mockData/html/boatrace/placeの中にあるhtmlを取得
+        // src/gateway/mockData/html/boatrace/placeの中にあるhtmlを取得
     }
 
     /**
@@ -125,7 +125,7 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
             // mockDataフォルダにあるhtmlを取得
             const testHtmlUrl = this.buildUrl(raceType, date, place, number);
             console.log('testHtmlUrl:', testHtmlUrl);
-            // lib/src/gateway/mockData/html/nar/placeの中にあるhtmlを取得
+            // src/gateway/mockData/html/nar/placeの中にあるhtmlを取得
             const htmlFilePath = path.join(__dirname, testHtmlUrl);
             const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
             return htmlContent;

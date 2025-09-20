@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IS3Gateway } from '../../lib/src/gateway/interface/iS3Gateway';
 import type { ICalendarGateway } from '../../src/gateway/interface/iCalendarGateway';
 import type { ICalendarRepository } from '../../src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
@@ -12,7 +11,6 @@ import type { IPlaceService } from '../../src/service/interface/IPlaceService';
 import type { IPlayerService } from '../../src/service/interface/IPlayerService';
 import type { IRaceService } from '../../src/service/interface/IRaceService';
 import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
-import { mockS3Gateway } from '../unittest/src/mock/gateway/mockS3Gateway';
 import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
 import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../unittest/src/mock/repository/mockRaceRepository';
@@ -46,7 +44,6 @@ export interface TestRepositorySetup {
  */
 export interface TestGatewaySetup {
     googleCalendarGateway: jest.Mocked<ICalendarGateway>;
-    s3Gateway: jest.Mocked<IS3Gateway>;
 }
 
 export interface TestServiceSetup {
@@ -112,14 +109,11 @@ export const setupTestRepositoryMock = (): TestRepositorySetup => {
  * @returns セットアップ済みのサービス
  */
 export const setupTestGatewayMock = (): TestGatewaySetup => {
-    const s3Gateway = mockS3Gateway();
-    container.registerInstance('S3Gateway', s3Gateway);
     const googleCalendarGateway = mockGoogleCalendarGateway();
     container.registerInstance('GoogleCalendarGateway', googleCalendarGateway);
 
     return {
         googleCalendarGateway,
-        s3Gateway,
     };
 };
 

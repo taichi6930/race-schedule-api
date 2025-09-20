@@ -45,7 +45,7 @@ export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
     ): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
         const testHtmlUrl = this.buildUrl(raceType, date);
-        // lib/src/gateway/mockData/html/autorace/placeの中にあるhtmlを取得
+        // src/gateway/mockData/html/autorace/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
         const htmlContent = await fs.promises.readFile(htmlFilePath, 'utf8');

@@ -1,14 +1,14 @@
-import { PlaceData } from '../../../../src/domain/placeData';
-import type { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/searchPlaceFilterEntity';
-import { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
-import type { IPlaceRepository } from '../../../../src/repository/interface/IPlaceRepository';
-import type { CommonParameter } from '../../../../src/utility/commonParameter';
-import { Logger } from '../../../../src/utility/logger';
-import { RaceType } from '../../../../src/utility/raceType';
 import {
     defaultHeldDayData,
     defaultLocation,
-} from '../../../../test/unittest/src/mock/common/baseCommonData';
+} from '../../../test/unittest/src/mock/common/baseCommonData';
+import { PlaceData } from '../../domain/placeData';
+import type { CommonParameter } from '../../utility/commonParameter';
+import { Logger } from '../../utility/logger';
+import { RaceType } from '../../utility/raceType';
+import type { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
+import { PlaceEntity } from '../entity/placeEntity';
+import type { IPlaceRepository } from '../interface/IPlaceRepository';
 
 export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
     /**

@@ -8,15 +8,15 @@ interface CsvFile {
 
 const files: CsvFile[] = [
     {
-        file: '../lib/src/gateway/mockData/csv/jra/placeList.csv',
+        file: '../src/gateway/mockData/csv/jra/placeList.csv',
         raceType: 'JRA',
     },
     {
-        file: '../lib/src/gateway/mockData/csv/keirin/placeList.csv',
+        file: '../src/gateway/mockData/csv/keirin/placeList.csv',
         raceType: 'KEIRIN',
     },
     // {
-    //     file: '../lib/src/gateway/mockData/csv/nar/placeList.csv',
+    //     file: '../src/gateway/mockData/csv/nar/placeList.csv',
     //     raceType: 'NAR',
     // },
 ];
