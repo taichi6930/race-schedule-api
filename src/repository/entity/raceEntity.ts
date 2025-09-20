@@ -160,7 +160,6 @@ export class RaceEntity {
                 location: raceData.location,
                 number: raceData.number,
             }),
-
             generateId(IdType.PLACE, {
                 raceType: raceData.raceType,
                 dateTime: raceData.dateTime,
