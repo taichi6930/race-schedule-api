@@ -94,13 +94,13 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
         raceType: RaceType,
         date: Date,
     ): Promise<RaceEntity[]> {
-        function extractSurfaceType(race: string[]): RaceSurfaceType {
+        const extractSurfaceType = (race: string[]): RaceSurfaceType => {
             const typeList = ['芝', 'ダート', '障害', 'AW'];
             const found = typeList.find((type) =>
                 race.some((item) => item.includes(type)),
             );
             return found ?? '不明';
-        }
+        };
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
                 raceType,

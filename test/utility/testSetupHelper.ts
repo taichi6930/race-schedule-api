@@ -24,9 +24,9 @@ import { raceServiceMock } from '../unittest/src/mock/service/raceServiceMock';
 /**
  * afterEach処理の共通化
  */
-export function clearMocks(): void {
+export const clearMocks = (): void => {
     jest.clearAllMocks();
-}
+};
 
 /**
  * テスト用のセットアップ
@@ -60,7 +60,7 @@ export interface TestServiceSetup {
  * テスト用のセットアップ
  * @returns セットアップ済みのサービス
  */
-export function setupTestRepositoryMock(): TestRepositorySetup {
+export const setupTestRepositoryMock = (): TestRepositorySetup => {
     const placeRepositoryFromStorage = mockPlaceRepository();
     container.registerInstance<IPlaceRepository>(
         'PlaceRepositoryFromStorage',
@@ -105,13 +105,13 @@ export function setupTestRepositoryMock(): TestRepositorySetup {
         overseasRaceRepositoryFromHtml,
         boatraceRaceRepositoryFromHtml,
     };
-}
+};
 
 /**
  * テスト用のセットアップ
  * @returns セットアップ済みのサービス
  */
-export function setupTestGatewayMock(): TestGatewaySetup {
+export const setupTestGatewayMock = (): TestGatewaySetup => {
     const s3Gateway = mockS3Gateway();
     container.registerInstance('S3Gateway', s3Gateway);
     const googleCalendarGateway = mockGoogleCalendarGateway();
@@ -121,13 +121,13 @@ export function setupTestGatewayMock(): TestGatewaySetup {
         googleCalendarGateway,
         s3Gateway,
     };
-}
+};
 
 /**
  * テスト用のセットアップ（Serviceクラス）
  * @returns セットアップ済みのサービス
  */
-export function setupTestServiceMock(): TestServiceSetup {
+export const setupTestServiceMock = (): TestServiceSetup => {
     const calendarService = calendarServiceMock();
     container.registerInstance<ICalendarService>(
         'CalendarService',
@@ -149,4 +149,4 @@ export function setupTestServiceMock(): TestServiceSetup {
         placeService,
         playerService,
     };
-}
+};

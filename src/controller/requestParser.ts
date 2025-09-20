@@ -12,22 +12,22 @@ export class ValidationError extends Error {
     }
 }
 
-function toStringArray(value: unknown): string[] {
+const toStringArray = (value: unknown): string[] => {
     if (value == null) return [];
     if (Array.isArray(value)) return value.map(String);
     if (typeof value === 'string') return [value];
     return [];
-}
+};
 
-function validateDateString(
+const validateDateString = (
     dateStr: string | null | undefined,
     fieldName: string,
-): string {
+): string => {
     if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
         throw new ValidationError(`Invalid ${fieldName}`);
     }
     return dateStr;
-}
+};
 
 export function parseQueryToFilter(
     searchParams: URLSearchParams,

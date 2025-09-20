@@ -66,9 +66,9 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
         placeData: PlaceData,
         grade: GradeType,
     ): Promise<RaceEntity[]> {
-        function extractRaceStage(
+        const extractRaceStage = (
             raceSummaryInfoChild: string,
-        ): RaceStage | null {
+        ): RaceStage | null => {
             for (const [pattern, stage] of Object.entries(
                 StageMap(RaceType.BOATRACE),
             )) {
@@ -77,13 +77,13 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
                 }
             }
             return null;
-        }
+        };
 
-        function extractRaceName(
+        const extractRaceName = (
             raceName: string,
             raceStage: RaceStage,
             raceNumber: number,
-        ): string {
+        ): string => {
             // レース名に「チャレンジカップ」が含まれている場合で、
             // レースステージが「優勝戦」、
             // レース番号が12の場合は「チャレンジカップ」とする
@@ -103,18 +103,18 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
                 return 'レディースチャレンジカップ';
             }
             return raceName;
-        }
+        };
 
-        function extractRaceGrade(
+        const extractRaceGrade = (
             raceName: string,
             raceGrade: GradeType,
-        ): GradeType {
+        ): GradeType => {
             // レース名に「レディースチャレンジカップ」が含まれている場合は「GⅡ」
             if (raceName.includes('レディースチャレンジカップ')) {
                 return 'GⅡ';
             }
             return raceGrade;
-        }
+        };
 
         try {
             const [year, month, day] = [

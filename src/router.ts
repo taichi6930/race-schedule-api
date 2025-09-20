@@ -11,28 +11,28 @@ const corsHeaders = {
     'Access-Control-Allow-Headers': 'Content-Type',
 };
 
-function responseCors(): Response {
+const responseCors = (): Response => {
     return new Response(null, { headers: corsHeaders });
-}
-function responseHealth(): Response {
+};
+const responseHealth = (): Response => {
     return new Response('ok health check', {
         status: 200,
         headers: corsHeaders,
     });
-}
-function responseNotFound(): Response {
+};
+const responseNotFound = (): Response => {
     return Response.json(
         { error: 'エンドポイントが見つかりません' },
         { status: 404, headers: corsHeaders },
     );
-}
-function responseError(error: any): Response {
+};
+const responseError = (error: any): Response => {
     console.error('Database error:', error);
     return Response.json(
         { error: 'サーバーエラーが発生しました', details: error.message },
         { status: 500, headers: corsHeaders },
     );
-}
+};
 
 async function handlePlayer(
     request: Request,
