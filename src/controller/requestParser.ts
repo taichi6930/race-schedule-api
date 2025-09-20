@@ -29,9 +29,9 @@ const validateDateString = (
     return dateStr;
 };
 
-export function parseQueryToFilter(
+export const parseQueryToFilter = (
     searchParams: URLSearchParams,
-): SearchRaceFilterEntity {
+): SearchRaceFilterEntity => {
     const raceTypeParam = searchParams.getAll('raceType');
     const gradeParam = searchParams.getAll('grade');
     const stageParam = searchParams.getAll('stage');
@@ -59,7 +59,7 @@ export function parseQueryToFilter(
         gradeList,
         stageList,
     );
-}
+};
 
 interface RaceRequestBody {
     raceType: string | string[];
@@ -70,9 +70,9 @@ interface RaceRequestBody {
     stage?: string | string[];
 }
 
-export function parseBodyToFilter(
+export const parseBodyToFilter = (
     body: RaceRequestBody,
-): SearchRaceFilterEntity {
+): SearchRaceFilterEntity => {
     const { raceType, startDate, finishDate, location, grade, stage } = body;
 
     if (typeof startDate !== 'string' || typeof finishDate !== 'string') {
@@ -106,25 +106,27 @@ export function parseBodyToFilter(
         gradeList,
         stageList,
     );
-}
+};
 
-export function parseRaceTypeListFromSearch(
+export const parseRaceTypeListFromSearch = (
     searchParams: URLSearchParams,
-): RaceType[] {
+): RaceType[] => {
     const raceTypeParam = searchParams.getAll('raceType');
     const raceTypeList: RaceType[] = convertRaceTypeList(raceTypeParam);
     if (raceTypeList.length === 0) {
         throw new ValidationError('Invalid raceType');
     }
     return raceTypeList;
-}
+};
 
-export function parseSearchDatesAndRaceTypes(searchParams: URLSearchParams): {
+export const parseSearchDatesAndRaceTypes = (
+    searchParams: URLSearchParams,
+): {
     start: Date;
     finish: Date;
     raceTypeList: RaceType[];
     locationList: string[];
-} {
+} => {
     const startDateParam = searchParams.get('startDate') ?? undefined;
     const finishDateParam = searchParams.get('finishDate') ?? undefined;
     const s = validateDateString(startDateParam, 'startDate');
@@ -140,4 +142,4 @@ export function parseSearchDatesAndRaceTypes(searchParams: URLSearchParams): {
         raceTypeList,
         locationList,
     };
-}
+};

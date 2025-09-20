@@ -7,14 +7,14 @@ import { ENV } from '../../lib/src/utility/env';
  * @param envList - スキップする環境のリスト
  * @param fn - テスト関数
  */
-export function SkipEnv(
+export const SkipEnv = (
     name: string,
     envList: EnvType[],
     fn: jest.ProvidesCallback,
-): void {
+): void => {
     if (envList.includes(ENV)) {
         it.skip(name, fn);
     } else {
         it(name, fn);
     }
-}
+};

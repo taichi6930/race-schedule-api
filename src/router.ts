@@ -34,11 +34,11 @@ const responseError = (error: any): Response => {
     );
 };
 
-async function handlePlayer(
+const handlePlayer = async (
     request: Request,
     commonParameter: CommonParameter,
     searchParams: URLSearchParams,
-): Promise<Response> {
+): Promise<Response> => {
     const playerController = container.resolve(PlayerController);
     if (request.method === 'GET') {
         return playerController.getPlayerEntityList(
@@ -50,13 +50,13 @@ async function handlePlayer(
         return playerController.postUpsertPlayer(request, commonParameter);
     }
     return responseNotFound();
-}
+};
 
-async function handleRace(
+const handleRace = async (
     request: Request,
     commonParameter: CommonParameter,
     searchParams: URLSearchParams,
-): Promise<Response> {
+): Promise<Response> => {
     const raceController = container.resolve(RaceController);
     if (request.method === 'GET') {
         return raceController.getRaceEntityList(commonParameter, searchParams);
@@ -65,13 +65,13 @@ async function handleRace(
         return raceController.postUpsertRace(request, commonParameter);
     }
     return responseNotFound();
-}
+};
 
-async function handleCalendar(
+const handleCalendar = async (
     request: Request,
     commonParameter: CommonParameter,
     searchParams: URLSearchParams,
-): Promise<Response> {
+): Promise<Response> => {
     const calendarController = container.resolve(CalendarController);
     if (request.method === 'GET') {
         return calendarController.getCalendarEntityList(
@@ -83,13 +83,13 @@ async function handleCalendar(
         return calendarController.postUpsertCalendar(request, commonParameter);
     }
     return responseNotFound();
-}
+};
 
-async function handlePlace(
+const handlePlace = async (
     request: Request,
     commonParameter: CommonParameter,
     searchParams: URLSearchParams,
-): Promise<Response> {
+): Promise<Response> => {
     const placeController = container.resolve(PlaceController);
     if (request.method === 'GET') {
         return placeController.getPlaceEntityList(
@@ -101,7 +101,7 @@ async function handlePlace(
         return placeController.postUpsertPlace(request, commonParameter);
     }
     return responseNotFound();
-}
+};
 
 export async function router(
     request: Request,
