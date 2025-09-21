@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
@@ -45,10 +44,7 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
         if (!placeEntityList) return raceEntityList;
         for (const placeEntity of placeEntityList) {
             raceEntityList.push(
-                ...(await this.fetchRaceListFromHtmlForBoatrace(
-                    placeEntity.placeData,
-                    placeEntity.grade,
-                )),
+                ...(await this.fetchRaceListFromHtmlForBoatrace(placeEntity)),
             );
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
             const delayedTimeMs = Number.parseInt(
@@ -63,8 +59,7 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForBoatrace(
-        placeData: PlaceData,
-        grade: GradeType,
+        placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractRaceStage = (
             raceSummaryInfoChild: string,
@@ -118,16 +113,16 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
 
         try {
             const [year, month, day] = [
-                placeData.dateTime.getFullYear(),
-                placeData.dateTime.getMonth() + 1,
-                placeData.dateTime.getDate(),
+                placeEntity.placeData.dateTime.getFullYear(),
+                placeEntity.placeData.dateTime.getMonth() + 1,
+                placeEntity.placeData.dateTime.getDate(),
             ];
             // TODO: 全レースを取りたいが、12レースのみ取得するので、後で修正する
             const raceNumber = 12;
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                placeData.raceType,
-                placeData.dateTime,
-                placeData.location,
+                placeEntity.placeData.raceType,
+                placeEntity.placeData.dateTime,
+                placeEntity.placeData.location,
                 raceNumber,
             );
             const raceEntityList: RaceEntity[] = [];
@@ -145,7 +140,7 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
 
             const raceName = extractRaceName(raceNameText, raceStage, 12);
 
-            const raceGrade = extractRaceGrade(raceName, grade);
+            const raceGrade = extractRaceGrade(raceName, placeEntity.grade);
 
             // contentsFrame1_innerのクラスを持つ要素を取得
             const raceSummaryInfo = $('.contentsFrame1_inner');
@@ -167,10 +162,10 @@ export class BoatraceRaceRepositoryFromHtml implements IRaceRepository {
             raceEntityList.push(
                 RaceEntity.createWithoutId(
                     RaceData.create(
-                        placeData.raceType,
+                        placeEntity.placeData.raceType,
                         raceName,
                         new Date(year, month - 1, day, hour, minute),
-                        placeData.location,
+                        placeEntity.placeData.location,
                         raceGrade,
                         raceNumber,
                     ),
