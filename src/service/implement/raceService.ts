@@ -32,13 +32,12 @@ export class RaceService implements IRaceService {
         switch (dataLocation) {
             case DataLocation.Storage: {
                 const repository = this.repositoryFromStorage;
-                const fetchedRaceEntityList =
-                    await repository.fetchRaceEntityList(
-                        commonParameter,
-                        searchRaceFilter,
-                        placeEntityList,
-                    );
-                return fetchedRaceEntityList;
+                const raceEntityList = await repository.fetchRaceEntityList(
+                    commonParameter,
+                    searchRaceFilter,
+                    placeEntityList,
+                );
+                return raceEntityList;
             }
             case DataLocation.Web: {
                 const raceEntityList: RaceEntity[] = [];
