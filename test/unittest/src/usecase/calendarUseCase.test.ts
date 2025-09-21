@@ -144,6 +144,5 @@ describe('RaceCalendarUseCase', () => {
             commonParameter,
             expectRaceEntityList,
         );
-        expect(true).toBe(true);
     });
 });
