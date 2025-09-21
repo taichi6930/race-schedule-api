@@ -76,9 +76,15 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                     raceEntityList.push(...entityList);
                     break;
                 }
-
-                case RaceType.OVERSEAS:
                 case RaceType.BOATRACE: {
+                    const entityList =
+                        await this.fetchRaceListFromHtmlForBoatrace(
+                            placeEntity,
+                        );
+                    raceEntityList.push(...entityList);
+                    break;
+                }
+                case RaceType.OVERSEAS: {
                     console.error(
                         `Race type ${placeEntity.placeData.raceType} is not supported by this repository`,
                     );
@@ -892,6 +898,131 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                         }
                     });
             });
+            return raceEntityList;
+        } catch (error) {
+            console.error('HTMLの取得に失敗しました', error);
+            return [];
+        }
+    }
+
+    @Logger
+    private async fetchRaceListFromHtmlForBoatrace(
+        placeEntity: PlaceEntity,
+    ): Promise<RaceEntity[]> {
+        const extractRaceStage = (
+            raceSummaryInfoChild: string,
+        ): RaceStage | null => {
+            for (const [pattern, stage] of Object.entries(
+                StageMap(RaceType.BOATRACE),
+            )) {
+                if (new RegExp(pattern).test(raceSummaryInfoChild)) {
+                    return stage;
+                }
+            }
+            return null;
+        };
+
+        const extractRaceName = (
+            raceName: string,
+            raceStage: RaceStage,
+            raceNumber: number,
+        ): string => {
+            // レース名に「チャレンジカップ」が含まれている場合で、
+            // レースステージが「優勝戦」、
+            // レース番号が12の場合は「チャレンジカップ」とする
+            if (
+                raceName.includes('チャレンジカップ') &&
+                raceStage === '優勝戦' &&
+                raceNumber === 12
+            ) {
+                return 'チャレンジカップ';
+            }
+            // 11レースの場合は「レディースチャレンジカップ」
+            if (
+                raceName.includes('チャレンジカップ') &&
+                raceStage === '優勝戦' &&
+                raceNumber === 11
+            ) {
+                return 'レディースチャレンジカップ';
+            }
+            return raceName;
+        };
+
+        const extractRaceGrade = (
+            raceName: string,
+            raceGrade: GradeType,
+        ): GradeType => {
+            // レース名に「レディースチャレンジカップ」が含まれている場合は「GⅡ」
+            if (raceName.includes('レディースチャレンジカップ')) {
+                return 'GⅡ';
+            }
+            return raceGrade;
+        };
+
+        try {
+            const [year, month, day] = [
+                placeEntity.placeData.dateTime.getFullYear(),
+                placeEntity.placeData.dateTime.getMonth() + 1,
+                placeEntity.placeData.dateTime.getDate(),
+            ];
+            // TODO: 全レースを取りたいが、12レースのみ取得するので、後で修正する
+            const raceNumber = 12;
+            const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
+                placeEntity.placeData.raceType,
+                placeEntity.placeData.dateTime,
+                placeEntity.placeData.location,
+                raceNumber,
+            );
+            const raceEntityList: RaceEntity[] = [];
+            const $ = cheerio.load(htmlText);
+
+            // raceNameを取得 class="heading2_titleName"のtext
+            const raceNameText = $('.heading2_titleName').text();
+
+            const raceStageString = $('h3').text();
+            const raceStage = extractRaceStage(raceStageString);
+            if (raceStage === null) {
+                console.error('レースステージが取得できませんでした');
+                return [];
+            }
+
+            const raceName = extractRaceName(raceNameText, raceStage, 12);
+
+            const raceGrade = extractRaceGrade(raceName, placeEntity.grade);
+
+            // contentsFrame1_innerのクラスを持つ要素を取得
+            const raceSummaryInfo = $('.contentsFrame1_inner');
+            // その中からtable1 h-mt10のクラスを持つ要素を取得
+            const raceSummaryInfoChild = raceSummaryInfo.find('.table1');
+
+            // tableの中のtbodyの中のtdを全て取得
+            const raceSummaryInfoChildTd = raceSummaryInfoChild.find('td');
+            // 12番目のtdを取得
+            const raceTime = raceSummaryInfoChildTd.eq(raceNumber).text();
+
+            const [hourString, minuteString] = raceTime.split(':');
+            const hour = Number.parseInt(hourString);
+            const minute = Number.parseInt(minuteString);
+
+            // TODO: 選手情報を取得する
+            const racePlayerDataList: RacePlayerData[] = [];
+
+            raceEntityList.push(
+                RaceEntity.createWithoutId(
+                    RaceData.create(
+                        placeEntity.placeData.raceType,
+                        raceName,
+                        new Date(year, month - 1, day, hour, minute),
+                        placeEntity.placeData.location,
+                        raceGrade,
+                        raceNumber,
+                    ),
+                    undefined, // heldDayDataは未設定
+                    undefined, // conditionDataは未設定
+                    raceStage,
+                    racePlayerDataList,
+                ),
+            );
             return raceEntityList;
         } catch (error) {
             console.error('HTMLの取得に失敗しました', error);
