@@ -9,6 +9,7 @@ import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType, validateRaceType } from '../../utility/raceType';
 import type { FailureDetail, UpsertResult } from '../../utility/upsertResult';
+import { generateId, IdType } from '../../utility/validateAndType/idUtility';
 import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
@@ -229,13 +230,13 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
         }
 
         // race_condition バルクinsert（JRA/NAR/OVERSEASのみ）
-        const conditionEntities = entityList.filter(
+        const conditionEntityList = entityList.filter(
             (e) =>
                 e.raceData.raceType === RaceType.JRA ||
                 e.raceData.raceType === RaceType.NAR ||
                 e.raceData.raceType === RaceType.OVERSEAS,
         );
-        for (const chunk of chunkArray(conditionEntities, chunkSize)) {
+        for (const chunk of chunkArray(conditionEntityList, chunkSize)) {
             if (chunk.length === 0) continue;
             const insertConditionSql = `
                 INSERT INTO race_condition (
@@ -282,13 +283,13 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
         }
 
         // race_stage バルクinsert（KEIRIN/AUTORACE/BOATRACEのみ）
-        const stageEntities = entityList.filter(
+        const stageEntityList = entityList.filter(
             (e) =>
                 e.raceData.raceType === RaceType.KEIRIN ||
                 e.raceData.raceType === RaceType.AUTORACE ||
                 e.raceData.raceType === RaceType.BOATRACE,
         );
-        for (const chunk of chunkArray(stageEntities, chunkSize)) {
+        for (const chunk of chunkArray(stageEntityList, chunkSize)) {
             if (chunk.length === 0) continue;
             const insertStageSql = `
                 INSERT INTO race_stage (
@@ -323,6 +324,87 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                         id: entity.id,
                         reason: error?.message ?? String(error),
                     });
+                }
+            }
+        }
+
+        // race_player バルクinsert（KEIRIN/AUTORACE/BOATRACEのみ）
+        const playerEntityList = entityList.filter(
+            (e) =>
+                e.raceData.raceType === RaceType.KEIRIN ||
+                e.raceData.raceType === RaceType.AUTORACE ||
+                e.raceData.raceType === RaceType.BOATRACE,
+        );
+        for (const chunk of chunkArray(playerEntityList, chunkSize)) {
+            if (chunk.length === 0) continue;
+            // Build placeholders and params for all race players in this chunk (grouped by race entity)
+            const valuePlaceholders: string[] = [];
+            const playerParams: any[] = [];
+            for (const entity of chunk) {
+                for (const racePlayerData of entity.racePlayerDataList) {
+                    const racePlayerIdParams = {
+                        raceType: entity.raceData.raceType,
+                        dateTime: entity.raceData.dateTime,
+                        location: entity.raceData.location,
+                        number: entity.raceData.number,
+                        positionNumber: racePlayerData.positionNumber,
+                    };
+                    valuePlaceholders.push(
+                        '(?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)',
+                    );
+                    playerParams.push(
+                        generateId(IdType.PLAYER, racePlayerIdParams),
+                        entity.raceData.raceType,
+                        entity.id,
+                        racePlayerData.positionNumber,
+                        racePlayerData.playerNumber,
+                    );
+                }
+            }
+
+            if (valuePlaceholders.length === 0) continue;
+
+            const insertPlayerSql = `
+                INSERT INTO race_player (
+                    id,
+                    race_type,
+                    race_id,
+                    position_number,
+                    player_number,
+                    created_at,
+                    updated_at
+                ) VALUES
+                    ${valuePlaceholders.join(',\n')}
+                ON CONFLICT(id) DO UPDATE SET
+                    race_type = excluded.race_type,
+                    race_id = excluded.race_id,
+                    position_number = excluded.position_number,
+                    player_number = excluded.player_number,
+                    updated_at=CURRENT_TIMESTAMP
+            `;
+
+            try {
+                await this.dbGateway.run(env, insertPlayerSql, playerParams);
+                // count successes as number of player rows inserted
+                result.successCount += valuePlaceholders.length;
+            } catch (error: any) {
+                // On failure, attribute failure per player row
+                const errMsg = error?.message ?? String(error);
+                result.failureCount += valuePlaceholders.length;
+                // Try to push failures for each generated id if possible
+                let paramIdx = 0;
+                for (const entity of chunk) {
+                    for (const _rp of entity.racePlayerDataList) {
+                        // reference _rp to satisfy linter (read positionNumber)
+                        void _rp.positionNumber;
+                        const id = playerParams[paramIdx];
+                        result.failures.push({
+                            db: 'race_player',
+                            id,
+                            reason: errMsg,
+                        });
+                        paramIdx += 5; // advancing by number of fields per row
+                    }
                 }
             }
         }

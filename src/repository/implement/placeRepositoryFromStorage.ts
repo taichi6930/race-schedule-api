@@ -149,10 +149,10 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         }
 
         // held_day バルクinsert（JRAのみ）
-        const heldDayEntities = entityList.filter(
+        const heldDayEntityList = entityList.filter(
             (e) => e.placeData.raceType === RaceType.JRA,
         );
-        for (const chunk of chunkArray(heldDayEntities, chunkSize)) {
+        for (const chunk of chunkArray(heldDayEntityList, chunkSize)) {
             if (chunk.length === 0) continue;
             const insertHeldDaySql = `
                 INSERT INTO held_day (
@@ -183,13 +183,13 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         }
 
         // place_grade バルクinsert（KEIRIN/AUTORACE/BOATRACEのみ）
-        const gradeEntities = entityList.filter(
+        const gradeEntityList = entityList.filter(
             (e) =>
                 e.placeData.raceType === RaceType.KEIRIN ||
                 e.placeData.raceType === RaceType.AUTORACE ||
                 e.placeData.raceType === RaceType.BOATRACE,
         );
-        for (const chunk of chunkArray(gradeEntities, chunkSize)) {
+        for (const chunk of chunkArray(gradeEntityList, chunkSize)) {
             if (chunk.length === 0) continue;
             const insertGradeSql = `
                 INSERT INTO place_grade (

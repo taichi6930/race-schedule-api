@@ -92,7 +92,7 @@ export class PlayerController {
             return Response.json(
                 {
                     message: '選手を登録/更新しました',
-                    playerEntities: playerEntityList,
+                    playerEntityList: playerEntityList,
                 },
                 { status: 201, headers: this.corsHeaders },
             );

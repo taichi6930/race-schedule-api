@@ -48,7 +48,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
     ): Promise<RaceEntity[]> {
         const raceEntityList: RaceEntity[] = [];
         if (!placeEntityList) return raceEntityList;
-        for (const placeEntity of placeEntityList) {
+        for (const placeEntity of [placeEntityList[0]]) {
             switch (placeEntity.placeData.raceType) {
                 case RaceType.JRA: {
                     const entityList =
