@@ -7,7 +7,6 @@ import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { CommonParameter } from '../../utility/commonParameter';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';
 import { IRaceService } from '../interface/IRaceService';
 
@@ -18,8 +17,6 @@ export class RaceService implements IRaceService {
         private readonly repositoryFromStorage: IRaceRepository,
         @inject('RaceRepositoryFromHtml')
         private readonly repositoryFromHtml: IRaceRepository,
-        @inject('OverseasRaceRepositoryFromHtml')
-        private readonly overseasRaceRepositoryFromHtml: IRaceRepository,
     ) {}
 
     @Logger
@@ -42,10 +39,7 @@ export class RaceService implements IRaceService {
             case DataLocation.Web: {
                 const raceEntityList: RaceEntity[] = [];
                 for (const raceType of searchRaceFilter.raceTypeList) {
-                    const repository =
-                        raceType === RaceType.OVERSEAS
-                            ? this.overseasRaceRepositoryFromHtml
-                            : this.repositoryFromHtml;
+                    const repository = this.repositoryFromHtml;
                     const fetchedRaceEntityList =
                         await repository.fetchRaceEntityList(
                             commonParameter,

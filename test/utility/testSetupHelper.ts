@@ -37,7 +37,6 @@ export interface TestRepositorySetup {
     calendarRepository: jest.Mocked<ICalendarRepository>;
     raceRepositoryFromStorage: jest.Mocked<IRaceRepository>;
     raceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
-    overseasRaceRepositoryFromHtml: jest.Mocked<IRaceRepository>;
 }
 
 /**
@@ -83,18 +82,12 @@ export const setupTestRepositoryMock = (): TestRepositorySetup => {
         'RaceRepositoryFromHtml',
         raceRepositoryFromHtml,
     );
-    const overseasRaceRepositoryFromHtml = mockRaceRepository();
-    container.registerInstance<IRaceRepository>(
-        'OverseasRaceRepositoryFromHtml',
-        overseasRaceRepositoryFromHtml,
-    );
     return {
         placeRepositoryFromStorage,
         placeRepositoryFromHtml,
         calendarRepository,
         raceRepositoryFromStorage,
         raceRepositoryFromHtml,
-        overseasRaceRepositoryFromHtml,
     };
 };
 
