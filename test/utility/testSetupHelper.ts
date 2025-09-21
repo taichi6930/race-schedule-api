@@ -122,10 +122,7 @@ export const setupTestServiceMock = (): TestServiceSetup => {
     const placeService = placeServiceMock();
     container.registerInstance<IPlaceService>('PlaceService', placeService);
     const playerService = playerServiceMock();
-    container.registerInstance<IPlayerService>(
-        'PlayerDataService',
-        playerService,
-    );
+    container.registerInstance<IPlayerService>('PlayerService', playerService);
 
     return {
         calendarService,

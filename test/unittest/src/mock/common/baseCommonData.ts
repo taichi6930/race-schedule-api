@@ -6,6 +6,7 @@ import { PlaceData } from '../../../../../src/domain/placeData';
 import { RaceData } from '../../../../../src/domain/raceData';
 import { RacePlayerData } from '../../../../../src/domain/racePlayerData';
 import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
+import { PlayerEntity } from '../../../../../src/repository/entity/playerEntity';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import {
     RACE_TYPE_LIST_ALL,
@@ -45,6 +46,9 @@ export const basePlaceEntity = (raceType: RaceType): PlaceEntity =>
         defaultHeldDayData[raceType],
         defaultPlaceGrade[raceType],
     );
+
+export const basePlayerEntity = (raceType: RaceType): PlayerEntity =>
+    PlayerEntity.create(raceType, '1', 'テスト選手名', 1);
 
 export const baseRaceData = (raceType: RaceType): RaceData =>
     RaceData.create(
@@ -483,4 +487,8 @@ export const mockRaceEntityList = testRaceTypeListAll.flatMap((raceType) =>
 
 export const mockPlaceEntityList = testRaceTypeListAll.map((raceType) =>
     basePlaceEntity(raceType),
+);
+
+export const mockPlayerEntityList = testRaceTypeListMechanicalRacing.map(
+    (raceType) => basePlayerEntity(raceType),
 );
