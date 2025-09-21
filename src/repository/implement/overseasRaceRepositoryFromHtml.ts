@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 
 import * as cheerio from 'cheerio';
-import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
@@ -10,7 +9,6 @@ import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGatew
 import { CommonParameter } from '../../utility/commonParameter';
 import { processOverseasRaceName } from '../../utility/createRaceName';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import {
@@ -20,6 +18,7 @@ import {
 import { validateRaceDistance } from '../../utility/validateAndType/raceDistance';
 import { RaceSurfaceType } from '../../utility/validateAndType/raceSurfaceType';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
+import { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -37,23 +36,19 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
      * 開催データを取得する
      * @param commonParameter
      * @param searchRaceFilter
+     * @param placeEntityList
      */
     @Logger
     public async fetchRaceEntityList(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
+        placeEntityList?: PlaceEntity[],
     ): Promise<RaceEntity[]> {
-        const monthList: Date[] = this.generateMonthList(
-            searchRaceFilter.startDate,
-            searchRaceFilter.finishDate,
-        );
         const raceEntityList: RaceEntity[] = [];
-        for (const month of monthList) {
+        if (!placeEntityList) return raceEntityList;
+        for (const placeEntity of placeEntityList) {
             raceEntityList.push(
-                ...(await this.fetchRaceListFromHtmlForOverseas(
-                    RaceType.OVERSEAS,
-                    month,
-                )),
+                ...(await this.fetchRaceListFromHtmlForOverseas(placeEntity)),
             );
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
             const delayedTimeMs = Number.parseInt(
@@ -66,33 +61,9 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
         return raceEntityList;
     }
 
-    /**
-     * ターゲットの月リストを生成する
-     *startDateからfinishDateまでの月のリストを生成する
-     * @param startDate
-     * @param finishDate
-     */
-    private generateMonthList(startDate: Date, finishDate: Date): Date[] {
-        const monthList: Date[] = [];
-        const currentDate = new Date(startDate);
-
-        while (currentDate <= finishDate) {
-            monthList.push(
-                new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
-            );
-            currentDate.setMonth(currentDate.getMonth() + 1);
-        }
-
-        console.debug(
-            `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
-        );
-        return monthList;
-    }
-
     @Logger
     private async fetchRaceListFromHtmlForOverseas(
-        raceType: RaceType,
-        date: Date,
+        placeEntity: PlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractSurfaceType = (race: string[]): RaceSurfaceType => {
             const typeList = ['芝', 'ダート', '障害', 'AW'];
@@ -103,8 +74,8 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
         };
         try {
             const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
-                raceType,
-                date,
+                placeEntity.placeData.raceType,
+                placeEntity.placeData.dateTime,
             );
             const raceEntityList: RaceEntity[] = [];
             const $ = cheerio.load(htmlText);
@@ -146,7 +117,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
                                 .text();
 
                             const location: RaceCourse = validateRaceCourse(
-                                raceType,
+                                placeEntity.placeData.raceType,
                                 $(raceElement)
                                     .find('.racelist__race__sub')
                                     .find('.course')
@@ -233,7 +204,7 @@ export class OverseasRaceRepositoryFromHtml implements IRaceRepository {
                             raceEntityList.push(
                                 RaceEntity.createWithoutId(
                                     RaceData.create(
-                                        raceType,
+                                        placeEntity.placeData.raceType,
                                         raceName,
                                         raceDate,
                                         location,
