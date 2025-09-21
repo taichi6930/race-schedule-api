@@ -52,15 +52,19 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Start server in background
-        run: |
-          health_check_response=$(curl -s -o /dev/null -w "%{http_code}" ${CLOUDFLARE_API_PRODUCTION_URL}/health)
+      - name: API Health Check
+        id: health-check
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ env.CLOUDFLARE_API_PRODUCTION_URL }}/health
+          method: 'GET'
+          preventFailureOnNoResponse: false
+          timeout: 30000
 
-          # レスポンスチェック
-          if [[ "$health_check_response" != "200" ]]; then
-            echo "❌ POST request failed with status code $health_check_response"
-            exit 1
-          fi
+      - name: Display health check result
+        run: |
+          echo "Status: ${{ steps.health-check.outputs.status }}"
+          echo "Response: ${{ steps.health-check.outputs.response }}"
 
   update-place-data:
     needs: [set-dates, health-check]
