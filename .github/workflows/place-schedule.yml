@@ -73,22 +73,25 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Update Place Data
-        id: update-place
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: ${{ env.CLOUDFLARE_API_PRODUCTION_URL }}/place
-          method: 'POST'
-          customHeaders: '{"Content-Type": "application/json", "accept": "*/*"}'
-          data: |
-            {
-              "startDate": "${{ needs.set-dates.outputs.start-date }}",
-              "finishDate": "${{ needs.set-dates.outputs.finish-date }}",
-              "raceType": ["JRA", "NAR", "OVERSEAS", "KEIRIN", "AUTORACE"]
-            }
-          timeout: 120000
-          
-      - name: Display update result
+      - name: Send curl request to API
         run: |
-          echo "Status: ${{ steps.update-place.outputs.status }}"
-          echo "Response: ${{ steps.update-place.outputs.response }}"
+          # 日付はset-datesで設定済み
+          startDate="${{ needs.set-dates.outputs.start-date }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date }}"
+
+          # レースデータの更新
+          update_place_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "${CLOUDFLARE_API_PRODUCTION_URL}/place" \
+            -H "accept: */*" \
+            -H "Content-Type: application/json" \
+            -d "{
+                  \"startDate\": \"$startDate\",
+                  \"finishDate\": \"$finishDate\",
+                  \"raceType\": [\"JRA\", \"NAR\", \"OVERSEAS\", \"KEIRIN\", \"AUTORACE\"]
+                }")
+
+          # レスポンスチェック
+          if [[ "$update_place_data_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $update_place_data_response"
+            exit 1
+          fi
