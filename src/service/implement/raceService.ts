@@ -13,25 +13,14 @@ import { IRaceService } from '../interface/IRaceService';
 
 @injectable()
 export class RaceService implements IRaceService {
-    private readonly raceRepositoryFromHtml: Record<RaceType, IRaceRepository>;
-
     public constructor(
         @inject('RaceRepositoryFromStorage')
         private readonly repositoryFromStorage: IRaceRepository,
         @inject('RaceRepositoryFromHtml')
-        private readonly _raceRepositoryFromHtml: IRaceRepository,
+        private readonly repositoryFromHtml: IRaceRepository,
         @inject('OverseasRaceRepositoryFromHtml')
         private readonly overseasRaceRepositoryFromHtml: IRaceRepository,
-    ) {
-        this.raceRepositoryFromHtml = {
-            [RaceType.JRA]: this._raceRepositoryFromHtml,
-            [RaceType.NAR]: this._raceRepositoryFromHtml,
-            [RaceType.OVERSEAS]: this.overseasRaceRepositoryFromHtml,
-            [RaceType.KEIRIN]: this._raceRepositoryFromHtml,
-            [RaceType.AUTORACE]: this._raceRepositoryFromHtml,
-            [RaceType.BOATRACE]: this._raceRepositoryFromHtml,
-        };
-    }
+    ) {}
 
     @Logger
     public async fetchRaceEntityList(
@@ -54,7 +43,10 @@ export class RaceService implements IRaceService {
             case DataLocation.Web: {
                 const raceEntityList: RaceEntity[] = [];
                 for (const raceType of searchRaceFilter.raceTypeList) {
-                    const repository = this.raceRepositoryFromHtml[raceType];
+                    const repository =
+                        raceType === RaceType.OVERSEAS
+                            ? this.overseasRaceRepositoryFromHtml
+                            : this.repositoryFromHtml;
                     const fetchedRaceEntityList =
                         await repository.fetchRaceEntityList(
                             commonParameter,
