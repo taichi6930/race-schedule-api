@@ -72,6 +72,14 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                             );
                         break;
                     }
+                    case RaceType.OVERSEAS: {
+                        placeEntityList =
+                            await this.fetchMonthPlaceEntityListForOverseas(
+                                raceType,
+                                period,
+                            );
+                        break;
+                    }
                     case RaceType.KEIRIN: {
                         placeEntityList =
                             await this.fetchMonthPlaceEntityListForKeirin(
@@ -88,7 +96,6 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                             );
                         break;
                     }
-                    case RaceType.OVERSEAS:
                     case RaceType.BOATRACE: {
                         console.error(
                             `Race type ${raceType} is not supported by this repository`,
@@ -191,11 +198,9 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     }
 
     /**
-     * S3から開催データを取得する
-     * ファイル名を利用してS3から開催データを取得する
-     * placeDataが存在しない場合はundefinedを返すので、filterで除外する
+     * HTMLから開催データを取得する（中央競馬）
      * @param raceType - レース種別
-     * @param date
+     * @param date - 取得対象の月（Dateオブジェクトの年月部分のみ使用）
      */
     @Logger
     private async fetchYearPlaceEntityListForJra(
@@ -293,9 +298,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     }
 
     /**
-     * S3から開催データを取得する
-     * ファイル名を利用してS3から開催データを取得する
-     * placeDataが存在しない場合はundefinedを返すので、filterで除外する
+     * HTMLから開催データを取得する（地方競馬）
      * @param raceType - レース種別
      * @param date - 取得対象の月（Dateオブジェクトの年月部分のみ使用）
      */
@@ -359,8 +362,8 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                             ),
                             place,
                         ),
-                        undefined, // TODO: heldDayDataを設定する
-                        undefined, // TODO: gradeを設定する
+                        undefined, // heldDayData は地方競馬では不要
+                        undefined, // grade は地方競馬では不要
                     ),
                 );
             }
@@ -369,9 +372,31 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     }
 
     /**
-     * S3から開催データを取得する
-     * ファイル名を利用してS3から開催データを取得する
-     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * HTMLから開催データを取得する（海外競馬）
+     * @param raceType - レース種別
+     * @param date - 取得対象の月（Dateオブジェクトの年月部分のみ使用）
+     */
+    @Logger
+    private async fetchMonthPlaceEntityListForOverseas(
+        raceType: RaceType,
+        date: Date,
+    ): Promise<PlaceEntity[]> {
+        return [
+            PlaceEntity.createWithoutId(
+                PlaceData.create(
+                    raceType,
+                    // 月の初日を設定
+                    new Date(date.getFullYear(), date.getMonth(), 1),
+                    'ロンシャン', // TODO: 適切な開催地を設定する
+                ),
+                undefined, // heldDayData は海外競馬では不要
+                undefined, // grade は海外競馬では不要
+            ),
+        ];
+    }
+
+    /**
+     * HTMLから開催データを取得する（競輪）
      * @param raceType - レース種別
      * @param date
      */
@@ -455,9 +480,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     }
 
     /**
-     * S3から開催データを取得する
-     * ファイル名を利用してS3から開催データを取得する
-     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * HTMLから開催データを取得する（オートレース）
      * @param raceType - レース種別
      * @param date
      */

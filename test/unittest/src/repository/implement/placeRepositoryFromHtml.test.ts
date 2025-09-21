@@ -13,7 +13,7 @@ import { SkipEnv } from '../../../../utility/testDecorators';
 import { clearMocks } from '../../../../utility/testSetupHelper';
 import {
     basePlaceEntity,
-    testRaceTypeListMechanicalRacing,
+    testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 import { commonParameterMock } from '../../mock/common/commonParameterMock';
 
@@ -37,7 +37,7 @@ const testCases = {
         {
             startDate: new Date('2024-10-01'),
             endDate: new Date('2024-10-31'),
-            expectedLength: 0,
+            expectedLength: 1,
         },
     ],
     [RaceType.KEIRIN]: [
@@ -63,67 +63,59 @@ const testCases = {
     ],
 };
 
-describe.each(testRaceTypeListMechanicalRacing)(
-    'PlaceRepositoryFromHtml',
-    (raceType) => {
-        for (const { startDate, endDate, expectedLength } of testCases[
-            raceType
-        ]) {
-            describe(`PlaceRepositoryFromHtml(${raceType})`, () => {
-                let placeDataHtmlGateway: IPlaceDataHtmlGateway;
-                let repository: IPlaceRepository;
+describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
+    for (const { startDate, endDate, expectedLength } of testCases[raceType]) {
+        describe(`PlaceRepositoryFromHtml(${raceType})`, () => {
+            let placeDataHtmlGateway: IPlaceDataHtmlGateway;
+            let repository: IPlaceRepository;
 
-                beforeAll(() => {
-                    placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
-                    container.registerInstance(
-                        'PlaceDataHtmlGateway',
-                        placeDataHtmlGateway,
-                    );
-                    repository = container.resolve<IPlaceRepository>(
-                        PlaceRepositoryFromHtml,
-                    );
-                });
+            beforeAll(() => {
+                placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
+                container.registerInstance(
+                    'PlaceDataHtmlGateway',
+                    placeDataHtmlGateway,
+                );
+                repository = container.resolve<IPlaceRepository>(
+                    PlaceRepositoryFromHtml,
+                );
+            });
 
-                afterAll(() => {
-                    clearMocks();
-                });
+            afterAll(() => {
+                clearMocks();
+            });
 
-                describe('fetchPlaceList', () => {
-                    SkipEnv(
-                        `正しいレース開催データを取得できる(${raceType})`,
-                        [allowedEnvs.githubActionsCi],
-                        async () => {
-                            const commonParameter = commonParameterMock();
-                            const searchPlaceFilter =
-                                new SearchPlaceFilterEntity(
-                                    startDate,
-                                    endDate,
-                                    [raceType],
-                                    [],
-                                );
-                            const placeEntityList =
-                                await repository.fetchPlaceEntityList(
-                                    commonParameter,
-                                    searchPlaceFilter,
-                                );
-                            expect(placeEntityList).toHaveLength(
-                                expectedLength,
-                            );
-                        },
-                    );
-                });
-
-                describe('upsertPlaceList', () => {
-                    it(`HTMLにはデータを登録できない(${raceType})`, async () => {
+            describe('fetchPlaceList', () => {
+                SkipEnv(
+                    `正しいレース開催データを取得できる(${raceType})`,
+                    [allowedEnvs.githubActionsCi],
+                    async () => {
                         const commonParameter = commonParameterMock();
-                        await expect(
-                            repository.upsertPlaceEntityList(commonParameter, [
-                                basePlaceEntity(raceType),
-                            ]),
-                        ).rejects.toThrow('Method not implemented.');
-                    });
+                        const searchPlaceFilter = new SearchPlaceFilterEntity(
+                            startDate,
+                            endDate,
+                            [raceType],
+                            [],
+                        );
+                        const placeEntityList =
+                            await repository.fetchPlaceEntityList(
+                                commonParameter,
+                                searchPlaceFilter,
+                            );
+                        expect(placeEntityList).toHaveLength(expectedLength);
+                    },
+                );
+            });
+
+            describe('upsertPlaceList', () => {
+                it(`HTMLにはデータを登録できない(${raceType})`, async () => {
+                    const commonParameter = commonParameterMock();
+                    await expect(
+                        repository.upsertPlaceEntityList(commonParameter, [
+                            basePlaceEntity(raceType),
+                        ]),
+                    ).rejects.toThrow('Method not implemented.');
                 });
             });
-        }
-    },
-);
+        });
+    }
+});
