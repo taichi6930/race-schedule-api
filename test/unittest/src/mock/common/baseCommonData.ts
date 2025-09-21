@@ -11,7 +11,6 @@ import {
     RACE_TYPE_LIST_ALL,
     RACE_TYPE_LIST_HORSE_RACING,
     RACE_TYPE_LIST_MECHANICAL_RACING,
-    RACE_TYPE_LIST_WITHOUT_OVERSEAS,
     RaceType,
 } from '../../../../../src/utility/raceType';
 import { maxFrameNumber } from '../../../../../src/utility/validateAndType/positionNumber';
@@ -466,10 +465,6 @@ export const testRaceTypeListAll = IS_SHORT_TEST
     ? [RaceType.JRA]
     : RACE_TYPE_LIST_ALL;
 
-const testRaceTypeListWithoutOverseas = IS_SHORT_TEST
-    ? [RaceType.JRA]
-    : RACE_TYPE_LIST_WITHOUT_OVERSEAS;
-
 export const testRaceTypeListHorseRacing = IS_SHORT_TEST
     ? [RaceType.JRA]
     : RACE_TYPE_LIST_HORSE_RACING;
@@ -486,6 +481,6 @@ export const mockRaceEntityList = testRaceTypeListAll.flatMap((raceType) =>
     baseRaceEntityList(raceType),
 );
 
-export const mockPlaceEntityList = testRaceTypeListWithoutOverseas.map(
-    (raceType) => basePlaceEntity(raceType),
+export const mockPlaceEntityList = testRaceTypeListAll.map((raceType) =>
+    basePlaceEntity(raceType),
 );

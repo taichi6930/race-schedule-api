@@ -18,10 +18,6 @@ export const RACE_TYPE_LIST_ALL: RaceType[] = [
     RaceType.AUTORACE,
 ];
 
-export const RACE_TYPE_LIST_WITHOUT_OVERSEAS = RACE_TYPE_LIST_ALL.filter(
-    (raceType) => raceType !== RaceType.OVERSEAS,
-);
-
 export const RACE_TYPE_LIST_MECHANICAL_RACING = [
     RaceType.KEIRIN,
     RaceType.AUTORACE,
