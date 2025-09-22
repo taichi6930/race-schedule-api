@@ -24,7 +24,7 @@ export default [
             },
             sourceType: 'module',
         },
-        files: ['src/**/*.ts', 'lib/**/*.ts', 'test/**/*.ts'],
+        files: ['src/**/*.ts', 'test/**/*.ts'],
         ignores: ['**/cdk.out/**', '**/node_modules/**', 'dist/**'],
     },
     eslintPluginUnicorn.configs.all, // ✅ unicornプラグインの全ルールを適用

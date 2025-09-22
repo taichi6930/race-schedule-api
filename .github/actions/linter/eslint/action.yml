@@ -35,5 +35,5 @@ runs:
       shell: bash
 
     - name: Run ESLint check
-      run: pnpm lint lib
+      run: pnpm lint
       shell: bash
