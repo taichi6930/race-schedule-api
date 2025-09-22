@@ -1,13 +1,13 @@
-import { RaceData } from '../../../../src/domain/raceData';
-import type { SearchRaceFilterEntity } from '../../../../src/repository/entity/filter/searchRaceFilterEntity';
-import type { PlaceEntity } from '../../../../src/repository/entity/placeEntity';
-import { RaceEntity } from '../../../../src/repository/entity/raceEntity';
-import type { IRaceRepository } from '../../../../src/repository/interface/IRaceRepository';
-import type { CommonParameter } from '../../../../src/utility/commonParameter';
-import { RaceType } from '../../../../src/utility/raceType';
-import type { UpsertResult } from '../../../../src/utility/upsertResult';
-import type { RaceStage } from '../../../../src/utility/validateAndType/raceStage';
-import { baseRacePlayerDataList } from '../../../../test/unittest/src/mock/common/baseCommonData';
+import { baseRacePlayerDataList } from '../../../test/unittest/src/mock/common/baseCommonData';
+import { RaceData } from '../../domain/raceData';
+import type { CommonParameter } from '../../utility/commonParameter';
+import { RaceType } from '../../utility/raceType';
+import type { UpsertResult } from '../../utility/upsertResult';
+import type { RaceStage } from '../../utility/validateAndType/raceStage';
+import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
+import type { PlaceEntity } from '../entity/placeEntity';
+import { RaceEntity } from '../entity/raceEntity';
+import type { IRaceRepository } from '../interface/IRaceRepository';
 
 // MechanicalRacingRaceRepositoryFromHtmlのモックを作成
 export class MockMechanicalRacingRaceRepositoryFromHtml

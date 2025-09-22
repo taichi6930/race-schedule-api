@@ -1,4 +1,3 @@
-import { IS_SHORT_TEST } from '../../../../../lib/src/utility/env';
 import { CalendarData } from '../../../../../src/domain/calendarData';
 import { HeldDayData } from '../../../../../src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceConditionData';
@@ -8,6 +7,7 @@ import { RacePlayerData } from '../../../../../src/domain/racePlayerData';
 import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { PlayerEntity } from '../../../../../src/repository/entity/playerEntity';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
+import { IS_SHORT_TEST } from '../../../../../src/utility/env';
 import {
     RACE_TYPE_LIST_ALL,
     RACE_TYPE_LIST_HORSE_RACING,
