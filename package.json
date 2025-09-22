@@ -12,8 +12,7 @@
         "wrangler:d1:migrations:apply:remote": "wrangler d1 migrations apply my-database --remote",
         "build": "tsc",
         "watch": "tsc -w",
-        "s3-data-update": "aws s3 cp s3://race-schedule-bucket/ ./lib/src/gateway/mockData/csv --recursive",
-        "db:import": "TZ=jst ts-node lib/scripts/importCsvData.ts",
+        "s3-data-update": "aws s3 cp s3://race-schedule-bucket/ ./src/gateway/mockData/csv --recursive",
         "test:base-cmd": "sh -c 'if [ \"$1\" = \"--\" ]; then shift; fi; pnpm exec jest --coverage --maxWorkers=6 \"$@\"' --",
         "test": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd",
         "test:silent": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd -- --silent",
@@ -23,13 +22,13 @@
         "test:watch:silent:largeData": "TZ=jst HTML_FETCH_DELAY_MS=0 IS_LARGE_AMOUNT_DATA_TEST=TRUE pnpm run test:base-cmd -- --watchAll --silent",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
-        "lint": "npx eslint './lib/**/*.ts' './test/**/*.ts' './src/**/*.ts'",
-        "lint:fix": "npx eslint --fix './lib/**/*.ts' './test/**/*.ts' './src/**/*.ts' --ignore-pattern '**/*.d.ts' && prettier --write .",
-        "lint:check": "npx eslint --quiet './lib/**/*.ts' './test/**/*.ts' './src/**/*.ts'",
+        "lint": "npx eslint './test/**/*.ts' './src/**/*.ts'",
+        "lint:fix": "npx eslint --fix './test/**/*.ts' './src/**/*.ts' --ignore-pattern '**/*.d.ts' && prettier --write .",
+        "lint:check": "npx eslint --quiet './test/**/*.ts' './src/**/*.ts'",
         "type-check": "tsc --noEmit",
-        "typedoc": "npx typedoc --out ./docs ./lib/src",
+        "typedoc": "npx typedoc --out ./docs ./src",
         "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check",
-        "copy:mock-html": "rm -rf lib/src/gateway/mockData/html && cp -r ./../race-schedule-data/html lib/src/gateway/mockData/html"
+        "copy:mock-html": "rm -rf src/gateway/mockData/html && cp -r ./../race-schedule-data/html src/gateway/mockData/html"
     },
     "engines": {
         "node": ">=24.0.0 <25.0.0"

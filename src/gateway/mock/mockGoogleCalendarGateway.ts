@@ -1,9 +1,9 @@
 import type { calendar_v3 } from 'googleapis';
 
-import type { ICalendarGateway } from '../../../../src/gateway/interface/iCalendarGateway';
-import type { CommonParameter } from '../../../../src/utility/commonParameter';
-import type { RaceType } from '../../../../src/utility/raceType';
+import type { CommonParameter } from '../../utility/commonParameter';
 import { allowedEnvs, ENV } from '../../utility/env';
+import type { RaceType } from '../../utility/raceType';
+import type { ICalendarGateway } from '../interface/iCalendarGateway';
 
 /**
  * Googleカレンダーのモックサービス
