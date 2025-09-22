@@ -30,14 +30,6 @@ dotenv.config();
  * - HTML: ローカルファイルを使用
  * - S3: モックストレージを使用
  * - 実際のデータで初期化
- * @property localNoInitData - 初期データなしの開発環境
- * - HTML: モックリポジトリを使用
- * - S3: 空のモックストレージ
- * - クリーンな状態でのテスト用
- * @property localInitMadeData - テストデータ付き開発環境
- * - HTML: モックリポジトリを使用
- * - S3: サンプルデータで初期化
- * - 機能開発とテスト用
  * @property githubActionsCi - CI/CD環境
  * - 自動テスト用に最適化
  * - HTMLスクレイピングをスキップ
@@ -46,8 +38,6 @@ export const allowedEnvs = {
     production: 'PRODUCTION',
     test: 'TEST',
     local: 'LOCAL',
-    localNoInitData: 'LOCAL_NO_INIT_DATA',
-    localInitMadeData: 'LOCAL_INIT_MADE_DATA',
     githubActionsCi: 'GITHUB_ACTIONS_CI',
 } as const;
 
