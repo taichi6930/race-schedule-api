@@ -26,9 +26,6 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの取得を行う
-     * @param raceTypeList - レース種別のリスト
-     * @param commonParameter
-     * @param searchFilter
      */
     @Logger
     public async getEvents(
@@ -40,7 +37,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
         for (const raceType of raceTypeList) {
             // GoogleカレンダーAPIからイベントを取得
             try {
-                const _calendarDataList =
+                const tempCalendarDataList =
                     await this.googleCalendarGateway.fetchCalendarDataList(
                         commonParameter,
                         raceType,
@@ -48,7 +45,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                         finishDate,
                     );
                 calendarDataList.push(
-                    ..._calendarDataList.map((calendarData) =>
+                    ...tempCalendarDataList.map((calendarData) =>
                         fromGoogleCalendarDataToCalendarData(
                             raceType,
                             calendarData,

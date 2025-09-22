@@ -24,17 +24,6 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
-        return this.fetchRaceEntityListForHorseRacing(
-            commonParameter,
-            searchRaceFilter,
-        );
-    }
-
-    @Logger
-    private async fetchRaceEntityListForHorseRacing(
-        commonParameter: CommonParameter,
-        searchRaceFilter: SearchRaceFilterEntity,
-    ): Promise<RaceEntity[]> {
         const { env } = commonParameter;
         const { raceTypeList, startDate, finishDate, locationList, gradeList } =
             searchRaceFilter;

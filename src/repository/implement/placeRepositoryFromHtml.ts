@@ -519,10 +519,6 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                 const place: RaceCourse = th.text().replace('２', '');
 
                 const tds = $(trElement).find('td');
-                // <td valign="top" class="bg-4-lt">
-                //   <img src="/ud_shared/pc/autorace/autorace/shared/images/ico-night3.gif?20221013111450" width = "10" height = "10" alt = "ico" class="time_ref" >
-                //   <div class="ico-kaisai">開催</div>
-                // </td>
                 tds.each((index: number, tdElement) => {
                     const div = $(tdElement).find('div');
                     let grade: GradeType | undefined;
