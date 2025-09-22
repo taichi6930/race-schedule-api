@@ -8,6 +8,8 @@ import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
+import type { PlaceEntityTagged } from '../entity/placeEntities';
+import { fromLegacyPlaceEntity } from '../entity/placeEntities';
 import { PlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -95,6 +97,19 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                 }
             })
             .filter((entity): entity is PlaceEntity => entity !== undefined);
+    }
+
+    // V2: タグ付きユニオンで返す互換メソッド（段階的移行用）
+    @Logger
+    public async fetchPlaceEntityListV2(
+        commonParameter: CommonParameter,
+        searchPlaceFilter: SearchPlaceFilterEntity,
+    ): Promise<PlaceEntityTagged[]> {
+        const legacy = await this.fetchPlaceEntityList(
+            commonParameter,
+            searchPlaceFilter,
+        );
+        return legacy.map((l) => fromLegacyPlaceEntity(l));
     }
 
     @Logger

@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
+import type { PlaceEntityTagged } from '../../repository/entity/placeEntities';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { CommonParameter } from '../../utility/commonParameter';
@@ -28,6 +29,22 @@ export class PlaceService implements IPlaceService {
                 ? this.repositoryFromStorage
                 : this.repositoryFromHtml;
         return repository.fetchPlaceEntityList(
+            commonParameter,
+            searchPlaceFilter,
+        );
+    }
+
+    @Logger
+    public async fetchPlaceEntityListV2(
+        commonParameter: CommonParameter,
+        searchPlaceFilter: SearchPlaceFilterEntity,
+        dataLocation: DataLocationType,
+    ): Promise<PlaceEntityTagged[]> {
+        const repository =
+            dataLocation === DataLocation.Storage
+                ? this.repositoryFromStorage
+                : this.repositoryFromHtml;
+        return repository.fetchPlaceEntityListV2(
             commonParameter,
             searchPlaceFilter,
         );

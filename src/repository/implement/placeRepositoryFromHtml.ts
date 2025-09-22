@@ -17,6 +17,8 @@ import {
     validateRaceCourse,
 } from '../../utility/validateAndType/raceCourse';
 import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
+import type { PlaceEntityTagged } from '../entity/placeEntities';
+import { fromLegacyPlaceEntity } from '../entity/placeEntities';
 import { PlaceEntity } from '../entity/placeEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -125,6 +127,19 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                 placeEntity.placeData.dateTime >= startDate &&
                 placeEntity.placeData.dateTime <= finishDate,
         );
+    }
+
+    // V2: タグ付きユニオンで返す互換メソッド（段階的移行用）
+    @Logger
+    public async fetchPlaceEntityListV2(
+        commonParameter: CommonParameter,
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<PlaceEntityTagged[]> {
+        const legacy = await this.fetchPlaceEntityList(
+            commonParameter,
+            searchFilter,
+        );
+        return legacy.map((l) => fromLegacyPlaceEntity(l));
     }
 
     /**
