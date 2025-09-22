@@ -48,7 +48,7 @@ export class PlaceController {
                 locationList,
             );
 
-            const placeEntityList = await this.usecase.fetchPlaceEntityList(
+            const placeEntityList = await this.usecase.fetchPlaceEntityListV2(
                 commonParameter,
                 searchPlaceFilter,
             );

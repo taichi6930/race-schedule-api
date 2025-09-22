@@ -10,30 +10,28 @@ export interface BasePlaceEntity {
 }
 
 export interface JraPlaceEntity extends BasePlaceEntity {
-    kind: typeof RaceType.JRA;
     heldDayData: HeldDayData;
 }
 
-export interface NarPlaceEntity extends BasePlaceEntity {
-    kind: typeof RaceType.NAR;
+export interface NarPlaceEntity {
+    id: string;
+    placeData: PlaceData;
 }
 
-export interface OverseasPlaceEntity extends BasePlaceEntity {
-    kind: typeof RaceType.OVERSEAS;
+export interface OverseasPlaceEntity {
+    id: string;
+    placeData: PlaceData;
 }
 
 export interface KeirinPlaceEntity extends BasePlaceEntity {
-    kind: typeof RaceType.KEIRIN;
     grade: GradeType;
 }
 
 export interface AutoracePlaceEntity extends BasePlaceEntity {
-    kind: typeof RaceType.AUTORACE;
     grade: GradeType;
 }
 
 export interface BoatracePlaceEntity extends BasePlaceEntity {
-    kind: typeof RaceType.BOATRACE;
     grade: GradeType;
 }
 
@@ -46,20 +44,20 @@ export type PlaceEntityTagged =
     | BoatracePlaceEntity;
 
 export const isJraPlace = (p: PlaceEntityTagged): p is JraPlaceEntity =>
-    p.kind === RaceType.JRA;
+    p.placeData.raceType === RaceType.JRA;
 export const isNarPlace = (p: PlaceEntityTagged): p is NarPlaceEntity =>
-    p.kind === RaceType.NAR;
+    p.placeData.raceType === RaceType.NAR;
 export const isOverseasPlace = (
     p: PlaceEntityTagged,
-): p is OverseasPlaceEntity => p.kind === RaceType.OVERSEAS;
+): p is OverseasPlaceEntity => p.placeData.raceType === RaceType.OVERSEAS;
 export const isKeirinPlace = (p: PlaceEntityTagged): p is KeirinPlaceEntity =>
-    p.kind === RaceType.KEIRIN;
+    p.placeData.raceType === RaceType.KEIRIN;
 export const isAutoracePlace = (
     p: PlaceEntityTagged,
-): p is AutoracePlaceEntity => p.kind === RaceType.AUTORACE;
+): p is AutoracePlaceEntity => p.placeData.raceType === RaceType.AUTORACE;
 export const isBoatracePlace = (
     p: PlaceEntityTagged,
-): p is BoatracePlaceEntity => p.kind === RaceType.BOATRACE;
+): p is BoatracePlaceEntity => p.placeData.raceType === RaceType.BOATRACE;
 
 export const fromLegacyPlaceEntity = (
     legacy: LegacyPlaceEntity,
@@ -70,7 +68,6 @@ export const fromLegacyPlaceEntity = (
             return {
                 id: legacy.id,
                 placeData: legacy.placeData,
-                kind: RaceType.JRA,
                 heldDayData: legacy.heldDayData,
             };
         }
@@ -78,42 +75,34 @@ export const fromLegacyPlaceEntity = (
             return {
                 id: legacy.id,
                 placeData: legacy.placeData,
-                kind: RaceType.NAR,
             };
         }
         case RaceType.OVERSEAS: {
             return {
                 id: legacy.id,
                 placeData: legacy.placeData,
-                kind: RaceType.OVERSEAS,
             };
         }
         case RaceType.KEIRIN: {
             return {
                 id: legacy.id,
                 placeData: legacy.placeData,
-                kind: RaceType.KEIRIN,
-                grade: legacy.grade as GradeType,
+                grade: legacy.grade,
             };
         }
         case RaceType.AUTORACE: {
             return {
                 id: legacy.id,
                 placeData: legacy.placeData,
-                kind: RaceType.AUTORACE,
-                grade: legacy.grade as GradeType,
+                grade: legacy.grade,
             };
         }
         case RaceType.BOATRACE: {
             return {
                 id: legacy.id,
                 placeData: legacy.placeData,
-                kind: RaceType.BOATRACE,
-                grade: legacy.grade as GradeType,
+                grade: legacy.grade,
             };
-        }
-        default: {
-            throw new Error(`Unsupported race type: ${String(kind)}`);
         }
     }
 };

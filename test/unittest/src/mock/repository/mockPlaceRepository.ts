@@ -14,6 +14,16 @@ export const mockPlaceRepository = (): jest.Mocked<IPlaceRepository> => {
                     );
                 },
             ),
+        fetchPlaceEntityListV2: jest
+            .fn()
+            .mockImplementation(
+                async (searchFilter: SearchPlaceFilterEntity) => {
+                    const { raceTypeList } = searchFilter;
+                    return raceTypeList.map((raceType) =>
+                        basePlaceEntity(raceType),
+                    );
+                },
+            ),
         upsertPlaceEntityList: jest.fn().mockImplementation(),
     };
 };
