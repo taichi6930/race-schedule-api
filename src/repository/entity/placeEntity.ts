@@ -11,7 +11,7 @@ import {
 /**
  * Repository層のEntity 開催場所データ
  */
-export class PlaceEntity {
+export class OldPlaceEntity {
     /**
      * コンストラクタ
      * @param id - ID
@@ -46,7 +46,7 @@ export class PlaceEntity {
         placeData: PlaceData,
         heldDayData: HeldDayData | undefined,
         grade: GradeType | undefined,
-    ): PlaceEntity {
+    ): OldPlaceEntity {
         try {
             // placeData.raceType が JRA の場合, heldDayDataがundefinedの時はエラー
             // JRAの場合はheldDayDataが必須、JRA以外の場合はheldDayDataは不要
@@ -70,7 +70,7 @@ export class PlaceEntity {
                 throw new Error(`Grade is incorrect`);
             }
 
-            return new PlaceEntity(
+            return new OldPlaceEntity(
                 validateId(IdType.PLACE, placeData.raceType, id),
                 placeData,
                 heldDayData,
@@ -99,8 +99,8 @@ export class PlaceEntity {
         placeData: PlaceData,
         heldDayData: HeldDayData | undefined,
         grade: GradeType | undefined,
-    ): PlaceEntity {
-        return PlaceEntity.create(
+    ): OldPlaceEntity {
+        return OldPlaceEntity.create(
             generateId(IdType.PLACE, {
                 raceType: placeData.raceType,
                 dateTime: placeData.dateTime,
@@ -150,8 +150,8 @@ export class PlaceEntity {
      * データのコピー
      * @param partial - 上書きする部分データ
      */
-    public copy(partial: Partial<PlaceEntity> = {}): PlaceEntity {
-        return PlaceEntity.create(
+    public copy(partial: Partial<OldPlaceEntity> = {}): OldPlaceEntity {
+        return OldPlaceEntity.create(
             partial.id ?? this.id,
             partial.placeData ?? this.placeData,
             partial.heldDayData ?? this._heldDayData,

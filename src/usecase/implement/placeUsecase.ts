@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
-import { PlaceEntity } from '../../repository/entity/placeEntity';
+import { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceService } from '../../service/interface/IPlaceService';
 import { CommonParameter } from '../../utility/commonParameter';
 import { DataLocation } from '../../utility/dataType';
@@ -19,7 +19,7 @@ export class PlaceUseCase implements IPlaceUseCase {
     public async fetchPlaceEntityList(
         commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<OldPlaceEntity[]> {
         return this.placeService.fetchPlaceEntityList(
             commonParameter,
             searchPlaceFilter,
@@ -32,7 +32,7 @@ export class PlaceUseCase implements IPlaceUseCase {
         commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
     ): Promise<void> {
-        const entityList: PlaceEntity[] =
+        const entityList: OldPlaceEntity[] =
             await this.placeService.fetchPlaceEntityList(
                 commonParameter,
                 searchPlaceFilter,

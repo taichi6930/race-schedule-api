@@ -28,7 +28,7 @@ import { validateRaceDistance } from '../../utility/validateAndType/raceDistance
 import { RaceStage, StageMap } from '../../utility/validateAndType/raceStage';
 import { RaceSurfaceType } from '../../utility/validateAndType/raceSurfaceType';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
-import { PlaceEntity } from '../entity/placeEntity';
+import { OldPlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -49,7 +49,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
     public async fetchRaceEntityList(
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
-        placeEntityList?: PlaceEntity[],
+        placeEntityList?: OldPlaceEntity[],
     ): Promise<RaceEntity[]> {
         const raceEntityList: RaceEntity[] = [];
         if (!placeEntityList) return raceEntityList;
@@ -111,7 +111,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForJra(
-        placeEntity: PlaceEntity,
+        placeEntity: OldPlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractRaceGrade = (
             raceSurfaceType: RaceSurfaceType,
@@ -349,7 +349,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForNar(
-        placeEntity: PlaceEntity,
+        placeEntity: OldPlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractDistance = (race: string[]): number => {
             return (
@@ -529,7 +529,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForOverseas(
-        placeEntity: PlaceEntity,
+        placeEntity: OldPlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractSurfaceType = (race: string[]): RaceSurfaceType => {
             const typeList = ['芝', 'ダート', '障害', 'AW'];
@@ -703,7 +703,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForKeirin(
-        placeEntity: PlaceEntity,
+        placeEntity: OldPlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractRaceName = (
             raceSummaryInfoChild: string,
@@ -914,7 +914,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForAutorace(
-        placeEntity: PlaceEntity,
+        placeEntity: OldPlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractRaceName = (
             raceSummaryInfoChild: string,
@@ -1064,7 +1064,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForBoatrace(
-        placeEntity: PlaceEntity,
+        placeEntity: OldPlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractRaceStage = (
             raceSummaryInfoChild: string,

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
-import { PlaceEntity } from '../../repository/entity/placeEntity';
+import { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { CommonParameter } from '../../utility/commonParameter';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
@@ -22,7 +22,7 @@ export class PlaceService implements IPlaceService {
         commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
         dataLocation: DataLocationType,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<OldPlaceEntity[]> {
         const repository =
             dataLocation === DataLocation.Storage
                 ? this.repositoryFromStorage
@@ -36,7 +36,7 @@ export class PlaceService implements IPlaceService {
     @Logger
     public async upsertPlaceEntityList(
         commonParameter: CommonParameter,
-        entityList: PlaceEntity[],
+        entityList: OldPlaceEntity[],
     ): Promise<void> {
         await this.repositoryFromStorage.upsertPlaceEntityList(
             commonParameter,

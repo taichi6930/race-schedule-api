@@ -1,12 +1,12 @@
 import type { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
-import type { PlaceEntity } from '../../repository/entity/placeEntity';
+import type { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import type { CommonParameter } from '../../utility/commonParameter';
 
 export interface IPlaceUseCase {
     fetchPlaceEntityList: (
         commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
-    ) => Promise<PlaceEntity[]>;
+    ) => Promise<OldPlaceEntity[]>;
 
     upsertPlaceEntityList: (
         commonParameter: CommonParameter,

@@ -1,5 +1,5 @@
 import type { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
-import type { PlaceEntity } from '../../repository/entity/placeEntity';
+import type { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import type { CommonParameter } from '../../utility/commonParameter';
 import type { DataLocationType } from '../../utility/dataType';
 
@@ -8,10 +8,10 @@ export interface IPlaceService {
         commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
         dataLocation: DataLocationType,
-    ) => Promise<PlaceEntity[]>;
+    ) => Promise<OldPlaceEntity[]>;
 
     upsertPlaceEntityList: (
         commonParameter: CommonParameter,
-        entityList: PlaceEntity[],
+        entityList: OldPlaceEntity[],
     ) => Promise<void>;
 }

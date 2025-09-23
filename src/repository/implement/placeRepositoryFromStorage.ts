@@ -8,7 +8,7 @@ import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
-import { PlaceEntity } from '../entity/placeEntity';
+import { OldPlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
@@ -21,7 +21,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
     public async fetchPlaceEntityList(
         commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<OldPlaceEntity[]> {
         const { env } = commonParameter;
         const { raceTypeList, startDate, finishDate, locationList } =
             searchPlaceFilter;
@@ -68,7 +68,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
             queryParams,
         );
         return results
-            .map((row: any): PlaceEntity | undefined => {
+            .map((row: any): OldPlaceEntity | undefined => {
                 try {
                     const dateJST = new Date(new Date(row.date_time));
                     const heldDayData =
@@ -79,7 +79,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                               )
                             : undefined;
                     const grade = row.grade ?? undefined;
-                    return PlaceEntity.create(
+                    return OldPlaceEntity.create(
                         row.id,
                         PlaceData.create(
                             row.race_type,
@@ -94,13 +94,13 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     return undefined;
                 }
             })
-            .filter((entity): entity is PlaceEntity => entity !== undefined);
+            .filter((entity): entity is OldPlaceEntity => entity !== undefined);
     }
 
     @Logger
     public async upsertPlaceEntityList(
         commonParameter: CommonParameter,
-        entityList: PlaceEntity[],
+        entityList: OldPlaceEntity[],
     ): Promise<void> {
         const { env } = commonParameter;
 

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
-import { PlaceEntity } from '../../repository/entity/placeEntity';
+import { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { CommonParameter } from '../../utility/commonParameter';
@@ -24,7 +24,7 @@ export class RaceService implements IRaceService {
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
         dataLocation: DataLocationType,
-        placeEntityList?: PlaceEntity[],
+        placeEntityList?: OldPlaceEntity[],
     ): Promise<RaceEntity[]> {
         switch (dataLocation) {
             case DataLocation.Storage: {

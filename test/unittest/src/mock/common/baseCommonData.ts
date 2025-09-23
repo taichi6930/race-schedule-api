@@ -4,7 +4,7 @@ import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceCondi
 import { PlaceData } from '../../../../../src/domain/placeData';
 import { RaceData } from '../../../../../src/domain/raceData';
 import { RacePlayerData } from '../../../../../src/domain/racePlayerData';
-import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
+import { OldPlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { PlayerEntity } from '../../../../../src/repository/entity/playerEntity';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { IS_SHORT_TEST } from '../../../../../src/utility/env';
@@ -40,8 +40,8 @@ export const baseRacePlayerDataList = (
 export const basePlaceData = (raceType: RaceType): PlaceData =>
     PlaceData.create(raceType, basePlaceDateTime, defaultLocation[raceType]);
 
-export const basePlaceEntity = (raceType: RaceType): PlaceEntity =>
-    PlaceEntity.createWithoutId(
+export const basePlaceEntity = (raceType: RaceType): OldPlaceEntity =>
+    OldPlaceEntity.createWithoutId(
         basePlaceData(raceType),
         defaultHeldDayData[raceType],
         defaultPlaceGrade[raceType],
