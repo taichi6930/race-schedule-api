@@ -126,6 +126,30 @@ describe('processJraRaceName', () => {
 });
 
 describe('processNarRaceName', () => {
+    it('should process race name for 西日本ダービー', () => {
+        const raceInfo = {
+            name: '西日本ダービー',
+            place: '園田',
+            grade: '地方重賞',
+            date: new Date('2023-07-30'),
+            surfaceType: 'ダート',
+            distance: 2000,
+        };
+        expect(processNarRaceName(raceInfo)).toBe('西日本ダービー');
+    });
+
+    it('should process race name for 西日本3歳優駿', () => {
+        const raceInfo = {
+            name: '西日本3歳優駿',
+            place: '園田',
+            grade: '地方重賞',
+            date: new Date('2023-07-30'),
+            surfaceType: 'ダート',
+            distance: 2000,
+        };
+        expect(processNarRaceName(raceInfo)).toBe('西日本3歳優駿');
+    });
+
     it('should process race name for 帯広ば', () => {
         const raceInfo = {
             name: '3歳以上オープン',
