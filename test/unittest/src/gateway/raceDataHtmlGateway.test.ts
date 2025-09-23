@@ -85,6 +85,16 @@ describe('RaceDataHtmlGateway', () => {
                 gateway.getRaceDataHtml(raceType, testDate, place, number),
             ).rejects.toThrow('HTMLの取得に失敗しました');
         });
+
+        it('fetchがError以外でrejectした場合、フォールバックメッセージがスローされること', async () => {
+            const testDate = new Date('2024-11-02');
+            // 文字列でrejectするケースを模擬
+            fetchMock.mockRejectedValue('some non-error reason');
+
+            await expect(
+                gateway.getRaceDataHtml(raceType, testDate, place, number),
+            ).rejects.toThrow('HTMLの取得に失敗しました');
+        });
     }
 
     for (const { descriptions, raceType, place, number, expectedMessage } of [

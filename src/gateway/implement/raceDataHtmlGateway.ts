@@ -30,8 +30,11 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
             const htmlText = await html.text();
             return htmlText;
         } catch (error: unknown) {
-            console.error('HTML取得失敗:', error);
-            throw new Error('HTMLの取得に失敗しました');
+            throw new TypeError(
+                error instanceof Error
+                    ? error.message
+                    : 'HTMLの取得に失敗しました',
+            );
         }
     }
 }
