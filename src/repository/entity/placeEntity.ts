@@ -205,7 +205,7 @@ interface BoatracePlaceEntity {
 /**
  * Repository層のEntity レース開催場所データ（raceTypeごとに型を分けたもの）
  */
-export type PlaceEntityTagged =
+export type PlaceEntity =
     | JraPlaceEntity
     | NarPlaceEntity
     | OverseasPlaceEntity
