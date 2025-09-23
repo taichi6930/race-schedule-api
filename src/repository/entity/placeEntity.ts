@@ -8,15 +8,14 @@ import {
     IdType,
     validateId,
 } from '../../utility/validateAndType/idUtility';
-
 /**
- * Repository層のEntity レース開催場所データ
+ * Repository層のEntity 開催場所データ
  */
 export class PlaceEntity {
     /**
      * コンストラクタ
      * @param id - ID
-     * @param placeData - レース開催場所データ
+     * @param placeData - 開催場所データ
      * @param heldDayData - 開催日データ
      * @param updateDate - 更新日時
      * @remarks
@@ -160,3 +159,56 @@ export class PlaceEntity {
         );
     }
 }
+
+interface JraPlaceEntity {
+    id: PublicGamblingId;
+    placeData: PlaceData;
+    heldDayData: HeldDayData;
+    grade: never;
+}
+
+interface NarPlaceEntity {
+    id: PublicGamblingId;
+    placeData: PlaceData;
+    heldDayData: never;
+    grade: never;
+}
+
+interface OverseasPlaceEntity {
+    id: PublicGamblingId;
+    placeData: PlaceData;
+    heldDayData: never;
+    grade: never;
+}
+
+interface KeirinPlaceEntity {
+    id: PublicGamblingId;
+    placeData: PlaceData;
+    heldDayData: never;
+    grade: GradeType;
+}
+
+interface AutoracePlaceEntity {
+    id: PublicGamblingId;
+    placeData: PlaceData;
+    heldDayData: never;
+    grade: GradeType;
+}
+
+interface BoatracePlaceEntity {
+    id: PublicGamblingId;
+    placeData: PlaceData;
+    heldDayData: never;
+    grade: GradeType;
+}
+
+/**
+ * Repository層のEntity レース開催場所データ（raceTypeごとに型を分けたもの）
+ */
+export type PlaceEntityTagged =
+    | JraPlaceEntity
+    | NarPlaceEntity
+    | OverseasPlaceEntity
+    | KeirinPlaceEntity
+    | AutoracePlaceEntity
+    | BoatracePlaceEntity;
