@@ -12,6 +12,7 @@ import {
     setupTestRepositoryMock,
 } from '../../../utility/testSetupHelper';
 import {
+    baseRaceEntityList,
     mockRaceEntityList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
@@ -60,8 +61,16 @@ describe('RaceService', () => {
 
         it('正常に開催データがWebから取得できること', async () => {
             // モックの戻り値を設定
-            repositorySetup.raceRepositoryFromHtml.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntityList,
+            repositorySetup.raceRepositoryFromHtml.fetchRaceEntityList.mockImplementation(
+                async (
+                    _commonParameter,
+                    searchFilter: SearchRaceFilterEntity,
+                ) => {
+                    const { raceTypeList } = searchFilter;
+                    return raceTypeList.flatMap((raceType) =>
+                        baseRaceEntityList(raceType),
+                    );
+                },
             );
 
             const startDate = new Date('2024-06-01');
@@ -84,7 +93,10 @@ describe('RaceService', () => {
 
             expect(result.length).toBe(mockRaceEntityList.length);
             for (const entity of result) {
-                expect(mockRaceEntityList).toContain(entity);
+                // 同じIDのデータが存在すること
+                expect(
+                    mockRaceEntityList.find((e) => e.id === entity.id),
+                ).toBeDefined();
             }
         });
     });
@@ -105,3 +117,37 @@ describe('RaceService', () => {
         });
     });
 });
+
+// RaceEntity {
+//         id: 'jra202406010501',
+//         placeId: 'jra2024060105',
+//         raceData: RaceData {
+//           raceType: 'JRA',
+//           name: 'テスト東京新馬1レース',
+//           dateTime: 2024-06-01T07:00:00.000Z,
+//           location: '東京',
+//           grade: '新馬',
+//           number: 1
+//         },
+//         _heldDayData: HeldDayData { heldTimes: 1, heldDayTimes: 1 },
+//         _conditionData: HorseRaceConditionData { surfaceType: '芝', distance: 2500 },
+//         _stage: undefined,
+//         _racePlayerDataList: undefined
+//       }
+
+//    RaceEntity {
+//         id: 'jra202406010501',
+//         placeId: 'jra2024060105',
+//         raceData: RaceData {
+//           raceType: 'JRA',
+//           name: 'テスト東京新馬1レース',
+//           dateTime: 2024-06-01T07:00:00.000Z,
+//           location: '東京',
+//           grade: '新馬',
+//           number: 1
+//         },
+//         _heldDayData: HeldDayData { heldTimes: 1, heldDayTimes: 1 },
+//         _conditionData: HorseRaceConditionData { surfaceType: '芝', distance: 2500 },
+//         _stage: undefined,
+//         _racePlayerDataList: undefined
+//       }

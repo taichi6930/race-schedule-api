@@ -31,7 +31,7 @@ describe('PlaceService', () => {
     });
 
     describe('fetchPlaceEntityList', () => {
-        it('正常に開催場データが取得できること', async () => {
+        it('正常に開催場データがStorageから取得できること', async () => {
             // モックの戻り値を設定
             repositorySetup.placeRepositoryFromStorage.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntityList,
@@ -51,6 +51,31 @@ describe('PlaceService', () => {
                 commonParameterMock(),
                 searchPlaceFilter,
                 DataLocation.Storage,
+            );
+
+            expect(result).toEqual(mockPlaceEntityList);
+        });
+
+        it('正常に開催場データがHTMLから取得できること', async () => {
+            // モックの戻り値を設定
+            repositorySetup.placeRepositoryFromHtml.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntityList,
+            );
+
+            const startDate = new Date('2024-06-01');
+            const finishDate = new Date('2024-06-30');
+
+            const searchPlaceFilter = new SearchPlaceFilterEntity(
+                startDate,
+                finishDate,
+                testRaceTypeListAll,
+                [],
+            );
+
+            const result = await service.fetchPlaceEntityList(
+                commonParameterMock(),
+                searchPlaceFilter,
+                DataLocation.Web,
             );
 
             expect(result).toEqual(mockPlaceEntityList);
