@@ -160,44 +160,37 @@ export class OldPlaceEntity {
     }
 }
 
-interface JraPlaceEntity {
+interface BasePlaceEntity {
     id: PublicGamblingId;
     placeData: PlaceData;
+}
+
+interface JraPlaceEntity extends BasePlaceEntity {
     heldDayData: HeldDayData;
     grade: never;
 }
 
-interface NarPlaceEntity {
-    id: PublicGamblingId;
-    placeData: PlaceData;
+interface NarPlaceEntity extends BasePlaceEntity {
     heldDayData: never;
     grade: never;
 }
 
-interface OverseasPlaceEntity {
-    id: PublicGamblingId;
-    placeData: PlaceData;
+interface OverseasPlaceEntity extends BasePlaceEntity {
     heldDayData: never;
     grade: never;
 }
 
-interface KeirinPlaceEntity {
-    id: PublicGamblingId;
-    placeData: PlaceData;
+interface KeirinPlaceEntity extends BasePlaceEntity {
     heldDayData: never;
     grade: GradeType;
 }
 
-interface AutoracePlaceEntity {
-    id: PublicGamblingId;
-    placeData: PlaceData;
+interface AutoracePlaceEntity extends BasePlaceEntity {
     heldDayData: never;
     grade: GradeType;
 }
 
-interface BoatracePlaceEntity {
-    id: PublicGamblingId;
-    placeData: PlaceData;
+interface BoatracePlaceEntity extends BasePlaceEntity {
     heldDayData: never;
     grade: GradeType;
 }
