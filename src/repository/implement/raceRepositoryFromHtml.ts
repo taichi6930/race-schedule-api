@@ -105,7 +105,6 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
             console.debug(`待機時間: ${delayedTimeMs}ms`);
             await new Promise((resolve) => setTimeout(resolve, delayedTimeMs));
             console.debug('待機時間が経ちました');
-            console.log('raceEntityList:', raceEntityList.length);
         }
         return raceEntityList;
     }
