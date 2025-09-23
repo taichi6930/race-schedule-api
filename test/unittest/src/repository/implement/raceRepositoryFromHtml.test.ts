@@ -16,6 +16,7 @@ import { clearMocks } from '../../../../utility/testSetupHelper';
 import {
     defaultHeldDayData,
     defaultPlaceGrade,
+    testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
 import { commonParameterMock } from './../../mock/common/commonParameterMock';
 
@@ -35,7 +36,7 @@ const testCases = {
             endDate: new Date('2024-05-26'),
             placeName: '東京',
             placeDate: new Date('2024-05-26'),
-            expectedLength: 24,
+            expectedLength: 12,
         },
     ],
     [RaceType.NAR]: [
@@ -106,7 +107,7 @@ const testCases = {
     ],
 };
 
-describe.each([RaceType.OVERSEAS])('RaceRepositoryFromHtml(%s)', (raceType) => {
+describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
     for (const {
         name,
         startDate,
