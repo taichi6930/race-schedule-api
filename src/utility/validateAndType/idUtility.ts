@@ -18,9 +18,9 @@ import { validateRaceNumber } from './raceNumber';
 const makeIdSchema = (
     raceType: RaceType,
     digitsAfterPrefix: number,
+    idSuffix: string,
     raceNumberSlice?: [number, number?],
     positionNumberSlice?: [number, number?],
-    idSuffix?: string,
 ): z.ZodString => {
     const lowerCaseRaceType = raceType.toLowerCase();
     let schema = z
@@ -34,7 +34,7 @@ const makeIdSchema = (
                 new RegExp(
                     `^${lowerCaseRaceType}\\d{${digitsAfterPrefix}}$`,
                 ).test(value),
-            `${lowerCaseRaceType}${idSuffix ?? ''}の形式ではありません`,
+            `${lowerCaseRaceType}${idSuffix}の形式ではありません`,
         );
 
     if (raceNumberSlice) {
@@ -208,14 +208,14 @@ export const validateId = (
             return makeIdSchema(
                 raceType,
                 10,
-                undefined,
-                undefined,
                 'PlaceId',
+                undefined,
+                undefined,
             ).parse(value);
         }
         case IdType.RACE: {
             // raceTypeの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号)
-            return makeIdSchema(raceType, 12, [-2], undefined, 'RaceId').parse(
+            return makeIdSchema(raceType, 12, 'RaceId', [-2], undefined).parse(
                 value,
             );
         }
@@ -224,9 +224,9 @@ export const validateId = (
             return makeIdSchema(
                 raceType,
                 14,
+                'RacePlayerId',
                 [-4, -2],
                 [-2],
-                'RacePlayerId',
             ).parse(value);
         }
     }
