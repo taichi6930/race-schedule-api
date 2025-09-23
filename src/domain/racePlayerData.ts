@@ -11,24 +11,6 @@ import { validatePositionNumber } from '../utility/validateAndType/positionNumbe
  */
 export class RacePlayerData {
     /**
-     * レースの種類
-     * @type {RaceType}
-     */
-    public readonly raceType: RaceType;
-
-    /**
-     * 枠番
-     * @type {PositionNumber}
-     */
-    public readonly positionNumber: PositionNumber;
-
-    /**
-     * 選手番号
-     * @type {PlayerNumber}
-     */
-    public readonly playerNumber: PlayerNumber;
-
-    /**
      * コンストラクタ
      * @param raceType - レース種別
      * @param positionNumber - 枠番
@@ -37,14 +19,10 @@ export class RacePlayerData {
      * レースの選手データを生成する
      */
     private constructor(
-        raceType: RaceType,
-        positionNumber: PositionNumber,
-        playerNumber: PlayerNumber,
-    ) {
-        this.raceType = raceType;
-        this.positionNumber = positionNumber;
-        this.playerNumber = playerNumber;
-    }
+        public readonly raceType: RaceType,
+        public readonly positionNumber: PositionNumber,
+        public readonly playerNumber: PlayerNumber,
+    ) {}
 
     /**
      * インスタンス生成メソッド

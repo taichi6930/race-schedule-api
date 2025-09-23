@@ -4,13 +4,16 @@ import type { CloudFlareEnv } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import type { IDBGateway } from '../interface/iDbGateway';
 
+/**
+ * D1データベースにアクセスするGateway
+ */
 @injectable()
 export class DBGateway implements IDBGateway {
     /**
-     * Execute a query and return all rows.
-     * @param env - CloudFlare env that contains D1 database
-     * @param sql - SQL string
-     * @param params - bind parameters
+     * クエリを実行して全ての行を返します。
+     * @param env - D1データベースを含むCloudFlareのenv
+     * @param sql - SQL文字列
+     * @param params - バインドパラメータ
      */
     @Logger
     public async queryAll(
@@ -24,10 +27,10 @@ export class DBGateway implements IDBGateway {
     }
 
     /**
-     * Execute a statement that doesn't return rows.
-     * @param env - CloudFlare env that contains D1 database
-     * @param sql - SQL string
-     * @param params - bind parameters
+     * 行を返さないステートメントを実行します。
+     * @param env - D1データベースを含むCloudFlareのenv
+     * @param sql - SQL文字列
+     * @param params - バインドパラメータ
      */
     @Logger
     public async run(
