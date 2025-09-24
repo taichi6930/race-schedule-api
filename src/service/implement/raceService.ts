@@ -26,18 +26,17 @@ export class RaceService implements IRaceService {
         dataLocation: DataLocationType,
         placeEntityList?: PlaceEntity[],
     ): Promise<RaceEntity[]> {
+        const raceEntityList: RaceEntity[] = [];
         switch (dataLocation) {
             case DataLocation.Storage: {
                 const repository = this.repositoryFromStorage;
-                const raceEntityList = await repository.fetchRaceEntityList(
+                return repository.fetchRaceEntityList(
                     commonParameter,
                     searchRaceFilter,
                     placeEntityList,
                 );
-                return raceEntityList;
             }
             case DataLocation.Web: {
-                const raceEntityList: RaceEntity[] = [];
                 for (const raceType of searchRaceFilter.raceTypeList) {
                     const repository = this.repositoryFromHtml;
                     const fetchedRaceEntityList =
@@ -54,11 +53,10 @@ export class RaceService implements IRaceService {
                             placeEntityList,
                         );
                     raceEntityList.push(...fetchedRaceEntityList);
-                    return raceEntityList;
                 }
             }
         }
-        return [];
+        return raceEntityList;
     }
 
     @Logger
