@@ -116,15 +116,6 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
         placeDate,
         expectedLength,
     } of testCases[raceType]) {
-        console.log(
-            name,
-            raceType,
-            startDate,
-            endDate,
-            placeName,
-            placeDate,
-            expectedLength,
-        );
         describe(name, () => {
             let raceDataHtmlGateway: IRaceDataHtmlGateway;
             let repository: IRaceRepository;

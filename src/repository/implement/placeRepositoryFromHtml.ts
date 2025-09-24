@@ -577,8 +577,8 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         commonParameter: CommonParameter,
         placeEntityList: PlaceEntity[],
     ): Promise<void> {
-        console.log(commonParameter, placeEntityList);
+        void commonParameter;
+        void placeEntityList;
         await new Promise((resolve) => setTimeout(resolve, 0));
-        throw new Error('Method not implemented.');
     }
 }
