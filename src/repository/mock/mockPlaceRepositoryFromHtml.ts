@@ -6,6 +6,7 @@ import {
 import { PlaceData } from '../../domain/placeData';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
+import { UpsertResult } from '../../utility/upsertResult';
 import type { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -39,7 +40,6 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
             }
             currentDate.setDate(currentDate.getDate() + 1);
         }
-        await new Promise((resolve) => setTimeout(resolve, 0));
         return placeEntityList;
     }
 
@@ -54,10 +54,13 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
     public async upsertPlaceEntityList(
         _commonParameter: CommonParameter,
         _placeEntityList: PlaceEntity[],
-    ): Promise<void> {
+    ): Promise<UpsertResult> {
         void _commonParameter;
         void _placeEntityList;
-        await new Promise((resolve) => setTimeout(resolve, 0));
-        throw new Error('Method not implemented.');
+        return {
+            successCount: 0,
+            failureCount: 0,
+            failures: [],
+        };
     }
 }
