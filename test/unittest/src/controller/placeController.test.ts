@@ -2,17 +2,17 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import { PlaceController } from '../../../../src/controller/placeController';
 import { RaceType } from '../../../../src/utility/raceType';
 import type { TestUsecaseSetup } from '../../../utility/testSetupHelper';
 import {
     clearMocks,
     setupTestUsecaseMock,
 } from '../../../utility/testSetupHelper';
-import { mockRaceEntityList } from '../mock/common/baseCommonData';
+import { mockPlaceEntityList } from '../mock/common/baseCommonData';
 import { commonParameterMock } from '../mock/common/commonParameterMock';
-import { RaceController } from './../../../../src/controller/raceController';
 /*
-ディシジョンテーブル: getRaceEntityList
+ディシジョンテーブル: getPlaceEntityList
 
 | No. | searchParams | parseQueryToFilter | usecase.fetchRaceEntityList | 期待レスポンス内容         | ステータス |
 |-----|--------------|--------------------|----------------------------|----------------------------|----------|
@@ -21,7 +21,7 @@ import { RaceController } from './../../../../src/controller/raceController';
 | 3   | 正常         | ValidationError    | -                          | Bad Request: メッセージ    | 400      |
 | 4   | 不正         | ValidationError    | -                          | Bad Request: メッセージ    | 400      |
 
-ディシジョンテーブル: postUpsertRace
+ディシジョンテーブル: postUpsertPlace
 
 | No. | request.body | parseBodyToFilter | usecase.upsertRaceEntityList | 期待レスポンス内容         | ステータス |
 |-----|--------------|-------------------|-----------------------------|----------------------------|----------|
@@ -32,20 +32,20 @@ import { RaceController } from './../../../../src/controller/raceController';
 | 5   | 不正         | ValidationError   | -                           | Bad Request: メッセージ    | 400      |
 */
 
-describe('RaceControllerのテスト', () => {
-    let controller: RaceController;
+describe('PlaceControllerのテスト', () => {
+    let controller: PlaceController;
     let usecaseSetUp: TestUsecaseSetup;
 
     beforeEach(() => {
         usecaseSetUp = setupTestUsecaseMock();
-        controller = container.resolve(RaceController);
+        controller = container.resolve(PlaceController);
     });
 
     afterEach(() => {
         clearMocks();
     });
 
-    describe('getRaceEntityList', () => {
+    describe('getPlaceEntityList', () => {
         const mockSearchParams = new URLSearchParams({
             startDate: '2024-06-01',
             finishDate: '2024-06-30',
@@ -53,42 +53,42 @@ describe('RaceControllerのテスト', () => {
         });
 
         it('正常に開催データが取得でき、レスポンスが返却されること', async () => {
-            usecaseSetUp.raceUsecase.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntityList,
+            usecaseSetUp.placeUsecase.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntityList,
             );
 
-            const response = await controller.getRaceEntityList(
+            const response = await controller.getPlaceEntityList(
                 commonParameterMock(),
                 mockSearchParams,
             );
 
             expect(
-                usecaseSetUp.raceUsecase.fetchRaceEntityList,
+                usecaseSetUp.placeUsecase.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(response.status).toBe(200);
             const responseBody = await response.json();
-            expect(responseBody.count).toEqual(mockRaceEntityList.length);
+            expect(responseBody.count).toEqual(mockPlaceEntityList.length);
         });
 
         it('usecaseで例外が発生した場合、500エラーが返却されること', async () => {
-            usecaseSetUp.raceUsecase.fetchRaceEntityList.mockRejectedValue(
+            usecaseSetUp.placeUsecase.fetchPlaceEntityList.mockRejectedValue(
                 new Error('Database error'),
             );
 
-            const response = await controller.getRaceEntityList(
+            const response = await controller.getPlaceEntityList(
                 commonParameterMock(),
                 mockSearchParams,
             );
 
             expect(
-                usecaseSetUp.raceUsecase.fetchRaceEntityList,
+                usecaseSetUp.placeUsecase.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(response.status).toBe(500);
         });
 
         it('parseQueryToFilterでValidationErrorが発生した場合、400エラーが返却されること', async () => {
-            usecaseSetUp.raceUsecase.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntityList,
+            usecaseSetUp.placeUsecase.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntityList,
             );
 
             // 不正なパラメータを設定
@@ -98,27 +98,27 @@ describe('RaceControllerのテスト', () => {
                 raceType: RaceType.JRA,
             });
 
-            const response = await controller.getRaceEntityList(
+            const response = await controller.getPlaceEntityList(
                 commonParameterMock(),
                 invalidSearchParams,
             );
 
             expect(
-                usecaseSetUp.raceUsecase.fetchRaceEntityList,
+                usecaseSetUp.placeUsecase.fetchPlaceEntityList,
             ).not.toHaveBeenCalled();
             expect(response.status).toBe(400);
         });
     });
 
-    describe('postUpsertRace', () => {
+    describe('postUpsertPlace', () => {
         const validRequestBody = {
             startDate: '2024-06-01',
             finishDate: '2024-06-30',
             raceType: [RaceType.JRA],
         };
 
-        it('正常にレースデータが登録・更新され、レスポンスが返却されること', async () => {
-            usecaseSetUp.raceUsecase.upsertRaceEntityList.mockResolvedValue({
+        it('正常に開催場データが登録・更新され、レスポンスが返却されること', async () => {
+            usecaseSetUp.placeUsecase.upsertPlaceEntityList.mockResolvedValue({
                 successCount: 10,
                 failureCount: 0,
                 failures: [],
@@ -130,13 +130,13 @@ describe('RaceControllerのテスト', () => {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            const response = await controller.postUpsertRace(
+            const response = await controller.postUpsertPlace(
                 mockRequest,
                 commonParameterMock(),
             );
 
             expect(
-                usecaseSetUp.raceUsecase.upsertRaceEntityList,
+                usecaseSetUp.placeUsecase.upsertPlaceEntityList,
             ).toHaveBeenCalled();
             expect(response.status).toBe(200);
             const responseBody = await response.json();
@@ -145,7 +145,7 @@ describe('RaceControllerのテスト', () => {
         });
 
         it('usecaseで例外が発生した場合、500エラーが返却されること', async () => {
-            usecaseSetUp.raceUsecase.upsertRaceEntityList.mockRejectedValue(
+            usecaseSetUp.placeUsecase.upsertPlaceEntityList.mockRejectedValue(
                 new Error('Database error'),
             );
 
@@ -155,13 +155,13 @@ describe('RaceControllerのテスト', () => {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            const response = await controller.postUpsertRace(
+            const response = await controller.postUpsertPlace(
                 mockRequest,
                 commonParameterMock(),
             );
 
             expect(
-                usecaseSetUp.raceUsecase.upsertRaceEntityList,
+                usecaseSetUp.placeUsecase.upsertPlaceEntityList,
             ).toHaveBeenCalled();
             expect(response.status).toBe(500);
         });
@@ -186,7 +186,7 @@ describe('RaceControllerのテスト', () => {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            const response = await controller.postUpsertRace(
+            const response = await controller.postUpsertPlace(
                 mockRequest,
                 commonParameterMock(),
             );

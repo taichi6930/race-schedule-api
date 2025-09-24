@@ -415,24 +415,6 @@ export const RaceGradeAndStageList: {
         description: '特一般レース。負け戦。',
     },
     {
-        grade: ['FⅠ'],
-        stage: 'S級特一般',
-        stageByWebSite: ['Ｓ級特一般'],
-        raceType: RaceType.KEIRIN,
-        priority: 5,
-        description:
-            'FⅠの特別なレース。準決勝のシード選手が出場する特別なレース。',
-    },
-    {
-        grade: ['FⅠ'],
-        stage: 'S級優秀',
-        stageByWebSite: ['Ｓ級優秀'],
-        raceType: RaceType.KEIRIN,
-        priority: 6,
-        description:
-            'FⅠの優秀レース。準決勝のシード選手が出場する特別なレース。',
-    },
-    {
         grade: ['GⅠ', 'GⅡ', 'GⅢ', 'FⅠ'],
         stage: 'S級一般',
         stageByWebSite: ['Ｓ級一般'],

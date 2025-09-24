@@ -121,7 +121,7 @@ export class CalendarUseCase implements ICalendarUseCase {
                             raceGradeList.stage === raceEntity.stage
                         );
                     })?.priority ?? 0;
-                return racePriority >= 6;
+                return racePriority >= 4;
             });
 
         const filteredRaceEntityList: RaceEntity[] = [

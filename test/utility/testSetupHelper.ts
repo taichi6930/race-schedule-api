@@ -10,6 +10,8 @@ import type { ICalendarService } from '../../src/service/interface/ICalendarServ
 import type { IPlaceService } from '../../src/service/interface/IPlaceService';
 import type { IPlayerService } from '../../src/service/interface/IPlayerService';
 import type { IRaceService } from '../../src/service/interface/IRaceService';
+import type { IPlaceUseCase } from '../../src/usecase/interface/IPlaceUsecase';
+import type { IRaceUseCase } from '../../src/usecase/interface/IRaceUsecase';
 import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
 import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
@@ -18,6 +20,8 @@ import { calendarServiceMock } from '../unittest/src/mock/service/calendarServic
 import { placeServiceMock } from '../unittest/src/mock/service/placeServiceMock';
 import { playerServiceMock } from '../unittest/src/mock/service/playerServiceMock';
 import { raceServiceMock } from '../unittest/src/mock/service/raceServiceMock';
+import { placeUsecaseMock } from '../unittest/src/mock/usecase/placeUsecaseMock';
+import { raceUsecaseMock } from '../unittest/src/mock/usecase/raceUsecaseMock';
 
 /**
  * afterEach処理の共通化
@@ -49,6 +53,11 @@ export interface TestServiceSetup {
     raceService: jest.Mocked<IRaceService>;
     placeService: jest.Mocked<IPlaceService>;
     playerService: jest.Mocked<IPlayerService>;
+}
+
+export interface TestUsecaseSetup {
+    placeUsecase: jest.Mocked<IPlaceUseCase>;
+    raceUsecase: jest.Mocked<IRaceUseCase>;
 }
 
 /**
@@ -123,5 +132,22 @@ export const setupTestServiceMock = (): TestServiceSetup => {
         raceService,
         placeService,
         playerService,
+    };
+};
+
+/**
+ * テスト用のセットアップ（UseCaseクラス）
+ * @returns セットアップ済みのサービス
+ */
+export const setupTestUsecaseMock = (): TestUsecaseSetup => {
+    const placeUsecase = placeUsecaseMock();
+    container.registerInstance<IPlaceUseCase>('PlaceUsecase', placeUsecase);
+
+    const raceUsecase = raceUsecaseMock();
+    container.registerInstance<IRaceUseCase>('RaceUsecase', raceUsecase);
+
+    return {
+        raceUsecase,
+        placeUsecase,
     };
 };
