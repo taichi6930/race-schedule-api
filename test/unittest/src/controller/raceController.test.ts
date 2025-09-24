@@ -165,5 +165,36 @@ describe('RaceControllerのテスト', () => {
             ).toHaveBeenCalled();
             expect(response.status).toBe(500);
         });
+
+        it('parseQueryToFilterでValidationErrorが発生した場合、400エラーが返却されること', async () => {
+            usecaseSetUp.raceUsecase.upsertRaceEntityList.mockResolvedValue({
+                successCount: 10,
+                failureCount: 0,
+                failures: [],
+            });
+
+            // 不正なリクエストボディを設定
+            const invalidRequestBody = {
+                startDate: 'invalid-date',
+                finishDate: '2024-06-30',
+                raceType: [RaceType.JRA],
+            };
+
+            const mockRequest = new Request('http://localhost/api/race', {
+                method: 'POST',
+                body: JSON.stringify(invalidRequestBody),
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            const response = await controller.postUpsertRace(
+                mockRequest,
+                commonParameterMock(),
+            );
+
+            expect(
+                usecaseSetUp.raceUsecase.upsertRaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(response.status).toBe(400);
+        });
     });
 });
