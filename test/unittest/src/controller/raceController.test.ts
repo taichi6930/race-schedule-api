@@ -1,3 +1,16 @@
+import 'reflect-metadata';
+
+import { container } from 'tsyringe';
+
+import { RaceType } from '../../../../src/utility/raceType';
+import type { TestUsecaseSetup } from '../../../utility/testSetupHelper';
+import {
+    clearMocks,
+    setupTestUsecaseMock,
+} from '../../../utility/testSetupHelper';
+import { mockRaceEntityList } from '../mock/common/baseCommonData';
+import { commonParameterMock } from '../mock/common/commonParameterMock';
+import { RaceController } from './../../../../src/controller/raceController';
 /*
 ディシジョンテーブル: getRaceEntityList
 
@@ -6,8 +19,7 @@
 | 1   | 正常         | 成功               | 成功                       | races配列返却              | 200      |
 | 2   | 正常         | 成功               | 例外                       | Internal Server Error      | 500      |
 | 3   | 正常         | ValidationError    | -                          | Bad Request: メッセージ    | 400      |
-| 4   | 正常         | その他例外         | -                          | Internal Server Error      | 500      |
-| 5   | 不正         | ValidationError    | -                          | Bad Request: メッセージ    | 400      |
+| 4   | 不正         | ValidationError    | -                          | Bad Request: メッセージ    | 400      |
 
 ディシジョンテーブル: postUpsertRace
 
@@ -20,6 +32,138 @@
 | 5   | 不正         | ValidationError   | -                           | Bad Request: メッセージ    | 400      |
 */
 
-it('ダミーテスト', () => {
-    expect(true).toBe(true);
+describe('RaceControllerのテスト', () => {
+    let controller: RaceController;
+    let usecaseSetUp: TestUsecaseSetup;
+
+    beforeEach(() => {
+        usecaseSetUp = setupTestUsecaseMock();
+        controller = container.resolve(RaceController);
+    });
+
+    afterEach(() => {
+        clearMocks();
+    });
+
+    describe('getRaceEntityList', () => {
+        const mockSearchParams = new URLSearchParams({
+            startDate: '2024-06-01',
+            finishDate: '2024-06-30',
+            raceType: RaceType.JRA,
+        });
+
+        it('正常に開催データが取得でき、レスポンスが返却されること', async () => {
+            usecaseSetUp.raceUsecase.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
+            );
+
+            const response = await controller.getRaceEntityList(
+                commonParameterMock(),
+                mockSearchParams,
+            );
+
+            expect(
+                usecaseSetUp.raceUsecase.fetchRaceEntityList,
+            ).toHaveBeenCalled();
+            expect(response.status).toBe(200);
+            const responseBody = await response.json();
+            expect(responseBody.count).toEqual(mockRaceEntityList.length);
+        });
+
+        it('usecaseで例外が発生した場合、500エラーが返却されること', async () => {
+            usecaseSetUp.raceUsecase.fetchRaceEntityList.mockRejectedValue(
+                new Error('Database error'),
+            );
+
+            const response = await controller.getRaceEntityList(
+                commonParameterMock(),
+                mockSearchParams,
+            );
+
+            expect(
+                usecaseSetUp.raceUsecase.fetchRaceEntityList,
+            ).toHaveBeenCalled();
+            expect(response.status).toBe(500);
+        });
+
+        it('parseQueryToFilterでValidationErrorが発生した場合、400エラーが返却されること', async () => {
+            usecaseSetUp.raceUsecase.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
+            );
+
+            // 不正なパラメータを設定
+            const invalidSearchParams = new URLSearchParams({
+                startDate: 'invalid-date',
+                finishDate: '2024-06-30',
+                raceType: RaceType.JRA,
+            });
+
+            const response = await controller.getRaceEntityList(
+                commonParameterMock(),
+                invalidSearchParams,
+            );
+
+            expect(
+                usecaseSetUp.raceUsecase.fetchRaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(response.status).toBe(400);
+        });
+    });
+
+    describe('postUpsertRace', () => {
+        const validRequestBody = {
+            startDate: '2024-06-01',
+            finishDate: '2024-06-30',
+            raceType: [RaceType.JRA],
+        };
+
+        it('正常にレースデータが登録・更新され、レスポンスが返却されること', async () => {
+            usecaseSetUp.raceUsecase.upsertRaceEntityList.mockResolvedValue({
+                successCount: 10,
+                failureCount: 0,
+                failures: [],
+            });
+
+            const mockRequest = new Request('http://localhost/api/race', {
+                method: 'POST',
+                body: JSON.stringify(validRequestBody),
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            const response = await controller.postUpsertRace(
+                mockRequest,
+                commonParameterMock(),
+            );
+
+            expect(
+                usecaseSetUp.raceUsecase.upsertRaceEntityList,
+            ).toHaveBeenCalled();
+            expect(response.status).toBe(200);
+            const responseBody = await response.json();
+            expect(responseBody.successCount).toBe(10);
+            expect(responseBody.failureCount).toBe(0);
+        });
+
+        it('usecaseで例外が発生した場合、500エラーが返却されること', async () => {
+            usecaseSetUp.raceUsecase.upsertRaceEntityList.mockRejectedValue(
+                new Error('Database error'),
+            );
+
+            const mockRequest = new Request('http://localhost/api/race', {
+                method: 'POST',
+                body: JSON.stringify(validRequestBody),
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            const response = await controller.postUpsertRace(
+                mockRequest,
+                commonParameterMock(),
+            );
+
+            expect(
+                usecaseSetUp.raceUsecase.upsertRaceEntityList,
+            ).toHaveBeenCalled();
+            expect(response.status).toBe(500);
+        });
+    });
 });
