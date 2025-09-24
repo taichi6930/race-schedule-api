@@ -568,16 +568,14 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
-     * @param raceType - レース種別
-     * @param commonParameter
-     * @param placeEntityList
      */
     @Logger
     public async upsertPlaceEntityList(
-        commonParameter: CommonParameter,
-        placeEntityList: PlaceEntity[],
+        _commonParameter: CommonParameter,
+        _placeEntityList: PlaceEntity[],
     ): Promise<void> {
-        console.log(commonParameter, placeEntityList);
+        void _commonParameter;
+        void _placeEntityList;
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('Method not implemented.');
     }

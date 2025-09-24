@@ -52,10 +52,11 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
      */
     @Logger
     public async upsertPlaceEntityList(
-        commonParameter: CommonParameter,
-        placeEntityList: PlaceEntity[],
+        _commonParameter: CommonParameter,
+        _placeEntityList: PlaceEntity[],
     ): Promise<void> {
-        console.log(commonParameter, placeEntityList);
+        void _commonParameter;
+        void _placeEntityList;
         await new Promise((resolve) => setTimeout(resolve, 0));
         throw new Error('Method not implemented.');
     }
