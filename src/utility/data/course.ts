@@ -1,5 +1,14 @@
 import { RaceType } from '../raceType';
 
+export type CodeType = (typeof CodeType)[keyof typeof CodeType];
+
+export const CodeType = {
+    // 公式
+    OFFICIAL: 'OFFICIAL',
+    // netkeiba
+    NETKEIBA: 'NETKEIBA',
+} as const;
+
 /**
  * RaceCourseのマスターデータ
  */
