@@ -44,7 +44,6 @@ export class MockMechanicalRacingRaceRepositoryFromHtml
                 );
             }
         }
-        await new Promise((resolve) => setTimeout(resolve, 0));
         return raceEntityList;
     }
 

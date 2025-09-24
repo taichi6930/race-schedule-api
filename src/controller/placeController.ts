@@ -89,15 +89,20 @@ export class PlaceController {
             const body = await request.json();
             const searchPlaceFilter = parseBodyToFilter(body as any);
 
-            await this.usecase.upsertPlaceEntityList(
+            const upsertResult = await this.usecase.upsertPlaceEntityList(
                 commonParameter,
                 searchPlaceFilter,
             );
 
-            return new Response('OK', {
-                status: 200,
-                headers: this.corsHeaders,
-            });
+            return Response.json(
+                {
+                    message: 'Upsert place completed',
+                    successCount: upsertResult.successCount,
+                    failureCount: upsertResult.failureCount,
+                    failures: upsertResult.failures,
+                },
+                { headers: this.corsHeaders },
+            );
         } catch (error) {
             if (error instanceof ValidationError) {
                 return new Response(`Bad Request: ${error.message}`, {

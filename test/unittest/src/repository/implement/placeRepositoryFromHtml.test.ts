@@ -113,7 +113,11 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
                         repository.upsertPlaceEntityList(commonParameter, [
                             basePlaceEntity(raceType),
                         ]),
-                    ).rejects.toThrow('Method not implemented.');
+                    ).resolves.toEqual({
+                        successCount: 0,
+                        failureCount: 0,
+                        failures: [],
+                    });
                 });
             });
         });
