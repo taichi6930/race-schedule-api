@@ -53,7 +53,24 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
     ): Promise<RaceEntity[]> {
         const raceEntityList: RaceEntity[] = [];
         if (!placeEntityList) return raceEntityList;
-        for (const placeEntity of placeEntityList) {
+        // searchRaceFilterのgradeListが空の場合はすべてのグレードを対象とする
+        const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
+            (placeEntity) => {
+                if (searchRaceFilter.gradeList.length === 0) {
+                    return true;
+                }
+                // JRA, NAR, OVERSEASの場合はそのままtrue
+                if (
+                    placeEntity.placeData.raceType === RaceType.JRA ||
+                    placeEntity.placeData.raceType === RaceType.NAR ||
+                    placeEntity.placeData.raceType === RaceType.OVERSEAS
+                ) {
+                    return true;
+                }
+                return searchRaceFilter.gradeList.includes(placeEntity.grade);
+            },
+        );
+        for (const placeEntity of filteredPlaceEntityList) {
             switch (placeEntity.placeData.raceType) {
                 case RaceType.JRA: {
                     const entityList =
