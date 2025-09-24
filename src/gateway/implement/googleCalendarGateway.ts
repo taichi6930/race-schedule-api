@@ -193,9 +193,6 @@ export class GoogleCalendarGateway implements ICalendarGateway {
                 calendarId = env.BOATRACE_CALENDAR_ID;
                 break;
             }
-            default: {
-                throw new Error('Unknown race type');
-            }
         }
         if (
             typeof calendarId !== 'string' ||
