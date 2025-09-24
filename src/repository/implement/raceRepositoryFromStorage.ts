@@ -315,7 +315,6 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                 }
             }
         }
-
         return result;
     }
 }
