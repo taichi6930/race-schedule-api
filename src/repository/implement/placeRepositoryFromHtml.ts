@@ -11,6 +11,7 @@ import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGat
 import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { UpsertResult } from '../../utility/upsertResult';
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import {
     RaceCourse,
@@ -573,10 +574,13 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     public async upsertPlaceEntityList(
         _commonParameter: CommonParameter,
         _placeEntityList: PlaceEntity[],
-    ): Promise<void> {
+    ): Promise<UpsertResult> {
         void _commonParameter;
         void _placeEntityList;
-        await new Promise((resolve) => setTimeout(resolve, 0));
-        throw new Error('Method not implemented.');
+        return {
+            successCount: 0,
+            failureCount: 0,
+            failures: [],
+        };
     }
 }

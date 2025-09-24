@@ -1,4 +1,5 @@
 import type { CommonParameter } from '../../utility/commonParameter';
+import type { UpsertResult } from '../../utility/upsertResult';
 import type { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
 import type { PlaceEntity } from '../entity/placeEntity';
 
@@ -11,5 +12,5 @@ export interface IPlaceRepository {
     upsertPlaceEntityList: (
         commonParameter: CommonParameter,
         entityList: PlaceEntity[],
-    ) => Promise<void>;
+    ) => Promise<UpsertResult>;
 }

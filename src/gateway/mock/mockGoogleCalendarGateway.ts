@@ -62,7 +62,6 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                     new Date(a.start?.dateTime ?? '').getTime() -
                     new Date(b.start?.dateTime ?? '').getTime(),
             );
-        await new Promise((resolve) => setTimeout(resolve, 0));
         return raceData;
     }
 
@@ -77,7 +76,6 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         if (!raceData) {
             throw new Error('Not found');
         }
-        await new Promise((resolve) => setTimeout(resolve, 0));
         return raceData;
     }
 

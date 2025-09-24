@@ -7,6 +7,7 @@ import type { IDBGateway } from '../../gateway/interface/iDbGateway';
 import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
+import { FailureDetail, UpsertResult } from '../../utility/upsertResult';
 import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -101,7 +102,12 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
     public async upsertPlaceEntityList(
         commonParameter: CommonParameter,
         entityList: PlaceEntity[],
-    ): Promise<void> {
+    ): Promise<UpsertResult> {
+        const upsertResult: UpsertResult = {
+            successCount: 0,
+            failureCount: 0,
+            failures: [] as FailureDetail[],
+        };
         const { env } = commonParameter;
 
         const chunkSize = 10;
@@ -114,7 +120,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
             return result;
         };
 
-        if (entityList.length === 0) return;
+        if (entityList.length === 0) return upsertResult;
         // placeテーブル バルクinsert
         for (const chunk of chunkArray(entityList, chunkSize)) {
             const insertPlaceSql = `
@@ -145,7 +151,19 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     placeData.location,
                 );
             }
-            await this.dbGateway.run(env, insertPlaceSql, placeParams);
+            try {
+                await this.dbGateway.run(env, insertPlaceSql, placeParams);
+                upsertResult.successCount += chunk.length;
+            } catch (error: any) {
+                upsertResult.failureCount += chunk.length;
+                for (const entity of chunk) {
+                    upsertResult.failures.push({
+                        db: 'place',
+                        id: entity.id,
+                        reason: error?.message ?? String(error),
+                    });
+                }
+            }
         }
 
         // held_day バルクinsert（JRAのみ）
@@ -179,7 +197,19 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     entity.heldDayData.heldDayTimes,
                 );
             }
-            await this.dbGateway.run(env, insertHeldDaySql, heldDayParams);
+            try {
+                await this.dbGateway.run(env, insertHeldDaySql, heldDayParams);
+                upsertResult.successCount += chunk.length;
+            } catch (error: any) {
+                upsertResult.failureCount += chunk.length;
+                for (const entity of chunk) {
+                    upsertResult.failures.push({
+                        db: 'place',
+                        id: entity.id,
+                        reason: error?.message ?? String(error),
+                    });
+                }
+            }
         }
 
         // place_grade バルクinsert（KEIRIN/AUTORACE/BOATRACEのみ）
@@ -213,7 +243,20 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     entity.grade,
                 );
             }
-            await this.dbGateway.run(env, insertGradeSql, gradeParams);
+            try {
+                await this.dbGateway.run(env, insertGradeSql, gradeParams);
+                upsertResult.successCount += chunk.length;
+            } catch (error: any) {
+                upsertResult.failureCount += chunk.length;
+                for (const entity of chunk) {
+                    upsertResult.failures.push({
+                        db: 'place',
+                        id: entity.id,
+                        reason: error?.message ?? String(error),
+                    });
+                }
+            }
         }
+        return upsertResult;
     }
 }

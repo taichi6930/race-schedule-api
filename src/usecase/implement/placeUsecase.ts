@@ -6,6 +6,7 @@ import { IPlaceService } from '../../service/interface/IPlaceService';
 import { CommonParameter } from '../../utility/commonParameter';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
+import { UpsertResult } from '../../utility/upsertResult';
 import { IPlaceUseCase } from '../interface/IPlaceUsecase';
 
 @injectable()
@@ -31,7 +32,7 @@ export class PlaceUseCase implements IPlaceUseCase {
     public async upsertPlaceEntityList(
         commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
-    ): Promise<void> {
+    ): Promise<UpsertResult> {
         const entityList: PlaceEntity[] =
             await this.placeService.fetchPlaceEntityList(
                 commonParameter,

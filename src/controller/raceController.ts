@@ -87,7 +87,7 @@ export class RaceController {
 
             return Response.json(
                 {
-                    message: 'Upsert completed',
+                    message: 'Upsert race completed',
                     successCount: upsertResult.successCount,
                     failureCount: upsertResult.failureCount,
                     failures: upsertResult.failures,
