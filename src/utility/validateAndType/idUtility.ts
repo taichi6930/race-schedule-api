@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import { z } from 'zod';
 
 import { CourseCodeType } from '../data/course';
+import { createNetkeibaBabacode } from '../data/netkeiba';
 import { RaceType } from '../raceType';
 import { type PositionNumber, validatePositionNumber } from './positionNumber';
 import { createPlaceCode, type RaceCourse } from './raceCourse';
@@ -131,11 +132,7 @@ const buildId = (
     const raceTypePrefix = params.raceType.toLowerCase();
     const locationCode =
         params.raceType === RaceType.JRA || params.raceType === RaceType.NAR
-            ? createPlaceCode(
-                  params.raceType,
-                  CourseCodeType.NETKEIBA,
-                  params.location,
-              )
+            ? createNetkeibaBabacode(params.location)
             : createPlaceCode(
                   params.raceType,
                   CourseCodeType.OFFICIAL,
