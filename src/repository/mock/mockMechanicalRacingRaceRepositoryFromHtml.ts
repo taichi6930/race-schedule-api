@@ -13,8 +13,8 @@ export class MockMechanicalRacingRaceRepositoryFromHtml
     implements IRaceRepository
 {
     public async fetchRaceEntityList(
-        commonParameter: CommonParameter,
-        searchRaceFilter: SearchRaceFilterEntity,
+        _commonParameter: CommonParameter,
+        _searchRaceFilter: SearchRaceFilterEntity,
         placeEntityList?: PlaceEntity[],
     ): Promise<RaceEntity[]> {
         const raceEntityList: RaceEntity[] = [];

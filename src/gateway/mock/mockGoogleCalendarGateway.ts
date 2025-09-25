@@ -45,7 +45,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
     }
 
     public async fetchCalendarDataList(
-        commonParameter: CommonParameter,
+        _commonParameter: CommonParameter,
         raceType: RaceType,
         startDate: Date,
         finishDate: Date,
@@ -66,7 +66,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
     }
 
     public async fetchCalendarData(
-        commonParameter: CommonParameter,
+        _commonParameter: CommonParameter,
         raceType: RaceType,
         eventId: string,
     ): Promise<calendar_v3.Schema$Event> {
@@ -80,7 +80,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
     }
 
     public async updateCalendarData(
-        commonParameter: CommonParameter,
+        _commonParameter: CommonParameter,
         raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
@@ -105,7 +105,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
     }
 
     public async insertCalendarData(
-        commonParameter: CommonParameter,
+        _commonParameter: CommonParameter,
         raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
@@ -131,7 +131,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
     }
 
     public async deleteCalendarData(
-        commonParameter: CommonParameter,
+        _commonParameter: CommonParameter,
         raceType: RaceType,
         eventId: string,
     ): Promise<void> {

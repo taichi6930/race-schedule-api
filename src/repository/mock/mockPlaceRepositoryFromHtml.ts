@@ -18,7 +18,7 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
      * @param searchFilter
      */
     public async fetchPlaceEntityList(
-        commonParameter: CommonParameter,
+        _commonParameter: CommonParameter,
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         const placeEntityList = [];
