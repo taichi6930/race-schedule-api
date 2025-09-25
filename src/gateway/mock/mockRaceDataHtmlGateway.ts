@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
-import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
+import { createNetkeibaBabacode } from '../../utility/data/netkeiba';
 import { RaceType } from '../../utility/raceType';
 import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import { createPlaceCode } from '../../utility/validateAndType/raceCourse';
@@ -54,7 +54,7 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         }
         // yearの下2桁 2025 -> 25, 2001 -> 01
         const year = String(date.getFullYear()).slice(-2);
-        const babaCode = NetkeibaBabacodeMap[place];
+        const babaCode = createNetkeibaBabacode(place);
         // numberを4桁にフォーマット（頭を0埋め 100 -> 0100, 2 -> 0002）
         const num = String(number).padStart(4, '0');
         return `../mockData/html/jra/race/${year}${babaCode}${num}.html`;
