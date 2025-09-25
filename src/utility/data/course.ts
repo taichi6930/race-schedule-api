@@ -767,6 +767,12 @@ export const RaceCourseMasterList: {
     {
         raceType: RaceType.NAR,
         courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '旭川ば',
+        placeCode: '66',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
         placeName: '門別',
         placeCode: '30',
     },

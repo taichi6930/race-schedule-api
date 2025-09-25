@@ -1,3 +1,5 @@
+import { CourseCodeType, RaceCourseMasterList } from './course';
+
 export const NetkeibaBabacodeMap: Record<string, string> = {
     // 中央競馬
     札幌: '01',
@@ -41,3 +43,11 @@ export const NetkeibaBabacodeMap: Record<string, string> = {
     荒尾: '56',
     中津: '57',
 };
+
+export const NetkeibaBabacodeMapV2: Record<string, string> =
+    RaceCourseMasterList.filter(
+        (course) => course.courseCodeType === CourseCodeType.NETKEIBA,
+    ).reduce<Record<string, string>>((map, course) => {
+        map[course.placeName] = course.placeCode;
+        return map;
+    }, {});

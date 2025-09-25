@@ -2,6 +2,10 @@ import {
     processJraRaceName,
     processNarRaceName,
 } from '../../../../src/utility/createRaceName';
+import {
+    NetkeibaBabacodeMap,
+    NetkeibaBabacodeMapV2,
+} from './../../../../src/utility/data/netkeiba';
 
 describe('processJraRaceName', () => {
     it('should return 阪神JF for Hanshin Juvenile Fillies', () => {
@@ -307,4 +311,13 @@ describe('processNarRaceName', () => {
         };
         expect(processNarRaceName(raceInfo)).toBe('九州産グランプリ');
     });
+});
+
+it('NetkeibaBabacodeMap equal v2', () => {
+    expect(Object.keys(NetkeibaBabacodeMap).length).toEqual(
+        Object.keys(NetkeibaBabacodeMapV2).length,
+    );
+    for (const key of Object.keys(NetkeibaBabacodeMap)) {
+        expect(NetkeibaBabacodeMap[key]).toEqual(NetkeibaBabacodeMapV2[key]);
+    }
 });
