@@ -45,10 +45,7 @@ const createPlaceCodeMap = (raceType: RaceType): Record<string, string> => {
 export const createPlaceCode = (
     raceType: RaceType,
     location: RaceCourse,
-): string => {
-    const placeCodeMap = createPlaceCodeMap(raceType);
-    return placeCodeMap[location] ?? '';
-};
+): string => createPlaceCodeMap(raceType)[location] ?? '';
 
 /**
  * RaceCourseのzod型定義
