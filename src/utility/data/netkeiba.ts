@@ -55,6 +55,7 @@ export const RaceCourseMasterList: {
     placeName: string;
     placeCode: string;
 }[] = [
+    // JRA（中央競馬）
     {
         raceType: RaceType.JRA,
         courseCodeType: CourseCodeType.NETKEIBA,
@@ -114,6 +115,128 @@ export const RaceCourseMasterList: {
         courseCodeType: CourseCodeType.NETKEIBA,
         placeName: '小倉',
         placeCode: '10',
+    },
+
+    // 地方競馬（NAR）
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '帯広ば',
+        placeCode: '65',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '門別',
+        placeCode: '30',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '盛岡',
+        placeCode: '35',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '水沢',
+        placeCode: '36',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '上山',
+        placeCode: '37',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '三条',
+        placeCode: '38',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '足利',
+        placeCode: '39',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '宇都宮',
+        placeCode: '40',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '高崎',
+        placeCode: '41',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '浦和',
+        placeCode: '42',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '船橋',
+        placeCode: '43',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '大井',
+        placeCode: '44',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '川崎',
+        placeCode: '45',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '金沢',
+        placeCode: '46',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '笠松',
+        placeCode: '47',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '名古屋',
+        placeCode: '48',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '園田',
+        placeCode: '50',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '姫路',
+        placeCode: '51',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '高知',
+        placeCode: '54',
+    },
+    {
+        raceType: RaceType.NAR,
+        courseCodeType: CourseCodeType.NETKEIBA,
+        placeName: '佐賀',
+        placeCode: '55',
     },
 ];
 
