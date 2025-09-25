@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
+import { CourseCodeType } from '../../utility/data/course';
 import { createNetkeibaBabacode } from '../../utility/data/netkeiba';
 import { RaceType } from '../../utility/raceType';
 import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
@@ -54,7 +55,11 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         }
         // yearの下2桁 2025 -> 25, 2001 -> 01
         const year = String(date.getFullYear()).slice(-2);
-        const babaCode = createNetkeibaBabacode(place);
+        const babaCode = createNetkeibaBabacode(
+            RaceType.JRA,
+            CourseCodeType.NETKEIBA,
+            place,
+        );
         // numberを4桁にフォーマット（頭を0埋め 100 -> 0100, 2 -> 0002）
         const num = String(number).padStart(4, '0');
         return `../mockData/html/jra/race/${year}${babaCode}${num}.html`;
@@ -66,6 +71,7 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         }
         return `../mockData/html/nar/race/${format(date, 'yyyyMMdd')}${createPlaceCode(
             RaceType.NAR,
+            CourseCodeType.OFFICIAL,
             place,
         )}.html`;
     }
@@ -78,14 +84,14 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         if (place === undefined) {
             throw new Error('競輪レースの開催場が指定されていません');
         }
-        return `../mockData/html/keirin/race/${format(date, 'yyyyMMdd')}${createPlaceCode(RaceType.KEIRIN, place)}.html`;
+        return `../mockData/html/keirin/race/${format(date, 'yyyyMMdd')}${createPlaceCode(RaceType.KEIRIN, CourseCodeType.OFFICIAL, place)}.html`;
     }
 
     private buildAutoraceUrl(date: Date, place?: RaceCourse): string {
         if (place === undefined) {
             throw new Error('オートレースの開催場が指定されていません');
         }
-        return `../mockData/html/autorace/race/${format(date, 'yyyyMMdd')}${createPlaceCode(RaceType.AUTORACE, place)}.html`;
+        return `../mockData/html/autorace/race/${format(date, 'yyyyMMdd')}${createPlaceCode(RaceType.AUTORACE, CourseCodeType.OFFICIAL, place)}.html`;
     }
 
     private buildBoatraceUrl(
@@ -101,6 +107,7 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         }
         return `../mockData/html/boatrace/race/${format(date, 'yyyyMMdd')}${createPlaceCode(
             RaceType.BOATRACE,
+            CourseCodeType.OFFICIAL,
             place,
         )}${number.toString()}.html`;
         // lib/src/gateway/mockData/html/boatrace/placeの中にあるhtmlを取得
