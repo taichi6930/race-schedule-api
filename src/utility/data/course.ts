@@ -7,7 +7,7 @@ export const CourseCodeType = {
     // 公式
     OFFICIAL: 'OFFICIAL',
     // netkeiba
-    // NETKEIBA: 'NETKEIBA',
+    NETKEIBA: 'NETKEIBA',
 } as const;
 
 /**
