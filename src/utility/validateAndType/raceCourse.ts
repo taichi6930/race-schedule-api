@@ -1,18 +1,16 @@
 import { z } from 'zod';
 
-import { CourseCodeType, RaceCourseMasterList } from '../data/course';
-import { RaceType } from '../raceType';
+import type { CourseCodeType } from '../data/course';
+import { RaceCourseMasterList } from '../data/course';
+import type { RaceType } from '../raceType';
 
 /**
  * 場リスト
  * @param raceType - レース種別
  */
 const RaceCourseList = (raceType: RaceType): Set<string> => {
-    const RaceCourseMasterListForOfficial = RaceCourseMasterList.filter(
-        (course) => course.courseCodeType === CourseCodeType.OFFICIAL,
-    );
     return new Set(
-        RaceCourseMasterListForOfficial.filter(
+        RaceCourseMasterList.filter(
             (course) => course.raceType === raceType,
         ).map((course) => course.placeName),
     );
@@ -28,11 +26,6 @@ const createPlaceCodeMap = (
     raceType: RaceType,
     courseCodeType: CourseCodeType,
 ): Record<string, string> => {
-    if (raceType === RaceType.JRA) {
-        throw new Error(
-            'JRAのレース場コード作成されていないため、使用できません',
-        );
-    }
     const filteredRaceCourseMasterList = RaceCourseMasterList.filter(
         (course) => course.courseCodeType === courseCodeType,
     );
