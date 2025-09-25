@@ -94,7 +94,7 @@ export const createRaceUrl = (
             }
             // yearの下2桁 2025 -> 25, 2001 -> 01
             const year = String(date.getFullYear()).slice(-2);
-            const babaCode = createNetkeibaBabacode(place);
+            const babaCode = createNetkeibaBabacode(raceType, place);
             // numberを4桁にフォーマット（頭を0埋め 100 -> 0100, 2 -> 0002）
             const num = String(number).padStart(4, '0');
             return `https://sports.yahoo.co.jp/keiba/race/list/${year}${babaCode}${num}`;

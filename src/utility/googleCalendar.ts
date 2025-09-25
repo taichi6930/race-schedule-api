@@ -219,7 +219,7 @@ export const toGoogleCalendarData = (
                     `.replace(/\n\s+/g, '\n');
             }
             case RaceType.JRA: {
-                const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${createNetkeibaBabacode(raceEntity.raceData.location)}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
+                const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${createNetkeibaBabacode(raceEntity.raceData.raceType, raceEntity.raceData.location)}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
                 return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                 ${raceTimeStr}
                 ${createAnchorTag(
@@ -238,7 +238,7 @@ export const toGoogleCalendarData = (
                 `.replace(/\n\s+/g, '\n');
             }
             case RaceType.NAR: {
-                const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${createNetkeibaBabacode(raceEntity.raceData.location)}${raceEntity.raceData.dateTime.getXDigitMonth(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
+                const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${createNetkeibaBabacode(raceEntity.raceData.raceType, raceEntity.raceData.location)}${raceEntity.raceData.dateTime.getXDigitMonth(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
                 return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                 ${raceTimeStr}
                 ${createAnchorTag('レース映像（YouTube）', createYoutubeLiveUrl(NarYoutubeUserIdMap[raceEntity.raceData.location]))}

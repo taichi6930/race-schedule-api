@@ -131,7 +131,7 @@ const buildId = (
     const raceTypePrefix = params.raceType.toLowerCase();
     const locationCode =
         params.raceType === RaceType.JRA || params.raceType === RaceType.NAR
-            ? createNetkeibaBabacode(params.location)
+            ? createNetkeibaBabacode(params.raceType, params.location)
             : createPlaceCode(params.raceType, params.location);
     const dateCode = format(params.dateTime, 'yyyyMMdd');
     switch (idType) {
