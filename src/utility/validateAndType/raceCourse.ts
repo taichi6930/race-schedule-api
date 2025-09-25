@@ -26,12 +26,12 @@ const createPlaceCodeMap = (
     raceType: RaceType,
     courseCodeType: CourseCodeType,
 ): Record<string, string> => {
-    const filteredRaceCourseMasterList = RaceCourseMasterList.filter(
-        (course) => course.courseCodeType === courseCodeType,
-    );
     const map: Record<string, string> = {};
-    for (const course of filteredRaceCourseMasterList) {
-        if (course.raceType === raceType) {
+    for (const course of RaceCourseMasterList) {
+        if (
+            course.raceType === raceType &&
+            course.courseCodeType === courseCodeType
+        ) {
             map[course.placeName] = course.placeCode;
         }
     }
@@ -42,7 +42,10 @@ export const createPlaceCode = (
     raceType: RaceType,
     courseCodeType: CourseCodeType,
     location: RaceCourse,
-): string => createPlaceCodeMap(raceType, courseCodeType)[location] ?? '';
+): string => {
+    const placeCodeMap = createPlaceCodeMap(raceType, courseCodeType);
+    return placeCodeMap[location] ?? '';
+};
 
 /**
  * RaceCourseのzod型定義

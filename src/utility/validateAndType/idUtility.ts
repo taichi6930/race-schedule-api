@@ -132,7 +132,11 @@ const buildId = (
     const raceTypePrefix = params.raceType.toLowerCase();
     const locationCode =
         params.raceType === RaceType.JRA || params.raceType === RaceType.NAR
-            ? createNetkeibaBabacode(params.location)
+            ? createNetkeibaBabacode(
+                  params.raceType,
+                  CourseCodeType.NETKEIBA,
+                  params.location,
+              )
             : createPlaceCode(
                   params.raceType,
                   CourseCodeType.OFFICIAL,
