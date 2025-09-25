@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { RaceCourseMasterList } from '../data/course';
+import { CourseCodeType, RaceCourseMasterList } from '../data/course';
 import { RaceType } from '../raceType';
 
 /**
@@ -66,3 +66,11 @@ export const validateRaceCourse = (
  * RaceCourseの型定義
  */
 export type RaceCourse = z.infer<ReturnType<typeof RaceCourseSchema>>;
+
+export const NetkeibaBabacodeMap: Record<string, string> =
+    RaceCourseMasterList.filter(
+        (course) => course.courseCodeType === CourseCodeType.NETKEIBA,
+    ).reduce<Record<string, string>>((map, course) => {
+        map[course.placeName] = course.placeCode;
+        return map;
+    }, {});

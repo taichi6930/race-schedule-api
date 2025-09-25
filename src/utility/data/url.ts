@@ -6,8 +6,10 @@ import { format } from 'date-fns';
 
 import { RaceType } from '../raceType';
 import type { RaceCourse } from '../validateAndType/raceCourse';
-import { createPlaceCode } from '../validateAndType/raceCourse';
-import { NetkeibaBabacodeMap } from './netkeiba';
+import {
+    createPlaceCode,
+    NetkeibaBabacodeMap,
+} from '../validateAndType/raceCourse';
 
 /**
  * netkeibaのJRA出馬表のURLを生成する関数

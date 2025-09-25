@@ -3,10 +3,12 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
-import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { RaceType } from '../../utility/raceType';
 import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
-import { createPlaceCode } from '../../utility/validateAndType/raceCourse';
+import {
+    createPlaceCode,
+    NetkeibaBabacodeMap,
+} from '../../utility/validateAndType/raceCourse';
 import type { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
 
 /**

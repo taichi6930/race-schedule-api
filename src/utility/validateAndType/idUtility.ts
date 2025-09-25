@@ -1,10 +1,13 @@
 import { format } from 'date-fns';
 import { z } from 'zod';
 
-import { NetkeibaBabacodeMap } from '../data/netkeiba';
 import { RaceType } from '../raceType';
 import { type PositionNumber, validatePositionNumber } from './positionNumber';
-import { createPlaceCode, type RaceCourse } from './raceCourse';
+import {
+    createPlaceCode,
+    NetkeibaBabacodeMap,
+    type RaceCourse,
+} from './raceCourse';
 import { validateRaceNumber } from './raceNumber';
 
 /**

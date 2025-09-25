@@ -8,7 +8,6 @@ import {
     KeirinYoutubeUserIdMap,
     NarYoutubeUserIdMap,
 } from './data/movie';
-import { NetkeibaBabacodeMap } from './data/netkeiba';
 import {
     createNetkeibaJraRaceVideoUrl,
     createNetkeibaJraShutubaUrl,
@@ -21,7 +20,10 @@ import { getJSTDate } from './date';
 import { createAnchorTag, formatDate } from './format';
 import { RaceType } from './raceType';
 import type { GradeType } from './validateAndType/gradeType';
-import { createPlaceCode } from './validateAndType/raceCourse';
+import {
+    createPlaceCode,
+    NetkeibaBabacodeMap,
+} from './validateAndType/raceCourse';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール
