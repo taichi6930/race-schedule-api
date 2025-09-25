@@ -8,13 +8,12 @@ import type { RaceType } from '../raceType';
  * 場リスト
  * @param raceType - レース種別
  */
-const RaceCourseList = (raceType: RaceType): Set<string> => {
-    return new Set(
+const RaceCourseList = (raceType: RaceType): Set<string> =>
+    new Set(
         RaceCourseMasterList.filter(
             (course) => course.raceType === raceType,
         ).map((course) => course.placeName),
     );
-};
 
 /**
  * RaceCourseMasterListからraceTypeごとのPlaceCodeMapを生成するユーティリティ
