@@ -1,3 +1,5 @@
+import type { RaceCourse } from '../validateAndType/raceCourse';
+
 export const NetkeibaBabacodeMap: Record<string, string> = {
     // 中央競馬
     札幌: '01',
@@ -40,4 +42,9 @@ export const NetkeibaBabacodeMap: Record<string, string> = {
     福山: '',
     荒尾: '',
     中津: '',
+};
+
+export const createNetkeibaBabacode = (location: RaceCourse): string => {
+    const placeCodeMap = NetkeibaBabacodeMap;
+    return placeCodeMap[location] ?? '';
 };
