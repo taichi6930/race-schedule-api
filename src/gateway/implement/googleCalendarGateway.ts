@@ -167,39 +167,21 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         raceType: RaceType,
         env: CloudFlareEnv,
     ): Promise<string> {
-        let calendarId: unknown = undefined;
-        switch (raceType) {
-            case RaceType.JRA: {
-                calendarId = env.JRA_CALENDAR_ID;
-                break;
-            }
-            case RaceType.NAR: {
-                calendarId = env.NAR_CALENDAR_ID;
-                break;
-            }
-            case RaceType.OVERSEAS: {
-                calendarId = env.WORLD_CALENDAR_ID;
-                break;
-            }
-            case RaceType.KEIRIN: {
-                calendarId = env.KEIRIN_CALENDAR_ID;
-                break;
-            }
-            case RaceType.AUTORACE: {
-                calendarId = env.AUTORACE_CALENDAR_ID;
-                break;
-            }
-            case RaceType.BOATRACE: {
-                calendarId = env.BOATRACE_CALENDAR_ID;
-                break;
-            }
-        }
+        const calendarIdMap = {
+            JRA: env.JRA_CALENDAR_ID,
+            NAR: env.NAR_CALENDAR_ID,
+            OVERSEAS: env.WORLD_CALENDAR_ID,
+            KEIRIN: env.KEIRIN_CALENDAR_ID,
+            AUTORACE: env.AUTORACE_CALENDAR_ID,
+            BOATRACE: env.BOATRACE_CALENDAR_ID,
+        };
+        const calendarId: string = calendarIdMap[raceType];
         if (
             typeof calendarId !== 'string' ||
             !calendarId.includes('@group.calendar.google.com')
         ) {
             throw new Error(
-                `Invalid or empty calendarId for raceType: ${raceType}, value: ${String(calendarId)}`,
+                `Invalid or empty calendarId for raceType: ${raceType}, value: ${calendarId}`,
             );
         }
         return new Promise((resolve) => {
