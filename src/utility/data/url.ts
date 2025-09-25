@@ -8,7 +8,6 @@ import { RaceType } from '../raceType';
 import type { RaceCourse } from '../validateAndType/raceCourse';
 import { createPlaceCode } from '../validateAndType/raceCourse';
 import { CourseCodeType } from './course';
-import { createNetkeibaBabacode } from './netkeiba';
 
 /**
  * netkeibaのJRA出馬表のURLを生成する関数
@@ -95,7 +94,7 @@ export const createRaceUrl = (
             }
             // yearの下2桁 2025 -> 25, 2001 -> 01
             const year = String(date.getFullYear()).slice(-2);
-            const babaCode = createNetkeibaBabacode(
+            const babaCode = createPlaceCode(
                 raceType,
                 CourseCodeType.NETKEIBA,
                 place,
