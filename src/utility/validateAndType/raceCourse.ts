@@ -7,12 +7,16 @@ import { RaceType } from '../raceType';
  * 場リスト
  * @param raceType - レース種別
  */
-const RaceCourseList = (raceType: RaceType): Set<string> =>
-    new Set(
-        RaceCourseMasterList.filter(
+const RaceCourseList = (raceType: RaceType): Set<string> => {
+    const RaceCourseMasterListForOfficial = RaceCourseMasterList.filter(
+        (course) => course.courseCodeType === CourseCodeType.OFFICIAL,
+    );
+    return new Set(
+        RaceCourseMasterListForOfficial.filter(
             (course) => course.raceType === raceType,
         ).map((course) => course.placeName),
     );
+};
 
 /**
  * RaceCourseMasterListからraceTypeごとのPlaceCodeMapを生成するユーティリティ
@@ -26,8 +30,11 @@ const createPlaceCodeMap = (raceType: RaceType): Record<string, string> => {
             'JRAのレース場コード作成されていないため、使用できません',
         );
     }
+    const RaceCourseMasterListForOfficial = RaceCourseMasterList.filter(
+        (course) => course.courseCodeType === CourseCodeType.OFFICIAL,
+    );
     const map: Record<string, string> = {};
-    for (const course of RaceCourseMasterList) {
+    for (const course of RaceCourseMasterListForOfficial) {
         if (course.raceType === raceType) {
             map[course.placeName] = course.placeCode;
         }
