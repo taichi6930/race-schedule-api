@@ -6,10 +6,8 @@ import { format } from 'date-fns';
 
 import { RaceType } from '../raceType';
 import type { RaceCourse } from '../validateAndType/raceCourse';
-import {
-    createPlaceCode,
-    NetkeibaBabacodeMap,
-} from '../validateAndType/raceCourse';
+import { createPlaceCode } from '../validateAndType/raceCourse';
+import { CourseCodeType } from './course';
 
 /**
  * netkeibaのJRA出馬表のURLを生成する関数
@@ -96,7 +94,11 @@ export const createRaceUrl = (
             }
             // yearの下2桁 2025 -> 25, 2001 -> 01
             const year = String(date.getFullYear()).slice(-2);
-            const babaCode = NetkeibaBabacodeMap[place];
+            const babaCode = createPlaceCode(
+                raceType,
+                CourseCodeType.NETKEIBA,
+                place,
+            );
             // numberを4桁にフォーマット（頭を0埋め 100 -> 0100, 2 -> 0002）
             const num = String(number).padStart(4, '0');
             return `https://sports.yahoo.co.jp/keiba/race/list/${year}${babaCode}${num}`;
@@ -106,19 +108,19 @@ export const createRaceUrl = (
                 throw new Error('NARレースの開催場が指定されていません');
             }
             const raceDate = `${date.getFullYear()}%2f${date.getXDigitMonth(2)}%2f${date.getXDigitDays(2)}`;
-            return `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/RaceList?k_raceDate=${raceDate}&k_babaCode=${createPlaceCode(RaceType.NAR, place)}`;
+            return `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/RaceList?k_raceDate=${raceDate}&k_babaCode=${createPlaceCode(RaceType.NAR, CourseCodeType.OFFICIAL, place)}`;
         }
         case RaceType.KEIRIN: {
             if (place === undefined) {
                 throw new Error('競輪レースの開催場が指定されていません');
             }
-            return `https://www.oddspark.com/keirin/AllRaceList.do?joCode=${createPlaceCode(RaceType.KEIRIN, place)}&kaisaiBi=${format(date, 'yyyyMMdd')}`;
+            return `https://www.oddspark.com/keirin/AllRaceList.do?joCode=${createPlaceCode(RaceType.KEIRIN, CourseCodeType.OFFICIAL, place)}&kaisaiBi=${format(date, 'yyyyMMdd')}`;
         }
         case RaceType.AUTORACE: {
             if (place === undefined) {
                 throw new Error('オートレースの開催場が指定されていません');
             }
-            return `https://www.oddspark.com/autorace/OneDayRaceList.do?raceDy=${format(date, 'yyyyMMdd')}&placeCd=${createPlaceCode(RaceType.AUTORACE, place)}`;
+            return `https://www.oddspark.com/autorace/OneDayRaceList.do?raceDy=${format(date, 'yyyyMMdd')}&placeCd=${createPlaceCode(RaceType.AUTORACE, CourseCodeType.OFFICIAL, place)}`;
         }
         case RaceType.BOATRACE: {
             if (place === undefined) {
@@ -127,7 +129,7 @@ export const createRaceUrl = (
             if (number === undefined || Number.isNaN(number)) {
                 throw new Error('ボートレースのレース番号が指定されていません');
             }
-            return `https://www.boatrace.jp/owpc/pc/race/racelist?rno=${number}&hd=${format(date, 'yyyyMMdd')}&jcd=${createPlaceCode(RaceType.BOATRACE, place)}`;
+            return `https://www.boatrace.jp/owpc/pc/race/racelist?rno=${number}&hd=${format(date, 'yyyyMMdd')}&jcd=${createPlaceCode(RaceType.BOATRACE, CourseCodeType.OFFICIAL, place)}`;
         }
         case RaceType.OVERSEAS: {
             return `https://world.jra-van.jp/schedule/?year=${date.getFullYear()}&month=${date.getXDigitMonth(2)}`;

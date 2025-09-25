@@ -1,13 +1,10 @@
 import { format } from 'date-fns';
 import { z } from 'zod';
 
+import { CourseCodeType } from '../data/course';
 import { RaceType } from '../raceType';
 import { type PositionNumber, validatePositionNumber } from './positionNumber';
-import {
-    createPlaceCode,
-    NetkeibaBabacodeMap,
-    type RaceCourse,
-} from './raceCourse';
+import { createPlaceCode, type RaceCourse } from './raceCourse';
 import { validateRaceNumber } from './raceNumber';
 
 /**
@@ -134,8 +131,16 @@ const buildId = (
     const raceTypePrefix = params.raceType.toLowerCase();
     const locationCode =
         params.raceType === RaceType.JRA || params.raceType === RaceType.NAR
-            ? NetkeibaBabacodeMap[params.location]
-            : createPlaceCode(params.raceType, params.location);
+            ? createPlaceCode(
+                  params.raceType,
+                  CourseCodeType.NETKEIBA,
+                  params.location,
+              )
+            : createPlaceCode(
+                  params.raceType,
+                  CourseCodeType.OFFICIAL,
+                  params.location,
+              );
     const dateCode = format(params.dateTime, 'yyyyMMdd');
     switch (idType) {
         case IdType.PLACE: {

@@ -24,17 +24,20 @@ const RaceCourseList = (raceType: RaceType): Set<string> => {
  * @param raceType - レース種別
  * @returns placeName をキー、placeCode を値とするマップ
  */
-const createPlaceCodeMap = (raceType: RaceType): Record<string, string> => {
+const createPlaceCodeMap = (
+    raceType: RaceType,
+    courseCodeType: CourseCodeType,
+): Record<string, string> => {
     if (raceType === RaceType.JRA) {
         throw new Error(
             'JRAのレース場コード作成されていないため、使用できません',
         );
     }
-    const RaceCourseMasterListForOfficial = RaceCourseMasterList.filter(
-        (course) => course.courseCodeType === CourseCodeType.OFFICIAL,
+    const filteredRaceCourseMasterList = RaceCourseMasterList.filter(
+        (course) => course.courseCodeType === courseCodeType,
     );
     const map: Record<string, string> = {};
-    for (const course of RaceCourseMasterListForOfficial) {
+    for (const course of filteredRaceCourseMasterList) {
         if (course.raceType === raceType) {
             map[course.placeName] = course.placeCode;
         }
@@ -44,8 +47,9 @@ const createPlaceCodeMap = (raceType: RaceType): Record<string, string> => {
 
 export const createPlaceCode = (
     raceType: RaceType,
+    courseCodeType: CourseCodeType,
     location: RaceCourse,
-): string => createPlaceCodeMap(raceType)[location] ?? '';
+): string => createPlaceCodeMap(raceType, courseCodeType)[location] ?? '';
 
 /**
  * RaceCourseのzod型定義
@@ -70,11 +74,3 @@ export const validateRaceCourse = (
  * RaceCourseの型定義
  */
 export type RaceCourse = z.infer<ReturnType<typeof RaceCourseSchema>>;
-
-export const NetkeibaBabacodeMap: Record<string, string> =
-    RaceCourseMasterList.filter(
-        (course) => course.courseCodeType === CourseCodeType.NETKEIBA,
-    ).reduce<Record<string, string>>((map, course) => {
-        map[course.placeName] = course.placeCode;
-        return map;
-    }, {});
