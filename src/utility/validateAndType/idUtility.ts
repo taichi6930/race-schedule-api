@@ -137,7 +137,11 @@ const buildId = (
                   CourseCodeType.NETKEIBA,
                   params.location,
               )
-            : createPlaceCode(params.raceType, params.location);
+            : createPlaceCode(
+                  params.raceType,
+                  CourseCodeType.OFFICIAL,
+                  params.location,
+              );
     const dateCode = format(params.dateTime, 'yyyyMMdd');
     switch (idType) {
         case IdType.PLACE: {

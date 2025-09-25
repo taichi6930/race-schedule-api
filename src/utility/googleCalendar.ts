@@ -207,7 +207,7 @@ export const toGoogleCalendarData = (
                 const raceIdForNetkeirin = `${format(
                     raceEntity.raceData.dateTime,
                     'yyyyMMdd',
-                )}${createPlaceCode(RaceType.KEIRIN, raceEntity.raceData.location)}${raceEntity.raceData.number.toXDigits(2)}`;
+                )}${createPlaceCode(RaceType.KEIRIN, CourseCodeType.OFFICIAL, raceEntity.raceData.location)}${raceEntity.raceData.number.toXDigits(2)}`;
                 return `${raceTimeStr}
                     ${createAnchorTag(
                         'レース情報（netkeirin）',

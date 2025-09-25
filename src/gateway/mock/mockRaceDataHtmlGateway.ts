@@ -71,6 +71,7 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         }
         return `../mockData/html/nar/race/${format(date, 'yyyyMMdd')}${createPlaceCode(
             RaceType.NAR,
+            CourseCodeType.OFFICIAL,
             place,
         )}.html`;
     }
@@ -83,14 +84,14 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         if (place === undefined) {
             throw new Error('競輪レースの開催場が指定されていません');
         }
-        return `../mockData/html/keirin/race/${format(date, 'yyyyMMdd')}${createPlaceCode(RaceType.KEIRIN, place)}.html`;
+        return `../mockData/html/keirin/race/${format(date, 'yyyyMMdd')}${createPlaceCode(RaceType.KEIRIN, CourseCodeType.OFFICIAL, place)}.html`;
     }
 
     private buildAutoraceUrl(date: Date, place?: RaceCourse): string {
         if (place === undefined) {
             throw new Error('オートレースの開催場が指定されていません');
         }
-        return `../mockData/html/autorace/race/${format(date, 'yyyyMMdd')}${createPlaceCode(RaceType.AUTORACE, place)}.html`;
+        return `../mockData/html/autorace/race/${format(date, 'yyyyMMdd')}${createPlaceCode(RaceType.AUTORACE, CourseCodeType.OFFICIAL, place)}.html`;
     }
 
     private buildBoatraceUrl(
@@ -106,6 +107,7 @@ export class MockRaceDataHtmlGateway implements IRaceDataHtmlGateway {
         }
         return `../mockData/html/boatrace/race/${format(date, 'yyyyMMdd')}${createPlaceCode(
             RaceType.BOATRACE,
+            CourseCodeType.OFFICIAL,
             place,
         )}${number.toString()}.html`;
         // lib/src/gateway/mockData/html/boatrace/placeの中にあるhtmlを取得

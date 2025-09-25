@@ -109,19 +109,19 @@ export const createRaceUrl = (
                 throw new Error('NARレースの開催場が指定されていません');
             }
             const raceDate = `${date.getFullYear()}%2f${date.getXDigitMonth(2)}%2f${date.getXDigitDays(2)}`;
-            return `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/RaceList?k_raceDate=${raceDate}&k_babaCode=${createPlaceCode(RaceType.NAR, place)}`;
+            return `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/RaceList?k_raceDate=${raceDate}&k_babaCode=${createPlaceCode(raceType, CourseCodeType.OFFICIAL, place)}`;
         }
         case RaceType.KEIRIN: {
             if (place === undefined) {
                 throw new Error('競輪レースの開催場が指定されていません');
             }
-            return `https://www.oddspark.com/keirin/AllRaceList.do?joCode=${createPlaceCode(RaceType.KEIRIN, place)}&kaisaiBi=${format(date, 'yyyyMMdd')}`;
+            return `https://www.oddspark.com/keirin/AllRaceList.do?joCode=${createPlaceCode(raceType, CourseCodeType.OFFICIAL, place)}&kaisaiBi=${format(date, 'yyyyMMdd')}`;
         }
         case RaceType.AUTORACE: {
             if (place === undefined) {
                 throw new Error('オートレースの開催場が指定されていません');
             }
-            return `https://www.oddspark.com/autorace/OneDayRaceList.do?raceDy=${format(date, 'yyyyMMdd')}&placeCd=${createPlaceCode(RaceType.AUTORACE, place)}`;
+            return `https://www.oddspark.com/autorace/OneDayRaceList.do?raceDy=${format(date, 'yyyyMMdd')}&placeCd=${createPlaceCode(raceType, CourseCodeType.OFFICIAL, place)}`;
         }
         case RaceType.BOATRACE: {
             if (place === undefined) {
@@ -130,7 +130,7 @@ export const createRaceUrl = (
             if (number === undefined || Number.isNaN(number)) {
                 throw new Error('ボートレースのレース番号が指定されていません');
             }
-            return `https://www.boatrace.jp/owpc/pc/race/racelist?rno=${number}&hd=${format(date, 'yyyyMMdd')}&jcd=${createPlaceCode(RaceType.BOATRACE, place)}`;
+            return `https://www.boatrace.jp/owpc/pc/race/racelist?rno=${number}&hd=${format(date, 'yyyyMMdd')}&jcd=${createPlaceCode(raceType, CourseCodeType.OFFICIAL, place)}`;
         }
         case RaceType.OVERSEAS: {
             return `https://world.jra-van.jp/schedule/?year=${date.getFullYear()}&month=${date.getXDigitMonth(2)}`;
