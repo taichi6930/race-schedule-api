@@ -1,4 +1,3 @@
-import type { CalendarData } from '../../../../../src/domain/calendarData';
 import type { ICalendarService } from '../../../../../src/service/interface/ICalendarService';
 
 /**
@@ -7,7 +6,7 @@ import type { ICalendarService } from '../../../../../src/service/interface/ICal
  */
 export const calendarServiceMock = (): jest.Mocked<ICalendarService> => {
     return {
-        fetchEvents: jest.fn().mockResolvedValue([] as CalendarData[]),
+        fetchEvents: jest.fn().mockResolvedValue([]),
         upsertEvents: jest.fn().mockResolvedValue(Promise.resolve()),
         deleteEvents: jest.fn().mockResolvedValue(Promise.resolve()),
     };

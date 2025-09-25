@@ -6,10 +6,6 @@ import {
     validateRaceCourse,
 } from '../utility/validateAndType/raceCourse';
 import {
-    type RaceDateTime,
-    validateRaceDateTime,
-} from '../utility/validateAndType/raceDateTime';
-import {
     type RaceName,
     validateRaceName,
 } from '../utility/validateAndType/raceName';
@@ -34,7 +30,7 @@ export class RaceData {
     private constructor(
         public readonly raceType: RaceType,
         public readonly name: RaceName,
-        public readonly dateTime: RaceDateTime,
+        public readonly dateTime: Date,
         public readonly location: RaceCourse,
         public readonly grade: GradeType,
         public readonly number: RaceNumber,
@@ -61,7 +57,7 @@ export class RaceData {
         return new RaceData(
             raceType,
             validateRaceName(name),
-            validateRaceDateTime(dateTime),
+            dateTime,
             validateRaceCourse(raceType, location),
             validateGradeType(raceType, grade),
             validateRaceNumber(number),

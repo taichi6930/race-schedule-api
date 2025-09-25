@@ -1,10 +1,6 @@
 import type { RaceType } from '../utility/raceType';
 import type { RaceCourse } from '../utility/validateAndType/raceCourse';
 import { validateRaceCourse } from '../utility/validateAndType/raceCourse';
-import {
-    type RaceDateTime,
-    validateRaceDateTime,
-} from '../utility/validateAndType/raceDateTime';
 
 /**
  * 開催場所データ
@@ -20,7 +16,7 @@ export class PlaceData {
      */
     private constructor(
         public readonly raceType: RaceType,
-        public readonly dateTime: RaceDateTime,
+        public readonly dateTime: Date,
         public readonly location: RaceCourse,
     ) {}
 
@@ -39,7 +35,7 @@ export class PlaceData {
         try {
             return new PlaceData(
                 raceType,
-                validateRaceDateTime(dateTime),
+                dateTime,
                 validateRaceCourse(raceType, location),
             );
         } catch {

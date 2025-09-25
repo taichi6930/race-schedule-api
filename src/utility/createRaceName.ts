@@ -2,7 +2,6 @@ import './format';
 
 import type { GradeType } from './validateAndType/gradeType';
 import type { RaceCourse } from './validateAndType/raceCourse';
-import type { RaceDateTime } from './validateAndType/raceDateTime';
 import type { RaceDistance } from './validateAndType/raceDistance';
 import type { RaceName } from './validateAndType/raceName';
 import type { RaceSurfaceType } from './validateAndType/raceSurfaceType';
@@ -11,7 +10,7 @@ interface JraRaceDataForRaceName {
     name: RaceName;
     place: RaceCourse;
     grade: GradeType;
-    date: RaceDateTime;
+    date: Date;
     surfaceType: RaceSurfaceType;
     distance: RaceDistance;
 }
@@ -175,7 +174,7 @@ interface NarRaceDataForRaceName {
     name: RaceName;
     place: RaceCourse;
     grade: GradeType;
-    date: RaceDateTime;
+    date: Date;
     surfaceType: RaceSurfaceType;
     distance: RaceDistance;
 }
@@ -318,7 +317,7 @@ interface OverseasRaceDataForRaceName {
     name: RaceName;
     location: RaceCourse;
     grade: GradeType;
-    date: RaceDateTime;
+    date: Date;
     surfaceType: RaceSurfaceType;
     distance: RaceDistance;
 }

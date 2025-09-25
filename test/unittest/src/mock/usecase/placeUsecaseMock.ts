@@ -1,4 +1,3 @@
-import type { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import type { IPlaceUseCase } from '../../../../../src/usecase/interface/IPlaceUsecase';
 
 /**
@@ -7,7 +6,7 @@ import type { IPlaceUseCase } from '../../../../../src/usecase/interface/IPlaceU
  */
 export const placeUsecaseMock = (): jest.Mocked<IPlaceUseCase> => {
     return {
-        fetchPlaceEntityList: jest.fn().mockResolvedValue([] as PlaceEntity[]),
+        fetchPlaceEntityList: jest.fn().mockResolvedValue([]),
         upsertPlaceEntityList: jest.fn().mockResolvedValue([]),
     };
 };
