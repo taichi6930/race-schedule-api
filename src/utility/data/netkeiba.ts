@@ -1,6 +1,6 @@
 import type { RaceCourse } from '../validateAndType/raceCourse';
 
-export const NetkeibaBabacodeMap: Record<string, string> = {
+const NetkeibaBabacodeMap: Record<string, string> = {
     // 中央競馬
     札幌: '01',
     函館: '02',
