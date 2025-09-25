@@ -202,10 +202,16 @@ export const RaceCourseMasterList: {
  * @param raceType - レース種別
  * @returns placeName をキー、placeCode を値とするマップ
  */
-const createPlaceCodeMap = (raceType: RaceType): Record<string, string> => {
+const createPlaceCodeMap = (
+    raceType: RaceType,
+    courseCodeType: CourseCodeType,
+): Record<string, string> => {
     const map: Record<string, string> = {};
     for (const course of RaceCourseMasterList) {
-        if (course.raceType === raceType) {
+        if (
+            course.raceType === raceType &&
+            course.courseCodeType === courseCodeType
+        ) {
             map[course.placeName] = course.placeCode;
         }
     }
@@ -214,8 +220,9 @@ const createPlaceCodeMap = (raceType: RaceType): Record<string, string> => {
 
 export const createNetkeibaBabacode = (
     raceType: RaceType,
+    courseCodeType: CourseCodeType,
     location: RaceCourse,
 ): string => {
-    const placeCodeMap = createPlaceCodeMap(raceType);
+    const placeCodeMap = createPlaceCodeMap(raceType, courseCodeType);
     return placeCodeMap[location] ?? '';
 };
