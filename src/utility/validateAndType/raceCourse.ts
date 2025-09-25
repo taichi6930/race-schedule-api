@@ -1,7 +1,8 @@
 import { z } from 'zod';
 
+import type { CourseCodeType } from '../data/course';
 import { RaceCourseMasterList } from '../data/course';
-import { RaceType } from '../raceType';
+import type { RaceType } from '../raceType';
 
 /**
  * 場リスト
@@ -20,15 +21,16 @@ const RaceCourseList = (raceType: RaceType): Set<string> =>
  * @param raceType - レース種別
  * @returns placeName をキー、placeCode を値とするマップ
  */
-const createPlaceCodeMap = (raceType: RaceType): Record<string, string> => {
-    if (raceType === RaceType.JRA) {
-        throw new Error(
-            'JRAのレース場コード作成されていないため、使用できません',
-        );
-    }
+const createPlaceCodeMap = (
+    raceType: RaceType,
+    courseCodeType: CourseCodeType,
+): Record<string, string> => {
     const map: Record<string, string> = {};
     for (const course of RaceCourseMasterList) {
-        if (course.raceType === raceType) {
+        if (
+            course.raceType === raceType &&
+            course.courseCodeType === courseCodeType
+        ) {
             map[course.placeName] = course.placeCode;
         }
     }
@@ -37,9 +39,10 @@ const createPlaceCodeMap = (raceType: RaceType): Record<string, string> => {
 
 export const createPlaceCode = (
     raceType: RaceType,
+    courseCodeType: CourseCodeType,
     location: RaceCourse,
 ): string => {
-    const placeCodeMap = createPlaceCodeMap(raceType);
+    const placeCodeMap = createPlaceCodeMap(raceType, courseCodeType);
     return placeCodeMap[location] ?? '';
 };
 
