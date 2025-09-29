@@ -204,6 +204,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
             }
             try {
                 await this.dbGateway.run(env, insertRaceSql, raceParams);
+                await new Promise((resolve) => setTimeout(resolve, 500));
                 result.successCount += chunk.length;
             } catch (error: any) {
                 result.failureCount += chunk.length;
@@ -257,6 +258,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                     insertConditionSql,
                     conditionParams,
                 );
+                await new Promise((resolve) => setTimeout(resolve, 500));
                 result.successCount += chunk.length;
             } catch (error: any) {
                 result.failureCount += chunk.length;
@@ -303,6 +305,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
             }
             try {
                 await this.dbGateway.run(env, insertStageSql, stageParams);
+                await new Promise((resolve) => setTimeout(resolve, 500));
                 result.successCount += chunk.length;
             } catch (error: any) {
                 result.failureCount += chunk.length;
