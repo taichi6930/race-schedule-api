@@ -153,6 +153,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
             }
             try {
                 await this.dbGateway.run(env, insertPlaceSql, placeParams);
+                await new Promise((resolve) => setTimeout(resolve, 500));
                 upsertResult.successCount += chunk.length;
             } catch (error: any) {
                 upsertResult.failureCount += chunk.length;
@@ -199,6 +200,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
             }
             try {
                 await this.dbGateway.run(env, insertHeldDaySql, heldDayParams);
+                await new Promise((resolve) => setTimeout(resolve, 500));
                 upsertResult.successCount += chunk.length;
             } catch (error: any) {
                 upsertResult.failureCount += chunk.length;
@@ -245,6 +247,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
             }
             try {
                 await this.dbGateway.run(env, insertGradeSql, gradeParams);
+                await new Promise((resolve) => setTimeout(resolve, 500));
                 upsertResult.successCount += chunk.length;
             } catch (error: any) {
                 upsertResult.failureCount += chunk.length;
