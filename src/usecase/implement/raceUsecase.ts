@@ -49,16 +49,36 @@ export class RaceUseCase implements IRaceUseCase {
             DataLocation.Storage,
         );
 
-        const entityList: RaceEntity[] =
-            await this.raceService.fetchRaceEntityList(
-                commonParameter,
-                searchRaceFilter,
-                DataLocation.Web,
-                placeEntityList,
+        const upsertResultList: UpsertResult[] = [];
+
+        for (const placeEntity of placeEntityList) {
+            const entityList: RaceEntity[] =
+                await this.raceService.fetchRaceEntityList(
+                    commonParameter,
+                    searchRaceFilter,
+                    DataLocation.Web,
+                    [placeEntity],
+                );
+            upsertResultList.push(
+                await this.raceService.upsertRaceEntityList(
+                    commonParameter,
+                    entityList,
+                ),
             );
-        return this.raceService.upsertRaceEntityList(
-            commonParameter,
-            entityList,
+        }
+
+        // 結果の集計
+        const successCount = upsertResultList.reduce(
+            (sum, upsertResult) => sum + upsertResult.successCount,
+            0,
         );
+        const failureCount = upsertResultList.reduce(
+            (sum, upsertResult) => sum + upsertResult.failureCount,
+            0,
+        );
+        const failures = upsertResultList.flatMap(
+            (upsertResult) => upsertResult.failures,
+        );
+        return { successCount, failureCount, failures };
     }
 }
