@@ -1,9 +1,9 @@
-name: Race Schedule
+name: Race Schedule NAR
 
 on:
   schedule:
-    # 日本時間の毎日9,21時に実行
-    - cron: '0 0,12 * * *'
+    # 日本時間の毎日4,10,16,22時に実行
+    - cron: '0 1,7,13,19 * * *'
   workflow_dispatch:
     inputs:
       start-date:
@@ -87,7 +87,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": [\"JRA\", \"OVERSEAS\"]
+                  \"raceType\": [\"NAR\"]
                 }")
 
           # レスポンスチェック
@@ -116,7 +116,7 @@ jobs:
             -d "{
                   \"startDate\": \"$startDate\",
                   \"finishDate\": \"$finishDate\",
-                  \"raceType\": [\"JRA\", \"OVERSEAS\"]
+                  \"raceType\": [\"NAR\"]
                 }")
 
           # レスポンスチェック
