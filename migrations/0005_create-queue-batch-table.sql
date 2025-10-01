@@ -14,5 +14,6 @@ CREATE TRIGGER trigger_queue_batch_updated_at
 AFTER UPDATE ON queue_batch
 FOR EACH ROW
 BEGIN
-    UPDATE queue_batch SET updated_at = CURRENT_TIMESTAMP WHERE id = OLD.id;
+    UPDATE queue_batch SET updated_at = CURRENT_TIMESTAMP
+    WHERE id = OLD.id AND update_type = OLD.update_type AND race_type = OLD.race_type;
 END;
