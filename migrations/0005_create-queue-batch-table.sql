@@ -17,3 +17,8 @@ BEGIN
     UPDATE queue_batch SET updated_at = CURRENT_TIMESTAMP
     WHERE id = OLD.id AND update_type = OLD.update_type AND race_type = OLD.race_type;
 END;
+
+-- INSERTをする
+-- CALENDAR, id=OVERSEAS202512310401, race_type=OVERSEAS, queue_status=0
+INSERT INTO queue_batch (update_type, id, race_type, queue_status)
+VALUES ('CALENDAR', 'OVERSEAS202512310401', 'OVERSEAS', 0)
