@@ -1,7 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
-import { EnvStore } from '../../utility/envStore';
 import { Logger } from '../../utility/logger';
 import { SearchPlayerFilterEntity } from '../entity/filter/searchPlayerFilterEntity';
 import { PlayerEntity } from '../entity/playerEntity';
@@ -26,7 +25,6 @@ export class PlayerRepository implements IPlayerRepository {
         const queryParams: any[] = [];
         queryParams.push(...raceTypeList);
         const { results } = await this.dbGateway.queryAll(
-            EnvStore.env,
             `
             SELECT race_type, player_no, player_name, priority, created_at, updated_at
             FROM player
@@ -69,6 +67,6 @@ export class PlayerRepository implements IPlayerRepository {
             e.playerName,
             e.priority,
         ]);
-        await this.dbGateway.run(EnvStore.env, sql, bindParams);
+        await this.dbGateway.run(sql, bindParams);
     }
 }

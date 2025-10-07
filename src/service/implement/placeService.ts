@@ -20,7 +20,6 @@ export class PlaceService implements IPlaceService {
 
     @Logger
     public async fetchPlaceEntityList(
-        commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
         dataLocation: DataLocationType,
     ): Promise<PlaceEntity[]> {
@@ -28,10 +27,7 @@ export class PlaceService implements IPlaceService {
             dataLocation === DataLocation.Storage
                 ? this.repositoryFromStorage
                 : this.repositoryFromHtml;
-        return repository.fetchPlaceEntityList(
-            commonParameter,
-            searchPlaceFilter,
-        );
+        return repository.fetchPlaceEntityList(searchPlaceFilter);
     }
 
     @Logger

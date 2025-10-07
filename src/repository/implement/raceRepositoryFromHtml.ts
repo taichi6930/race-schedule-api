@@ -13,6 +13,7 @@ import {
     processNarRaceName,
     processOverseasRaceName,
 } from '../../utility/createRaceName';
+import { EnvStore } from '../../utility/envStore';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';
@@ -117,7 +118,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
             }
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
             const delayedTimeMs = Number.parseInt(
-                commonParameter.env.HTML_FETCH_DELAY_MS || '1000',
+                EnvStore.env.HTML_FETCH_DELAY_MS || '1000',
             );
             console.debug(`待機時間: ${delayedTimeMs}ms`);
             await new Promise((resolve) => setTimeout(resolve, delayedTimeMs));

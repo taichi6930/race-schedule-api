@@ -89,7 +89,6 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
                     `正しいレース開催データを取得できる(${raceType})`,
                     [allowedEnvs.githubActionsCi],
                     async () => {
-                        const commonParameter = commonParameterMock();
                         const searchPlaceFilter = new SearchPlaceFilterEntity(
                             startDate,
                             endDate,
@@ -98,7 +97,6 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
                         );
                         const placeEntityList =
                             await repository.fetchPlaceEntityList(
-                                commonParameter,
                                 searchPlaceFilter,
                             );
                         expect(placeEntityList).toHaveLength(expectedLength);

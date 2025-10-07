@@ -18,11 +18,9 @@ export class PlaceUseCase implements IPlaceUseCase {
 
     @Logger
     public async fetchPlaceEntityList(
-        commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         return this.placeService.fetchPlaceEntityList(
-            commonParameter,
             searchPlaceFilter,
             DataLocation.Storage,
         );
@@ -35,7 +33,6 @@ export class PlaceUseCase implements IPlaceUseCase {
     ): Promise<UpsertResult> {
         const entityList: PlaceEntity[] =
             await this.placeService.fetchPlaceEntityList(
-                commonParameter,
                 searchPlaceFilter,
                 DataLocation.Web,
             );

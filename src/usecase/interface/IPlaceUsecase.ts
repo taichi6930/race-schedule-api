@@ -5,7 +5,6 @@ import type { UpsertResult } from '../../utility/upsertResult';
 
 export interface IPlaceUseCase {
     fetchPlaceEntityList: (
-        commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
     ) => Promise<PlaceEntity[]>;
 

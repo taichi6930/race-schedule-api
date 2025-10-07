@@ -9,6 +9,7 @@ import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { CommonParameter } from '../../utility/commonParameter';
+import { EnvStore } from '../../utility/envStore';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { UpsertResult } from '../../utility/upsertResult';
@@ -39,7 +40,6 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
      */
     @Logger
     public async fetchPlaceEntityList(
-        commonParameter: CommonParameter,
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         const { raceTypeList, startDate, finishDate } = searchFilter;
@@ -107,7 +107,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                 }
                 // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
                 const delayedTimeMs = Number.parseInt(
-                    commonParameter.env.HTML_FETCH_DELAY_MS || '1000',
+                    EnvStore.env.HTML_FETCH_DELAY_MS || '1000',
                 );
                 console.debug(`待機時間: ${delayedTimeMs}ms`);
                 await new Promise((resolve) =>

@@ -34,7 +34,6 @@ export class PlaceController {
      */
     @Logger
     public async getPlaceEntityList(
-        commonParameter: CommonParameter,
         searchParams: URLSearchParams,
     ): Promise<Response> {
         try {
@@ -48,10 +47,8 @@ export class PlaceController {
                 locationList,
             );
 
-            const placeEntityList = await this.usecase.fetchPlaceEntityList(
-                commonParameter,
-                searchPlaceFilter,
-            );
+            const placeEntityList =
+                await this.usecase.fetchPlaceEntityList(searchPlaceFilter);
 
             return Response.json(
                 {

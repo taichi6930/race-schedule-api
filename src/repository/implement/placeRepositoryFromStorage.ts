@@ -20,7 +20,6 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
     ) {}
     @Logger
     public async fetchPlaceEntityList(
-        commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         const { raceTypeList, startDate, finishDate, locationList } =

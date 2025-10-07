@@ -57,10 +57,8 @@ describe('PlaceControllerのテスト', () => {
                 mockPlaceEntityList,
             );
 
-            const response = await controller.getPlaceEntityList(
-                commonParameterMock(),
-                mockSearchParams,
-            );
+            const response =
+                await controller.getPlaceEntityList(mockSearchParams);
 
             expect(
                 usecaseSetUp.placeUsecase.fetchPlaceEntityList,
@@ -75,10 +73,8 @@ describe('PlaceControllerのテスト', () => {
                 new Error('Database error'),
             );
 
-            const response = await controller.getPlaceEntityList(
-                commonParameterMock(),
-                mockSearchParams,
-            );
+            const response =
+                await controller.getPlaceEntityList(mockSearchParams);
 
             expect(
                 usecaseSetUp.placeUsecase.fetchPlaceEntityList,
@@ -98,10 +94,8 @@ describe('PlaceControllerのテスト', () => {
                 raceType: RaceType.JRA,
             });
 
-            const response = await controller.getPlaceEntityList(
-                commonParameterMock(),
-                invalidSearchParams,
-            );
+            const response =
+                await controller.getPlaceEntityList(invalidSearchParams);
 
             expect(
                 usecaseSetUp.placeUsecase.fetchPlaceEntityList,

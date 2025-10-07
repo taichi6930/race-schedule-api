@@ -5,7 +5,6 @@ import type { PlaceEntity } from '../entity/placeEntity';
 
 export interface IPlaceRepository {
     fetchPlaceEntityList: (
-        commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
     ) => Promise<PlaceEntity[]>;
 

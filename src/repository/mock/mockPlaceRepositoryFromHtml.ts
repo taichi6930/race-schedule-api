@@ -14,11 +14,9 @@ import type { IPlaceRepository } from '../interface/IPlaceRepository';
 export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
     /**
      * 場データを取得する
-     * @param commonParameter
      * @param searchFilter
      */
     public async fetchPlaceEntityList(
-        commonParameter: CommonParameter,
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         const placeEntityList = [];

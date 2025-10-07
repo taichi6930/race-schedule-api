@@ -46,10 +46,8 @@ describe('PlaceUseCase', () => {
                 [],
             );
 
-            const result = await useCase.fetchPlaceEntityList(
-                commonParameterMock(),
-                searchPlaceFilter,
-            );
+            const result =
+                await useCase.fetchPlaceEntityList(searchPlaceFilter);
 
             expect(result).toEqual(mockPlaceEntityList);
         });

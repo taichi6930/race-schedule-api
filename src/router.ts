@@ -37,18 +37,14 @@ const responseError = (error: any): Response => {
 
 const handlePlayer = async (
     request: Request,
-    commonParameter: CommonParameter,
     searchParams: URLSearchParams,
 ): Promise<Response> => {
     const playerController = container.resolve(PlayerController);
     if (request.method === 'GET') {
-        return playerController.getPlayerEntityList(
-            commonParameter,
-            searchParams,
-        );
+        return playerController.getPlayerEntityList(searchParams);
     }
     if (request.method === 'POST') {
-        return playerController.postUpsertPlayer(request, commonParameter);
+        return playerController.postUpsertPlayer(request);
     }
     return responseNotFound();
 };
@@ -93,10 +89,7 @@ const handlePlace = async (
 ): Promise<Response> => {
     const placeController = container.resolve(PlaceController);
     if (request.method === 'GET') {
-        return placeController.getPlaceEntityList(
-            commonParameter,
-            searchParams,
-        );
+        return placeController.getPlaceEntityList(searchParams);
     }
     if (request.method === 'POST') {
         return placeController.postUpsertPlace(request, commonParameter);
@@ -121,11 +114,7 @@ export async function router(
 
         switch (pathname) {
             case '/player': {
-                return await handlePlayer(
-                    request,
-                    commonParameter,
-                    searchParams,
-                );
+                return await handlePlayer(request, searchParams);
             }
             case '/race': {
                 return await handleRace(request, commonParameter, searchParams);
