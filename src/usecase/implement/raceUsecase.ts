@@ -39,7 +39,6 @@ export class RaceUseCase implements IRaceUseCase {
     ): Promise<UpsertResult> {
         // フィルタリング処理
         const placeEntityList = await this.placeService.fetchPlaceEntityList(
-            commonParameter,
             new SearchPlaceFilterEntity(
                 searchRaceFilter.startDate,
                 searchRaceFilter.finishDate,

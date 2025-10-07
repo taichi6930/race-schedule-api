@@ -48,7 +48,6 @@ describe('PlaceService', () => {
             );
 
             const result = await service.fetchPlaceEntityList(
-                commonParameterMock(),
                 searchPlaceFilter,
                 DataLocation.Storage,
             );
@@ -73,7 +72,6 @@ describe('PlaceService', () => {
             );
 
             const result = await service.fetchPlaceEntityList(
-                commonParameterMock(),
                 searchPlaceFilter,
                 DataLocation.Web,
             );
