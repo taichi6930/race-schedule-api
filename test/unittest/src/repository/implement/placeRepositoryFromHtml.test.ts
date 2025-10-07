@@ -8,6 +8,7 @@ import { SearchPlaceFilterEntity } from '../../../../../src/repository/entity/fi
 import { PlaceRepositoryFromHtml } from '../../../../../src/repository/implement/placeRepositoryFromHtml';
 import type { IPlaceRepository } from '../../../../../src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../src/utility/env';
+import { EnvStore } from '../../../../../src/utility/envStore';
 import { RaceType } from '../../../../../src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
 import { clearMocks } from '../../../../utility/testSetupHelper';
@@ -15,6 +16,7 @@ import {
     basePlaceEntity,
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
+import { cloudFlareEnvMock } from '../../mock/common/commonParameterMock';
 
 // テーブル駆動型テスト
 const testCases = {
@@ -69,6 +71,8 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
             let repository: IPlaceRepository;
 
             beforeAll(() => {
+                EnvStore.setEnv(cloudFlareEnvMock());
+
                 placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
                 container.registerInstance(
                     'PlaceDataHtmlGateway',

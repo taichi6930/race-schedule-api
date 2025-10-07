@@ -7,7 +7,6 @@ import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { CommonParameter } from '../../utility/commonParameter';
 import {
     processJraRaceName,
     processNarRaceName,
@@ -48,7 +47,6 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
      */
     @Logger
     public async fetchRaceEntityList(
-        commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
         placeEntityList?: PlaceEntity[],
     ): Promise<RaceEntity[]> {
@@ -1214,10 +1212,8 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
      */
     @Logger
     public async upsertRaceEntityList(
-        _commonParameter: CommonParameter,
         _entityList: RaceEntity[],
     ): Promise<UpsertResult> {
-        void _commonParameter;
         void _entityList;
         return { successCount: 0, failureCount: 0, failures: [] };
     }

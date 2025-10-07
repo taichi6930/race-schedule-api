@@ -10,6 +10,7 @@ import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { RaceRepositoryFromHtml } from '../../../../../src/repository/implement/raceRepositoryFromHtml';
 import type { IRaceRepository } from '../../../../../src/repository/interface/IRaceRepository';
 import { allowedEnvs } from '../../../../../src/utility/env';
+import { EnvStore } from '../../../../../src/utility/envStore';
 import { RaceType } from '../../../../../src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
 import { clearMocks } from '../../../../utility/testSetupHelper';
@@ -18,7 +19,7 @@ import {
     defaultPlaceGrade,
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
-import { commonParameterMock } from './../../mock/common/commonParameterMock';
+import { cloudFlareEnvMock } from '../../mock/common/commonParameterMock';
 
 // Minimal smoke test so test suite contains at least one test
 describe('Smoke test', () => {
@@ -121,6 +122,7 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
             let repository: IRaceRepository;
 
             beforeEach(() => {
+                EnvStore.setEnv(cloudFlareEnvMock());
                 raceDataHtmlGateway = new MockRaceDataHtmlGateway();
                 container.registerInstance(
                     'RaceDataHtmlGateway',
@@ -140,10 +142,8 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
                     `正しいレース開催データを取得できる(${raceType})`,
                     [allowedEnvs.githubActionsCi],
                     async () => {
-                        const commonParameter = commonParameterMock();
                         const raceEntityList =
                             await repository.fetchRaceEntityList(
-                                commonParameter,
                                 new SearchRaceFilterEntity(
                                     startDate,
                                     endDate,
@@ -171,9 +171,8 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
 
             describe('upsertRaceList', () => {
                 it('HTMLにはデータを登録できない', async () => {
-                    const commonParameter = commonParameterMock();
                     await expect(
-                        repository.upsertRaceEntityList(commonParameter, []),
+                        repository.upsertRaceEntityList([]),
                     ).resolves.toEqual({
                         successCount: 0,
                         failureCount: 0,

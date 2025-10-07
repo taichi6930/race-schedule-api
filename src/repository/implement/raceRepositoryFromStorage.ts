@@ -5,7 +5,6 @@ import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
-import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType, validateRaceType } from '../../utility/raceType';
 import type { FailureDetail, UpsertResult } from '../../utility/upsertResult';
@@ -21,7 +20,6 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
     ) {}
     @Logger
     public async fetchRaceEntityList(
-        commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         const { raceTypeList, startDate, finishDate, locationList, gradeList } =
@@ -136,7 +134,6 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
 
     @Logger
     public async upsertRaceEntityList(
-        commonParameter: CommonParameter,
         entityList: RaceEntity[],
     ): Promise<UpsertResult> {
         const result: UpsertResult = {
