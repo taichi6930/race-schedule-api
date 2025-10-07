@@ -4,6 +4,7 @@ import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
 import { container } from './di';
 import type { CloudFlareEnv, CommonParameter } from './utility/commonParameter';
+import { EnvStore } from './utility/envStore';
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -107,6 +108,8 @@ export async function router(
     request: Request,
     env: CloudFlareEnv,
 ): Promise<Response> {
+    EnvStore.setEnv(env);
+
     const url = new URL(request.url);
     const { pathname, searchParams } = url;
     const commonParameter: CommonParameter = { env };
