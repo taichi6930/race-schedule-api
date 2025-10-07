@@ -15,7 +15,6 @@ import {
     mockPlayerEntityList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
-import { commonParameterMock } from '../mock/common/commonParameterMock';
 
 describe('PlayerUseCase', () => {
     let serviceSetup: TestServiceSetup;
@@ -47,10 +46,8 @@ describe('PlayerUseCase', () => {
                 [],
             );
 
-            const result = await useCase.fetchPlayerEntityList(
-                commonParameterMock(),
-                searchPlaceFilter,
-            );
+            const result =
+                await useCase.fetchPlayerEntityList(searchPlaceFilter);
 
             expect(result).toEqual(mockPlayerEntityList);
         });
@@ -63,10 +60,7 @@ describe('PlayerUseCase', () => {
                 mockPlaceEntityList,
             );
 
-            await useCase.upsertPlayerEntityList(
-                commonParameterMock(),
-                mockPlayerEntityList,
-            );
+            await useCase.upsertPlayerEntityList(mockPlayerEntityList);
 
             expect(
                 serviceSetup.playerService.upsertPlayerEntityList,

@@ -6,7 +6,6 @@ import { inject, injectable } from 'tsyringe';
 import { SearchPlayerFilterEntity } from '../repository/entity/filter/searchPlayerFilterEntity';
 import { PlayerEntity } from '../repository/entity/playerEntity';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
-import { CommonParameter } from '../utility/commonParameter';
 import { parseRaceTypeListFromSearch, ValidationError } from './requestParser';
 
 @injectable()
@@ -25,11 +24,9 @@ export class PlayerController {
 
     /**
      * 選手データを取得する
-     * @param commonParameter - 共通パラメータ
      * @param searchParams
      */
     public async getPlayerEntityList(
-        commonParameter: CommonParameter,
         searchParams: URLSearchParams,
     ): Promise<Response> {
         try {
@@ -38,10 +35,8 @@ export class PlayerController {
                 raceTypeList,
             );
 
-            const playerEntityList = await this.usecase.fetchPlayerEntityList(
-                commonParameter,
-                searchPlayerFilter,
-            );
+            const playerEntityList =
+                await this.usecase.fetchPlayerEntityList(searchPlayerFilter);
 
             return Response.json(
                 {
@@ -68,12 +63,8 @@ export class PlayerController {
     /**
      * 選手登録/更新
      * @param request - POSTリクエスト
-     * @param commonParameter - 共通パラメータ
      */
-    public async postUpsertPlayer(
-        request: Request,
-        commonParameter: CommonParameter,
-    ): Promise<Response> {
+    public async postUpsertPlayer(request: Request): Promise<Response> {
         try {
             const body = await request.json();
             const playerList = Array.isArray(body) ? body : [body];
@@ -85,10 +76,7 @@ export class PlayerController {
                     item.priority,
                 ),
             );
-            await this.usecase.upsertPlayerEntityList(
-                commonParameter,
-                playerEntityList,
-            );
+            await this.usecase.upsertPlayerEntityList(playerEntityList);
             return Response.json(
                 {
                     message: '選手を登録/更新しました',
