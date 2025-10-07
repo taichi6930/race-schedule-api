@@ -26,7 +26,6 @@ export class RaceUseCase implements IRaceUseCase {
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         return this.raceService.fetchRaceEntityList(
-            commonParameter,
             searchRaceFilter,
             DataLocation.Storage,
         );
@@ -53,16 +52,12 @@ export class RaceUseCase implements IRaceUseCase {
         for (const placeEntity of placeEntityList) {
             const entityList: RaceEntity[] =
                 await this.raceService.fetchRaceEntityList(
-                    commonParameter,
                     searchRaceFilter,
                     DataLocation.Web,
                     [placeEntity],
                 );
             upsertResultList.push(
-                await this.raceService.upsertRaceEntityList(
-                    commonParameter,
-                    entityList,
-                ),
+                await this.raceService.upsertRaceEntityList(entityList),
             );
         }
 

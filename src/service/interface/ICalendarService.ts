@@ -1,7 +1,6 @@
 import type { CalendarData } from '../../domain/calendarData';
 import type { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
-import type { CommonParameter } from '../../utility/cloudFlareEnv';
 
 export interface ICalendarService {
     /**
@@ -12,7 +11,6 @@ export interface ICalendarService {
      * @returns カレンダーイベント配列
      */
     fetchEvents: (
-        commonParameter: CommonParameter,
         searchCalendarFilter: SearchCalendarFilterEntity,
     ) => Promise<CalendarData[]>;
 
@@ -20,17 +18,11 @@ export interface ICalendarService {
      * レース情報をカレンダーイベントとして登録・更新
      * @param raceEntityList - 登録・更新するレースエンティティ配列
      */
-    upsertEvents: (
-        commonParameter: CommonParameter,
-        raceEntityList: RaceEntity[],
-    ) => Promise<void>;
+    upsertEvents: (raceEntityList: RaceEntity[]) => Promise<void>;
 
     /**
      * 指定したカレンダーイベントを削除
      * @param calendarDataList - 削除するカレンダーイベント配列
      */
-    deleteEvents: (
-        commonParameter: CommonParameter,
-        calendarDataList: CalendarData[],
-    ) => Promise<void>;
+    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
 }

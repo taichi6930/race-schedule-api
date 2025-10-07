@@ -4,7 +4,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
-import { CommonParameter } from '../../utility/cloudFlareEnv';
 import {
     fromGoogleCalendarDataToCalendarData,
     toGoogleCalendarData,
@@ -29,7 +28,6 @@ export class GoogleCalendarRepository implements ICalendarRepository {
      */
     @Logger
     public async getEvents(
-        commonParameter: CommonParameter,
         searchFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
         const calendarDataList: CalendarData[] = [];
@@ -67,10 +65,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
      * @param raceEntityList
      */
     @Logger
-    public async upsertEvents(
-        commonParameter: CommonParameter,
-        raceEntityList: RaceEntity[],
-    ): Promise<void> {
+    public async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(
             raceEntityList.map(async (raceEntity) => {
@@ -115,14 +110,10 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの削除を行う
-     * @param commonParameter
      * @param calendarDataList
      */
     @Logger
-    public async deleteEvents(
-        commonParameter: CommonParameter,
-        calendarDataList: CalendarData[],
-    ): Promise<void> {
+    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
         await Promise.all(
             calendarDataList.map(async (calendarData) => {
                 try {
