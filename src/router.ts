@@ -84,7 +84,6 @@ const handleCalendar = async (
 
 const handlePlace = async (
     request: Request,
-    commonParameter: CommonParameter,
     searchParams: URLSearchParams,
 ): Promise<Response> => {
     const placeController = container.resolve(PlaceController);
@@ -92,7 +91,7 @@ const handlePlace = async (
         return placeController.getPlaceEntityList(searchParams);
     }
     if (request.method === 'POST') {
-        return placeController.postUpsertPlace(request, commonParameter);
+        return placeController.postUpsertPlace(request);
     }
     return responseNotFound();
 };
@@ -127,11 +126,7 @@ export async function router(
                 );
             }
             case '/place': {
-                return await handlePlace(
-                    request,
-                    commonParameter,
-                    searchParams,
-                );
+                return await handlePlace(request, searchParams);
             }
             default: {
                 return responseNotFound();

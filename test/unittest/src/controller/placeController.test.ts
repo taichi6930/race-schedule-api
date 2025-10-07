@@ -10,7 +10,6 @@ import {
     setupTestUsecaseMock,
 } from '../../../utility/testSetupHelper';
 import { mockPlaceEntityList } from '../mock/common/baseCommonData';
-import { commonParameterMock } from '../mock/common/commonParameterMock';
 /*
 ディシジョンテーブル: getPlaceEntityList
 
@@ -124,10 +123,7 @@ describe('PlaceControllerのテスト', () => {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            const response = await controller.postUpsertPlace(
-                mockRequest,
-                commonParameterMock(),
-            );
+            const response = await controller.postUpsertPlace(mockRequest);
 
             expect(
                 usecaseSetUp.placeUsecase.upsertPlaceEntityList,
@@ -149,10 +145,7 @@ describe('PlaceControllerのテスト', () => {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            const response = await controller.postUpsertPlace(
-                mockRequest,
-                commonParameterMock(),
-            );
+            const response = await controller.postUpsertPlace(mockRequest);
 
             expect(
                 usecaseSetUp.placeUsecase.upsertPlaceEntityList,
@@ -180,10 +173,7 @@ describe('PlaceControllerのテスト', () => {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            const response = await controller.postUpsertPlace(
-                mockRequest,
-                commonParameterMock(),
-            );
+            const response = await controller.postUpsertPlace(mockRequest);
 
             expect(
                 usecaseSetUp.raceUsecase.upsertRaceEntityList,

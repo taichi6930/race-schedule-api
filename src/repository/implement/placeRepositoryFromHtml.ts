@@ -8,7 +8,6 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { CommonParameter } from '../../utility/commonParameter';
 import { EnvStore } from '../../utility/envStore';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
@@ -35,7 +34,6 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     /**
      * 開催データを取得する
      * このメソッドで日付の範囲を指定して開催データを取得する
-     * @param commonParameter
      * @param searchFilter
      */
     @Logger
@@ -572,10 +570,8 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
      */
     @Logger
     public async upsertPlaceEntityList(
-        _commonParameter: CommonParameter,
         _placeEntityList: PlaceEntity[],
     ): Promise<UpsertResult> {
-        void _commonParameter;
         void _placeEntityList;
         return {
             successCount: 0,

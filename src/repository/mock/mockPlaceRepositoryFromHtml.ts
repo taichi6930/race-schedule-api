@@ -4,7 +4,6 @@ import {
     defaultPlaceGrade,
 } from '../../../test/unittest/src/mock/common/baseCommonData';
 import { PlaceData } from '../../domain/placeData';
-import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { UpsertResult } from '../../utility/upsertResult';
 import type { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
@@ -45,15 +44,12 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
      * 開催データを登録する
      * HTMLにはデータを登録しない
      * @param raceType - レース種別
-     * @param commonParameter
      * @param placeEntityList
      */
     @Logger
     public async upsertPlaceEntityList(
-        _commonParameter: CommonParameter,
         _placeEntityList: PlaceEntity[],
     ): Promise<UpsertResult> {
-        void _commonParameter;
         void _placeEntityList;
         return {
             successCount: 0,

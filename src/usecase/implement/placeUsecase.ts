@@ -3,7 +3,6 @@ import { inject, injectable } from 'tsyringe';
 import { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceService } from '../../service/interface/IPlaceService';
-import { CommonParameter } from '../../utility/commonParameter';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { UpsertResult } from '../../utility/upsertResult';
@@ -28,7 +27,6 @@ export class PlaceUseCase implements IPlaceUseCase {
 
     @Logger
     public async upsertPlaceEntityList(
-        commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
     ): Promise<UpsertResult> {
         const entityList: PlaceEntity[] =
@@ -36,9 +34,6 @@ export class PlaceUseCase implements IPlaceUseCase {
                 searchPlaceFilter,
                 DataLocation.Web,
             );
-        return this.placeService.upsertPlaceEntityList(
-            commonParameter,
-            entityList,
-        );
+        return this.placeService.upsertPlaceEntityList(entityList);
     }
 }

@@ -4,7 +4,6 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
-import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { FailureDetail, UpsertResult } from '../../utility/upsertResult';
@@ -97,7 +96,6 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
 
     @Logger
     public async upsertPlaceEntityList(
-        commonParameter: CommonParameter,
         entityList: PlaceEntity[],
     ): Promise<UpsertResult> {
         const upsertResult: UpsertResult = {
