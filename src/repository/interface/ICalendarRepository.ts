@@ -1,5 +1,5 @@
 import type { CalendarData } from '../../domain/calendarData';
-import type { CommonParameter } from '../../utility/commonParameter';
+import type { CommonParameter } from '../../utility/cloudFlareEnv';
 import type { SearchCalendarFilterEntity } from '../entity/filter/searchCalendarFilterEntity';
 import type { RaceEntity } from '../entity/raceEntity';
 

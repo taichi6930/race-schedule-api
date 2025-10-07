@@ -6,7 +6,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
-import { CommonParameter } from '../../utility/commonParameter';
+import { CommonParameter } from '../../utility/cloudFlareEnv';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 

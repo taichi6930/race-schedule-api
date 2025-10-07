@@ -1,7 +1,7 @@
 import type { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
-import type { CommonParameter } from '../../utility/commonParameter';
+import type { CommonParameter } from '../../utility/cloudFlareEnv';
 import type { DataLocationType } from '../../utility/dataType';
 import type { UpsertResult } from '../../utility/upsertResult';
 

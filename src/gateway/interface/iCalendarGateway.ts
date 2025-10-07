@@ -1,6 +1,5 @@
 import type { calendar_v3 } from 'googleapis';
 
-import type { CommonParameter } from '../../utility/commonParameter';
 import type { RaceType } from '../../utility/raceType';
 
 /**
@@ -41,7 +40,6 @@ export interface ICalendarGateway {
      *               - 認証/認可エラー
      */
     fetchCalendarDataList: (
-        commonParameter: CommonParameter,
         raceType: RaceType,
         startDate: Date,
         finishDate: Date,
@@ -61,7 +59,6 @@ export interface ICalendarGateway {
      *               - 認証/認可エラー
      */
     fetchCalendarData: (
-        commonParameter: CommonParameter,
         raceType: RaceType,
         eventId: string,
     ) => Promise<calendar_v3.Schema$Event>;
@@ -87,7 +84,6 @@ export interface ICalendarGateway {
      *               - 認証/認可エラー
      */
     updateCalendarData: (
-        commonParameter: CommonParameter,
         raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
     ) => Promise<void>;
@@ -114,7 +110,6 @@ export interface ICalendarGateway {
      *               - 認証/認可エラー
      */
     insertCalendarData: (
-        commonParameter: CommonParameter,
         raceType: RaceType,
         calendarData: calendar_v3.Schema$Event,
     ) => Promise<void>;
@@ -136,9 +131,5 @@ export interface ICalendarGateway {
      *               - API呼び出しに失敗
      *               - 認証/認可エラー
      */
-    deleteCalendarData: (
-        commonParameter: CommonParameter,
-        raceType: RaceType,
-        eventId: string,
-    ) => Promise<void>;
+    deleteCalendarData: (raceType: RaceType, eventId: string) => Promise<void>;
 }

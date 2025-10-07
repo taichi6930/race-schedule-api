@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
-import { CommonParameter } from '../../utility/commonParameter';
+import { CommonParameter } from '../../utility/cloudFlareEnv';
 import {
     fromGoogleCalendarDataToCalendarData,
     toGoogleCalendarData,
@@ -39,7 +39,6 @@ export class GoogleCalendarRepository implements ICalendarRepository {
             try {
                 const tempCalendarDataList =
                     await this.googleCalendarGateway.fetchCalendarDataList(
-                        commonParameter,
                         raceType,
                         startDate,
                         finishDate,
@@ -81,7 +80,6 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                     try {
                         await this.googleCalendarGateway
                             .fetchCalendarData(
-                                commonParameter,
                                 raceEntity.raceData.raceType,
                                 raceEntity.id,
                             )
@@ -98,12 +96,10 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                     // 既存のデータがあれば更新、なければ新規登録
                     await (isExist
                         ? this.googleCalendarGateway.updateCalendarData(
-                              commonParameter,
                               raceEntity.raceData.raceType,
                               toGoogleCalendarData(raceEntity),
                           )
                         : this.googleCalendarGateway.insertCalendarData(
-                              commonParameter,
                               raceEntity.raceData.raceType,
                               toGoogleCalendarData(raceEntity),
                           ));
@@ -131,7 +127,6 @@ export class GoogleCalendarRepository implements ICalendarRepository {
             calendarDataList.map(async (calendarData) => {
                 try {
                     await this.googleCalendarGateway.deleteCalendarData(
-                        commonParameter,
                         calendarData.raceType,
                         calendarData.id,
                     );

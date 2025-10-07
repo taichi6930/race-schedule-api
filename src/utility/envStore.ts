@@ -1,4 +1,4 @@
-import type { CloudFlareEnv } from './commonParameter';
+import type { CloudFlareEnv } from './cloudFlareEnv';
 
 let _env: CloudFlareEnv | undefined;
 

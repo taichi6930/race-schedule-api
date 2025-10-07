@@ -1,6 +1,6 @@
 import type { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
-import type { CommonParameter } from '../../utility/commonParameter';
+import type { CommonParameter } from '../../utility/cloudFlareEnv';
 import type { UpsertResult } from '../../utility/upsertResult';
 
 export interface IRaceUseCase {

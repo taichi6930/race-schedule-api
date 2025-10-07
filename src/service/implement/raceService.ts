@@ -4,7 +4,7 @@ import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRac
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
-import { CommonParameter } from '../../utility/commonParameter';
+import { CommonParameter } from '../../utility/cloudFlareEnv';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import type { UpsertResult } from '../../utility/upsertResult';

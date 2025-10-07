@@ -4,7 +4,7 @@ import './../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { IRaceUseCase } from '../usecase/interface/IRaceUsecase';
-import { CommonParameter } from '../utility/commonParameter';
+import { CommonParameter } from '../utility/cloudFlareEnv';
 import { Logger } from '../utility/logger';
 import {
     parseBodyToFilter,

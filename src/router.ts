@@ -3,7 +3,7 @@ import { PlaceController } from './controller/placeController';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
 import { container } from './di';
-import type { CloudFlareEnv, CommonParameter } from './utility/commonParameter';
+import type { CloudFlareEnv, CommonParameter } from './utility/cloudFlareEnv';
 import { EnvStore } from './utility/envStore';
 
 const corsHeaders = {

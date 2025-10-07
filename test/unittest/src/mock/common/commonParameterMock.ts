@@ -1,7 +1,7 @@
 import type {
     CloudFlareEnv,
     CommonParameter,
-} from '../../../../../src/utility/commonParameter';
+} from '../../../../../src/utility/cloudFlareEnv';
 
 /**
  * CalendarServiceのモックを作成する

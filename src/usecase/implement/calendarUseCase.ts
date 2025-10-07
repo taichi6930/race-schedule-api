@@ -8,7 +8,7 @@ import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRac
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IRaceService } from '../../service/interface/IRaceService';
-import { CommonParameter } from '../../utility/commonParameter';
+import { CommonParameter } from '../../utility/cloudFlareEnv';
 import { RaceGradeAndStageList } from '../../utility/data/stage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
