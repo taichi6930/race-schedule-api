@@ -24,7 +24,6 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
         commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
-        const { env } = commonParameter;
         const { raceTypeList, startDate, finishDate, locationList, gradeList } =
             searchRaceFilter;
 
@@ -85,11 +84,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
         `;
         console.log(sql, queryParams);
 
-        const { results } = await this.dbGateway.queryAll(
-            env,
-            sql,
-            queryParams,
-        );
+        const { results } = await this.dbGateway.queryAll(sql, queryParams);
 
         return results.map((row: any): RaceEntity => {
             const dateJST = new Date(row.date_time);
@@ -149,7 +144,6 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
             failureCount: 0,
             failures: [] as FailureDetail[],
         };
-        const { env } = commonParameter;
         const chunkSize = 5;
         // chunk分割関数
         const chunkArray = <T>(array: T[], size: number): T[][] => {
@@ -203,7 +197,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                 );
             }
             try {
-                await this.dbGateway.run(env, insertRaceSql, raceParams);
+                await this.dbGateway.run(insertRaceSql, raceParams);
                 await new Promise((resolve) => setTimeout(resolve, 500));
                 result.successCount += chunk.length;
             } catch (error: any) {
@@ -253,11 +247,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                 );
             }
             try {
-                await this.dbGateway.run(
-                    env,
-                    insertConditionSql,
-                    conditionParams,
-                );
+                await this.dbGateway.run(insertConditionSql, conditionParams);
                 await new Promise((resolve) => setTimeout(resolve, 500));
                 result.successCount += chunk.length;
             } catch (error: any) {
@@ -304,7 +294,7 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                 );
             }
             try {
-                await this.dbGateway.run(env, insertStageSql, stageParams);
+                await this.dbGateway.run(insertStageSql, stageParams);
                 await new Promise((resolve) => setTimeout(resolve, 500));
                 result.successCount += chunk.length;
             } catch (error: any) {
