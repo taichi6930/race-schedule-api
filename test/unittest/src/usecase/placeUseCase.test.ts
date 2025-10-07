@@ -14,7 +14,6 @@ import {
     mockPlaceEntityList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
-import { commonParameterMock } from '../mock/common/commonParameterMock';
 
 describe('PlaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
@@ -70,10 +69,7 @@ describe('PlaceUseCase', () => {
                 mockPlaceEntityList,
             );
 
-            await useCase.upsertPlaceEntityList(
-                commonParameterMock(),
-                searchPlaceFilter,
-            );
+            await useCase.upsertPlaceEntityList(searchPlaceFilter);
 
             expect(
                 serviceSetup.placeService.fetchPlaceEntityList,

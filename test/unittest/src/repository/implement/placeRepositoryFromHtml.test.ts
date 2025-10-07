@@ -15,7 +15,6 @@ import {
     basePlaceEntity,
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
-import { commonParameterMock } from '../../mock/common/commonParameterMock';
 
 // テーブル駆動型テスト
 const testCases = {
@@ -106,9 +105,8 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
 
             describe('upsertPlaceList', () => {
                 it(`HTMLにはデータを登録できない(${raceType})`, async () => {
-                    const commonParameter = commonParameterMock();
                     await expect(
-                        repository.upsertPlaceEntityList(commonParameter, [
+                        repository.upsertPlaceEntityList([
                             basePlaceEntity(raceType),
                         ]),
                     ).resolves.toEqual({
