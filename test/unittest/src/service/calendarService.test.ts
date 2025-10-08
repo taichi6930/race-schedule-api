@@ -15,7 +15,6 @@ import {
     mockRaceEntityList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
-import { commonParameterMock } from '../mock/common/commonParameterMock';
 
 describe('CalendarService', () => {
     let service: ICalendarService;
@@ -35,43 +34,37 @@ describe('CalendarService', () => {
             const startDate = new Date('2023-01-01');
             const finishDate = new Date('2023-01-31');
 
-            const commonParameter = commonParameterMock();
             const searchRaceFilter = new SearchCalendarFilterEntity(
                 startDate,
                 finishDate,
                 testRaceTypeListAll,
             );
-            const result = await service.fetchEvents(
-                commonParameter,
-                searchRaceFilter,
-            );
+            const result = await service.fetchEvents(searchRaceFilter);
 
             expect(
                 repositorySetup.calendarRepository.getEvents,
-            ).toHaveBeenCalledWith(commonParameter, searchRaceFilter);
+            ).toHaveBeenCalledWith(searchRaceFilter);
             expect(result).toEqual(mockCalendarDataList);
         });
     });
 
     describe('deleteEvents', () => {
         it('カレンダーのイベントの削除が正常に行われること', async () => {
-            const commonParameter = commonParameterMock();
-            await service.deleteEvents(commonParameter, mockCalendarDataList);
+            await service.deleteEvents(mockCalendarDataList);
 
             expect(
                 repositorySetup.calendarRepository.deleteEvents,
-            ).toHaveBeenCalledWith(commonParameter, mockCalendarDataList);
+            ).toHaveBeenCalledWith(mockCalendarDataList);
         });
     });
 
     describe('upsertEvents', () => {
         it('カレンダーのイベントの更新が正常に行われること', async () => {
-            const commonParameter = commonParameterMock();
-            await service.upsertEvents(commonParameter, mockRaceEntityList);
+            await service.upsertEvents(mockRaceEntityList);
 
             expect(
                 repositorySetup.calendarRepository.upsertEvents,
-            ).toHaveBeenCalledWith(commonParameter, mockRaceEntityList);
+            ).toHaveBeenCalledWith(mockRaceEntityList);
         });
     });
 });

@@ -7,10 +7,7 @@ export const mockCalendarRepository = (): jest.Mocked<ICalendarRepository> => {
         getEvents: jest
             .fn()
             .mockImplementation(
-                async (
-                    _commonParameter,
-                    searchFilter: SearchCalendarFilterEntity,
-                ) => {
+                async (searchFilter: SearchCalendarFilterEntity) => {
                     const { raceTypeList } = searchFilter;
                     return raceTypeList.map((raceType) =>
                         baseCalendarData(raceType),

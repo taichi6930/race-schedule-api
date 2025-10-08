@@ -8,10 +8,7 @@ export const mockRaceRepository = (): jest.Mocked<IRaceRepository> => {
         fetchRaceEntityList: jest
             .fn()
             .mockImplementation(
-                async (
-                    _commonParameter,
-                    searchFilter: SearchRaceFilterEntity,
-                ) => {
+                async (searchFilter: SearchRaceFilterEntity) => {
                     const { raceTypeList } = searchFilter;
                     return raceTypeList.map((raceType) =>
                         baseRaceEntity(raceType),

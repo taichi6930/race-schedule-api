@@ -19,7 +19,6 @@ import {
     mockCalendarDataList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
-import { commonParameterMock } from '../mock/common/commonParameterMock';
 
 describe('RaceCalendarUseCase', () => {
     let serviceSetup: TestServiceSetup;
@@ -50,15 +49,12 @@ describe('RaceCalendarUseCase', () => {
                 testRaceTypeListAll,
             );
 
-            const commonParameter = commonParameterMock();
-            const result = await useCase.fetchCalendarRaceList(
-                commonParameter,
-                searchCalendarFilter,
-            );
+            const result =
+                await useCase.fetchCalendarRaceList(searchCalendarFilter);
 
             expect(
                 serviceSetup.calendarService.fetchEvents,
-            ).toHaveBeenCalledWith(commonParameter, searchCalendarFilter);
+            ).toHaveBeenCalledWith(searchCalendarFilter);
             expect(result).toEqual(mockCalendarDataList);
         });
     });
@@ -103,29 +99,23 @@ describe('RaceCalendarUseCase', () => {
         const startDate = new Date('2024-02-01');
         const finishDate = new Date('2024-02-29');
 
-        const commonParameter = commonParameterMock();
         const searchCalendarFilter = new SearchCalendarFilterEntity(
             startDate,
             finishDate,
             testRaceTypeListAll,
         );
 
-        await useCase.updateCalendarRaceData(
-            commonParameter,
-            searchCalendarFilter,
-            {
-                [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
-                [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),
-                [RaceType.OVERSEAS]: SpecifiedGradeList(RaceType.OVERSEAS),
-                [RaceType.KEIRIN]: SpecifiedGradeList(RaceType.KEIRIN),
-                [RaceType.AUTORACE]: SpecifiedGradeList(RaceType.AUTORACE),
-                [RaceType.BOATRACE]: SpecifiedGradeList(RaceType.BOATRACE),
-            },
-        );
+        await useCase.updateCalendarRaceData(searchCalendarFilter, {
+            [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
+            [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),
+            [RaceType.OVERSEAS]: SpecifiedGradeList(RaceType.OVERSEAS),
+            [RaceType.KEIRIN]: SpecifiedGradeList(RaceType.KEIRIN),
+            [RaceType.AUTORACE]: SpecifiedGradeList(RaceType.AUTORACE),
+            [RaceType.BOATRACE]: SpecifiedGradeList(RaceType.BOATRACE),
+        });
 
         // モックが呼び出されたことを確認
         expect(serviceSetup.calendarService.fetchEvents).toHaveBeenCalledWith(
-            commonParameter,
             searchCalendarFilter,
         );
 
@@ -134,14 +124,12 @@ describe('RaceCalendarUseCase', () => {
             1,
         );
         expect(serviceSetup.calendarService.deleteEvents).toHaveBeenCalledWith(
-            commonParameter,
             expectDeleteCalendarDataList,
         );
         expect(serviceSetup.calendarService.upsertEvents).toHaveBeenCalledTimes(
             1,
         );
         expect(serviceSetup.calendarService.upsertEvents).toHaveBeenCalledWith(
-            commonParameter,
             expectRaceEntityList,
         );
     });

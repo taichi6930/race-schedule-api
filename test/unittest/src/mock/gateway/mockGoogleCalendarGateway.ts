@@ -6,11 +6,9 @@ export const mockGoogleCalendarGateway = (): jest.Mocked<ICalendarGateway> => {
     return {
         fetchCalendarDataList: jest
             .fn()
-            .mockImplementation(
-                async (_commonParameter, raceType: RaceType) => {
-                    return [baseCalendarDataFromGoogleCalendar(raceType)];
-                },
-            ),
+            .mockImplementation(async (raceType: RaceType) => {
+                return [baseCalendarDataFromGoogleCalendar(raceType)];
+            }),
         fetchCalendarData: jest.fn(),
         insertCalendarData: jest.fn(),
         updateCalendarData: jest.fn(),

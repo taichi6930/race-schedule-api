@@ -4,7 +4,6 @@ import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRac
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
-import { CommonParameter } from '../../utility/cloudFlareEnv';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import type { UpsertResult } from '../../utility/upsertResult';
@@ -21,7 +20,6 @@ export class RaceService implements IRaceService {
 
     @Logger
     public async fetchRaceEntityList(
-        commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
         dataLocation: DataLocationType,
         placeEntityList?: PlaceEntity[],
@@ -31,7 +29,6 @@ export class RaceService implements IRaceService {
             case DataLocation.Storage: {
                 const repository = this.repositoryFromStorage;
                 return repository.fetchRaceEntityList(
-                    commonParameter,
                     searchRaceFilter,
                     placeEntityList,
                 );
@@ -41,7 +38,6 @@ export class RaceService implements IRaceService {
                     const repository = this.repositoryFromHtml;
                     const fetchedRaceEntityList =
                         await repository.fetchRaceEntityList(
-                            commonParameter,
                             new SearchRaceFilterEntity(
                                 searchRaceFilter.startDate,
                                 searchRaceFilter.finishDate,
@@ -61,12 +57,8 @@ export class RaceService implements IRaceService {
 
     @Logger
     public async upsertRaceEntityList(
-        commonParameter: CommonParameter,
         entityList: RaceEntity[],
     ): Promise<UpsertResult> {
-        return this.repositoryFromStorage.upsertRaceEntityList(
-            commonParameter,
-            entityList,
-        );
+        return this.repositoryFromStorage.upsertRaceEntityList(entityList);
     }
 }
