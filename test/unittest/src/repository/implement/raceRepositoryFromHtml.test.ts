@@ -19,7 +19,7 @@ import {
     defaultPlaceGrade,
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
-import { cloudFlareEnvMock } from '../../mock/common/commonParameterMock';
+import { cloudFlareEnvMock } from '../../mock/common/cloudFlareEnvMock';
 
 // Minimal smoke test so test suite contains at least one test
 describe('Smoke test', () => {

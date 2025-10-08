@@ -61,7 +61,6 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの更新を行う
-     * @param commonParameter
      * @param raceEntityList
      */
     @Logger

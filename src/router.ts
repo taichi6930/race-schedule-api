@@ -3,7 +3,7 @@ import { PlaceController } from './controller/placeController';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
 import { container } from './di';
-import type { CloudFlareEnv, CommonParameter } from './utility/cloudFlareEnv';
+import type { CloudFlareEnv } from './utility/cloudFlareEnv';
 import { EnvStore } from './utility/envStore';
 
 const corsHeaders = {
@@ -51,33 +51,28 @@ const handlePlayer = async (
 
 const handleRace = async (
     request: Request,
-    commonParameter: CommonParameter,
     searchParams: URLSearchParams,
 ): Promise<Response> => {
     const raceController = container.resolve(RaceController);
     if (request.method === 'GET') {
-        return raceController.getRaceEntityList(commonParameter, searchParams);
+        return raceController.getRaceEntityList(searchParams);
     }
     if (request.method === 'POST') {
-        return raceController.postUpsertRace(request, commonParameter);
+        return raceController.postUpsertRace(request);
     }
     return responseNotFound();
 };
 
 const handleCalendar = async (
     request: Request,
-    commonParameter: CommonParameter,
     searchParams: URLSearchParams,
 ): Promise<Response> => {
     const calendarController = container.resolve(CalendarController);
     if (request.method === 'GET') {
-        return calendarController.getCalendarEntityList(
-            commonParameter,
-            searchParams,
-        );
+        return calendarController.getCalendarEntityList(searchParams);
     }
     if (request.method === 'POST') {
-        return calendarController.postUpsertCalendar(request, commonParameter);
+        return calendarController.postUpsertCalendar(request);
     }
     return responseNotFound();
 };
@@ -104,7 +99,6 @@ export async function router(
 
     const url = new URL(request.url);
     const { pathname, searchParams } = url;
-    const commonParameter: CommonParameter = { env };
 
     if (request.method === 'OPTIONS') return responseCors();
     try {
@@ -116,14 +110,10 @@ export async function router(
                 return await handlePlayer(request, searchParams);
             }
             case '/race': {
-                return await handleRace(request, commonParameter, searchParams);
+                return await handleRace(request, searchParams);
             }
             case '/calendar': {
-                return await handleCalendar(
-                    request,
-                    commonParameter,
-                    searchParams,
-                );
+                return await handleCalendar(request, searchParams);
             }
             case '/place': {
                 return await handlePlace(request, searchParams);

@@ -28,7 +28,6 @@ export class PlaceController {
 
     /**
      * 選手データを取得する
-     * @param commonParameter - 共通パラメータ
      * @param searchParams
      */
     @Logger

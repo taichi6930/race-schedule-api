@@ -41,7 +41,6 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     /**
      * 開催データを取得する
-     * @param commonParameter
      * @param searchRaceFilter
      * @param placeEntityList
      */
@@ -1207,7 +1206,6 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
-     * @param _commonParameter - unused
      * @param _entityList - unused
      */
     @Logger

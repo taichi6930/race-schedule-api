@@ -4,7 +4,6 @@ import './../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { IRaceUseCase } from '../usecase/interface/IRaceUsecase';
-import { CommonParameter } from '../utility/cloudFlareEnv';
 import { Logger } from '../utility/logger';
 import {
     parseBodyToFilter,
@@ -28,21 +27,17 @@ export class RaceController {
 
     /**
      * 選手データを取得する
-     * @param commonParameter - 共通パラメータ
      * @param searchParams - 検索パラメータ
      */
     @Logger
     public async getRaceEntityList(
-        commonParameter: CommonParameter,
         searchParams: URLSearchParams,
     ): Promise<Response> {
         try {
             const searchRaceFilter = parseQueryToFilter(searchParams);
 
-            const entityList = await this.usecase.fetchRaceEntityList(
-                commonParameter,
-                searchRaceFilter,
-            );
+            const entityList =
+                await this.usecase.fetchRaceEntityList(searchRaceFilter);
 
             return Response.json(
                 {
@@ -69,21 +64,15 @@ export class RaceController {
     /**
      * レースデータを登録・更新する
      * @param request - Requestオブジェクト
-     * @param commonParameter - 共通パラメータ
      */
     @Logger
-    public async postUpsertRace(
-        request: Request,
-        commonParameter: CommonParameter,
-    ): Promise<Response> {
+    public async postUpsertRace(request: Request): Promise<Response> {
         try {
             const body = await request.json();
             const searchRaceFilter = parseBodyToFilter(body as any);
 
-            const upsertResult = await this.usecase.upsertRaceEntityList(
-                commonParameter,
-                searchRaceFilter,
-            );
+            const upsertResult =
+                await this.usecase.upsertRaceEntityList(searchRaceFilter);
 
             return Response.json(
                 {

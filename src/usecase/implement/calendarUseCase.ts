@@ -29,7 +29,6 @@ export class CalendarUseCase implements ICalendarUseCase {
 
     /**
      * カレンダーからレース情報の取得を行う
-     * @param commonParameter
      * @param startDate
      * @param finishDate
      * @param raceTypeList - レース種別のリスト
@@ -48,7 +47,6 @@ export class CalendarUseCase implements ICalendarUseCase {
 
     /**
      * カレンダーの更新を行う
-     * @param commonParameter
      * @param startDate
      * @param finishDate
      * @param raceTypeList

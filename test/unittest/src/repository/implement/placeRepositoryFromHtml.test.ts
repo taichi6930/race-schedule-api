@@ -16,7 +16,7 @@ import {
     basePlaceEntity,
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
-import { cloudFlareEnvMock } from '../../mock/common/commonParameterMock';
+import { cloudFlareEnvMock } from '../../mock/common/cloudFlareEnvMock';
 
 // テーブル駆動型テスト
 const testCases = {

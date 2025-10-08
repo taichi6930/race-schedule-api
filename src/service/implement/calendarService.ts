@@ -26,7 +26,6 @@ export class CalendarService implements ICalendarService {
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（含む）
      * @param raceTypeList - レース種別リスト
-     * @param commonParameter
      * @param searchCalendarFilter
      * @returns カレンダーイベント配列
      */
@@ -39,7 +38,6 @@ export class CalendarService implements ICalendarService {
 
     /**
      * レース情報をカレンダーイベントとして登録・更新
-     * @param commonParameter
      * @param raceEntityList - 登録・更新するレースエンティティ配列
      */
     @Logger
@@ -49,7 +47,6 @@ export class CalendarService implements ICalendarService {
 
     /**
      * 指定したカレンダーイベントを削除
-     * @param commonParameter
      * @param calendarDataList - 削除するカレンダーイベント配列
      */
     @Logger

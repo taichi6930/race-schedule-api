@@ -5,7 +5,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { SearchCalendarFilterEntity } from '../repository/entity/filter/searchCalendarFilterEntity';
 import { ICalendarUseCase } from '../usecase/interface/ICalendarUseCase';
-import { CommonParameter } from '../utility/cloudFlareEnv';
 import { Logger } from '../utility/logger';
 import { RaceType } from '../utility/raceType';
 import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
@@ -31,12 +30,10 @@ export class CalendarController {
 
     /**
      * 選手データを取得する
-     * @param commonParameter - 共通パラメータ
      * @param searchParams
      */
     @Logger
     public async getCalendarEntityList(
-        commonParameter: CommonParameter,
         searchParams: URLSearchParams,
     ): Promise<Response> {
         try {
@@ -49,10 +46,8 @@ export class CalendarController {
                 raceTypeList,
             );
 
-            const raceEntityList = await this.usecase.fetchCalendarRaceList(
-                commonParameter,
-                searchCalendarFilter,
-            );
+            const raceEntityList =
+                await this.usecase.fetchCalendarRaceList(searchCalendarFilter);
 
             return Response.json(
                 {
@@ -78,29 +73,21 @@ export class CalendarController {
     /**
      * レースデータを登録・更新する
      * @param request - Requestオブジェクト
-     * @param commonParameter - 共通パラメータ
      */
     @Logger
-    public async postUpsertCalendar(
-        request: Request,
-        commonParameter: CommonParameter,
-    ): Promise<Response> {
+    public async postUpsertCalendar(request: Request): Promise<Response> {
         try {
             const body = await request.json();
             const searchCalendarFilter = parseBodyToFilter(body as any);
 
-            await this.usecase.updateCalendarRaceData(
-                commonParameter,
-                searchCalendarFilter,
-                {
-                    [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
-                    [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),
-                    [RaceType.OVERSEAS]: SpecifiedGradeList(RaceType.OVERSEAS),
-                    [RaceType.KEIRIN]: SpecifiedGradeList(RaceType.KEIRIN),
-                    [RaceType.AUTORACE]: SpecifiedGradeList(RaceType.AUTORACE),
-                    [RaceType.BOATRACE]: SpecifiedGradeList(RaceType.BOATRACE),
-                },
-            );
+            await this.usecase.updateCalendarRaceData(searchCalendarFilter, {
+                [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),
+                [RaceType.NAR]: SpecifiedGradeList(RaceType.NAR),
+                [RaceType.OVERSEAS]: SpecifiedGradeList(RaceType.OVERSEAS),
+                [RaceType.KEIRIN]: SpecifiedGradeList(RaceType.KEIRIN),
+                [RaceType.AUTORACE]: SpecifiedGradeList(RaceType.AUTORACE),
+                [RaceType.BOATRACE]: SpecifiedGradeList(RaceType.BOATRACE),
+            });
 
             return new Response('OK', {
                 status: 200,
