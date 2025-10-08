@@ -16,7 +16,6 @@ import {
     mockRaceEntityList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
-import { commonParameterMock } from '../mock/common/commonParameterMock';
 
 describe('RaceService', () => {
     let repositorySetup: TestRepositorySetup;
@@ -51,7 +50,6 @@ describe('RaceService', () => {
             );
 
             const result = await service.fetchRaceEntityList(
-                commonParameterMock(),
                 searchRaceFilter,
                 DataLocation.Storage,
             );
@@ -62,10 +60,7 @@ describe('RaceService', () => {
         it('正常に開催データがWebから取得できること', async () => {
             // モックの戻り値を設定
             repositorySetup.raceRepositoryFromHtml.fetchRaceEntityList.mockImplementation(
-                async (
-                    _commonParameter,
-                    searchFilter: SearchRaceFilterEntity,
-                ) => {
+                async (searchFilter: SearchRaceFilterEntity) => {
                     const { raceTypeList } = searchFilter;
                     return raceTypeList.flatMap((raceType) =>
                         baseRaceEntityList(raceType),
@@ -86,7 +81,6 @@ describe('RaceService', () => {
             );
 
             const result = await service.fetchRaceEntityList(
-                commonParameterMock(),
                 searchRaceFilter,
                 DataLocation.Web,
             );
@@ -103,10 +97,7 @@ describe('RaceService', () => {
 
     describe('updateRaceEntityList', () => {
         it('正常に開催データが更新されること', async () => {
-            await service.upsertRaceEntityList(
-                commonParameterMock(),
-                mockRaceEntityList,
-            );
+            await service.upsertRaceEntityList(mockRaceEntityList);
 
             expect(
                 repositorySetup.raceRepositoryFromHtml.fetchRaceEntityList,

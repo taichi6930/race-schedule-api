@@ -7,12 +7,12 @@ import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';
 import { RacePlayerData } from '../../domain/racePlayerData';
 import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
-import { CommonParameter } from '../../utility/commonParameter';
 import {
     processJraRaceName,
     processNarRaceName,
     processOverseasRaceName,
 } from '../../utility/createRaceName';
+import { EnvStore } from '../../utility/envStore';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';
@@ -41,13 +41,11 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     /**
      * 開催データを取得する
-     * @param commonParameter
      * @param searchRaceFilter
      * @param placeEntityList
      */
     @Logger
     public async fetchRaceEntityList(
-        commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
         placeEntityList?: PlaceEntity[],
     ): Promise<RaceEntity[]> {
@@ -117,7 +115,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
             }
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
             const delayedTimeMs = Number.parseInt(
-                commonParameter.env.HTML_FETCH_DELAY_MS || '1000',
+                EnvStore.env.HTML_FETCH_DELAY_MS || '1000',
             );
             console.debug(`待機時間: ${delayedTimeMs}ms`);
             await new Promise((resolve) => setTimeout(resolve, delayedTimeMs));
@@ -1208,15 +1206,12 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
-     * @param _commonParameter - unused
      * @param _entityList - unused
      */
     @Logger
     public async upsertRaceEntityList(
-        _commonParameter: CommonParameter,
         _entityList: RaceEntity[],
     ): Promise<UpsertResult> {
-        void _commonParameter;
         void _entityList;
         return { successCount: 0, failureCount: 0, failures: [] };
     }

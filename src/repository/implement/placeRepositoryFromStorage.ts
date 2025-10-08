@@ -4,7 +4,6 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
-import type { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { FailureDetail, UpsertResult } from '../../utility/upsertResult';
@@ -20,10 +19,8 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
     ) {}
     @Logger
     public async fetchPlaceEntityList(
-        commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
-        const { env } = commonParameter;
         const { raceTypeList, startDate, finishDate, locationList } =
             searchPlaceFilter;
         if (raceTypeList.length === 0) {
@@ -64,7 +61,6 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
             ${whereClause}
         `;
         const { results } = await this.dbGateway.queryAll(
-            env,
             finalSQL,
             queryParams,
         );
@@ -100,7 +96,6 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
 
     @Logger
     public async upsertPlaceEntityList(
-        commonParameter: CommonParameter,
         entityList: PlaceEntity[],
     ): Promise<UpsertResult> {
         const upsertResult: UpsertResult = {
@@ -108,8 +103,6 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
             failureCount: 0,
             failures: [] as FailureDetail[],
         };
-        const { env } = commonParameter;
-
         const chunkSize = 10;
         // chunk分割関数
         const chunkArray = <T>(array: T[], size: number): T[][] => {
@@ -152,7 +145,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                 );
             }
             try {
-                await this.dbGateway.run(env, insertPlaceSql, placeParams);
+                await this.dbGateway.run(insertPlaceSql, placeParams);
                 await new Promise((resolve) => setTimeout(resolve, 500));
                 upsertResult.successCount += chunk.length;
             } catch (error: any) {
@@ -199,7 +192,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                 );
             }
             try {
-                await this.dbGateway.run(env, insertHeldDaySql, heldDayParams);
+                await this.dbGateway.run(insertHeldDaySql, heldDayParams);
                 await new Promise((resolve) => setTimeout(resolve, 500));
                 upsertResult.successCount += chunk.length;
             } catch (error: any) {
@@ -246,7 +239,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                 );
             }
             try {
-                await this.dbGateway.run(env, insertGradeSql, gradeParams);
+                await this.dbGateway.run(insertGradeSql, gradeParams);
                 await new Promise((resolve) => setTimeout(resolve, 500));
                 upsertResult.successCount += chunk.length;
             } catch (error: any) {

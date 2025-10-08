@@ -7,8 +7,6 @@ import { RaceType } from '../../../src/utility/raceType';
 import { testRaceTypeListAll } from '../src/mock/common/baseCommonData';
 
 // Minimal mocks/stubs for CommonParameter and DB Gateway
-const commonParameter: any = { env: {} };
-
 describe('PlaceRepositoryFromStorage', () => {
     describe('fetchPlaceEntityList', () => {
         test('raceTypeが空の時は空配列を返す', async () => {
@@ -22,10 +20,7 @@ describe('PlaceRepositoryFromStorage', () => {
                 [],
                 [],
             );
-            const res = await repo.fetchPlaceEntityList(
-                commonParameter,
-                filter,
-            );
+            const res = await repo.fetchPlaceEntityList(filter);
             expect(res).toEqual([]);
             expect(mockDb.queryAll).not.toHaveBeenCalled();
         });
@@ -65,10 +60,7 @@ describe('PlaceRepositoryFromStorage', () => {
                 testRaceTypeListAll,
                 [],
             );
-            const res = await repo.fetchPlaceEntityList(
-                commonParameter,
-                filter,
-            );
+            const res = await repo.fetchPlaceEntityList(filter);
             expect(res.length).toBe(1);
             for (const e of res) {
                 expect(e.id).toBe('jra2025010105');

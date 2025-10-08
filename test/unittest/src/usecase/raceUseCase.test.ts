@@ -15,7 +15,6 @@ import {
     mockRaceEntityList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
-import { commonParameterMock } from '../mock/common/commonParameterMock';
 
 describe('RaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
@@ -49,10 +48,7 @@ describe('RaceUseCase', () => {
                 [],
             );
 
-            const result = await useCase.fetchRaceEntityList(
-                commonParameterMock(),
-                searchRaceFilter,
-            );
+            const result = await useCase.fetchRaceEntityList(searchRaceFilter);
 
             expect(result).toEqual(mockRaceEntityList);
         });
@@ -70,7 +66,6 @@ describe('RaceUseCase', () => {
                 mockRaceEntityList,
             );
             await useCase.upsertRaceEntityList(
-                commonParameterMock(),
                 new SearchRaceFilterEntity(
                     startDate,
                     finishDate,

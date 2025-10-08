@@ -15,7 +15,6 @@ import {
     mockPlaceEntityList,
     testRaceTypeListAll,
 } from '../mock/common/baseCommonData';
-import { commonParameterMock } from '../mock/common/commonParameterMock';
 
 describe('PlaceService', () => {
     let repositorySetup: TestRepositorySetup;
@@ -48,7 +47,6 @@ describe('PlaceService', () => {
             );
 
             const result = await service.fetchPlaceEntityList(
-                commonParameterMock(),
                 searchPlaceFilter,
                 DataLocation.Storage,
             );
@@ -73,7 +71,6 @@ describe('PlaceService', () => {
             );
 
             const result = await service.fetchPlaceEntityList(
-                commonParameterMock(),
                 searchPlaceFilter,
                 DataLocation.Web,
             );
@@ -84,10 +81,7 @@ describe('PlaceService', () => {
 
     describe('updatePlaceEntityList', () => {
         it('正常に開催場データが更新されること', async () => {
-            await service.upsertPlaceEntityList(
-                commonParameterMock(),
-                mockPlaceEntityList,
-            );
+            await service.upsertPlaceEntityList(mockPlaceEntityList);
 
             expect(
                 repositorySetup.placeRepositoryFromHtml.fetchPlaceEntityList,

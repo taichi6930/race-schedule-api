@@ -1,6 +1,5 @@
 import { baseRacePlayerDataList } from '../../../test/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
-import type { CommonParameter } from '../../utility/commonParameter';
 import { RaceType } from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';
 import type { RaceStage } from '../../utility/validateAndType/raceStage';
@@ -13,7 +12,6 @@ export class MockMechanicalRacingRaceRepositoryFromHtml
     implements IRaceRepository
 {
     public async fetchRaceEntityList(
-        commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
         placeEntityList?: PlaceEntity[],
     ): Promise<RaceEntity[]> {
@@ -48,10 +46,8 @@ export class MockMechanicalRacingRaceRepositoryFromHtml
     }
 
     public async upsertRaceEntityList(
-        _commonParameter: CommonParameter,
         _entityList: RaceEntity[],
     ): Promise<UpsertResult> {
-        void _commonParameter;
         void _entityList;
         return { successCount: 0, failureCount: 0, failures: [] };
     }

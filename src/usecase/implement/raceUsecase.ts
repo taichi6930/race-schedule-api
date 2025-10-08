@@ -5,7 +5,6 @@ import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRac
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IPlaceService } from '../../service/interface/IPlaceService';
 import { IRaceService } from '../../service/interface/IRaceService';
-import { CommonParameter } from '../../utility/commonParameter';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import type { UpsertResult } from '../../utility/upsertResult';
@@ -22,11 +21,9 @@ export class RaceUseCase implements IRaceUseCase {
 
     @Logger
     public async fetchRaceEntityList(
-        commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<RaceEntity[]> {
         return this.raceService.fetchRaceEntityList(
-            commonParameter,
             searchRaceFilter,
             DataLocation.Storage,
         );
@@ -34,12 +31,10 @@ export class RaceUseCase implements IRaceUseCase {
 
     @Logger
     public async upsertRaceEntityList(
-        commonParameter: CommonParameter,
         searchRaceFilter: SearchRaceFilterEntity,
     ): Promise<UpsertResult> {
         // フィルタリング処理
         const placeEntityList = await this.placeService.fetchPlaceEntityList(
-            commonParameter,
             new SearchPlaceFilterEntity(
                 searchRaceFilter.startDate,
                 searchRaceFilter.finishDate,
@@ -54,16 +49,12 @@ export class RaceUseCase implements IRaceUseCase {
         for (const placeEntity of placeEntityList) {
             const entityList: RaceEntity[] =
                 await this.raceService.fetchRaceEntityList(
-                    commonParameter,
                     searchRaceFilter,
                     DataLocation.Web,
                     [placeEntity],
                 );
             upsertResultList.push(
-                await this.raceService.upsertRaceEntityList(
-                    commonParameter,
-                    entityList,
-                ),
+                await this.raceService.upsertRaceEntityList(entityList),
             );
         }
 

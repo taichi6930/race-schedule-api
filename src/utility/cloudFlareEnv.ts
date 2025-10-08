@@ -1,8 +1,5 @@
 import type { D1Database } from '@cloudflare/workers-types';
 
-export interface CommonParameter {
-    env: CloudFlareEnv;
-}
 export interface CloudFlareEnv {
     DB: D1Database;
     JRA_CALENDAR_ID: string;

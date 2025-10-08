@@ -8,6 +8,7 @@ import { SearchPlaceFilterEntity } from '../../../../../src/repository/entity/fi
 import { PlaceRepositoryFromHtml } from '../../../../../src/repository/implement/placeRepositoryFromHtml';
 import type { IPlaceRepository } from '../../../../../src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../src/utility/env';
+import { EnvStore } from '../../../../../src/utility/envStore';
 import { RaceType } from '../../../../../src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
 import { clearMocks } from '../../../../utility/testSetupHelper';
@@ -15,7 +16,7 @@ import {
     basePlaceEntity,
     testRaceTypeListAll,
 } from '../../mock/common/baseCommonData';
-import { commonParameterMock } from '../../mock/common/commonParameterMock';
+import { cloudFlareEnvMock } from '../../mock/common/cloudFlareEnvMock';
 
 // テーブル駆動型テスト
 const testCases = {
@@ -70,6 +71,8 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
             let repository: IPlaceRepository;
 
             beforeAll(() => {
+                EnvStore.setEnv(cloudFlareEnvMock());
+
                 placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
                 container.registerInstance(
                     'PlaceDataHtmlGateway',
@@ -89,7 +92,6 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
                     `正しいレース開催データを取得できる(${raceType})`,
                     [allowedEnvs.githubActionsCi],
                     async () => {
-                        const commonParameter = commonParameterMock();
                         const searchPlaceFilter = new SearchPlaceFilterEntity(
                             startDate,
                             endDate,
@@ -98,7 +100,6 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
                         );
                         const placeEntityList =
                             await repository.fetchPlaceEntityList(
-                                commonParameter,
                                 searchPlaceFilter,
                             );
                         expect(placeEntityList).toHaveLength(expectedLength);
@@ -108,9 +109,8 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
 
             describe('upsertPlaceList', () => {
                 it(`HTMLにはデータを登録できない(${raceType})`, async () => {
-                    const commonParameter = commonParameterMock();
                     await expect(
-                        repository.upsertPlaceEntityList(commonParameter, [
+                        repository.upsertPlaceEntityList([
                             basePlaceEntity(raceType),
                         ]),
                     ).resolves.toEqual({

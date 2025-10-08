@@ -4,7 +4,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
-import { CommonParameter } from '../../utility/commonParameter';
 import {
     fromGoogleCalendarDataToCalendarData,
     toGoogleCalendarData,
@@ -29,7 +28,6 @@ export class GoogleCalendarRepository implements ICalendarRepository {
      */
     @Logger
     public async getEvents(
-        commonParameter: CommonParameter,
         searchFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
         const calendarDataList: CalendarData[] = [];
@@ -39,7 +37,6 @@ export class GoogleCalendarRepository implements ICalendarRepository {
             try {
                 const tempCalendarDataList =
                     await this.googleCalendarGateway.fetchCalendarDataList(
-                        commonParameter,
                         raceType,
                         startDate,
                         finishDate,
@@ -64,14 +61,10 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの更新を行う
-     * @param commonParameter
      * @param raceEntityList
      */
     @Logger
-    public async upsertEvents(
-        commonParameter: CommonParameter,
-        raceEntityList: RaceEntity[],
-    ): Promise<void> {
+    public async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(
             raceEntityList.map(async (raceEntity) => {
@@ -81,7 +74,6 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                     try {
                         await this.googleCalendarGateway
                             .fetchCalendarData(
-                                commonParameter,
                                 raceEntity.raceData.raceType,
                                 raceEntity.id,
                             )
@@ -98,12 +90,10 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                     // 既存のデータがあれば更新、なければ新規登録
                     await (isExist
                         ? this.googleCalendarGateway.updateCalendarData(
-                              commonParameter,
                               raceEntity.raceData.raceType,
                               toGoogleCalendarData(raceEntity),
                           )
                         : this.googleCalendarGateway.insertCalendarData(
-                              commonParameter,
                               raceEntity.raceData.raceType,
                               toGoogleCalendarData(raceEntity),
                           ));
@@ -119,19 +109,14 @@ export class GoogleCalendarRepository implements ICalendarRepository {
 
     /**
      * カレンダーのイベントの削除を行う
-     * @param commonParameter
      * @param calendarDataList
      */
     @Logger
-    public async deleteEvents(
-        commonParameter: CommonParameter,
-        calendarDataList: CalendarData[],
-    ): Promise<void> {
+    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
         await Promise.all(
             calendarDataList.map(async (calendarData) => {
                 try {
                     await this.googleCalendarGateway.deleteCalendarData(
-                        commonParameter,
                         calendarData.raceType,
                         calendarData.id,
                     );

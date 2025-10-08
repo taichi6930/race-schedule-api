@@ -8,7 +8,7 @@ import { inject, injectable } from 'tsyringe';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { CommonParameter } from '../../utility/commonParameter';
+import { EnvStore } from '../../utility/envStore';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../../utility/raceType';
 import { UpsertResult } from '../../utility/upsertResult';
@@ -34,12 +34,10 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     /**
      * 開催データを取得する
      * このメソッドで日付の範囲を指定して開催データを取得する
-     * @param commonParameter
      * @param searchFilter
      */
     @Logger
     public async fetchPlaceEntityList(
-        commonParameter: CommonParameter,
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         const { raceTypeList, startDate, finishDate } = searchFilter;
@@ -107,7 +105,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                 }
                 // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
                 const delayedTimeMs = Number.parseInt(
-                    commonParameter.env.HTML_FETCH_DELAY_MS || '1000',
+                    EnvStore.env.HTML_FETCH_DELAY_MS || '1000',
                 );
                 console.debug(`待機時間: ${delayedTimeMs}ms`);
                 await new Promise((resolve) =>
@@ -572,10 +570,8 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
      */
     @Logger
     public async upsertPlaceEntityList(
-        _commonParameter: CommonParameter,
         _placeEntityList: PlaceEntity[],
     ): Promise<UpsertResult> {
-        void _commonParameter;
         void _placeEntityList;
         return {
             successCount: 0,

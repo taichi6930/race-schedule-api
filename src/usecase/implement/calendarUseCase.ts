@@ -8,7 +8,6 @@ import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRac
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IRaceService } from '../../service/interface/IRaceService';
-import { CommonParameter } from '../../utility/commonParameter';
 import { RaceGradeAndStageList } from '../../utility/data/stage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -30,7 +29,6 @@ export class CalendarUseCase implements ICalendarUseCase {
 
     /**
      * カレンダーからレース情報の取得を行う
-     * @param commonParameter
      * @param startDate
      * @param finishDate
      * @param raceTypeList - レース種別のリスト
@@ -38,22 +36,17 @@ export class CalendarUseCase implements ICalendarUseCase {
      */
     @Logger
     public async fetchCalendarRaceList(
-        commonParameter: CommonParameter,
         searchCalendarFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
         const calendarDataList: CalendarData[] = [];
         calendarDataList.push(
-            ...(await this.calendarService.fetchEvents(
-                commonParameter,
-                searchCalendarFilter,
-            )),
+            ...(await this.calendarService.fetchEvents(searchCalendarFilter)),
         );
         return calendarDataList;
     }
 
     /**
      * カレンダーの更新を行う
-     * @param commonParameter
      * @param startDate
      * @param finishDate
      * @param raceTypeList
@@ -62,7 +55,6 @@ export class CalendarUseCase implements ICalendarUseCase {
      */
     @Logger
     public async updateCalendarRaceData(
-        commonParameter: CommonParameter,
         searchCalendarFilter: SearchCalendarFilterEntity,
         displayGradeList: {
             [RaceType.JRA]: GradeType[];
@@ -75,7 +67,6 @@ export class CalendarUseCase implements ICalendarUseCase {
     ): Promise<void> {
         // レース情報を取得する
         const raceEntityList = await this.raceService.fetchRaceEntityList(
-            commonParameter,
             new SearchRaceFilterEntity(
                 searchCalendarFilter.startDate,
                 searchCalendarFilter.finishDate,
@@ -131,10 +122,7 @@ export class CalendarUseCase implements ICalendarUseCase {
 
         // カレンダーの取得を行う
         const calendarDataList: CalendarData[] =
-            await this.calendarService.fetchEvents(
-                commonParameter,
-                searchCalendarFilter,
-            );
+            await this.calendarService.fetchEvents(searchCalendarFilter);
 
         const deleteCalendarDataList = Object.fromEntries(
             RACE_TYPE_LIST_ALL.map((raceType) => [
@@ -156,7 +144,6 @@ export class CalendarUseCase implements ICalendarUseCase {
         );
 
         await this.calendarService.deleteEvents(
-            commonParameter,
             RACE_TYPE_LIST_ALL.flatMap(
                 (raceType) => deleteCalendarDataList[raceType],
             ),
@@ -182,9 +169,6 @@ export class CalendarUseCase implements ICalendarUseCase {
                     ),
         );
 
-        await this.calendarService.upsertEvents(
-            commonParameter,
-            upsertRaceEntityList,
-        );
+        await this.calendarService.upsertEvents(upsertRaceEntityList);
     }
 }

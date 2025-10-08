@@ -6,7 +6,6 @@ import { CalendarData } from '../../domain/calendarData';
 import { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
-import { CommonParameter } from '../../utility/commonParameter';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
@@ -27,50 +26,31 @@ export class CalendarService implements ICalendarService {
      * @param startDate - 取得開始日
      * @param finishDate - 取得終了日（含む）
      * @param raceTypeList - レース種別リスト
-     * @param commonParameter
      * @param searchCalendarFilter
      * @returns カレンダーイベント配列
      */
     @Logger
     public async fetchEvents(
-        commonParameter: CommonParameter,
         searchCalendarFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
-        return this.calendarRepository.getEvents(
-            commonParameter,
-            searchCalendarFilter,
-        );
+        return this.calendarRepository.getEvents(searchCalendarFilter);
     }
 
     /**
      * レース情報をカレンダーイベントとして登録・更新
-     * @param commonParameter
      * @param raceEntityList - 登録・更新するレースエンティティ配列
      */
     @Logger
-    public async upsertEvents(
-        commonParameter: CommonParameter,
-        raceEntityList: RaceEntity[],
-    ): Promise<void> {
-        await this.calendarRepository.upsertEvents(
-            commonParameter,
-            raceEntityList,
-        );
+    public async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
+        await this.calendarRepository.upsertEvents(raceEntityList);
     }
 
     /**
      * 指定したカレンダーイベントを削除
-     * @param commonParameter
      * @param calendarDataList - 削除するカレンダーイベント配列
      */
     @Logger
-    public async deleteEvents(
-        commonParameter: CommonParameter,
-        calendarDataList: CalendarData[],
-    ): Promise<void> {
-        await this.calendarRepository.deleteEvents(
-            commonParameter,
-            calendarDataList,
-        );
+    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
+        await this.calendarRepository.deleteEvents(calendarDataList);
     }
 }

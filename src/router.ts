@@ -3,7 +3,8 @@ import { PlaceController } from './controller/placeController';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
 import { container } from './di';
-import type { CloudFlareEnv, CommonParameter } from './utility/commonParameter';
+import type { CloudFlareEnv } from './utility/cloudFlareEnv';
+import { EnvStore } from './utility/envStore';
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -36,69 +37,56 @@ const responseError = (error: any): Response => {
 
 const handlePlayer = async (
     request: Request,
-    commonParameter: CommonParameter,
     searchParams: URLSearchParams,
 ): Promise<Response> => {
     const playerController = container.resolve(PlayerController);
     if (request.method === 'GET') {
-        return playerController.getPlayerEntityList(
-            commonParameter,
-            searchParams,
-        );
+        return playerController.getPlayerEntityList(searchParams);
     }
     if (request.method === 'POST') {
-        return playerController.postUpsertPlayer(request, commonParameter);
+        return playerController.postUpsertPlayer(request);
     }
     return responseNotFound();
 };
 
 const handleRace = async (
     request: Request,
-    commonParameter: CommonParameter,
     searchParams: URLSearchParams,
 ): Promise<Response> => {
     const raceController = container.resolve(RaceController);
     if (request.method === 'GET') {
-        return raceController.getRaceEntityList(commonParameter, searchParams);
+        return raceController.getRaceEntityList(searchParams);
     }
     if (request.method === 'POST') {
-        return raceController.postUpsertRace(request, commonParameter);
+        return raceController.postUpsertRace(request);
     }
     return responseNotFound();
 };
 
 const handleCalendar = async (
     request: Request,
-    commonParameter: CommonParameter,
     searchParams: URLSearchParams,
 ): Promise<Response> => {
     const calendarController = container.resolve(CalendarController);
     if (request.method === 'GET') {
-        return calendarController.getCalendarEntityList(
-            commonParameter,
-            searchParams,
-        );
+        return calendarController.getCalendarEntityList(searchParams);
     }
     if (request.method === 'POST') {
-        return calendarController.postUpsertCalendar(request, commonParameter);
+        return calendarController.postUpsertCalendar(request);
     }
     return responseNotFound();
 };
 
 const handlePlace = async (
     request: Request,
-    commonParameter: CommonParameter,
     searchParams: URLSearchParams,
 ): Promise<Response> => {
     const placeController = container.resolve(PlaceController);
     if (request.method === 'GET') {
-        return placeController.getPlaceEntityList(
-            commonParameter,
-            searchParams,
-        );
+        return placeController.getPlaceEntityList(searchParams);
     }
     if (request.method === 'POST') {
-        return placeController.postUpsertPlace(request, commonParameter);
+        return placeController.postUpsertPlace(request);
     }
     return responseNotFound();
 };
@@ -107,9 +95,10 @@ export async function router(
     request: Request,
     env: CloudFlareEnv,
 ): Promise<Response> {
+    EnvStore.setEnv(env);
+
     const url = new URL(request.url);
     const { pathname, searchParams } = url;
-    const commonParameter: CommonParameter = { env };
 
     if (request.method === 'OPTIONS') return responseCors();
     try {
@@ -118,28 +107,16 @@ export async function router(
 
         switch (pathname) {
             case '/player': {
-                return await handlePlayer(
-                    request,
-                    commonParameter,
-                    searchParams,
-                );
+                return await handlePlayer(request, searchParams);
             }
             case '/race': {
-                return await handleRace(request, commonParameter, searchParams);
+                return await handleRace(request, searchParams);
             }
             case '/calendar': {
-                return await handleCalendar(
-                    request,
-                    commonParameter,
-                    searchParams,
-                );
+                return await handleCalendar(request, searchParams);
             }
             case '/place': {
-                return await handlePlace(
-                    request,
-                    commonParameter,
-                    searchParams,
-                );
+                return await handlePlace(request, searchParams);
             }
             default: {
                 return responseNotFound();

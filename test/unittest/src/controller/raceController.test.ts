@@ -9,7 +9,6 @@ import {
     setupTestUsecaseMock,
 } from '../../../utility/testSetupHelper';
 import { mockRaceEntityList } from '../mock/common/baseCommonData';
-import { commonParameterMock } from '../mock/common/commonParameterMock';
 import { RaceController } from './../../../../src/controller/raceController';
 /*
 ディシジョンテーブル: getRaceEntityList
@@ -57,10 +56,8 @@ describe('RaceControllerのテスト', () => {
                 mockRaceEntityList,
             );
 
-            const response = await controller.getRaceEntityList(
-                commonParameterMock(),
-                mockSearchParams,
-            );
+            const response =
+                await controller.getRaceEntityList(mockSearchParams);
 
             expect(
                 usecaseSetUp.raceUsecase.fetchRaceEntityList,
@@ -75,10 +72,8 @@ describe('RaceControllerのテスト', () => {
                 new Error('Database error'),
             );
 
-            const response = await controller.getRaceEntityList(
-                commonParameterMock(),
-                mockSearchParams,
-            );
+            const response =
+                await controller.getRaceEntityList(mockSearchParams);
 
             expect(
                 usecaseSetUp.raceUsecase.fetchRaceEntityList,
@@ -98,10 +93,8 @@ describe('RaceControllerのテスト', () => {
                 raceType: RaceType.JRA,
             });
 
-            const response = await controller.getRaceEntityList(
-                commonParameterMock(),
-                invalidSearchParams,
-            );
+            const response =
+                await controller.getRaceEntityList(invalidSearchParams);
 
             expect(
                 usecaseSetUp.raceUsecase.fetchRaceEntityList,
@@ -130,10 +123,7 @@ describe('RaceControllerのテスト', () => {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            const response = await controller.postUpsertRace(
-                mockRequest,
-                commonParameterMock(),
-            );
+            const response = await controller.postUpsertRace(mockRequest);
 
             expect(
                 usecaseSetUp.raceUsecase.upsertRaceEntityList,
@@ -155,10 +145,7 @@ describe('RaceControllerのテスト', () => {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            const response = await controller.postUpsertRace(
-                mockRequest,
-                commonParameterMock(),
-            );
+            const response = await controller.postUpsertRace(mockRequest);
 
             expect(
                 usecaseSetUp.raceUsecase.upsertRaceEntityList,
@@ -186,10 +173,7 @@ describe('RaceControllerのテスト', () => {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            const response = await controller.postUpsertRace(
-                mockRequest,
-                commonParameterMock(),
-            );
+            const response = await controller.postUpsertRace(mockRequest);
 
             expect(
                 usecaseSetUp.raceUsecase.upsertRaceEntityList,

@@ -5,7 +5,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { SearchPlaceFilterEntity } from '../repository/entity/filter/searchPlaceFilterEntity';
 import { IPlaceUseCase } from '../usecase/interface/IPlaceUsecase';
-import { CommonParameter } from '../utility/commonParameter';
 import { Logger } from '../utility/logger';
 import {
     parseBodyToFilter,
@@ -29,12 +28,10 @@ export class PlaceController {
 
     /**
      * 選手データを取得する
-     * @param commonParameter - 共通パラメータ
      * @param searchParams
      */
     @Logger
     public async getPlaceEntityList(
-        commonParameter: CommonParameter,
         searchParams: URLSearchParams,
     ): Promise<Response> {
         try {
@@ -48,10 +45,8 @@ export class PlaceController {
                 locationList,
             );
 
-            const placeEntityList = await this.usecase.fetchPlaceEntityList(
-                commonParameter,
-                searchPlaceFilter,
-            );
+            const placeEntityList =
+                await this.usecase.fetchPlaceEntityList(searchPlaceFilter);
 
             return Response.json(
                 {
@@ -78,21 +73,15 @@ export class PlaceController {
     /**
      * 開催場データを登録・更新する
      * @param request - Requestオブジェクト
-     * @param commonParameter - 共通パラメータ
      */
     @Logger
-    public async postUpsertPlace(
-        request: Request,
-        commonParameter: CommonParameter,
-    ): Promise<Response> {
+    public async postUpsertPlace(request: Request): Promise<Response> {
         try {
             const body = await request.json();
             const searchPlaceFilter = parseBodyToFilter(body as any);
 
-            const upsertResult = await this.usecase.upsertPlaceEntityList(
-                commonParameter,
-                searchPlaceFilter,
-            );
+            const upsertResult =
+                await this.usecase.upsertPlaceEntityList(searchPlaceFilter);
 
             return Response.json(
                 {

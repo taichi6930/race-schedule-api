@@ -3,7 +3,6 @@ import { inject, injectable } from 'tsyringe';
 import { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
-import { CommonParameter } from '../../utility/commonParameter';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { UpsertResult } from '../../utility/upsertResult';
@@ -20,7 +19,6 @@ export class PlaceService implements IPlaceService {
 
     @Logger
     public async fetchPlaceEntityList(
-        commonParameter: CommonParameter,
         searchPlaceFilter: SearchPlaceFilterEntity,
         dataLocation: DataLocationType,
     ): Promise<PlaceEntity[]> {
@@ -28,20 +26,13 @@ export class PlaceService implements IPlaceService {
             dataLocation === DataLocation.Storage
                 ? this.repositoryFromStorage
                 : this.repositoryFromHtml;
-        return repository.fetchPlaceEntityList(
-            commonParameter,
-            searchPlaceFilter,
-        );
+        return repository.fetchPlaceEntityList(searchPlaceFilter);
     }
 
     @Logger
     public async upsertPlaceEntityList(
-        commonParameter: CommonParameter,
         entityList: PlaceEntity[],
     ): Promise<UpsertResult> {
-        return this.repositoryFromStorage.upsertPlaceEntityList(
-            commonParameter,
-            entityList,
-        );
+        return this.repositoryFromStorage.upsertPlaceEntityList(entityList);
     }
 }
