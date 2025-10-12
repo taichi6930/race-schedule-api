@@ -29,7 +29,7 @@ describe('CalendarService', () => {
         clearMocks();
     });
 
-    describe('getEvents', () => {
+    describe('fetchEventList', () => {
         it('カレンダーのイベントの取得が正常に行われること', async () => {
             const startDate = new Date('2023-01-01');
             const finishDate = new Date('2023-01-31');
@@ -42,28 +42,28 @@ describe('CalendarService', () => {
             const result = await service.fetchEvents(searchRaceFilter);
 
             expect(
-                repositorySetup.calendarRepository.getEvents,
+                repositorySetup.calendarRepository.fetchEventList,
             ).toHaveBeenCalledWith(searchRaceFilter);
             expect(result).toEqual(mockCalendarDataList);
         });
     });
 
-    describe('deleteEvents', () => {
+    describe('deleteEventList', () => {
         it('カレンダーのイベントの削除が正常に行われること', async () => {
-            await service.deleteEvents(mockCalendarDataList);
+            await service.deleteEventList(mockCalendarDataList);
 
             expect(
-                repositorySetup.calendarRepository.deleteEvents,
+                repositorySetup.calendarRepository.deleteEventList,
             ).toHaveBeenCalledWith(mockCalendarDataList);
         });
     });
 
-    describe('upsertEvents', () => {
+    describe('upsertEventList', () => {
         it('カレンダーのイベントの更新が正常に行われること', async () => {
-            await service.upsertEvents(mockRaceEntityList);
+            await service.upsertEventList(mockRaceEntityList);
 
             expect(
-                repositorySetup.calendarRepository.upsertEvents,
+                repositorySetup.calendarRepository.upsertEventList,
             ).toHaveBeenCalledWith(mockRaceEntityList);
         });
     });

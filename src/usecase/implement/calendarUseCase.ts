@@ -143,7 +143,7 @@ export class CalendarUseCase implements ICalendarUseCase {
             ]),
         );
 
-        await this.calendarService.deleteEvents(
+        await this.calendarService.deleteEventList(
             RACE_TYPE_LIST_ALL.flatMap(
                 (raceType) => deleteCalendarDataList[raceType],
             ),
@@ -169,6 +169,6 @@ export class CalendarUseCase implements ICalendarUseCase {
                     ),
         );
 
-        await this.calendarService.upsertEvents(upsertRaceEntityList);
+        await this.calendarService.upsertEventList(upsertRaceEntityList);
     }
 }

@@ -119,18 +119,18 @@ describe('RaceCalendarUseCase', () => {
             searchCalendarFilter,
         );
 
-        // deleteEventsが呼び出された回数を確認
-        expect(serviceSetup.calendarService.deleteEvents).toHaveBeenCalledTimes(
-            1,
-        );
-        expect(serviceSetup.calendarService.deleteEvents).toHaveBeenCalledWith(
-            expectDeleteCalendarDataList,
-        );
-        expect(serviceSetup.calendarService.upsertEvents).toHaveBeenCalledTimes(
-            1,
-        );
-        expect(serviceSetup.calendarService.upsertEvents).toHaveBeenCalledWith(
-            expectRaceEntityList,
-        );
+        // deleteEventListが呼び出された回数を確認
+        expect(
+            serviceSetup.calendarService.deleteEventList,
+        ).toHaveBeenCalledTimes(1);
+        expect(
+            serviceSetup.calendarService.deleteEventList,
+        ).toHaveBeenCalledWith(expectDeleteCalendarDataList);
+        expect(
+            serviceSetup.calendarService.upsertEventList,
+        ).toHaveBeenCalledTimes(1);
+        expect(
+            serviceSetup.calendarService.upsertEventList,
+        ).toHaveBeenCalledWith(expectRaceEntityList);
     });
 });

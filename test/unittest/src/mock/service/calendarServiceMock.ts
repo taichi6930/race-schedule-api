@@ -8,7 +8,7 @@ import type { ICalendarService } from '../../../../../src/service/interface/ICal
 export const calendarServiceMock = (): jest.Mocked<ICalendarService> => {
     return {
         fetchEvents: jest.fn().mockResolvedValue([] as CalendarData[]),
-        upsertEvents: jest.fn().mockResolvedValue(Promise.resolve()),
-        deleteEvents: jest.fn().mockResolvedValue(Promise.resolve()),
+        upsertEventList: jest.fn().mockResolvedValue(Promise.resolve()),
+        deleteEventList: jest.fn().mockResolvedValue(Promise.resolve()),
     };
 };

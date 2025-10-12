@@ -33,7 +33,7 @@ export class CalendarService implements ICalendarService {
     public async fetchEvents(
         searchCalendarFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
-        return this.calendarRepository.getEvents(searchCalendarFilter);
+        return this.calendarRepository.fetchEventList(searchCalendarFilter);
     }
 
     /**
@@ -41,8 +41,8 @@ export class CalendarService implements ICalendarService {
      * @param raceEntityList - 登録・更新するレースエンティティ配列
      */
     @Logger
-    public async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
-        await this.calendarRepository.upsertEvents(raceEntityList);
+    public async upsertEventList(raceEntityList: RaceEntity[]): Promise<void> {
+        await this.calendarRepository.upsertEventList(raceEntityList);
     }
 
     /**
@@ -50,7 +50,9 @@ export class CalendarService implements ICalendarService {
      * @param calendarDataList - 削除するカレンダーイベント配列
      */
     @Logger
-    public async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
-        await this.calendarRepository.deleteEvents(calendarDataList);
+    public async deleteEventList(
+        calendarDataList: CalendarData[],
+    ): Promise<void> {
+        await this.calendarRepository.deleteEventList(calendarDataList);
     }
 }

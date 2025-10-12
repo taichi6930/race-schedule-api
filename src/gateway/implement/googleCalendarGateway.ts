@@ -11,6 +11,10 @@ import { ICalendarGateway } from '../interface/iCalendarGateway';
 export class GoogleCalendarGateway implements ICalendarGateway {
     private calendar: calendar_v3.Calendar;
 
+    public constructor() {
+        this.authInit();
+    }
+
     private authInit(): void {
         const client_email = EnvStore.env.GOOGLE_CLIENT_EMAIL;
         // Cloudflare環境変数は\nで渡されることが多いので、\n→\n変換
@@ -39,7 +43,6 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
         try {
-            this.authInit();
             const calendarId = await this.getCalendarId(raceType, EnvStore.env);
             // orderBy: 'startTime'で開始時刻順に取得
             const response = await this.calendar.events.list({
@@ -68,7 +71,6 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         eventId: string,
     ): Promise<calendar_v3.Schema$Event> {
         try {
-            this.authInit();
             const calendarId = await this.getCalendarId(raceType, EnvStore.env);
             const response = await this.calendar.events.get({
                 calendarId,
@@ -88,7 +90,6 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
         try {
-            this.authInit();
             const eventId = calendarData.id;
             if (!eventId) {
                 throw new Error('イベントIDが指定されていません');
@@ -111,7 +112,6 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {
         try {
-            this.authInit();
             await this.calendar.events.insert({
                 calendarId: await this.getCalendarId(raceType, EnvStore.env),
                 requestBody: calendarData,
@@ -129,7 +129,6 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         eventId: string,
     ): Promise<void> {
         try {
-            this.authInit();
             await this.calendar.events.delete({
                 calendarId: await this.getCalendarId(raceType, EnvStore.env),
                 eventId,
