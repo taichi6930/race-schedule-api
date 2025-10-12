@@ -38,7 +38,7 @@ describe('GoogleCalendarRepository', () => {
             new Date('2023-12-31'),
             testRaceTypeListAll,
         );
-        const calendarDataList = await repository.getEvents(searchFilter);
+        const calendarDataList = await repository.fetchEventList(searchFilter);
 
         expect(calendarDataList).toHaveLength(testRaceTypeListAll.length);
         expect(calendarDataList).toEqual(mockCalendarDataList);
@@ -58,7 +58,7 @@ describe('GoogleCalendarRepository', () => {
             new Date('2023-12-31'),
             testRaceTypeListAll,
         );
-        const calendarDataList = await repository.getEvents(searchFilter);
+        const calendarDataList = await repository.fetchEventList(searchFilter);
 
         expect(calendarDataList).toHaveLength(0);
         expect(
@@ -69,7 +69,7 @@ describe('GoogleCalendarRepository', () => {
     it('カレンダー情報が正常に削除できること', async () => {
         gatewaySetup.googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-        await repository.deleteEvents(mockCalendarDataList);
+        await repository.deleteEventList(mockCalendarDataList);
         expect(
             gatewaySetup.googleCalendarGateway.deleteCalendarData,
         ).toHaveBeenCalled();
@@ -84,7 +84,7 @@ describe('GoogleCalendarRepository', () => {
             baseCalendarData(raceType),
         );
 
-        await repository.deleteEvents(calendarDataList);
+        await repository.deleteEventList(calendarDataList);
         expect(
             gatewaySetup.googleCalendarGateway.deleteCalendarData,
         ).toHaveBeenCalled();
@@ -94,7 +94,7 @@ describe('GoogleCalendarRepository', () => {
         gatewaySetup.googleCalendarGateway.fetchCalendarData.mockRejectedValue(
             new Error('API Error'),
         );
-        await repository.upsertEvents(mockRaceEntityList);
+        await repository.upsertEventList(mockRaceEntityList);
 
         expect(
             gatewaySetup.googleCalendarGateway.insertCalendarData,
@@ -110,7 +110,7 @@ describe('GoogleCalendarRepository', () => {
                 calendarDataFromGoogleCalendar,
             );
             const raceEntityList = baseRaceEntityList(raceType);
-            await repository.upsertEvents(raceEntityList);
+            await repository.upsertEventList(raceEntityList);
             expect(
                 gatewaySetup.googleCalendarGateway.updateCalendarData,
             ).toHaveBeenCalled();
@@ -121,7 +121,7 @@ describe('GoogleCalendarRepository', () => {
         gatewaySetup.googleCalendarGateway.insertCalendarData.mockRejectedValue(
             new Error('API Error'),
         );
-        await repository.upsertEvents(mockRaceEntityList);
+        await repository.upsertEventList(mockRaceEntityList);
 
         expect(
             gatewaySetup.googleCalendarGateway.insertCalendarData,

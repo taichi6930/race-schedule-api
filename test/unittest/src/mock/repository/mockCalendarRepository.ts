@@ -4,7 +4,7 @@ import { baseCalendarData } from '../common/baseCommonData';
 
 export const mockCalendarRepository = (): jest.Mocked<ICalendarRepository> => {
     return {
-        getEvents: jest
+        fetchEventList: jest
             .fn()
             .mockImplementation(
                 async (searchFilter: SearchCalendarFilterEntity) => {
@@ -14,7 +14,7 @@ export const mockCalendarRepository = (): jest.Mocked<ICalendarRepository> => {
                     );
                 },
             ),
-        upsertEvents: jest.fn(),
-        deleteEvents: jest.fn(),
+        upsertEventList: jest.fn(),
+        deleteEventList: jest.fn(),
     };
 };

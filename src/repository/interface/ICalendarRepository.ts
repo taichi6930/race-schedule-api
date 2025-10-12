@@ -3,11 +3,11 @@ import type { SearchCalendarFilterEntity } from '../entity/filter/searchCalendar
 import type { RaceEntity } from '../entity/raceEntity';
 
 export interface ICalendarRepository {
-    getEvents: (
+    fetchEventList: (
         searchFilter: SearchCalendarFilterEntity,
     ) => Promise<CalendarData[]>;
 
-    upsertEvents: (raceEntityList: RaceEntity[]) => Promise<void>;
+    upsertEventList: (raceEntityList: RaceEntity[]) => Promise<void>;
 
-    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
+    deleteEventList: (calendarDataList: CalendarData[]) => Promise<void>;
 }

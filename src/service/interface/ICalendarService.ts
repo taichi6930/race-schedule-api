@@ -18,11 +18,11 @@ export interface ICalendarService {
      * レース情報をカレンダーイベントとして登録・更新
      * @param raceEntityList - 登録・更新するレースエンティティ配列
      */
-    upsertEvents: (raceEntityList: RaceEntity[]) => Promise<void>;
+    upsertEventList: (raceEntityList: RaceEntity[]) => Promise<void>;
 
     /**
      * 指定したカレンダーイベントを削除
      * @param calendarDataList - 削除するカレンダーイベント配列
      */
-    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
+    deleteEventList: (calendarDataList: CalendarData[]) => Promise<void>;
 }
