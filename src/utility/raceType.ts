@@ -81,3 +81,11 @@ export const convertRaceTypeList = (
         })
         .filter((type): type is RaceType => type !== 'undefined');
 };
+
+// raceTypeが配列に含まれているか判定するユーティリティ関数
+export const isIncludedRaceType = (
+    raceType: RaceType,
+    raceTypeList: RaceType[],
+): boolean => {
+    return raceTypeList.includes(raceType);
+};

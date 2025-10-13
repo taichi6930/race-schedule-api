@@ -14,7 +14,11 @@ import {
 } from '../../utility/createRaceName';
 import { EnvStore } from '../../utility/envStore';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import {
+    isIncludedRaceType,
+    RACE_TYPE_LIST_HORSE_RACING,
+    RaceType,
+} from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';
 import {
     GradeType,
@@ -59,9 +63,10 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                 }
                 // JRA, NAR, OVERSEASの場合はそのままtrue
                 if (
-                    placeEntity.placeData.raceType === RaceType.JRA ||
-                    placeEntity.placeData.raceType === RaceType.NAR ||
-                    placeEntity.placeData.raceType === RaceType.OVERSEAS
+                    isIncludedRaceType(
+                        placeEntity.placeData.raceType,
+                        RACE_TYPE_LIST_HORSE_RACING,
+                    )
                 ) {
                     return true;
                 }

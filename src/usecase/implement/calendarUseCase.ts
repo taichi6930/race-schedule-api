@@ -11,7 +11,11 @@ import { IRaceService } from '../../service/interface/IRaceService';
 import { RaceGradeAndStageList } from '../../utility/data/stage';
 import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
-import { RACE_TYPE_LIST_ALL, RaceType } from '../../utility/raceType';
+import {
+    isIncludedRaceType,
+    RACE_TYPE_LIST_ALL,
+    RaceType,
+} from '../../utility/raceType';
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import { ICalendarUseCase } from '../interface/ICalendarUseCase';
 
@@ -86,7 +90,9 @@ export class CalendarUseCase implements ICalendarUseCase {
         ].flatMap((raceType) =>
             raceEntityList.filter((raceEntity) => {
                 return (
-                    raceEntity.raceData.raceType === raceType &&
+                    isIncludedRaceType(raceEntity.raceData.raceType, [
+                        raceType,
+                    ]) &&
                     displayGradeList[raceType].includes(
                         raceEntity.raceData.grade,
                     )
@@ -129,11 +135,13 @@ export class CalendarUseCase implements ICalendarUseCase {
                 raceType,
                 calendarDataList.filter(
                     (calendarData: CalendarData) =>
-                        calendarData.raceType === raceType &&
+                        isIncludedRaceType(calendarData.raceType, [raceType]) &&
                         !filteredRaceEntityList
-                            .filter(
-                                (raceEntity) =>
-                                    raceEntity.raceData.raceType === raceType,
+                            .filter((raceEntity) =>
+                                isIncludedRaceType(
+                                    raceEntity.raceData.raceType,
+                                    [raceType],
+                                ),
                             )
                             .some(
                                 (raceEntity: RaceEntity) =>
@@ -153,9 +161,10 @@ export class CalendarUseCase implements ICalendarUseCase {
         const upsertRaceEntityList: RaceEntity[] = RACE_TYPE_LIST_ALL.flatMap(
             (raceType) =>
                 filteredRaceEntityList
-                    .filter(
-                        (raceEntity) =>
-                            raceEntity.raceData.raceType === raceType,
+                    .filter((raceEntity) =>
+                        isIncludedRaceType(raceEntity.raceData.raceType, [
+                            raceType,
+                        ]),
                     )
                     .filter(
                         (raceEntity: RaceEntity) =>
@@ -164,7 +173,10 @@ export class CalendarUseCase implements ICalendarUseCase {
                             ].some(
                                 (deleteCalendarData: CalendarData) =>
                                     deleteCalendarData.id === raceEntity.id &&
-                                    deleteCalendarData.raceType === raceType,
+                                    isIncludedRaceType(
+                                        deleteCalendarData.raceType,
+                                        [raceType],
+                                    ),
                             ),
                     ),
         );

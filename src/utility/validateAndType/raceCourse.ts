@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import type { CourseCodeType } from '../data/course';
 import { RaceCourseMasterList } from '../data/course';
-import type { RaceType } from '../raceType';
+import { isIncludedRaceType, type RaceType } from '../raceType';
 
 /**
  * 場リスト
@@ -10,8 +10,8 @@ import type { RaceType } from '../raceType';
  */
 const RaceCourseList = (raceType: RaceType): Set<string> =>
     new Set(
-        RaceCourseMasterList.filter(
-            (course) => course.raceType === raceType,
+        RaceCourseMasterList.filter((course) =>
+            isIncludedRaceType(course.raceType, [raceType]),
         ).map((course) => course.placeName),
     );
 
@@ -28,7 +28,7 @@ const createPlaceCodeMap = (
     const map: Record<string, string> = {};
     for (const course of RaceCourseMasterList) {
         if (
-            course.raceType === raceType &&
+            isIncludedRaceType(course.raceType, [raceType]) &&
             course.courseCodeType === courseCodeType
         ) {
             map[course.placeName] = course.placeCode;
