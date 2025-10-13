@@ -125,7 +125,7 @@ export class PlaceEntity {
      * raceType が JRA 以外の場合にアクセスされると例外を投げる
      */
     public get heldDayData(): HeldDayData {
-        if (this.placeData.raceType !== RaceType.JRA) {
+        if (!isIncludedRaceType(this.placeData.raceType, [RaceType.JRA])) {
             throw new Error('heldDayData is only available for JRA');
         }
         if (this._heldDayData === undefined) {
@@ -140,9 +140,10 @@ export class PlaceEntity {
      */
     public get grade(): GradeType {
         if (
-            this.placeData.raceType !== RaceType.KEIRIN &&
-            this.placeData.raceType !== RaceType.AUTORACE &&
-            this.placeData.raceType !== RaceType.BOATRACE
+            !isIncludedRaceType(
+                this.placeData.raceType,
+                RACE_TYPE_LIST_MECHANICAL_RACING,
+            )
         ) {
             throw new Error(
                 'grade is only available for KEIRIN/AUTORACE/BOATRACE',

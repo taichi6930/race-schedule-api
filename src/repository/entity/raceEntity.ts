@@ -77,7 +77,7 @@ export class RaceEntity {
             if (
                 (isIncludedRaceType(raceData.raceType, [RaceType.JRA]) &&
                     heldDayData === undefined) ||
-                (raceData.raceType !== RaceType.JRA &&
+                (!isIncludedRaceType(raceData.raceType, [RaceType.JRA]) &&
                     heldDayData !== undefined)
             ) {
                 throw new Error(`HeldDayData is incorrect`);
@@ -206,7 +206,7 @@ export class RaceEntity {
      * raceType が JRA 以外の場合にアクセスされると例外を投げる
      */
     public get heldDayData(): HeldDayData {
-        if (this.raceData.raceType !== RaceType.JRA) {
+        if (!isIncludedRaceType(this.raceData.raceType, [RaceType.JRA])) {
             throw new Error('heldDayData is only available for JRA');
         }
         if (this._heldDayData === undefined) {
