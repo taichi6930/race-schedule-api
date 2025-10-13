@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { HeldDayData } from '../../../src/domain/heldDayData';
 import { SearchPlaceFilterEntity } from '../../../src/repository/entity/filter/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorage } from '../../../src/repository/implement/placeRepositoryFromStorage';
-import { RaceType } from '../../../src/utility/raceType';
+import { isIncludedRaceType, RaceType } from '../../../src/utility/raceType';
 import { testRaceTypeListAll } from '../src/mock/common/baseCommonData';
 
 // Minimal mocks/stubs for CommonParameter and DB Gateway
@@ -67,7 +67,7 @@ describe('PlaceRepositoryFromStorage', () => {
                 expect(e.placeData.location).toBe('東京');
                 expect(e.heldDayData).toStrictEqual(HeldDayData.create(1, 1));
                 // gradeは呼び出す時点でエラーになることを確認
-                if (e.placeData.raceType !== RaceType.JRA) {
+                if (!isIncludedRaceType(e.placeData.raceType, [RaceType.JRA])) {
                     expect(e.grade).toThrow();
                 }
             }
