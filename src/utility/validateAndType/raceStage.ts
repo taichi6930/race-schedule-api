@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { RaceGradeAndStageList } from '../data/stage';
-import type { RaceType } from '../raceType';
+import { isIncludedRaceType, type RaceType } from '../raceType';
 
 /**
  * ステージ リスト
@@ -9,9 +9,9 @@ import type { RaceType } from '../raceType';
  */
 const RaceStageList: (raceType: RaceType) => Set<string> = (raceType) =>
     new Set(
-        RaceGradeAndStageList.filter((item) => item.raceType === raceType).map(
-            (item) => item.stage,
-        ),
+        RaceGradeAndStageList.filter((item) =>
+            isIncludedRaceType(item.raceType, [raceType]),
+        ).map((item) => item.stage),
     );
 
 /**
@@ -42,8 +42,8 @@ export const StageMap: (raceType: RaceType) => Record<string, RaceStage> = (
     raceType,
 ) =>
     Object.fromEntries(
-        RaceGradeAndStageList.filter(
-            (item) => item.raceType === raceType,
+        RaceGradeAndStageList.filter((item) =>
+            isIncludedRaceType(item.raceType, [raceType]),
         ).flatMap((item) =>
             item.stageByWebSite.map((stageByOddspark) => [
                 stageByOddspark,

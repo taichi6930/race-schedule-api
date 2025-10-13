@@ -16,7 +16,7 @@ describe.each(testRaceTypeListAll)('PlaceEntity(%s)', (raceType) => {
         expect(basePlaceEntity(raceType).placeData).toEqual(
             basePlaceData(raceType),
         );
-        if (raceType === RaceType.JRA)
+        if (isIncludedRaceType(raceType, [RaceType.JRA]))
             expect(basePlaceEntity(raceType).heldDayData).toBe(
                 defaultHeldDayData[raceType],
             );

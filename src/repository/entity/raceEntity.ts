@@ -75,7 +75,7 @@ export class RaceEntity {
     ): RaceEntity {
         try {
             if (
-                (raceData.raceType === RaceType.JRA &&
+                (isIncludedRaceType(raceData.raceType, [RaceType.JRA]) &&
                     heldDayData === undefined) ||
                 (raceData.raceType !== RaceType.JRA &&
                     heldDayData !== undefined)

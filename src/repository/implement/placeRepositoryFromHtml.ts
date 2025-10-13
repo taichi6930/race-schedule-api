@@ -10,7 +10,7 @@ import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { EnvStore } from '../../utility/envStore';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import { isIncludedRaceType, RaceType } from '../../utility/raceType';
 import { UpsertResult } from '../../utility/upsertResult';
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import {
@@ -138,12 +138,11 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         startDate: Date,
         finishDate: Date,
     ): Date[] {
-        const periodType =
-            raceType === RaceType.JRA
-                ? 'year'
-                : raceType === RaceType.BOATRACE
-                  ? 'quarter'
-                  : 'month';
+        const periodType = isIncludedRaceType(raceType, [RaceType.JRA])
+            ? 'year'
+            : isIncludedRaceType(raceType, [RaceType.BOATRACE])
+              ? 'quarter'
+              : 'month';
 
         const periodList: Date[] = [];
 

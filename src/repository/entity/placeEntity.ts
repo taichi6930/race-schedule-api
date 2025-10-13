@@ -57,7 +57,7 @@ export class PlaceEntity {
             // placeData.raceType が JRA の場合, heldDayDataがundefinedの時はエラー
             // JRAの場合はheldDayDataが必須、JRA以外の場合はheldDayDataは不要
             if (
-                (placeData.raceType === RaceType.JRA) !==
+                isIncludedRaceType(placeData.raceType, [RaceType.JRA]) !==
                 (heldDayData !== undefined)
             ) {
                 throw new Error(`HeldDayData is incorrect`);

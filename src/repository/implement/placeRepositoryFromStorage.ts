@@ -165,8 +165,8 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         }
 
         // held_day バルクinsert（JRAのみ）
-        const heldDayEntities = entityList.filter(
-            (e) => e.placeData.raceType === RaceType.JRA,
+        const heldDayEntities = entityList.filter((e) =>
+            isIncludedRaceType(e.placeData.raceType, [RaceType.JRA]),
         );
         for (const chunk of chunkArray(heldDayEntities, chunkSize)) {
             if (chunk.length === 0) continue;
