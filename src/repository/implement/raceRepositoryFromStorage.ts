@@ -6,7 +6,12 @@ import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
 import { Logger } from '../../utility/logger';
-import { RaceType, validateRaceType } from '../../utility/raceType';
+import {
+    isIncludedRaceType,
+    RACE_TYPE_LIST_HORSE_RACING,
+    RACE_TYPE_LIST_MECHANICAL_RACING,
+    validateRaceType,
+} from '../../utility/raceType';
 import type { FailureDetail, UpsertResult } from '../../utility/upsertResult';
 import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
@@ -101,18 +106,18 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
                       )
                     : undefined;
             const raceType = validateRaceType(row.race_type);
-            const racePlayerList =
-                raceType === RaceType.KEIRIN ||
-                raceType === RaceType.AUTORACE ||
-                raceType === RaceType.BOATRACE
-                    ? []
-                    : undefined;
-            const stage =
-                raceType === RaceType.KEIRIN ||
-                raceType === RaceType.AUTORACE ||
-                raceType === RaceType.BOATRACE
-                    ? row.stage
-                    : undefined;
+            const racePlayerList = isIncludedRaceType(
+                raceType,
+                RACE_TYPE_LIST_MECHANICAL_RACING,
+            )
+                ? []
+                : undefined;
+            const stage = isIncludedRaceType(
+                raceType,
+                RACE_TYPE_LIST_MECHANICAL_RACING,
+            )
+                ? row.stage
+                : undefined;
             return RaceEntity.create(
                 row.id,
                 row.place_id,
@@ -210,11 +215,11 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
         }
 
         // race_condition バルクinsert（JRA/NAR/OVERSEASのみ）
-        const conditionEntities = entityList.filter(
-            (e) =>
-                e.raceData.raceType === RaceType.JRA ||
-                e.raceData.raceType === RaceType.NAR ||
-                e.raceData.raceType === RaceType.OVERSEAS,
+        const conditionEntities = entityList.filter((e) =>
+            isIncludedRaceType(
+                e.raceData.raceType,
+                RACE_TYPE_LIST_HORSE_RACING,
+            ),
         );
         for (const chunk of chunkArray(conditionEntities, chunkSize)) {
             if (chunk.length === 0) continue;
@@ -260,11 +265,11 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
         }
 
         // race_stage バルクinsert（KEIRIN/AUTORACE/BOATRACEのみ）
-        const stageEntities = entityList.filter(
-            (e) =>
-                e.raceData.raceType === RaceType.KEIRIN ||
-                e.raceData.raceType === RaceType.AUTORACE ||
-                e.raceData.raceType === RaceType.BOATRACE,
+        const stageEntities = entityList.filter((e) =>
+            isIncludedRaceType(
+                e.raceData.raceType,
+                RACE_TYPE_LIST_MECHANICAL_RACING,
+            ),
         );
         for (const chunk of chunkArray(stageEntities, chunkSize)) {
             if (chunk.length === 0) continue;

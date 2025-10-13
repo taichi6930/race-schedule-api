@@ -1,6 +1,11 @@
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
-import { RaceType } from '../../utility/raceType';
+import {
+    isIncludedRaceType,
+    RACE_TYPE_LIST_HORSE_RACING,
+    RACE_TYPE_LIST_MECHANICAL_RACING,
+    RaceType,
+} from '../../utility/raceType';
 import type { GradeType } from '../../utility/validateAndType/gradeType';
 import type { PublicGamblingId } from '../../utility/validateAndType/idUtility';
 import {
@@ -59,13 +64,15 @@ export class PlaceEntity {
             }
             // placeData.raceType が KEIRIN, AUTORACE, BOATRACE の場合, gradeがundefinedの時はエラー
             if (
-                ((placeData.raceType === RaceType.KEIRIN ||
-                    placeData.raceType === RaceType.AUTORACE ||
-                    placeData.raceType === RaceType.BOATRACE) &&
+                (isIncludedRaceType(
+                    placeData.raceType,
+                    RACE_TYPE_LIST_MECHANICAL_RACING,
+                ) &&
                     grade === undefined) ||
-                ((placeData.raceType === RaceType.JRA ||
-                    placeData.raceType === RaceType.NAR ||
-                    placeData.raceType === RaceType.OVERSEAS) &&
+                (isIncludedRaceType(
+                    placeData.raceType,
+                    RACE_TYPE_LIST_HORSE_RACING,
+                ) &&
                     grade !== undefined)
             ) {
                 throw new Error(`Grade is incorrect`);

@@ -5,7 +5,11 @@ import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
+import {
+    isIncludedRaceType,
+    RACE_TYPE_LIST_MECHANICAL_RACING,
+    RaceType,
+} from '../../utility/raceType';
 import { FailureDetail, UpsertResult } from '../../utility/upsertResult';
 import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
@@ -208,11 +212,11 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         }
 
         // place_grade バルクinsert（KEIRIN/AUTORACE/BOATRACEのみ）
-        const gradeEntities = entityList.filter(
-            (e) =>
-                e.placeData.raceType === RaceType.KEIRIN ||
-                e.placeData.raceType === RaceType.AUTORACE ||
-                e.placeData.raceType === RaceType.BOATRACE,
+        const gradeEntities = entityList.filter((e) =>
+            isIncludedRaceType(
+                e.placeData.raceType,
+                RACE_TYPE_LIST_MECHANICAL_RACING,
+            ),
         );
         for (const chunk of chunkArray(gradeEntities, chunkSize)) {
             if (chunk.length === 0) continue;
