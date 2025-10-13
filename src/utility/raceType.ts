@@ -21,6 +21,7 @@ export const RACE_TYPE_LIST_ALL: RaceType[] = [
 export const RACE_TYPE_LIST_MECHANICAL_RACING = [
     RaceType.KEIRIN,
     RaceType.AUTORACE,
+    RaceType.BOATRACE,
 ];
 
 export const RACE_TYPE_LIST_HORSE_RACING = [
