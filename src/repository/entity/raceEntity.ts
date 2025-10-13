@@ -2,7 +2,12 @@ import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
 import type { RacePlayerData } from '../../domain/racePlayerData';
-import { RaceType } from '../../utility/raceType';
+import {
+    isIncludedRaceType,
+    RACE_TYPE_LIST_HORSE_RACING,
+    RACE_TYPE_LIST_MECHANICAL_RACING,
+    RaceType,
+} from '../../utility/raceType';
 import type { PublicGamblingId } from '../../utility/validateAndType/idUtility';
 import {
     generateId,
@@ -70,7 +75,7 @@ export class RaceEntity {
     ): RaceEntity {
         try {
             if (
-                (raceData.raceType === RaceType.JRA &&
+                (isIncludedRaceType(raceData.raceType, [RaceType.JRA]) &&
                     heldDayData === undefined) ||
                 (raceData.raceType !== RaceType.JRA &&
                     heldDayData !== undefined)
@@ -79,38 +84,44 @@ export class RaceEntity {
             }
             // placeData.raceType が KEIRIN, AUTORACE, BOATRACE の場合, stageがundefinedの時はエラー
             if (
-                ((raceData.raceType === RaceType.KEIRIN ||
-                    raceData.raceType === RaceType.AUTORACE ||
-                    raceData.raceType === RaceType.BOATRACE) &&
+                (isIncludedRaceType(
+                    raceData.raceType,
+                    RACE_TYPE_LIST_MECHANICAL_RACING,
+                ) &&
                     stage === undefined) ||
-                ((raceData.raceType === RaceType.JRA ||
-                    raceData.raceType === RaceType.NAR ||
-                    raceData.raceType === RaceType.OVERSEAS) &&
+                (isIncludedRaceType(
+                    raceData.raceType,
+                    RACE_TYPE_LIST_HORSE_RACING,
+                ) &&
                     stage !== undefined)
             ) {
                 throw new Error(`Stage is incorrect`);
             }
             // placeData.raceType が KEIRIN, AUTORACE, BOATRACE の場合, racePlayerDataListがundefinedの時はエラー
             if (
-                ((raceData.raceType === RaceType.KEIRIN ||
-                    raceData.raceType === RaceType.AUTORACE ||
-                    raceData.raceType === RaceType.BOATRACE) &&
+                (isIncludedRaceType(
+                    raceData.raceType,
+                    RACE_TYPE_LIST_MECHANICAL_RACING,
+                ) &&
                     racePlayerDataList === undefined) ||
-                ((raceData.raceType === RaceType.JRA ||
-                    raceData.raceType === RaceType.NAR ||
-                    raceData.raceType === RaceType.OVERSEAS) &&
+                (isIncludedRaceType(
+                    raceData.raceType,
+                    RACE_TYPE_LIST_HORSE_RACING,
+                ) &&
                     racePlayerDataList !== undefined)
             ) {
                 throw new Error(`racePlayerDataList is incorrect`);
             }
             if (
-                ((raceData.raceType === RaceType.JRA ||
-                    raceData.raceType === RaceType.NAR ||
-                    raceData.raceType === RaceType.OVERSEAS) &&
+                (isIncludedRaceType(
+                    raceData.raceType,
+                    RACE_TYPE_LIST_HORSE_RACING,
+                ) &&
                     conditionData === undefined) ||
-                ((raceData.raceType === RaceType.KEIRIN ||
-                    raceData.raceType === RaceType.AUTORACE ||
-                    raceData.raceType === RaceType.BOATRACE) &&
+                (isIncludedRaceType(
+                    raceData.raceType,
+                    RACE_TYPE_LIST_MECHANICAL_RACING,
+                ) &&
                     conditionData !== undefined)
             ) {
                 throw new Error(`conditionData is incorrect`);

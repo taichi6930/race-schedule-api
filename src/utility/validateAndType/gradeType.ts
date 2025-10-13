@@ -2,7 +2,7 @@ import type { ZodString } from 'zod';
 import { z } from 'zod';
 
 import { GradeMasterList } from '../data/grade';
-import type { RaceType } from '../raceType';
+import { isIncludedRaceType, type RaceType } from '../raceType';
 
 /**
  * GradeTypeの型定義
@@ -16,7 +16,9 @@ export type GradeType = z.infer<ReturnType<typeof GradeTypeSchema>>;
 const GradeTypeList: (raceType: RaceType) => Set<string> = (raceType) =>
     new Set<string>(
         GradeMasterList.filter((grade) =>
-            grade.detail.some((detail) => detail.raceType === raceType),
+            grade.detail.some((detail) =>
+                isIncludedRaceType(detail.raceType, [raceType]),
+            ),
         ).map((grade) => grade.gradeName),
     );
 
@@ -53,6 +55,8 @@ export const SpecifiedGradeList: (raceType: RaceType) => GradeType[] = (
 ) =>
     GradeMasterList.filter((grade) =>
         grade.detail.some(
-            (detail) => detail.raceType === raceType && detail.isSpecified,
+            (detail) =>
+                isIncludedRaceType(detail.raceType, [raceType]) &&
+                detail.isSpecified,
         ),
     ).map((grade) => grade.gradeName);

@@ -1,4 +1,8 @@
-import { RaceType } from '../../../../../src/utility/raceType';
+import {
+    isIncludedRaceType,
+    RACE_TYPE_LIST_MECHANICAL_RACING,
+    RaceType,
+} from '../../../../../src/utility/raceType';
 import {
     basePlaceData,
     basePlaceEntity,
@@ -12,15 +16,11 @@ describe.each(testRaceTypeListAll)('PlaceEntity(%s)', (raceType) => {
         expect(basePlaceEntity(raceType).placeData).toEqual(
             basePlaceData(raceType),
         );
-        if (raceType === RaceType.JRA)
+        if (isIncludedRaceType(raceType, [RaceType.JRA]))
             expect(basePlaceEntity(raceType).heldDayData).toBe(
                 defaultHeldDayData[raceType],
             );
-        if (
-            raceType === RaceType.KEIRIN ||
-            raceType === RaceType.AUTORACE ||
-            raceType === RaceType.BOATRACE
-        )
+        if (isIncludedRaceType(raceType, RACE_TYPE_LIST_MECHANICAL_RACING))
             expect(basePlaceEntity(raceType).grade).toBe(
                 defaultPlaceGrade[raceType],
             );
