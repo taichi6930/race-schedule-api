@@ -77,7 +77,7 @@ export class RaceEntity {
             if (
                 (isIncludedRaceType(raceData.raceType, [RaceType.JRA]) &&
                     heldDayData === undefined) ||
-                (raceData.raceType !== RaceType.JRA &&
+                (!isIncludedRaceType(raceData.raceType, [RaceType.JRA]) &&
                     heldDayData !== undefined)
             ) {
                 throw new Error(`HeldDayData is incorrect`);
@@ -206,7 +206,7 @@ export class RaceEntity {
      * raceType が JRA 以外の場合にアクセスされると例外を投げる
      */
     public get heldDayData(): HeldDayData {
-        if (this.raceData.raceType !== RaceType.JRA) {
+        if (!isIncludedRaceType(this.raceData.raceType, [RaceType.JRA])) {
             throw new Error('heldDayData is only available for JRA');
         }
         if (this._heldDayData === undefined) {
@@ -221,9 +221,10 @@ export class RaceEntity {
      */
     public get stage(): RaceStage {
         if (
-            this.raceData.raceType !== RaceType.KEIRIN &&
-            this.raceData.raceType !== RaceType.AUTORACE &&
-            this.raceData.raceType !== RaceType.BOATRACE
+            !isIncludedRaceType(
+                this.raceData.raceType,
+                RACE_TYPE_LIST_MECHANICAL_RACING,
+            )
         ) {
             throw new Error(
                 'stage is only available for KEIRIN/AUTORACE/BOATRACE',
@@ -241,9 +242,10 @@ export class RaceEntity {
      */
     public get racePlayerDataList(): RacePlayerData[] {
         if (
-            this.raceData.raceType !== RaceType.KEIRIN &&
-            this.raceData.raceType !== RaceType.AUTORACE &&
-            this.raceData.raceType !== RaceType.BOATRACE
+            !isIncludedRaceType(
+                this.raceData.raceType,
+                RACE_TYPE_LIST_MECHANICAL_RACING,
+            )
         ) {
             throw new Error(
                 'racePlayerDataList is only available for KEIRIN/AUTORACE/BOATRACE',
@@ -261,9 +263,10 @@ export class RaceEntity {
      */
     public get conditionData(): HorseRaceConditionData {
         if (
-            this.raceData.raceType !== RaceType.JRA &&
-            this.raceData.raceType !== RaceType.NAR &&
-            this.raceData.raceType !== RaceType.OVERSEAS
+            !isIncludedRaceType(
+                this.raceData.raceType,
+                RACE_TYPE_LIST_HORSE_RACING,
+            )
         ) {
             throw new Error(
                 'conditionData is only available for JRA/NAR/OVERSEAS',
