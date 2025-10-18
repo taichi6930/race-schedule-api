@@ -46,13 +46,13 @@ export class CalendarController {
                 raceTypeList,
             );
 
-            const raceEntityList =
+            const calendarEntityList =
                 await this.usecase.fetchCalendarRaceList(searchCalendarFilter);
 
             return Response.json(
                 {
-                    count: raceEntityList.length,
-                    races: raceEntityList,
+                    count: calendarEntityList.length,
+                    races: calendarEntityList,
                 },
                 { headers: this.corsHeaders },
             );
