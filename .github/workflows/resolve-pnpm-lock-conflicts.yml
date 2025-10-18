@@ -1,0 +1,76 @@
+name: Resolve pnpm-lock conflicts for Dependabot
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  resolve-pnpm-lock:
+    name: Regenerate pnpm-lock.yaml when Dependabot PR changes it
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          # Checkout the head ref of the pull request (may be in the same repo)
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Fetch base branch
+        run: |
+          git fetch origin +refs/heads/${{ github.event.pull_request.base.ref }}:refs/remotes/origin/${{ github.event.pull_request.base.ref }}
+
+      - name: Check whether pnpm-lock.yaml was changed in the PR
+        id: check_lock
+        run: |
+          if git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD | grep -q '^pnpm-lock.yaml$'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Exit if pnpm-lock.yaml not changed
+        if: steps.check_lock.outputs.changed == 'false'
+        run: |
+          echo "pnpm-lock.yaml not changed in this PR. Nothing to do."
+
+      - name: Setup Node.js
+        if: steps.check_lock.outputs.changed == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Enable Corepack and prepare pnpm
+        if: steps.check_lock.outputs.changed == 'true'
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+
+      - name: Install dependencies (regenerate lockfile)
+        if: steps.check_lock.outputs.changed == 'true'
+        run: |
+          pnpm install
+
+      - name: Commit and push pnpm-lock.yaml if changed
+        if: steps.check_lock.outputs.changed == 'true'
+        env:
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- pnpm-lock.yaml; then
+            echo "pnpm-lock.yaml unchanged after pnpm install"
+            exit 0
+          fi
+          git add pnpm-lock.yaml
+          git commit -m "chore: regenerate pnpm-lock.yaml (resolve dependabot conflict)"
+          # Push back to the PR head branch
+          git push origin HEAD:${PR_HEAD_REF}
