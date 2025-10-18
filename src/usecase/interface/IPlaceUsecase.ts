@@ -10,4 +10,8 @@ export interface IPlaceUseCase {
     upsertPlaceEntityList: (
         searchPlaceFilter: SearchPlaceFilterEntity,
     ) => Promise<UpsertResult>;
+
+    upsertPlaceEntityListV2: (
+        entityList: PlaceEntity[],
+    ) => Promise<UpsertResult>;
 }
