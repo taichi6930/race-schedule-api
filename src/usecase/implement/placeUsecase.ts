@@ -36,11 +36,4 @@ export class PlaceUseCase implements IPlaceUseCase {
             );
         return this.placeService.upsertPlaceEntityList(entityList);
     }
-
-    @Logger
-    public async upsertPlaceEntityListV2(
-        entityList: PlaceEntity[],
-    ): Promise<UpsertResult> {
-        return this.placeService.upsertPlaceEntityList(entityList);
-    }
 }
