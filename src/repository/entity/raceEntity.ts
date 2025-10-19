@@ -28,7 +28,7 @@ export class RaceEntity {
     /**
      * コンストラクタ
      * @param id - ID
-     * @param placeId
+     * @param placeId - 場所ID
      * @param raceData - レースデータ
      * @param heldDayData - 開催日データ
      * @param conditionData - レース条件データ
@@ -56,11 +56,11 @@ export class RaceEntity {
     /**
      * インスタンス生成メソッド
      * @param id - ID
-     * @param placeId
+     * @param placeId - 場所ID
      * @param raceData - レースデータ
      * @param heldDayData - 開催日データ
      * @param conditionData - レース条件データ
-     * @param stage
+     * @param stage - レースステージ
      * @param racePlayerDataList
      * @param updateDate - 更新日時
      */
@@ -153,8 +153,8 @@ export class RaceEntity {
      * @param raceData - レースデータ
      * @param heldDayData - 開催日データ
      * @param conditionData - レース条件データ
-     * @param stage
-     * @param racePlayerDataList
+     * @param stage - レースステージ
+     * @param racePlayerDataList - レースプレイヤーデータリスト
      * @param updateDate - 更新日時
      */
     public static createWithoutId(
