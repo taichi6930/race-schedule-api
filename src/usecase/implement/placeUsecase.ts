@@ -8,6 +8,9 @@ import { Logger } from '../../utility/logger';
 import { UpsertResult } from '../../utility/upsertResult';
 import { IPlaceUseCase } from '../interface/IPlaceUsecase';
 
+/**
+ * 開催場ユースケースの実装
+ */
 @injectable()
 export class PlaceUseCase implements IPlaceUseCase {
     public constructor(
@@ -15,6 +18,10 @@ export class PlaceUseCase implements IPlaceUseCase {
         private readonly placeService: IPlaceService,
     ) {}
 
+    /**
+     * 開催場のEntity配列を取得する
+     * @param searchPlaceFilter - 場所フィルター情報
+     */
     @Logger
     public async fetchPlaceEntityList(
         searchPlaceFilter: SearchPlaceFilterEntity,
@@ -25,6 +32,10 @@ export class PlaceUseCase implements IPlaceUseCase {
         );
     }
 
+    /**
+     * 開催場のEntity配列の更新を行う
+     * @param searchPlaceFilter - 場所フィルター情報
+     */
     @Logger
     public async upsertPlaceEntityList(
         searchPlaceFilter: SearchPlaceFilterEntity,
