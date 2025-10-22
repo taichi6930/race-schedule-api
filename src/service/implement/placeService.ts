@@ -17,6 +17,11 @@ export class PlaceService implements IPlaceService {
         private readonly repositoryFromHtml: IPlaceRepository,
     ) {}
 
+    /**
+     * 開催場のEntity配列を取得する
+     * @param searchPlaceFilter - 場所フィルター情報
+     * @param dataLocation - データ取得場所
+     */
     @Logger
     public async fetchPlaceEntityList(
         searchPlaceFilter: SearchPlaceFilterEntity,
@@ -29,6 +34,10 @@ export class PlaceService implements IPlaceService {
         return repository.fetchPlaceEntityList(searchPlaceFilter);
     }
 
+    /**
+     * 開催場のEntity配列の更新を行う
+     * @param entityList - 場所エンティティ配列
+     */
     @Logger
     public async upsertPlaceEntityList(
         entityList: PlaceEntity[],

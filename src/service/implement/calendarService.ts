@@ -23,10 +23,7 @@ export class CalendarService implements ICalendarService {
 
     /**
      * 指定期間・種別のカレンダーイベントを取得
-     * @param startDate - 取得開始日
-     * @param finishDate - 取得終了日（含む）
-     * @param raceTypeList - レース種別リスト
-     * @param searchCalendarFilter
+     * @param searchCalendarFilter - カレンダーフィルター情報
      * @returns カレンダーイベント配列
      */
     @Logger

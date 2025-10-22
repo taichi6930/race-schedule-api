@@ -33,10 +33,7 @@ export class CalendarUseCase implements ICalendarUseCase {
 
     /**
      * カレンダーからレース情報の取得を行う
-     * @param startDate
-     * @param finishDate
-     * @param raceTypeList - レース種別のリスト
-     * @param searchCalendarFilter
+     * @param searchCalendarFilter - カレンダーフィルター情報
      */
     @Logger
     public async fetchCalendarRaceList(
@@ -51,11 +48,8 @@ export class CalendarUseCase implements ICalendarUseCase {
 
     /**
      * カレンダーの更新を行う
-     * @param startDate
-     * @param finishDate
-     * @param raceTypeList
-     * @param displayGradeList
-     * @param searchCalendarFilter
+     * @param searchCalendarFilter - カレンダーフィルター情報
+     * @param displayGradeList - 表示するグレードリスト
      */
     @Logger
     public async updateCalendarRaceData(

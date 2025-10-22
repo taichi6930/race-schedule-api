@@ -6,9 +6,7 @@ import type { GradeType } from '../../utility/validateAndType/gradeType';
 export interface ICalendarUseCase {
     /**
      * カレンダーからレース情報を取得
-     * @param startDate - 取得開始日
-     * @param finishDate - 取得終了日（含む）
-     * @param raceTypeList - レース種別リスト
+     * @param searchCalendarFilter - カレンダーフィルター情報
      */
     fetchCalendarRaceList: (
         searchCalendarFilter: SearchCalendarFilterEntity,
@@ -16,6 +14,8 @@ export interface ICalendarUseCase {
 
     /**
      * カレンダーの更新を行う
+     * @param searchCalendarFilter - カレンダーフィルター情報
+     * @param displayGradeList - 表示するグレードリスト
      */
     updateCalendarRaceData: (
         searchCalendarFilter: SearchCalendarFilterEntity,

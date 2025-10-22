@@ -19,6 +19,10 @@ export class RaceUseCase implements IRaceUseCase {
         private readonly raceService: IRaceService,
     ) {}
 
+    /**
+     * 開催レースのEntity配列を取得する
+     * @param searchRaceFilter - レースフィルター情報
+     */
     @Logger
     public async fetchRaceEntityList(
         searchRaceFilter: SearchRaceFilterEntity,
@@ -29,6 +33,10 @@ export class RaceUseCase implements IRaceUseCase {
         );
     }
 
+    /**
+     * 開催レースのEntity配列の更新を行う
+     * @param searchRaceFilter - レースフィルター情報
+     */
     @Logger
     public async upsertRaceEntityList(
         searchRaceFilter: SearchRaceFilterEntity,
