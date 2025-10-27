@@ -32,7 +32,7 @@ const makeIdSchema = (
         .refine(
             (value) =>
                 new RegExp(
-                    `^${lowerCaseRaceType}\\d{${digitsAfterPrefix}}$`,
+                    String.raw`^${lowerCaseRaceType}\d{${digitsAfterPrefix}}$`,
                 ).test(value),
             `${lowerCaseRaceType}${idSuffix}の形式ではありません`,
         );

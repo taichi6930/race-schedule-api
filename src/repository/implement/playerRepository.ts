@@ -22,8 +22,7 @@ export class PlayerRepository implements IPlayerRepository {
         const raceTypePlaceholders = raceTypeList.map(() => '?').join(', ');
         const whereClause = `WHERE race_type IN (${raceTypePlaceholders})`;
 
-        const queryParams: any[] = [];
-        queryParams.push(...raceTypeList);
+        const queryParams: any[] = [...raceTypeList];
         const { results } = await this.dbGateway.queryAll(
             `
             SELECT race_type, player_no, player_name, priority, created_at, updated_at
