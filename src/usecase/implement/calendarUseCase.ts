@@ -39,10 +39,9 @@ export class CalendarUseCase implements ICalendarUseCase {
     public async fetchCalendarRaceList(
         searchCalendarFilter: SearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
-        const calendarDataList: CalendarData[] = [];
-        calendarDataList.push(
+        const calendarDataList: CalendarData[] = [
             ...(await this.calendarService.fetchEvents(searchCalendarFilter)),
-        );
+        ];
         return calendarDataList;
     }
 
