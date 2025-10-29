@@ -72,7 +72,7 @@
         "@types/node": "24.9.2",
         "esbuild": "^0.25.11",
         "eslint": "^9.38.0",
-        "eslint-plugin-jsdoc": "^61.1.10",
+        "eslint-plugin-jsdoc": "^61.1.11",
         "eslint-plugin-promise": "^7.2.1",
         "eslint-plugin-unicorn": "^62.0.0",
         "eslint-plugin-unused-imports": "^4.3.0",
@@ -82,7 +82,7 @@
         "lint-staged": "^16.2.6",
         "typescript": "~5.9.3",
         "typescript-eslint": "^8.46.2",
-        "wrangler": "^4.45.1"
+        "wrangler": "^4.45.2"
     },
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
