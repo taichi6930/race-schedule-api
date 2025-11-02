@@ -70,7 +70,7 @@
         "@types/jest": "^30.0.0",
         "@types/neat-csv": "^5.1.1",
         "@types/node": "24.9.2",
-        "esbuild": "^0.25.11",
+        "esbuild": "^0.25.12",
         "eslint": "^9.38.0",
         "eslint-plugin-jsdoc": "^61.1.11",
         "eslint-plugin-promise": "^7.2.1",
