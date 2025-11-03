@@ -221,9 +221,10 @@ export class RaceEntity {
      */
     public get stage(): RaceStage {
         if (
-            this.raceData.raceType !== RaceType.KEIRIN &&
-            this.raceData.raceType !== RaceType.AUTORACE &&
-            this.raceData.raceType !== RaceType.BOATRACE
+            !isIncludedRaceType(
+                this.raceData.raceType,
+                RACE_TYPE_LIST_MECHANICAL_RACING,
+            )
         ) {
             throw new Error(
                 'stage is only available for KEIRIN/AUTORACE/BOATRACE',
@@ -241,9 +242,10 @@ export class RaceEntity {
      */
     public get racePlayerDataList(): RacePlayerData[] {
         if (
-            this.raceData.raceType !== RaceType.KEIRIN &&
-            this.raceData.raceType !== RaceType.AUTORACE &&
-            this.raceData.raceType !== RaceType.BOATRACE
+            !isIncludedRaceType(
+                this.raceData.raceType,
+                RACE_TYPE_LIST_MECHANICAL_RACING,
+            )
         ) {
             throw new Error(
                 'racePlayerDataList is only available for KEIRIN/AUTORACE/BOATRACE',
@@ -261,9 +263,10 @@ export class RaceEntity {
      */
     public get conditionData(): HorseRaceConditionData {
         if (
-            this.raceData.raceType !== RaceType.JRA &&
-            this.raceData.raceType !== RaceType.NAR &&
-            this.raceData.raceType !== RaceType.OVERSEAS
+            !isIncludedRaceType(
+                this.raceData.raceType,
+                RACE_TYPE_LIST_HORSE_RACING,
+            )
         ) {
             throw new Error(
                 'conditionData is only available for JRA/NAR/OVERSEAS',

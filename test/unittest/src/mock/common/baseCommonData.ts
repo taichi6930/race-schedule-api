@@ -9,6 +9,7 @@ import { PlayerEntity } from '../../../../../src/repository/entity/playerEntity'
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { IS_SHORT_TEST } from '../../../../../src/utility/env';
 import {
+    isIncludedRaceType,
     RACE_TYPE_LIST_ALL,
     RACE_TYPE_LIST_HORSE_RACING,
     RACE_TYPE_LIST_MECHANICAL_RACING,
@@ -24,11 +25,7 @@ export const baseRacePlayerDataList = (
     raceType: RaceType,
 ): RacePlayerData[] | undefined => {
     // Only mechanical races have race players; return undefined for others.
-    if (
-        raceType !== RaceType.KEIRIN &&
-        raceType !== RaceType.AUTORACE &&
-        raceType !== RaceType.BOATRACE
-    ) {
+    if (!isIncludedRaceType(raceType, RACE_TYPE_LIST_MECHANICAL_RACING)) {
         return undefined;
     }
 
