@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import '../../../../src/utility/format';
 
 import { container } from 'tsyringe';
 

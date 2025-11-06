@@ -2,6 +2,8 @@
  * @fileoverview URL関連のユーティリティ関数を提供するモジュール
  */
 
+import '../format';
+
 import { format } from 'date-fns';
 
 import { RaceType } from '../raceType';

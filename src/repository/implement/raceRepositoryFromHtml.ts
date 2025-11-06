@@ -1,3 +1,5 @@
+import '../../utility/format';
+
 import * as cheerio from 'cheerio';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
