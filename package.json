@@ -52,7 +52,7 @@
         "zod": "^4.1.12"
     },
     "devDependencies": {
-        "@cloudflare/workers-types": "^4.20251109.0",
+        "@cloudflare/workers-types": "^4.20251111.0",
         "@eslint/js": "^9.39.1",
         "@swc/core": "^1.15.1",
         "@swc/jest": "^0.2.39",
@@ -72,7 +72,7 @@
         "lint-staged": "^16.2.6",
         "typescript": "~5.9.3",
         "typescript-eslint": "^8.46.4",
-        "wrangler": "^4.46.0"
+        "wrangler": "^4.47.0"
     },
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
