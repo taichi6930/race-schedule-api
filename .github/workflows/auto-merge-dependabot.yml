@@ -29,8 +29,12 @@ jobs:
 
       - name: Enable auto-merge for Dependabot PRs
         if: |
-          (steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
-          steps.metadata.outputs.update-type == 'version-update:semver-minor')
+          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-minor' ||
+          (
+            steps.metadata.outputs.update-type == 'version-update:semver-major' &&
+            contains(fromJSON(steps.metadata.outputs.dependency-names), 'googleapis')
+          )
         run: gh pr merge --auto --squash "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
