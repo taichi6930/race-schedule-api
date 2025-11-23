@@ -72,7 +72,7 @@ export const KeirinYoutubeUserIdMap: Record<RaceCourse, string> = {
     小松島: 'ponstarkomatsushima',
     高知: '高知競輪ちゃんねる公式',
     松山: '松山競輪',
-    小倉: 'kokurakeirin',
+    小倉: '小倉競輪公式チャンネル',
     久留米: '久留米けいりんチャンネル公式',
     武雄: '武雄競輪-t9x',
     佐世保: '公式_佐世保競輪',
