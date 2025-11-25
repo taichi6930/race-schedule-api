@@ -12,6 +12,7 @@ import {
 import {
     createNetkeibaJraRaceVideoUrl,
     createNetkeibaJraShutubaUrl,
+    createNetkeibaNarRaceVideoUrl,
     createNetkeibaNarShutubaUrl,
     createNetkeibaRedirectUrl,
     createNetkeirinRaceShutubaUrl,
@@ -196,17 +197,18 @@ export const toGoogleCalendarData = (
         switch (raceEntity.raceData.raceType) {
             case RaceType.AUTORACE:
             case RaceType.BOATRACE: {
-                {
-                    return `${raceTimeStr}
+                return `${raceTimeStr}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
-                }
             }
             case RaceType.KEIRIN: {
                 const raceIdForNetkeirin = `${format(
                     raceEntity.raceData.dateTime,
                     'yyyyMMdd',
                 )}${createPlaceCode(RaceType.KEIRIN, CourseCodeType.OFFICIAL, raceEntity.raceData.location)}${raceEntity.raceData.number.toXDigits(2)}`;
+                const showPeChannel = ['GP', 'GⅠ', 'GⅡ', 'GⅢ'].includes(
+                    raceEntity.raceData.grade,
+                );
                 return `${raceTimeStr}
                     ${createAnchorTag(
                         'レース情報（netkeirin）',
@@ -214,7 +216,8 @@ export const toGoogleCalendarData = (
                             createNetkeirinRaceShutubaUrl(raceIdForNetkeirin),
                         ),
                     )}
-                    ${createAnchorTag('レース映像（YouTube）', createYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
+                    ${createAnchorTag('レース映像（公式YouTube）', createYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
+                    ${showPeChannel ? `\n${createAnchorTag('レース映像（ぺーちゃんねる）', createYoutubeLiveUrl('加藤慎平のぺーちゃんねる'))}` : ''}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
             }
@@ -241,8 +244,9 @@ export const toGoogleCalendarData = (
                 const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${createPlaceCode(raceEntity.raceData.raceType, CourseCodeType.NETKEIBA, raceEntity.raceData.location)}${raceEntity.raceData.dateTime.getXDigitMonth(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
                 return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                 ${raceTimeStr}
-                ${createAnchorTag('レース映像（YouTube）', createYoutubeLiveUrl(NarYoutubeUserIdMap[raceEntity.raceData.location]))}
                 ${createAnchorTag('レース情報（netkeiba）', createNetkeibaRedirectUrl(createNetkeibaNarShutubaUrl(raceIdForNetkeiba)))}
+                ${createAnchorTag('レース動画（netkeiba）', createNetkeibaRedirectUrl(createNetkeibaNarRaceVideoUrl(raceIdForNetkeiba)))}
+                ${createAnchorTag('レース映像（YouTube）', createYoutubeLiveUrl(NarYoutubeUserIdMap[raceEntity.raceData.location]))}
                 ${updateStr}
                 `.replace(/\n\s+/g, '\n');
             }
