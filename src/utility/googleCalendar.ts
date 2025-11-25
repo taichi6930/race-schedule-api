@@ -205,8 +205,6 @@ export const toGoogleCalendarData = (
                     raceEntity.raceData.dateTime,
                     'yyyyMMdd',
                 )}${createPlaceCode(RaceType.KEIRIN, CourseCodeType.OFFICIAL, raceEntity.raceData.location)}${raceEntity.raceData.number.toXDigits(2)}`;
-                // ぺーちゃんねるYouTubeリンク
-                const peChannelUrl = 'https://www.youtube.com/@peichannel';
                 const showPeChannel = ['GP', 'GⅠ', 'GⅡ', 'GⅢ'].includes(
                     raceEntity.raceData.grade,
                 );
@@ -218,7 +216,7 @@ export const toGoogleCalendarData = (
                         ),
                     )}
                     ${createAnchorTag('レース映像（公式YouTube）', createYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
-                    ${showPeChannel ? createAnchorTag('レース映像（ぺーちゃんねる）', peChannelUrl) : ''}
+                    ${showPeChannel ? createAnchorTag('レース映像（ぺーちゃんねる）', createYoutubeLiveUrl('peichannel')) : ''}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
             }
