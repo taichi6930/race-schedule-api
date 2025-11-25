@@ -75,9 +75,6 @@ importers:
       '@types/jest':
         specifier: ^30.0.0
         version: 30.0.0
-      '@types/neat-csv':
-        specifier: ^5.1.1
-        version: 5.1.1
       '@types/node':
         specifier: 24.10.1
         version: 24.10.1
@@ -1127,10 +1124,6 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
-  '@types/neat-csv@5.1.1':
-    resolution: {integrity: sha512-M4DeWRaiFdbaE/zquJFwS9EKL+896vzUvKwFr1Et2+agQep85NGMkL3zi2Ynn/mhGqyaGmDZwRtfLyRVIuyTsQ==}
-    deprecated: This is a stub types definition. neat-csv provides its own type definitions, so you do not need this installed.
-
   '@types/node@24.10.1':
     resolution: {integrity: sha512-GNWcUTRBgIRJD5zj+Tq0fKOJ5XZajIiBroOF0yvj2bSU1WvNdYS/dn9UxwsujGW4JX06dnHyjV2y9rRaybH0iQ==}
 
@@ -1588,11 +1581,6 @@ packages:
   css-what@6.2.2:
     resolution: {integrity: sha512-u/O3vwbptzhMs3L1fQE82ZSLHQQfto5gyZzwteVIEyeaY5Fc7R4dapF/BvRoSYFeqfBk4m0V1Vafq5Pjv25wvA==}
     engines: {node: '>= 6'}
-
-  csv-parser@3.2.0:
-    resolution: {integrity: sha512-fgKbp+AJbn1h2dcAHKIdKNSSjfp43BZZykXsCjzALjKy80VXQNHPFJ6T9Afwdzoj24aMkq8GwDS7KGcDPpejrA==}
-    engines: {node: '>= 10'}
-    hasBin: true
 
   data-uri-to-buffer@4.0.1:
     resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}
@@ -2525,10 +2513,6 @@ packages:
 
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
-
-  neat-csv@7.0.0:
-    resolution: {integrity: sha512-ZmiKZNkdqb6hrBU3lDHm52vWXs6CuFPfw6ZoJZNnY7IIpfA1fxM0UPPi+iQpqQo82qcLbsZPwLkQ1cdrMDtwwA==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   node-abi@3.85.0:
     resolution: {integrity: sha512-zsFhmbkAzwhTft6nd3VxcG0cvJsT70rL+BIGHWVq5fi6MwGrHwzqKaxXE+Hl2GmnGItnDKPPkO5/LQqjVkIdFg==}
@@ -4141,10 +4125,6 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
-  '@types/neat-csv@5.1.1':
-    dependencies:
-      neat-csv: 7.0.0
-
   '@types/node@24.10.1':
     dependencies:
       undici-types: 7.16.0
@@ -4613,8 +4593,6 @@ snapshots:
       nth-check: 2.1.1
 
   css-what@6.2.2: {}
-
-  csv-parser@3.2.0: {}
 
   data-uri-to-buffer@4.0.1: {}
 
@@ -5784,11 +5762,6 @@ snapshots:
   napi-postinstall@0.3.4: {}
 
   natural-compare@1.4.0: {}
-
-  neat-csv@7.0.0:
-    dependencies:
-      csv-parser: 3.2.0
-      get-stream: 6.0.1
 
   node-abi@3.85.0:
     dependencies:

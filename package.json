@@ -58,7 +58,6 @@
         "@swc/jest": "^0.2.39",
         "@types/better-sqlite3": "^7.6.13",
         "@types/jest": "^30.0.0",
-        "@types/neat-csv": "^5.1.1",
         "@types/node": "24.10.1",
         "esbuild": "^0.27.0",
         "eslint": "^9.39.1",
