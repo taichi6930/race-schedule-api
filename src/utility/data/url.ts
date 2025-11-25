@@ -33,6 +33,12 @@ export const createNetkeibaNarShutubaUrl = (raceId: string): string =>
     `https://nar.sp.netkeiba.com/race/shutuba.html?race_id=${raceId}`;
 
 /**
+ * netkeibaのNARレース動画のURLを生成する関数
+ */
+export const createNetkeibaNarRaceVideoUrl = (raceId: string): string =>
+    `https://nar.sp.netkeiba.com/race/race_movie.html?race_id=${raceId}`;
+
+/**
  * netkeirinの出馬表のURLを生成する関数
  * @param raceId
  */

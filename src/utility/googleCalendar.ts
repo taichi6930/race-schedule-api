@@ -12,6 +12,7 @@ import {
 import {
     createNetkeibaJraRaceVideoUrl,
     createNetkeibaJraShutubaUrl,
+    createNetkeibaNarRaceVideoUrl,
     createNetkeibaNarShutubaUrl,
     createNetkeibaRedirectUrl,
     createNetkeirinRaceShutubaUrl,
@@ -216,7 +217,7 @@ export const toGoogleCalendarData = (
                         ),
                     )}
                     ${createAnchorTag('レース映像（公式YouTube）', createYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
-                    ${showPeChannel ? createAnchorTag('レース映像（ぺーちゃんねる）', createYoutubeLiveUrl('peichannel')) : ''}
+                    ${showPeChannel ? `\n${createAnchorTag('レース映像（ぺーちゃんねる）', createYoutubeLiveUrl('peichannel'))}` : ''}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
             }
@@ -244,6 +245,7 @@ export const toGoogleCalendarData = (
                 return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                 ${raceTimeStr}
                 ${createAnchorTag('レース情報（netkeiba）', createNetkeibaRedirectUrl(createNetkeibaNarShutubaUrl(raceIdForNetkeiba)))}
+                ${createAnchorTag('レース動画（netkeiba）', createNetkeibaRedirectUrl(createNetkeibaNarRaceVideoUrl(raceIdForNetkeiba)))}
                 ${createAnchorTag('レース映像（YouTube）', createYoutubeLiveUrl(NarYoutubeUserIdMap[raceEntity.raceData.location]))}
                 ${updateStr}
                 `.replace(/\n\s+/g, '\n');
