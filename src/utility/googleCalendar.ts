@@ -217,7 +217,7 @@ export const toGoogleCalendarData = (
                         ),
                     )}
                     ${createAnchorTag('レース映像（公式YouTube）', createYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
-                    ${showPeChannel ? `\n${createAnchorTag('レース映像（ぺーちゃんねる）', createYoutubeLiveUrl('peichannel'))}` : ''}
+                    ${showPeChannel ? `\n${createAnchorTag('レース映像（ぺーちゃんねる）', createYoutubeLiveUrl('加藤慎平のぺーちゃんねる'))}` : ''}
                     ${updateStr}
                     `.replace(/\n\s+/g, '\n');
             }
