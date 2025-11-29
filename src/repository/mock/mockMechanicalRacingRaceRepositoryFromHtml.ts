@@ -8,9 +8,7 @@ import type { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
-export class MockMechanicalRacingRaceRepositoryFromHtml
-    implements IRaceRepository
-{
+export class MockMechanicalRacingRaceRepositoryFromHtml implements IRaceRepository {
     public async fetchRaceEntityList(
         searchRaceFilter: SearchRaceFilterEntity,
         placeEntityList?: PlaceEntity[],
