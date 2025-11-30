@@ -154,7 +154,7 @@ describe('PlaceControllerのテスト', () => {
         });
 
         it('parseQueryToFilterでValidationErrorが発生した場合、400エラーが返却されること', async () => {
-            usecaseSetUp.raceUsecase.upsertRaceEntityList.mockResolvedValue({
+            usecaseSetUp.placeUsecase.upsertPlaceEntityList.mockResolvedValue({
                 successCount: 10,
                 failureCount: 0,
                 failures: [],
@@ -176,7 +176,7 @@ describe('PlaceControllerのテスト', () => {
             const response = await controller.postUpsertPlace(mockRequest);
 
             expect(
-                usecaseSetUp.raceUsecase.upsertRaceEntityList,
+                usecaseSetUp.placeUsecase.upsertPlaceEntityList,
             ).not.toHaveBeenCalled();
             expect(response.status).toBe(400);
         });
