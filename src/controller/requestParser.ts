@@ -82,14 +82,7 @@ export const parseBodyToFilter = (
     const s = validateDateString(startDate, 'startDate');
     const f = validateDateString(finishDate, 'finishDate');
 
-    let raceTypeInput: string[] = [];
-    if (typeof raceType === 'string') {
-        raceTypeInput = [raceType];
-    } else if (Array.isArray(raceType)) {
-        raceTypeInput = raceType;
-    }
-
-    const raceTypeList = convertRaceTypeList(raceTypeInput);
+    const raceTypeList = convertRaceTypeList(toStringArray(raceType));
     if (raceTypeList.length === 0) {
         throw new ValidationError('Invalid raceType');
     }
