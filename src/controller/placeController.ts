@@ -77,8 +77,8 @@ export class PlaceController {
     @Logger
     public async postUpsertPlace(request: Request): Promise<Response> {
         try {
-            const body = await request.json();
-            const searchPlaceFilter = parseBodyToFilter(body as any);
+            const body: unknown = await request.json();
+            const searchPlaceFilter = parseBodyToFilter(body);
 
             const upsertResult =
                 await this.usecase.upsertPlaceEntityList(searchPlaceFilter);
