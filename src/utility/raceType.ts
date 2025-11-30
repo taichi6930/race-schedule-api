@@ -59,11 +59,10 @@ export type RaceType = (typeof RaceType)[keyof typeof RaceType];
 /**
  * 文字列がRaceTypeかどうかを判定する型ガード
  *
- * @param value - 判定対象の文字列
+ * @param value - 判定対象の文字列（大文字小文字を区別する）
  * @returns RaceTypeの場合true
  */
 const isRaceType = (value: string | null): value is RaceType => {
-    // 大文字と小文字を区別しないために、すべて大文字に変換して比較
     if (value === null) return false;
     return (Object.values(RaceType) as string[]).includes(value);
 };
