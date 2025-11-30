@@ -1,9 +1,8 @@
-import '../format';
-
 import { format } from 'date-fns';
 import { z } from 'zod';
 
 import { CourseCodeType } from '../data/course';
+import { toXDigits } from '../format';
 import { isIncludedRaceType, RaceType } from '../raceType';
 import { type PositionNumber, validatePositionNumber } from './positionNumber';
 import { createPlaceCode, type RaceCourse } from './raceCourse';
@@ -148,14 +147,14 @@ const buildId = (
         case IdType.RACE: {
             if (!isRaceParams(params))
                 throw new Error('Invalid params for RACE');
-            const numberCode = params.number.toXDigits(2);
+            const numberCode = toXDigits(params.number, 2);
             return `${raceTypePrefix}${dateCode}${locationCode}${numberCode}`;
         }
         case IdType.PLAYER: {
             if (!isRacePlayerParams(params))
                 throw new Error('Invalid params for PLAYER');
-            const numberCode = params.number.toXDigits(2);
-            const positionNumberCode = params.positionNumber.toXDigits(2);
+            const numberCode = toXDigits(params.number, 2);
+            const positionNumberCode = toXDigits(params.positionNumber, 2);
             return `${raceTypePrefix}${dateCode}${locationCode}${numberCode}${positionNumberCode}`;
         }
     }

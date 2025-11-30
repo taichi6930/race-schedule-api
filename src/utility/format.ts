@@ -16,68 +16,30 @@ export const formatDate = (date: Date): string => {
 export const createAnchorTag = (text: string, url: string): string =>
     `<a href="${url}">${text}</a>`;
 
-/**
- * 日付をフォーマットする
- */
-declare global {
-    interface Date {
-        getXDigitMonth: (digit: number) => string;
-        getXDigitDays: (digit: number) => string;
-        getXDigitHours: (digit: number) => string;
-        getXDigitMinutes: (digit: number) => string;
-    }
-}
-
-/**
- * 月をX桁に変換する
- * @param digit
- */
-Date.prototype.getXDigitMonth = function (digit: number): string {
-    return (this.getMonth() + 1).toString().padStart(digit, '0');
+const padNumber = (value: number, digit: number): string => {
+    return value.toString().padStart(digit, '0');
 };
 
-/**
- * 日をX桁に変換する
- * @param digit
- */
-Date.prototype.getXDigitDays = function (digit: number): string {
-    return this.getDate().toString().padStart(digit, '0');
-};
+export const formatMonthDigits = (date: Date, digit: number): string =>
+    padNumber(date.getMonth() + 1, digit);
 
-/**
- * 時をX桁に変換する
- * @param digit
- */
-Date.prototype.getXDigitHours = function (digit: number): string {
-    return this.getHours().toString().padStart(digit, '0');
-};
+export const formatDayDigits = (date: Date, digit: number): string =>
+    padNumber(date.getDate(), digit);
 
-/**
- * 分をX桁に変換する
- * @param digit
- */
-Date.prototype.getXDigitMinutes = function (digit: number): string {
-    return this.getMinutes().toString().padStart(digit, '0');
-};
+export const formatHourDigits = (date: Date, digit: number): string =>
+    padNumber(date.getHours(), digit);
 
-declare global {
-    interface Number {
-        toXDigits: (digit: number) => string;
-    }
+export const formatMinuteDigits = (date: Date, digit: number): string =>
+    padNumber(date.getMinutes(), digit);
 
-    interface String {
-        replaceFromCodePoint: (searchValue: string | RegExp) => string;
-    }
-}
+export const toXDigits = (value: number, digit: number): string =>
+    padNumber(value, digit);
 
-Number.prototype.toXDigits = function (this: number, digit: number): string {
-    return this.toString().padStart(digit, '0');
-};
-
-String.prototype.replaceFromCodePoint = function (
+export const replaceFromCodePoint = (
+    input: string,
     searchValue: string | RegExp,
-): string {
-    return this.replace(searchValue, (s) =>
+): string => {
+    return input.replace(searchValue, (s) =>
         String.fromCodePoint((s.codePointAt(0) ?? 0) - 0xfee0),
     );
 };

@@ -1,9 +1,9 @@
 import 'reflect-metadata';
-import './../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
 import { IRaceUseCase } from '../usecase/interface/IRaceUsecase';
+import { corsHeaders } from '../utility/cors';
 import { Logger } from '../utility/logger';
 import {
     parseBodyToFilter,
@@ -17,13 +17,6 @@ export class RaceController {
         @inject('RaceUsecase')
         private readonly usecase: IRaceUseCase,
     ) {}
-
-    // CORS設定
-    private readonly corsHeaders = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-    };
 
     /**
      * 選手データを取得する
@@ -44,19 +37,19 @@ export class RaceController {
                     count: entityList.length,
                     races: entityList,
                 },
-                { headers: this.corsHeaders },
+                { headers: corsHeaders() },
             );
         } catch (error) {
             if (error instanceof ValidationError) {
                 return new Response(`Bad Request: ${error.message}`, {
                     status: error.status,
-                    headers: this.corsHeaders,
+                    headers: corsHeaders(),
                 });
             }
             console.error('Error in getRaceEntityList:', error);
             return new Response('Internal Server Error', {
                 status: 500,
-                headers: this.corsHeaders,
+                headers: corsHeaders(),
             });
         }
     }
@@ -81,19 +74,19 @@ export class RaceController {
                     failureCount: upsertResult.failureCount,
                     failures: upsertResult.failures,
                 },
-                { headers: this.corsHeaders },
+                { headers: corsHeaders() },
             );
         } catch (error) {
             if (error instanceof ValidationError) {
                 return new Response(`Bad Request: ${error.message}`, {
                     status: error.status,
-                    headers: this.corsHeaders,
+                    headers: corsHeaders(),
                 });
             }
             console.error('Error in postUpsertRace:', error);
             return new Response('Internal Server Error', {
                 status: 500,
-                headers: this.corsHeaders,
+                headers: corsHeaders(),
             });
         }
     }

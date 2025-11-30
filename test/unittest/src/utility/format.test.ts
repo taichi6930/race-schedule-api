@@ -1,36 +1,56 @@
-import '../../../../src/utility/format';
+import {
+    formatDayDigits,
+    formatHourDigits,
+    formatMinuteDigits,
+    formatMonthDigits,
+    replaceFromCodePoint,
+    toXDigits,
+} from '../../../../src/utility/format';
 
-describe('String.prototype.replaceFromCodePoint', () => {
-    // 基本的な全角数字の変換テスト
-    test('全角数字を半角数字に変換できること', () => {
+describe('replaceFromCodePoint', () => {
+    test('正規表現で全角数字を半角数字に変換できること', () => {
         const input = '１２３４５';
         const expected = '12345';
-        expect(input.replaceFromCodePoint(/[\uFF10-\uFF19]/g)).toBe(expected);
+        expect(replaceFromCodePoint(input, /[\uFF10-\uFF19]/g)).toBe(expected);
     });
 
-    // 文字列パターンによる単一文字の変換テスト
-    test('文字列パターンで全角数字を半角数字に変換できること', () => {
+    test('文字列パターンで単一文字を変換できること', () => {
         const input = 'テスト１２３テスト';
-        expect(input.replaceFromCodePoint('１')).toBe('テスト1２３テスト');
+        expect(replaceFromCodePoint(input, '１')).toBe('テスト1２３テスト');
     });
 
-    // 正規表現パターンによる複数文字の変換テスト
-    test('正規表現パターンで全角数字を半角数字に変換できること', () => {
-        const input = 'テスト１２３テスト';
-        const expected = 'テスト123テスト';
-        expect(input.replaceFromCodePoint(/[\uFF10-\uFF19]/g)).toBe(expected);
-    });
-
-    // 変換対象が存在しない場合のテスト
-    test('変換対象が存在しない場合は元の文字列を返すこと', () => {
+    test('変換対象がない場合は元の文字列を返すこと', () => {
         const input = 'テスト123テスト';
-        expect(input.replaceFromCodePoint(/[\uFF10-\uFF19]/g)).toBe(input);
+        expect(replaceFromCodePoint(input, /[\uFF10-\uFF19]/g)).toBe(input);
+    });
+});
+
+describe('date digit formatters', () => {
+    const baseDate = new Date(2024, 0, 5, 4, 7);
+
+    test('formatMonthDigits pads month values', () => {
+        expect(formatMonthDigits(baseDate, 2)).toBe('01');
     });
 
-    // コードポイントのnullish処理の確認テスト
-    test('nullish文字のケースで正しく変換できること', () => {
-        const input = '１２３';
-        const expected = '1２３';
-        expect(input.replaceFromCodePoint('１')).toBe(expected);
+    test('formatDayDigits pads day values', () => {
+        expect(formatDayDigits(baseDate, 2)).toBe('05');
+    });
+
+    test('formatHourDigits pads hour values', () => {
+        expect(formatHourDigits(baseDate, 2)).toBe('04');
+    });
+
+    test('formatMinuteDigits pads minute values', () => {
+        expect(formatMinuteDigits(baseDate, 2)).toBe('07');
+    });
+});
+
+describe('toXDigits', () => {
+    test('指定桁でゼロ埋めできること', () => {
+        expect(toXDigits(5, 3)).toBe('005');
+    });
+
+    test('既に桁数を満たしていればそのまま返すこと', () => {
+        expect(toXDigits(1234, 2)).toBe('1234');
     });
 });

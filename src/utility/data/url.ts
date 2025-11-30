@@ -2,10 +2,9 @@
  * @fileoverview URL関連のユーティリティ関数を提供するモジュール
  */
 
-import '../format';
-
 import { format } from 'date-fns';
 
+import { formatDayDigits, formatMonthDigits } from '../format';
 import { RaceType } from '../raceType';
 import type { RaceCourse } from '../validateAndType/raceCourse';
 import { createPlaceCode } from '../validateAndType/raceCourse';
@@ -65,7 +64,7 @@ export const createPlaceUrl = (raceType: RaceType, date: Date): string => {
             return `https://prc.jp/jraracingviewer/contents/seiseki/${date.getFullYear().toString()}/`;
         }
         case RaceType.NAR: {
-            return `https://www.keiba.go.jp/KeibaWeb/MonthlyConveneInfo/MonthlyConveneInfoTop?k_year=${date.getFullYear()}&k_month=${date.getXDigitMonth(2)}`;
+            return `https://www.keiba.go.jp/KeibaWeb/MonthlyConveneInfo/MonthlyConveneInfoTop?k_year=${date.getFullYear()}&k_month=${formatMonthDigits(date, 2)}`;
         }
         case RaceType.KEIRIN: {
             return `https://www.oddspark.com/keirin/KaisaiCalendar.do?target=${format(date, 'yyyyMM')}`;
@@ -115,7 +114,7 @@ export const createRaceUrl = (
             if (place === undefined) {
                 throw new Error('NARレースの開催場が指定されていません');
             }
-            const raceDate = `${date.getFullYear()}%2f${date.getXDigitMonth(2)}%2f${date.getXDigitDays(2)}`;
+            const raceDate = `${date.getFullYear()}%2f${formatMonthDigits(date, 2)}%2f${formatDayDigits(date, 2)}`;
             return `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/RaceList?k_raceDate=${raceDate}&k_babaCode=${createPlaceCode(raceType, CourseCodeType.OFFICIAL, place)}`;
         }
         case RaceType.KEIRIN: {
@@ -140,7 +139,7 @@ export const createRaceUrl = (
             return `https://www.boatrace.jp/owpc/pc/race/racelist?rno=${number}&hd=${format(date, 'yyyyMMdd')}&jcd=${createPlaceCode(raceType, CourseCodeType.OFFICIAL, place)}`;
         }
         case RaceType.OVERSEAS: {
-            return `https://world.jra-van.jp/schedule/?year=${date.getFullYear()}&month=${date.getXDigitMonth(2)}`;
+            return `https://world.jra-van.jp/schedule/?year=${date.getFullYear()}&month=${formatMonthDigits(date, 2)}`;
         }
     }
 };
