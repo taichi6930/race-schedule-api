@@ -12,7 +12,9 @@ export class ValidationError extends Error {
     }
 }
 
-const toStringArray = (value: unknown): string[] => {
+type MultiValueInput = string | string[] | null | undefined;
+
+const toStringArray = (value: MultiValueInput): string[] => {
     if (value == null) return [];
     if (Array.isArray(value)) return value.map(String);
     if (typeof value === 'string') return [value];
@@ -29,36 +31,64 @@ const validateDateString = (
     return dateStr;
 };
 
-export const parseQueryToFilter = (
-    searchParams: URLSearchParams,
-): SearchRaceFilterEntity => {
-    const raceTypeParam = searchParams.getAll('raceType');
-    const gradeParam = searchParams.getAll('grade');
-    const stageParam = searchParams.getAll('stage');
-    const locationParam = searchParams.getAll('location');
-    const startDateParam = searchParams.get('startDate') ?? undefined;
-    const finishDateParam = searchParams.get('finishDate') ?? undefined;
+const ensureDateRange = (
+    startDate: string | null | undefined,
+    finishDate: string | null | undefined,
+): { start: Date; finish: Date } => {
+    const s = validateDateString(startDate, 'startDate');
+    const f = validateDateString(finishDate, 'finishDate');
+    return {
+        start: new Date(s),
+        finish: new Date(f),
+    };
+};
 
-    const s = validateDateString(startDateParam, 'startDate');
-    const f = validateDateString(finishDateParam, 'finishDate');
-
-    const raceTypeList: RaceType[] = convertRaceTypeList(raceTypeParam);
+const ensureRaceTypeList = (raceTypeValues: string[]): RaceType[] => {
+    const raceTypeList = convertRaceTypeList(raceTypeValues);
     if (raceTypeList.length === 0) {
         throw new ValidationError('Invalid raceType');
     }
+    return raceTypeList;
+};
 
-    const gradeList = toStringArray(gradeParam);
-    const stageList = toStringArray(stageParam);
-    const locationList = toStringArray(locationParam);
+interface SearchRaceFilterInput {
+    startDate: string | null | undefined;
+    finishDate: string | null | undefined;
+    raceTypeValues: string[];
+    locationValues?: string[];
+    gradeValues?: string[];
+    stageValues?: string[];
+}
 
-    return new SearchRaceFilterEntity(
-        new Date(s),
-        new Date(f),
-        raceTypeList,
-        locationList,
-        gradeList,
-        stageList,
+const createSearchRaceFilter = (
+    input: SearchRaceFilterInput,
+): SearchRaceFilterEntity => {
+    const { start, finish } = ensureDateRange(
+        input.startDate,
+        input.finishDate,
     );
+    const raceTypeList = ensureRaceTypeList(input.raceTypeValues);
+    return new SearchRaceFilterEntity(
+        start,
+        finish,
+        raceTypeList,
+        input.locationValues ?? [],
+        input.gradeValues ?? [],
+        input.stageValues ?? [],
+    );
+};
+
+export const parseQueryToFilter = (
+    searchParams: URLSearchParams,
+): SearchRaceFilterEntity => {
+    return createSearchRaceFilter({
+        startDate: searchParams.get('startDate'),
+        finishDate: searchParams.get('finishDate'),
+        raceTypeValues: searchParams.getAll('raceType'),
+        locationValues: searchParams.getAll('location'),
+        gradeValues: searchParams.getAll('grade'),
+        stageValues: searchParams.getAll('stage'),
+    });
 };
 
 interface RaceRequestBody {
@@ -79,44 +109,20 @@ export const parseBodyToFilter = (
         throw new ValidationError('body is missing or invalid');
     }
 
-    const s = validateDateString(startDate, 'startDate');
-    const f = validateDateString(finishDate, 'finishDate');
-
-    let raceTypeInput: string[] = [];
-    if (typeof raceType === 'string') {
-        raceTypeInput = [raceType];
-    } else if (Array.isArray(raceType)) {
-        raceTypeInput = raceType;
-    }
-
-    const raceTypeList = convertRaceTypeList(raceTypeInput);
-    if (raceTypeList.length === 0) {
-        throw new ValidationError('Invalid raceType');
-    }
-
-    const locationList = toStringArray(location);
-    const gradeList = toStringArray(grade);
-    const stageList = toStringArray(stage);
-
-    return new SearchRaceFilterEntity(
-        new Date(s),
-        new Date(f),
-        raceTypeList,
-        locationList,
-        gradeList,
-        stageList,
-    );
+    return createSearchRaceFilter({
+        startDate,
+        finishDate,
+        raceTypeValues: toStringArray(raceType),
+        locationValues: toStringArray(location),
+        gradeValues: toStringArray(grade),
+        stageValues: toStringArray(stage),
+    });
 };
 
 export const parseRaceTypeListFromSearch = (
     searchParams: URLSearchParams,
 ): RaceType[] => {
-    const raceTypeParam = searchParams.getAll('raceType');
-    const raceTypeList: RaceType[] = convertRaceTypeList(raceTypeParam);
-    if (raceTypeList.length === 0) {
-        throw new ValidationError('Invalid raceType');
-    }
-    return raceTypeList;
+    return ensureRaceTypeList(searchParams.getAll('raceType'));
 };
 
 export const parseSearchDatesAndRaceTypes = (
@@ -127,19 +133,15 @@ export const parseSearchDatesAndRaceTypes = (
     raceTypeList: RaceType[];
     locationList: string[];
 } => {
-    const startDateParam = searchParams.get('startDate') ?? undefined;
-    const finishDateParam = searchParams.get('finishDate') ?? undefined;
-    const s = validateDateString(startDateParam, 'startDate');
-    const f = validateDateString(finishDateParam, 'finishDate');
-
-    const raceTypeList = parseRaceTypeListFromSearch(searchParams);
-
-    const locationList = toStringArray(searchParams.getAll('location'));
+    const { start, finish } = ensureDateRange(
+        searchParams.get('startDate'),
+        searchParams.get('finishDate'),
+    );
 
     return {
-        start: new Date(s),
-        finish: new Date(f),
-        raceTypeList,
-        locationList,
+        start,
+        finish,
+        raceTypeList: ensureRaceTypeList(searchParams.getAll('raceType')),
+        locationList: searchParams.getAll('location'),
     };
 };
