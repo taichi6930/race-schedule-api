@@ -11,6 +11,7 @@ import type { IPlaceService } from '../../src/service/interface/IPlaceService';
 import type { IPlayerService } from '../../src/service/interface/IPlayerService';
 import type { IRaceService } from '../../src/service/interface/IRaceService';
 import type { IPlaceUseCase } from '../../src/usecase/interface/IPlaceUsecase';
+import type { IPlayerUseCase } from '../../src/usecase/interface/IPlayerUsecase';
 import type { IRaceUseCase } from '../../src/usecase/interface/IRaceUsecase';
 import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
@@ -21,6 +22,7 @@ import { placeServiceMock } from '../unittest/src/mock/service/placeServiceMock'
 import { playerServiceMock } from '../unittest/src/mock/service/playerServiceMock';
 import { raceServiceMock } from '../unittest/src/mock/service/raceServiceMock';
 import { placeUsecaseMock } from '../unittest/src/mock/usecase/placeUsecaseMock';
+import { playerUsecaseMock } from '../unittest/src/mock/usecase/playerUsecaseMock';
 import { raceUsecaseMock } from '../unittest/src/mock/usecase/raceUsecaseMock';
 
 /**
@@ -58,6 +60,7 @@ export interface TestServiceSetup {
 export interface TestUsecaseSetup {
     placeUsecase: jest.Mocked<IPlaceUseCase>;
     raceUsecase: jest.Mocked<IRaceUseCase>;
+    playerUsecase: jest.Mocked<IPlayerUseCase>;
 }
 
 /**
@@ -146,8 +149,12 @@ export const setupTestUsecaseMock = (): TestUsecaseSetup => {
     const raceUsecase = raceUsecaseMock();
     container.registerInstance<IRaceUseCase>('RaceUsecase', raceUsecase);
 
+    const playerUsecase = playerUsecaseMock();
+    container.registerInstance<IPlayerUseCase>('PlayerUsecase', playerUsecase);
+
     return {
         raceUsecase,
         placeUsecase,
+        playerUsecase,
     };
 };

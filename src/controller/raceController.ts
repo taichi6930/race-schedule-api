@@ -61,8 +61,8 @@ export class RaceController {
     @Logger
     public async postUpsertRace(request: Request): Promise<Response> {
         try {
-            const body = await request.json();
-            const searchRaceFilter = parseBodyToFilter(body as any);
+            const body: unknown = await request.json();
+            const searchRaceFilter = parseBodyToFilter(body);
 
             const upsertResult =
                 await this.usecase.upsertRaceEntityList(searchRaceFilter);

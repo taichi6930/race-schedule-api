@@ -70,8 +70,8 @@ export class CalendarController {
     @Logger
     public async postUpsertCalendar(request: Request): Promise<Response> {
         try {
-            const body = await request.json();
-            const searchCalendarFilter = parseBodyToFilter(body as any);
+            const body: unknown = await request.json();
+            const searchCalendarFilter = parseBodyToFilter(body);
 
             await this.usecase.updateCalendarRaceData(searchCalendarFilter, {
                 [RaceType.JRA]: SpecifiedGradeList(RaceType.JRA),

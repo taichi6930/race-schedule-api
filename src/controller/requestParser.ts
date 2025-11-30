@@ -12,9 +12,10 @@ export class ValidationError extends Error {
     }
 }
 
-type MultiValueInput = string | string[] | null | undefined;
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+    typeof value === 'object' && value !== null && !Array.isArray(value);
 
-const toStringArray = (value: MultiValueInput): string[] => {
+const toStringArray = (value: unknown): string[] => {
     if (value == null) return [];
     if (Array.isArray(value)) return value.map(String);
     if (typeof value === 'string') return [value];
@@ -91,18 +92,11 @@ export const parseQueryToFilter = (
     });
 };
 
-interface RaceRequestBody {
-    raceType: string | string[];
-    startDate: string;
-    finishDate: string;
-    location?: string | string[];
-    grade?: string | string[];
-    stage?: string | string[];
-}
+export const parseBodyToFilter = (body: unknown): SearchRaceFilterEntity => {
+    if (!isRecord(body)) {
+        throw new ValidationError('body is missing or invalid');
+    }
 
-export const parseBodyToFilter = (
-    body: RaceRequestBody,
-): SearchRaceFilterEntity => {
     const { raceType, startDate, finishDate, location, grade, stage } = body;
 
     if (typeof startDate !== 'string' || typeof finishDate !== 'string') {
