@@ -1,10 +1,29 @@
+/**
+ * リクエストパーサーモジュール
+ *
+ * HTTPリクエストのクエリパラメータやボディを解析し、
+ * 検索フィルターエンティティに変換するユーティリティ関数を提供します。
+ */
+
 import { SearchRaceFilterEntity } from '../repository/entity/filter/searchRaceFilterEntity';
 import type { RaceType } from '../utility/raceType';
 import { convertRaceTypeList } from '../utility/raceType';
 
+/**
+ * バリデーションエラーを表すカスタムエラークラス
+ *
+ * リクエストパラメータの検証に失敗した場合にスローされます。
+ */
 export class ValidationError extends Error {
+    /** HTTPステータスコード */
     public readonly status: number;
 
+    /**
+     * ValidationErrorを生成する
+     *
+     * @param message - エラーメッセージ
+     * @param status - HTTPステータスコード（デフォルト: 400）
+     */
     public constructor(message: string, status = 400) {
         super(message);
         this.name = 'ValidationError';
@@ -12,6 +31,12 @@ export class ValidationError extends Error {
     }
 }
 
+/**
+ * 任意の値を文字列配列に変換する
+ *
+ * @param value - 変換対象の値
+ * @returns 文字列配列
+ */
 const toStringArray = (value: unknown): string[] => {
     if (value == null) return [];
     if (Array.isArray(value)) return value.map(String);
@@ -19,6 +44,17 @@ const toStringArray = (value: unknown): string[] => {
     return [];
 };
 
+/**
+ * 日付文字列を検証する
+ *
+ * YYYY-MM-DD形式の日付文字列かどうかを検証し、
+ * 不正な場合はValidationErrorをスローします。
+ *
+ * @param dateStr - 検証対象の日付文字列
+ * @param fieldName - フィールド名（エラーメッセージ用）
+ * @returns 検証済みの日付文字列
+ * @throws ValidationError - 日付形式が不正な場合
+ */
 const validateDateString = (
     dateStr: string | null | undefined,
     fieldName: string,
@@ -29,6 +65,13 @@ const validateDateString = (
     return dateStr;
 };
 
+/**
+ * URLクエリパラメータをレース検索フィルターに変換する
+ *
+ * @param searchParams - URLSearchParamsオブジェクト
+ * @returns レース検索フィルターエンティティ
+ * @throws ValidationError - パラメータが不正な場合
+ */
 export const parseQueryToFilter = (
     searchParams: URLSearchParams,
 ): SearchRaceFilterEntity => {
@@ -61,15 +104,31 @@ export const parseQueryToFilter = (
     );
 };
 
+/**
+ * レースリクエストボディの型定義
+ */
 interface RaceRequestBody {
+    /** レース種別（単一または複数） */
     raceType: string | string[];
+    /** 検索開始日（YYYY-MM-DD形式） */
     startDate: string;
+    /** 検索終了日（YYYY-MM-DD形式） */
     finishDate: string;
+    /** 開催場所（オプション） */
     location?: string | string[];
+    /** グレード（オプション） */
     grade?: string | string[];
+    /** ステージ（オプション） */
     stage?: string | string[];
 }
 
+/**
+ * リクエストボディをレース検索フィルターに変換する
+ *
+ * @param body - リクエストボディ
+ * @returns レース検索フィルターエンティティ
+ * @throws ValidationError - ボディの形式が不正な場合
+ */
 export const parseBodyToFilter = (
     body: RaceRequestBody,
 ): SearchRaceFilterEntity => {
@@ -108,6 +167,13 @@ export const parseBodyToFilter = (
     );
 };
 
+/**
+ * URLクエリパラメータからレース種別リストを取得する
+ *
+ * @param searchParams - URLSearchParamsオブジェクト
+ * @returns レース種別の配列
+ * @throws ValidationError - レース種別が不正な場合
+ */
 export const parseRaceTypeListFromSearch = (
     searchParams: URLSearchParams,
 ): RaceType[] => {
@@ -119,6 +185,13 @@ export const parseRaceTypeListFromSearch = (
     return raceTypeList;
 };
 
+/**
+ * URLクエリパラメータから日付範囲とレース種別を取得する
+ *
+ * @param searchParams - URLSearchParamsオブジェクト
+ * @returns 検索開始日、終了日、レース種別リスト、開催場所リストを含むオブジェクト
+ * @throws ValidationError - パラメータが不正な場合
+ */
 export const parseSearchDatesAndRaceTypes = (
     searchParams: URLSearchParams,
 ): {
