@@ -30,6 +30,7 @@ export default [
     eslintPluginUnicorn.configs.all, // ✅ unicornプラグインの全ルールを適用
     eslint.configs.recommended, // ESLintの推奨ルールを適用
     ...tseslint.configs.all, // ✅ TypeScript用のルールを適用
+    eslintPluginJsdoc.configs['flat/recommended-typescript'], // ✅ JSDoc推奨ルールを適用
     eslintConfigPrettier, // Prettierとの競合を防ぐ設定
     {
         plugins: {
@@ -50,8 +51,46 @@ export default [
             '@typescript-eslint/consistent-return': 'off', // ✅ 一貫したreturn文を強制
             '@typescript-eslint/no-unsafe-assignment': 'off', // ✅ any型の代入を許可
             '@typescript-eslint/no-unnecessary-type-assertion': 'off', // ✅ 不必要な型アサーションを許可
-            'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
-            'jsdoc/require-example': 'off', // テストファイルではサンプルを任意に
+            'jsdoc/check-param-names': 'warn', // パラメータ名のチェック
+            'jsdoc/check-tag-names': [
+                'warn',
+                { definedTags: ['remarks', 'fileoverview'] },
+            ], // タグ名のチェック（remarksとfileoverviewを許可）
+            'jsdoc/no-types': 'off', // TypeScriptでは型注釈があるため、JSDocでの型指定はオフに
+            'jsdoc/require-throws-type': 'off', // TypeScriptでは例外の型は推論されるため、JSDocでの型指定はオフに
+            'jsdoc/require-example': 'off', // サンプルは任意
+            'jsdoc/require-jsdoc': [
+                'warn',
+                {
+                    publicOnly: true,
+                    require: {
+                        ArrowFunctionExpression: false,
+                        ClassDeclaration: true,
+                        ClassExpression: true,
+                        FunctionDeclaration: true,
+                        FunctionExpression: false,
+                        MethodDefinition: true,
+                    },
+                    contexts: ['TSInterfaceDeclaration', 'TSTypeAliasDeclaration'],
+                    checkConstructors: false,
+                    checkGetters: false,
+                    checkSetters: false,
+                },
+            ], // ✅ 公開関数にはJSDocを必須に
+            'jsdoc/require-description': [
+                'warn',
+                {
+                    contexts: [
+                        'ClassDeclaration',
+                        'FunctionDeclaration',
+                        'MethodDefinition',
+                        'TSInterfaceDeclaration',
+                    ],
+                },
+            ], // ✅ 説明を必須に
+            'jsdoc/require-param-description': 'warn', // パラメータの説明を推奨
+            'jsdoc/require-returns-description': 'warn', // 戻り値の説明を推奨
+            'jsdoc/tag-lines': 'off', // タグの行間は自由に
             'unused-imports/no-unused-vars': [
                 'error',
                 {
@@ -134,6 +173,16 @@ export default [
         files: ['**/mockGoogleCalendarGateway.ts'],
         rules: {
             'unicorn/no-array-sort': 'off', // ✅ Array.prototype.sort()の使用を許可
+        },
+    },
+    // テストファイルのJSDoc要件を緩和
+    {
+        files: ['test/**/*.ts', '**/*.test.ts', '**/*.spec.ts'],
+        rules: {
+            'jsdoc/require-jsdoc': 'off', // テストファイルではJSDocを任意に
+            'jsdoc/require-description': 'off', // テストファイルでは説明を任意に
+            'jsdoc/require-param-description': 'off', // テストファイルではパラメータの説明を任意に
+            'jsdoc/require-returns-description': 'off', // テストファイルでは戻り値の説明を任意に
         },
     },
 ];

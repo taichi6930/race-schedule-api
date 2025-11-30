@@ -1,3 +1,10 @@
+/**
+ * APIルーティングモジュール
+ *
+ * Cloudflare Workers上で動作するAPIのルーティングを管理します。
+ * 各エンドポイントへのリクエストを適切なコントローラーに振り分けます。
+ */
+
 import { CalendarController } from './controller/calendarController';
 import { PlaceController } from './controller/placeController';
 import { PlayerController } from './controller/playerController';
@@ -6,27 +13,54 @@ import { container } from './di';
 import type { CloudFlareEnv } from './utility/cloudFlareEnv';
 import { EnvStore } from './utility/envStore';
 
+/**
+ * CORSヘッダー設定
+ */
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+/**
+ * CORSプリフライトリクエストに対するレスポンスを返す
+ *
+ * @returns CORSヘッダー付きの空レスポンス
+ */
 const responseCors = (): Response => {
     return new Response(null, { headers: corsHeaders });
 };
+
+/**
+ * ヘルスチェックエンドポイントのレスポンスを返す
+ *
+ * @returns ヘルスチェック成功レスポンス
+ */
 const responseHealth = (): Response => {
     return new Response('ok health check', {
         status: 200,
         headers: corsHeaders,
     });
 };
+
+/**
+ * 404 Not Foundレスポンスを返す
+ *
+ * @returns エンドポイントが見つからないエラーレスポンス
+ */
 const responseNotFound = (): Response => {
     return Response.json(
         { error: 'エンドポイントが見つかりません' },
         { status: 404, headers: corsHeaders },
     );
 };
+
+/**
+ * 500 Internal Server Errorレスポンスを返す
+ *
+ * @param error - 発生したエラーオブジェクト
+ * @returns サーバーエラーレスポンス
+ */
 const responseError = (error: any): Response => {
     console.error('Database error:', error);
     return Response.json(
@@ -35,6 +69,13 @@ const responseError = (error: any): Response => {
     );
 };
 
+/**
+ * プレイヤー関連のリクエストを処理する
+ *
+ * @param request - HTTPリクエスト
+ * @param searchParams - URLクエリパラメータ
+ * @returns HTTPレスポンス
+ */
 const handlePlayer = async (
     request: Request,
     searchParams: URLSearchParams,
@@ -49,6 +90,13 @@ const handlePlayer = async (
     return responseNotFound();
 };
 
+/**
+ * レース関連のリクエストを処理する
+ *
+ * @param request - HTTPリクエスト
+ * @param searchParams - URLクエリパラメータ
+ * @returns HTTPレスポンス
+ */
 const handleRace = async (
     request: Request,
     searchParams: URLSearchParams,
@@ -63,6 +111,13 @@ const handleRace = async (
     return responseNotFound();
 };
 
+/**
+ * カレンダー関連のリクエストを処理する
+ *
+ * @param request - HTTPリクエスト
+ * @param searchParams - URLクエリパラメータ
+ * @returns HTTPレスポンス
+ */
 const handleCalendar = async (
     request: Request,
     searchParams: URLSearchParams,
@@ -77,6 +132,13 @@ const handleCalendar = async (
     return responseNotFound();
 };
 
+/**
+ * 開催場所関連のリクエストを処理する
+ *
+ * @param request - HTTPリクエスト
+ * @param searchParams - URLクエリパラメータ
+ * @returns HTTPレスポンス
+ */
 const handlePlace = async (
     request: Request,
     searchParams: URLSearchParams,
@@ -91,6 +153,15 @@ const handlePlace = async (
     return responseNotFound();
 };
 
+/**
+ * メインルーター関数
+ *
+ * すべてのHTTPリクエストを受け取り、適切なハンドラーに振り分けます
+ *
+ * @param request - HTTPリクエスト
+ * @param env - Cloudflare環境変数
+ * @returns HTTPレスポンス
+ */
 export async function router(
     request: Request,
     env: CloudFlareEnv,

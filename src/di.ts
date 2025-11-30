@@ -1,3 +1,11 @@
+/**
+ * 依存性注入（DI）コンテナの設定モジュール
+ *
+ * tsyringeを使用してアプリケーション全体の依存性を管理します。
+ * 各レイヤー（Gateway、Repository、Service、UseCase）のクラスを
+ * インターフェースに対して登録し、疎結合なアーキテクチャを実現します。
+ */
+
 import 'reflect-metadata';
 
 import { container } from 'tsyringe';
@@ -37,6 +45,7 @@ import type { IPlaceUseCase } from './usecase/interface/IPlaceUsecase';
 import type { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
 import type { IRaceUseCase } from './usecase/interface/IRaceUsecase';
 
+// プレイヤー関連の依存性登録
 container.register<IPlayerRepository>('PlayerRepository', {
     useClass: PlayerRepository,
 });
@@ -46,7 +55,11 @@ container.register<IPlayerService>('PlayerService', {
 container.register<IPlayerUseCase>('PlayerUsecase', {
     useClass: PlayerUseCase,
 });
+
+// データベース関連の依存性登録
 container.register<IDBGateway>('DBGateway', { useClass: DBGateway });
+
+// レース関連の依存性登録
 container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
     useClass: RaceDataHtmlGateway,
 });
@@ -58,6 +71,8 @@ container.register<IRaceRepository>('RaceRepositoryFromHtml', {
 });
 container.register<IRaceService>('RaceService', { useClass: RaceService });
 container.register<IRaceUseCase>('RaceUsecase', { useClass: RaceUseCase });
+
+// 開催場所関連の依存性登録
 container.register<IPlaceDataHtmlGateway>('PlaceDataHtmlGateway', {
     useClass: PlaceDataHtmlGateway,
 });
@@ -69,6 +84,8 @@ container.register<IPlaceRepository>('PlaceRepositoryFromHtml', {
 });
 container.register<IPlaceService>('PlaceService', { useClass: PlaceService });
 container.register<IPlaceUseCase>('PlaceUsecase', { useClass: PlaceUseCase });
+
+// カレンダー関連の依存性登録
 container.register<ICalendarGateway>('GoogleCalendarGateway', {
     useClass: GoogleCalendarGateway,
 });
