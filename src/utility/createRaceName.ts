@@ -1,5 +1,4 @@
-import './format';
-
+import { replaceFromCodePoint } from './format';
 import type { GradeType } from './validateAndType/gradeType';
 import type { RaceCourse } from './validateAndType/raceCourse';
 import type { RaceDateTime } from './validateAndType/raceDateTime';
@@ -184,9 +183,10 @@ export const processNarRaceName = (
     raceInfo: NarRaceDataForRaceName,
 ): string => {
     // 共通系
-    let tempRaceName = raceInfo.name
-        .replaceFromCodePoint(/[０-９Ａ-Ｚａ-ｚ]/g)
-        .replaceFromCodePoint(/[！-～]/g)
+    let tempRaceName = replaceFromCodePoint(
+        replaceFromCodePoint(raceInfo.name, /[０-９Ａ-Ｚａ-ｚ]/g),
+        /[！-～]/g,
+    )
         .replace(/ステークス/, 'S')
         .replace(/カップ/, 'C')
         .replace(/J([交指認]) /g, '')
@@ -326,10 +326,10 @@ interface OverseasRaceDataForRaceName {
 export const processOverseasRaceName = (
     raceInfo: OverseasRaceDataForRaceName,
 ): string => {
-    return raceInfo.name
-        .replaceFromCodePoint(
-            /[！-＃＄％＆（）＊＋，－．／０-９：；＜＝＞？＠Ａ-Ｚ［＼］＾＿｀ａ-ｚ｛｜｝～]/g,
-        )
+    return replaceFromCodePoint(
+        raceInfo.name,
+        /[！-＃＄％＆（）＊＋，－．／０-９：；＜＝＞？＠Ａ-Ｚ［＼］＾＿｀ａ-ｚ｛｜｝～]/g,
+    )
         .replace(/ステークス/, 'S')
         .replace(/カップ/, 'C')
         .replace(/サラ系/, '')

@@ -1,5 +1,3 @@
-import '../../../../src/utility/format';
-
 import { PlaceDataHtmlGateway } from '../../../../src/gateway/implement/placeDataHtmlGateway';
 import type { IPlaceDataHtmlGateway } from '../../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../../src/utility/raceType';

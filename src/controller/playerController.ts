@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import './../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 import { z } from 'zod';
@@ -7,6 +6,7 @@ import { z } from 'zod';
 import { SearchPlayerFilterEntity } from '../repository/entity/filter/searchPlayerFilterEntity';
 import { PlayerEntity } from '../repository/entity/playerEntity';
 import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
+import { corsHeaders } from '../utility/cors';
 import { parseRaceTypeListFromSearch, ValidationError } from './requestParser';
 
 const playerUpsertSchema = z
@@ -49,13 +49,6 @@ export class PlayerController {
         private readonly usecase: IPlayerUseCase,
     ) {}
 
-    // CORS設定
-    private readonly corsHeaders = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-    };
-
     /**
      * 選手データを取得する
      * @param searchParams
@@ -77,19 +70,19 @@ export class PlayerController {
                     count: playerEntityList.length,
                     players: playerEntityList,
                 },
-                { headers: this.corsHeaders },
+                { headers: corsHeaders() },
             );
         } catch (error) {
             if (error instanceof ValidationError) {
                 return new Response(`Bad Request: ${error.message}`, {
                     status: error.status,
-                    headers: this.corsHeaders,
+                    headers: corsHeaders(),
                 });
             }
             console.error('Error in getPlayerEntityList:', error);
             return new Response('Internal Server Error', {
                 status: 500,
-                headers: this.corsHeaders,
+                headers: corsHeaders(),
             });
         }
     }
@@ -124,19 +117,19 @@ export class PlayerController {
                     message: '選手を登録/更新しました',
                     playerEntities: playerEntityList,
                 },
-                { status: 201, headers: this.corsHeaders },
+                { status: 201, headers: corsHeaders() },
             );
         } catch (error) {
             if (error instanceof ValidationError) {
                 return new Response(`Bad Request: ${error.message}`, {
                     status: error.status,
-                    headers: this.corsHeaders,
+                    headers: corsHeaders(),
                 });
             }
             console.error('Error in postUpsertPlayer:', error);
             return new Response('Internal Server Error', {
                 status: 500,
-                headers: this.corsHeaders,
+                headers: corsHeaders(),
             });
         }
     }

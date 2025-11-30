@@ -1,10 +1,10 @@
 import 'reflect-metadata';
-import './../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
 import { SearchCalendarFilterEntity } from '../repository/entity/filter/searchCalendarFilterEntity';
 import { ICalendarUseCase } from '../usecase/interface/ICalendarUseCase';
+import { corsHeaders } from '../utility/cors';
 import { Logger } from '../utility/logger';
 import { RaceType } from '../utility/raceType';
 import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
@@ -20,13 +20,6 @@ export class CalendarController {
         @inject('CalendarUsecase')
         private readonly usecase: ICalendarUseCase,
     ) {}
-
-    // CORS設定
-    private readonly corsHeaders = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-    };
 
     /**
      * 選手データを取得する
@@ -54,19 +47,19 @@ export class CalendarController {
                     count: calendarEntityList.length,
                     races: calendarEntityList,
                 },
-                { headers: this.corsHeaders },
+                { headers: corsHeaders() },
             );
         } catch (error) {
             if (error instanceof ValidationError) {
                 return new Response(`Bad Request: ${error.message}`, {
                     status: error.status,
-                    headers: this.corsHeaders,
+                    headers: corsHeaders(),
                 });
             }
             console.error('Error in getCalendarEntityList:', error);
             return new Response('Internal Server Error', {
                 status: 500,
-                headers: this.corsHeaders,
+                headers: corsHeaders(),
             });
         }
     }
@@ -91,19 +84,19 @@ export class CalendarController {
 
             return new Response('OK', {
                 status: 200,
-                headers: this.corsHeaders,
+                headers: corsHeaders(),
             });
         } catch (error) {
             if (error instanceof ValidationError) {
                 return new Response(`Bad Request: ${error.message}`, {
                     status: error.status,
-                    headers: this.corsHeaders,
+                    headers: corsHeaders(),
                 });
             }
             console.error('Error in postUpsertRace:', error);
             return new Response('Internal Server Error', {
                 status: 500,
-                headers: this.corsHeaders,
+                headers: corsHeaders(),
             });
         }
     }

@@ -1,5 +1,3 @@
-import '../../utility/format';
-
 import * as cheerio from 'cheerio';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
@@ -15,6 +13,7 @@ import {
     processOverseasRaceName,
 } from '../../utility/createRaceName';
 import { EnvStore } from '../../utility/envStore';
+import { replaceFromCodePoint } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import {
     isIncludedRaceType,
@@ -346,9 +345,6 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                     undefined, // stage は未指定
                     undefined, // racePlayerDataList は未指定
                 );
-
-                console.log(JSON.stringify(raceEntity));
-
                 raceEntityList.push(raceEntity);
             });
 
@@ -829,12 +825,13 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
-            const seriesRaceName = (
+            const rawSeriesRaceName =
                 content.find('h2').text().split('\n').filter(Boolean)[1] ??
-                `${placeEntity.placeData.location}${placeEntity.grade}`
-            )
-                .replaceFromCodePoint(/[！-～]/g)
-                .replaceFromCodePoint(/[０-９Ａ-Ｚａ-ｚ]/g);
+                `${placeEntity.placeData.location}${placeEntity.grade}`;
+            const seriesRaceName = replaceFromCodePoint(
+                replaceFromCodePoint(rawSeriesRaceName, /[！-～]/g),
+                /[０-９Ａ-Ｚａ-ｚ]/g,
+            );
             // class="section1"を取得
             const section1 = content.find('.section1');
             section1.each((_, section1Element) => {
