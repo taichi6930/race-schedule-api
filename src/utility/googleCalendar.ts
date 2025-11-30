@@ -19,7 +19,15 @@ import {
     createNetkeirinRedirectUrl,
 } from './data/url';
 import { getJSTDate } from './date';
-import { createAnchorTag, formatDate } from './format';
+import {
+    createAnchorTag,
+    formatDate,
+    formatDayDigits,
+    formatHourDigits,
+    formatMinuteDigits,
+    formatMonthDigits,
+    toXDigits,
+} from './format';
 import { RaceType } from './raceType';
 import type { GradeType } from './validateAndType/gradeType';
 import { createPlaceCode } from './validateAndType/raceCourse';
@@ -192,7 +200,7 @@ export const toGoogleCalendarData = (
      * @param updateDate - 更新日時
      */
     const createDescription = (): string => {
-        const raceTimeStr = `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}`;
+        const raceTimeStr = `発走: ${formatHourDigits(raceEntity.raceData.dateTime, 2)}:${formatMinuteDigits(raceEntity.raceData.dateTime, 2)}`;
         const updateStr = `更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}`;
         switch (raceEntity.raceData.raceType) {
             case RaceType.AUTORACE:
@@ -205,7 +213,7 @@ export const toGoogleCalendarData = (
                 const raceIdForNetkeirin = `${format(
                     raceEntity.raceData.dateTime,
                     'yyyyMMdd',
-                )}${createPlaceCode(RaceType.KEIRIN, CourseCodeType.OFFICIAL, raceEntity.raceData.location)}${raceEntity.raceData.number.toXDigits(2)}`;
+                )}${createPlaceCode(RaceType.KEIRIN, CourseCodeType.OFFICIAL, raceEntity.raceData.location)}${toXDigits(raceEntity.raceData.number, 2)}`;
                 const showPeChannel = ['GP', 'GⅠ', 'GⅡ', 'GⅢ'].includes(
                     raceEntity.raceData.grade,
                 );
@@ -222,7 +230,7 @@ export const toGoogleCalendarData = (
                     `.replace(/\n\s+/g, '\n');
             }
             case RaceType.JRA: {
-                const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${createPlaceCode(raceEntity.raceData.raceType, CourseCodeType.NETKEIBA, raceEntity.raceData.location)}${raceEntity.heldDayData.heldTimes.toXDigits(2)}${raceEntity.heldDayData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
+                const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${createPlaceCode(raceEntity.raceData.raceType, CourseCodeType.NETKEIBA, raceEntity.raceData.location)}${toXDigits(raceEntity.heldDayData.heldTimes, 2)}${toXDigits(raceEntity.heldDayData.heldDayTimes, 2)}${toXDigits(raceEntity.raceData.number, 2)}`;
                 return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                 ${raceTimeStr}
                 ${createAnchorTag(
@@ -241,7 +249,7 @@ export const toGoogleCalendarData = (
                 `.replace(/\n\s+/g, '\n');
             }
             case RaceType.NAR: {
-                const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${createPlaceCode(raceEntity.raceData.raceType, CourseCodeType.NETKEIBA, raceEntity.raceData.location)}${raceEntity.raceData.dateTime.getXDigitMonth(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`;
+                const raceIdForNetkeiba = `${raceEntity.raceData.dateTime.getFullYear().toString()}${createPlaceCode(raceEntity.raceData.raceType, CourseCodeType.NETKEIBA, raceEntity.raceData.location)}${formatMonthDigits(raceEntity.raceData.dateTime, 2)}${formatDayDigits(raceEntity.raceData.dateTime, 2)}${toXDigits(raceEntity.raceData.number, 2)}`;
                 return `距離: ${raceEntity.conditionData.surfaceType}${raceEntity.conditionData.distance.toString()}m
                 ${raceTimeStr}
                 ${createAnchorTag('レース情報（netkeiba）', createNetkeibaRedirectUrl(createNetkeibaNarShutubaUrl(raceIdForNetkeiba)))}
