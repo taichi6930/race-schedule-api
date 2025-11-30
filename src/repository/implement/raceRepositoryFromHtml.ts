@@ -338,27 +338,14 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                     raceNumber,
                 );
 
-                console.log(
-                    JSON.stringify(
-                        RaceEntity.createWithoutId(
-                            raceData,
-                            placeEntity.heldDayData,
-                            conditionData,
-                            undefined, // stage は未指定
-                            undefined, // racePlayerDataList は未指定
-                        ),
-                    ),
+                const raceEntity = RaceEntity.createWithoutId(
+                    raceData,
+                    placeEntity.heldDayData,
+                    conditionData,
+                    undefined, // stage は未指定
+                    undefined, // racePlayerDataList は未指定
                 );
-
-                raceEntityList.push(
-                    RaceEntity.createWithoutId(
-                        raceData,
-                        placeEntity.heldDayData,
-                        conditionData,
-                        undefined, // stage は未指定
-                        undefined, // racePlayerDataList は未指定
-                    ),
-                );
+                raceEntityList.push(raceEntity);
             });
 
             // まだEntity生成はしない

@@ -109,14 +109,26 @@ export const parseBodyToFilter = (
         throw new ValidationError('body is missing or invalid');
     }
 
-    return createSearchRaceFilter({
-        startDate,
-        finishDate,
-        raceTypeValues: toStringArray(raceType),
-        locationValues: toStringArray(location),
-        gradeValues: toStringArray(grade),
-        stageValues: toStringArray(stage),
-    });
+    const s = validateDateString(startDate, 'startDate');
+    const f = validateDateString(finishDate, 'finishDate');
+
+    const raceTypeList = convertRaceTypeList(toStringArray(raceType));
+    if (raceTypeList.length === 0) {
+        throw new ValidationError('Invalid raceType');
+    }
+
+    const locationList = toStringArray(location);
+    const gradeList = toStringArray(grade);
+    const stageList = toStringArray(stage);
+
+    return new SearchRaceFilterEntity(
+        new Date(s),
+        new Date(f),
+        raceTypeList,
+        locationList,
+        gradeList,
+        stageList,
+    );
 };
 
 export const parseRaceTypeListFromSearch = (
