@@ -26,7 +26,7 @@ jobs:
           steps.metadata.outputs.update-type == 'version-update:semver-minor' ||
           (
             steps.metadata.outputs.update-type == 'version-update:semver-major' &&
-            contains(fromJSON(steps.metadata.outputs.dependency-names), 'googleapis')
+            contains(steps.metadata.outputs.dependency-names, 'googleapis')
           )
         run: gh pr merge --auto --squash "$PR_URL"
         env:
