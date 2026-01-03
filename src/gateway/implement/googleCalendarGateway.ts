@@ -1,6 +1,7 @@
 import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
 
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { CloudFlareEnv } from '../../utility/cloudFlareEnv';
 import { EnvStore } from '../../utility/envStore';
 import { createErrorMessage } from '../../utility/error';

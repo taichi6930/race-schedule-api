@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-
 import { inject, injectable } from 'tsyringe';
 
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
