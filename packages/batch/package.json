@@ -1,0 +1,23 @@
+{
+  "name": "@race-schedule/batch",
+  "version": "0.1.0",
+  "description": "Batch processing scripts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "eslint './src/**/*.ts'",
+    "lint:fix": "eslint --fix './src/**/*.ts'"
+  },
+  "dependencies": {
+    "@race-schedule/shared": "workspace:*",
+    "@race-schedule/db": "workspace:*",
+    "better-sqlite3": "12.5.0",
+    "dotenv": "^17.2.3",
+    "googleapis": "^169.0.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^24.2.4",
+    "typescript": "~5.7.2"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@race-schedule/scraping",
+  "version": "0.1.0",
+  "description": "Web scraping service for race data",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "eslint './src/**/*.ts'",
+    "lint:fix": "eslint --fix './src/**/*.ts'"
+  },
+  "dependencies": {
+    "@race-schedule/shared": "workspace:*",
+    "cheerio": "^1.1.2",
+    "date-fns": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.4",
+    "typescript": "~5.7.2"
+  }
+}

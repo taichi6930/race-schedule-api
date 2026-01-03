@@ -1,0 +1,16 @@
+{
+  "name": "@race-schedule/db",
+  "version": "0.1.0",
+  "description": "Database migrations and schemas",
+  "scripts": {
+    "migrations:apply:local": "wrangler d1 migrations apply my-database --local",
+    "migrations:apply:remote": "wrangler d1 migrations apply my-database --remote",
+    "migrations:create": "wrangler d1 migrations create my-database"
+  },
+  "dependencies": {
+    "better-sqlite3": "12.5.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.1.0"
+  }
+}
