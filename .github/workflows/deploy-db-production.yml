@@ -1,6 +1,6 @@
 name: Deploy DB to Production
 
-on:
+'on':
   push:
     tags:
       - 'v*'

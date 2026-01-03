@@ -1,6 +1,6 @@
 name: Deploy DB to Test Environment
 
-on:
+'on':
   push:
     branches:
       - main
