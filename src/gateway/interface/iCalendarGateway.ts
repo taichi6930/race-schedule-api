@@ -1,7 +1,5 @@
 import type { calendar_v3 } from 'googleapis';
 
-import type { RaceType } from '../../utility/raceType';
-
 /**
  * Googleカレンダーとの連携を担当するゲートウェイインターフェース
  *

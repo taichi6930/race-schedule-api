@@ -1,4 +1,3 @@
-import type { RaceType } from '../../utility/raceType';
 import { validateRaceType } from '../../utility/raceType';
 
 /**

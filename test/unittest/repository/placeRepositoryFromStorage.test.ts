@@ -1,9 +1,10 @@
 import 'reflect-metadata';
 
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { HeldDayData } from '../../../src/domain/heldDayData';
 import { SearchPlaceFilterEntity } from '../../../src/repository/entity/filter/searchPlaceFilterEntity';
 import { PlaceRepositoryFromStorage } from '../../../src/repository/implement/placeRepositoryFromStorage';
-import { isIncludedRaceType, RaceType } from '../../../src/utility/raceType';
+import { isIncludedRaceType } from '../../../src/utility/raceType';
 import { testRaceTypeListAll } from '../src/mock/common/baseCommonData';
 
 // Minimal mocks/stubs for CommonParameter and DB Gateway

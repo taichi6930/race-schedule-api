@@ -1,4 +1,3 @@
-import type { RaceType } from '../utility/raceType';
 import type { RaceCourse } from '../utility/validateAndType/raceCourse';
 import { validateRaceCourse } from '../utility/validateAndType/raceCourse';
 import {

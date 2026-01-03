@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import { RaceType } from '../../../../../packages/shared/src/types/raceType';
 import { PlaceData } from '../../../../../src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../src/gateway/mock/mockRaceDataHtmlGateway';
@@ -11,7 +12,6 @@ import { RaceRepositoryFromHtml } from '../../../../../src/repository/implement/
 import type { IRaceRepository } from '../../../../../src/repository/interface/IRaceRepository';
 import { allowedEnvs } from '../../../../../src/utility/env';
 import { EnvStore } from '../../../../../src/utility/envStore';
-import { RaceType } from '../../../../../src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
 import { clearMocks } from '../../../../utility/testSetupHelper';
 import {

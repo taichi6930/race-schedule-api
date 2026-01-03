@@ -1,5 +1,3 @@
-import type { RaceType } from '../utility/raceType';
-
 /**
  * カレンダーのデータを表すクラス
  */

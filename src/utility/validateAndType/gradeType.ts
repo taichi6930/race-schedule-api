@@ -1,8 +1,9 @@
 import type { ZodString } from 'zod';
 import { z } from 'zod';
 
+import type { RaceType } from '../../../packages/shared/src/types/raceType';
 import { GradeMasterList } from '../data/grade';
-import { isIncludedRaceType, type RaceType } from '../raceType';
+import { isIncludedRaceType } from '../raceType';
 
 /**
  * GradeTypeの型定義

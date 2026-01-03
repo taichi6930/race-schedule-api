@@ -5,7 +5,6 @@ import { CloudFlareEnv } from '../../utility/cloudFlareEnv';
 import { EnvStore } from '../../utility/envStore';
 import { createErrorMessage } from '../../utility/error';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import { ICalendarGateway } from '../interface/iCalendarGateway';
 
 export class GoogleCalendarGateway implements ICalendarGateway {
