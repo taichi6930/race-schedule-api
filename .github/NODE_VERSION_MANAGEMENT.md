@@ -36,7 +36,7 @@ GitHub Actionsでは、すべてのワークフローとアクションが`.nvmr
 - name: Setup Node.js
   uses: actions/setup-node@v4
   with:
-    node-version-file: '.nvmrc'
+      node-version-file: '.nvmrc'
 ```
 
 ## Node.jsバージョンの更新手順
@@ -55,9 +55,9 @@ echo "24.3.0" > .nvmrc
 
 ```json
 {
-  "engines": {
-    "node": ">=24.3.0 <25.0.0"
-  }
+    "engines": {
+        "node": ">=24.3.0 <25.0.0"
+    }
 }
 ```
 

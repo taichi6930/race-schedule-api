@@ -42,6 +42,7 @@ cat .nvmrc
 ```
 
 **重要**: Node.jsバージョンを変更する場合は、以下のファイルを更新する必要はありません：
+
 - `.nvmrc`のみ更新すれば、GitHub Actionsが自動的に反映します
 - `package.json`の`engines.node`は`.nvmrc`と一致させてください
 - Google Calendar API の認証情報
