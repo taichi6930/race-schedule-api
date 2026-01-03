@@ -1,5 +1,5 @@
 packages:
-  - lib
+  - packages/*
 
 ignoredBuiltDependencies:
   - sqlite3

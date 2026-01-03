@@ -1,0 +1,70 @@
+name: Deploy DB to Test Environment
+
+'on':
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/db/**'
+  workflow_dispatch:
+
+jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      db_changed: ${{ steps.filter.outputs.db }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for DB changes
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            db:
+              - 'packages/db/**'
+
+  deploy-test:
+    needs: check-changes
+    if: needs.check-changes.outputs.db_changed == 'true'
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Deploy migrations to Test
+        working-directory: packages/db
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "🚀 Deploying DB migrations to test environment..."
+          pnpm run migrations:apply:test
+          echo "✅ Deployment completed"
+
+      - name: List applied migrations
+        working-directory: packages/db
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "📋 Applied migrations:"
+          pnpm run migrations:list:test

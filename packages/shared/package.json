@@ -1,0 +1,23 @@
+{
+    "name": "@race-schedule/shared",
+    "version": "0.1.0",
+    "description": "Shared types, utilities and domain models",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc -w",
+        "test": "jest",
+        "lint": "eslint './src/**/*.ts'",
+        "lint:fix": "eslint --fix './src/**/*.ts'"
+    },
+    "dependencies": {
+        "date-fns": "^4.1.0",
+        "reflect-metadata": "^0.2.2",
+        "zod": "^4.2.1"
+    },
+    "devDependencies": {
+        "@types/node": "^24.2.4",
+        "typescript": "~5.7.2"
+    }
+}

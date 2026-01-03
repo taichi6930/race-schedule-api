@@ -17,15 +17,20 @@ export default [
     {
         languageOptions: {
             parserOptions: {
-                project: ['./tsconfig.json'],
+                project: ['./tsconfig.json', './packages/*/tsconfig.json'],
                 tsconfigRootDir: process.cwd(),
                 sourceType: 'module',
                 ecmaVersion: 2022,
             },
             sourceType: 'module',
         },
-        files: ['src/**/*.ts', 'test/**/*.ts'],
-        ignores: ['**/cdk.out/**', '**/node_modules/**', 'dist/**'],
+        files: ['src/**/*.ts', 'test/**/*.ts', 'packages/**/src/**/*.ts'],
+        ignores: [
+            '**/cdk.out/**',
+            '**/node_modules/**',
+            'dist/**',
+            '**/dist/**',
+        ],
     },
     eslintPluginUnicorn.configs.all, // ✅ unicornプラグインの全ルールを適用
     eslint.configs.recommended, // ESLintの推奨ルールを適用

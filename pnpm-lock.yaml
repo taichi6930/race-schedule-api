@@ -112,6 +112,113 @@ importers:
         specifier: ^4.56.0
         version: 4.56.0(@cloudflare/workers-types@4.20251228.0)
 
+  packages/api:
+    dependencies:
+      '@race-schedule/shared':
+        specifier: workspace:*
+        version: link:../shared
+      tsyringe:
+        specifier: ^4.10.0
+        version: 4.10.0
+      zod:
+        specifier: ^4.2.1
+        version: 4.2.1
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20251228.0
+        version: 4.20251228.0
+      '@types/node':
+        specifier: ^24.2.4
+        version: 24.10.4
+      typescript:
+        specifier: ~5.7.2
+        version: 5.7.3
+      wrangler:
+        specifier: ^4.1.0
+        version: 4.56.0(@cloudflare/workers-types@4.20251228.0)
+
+  packages/batch:
+    dependencies:
+      '@race-schedule/db':
+        specifier: workspace:*
+        version: link:../db
+      '@race-schedule/shared':
+        specifier: workspace:*
+        version: link:../shared
+      better-sqlite3:
+        specifier: 12.5.0
+        version: 12.5.0
+      dotenv:
+        specifier: ^17.2.3
+        version: 17.2.3
+      googleapis:
+        specifier: ^169.0.0
+        version: 169.0.0
+    devDependencies:
+      '@types/better-sqlite3':
+        specifier: ^7.6.11
+        version: 7.6.13
+      '@types/node':
+        specifier: ^24.2.4
+        version: 24.10.4
+      typescript:
+        specifier: ~5.7.2
+        version: 5.7.3
+
+  packages/db:
+    dependencies:
+      better-sqlite3:
+        specifier: 12.5.0
+        version: 12.5.0
+    devDependencies:
+      wrangler:
+        specifier: ^4.1.0
+        version: 4.56.0(@cloudflare/workers-types@4.20251228.0)
+
+  packages/front:
+    dependencies:
+      '@race-schedule/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/scraping:
+    dependencies:
+      '@race-schedule/shared':
+        specifier: workspace:*
+        version: link:../shared
+      cheerio:
+        specifier: ^1.1.2
+        version: 1.1.2
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
+    devDependencies:
+      '@types/node':
+        specifier: ^24.2.4
+        version: 24.10.4
+      typescript:
+        specifier: ~5.7.2
+        version: 5.7.3
+
+  packages/shared:
+    dependencies:
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+      zod:
+        specifier: ^4.2.1
+        version: 4.2.1
+    devDependencies:
+      '@types/node':
+        specifier: ^24.2.4
+        version: 24.10.4
+      typescript:
+        specifier: ~5.7.2
+        version: 5.7.3
+
 packages:
 
   '@babel/code-frame@7.27.1':
@@ -967,6 +1074,9 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
+
+  '@types/node@24.10.4':
+    resolution: {integrity: sha512-vnDVpYPMzs4wunl27jHrfmwojOGKya0xyM3sH+UE5iv5uPS6vX7UIoh6m+vQc5LGBq52HBKPIn/zcSZVzeDEZg==}
 
   '@types/node@25.0.3':
     resolution: {integrity: sha512-W609buLVRVmeW693xKfzHeIV6nJGGz98uCPfeXI1ELMLXVeKYZ9m15fAMSaUPBHYLGFsVRcMmSCksQOrZV9BYA==}
@@ -2853,6 +2963,11 @@ packages:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <6.0.0'
 
+  typescript@5.7.3:
+    resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
     engines: {node: '>=14.17'}
@@ -3891,6 +4006,10 @@ snapshots:
       pretty-format: 30.2.0
 
   '@types/json-schema@7.0.15': {}
+
+  '@types/node@24.10.4':
+    dependencies:
+      undici-types: 7.16.0
 
   '@types/node@25.0.3':
     dependencies:
@@ -6015,6 +6134,8 @@ snapshots:
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
+
+  typescript@5.7.3: {}
 
   typescript@5.9.3: {}
 

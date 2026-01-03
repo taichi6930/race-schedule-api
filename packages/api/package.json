@@ -1,0 +1,27 @@
+{
+    "name": "@race-schedule/api",
+    "version": "0.1.0",
+    "description": "Race Schedule API Service",
+    "main": "./dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc -w",
+        "dev": "wrangler dev --env development --local",
+        "deploy:production": "wrangler deploy --env production",
+        "test": "jest --coverage --maxWorkers=6",
+        "test:watch": "jest --watchAll",
+        "lint": "eslint './src/**/*.ts'",
+        "lint:fix": "eslint --fix './src/**/*.ts'"
+    },
+    "dependencies": {
+        "@race-schedule/shared": "workspace:*",
+        "tsyringe": "^4.10.0",
+        "zod": "^4.2.1"
+    },
+    "devDependencies": {
+        "@cloudflare/workers-types": "^4.20251228.0",
+        "@types/node": "^24.2.4",
+        "typescript": "~5.7.2",
+        "wrangler": "^4.1.0"
+    }
+}
