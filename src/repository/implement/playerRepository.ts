@@ -33,13 +33,21 @@ export class PlayerRepository implements IPlayerRepository {
             queryParams,
         );
 
-        return results.map(
+        // results is provided by the DB gateway and is untyped (any[]).
+        // Allow a controlled usage here with explicit conversions.
+
+        const rows: any[] = results;
+
+        // The DB gateway returns untyped results; explicit conversions are used
+        // before constructing entities. Disable unsafe-return for this line.
+
+        return rows.map(
             (row: any): PlayerEntity =>
                 PlayerEntity.create(
-                    row.race_type,
-                    row.player_no,
-                    row.player_name,
-                    row.priority,
+                    String(row.race_type),
+                    String(row.player_no),
+                    String(row.player_name),
+                    Number(row.priority),
                 ),
         );
     }

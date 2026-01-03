@@ -1,4 +1,4 @@
-import { RaceType } from '../raceType';
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 
 /**
  * グレードのマスターリスト

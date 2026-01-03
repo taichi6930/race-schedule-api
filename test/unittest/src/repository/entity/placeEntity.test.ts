@@ -1,7 +1,7 @@
+import { RaceType } from '../../../../../packages/shared/src/types/raceType';
 import {
     isIncludedRaceType,
     RACE_TYPE_LIST_MECHANICAL_RACING,
-    RaceType,
 } from '../../../../../src/utility/raceType';
 import {
     basePlaceData,

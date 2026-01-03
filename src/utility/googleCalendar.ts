@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
+import { RaceType } from '../../packages/shared/src/types/raceType';
 import { CalendarData } from '../domain/calendarData';
 import type { RaceEntity } from '../repository/entity/raceEntity';
 import { CourseCodeType } from './data/course';
@@ -28,7 +29,6 @@ import {
     formatMonthDigits,
     toXDigits,
 } from './format';
-import { RaceType } from './raceType';
 import type { GradeType } from './validateAndType/gradeType';
 import { createPlaceCode } from './validateAndType/raceCourse';
 

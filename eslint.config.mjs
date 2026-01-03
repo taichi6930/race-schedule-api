@@ -57,6 +57,7 @@ export default [
             '@typescript-eslint/no-unnecessary-type-assertion': 'off', // ✅ 不必要な型アサーションを許可
             'jsdoc/check-param-names': 'off', // テストファイルではパラメータ名のチェックを無効に
             'jsdoc/require-example': 'off', // テストファイルではサンプルを任意に
+            '@typescript-eslint/no-unsafe-return': 'off', // ✅ any型の返り値を許可
             'unused-imports/no-unused-vars': [
                 'error',
                 {

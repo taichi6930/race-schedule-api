@@ -1,9 +1,10 @@
 import { format } from 'date-fns';
 import { z } from 'zod';
 
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { CourseCodeType } from '../data/course';
 import { toXDigits } from '../format';
-import { isIncludedRaceType, RaceType } from '../raceType';
+import { isIncludedRaceType } from '../raceType';
 import { type PositionNumber, validatePositionNumber } from './positionNumber';
 import { createPlaceCode, type RaceCourse } from './raceCourse';
 import { validateRaceNumber } from './raceNumber';

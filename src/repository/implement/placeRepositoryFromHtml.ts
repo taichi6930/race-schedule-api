@@ -5,12 +5,13 @@ import console from 'node:console';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { EnvStore } from '../../utility/envStore';
 import { Logger } from '../../utility/logger';
-import { isIncludedRaceType, RaceType } from '../../utility/raceType';
+import { isIncludedRaceType } from '../../utility/raceType';
 import { UpsertResult } from '../../utility/upsertResult';
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import {

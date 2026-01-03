@@ -2,12 +2,12 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import { RaceType } from '../../../../packages/shared/src/types/raceType';
 import type { CalendarData } from '../../../../src/domain/calendarData';
 import { SearchCalendarFilterEntity } from '../../../../src/repository/entity/filter/searchCalendarFilterEntity';
 import { CalendarUseCase } from '../../../../src/usecase/implement/calendarUseCase';
 import type { ICalendarUseCase } from '../../../../src/usecase/interface/ICalendarUseCase';
 import { toXDigits } from '../../../../src/utility/format';
-import { RaceType } from '../../../../src/utility/raceType';
 import { SpecifiedGradeList } from '../../../../src/utility/validateAndType/gradeType';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';
 import {

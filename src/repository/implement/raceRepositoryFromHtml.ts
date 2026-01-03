@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';
@@ -18,7 +19,6 @@ import { Logger } from '../../utility/logger';
 import {
     isIncludedRaceType,
     RACE_TYPE_LIST_HORSE_RACING,
-    RaceType,
 } from '../../utility/raceType';
 import type { UpsertResult } from '../../utility/upsertResult';
 import {

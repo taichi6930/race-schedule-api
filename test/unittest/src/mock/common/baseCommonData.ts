@@ -1,3 +1,4 @@
+import { RaceType } from '../../../../../packages/shared/src/types/raceType';
 import { CalendarData } from '../../../../../src/domain/calendarData';
 import { HeldDayData } from '../../../../../src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceConditionData';
@@ -13,7 +14,6 @@ import {
     RACE_TYPE_LIST_ALL,
     RACE_TYPE_LIST_HORSE_RACING,
     RACE_TYPE_LIST_MECHANICAL_RACING,
-    RaceType,
 } from '../../../../../src/utility/raceType';
 import { maxFrameNumber } from '../../../../../src/utility/validateAndType/positionNumber';
 

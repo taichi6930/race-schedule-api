@@ -1,5 +1,5 @@
+import { RaceType } from '../../../../packages/shared/src/types/raceType';
 import { getGoogleCalendarColorId } from '../../../../src/utility/googleCalendar';
-import { RaceType } from '../../../../src/utility/raceType';
 import type { GradeType } from '../../../../src/utility/validateAndType/gradeType';
 
 describe('getGoogleCalendarColorId', () => {

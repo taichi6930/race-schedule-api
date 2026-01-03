@@ -1,7 +1,7 @@
 import type { calendar_v3 } from 'googleapis';
 
+import type { RaceType } from '../../../packages/shared/src/types/raceType';
 import { allowedEnvs, ENV } from '../../utility/env';
-import type { RaceType } from '../../utility/raceType';
 import type { ICalendarGateway } from '../interface/iCalendarGateway';
 
 /**

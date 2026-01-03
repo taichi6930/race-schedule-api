@@ -1,6 +1,7 @@
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
@@ -8,7 +9,6 @@ import { Logger } from '../../utility/logger';
 import {
     isIncludedRaceType,
     RACE_TYPE_LIST_MECHANICAL_RACING,
-    RaceType,
 } from '../../utility/raceType';
 import { FailureDetail, UpsertResult } from '../../utility/upsertResult';
 import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
