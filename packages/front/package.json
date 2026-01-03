@@ -1,13 +1,13 @@
 {
-  "name": "@race-schedule/front",
-  "version": "0.1.0",
-  "description": "Frontend application for race schedule",
-  "scripts": {
-    "dev": "echo 'Frontend setup pending'",
-    "build": "echo 'Frontend setup pending'",
-    "lint": "echo 'Frontend setup pending'"
-  },
-  "dependencies": {
-    "@race-schedule/shared": "workspace:*"
-  }
+    "name": "@race-schedule/front",
+    "version": "0.1.0",
+    "description": "Frontend application for race schedule",
+    "scripts": {
+        "dev": "echo 'Frontend setup pending'",
+        "build": "echo 'Frontend setup pending'",
+        "lint": "echo 'Frontend setup pending'"
+    },
+    "dependencies": {
+        "@race-schedule/shared": "workspace:*"
+    }
 }
