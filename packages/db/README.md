@@ -48,9 +48,11 @@ pnpm run migrations:apply:production
 ## デプロイフロー
 
 ### テスト環境
+
 - `main`ブランチへのマージ時
 - `packages/db/`配下に変更がある場合のみ実行
 
 ### 本番環境
+
 - GitHubでタグが作成された時
 - 前回のタグと比較して`packages/db/`配下に変更がある場合のみ実行

@@ -1,2 +1,2 @@
 // Export shared types
-export * from './domain';
+export type * from './domain';

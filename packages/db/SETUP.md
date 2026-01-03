@@ -60,23 +60,23 @@ GitHubリポジトリの Settings > Secrets and variables > Actions で以下の
 ### 必要なシークレット
 
 1. **CLOUDFLARE_API_TOKEN**
-   - Cloudflareダッシュボード > My Profile > API Tokens で作成
-   - 必要な権限: `D1:Edit`
+    - Cloudflareダッシュボード > My Profile > API Tokens で作成
+    - 必要な権限: `D1:Edit`
 
 2. **CLOUDFLARE_ACCOUNT_ID**
-   - Cloudflareダッシュボード > Workers & Pages で確認できます
-   - URLの `https://dash.cloudflare.com/` の後に表示される文字列
+    - Cloudflareダッシュボード > Workers & Pages で確認できます
+    - URLの `https://dash.cloudflare.com/` の後に表示される文字列
 
 ### GitHub Environments の設定
 
 Settings > Environments で以下の環境を作成：
 
 1. **test**
-   - Protection rules: 任意（推奨: mainブランチのみ）
+    - Protection rules: 任意（推奨: mainブランチのみ）
 
 2. **production**
-   - Protection rules: Required reviewers（推奨）
-   - タグからのデプロイ時のみ実行されるため
+    - Protection rules: Required reviewers（推奨）
+    - タグからのデプロイ時のみ実行されるため
 
 ## 4. ローカル環境のセットアップ
 

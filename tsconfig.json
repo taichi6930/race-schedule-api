@@ -26,5 +26,6 @@
         "typeRoots": ["./node_modules/@types"]
     },
     "types": ["@cloudflare/workers-types", "./worker-configuration.d.ts"],
-    "exclude": ["node_modules", "cdk.out"]
+    "include": ["src/**/*", "test/**/*", "packages/**/src/**/*"],
+    "exclude": ["node_modules", "cdk.out", "**/dist", "**/node_modules"]
 }
