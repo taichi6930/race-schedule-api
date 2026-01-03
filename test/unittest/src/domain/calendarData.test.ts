@@ -1,3 +1,4 @@
+import type { RaceType } from '../../../../packages/shared/src/types/raceType';
 import { CalendarData } from '../../../../src/domain/calendarData';
 import { testRaceTypeListAll } from '../mock/common/baseCommonData';
 

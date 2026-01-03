@@ -1,3 +1,4 @@
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { createRaceUrl } from '../../utility/data/url';
 import { Logger } from '../../utility/logger';
 import type { RaceCourse } from '../../utility/validateAndType/raceCourse';

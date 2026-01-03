@@ -1,3 +1,4 @@
+import type { RaceType } from '../../packages/shared/src/types/raceType';
 import type { GradeType } from '../utility/validateAndType/gradeType';
 import { validateGradeType } from '../utility/validateAndType/gradeType';
 import {

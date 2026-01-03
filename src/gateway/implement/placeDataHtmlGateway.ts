@@ -1,3 +1,4 @@
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { createPlaceUrl } from '../../utility/data/url';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataHtmlGateway } from '../interface/iPlaceDataHtmlGateway';

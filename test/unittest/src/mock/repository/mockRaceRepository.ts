@@ -1,3 +1,4 @@
+import type { RaceType } from '../../../../../packages/shared/src/types/raceType';
 import type { SearchRaceFilterEntity } from '../../../../../src/repository/entity/filter/searchRaceFilterEntity';
 import type { IRaceRepository } from '../../../../../src/repository/interface/IRaceRepository';
 import { baseRaceEntity, baseRaceEntityList } from '../common/baseCommonData';

@@ -1,3 +1,4 @@
+import type { RaceType } from '../../packages/shared/src/types/raceType';
 import { SearchRaceFilterEntity } from '../repository/entity/filter/searchRaceFilterEntity';
 import { convertRaceTypeList } from '../utility/raceType';
 

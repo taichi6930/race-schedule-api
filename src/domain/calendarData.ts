@@ -1,3 +1,5 @@
+import type { RaceType } from '../../packages/shared/src/types/raceType';
+
 /**
  * カレンダーのデータを表すクラス
  */

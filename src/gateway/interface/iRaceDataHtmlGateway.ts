@@ -1,3 +1,4 @@
+import type { RaceType } from '../../../packages/shared/src/types/raceType';
 import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
 
 /**
