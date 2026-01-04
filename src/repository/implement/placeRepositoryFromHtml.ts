@@ -54,7 +54,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
             );
 
             for (const period of periodList) {
-                let placeEntityList: PlaceEntity[];
+                let placeEntityList: PlaceEntity[] = [];
                 switch (raceType) {
                     case RaceType.JRA: {
                         placeEntityList =
