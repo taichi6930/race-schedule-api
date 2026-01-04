@@ -3,8 +3,8 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
+import { CourseCodeType } from '../../../packages/api/src/domain/course';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
-import { CourseCodeType } from '../../utility/data/course';
 import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import { createPlaceCode } from '../../utility/validateAndType/raceCourse';
 import type { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';

@@ -1,10 +1,10 @@
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
+import { CourseCodeType } from '../../packages/api/src/domain/course';
 import { RaceType } from '../../packages/shared/src/types/raceType';
 import { CalendarData } from '../domain/calendarData';
 import type { RaceEntity } from '../repository/entity/raceEntity';
-import { CourseCodeType } from './data/course';
 import {
     createYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,

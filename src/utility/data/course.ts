@@ -1,14 +1,5 @@
+import { CourseCodeType } from '../../../packages/api/src/domain/course';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
-
-export type CourseCodeType =
-    (typeof CourseCodeType)[keyof typeof CourseCodeType];
-
-export const CourseCodeType = {
-    // 公式
-    OFFICIAL: 'OFFICIAL',
-    // netkeiba
-    NETKEIBA: 'NETKEIBA',
-} as const;
 
 /**
  * RaceCourseのマスターデータ

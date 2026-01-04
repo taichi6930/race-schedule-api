@@ -1,8 +1,8 @@
 import { format } from 'date-fns';
 import { z } from 'zod';
 
+import { CourseCodeType } from '../../../packages/api/src/domain/course';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
-import { CourseCodeType } from '../data/course';
 import { toXDigits } from '../format';
 import { isIncludedRaceType } from '../raceType';
 import { type PositionNumber, validatePositionNumber } from './positionNumber';
