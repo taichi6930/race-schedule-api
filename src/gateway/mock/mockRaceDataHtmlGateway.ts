@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
-import { CourseCodeType } from '../../../packages/shared/src/types/course';
+import { CourseCodeType } from '../../../packages/shared/src/types/courseCodeType';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import { createPlaceCode } from '../../utility/validateAndType/raceCourse';
