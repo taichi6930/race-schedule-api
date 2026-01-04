@@ -4,8 +4,8 @@ import type { Course } from '@race-schedule/shared/src/types/course';
 import type { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeType';
 import { inject, injectable } from 'tsyringe';
 
-import type { ICourseRepository } from '../repository/interface/ICourseRepository';
-import type { ICourseService } from './ICourseService';
+import type { ICourseRepository } from '../../repository/interface/ICourseRepository';
+import type { ICourseService } from '../interface/ICourseService';
 
 /**
  * コース情報のビジネスロジックを担うサービスクラス
