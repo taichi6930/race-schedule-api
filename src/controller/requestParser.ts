@@ -1,5 +1,5 @@
+import type { RaceType } from '../../packages/shared/src/types/raceType';
 import { SearchRaceFilterEntity } from '../repository/entity/filter/searchRaceFilterEntity';
-import type { RaceType } from '../utility/raceType';
 import { convertRaceTypeList } from '../utility/raceType';
 
 export class ValidationError extends Error {

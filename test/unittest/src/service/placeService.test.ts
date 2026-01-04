@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/searchPlaceFilterEntity';
+import { OldSearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/oldSearchPlaceFilterEntity';
 import { PlaceService } from '../../../../src/service/implement/placeService';
 import type { IPlaceService } from '../../../../src/service/interface/IPlaceService';
 import { DataLocation } from '../../../../src/utility/dataType';
@@ -39,7 +39,7 @@ describe('PlaceService', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const searchPlaceFilter = new SearchPlaceFilterEntity(
+            const searchPlaceFilter = new OldSearchPlaceFilterEntity(
                 startDate,
                 finishDate,
                 testRaceTypeListAll,
@@ -63,7 +63,7 @@ describe('PlaceService', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const searchPlaceFilter = new SearchPlaceFilterEntity(
+            const searchPlaceFilter = new OldSearchPlaceFilterEntity(
                 startDate,
                 finishDate,
                 testRaceTypeListAll,

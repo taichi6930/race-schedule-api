@@ -2,14 +2,14 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import { RaceType } from '../../../../../packages/shared/src/types/raceType';
 import type { IPlaceDataHtmlGateway } from '../../../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../../../../src/gateway/mock/mockPlaceDataHtmlGateway';
-import { SearchPlaceFilterEntity } from '../../../../../src/repository/entity/filter/searchPlaceFilterEntity';
+import { OldSearchPlaceFilterEntity } from '../../../../../src/repository/entity/filter/oldSearchPlaceFilterEntity';
 import { PlaceRepositoryFromHtml } from '../../../../../src/repository/implement/placeRepositoryFromHtml';
 import type { IPlaceRepository } from '../../../../../src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../src/utility/env';
 import { EnvStore } from '../../../../../src/utility/envStore';
-import { RaceType } from '../../../../../src/utility/raceType';
 import { SkipEnv } from '../../../../utility/testDecorators';
 import { clearMocks } from '../../../../utility/testSetupHelper';
 import {
@@ -92,12 +92,13 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
                     `正しいレース開催データを取得できる(${raceType})`,
                     [allowedEnvs.githubActionsCi],
                     async () => {
-                        const searchPlaceFilter = new SearchPlaceFilterEntity(
-                            startDate,
-                            endDate,
-                            [raceType],
-                            [],
-                        );
+                        const searchPlaceFilter =
+                            new OldSearchPlaceFilterEntity(
+                                startDate,
+                                endDate,
+                                [raceType],
+                                [],
+                            );
                         const placeEntityList =
                             await repository.fetchPlaceEntityList(
                                 searchPlaceFilter,

@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
-import { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
+import type { SearchPlaceFilterEntity } from '../../../packages/api/src/usecase/dto/searchPlaceFilterEntity';
+import { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceService } from '../../service/interface/IPlaceService';
 import { DataLocation } from '../../utility/dataType';
@@ -9,7 +10,7 @@ import { UpsertResult } from '../../utility/upsertResult';
 import { IPlaceUseCase } from '../interface/IPlaceUsecase';
 
 /**
- * 開催場ユースケースの実装
+ * レース開催場所ユースケースの実装
  */
 @injectable()
 export class PlaceUseCase implements IPlaceUseCase {
@@ -19,7 +20,7 @@ export class PlaceUseCase implements IPlaceUseCase {
     ) {}
 
     /**
-     * 開催場のEntity配列を取得する
+     * レース開催場所のEntity配列を取得する
      * @param searchPlaceFilter - 場所フィルター情報
      */
     @Logger
@@ -33,12 +34,12 @@ export class PlaceUseCase implements IPlaceUseCase {
     }
 
     /**
-     * 開催場のEntity配列の更新を行う
+     * レース開催場所のEntity配列の更新を行う
      * @param searchPlaceFilter - 場所フィルター情報
      */
     @Logger
     public async upsertPlaceEntityList(
-        searchPlaceFilter: SearchPlaceFilterEntity,
+        searchPlaceFilter: OldSearchPlaceFilterEntity,
     ): Promise<UpsertResult> {
         const entityList: PlaceEntity[] =
             await this.placeService.fetchPlaceEntityList(

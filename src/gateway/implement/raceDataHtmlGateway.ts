@@ -1,6 +1,6 @@
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { createRaceUrl } from '../../utility/data/url';
 import { Logger } from '../../utility/logger';
-import { RaceType } from '../../utility/raceType';
 import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
 import type { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
 

@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import { format } from 'date-fns';
 
-import { RaceType } from '../../utility/raceType';
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 import type { IPlaceDataHtmlGateway } from '../interface/iPlaceDataHtmlGateway';
 /**
  * MockPlaceDataHtmlGatewayは、IPlaceDataHtmlGatewayのモック実装です。

@@ -1,6 +1,6 @@
+import { RaceType } from '../../../../packages/shared/src/types/raceType';
 import { RaceDataHtmlGateway } from '../../../../src/gateway/implement/raceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from '../../../../src/gateway/interface/iRaceDataHtmlGateway';
-import { RaceType } from '../../../../src/utility/raceType';
 import { clearMocks } from '../../../utility/testSetupHelper';
 
 describe('RaceDataHtmlGateway', () => {

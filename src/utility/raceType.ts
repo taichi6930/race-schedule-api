@@ -1,14 +1,4 @@
-/**
- * レースタイプの列挙型
- */
-export const RaceType = {
-    JRA: 'JRA',
-    NAR: 'NAR',
-    KEIRIN: 'KEIRIN',
-    OVERSEAS: 'OVERSEAS',
-    AUTORACE: 'AUTORACE',
-    BOATRACE: 'BOATRACE',
-} as const;
+import { RaceType } from '../../packages/shared/src/types/raceType';
 
 export const RACE_TYPE_LIST_ALL: RaceType[] = [
     RaceType.JRA,
@@ -28,8 +18,6 @@ export const RACE_TYPE_LIST_HORSE_RACING = [
     RaceType.NAR,
     RaceType.OVERSEAS,
 ];
-
-export type RaceType = (typeof RaceType)[keyof typeof RaceType];
 
 const isRaceType = (value: string | null): value is RaceType => {
     // 大文字と小文字を区別しないために、すべて大文字に変換して比較

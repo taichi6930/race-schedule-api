@@ -6,7 +6,7 @@ import {
 import { PlaceData } from '../../domain/placeData';
 import { Logger } from '../../utility/logger';
 import { UpsertResult } from '../../utility/upsertResult';
-import type { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
+import type { OldSearchPlaceFilterEntity } from '../entity/filter/oldSearchPlaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -16,7 +16,7 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
      * @param searchFilter
      */
     public async fetchPlaceEntityList(
-        searchFilter: SearchPlaceFilterEntity,
+        searchFilter: OldSearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         const placeEntityList = [];
         const { raceTypeList, startDate, finishDate } = searchFilter;

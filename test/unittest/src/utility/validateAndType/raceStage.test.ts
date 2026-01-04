@@ -1,4 +1,4 @@
-import { RaceType } from '../../../../../src/utility/raceType';
+import { RaceType } from '../../../../../packages/shared/src/types/raceType';
 import { validateRaceStage } from '../../../../../src/utility/validateAndType/raceStage';
 import { testRaceTypeListMechanicalRacing } from '../../mock/common/baseCommonData';
 

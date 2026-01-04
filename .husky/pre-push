@@ -1,5 +1,2 @@
-#!/bin/sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 # Run the heavier checks before pushing to prevent broken code reaching remotes
 pnpm run pre-commit

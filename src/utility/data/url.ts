@@ -4,8 +4,8 @@
 
 import { format } from 'date-fns';
 
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { formatDayDigits, formatMonthDigits } from '../format';
-import { RaceType } from '../raceType';
 import type { RaceCourse } from '../validateAndType/raceCourse';
 import { createPlaceCode } from '../validateAndType/raceCourse';
 import { CourseCodeType } from './course';

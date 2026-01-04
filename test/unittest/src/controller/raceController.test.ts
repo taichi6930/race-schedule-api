@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { RaceType } from '../../../../src/utility/raceType';
+import { RaceType } from '../../../../packages/shared/src/types/raceType';
 import type { TestUsecaseSetup } from '../../../utility/testSetupHelper';
 import {
     clearMocks,

@@ -1,13 +1,13 @@
-import type { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
+import type { SearchPlaceFilterEntity } from '../../../packages/api/src/usecase/dto/searchPlaceFilterEntity';
+import type { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { UpsertResult } from '../../utility/upsertResult';
-
 /**
- * 開催場ユースケースのインターフェース
+ * レース開催場所ユースケースのインターフェース
  */
 export interface IPlaceUseCase {
     /**
-     * 開催場のEntity配列を取得する
+     * レース開催場所のEntity配列を取得する
      * @param searchPlaceFilter - 場所フィルター情報
      */
     fetchPlaceEntityList: (
@@ -15,10 +15,10 @@ export interface IPlaceUseCase {
     ) => Promise<PlaceEntity[]>;
 
     /**
-     * 開催場のEntity配列の更新を行う
+     * レース開催場所のEntity配列の更新を行う
      * @param searchPlaceFilter - 場所フィルター情報
      */
     upsertPlaceEntityList: (
-        searchPlaceFilter: SearchPlaceFilterEntity,
+        searchPlaceFilter: OldSearchPlaceFilterEntity,
     ) => Promise<UpsertResult>;
 }

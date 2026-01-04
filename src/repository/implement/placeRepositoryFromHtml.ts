@@ -5,19 +5,20 @@ import console from 'node:console';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import { EnvStore } from '../../utility/envStore';
 import { Logger } from '../../utility/logger';
-import { isIncludedRaceType, RaceType } from '../../utility/raceType';
+import { isIncludedRaceType } from '../../utility/raceType';
 import { UpsertResult } from '../../utility/upsertResult';
 import { GradeType } from '../../utility/validateAndType/gradeType';
 import {
     RaceCourse,
     validateRaceCourse,
 } from '../../utility/validateAndType/raceCourse';
-import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
+import { OldSearchPlaceFilterEntity } from '../entity/filter/oldSearchPlaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -38,7 +39,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
      */
     @Logger
     public async fetchPlaceEntityList(
-        searchFilter: SearchPlaceFilterEntity,
+        searchFilter: OldSearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         const { raceTypeList, startDate, finishDate } = searchFilter;
 
@@ -53,7 +54,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
             );
 
             for (const period of periodList) {
-                let placeEntityList: PlaceEntity[];
+                let placeEntityList: PlaceEntity[] = [];
                 switch (raceType) {
                     case RaceType.JRA: {
                         placeEntityList =

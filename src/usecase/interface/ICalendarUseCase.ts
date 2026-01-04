@@ -1,6 +1,6 @@
+import type { RaceType } from '../../../packages/shared/src/types/raceType';
 import type { CalendarData } from '../../domain/calendarData';
 import type { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
-import type { RaceType } from '../../utility/raceType';
 import type { GradeType } from '../../utility/validateAndType/gradeType';
 
 export interface ICalendarUseCase {

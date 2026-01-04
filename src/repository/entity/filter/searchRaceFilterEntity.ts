@@ -1,4 +1,4 @@
-import type { RaceType } from '../../../utility/raceType';
+import type { RaceType } from '../../../../packages/shared/src/types/raceType';
 import type { GradeType } from '../../../utility/validateAndType/gradeType';
 import type { RaceCourse } from '../../../utility/validateAndType/raceCourse';
 import type { RaceStage } from '../../../utility/validateAndType/raceStage';
