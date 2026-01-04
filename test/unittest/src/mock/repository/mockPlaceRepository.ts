@@ -1,4 +1,4 @@
-import type { SearchPlaceFilterEntity } from '../../../../../src/repository/entity/filter/searchPlaceFilterEntity';
+import type { OldSearchPlaceFilterEntity } from '../../../../../src/repository/entity/filter/oldSearchPlaceFilterEntity';
 import type { IPlaceRepository } from '../../../../../src/repository/interface/IPlaceRepository';
 import { basePlaceEntity } from '../common/baseCommonData';
 
@@ -7,7 +7,7 @@ export const mockPlaceRepository = (): jest.Mocked<IPlaceRepository> => {
         fetchPlaceEntityList: jest
             .fn()
             .mockImplementation(
-                async (searchFilter: SearchPlaceFilterEntity) => {
+                async (searchFilter: OldSearchPlaceFilterEntity) => {
                     const { raceTypeList } = searchFilter;
                     return raceTypeList.map((raceType) =>
                         basePlaceEntity(raceType),

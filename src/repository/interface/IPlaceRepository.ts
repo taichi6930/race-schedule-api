@@ -1,10 +1,10 @@
 import type { UpsertResult } from '../../utility/upsertResult';
-import type { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
+import type { OldSearchPlaceFilterEntity } from '../entity/filter/oldSearchPlaceFilterEntity';
 import type { PlaceEntity } from '../entity/placeEntity';
 
 export interface IPlaceRepository {
     fetchPlaceEntityList: (
-        searchPlaceFilter: SearchPlaceFilterEntity,
+        searchPlaceFilter: OldSearchPlaceFilterEntity,
     ) => Promise<PlaceEntity[]>;
 
     upsertPlaceEntityList: (entityList: PlaceEntity[]) => Promise<UpsertResult>;

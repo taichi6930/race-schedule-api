@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
-import { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
+import { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IPlaceService } from '../../service/interface/IPlaceService';
@@ -9,7 +9,6 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import type { UpsertResult } from '../../utility/upsertResult';
 import { IRaceUseCase } from '../interface/IRaceUsecase';
-
 @injectable()
 export class RaceUseCase implements IRaceUseCase {
     public constructor(
@@ -43,7 +42,7 @@ export class RaceUseCase implements IRaceUseCase {
     ): Promise<UpsertResult> {
         // フィルタリング処理
         const placeEntityList = await this.placeService.fetchPlaceEntityList(
-            new SearchPlaceFilterEntity(
+            new OldSearchPlaceFilterEntity(
                 searchRaceFilter.startDate,
                 searchRaceFilter.finishDate,
                 searchRaceFilter.raceTypeList,

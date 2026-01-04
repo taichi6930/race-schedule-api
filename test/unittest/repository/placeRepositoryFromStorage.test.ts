@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { HeldDayData } from '../../../src/domain/heldDayData';
-import { SearchPlaceFilterEntity } from '../../../src/repository/entity/filter/searchPlaceFilterEntity';
+import { OldSearchPlaceFilterEntity } from '../../../src/repository/entity/filter/oldSearchPlaceFilterEntity';
 import { PlaceRepositoryFromStorage } from '../../../src/repository/implement/placeRepositoryFromStorage';
 import { isIncludedRaceType } from '../../../src/utility/raceType';
 import { testRaceTypeListAll } from '../src/mock/common/baseCommonData';
@@ -15,7 +15,7 @@ describe('PlaceRepositoryFromStorage', () => {
                 queryAll: jest.fn(),
             };
             const repo = new PlaceRepositoryFromStorage(mockDb);
-            const filter = new SearchPlaceFilterEntity(
+            const filter = new OldSearchPlaceFilterEntity(
                 new Date(),
                 new Date(),
                 [],
@@ -55,7 +55,7 @@ describe('PlaceRepositoryFromStorage', () => {
                 queryAll: jest.fn().mockResolvedValue({ results: rows }),
             };
             const repo = new PlaceRepositoryFromStorage(mockDb);
-            const filter = new SearchPlaceFilterEntity(
+            const filter = new OldSearchPlaceFilterEntity(
                 new Date('2025-01-01'),
                 new Date('2025-01-02'),
                 testRaceTypeListAll,

@@ -2,7 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/searchPlaceFilterEntity';
+import { SearchPlaceFilterEntity } from '../../../../packages/api/src/usecase/dto/searchPlaceFilterEntity';
+import { OldSearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/oldSearchPlaceFilterEntity';
 import { PlaceUseCase } from '../../../../src/usecase/implement/placeUsecase';
 import type { IPlaceUseCase } from '../../../../src/usecase/interface/IPlaceUsecase';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';
@@ -57,7 +58,7 @@ describe('PlaceUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const searchPlaceFilter = new SearchPlaceFilterEntity(
+            const searchPlaceFilter = new OldSearchPlaceFilterEntity(
                 startDate,
                 finishDate,
                 testRaceTypeListAll,

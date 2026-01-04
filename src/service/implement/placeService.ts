@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
-import { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
+import type { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
@@ -24,7 +24,7 @@ export class PlaceService implements IPlaceService {
      */
     @Logger
     public async fetchPlaceEntityList(
-        searchPlaceFilter: SearchPlaceFilterEntity,
+        searchPlaceFilter: OldSearchPlaceFilterEntity,
         dataLocation: DataLocationType,
     ): Promise<PlaceEntity[]> {
         const repository =

@@ -1,8 +1,7 @@
-import type { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
+import type { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { DataLocationType } from '../../utility/dataType';
 import type { UpsertResult } from '../../utility/upsertResult';
-
 export interface IPlaceService {
     /**
      * 開催場のEntity配列を取得する
@@ -10,7 +9,7 @@ export interface IPlaceService {
      * @param dataLocation - データ取得場所
      */
     fetchPlaceEntityList: (
-        searchPlaceFilter: SearchPlaceFilterEntity,
+        searchPlaceFilter: OldSearchPlaceFilterEntity,
         dataLocation: DataLocationType,
     ) => Promise<PlaceEntity[]>;
 

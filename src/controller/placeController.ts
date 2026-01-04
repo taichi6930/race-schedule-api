@@ -2,10 +2,10 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { SearchPlaceFilterEntity } from '../repository/entity/filter/searchPlaceFilterEntity';
 import { IPlaceUseCase } from '../usecase/interface/IPlaceUsecase';
 import { corsHeaders } from '../utility/cors';
 import { Logger } from '../utility/logger';
+import { OldSearchPlaceFilterEntity } from './../repository/entity/filter/oldSearchPlaceFilterEntity';
 import {
     parseBodyToFilter,
     parseSearchDatesAndRaceTypes,
@@ -31,7 +31,7 @@ export class PlaceController {
             const { start, finish, raceTypeList, locationList } =
                 parseSearchDatesAndRaceTypes(searchParams);
 
-            const searchPlaceFilter = new SearchPlaceFilterEntity(
+            const searchPlaceFilter = new OldSearchPlaceFilterEntity(
                 start,
                 finish,
                 raceTypeList,

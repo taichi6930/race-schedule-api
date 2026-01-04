@@ -18,7 +18,7 @@ import {
     RaceCourse,
     validateRaceCourse,
 } from '../../utility/validateAndType/raceCourse';
-import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
+import { OldSearchPlaceFilterEntity } from '../entity/filter/oldSearchPlaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
@@ -39,7 +39,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
      */
     @Logger
     public async fetchPlaceEntityList(
-        searchFilter: SearchPlaceFilterEntity,
+        searchFilter: OldSearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         const { raceTypeList, startDate, finishDate } = searchFilter;
 

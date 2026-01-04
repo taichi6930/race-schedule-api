@@ -11,9 +11,9 @@ import {
     RACE_TYPE_LIST_MECHANICAL_RACING,
 } from '../../utility/raceType';
 import { FailureDetail, UpsertResult } from '../../utility/upsertResult';
-import { SearchPlaceFilterEntity } from '../entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
+import { OldSearchPlaceFilterEntity } from './../entity/filter/oldSearchPlaceFilterEntity';
 
 @injectable()
 export class PlaceRepositoryFromStorage implements IPlaceRepository {
@@ -23,7 +23,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
     ) {}
     @Logger
     public async fetchPlaceEntityList(
-        searchPlaceFilter: SearchPlaceFilterEntity,
+        searchPlaceFilter: OldSearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         const { raceTypeList, startDate, finishDate, locationList } =
             searchPlaceFilter;

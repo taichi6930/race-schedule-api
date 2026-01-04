@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/searchPlaceFilterEntity';
+import { SearchPlayerFilterEntity } from '../../../../src/repository/entity/filter/searchPlayerFilterEntity';
 import { PlayerUseCase } from '../../../../src/usecase/implement/playerUsecase';
 import type { IPlayerUseCase } from '../../../../src/usecase/interface/IPlayerUsecase';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';
@@ -35,19 +35,12 @@ describe('PlayerUseCase', () => {
             serviceSetup.playerService.fetchPlayerEntityList.mockResolvedValue(
                 mockPlayerEntityList,
             );
-
-            const startDate = new Date('2024-06-01');
-            const finishDate = new Date('2024-06-30');
-
-            const searchPlaceFilter = new SearchPlaceFilterEntity(
-                startDate,
-                finishDate,
+            const searchPlayerFilter = new SearchPlayerFilterEntity(
                 testRaceTypeListAll,
-                [],
             );
 
             const result =
-                await useCase.fetchPlayerEntityList(searchPlaceFilter);
+                await useCase.fetchPlayerEntityList(searchPlayerFilter);
 
             expect(result).toEqual(mockPlayerEntityList);
         });
