@@ -41,7 +41,7 @@
         "googleapis": "^169.0.0",
         "reflect-metadata": "^0.2.2",
         "tsyringe": "^4.10.0",
-        "zod": "^4.2.1"
+        "zod": "^4.3.5"
     },
     "devDependencies": {
         "@cloudflare/workers-types": "^4.20251228.0",
