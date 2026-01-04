@@ -28,6 +28,15 @@ jobs:
           corepack enable
           corepack prepare pnpm@8 --activate
 
+      - name: Ensure pnpm is available (fallback)
+        run: |
+          if ! command -v pnpm >/dev/null 2>&1; then
+            echo "pnpm not found; installing pnpm@8 globally as fallback"
+            npm install -g pnpm@8
+          else
+            echo "pnpm found: $(pnpm --version)"
+          fi
+
       - name: Install dependencies
         # Allow install without frozen lockfile in CI to avoid failures when lockfile
         # is not checked in or not compatible with runner environment.
