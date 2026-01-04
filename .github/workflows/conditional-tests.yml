@@ -1,0 +1,96 @@
+name: Conditional package tests
+
+on:
+  push:
+    paths:
+      - 'packages/**'
+  pull_request:
+    paths:
+      - 'packages/**'
+
+jobs:
+  detect-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Detect changed packages
+        id: detect
+        run: |
+          set -euo pipefail
+          echo "Detecting changed files..."
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base_ref="${{ github.event.pull_request.base.ref }}"
+            echo "PR base ref: $base_ref"
+            git fetch origin $base_ref --depth=1 || true
+            DIFF=$(git diff --name-only origin/$base_ref...HEAD || true)
+          else
+            git fetch origin main --depth=1 || true
+            DIFF=$(git diff --name-only origin/main...HEAD || true)
+          fi
+          echo "changed files:\n$DIFF"
+
+          run_api=false
+          run_batch=false
+          run_db=false
+          run_front=false
+          run_shared=false
+          run_scraping=false
+
+          if echo "$DIFF" | grep -qE '^packages/shared/'; then
+            run_api=true; run_batch=true; run_db=true; run_front=true; run_shared=true; run_scraping=true
+          fi
+          if echo "$DIFF" | grep -qE '^packages/api/'; then
+            run_batch=true; run_db=true; run_front=true; run_scraping=true
+          fi
+          if echo "$DIFF" | grep -qE '^packages/batch/'; then run_batch=true; fi
+          if echo "$DIFF" | grep -qE '^packages/db/'; then run_db=true; fi
+          if echo "$DIFF" | grep -qE '^packages/front/'; then run_front=true; fi
+          if echo "$DIFF" | grep -qE '^packages/scraping/'; then run_scraping=true; fi
+
+          echo "run_api=$run_api" >> $GITHUB_OUTPUT
+          echo "run_batch=$run_batch" >> $GITHUB_OUTPUT
+          echo "run_db=$run_db" >> $GITHUB_OUTPUT
+          echo "run_front=$run_front" >> $GITHUB_OUTPUT
+          echo "run_shared=$run_shared" >> $GITHUB_OUTPUT
+          echo "run_scraping=$run_scraping" >> $GITHUB_OUTPUT
+
+      - name: Run packages/api tests
+        if: steps.detect.outputs.run_api == 'true'
+        run: pnpm --filter ./packages/api test -- --run
+
+      - name: Run packages/batch tests
+        if: steps.detect.outputs.run_batch == 'true'
+        run: pnpm --filter ./packages/batch test -- --run
+
+      - name: Run packages/db tests
+        if: steps.detect.outputs.run_db == 'true'
+        run: pnpm --filter ./packages/db test -- --run
+
+      - name: Run packages/front tests
+        if: steps.detect.outputs.run_front == 'true'
+        run: pnpm --filter ./packages/front test -- --run
+
+      - name: Run packages/shared tests
+        if: steps.detect.outputs.run_shared == 'true'
+        run: pnpm --filter ./packages/shared test -- --run
+
+      - name: Run packages/scraping tests
+        if: steps.detect.outputs.run_scraping == 'true'
+        run: pnpm --filter ./packages/scraping test -- --run
