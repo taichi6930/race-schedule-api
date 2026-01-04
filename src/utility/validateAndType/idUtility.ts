@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { z } from 'zod';
 
-import { CourseCodeType } from '../../../packages/api/src/domain/course';
+import { CourseCodeType } from '../../../packages/shared/src/types/courseCodeType';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { toXDigits } from '../format';
 import { isIncludedRaceType } from '../raceType';

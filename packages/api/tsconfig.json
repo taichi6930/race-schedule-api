@@ -5,7 +5,7 @@
         "rootDir": "./src",
         "types": ["@cloudflare/workers-types"]
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "../shared/src/types/courseCodeType.ts", "../shared/src/types/course.ts"],
     "exclude": ["node_modules", "dist"],
     "references": [{ "path": "../shared" }]
 }

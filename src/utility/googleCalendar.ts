@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import { CourseCodeType } from '../../packages/api/src/domain/course';
+import { CourseCodeType } from '../../packages/shared/src/types/courseCodeType';
 import { RaceType } from '../../packages/shared/src/types/raceType';
 import { CalendarData } from '../domain/calendarData';
 import type { RaceEntity } from '../repository/entity/raceEntity';

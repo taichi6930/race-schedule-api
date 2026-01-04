@@ -1,15 +1,11 @@
-import { CourseCodeType } from '../../../packages/api/src/domain/course';
-import { RaceType } from '../../../packages/shared/src/types/raceType';
+import type { Course } from '../types/course';
+import { CourseCodeType } from '../types/courseCodeType';
+import { RaceType } from '../types/raceType';
 
 /**
  * RaceCourseのマスターデータ
  */
-export const RaceCourseMasterList: {
-    raceType: RaceType;
-    courseCodeType: CourseCodeType;
-    placeName: string;
-    placeCode: string;
-}[] = [
+export const RaceCourseMasterList: Course[] = [
     // Autorace
     {
         raceType: RaceType.AUTORACE,
