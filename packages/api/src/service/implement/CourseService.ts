@@ -1,14 +1,12 @@
-import 'reflect-metadata';
-
-import type { Course } from '@race-schedule/shared/src/types/course';
-import type { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeType';
+import { Course } from '@race-schedule/shared/src/types/course';
+import { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeType';
 import { inject, injectable } from 'tsyringe';
 
-import type { ICourseRepository } from '../../repository/interface/ICourseRepository';
-import type { ICourseService } from '../interface/ICourseService';
+import { ICourseRepository } from '../../repository/interface/ICourseRepository';
+import { ICourseService } from '../interface/ICourseService';
 
 /**
- * コース情報のビジネスロジックを担うサービスクラス
+ * 開催場データサービスの実装
  */
 @injectable()
 export class CourseService implements ICourseService {
