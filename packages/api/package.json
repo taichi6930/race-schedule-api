@@ -8,8 +8,8 @@
         "watch": "tsc -w",
         "dev": "wrangler dev --env development --local",
         "deploy:production": "wrangler deploy --env production",
-        "test": "jest --coverage --maxWorkers=6",
-        "test:watch": "jest --watchAll",
+        "test": "vitest --config=vitest.config.ts",
+        "test:watch": "vitest --config=vitest.config.ts --watch",
         "lint": "eslint './src/**/*.ts'",
         "lint:fix": "eslint --fix './src/**/*.ts'"
     },
@@ -22,6 +22,7 @@
         "@cloudflare/workers-types": "^4.20260103.0",
         "@types/node": "^25.0.3",
         "typescript": "~5.9.3",
-        "wrangler": "^4.1.0"
+        "wrangler": "^4.1.0",
+        "vitest": "^1.0.0"
     }
 }

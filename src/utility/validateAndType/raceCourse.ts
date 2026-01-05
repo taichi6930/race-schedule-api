@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
+import type { CourseCodeType } from '../../../packages/shared/src/types/courseCodeType';
 import type { RaceType } from '../../../packages/shared/src/types/raceType';
-import type { CourseCodeType } from '../data/course';
-import { RaceCourseMasterList } from '../data/course';
+import { RaceCourseMasterList } from '../../../packages/shared/src/utilities/course';
 import { isIncludedRaceType } from '../raceType';
 
 /**

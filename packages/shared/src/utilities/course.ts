@@ -1,24 +1,11 @@
-import { RaceType } from '../../../packages/shared/src/types/raceType';
-
-export type CourseCodeType =
-    (typeof CourseCodeType)[keyof typeof CourseCodeType];
-
-export const CourseCodeType = {
-    // 公式
-    OFFICIAL: 'OFFICIAL',
-    // netkeiba
-    NETKEIBA: 'NETKEIBA',
-} as const;
+import type { Course } from '../types/course';
+import { CourseCodeType } from '../types/courseCodeType';
+import { RaceType } from '../types/raceType';
 
 /**
  * RaceCourseのマスターデータ
  */
-export const RaceCourseMasterList: {
-    raceType: RaceType;
-    courseCodeType: CourseCodeType;
-    placeName: string;
-    placeCode: string;
-}[] = [
+export const RaceCourseMasterList: Course[] = [
     // Autorace
     {
         raceType: RaceType.AUTORACE,
@@ -895,61 +882,61 @@ export const RaceCourseMasterList: {
         raceType: RaceType.JRA,
         courseCodeType: CourseCodeType.OFFICIAL,
         placeName: '札幌',
-        placeCode: '',
+        placeCode: '01',
     },
     {
         raceType: RaceType.JRA,
         courseCodeType: CourseCodeType.OFFICIAL,
         placeName: '函館',
-        placeCode: '',
+        placeCode: '02',
     },
     {
         raceType: RaceType.JRA,
         courseCodeType: CourseCodeType.OFFICIAL,
         placeName: '福島',
-        placeCode: '',
+        placeCode: '03',
     },
     {
         raceType: RaceType.JRA,
         courseCodeType: CourseCodeType.OFFICIAL,
         placeName: '新潟',
-        placeCode: '',
+        placeCode: '04',
     },
     {
         raceType: RaceType.JRA,
         courseCodeType: CourseCodeType.OFFICIAL,
         placeName: '東京',
-        placeCode: '',
+        placeCode: '05',
     },
     {
         raceType: RaceType.JRA,
         courseCodeType: CourseCodeType.OFFICIAL,
         placeName: '中山',
-        placeCode: '',
+        placeCode: '06',
     },
     {
         raceType: RaceType.JRA,
         courseCodeType: CourseCodeType.OFFICIAL,
         placeName: '中京',
-        placeCode: '',
+        placeCode: '07',
     },
     {
         raceType: RaceType.JRA,
         courseCodeType: CourseCodeType.OFFICIAL,
         placeName: '京都',
-        placeCode: '',
+        placeCode: '08',
     },
     {
         raceType: RaceType.JRA,
         courseCodeType: CourseCodeType.OFFICIAL,
         placeName: '阪神',
-        placeCode: '',
+        placeCode: '09',
     },
     {
         raceType: RaceType.JRA,
         courseCodeType: CourseCodeType.OFFICIAL,
         placeName: '小倉',
-        placeCode: '',
+        placeCode: '10',
     },
     {
         raceType: RaceType.JRA,
