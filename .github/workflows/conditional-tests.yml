@@ -8,6 +8,9 @@ on:
     paths:
       - 'packages/**'
 
+permissions:
+  contents: read
+
 jobs:
   detect-and-test:
     runs-on: ubuntu-latest
