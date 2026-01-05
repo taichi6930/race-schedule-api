@@ -1,9 +1,7 @@
-/**
- * API Service entry point
- * Existing src/index.ts will be moved here
- * TODO: Implement API service
- */
+import { router } from './router';
 
-export const apiServicePlaceholder = (): string => {
-    return 'API Service - To be implemented';
+export default {
+    async fetch(request: Request, env: unknown): Promise<Response> {
+        return router(request, env);
+    },
 };
