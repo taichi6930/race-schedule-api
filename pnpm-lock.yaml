@@ -128,8 +128,8 @@ importers:
         specifier: ^4.20260103.0
         version: 4.20260103.0
       '@types/node':
-        specifier: ^24.2.4
-        version: 24.10.4
+        specifier: ^25.0.3
+        version: 25.0.3
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
@@ -159,8 +159,8 @@ importers:
         specifier: ^7.6.11
         version: 7.6.13
       '@types/node':
-        specifier: ^24.2.4
-        version: 24.10.4
+        specifier: ^25.0.3
+        version: 25.0.3
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
@@ -194,8 +194,8 @@ importers:
         version: 4.1.0
     devDependencies:
       '@types/node':
-        specifier: ^24.2.4
-        version: 24.10.4
+        specifier: ^25.0.3
+        version: 25.0.3
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
@@ -213,8 +213,8 @@ importers:
         version: 4.3.5
     devDependencies:
       '@types/node':
-        specifier: ^24.2.4
-        version: 24.10.4
+        specifier: ^25.0.3
+        version: 25.0.3
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
@@ -1080,9 +1080,6 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/node@24.10.4':
-    resolution: {integrity: sha512-vnDVpYPMzs4wunl27jHrfmwojOGKya0xyM3sH+UE5iv5uPS6vX7UIoh6m+vQc5LGBq52HBKPIn/zcSZVzeDEZg==}
 
   '@types/node@25.0.3':
     resolution: {integrity: sha512-W609buLVRVmeW693xKfzHeIV6nJGGz98uCPfeXI1ELMLXVeKYZ9m15fAMSaUPBHYLGFsVRcMmSCksQOrZV9BYA==}
@@ -4012,10 +4009,6 @@ snapshots:
       pretty-format: 30.2.0
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/node@24.10.4':
-    dependencies:
-      undici-types: 7.16.0
 
   '@types/node@25.0.3':
     dependencies:
