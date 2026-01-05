@@ -82,7 +82,11 @@ export async function router(
         } catch {
             // ignore
         }
-        return (process.env.NODE_ENV as any) ?? 'local';
+        const proc = (globalThis as any).process;
+        if (proc?.env && typeof proc.env.NODE_ENV === 'string') {
+            return proc.env.NODE_ENV as any;
+        }
+        return 'local';
     };
 
     setupDi(resolveEnv(_env));
