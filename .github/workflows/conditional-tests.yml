@@ -104,7 +104,7 @@ jobs:
 
       - name: Run packages/shared tests
         if: steps.detect.outputs.run_shared == 'true'
-        run: pnpm --filter ./packages/shared test -- --run
+        run: pnpm --filter ./packages/shared test
 
       - name: Run packages/scraping tests
         if: steps.detect.outputs.run_scraping == 'true'
