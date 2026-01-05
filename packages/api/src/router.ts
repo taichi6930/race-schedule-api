@@ -1,5 +1,5 @@
 import { CourseController } from './controller/courseController';
-import { container } from './di';
+import { container, setupDi } from './di';
 
 // Minimal CORS helpers (kept local to package)
 type HeaderRecord = Record<string, string>;
@@ -69,6 +69,23 @@ export async function router(
     const { pathname, searchParams } = url;
 
     void _env;
+    // Initialize DI for this invocation based on provided env or process.env
+    const resolveEnv = (envObj: unknown): 'local' | 'test' | 'production' => {
+        try {
+            if (envObj && typeof envObj === 'object') {
+                const anyEnv = envObj as any;
+                if (typeof anyEnv.NODE_ENV === 'string')
+                    return anyEnv.NODE_ENV as any;
+                if (typeof anyEnv.ENV_NAME === 'string')
+                    return anyEnv.ENV_NAME as any;
+            }
+        } catch {
+            // ignore
+        }
+        return (process.env.NODE_ENV as any) ?? 'local';
+    };
+
+    setupDi(resolveEnv(_env));
     const method = request.method.toUpperCase();
     if (method === 'OPTIONS') return responseCors();
 
