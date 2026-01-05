@@ -14,8 +14,12 @@ export type EnvName = 'local' | 'test' | 'production';
 export function setupDi(env?: EnvName): void {
     let selectedEnv: EnvName = 'local';
     if (env) selectedEnv = env;
-    else if (typeof process.env.NODE_ENV === 'string')
-        selectedEnv = process.env.NODE_ENV as EnvName;
+    else {
+        const proc = (globalThis as any).process;
+        if (proc?.env && typeof proc.env.NODE_ENV === 'string') {
+            selectedEnv = proc.env.NODE_ENV as EnvName;
+        }
+    }
     // Repository selection per environment (currently only Stub exists)
     if (selectedEnv === 'production') {
         // In future, switch to production repository implementation
