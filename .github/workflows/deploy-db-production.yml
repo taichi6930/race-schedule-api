@@ -6,6 +6,9 @@ name: Deploy DB to Production
       - 'v*'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   check-db-changes:
     runs-on: ubuntu-latest

@@ -8,6 +8,9 @@ name: Deploy DB to Test Environment
       - 'packages/db/**'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   check-changes:
     runs-on: ubuntu-latest
