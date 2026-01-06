@@ -17,6 +17,9 @@ coverage
 # env
 *.env*
 
+# Cloudflare D1 secret
+.d1.secret
+
 # mock
 src/gateway/mockData/*
 
@@ -30,6 +33,5 @@ volume/*
 package-lock.json
 
 .wrangler/
-wrangler.toml
 
 scripts/*.sql
