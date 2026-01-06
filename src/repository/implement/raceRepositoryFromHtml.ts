@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../packages/shared/src/types/raceType';
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';
@@ -14,7 +15,6 @@ import {
     processOverseasRaceName,
 } from '../../utility/createRaceName';
 import { replaceFromCodePoint } from '../../utility/format';
-import { Logger } from '../../utility/logger';
 import { OldEnvStore } from '../../utility/oldEnvStore';
 import {
     isIncludedRaceType,

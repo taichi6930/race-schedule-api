@@ -6,10 +6,10 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../packages/shared/src/types/raceType';
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { Logger } from '../../utility/logger';
 import { OldEnvStore } from '../../utility/oldEnvStore';
 import { isIncludedRaceType } from '../../utility/raceType';
 import { UpsertResult } from '../../utility/upsertResult';

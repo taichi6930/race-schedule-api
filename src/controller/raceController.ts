@@ -2,9 +2,9 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import { Logger } from '../../packages/shared/src/utilities/logger';
 import { IRaceUseCase } from '../usecase/interface/IRaceUsecase';
 import { corsHeaders } from '../utility/cors';
-import { Logger } from '../utility/logger';
 import {
     parseBodyToFilter,
     parseQueryToFilter,

@@ -1,10 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import type { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
-import { Logger } from '../../utility/logger';
 import { UpsertResult } from '../../utility/upsertResult';
 import { IPlaceService } from '../interface/IPlaceService';
 

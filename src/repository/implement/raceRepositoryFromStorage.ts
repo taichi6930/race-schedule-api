@@ -1,11 +1,11 @@
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
-import { Logger } from '../../utility/logger';
 import {
     isIncludedRaceType,
     RACE_TYPE_LIST_HORSE_RACING,

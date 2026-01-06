@@ -1,9 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { SearchPlayerFilterEntity } from '../../repository/entity/filter/searchPlayerFilterEntity';
 import { PlayerEntity } from '../../repository/entity/playerEntity';
 import { IPlayerRepository } from '../../repository/interface/IPlayerRepository';
-import { Logger } from '../../utility/logger';
 import { IPlayerService } from '../interface/IPlayerService';
 
 @injectable()

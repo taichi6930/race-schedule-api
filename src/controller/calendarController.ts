@@ -3,10 +3,10 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../packages/shared/src/types/raceType';
+import { Logger } from '../../packages/shared/src/utilities/logger';
 import { SearchCalendarFilterEntity } from '../repository/entity/filter/searchCalendarFilterEntity';
 import { ICalendarUseCase } from '../usecase/interface/ICalendarUseCase';
 import { corsHeaders } from '../utility/cors';
-import { Logger } from '../utility/logger';
 import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
 import {
     parseBodyToFilter,

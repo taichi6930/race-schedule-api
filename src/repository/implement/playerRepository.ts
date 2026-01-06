@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
-import { Logger } from '../../utility/logger';
 import { SearchPlayerFilterEntity } from '../entity/filter/searchPlayerFilterEntity';
 import { PlayerEntity } from '../entity/playerEntity';
 import type { IPlayerRepository } from '../interface/IPlayerRepository';

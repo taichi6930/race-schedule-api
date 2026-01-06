@@ -1,10 +1,10 @@
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import {
     defaultHeldDayData,
     defaultLocation,
     defaultPlaceGrade,
 } from '../../../test/unittest/src/mock/common/baseCommonData';
 import { PlaceData } from '../../domain/placeData';
-import { Logger } from '../../utility/logger';
 import { UpsertResult } from '../../utility/upsertResult';
 import type { OldSearchPlaceFilterEntity } from '../entity/filter/oldSearchPlaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';

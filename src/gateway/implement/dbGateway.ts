@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 
-import { Logger } from '../../utility/logger';
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { OldEnvStore } from '../../utility/oldEnvStore';
 import type { IDBGateway } from '../interface/iDbGateway';
 
