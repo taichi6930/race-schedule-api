@@ -1,4 +1,4 @@
-import { RaceType } from '@race-schedule/shared';
+import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { CloudFlareEnv } from '@race-schedule/shared/src/utilities/cloudFlareEnv';
 import { EnvStore } from '@race-schedule/shared/src/utilities/envStore';
 import { createErrorMessage } from '@race-schedule/shared/src/utilities/error';

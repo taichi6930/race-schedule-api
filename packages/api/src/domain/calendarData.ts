@@ -1,7 +1,6 @@
+import type { RaceType } from '@race-schedule/shared/src/types/raceType';
+import { RaceType as RaceTypeConst } from '@race-schedule/shared/src/types/raceType';
 import { z } from 'zod';
-
-import type { RaceType } from '../../../shared/src/types/raceType';
-import { RaceType as RaceTypeConst } from '../../../shared/src/types/raceType';
 
 /**
  * API 向け CalendarData DTO

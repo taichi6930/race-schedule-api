@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { RaceType } from '@race-schedule/shared';
+import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
 import type { CalendarFilterParams } from '../types/calendar';
