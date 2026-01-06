@@ -78,6 +78,15 @@ const routes = new Map<string, Partial<Record<HttpMethod, RouteHandler>>>([
         },
     ],
     [
+        '/calendar/migrate',
+        {
+            POST: async (request): Promise<Response> =>
+                container.resolve(CalendarController).migrateCalendar(request),
+            POST: async (): Promise<Response> =>
+                container.resolve(CalendarController).migrateCalendar(),
+        },
+    ],
+    [
         '/place',
         {
             GET: async (_request, searchParams): Promise<Response> =>

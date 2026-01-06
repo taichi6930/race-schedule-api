@@ -100,4 +100,26 @@ export class CalendarController {
             });
         }
     }
+    /**
+     * カレンダー情報のマイグレーションAPI
+     * @param request - Requestオブジェクト
+     */
+    @Logger
+    public async migrateCalendar(): Promise<Response> {
+        try {
+            // ここにマイグレーション処理を記述
+            // 例: usecase.migrateCalendarData() など
+            await this.usecase.migrateCalendarData();
+            return new Response('Migration OK', {
+                status: 200,
+                headers: corsHeaders(),
+            });
+        } catch (error) {
+            console.error('Error in migrateCalendar:', error);
+            return new Response('Internal Server Error', {
+                status: 500,
+                headers: corsHeaders(),
+            });
+        }
+    }
 }
