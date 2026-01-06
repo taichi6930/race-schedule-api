@@ -1,26 +1,28 @@
+
+
 # Cloudflare D1 Database Configuration
 name = "race-schedule-db"
 compatibility_date = "2024-09-23"
 
-# D1 Databases
+# Local/Default D1 Database
 [[d1_databases]]
 binding = "DB"
-database_name = "${DB_NAME}"
-database_id = "${DB_ID}"
+database_name = "race-schedule-db"
+database_id = "preview"
 migrations_dir = "./migrations"
 
 # Test Environment
 [env.test]
 [[env.test.d1_databases]]
 binding = "DB"
-database_name = "${DB_NAME_TEST}"
-database_id = "${DB_ID_TEST}"
+database_name = "race_schedule_db_test"
+database_id = "test"
 migrations_dir = "./migrations"
 
 # Production Environment
 [env.production]
 [[env.production.d1_databases]]
 binding = "DB"
-database_name = "${DB_NAME_PROD}"
-database_id = "${DB_ID_PROD}"
+database_name = "race_schedule_db_prod"
+database_id = "production"
 migrations_dir = "./migrations"

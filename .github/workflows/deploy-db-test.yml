@@ -60,7 +60,9 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           echo "🚀 Deploying DB migrations to test environment..."
-          pnpm run migrations:apply:test
+          # Update wrangler.toml with actual DB_ID before running migrations
+          sed -i 's/database_id = "test"/database_id = "${{ secrets.DB_ID_TEST }}"/' wrangler.toml
+          pnpm exec wrangler d1 migrations apply DB --remote --env test
           echo "✅ Deployment completed"
 
       - name: List applied migrations
@@ -70,4 +72,4 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           echo "📋 Applied migrations:"
-          pnpm run migrations:list:test
+          pnpm exec wrangler d1 migrations list DB --remote --env test
