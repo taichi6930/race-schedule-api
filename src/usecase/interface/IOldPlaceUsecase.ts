@@ -5,7 +5,7 @@ import type { UpsertResult } from '../../utility/upsertResult';
 /**
  * レース開催場所ユースケースのインターフェース
  */
-export interface IPlaceUseCase {
+export interface IOldPlaceUseCase {
     /**
      * レース開催場所のEntity配列を取得する
      * @param searchPlaceFilter - 場所フィルター情報

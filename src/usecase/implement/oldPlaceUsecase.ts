@@ -4,19 +4,19 @@ import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
 import type { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
-import { IPlaceService } from '../../service/interface/IPlaceService';
+import { IOldPlaceService } from '../../service/interface/IOldPlaceService';
 import { DataLocation } from '../../utility/dataType';
 import { UpsertResult } from '../../utility/upsertResult';
-import { IPlaceUseCase } from '../interface/IPlaceUsecase';
+import { IOldPlaceUseCase } from '../interface/IOldPlaceUsecase';
 
 /**
  * レース開催場所ユースケースの実装
  */
 @injectable()
-export class PlaceUseCase implements IPlaceUseCase {
+export class OldPlaceUseCase implements IOldPlaceUseCase {
     public constructor(
         @inject('PlaceService')
-        private readonly placeService: IPlaceService,
+        private readonly placeService: IOldPlaceService,
     ) {}
 
     /**

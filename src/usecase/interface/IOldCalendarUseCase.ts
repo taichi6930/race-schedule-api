@@ -3,7 +3,7 @@ import type { CalendarData } from '../../domain/calendarData';
 import type { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import type { GradeType } from '../../utility/validateAndType/gradeType';
 
-export interface ICalendarUseCase {
+export interface IOldCalendarUseCase {
     /**
      * カレンダーからレース情報を取得
      * @param searchCalendarFilter - カレンダーフィルター情報

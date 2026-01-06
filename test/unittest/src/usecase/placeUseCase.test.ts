@@ -4,8 +4,8 @@ import { container } from 'tsyringe';
 
 import { OldSearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/oldSearchPlaceFilterEntity';
 import { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/searchPlaceFilterEntity';
-import { PlaceUseCase } from '../../../../src/usecase/implement/placeUsecase';
-import type { IPlaceUseCase } from '../../../../src/usecase/interface/IPlaceUsecase';
+import { OldPlaceUseCase } from '../../../../src/usecase/implement/oldPlaceUsecase';
+import type { IOldPlaceUseCase } from '../../../../src/usecase/interface/IOldPlaceUsecase';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';
 import {
     clearMocks,
@@ -18,11 +18,11 @@ import {
 
 describe('PlaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
-    let useCase: IPlaceUseCase;
+    let useCase: IOldPlaceUseCase;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();
-        useCase = container.resolve(PlaceUseCase);
+        useCase = container.resolve(OldPlaceUseCase);
     });
 
     afterEach(() => {

@@ -7,7 +7,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
-import { ICalendarService } from '../interface/ICalendarService';
+import { IOldCalendarService } from '../interface/IOldCalendarService';
 
 /**
  * 公営競技レース情報をGoogleカレンダーと同期するサービス
@@ -15,7 +15,7 @@ import { ICalendarService } from '../interface/ICalendarService';
  * カレンダーイベントの取得・登録・削除などの共通機能を提供します。
  */
 @injectable()
-export class CalendarService implements ICalendarService {
+export class OldCalendarService implements IOldCalendarService {
     public constructor(
         @inject('CalendarRepository')
         protected readonly calendarRepository: ICalendarRepository,

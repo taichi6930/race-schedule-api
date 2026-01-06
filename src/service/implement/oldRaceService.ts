@@ -7,10 +7,10 @@ import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import type { UpsertResult } from '../../utility/upsertResult';
-import { IRaceService } from '../interface/IRaceService';
+import { IOldRaceService } from '../interface/IOldRaceService';
 
 @injectable()
-export class RaceService implements IRaceService {
+export class OldRaceService implements IOldRaceService {
     public constructor(
         @inject('RaceRepositoryFromStorage')
         private readonly repositoryFromStorage: IRaceRepository,

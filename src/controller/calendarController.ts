@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { RaceType } from '../../packages/shared/src/types/raceType';
 import { Logger } from '../../packages/shared/src/utilities/logger';
 import { OldSearchCalendarFilterEntity } from '../repository/entity/filter/oldSearchCalendarFilterEntity';
-import { ICalendarUseCase } from '../usecase/interface/ICalendarUseCase';
+import { IOldCalendarUseCase } from '../usecase/interface/IOldCalendarUseCase';
 import { corsHeaders } from '../utility/cors';
 import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
 import {
@@ -18,7 +18,7 @@ import {
 export class CalendarController {
     public constructor(
         @inject('CalendarUsecase')
-        private readonly usecase: ICalendarUseCase,
+        private readonly usecase: IOldCalendarUseCase,
     ) {}
 
     /**

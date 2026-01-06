@@ -8,24 +8,24 @@ import { CalendarData } from '../../domain/calendarData';
 import { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
-import { ICalendarService } from '../../service/interface/ICalendarService';
-import { IRaceService } from '../../service/interface/IRaceService';
+import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
+import { IOldRaceService } from '../../service/interface/IOldRaceService';
 import { RaceGradeAndStageList } from '../../utility/data/stage';
 import { DataLocation } from '../../utility/dataType';
 import { isIncludedRaceType, RACE_TYPE_LIST_ALL } from '../../utility/raceType';
 import { GradeType } from '../../utility/validateAndType/gradeType';
-import { ICalendarUseCase } from '../interface/ICalendarUseCase';
+import { IOldCalendarUseCase } from '../interface/IOldCalendarUseCase';
 
 /**
  * 公営競技のレースカレンダーユースケース
  */
 @injectable()
-export class CalendarUseCase implements ICalendarUseCase {
+export class OldCalendarUseCase implements IOldCalendarUseCase {
     public constructor(
         @inject('CalendarService')
-        private readonly calendarService: ICalendarService,
+        private readonly calendarService: IOldCalendarService,
         @inject('RaceService')
-        private readonly raceService: IRaceService,
+        private readonly raceService: IOldRaceService,
     ) {}
 
     /**
