@@ -1,3 +1,6 @@
+[env.production]
+# 本番環境用のワーカー名や環境変数を必要に応じて追加
+# 例: name = "race-schedule-api"
 name = "race-schedule"
 main = "src/index.ts"
 compatibility_date = "2024-01-01"
