@@ -22,13 +22,19 @@ export class CourseController {
     ): Promise<Response> {
         try {
             const rawTypes = searchParams.getAll('course_code_type');
-
+            if (rawTypes.length === 0) {
+                return Response.json(
+                    { error: 'course_code_type を1つ以上指定してください' },
+                    {
+                        status: 400,
+                        headers: { 'Content-Type': 'application/json' },
+                    },
+                );
+            }
             const courseCodeTypeList: (typeof CourseCodeType)[keyof typeof CourseCodeType][] =
-                rawTypes.length > 0
-                    ? (rawTypes.filter((v) =>
-                          Object.values(CourseCodeType).includes(v as any),
-                      ) as any)
-                    : [CourseCodeType.OFFICIAL];
+                rawTypes.filter((v) =>
+                    Object.values(CourseCodeType).includes(v as any),
+                ) as any;
 
             const courses: Course[] =
                 await this.usecase.fetch(courseCodeTypeList);
