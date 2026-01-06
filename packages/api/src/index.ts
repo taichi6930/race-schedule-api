@@ -1,3 +1,4 @@
+/// <reference types="@cloudflare/workers-types" />
 import 'reflect-metadata';
 
 import { router } from './router';
