@@ -1,11 +1,12 @@
 
+
 # Cloudflare D1 Database Configuration
 name = "race-schedule-db"
 compatibility_date = "2024-09-23"
 
 # Local/Default D1 Database
 [[d1_databases]]
-binding = "race-schedule-db"
+binding = "my_database"
 database_name = "${DB_NAME}"
 database_id = "${DB_ID}"
 migrations_dir = "./migrations"
