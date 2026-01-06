@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../packages/shared/src/types/raceType';
-import { SearchCalendarFilterEntity } from '../repository/entity/filter/searchCalendarFilterEntity';
-import { ICalendarUseCase } from '../usecase/interface/ICalendarUseCase';
+import { OldSearchCalendarFilterEntity } from '../repository/entity/filter/oldSearchCalendarFilterEntity';
+import { IOldCalendarUseCase } from '../usecase/interface/IOldCalendarUseCase';
 import { corsHeaders } from '../utility/cors';
 import { Logger } from '../utility/logger';
 import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
@@ -18,7 +18,7 @@ import {
 export class CalendarController {
     public constructor(
         @inject('CalendarUsecase')
-        private readonly usecase: ICalendarUseCase,
+        private readonly usecase: IOldCalendarUseCase,
     ) {}
 
     /**
@@ -33,7 +33,7 @@ export class CalendarController {
             const { start, finish, raceTypeList } =
                 parseSearchDatesAndRaceTypes(searchParams);
 
-            const searchCalendarFilter = new SearchCalendarFilterEntity(
+            const searchCalendarFilter = new OldSearchCalendarFilterEntity(
                 start,
                 finish,
                 raceTypeList,

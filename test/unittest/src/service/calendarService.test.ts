@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { SearchCalendarFilterEntity } from '../../../../src/repository/entity/filter/searchCalendarFilterEntity';
+import { OldSearchCalendarFilterEntity } from '../../../../src/repository/entity/filter/oldSearchCalendarFilterEntity';
 import { CalendarService } from '../../../../src/service/implement/calendarService';
 import type { ICalendarService } from '../../../../src/service/interface/ICalendarService';
 import type { TestRepositorySetup } from '../../../utility/testSetupHelper';
@@ -34,7 +34,7 @@ describe('CalendarService', () => {
             const startDate = new Date('2023-01-01');
             const finishDate = new Date('2023-01-31');
 
-            const searchRaceFilter = new SearchCalendarFilterEntity(
+            const searchRaceFilter = new OldSearchCalendarFilterEntity(
                 startDate,
                 finishDate,
                 testRaceTypeListAll,

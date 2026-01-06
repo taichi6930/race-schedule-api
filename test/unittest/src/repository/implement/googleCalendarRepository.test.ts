@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { SearchCalendarFilterEntity } from '../../../../../src/repository/entity/filter/searchCalendarFilterEntity';
+import { OldSearchCalendarFilterEntity } from '../../../../../src/repository/entity/filter/oldSearchCalendarFilterEntity';
 import { GoogleCalendarRepository } from '../../../../../src/repository/implement/googleCalendarRepository';
 import type { ICalendarRepository } from '../../../../../src/repository/interface/ICalendarRepository';
 import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
@@ -33,7 +33,7 @@ describe('GoogleCalendarRepository', () => {
     });
 
     it('カレンダー情報が正常に取得できること', async () => {
-        const searchFilter = new SearchCalendarFilterEntity(
+        const searchFilter = new OldSearchCalendarFilterEntity(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
             testRaceTypeListAll,
@@ -53,7 +53,7 @@ describe('GoogleCalendarRepository', () => {
             new Error('API Error'),
         );
 
-        const searchFilter = new SearchCalendarFilterEntity(
+        const searchFilter = new OldSearchCalendarFilterEntity(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
             testRaceTypeListAll,

@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { CalendarData } from '../../domain/calendarData';
-import { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
+import { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
@@ -14,13 +14,13 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { isIncludedRaceType, RACE_TYPE_LIST_ALL } from '../../utility/raceType';
 import { GradeType } from '../../utility/validateAndType/gradeType';
-import { ICalendarUseCase } from '../interface/ICalendarUseCase';
+import { IOldCalendarUseCase } from '../interface/IOldCalendarUseCase';
 
 /**
  * 公営競技のレースカレンダーユースケース
  */
 @injectable()
-export class CalendarUseCase implements ICalendarUseCase {
+export class CalendarUseCase implements IOldCalendarUseCase {
     public constructor(
         @inject('CalendarService')
         private readonly calendarService: ICalendarService,
@@ -34,7 +34,7 @@ export class CalendarUseCase implements ICalendarUseCase {
      */
     @Logger
     public async fetchCalendarRaceList(
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        searchCalendarFilter: OldSearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
         return this.calendarService.fetchEvents(searchCalendarFilter);
     }
@@ -46,7 +46,7 @@ export class CalendarUseCase implements ICalendarUseCase {
      */
     @Logger
     public async updateCalendarRaceData(
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        searchCalendarFilter: OldSearchCalendarFilterEntity,
         displayGradeList: {
             [RaceType.JRA]: GradeType[];
             [RaceType.NAR]: GradeType[];

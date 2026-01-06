@@ -32,7 +32,7 @@ import { CalendarUseCase } from './usecase/implement/calendarUseCase';
 import { PlaceUseCase } from './usecase/implement/placeUsecase';
 import { PlayerUseCase } from './usecase/implement/playerUsecase';
 import { RaceUseCase } from './usecase/implement/raceUsecase';
-import type { ICalendarUseCase } from './usecase/interface/ICalendarUseCase';
+import type { IOldCalendarUseCase } from './usecase/interface/IOldCalendarUseCase';
 import type { IPlaceUseCase } from './usecase/interface/IPlaceUsecase';
 import type { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
 import type { IRaceUseCase } from './usecase/interface/IRaceUsecase';
@@ -78,7 +78,7 @@ container.register<ICalendarRepository>('CalendarRepository', {
 container.register<ICalendarService>('CalendarService', {
     useClass: CalendarService,
 });
-container.register<ICalendarUseCase>('CalendarUsecase', {
+container.register<IOldCalendarUseCase>('CalendarUsecase', {
     useClass: CalendarUseCase,
 });
 

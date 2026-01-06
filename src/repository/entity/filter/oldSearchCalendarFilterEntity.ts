@@ -1,6 +1,6 @@
 import type { RaceType } from '../../../../packages/shared/src/types/raceType';
 
-export class SearchCalendarFilterEntity {
+export class OldSearchCalendarFilterEntity {
     public constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,

@@ -9,7 +9,7 @@ import {
     toGoogleCalendarData,
 } from '../../utility/googleCalendar';
 import { Logger } from '../../utility/logger';
-import { SearchCalendarFilterEntity } from '../entity/filter/searchCalendarFilterEntity';
+import { OldSearchCalendarFilterEntity } from '../entity/filter/oldSearchCalendarFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { ICalendarRepository } from '../interface/ICalendarRepository';
 
@@ -28,7 +28,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
      */
     @Logger
     public async fetchEventList(
-        searchFilter: SearchCalendarFilterEntity,
+        searchFilter: OldSearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
         const calendarDataList: CalendarData[] = [];
         const { startDate, finishDate, raceTypeList } = searchFilter;

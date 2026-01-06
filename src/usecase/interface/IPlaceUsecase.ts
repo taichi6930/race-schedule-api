@@ -1,5 +1,5 @@
-import type { SearchPlaceFilterEntity } from '../../../packages/api/src/usecase/dto/searchPlaceFilterEntity';
 import type { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
+import type { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { UpsertResult } from '../../utility/upsertResult';
 /**

@@ -8,7 +8,8 @@
     "include": [
         "src/**/*",
         "../shared/src/types/courseCodeType.ts",
-        "../shared/src/types/course.ts"
+        "../shared/src/types/course.ts",
+        "../../src/repository/entity/filter/searchPlaceFilterEntity.ts"
     ],
     "exclude": ["node_modules", "dist"],
     "references": [{ "path": "../shared" }]
