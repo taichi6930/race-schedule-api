@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { DBGateway } from './gateway/implement/dbGateway';
-import { GoogleCalendarGateway } from './gateway/implement/googleCalendarGateway';
+import { OldGoogleCalendarGateway } from './gateway/implement/oldGoogleCalendarGateway';
 import { PlaceDataHtmlGateway } from './gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGateway } from './gateway/implement/raceDataHtmlGateway';
 import type { IDBGateway } from './gateway/interface/iDbGateway';
@@ -78,7 +78,7 @@ container.register<IOldPlaceUseCase>('PlaceUsecase', {
     useClass: OldPlaceUseCase,
 });
 container.register<IOldGoogleCalendarGateway>('GoogleCalendarGateway', {
-    useClass: GoogleCalendarGateway,
+    useClass: OldGoogleCalendarGateway,
 });
 container.register<ICalendarRepository>('CalendarRepository', {
     useClass: GoogleCalendarRepository,

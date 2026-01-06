@@ -8,7 +8,7 @@ import { OldCloudFlareEnv } from '../../utility/oldCloudFlareEnv';
 import { OldEnvStore } from '../../utility/oldEnvStore';
 import { IOldGoogleCalendarGateway } from '../interface/iOldCalendarGateway';
 
-export class GoogleCalendarGateway implements IOldGoogleCalendarGateway {
+export class OldGoogleCalendarGateway implements IOldGoogleCalendarGateway {
     private calendar: calendar_v3.Calendar;
 
     public constructor() {
