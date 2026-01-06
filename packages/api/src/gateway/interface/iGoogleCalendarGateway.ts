@@ -1,4 +1,4 @@
-import type { RaceType } from '@race-schedule/shared/src/types';
+import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 import type { calendar_v3 } from 'googleapis';
 
 /**

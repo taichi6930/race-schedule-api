@@ -1,4 +1,4 @@
-import type { RaceType } from '@race-schedule/shared/src/types';
+import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 
 /**
  * カレンダー検索フィルター

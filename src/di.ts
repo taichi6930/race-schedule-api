@@ -28,6 +28,7 @@ import type { IOldCalendarService } from './service/interface/IOldCalendarServic
 import type { IOldPlaceService } from './service/interface/IOldPlaceService';
 import type { IOldRaceService } from './service/interface/IOldRaceService';
 import type { IPlayerService } from './service/interface/IPlayerService';
+import { OldCalendarUseCase } from './usecase/implement/oldCalendarUseCase';
 import { OldPlaceUseCase } from './usecase/implement/oldPlaceUsecase';
 import { OldRaceUseCase } from './usecase/implement/oldRaceUsecase';
 import { PlayerUseCase } from './usecase/implement/playerUsecase';
