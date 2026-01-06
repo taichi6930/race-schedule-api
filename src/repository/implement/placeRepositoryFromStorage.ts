@@ -2,10 +2,10 @@ import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../packages/shared/src/types/raceType';
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
-import { Logger } from '../../utility/logger';
 import {
     isIncludedRaceType,
     RACE_TYPE_LIST_MECHANICAL_RACING,

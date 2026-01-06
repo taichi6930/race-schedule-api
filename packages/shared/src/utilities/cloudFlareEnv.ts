@@ -1,7 +1,7 @@
-import type { D1Database } from '@cloudflare/workers-types';
-
-export interface OldCloudFlareEnv {
-    DB: D1Database;
+/**
+ * CloudFlare Workers 環境変数のインターフェース
+ */
+export interface CloudFlareEnv {
     JRA_CALENDAR_ID: string;
     NAR_CALENDAR_ID: string;
     WORLD_CALENDAR_ID: string;
@@ -11,6 +11,4 @@ export interface OldCloudFlareEnv {
     TEST_CALENDAR_ID: string;
     GOOGLE_CLIENT_EMAIL: string;
     GOOGLE_PRIVATE_KEY: string;
-    IS_HTML_FETCH_ENABLED: string;
-    HTML_FETCH_DELAY_MS: string;
 }

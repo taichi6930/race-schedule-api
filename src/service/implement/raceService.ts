@@ -1,11 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
-import { Logger } from '../../utility/logger';
 import type { UpsertResult } from '../../utility/upsertResult';
 import { IRaceService } from '../interface/IRaceService';
 

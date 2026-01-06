@@ -1,7 +1,7 @@
 import { injectable } from 'tsyringe';
 
-import { EnvStore } from '../../utility/envStore';
-import { Logger } from '../../utility/logger';
+import { Logger } from '../../../packages/shared/src/utilities/logger';
+import { OldEnvStore } from '../../utility/envStore';
 import type { IDBGateway } from '../interface/iDbGateway';
 
 /**
@@ -19,7 +19,7 @@ export class DBGateway implements IDBGateway {
         sql: string,
         params: any[],
     ): Promise<{ results: any[] }> {
-        return EnvStore.env.DB.prepare(sql)
+        return OldEnvStore.env.DB.prepare(sql)
             .bind(...params)
             .all();
     }
@@ -31,7 +31,7 @@ export class DBGateway implements IDBGateway {
      */
     @Logger
     public async run(sql: string, params: any[]): Promise<any> {
-        return EnvStore.env.DB.prepare(sql)
+        return OldEnvStore.env.DB.prepare(sql)
             .bind(...params)
             .run();
     }

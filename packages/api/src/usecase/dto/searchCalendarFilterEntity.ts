@@ -9,7 +9,7 @@ import type { RaceType } from '@race-schedule/shared/src/types';
  * @property finishDate - 検索終了日
  * @property raceTypeList - レース種別リスト
  */
-export class searchCalendarFilterEntity {
+export class SearchCalendarFilterEntity {
     public constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,

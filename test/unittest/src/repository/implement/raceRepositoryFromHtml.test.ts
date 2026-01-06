@@ -11,7 +11,7 @@ import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { RaceRepositoryFromHtml } from '../../../../../src/repository/implement/raceRepositoryFromHtml';
 import type { IRaceRepository } from '../../../../../src/repository/interface/IRaceRepository';
 import { allowedEnvs } from '../../../../../src/utility/env';
-import { EnvStore } from '../../../../../src/utility/envStore';
+import { OldEnvStore } from '../../../../../src/utility/envStore';
 import { SkipEnv } from '../../../../utility/testDecorators';
 import { clearMocks } from '../../../../utility/testSetupHelper';
 import {
@@ -122,7 +122,7 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
             let repository: IRaceRepository;
 
             beforeEach(() => {
-                EnvStore.setEnv(cloudFlareEnvMock());
+                OldEnvStore.setEnv(cloudFlareEnvMock());
                 raceDataHtmlGateway = new MockRaceDataHtmlGateway();
                 container.registerInstance(
                     'RaceDataHtmlGateway',

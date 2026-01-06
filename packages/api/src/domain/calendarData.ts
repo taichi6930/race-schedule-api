@@ -10,7 +10,6 @@ export interface CalendarDataDto {
     id: string;
     raceType: RaceType;
     title: string;
-    // ISO 8601 文字列を想定
     startTime: string;
     endTime: string;
     location: string;

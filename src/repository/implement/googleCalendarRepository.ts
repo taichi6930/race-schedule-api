@@ -2,13 +2,13 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { CalendarData } from '../../domain/calendarData';
-import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
+import { IOldGoogleCalendarGateway } from '../../gateway/interface/iGoogleCalendarGateway';
 import {
     fromGoogleCalendarDataToCalendarData,
     toGoogleCalendarData,
 } from '../../utility/googleCalendar';
-import { Logger } from '../../utility/logger';
 import { OldSearchCalendarFilterEntity } from '../entity/filter/oldSearchCalendarFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { ICalendarRepository } from '../interface/ICalendarRepository';
@@ -20,7 +20,7 @@ import { ICalendarRepository } from '../interface/ICalendarRepository';
 export class GoogleCalendarRepository implements ICalendarRepository {
     public constructor(
         @inject('GoogleCalendarGateway')
-        protected readonly googleCalendarGateway: ICalendarGateway,
+        protected readonly googleCalendarGateway: IOldGoogleCalendarGateway,
     ) {}
 
     /**
