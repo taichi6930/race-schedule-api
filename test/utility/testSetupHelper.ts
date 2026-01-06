@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { ICalendarGateway } from '../../src/gateway/interface/iCalendarGateway';
+import type { IOldGoogleCalendarGateway } from '../../src/gateway/interface/iOldCalendarGateway';
 import type { ICalendarRepository } from '../../src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
@@ -47,7 +47,7 @@ export interface TestRepositorySetup {
  * テスト用のセットアップ
  */
 export interface TestGatewaySetup {
-    googleCalendarGateway: jest.Mocked<ICalendarGateway>;
+    googleCalendarGateway: jest.Mocked<IOldGoogleCalendarGateway>;
 }
 
 export interface TestServiceSetup {

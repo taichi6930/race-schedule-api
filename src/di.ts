@@ -6,8 +6,8 @@ import { DBGateway } from './gateway/implement/dbGateway';
 import { GoogleCalendarGateway } from './gateway/implement/googleCalendarGateway';
 import { PlaceDataHtmlGateway } from './gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGateway } from './gateway/implement/raceDataHtmlGateway';
-import type { ICalendarGateway } from './gateway/interface/iCalendarGateway';
 import type { IDBGateway } from './gateway/interface/iDbGateway';
+import type { IOldGoogleCalendarGateway } from './gateway/interface/iOldCalendarGateway';
 import type { IPlaceDataHtmlGateway } from './gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
 import { GoogleCalendarRepository } from './repository/implement/googleCalendarRepository';
@@ -69,7 +69,7 @@ container.register<IPlaceRepository>('PlaceRepositoryFromHtml', {
 });
 container.register<IPlaceService>('PlaceService', { useClass: PlaceService });
 container.register<IPlaceUseCase>('PlaceUsecase', { useClass: PlaceUseCase });
-container.register<ICalendarGateway>('GoogleCalendarGateway', {
+container.register<IOldGoogleCalendarGateway>('GoogleCalendarGateway', {
     useClass: GoogleCalendarGateway,
 });
 container.register<ICalendarRepository>('CalendarRepository', {

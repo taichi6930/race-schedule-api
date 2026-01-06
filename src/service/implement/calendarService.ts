@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { CalendarData } from '../../domain/calendarData';
-import { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
+import { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { ICalendarService } from '../interface/ICalendarService';
@@ -28,7 +28,7 @@ export class CalendarService implements ICalendarService {
      */
     @Logger
     public async fetchEvents(
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        searchCalendarFilter: OldSearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
         return this.calendarRepository.fetchEventList(searchCalendarFilter);
     }
