@@ -1,4 +1,4 @@
-name: Deploy Cloudflare Test API
+name: Deploy Cloudflare Production API
 
 permissions:
   contents: read
@@ -6,11 +6,11 @@ permissions:
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
-  deploy-test:
+  deploy-prod:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -30,9 +30,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Deploy to Cloudflare Workers (test env)
+      - name: Deploy to Cloudflare Workers (production env)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           ENV: ${{ secrets.ENV }}
-        run: pnpm run deploy:test
+        run: pnpm run deploy:production
