@@ -1,8 +1,8 @@
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 import type { CalendarDataDto } from '../../domain/calendarData';
 import { IGoogleCalendarGateway } from '../../gateway/interface/iGoogleCalendarGateway';
-import type { SearchCalendarFilterEntity } from '../../usecase/dto/searchCalendarFilterEntity';
+import { CalendarFilterParams } from '../../types/calendar';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 
 /**
@@ -12,19 +12,21 @@ import type { ICalendarRepository } from '../interface/ICalendarRepository';
 export class GoogleCalendarRepository implements ICalendarRepository {
     private readonly gateway: IGoogleCalendarGateway;
 
-    public constructor(gateway: IGoogleCalendarGateway) {
+    public constructor(
+        @inject('CalendarGateway') gateway: IGoogleCalendarGateway,
+    ) {
         this.gateway = gateway;
     }
 
     /**
      * Googleカレンダーからデータを取得する
-     * @param searchCalendarFilter - 検索フィルター
+     * @param params - 検索フィルター
      * @returns カレンダーデータ一覧
      */
     public async fetch(
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        params: CalendarFilterParams,
     ): Promise<CalendarDataDto[]> {
-        const { startDate, finishDate, raceTypeList } = searchCalendarFilter;
+        const { startDate, finishDate, raceTypeList } = params;
         const allEvents: CalendarDataDto[] = [];
         for (const raceType of raceTypeList) {
             const events = await this.gateway.fetchCalendarDataList(

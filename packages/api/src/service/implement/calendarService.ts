@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import type { CalendarDataDto } from '../../domain/calendarData';
 import type { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
-import { SearchCalendarFilterEntity } from '../../usecase/dto/searchCalendarFilterEntity';
+import { CalendarFilterParams } from '../../types/calendar';
 import type { ICalendarService } from '../interface/ICalendarService';
 
 /**
@@ -11,17 +11,17 @@ import type { ICalendarService } from '../interface/ICalendarService';
 @injectable()
 export class CalendarService implements ICalendarService {
     public constructor(
-        @inject('ICalendarRepository')
+        @inject('CalendarRepository')
         private readonly calendarRepository: ICalendarRepository,
     ) {}
 
     /**
      * カレンダーデータを取得する
-     * @param searchCalendarFilter - カレンダー検索フィルター
+     * @param params - カレンダー検索フィルター
      */
     public async fetch(
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        params: CalendarFilterParams,
     ): Promise<CalendarDataDto[]> {
-        return this.calendarRepository.fetch(searchCalendarFilter);
+        return this.calendarRepository.fetch(params);
     }
 }
