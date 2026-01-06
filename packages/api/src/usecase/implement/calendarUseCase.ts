@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import type { CalendarDataDto } from '../../domain/calendarData';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import type { SearchCalendarFilterEntity } from '../dto/searchCalendarFilterEntity';
+import { CalendarFilterParams } from '../../types/calendar';
 import type { ICalendarUseCase } from '../interface/ICalendarUseCase';
 
 /**
@@ -19,12 +19,12 @@ export class CalendarUseCase implements ICalendarUseCase {
 
     /**
      * カレンダーデータを取得する
-     * @param searchCalendarFilter - 検索フィルター
+     * @param calendarFilterParams - 検索フィルター
      * @return カレンダーデータ一覧
      */
     public async fetch(
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        params: CalendarFilterParams,
     ): Promise<CalendarDataDto[]> {
-        return this.calendarService.fetch(searchCalendarFilter);
+        return this.calendarService.fetch(params);
     }
 }

@@ -1,5 +1,5 @@
 import type { CalendarDataDto } from '../../domain/calendarData';
-import type { SearchCalendarFilterEntity } from '../dto/searchCalendarFilterEntity';
+import type { CalendarFilterParams } from '../../types/calendar';
 
 /**
  * Calendar に関する業務ロジック（UseCase）のインターフェース定義
@@ -10,6 +10,6 @@ export interface ICalendarUseCase {
      * @return カレンダーデータ一覧
      */
     fetch: (
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        calendarFilterParams: CalendarFilterParams,
     ) => Promise<CalendarDataDto[]>;
 }
