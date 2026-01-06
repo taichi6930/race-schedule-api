@@ -83,62 +83,6 @@ export class GoogleCalendarGateway implements IGoogleCalendarGateway {
         }
     }
 
-    @Logger
-    public async updateCalendarData(
-        raceType: RaceType,
-        calendarData: calendar_v3.Schema$Event,
-    ): Promise<void> {
-        try {
-            const eventId = calendarData.id;
-            if (!eventId) {
-                throw new Error('イベントIDが指定されていません');
-            }
-            await this.calendar.events.update({
-                calendarId: await this.getCalendarId(raceType, EnvStore.env),
-                eventId,
-                requestBody: calendarData,
-            });
-        } catch (error) {
-            throw new Error(
-                createErrorMessage('Failed to get calendar events', error),
-            );
-        }
-    }
-
-    @Logger
-    public async insertCalendarData(
-        raceType: RaceType,
-        calendarData: calendar_v3.Schema$Event,
-    ): Promise<void> {
-        try {
-            await this.calendar.events.insert({
-                calendarId: await this.getCalendarId(raceType, EnvStore.env),
-                requestBody: calendarData,
-            });
-        } catch (error) {
-            throw new Error(
-                createErrorMessage('Failed to create calendar event', error),
-            );
-        }
-    }
-
-    @Logger
-    public async deleteCalendarData(
-        raceType: RaceType,
-        eventId: string,
-    ): Promise<void> {
-        try {
-            await this.calendar.events.delete({
-                calendarId: await this.getCalendarId(raceType, EnvStore.env),
-                eventId,
-            });
-        } catch (error) {
-            throw new Error(
-                createErrorMessage('Failed to delete calendar event', error),
-            );
-        }
-    }
-
     private async getCalendarId(
         raceType: RaceType,
         env: CloudFlareEnv,
