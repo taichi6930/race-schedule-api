@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IOldGoogleCalendarGateway } from '../../src/gateway/interface/iGoogleCalendarGateway';
+import type { IOldGoogleCalendarGateway } from '../../src/gateway/interface/iOldGoogleCalendarGateway';
 import type { ICalendarRepository } from '../../src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';

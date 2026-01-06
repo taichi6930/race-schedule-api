@@ -7,7 +7,7 @@ import { OldGoogleCalendarGateway } from './gateway/implement/oldGoogleCalendarG
 import { PlaceDataHtmlGateway } from './gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGateway } from './gateway/implement/raceDataHtmlGateway';
 import type { IDBGateway } from './gateway/interface/iDbGateway';
-import type { IOldGoogleCalendarGateway } from './gateway/interface/iGoogleCalendarGateway';
+import type { IOldGoogleCalendarGateway } from './gateway/interface/iOldGoogleCalendarGateway';
 import type { IPlaceDataHtmlGateway } from './gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
 import { GoogleCalendarRepository } from './repository/implement/googleCalendarRepository';

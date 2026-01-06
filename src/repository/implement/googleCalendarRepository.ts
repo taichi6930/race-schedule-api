@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { CalendarData } from '../../domain/calendarData';
-import { IOldGoogleCalendarGateway } from '../../gateway/interface/iGoogleCalendarGateway';
+import { IOldGoogleCalendarGateway } from '../../gateway/interface/iOldGoogleCalendarGateway';
 import {
     fromGoogleCalendarDataToCalendarData,
     toGoogleCalendarData,

@@ -2,7 +2,7 @@ import type { calendar_v3 } from 'googleapis';
 
 import type { RaceType } from '../../../packages/shared/src/types/raceType';
 import { allowedEnvs, ENV } from '../../utility/env';
-import type { IOldGoogleCalendarGateway } from '../interface/iGoogleCalendarGateway';
+import type { IOldGoogleCalendarGateway } from '../interface/iOldGoogleCalendarGateway';
 
 /**
  * Googleカレンダーのモックサービス

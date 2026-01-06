@@ -1,5 +1,5 @@
 import type { RaceType } from '../../../../../packages/shared/src/types/raceType';
-import type { IOldGoogleCalendarGateway } from '../../../../../src/gateway/interface/iGoogleCalendarGateway';
+import type { IOldGoogleCalendarGateway } from '../../../../../src/gateway/interface/iOldGoogleCalendarGateway';
 import { baseCalendarDataFromGoogleCalendar } from '../common/baseCommonData';
 
 export const mockGoogleCalendarGateway =
