@@ -11,7 +11,7 @@ import { ICourseService } from '../interface/ICourseService';
 @injectable()
 export class CourseService implements ICourseService {
     public constructor(
-        @inject('ICourseRepository')
+        @inject('CourseRepository')
         private readonly courseRepository: ICourseRepository,
     ) {}
 

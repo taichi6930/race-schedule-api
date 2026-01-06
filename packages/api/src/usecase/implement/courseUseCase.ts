@@ -11,7 +11,7 @@ import type { ICourseUseCase } from '../interface/ICourseUseCase';
 @injectable()
 export class CourseUseCase implements ICourseUseCase {
     public constructor(
-        @inject('ICourseService')
+        @inject('CourseService')
         private readonly courseService: ICourseService,
     ) {}
 
