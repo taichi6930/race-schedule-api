@@ -88,10 +88,11 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DB_ID: ${{ secrets.DB_ID_PROD }}
         run: |
           echo "🚀 Deploying DB migrations to production environment..."
           echo "⚠️  This is a PRODUCTION deployment!"
-          pnpm run migrations:apply:production
+          wrangler d1 migrations apply "$DB_ID" --remote --env production
           echo "✅ Production deployment completed"
 
       - name: List applied migrations
@@ -99,9 +100,10 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DB_ID: ${{ secrets.DB_ID_PROD }}
         run: |
           echo "📋 Applied migrations in production:"
-          pnpm run migrations:list:production
+          wrangler d1 migrations list "$DB_ID" --remote --env production
 
       - name: Create deployment summary
         run: |
