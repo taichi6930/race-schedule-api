@@ -21,6 +21,13 @@ import { IOldCalendarUseCase } from '../interface/IOldCalendarUseCase';
  */
 @injectable()
 export class CalendarUseCase implements IOldCalendarUseCase {
+    /**
+     * カレンダーデータのマイグレーションを実行（仮実装）
+     */
+    public async migrateCalendarData(): Promise<void> {
+        // TODO: 実装内容を追加
+        return;
+    }
     public constructor(
         @inject('CalendarService')
         private readonly calendarService: ICalendarService,
