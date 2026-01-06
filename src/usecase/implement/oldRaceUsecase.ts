@@ -4,18 +4,18 @@ import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
-import { IPlaceService } from '../../service/interface/IPlaceService';
-import { IRaceService } from '../../service/interface/IRaceService';
+import { IOldPlaceService } from '../../service/interface/IOldPlaceService';
+import { IOldRaceService } from '../../service/interface/IOldRaceService';
 import { DataLocation } from '../../utility/dataType';
 import type { UpsertResult } from '../../utility/upsertResult';
-import { IRaceUseCase } from '../interface/IRaceUsecase';
+import { IOldRaceUseCase } from '../interface/IOldRaceUsecase';
 @injectable()
-export class RaceUseCase implements IRaceUseCase {
+export class OldRaceUseCase implements IOldRaceUseCase {
     public constructor(
         @inject('PlaceService')
-        private readonly placeService: IPlaceService,
+        private readonly placeService: IOldPlaceService,
         @inject('RaceService')
-        private readonly raceService: IRaceService,
+        private readonly raceService: IOldRaceService,
     ) {}
 
     /**

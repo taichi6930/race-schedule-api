@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { SearchRaceFilterEntity } from '../../../../src/repository/entity/filter/searchRaceFilterEntity';
-import { RaceService } from '../../../../src/service/implement/raceService';
-import type { IRaceService } from '../../../../src/service/interface/IRaceService';
+import { OldRaceService } from '../../../../src/service/implement/oldRaceService';
+import type { IOldRaceService } from '../../../../src/service/interface/IOldRaceService';
 import { DataLocation } from '../../../../src/utility/dataType';
 import type { TestRepositorySetup } from '../../../utility/testSetupHelper';
 import {
@@ -19,11 +19,11 @@ import {
 
 describe('RaceService', () => {
     let repositorySetup: TestRepositorySetup;
-    let service: IRaceService;
+    let service: IOldRaceService;
 
     beforeEach(() => {
         repositorySetup = setupTestRepositoryMock();
-        service = container.resolve(RaceService);
+        service = container.resolve(OldRaceService);
     });
 
     afterEach(() => {

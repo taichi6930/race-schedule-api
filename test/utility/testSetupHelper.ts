@@ -6,13 +6,13 @@ import type { IOldGoogleCalendarGateway } from '../../src/gateway/interface/iOld
 import type { ICalendarRepository } from '../../src/repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from '../../src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../src/repository/interface/IRaceRepository';
-import type { ICalendarService } from '../../src/service/interface/ICalendarService';
-import type { IPlaceService } from '../../src/service/interface/IPlaceService';
+import type { IOldCalendarService } from '../../src/service/interface/IOldCalendarService';
+import type { IOldPlaceService } from '../../src/service/interface/IOldPlaceService';
+import type { IOldRaceService } from '../../src/service/interface/IOldRaceService';
 import type { IPlayerService } from '../../src/service/interface/IPlayerService';
-import type { IRaceService } from '../../src/service/interface/IRaceService';
-import type { IPlaceUseCase } from '../../src/usecase/interface/IPlaceUsecase';
+import type { IOldPlaceUseCase } from '../../src/usecase/interface/IOldPlaceUsecase';
+import type { IOldRaceUseCase } from '../../src/usecase/interface/IOldRaceUsecase';
 import type { IPlayerUseCase } from '../../src/usecase/interface/IPlayerUsecase';
-import type { IRaceUseCase } from '../../src/usecase/interface/IRaceUsecase';
 import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
 import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
@@ -51,15 +51,15 @@ export interface TestGatewaySetup {
 }
 
 export interface TestServiceSetup {
-    calendarService: jest.Mocked<ICalendarService>;
-    raceService: jest.Mocked<IRaceService>;
-    placeService: jest.Mocked<IPlaceService>;
+    calendarService: jest.Mocked<IOldCalendarService>;
+    raceService: jest.Mocked<IOldRaceService>;
+    placeService: jest.Mocked<IOldPlaceService>;
     playerService: jest.Mocked<IPlayerService>;
 }
 
 export interface TestUsecaseSetup {
-    placeUsecase: jest.Mocked<IPlaceUseCase>;
-    raceUsecase: jest.Mocked<IRaceUseCase>;
+    placeUsecase: jest.Mocked<IOldPlaceUseCase>;
+    raceUsecase: jest.Mocked<IOldRaceUseCase>;
     playerUsecase: jest.Mocked<IPlayerUseCase>;
 }
 
@@ -119,14 +119,14 @@ export const setupTestGatewayMock = (): TestGatewaySetup => {
  */
 export const setupTestServiceMock = (): TestServiceSetup => {
     const calendarService = calendarServiceMock();
-    container.registerInstance<ICalendarService>(
+    container.registerInstance<IOldCalendarService>(
         'CalendarService',
         calendarService,
     );
     const raceService = raceServiceMock();
-    container.registerInstance<IRaceService>('RaceService', raceService);
+    container.registerInstance<IOldRaceService>('RaceService', raceService);
     const placeService = placeServiceMock();
-    container.registerInstance<IPlaceService>('PlaceService', placeService);
+    container.registerInstance<IOldPlaceService>('PlaceService', placeService);
     const playerService = playerServiceMock();
     container.registerInstance<IPlayerService>('PlayerService', playerService);
 
@@ -144,10 +144,10 @@ export const setupTestServiceMock = (): TestServiceSetup => {
  */
 export const setupTestUsecaseMock = (): TestUsecaseSetup => {
     const placeUsecase = placeUsecaseMock();
-    container.registerInstance<IPlaceUseCase>('PlaceUsecase', placeUsecase);
+    container.registerInstance<IOldPlaceUseCase>('PlaceUsecase', placeUsecase);
 
     const raceUsecase = raceUsecaseMock();
-    container.registerInstance<IRaceUseCase>('RaceUsecase', raceUsecase);
+    container.registerInstance<IOldRaceUseCase>('RaceUsecase', raceUsecase);
 
     const playerUsecase = playerUsecaseMock();
     container.registerInstance<IPlayerUseCase>('PlayerUsecase', playerUsecase);

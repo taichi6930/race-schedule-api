@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../packages/shared/src/types/raceType';
+import { RaceSurfaceType } from '../../../packages/shared/src/types/surfaceType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { PlaceData } from '../../domain/placeData';
@@ -31,7 +32,6 @@ import {
 } from '../../utility/validateAndType/raceCourse';
 import { validateRaceDistance } from '../../utility/validateAndType/raceDistance';
 import { RaceStage, StageMap } from '../../utility/validateAndType/raceStage';
-import { RaceSurfaceType } from '../../utility/validateAndType/raceSurfaceType';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';

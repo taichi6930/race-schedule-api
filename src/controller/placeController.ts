@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { Logger } from '../../packages/shared/src/utilities/logger';
-import { IPlaceUseCase } from '../usecase/interface/IPlaceUsecase';
+import { IOldPlaceUseCase } from '../usecase/interface/IOldPlaceUsecase';
 import { corsHeaders } from '../utility/cors';
 import { OldSearchPlaceFilterEntity } from './../repository/entity/filter/oldSearchPlaceFilterEntity';
 import {
@@ -16,7 +16,7 @@ import {
 export class PlaceController {
     public constructor(
         @inject('PlaceUsecase')
-        private readonly usecase: IPlaceUseCase,
+        private readonly usecase: IOldPlaceUseCase,
     ) {}
 
     /**

@@ -5,8 +5,8 @@ import { container } from 'tsyringe';
 import { RaceType } from '../../../../packages/shared/src/types/raceType';
 import type { CalendarData } from '../../../../src/domain/calendarData';
 import { OldSearchCalendarFilterEntity } from '../../../../src/repository/entity/filter/oldSearchCalendarFilterEntity';
-import { CalendarUseCase } from '../../../../src/usecase/implement/calendarUseCase';
-import type { ICalendarUseCase } from '../../../../src/usecase/interface/ICalendarUseCase';
+import { OldCalendarUseCase } from '../../../../src/usecase/implement/oldCalendarUseCase';
+import type { IOldCalendarUseCase } from '../../../../src/usecase/interface/IOldCalendarUseCase';
 import { toXDigits } from '../../../../src/utility/format';
 import { SpecifiedGradeList } from '../../../../src/utility/validateAndType/gradeType';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';
@@ -23,11 +23,11 @@ import {
 
 describe('RaceCalendarUseCase', () => {
     let serviceSetup: TestServiceSetup;
-    let useCase: ICalendarUseCase;
+    let useCase: IOldCalendarUseCase;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();
-        useCase = container.resolve(CalendarUseCase);
+        useCase = container.resolve(OldCalendarUseCase);
     });
 
     afterEach(() => {

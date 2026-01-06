@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { Logger } from '../../packages/shared/src/utilities/logger';
-import { IRaceUseCase } from '../usecase/interface/IRaceUsecase';
+import { IOldRaceUseCase } from '../usecase/interface/IOldRaceUsecase';
 import { corsHeaders } from '../utility/cors';
 import {
     parseBodyToFilter,
@@ -15,7 +15,7 @@ import {
 export class RaceController {
     public constructor(
         @inject('RaceUsecase')
-        private readonly usecase: IRaceUseCase,
+        private readonly usecase: IOldRaceUseCase,
     ) {}
 
     /**

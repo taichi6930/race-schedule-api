@@ -2,10 +2,10 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { SearchPlaceFilterEntity } from '../../../../packages/api/src/usecase/dto/searchPlaceFilterEntity';
 import { OldSearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/oldSearchPlaceFilterEntity';
-import { PlaceUseCase } from '../../../../src/usecase/implement/placeUsecase';
-import type { IPlaceUseCase } from '../../../../src/usecase/interface/IPlaceUsecase';
+import { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/searchPlaceFilterEntity';
+import { OldPlaceUseCase } from '../../../../src/usecase/implement/oldPlaceUsecase';
+import type { IOldPlaceUseCase } from '../../../../src/usecase/interface/IOldPlaceUsecase';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';
 import {
     clearMocks,
@@ -18,11 +18,11 @@ import {
 
 describe('PlaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
-    let useCase: IPlaceUseCase;
+    let useCase: IOldPlaceUseCase;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();
-        useCase = container.resolve(PlaceUseCase);
+        useCase = container.resolve(OldPlaceUseCase);
     });
 
     afterEach(() => {
