@@ -4,10 +4,14 @@ permissions:
   contents: read
   id-token: write
 
+
 on:
   push:
     branches:
       - main
+  labeled:
+    types: [labeled]
+
 
 jobs:
   deploy-test:
@@ -36,3 +40,15 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           ENV: ${{ secrets.ENV }}
         run: pnpm run deploy:test
+
+      # ラベル付与イベントで起動した場合のみ、ラベルを削除
+      - name: Remove 'deploy-test' label
+        if: github.event_name == 'labeled' && github.event.label.name == 'deploy-test'
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: deploy-test
+          # PR/Issue番号の自動判定
+          number: ${{ github.event.issue.number || github.event.pull_request.number || github.event.workflow_run.pull_requests[0].number }}
+        # 上記numberはissue, PR, workflow_runのいずれかに対応
+        # 必要に応じてイベントごとに調整
