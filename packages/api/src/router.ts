@@ -1,5 +1,5 @@
-import { courseController } from './di';
 import { calendarController } from './di.calendar';
+import { courseController } from './di.course';
 
 export const router = async (request: Request): Promise<Response> => {
     const url = new URL(request.url);

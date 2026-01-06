@@ -11,7 +11,7 @@ import type { ICalendarService } from '../interface/ICalendarService';
 @injectable()
 export class CalendarService implements ICalendarService {
     public constructor(
-        @inject('ICalendarRepository')
+        @inject('CalendarRepository')
         private readonly calendarRepository: ICalendarRepository,
     ) {}
 

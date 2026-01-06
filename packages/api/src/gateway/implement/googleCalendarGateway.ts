@@ -5,17 +5,18 @@ import { createErrorMessage } from '@race-schedule/shared/src/utilities/error';
 import { Logger } from '@race-schedule/shared/src/utilities/logger';
 import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
+import { injectable } from 'tsyringe';
 
 import { IGoogleCalendarGateway } from '../interface/iGoogleCalendarGateway';
 
+@injectable()
 export class GoogleCalendarGateway implements IGoogleCalendarGateway {
-    private calendar: calendar_v3.Calendar;
+    private calendar: calendar_v3.Calendar | null = null;
 
-    public constructor() {
-        this.authInit();
-    }
-
-    private authInit(): void {
+    private ensureInitialized(): void {
+        if (this.calendar !== null) {
+            return;
+        }
         const client_email = EnvStore.env.GOOGLE_CLIENT_EMAIL;
         // Cloudflare環境変数は\nで渡されることが多いので、\n→\n変換
         const private_key = EnvStore.env.GOOGLE_PRIVATE_KEY.replace(
@@ -42,17 +43,18 @@ export class GoogleCalendarGateway implements IGoogleCalendarGateway {
         startDate: Date,
         finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
+        this.ensureInitialized();
         try {
             const calendarId = await this.getCalendarId(raceType, EnvStore.env);
             // orderBy: 'startTime'で開始時刻順に取得
-            const response = await this.calendar.events.list({
+            const response = await this.calendar?.events.list({
                 calendarId,
                 timeMin: startDate.toISOString(),
                 timeMax: finishDate.toISOString(),
                 singleEvents: true,
                 orderBy: 'startTime',
             });
-            return response.data.items ?? [];
+            return response?.data.items ?? [];
         } catch (error) {
             const calendarId = await this.getCalendarId(raceType, EnvStore.env);
             const clientEmail = EnvStore.env.GOOGLE_CLIENT_EMAIL;
@@ -70,12 +72,16 @@ export class GoogleCalendarGateway implements IGoogleCalendarGateway {
         raceType: RaceType,
         eventId: string,
     ): Promise<calendar_v3.Schema$Event> {
+        this.ensureInitialized();
         try {
             const calendarId = await this.getCalendarId(raceType, EnvStore.env);
-            const response = await this.calendar.events.get({
+            const response = await this.calendar?.events.get({
                 calendarId,
                 eventId,
             });
+            if (!response?.data) {
+                throw new Error('Calendar event data is empty');
+            }
             return response.data;
         } catch (error) {
             throw new Error(

@@ -1,4 +1,4 @@
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 import type { CalendarDataDto } from '../../domain/calendarData';
 import { IGoogleCalendarGateway } from '../../gateway/interface/iGoogleCalendarGateway';
@@ -12,7 +12,9 @@ import type { ICalendarRepository } from '../interface/ICalendarRepository';
 export class GoogleCalendarRepository implements ICalendarRepository {
     private readonly gateway: IGoogleCalendarGateway;
 
-    public constructor(gateway: IGoogleCalendarGateway) {
+    public constructor(
+        @inject('CalendarGateway') gateway: IGoogleCalendarGateway,
+    ) {
         this.gateway = gateway;
     }
 

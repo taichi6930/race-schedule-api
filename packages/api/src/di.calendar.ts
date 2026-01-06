@@ -7,11 +7,11 @@ import { CalendarService } from './service/implement/calendarService';
 import { CalendarUseCase } from './usecase/implement/calendarUseCase';
 
 // DI登録
-container.register('ICalendarRepository', {
+container.register('CalendarGateway', { useClass: GoogleCalendarGateway });
+container.register('CalendarRepository', {
     useClass: GoogleCalendarRepository,
 });
-container.register('ICalendarGateway', { useClass: GoogleCalendarGateway });
-container.register('ICalendarService', { useClass: CalendarService });
+container.register('CalendarService', { useClass: CalendarService });
 container.register('CalendarUseCase', { useClass: CalendarUseCase });
 
 export const calendarController = container.resolve(CalendarController);

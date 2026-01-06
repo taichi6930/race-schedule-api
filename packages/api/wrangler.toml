@@ -1,6 +1,7 @@
 name = "race-schedule"
 main = "src/index.ts"
-compatibility_date = "2024-01-01"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
 
 [env.production]
 # 本番環境用のワーカー名を明示

@@ -13,7 +13,7 @@ import type { ICalendarUseCase } from '../interface/ICalendarUseCase';
 @injectable()
 export class CalendarUseCase implements ICalendarUseCase {
     public constructor(
-        @inject('ICalendarService')
+        @inject('CalendarService')
         private readonly calendarService: ICalendarService,
     ) {}
 
