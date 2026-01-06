@@ -21,7 +21,7 @@
 ## 実装
 
 - ワークフロー: `.github/workflows/conditional-tests.yml`
-- 実装方針: 変更ファイルを検出して、該当するパッケージのテストを `pnpm --filter ./packages/<pkg> test -- --run` で順に実行します。
+- 実装方針: 変更ファイルを検出して、該当するパッケージのテストを `pnpm --filter ./packages/<pkg> test` で順に実行します。
 
 ## 注意点
 

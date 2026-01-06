@@ -91,19 +91,19 @@ jobs:
 
       - name: Run packages/api tests
         if: steps.detect.outputs.run_api == 'true'
-        run: pnpm --filter ./packages/api test -- --run
+        run: pnpm --filter ./packages/api test
 
       - name: Run packages/batch tests
         if: steps.detect.outputs.run_batch == 'true'
-        run: pnpm --filter ./packages/batch test -- --run
+        run: pnpm --filter ./packages/batch test
 
       - name: Run packages/db tests
         if: steps.detect.outputs.run_db == 'true'
-        run: pnpm --filter ./packages/db test -- --run
+        run: pnpm --filter ./packages/db test
 
       - name: Run packages/front tests
         if: steps.detect.outputs.run_front == 'true'
-        run: pnpm --filter ./packages/front test -- --run
+        run: pnpm --filter ./packages/front test
 
       - name: Run packages/shared tests
         if: steps.detect.outputs.run_shared == 'true'
@@ -111,4 +111,4 @@ jobs:
 
       - name: Run packages/scraping tests
         if: steps.detect.outputs.run_scraping == 'true'
-        run: pnpm --filter ./packages/scraping test -- --run
+        run: pnpm --filter ./packages/scraping test
