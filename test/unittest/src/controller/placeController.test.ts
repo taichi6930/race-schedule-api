@@ -63,7 +63,7 @@ describe('PlaceControllerのテスト', () => {
                 usecaseSetUp.placeUsecase.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(response.status).toBe(200);
-            const responseBody = await response.json();
+            const responseBody: any = await response.json();
             expect(responseBody.count).toEqual(mockPlaceEntityList.length);
         });
 
@@ -129,7 +129,7 @@ describe('PlaceControllerのテスト', () => {
                 usecaseSetUp.placeUsecase.upsertPlaceEntityList,
             ).toHaveBeenCalled();
             expect(response.status).toBe(200);
-            const responseBody = await response.json();
+            const responseBody: any = await response.json();
             expect(responseBody.successCount).toBe(10);
             expect(responseBody.failureCount).toBe(0);
         });

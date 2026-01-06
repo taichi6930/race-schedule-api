@@ -60,7 +60,7 @@ describe('PlayerControllerのテスト', () => {
                 usecaseSetUp.playerUsecase.fetchPlayerEntityList,
             ).toHaveBeenCalled();
             expect(response.status).toBe(200);
-            const responseBody = await response.json();
+            const responseBody: any = await response.json();
             expect(responseBody.count).toEqual(mockPlayerEntityList.length);
         });
 
@@ -125,7 +125,7 @@ describe('PlayerControllerのテスト', () => {
                 usecaseSetUp.playerUsecase.upsertPlayerEntityList.mock.calls;
             expect(playerEntities).toHaveLength(1);
             expect(response.status).toBe(201);
-            const responseBody = await response.json();
+            const responseBody: any = await response.json();
             expect(responseBody.playerEntities).toHaveLength(1);
             expect(responseBody.message).toBe('選手を登録/更新しました');
         });
