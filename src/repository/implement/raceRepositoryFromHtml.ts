@@ -2,8 +2,8 @@ import * as cheerio from 'cheerio';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { RaceSurfaceType } from '../../../packages/shared/src/types/raceSurfaceType';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
+import type { RaceSurfaceType } from '../../../packages/shared/src/types/surfaceType';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';

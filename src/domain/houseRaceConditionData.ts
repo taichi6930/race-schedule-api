@@ -1,5 +1,5 @@
-import type { RaceSurfaceType } from '../../packages/shared/src/types/raceSurfaceType';
 import { validateRaceSurfaceType } from '../../packages/shared/src/types/raceSurfaceType';
+import type { RaceSurfaceType } from '../../packages/shared/src/types/surfaceType';
 import type { RaceDistance } from '../utility/validateAndType/raceDistance';
 import { validateRaceDistance } from '../utility/validateAndType/raceDistance';
 

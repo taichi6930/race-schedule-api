@@ -11,5 +11,3 @@ export const validateRaceSurfaceType = (
 ): RaceSurfaceType => {
     return RaceSurfaceTypeSchema.parse(surfaceType);
 };
-
-export type { RaceSurfaceType } from './surfaceType';

@@ -1,4 +1,4 @@
-import type { RaceSurfaceType } from '../../packages/shared/src/types/raceSurfaceType';
+import type { RaceSurfaceType } from '../../packages/shared/src/types/surfaceType';
 import { replaceFromCodePoint } from './format';
 import type { GradeType } from './validateAndType/gradeType';
 import type { RaceCourse } from './validateAndType/raceCourse';
