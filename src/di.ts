@@ -20,22 +20,21 @@ import type { ICalendarRepository } from './repository/interface/ICalendarReposi
 import type { IPlaceRepository } from './repository/interface/IPlaceRepository';
 import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
 import type { IRaceRepository } from './repository/interface/IRaceRepository';
-import { CalendarService } from './service/implement/calendarService';
-import { PlaceService } from './service/implement/placeService';
+import { OldCalendarService } from './service/implement/oldCalendarService';
+import { OldPlaceService } from './service/implement/oldPlaceService';
+import { OldRaceService } from './service/implement/oldRaceService';
 import { PlayerService } from './service/implement/playerService';
-import { RaceService } from './service/implement/raceService';
-import type { ICalendarService } from './service/interface/ICalendarService';
-import type { IPlaceService } from './service/interface/IPlaceService';
+import type { IOldCalendarService } from './service/interface/IOldCalendarService';
+import type { IOldPlaceService } from './service/interface/IOldPlaceService';
+import type { IOldRaceService } from './service/interface/IOldRaceService';
 import type { IPlayerService } from './service/interface/IPlayerService';
-import type { IRaceService } from './service/interface/IRaceService';
-import { CalendarUseCase } from './usecase/implement/calendarUseCase';
-import { PlaceUseCase } from './usecase/implement/placeUsecase';
+import { OldPlaceUseCase } from './usecase/implement/oldPlaceUsecase';
+import { OldRaceUseCase } from './usecase/implement/oldRaceUsecase';
 import { PlayerUseCase } from './usecase/implement/playerUsecase';
-import { RaceUseCase } from './usecase/implement/raceUsecase';
 import type { IOldCalendarUseCase } from './usecase/interface/IOldCalendarUseCase';
-import type { IPlaceUseCase } from './usecase/interface/IPlaceUsecase';
+import type { IOldPlaceUseCase } from './usecase/interface/IOldPlaceUsecase';
+import type { IOldRaceUseCase } from './usecase/interface/IOldRaceUsecase';
 import type { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
-import type { IRaceUseCase } from './usecase/interface/IRaceUsecase';
 
 container.register<IPlayerRepository>('PlayerRepository', {
     useClass: PlayerRepository,
@@ -56,8 +55,12 @@ container.register<IRaceRepository>('RaceRepositoryFromStorage', {
 container.register<IRaceRepository>('RaceRepositoryFromHtml', {
     useClass: RaceRepositoryFromHtml,
 });
-container.register<IRaceService>('RaceService', { useClass: RaceService });
-container.register<IRaceUseCase>('RaceUsecase', { useClass: RaceUseCase });
+container.register<IOldRaceService>('RaceService', {
+    useClass: OldRaceService,
+});
+container.register<IOldRaceUseCase>('RaceUsecase', {
+    useClass: OldRaceUseCase,
+});
 container.register<IPlaceDataHtmlGateway>('PlaceDataHtmlGateway', {
     useClass: PlaceDataHtmlGateway,
 });
@@ -67,19 +70,23 @@ container.register<IPlaceRepository>('PlaceRepositoryFromStorage', {
 container.register<IPlaceRepository>('PlaceRepositoryFromHtml', {
     useClass: PlaceRepositoryFromHtml,
 });
-container.register<IPlaceService>('PlaceService', { useClass: PlaceService });
-container.register<IPlaceUseCase>('PlaceUsecase', { useClass: PlaceUseCase });
+container.register<IOldPlaceService>('PlaceService', {
+    useClass: OldPlaceService,
+});
+container.register<IOldPlaceUseCase>('PlaceUsecase', {
+    useClass: OldPlaceUseCase,
+});
 container.register<IOldGoogleCalendarGateway>('GoogleCalendarGateway', {
     useClass: OldGoogleCalendarGateway,
 });
 container.register<ICalendarRepository>('CalendarRepository', {
     useClass: GoogleCalendarRepository,
 });
-container.register<ICalendarService>('CalendarService', {
-    useClass: CalendarService,
+container.register<IOldCalendarService>('CalendarService', {
+    useClass: OldCalendarService,
 });
 container.register<IOldCalendarUseCase>('CalendarUsecase', {
-    useClass: CalendarUseCase,
+    useClass: OldCalendarUseCase,
 });
 
 export { container } from 'tsyringe';

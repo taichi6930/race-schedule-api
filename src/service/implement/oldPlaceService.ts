@@ -6,10 +6,10 @@ import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { UpsertResult } from '../../utility/upsertResult';
-import { IPlaceService } from '../interface/IPlaceService';
+import { IOldPlaceService } from '../interface/IOldPlaceService';
 
 @injectable()
-export class PlaceService implements IPlaceService {
+export class OldPlaceService implements IOldPlaceService {
     public constructor(
         @inject('PlaceRepositoryFromStorage')
         private readonly repositoryFromStorage: IPlaceRepository,

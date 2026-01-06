@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { SearchRaceFilterEntity } from '../../../../src/repository/entity/filter/searchRaceFilterEntity';
-import { RaceUseCase } from '../../../../src/usecase/implement/raceUsecase';
-import type { IRaceUseCase } from '../../../../src/usecase/interface/IRaceUsecase';
+import { OldRaceUseCase } from '../../../../src/usecase/implement/oldRaceUsecase';
+import type { IOldRaceUseCase } from '../../../../src/usecase/interface/IOldRaceUsecase';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';
 import {
     clearMocks,
@@ -18,11 +18,11 @@ import {
 
 describe('RaceUseCase', () => {
     let serviceSetup: TestServiceSetup;
-    let useCase: IRaceUseCase;
+    let useCase: IOldRaceUseCase;
 
     beforeEach(() => {
         serviceSetup = setupTestServiceMock();
-        useCase = container.resolve(RaceUseCase);
+        useCase = container.resolve(OldRaceUseCase);
     });
 
     afterEach(() => {

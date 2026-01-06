@@ -22,3 +22,14 @@ export const RaceSurfaceTypeSchema = z.string().refine((value) => {
  * RaceSurfaceTypeの型定義
  */
 export type RaceSurfaceType = z.infer<typeof RaceSurfaceTypeSchema>;
+
+/**
+ * 馬場種別のバリデーション
+ * @param surfaceType - 馬場種別
+ * @returns - バリデーション済みの馬場種別
+ */
+export const validateRaceSurfaceType = (
+    surfaceType: string,
+): RaceSurfaceType => {
+    return RaceSurfaceTypeSchema.parse(surfaceType);
+};

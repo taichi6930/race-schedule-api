@@ -2,7 +2,7 @@ import type { CalendarData } from '../../domain/calendarData';
 import type { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
 
-export interface ICalendarService {
+export interface IOldCalendarService {
     /**
      * 指定期間・種別のカレンダーイベントを取得
      * @param searchCalendarFilter - カレンダーフィルター情報

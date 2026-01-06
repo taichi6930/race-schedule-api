@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { OldSearchCalendarFilterEntity } from '../../../../src/repository/entity/filter/oldSearchCalendarFilterEntity';
-import { CalendarService } from '../../../../src/service/implement/calendarService';
-import type { ICalendarService } from '../../../../src/service/interface/ICalendarService';
+import { OldCalendarService } from '../../../../src/service/implement/oldCalendarService';
+import type { IOldCalendarService } from '../../../../src/service/interface/IOldCalendarService';
 import type { TestRepositorySetup } from '../../../utility/testSetupHelper';
 import {
     clearMocks,
@@ -17,12 +17,12 @@ import {
 } from '../mock/common/baseCommonData';
 
 describe('CalendarService', () => {
-    let service: ICalendarService;
+    let service: IOldCalendarService;
     let repositorySetup: TestRepositorySetup;
 
     beforeEach(() => {
         repositorySetup = setupTestRepositoryMock();
-        service = container.resolve(CalendarService);
+        service = container.resolve(OldCalendarService);
     });
 
     afterEach(() => {

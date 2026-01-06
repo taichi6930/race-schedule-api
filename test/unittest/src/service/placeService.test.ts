@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { OldSearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/oldSearchPlaceFilterEntity';
-import { PlaceService } from '../../../../src/service/implement/placeService';
-import type { IPlaceService } from '../../../../src/service/interface/IPlaceService';
+import { OldPlaceService } from '../../../../src/service/implement/oldPlaceService';
+import type { IOldPlaceService } from '../../../../src/service/interface/IOldPlaceService';
 import { DataLocation } from '../../../../src/utility/dataType';
 import type { TestRepositorySetup } from '../../../utility/testSetupHelper';
 import {
@@ -18,11 +18,11 @@ import {
 
 describe('PlaceService', () => {
     let repositorySetup: TestRepositorySetup;
-    let service: IPlaceService;
+    let service: IOldPlaceService;
 
     beforeEach(() => {
         repositorySetup = setupTestRepositoryMock();
-        service = container.resolve(PlaceService);
+        service = container.resolve(OldPlaceService);
     });
 
     afterEach(() => {

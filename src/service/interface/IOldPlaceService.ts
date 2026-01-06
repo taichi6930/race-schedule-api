@@ -2,7 +2,8 @@ import type { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { DataLocationType } from '../../utility/dataType';
 import type { UpsertResult } from '../../utility/upsertResult';
-export interface IPlaceService {
+
+export interface IOldPlaceService {
     /**
      * 開催場のEntity配列を取得する
      * @param searchPlaceFilter - 場所フィルター情報
