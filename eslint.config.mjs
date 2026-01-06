@@ -17,7 +17,13 @@ export default [
     {
         languageOptions: {
             parserOptions: {
-                project: ['./tsconfig.json', './packages/*/tsconfig.json'],
+                project: [
+                    './tsconfig.json',
+                    './packages/api/tsconfig.eslint.json',
+                    './packages/batch/tsconfig.json',
+                    './packages/scraping/tsconfig.json',
+                    './packages/shared/tsconfig.json',
+                ],
                 tsconfigRootDir: process.cwd(),
                 sourceType: 'module',
                 ecmaVersion: 2022,
