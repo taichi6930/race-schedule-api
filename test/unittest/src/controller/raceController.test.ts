@@ -63,7 +63,7 @@ describe('RaceControllerのテスト', () => {
                 usecaseSetUp.raceUsecase.fetchRaceEntityList,
             ).toHaveBeenCalled();
             expect(response.status).toBe(200);
-            const responseBody = await response.json();
+            const responseBody: any = await response.json();
             expect(responseBody.count).toEqual(mockRaceEntityList.length);
         });
 
@@ -129,7 +129,7 @@ describe('RaceControllerのテスト', () => {
                 usecaseSetUp.raceUsecase.upsertRaceEntityList,
             ).toHaveBeenCalled();
             expect(response.status).toBe(200);
-            const responseBody = await response.json();
+            const responseBody: any = await response.json();
             expect(responseBody.successCount).toBe(10);
             expect(responseBody.failureCount).toBe(0);
         });

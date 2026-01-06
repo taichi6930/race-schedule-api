@@ -1,9 +1,8 @@
-/**
- * API Service entry point
- * Existing src/index.ts will be moved here
- * TODO: Implement API service
- */
+/// <reference types="@cloudflare/workers-types" />
+import 'reflect-metadata';
 
-export const apiServicePlaceholder = (): string => {
-    return 'API Service - To be implemented';
-};
+import { router } from './router';
+
+addEventListener('fetch', (event: FetchEvent) => {
+    event.respondWith(router(event.request));
+});
