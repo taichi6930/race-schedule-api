@@ -1,6 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 
-export interface CloudFlareEnv {
+export interface OldCloudFlareEnv {
     DB: D1Database;
     JRA_CALENDAR_ID: string;
     NAR_CALENDAR_ID: string;

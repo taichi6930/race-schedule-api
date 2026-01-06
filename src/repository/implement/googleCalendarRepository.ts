@@ -2,13 +2,13 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { CalendarData } from '../../domain/calendarData';
 import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import {
     fromGoogleCalendarDataToCalendarData,
     toGoogleCalendarData,
 } from '../../utility/googleCalendar';
-import { Logger } from '../../utility/logger';
 import { SearchCalendarFilterEntity } from '../entity/filter/searchCalendarFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { ICalendarRepository } from '../interface/ICalendarRepository';

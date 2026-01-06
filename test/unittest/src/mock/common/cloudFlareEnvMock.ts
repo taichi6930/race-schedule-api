@@ -1,10 +1,10 @@
-import type { CloudFlareEnv } from '../../../../../src/utility/cloudFlareEnv';
+import type { OldCloudFlareEnv } from '../../../../../src/utility/oldCloudFlareEnv';
 
 /**
  * CloudFlareEnvのモックを作成する
  * @returns モック化されたCloudFlareEnvインターフェースのインスタンス
  */
-export const cloudFlareEnvMock = (): CloudFlareEnv => {
+export const cloudFlareEnvMock = (): OldCloudFlareEnv => {
     return {
         DB: {
             exec: jest.fn(),

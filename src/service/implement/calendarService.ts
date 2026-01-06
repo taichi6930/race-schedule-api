@@ -2,11 +2,11 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { CalendarData } from '../../domain/calendarData';
 import { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
-import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
 /**

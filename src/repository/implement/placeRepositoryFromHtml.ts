@@ -6,11 +6,11 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../packages/shared/src/types/raceType';
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
-import { EnvStore } from '../../utility/envStore';
-import { Logger } from '../../utility/logger';
+import { OldEnvStore } from '../../utility/oldEnvStore';
 import { isIncludedRaceType } from '../../utility/raceType';
 import { UpsertResult } from '../../utility/upsertResult';
 import { GradeType } from '../../utility/validateAndType/gradeType';
@@ -106,7 +106,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                 }
                 // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
                 const delayedTimeMs = Number.parseInt(
-                    EnvStore.env.HTML_FETCH_DELAY_MS || '1000',
+                    OldEnvStore.env.HTML_FETCH_DELAY_MS || '1000',
                 );
                 console.debug(`待機時間: ${delayedTimeMs}ms`);
                 await new Promise((resolve) =>
