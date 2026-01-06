@@ -62,7 +62,7 @@ jobs:
           DB_ID: ${{ secrets.DB_ID_TEST }}
         run: |
           echo "🚀 Deploying DB migrations to test environment..."
-          wrangler d1 migrations apply "$DB_ID" --remote --env test
+          pnpm exec wrangler d1 migrations apply "$DB_ID" --remote --env test
           echo "✅ Deployment completed"
 
       - name: List applied migrations
@@ -73,4 +73,4 @@ jobs:
           DB_ID: ${{ secrets.DB_ID_TEST }}
         run: |
           echo "📋 Applied migrations:"
-          wrangler d1 migrations list "$DB_ID" --remote --env test
+          pnpm exec wrangler d1 migrations list "$DB_ID" --remote --env test
