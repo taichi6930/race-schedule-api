@@ -1,8 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 
-import type { SearchPlaceFilterEntity } from '../../../packages/api/src/usecase/dto/searchPlaceFilterEntity';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
+import type { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceService } from '../../service/interface/IPlaceService';
 import { DataLocation } from '../../utility/dataType';

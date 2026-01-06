@@ -1,6 +1,15 @@
 import { z } from 'zod';
+/**
+ * RaceSurfaceTypeのzod型定義
+ */
+export const RaceSurfaceTypeList = new Set([
+    '芝',
+    'ダート',
+    '障害',
+    'AW',
+    '不明',
+]);
 
-import { RaceSurfaceTypeList } from '../data/surfaceType';
 /**
  * RaceSurfaceTypeの型定義
  */

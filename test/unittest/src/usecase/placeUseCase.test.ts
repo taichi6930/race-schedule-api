@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { SearchPlaceFilterEntity } from '../../../../packages/api/src/usecase/dto/searchPlaceFilterEntity';
 import { OldSearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/oldSearchPlaceFilterEntity';
+import { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/searchPlaceFilterEntity';
 import { PlaceUseCase } from '../../../../src/usecase/implement/placeUsecase';
 import type { IPlaceUseCase } from '../../../../src/usecase/interface/IPlaceUsecase';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';

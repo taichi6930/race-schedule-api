@@ -1,5 +1,5 @@
-import type { RaceType } from '../../../../../packages/shared/src/types/raceType';
-import type { RaceCourse } from '../../../../../src/utility/validateAndType/raceCourse';
+import type { RaceType } from '../../../../packages/shared/src/types/raceType';
+import type { RaceCourse } from '../../../utility/validateAndType/raceCourse';
 
 /**
  * レース開催場所の検索フィルター
