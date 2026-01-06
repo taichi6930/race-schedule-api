@@ -1,5 +1,7 @@
 import 'reflect-metadata';
 
+import { beforeEach } from 'node:test';
+
 import { container } from 'tsyringe';
 
 import { RaceType } from '../../../../../packages/shared/src/types/raceType';

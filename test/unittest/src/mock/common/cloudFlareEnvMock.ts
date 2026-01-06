@@ -1,4 +1,4 @@
-import type { OldCloudFlareEnv } from '../../../../../src/utility/cloudFlareEnv';
+import type { OldCloudFlareEnv } from '../../../../../src/utility/oldCloudFlareEnv';
 
 /**
  * CloudFlareEnvのモックを作成する

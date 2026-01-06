@@ -3,9 +3,9 @@ import { PlaceController } from './controller/placeController';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
 import { container } from './di';
-import type { OldCloudFlareEnv } from './utility/cloudFlareEnv';
 import { corsHeaders, withCorsHeaders } from './utility/cors';
 import { OldEnvStore } from './utility/envStore';
+import type { OldCloudFlareEnv } from './utility/oldCloudFlareEnv';
 
 const HTTP_METHODS = ['GET', 'POST', 'PUT', 'DELETE'] as const;
 type HttpMethod = (typeof HTTP_METHODS)[number];
@@ -75,15 +75,6 @@ const routes = new Map<string, Partial<Record<HttpMethod, RouteHandler>>>([
                 container
                     .resolve(CalendarController)
                     .postUpsertCalendar(request),
-        },
-    ],
-    [
-        '/calendar/migrate',
-        {
-            POST: async (request): Promise<Response> =>
-                container.resolve(CalendarController).migrateCalendar(request),
-            POST: async (): Promise<Response> =>
-                container.resolve(CalendarController).migrateCalendar(),
         },
     ],
     [

@@ -4,10 +4,9 @@ import { google } from 'googleapis';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { createErrorMessage } from '../../../packages/shared/src/utilities/error';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
-import { OldCloudFlareEnv } from '../../utility/cloudFlareEnv';
 import { OldEnvStore } from '../../utility/envStore';
+import { OldCloudFlareEnv } from '../../utility/oldCloudFlareEnv';
 import { IOldGoogleCalendarGateway } from '../interface/iGoogleCalendarGateway';
-
 export class OldGoogleCalendarGateway implements IOldGoogleCalendarGateway {
     private calendar: calendar_v3.Calendar;
 
