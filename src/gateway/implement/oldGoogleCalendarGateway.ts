@@ -2,13 +2,13 @@ import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
 
 import { RaceType } from '../../../packages/shared/src/types/raceType';
-import { createErrorMessage } from '../../utility/error';
-import { Logger } from '../../utility/logger';
+import { createErrorMessage } from '../../../packages/shared/src/utilities/error';
+import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { OldCloudFlareEnv } from '../../utility/oldCloudFlareEnv';
 import { OldEnvStore } from '../../utility/oldEnvStore';
-import { ICalendarGateway } from '../interface/iCalendarGateway';
+import { IOldGoogleCalendarGateway } from '../interface/iGoogleCalendarGateway';
 
-export class GoogleCalendarGateway implements ICalendarGateway {
+export class OldGoogleCalendarGateway implements IOldGoogleCalendarGateway {
     private calendar: calendar_v3.Calendar;
 
     public constructor() {

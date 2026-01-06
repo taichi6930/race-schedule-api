@@ -3,9 +3,9 @@ import { PlaceController } from './controller/placeController';
 import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
 import { container } from './di';
-import type { CloudFlareEnv } from './utility/cloudFlareEnv';
 import { corsHeaders, withCorsHeaders } from './utility/cors';
-import { EnvStore } from './utility/envStore';
+import type { OldCloudFlareEnv } from './utility/oldCloudFlareEnv';
+import { OldEnvStore } from './utility/oldEnvStore';
 
 const HTTP_METHODS = ['GET', 'POST', 'PUT', 'DELETE'] as const;
 type HttpMethod = (typeof HTTP_METHODS)[number];
@@ -102,9 +102,9 @@ const responseMethodNotAllowed = (allowed: string[]): Response => {
 
 export async function router(
     request: Request,
-    env: CloudFlareEnv,
+    env: OldCloudFlareEnv,
 ): Promise<Response> {
-    EnvStore.setEnv(env);
+    OldEnvStore.setEnv(env);
 
     const url = new URL(request.url);
     const { pathname, searchParams } = url;

@@ -9,7 +9,7 @@ import { OldSearchPlaceFilterEntity } from '../../../../../src/repository/entity
 import { PlaceRepositoryFromHtml } from '../../../../../src/repository/implement/placeRepositoryFromHtml';
 import type { IPlaceRepository } from '../../../../../src/repository/interface/IPlaceRepository';
 import { allowedEnvs } from '../../../../../src/utility/env';
-import { EnvStore } from '../../../../../src/utility/envStore';
+import { OldEnvStore } from '../../../../../src/utility/oldEnvStore';
 import { SkipEnv } from '../../../../utility/testDecorators';
 import { clearMocks } from '../../../../utility/testSetupHelper';
 import {
@@ -71,7 +71,7 @@ describe.each(testRaceTypeListAll)('PlaceRepositoryFromHtml', (raceType) => {
             let repository: IPlaceRepository;
 
             beforeAll(() => {
-                EnvStore.setEnv(cloudFlareEnvMock());
+                OldEnvStore.setEnv(cloudFlareEnvMock());
 
                 placeDataHtmlGateway = new MockPlaceDataHtmlGateway();
                 container.registerInstance(
