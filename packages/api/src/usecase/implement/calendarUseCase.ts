@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import type { CalendarDataDto } from '../../domain/calendarData';
-import type { ICalendarService } from '../../service/interface/ICalendarService';
+import { ICalendarService } from '../../service/interface/ICalendarService';
 import type { SearchCalendarFilterEntity } from '../dto/searchCalendarFilterEntity';
 import type { ICalendarUseCase } from '../interface/ICalendarUseCase';
 

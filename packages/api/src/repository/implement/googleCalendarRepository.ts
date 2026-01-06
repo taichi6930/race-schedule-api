@@ -1,7 +1,7 @@
 import { injectable } from 'tsyringe';
 
 import type { CalendarDataDto } from '../../domain/calendarData';
-import type { IGoogleCalendarGateway } from '../../gateway/interface/iGoogleCalendarGateway';
+import { IGoogleCalendarGateway } from '../../gateway/interface/iGoogleCalendarGateway';
 import type { SearchCalendarFilterEntity } from '../../usecase/dto/searchCalendarFilterEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 
@@ -33,7 +33,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                 finishDate,
             );
             // Google APIのイベントをCalendarDataDtoに変換
-            const dtos = events.map((event) => ({
+            const dtoList = events.map((event) => ({
                 id: event.id ?? '',
                 raceType,
                 title: event.summary ?? '',
@@ -42,7 +42,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
                 location: event.location ?? '',
                 description: event.description ?? '',
             }));
-            allEvents.push(...dtos);
+            allEvents.push(...dtoList);
         }
         return allEvents;
     }
