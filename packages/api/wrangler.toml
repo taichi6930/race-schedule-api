@@ -5,7 +5,6 @@ compatibility_date = "2024-01-01"
 [env.production]
 # 本番環境用のワーカー名を明示
 name = "race-schedule-prod"
-
 [env.development]
 # 必要に応じて環境変数やD1, KV, R2などのバインディングをここに追加
 
