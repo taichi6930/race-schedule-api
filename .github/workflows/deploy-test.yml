@@ -17,6 +17,7 @@ on:
 
 jobs:
   deploy-test:
+    if: github.event_name == 'push' || github.event.label.name == 'deploy-test'
     runs-on: ubuntu-latest
     defaults:
       run:
