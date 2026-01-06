@@ -4,7 +4,6 @@ name: Deploy DB to Test Environment
   push:
     branches:
       - main
-      - 'feature/**'
     paths:
       - 'packages/db/**'
   workflow_dispatch:
