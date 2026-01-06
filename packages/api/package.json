@@ -4,10 +4,10 @@
     "description": "Race Schedule API Service",
     "main": "./dist/index.js",
     "scripts": {
-        "build": "tsc",
-        "watch": "tsc -w",
         "dev": "wrangler dev --env development --local",
-        "deploy:production": "wrangler deploy --env production",
+        "deploy:local": "TZ=Asia/Tokyo wrangler dev --env development --local",
+        "deploy:test": "TZ=Asia/Tokyo wrangler deploy --env test",
+        "deploy:production": "TZ=Asia/Tokyo wrangler deploy --env production",
         "test": "vitest --config=vitest.config.ts",
         "test:watch": "vitest --config=vitest.config.ts --watch",
         "lint": "eslint './src/**/*.ts'",
