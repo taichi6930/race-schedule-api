@@ -6,9 +6,9 @@ import { createErrorMessage } from '../../../packages/shared/src/utilities/error
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { OldCloudFlareEnv } from '../../utility/oldCloudFlareEnv';
 import { OldEnvStore } from '../../utility/oldEnvStore';
-import { ICalendarGateway } from '../interface/iCalendarGateway';
+import { IOldGoogleCalendarGateway } from '../interface/iOldCalendarGateway';
 
-export class GoogleCalendarGateway implements ICalendarGateway {
+export class GoogleCalendarGateway implements IOldGoogleCalendarGateway {
     private calendar: calendar_v3.Calendar;
 
     public constructor() {

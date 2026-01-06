@@ -4,12 +4,12 @@ import { inject, injectable } from 'tsyringe';
 
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { CalendarData } from '../../domain/calendarData';
-import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
+import { IOldGoogleCalendarGateway } from '../../gateway/interface/iOldCalendarGateway';
 import {
     fromGoogleCalendarDataToCalendarData,
     toGoogleCalendarData,
 } from '../../utility/googleCalendar';
-import { SearchCalendarFilterEntity } from '../entity/filter/searchCalendarFilterEntity';
+import { OldSearchCalendarFilterEntity } from '../entity/filter/oldSearchCalendarFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { ICalendarRepository } from '../interface/ICalendarRepository';
 
@@ -20,7 +20,7 @@ import { ICalendarRepository } from '../interface/ICalendarRepository';
 export class GoogleCalendarRepository implements ICalendarRepository {
     public constructor(
         @inject('GoogleCalendarGateway')
-        protected readonly googleCalendarGateway: ICalendarGateway,
+        protected readonly googleCalendarGateway: IOldGoogleCalendarGateway,
     ) {}
 
     /**
@@ -28,7 +28,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
      */
     @Logger
     public async fetchEventList(
-        searchFilter: SearchCalendarFilterEntity,
+        searchFilter: OldSearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
         const calendarDataList: CalendarData[] = [];
         const { startDate, finishDate, raceTypeList } = searchFilter;

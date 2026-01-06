@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { CalendarData } from '../../domain/calendarData';
-import { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
+import { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
@@ -34,7 +34,7 @@ export class CalendarUseCase implements ICalendarUseCase {
      */
     @Logger
     public async fetchCalendarRaceList(
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        searchCalendarFilter: OldSearchCalendarFilterEntity,
     ): Promise<CalendarData[]> {
         return this.calendarService.fetchEvents(searchCalendarFilter);
     }
@@ -46,7 +46,7 @@ export class CalendarUseCase implements ICalendarUseCase {
      */
     @Logger
     public async updateCalendarRaceData(
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        searchCalendarFilter: OldSearchCalendarFilterEntity,
         displayGradeList: {
             [RaceType.JRA]: GradeType[];
             [RaceType.NAR]: GradeType[];

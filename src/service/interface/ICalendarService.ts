@@ -1,5 +1,5 @@
 import type { CalendarData } from '../../domain/calendarData';
-import type { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
+import type { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
 
 export interface ICalendarService {
@@ -9,7 +9,7 @@ export interface ICalendarService {
      * @returns カレンダーイベント配列
      */
     fetchEvents: (
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        searchCalendarFilter: OldSearchCalendarFilterEntity,
     ) => Promise<CalendarData[]>;
 
     /**

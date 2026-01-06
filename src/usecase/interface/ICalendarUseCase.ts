@@ -1,6 +1,6 @@
 import type { RaceType } from '../../../packages/shared/src/types/raceType';
 import type { CalendarData } from '../../domain/calendarData';
-import type { SearchCalendarFilterEntity } from '../../repository/entity/filter/searchCalendarFilterEntity';
+import type { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import type { GradeType } from '../../utility/validateAndType/gradeType';
 
 export interface ICalendarUseCase {
@@ -9,7 +9,7 @@ export interface ICalendarUseCase {
      * @param searchCalendarFilter - カレンダーフィルター情報
      */
     fetchCalendarRaceList: (
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        searchCalendarFilter: OldSearchCalendarFilterEntity,
     ) => Promise<CalendarData[]>;
 
     /**
@@ -18,7 +18,7 @@ export interface ICalendarUseCase {
      * @param displayGradeList - 表示するグレードリスト
      */
     updateCalendarRaceData: (
-        searchCalendarFilter: SearchCalendarFilterEntity,
+        searchCalendarFilter: OldSearchCalendarFilterEntity,
         displayGradeList: {
             [RaceType.JRA]: GradeType[];
             [RaceType.NAR]: GradeType[];

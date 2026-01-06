@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../packages/shared/src/types/raceType';
 import { Logger } from '../../packages/shared/src/utilities/logger';
-import { SearchCalendarFilterEntity } from '../repository/entity/filter/searchCalendarFilterEntity';
+import { OldSearchCalendarFilterEntity } from '../repository/entity/filter/oldSearchCalendarFilterEntity';
 import { ICalendarUseCase } from '../usecase/interface/ICalendarUseCase';
 import { corsHeaders } from '../utility/cors';
 import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
@@ -33,7 +33,7 @@ export class CalendarController {
             const { start, finish, raceTypeList } =
                 parseSearchDatesAndRaceTypes(searchParams);
 
-            const searchCalendarFilter = new SearchCalendarFilterEntity(
+            const searchCalendarFilter = new OldSearchCalendarFilterEntity(
                 start,
                 finish,
                 raceTypeList,

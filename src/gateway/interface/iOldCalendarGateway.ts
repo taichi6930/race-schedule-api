@@ -22,7 +22,7 @@ import type { RaceType } from '../../../packages/shared/src/types/raceType';
  * - 認証情報の適切な管理が必要です
  * - タイムゾーンの正確な処理が重要です
  */
-export interface ICalendarGateway {
+export interface IOldGoogleCalendarGateway {
     /**
      * 指定された期間のカレンダーイベントを一括取得します
      *

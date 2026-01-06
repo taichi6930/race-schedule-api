@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import { RaceType } from '../../../../packages/shared/src/types/raceType';
 import type { CalendarData } from '../../../../src/domain/calendarData';
-import { SearchCalendarFilterEntity } from '../../../../src/repository/entity/filter/searchCalendarFilterEntity';
+import { OldSearchCalendarFilterEntity } from '../../../../src/repository/entity/filter/oldSearchCalendarFilterEntity';
 import { CalendarUseCase } from '../../../../src/usecase/implement/calendarUseCase';
 import type { ICalendarUseCase } from '../../../../src/usecase/interface/ICalendarUseCase';
 import { toXDigits } from '../../../../src/utility/format';
@@ -44,7 +44,7 @@ describe('RaceCalendarUseCase', () => {
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
 
-            const searchCalendarFilter = new SearchCalendarFilterEntity(
+            const searchCalendarFilter = new OldSearchCalendarFilterEntity(
                 startDate,
                 finishDate,
                 testRaceTypeListAll,
@@ -100,7 +100,7 @@ describe('RaceCalendarUseCase', () => {
         const startDate = new Date('2024-02-01');
         const finishDate = new Date('2024-02-29');
 
-        const searchCalendarFilter = new SearchCalendarFilterEntity(
+        const searchCalendarFilter = new OldSearchCalendarFilterEntity(
             startDate,
             finishDate,
             testRaceTypeListAll,
