@@ -1,4 +1,6 @@
-import type { Course, CourseCodeType, RaceType } from '@race-schedule/shared';
+import type { Course } from '@race-schedule/shared/src/types/course';
+import type { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeType';
+import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
 import { PlaceMasterEntity } from '../../domain/entity/placeMasterEntity';

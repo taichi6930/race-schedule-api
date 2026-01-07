@@ -1,4 +1,4 @@
-import { Course } from '@race-schedule/shared';
+import type { Course } from '@race-schedule/shared/src/types/course';
 import { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeType';
 import { RaceCourseMasterList } from '@race-schedule/shared/src/utilities/course';
 import { injectable } from 'tsyringe';

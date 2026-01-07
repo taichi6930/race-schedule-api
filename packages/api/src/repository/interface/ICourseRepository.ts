@@ -1,4 +1,5 @@
-import type { Course, CourseCodeType } from '@race-schedule/shared';
+import type { Course } from '@race-schedule/shared/src/types/course';
+import type { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeType';
 
 /**
  * 開催場データリポジトリのインターフェース定義
