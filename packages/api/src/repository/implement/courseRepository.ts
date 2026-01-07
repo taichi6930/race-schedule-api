@@ -1,4 +1,4 @@
-import { CourseCodeType } from '@race-schedule/shared';
+import type { Course, CourseCodeType, RaceType } from '@race-schedule/shared';
 import { inject, injectable } from 'tsyringe';
 
 import { PlaceMasterEntity } from '../../domain/entity/placeMasterEntity';
@@ -15,7 +15,7 @@ export class CourseRepositoryFromStorage implements ICourseRepository {
 
     public async findAllByCourseCodeTypeList(
         courseCodeTypeList: CourseCodeType[],
-    ): Promise<PlaceMasterEntity[]> {
+    ): Promise<Course[]> {
         let sql = 'SELECT * FROM place_master';
         const params: unknown[] = [];
 
@@ -26,6 +26,13 @@ export class CourseRepositoryFromStorage implements ICourseRepository {
         }
 
         const { results } = await this.dbGateway.queryAll(sql, params);
-        return results.map((result) => PlaceMasterMapper.toEntity(result));
+        return results
+            .map((result) => PlaceMasterMapper.toEntity(result))
+            .map((entity: PlaceMasterEntity) => ({
+                raceType: entity.raceType as RaceType,
+                courseCodeType: entity.courseCodeType as CourseCodeType,
+                placeName: entity.placeName,
+                placeCode: entity.placeCode,
+            }));
     }
 }
