@@ -6,9 +6,7 @@ import type { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeT
  */
 export interface ICourseRepository {
     /**
-     * コースコード種別リストで全開催場データを取得
-     * @param courseCodeTypeList - コースコード種別リスト
-     * @return 開催場データリスト
+     * PlaceMasterEntity の全件取得
      */
     findAllByCourseCodeTypeList: (
         courseCodeTypeList: CourseCodeType[],

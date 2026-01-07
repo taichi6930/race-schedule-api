@@ -1,7 +1,10 @@
+import type { D1Database } from '@cloudflare/workers-types';
+
 /**
  * CloudFlare Workers 環境変数の型定義
  */
 export interface CloudFlareEnv {
+    DB: D1Database; // D1 データベース
     JRA_CALENDAR_ID: string; // 中央競馬
     NAR_CALENDAR_ID: string; // 地方競馬
     WORLD_CALENDAR_ID: string; // 海外競馬
