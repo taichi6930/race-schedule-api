@@ -1,3 +1,11 @@
+/**
+ * ディシジョンテーブル
+ * | 種別   | types                                              | expected | 説明              |
+ * |-------|----------------------------------------------------|----------|------------------|
+ * | 正常系 | [CourseCodeType.OFFICIAL, CourseCodeType.NETKEIBA] | 193      | 両方指定          |
+ * | 正常系 | [CourseCodeType.OFFICIAL]                          | 155      | OFFICIALのみ指定  |
+ * | 正常系 | [CourseCodeType.NETKEIBA]                          | 38       | NETKEIBAのみ指定  |
+ */
 import 'reflect-metadata';
 import { beforeEach, describe, expect, it } from 'vitest';
 
