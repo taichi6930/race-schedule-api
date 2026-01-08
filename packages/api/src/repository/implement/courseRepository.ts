@@ -9,7 +9,7 @@ import { ICourseRepository } from '../interface/ICourseRepository';
 import { PlaceMasterMapper } from '../mapper/placeMasterMapper';
 
 @injectable()
-export class CourseRepositoryFromStorage implements ICourseRepository {
+export class CourseRepository implements ICourseRepository {
     public constructor(
         @inject('DBGateway')
         private readonly dbGateway: IDBGateway,
