@@ -4,13 +4,13 @@ import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
 import type { CalendarFilterParams } from '../types/calendar';
-import { ICalendarUseCase } from '../usecase/interface/ICalendarUseCase';
+import { ICalendarUsecase } from '../usecase/interface/ICalendarUsecase';
 
 @injectable()
 export class CalendarController {
     public constructor(
-        @inject('CalendarUseCase')
-        private readonly usecase: ICalendarUseCase,
+        @inject('CalendarUsecase')
+        private readonly usecase: ICalendarUsecase,
     ) {}
 
     /**

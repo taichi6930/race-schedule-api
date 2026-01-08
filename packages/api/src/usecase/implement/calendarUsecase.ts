@@ -5,13 +5,13 @@ import { inject, injectable } from 'tsyringe';
 import type { CalendarDataDto } from '../../domain/calendarData';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { CalendarFilterParams } from '../../types/calendar';
-import type { ICalendarUseCase } from '../interface/ICalendarUseCase';
+import type { ICalendarUsecase } from '../interface/ICalendarUsecase';
 
 /**
- * Calendar に関する業務ロジック（UseCase）
+ * Calendar に関する業務ロジック（Usecase）
  */
 @injectable()
-export class CalendarUseCase implements ICalendarUseCase {
+export class CalendarUsecase implements ICalendarUsecase {
     public constructor(
         @inject('CalendarService')
         private readonly calendarService: ICalendarService,

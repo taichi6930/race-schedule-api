@@ -4,13 +4,13 @@ import type { Course } from '@race-schedule/shared/src/types/course';
 import { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeType';
 import { inject, injectable } from 'tsyringe';
 
-import type { ICourseUseCase } from '../usecase/interface/ICourseUseCase';
+import { ICourseUsecase } from '../usecase/interface/ICourseUsecase';
 
 @injectable()
 export class CourseController {
     public constructor(
         @inject('CourseUsecase')
-        private readonly usecase: ICourseUseCase,
+        private readonly usecase: ICourseUsecase,
     ) {}
 
     /**

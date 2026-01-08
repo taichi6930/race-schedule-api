@@ -3,13 +3,13 @@ import type { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeT
 import { inject, injectable } from 'tsyringe';
 
 import type { ICourseService } from '../../service/interface/ICourseService';
-import type { ICourseUseCase } from '../interface/ICourseUseCase';
+import type { ICourseUsecase } from '../interface/ICourseUsecase';
 
 /**
- * Course に関する業務ロジック（UseCase）
+ * Course に関する業務ロジック（Usecase）
  */
 @injectable()
-export class CourseUseCase implements ICourseUseCase {
+export class CourseUsecase implements ICourseUsecase {
     public constructor(
         @inject('CourseService')
         private readonly courseService: ICourseService,
