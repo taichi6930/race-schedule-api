@@ -1,39 +1,38 @@
 import 'reflect-metadata';
-import { ICourseRepository } from './../src/repository/interface/ICourseRepository';
-
 import { container } from 'tsyringe';
+import { ICourseService } from '../src/service/interface/ICourseService';
+import { ICourseRepository } from './../src/repository/interface/ICourseRepository';
 import { mockCourseRepository } from './mock/repository/mockCourseRepository';
+import { mockCourseService } from './mock/service/mockCourseService';
 
-/**
- * afterEach処理の共通化
- */
+// afterEachで使用する共通のモッククリア関数
 export const clearMocks = (): void => {
     jest.clearAllMocks();
 };
 
-/**
- * テスト用のセットアップ
- */
+// Repositoryモックの型
 export interface TestRepositorySetup {
-    // calendarRepository: jest.Mocked<ICalendarRepository>;
     courseRepository: jest.Mocked<ICourseRepository>;
 }
 
-/**
- * テスト用のセットアップ
- * @returns セットアップ済みのサービス
- */
-export const setupTestRepositoryMock = (): TestRepositorySetup => {
-    // const calendarRepository = mockCalendarRepository();
-    // container.registerInstance('CalendarRepository', calendarRepository);
+// Serviceモックの型
+export interface TestServiceSetup {
+    courseService: jest.Mocked<ICourseService>;
+}
 
+// RepositoryモックをDIコンテナへ登録し返却
+export const setupTestRepositoryMock = (): TestRepositorySetup => {
     const courseRepository = mockCourseRepository();
     container.registerInstance<ICourseRepository>(
         'CourseRepository',
         courseRepository,
     );
-    return {
-        // calendarRepository,
-        courseRepository,
-    };
+    return { courseRepository };
+};
+
+// ServiceモックをDIコンテナへ登録し返却
+export const setupTestServiceMock = (): TestServiceSetup => {
+    const courseService = mockCourseService();
+    container.registerInstance<ICourseService>('CourseService', courseService);
+    return { courseService };
 };

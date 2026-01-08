@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import type { CalendarDataDto } from '../../domain/calendarData';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { CalendarFilterParams } from '../../types/calendar';
-import type { ICalendarUseCase } from '../interface/ICalendarUseCase';
+import type { ICalendarUseCase } from '../interface/ICalendarUsecase';
 
 /**
  * Calendar に関する業務ロジック（UseCase）
