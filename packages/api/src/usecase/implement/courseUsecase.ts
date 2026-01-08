@@ -6,7 +6,7 @@ import type { ICourseService } from '../../service/interface/ICourseService';
 import type { ICourseUsecase } from '../interface/ICourseUsecase';
 
 /**
- * Course に関する業務ロジック（UseCase）
+ * Course に関する業務ロジック（Usecase）
  */
 @injectable()
 export class CourseUsecase implements ICourseUsecase {
