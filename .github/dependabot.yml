@@ -7,16 +7,12 @@ updates:
       time: "05:00"
       timezone: "Asia/Tokyo"
     groups:
-      dependencies-patch:
-        patterns:
-          - "*"
-        update-types:
-          - "patch"
-      dependencies-minor:
+      dependencies-minor-and-patch:
         patterns:
           - "*"
         update-types:
           - "minor"
+          - "patch"
       dependencies-major:
         patterns:
           - "*"
