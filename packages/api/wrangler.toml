@@ -3,21 +3,15 @@ main = "src/index.ts"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
-[env.production]
-# 本番環境用のワーカー名を明示
-name = "race-schedule-prod"
-
-[env.development]
-# 必要に応じて環境変数やD1, KV, R2などのバインディングをここに追加
-[[env.development.d1_databases]]
+[[d1_databases]]
 binding = "DB"
 database_name = "race-schedule-db"
 database_id = "preview"
 migrations_dir = "../db/migrations"
 
-# ローカルでのポート指定（デフォルト: 8787）
-# [dev]
-# port = 8787
+[env.production]
+# 本番環境用のワーカー名を明示
+name = "race-schedule-prod"
 
 [env.test]
 # テスト環境用のワーカー名を明示
