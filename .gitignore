@@ -35,3 +35,4 @@ package-lock.json
 .wrangler/
 
 scripts/*.sql
+packages/db/v3/

@@ -4,8 +4,8 @@
     "description": "Race Schedule API Service",
     "main": "./dist/index.js",
     "scripts": {
-        "dev": "wrangler dev --env development --local",
-        "deploy:local": "TZ=Asia/Tokyo wrangler dev --env development --local",
+        "dev": "wrangler dev --local --persist-to ../db",
+        "deploy:local": "TZ=Asia/Tokyo wrangler dev --local --persist-to ../db",
         "deploy:test": "TZ=Asia/Tokyo wrangler deploy --env test",
         "deploy:production": "TZ=Asia/Tokyo wrangler deploy --env production",
         "test": "vitest --config=vitest.config.ts",
