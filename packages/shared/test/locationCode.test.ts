@@ -2,7 +2,7 @@ import {
     type LocationCode,
     LocationCodeSchema,
     validateLocationCode,
-} from '../../../../../packages/shared/src/types/locationCode';
+} from '../src/types/locationCode';
 
 describe('LocationCode', () => {
     describe('バリデーション成功ケース', () => {

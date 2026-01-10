@@ -1,4 +1,4 @@
-import { validateRaceDistance } from '../../../../../packages/shared/src/types/raceDistance';
+import { validateRaceDistance } from '../src/types/raceDistance';
 
 /**
  * RaceDistanceのテスト

@@ -1,4 +1,4 @@
-import { validateRaceDateTime } from '../../../../../packages/shared/src/types/raceDateTime';
+import { validateRaceDateTime } from '../src/types/raceDateTime';
 
 /**
  * RaceDateTimeのテスト
