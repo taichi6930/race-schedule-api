@@ -2,6 +2,10 @@ import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { Logger } from '../../../packages/shared/src/utilities/logger';
+import type {
+    FailureDetail,
+    UpsertResult,
+} from '../../../packages/shared/src/utilities/upsertResult';
 import { HeldDayData } from '../../domain/heldDayData';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { RaceData } from '../../domain/raceData';
@@ -12,7 +16,6 @@ import {
     RACE_TYPE_LIST_MECHANICAL_RACING,
     validateRaceType,
 } from '../../utility/raceType';
-import type { FailureDetail, UpsertResult } from '../../utility/upsertResult';
 import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';

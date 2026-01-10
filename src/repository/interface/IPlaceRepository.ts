@@ -1,4 +1,4 @@
-import type { UpsertResult } from '../../utility/upsertResult';
+import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import type { OldSearchPlaceFilterEntity } from '../entity/filter/oldSearchPlaceFilterEntity';
 import type { PlaceEntity } from '../entity/placeEntity';
 

@@ -1,12 +1,12 @@
 import { inject, injectable } from 'tsyringe';
 
 import { Logger } from '../../../packages/shared/src/utilities/logger';
+import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
-import type { UpsertResult } from '../../utility/upsertResult';
 import { IOldRaceService } from '../interface/IOldRaceService';
 
 @injectable()

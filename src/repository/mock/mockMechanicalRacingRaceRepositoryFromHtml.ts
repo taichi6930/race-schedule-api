@@ -1,7 +1,7 @@
 import { RaceType } from '../../../packages/shared/src/types/raceType';
+import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import { baseRacePlayerDataList } from '../../../test/unittest/src/mock/common/baseCommonData';
 import { RaceData } from '../../domain/raceData';
-import type { UpsertResult } from '../../utility/upsertResult';
 import type { RaceStage } from '../../utility/validateAndType/raceStage';
 import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import type { PlaceEntity } from '../entity/placeEntity';

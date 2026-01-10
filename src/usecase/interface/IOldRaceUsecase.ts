@@ -1,6 +1,6 @@
+import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import type { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
-import type { UpsertResult } from '../../utility/upsertResult';
 
 export interface IOldRaceUseCase {
     /**

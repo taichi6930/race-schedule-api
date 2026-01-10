@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { OldSearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/oldSearchPlaceFilterEntity';
-import { SearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/searchPlaceFilterEntity';
 import { OldPlaceUseCase } from '../../../../src/usecase/implement/oldPlaceUsecase';
 import type { IOldPlaceUseCase } from '../../../../src/usecase/interface/IOldPlaceUsecase';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';
@@ -39,7 +38,7 @@ describe('PlaceUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const searchPlaceFilter = new SearchPlaceFilterEntity(
+            const searchPlaceFilter = new OldSearchPlaceFilterEntity(
                 startDate,
                 finishDate,
                 testRaceTypeListAll,

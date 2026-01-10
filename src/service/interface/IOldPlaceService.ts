@@ -1,7 +1,7 @@
+import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import type { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
 import type { PlaceEntity } from '../../repository/entity/placeEntity';
 import type { DataLocationType } from '../../utility/dataType';
-import type { UpsertResult } from '../../utility/upsertResult';
 
 export interface IOldPlaceService {
     /**
