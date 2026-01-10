@@ -1,5 +1,6 @@
 import { RaceType } from '../../../../../packages/shared/src/types/raceType';
-import { CalendarData } from '../../../../../src/domain/calendarData';
+import type { CalendarDataDto } from '../../../../../src/domain/calendarData';
+import { validateCalendarData } from '../../../../../src/domain/calendarData';
 import { HeldDayData } from '../../../../../src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceConditionData';
 import { PlaceData } from '../../../../../src/domain/placeData';
@@ -82,16 +83,16 @@ export const baseRaceEntity = (raceType: RaceType): RaceEntity =>
         baseRacePlayerDataList(raceType),
     );
 
-export const baseCalendarData = (raceType: RaceType): CalendarData =>
-    CalendarData.create(
-        'test202412220611',
+export const baseCalendarData = (raceType: RaceType): CalendarDataDto =>
+    validateCalendarData({
+        id: 'test202412220611',
         raceType,
-        defaultRaceName[raceType],
-        '2024-12-22T15:40:00Z',
-        '2024-12-22T15:50:00Z',
-        createLocationString(raceType, defaultLocation[raceType]),
-        'テスト',
-    );
+        title: defaultRaceName[raceType],
+        startTime: '2024-12-22T15:40:00Z',
+        endTime: '2024-12-22T15:50:00Z',
+        location: createLocationString(raceType, defaultLocation[raceType]),
+        description: 'テスト',
+    });
 
 export const baseCalendarDataFromGoogleCalendar = (
     raceType: RaceType,

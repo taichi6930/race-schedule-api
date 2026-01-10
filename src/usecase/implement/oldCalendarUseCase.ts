@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
-import { CalendarData } from '../../domain/calendarData';
+import type { CalendarDataDto } from '../../domain/calendarData';
 import { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
@@ -35,7 +35,7 @@ export class OldCalendarUseCase implements IOldCalendarUseCase {
     @Logger
     public async fetchCalendarRaceList(
         searchCalendarFilter: OldSearchCalendarFilterEntity,
-    ): Promise<CalendarData[]> {
+    ): Promise<CalendarDataDto[]> {
         return this.calendarService.fetchEvents(searchCalendarFilter);
     }
 
@@ -114,14 +114,14 @@ export class OldCalendarUseCase implements IOldCalendarUseCase {
         ];
 
         // カレンダーの取得を行う
-        const calendarDataList: CalendarData[] =
+        const calendarDataList: CalendarDataDto[] =
             await this.calendarService.fetchEvents(searchCalendarFilter);
 
         const deleteCalendarDataList = Object.fromEntries(
             RACE_TYPE_LIST_ALL.map((raceType) => [
                 raceType,
                 calendarDataList.filter(
-                    (calendarData: CalendarData) =>
+                    (calendarData: CalendarDataDto) =>
                         isIncludedRaceType(calendarData.raceType, [raceType]) &&
                         !filteredRaceEntityList
                             .filter((raceEntity) =>
@@ -158,7 +158,7 @@ export class OldCalendarUseCase implements IOldCalendarUseCase {
                             !deleteCalendarDataList[
                                 raceType as keyof typeof deleteCalendarDataList
                             ].some(
-                                (deleteCalendarData: CalendarData) =>
+                                (deleteCalendarData: CalendarDataDto) =>
                                     deleteCalendarData.id === raceEntity.id &&
                                     isIncludedRaceType(
                                         deleteCalendarData.raceType,

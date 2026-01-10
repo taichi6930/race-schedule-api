@@ -51,13 +51,6 @@ export const createNetkeirinRaceShutubaUrl = (raceId: string): string =>
 export const createNetkeibaRedirectUrl = (url: string): string =>
     `https://netkeiba.page.link/?link=${encodeURIComponent(url)}`;
 
-/**
- * netkeirinのリダイレクトURLを生成する関数
- * @param url
- */
-export const createNetkeirinRedirectUrl = (url: string): string =>
-    `https://netkeirin.page.link/?link=${encodeURIComponent(url)}`;
-
 export const createPlaceUrl = (raceType: RaceType, date: Date): string => {
     switch (raceType) {
         case RaceType.JRA: {

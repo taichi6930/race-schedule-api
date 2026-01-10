@@ -1,4 +1,4 @@
-import type { CalendarData } from '../../domain/calendarData';
+import type { CalendarDataDto } from '../../domain/calendarData';
 import type { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
 
@@ -10,7 +10,7 @@ export interface IOldCalendarService {
      */
     fetchEvents: (
         searchCalendarFilter: OldSearchCalendarFilterEntity,
-    ) => Promise<CalendarData[]>;
+    ) => Promise<CalendarDataDto[]>;
 
     /**
      * レース情報をカレンダーイベントとして登録・更新
@@ -22,5 +22,5 @@ export interface IOldCalendarService {
      * 指定したカレンダーイベントを削除
      * @param calendarDataList - 削除するカレンダーイベント配列
      */
-    deleteEventList: (calendarDataList: CalendarData[]) => Promise<void>;
+    deleteEventList: (calendarDataList: CalendarDataDto[]) => Promise<void>;
 }
