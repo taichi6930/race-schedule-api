@@ -2,15 +2,15 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import type { IGoogleCalendarGateway } from '../packages/api/src/gateway/interface/iGoogleCalendarGateway';
 import { DBGateway } from './gateway/implement/dbGateway';
 import { OldGoogleCalendarGateway } from './gateway/implement/oldGoogleCalendarGateway';
 import { PlaceDataHtmlGateway } from './gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGateway } from './gateway/implement/raceDataHtmlGateway';
 import type { IDBGateway } from './gateway/interface/iDbGateway';
-import type { IOldGoogleCalendarGateway } from './gateway/interface/iOldCalendarGateway';
 import type { IPlaceDataHtmlGateway } from './gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
-import { GoogleCalendarRepository } from './repository/implement/googleCalendarRepository';
+import { OldGoogleCalendarRepository } from './repository/implement/oldGoogleCalendarRepository';
 import { PlaceRepositoryFromHtml } from './repository/implement/placeRepositoryFromHtml';
 import { PlaceRepositoryFromStorage } from './repository/implement/placeRepositoryFromStorage';
 import { PlayerRepository } from './repository/implement/playerRepository';
@@ -77,11 +77,11 @@ container.register<IOldPlaceService>('PlaceService', {
 container.register<IOldPlaceUseCase>('PlaceUsecase', {
     useClass: OldPlaceUseCase,
 });
-container.register<IOldGoogleCalendarGateway>('GoogleCalendarGateway', {
+container.register<IGoogleCalendarGateway>('GoogleCalendarGateway', {
     useClass: OldGoogleCalendarGateway,
 });
 container.register<ICalendarRepository>('CalendarRepository', {
-    useClass: GoogleCalendarRepository,
+    useClass: OldGoogleCalendarRepository,
 });
 container.register<IOldCalendarService>('CalendarService', {
     useClass: OldCalendarService,
