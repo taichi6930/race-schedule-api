@@ -1,4 +1,4 @@
-import { validateRaceNumber } from '../../../../../src/utility/validateAndType/raceNumber';
+import { validateRaceNumber } from '../../../../../packages/shared/src/types/raceNumber';
 
 /**
  * RaceNumberのテスト
