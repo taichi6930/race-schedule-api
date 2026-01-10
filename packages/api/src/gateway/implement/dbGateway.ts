@@ -1,4 +1,5 @@
 import { EnvStore } from '@race-schedule/shared/src/utilities/envStore';
+import { Logger } from '@race-schedule/shared/src/utilities/logger';
 
 import type { IDBGateway } from '../interface/IDBGateway';
 
@@ -7,10 +8,11 @@ import type { IDBGateway } from '../interface/IDBGateway';
  */
 export class DBGateway implements IDBGateway {
     /**
-     * クエリを実行し、すべての行を返す
+     * クエリを実行し、全ての行を返す
      * @param sql - SQL文字列
      * @param params - バインドパラメータ
      */
+    @Logger
     public async queryAll(
         sql: string,
         params: any[],
@@ -25,6 +27,7 @@ export class DBGateway implements IDBGateway {
      * @param sql - SQL文字列
      * @param params - バインドパラメータ
      */
+    @Logger
     public async run(sql: string, params: any[]): Promise<any> {
         return EnvStore.env.DB.prepare(sql)
             .bind(...params)
