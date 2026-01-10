@@ -1,5 +1,5 @@
 
--- place_master テーブル作成
+-- 開催場マスター情報テーブル
 CREATE TABLE IF NOT EXISTS place_master (
 	race_type TEXT NOT NULL,         -- レース種別
 	course_code_type TEXT NOT NULL,  -- コースコード種別
@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS place_master (
 	PRIMARY KEY (race_type, course_code_type, place_name)
 );
 
+-- updated_at自動更新トリガー（レコード更新時に自動で更新日時を変更）
 CREATE TRIGGER IF NOT EXISTS trg_place_master_updated_at
 AFTER UPDATE ON place_master
 FOR EACH ROW
