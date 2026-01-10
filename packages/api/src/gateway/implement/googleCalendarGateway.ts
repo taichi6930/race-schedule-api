@@ -115,4 +115,65 @@ export class GoogleCalendarGateway implements IGoogleCalendarGateway {
             resolve(calendarId);
         });
     }
+
+    @Logger
+    public async updateCalendarData(
+        raceType: RaceType,
+        calendarData: calendar_v3.Schema$Event,
+    ): Promise<void> {
+        this.ensureInitialized();
+        if (!calendarData.id) {
+            throw new Error('eventId (id) is required for update');
+        }
+        try {
+            const calendarId = await this.getCalendarId(raceType, EnvStore.env);
+            await this.calendar?.events.update({
+                calendarId,
+                eventId: calendarData.id,
+                requestBody: calendarData,
+            });
+        } catch (error) {
+            throw new Error(
+                createErrorMessage('Failed to update calendar event', error),
+            );
+        }
+    }
+
+    @Logger
+    public async insertCalendarData(
+        raceType: RaceType,
+        calendarData: calendar_v3.Schema$Event,
+    ): Promise<void> {
+        this.ensureInitialized();
+        try {
+            const calendarId = await this.getCalendarId(raceType, EnvStore.env);
+            await this.calendar?.events.insert({
+                calendarId,
+                requestBody: calendarData,
+            });
+        } catch (error) {
+            throw new Error(
+                createErrorMessage('Failed to insert calendar event', error),
+            );
+        }
+    }
+
+    @Logger
+    public async deleteCalendarData(
+        raceType: RaceType,
+        eventId: string,
+    ): Promise<void> {
+        this.ensureInitialized();
+        try {
+            const calendarId = await this.getCalendarId(raceType, EnvStore.env);
+            await this.calendar?.events.delete({
+                calendarId,
+                eventId,
+            });
+        } catch (error) {
+            throw new Error(
+                createErrorMessage('Failed to delete calendar event', error),
+            );
+        }
+    }
 }

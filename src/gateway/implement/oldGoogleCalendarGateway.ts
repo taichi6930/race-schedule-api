@@ -1,14 +1,14 @@
 import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
 
+import { IGoogleCalendarGateway } from '../../../packages/api/src/gateway/interface/iGoogleCalendarGateway';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { createErrorMessage } from '../../../packages/shared/src/utilities/error';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { OldCloudFlareEnv } from '../../utility/oldCloudFlareEnv';
 import { OldEnvStore } from '../../utility/oldEnvStore';
-import { IOldGoogleCalendarGateway } from '../interface/iOldCalendarGateway';
 
-export class OldGoogleCalendarGateway implements IOldGoogleCalendarGateway {
+export class OldGoogleCalendarGateway implements IGoogleCalendarGateway {
     private calendar: calendar_v3.Calendar;
 
     public constructor() {

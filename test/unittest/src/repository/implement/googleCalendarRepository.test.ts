@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { OldSearchCalendarFilterEntity } from '../../../../../src/repository/entity/filter/oldSearchCalendarFilterEntity';
-import { GoogleCalendarRepository } from '../../../../../src/repository/implement/googleCalendarRepository';
+import { OldGoogleCalendarRepository } from '../../../../../src/repository/implement/oldGoogleCalendarRepository';
 import type { ICalendarRepository } from '../../../../../src/repository/interface/ICalendarRepository';
 import type { TestGatewaySetup } from '../../../../utility/testSetupHelper';
 import {
@@ -25,7 +25,7 @@ describe('GoogleCalendarRepository', () => {
 
     beforeEach(() => {
         gatewaySetup = setupTestGatewayMock();
-        repository = container.resolve(GoogleCalendarRepository);
+        repository = container.resolve(OldGoogleCalendarRepository);
     });
 
     afterEach(() => {

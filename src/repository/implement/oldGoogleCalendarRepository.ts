@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import type { CalendarDataDto } from '../../../packages/api/src/domain/calendarData';
+import { IGoogleCalendarGateway } from '../../../packages/api/src/gateway/interface/iGoogleCalendarGateway';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
-import { IOldGoogleCalendarGateway } from '../../gateway/interface/iOldCalendarGateway';
 import {
     fromGoogleCalendarDataToCalendarData,
     toGoogleCalendarData,
@@ -17,10 +17,10 @@ import { ICalendarRepository } from '../interface/ICalendarRepository';
  * Googleカレンダーリポジトリの実装
  */
 @injectable()
-export class GoogleCalendarRepository implements ICalendarRepository {
+export class OldGoogleCalendarRepository implements ICalendarRepository {
     public constructor(
         @inject('GoogleCalendarGateway')
-        protected readonly googleCalendarGateway: IOldGoogleCalendarGateway,
+        protected readonly googleCalendarGateway: IGoogleCalendarGateway,
     ) {}
 
     /**

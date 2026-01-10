@@ -1,7 +1,7 @@
 import { injectable } from 'tsyringe';
 
 import { Logger } from '../../../packages/shared/src/utilities/logger';
-import { OldEnvStore } from '../../utility/oldEnvStore';
+import { OldEnvStore as EnvStore } from '../../utility/oldEnvStore';
 import type { IDBGateway } from '../interface/iDbGateway';
 
 /**
@@ -10,7 +10,7 @@ import type { IDBGateway } from '../interface/iDbGateway';
 @injectable()
 export class DBGateway implements IDBGateway {
     /**
-     * クエリを実行して全ての行を返します。
+     * クエリを実行し、すべての行を返す
      * @param sql - SQL文字列
      * @param params - バインドパラメータ
      */
@@ -19,19 +19,19 @@ export class DBGateway implements IDBGateway {
         sql: string,
         params: any[],
     ): Promise<{ results: any[] }> {
-        return OldEnvStore.env.DB.prepare(sql)
+        return EnvStore.env.DB.prepare(sql)
             .bind(...params)
             .all();
     }
 
     /**
-     * 行を返さないステートメントを実行します。
+     * 行を返さないステートメントを実行する
      * @param sql - SQL文字列
      * @param params - バインドパラメータ
      */
     @Logger
     public async run(sql: string, params: any[]): Promise<any> {
-        return OldEnvStore.env.DB.prepare(sql)
+        return EnvStore.env.DB.prepare(sql)
             .bind(...params)
             .run();
     }
