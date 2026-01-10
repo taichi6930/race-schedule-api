@@ -16,17 +16,17 @@ name = "race-schedule-prod"
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "race_schedule_db_prod"
-database_id = "${CF_D1_PROD_DB_ID}"
+database_id = "853210d9-7b32-4895-9341-2918db1fc81f"
 migrations_dir = "../db/migrations"
 
 [env.test]
 # テスト環境用のワーカー名を明示
 name = "race-schedule-test"
 # ENVなどの値はGitHub Actionsのsecretで管理してください
-# 例: ENV = "${ENV}"
+# 例: ENV = ""
 
 [[env.test.d1_databases]]
 binding = "DB"
 database_name = "race_schedule_db_test"
-database_id = "${CF_D1_TEST_DB_ID}"
+database_id = "aa5941fc-bad2-4295-ab8f-907117925324"
 migrations_dir = "../db/migrations"
