@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import type { CalendarDataDto } from '../../../packages/api/src/domain/calendarData';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
-import type { CalendarDataDto } from '../../domain/calendarData';
 import { IOldGoogleCalendarGateway } from '../../gateway/interface/iOldCalendarGateway';
 import {
     fromGoogleCalendarDataToCalendarData,

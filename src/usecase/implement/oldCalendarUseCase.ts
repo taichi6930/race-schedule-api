@@ -2,9 +2,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { inject, injectable } from 'tsyringe';
 
+import type { CalendarDataDto } from '../../../packages/api/src/domain/calendarData';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
-import type { CalendarDataDto } from '../../domain/calendarData';
 import { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';

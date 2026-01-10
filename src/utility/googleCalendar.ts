@@ -1,12 +1,12 @@
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import { CourseCodeType } from '../../packages/shared/src/types/courseCodeType';
-import { RaceType } from '../../packages/shared/src/types/raceType';
 import {
     type CalendarDataDto,
     validateCalendarData,
-} from '../domain/calendarData';
+} from '../../packages/api/src/domain/calendarData';
+import { CourseCodeType } from '../../packages/shared/src/types/courseCodeType';
+import { RaceType } from '../../packages/shared/src/types/raceType';
 import type { RaceEntity } from '../repository/entity/raceEntity';
 import {
     createYoutubeLiveUrl,

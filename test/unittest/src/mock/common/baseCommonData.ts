@@ -1,6 +1,6 @@
+import type { CalendarDataDto } from '../../../../../packages/api/src/domain/calendarData';
+import { validateCalendarData } from '../../../../../packages/api/src/domain/calendarData';
 import { RaceType } from '../../../../../packages/shared/src/types/raceType';
-import type { CalendarDataDto } from '../../../../../src/domain/calendarData';
-import { validateCalendarData } from '../../../../../src/domain/calendarData';
 import { HeldDayData } from '../../../../../src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceConditionData';
 import { PlaceData } from '../../../../../src/domain/placeData';

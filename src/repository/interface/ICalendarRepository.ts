@@ -1,4 +1,4 @@
-import type { CalendarDataDto } from '../../domain/calendarData';
+import type { CalendarDataDto } from '../../../packages/api/src/domain/calendarData';
 import type { OldSearchCalendarFilterEntity } from '../entity/filter/oldSearchCalendarFilterEntity';
 import type { RaceEntity } from '../entity/raceEntity';
 
