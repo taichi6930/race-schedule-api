@@ -1,13 +1,13 @@
 import type { calendar_v3 } from 'googleapis';
 
+import type { IGoogleCalendarGateway } from '../../../packages/api/src/gateway/interface/iGoogleCalendarGateway';
 import type { RaceType } from '../../../packages/shared/src/types/raceType';
 import { allowedEnvs, ENV } from '../../utility/env';
-import type { IOldGoogleCalendarGateway } from '../interface/iOldCalendarGateway';
 
 /**
  * Googleカレンダーのモックサービス
  */
-export class MockGoogleCalendarGateway implements IOldGoogleCalendarGateway {
+export class MockGoogleCalendarGateway implements IGoogleCalendarGateway {
     public constructor() {
         this.setCalendarData();
     }

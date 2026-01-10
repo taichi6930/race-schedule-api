@@ -1,9 +1,9 @@
+import type { IGoogleCalendarGateway } from '../../../../../packages/api/src/gateway/interface/iGoogleCalendarGateway';
 import type { RaceType } from '../../../../../packages/shared/src/types/raceType';
-import type { IOldGoogleCalendarGateway } from '../../../../../src/gateway/interface/iOldCalendarGateway';
 import { baseCalendarDataFromGoogleCalendar } from '../common/baseCommonData';
 
 export const mockGoogleCalendarGateway =
-    (): jest.Mocked<IOldGoogleCalendarGateway> => {
+    (): jest.Mocked<IGoogleCalendarGateway> => {
         return {
             fetchCalendarDataList: jest
                 .fn()
