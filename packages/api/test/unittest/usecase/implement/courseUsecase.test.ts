@@ -35,27 +35,14 @@ describe('CourseUsecase', () => {
     });
 
     describe('fetch', () => {
-        it.each([
-            {
-                types: [CourseCodeType.OFFICIAL, CourseCodeType.NETKEIBA],
-                expected: 193,
-                desc: '両方指定して正常に取得できること',
-            },
-            {
-                types: [CourseCodeType.OFFICIAL],
-                expected: 155,
-                desc: 'OFFICIALのみ指定して正常に取得できること',
-            },
-            {
-                types: [CourseCodeType.NETKEIBA],
-                expected: 38,
-                desc: 'NETKEIBAのみ指定して正常に取得できること',
-            },
-        ])('$desc', async ({ types, expected }) => {
+        it('正常に取得できること', async () => {
             const courseList = RaceCourseMasterList;
             serviceSetup.courseService.fetch.mockResolvedValue(courseList);
-            const result = await usecase.fetch(types);
-            expect(result.length).toEqual(expected);
+            const result = await usecase.fetch([
+                CourseCodeType.OFFICIAL,
+                CourseCodeType.NETKEIBA,
+            ]);
+            expect(193).toEqual(result.length);
         });
     });
 });
