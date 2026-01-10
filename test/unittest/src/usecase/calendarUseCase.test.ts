@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import type { CalendarDataDto } from '../../../../packages/api/src/domain/calendarData';
 import { RaceType } from '../../../../packages/shared/src/types/raceType';
-import type { CalendarData } from '../../../../src/domain/calendarData';
 import { OldSearchCalendarFilterEntity } from '../../../../src/repository/entity/filter/oldSearchCalendarFilterEntity';
 import { OldCalendarUseCase } from '../../../../src/usecase/implement/oldCalendarUseCase';
 import type { IOldCalendarUseCase } from '../../../../src/usecase/interface/IOldCalendarUseCase';
@@ -61,13 +61,12 @@ describe('RaceCalendarUseCase', () => {
     });
 
     it('イベントが追加・削除されること（複数）', async () => {
-        const calendarDataList: CalendarData[] = testRaceTypeListAll.flatMap(
+        const calendarDataList: CalendarDataDto[] = testRaceTypeListAll.flatMap(
             (raceType) =>
-                Array.from({ length: 8 }, (_, i: number) =>
-                    baseCalendarData(raceType).copy({
-                        id: `${raceType.toLowerCase()}2024122920${toXDigits(i + 1, 2)}`,
-                    }),
-                ),
+                Array.from({ length: 8 }, (_, i: number) => ({
+                    ...baseCalendarData(raceType),
+                    id: `${raceType.toLowerCase()}2024122920${toXDigits(i + 1, 2)}`,
+                })),
         );
 
         const mockRaceEntityList = testRaceTypeListAll.flatMap((raceType) =>
@@ -80,11 +79,10 @@ describe('RaceCalendarUseCase', () => {
 
         const expectDeleteCalendarDataList = testRaceTypeListAll.flatMap(
             (raceType) =>
-                Array.from({ length: 3 }, (_, i: number) =>
-                    baseCalendarData(raceType).copy({
-                        id: `${raceType.toLowerCase()}2024122920${toXDigits(i + 6, 2)}`,
-                    }),
-                ),
+                Array.from({ length: 3 }, (_, i: number) => ({
+                    ...baseCalendarData(raceType),
+                    id: `${raceType.toLowerCase()}2024122920${toXDigits(i + 6, 2)}`,
+                })),
         );
         const expectRaceEntityList = mockRaceEntityList;
 

@@ -1,5 +1,5 @@
+import type { CalendarDataDto } from '../../../packages/api/src/domain/calendarData';
 import type { RaceType } from '../../../packages/shared/src/types/raceType';
-import type { CalendarData } from '../../domain/calendarData';
 import type { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import type { GradeType } from '../../utility/validateAndType/gradeType';
 
@@ -10,7 +10,7 @@ export interface IOldCalendarUseCase {
      */
     fetchCalendarRaceList: (
         searchCalendarFilter: OldSearchCalendarFilterEntity,
-    ) => Promise<CalendarData[]>;
+    ) => Promise<CalendarDataDto[]>;
 
     /**
      * カレンダーの更新を行う

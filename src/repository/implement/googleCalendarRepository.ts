@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import type { CalendarDataDto } from '../../../packages/api/src/domain/calendarData';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
-import { CalendarData } from '../../domain/calendarData';
 import { IOldGoogleCalendarGateway } from '../../gateway/interface/iOldCalendarGateway';
 import {
     fromGoogleCalendarDataToCalendarData,
@@ -29,8 +29,8 @@ export class GoogleCalendarRepository implements ICalendarRepository {
     @Logger
     public async fetchEventList(
         searchFilter: OldSearchCalendarFilterEntity,
-    ): Promise<CalendarData[]> {
-        const calendarDataList: CalendarData[] = [];
+    ): Promise<CalendarDataDto[]> {
+        const calendarDataList: CalendarDataDto[] = [];
         const { startDate, finishDate, raceTypeList } = searchFilter;
         for (const raceType of raceTypeList) {
             // GoogleカレンダーAPIからイベントを取得
@@ -113,7 +113,7 @@ export class GoogleCalendarRepository implements ICalendarRepository {
      */
     @Logger
     public async deleteEventList(
-        calendarDataList: CalendarData[],
+        calendarDataList: CalendarDataDto[],
     ): Promise<void> {
         await Promise.all(
             calendarDataList.map(async (calendarData) => {

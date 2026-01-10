@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import type { CalendarDataDto } from '../../../packages/api/src/domain/calendarData';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
-import { CalendarData } from '../../domain/calendarData';
 import { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
@@ -29,7 +29,7 @@ export class OldCalendarService implements IOldCalendarService {
     @Logger
     public async fetchEvents(
         searchCalendarFilter: OldSearchCalendarFilterEntity,
-    ): Promise<CalendarData[]> {
+    ): Promise<CalendarDataDto[]> {
         return this.calendarRepository.fetchEventList(searchCalendarFilter);
     }
 
@@ -48,7 +48,7 @@ export class OldCalendarService implements IOldCalendarService {
      */
     @Logger
     public async deleteEventList(
-        calendarDataList: CalendarData[],
+        calendarDataList: CalendarDataDto[],
     ): Promise<void> {
         await this.calendarRepository.deleteEventList(calendarDataList);
     }

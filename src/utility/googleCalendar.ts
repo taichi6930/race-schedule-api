@@ -1,9 +1,12 @@
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
+import {
+    type CalendarDataDto,
+    validateCalendarData,
+} from '../../packages/api/src/domain/calendarData';
 import { CourseCodeType } from '../../packages/shared/src/types/courseCodeType';
 import { RaceType } from '../../packages/shared/src/types/raceType';
-import { CalendarData } from '../domain/calendarData';
 import type { RaceEntity } from '../repository/entity/raceEntity';
 import {
     createYoutubeLiveUrl,
@@ -17,7 +20,6 @@ import {
     createNetkeibaNarShutubaUrl,
     createNetkeibaRedirectUrl,
     createNetkeirinRaceShutubaUrl,
-    createNetkeirinRedirectUrl,
 } from './data/url';
 import { getJSTDate } from './date';
 import {
@@ -220,9 +222,7 @@ export const toGoogleCalendarData = (
                 return `${raceTimeStr}
                     ${createAnchorTag(
                         'レース情報（netkeirin）',
-                        createNetkeirinRedirectUrl(
-                            createNetkeirinRaceShutubaUrl(raceIdForNetkeirin),
-                        ),
+                        createNetkeirinRaceShutubaUrl(raceIdForNetkeirin),
                     )}
                     ${createAnchorTag('レース映像（公式YouTube）', createYoutubeLiveUrl(KeirinYoutubeUserIdMap[raceEntity.raceData.location]))}
                     ${showPeChannel ? `\n${createAnchorTag('レース映像（ぺーちゃんねる）', createYoutubeLiveUrl('加藤慎平のぺーちゃんねる'))}` : ''}
@@ -307,13 +307,13 @@ export const toGoogleCalendarData = (
 export const fromGoogleCalendarDataToCalendarData = (
     raceType: RaceType,
     event: calendar_v3.Schema$Event,
-): CalendarData =>
-    CalendarData.create(
-        event.id,
+): CalendarDataDto =>
+    validateCalendarData({
+        id: event.id ?? '',
         raceType,
-        event.summary,
-        event.start?.dateTime,
-        event.end?.dateTime,
-        event.location,
-        event.description,
-    );
+        title: event.summary ?? '',
+        startTime: event.start?.dateTime ?? '',
+        endTime: event.end?.dateTime ?? '',
+        location: event.location ?? '',
+        description: event.description ?? '',
+    });
