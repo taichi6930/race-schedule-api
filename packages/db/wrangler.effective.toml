@@ -16,7 +16,7 @@ migrations_dir = "./migrations"
 [[env.test.d1_databases]]
 binding = "DB"
 database_name = "race_schedule_db_test"
-database_id = "${CF_D1_TEST_DB_ID}"
+database_id = "aa5941fc-bad2-4295-ab8f-907117925324"
 migrations_dir = "./migrations"
 
 # Production Environment
@@ -24,5 +24,5 @@ migrations_dir = "./migrations"
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "race_schedule_db_prod"
-database_id = "${CF_D1_PROD_DB_ID}"
+database_id = "853210d9-7b32-4895-9341-2918db1fc81f"
 migrations_dir = "./migrations"

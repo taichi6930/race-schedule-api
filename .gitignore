@@ -1,3 +1,4 @@
+packages/db/script/*
 *.js
 !jest.config.js
 !jest.setup.js
