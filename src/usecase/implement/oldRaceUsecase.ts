@@ -1,13 +1,13 @@
 import { inject, injectable } from 'tsyringe';
 
 import { Logger } from '../../../packages/shared/src/utilities/logger';
+import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IOldPlaceService } from '../../service/interface/IOldPlaceService';
 import { IOldRaceService } from '../../service/interface/IOldRaceService';
 import { DataLocation } from '../../utility/dataType';
-import type { UpsertResult } from '../../utility/upsertResult';
 import { IOldRaceUseCase } from '../interface/IOldRaceUsecase';
 @injectable()
 export class OldRaceUseCase implements IOldRaceUseCase {

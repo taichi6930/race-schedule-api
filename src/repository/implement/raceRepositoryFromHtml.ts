@@ -5,6 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { RaceSurfaceType } from '../../../packages/shared/src/types/surfaceType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
+import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { PlaceData } from '../../domain/placeData';
 import { RaceData } from '../../domain/raceData';
@@ -21,7 +22,6 @@ import {
     isIncludedRaceType,
     RACE_TYPE_LIST_HORSE_RACING,
 } from '../../utility/raceType';
-import type { UpsertResult } from '../../utility/upsertResult';
 import {
     GradeType,
     validateGradeType,

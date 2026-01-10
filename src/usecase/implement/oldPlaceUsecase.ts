@@ -1,12 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 
 import { Logger } from '../../../packages/shared/src/utilities/logger';
+import { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
-import type { SearchPlaceFilterEntity } from '../../repository/entity/filter/searchPlaceFilterEntity';
 import { PlaceEntity } from '../../repository/entity/placeEntity';
 import { IOldPlaceService } from '../../service/interface/IOldPlaceService';
 import { DataLocation } from '../../utility/dataType';
-import { UpsertResult } from '../../utility/upsertResult';
 import { IOldPlaceUseCase } from '../interface/IOldPlaceUsecase';
 
 /**
@@ -25,7 +24,7 @@ export class OldPlaceUseCase implements IOldPlaceUseCase {
      */
     @Logger
     public async fetchPlaceEntityList(
-        searchPlaceFilter: SearchPlaceFilterEntity,
+        searchPlaceFilter: OldSearchPlaceFilterEntity,
     ): Promise<PlaceEntity[]> {
         return this.placeService.fetchPlaceEntityList(
             searchPlaceFilter,

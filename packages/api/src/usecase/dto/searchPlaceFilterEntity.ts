@@ -1,5 +1,4 @@
-import type { RaceType } from '../../../../packages/shared/src/types/raceType';
-import type { RaceCourse } from '../../../utility/validateAndType/raceCourse';
+import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 
 /**
  * レース開催場所の検索フィルター
@@ -11,13 +10,11 @@ import type { RaceCourse } from '../../../utility/validateAndType/raceCourse';
  * @property startDate - 検索開始日
  * @property finishDate - 検索終了日
  * @property raceTypeList - レース種別リスト
- * @property locationList - 開催場所リスト
  */
 export class SearchPlaceFilterEntity {
     public constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,
         public readonly raceTypeList: RaceType[],
-        public readonly locationList: RaceCourse[],
     ) {}
 }

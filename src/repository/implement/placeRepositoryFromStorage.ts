@@ -3,6 +3,10 @@ import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
+import {
+    FailureDetail,
+    UpsertResult,
+} from '../../../packages/shared/src/utilities/upsertResult';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import type { IDBGateway } from '../../gateway/interface/iDbGateway';
@@ -10,7 +14,6 @@ import {
     isIncludedRaceType,
     RACE_TYPE_LIST_MECHANICAL_RACING,
 } from '../../utility/raceType';
-import { FailureDetail, UpsertResult } from '../../utility/upsertResult';
 import { PlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
 import { OldSearchPlaceFilterEntity } from './../entity/filter/oldSearchPlaceFilterEntity';
