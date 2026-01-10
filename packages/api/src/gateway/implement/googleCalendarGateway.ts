@@ -19,10 +19,13 @@ export class GoogleCalendarGateway implements IGoogleCalendarGateway {
         }
         const client_email = EnvStore.env.GOOGLE_CLIENT_EMAIL;
         // Cloudflare環境変数は\nで渡されることが多いので、\n→\n変換
-        const private_key = EnvStore.env.GOOGLE_PRIVATE_KEY.replace(
-            /\\n/g,
-            '\n',
-        );
+        const rawPrivateKey = EnvStore.env.GOOGLE_PRIVATE_KEY;
+        if (!rawPrivateKey) {
+            throw new Error(
+                'GOOGLE_PRIVATE_KEY is not set in environment variables',
+            );
+        }
+        const private_key = rawPrivateKey.replace(/\\n/g, '\n');
         const auth = new google.auth.GoogleAuth({
             credentials: {
                 client_email,
