@@ -1,4 +1,4 @@
-import { validateRaceDistance } from '../../../../../src/utility/validateAndType/raceDistance';
+import { validateRaceDistance } from '../src/types/raceDistance';
 
 /**
  * RaceDistanceのテスト

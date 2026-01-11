@@ -1,7 +1,7 @@
+import type { RaceDistance } from '../../packages/shared/src/types/raceDistance';
+import { validateRaceDistance } from '../../packages/shared/src/types/raceDistance';
 import type { RaceSurfaceType } from '../../packages/shared/src/types/surfaceType';
 import { validateRaceSurfaceType } from '../../packages/shared/src/types/surfaceType';
-import type { RaceDistance } from '../utility/validateAndType/raceDistance';
-import { validateRaceDistance } from '../utility/validateAndType/raceDistance';
 
 export class HorseRaceConditionData {
     /**
