@@ -2,12 +2,15 @@ import { format } from 'date-fns';
 import { z } from 'zod';
 
 import { CourseCodeType } from '../../../packages/shared/src/types/courseCodeType';
+import {
+    type PositionNumber,
+    validatePositionNumber,
+} from '../../../packages/shared/src/types/positionNumber';
+import { validateRaceNumber } from '../../../packages/shared/src/types/raceNumber';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { toXDigits } from '../format';
 import { isIncludedRaceType } from '../raceType';
-import { type PositionNumber, validatePositionNumber } from './positionNumber';
 import { createPlaceCode, type RaceCourse } from './raceCourse';
-import { validateRaceNumber } from './raceNumber';
 
 /**
  * 共通のIDスキーマ生成ヘルパー

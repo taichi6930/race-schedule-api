@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { validateRaceDistance } from '../../../packages/shared/src/types/raceDistance';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { RaceSurfaceType } from '../../../packages/shared/src/types/surfaceType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
@@ -30,7 +31,6 @@ import {
     RaceCourse,
     validateRaceCourse,
 } from '../../utility/validateAndType/raceCourse';
-import { validateRaceDistance } from '../../utility/validateAndType/raceDistance';
 import { RaceStage, StageMap } from '../../utility/validateAndType/raceStage';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { PlaceEntity } from '../entity/placeEntity';

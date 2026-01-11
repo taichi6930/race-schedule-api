@@ -1,5 +1,6 @@
-import { validateRaceNumber } from '../../../../../src/utility/validateAndType/raceNumber';
+import { validateRaceNumber } from '../src/types/raceNumber';
 
+import { describe, expect, it } from 'vitest';
 /**
  * RaceNumberのテスト
  */

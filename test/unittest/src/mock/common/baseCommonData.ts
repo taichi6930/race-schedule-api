@@ -1,5 +1,6 @@
 import type { CalendarDataDto } from '../../../../../packages/api/src/domain/calendarData';
 import { validateCalendarData } from '../../../../../packages/api/src/domain/calendarData';
+import { maxFrameNumber } from '../../../../../packages/shared/src/types/positionNumber';
 import { RaceType } from '../../../../../packages/shared/src/types/raceType';
 import { HeldDayData } from '../../../../../src/domain/heldDayData';
 import { HorseRaceConditionData } from '../../../../../src/domain/houseRaceConditionData';
@@ -16,7 +17,6 @@ import {
     RACE_TYPE_LIST_HORSE_RACING,
     RACE_TYPE_LIST_MECHANICAL_RACING,
 } from '../../../../../src/utility/raceType';
-import { maxFrameNumber } from '../../../../../src/utility/validateAndType/positionNumber';
 
 /**
  * 基本的なレースプレイヤーデータのリストを生成します。

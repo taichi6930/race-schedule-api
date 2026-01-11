@@ -1,10 +1,10 @@
+import type { RaceDateTime } from '../../packages/shared/src/types/raceDateTime';
+import type { RaceDistance } from '../../packages/shared/src/types/raceDistance';
+import type { RaceName } from '../../packages/shared/src/types/raceName';
 import type { RaceSurfaceType } from '../../packages/shared/src/types/surfaceType';
 import { replaceFromCodePoint } from './format';
 import type { GradeType } from './validateAndType/gradeType';
 import type { RaceCourse } from './validateAndType/raceCourse';
-import type { RaceDateTime } from './validateAndType/raceDateTime';
-import type { RaceDistance } from './validateAndType/raceDistance';
-import type { RaceName } from './validateAndType/raceName';
 
 interface JraRaceDataForRaceName {
     name: RaceName;
