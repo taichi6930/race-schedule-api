@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 
+import { RaceType } from '@race-schedule/shared';
 import type { PlaceDisplayDto } from '@race-schedule/shared/src/dto/placeDisplayDto';
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
 import { inject, injectable } from 'tsyringe';
@@ -44,8 +45,6 @@ export class PlaceController {
                 );
             }
             // raceTypeListの妥当性チェック
-            const { RaceType } =
-                await import('@race-schedule/shared/src/types/raceType');
             const raceTypeList = raceTypeListRaw
                 .split(',')
                 .filter((v): v is (typeof RaceType)[keyof typeof RaceType] =>
