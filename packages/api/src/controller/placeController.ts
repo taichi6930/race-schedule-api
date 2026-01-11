@@ -6,13 +6,13 @@ import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
 import type { SearchPlaceFilterParams } from '../types/searchPlaceFilter';
-import type { IPlaceUseCase } from '../usecase/interface/IPlaceUsecase';
+import type { IPlaceUsecase } from '../usecase/interface/IPlaceUsecase';
 
 @injectable()
 export class PlaceController {
     public constructor(
         @inject('PlaceUsecase')
-        private readonly usecase: IPlaceUseCase,
+        private readonly usecase: IPlaceUsecase,
     ) {}
 
     /**
