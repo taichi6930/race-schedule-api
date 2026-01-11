@@ -1,5 +1,6 @@
 import { validateRaceSurfaceType } from '../src/types/surfaceType';
 
+import { describe, expect, it } from 'vitest';
 /**
  * RaceSurfaceTypeのテスト
  */

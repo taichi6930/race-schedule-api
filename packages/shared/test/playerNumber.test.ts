@@ -1,5 +1,6 @@
 import { validatePlayerNumber } from '../src/types/playerNumber';
 
+import { describe, expect, it } from 'vitest';
 /**
  * PlayerNumberのテスト
  */

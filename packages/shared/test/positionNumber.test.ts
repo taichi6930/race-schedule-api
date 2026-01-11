@@ -4,6 +4,11 @@ import { validatePositionNumber } from '../src/types/positionNumber';
 /**
  * PositionNumberのテスト
  */
+import { describe, expect, it } from 'vitest';
+
+/**
+ * PositionNumberのテスト
+ */
 describe.each(testRaceTypeListAll)('PositionNumber(%s)', (raceType) => {
     it(`正常系: 枠番が正常な場合(${raceType})`, () => {
         const positionNumber = 1;

@@ -1,19 +1,24 @@
+import { describe, expect, it } from 'vitest';
+// @ts-ignore: 型宣言が見つからない場合はtsconfigで型解決する
 import { validateHeldDayTimes } from '../src/types/heldDayTimes';
 
-/**
- * HeldDayTimesのテスト
- */
 describe('HeldDayTimes', () => {
-    it('正常系: レース番号が正常な場合', () => {
-        const raceNumber = 1;
-        const result = validateHeldDayTimes(raceNumber);
-        expect(result).toBe(raceNumber);
+    describe('正常系', () => {
+        it.each<number>([1, 5, 100])(
+            '開催日数: %s は正常',
+            (raceNumber: number) => {
+                expect(validateHeldDayTimes(raceNumber)).toBe(raceNumber);
+            },
+        );
     });
-
-    it('異常系: レース番号が異常な場合', () => {
-        const raceNumber = -1;
-        expect(() => validateHeldDayTimes(raceNumber)).toThrow(
-            '開催日数は1以上である必要があります',
+    describe('異常系', () => {
+        it.each<number>([0, -1, -100])(
+            '開催日数: %s はエラー',
+            (raceNumber: number) => {
+                expect(() => validateHeldDayTimes(raceNumber)).toThrow(
+                    '開催日数は1以上である必要があります',
+                );
+            },
         );
     });
 });

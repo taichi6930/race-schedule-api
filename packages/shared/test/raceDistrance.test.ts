@@ -1,5 +1,6 @@
 import { validateRaceDistance } from '../src/types/raceDistance';
 
+import { describe, expect, it } from 'vitest';
 /**
  * RaceDistanceのテスト
  */

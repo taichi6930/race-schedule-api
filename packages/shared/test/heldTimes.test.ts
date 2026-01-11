@@ -1,5 +1,6 @@
 import { validateHeldTimes } from '../src/types/heldTimes';
 
+import { describe, expect, it } from 'vitest';
 /**
  * HeldTimesのテスト
  */
