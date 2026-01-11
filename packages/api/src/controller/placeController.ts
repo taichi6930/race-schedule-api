@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 
-import { RaceType } from '@race-schedule/shared';
 import type { PlaceDisplayDto } from '@race-schedule/shared/src/dto/placeDisplayDto';
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
+import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
 import type { SearchPlaceFilterParams } from '../types/searchPlaceFilter';
