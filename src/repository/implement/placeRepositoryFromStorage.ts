@@ -1,6 +1,7 @@
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { IDBGateway } from '../../../packages/api/src/gateway/interface/IDBGateway';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import {
@@ -9,7 +10,6 @@ import {
 } from '../../../packages/shared/src/utilities/upsertResult';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
-import type { IDBGateway } from '../../gateway/interface/iDbGateway';
 import {
     isIncludedRaceType,
     RACE_TYPE_LIST_MECHANICAL_RACING,

@@ -1,8 +1,8 @@
 import { injectable } from 'tsyringe';
 
+import { IDBGateway } from '../../../packages/api/src/gateway/interface/IDBGateway';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { OldEnvStore as EnvStore } from '../../utility/oldEnvStore';
-import type { IDBGateway } from '../interface/iDbGateway';
 
 /**
  * D1データベースにアクセスするGateway
