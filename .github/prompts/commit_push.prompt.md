@@ -1,6 +1,7 @@
 # Commit & Push Prompt
 
 ## やってもらうこと（自動化フロー）
+
 基本はgitコマンドで行う。
 
 1. git branchをして、今の作業ブランチがmainブランチの場合は、必ず新しいfeatureブランチを作成して作業を始める。
