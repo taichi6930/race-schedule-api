@@ -14,7 +14,7 @@
         "db:shell:production": "wrangler d1 execute race_schedule_db_prod --remote --env production --config ./wrangler.toml"
     },
     "dependencies": {
-        "better-sqlite3": "12.5.0"
+        "better-sqlite3": "12.6.0"
     },
     "devDependencies": {
         "wrangler": "^4.58.0"
