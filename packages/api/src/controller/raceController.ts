@@ -1,27 +1,24 @@
 import 'reflect-metadata';
 
-import type { PlaceDisplayDto } from '@race-schedule/shared/src/dto/placeDisplayDto';
-import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
+import type { RaceEntity } from '@race-schedule/shared/src/entity/raceEntity';
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
-import type { SearchPlaceFilterParams } from '../types/searchPlaceFilter';
-import type { IPlaceUsecase } from '../usecase/interface/IPlaceUsecase';
+import type { SearchRaceFilterParams } from '../types/searchRaceFilter';
+import type { IRaceUsecase } from '../usecase/interface/IRaceUsecase';
 
 @injectable()
-export class PlaceController {
+export class RaceController {
     public constructor(
-        @inject('PlaceUsecase')
-        private readonly usecase: IPlaceUsecase,
+        @inject('RaceUsecase')
+        private readonly usecase: IRaceUsecase,
     ) {}
 
     /**
-     * 開催場一覧を取得するAPI
-     * GET /api/place?startDate=2026-01-01&finishDate=2026-01-02&raceTypeList=JRA
+     * レース一覧を取得するAPI
+     * GET race?startDate=2026-01-01&finishDate=2026-01-02&raceTypeList=JRA
      */
-    public async getPlaceList(
-        searchParams: URLSearchParams,
-    ): Promise<Response> {
+    public async getRaceList(searchParams: URLSearchParams): Promise<Response> {
         try {
             const startDate = searchParams.get('startDate');
             const finishDate = searchParams.get('finishDate');
@@ -76,24 +73,26 @@ export class PlaceController {
                     },
                 );
             }
-            const filter: SearchPlaceFilterParams = {
+            const filter: SearchRaceFilterParams = {
                 startDate: startDateObj,
                 finishDate: finishDateObj,
                 raceTypeList,
             };
             const data = await this.usecase.fetch(filter);
             // Entity→DTO変換（locationCodeを除外）
-            const places: PlaceDisplayDto[] = data.map((e: PlaceEntity) => ({
+            const races = data.map((e: RaceEntity) => ({
+                raceId: e.raceId,
                 placeId: e.placeId,
                 raceType: e.raceType,
                 datetime: e.datetime,
                 placeName: e.placeName,
+                raceNumber: e.raceNumber,
                 placeHeldDays: e.placeHeldDays,
             }));
             return Response.json(
                 {
-                    count: places.length,
-                    places,
+                    count: races.length,
+                    races,
                 },
                 {
                     headers: {
@@ -102,7 +101,7 @@ export class PlaceController {
                 },
             );
         } catch (error) {
-            console.error('Error in getPlaceList:', error);
+            console.error('Error in getRaceList:', error);
             return new Response('Internal Server Error', { status: 500 });
         }
     }

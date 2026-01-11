@@ -2,12 +2,12 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import type { IDBGateway } from '../packages/api/src/gateway/interface/IDBGateway';
 import type { IGoogleCalendarGateway } from '../packages/api/src/gateway/interface/iGoogleCalendarGateway';
 import { DBGateway } from './gateway/implement/dbGateway';
 import { OldGoogleCalendarGateway } from './gateway/implement/oldGoogleCalendarGateway';
 import { PlaceDataHtmlGateway } from './gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGateway } from './gateway/implement/raceDataHtmlGateway';
-import type { IDBGateway } from './gateway/interface/iDbGateway';
 import type { IPlaceDataHtmlGateway } from './gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
 import { OldGoogleCalendarRepository } from './repository/implement/oldGoogleCalendarRepository';

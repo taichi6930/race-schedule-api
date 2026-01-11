@@ -3,13 +3,13 @@ import { inject, injectable } from 'tsyringe';
 
 import type { IPlaceService } from '../../service/interface/IPlaceService';
 import type { SearchPlaceFilterParams } from '../../types/searchPlaceFilter';
-import type { IPlaceUseCase } from '../interface/IPlaceUsecase';
+import type { IPlaceUsecase } from '../interface/IPlaceUsecase';
 
 /**
  * 開催場情報取得ユースケース実装
  */
 @injectable()
-export class PlaceUsecase implements IPlaceUseCase {
+export class PlaceUsecase implements IPlaceUsecase {
     public constructor(
         @inject('PlaceService')
         private readonly placeService: IPlaceService,

@@ -5,7 +5,7 @@ import type { SearchPlaceFilterParams } from '../../types/searchPlaceFilter';
 /**
  * レース開催場所ユースケースのインターフェース
  */
-export interface IPlaceUseCase {
+export interface IPlaceUsecase {
     /**
      * レース開催場所のEntity配列を取得する
      * @param searchPlaceFilterParams - 場所フィルター情報
