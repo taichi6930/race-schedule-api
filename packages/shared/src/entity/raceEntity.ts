@@ -12,7 +12,7 @@ import type { PlaceHeldDays } from './placeEntity';
  */
 export interface RaceEntity {
     /** レースID（ユニーク）*/
-    race_id: RaceId;
+    raceId: RaceId;
     /** 開催場ID */
     placeId: PlaceId;
     /** レース種別（JRA/NAR/KEIRINなど） */

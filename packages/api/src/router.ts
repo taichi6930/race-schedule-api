@@ -1,6 +1,7 @@
 import { calendarController } from './di.calendar';
 import { courseController } from './di.course';
 import { placeController } from './di.place';
+import { raceController } from './di.race';
 
 export const router = async (request: Request): Promise<Response> => {
     const url = new URL(request.url);
@@ -12,6 +13,9 @@ export const router = async (request: Request): Promise<Response> => {
     }
     if (request.method === 'GET' && url.pathname === '/place') {
         return placeController.getPlaceList(url.searchParams);
+    }
+    if (request.method === 'GET' && url.pathname === '/race') {
+        return raceController.getRaceList(url.searchParams);
     }
     if (request.method === 'GET' && url.pathname === '/health') {
         return new Response('ok health check packages/api', { status: 200 });
