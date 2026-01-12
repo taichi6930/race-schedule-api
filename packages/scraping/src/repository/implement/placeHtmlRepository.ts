@@ -20,7 +20,7 @@ export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
         raceType: RaceType,
         date: Date,
     ): Promise<string> {
-        return this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
+        return this.placeDataHtmlGateway.fetch(raceType, date);
     }
 
     public async loadPlaceHtml(

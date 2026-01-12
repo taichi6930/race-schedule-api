@@ -207,8 +207,10 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         date: Date,
     ): Promise<OldPlaceEntity[]> {
         // レースHTMLを取得
-        const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
+        const htmlText: string = await this.placeDataHtmlGateway.fetch(
+            raceType,
+            date,
+        );
 
         const placeEntityList: OldPlaceEntity[] = [];
 
@@ -307,8 +309,10 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         date: Date,
     ): Promise<OldPlaceEntity[]> {
         // レース情報を取得
-        const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
+        const htmlText: string = await this.placeDataHtmlGateway.fetch(
+            raceType,
+            date,
+        );
 
         const $ = cheerio.load(htmlText);
         // <div class="chartWrapprer">を取得
@@ -406,8 +410,10 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     ): Promise<OldPlaceEntity[]> {
         const placeEntityList: OldPlaceEntity[] = [];
         // レース情報を取得
-        const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
+        const htmlText: string = await this.placeDataHtmlGateway.fetch(
+            raceType,
+            date,
+        );
 
         const $ = cheerio.load(htmlText);
 
@@ -490,8 +496,10 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     ): Promise<OldPlaceEntity[]> {
         const placeEntityList: OldPlaceEntity[] = [];
         // レース情報を取得
-        const htmlText: string =
-            await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
+        const htmlText: string = await this.placeDataHtmlGateway.fetch(
+            raceType,
+            date,
+        );
 
         const $ = cheerio.load(htmlText);
 

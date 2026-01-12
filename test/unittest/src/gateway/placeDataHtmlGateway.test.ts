@@ -54,7 +54,7 @@ describe('PlaceDataHtmlGateway', () => {
                 text: jest.fn().mockResolvedValue(expectedHtml),
             });
 
-            const html = await gateway.getPlaceDataHtml(raceType, testDate);
+            const html = await gateway.fetch(raceType, testDate);
 
             expect(fetchMock).toHaveBeenCalledWith(expectedUrl);
             expect(html).toBe(expectedHtml);
@@ -63,7 +63,7 @@ describe('PlaceDataHtmlGateway', () => {
         it(`未対応のraceTypeの場合、エラーがスローされること`, async () => {
             const testDate = new Date('2024-10-01');
             await expect(
-                gateway.getPlaceDataHtml(RaceType.OVERSEAS, testDate),
+                gateway.fetch(RaceType.OVERSEAS, testDate),
             ).rejects.toThrow('未対応のraceTypeです');
         });
 
@@ -72,7 +72,7 @@ describe('PlaceDataHtmlGateway', () => {
             fetchMock.mockRejectedValue(new Error('Fetch error'));
 
             await expect(
-                gateway.getPlaceDataHtml(RaceType.AUTORACE, testDate),
+                gateway.fetch(RaceType.AUTORACE, testDate),
             ).rejects.toThrow('HTMLの取得に失敗しました');
         });
     }
