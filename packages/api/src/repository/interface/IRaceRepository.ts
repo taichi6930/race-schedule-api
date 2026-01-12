@@ -1,4 +1,5 @@
 import type { RaceEntity } from '@race-schedule/shared/src/entity/raceEntity';
+import type { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
 
 import type { SearchRaceFilterParams } from '../../types/searchRaceFilter';
 
@@ -13,4 +14,10 @@ export interface IRaceRepository {
     fetch: (
         searchRaceFilterParams: SearchRaceFilterParams,
     ) => Promise<RaceEntity[]>;
+
+    /**
+     * レース情報Entity配列をupsertする
+     * @param entityList - upsert対象のEntity配列
+     */
+    upsert: (entityList: RaceEntity[]) => Promise<UpsertResult>;
 }

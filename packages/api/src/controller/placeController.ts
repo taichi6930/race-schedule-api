@@ -17,7 +17,7 @@ export class PlaceController {
 
     /**
      * 開催場一覧を取得するAPI
-     * GET /api/place?startDate=2026-01-01&finishDate=2026-01-02&raceTypeList=JRA
+     * GET /place?startDate=2026-01-01&finishDate=2026-01-02&raceTypeList=JRA
      */
     public async get(searchParams: URLSearchParams): Promise<Response> {
         try {
@@ -104,9 +104,10 @@ export class PlaceController {
             return new Response('Internal Server Error', { status: 500 });
         }
     }
+
     /**
      * 開催場情報のupsert API
-     * POST /api/place/upsert
+     * POST /place/upsert
      */
     public async upsert(request: Request): Promise<Response> {
         try {

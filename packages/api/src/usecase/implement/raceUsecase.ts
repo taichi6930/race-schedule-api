@@ -23,7 +23,6 @@ export class RaceUsecase implements IRaceUsecase {
     }
 
     public async upsert(entityList: RaceEntity[]): Promise<UpsertResult> {
-        console.log('upsert called with', entityList);
-        throw new Error('Method not implemented.');
+        return this.raceService.upsert(entityList);
     }
 }
