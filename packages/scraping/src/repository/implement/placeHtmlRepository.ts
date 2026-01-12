@@ -1,3 +1,4 @@
+import { RaceType } from '@race-schedule/shared';
 import { PlaceId } from '@race-schedule/shared/src/types/placeId';
 import { inject, injectable } from 'tsyringe';
 
@@ -18,14 +19,21 @@ export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
         throw new Error(`Not implemented ${placeId}`);
     }
 
-    public async loadPlaceHtml(placeId: PlaceId): Promise<string | null> {
-        const key = `place/${placeId}.html`;
+    public async loadPlaceHtml(
+        raceType: RaceType,
+        date: Date,
+    ): Promise<string | null> {
+        const key = `place/${raceType}${date.toISOString().slice(0, 6)}.html`;
         const buffer = await this.r2Gateway.getObject(key);
         return buffer ? buffer.toString('utf8') : null;
     }
 
-    public async savePlaceHtml(placeId: PlaceId, html: string): Promise<void> {
-        const key = `place/${placeId}.html`;
+    public async savePlaceHtml(
+        raceType: RaceType,
+        date: Date,
+        html: string,
+    ): Promise<void> {
+        const key = `place/${raceType}${date.toISOString().slice(0, 6)}.html`;
         await this.r2Gateway.putObject(key, html, 'text/html');
     }
 }

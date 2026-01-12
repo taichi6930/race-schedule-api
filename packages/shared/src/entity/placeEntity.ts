@@ -17,7 +17,7 @@ export interface PlaceEntity {
     /** 開催日付 */
     datetime: Date;
     /** 開催場所コード */
-    locationCode: LocationCode;
+    locationCode?: LocationCode;
     /** 開催場名（place_master等から取得） */
     placeName: string;
     /** 開催回数・日数情報（省略可） */

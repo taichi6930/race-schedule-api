@@ -1,18 +1,22 @@
-import type { PlaceId } from '@race-schedule/shared/src/types/placeId';
+import type { RaceType } from '@race-schedule/shared';
 
 export interface IPlaceHtmlRepository {
     /**
      * placeのHTMLをWebから直接取得する
      */
-    fetchPlaceHtml: (placeId: PlaceId) => Promise<string>;
+    fetchPlaceHtml: (raceType: RaceType, date: Date) => Promise<string>;
 
     /**
      * R2やローカルキャッシュからHTMLを取得する（なければnull）
      */
-    loadPlaceHtml: (placeId: PlaceId) => Promise<string | null>;
+    loadPlaceHtml: (raceType: RaceType, date: Date) => Promise<string | null>;
 
     /**
      * 取得したHTMLをR2やローカルに保存する
      */
-    savePlaceHtml: (placeId: PlaceId, html: string) => Promise<void>;
+    savePlaceHtml: (
+        aceType: RaceType,
+        date: Date,
+        html: string,
+    ) => Promise<void>;
 }
