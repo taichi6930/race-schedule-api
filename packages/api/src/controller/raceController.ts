@@ -18,7 +18,7 @@ export class RaceController {
      * レース一覧を取得するAPI
      * GET race?startDate=2026-01-01&finishDate=2026-01-02&raceTypeList=JRA
      */
-    public async getRaceList(searchParams: URLSearchParams): Promise<Response> {
+    public async get(searchParams: URLSearchParams): Promise<Response> {
         try {
             const startDate = searchParams.get('startDate');
             const finishDate = searchParams.get('finishDate');

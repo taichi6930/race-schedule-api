@@ -17,9 +17,7 @@ export class CalendarController {
      * カレンダー一覧を取得する
      * query param: startDate, finishDate, raceTypeList (カンマ区切り)
      */
-    public async getCalendarList(
-        searchParams: URLSearchParams,
-    ): Promise<Response> {
+    public async get(searchParams: URLSearchParams): Promise<Response> {
         try {
             const startDate = searchParams.get('startDate');
             const finishDate = searchParams.get('finishDate');
