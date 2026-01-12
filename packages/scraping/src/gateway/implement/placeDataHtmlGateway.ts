@@ -11,10 +11,7 @@ export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
      * @param date - 取得する年月
      */
     @Logger
-    public async getPlaceDataHtml(
-        raceType: RaceType,
-        date: Date,
-    ): Promise<string> {
+    public async fetch(raceType: RaceType, date: Date): Promise<string> {
         const url = createPlaceUrl(raceType, date);
         console.debug('HTML取得URL:', url);
         try {

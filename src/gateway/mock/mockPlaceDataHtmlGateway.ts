@@ -39,10 +39,7 @@ export class MockPlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
      * @returns Promise<string> - 開催データのHTML
      */
 
-    public async getPlaceDataHtml(
-        raceType: RaceType,
-        date: Date,
-    ): Promise<string> {
+    public async fetch(raceType: RaceType, date: Date): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
         const testHtmlUrl = this.buildUrl(raceType, date);
         // lib/src/gateway/mockData/html/autorace/placeの中にあるhtmlを取得

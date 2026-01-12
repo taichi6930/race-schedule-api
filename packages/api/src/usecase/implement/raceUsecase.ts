@@ -1,4 +1,5 @@
 import { RaceEntity } from '@race-schedule/shared/src/entity/raceEntity';
+import { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
 import { inject, injectable } from 'tsyringe';
 
 import { IRaceService } from '../../service/interface/IRaceService';
@@ -19,5 +20,9 @@ export class RaceUsecase implements IRaceUsecase {
         searchRaceFilterParams: SearchRaceFilterParams,
     ): Promise<RaceEntity[]> {
         return this.raceService.fetch(searchRaceFilterParams);
+    }
+
+    public async upsert(entityList: RaceEntity[]): Promise<UpsertResult> {
+        return this.raceService.upsert(entityList);
     }
 }

@@ -1,4 +1,5 @@
 import { RaceEntity } from '@race-schedule/shared/src/entity/raceEntity';
+import { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
 import { inject, injectable } from 'tsyringe';
 
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
@@ -19,5 +20,9 @@ export class RaceService implements IRaceService {
         searchRaceFilterParams: SearchRaceFilterParams,
     ): Promise<RaceEntity[]> {
         return this.raceRepository.fetch(searchRaceFilterParams);
+    }
+
+    public async upsert(entityList: RaceEntity[]): Promise<UpsertResult> {
+        return this.raceRepository.upsert(entityList);
     }
 }

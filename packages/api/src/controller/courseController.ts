@@ -17,9 +17,7 @@ export class CourseController {
      * コース一覧を取得する
      * query param: course_code_type (可変、複数指定可)
      */
-    public async getCourseList(
-        searchParams: URLSearchParams,
-    ): Promise<Response> {
+    public async get(searchParams: URLSearchParams): Promise<Response> {
         try {
             const rawTypes = searchParams.getAll('course_code_type');
             if (rawTypes.length === 0) {

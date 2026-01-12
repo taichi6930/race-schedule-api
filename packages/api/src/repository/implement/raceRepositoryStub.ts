@@ -1,4 +1,5 @@
 import { RaceEntity } from '@race-schedule/shared/src/entity/raceEntity';
+import { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
 import { injectable } from 'tsyringe';
 
 import { SearchRaceFilterParams } from '../../types/searchRaceFilter';
@@ -28,5 +29,13 @@ export class RaceRepositoryStub implements IRaceRepository {
                 },
             },
         ];
+    }
+
+    public async upsert(entityList: RaceEntity[]): Promise<UpsertResult> {
+        return {
+            successCount: entityList.length,
+            failureCount: 0,
+            failures: [],
+        };
     }
 }
