@@ -13,4 +13,8 @@ export interface CloudFlareEnv {
     BOATRACE_CALENDAR_ID: string; // ボートレース
     GOOGLE_CLIENT_EMAIL: string; // Google サービスアカウントのクライアントメール
     GOOGLE_PRIVATE_KEY: string; // Google サービスアカウントの秘密鍵
+    R2_ACCESS_KEY_ID: string; // R2用アクセスキーID
+    R2_SECRET_ACCESS_KEY: string; // R2用シークレットアクセスキー
+    R2_ENDPOINT: string; // R2用エンドポイント
+    R2_BUCKET_NAME: string; // R2用バケット名
 }

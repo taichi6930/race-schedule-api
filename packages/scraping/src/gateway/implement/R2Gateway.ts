@@ -4,29 +4,26 @@ import {
     PutObjectCommand,
     S3Client,
 } from '@aws-sdk/client-s3';
+import type { CloudFlareEnv } from '@race-schedule/shared/src/utilities/cloudFlareEnv';
+import { injectable } from 'tsyringe';
 
 import type { IR2Gateway } from '../interface/IR2Gateway';
 
+@injectable()
 export class R2Gateway implements IR2Gateway {
     private readonly client: S3Client;
     private readonly bucket: string;
 
-    public constructor(options: {
-        endpoint: string;
-        region?: string;
-        accessKeyId: string;
-        secretAccessKey: string;
-        bucket: string;
-    }) {
+    public constructor(env: CloudFlareEnv) {
         this.client = new S3Client({
-            endpoint: options.endpoint,
-            region: options.region ?? 'auto',
+            endpoint: env.R2_ENDPOINT,
+            region: 'auto',
             credentials: {
-                accessKeyId: options.accessKeyId,
-                secretAccessKey: options.secretAccessKey,
+                accessKeyId: env.R2_ACCESS_KEY_ID,
+                secretAccessKey: env.R2_SECRET_ACCESS_KEY,
             },
         });
-        this.bucket = options.bucket;
+        this.bucket = env.R2_BUCKET_NAME;
     }
 
     public async putObject(

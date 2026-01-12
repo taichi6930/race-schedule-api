@@ -1,35 +1,31 @@
-// interface IPlaceHtmlRepository removed as per the patch request
-// import { R2Client, PutObjectCommand, GetObjectCommand } from '@cloudflare/r2'; // 仮のSDK名
+import { PlaceId } from '@race-schedule/shared/src/types/placeId';
+import { inject, injectable } from 'tsyringe';
+
+import type { IR2Gateway } from '../../gateway/interface/IR2Gateway';
+import { IPlaceHtmlRepository } from '../interface/IPlaceHtmlRepository';
 
 /**
- * Cloudflare R2用のplace HTMLリポジトリ
+ * place HTMLリポジトリ
  */
-// export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
-//     // R2 SDKの初期化（実際は認証情報やバケット名を設定）
-//     // private client = new R2Client({ ... });
-//     // private bucket = 'your-bucket-name';
-//     // private getKey(placeId: string, date: Date): string {
-//     //     const ymd = date.toISOString().slice(0, 10).replace(/-/g, '');
-//     //     return `${placeId}_${ymd}.html`;
-//     // }
-//     // async fetchPlaceHtml(raceType: RaceType, date: Date): Promise<string> {
-//     //     // TODO: スクレイピング実装
-//     //     throw new Error('Not implemented');
-//     // }
-//     // async loadPlaceHtml(
-//     //     raceType: RaceType,
-//     //     date: Date,
-//     // ): Promise<string | null> {
-//     //     // TODO: R2から取得実装
-//     //     throw new Error('Not implemented');
-//     // }
-//     // async savePlaceHtml(
-//     //     raceType: RaceType,
-//     //     date: Date,
-//     //     html: string,
-//     // ): Promise<void> {
-//     //     // TODO: R2へ保存実装
-//     //     throw new Error('Not implemented');
-//     // }
-// }
-export const k = 1;
+@injectable()
+export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
+    public constructor(
+        @inject('R2Gateway') private readonly r2Gateway: IR2Gateway,
+    ) {}
+
+    public async fetchPlaceHtml(placeId: PlaceId): Promise<string> {
+        // Webから直接取得する実装はここでは行わない
+        throw new Error(`Not implemented ${placeId}`);
+    }
+
+    public async loadPlaceHtml(placeId: PlaceId): Promise<string | null> {
+        const key = `place/${placeId}.html`;
+        const buffer = await this.r2Gateway.getObject(key);
+        return buffer ? buffer.toString('utf8') : null;
+    }
+
+    public async savePlaceHtml(placeId: PlaceId, html: string): Promise<void> {
+        const key = `place/${placeId}.html`;
+        await this.r2Gateway.putObject(key, html, 'text/html');
+    }
+}
