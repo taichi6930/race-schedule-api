@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 interface CsvFile {
     file: string;
@@ -23,17 +23,17 @@ const files: CsvFile[] = [
 
 const chunkSize = 1500;
 
-files.forEach(({ file, raceType }) => {
+for (const { file, raceType } of files) {
     const csvFile = path.resolve(__dirname, file);
     if (!fs.existsSync(csvFile)) {
         console.error(`CSVファイルが見つかりません: ${csvFile}`);
-        return;
+        continue;
     }
     const csv = fs.readFileSync(csvFile, 'utf8');
     const lines = csv.split('\n').filter(Boolean);
     if (lines.length < 2) {
         console.warn(`CSVにデータがありません: ${csvFile}`);
-        return;
+        continue;
     }
     const header = lines[0].split(',');
     const idx = {
@@ -46,10 +46,10 @@ files.forEach(({ file, raceType }) => {
         // JST変換: UTC→JST(+9h)
         if (!src) return '';
         const d = new Date(src);
-        if (isNaN(d.getTime())) return src; // パース失敗時はそのまま
+        if (Number.isNaN(d.getTime())) return src; // パース失敗時はそのまま
         // JSTへ変換
         const jst = new Date(d.getTime() - 9 * 60 * 60 * 1000);
-        const pad = (n: number) => n.toString().padStart(2, '0');
+        const pad = (n: number): string => n.toString().padStart(2, '0');
         return `${jst.getFullYear()}-${pad(jst.getMonth() + 1)}-${pad(jst.getDate())} ${pad(jst.getHours())}:${pad(jst.getMinutes())}:${pad(jst.getSeconds())}`;
     };
 
@@ -74,4 +74,4 @@ files.forEach(({ file, raceType }) => {
         console.log(`SQLファイルを生成しました: ${outFile}`);
         fileCount++;
     }
-});
+}
