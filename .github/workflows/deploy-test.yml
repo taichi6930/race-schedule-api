@@ -44,7 +44,9 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CF_D1_TEST_DB_ID: ${{ secrets.CF_D1_TEST_DB_ID }}
           ENV: ${{ secrets.ENV }}
-        run: pnpm run deploy:test
+        run: |
+          export CF_D1_TEST_DB_ID="${{ secrets.CF_D1_TEST_DB_ID }}"
+          pnpm run deploy:test
 
       # ラベル付与イベントで起動した場合のみ、ラベルを削除
       - name: Remove 'deploy-test' label
