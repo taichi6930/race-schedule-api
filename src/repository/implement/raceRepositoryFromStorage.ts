@@ -7,14 +7,10 @@ import type {
     FailureDetail,
     UpsertResult,
 } from '../../../packages/shared/src/utilities/upsertResult';
-import { HeldDayData } from '../../domain/heldDayData';
-import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
-import { RaceData } from '../../domain/raceData';
 import {
     isIncludedRaceType,
     RACE_TYPE_LIST_HORSE_RACING,
     RACE_TYPE_LIST_MECHANICAL_RACING,
-    validateRaceType,
 } from '../../utility/raceType';
 import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../entity/raceEntity';
@@ -92,52 +88,11 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
 
         const { results } = await this.dbGateway.queryAll(sql, queryParams);
 
-        return results.map((row: any): RaceEntity => {
-            const dateJST = new Date(row.date_time);
-            const heldDayData =
-                row.held_times !== null && row.held_day_times !== null
-                    ? HeldDayData.create(
-                          Number(row.held_times),
-                          Number(row.held_day_times),
-                      )
-                    : undefined;
-            const conditionData =
-                row.surface_type !== null && row.distance !== null
-                    ? HorseRaceConditionData.create(
-                          row.surface_type,
-                          row.distance,
-                      )
-                    : undefined;
-            const raceType = validateRaceType(row.race_type);
-            const racePlayerList = isIncludedRaceType(
-                raceType,
-                RACE_TYPE_LIST_MECHANICAL_RACING,
-            )
-                ? []
-                : undefined;
-            const stage = isIncludedRaceType(
-                raceType,
-                RACE_TYPE_LIST_MECHANICAL_RACING,
-            )
-                ? row.stage
-                : undefined;
-            return RaceEntity.create(
-                row.id,
-                row.place_id,
-                RaceData.create(
-                    row.race_type,
-                    row.race_name,
-                    dateJST,
-                    row.location_name,
-                    row.grade,
-                    row.race_number,
-                ),
-                heldDayData,
-                conditionData,
-                stage,
-                racePlayerList,
-            );
-        });
+        // 地方競馬データはserviceで加工
+        // TODO: 他競技は分岐で従来処理を残す
+        const { LocalKeibaRaceDataService } =
+            await import('../../../packages/scraping/src/service/LocalKeibaRaceDataService');
+        return LocalKeibaRaceDataService.convertToRaceEntities(results);
     }
 
     @Logger
