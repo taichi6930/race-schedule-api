@@ -1,4 +1,5 @@
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
+import { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
 import { inject, injectable } from 'tsyringe';
 
 import type { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
@@ -19,5 +20,9 @@ export class PlaceService implements IPlaceService {
         searchPlaceFilterParams: SearchPlaceFilterParams,
     ): Promise<PlaceEntity[]> {
         return this.placeRepository.fetch(searchPlaceFilterParams);
+    }
+
+    public async upsert(entityList: PlaceEntity[]): Promise<UpsertResult> {
+        return this.placeRepository.upsert(entityList);
     }
 }

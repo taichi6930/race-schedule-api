@@ -1,4 +1,5 @@
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
+import type { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
 
 import type { SearchPlaceFilterParams } from '../../types/searchPlaceFilter';
 
@@ -13,4 +14,10 @@ export interface IPlaceRepository {
     fetch: (
         searchPlaceFilterParams: SearchPlaceFilterParams,
     ) => Promise<PlaceEntity[]>;
+
+    /**
+     * 開催場Entity配列をupsertする
+     * @param entityList - upsert対象のEntity配列
+     */
+    upsert: (entityList: PlaceEntity[]) => Promise<UpsertResult>;
 }

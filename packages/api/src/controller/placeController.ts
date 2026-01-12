@@ -104,4 +104,46 @@ export class PlaceController {
             return new Response('Internal Server Error', { status: 500 });
         }
     }
+    /**
+     * 開催場情報のupsert API
+     * POST /api/place/upsert
+     */
+    public async upsert(request: Request): Promise<Response> {
+        try {
+            const body = await request.json();
+            if (!Array.isArray(body)) {
+                return Response.json(
+                    {
+                        error: 'リクエストボディはPlaceEntity[]配列である必要があります',
+                    },
+                    { status: 400 },
+                );
+            }
+            // PlaceEntityの最低限のバリデーション
+            const isValid = body.every(
+                (e) =>
+                    typeof e.placeId === 'string' &&
+                    typeof e.raceType === 'string' &&
+                    e.datetime !== undefined &&
+                    typeof e.placeName === 'string' &&
+                    typeof e.placeHeldDays === 'object',
+            );
+            if (!isValid) {
+                return Response.json(
+                    { error: '配列内の要素がPlaceEntityの形式ではありません' },
+                    { status: 400 },
+                );
+            }
+            // 日付型変換
+            const entityList = body.map((e) => ({
+                ...e,
+                datetime: new Date(e.datetime),
+            }));
+            const result = await this.usecase.upsert(entityList);
+            return Response.json(result, { status: 200 });
+        } catch (error) {
+            console.error('Error in upsertPlace:', error);
+            return new Response('Internal Server Error', { status: 500 });
+        }
+    }
 }

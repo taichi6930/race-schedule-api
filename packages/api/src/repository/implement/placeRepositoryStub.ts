@@ -1,4 +1,5 @@
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
+import { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
 import { injectable } from 'tsyringe';
 
 import type { SearchPlaceFilterParams } from '../../types/searchPlaceFilter';
@@ -26,5 +27,13 @@ export class PlaceRepositoryStub implements IPlaceRepository {
                 },
             },
         ];
+    }
+
+    public async upsert(entityList: PlaceEntity[]): Promise<UpsertResult> {
+        return {
+            successCount: entityList.length,
+            failureCount: 0,
+            failures: [],
+        };
     }
 }

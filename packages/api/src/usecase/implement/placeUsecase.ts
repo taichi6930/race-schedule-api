@@ -23,7 +23,6 @@ export class PlaceUsecase implements IPlaceUsecase {
     }
 
     public async upsert(entityList: PlaceEntity[]): Promise<UpsertResult> {
-        console.log('upsert called with', entityList);
-        throw new Error('Method not implemented.');
+        return this.placeService.upsert(entityList);
     }
 }
