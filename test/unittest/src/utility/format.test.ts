@@ -5,7 +5,7 @@ import {
     formatMonthDigits,
     replaceFromCodePoint,
     toXDigits,
-} from '../../../../src/utility/format';
+} from '../../../../packages/shared/src/utilities/format';
 
 describe('replaceFromCodePoint', () => {
     test('正規表現で全角数字を半角数字に変換できること', () => {

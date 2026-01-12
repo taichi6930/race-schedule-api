@@ -5,6 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { validateRaceDistance } from '../../../packages/shared/src/types/raceDistance';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { RaceSurfaceType } from '../../../packages/shared/src/types/surfaceType';
+import { replaceFromCodePoint } from '../../../packages/shared/src/utilities/format';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
@@ -17,7 +18,6 @@ import {
     processNarRaceName,
     processOverseasRaceName,
 } from '../../utility/createRaceName';
-import { replaceFromCodePoint } from '../../utility/format';
 import { OldEnvStore } from '../../utility/oldEnvStore';
 import {
     isIncludedRaceType,

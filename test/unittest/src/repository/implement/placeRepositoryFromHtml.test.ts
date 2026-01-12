@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import type { IPlaceDataHtmlGateway } from '../../../../../packages/scraping/src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../../../packages/shared/src/types/raceType';
-import type { IPlaceDataHtmlGateway } from '../../../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import { MockPlaceDataHtmlGateway } from '../../../../../src/gateway/mock/mockPlaceDataHtmlGateway';
 import { OldSearchPlaceFilterEntity } from '../../../../../src/repository/entity/filter/oldSearchPlaceFilterEntity';
 import { PlaceRepositoryFromHtml } from '../../../../../src/repository/implement/placeRepositoryFromHtml';

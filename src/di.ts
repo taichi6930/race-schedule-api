@@ -4,11 +4,11 @@ import { container } from 'tsyringe';
 
 import type { IDBGateway } from '../packages/api/src/gateway/interface/IDBGateway';
 import type { IGoogleCalendarGateway } from '../packages/api/src/gateway/interface/iGoogleCalendarGateway';
+import { PlaceDataHtmlGateway } from '../packages/scraping/src/gateway/implement/placeDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../packages/scraping/src/gateway/interface/iPlaceDataHtmlGateway';
 import { DBGateway } from './gateway/implement/dbGateway';
 import { OldGoogleCalendarGateway } from './gateway/implement/oldGoogleCalendarGateway';
-import { PlaceDataHtmlGateway } from './gateway/implement/placeDataHtmlGateway';
 import { RaceDataHtmlGateway } from './gateway/implement/raceDataHtmlGateway';
-import type { IPlaceDataHtmlGateway } from './gateway/interface/iPlaceDataHtmlGateway';
 import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
 import { OldGoogleCalendarRepository } from './repository/implement/oldGoogleCalendarRepository';
 import { PlaceRepositoryFromHtml } from './repository/implement/placeRepositoryFromHtml';

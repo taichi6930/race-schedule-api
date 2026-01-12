@@ -1,6 +1,7 @@
-import { RaceType } from '../../../packages/shared/src/types/raceType';
-import { Logger } from '../../../packages/shared/src/utilities/logger';
-import { createPlaceUrl } from '../../utility/data/url';
+import { RaceType } from '@race-schedule/shared/src/types/raceType';
+import { createPlaceUrl } from '@race-schedule/shared/src/utilities/createPlaceUrl';
+import { Logger } from '@race-schedule/shared/src/utilities/logger';
+
 import { IPlaceDataHtmlGateway } from '../interface/iPlaceDataHtmlGateway';
 
 export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {

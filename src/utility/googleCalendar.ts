@@ -7,6 +7,15 @@ import {
 } from '../../packages/api/src/domain/calendarData';
 import { CourseCodeType } from '../../packages/shared/src/types/courseCodeType';
 import { RaceType } from '../../packages/shared/src/types/raceType';
+import {
+    createAnchorTag,
+    formatDate,
+    formatDayDigits,
+    formatHourDigits,
+    formatMinuteDigits,
+    formatMonthDigits,
+    toXDigits,
+} from '../../packages/shared/src/utilities/format';
 import type { RaceEntity } from '../repository/entity/raceEntity';
 import {
     createYoutubeLiveUrl,
@@ -22,15 +31,6 @@ import {
     createNetkeirinRaceShutubaUrl,
 } from './data/url';
 import { getJSTDate } from './date';
-import {
-    createAnchorTag,
-    formatDate,
-    formatDayDigits,
-    formatHourDigits,
-    formatMinuteDigits,
-    formatMonthDigits,
-    toXDigits,
-} from './format';
 import type { GradeType } from './validateAndType/gradeType';
 import { createPlaceCode } from './validateAndType/raceCourse';
 

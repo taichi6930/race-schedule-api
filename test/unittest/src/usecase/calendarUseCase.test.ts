@@ -4,10 +4,10 @@ import { container } from 'tsyringe';
 
 import type { CalendarDataDto } from '../../../../packages/api/src/domain/calendarData';
 import { RaceType } from '../../../../packages/shared/src/types/raceType';
+import { toXDigits } from '../../../../packages/shared/src/utilities/format';
 import { OldSearchCalendarFilterEntity } from '../../../../src/repository/entity/filter/oldSearchCalendarFilterEntity';
 import { OldCalendarUseCase } from '../../../../src/usecase/implement/oldCalendarUseCase';
 import type { IOldCalendarUseCase } from '../../../../src/usecase/interface/IOldCalendarUseCase';
-import { toXDigits } from '../../../../src/utility/format';
 import { SpecifiedGradeList } from '../../../../src/utility/validateAndType/gradeType';
 import type { TestServiceSetup } from '../../../utility/testSetupHelper';
 import {
