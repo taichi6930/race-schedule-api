@@ -90,9 +90,9 @@ export class RaceRepositoryFromStorage implements IRaceRepository {
 
         // 地方競馬データはserviceで加工
         // TODO: 他競技は分岐で従来処理を残す
-        const { LocalKeibaRaceDataService } =
+        const { convertToRaceEntities } =
             await import('../../../packages/scraping/src/service/LocalKeibaRaceDataService');
-        return LocalKeibaRaceDataService.convertToRaceEntities(results);
+        return convertToRaceEntities(results);
     }
 
     @Logger
