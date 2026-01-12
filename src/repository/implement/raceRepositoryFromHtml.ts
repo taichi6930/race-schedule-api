@@ -5,6 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { validateRaceDistance } from '../../../packages/shared/src/types/raceDistance';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { RaceSurfaceType } from '../../../packages/shared/src/types/surfaceType';
+import { replaceFromCodePoint } from '../../../packages/shared/src/utilities/format';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
@@ -17,7 +18,6 @@ import {
     processNarRaceName,
     processOverseasRaceName,
 } from '../../utility/createRaceName';
-import { replaceFromCodePoint } from '../../utility/format';
 import { OldEnvStore } from '../../utility/oldEnvStore';
 import {
     isIncludedRaceType,
@@ -33,7 +33,7 @@ import {
 } from '../../utility/validateAndType/raceCourse';
 import { RaceStage, StageMap } from '../../utility/validateAndType/raceStage';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
-import { PlaceEntity } from '../entity/placeEntity';
+import { OldPlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 
@@ -52,13 +52,13 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
     @Logger
     public async fetchRaceEntityList(
         searchRaceFilter: SearchRaceFilterEntity,
-        placeEntityList?: PlaceEntity[],
+        placeEntityList?: OldPlaceEntity[],
     ): Promise<RaceEntity[]> {
         const raceEntityList: RaceEntity[] = [];
         if (!placeEntityList) return raceEntityList;
         // searchRaceFilterのgradeListが空の場合はすべてのグレードを対象とする
-        const filteredPlaceEntityList: PlaceEntity[] = placeEntityList.filter(
-            (placeEntity) => {
+        const filteredPlaceEntityList: OldPlaceEntity[] =
+            placeEntityList.filter((placeEntity) => {
                 if (searchRaceFilter.gradeList.length === 0) {
                     return true;
                 }
@@ -72,8 +72,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                     return true;
                 }
                 return searchRaceFilter.gradeList.includes(placeEntity.grade);
-            },
-        );
+            });
         for (const placeEntity of filteredPlaceEntityList) {
             switch (placeEntity.placeData.raceType) {
                 case RaceType.JRA: {
@@ -133,7 +132,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForJra(
-        placeEntity: PlaceEntity,
+        placeEntity: OldPlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractRaceGrade = (
             raceSurfaceType: RaceSurfaceType,
@@ -358,7 +357,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForNar(
-        placeEntity: PlaceEntity,
+        placeEntity: OldPlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractDistance = (race: string[]): number => {
             return (
@@ -538,7 +537,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForOverseas(
-        placeEntity: PlaceEntity,
+        placeEntity: OldPlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractSurfaceType = (race: string[]): RaceSurfaceType => {
             const typeList = ['芝', 'ダート', '障害', 'AW'];
@@ -712,7 +711,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForKeirin(
-        placeEntity: PlaceEntity,
+        placeEntity: OldPlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractRaceName = (
             raceSummaryInfoChild: string,
@@ -924,7 +923,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForAutorace(
-        placeEntity: PlaceEntity,
+        placeEntity: OldPlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractRaceName = (
             raceSummaryInfoChild: string,
@@ -1074,7 +1073,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
     @Logger
     private async fetchRaceListFromHtmlForBoatrace(
-        placeEntity: PlaceEntity,
+        placeEntity: OldPlaceEntity,
     ): Promise<RaceEntity[]> {
         const extractRaceStage = (
             raceSummaryInfoChild: string,

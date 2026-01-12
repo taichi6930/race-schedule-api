@@ -1,6 +1,6 @@
 import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import type { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
-import type { PlaceEntity } from '../../repository/entity/placeEntity';
+import type { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
 import type { DataLocationType } from '../../utility/dataType';
 
@@ -14,7 +14,7 @@ export interface IOldRaceService {
     fetchRaceEntityList: (
         searchRaceFilter: SearchRaceFilterEntity,
         dataLocation: DataLocationType,
-        placeEntityList?: PlaceEntity[],
+        placeEntityList?: OldPlaceEntity[],
     ) => Promise<RaceEntity[]>;
 
     /**

@@ -7,7 +7,7 @@ import {
 } from '../../../test/unittest/src/mock/common/baseCommonData';
 import { PlaceData } from '../../domain/placeData';
 import type { OldSearchPlaceFilterEntity } from '../entity/filter/oldSearchPlaceFilterEntity';
-import { PlaceEntity } from '../entity/placeEntity';
+import { OldPlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
 
 export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
@@ -17,14 +17,14 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
      */
     public async fetchPlaceEntityList(
         searchFilter: OldSearchPlaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<OldPlaceEntity[]> {
         const placeEntityList = [];
         const { raceTypeList, startDate, finishDate } = searchFilter;
         const currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
             for (const raceType of raceTypeList) {
-                const placeEntity = PlaceEntity.createWithoutId(
+                const placeEntity = OldPlaceEntity.createWithoutId(
                     PlaceData.create(
                         raceType,
                         new Date(currentDate),
@@ -48,7 +48,7 @@ export class MockPlaceRepositoryFromHtml implements IPlaceRepository {
      */
     @Logger
     public async upsertPlaceEntityList(
-        _placeEntityList: PlaceEntity[],
+        _placeEntityList: OldPlaceEntity[],
     ): Promise<UpsertResult> {
         void _placeEntityList;
         return {

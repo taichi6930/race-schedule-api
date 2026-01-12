@@ -8,7 +8,7 @@ import {
 } from '../../../packages/shared/src/types/positionNumber';
 import { validateRaceNumber } from '../../../packages/shared/src/types/raceNumber';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
-import { toXDigits } from '../format';
+import { toXDigits } from '../../../packages/shared/src/utilities/format';
 import { isIncludedRaceType } from '../raceType';
 import { createPlaceCode, type RaceCourse } from './raceCourse';
 

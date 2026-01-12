@@ -1,9 +1,12 @@
-/**
- * Web scraping service
- * Scraping related code will be moved here
- * TODO: Implement scraping service
- */
+import express from 'express';
 
-export const scrapingServicePlaceholder = (): string => {
-    return 'Scraping Service - To be implemented';
-};
+import apiRouter from './router/apiRouter';
+
+const app = express();
+app.use(express.json());
+app.use(apiRouter);
+
+const PORT = process.env.PORT ?? 3001;
+app.listen(PORT, () => {
+    console.log(`Scraping API server running on port ${PORT}`);
+});

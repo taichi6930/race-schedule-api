@@ -1,6 +1,7 @@
-import { RaceType } from '../../../packages/shared/src/types/raceType';
-import { Logger } from '../../../packages/shared/src/utilities/logger';
-import { createPlaceUrl } from '../../utility/data/url';
+import { RaceType } from '@race-schedule/shared/src/types/raceType';
+import { createPlaceUrl } from '@race-schedule/shared/src/utilities/createPlaceUrl';
+import { Logger } from '@race-schedule/shared/src/utilities/logger';
+
 import { IPlaceDataHtmlGateway } from '../interface/iPlaceDataHtmlGateway';
 
 export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
@@ -18,9 +19,7 @@ export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
         console.debug('HTML取得URL:', url);
         try {
             const response = await fetch(url);
-            const htmlText = await response.text();
-            console.debug('HTML取得成功');
-            return htmlText;
+            return await response.text();
         } catch (error) {
             console.error('HTML取得失敗:', error);
             throw new Error('HTMLの取得に失敗しました');

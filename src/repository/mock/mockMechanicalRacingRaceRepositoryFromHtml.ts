@@ -4,14 +4,14 @@ import { baseRacePlayerDataList } from '../../../test/unittest/src/mock/common/b
 import { RaceData } from '../../domain/raceData';
 import type { RaceStage } from '../../utility/validateAndType/raceStage';
 import type { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
-import type { PlaceEntity } from '../entity/placeEntity';
+import type { OldPlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 
 export class MockMechanicalRacingRaceRepositoryFromHtml implements IRaceRepository {
     public async fetchRaceEntityList(
         searchRaceFilter: SearchRaceFilterEntity,
-        placeEntityList?: PlaceEntity[],
+        placeEntityList?: OldPlaceEntity[],
     ): Promise<RaceEntity[]> {
         const raceEntityList: RaceEntity[] = [];
         if (!placeEntityList) return raceEntityList;

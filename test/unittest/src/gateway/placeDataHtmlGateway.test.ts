@@ -1,6 +1,6 @@
+import { PlaceDataHtmlGateway } from '../../../../packages/scraping/src/gateway/implement/placeDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../../../packages/scraping/src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../../packages/shared/src/types/raceType';
-import { PlaceDataHtmlGateway } from '../../../../src/gateway/implement/placeDataHtmlGateway';
-import type { IPlaceDataHtmlGateway } from '../../../../src/gateway/interface/iPlaceDataHtmlGateway';
 import { clearMocks } from '../../../utility/testSetupHelper';
 
 describe('PlaceDataHtmlGateway', () => {
