@@ -3,6 +3,7 @@ export interface IR2Gateway {
      * R2バケットにオブジェクトを保存
      */
     putObject: (
+        bucket: string,
         key: string,
         body: Buffer | string,
         contentType?: string,
@@ -11,10 +12,10 @@ export interface IR2Gateway {
     /**
      * R2バケットからオブジェクトを取得
      */
-    getObject: (key: string) => Promise<Buffer | null>;
+    getObject: (bucket: string, key: string) => Promise<Buffer | null>;
 
     /**
      * R2バケットからオブジェクトを削除
      */
-    deleteObject: (key: string) => Promise<void>;
+    deleteObject: (bucket: string, key: string) => Promise<void>;
 }
