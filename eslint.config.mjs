@@ -31,11 +31,7 @@ export default [
             sourceType: 'module',
         },
         files: ['src/**/*.ts', 'test/**/*.ts', 'packages/**/src/**/*.ts'],
-        ignores: [
-            '**/node_modules/**',
-            'dist/**',
-            '**/dist/**',
-        ],
+        ignores: ['**/node_modules/**', 'dist/**', '**/dist/**'],
     },
     eslintPluginUnicorn.configs.all, // ✅ unicornプラグインの全ルールを適用
     eslint.configs.recommended, // ESLintの推奨ルールを適用

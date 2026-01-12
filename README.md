@@ -17,14 +17,12 @@
 
 - Node.js
 - TypeScript
-  
 - Google Calendar API（カレンダー連携）
 
 ## 前提条件
 
 - Node.js 24.x（`.nvmrc`で管理）
 - pnpm
-
 
 ### Node.jsバージョン管理
 
@@ -211,8 +209,6 @@ curl -X POST "http://localhost:3000/api/races/all/place" \
   "raceTypeList": ["jra"]
 }'
 ```
-
-
 
 ## テスト
 

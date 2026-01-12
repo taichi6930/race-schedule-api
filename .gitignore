@@ -1,3 +1,5 @@
+# macOS Finder
+.DS_Store
 packages/db/script/*
 *.js
 !jest.config.js
