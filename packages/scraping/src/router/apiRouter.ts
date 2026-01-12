@@ -1,8 +1,9 @@
+import type { Router } from 'express';
 import express from 'express';
 
 import placeRouter from './placeRouter';
 
-const router = express.Router();
+const router: Router = express.Router();
 
 router.use('/api', placeRouter);
 

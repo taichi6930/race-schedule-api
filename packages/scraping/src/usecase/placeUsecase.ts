@@ -8,7 +8,8 @@ export class PlaceUsecase {
     }
 
     public async getAllPlaces(): Promise<unknown> {
-        // PlaceServiceにgetAllPlacesがなければfetch等に修正
-        return this.placeService.getAllPlaces?.() ?? [];
+        // 仮でJRA・今日の日付でfetch
+        // 実際はリクエストパラメータ等でraceType/dateを受け取る設計に
+        return this.placeService.fetch('JRA' as any, new Date());
     }
 }

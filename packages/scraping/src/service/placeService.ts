@@ -8,13 +8,15 @@ import { IPlaceHtmlRepository } from '../repository/interface/IPlaceHtmlReposito
 export class PlaceService {
     public constructor(
         @inject('PlaceHtmlRepository')
-        private readonly placeHtmlRepository: IPlaceHtmlRepository,
+        private readonly placeHtmlRepository?: IPlaceHtmlRepository,
     ) {}
 
     public async fetch(
         raceType: RaceType,
         date: Date,
     ): Promise<PlaceHtmlEntity[]> {
+        if (!this.placeHtmlRepository)
+            throw new Error('Repository not provided');
         // HTMLを取得
         const html: string =
             (await this.placeHtmlRepository.loadPlaceHtml(raceType, date)) ??
