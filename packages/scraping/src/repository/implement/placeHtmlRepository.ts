@@ -1,7 +1,7 @@
 import { RaceType } from '@race-schedule/shared';
-import { PlaceId } from '@race-schedule/shared/src/types/placeId';
 import { inject, injectable } from 'tsyringe';
 
+import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import type { IR2Gateway } from '../../gateway/interface/IR2Gateway';
 import { IPlaceHtmlRepository } from '../interface/IPlaceHtmlRepository';
 
@@ -12,11 +12,15 @@ import { IPlaceHtmlRepository } from '../interface/IPlaceHtmlRepository';
 export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
     public constructor(
         @inject('R2Gateway') private readonly r2Gateway: IR2Gateway,
+        @inject('PlaceDataHtmlGateway')
+        private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
     ) {}
 
-    public async fetchPlaceHtml(placeId: PlaceId): Promise<string> {
-        // Webから直接取得する実装はここでは行わない
-        throw new Error(`Not implemented ${placeId}`);
+    public async fetchPlaceHtml(
+        raceType: RaceType,
+        date: Date,
+    ): Promise<string> {
+        return this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
     }
 
     public async loadPlaceHtml(
