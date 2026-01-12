@@ -19,9 +19,7 @@ export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
         console.debug('HTML取得URL:', url);
         try {
             const response = await fetch(url);
-            const htmlText = await response.text();
-            console.debug('HTML取得成功');
-            return htmlText;
+            return await response.text();
         } catch (error) {
             console.error('HTML取得失敗:', error);
             throw new Error('HTMLの取得に失敗しました');
