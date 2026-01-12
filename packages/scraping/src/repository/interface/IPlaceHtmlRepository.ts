@@ -1,4 +1,4 @@
-import type { RaceType } from '@race-schedule/shared';
+import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 
 export interface IPlaceHtmlRepository {
     /**
