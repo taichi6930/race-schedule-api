@@ -1,4 +1,4 @@
-import { RaceType } from '@race-schedule/shared';
+import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
