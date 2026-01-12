@@ -17,17 +17,14 @@
 
 - Node.js
 - TypeScript
-- AWS CDK（インフラストラクチャ）
-- Amazon API Gateway
-- AWS Lambda
-- Amazon S3（データストレージ）
+  
 - Google Calendar API（カレンダー連携）
 
 ## 前提条件
 
 - Node.js 24.x（`.nvmrc`で管理）
 - pnpm
-- AWS CLI（デプロイメント用）
+
 
 ### Node.jsバージョン管理
 
@@ -66,8 +63,7 @@ GOOGLE_OAUTH_CLIENT_ID="your-client-id"
 GOOGLE_OAUTH_CLIENT_SECRET="your-client-secret"
 GOOGLE_OAUTH_REDIRECT_URL="your-redirect-url"
 
-# AWS関連（ローカル開発時）
-AWS_REGION="ap-northeast-1"
+
 ```
 
 ## 実行方法
@@ -216,13 +212,7 @@ curl -X POST "http://localhost:3000/api/races/all/place" \
 }'
 ```
 
-## デプロイ
 
-AWS CDKを使用してデプロイを行います：
-
-```bash
-pnpm run cdk-deploy
-```
 
 ## テスト
 

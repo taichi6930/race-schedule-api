@@ -12,7 +12,7 @@ export default [
     // lint対象ファイル
     {
         files: ['**/*.{js,mjs,cjs,ts}'],
-        ignores: ['**/cdk.out/**', '**/node_modules/**'],
+        ignores: ['**/node_modules/**'],
     },
     {
         languageOptions: {
@@ -32,7 +32,6 @@ export default [
         },
         files: ['src/**/*.ts', 'test/**/*.ts', 'packages/**/src/**/*.ts'],
         ignores: [
-            '**/cdk.out/**',
             '**/node_modules/**',
             'dist/**',
             '**/dist/**',
