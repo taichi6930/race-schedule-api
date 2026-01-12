@@ -1,19 +1,17 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const file = '../lib/src/gateway/mockData/csv/nar/raceList.csv';
 const chunkSize = 500;
 
 const csvFile = path.resolve(__dirname, file);
 if (!fs.existsSync(csvFile)) {
-    console.error(`CSVファイルが見つかりません: ${csvFile}`);
-    process.exit(1);
+    throw new Error(`CSVファイルが見つかりません: ${csvFile}`);
 }
 const csv = fs.readFileSync(csvFile, 'utf8');
 const lines = csv.split('\n').filter(Boolean);
 if (lines.length < 2) {
-    console.warn(`CSVにデータがありません: ${csvFile}`);
-    process.exit(1);
+    throw new Error(`CSVにデータがありません: ${csvFile}`);
 }
 const header = lines[0].split(',');
 const idx = {
@@ -31,20 +29,20 @@ const idx = {
 const toSqliteDateTime = (src: string): string => {
     if (!src) return '';
     const d = new Date(src);
-    if (isNaN(d.getTime())) return src;
+    if (Number.isNaN(d.getTime())) return src;
     // JSTへ変換
     const jst = new Date(d.getTime() - 9 * 60 * 60 * 1000);
-    const pad = (n: number) => n.toString().padStart(2, '0');
+    const pad = (n: number): string => n.toString().padStart(2, '0');
     return `${jst.getFullYear()}-${pad(jst.getMonth() + 1)}-${pad(jst.getDate())} ${pad(jst.getHours())}:${pad(jst.getMinutes())}:${pad(jst.getSeconds())}`;
 };
-const now = () => {
+const now = (): string => {
     const d = new Date();
-    const pad = (n: number) => n.toString().padStart(2, '0');
+    const pad = (n: number): string => n.toString().padStart(2, '0');
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 };
 const raceRecords: string[] = [];
 const raceConditionRecords: string[] = [];
-lines.slice(1).forEach((line) => {
+for (const line of lines.slice(1)) {
     const cols = line.split(',');
     const id = cols[idx.id]?.replace(/'/g, "''") || '';
     // idの下2桁を削除してplace_idとする
@@ -64,7 +62,7 @@ lines.slice(1).forEach((line) => {
     const updatedAt = updateDate || createdAt;
     // gradeがJpnⅠもしくはJpnⅡではない場合はreturn 配列で判定
     if (grade && !['重賞', '地方重賞', '地方準重賞'].includes(grade)) {
-        return;
+        continue;
     }
     raceRecords.push(
         `('${id}', '${place_id}', '${raceType}', '${name}', '${dateTime}', '${location}', '${grade}', '${number}', '${createdAt}', '${updatedAt}')`,
@@ -72,7 +70,7 @@ lines.slice(1).forEach((line) => {
     raceConditionRecords.push(
         `('${id}', '${raceType}', '${surfaceType}', '${distance}', '${createdAt}', '${updatedAt}')`,
     );
-});
+}
 let fileCount = 0;
 for (let i = 0; i < raceRecords.length; i += chunkSize) {
     const raceChunk = raceRecords.slice(i, i + chunkSize);

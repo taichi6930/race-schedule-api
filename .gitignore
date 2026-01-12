@@ -1,3 +1,5 @@
+# macOS Finder
+.DS_Store
 packages/db/script/*
 *.js
 !jest.config.js
@@ -8,9 +10,7 @@ node_modules
 dist/
 *.tsbuildinfo
 
-# CDK asset staging directory
-.cdk.staging
-cdk.out
+
 
 # jest
 coverage

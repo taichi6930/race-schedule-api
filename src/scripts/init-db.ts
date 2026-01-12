@@ -1,6 +1,7 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import Database from 'better-sqlite3';
-import fs from 'fs';
-import path from 'path';
 
 // DBファイルのパス
 const dbPath = path.resolve(__dirname, '../volume/app.db');
@@ -11,16 +12,16 @@ const schemaPath = path.resolve(__dirname, './schema.sql');
 const db = new Database(dbPath);
 
 // スキーマSQLを読み込んで実行
-const schema = fs.readFileSync(schemaPath, 'utf-8');
+const schema = fs.readFileSync(schemaPath, 'utf8');
 db.exec(schema);
 
 // PlayerListデータ投入
-type Player = {
+interface Player {
     race_type: string;
     player_no: string;
     player_name: string;
     priority: number;
-};
+}
 
 const playerList: Player[] = [
     {
