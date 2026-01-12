@@ -16,7 +16,7 @@ name = "race-schedule-prod"
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "race_schedule_db_prod"
-database_id = "${CF_D1_PROD_DB_ID}"
+database_id = "$CF_D1_PROD_DB_ID"
 migrations_dir = "../db/migrations"
 
 [env.test]
@@ -28,5 +28,5 @@ name = "race-schedule-test"
 [[env.test.d1_databases]]
 binding = "DB"
 database_name = "race_schedule_db_test"
-database_id = "${CF_D1_TEST_DB_ID}"
+database_id = "$CF_D1_TEST_DB_ID"
 migrations_dir = "../db/migrations"
