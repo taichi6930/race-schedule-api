@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
-import { PlaceEntity } from '../../repository/entity/placeEntity';
+import { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
@@ -28,7 +28,7 @@ export class OldRaceService implements IOldRaceService {
     public async fetchRaceEntityList(
         searchRaceFilter: SearchRaceFilterEntity,
         dataLocation: DataLocationType,
-        placeEntityList?: PlaceEntity[],
+        placeEntityList?: OldPlaceEntity[],
     ): Promise<RaceEntity[]> {
         switch (dataLocation) {
             case DataLocation.Storage: {

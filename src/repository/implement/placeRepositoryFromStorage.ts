@@ -14,7 +14,7 @@ import {
     isIncludedRaceType,
     RACE_TYPE_LIST_MECHANICAL_RACING,
 } from '../../utility/raceType';
-import { PlaceEntity } from '../entity/placeEntity';
+import { OldPlaceEntity } from '../entity/placeEntity';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
 import { OldSearchPlaceFilterEntity } from './../entity/filter/oldSearchPlaceFilterEntity';
 
@@ -27,7 +27,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
     @Logger
     public async fetchPlaceEntityList(
         searchPlaceFilter: OldSearchPlaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<OldPlaceEntity[]> {
         const { raceTypeList, startDate, finishDate, locationList } =
             searchPlaceFilter;
         if (raceTypeList.length === 0) {
@@ -72,7 +72,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
             queryParams,
         );
         return results
-            .map((row: any): PlaceEntity | undefined => {
+            .map((row: any): OldPlaceEntity | undefined => {
                 try {
                     const dateJST = new Date(new Date(row.date_time));
                     const heldDayData =
@@ -83,7 +83,7 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                               )
                             : undefined;
                     const grade = row.grade ?? undefined;
-                    return PlaceEntity.create(
+                    return OldPlaceEntity.create(
                         row.id,
                         PlaceData.create(
                             row.race_type,
@@ -98,12 +98,12 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
                     return undefined;
                 }
             })
-            .filter((entity): entity is PlaceEntity => entity !== undefined);
+            .filter((entity): entity is OldPlaceEntity => entity !== undefined);
     }
 
     @Logger
     public async upsertPlaceEntityList(
-        entityList: PlaceEntity[],
+        entityList: OldPlaceEntity[],
     ): Promise<UpsertResult> {
         const upsertResult: UpsertResult = {
             successCount: 0,

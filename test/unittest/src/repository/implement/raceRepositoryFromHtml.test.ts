@@ -7,7 +7,7 @@ import { PlaceData } from '../../../../../src/domain/placeData';
 import type { IRaceDataHtmlGateway } from '../../../../../src/gateway/interface/iRaceDataHtmlGateway';
 import { MockRaceDataHtmlGateway } from '../../../../../src/gateway/mock/mockRaceDataHtmlGateway';
 import { SearchRaceFilterEntity } from '../../../../../src/repository/entity/filter/searchRaceFilterEntity';
-import { PlaceEntity } from '../../../../../src/repository/entity/placeEntity';
+import { OldPlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { RaceRepositoryFromHtml } from '../../../../../src/repository/implement/raceRepositoryFromHtml';
 import type { IRaceRepository } from '../../../../../src/repository/interface/IRaceRepository';
 import { allowedEnvs } from '../../../../../src/utility/env';
@@ -153,7 +153,7 @@ describe.each(testRaceTypeListAll)('RaceRepositoryFromHtml(%s)', (raceType) => {
                                     [],
                                 ),
                                 [
-                                    PlaceEntity.createWithoutId(
+                                    OldPlaceEntity.createWithoutId(
                                         PlaceData.create(
                                             raceType,
                                             placeDate,

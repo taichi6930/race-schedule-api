@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import type { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
-import { PlaceEntity } from '../../repository/entity/placeEntity';
+import { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { IOldPlaceService } from '../interface/IOldPlaceService';
@@ -26,7 +26,7 @@ export class OldPlaceService implements IOldPlaceService {
     public async fetchPlaceEntityList(
         searchPlaceFilter: OldSearchPlaceFilterEntity,
         dataLocation: DataLocationType,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<OldPlaceEntity[]> {
         const repository =
             dataLocation === DataLocation.Storage
                 ? this.repositoryFromStorage
@@ -40,7 +40,7 @@ export class OldPlaceService implements IOldPlaceService {
      */
     @Logger
     public async upsertPlaceEntityList(
-        entityList: PlaceEntity[],
+        entityList: OldPlaceEntity[],
     ): Promise<UpsertResult> {
         return this.repositoryFromStorage.upsertPlaceEntityList(entityList);
     }

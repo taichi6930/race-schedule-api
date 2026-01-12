@@ -1,6 +1,6 @@
 import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import type { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
-import type { PlaceEntity } from '../../repository/entity/placeEntity';
+import type { OldPlaceEntity } from '../../repository/entity/placeEntity';
 /**
  * レース開催場所ユースケースのインターフェース
  */
@@ -11,7 +11,7 @@ export interface IOldPlaceUseCase {
      */
     fetchPlaceEntityList: (
         searchPlaceFilter: OldSearchPlaceFilterEntity,
-    ) => Promise<PlaceEntity[]>;
+    ) => Promise<OldPlaceEntity[]>;
 
     /**
      * レース開催場所のEntity配列の更新を行う

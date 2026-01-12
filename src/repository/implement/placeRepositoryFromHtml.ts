@@ -19,7 +19,7 @@ import {
     validateRaceCourse,
 } from '../../utility/validateAndType/raceCourse';
 import { OldSearchPlaceFilterEntity } from '../entity/filter/oldSearchPlaceFilterEntity';
-import { PlaceEntity } from '../entity/placeEntity';
+import { OldPlaceEntity } from '../entity/placeEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
@@ -40,11 +40,11 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     @Logger
     public async fetchPlaceEntityList(
         searchFilter: OldSearchPlaceFilterEntity,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<OldPlaceEntity[]> {
         const { raceTypeList, startDate, finishDate } = searchFilter;
 
         // 各月のデータを取得して結合
-        const periodPlaceEntityLists: PlaceEntity[][] = [];
+        const periodPlaceEntityLists: OldPlaceEntity[][] = [];
         for (const raceType of raceTypeList) {
             // リストを生成
             const periodList = this.generatePeriodList(
@@ -54,7 +54,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
             );
 
             for (const period of periodList) {
-                let placeEntityList: PlaceEntity[] = [];
+                let placeEntityList: OldPlaceEntity[] = [];
                 switch (raceType) {
                     case RaceType.JRA: {
                         placeEntityList =
@@ -205,12 +205,12 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     private async fetchYearPlaceEntityListForJra(
         raceType: RaceType,
         date: Date,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<OldPlaceEntity[]> {
         // レースHTMLを取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
 
-        const placeEntityList: PlaceEntity[] = [];
+        const placeEntityList: OldPlaceEntity[] = [];
 
         // 競馬場のイニシャルと名前のマッピング
         const placeMap: Record<string, RaceCourse> = {
@@ -276,7 +276,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                             placeHeldDayTimesCountMap[place][heldTimes];
 
                         placeEntityList.push(
-                            PlaceEntity.createWithoutId(
+                            OldPlaceEntity.createWithoutId(
                                 PlaceData.create(
                                     raceType,
                                     new Date(
@@ -305,7 +305,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     private async fetchMonthPlaceEntityListForNar(
         raceType: RaceType,
         date: Date,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<OldPlaceEntity[]> {
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -347,11 +347,11 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
             });
         });
 
-        const placeDataList: PlaceEntity[] = [];
+        const placeDataList: OldPlaceEntity[] = [];
         for (const [place, raceDays] of Object.entries(placeDataDict)) {
             for (const raceDay of raceDays) {
                 placeDataList.push(
-                    PlaceEntity.createWithoutId(
+                    OldPlaceEntity.createWithoutId(
                         PlaceData.create(
                             raceType,
                             new Date(
@@ -379,9 +379,9 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     private async fetchMonthPlaceEntityListForOverseas(
         raceType: RaceType,
         date: Date,
-    ): Promise<PlaceEntity[]> {
+    ): Promise<OldPlaceEntity[]> {
         return [
-            PlaceEntity.createWithoutId(
+            OldPlaceEntity.createWithoutId(
                 PlaceData.create(
                     raceType,
                     // 月の初日を設定
@@ -403,8 +403,8 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     private async fetchMonthPlaceEntityListForKeirin(
         raceType: RaceType,
         date: Date,
-    ): Promise<PlaceEntity[]> {
-        const placeEntityList: PlaceEntity[] = [];
+    ): Promise<OldPlaceEntity[]> {
+        const placeEntityList: OldPlaceEntity[] = [];
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -462,7 +462,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                         // alt属性を出力
                         if (grade) {
                             placeEntityList.push(
-                                PlaceEntity.createWithoutId(
+                                OldPlaceEntity.createWithoutId(
                                     PlaceData.create(raceType, datetime, place),
                                     undefined,
                                     grade,
@@ -487,8 +487,8 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     private async fetchMonthPlaceEntityListForAutorace(
         raceType: RaceType,
         date: Date,
-    ): Promise<PlaceEntity[]> {
-        const placeEntityList: PlaceEntity[] = [];
+    ): Promise<OldPlaceEntity[]> {
+        const placeEntityList: OldPlaceEntity[] = [];
         // レース情報を取得
         const htmlText: string =
             await this.placeDataHtmlGateway.getPlaceDataHtml(raceType, date);
@@ -551,7 +551,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                     // alt属性を出力
                     if (grade) {
                         placeEntityList.push(
-                            PlaceEntity.createWithoutId(
+                            OldPlaceEntity.createWithoutId(
                                 PlaceData.create(raceType, datetime, place),
                                 undefined,
                                 grade,
@@ -570,7 +570,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
      */
     @Logger
     public async upsertPlaceEntityList(
-        _placeEntityList: PlaceEntity[],
+        _placeEntityList: OldPlaceEntity[],
     ): Promise<UpsertResult> {
         void _placeEntityList;
         return {

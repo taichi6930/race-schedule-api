@@ -1,6 +1,6 @@
 import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import type { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
-import type { PlaceEntity } from '../../repository/entity/placeEntity';
+import type { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import type { DataLocationType } from '../../utility/dataType';
 
 export interface IOldPlaceService {
@@ -12,11 +12,13 @@ export interface IOldPlaceService {
     fetchPlaceEntityList: (
         searchPlaceFilter: OldSearchPlaceFilterEntity,
         dataLocation: DataLocationType,
-    ) => Promise<PlaceEntity[]>;
+    ) => Promise<OldPlaceEntity[]>;
 
     /**
      * 開催場のEntity配列の更新を行う
      * @param entityList - 場所エンティティ配列
      */
-    upsertPlaceEntityList: (entityList: PlaceEntity[]) => Promise<UpsertResult>;
+    upsertPlaceEntityList: (
+        entityList: OldPlaceEntity[],
+    ) => Promise<UpsertResult>;
 }
