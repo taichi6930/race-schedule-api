@@ -11,11 +11,21 @@ export const router = async (request: Request): Promise<Response> => {
     if (request.method === 'GET' && url.pathname === '/calendar') {
         return calendarController.get(url.searchParams);
     }
-    if (request.method === 'GET' && url.pathname === '/place') {
-        return placeController.get(url.searchParams);
+    if (url.pathname === '/place') {
+        if (request.method === 'GET') {
+            return placeController.get(url.searchParams);
+        }
+        if (request.method === 'POST') {
+            return placeController.upsert(request);
+        }
     }
-    if (request.method === 'GET' && url.pathname === '/race') {
-        return raceController.get(url.searchParams);
+    if (url.pathname === '/race') {
+        if (request.method === 'GET') {
+            return raceController.get(url.searchParams);
+        }
+        if (request.method === 'POST') {
+            return raceController.upsert(request);
+        }
     }
     if (request.method === 'GET' && url.pathname === '/health') {
         return new Response('ok health check packages/api', { status: 200 });

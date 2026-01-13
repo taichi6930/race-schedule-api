@@ -4,4 +4,5 @@ export interface SearchRaceFilterParams {
     startDate: Date; // ISO8601文字列
     finishDate: Date; // ISO8601文字列
     raceTypeList: RaceType[];
+    locationList?: string[]; // 開催場コード等での絞り込み（任意）
 }
