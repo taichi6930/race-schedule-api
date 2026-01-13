@@ -23,6 +23,9 @@ export class RaceController {
             const startDate = searchParams.get('startDate');
             const finishDate = searchParams.get('finishDate');
             const raceTypeListRaw = searchParams.get('raceTypeList');
+            const locationListRaw = searchParams.get('locationList');
+
+            // 必須パラメータチェック
             if (!startDate || !finishDate) {
                 return Response.json(
                     { error: 'startDate, finishDateは必須です' },
@@ -41,6 +44,7 @@ export class RaceController {
                     },
                 );
             }
+
             // raceTypeListの妥当性チェック
             const raceTypeList = raceTypeListRaw
                 .split(',')
@@ -56,6 +60,7 @@ export class RaceController {
                     },
                 );
             }
+
             // 日付の妥当性チェック
             const startDateObj = new Date(startDate);
             const finishDateObj = new Date(finishDate);
@@ -73,22 +78,40 @@ export class RaceController {
                     },
                 );
             }
+
+            // locationList（カンマ区切り or undefined）
+            let locationList: string[] | undefined = undefined;
+            if (locationListRaw) {
+                locationList = locationListRaw
+                    .split(',')
+                    .map((v) => v.trim())
+                    .filter((v) => v.length > 0);
+            }
+
             const filter: SearchRaceFilterParams = {
                 startDate: startDateObj,
                 finishDate: finishDateObj,
                 raceTypeList,
+                locationList,
             };
             const data = await this.usecase.fetch(filter);
             // Entity→DTO変換（locationCodeを除外）
-            const races = data.map((e: RaceEntity) => ({
-                raceId: e.raceId,
-                placeId: e.placeId,
-                raceType: e.raceType,
-                datetime: e.datetime,
-                placeName: e.placeName,
-                raceNumber: e.raceNumber,
-                placeHeldDays: e.placeHeldDays,
-            }));
+            const races = data
+                .filter(
+                    (e: RaceEntity) =>
+                        !locationList ||
+                        (e.locationCode &&
+                            locationList.includes(e.locationCode)),
+                )
+                .map((e: RaceEntity) => ({
+                    raceId: e.raceId,
+                    placeId: e.placeId,
+                    raceType: e.raceType,
+                    datetime: e.datetime,
+                    placeName: e.placeName,
+                    raceNumber: e.raceNumber,
+                    placeHeldDays: e.placeHeldDays,
+                }));
             return Response.json(
                 {
                     count: races.length,
@@ -107,20 +130,20 @@ export class RaceController {
     }
     /**
      * レース情報のupsert API
-     * POST /race/upsert
+     * POST /race
      */
     public async upsert(request: Request): Promise<Response> {
         try {
             const body = await request.json();
-            if (!Array.isArray(body)) {
+            if (!Array.isArray(body) || body.length === 0) {
                 return Response.json(
                     {
-                        error: 'リクエストボディはRaceEntity[]配列である必要があります',
+                        error: 'リクエストボディはRaceEntity[]配列（1件以上）である必要があります',
                     },
                     { status: 400 },
                 );
             }
-            // RaceEntityの最低限のバリデーション
+            // RaceEntityのバリデーション
             const isValid = body.every(
                 (e) =>
                     typeof e.raceId === 'string' &&
@@ -129,7 +152,10 @@ export class RaceController {
                     e.datetime !== undefined &&
                     typeof e.placeName === 'string' &&
                     typeof e.raceNumber === 'number' &&
-                    typeof e.placeHeldDays === 'object',
+                    typeof e.placeHeldDays === 'object' &&
+                    e.placeHeldDays !== undefined &&
+                    e.placeHeldDays.heldTimes !== undefined &&
+                    e.placeHeldDays.heldDayTimes !== undefined,
             );
             if (!isValid) {
                 return Response.json(

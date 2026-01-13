@@ -24,6 +24,9 @@ export class PlaceController {
             const startDate = searchParams.get('startDate');
             const finishDate = searchParams.get('finishDate');
             const raceTypeListRaw = searchParams.get('raceTypeList');
+            const locationListRaw = searchParams.get('locationList');
+
+            // 必須パラメータチェック
             if (!startDate || !finishDate) {
                 return Response.json(
                     { error: 'startDate, finishDateは必須です' },
@@ -42,6 +45,7 @@ export class PlaceController {
                     },
                 );
             }
+
             // raceTypeListの妥当性チェック
             const raceTypeList = raceTypeListRaw
                 .split(',')
@@ -57,6 +61,7 @@ export class PlaceController {
                     },
                 );
             }
+
             // 日付の妥当性チェック
             const startDateObj = new Date(startDate);
             const finishDateObj = new Date(finishDate);
@@ -74,20 +79,38 @@ export class PlaceController {
                     },
                 );
             }
+
+            // locationList（カンマ区切り or undefined）
+            let locationList: string[] | undefined = undefined;
+            if (locationListRaw) {
+                locationList = locationListRaw
+                    .split(',')
+                    .map((v) => v.trim())
+                    .filter((v) => v.length > 0);
+            }
+
             const filter: SearchPlaceFilterParams = {
                 startDate: startDateObj,
                 finishDate: finishDateObj,
                 raceTypeList,
+                locationList,
             };
             const data = await this.usecase.fetch(filter);
             // Entity→DTO変換（locationCodeを除外）
-            const places: PlaceDisplayDto[] = data.map((e: PlaceEntity) => ({
-                placeId: e.placeId,
-                raceType: e.raceType,
-                datetime: e.datetime,
-                placeName: e.placeName,
-                placeHeldDays: e.placeHeldDays,
-            }));
+            const places: PlaceDisplayDto[] = data
+                .filter(
+                    (e: PlaceEntity) =>
+                        !locationList ||
+                        (e.locationCode &&
+                            locationList.includes(e.locationCode)),
+                )
+                .map((e: PlaceEntity) => ({
+                    placeId: e.placeId,
+                    raceType: e.raceType,
+                    datetime: e.datetime,
+                    placeName: e.placeName,
+                    placeHeldDays: e.placeHeldDays,
+                }));
             return Response.json(
                 {
                     count: places.length,
@@ -107,27 +130,30 @@ export class PlaceController {
 
     /**
      * 開催場情報のupsert API
-     * POST /place/upsert
+     * POST /place
      */
     public async upsert(request: Request): Promise<Response> {
         try {
             const body = await request.json();
-            if (!Array.isArray(body)) {
+            if (!Array.isArray(body) || body.length === 0) {
                 return Response.json(
                     {
-                        error: 'リクエストボディはPlaceEntity[]配列である必要があります',
+                        error: 'リクエストボディはPlaceEntity[]配列（1件以上）である必要があります',
                     },
                     { status: 400 },
                 );
             }
-            // PlaceEntityの最低限のバリデーション
+            // PlaceEntityのバリデーション
             const isValid = body.every(
                 (e) =>
                     typeof e.placeId === 'string' &&
                     typeof e.raceType === 'string' &&
                     e.datetime !== undefined &&
                     typeof e.placeName === 'string' &&
-                    typeof e.placeHeldDays === 'object',
+                    typeof e.placeHeldDays === 'object' &&
+                    e.placeHeldDays !== undefined &&
+                    e.placeHeldDays.heldTimes !== undefined &&
+                    e.placeHeldDays.heldDayTimes !== undefined,
             );
             if (!isValid) {
                 return Response.json(
