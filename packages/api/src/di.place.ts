@@ -7,7 +7,7 @@ import { PlaceService } from './service/implement/placeService';
 import { PlaceUsecase } from './usecase/implement/placeUsecase';
 
 container.register('DBGateway', { useClass: DBGateway });
-container.register('PlaceRepositoryDb', { useClass: PlaceRepository });
+container.register('PlaceRepository', { useClass: PlaceRepository });
 container.register('PlaceService', { useClass: PlaceService });
 container.register('PlaceUsecase', { useClass: PlaceUsecase });
 

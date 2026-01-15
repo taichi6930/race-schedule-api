@@ -29,5 +29,8 @@
         "args": ["-l"]
     },
     // Enable debug logging to inspect spawned env if needed
-    "jest.debugMode": true
+    "jest.debugMode": true,
+    "chat.tools.terminal.autoApprove": {
+        "wrangler": true
+    }
 }
