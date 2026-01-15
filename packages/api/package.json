@@ -5,6 +5,7 @@
     "main": "./dist/index.js",
     "scripts": {
         "dev": "wrangler dev --local --persist-to ../db",
+        "dev:local": "wrangler dev --local --d1=DB=../db/.wrangler/state/v3/d1/miniflare-D1DatabaseObject/race-schedule-db.sqlite3",
         "deploy:local": "TZ=Asia/Tokyo wrangler dev --local --persist-to ../db",
         "deploy:test": "TZ=Asia/Tokyo wrangler deploy --env test",
         "deploy:production": "TZ=Asia/Tokyo wrangler deploy --env production",
