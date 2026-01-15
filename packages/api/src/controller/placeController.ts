@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import type { PlaceDisplayDto } from '@race-schedule/shared/src/dto/placeDisplayDto';
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
+import { Logger } from '@race-schedule/shared/src/utilities/logger';
 import { inject, injectable } from 'tsyringe';
 
 import type { SearchPlaceFilterParams } from '../types/searchPlaceFilter';
@@ -19,6 +20,7 @@ export class PlaceController {
      * 開催場一覧を取得するAPI
      * GET /place?startDate=2026-01-01&finishDate=2026-01-02&raceTypeList=JRA
      */
+    @Logger
     public async get(searchParams: URLSearchParams): Promise<Response> {
         try {
             const startDate = searchParams.get('startDate');

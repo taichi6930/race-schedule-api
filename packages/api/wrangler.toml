@@ -1,4 +1,4 @@
-name = "race-schedule"
+name = "race-schedule-api"
 main = "src/index.ts"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
@@ -10,23 +10,7 @@ database_id = "preview"
 migrations_dir = "../db/migrations"
 
 [env.production]
-# 本番環境用のワーカー名を明示
-name = "race-schedule-prod"
-
-[[env.production.d1_databases]]
-binding = "DB"
-database_name = "race_schedule_db_prod"
-database_id = "$CF_D1_PROD_DB_ID"
-migrations_dir = "../db/migrations"
+name = "race-schedule-api-prod"
 
 [env.test]
-# テスト環境用のワーカー名を明示
-name = "race-schedule-test"
-# ENVなどの値はGitHub Actionsのsecretで管理してください
-# 例: ENV = "${ENV}"
-
-[[env.test.d1_databases]]
-binding = "DB"
-database_name = "race_schedule_db_test"
-database_id = "$CF_D1_TEST_DB_ID"
-migrations_dir = "../db/migrations"
+name = "race-schedule-api-test"
