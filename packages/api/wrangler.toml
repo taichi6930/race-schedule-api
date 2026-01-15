@@ -3,19 +3,13 @@ main = "src/index.ts"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
-[[d1_databases]]
+name = "race-schedule-api"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
 
 [env.production]
-# 本番環境用のワーカー名を明示
-name = "race-schedule-prod"
-
-[[env.production.d1_databases]]
+name = "race-schedule-api-prod"
 
 [env.test]
-# テスト環境用のワーカー名を明示
-name = "race-schedule-test"
-# ENVなどの値はGitHub Actionsのsecretで管理してください
-# 例: ENV = "${ENV}"
-
-[[env.test.d1_databases]]
-## D1データベースbinding設定はdbパッケージ側で管理します
+name = "race-schedule-api-test"
