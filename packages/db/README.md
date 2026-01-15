@@ -28,6 +28,8 @@ pnpm run migrations:list:local
 pnpm run db:shell:local
 ```
 
+> 補足: これらのローカルコマンドは `packages/api/wrangler.toml` を参照して実行されます。API の開発サーバーと同じ D1 ストレージを更新するため、`wrangler dev` 実行時にテーブルが存在しないという問題を避けられます。
+
 ## マイグレーション
 
 マイグレーションファイルは `migrations/` ディレクトリに配置されています。
