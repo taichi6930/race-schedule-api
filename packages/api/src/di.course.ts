@@ -7,7 +7,6 @@ import { CourseService } from './service/implement/courseService';
 import { CourseUsecase } from './usecase/implement/courseUsecase';
 
 // DI登録
-// container.register('CourseRepository', { useClass: CourseRepositoryStub })
 container.register('DBGateway', { useClass: DBGateway });
 container.register('CourseRepository', { useClass: CourseRepository });
 container.register('CourseService', { useClass: CourseService });
