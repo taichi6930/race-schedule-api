@@ -1,3 +1,8 @@
+## wrangler.effective.toml (LOCAL ONLY)
+## - Contains actual Cloudflare D1 database IDs for local development or one-off deploys.
+## - This file should NOT be committed to remote repositories if it contains secrets
+##   (we keep it in .gitignore via the repository root configuration: *.effective.toml).
+
 name = "race-schedule"
 main = "src/index.ts"
 compatibility_date = "2024-09-23"
@@ -10,7 +15,6 @@ database_id = "preview"
 migrations_dir = "../db/migrations"
 
 [env.production]
-# 本番環境用のワーカー名を明示
 name = "race-schedule-prod"
 
 [[env.production.d1_databases]]
@@ -20,10 +24,7 @@ database_id = "853210d9-7b32-4895-9341-2918db1fc81f"
 migrations_dir = "../db/migrations"
 
 [env.test]
-# テスト環境用のワーカー名を明示
 name = "race-schedule-test"
-# ENVなどの値はGitHub Actionsのsecretで管理してください
-# 例: ENV = ""
 
 [[env.test.d1_databases]]
 binding = "DB"

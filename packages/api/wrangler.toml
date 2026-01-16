@@ -1,3 +1,8 @@
+## wrangler.toml (template)
+## This file is committed and used by CI.
+## - For CI (deploy/test), `envsubst` will replace `${CF_D1_TEST_DB_ID}` / `${CF_D1_PROD_DB_ID}`
+## - Do NOT store actual DB IDs here. Use `wrangler.effective.toml` locally if needed
+
 name = "race-schedule-api"
 main = "src/index.ts"
 compatibility_date = "2024-09-23"

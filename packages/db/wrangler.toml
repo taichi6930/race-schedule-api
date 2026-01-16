@@ -1,3 +1,10 @@
+
+## wrangler.toml (DB package template)
+## - This file is committed and used by CI workflows in packages/db.
+## - The CI workflows use `sed` to replace the placeholder database_id values
+##   ("production" / "test") with the actual DB IDs stored in GitHub Secrets
+##   (DB_ID_PROD / DB_ID_TEST) before running migrations.
+
 name = "race-schedule-db"
 compatibility_date = "2024-09-23"
 
