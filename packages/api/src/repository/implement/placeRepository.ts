@@ -1,4 +1,5 @@
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
+import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
@@ -20,36 +21,96 @@ export class PlaceRepository implements IPlaceRepository {
         private readonly dbGateway: IDBGateway,
     ) {}
 
-    private toEntity(row: any): PlaceEntity {
+    private toEntity(
+        row: any,
+        opts?: { includePlaceGrade?: boolean },
+    ): PlaceEntity {
         // D1公式APIとDrizzle ORMでカラム名が異なる場合に対応
-        return {
+        const entity: any = {
             placeId: row.place_id,
             raceType: row.race_type,
             datetime: new Date(row.date_time),
             locationCode: row.location_code,
-            placeName: row.place_name,
-            placeHeldDays: undefined,
+            locationName: row.place_name, // 出力名をlocationNameに
+            placeHeldDays:
+                row.held_times !== undefined && row.held_times !== null
+                    ? {
+                          heldTimes: row.held_times,
+                          heldDayTimes: row.held_day_times,
+                      }
+                    : undefined,
         };
+        if (
+            opts?.includePlaceGrade &&
+            row.place_grade !== undefined &&
+            row.place_grade !== null
+        ) {
+            entity.placeGrade = row.place_grade;
+        }
+        return entity;
     }
 
     public async fetch(
         params: SearchPlaceFilterParams,
     ): Promise<PlaceEntity[]> {
-        let sql = 'SELECT * FROM place WHERE date_time BETWEEN ? AND ?';
         const sqlParams: any[] = [
             params.startDate.toISOString(),
             params.finishDate.toISOString(),
         ];
+
+        const isOnlyJRA =
+            params.raceTypeList.length === 1 &&
+            params.raceTypeList[0] === RaceType.JRA;
+
+        const wantMinimalHeldDays =
+            isOnlyJRA && params.isDisplayPlaceHeldDays === false;
+
+        // base select with place_master join to get place_name, and place_grade
+        let sql = `SELECT p.place_id, p.race_type, p.date_time, p.location_code, pm.place_name, g.place_grade`;
+        if (!wantMinimalHeldDays) {
+            sql += ', h.held_times, h.held_day_times';
+        }
+        sql += ` FROM place p
+            LEFT JOIN place_master pm ON pm.race_type = p.race_type AND pm.course_code_type = 'default' AND pm.place_code = p.location_code
+            LEFT JOIN place_grade g ON g.place_id = p.place_id`;
+        if (!wantMinimalHeldDays) {
+            sql += ' LEFT JOIN place_held_day h ON p.place_id = h.place_id';
+        }
+        sql += ' WHERE p.date_time BETWEEN ? AND ?';
+
         if (params.raceTypeList.length > 0) {
-            sql += ` AND race_type IN (${params.raceTypeList.map(() => '?').join(',')})`;
+            sql += ` AND p.race_type IN (${params.raceTypeList.map(() => '?').join(',')})`;
             sqlParams.push(...params.raceTypeList);
         }
         if (params.locationList && params.locationList.length > 0) {
-            sql += ` AND location_name IN (${params.locationList.map(() => '?').join(',')})`;
+            sql += ` AND p.location_code IN (${params.locationList.map(() => '?').join(',')})`;
             sqlParams.push(...params.locationList);
         }
+
         const { results } = await this.dbGateway.queryAll(sql, sqlParams);
-        return results.map((row: any) => this.toEntity(row));
+
+        // KEIRIN, BOATRACE, AUTORACE の場合のplaceGrade出し分け
+        const shouldIncludePlaceGrade = (raceType: string): boolean => {
+            // isDisplayPlaceGradeがtrueまたはundefinedなら常に表示
+            if (
+                params.isDisplayPlaceGrade === undefined ||
+                params.isDisplayPlaceGrade
+            ) {
+                return true;
+            }
+            // falseの場合はKEIRIN,BOATRACE,AUTORACEのみ非表示
+            return !(
+                raceType === 'KEIRIN' ||
+                raceType === 'BOATRACE' ||
+                raceType === 'AUTORACE'
+            );
+        };
+
+        return results.map((row: any) =>
+            this.toEntity(row, {
+                includePlaceGrade: shouldIncludePlaceGrade(row.race_type),
+            }),
+        );
     }
 
     public async upsert(entityList: PlaceEntity[]): Promise<UpsertResult> {

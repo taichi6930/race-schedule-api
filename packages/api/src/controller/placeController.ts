@@ -27,6 +27,12 @@ export class PlaceController {
             const finishDate = searchParams.get('finishDate');
             const raceTypeListRaw = searchParams.get('raceTypeList');
             const locationListRaw = searchParams.get('locationList');
+            const isDisplayPlaceHeldDaysRaw = searchParams.get(
+                'isDisplayPlaceHeldDays',
+            );
+            const isDisplayPlaceGradeRaw = searchParams.get(
+                'isDisplayPlaceGrade',
+            );
 
             // 必須パラメータチェック
             if (!startDate || !finishDate) {
@@ -96,6 +102,14 @@ export class PlaceController {
                 finishDate: finishDateObj,
                 raceTypeList,
                 locationList,
+                isDisplayPlaceHeldDays:
+                    isDisplayPlaceHeldDaysRaw === null
+                        ? undefined
+                        : isDisplayPlaceHeldDaysRaw === 'true',
+                isDisplayPlaceGrade:
+                    isDisplayPlaceGradeRaw === null
+                        ? undefined
+                        : isDisplayPlaceGradeRaw === 'true',
             };
             const data = await this.usecase.fetch(filter);
             // Entity→DTO変換（locationCodeを除外）
@@ -111,6 +125,8 @@ export class PlaceController {
                     raceType: e.raceType,
                     datetime: e.datetime,
                     placeName: e.placeName,
+                    locationName: (e as any).locationName ?? e.placeName,
+                    placeGrade: (e as any).placeGrade,
                     placeHeldDays: e.placeHeldDays,
                 }));
             return Response.json(

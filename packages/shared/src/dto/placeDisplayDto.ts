@@ -10,5 +10,6 @@ export interface PlaceDisplayDto {
     raceType: RaceType;
     datetime: Date;
     placeName: string;
+    placeGrade: string | undefined;
     placeHeldDays: PlaceHeldDays | undefined;
 }
