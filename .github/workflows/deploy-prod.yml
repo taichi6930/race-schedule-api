@@ -4,6 +4,7 @@ permissions:
   contents: read
   id-token: write
   issues: write
+  pull-requests: write
 
 on:
   push:
@@ -46,11 +47,24 @@ jobs:
           envsubst < wrangler.toml > wrangler.resolved.toml && mv wrangler.resolved.toml wrangler.toml
           pnpm run deploy:production
 
-      # ラベル付与イベントで起動した場合のみ、ラベルを削除
-      - name: Remove 'deploy-production' label
-        if: github.event.label.name == 'deploy-production'
+      # ラベル付与イベントで起動した場合のみ、ラベルを削除（Issue）
+      - name: Remove 'deploy-production' label (issue)
+        if: github.event_name == 'issues' && github.event.label.name == 'deploy-production'
         uses: actions-ecosystem/action-remove-labels@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           labels: deploy-production
+          repo: ${{ github.repository }}
           number: ${{ github.event.issue.number }}
+          fail_on_error: false
+
+      # ラベル付与イベントで起動した場合のみ、ラベルを削除（Pull Request）
+      - name: Remove 'deploy-production' label (pull_request)
+        if: github.event_name == 'pull_request' && github.event.label.name == 'deploy-production'
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          labels: deploy-production
+          repo: ${{ github.repository }}
+          number: ${{ github.event.pull_request.number }}
+          fail_on_error: false
