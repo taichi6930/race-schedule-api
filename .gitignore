@@ -1,39 +1,57 @@
-# macOS Finder
+# ===================================
+# OS
+# ===================================
 .DS_Store
-packages/db/script/*
+
+# ===================================
+# Node.js / Package Managers
+# ===================================
+node_modules/
+package-lock.json
+
+# ===================================
+# Build Outputs
+# ===================================
+dist/
+*.tsbuildinfo
 *.js
+*.d.ts
+# Allow config files
 !jest.config.js
 !jest.setup.js
 !prettier.config.js
-*.d.ts
-node_modules
-dist/
-*.tsbuildinfo
 
+# ===================================
+# Test Coverage
+# ===================================
+coverage/
 
-
-# jest
-coverage
-
-# env
+# ===================================
+# Environment & Secrets
+# ===================================
 *.env*
-
-# Cloudflare D1 secret
 .d1.secret
 
-# mock
-src/gateway/mockData/*
-
-# typedoc
-docs
-
-# volume配下のファイル
-volume/*
-
-# package managers
-package-lock.json
-
+# ===================================
+# Cloudflare
+# ===================================
 .wrangler/
+# Effective configs contain actual DB IDs
+*.effective.toml
 
-scripts/*.sql
+# ===================================
+# Documentation
+# ===================================
+docs/
+
+# ===================================
+# Project Specific
+# ===================================
+# Mock data
+src/gateway/mockData/*
+# Volume files
+volume/*
+# DB scripts
+packages/db/script/*
 packages/db/v3/
+scripts/*.sql
