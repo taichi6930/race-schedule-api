@@ -56,21 +56,83 @@ export class PlaceRepository implements IPlaceRepository {
         const failures: { db: string; id: string; reason: string }[] = [];
         for (const entity of entityList) {
             try {
-                const sql = `INSERT INTO place (id, race_type, date_time, location_name) VALUES (?, ?, ?, ?)
-                    ON CONFLICT(id) DO UPDATE SET race_type=excluded.race_type, date_time=excluded.date_time, location_name=excluded.location_name`;
-                await this.dbGateway.run(sql, [
+                // トランザクション開始
+                await this.dbGateway.run('BEGIN', []);
+
+                // place テーブルの upsert
+                const placeSql = `INSERT INTO place (id, race_type, date_time, location_name, created_at, updated_at)
+                    VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                    ON CONFLICT(id) DO UPDATE SET
+                        race_type = excluded.race_type,
+                        date_time = excluded.date_time,
+                        location_name = excluded.location_name,
+                        updated_at = CURRENT_TIMESTAMP`;
+                await this.dbGateway.run(placeSql, [
                     entity.placeId,
                     entity.raceType,
                     entity.datetime.toISOString(),
                     entity.placeName,
                 ]);
+
+                // place_held_day がある場合は upsert
+                if (entity.placeHeldDays) {
+                    const heldSql = `INSERT INTO place_held_day (place_id, held_times, held_day_times, created_at, updated_at)
+                        VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                        ON CONFLICT(place_id) DO UPDATE SET
+                            held_times = excluded.held_times,
+                            held_day_times = excluded.held_day_times,
+                            updated_at = CURRENT_TIMESTAMP`;
+                    await this.dbGateway.run(heldSql, [
+                        entity.placeId,
+                        entity.placeHeldDays.heldTimes,
+                        entity.placeHeldDays.heldDayTimes,
+                    ]);
+                }
+
+                // place_grade が渡されている場合は upsert（エンティティに grade プロパティがあれば対応）
+                const maybeGrade = (entity as any).grade;
+                if (maybeGrade !== undefined && maybeGrade !== null) {
+                    const gradeSql = `INSERT INTO place_grade (id, race_type, grade, created_at, updated_at)
+                        VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                        ON CONFLICT(id) DO UPDATE SET
+                            race_type = excluded.race_type,
+                            grade = excluded.grade,
+                            updated_at = CURRENT_TIMESTAMP`;
+                    await this.dbGateway.run(gradeSql, [
+                        entity.placeId,
+                        entity.raceType,
+                        maybeGrade,
+                    ]);
+                }
+
+                // place_master に関しては locationCode があれば upsert
+                // 注意: schema の PRIMARY KEY は (race_type, course_code_type, place_name)
+                // course_code_type の値が得られない場合は 'default' を使用しています。
+                if (entity.locationCode) {
+                    const masterSql = `INSERT INTO place_master (race_type, course_code_type, place_name, place_code, created_at, updated_at)
+                        VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                        ON CONFLICT(race_type, course_code_type, place_name) DO UPDATE SET
+                            place_code = excluded.place_code,
+                            updated_at = CURRENT_TIMESTAMP`;
+                    await this.dbGateway.run(masterSql, [
+                        entity.raceType,
+                        'default',
+                        entity.placeName,
+                        entity.locationCode,
+                    ]);
+                }
+
+                // コミット
+                await this.dbGateway.run('COMMIT', []);
                 successCount++;
             } catch (error: any) {
-                failures.push({
-                    db: 'place',
-                    id: entity.placeId,
-                    reason: error?.message ?? 'unknown error',
-                });
+                // エラー発生時はロールバックを試みる
+                try {
+                    await this.dbGateway.run('ROLLBACK', []);
+                } catch (e) {
+                    // ignore
+                }
+                failures.push({ db: 'place', id: entity.placeId, reason: error?.message ?? 'unknown error' });
             }
         }
         return {
