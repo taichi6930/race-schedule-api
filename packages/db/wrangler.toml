@@ -1,3 +1,8 @@
+## wrangler.toml（DBパッケージ用テンプレート）
+## - このファイルはCIワークフローで使用され、リポジトリにコミットされます。
+## - CIワークフローは `sed` により `database_id` のプレースホルダ（"production" / "test"）を
+##   GitHub Secrets に設定された実際のDB ID（DB_ID_PROD / DB_ID_TEST）に置換してからマイグレーションを実行します。
+
 name = "race-schedule-db"
 compatibility_date = "2024-09-23"
 
