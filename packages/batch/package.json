@@ -13,11 +13,11 @@
         "@race-schedule/db": "workspace:*",
         "better-sqlite3": "12.6.0",
         "dotenv": "^17.2.3",
-        "googleapis": "^170.0.0"
+        "googleapis": "^170.1.0"
     },
     "devDependencies": {
         "@types/better-sqlite3": "^7.6.11",
-        "@types/node": "^25.0.8",
+        "@types/node": "^25.0.9",
         "typescript": "~5.9.3"
     }
 }
