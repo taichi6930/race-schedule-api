@@ -12,5 +12,17 @@ migrations_dir = "../db/migrations"
 [env.production]
 name = "race-schedule-api-prod"
 
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "race-schedule-db-prod"
+database_id = "YOUR_PRODUCTION_DB_ID"
+migrations_dir = "../db/migrations"
+
 [env.test]
 name = "race-schedule-api-test"
+
+[[env.test.d1_databases]]
+binding = "DB"
+database_name = "race-schedule-db-test"
+database_id = "YOUR_TEST_DB_ID"
+migrations_dir = "../db/migrations"
