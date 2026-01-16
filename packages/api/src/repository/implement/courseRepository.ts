@@ -3,10 +3,8 @@ import type { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeT
 import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceMasterEntity } from '../../domain/entity/placeMasterEntity';
 import { IDBGateway } from '../../gateway/interface/IDBGateway';
 import { ICourseRepository } from '../interface/ICourseRepository';
-import { PlaceMasterMapper } from '../mapper/placeMasterMapper';
 
 @injectable()
 export class CourseRepository implements ICourseRepository {
@@ -28,13 +26,12 @@ export class CourseRepository implements ICourseRepository {
         }
 
         const { results } = await this.dbGateway.queryAll(sql, params);
-        return results
-            .map((result) => PlaceMasterMapper.toEntity(result))
-            .map((entity: PlaceMasterEntity) => ({
-                raceType: entity.raceType as RaceType,
-                courseCodeType: entity.courseCodeType as CourseCodeType,
-                placeName: entity.placeName,
-                placeCode: entity.placeCode,
-            }));
+        // PlaceMasterMapper削除のため、resultを直接型変換
+        return results.map((result) => ({
+            raceType: result.raceType as RaceType,
+            courseCodeType: result.courseCodeType as CourseCodeType,
+            placeName: result.placeName,
+            placeCode: result.placeCode,
+        }));
     }
 }
