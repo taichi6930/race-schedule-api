@@ -36,4 +36,6 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CF_D1_PROD_DB_ID: ${{ secrets.CF_D1_PROD_DB_ID }}
           ENV: ${{ secrets.ENV }}
-        run: pnpm run deploy:production
+        run: |
+          envsubst < wrangler.toml > wrangler.resolved.toml && mv wrangler.resolved.toml wrangler.toml
+          pnpm run deploy:production
