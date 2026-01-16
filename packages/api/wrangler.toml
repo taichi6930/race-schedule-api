@@ -10,7 +10,7 @@ database_id = "preview"
 migrations_dir = "../db/migrations"
 
 [env.production]
-name = "race-schedule-api-prod"
+name = "race-schedule-prod"
 
 [[env.production.d1_databases]]
 binding = "DB"
@@ -19,7 +19,7 @@ database_id = "${CF_D1_PROD_DB_ID}"
 migrations_dir = "../db/migrations"
 
 [env.test]
-name = "race-schedule-api-test"
+name = "race-schedule-test"
 
 [[env.test.d1_databases]]
 binding = "DB"
