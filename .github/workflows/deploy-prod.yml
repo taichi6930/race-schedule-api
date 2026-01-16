@@ -3,14 +3,20 @@ name: Deploy Cloudflare Production API
 permissions:
   contents: read
   id-token: write
+  issues: write
 
 on:
   push:
     tags:
       - 'v*'
+  issues:
+    types: [labeled]
+  pull_request:
+    types: [labeled]
 
 jobs:
   deploy-prod:
+    if: github.event_name == 'push' || github.event.label.name == 'deploy-production'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -39,3 +45,12 @@ jobs:
         run: |
           envsubst < wrangler.toml > wrangler.resolved.toml && mv wrangler.resolved.toml wrangler.toml
           pnpm run deploy:production
+
+      # ラベル付与イベントで起動した場合のみ、ラベルを削除
+      - name: Remove 'deploy-production' label
+        if: github.event.label.name == 'deploy-production'
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: deploy-production
+          number: ${{ github.event.issue.number }}
