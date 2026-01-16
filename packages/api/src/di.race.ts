@@ -1,7 +1,7 @@
 import { container } from 'tsyringe';
 
 import { RaceController } from './controller/raceController';
-import { RaceRepositoryStub } from './repository/implement/raceRepositoryStub';
+import { RaceRepositoryStub } from './repository/stub/raceRepositoryStub';
 import { RaceService } from './service/implement/raceService';
 import { RaceUsecase } from './usecase/implement/raceUsecase';
 
