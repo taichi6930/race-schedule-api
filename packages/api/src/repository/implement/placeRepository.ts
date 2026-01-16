@@ -1,5 +1,6 @@
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
 import { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
+import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import type { IDBGateway } from '../../gateway/interface/IDBGateway';
@@ -22,11 +23,11 @@ export class PlaceRepository implements IPlaceRepository {
     private toEntity(row: any): PlaceEntity {
         // D1公式APIとDrizzle ORMでカラム名が異なる場合に対応
         return {
-            placeId: row.id,
-            raceType: row.raceType ?? row.race_type,
-            datetime: new Date(row.dateTime ?? row.date_time),
-            locationCode: undefined,
-            placeName: row.locationName ?? row.location_name,
+            placeId: row.place_id,
+            raceType: row.race_type,
+            datetime: new Date(row.date_time),
+            locationCode: row.location_code,
+            placeName: row.place_name,
             placeHeldDays: undefined,
         };
     }
@@ -52,93 +53,148 @@ export class PlaceRepository implements IPlaceRepository {
     }
 
     public async upsert(entityList: PlaceEntity[]): Promise<UpsertResult> {
-        let successCount = 0;
-        const failures: { db: string; id: string; reason: string }[] = [];
-        for (const entity of entityList) {
+        const result: UpsertResult = {
+            successCount: 0,
+            failureCount: 0,
+            failures: [],
+        };
+        if (entityList.length === 0) return result;
+
+        const chunkArray = <T>(array: T[], size: number): T[][] => {
+            const res: T[][] = [];
+            for (let i = 0; i < array.length; i += size)
+                res.push(array.slice(i, i + size));
+            return res;
+        };
+
+        const chunkSize = 10;
+
+        // place バルク insert
+        for (const chunk of chunkArray(entityList, chunkSize)) {
+            const insertPlaceSql = `INSERT INTO place (place_id, race_type, date_time, location_code, created_at, updated_at) VALUES
+                ${chunk.map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                ON CONFLICT(place_id) DO UPDATE SET
+                    race_type = excluded.race_type,
+                    date_time = excluded.date_time,
+                    location_code = excluded.location_code,
+                    updated_at = CURRENT_TIMESTAMP`;
+            const params: any[] = [];
+            for (const e of chunk) {
+                const dateStr = formatDate(
+                    new Date(e.datetime),
+                    'yyyy-MM-dd HH:mm:ss',
+                );
+                params.push(
+                    e.placeId,
+                    e.raceType,
+                    dateStr,
+                    e.locationCode ?? e.placeName,
+                );
+            }
             try {
-                // トランザクション開始
-                await this.dbGateway.run('BEGIN', []);
-
-                // place テーブルの upsert
-                const placeSql = `INSERT INTO place (id, race_type, date_time, location_name, created_at, updated_at)
-                    VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                    ON CONFLICT(id) DO UPDATE SET
-                        race_type = excluded.race_type,
-                        date_time = excluded.date_time,
-                        location_name = excluded.location_name,
-                        updated_at = CURRENT_TIMESTAMP`;
-                await this.dbGateway.run(placeSql, [
-                    entity.placeId,
-                    entity.raceType,
-                    entity.datetime.toISOString(),
-                    entity.placeName,
-                ]);
-
-                // place_held_day がある場合は upsert
-                if (entity.placeHeldDays) {
-                    const heldSql = `INSERT INTO place_held_day (place_id, held_times, held_day_times, created_at, updated_at)
-                        VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                        ON CONFLICT(place_id) DO UPDATE SET
-                            held_times = excluded.held_times,
-                            held_day_times = excluded.held_day_times,
-                            updated_at = CURRENT_TIMESTAMP`;
-                    await this.dbGateway.run(heldSql, [
-                        entity.placeId,
-                        entity.placeHeldDays.heldTimes,
-                        entity.placeHeldDays.heldDayTimes,
-                    ]);
-                }
-
-                // place_grade が渡されている場合は upsert（エンティティに grade プロパティがあれば対応）
-                const maybeGrade = (entity as any).grade;
-                if (maybeGrade !== undefined && maybeGrade !== null) {
-                    const gradeSql = `INSERT INTO place_grade (id, race_type, grade, created_at, updated_at)
-                        VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                        ON CONFLICT(id) DO UPDATE SET
-                            race_type = excluded.race_type,
-                            grade = excluded.grade,
-                            updated_at = CURRENT_TIMESTAMP`;
-                    await this.dbGateway.run(gradeSql, [
-                        entity.placeId,
-                        entity.raceType,
-                        maybeGrade,
-                    ]);
-                }
-
-                // place_master に関しては locationCode があれば upsert
-                // 注意: schema の PRIMARY KEY は (race_type, course_code_type, place_name)
-                // course_code_type の値が得られない場合は 'default' を使用しています。
-                if (entity.locationCode) {
-                    const masterSql = `INSERT INTO place_master (race_type, course_code_type, place_name, place_code, created_at, updated_at)
-                        VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                        ON CONFLICT(race_type, course_code_type, place_name) DO UPDATE SET
-                            place_code = excluded.place_code,
-                            updated_at = CURRENT_TIMESTAMP`;
-                    await this.dbGateway.run(masterSql, [
-                        entity.raceType,
-                        'default',
-                        entity.placeName,
-                        entity.locationCode,
-                    ]);
-                }
-
-                // コミット
-                await this.dbGateway.run('COMMIT', []);
-                successCount++;
+                await this.dbGateway.run(insertPlaceSql, params);
+                await new Promise((r) => setTimeout(r, 200));
+                result.successCount += chunk.length;
             } catch (error: any) {
-                // エラー発生時はロールバックを試みる
-                try {
-                    await this.dbGateway.run('ROLLBACK', []);
-                } catch (e) {
-                    // ignore
-                }
-                failures.push({ db: 'place', id: entity.placeId, reason: error?.message ?? 'unknown error' });
+                result.failureCount += chunk.length;
+                for (const e of chunk)
+                    result.failures.push({
+                        db: 'place',
+                        id: e.placeId,
+                        reason: error?.message ?? String(error),
+                    });
             }
         }
-        return {
-            successCount,
-            failureCount: failures.length,
-            failures,
-        };
+
+        // place_held_day バルク insert
+        const heldEntities = entityList.filter(
+            (
+                e,
+            ): e is PlaceEntity & {
+                placeHeldDays: NonNullable<PlaceEntity['placeHeldDays']>;
+            } => e.placeHeldDays !== undefined,
+        );
+        for (const chunk of chunkArray(heldEntities, chunkSize)) {
+            const insertHeldSql = `INSERT INTO place_held_day (place_id, held_times, held_day_times, created_at, updated_at) VALUES
+                ${chunk.map(() => '(?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                ON CONFLICT(place_id) DO UPDATE SET
+                    held_times = excluded.held_times,
+                    held_day_times = excluded.held_day_times,
+                    updated_at = CURRENT_TIMESTAMP`;
+            const params: any[] = [];
+            for (const e of chunk)
+                params.push(
+                    e.placeId,
+                    e.placeHeldDays.heldTimes,
+                    e.placeHeldDays.heldDayTimes,
+                );
+            try {
+                await this.dbGateway.run(insertHeldSql, params);
+                await new Promise((r) => setTimeout(r, 200));
+                result.successCount += chunk.length;
+            } catch (error: any) {
+                result.failureCount += chunk.length;
+                for (const e of chunk)
+                    result.failures.push({
+                        db: 'place_held_day',
+                        id: e.placeId,
+                        reason: error?.message ?? String(error),
+                    });
+            }
+        }
+
+        // place_grade バルク insert
+        const gradeEntities = entityList.filter(
+            (e) => (e as any).grade !== undefined && (e as any).grade !== null,
+        );
+        for (const chunk of chunkArray(gradeEntities, chunkSize)) {
+            const insertGradeSql = `INSERT INTO place_grade (place_id, place_grade, created_at, updated_at) VALUES
+                ${chunk.map(() => '(?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)').join(',\n')}
+                ON CONFLICT(place_id) DO UPDATE SET
+                    place_grade = excluded.place_grade,
+                    updated_at = CURRENT_TIMESTAMP`;
+            const params: any[] = [];
+            for (const e of chunk) params.push(e.placeId, (e as any).grade);
+            try {
+                await this.dbGateway.run(insertGradeSql, params);
+                await new Promise((r) => setTimeout(r, 200));
+                result.successCount += chunk.length;
+            } catch (error: any) {
+                result.failureCount += chunk.length;
+                for (const e of chunk)
+                    result.failures.push({
+                        db: 'place_grade',
+                        id: e.placeId,
+                        reason: error?.message ?? String(error),
+                    });
+            }
+        }
+
+        // place_master 個別 upsert
+        for (const e of entityList) {
+            if (!(e.locationCode || e.placeName)) continue;
+            const masterSql = `INSERT INTO place_master (race_type, course_code_type, place_name, place_code, created_at, updated_at)
+                VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                ON CONFLICT(race_type, course_code_type, place_name) DO UPDATE SET
+                    place_code = excluded.place_code,
+                    updated_at = CURRENT_TIMESTAMP`;
+            try {
+                await this.dbGateway.run(masterSql, [
+                    e.raceType,
+                    'default',
+                    e.placeName,
+                    e.locationCode ?? e.placeName,
+                ]);
+            } catch (error: any) {
+                result.failureCount += 1;
+                result.failures.push({
+                    db: 'place_master',
+                    id: e.placeId,
+                    reason: error?.message ?? String(error),
+                });
+            }
+        }
+
+        return result;
     }
 }
