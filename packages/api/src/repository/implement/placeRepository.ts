@@ -1,3 +1,4 @@
+import { RaceType } from '@race-schedule/shared';
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
 import type { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
 import { inject, injectable } from 'tsyringe';
@@ -25,12 +26,45 @@ export class PlaceRepository implements IPlaceRepository {
             params.finishDate.toISOString(),
         ];
 
-        let sql = `SELECT p.place_id, p.race_type, p.date_time, p.location_code, pm.place_name, g.place_grade, h.held_times, h.held_day_times
-            FROM place p
-            LEFT JOIN place_master pm ON pm.race_type = p.race_type AND pm.course_code_type = 'default' AND pm.place_code = p.location_code
-            LEFT JOIN place_grade g ON g.place_id = p.place_id
-            LEFT JOIN place_held_day h ON p.place_id = h.place_id
-            WHERE p.date_time BETWEEN ? AND ?`;
+        // 基本カラム
+        const selectColumns = [
+            'p.place_id',
+            'p.race_type',
+            'p.date_time',
+            'p.location_code',
+            'pm.place_name',
+        ];
+        const joinClauses = [
+            "LEFT JOIN place_master pm ON pm.race_type = p.race_type AND pm.course_code_type = 'default' AND pm.place_code = p.location_code",
+        ];
+
+        // KEIRIN/AUTORACE/BOATRACE の場合 place_grade をフラグで取得
+        const raceTypesForGrade = new Set<RaceType>([
+            RaceType.KEIRIN,
+            RaceType.AUTORACE,
+            RaceType.BOATRACE,
+        ]);
+        const isGradeTarget = params.raceTypeList.some((rt: RaceType) =>
+            raceTypesForGrade.has(rt),
+        );
+        if (params.isDisplayPlaceGrade && isGradeTarget) {
+            selectColumns.push('g.place_grade');
+            joinClauses.push(
+                'LEFT JOIN place_grade g ON g.place_id = p.place_id',
+            );
+        }
+
+        // JRA の場合 place_held_day をフラグで取得
+        const isJRA = params.raceTypeList.includes(RaceType.JRA);
+        if ((params.isDisplayPlaceHeldDays ?? false) && isJRA) {
+            selectColumns.push('h.held_times', 'h.held_day_times');
+            joinClauses.push(
+                'LEFT JOIN place_held_day h ON p.place_id = h.place_id',
+            );
+        }
+
+        let sql = `SELECT ${selectColumns.join(', ')} FROM place p\n${joinClauses.join('\n')}`;
+        sql += ' WHERE p.date_time BETWEEN ? AND ?';
 
         if (params.raceTypeList.length > 0) {
             sql += ` AND p.race_type IN (${params.raceTypeList.map(() => '?').join(',')})`;
