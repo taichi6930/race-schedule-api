@@ -26,7 +26,6 @@ export class CourseRepository implements ICourseRepository {
         }
 
         const { results } = await this.dbGateway.queryAll(sql, params);
-        // PlaceMasterMapper削除のため、resultを直接型変換
         return results.map((result) => ({
             raceType: result.raceType as RaceType,
             courseCodeType: result.courseCodeType as CourseCodeType,
