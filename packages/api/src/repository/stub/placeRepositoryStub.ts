@@ -25,6 +25,7 @@ export class PlaceRepositoryStub implements IPlaceRepository {
                     heldTimes: 1,
                     heldDayTimes: 1,
                 },
+                placeGrade: undefined,
             },
         ];
     }
