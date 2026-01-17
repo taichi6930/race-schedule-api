@@ -1,44 +1,21 @@
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
 import type { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
+import { inject, injectable } from 'tsyringe';
 
 import type { IDBGateway } from '../../gateway/interface/IDBGateway';
 import type { SearchPlaceFilterParams } from '../../types/searchPlaceFilter';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
+import { PlaceMapper } from './placeMapper';
 
 /**
  * PlaceRepositoryのDB実装
  */
-
+@injectable()
 export class PlaceRepository implements IPlaceRepository {
-    public constructor(private readonly dbGateway: IDBGateway) {}
-
-    private toEntity(
-        row: any,
-        opts?: { includePlaceGrade?: boolean },
-    ): PlaceEntity {
-        const entity: any = {
-            placeId: row.place_id,
-            raceType: row.race_type,
-            datetime: new Date(row.date_time),
-            locationCode: row.location_code,
-            locationName: row.place_name,
-            placeHeldDays:
-                row.held_times !== undefined && row.held_times !== null
-                    ? {
-                          heldTimes: row.held_times,
-                          heldDayTimes: row.held_day_times,
-                      }
-                    : undefined,
-        };
-        if (
-            opts?.includePlaceGrade &&
-            row.place_grade !== undefined &&
-            row.place_grade !== null
-        ) {
-            entity.placeGrade = row.place_grade;
-        }
-        return entity;
-    }
+    public constructor(
+        @inject('DBGateway')
+        private readonly dbGateway: IDBGateway,
+    ) {}
 
     public async fetch(
         params: SearchPlaceFilterParams,
@@ -65,7 +42,7 @@ export class PlaceRepository implements IPlaceRepository {
         }
 
         const { results } = await this.dbGateway.queryAll(sql, sqlParams);
-        return results.map((row: any) => this.toEntity(row));
+        return results.map((row: any) => PlaceMapper.toEntity(row));
     }
 
     public async upsert(entityList: PlaceEntity[]): Promise<UpsertResult> {
