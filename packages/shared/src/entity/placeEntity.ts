@@ -20,6 +20,8 @@ export interface PlaceEntity {
     locationCode?: LocationCode;
     /** 開催場名（place_master等から取得） */
     placeName: string;
+    /** 開催場グレード（省略可） */
+    placeGrade: string | undefined;
     /** 開催回数・日数情報（省略可） */
     placeHeldDays: PlaceHeldDays | undefined;
 }
