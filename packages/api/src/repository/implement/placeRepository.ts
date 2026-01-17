@@ -1,5 +1,5 @@
-import { RaceType } from '@race-schedule/shared';
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
+import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import type { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
 import { inject, injectable } from 'tsyringe';
 
