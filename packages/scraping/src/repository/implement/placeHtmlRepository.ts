@@ -1,3 +1,6 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { Logger } from '@race-schedule/shared/src/utilities/logger';
 import { format } from 'date-fns';
@@ -51,6 +54,15 @@ export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
             raceType === 'JRA'
                 ? `place/${raceType as string}${date.getFullYear()}.html`
                 : `place/${raceType as string}${format(date, 'yyyyMM')}.html`;
+
+        // 開発環境ならローカルにも保存
+        if (process.env.NODE_ENV === 'development') {
+            const localDir = path.resolve(process.cwd(), 'local_html', 'place');
+            await fs.mkdir(localDir, { recursive: true });
+            const localPath = path.join(localDir, path.basename(key));
+            await fs.writeFile(localPath, html, 'utf8');
+        }
+
         await this.r2Gateway.putObject(key, html, 'text/html');
     }
 }

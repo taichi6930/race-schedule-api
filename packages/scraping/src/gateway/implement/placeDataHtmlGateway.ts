@@ -19,9 +19,8 @@ export class PlaceDataHtmlGateway implements IPlaceDataHtmlGateway {
         // 1秒待機（過負荷防止）
         await new Promise((resolve) => setTimeout(resolve, 1000));
         try {
-            // const response = await fetch(url);
-            // return await response.text();
-            return '';
+            const response = await fetch(url);
+            return await response.text();
         } catch (error) {
             console.error('HTML取得失敗:', error);
             throw new Error('HTMLの取得に失敗しました');
