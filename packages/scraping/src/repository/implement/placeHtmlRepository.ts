@@ -1,4 +1,6 @@
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
+import { Logger } from '@race-schedule/shared/src/utilities/logger';
+import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
@@ -16,28 +18,59 @@ export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
         private readonly placeDataHtmlGateway: IPlaceDataHtmlGateway,
     ) {}
 
+    @Logger
     public async fetchPlaceHtml(
         raceType: RaceType,
         date: Date,
     ): Promise<string> {
-        return this.placeDataHtmlGateway.fetch(raceType, date);
+        const html = await this.placeDataHtmlGateway.fetch(raceType, date);
+        await this.savePlaceHtml(raceType, date, html);
+        return html;
     }
 
+    @Logger
     public async loadPlaceHtml(
         raceType: RaceType,
         date: Date,
     ): Promise<string | null> {
-        const key = `place/${raceType}${date.toISOString().slice(0, 6)}.html`;
-        const buffer = await this.r2Gateway.getObject(key);
-        return buffer ? buffer.toString('utf8') : null;
+        let key: string;
+        if (raceType === 'JRA') {
+            key = `place/${raceType as string}${date.getFullYear()}.html`;
+        } else if (
+            raceType === 'NAR' ||
+            raceType === 'OVERSEAS' ||
+            raceType === 'KEIRIN' ||
+            raceType === 'AUTORACE' ||
+            raceType === 'BOATRACE'
+        ) {
+            key = `place/${raceType as string}${format(date, 'yyyyMM')}.html`;
+        } else {
+            key = `place/${raceType as string}${format(date, 'yyyyMMdd')}.html`;
+        }
+        const html = await this.r2Gateway.getObject(key);
+        return html;
     }
 
+    @Logger
     public async savePlaceHtml(
         raceType: RaceType,
         date: Date,
         html: string,
     ): Promise<void> {
-        const key = `place/${raceType}${date.toISOString().slice(0, 6)}.html`;
+        let key: string;
+        if (raceType === 'JRA') {
+            key = `place/${raceType as string}${date.getFullYear()}.html`;
+        } else if (
+            raceType === 'NAR' ||
+            raceType === 'OVERSEAS' ||
+            raceType === 'KEIRIN' ||
+            raceType === 'AUTORACE' ||
+            raceType === 'BOATRACE'
+        ) {
+            key = `place/${raceType as string}${format(date, 'yyyyMM')}.html`;
+        } else {
+            key = `place/${raceType as string}${format(date, 'yyyyMMdd')}.html`;
+        }
         await this.r2Gateway.putObject(key, html, 'text/html');
     }
 }
