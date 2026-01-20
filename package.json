@@ -29,8 +29,7 @@
         "typedoc": "npx typedoc --out ./docs ./src",
         "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check",
         "copy:mock-html": "rm -rf src/gateway/mockData/html && cp -r ./../race-schedule-data/html src/gateway/mockData/html",
-        "clean:branches": "git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D"
-        ,
+        "clean:branches": "git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D",
         "dev:scraping": "pnpm --filter @race-schedule/scraping exec npx wrangler dev"
     },
     "engines": {

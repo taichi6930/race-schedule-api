@@ -33,20 +33,10 @@ export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
         raceType: RaceType,
         date: Date,
     ): Promise<string | null> {
-        let key: string;
-        if (raceType === 'JRA') {
-            key = `place/${raceType as string}${date.getFullYear()}.html`;
-        } else if (
-            raceType === 'NAR' ||
-            raceType === 'OVERSEAS' ||
-            raceType === 'KEIRIN' ||
-            raceType === 'AUTORACE' ||
-            raceType === 'BOATRACE'
-        ) {
-            key = `place/${raceType as string}${format(date, 'yyyyMM')}.html`;
-        } else {
-            key = `place/${raceType as string}${format(date, 'yyyyMMdd')}.html`;
-        }
+        const key: string =
+            raceType === 'JRA'
+                ? `place/${raceType as string}${date.getFullYear()}.html`
+                : `place/${raceType as string}${format(date, 'yyyyMM')}.html`;
         const html = await this.r2Gateway.getObject(key);
         return html;
     }
@@ -57,20 +47,11 @@ export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
         date: Date,
         html: string,
     ): Promise<void> {
-        let key: string;
-        if (raceType === 'JRA') {
-            key = `place/${raceType as string}${date.getFullYear()}.html`;
-        } else if (
-            raceType === 'NAR' ||
-            raceType === 'OVERSEAS' ||
-            raceType === 'KEIRIN' ||
-            raceType === 'AUTORACE' ||
-            raceType === 'BOATRACE'
-        ) {
-            key = `place/${raceType as string}${format(date, 'yyyyMM')}.html`;
-        } else {
-            key = `place/${raceType as string}${format(date, 'yyyyMMdd')}.html`;
-        }
+        const key: string;
+        key =
+            raceType === 'JRA'
+                ? `place/${raceType as string}${date.getFullYear()}.html`
+                : `place/${raceType as string}${format(date, 'yyyyMM')}.html`;
         await this.r2Gateway.putObject(key, html, 'text/html');
     }
 }

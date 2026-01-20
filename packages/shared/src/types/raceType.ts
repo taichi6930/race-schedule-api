@@ -8,7 +8,6 @@ export const RaceType = {
     OVERSEAS: 'OVERSEAS', // 海外競馬
     AUTORACE: 'AUTORACE', // オートレース
     BOATRACE: 'BOATRACE', // ボートレース
-    UNKNOWN: 'UNKNOWN', // 不明
 } as const;
 
 /**
