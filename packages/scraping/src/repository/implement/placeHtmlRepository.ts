@@ -47,8 +47,7 @@ export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
         date: Date,
         html: string,
     ): Promise<void> {
-        const key: string;
-        key =
+        const key: string =
             raceType === 'JRA'
                 ? `place/${raceType as string}${date.getFullYear()}.html`
                 : `place/${raceType as string}${format(date, 'yyyyMM')}.html`;
