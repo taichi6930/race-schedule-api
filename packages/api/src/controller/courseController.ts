@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 
 import type { Course } from '@race-schedule/shared/src/types/course';
-import { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeType';
 import { inject, injectable } from 'tsyringe';
 
 import { ICourseUsecase } from '../usecase/interface/ICourseUsecase';
+import { parseCourseCodeTypeList } from '../utilities/typeGuards';
 
 @injectable()
 export class CourseController {
@@ -29,10 +29,7 @@ export class CourseController {
                     },
                 );
             }
-            const courseCodeTypeList: (typeof CourseCodeType)[keyof typeof CourseCodeType][] =
-                rawTypes.filter((v) =>
-                    Object.values(CourseCodeType).includes(v as any),
-                ) as any;
+            const courseCodeTypeList = parseCourseCodeTypeList(rawTypes);
 
             const courses: Course[] =
                 await this.usecase.fetch(courseCodeTypeList);

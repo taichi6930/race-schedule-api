@@ -3,7 +3,10 @@ import type { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeT
 import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
-import { IDBGateway } from '../../gateway/interface/IDBGateway';
+import type {
+    IDBGateway,
+    SqlParameter,
+} from '../../gateway/interface/IDBGateway';
 import { ICourseRepository } from '../interface/ICourseRepository';
 
 @injectable()
@@ -17,7 +20,7 @@ export class CourseRepository implements ICourseRepository {
         courseCodeTypeList: CourseCodeType[],
     ): Promise<Course[]> {
         let sql = 'SELECT * FROM place_master';
-        const params: unknown[] = [];
+        const params: SqlParameter[] = [];
 
         if (courseCodeTypeList.length > 0) {
             const placeholders = courseCodeTypeList.map(() => '?').join(', ');
@@ -26,11 +29,17 @@ export class CourseRepository implements ICourseRepository {
         }
 
         const { results } = await this.dbGateway.queryAll(sql, params);
-        return results.map((result) => ({
-            raceType: result.raceType as RaceType,
-            courseCodeType: result.courseCodeType as CourseCodeType,
-            placeName: result.placeName,
-            placeCode: result.placeCode,
-        }));
+        return results.map((result) => {
+            if (typeof result !== 'object' || result === null) {
+                throw new Error('Invalid database row');
+            }
+            const row = result as Record<string, unknown>;
+            return {
+                raceType: row.raceType as RaceType,
+                courseCodeType: row.courseCodeType as CourseCodeType,
+                placeName: row.placeName as string,
+                placeCode: row.placeCode as string,
+            };
+        });
     }
 }

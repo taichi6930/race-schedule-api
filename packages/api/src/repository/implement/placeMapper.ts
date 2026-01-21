@@ -1,32 +1,38 @@
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
 
+import type { PlaceRow } from '../types/placeRow';
+import { isPlaceRow } from '../types/placeRow';
+
 export const PlaceMapper = {
     toEntity(
         row: unknown,
         opts?: { includePlaceGrade?: boolean },
     ): PlaceEntity {
-        const r = row as Record<string, any>;
-        const entity: any = {
-            placeId: r.place_id,
-            raceType: r.race_type,
-            datetime: new Date(r.date_time),
-            locationCode: r.location_code,
-            locationName: r.place_name,
+        if (!isPlaceRow(row)) {
+            throw new Error('Invalid row data: expected PlaceRow');
+        }
+
+        const entity: PlaceEntity = {
+            placeId: row.place_id,
+            raceType: row.race_type,
+            datetime: new Date(row.date_time),
+            placeName: row.place_name ?? '',
+            locationCode: row.location_code ?? undefined,
+            placeGrade:
+                opts?.includePlaceGrade &&
+                row.place_grade !== undefined &&
+                row.place_grade !== null
+                    ? row.place_grade
+                    : undefined,
             placeHeldDays:
-                r.held_times !== undefined && r.held_times !== null
+                row.held_times !== undefined && row.held_times !== null
                     ? {
-                          heldTimes: r.held_times,
-                          heldDayTimes: r.held_day_times,
+                          heldTimes: row.held_times,
+                          heldDayTimes: row.held_day_times ?? 0,
                       }
                     : undefined,
         };
-        if (
-            opts?.includePlaceGrade &&
-            r.place_grade !== undefined &&
-            r.place_grade !== null
-        ) {
-            entity.placeGrade = r.place_grade;
-        }
+
         return entity;
     },
 };

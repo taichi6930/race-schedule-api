@@ -3,41 +3,13 @@ import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import type { UpsertResult } from '@race-schedule/shared/src/utilities/upsertResult';
 import { inject, injectable } from 'tsyringe';
 
-import type { IDBGateway } from '../../gateway/interface/IDBGateway';
+import type {
+    IDBGateway,
+    SqlParameter,
+} from '../../gateway/interface/IDBGateway';
 import type { SearchPlaceFilterParams } from '../../types/searchPlaceFilter';
 import type { IPlaceRepository } from '../interface/IPlaceRepository';
-
-// PlaceMapperの内容をこのファイル内に移植
-const PlaceMapper = {
-    toEntity(
-        row: unknown,
-        opts?: { includePlaceGrade?: boolean },
-    ): PlaceEntity {
-        const r = row as Record<string, any>;
-        const entity: any = {
-            placeId: r.place_id,
-            raceType: r.race_type,
-            datetime: new Date(r.date_time),
-            locationCode: r.location_code,
-            locationName: r.place_name,
-            placeHeldDays:
-                r.held_times !== undefined && r.held_times !== null
-                    ? {
-                          heldTimes: r.held_times,
-                          heldDayTimes: r.held_day_times,
-                      }
-                    : undefined,
-        };
-        if (
-            opts?.includePlaceGrade &&
-            r.place_grade !== undefined &&
-            r.place_grade !== null
-        ) {
-            entity.placeGrade = r.place_grade;
-        }
-        return entity;
-    },
-};
+import { PlaceMapper } from './placeMapper';
 
 /**
  * PlaceRepositoryのDB実装
@@ -52,7 +24,7 @@ export class PlaceRepository implements IPlaceRepository {
     public async fetch(
         params: SearchPlaceFilterParams,
     ): Promise<PlaceEntity[]> {
-        const sqlParams: any[] = [
+        const sqlParams: SqlParameter[] = [
             params.startDate.toISOString(),
             params.finishDate.toISOString(),
         ];
@@ -107,7 +79,11 @@ export class PlaceRepository implements IPlaceRepository {
         }
 
         const { results } = await this.dbGateway.queryAll(sql, sqlParams);
-        return results.map((row: any) => PlaceMapper.toEntity(row));
+        return results.map((row) =>
+            PlaceMapper.toEntity(row, {
+                includePlaceGrade: params.isDisplayPlaceGrade,
+            }),
+        );
     }
 
     public async upsert(entityList: PlaceEntity[]): Promise<UpsertResult> {

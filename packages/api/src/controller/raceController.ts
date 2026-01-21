@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 
 import type { RaceEntity } from '@race-schedule/shared/src/entity/raceEntity';
-import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
 import type { SearchRaceFilterParams } from '../types/searchRaceFilter';
 import type { IRaceUsecase } from '../usecase/interface/IRaceUsecase';
+import { parseRaceTypeList } from '../utilities/typeGuards';
 
 @injectable()
 export class RaceController {
@@ -46,11 +46,7 @@ export class RaceController {
             }
 
             // raceTypeListの妥当性チェック
-            const raceTypeList = raceTypeListRaw
-                .split(',')
-                .filter((v): v is (typeof RaceType)[keyof typeof RaceType] =>
-                    Object.values(RaceType).includes(v as any),
-                );
+            const raceTypeList = parseRaceTypeList(raceTypeListRaw.split(','));
             if (raceTypeList.length === 0) {
                 return Response.json(
                     { error: 'raceTypeListに有効な値がありません' },

@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 
-import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
 import type { CalendarFilterParams } from '../types/calendar';
 import { ICalendarUsecase } from '../usecase/interface/ICalendarUsecase';
+import { parseRaceTypeList } from '../utilities/typeGuards';
 
 @injectable()
 export class CalendarController {
@@ -40,11 +40,7 @@ export class CalendarController {
                     },
                 );
             }
-            const raceTypeList = raceTypeListRaw
-                .split(',')
-                .filter((v): v is (typeof RaceType)[keyof typeof RaceType] =>
-                    Object.values(RaceType).includes(v as any),
-                );
+            const raceTypeList = parseRaceTypeList(raceTypeListRaw.split(','));
             if (raceTypeList.length === 0) {
                 return Response.json(
                     { error: 'raceTypeListに有効な値がありません' },

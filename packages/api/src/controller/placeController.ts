@@ -2,12 +2,12 @@ import 'reflect-metadata';
 
 import type { PlaceDisplayDto } from '@race-schedule/shared/src/dto/placeDisplayDto';
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
-import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { Logger } from '@race-schedule/shared/src/utilities/logger';
 import { inject, injectable } from 'tsyringe';
 
 import type { SearchPlaceFilterParams } from '../types/searchPlaceFilter';
 import type { IPlaceUsecase } from '../usecase/interface/IPlaceUsecase';
+import { parseRaceTypeList } from '../utilities/typeGuards';
 
 @injectable()
 export class PlaceController {
@@ -55,11 +55,7 @@ export class PlaceController {
             }
 
             // raceTypeListの妥当性チェック
-            const raceTypeList = raceTypeListRaw
-                .split(',')
-                .filter((v): v is (typeof RaceType)[keyof typeof RaceType] =>
-                    Object.values(RaceType).includes(v as any),
-                );
+            const raceTypeList = parseRaceTypeList(raceTypeListRaw.split(','));
             if (raceTypeList.length === 0) {
                 return Response.json(
                     { error: 'raceTypeListに有効な値がありません' },
