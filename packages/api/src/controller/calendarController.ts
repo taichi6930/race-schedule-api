@@ -1,10 +1,15 @@
 import 'reflect-metadata';
 
-import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
 import type { CalendarFilterParams } from '../types/calendar';
 import { ICalendarUsecase } from '../usecase/interface/ICalendarUsecase';
+import {
+    createInternalServerErrorResponse,
+    validateDateRange,
+    validateRaceTypeList,
+    validateRequiredParams,
+} from '../utilities/validation';
 
 @injectable()
 export class CalendarController {
@@ -19,58 +24,31 @@ export class CalendarController {
      */
     public async get(searchParams: URLSearchParams): Promise<Response> {
         try {
-            const startDate = searchParams.get('startDate');
-            const finishDate = searchParams.get('finishDate');
-            const raceTypeListRaw = searchParams.get('raceTypeList');
-            if (!startDate || !finishDate) {
-                return Response.json(
-                    { error: 'startDate, finishDateは必須です' },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
-                );
+            // 必須パラメータチェック
+            const requiredResult = validateRequiredParams(searchParams, [
+                'startDate',
+                'finishDate',
+                'raceTypeList',
+            ]);
+            if (!requiredResult.success) {
+                return requiredResult.error;
             }
-            if (!raceTypeListRaw) {
-                return Response.json(
-                    { error: 'raceTypeListは必須です' },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
-                );
+
+            const { startDate, finishDate, raceTypeList: raceTypeListRaw } = requiredResult.value;
+
+            // raceTypeListの妥当性チェック
+            const raceTypeResult = validateRaceTypeList(raceTypeListRaw);
+            if (!raceTypeResult.success) {
+                return raceTypeResult.error;
             }
-            const raceTypeList = raceTypeListRaw
-                .split(',')
-                .filter((v): v is (typeof RaceType)[keyof typeof RaceType] =>
-                    Object.values(RaceType).includes(v as any),
-                );
-            if (raceTypeList.length === 0) {
-                return Response.json(
-                    { error: 'raceTypeListに有効な値がありません' },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
-                );
-            }
+            const raceTypeList = raceTypeResult.value;
+
             // 日付の妥当性チェック
-            const startDateObj = new Date(startDate);
-            const finishDateObj = new Date(finishDate);
-            if (
-                Number.isNaN(startDateObj.getTime()) ||
-                Number.isNaN(finishDateObj.getTime())
-            ) {
-                return Response.json(
-                    {
-                        error: 'startDate, finishDateは有効な日付文字列で指定してください',
-                    },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
-                );
+            const dateResult = validateDateRange(startDate, finishDate);
+            if (!dateResult.success) {
+                return dateResult.error;
             }
+            const { startDate: startDateObj, finishDate: finishDateObj } = dateResult.value;
             const filter: CalendarFilterParams = {
                 startDate: startDateObj,
                 finishDate: finishDateObj,
@@ -90,7 +68,7 @@ export class CalendarController {
             );
         } catch (error) {
             console.error('Error in getCalendarList:', error);
-            return new Response('Internal Server Error', { status: 500 });
+            return createInternalServerErrorResponse();
         }
     }
 }

@@ -2,12 +2,19 @@ import 'reflect-metadata';
 
 import type { PlaceDisplayDto } from '@race-schedule/shared/src/dto/placeDisplayDto';
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
-import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { Logger } from '@race-schedule/shared/src/utilities/logger';
 import { inject, injectable } from 'tsyringe';
 
 import type { SearchPlaceFilterParams } from '../types/searchPlaceFilter';
 import type { IPlaceUsecase } from '../usecase/interface/IPlaceUsecase';
+import {
+    createErrorResponse,
+    createInternalServerErrorResponse,
+    parseLocationList,
+    validateDateRange,
+    validateRaceTypeList,
+    validateRequiredParams,
+} from '../utilities/validation';
 
 @injectable()
 export class PlaceController {
@@ -23,79 +30,38 @@ export class PlaceController {
     @Logger
     public async get(searchParams: URLSearchParams): Promise<Response> {
         try {
-            const startDate = searchParams.get('startDate');
-            const finishDate = searchParams.get('finishDate');
-            const raceTypeListRaw = searchParams.get('raceTypeList');
-            const locationListRaw = searchParams.get('locationList');
-            const isDisplayPlaceHeldDaysRaw = searchParams.get(
-                'isDisplayPlaceHeldDays',
-            );
-            const isDisplayPlaceGradeRaw = searchParams.get(
-                'isDisplayPlaceGrade',
-            );
-
             // 必須パラメータチェック
-            if (!startDate || !finishDate) {
-                return Response.json(
-                    { error: 'startDate, finishDateは必須です' },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
-                );
+            const requiredResult = validateRequiredParams(searchParams, [
+                'startDate',
+                'finishDate',
+                'raceTypeList',
+            ]);
+            if (!requiredResult.success) {
+                return requiredResult.error;
             }
-            if (!raceTypeListRaw) {
-                return Response.json(
-                    { error: 'raceTypeListは必須です' },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
-                );
-            }
+
+            const { startDate, finishDate, raceTypeList: raceTypeListRaw } = requiredResult.value;
 
             // raceTypeListの妥当性チェック
-            const raceTypeList = raceTypeListRaw
-                .split(',')
-                .filter((v): v is (typeof RaceType)[keyof typeof RaceType] =>
-                    Object.values(RaceType).includes(v as any),
-                );
-            if (raceTypeList.length === 0) {
-                return Response.json(
-                    { error: 'raceTypeListに有効な値がありません' },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
-                );
+            const raceTypeResult = validateRaceTypeList(raceTypeListRaw);
+            if (!raceTypeResult.success) {
+                return raceTypeResult.error;
             }
+            const raceTypeList = raceTypeResult.value;
 
             // 日付の妥当性チェック
-            const startDateObj = new Date(startDate);
-            const finishDateObj = new Date(finishDate);
-            if (
-                Number.isNaN(startDateObj.getTime()) ||
-                Number.isNaN(finishDateObj.getTime())
-            ) {
-                return Response.json(
-                    {
-                        error: 'startDate, finishDateは有効な日付文字列で指定してください',
-                    },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
-                );
+            const dateResult = validateDateRange(startDate, finishDate);
+            if (!dateResult.success) {
+                return dateResult.error;
             }
+            const { startDate: startDateObj, finishDate: finishDateObj } = dateResult.value;
 
             // locationList（カンマ区切り or undefined）
-            let locationList: string[] | undefined = undefined;
-            if (locationListRaw) {
-                locationList = locationListRaw
-                    .split(',')
-                    .map((v) => v.trim())
-                    .filter((v) => v.length > 0);
-            }
+            const locationListRaw = searchParams.get('locationList');
+            const locationList = parseLocationList(locationListRaw);
+
+            const isDisplayPlaceHeldDaysRaw = searchParams.get('isDisplayPlaceHeldDays');
+            const isDisplayPlaceGradeRaw = searchParams.get('isDisplayPlaceGrade');
 
             const filter: SearchPlaceFilterParams = {
                 startDate: startDateObj,
@@ -142,7 +108,7 @@ export class PlaceController {
             );
         } catch (error) {
             console.error('Error in getPlaceList:', error);
-            return new Response('Internal Server Error', { status: 500 });
+            return createInternalServerErrorResponse();
         }
     }
 
@@ -188,7 +154,7 @@ export class PlaceController {
             return Response.json(result, { status: 200 });
         } catch (error) {
             console.error('Error in upsertPlace:', error);
-            return new Response('Internal Server Error', { status: 500 });
+            return createInternalServerErrorResponse();
         }
     }
 }
