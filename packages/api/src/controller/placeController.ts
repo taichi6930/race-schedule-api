@@ -8,6 +8,7 @@ import { inject, injectable } from 'tsyringe';
 
 import type { SearchPlaceFilterParams } from '../types/searchPlaceFilter';
 import type { IPlaceUsecase } from '../usecase/interface/IPlaceUsecase';
+import { ErrorHandler, ValidationError } from '../utilities/errorHandler';
 
 @injectable()
 export class PlaceController {
@@ -36,22 +37,10 @@ export class PlaceController {
 
             // 必須パラメータチェック
             if (!startDate || !finishDate) {
-                return Response.json(
-                    { error: 'startDate, finishDateは必須です' },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
-                );
+                throw new ValidationError('startDate, finishDateは必須です');
             }
             if (!raceTypeListRaw) {
-                return Response.json(
-                    { error: 'raceTypeListは必須です' },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
-                );
+                throw new ValidationError('raceTypeListは必須です');
             }
 
             // raceTypeListの妥当性チェック
@@ -61,13 +50,7 @@ export class PlaceController {
                     Object.values(RaceType).includes(v as any),
                 );
             if (raceTypeList.length === 0) {
-                return Response.json(
-                    { error: 'raceTypeListに有効な値がありません' },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
-                );
+                throw new ValidationError('raceTypeListに有効な値がありません');
             }
 
             // 日付の妥当性チェック
@@ -77,14 +60,8 @@ export class PlaceController {
                 Number.isNaN(startDateObj.getTime()) ||
                 Number.isNaN(finishDateObj.getTime())
             ) {
-                return Response.json(
-                    {
-                        error: 'startDate, finishDateは有効な日付文字列で指定してください',
-                    },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
+                throw new ValidationError(
+                    'startDate, finishDateは有効な日付文字列で指定してください',
                 );
             }
 
@@ -141,8 +118,7 @@ export class PlaceController {
                 },
             );
         } catch (error) {
-            console.error('Error in getPlaceList:', error);
-            return new Response('Internal Server Error', { status: 500 });
+            return ErrorHandler.toResponse(error, 'PlaceController.get');
         }
     }
 
@@ -154,11 +130,8 @@ export class PlaceController {
         try {
             const body = await request.json();
             if (!Array.isArray(body) || body.length === 0) {
-                return Response.json(
-                    {
-                        error: 'リクエストボディはPlaceEntity[]配列（1件以上）である必要があります',
-                    },
-                    { status: 400 },
+                throw new ValidationError(
+                    'リクエストボディはPlaceEntity[]配列（1件以上）である必要があります',
                 );
             }
             // PlaceEntityのバリデーション
@@ -174,9 +147,8 @@ export class PlaceController {
                     e.placeHeldDays.heldDayTimes !== undefined,
             );
             if (!isValid) {
-                return Response.json(
-                    { error: '配列内の要素がPlaceEntityの形式ではありません' },
-                    { status: 400 },
+                throw new ValidationError(
+                    '配列内の要素がPlaceEntityの形式ではありません',
                 );
             }
             // 日付型変換
@@ -187,8 +159,7 @@ export class PlaceController {
             const result = await this.usecase.upsert(entityList);
             return Response.json(result, { status: 200 });
         } catch (error) {
-            console.error('Error in upsertPlace:', error);
-            return new Response('Internal Server Error', { status: 500 });
+            return ErrorHandler.toResponse(error, 'PlaceController.upsert');
         }
     }
 }

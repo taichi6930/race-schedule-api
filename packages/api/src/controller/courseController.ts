@@ -5,6 +5,7 @@ import { CourseCodeType } from '@race-schedule/shared/src/types/courseCodeType';
 import { inject, injectable } from 'tsyringe';
 
 import { ICourseUsecase } from '../usecase/interface/ICourseUsecase';
+import { ErrorHandler, ValidationError } from '../utilities/errorHandler';
 
 @injectable()
 export class CourseController {
@@ -21,12 +22,8 @@ export class CourseController {
         try {
             const rawTypes = searchParams.getAll('course_code_type');
             if (rawTypes.length === 0) {
-                return Response.json(
-                    { error: 'course_code_type を1つ以上指定してください' },
-                    {
-                        status: 400,
-                        headers: { 'Content-Type': 'application/json' },
-                    },
+                throw new ValidationError(
+                    'course_code_type を1つ以上指定してください',
                 );
             }
             const courseCodeTypeList: (typeof CourseCodeType)[keyof typeof CourseCodeType][] =
@@ -49,8 +46,7 @@ export class CourseController {
                 },
             );
         } catch (error) {
-            console.error('Error in getCourseList:', error);
-            return new Response('Internal Server Error', { status: 500 });
+            return ErrorHandler.toResponse(error, 'CourseController.get');
         }
     }
 }
