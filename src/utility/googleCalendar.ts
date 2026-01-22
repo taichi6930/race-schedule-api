@@ -16,12 +16,13 @@ import {
     formatMonthDigits,
     toXDigits,
 } from '../../packages/shared/src/utilities/format';
-import type { RaceEntity } from '../repository/entity/raceEntity';
+import type { GradeType } from '../../packages/shared/src/utilities/gradeType';
 import {
     createYoutubeLiveUrl,
     KeirinYoutubeUserIdMap,
     NarYoutubeUserIdMap,
-} from './data/movie';
+} from '../../packages/shared/src/utilities/movie';
+import { createPlaceCode } from '../../packages/shared/src/utilities/raceCourse';
 import {
     createNetkeibaJraRaceVideoUrl,
     createNetkeibaJraShutubaUrl,
@@ -29,10 +30,9 @@ import {
     createNetkeibaNarShutubaUrl,
     createNetkeibaRedirectUrl,
     createNetkeirinRaceShutubaUrl,
-} from './data/url';
+} from '../../packages/shared/src/utilities/url';
+import type { RaceEntity } from '../repository/entity/raceEntity';
 import { getJSTDate } from './date';
-import type { GradeType } from './validateAndType/gradeType';
-import { createPlaceCode } from './validateAndType/raceCourse';
 
 /**
  * Googleカレンダーのイベント表示をカスタマイズするためのユーティリティモジュール

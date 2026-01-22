@@ -7,7 +7,7 @@ import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRac
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IOldPlaceService } from '../../service/interface/IOldPlaceService';
 import { IOldRaceService } from '../../service/interface/IOldRaceService';
-import { DataLocation } from '../../utility/dataType';
+import { DataLocation } from '../../utility/oldDataType';
 import { IOldRaceUseCase } from '../interface/IOldRaceUsecase';
 @injectable()
 export class OldRaceUseCase implements IOldRaceUseCase {

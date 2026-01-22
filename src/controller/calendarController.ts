@@ -3,11 +3,11 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import { RaceType } from '../../packages/shared/src/types/raceType';
+import { SpecifiedGradeList } from '../../packages/shared/src/utilities/gradeType';
 import { Logger } from '../../packages/shared/src/utilities/logger';
 import { OldSearchCalendarFilterEntity } from '../repository/entity/filter/oldSearchCalendarFilterEntity';
 import { IOldCalendarUseCase } from '../usecase/interface/IOldCalendarUseCase';
 import { corsHeaders } from '../utility/cors';
-import { SpecifiedGradeList } from '../utility/validateAndType/gradeType';
 import {
     parseBodyToFilter,
     parseSearchDatesAndRaceTypes,

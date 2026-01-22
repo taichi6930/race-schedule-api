@@ -1,7 +1,7 @@
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
-import { createRaceUrl } from '../../utility/data/url';
-import type { RaceCourse } from '../../utility/validateAndType/raceCourse';
+import type { RaceCourse } from '../../../packages/shared/src/utilities/raceCourse';
+import { createRaceUrl } from '../../../packages/shared/src/utilities/url';
 import type { IRaceDataHtmlGateway } from '../interface/iRaceDataHtmlGateway';
 
 /**
