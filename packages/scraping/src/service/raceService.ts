@@ -44,18 +44,24 @@ export class RaceService {
 
         // レース種別ごとにパース処理を振り分け
         switch (raceType) {
-            case RaceType.JRA:
-                return this.parseJra(html, date, location ?? '');
-            case RaceType.NAR:
+            case RaceType.JRA: {
+                return this.parseJra(raceType, html, date, location ?? '');
+            }
+            case RaceType.NAR: {
                 return this.parseNar(html, date, location ?? '');
-            case RaceType.OVERSEAS:
+            }
+            case RaceType.OVERSEAS: {
                 return this.parseOverseas(html, date);
-            case RaceType.KEIRIN:
+            }
+            case RaceType.KEIRIN: {
                 return this.parseKeirin(html, date, location ?? '');
-            case RaceType.AUTORACE:
+            }
+            case RaceType.AUTORACE: {
                 return this.parseAutorace(html, date, location ?? '');
-            case RaceType.BOATRACE:
+            }
+            case RaceType.BOATRACE: {
                 return this.parseBoatrace(html, date, location ?? '');
+            }
         }
     }
 
@@ -64,6 +70,7 @@ export class RaceService {
      * HTMLから table.hr-tableSchedule を解析してレース情報を抽出
      */
     private parseJra(
+        raceType: RaceType,
         html: string,
         date: Date,
         location: string,
@@ -145,11 +152,13 @@ export class RaceService {
      */
     private parseNar(
         html: string,
-        date: Date,
-        location: string,
+        _date: Date,
+        _location: string,
     ): RaceHtmlEntity[] {
-        const $ = load(html);
+        const _$ = load(html);
         const raceEntityList: RaceHtmlEntity[] = [];
+
+        console.log(_date, _location, _$);
 
         // TODO: NARのHTML構造に合わせたパース処理を実装
         // section.raceTable から抽出
@@ -162,9 +171,11 @@ export class RaceService {
      * OVERSEAS（海外競馬）のHTMLをパース
      * HTMLから .racelist を解析
      */
-    private parseOverseas(html: string, date: Date): RaceHtmlEntity[] {
-        const $ = load(html);
+    private parseOverseas(html: string, _date: Date): RaceHtmlEntity[] {
+        const _$ = load(html);
         const raceEntityList: RaceHtmlEntity[] = [];
+
+        console.log(_date, _$);
 
         // TODO: OVERSEASのHTML構造に合わせたパース処理を実装
         // .racelist から抽出
@@ -179,11 +190,13 @@ export class RaceService {
      */
     private parseKeirin(
         html: string,
-        date: Date,
-        location: string,
+        _date: Date,
+        _location: string,
     ): RaceHtmlEntity[] {
-        const $ = load(html);
+        const _$ = load(html);
         const raceEntityList: RaceHtmlEntity[] = [];
+
+        console.log(_date, _location, _$);
 
         // TODO: KEIRINのHTML構造に合わせたパース処理を実装
         // #content から抽出
@@ -198,11 +211,13 @@ export class RaceService {
      */
     private parseAutorace(
         html: string,
-        date: Date,
-        location: string,
+        _date: Date,
+        _location: string,
     ): RaceHtmlEntity[] {
-        const $ = load(html);
+        const _$ = load(html);
         const raceEntityList: RaceHtmlEntity[] = [];
+
+        console.log(_date, _location, _$);
 
         // TODO: AUTORACEのHTML構造に合わせたパース処理を実装
         // .section から抽出
@@ -217,11 +232,13 @@ export class RaceService {
      */
     private parseBoatrace(
         html: string,
-        date: Date,
-        location: string,
+        _date: Date,
+        _location: string,
     ): RaceHtmlEntity[] {
-        const $ = load(html);
+        const _$ = load(html);
         const raceEntityList: RaceHtmlEntity[] = [];
+
+        console.log(_date, _location, _$);
 
         // TODO: BOATRACEのHTML構造に合わせたパース処理を実装
         // .heading2_titleName から抽出

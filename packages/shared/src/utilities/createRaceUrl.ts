@@ -98,9 +98,7 @@ export const createRaceUrl = (
                 throw new Error('ボートレースの開催場が指定されていません');
             }
             if (number === undefined || Number.isNaN(number)) {
-                throw new Error(
-                    'ボートレースのレース番号が指定されていません',
-                );
+                throw new Error('ボートレースのレース番号が指定されていません');
             }
             const jcd = getPlaceCode(
                 raceType,

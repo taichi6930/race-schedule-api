@@ -6,8 +6,8 @@ import { Logger } from '@race-schedule/shared/src/utilities/logger';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import type { IR2Gateway } from '../../gateway/interface/IR2Gateway';
+import { IRaceDataHtmlGateway } from '../../gateway/interface/iRaceDataHtmlGateway';
 import { IRaceHtmlRepository } from '../interface/IRaceHtmlRepository';
 
 /**
@@ -87,7 +87,7 @@ export class RaceHtmlR2Repository implements IRaceHtmlRepository {
     ): string {
         const dateStr = format(date, 'yyyyMMdd');
         const locationPart = location ? `_${location}` : '';
-        const numberPart = number !== undefined ? `_R${number}` : '';
+        const numberPart = number === undefined ? '' : `_R${number}`;
         return `race/${raceType}${dateStr}${locationPart}${numberPart}.html`;
     }
 }

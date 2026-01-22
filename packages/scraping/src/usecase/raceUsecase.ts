@@ -53,12 +53,10 @@ export class RaceUsecase {
                         );
                         if (Array.isArray(res)) {
                             results.push(...res);
-                        } else if (res) {
-                            results.push(res);
                         }
                     } catch (error) {
                         console.error(
-                            `Failed to fetch race: ${raceType} ${location} ${d}`,
+                            `Failed to fetch race: ${raceType} ${location} ${String(d)}`,
                             error,
                         );
                         // エラーが発生しても処理を継続
