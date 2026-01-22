@@ -4,6 +4,7 @@ import type { RaceEntity } from '@race-schedule/shared/src/entity/raceEntity';
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
+import { RaceDtoMapper } from '../mappers/raceMapper';
 import type { SearchRaceFilterParams } from '../types/searchRaceFilter';
 import type { IRaceUsecase } from '../usecase/interface/IRaceUsecase';
 
@@ -96,22 +97,10 @@ export class RaceController {
             };
             const data = await this.usecase.fetch(filter);
             // Entity→DTO変換（locationCodeを除外）
-            const races = data
-                .filter(
-                    (e: RaceEntity) =>
-                        !locationList ||
-                        (e.locationCode &&
-                            locationList.includes(e.locationCode)),
-                )
-                .map((e: RaceEntity) => ({
-                    raceId: e.raceId,
-                    placeId: e.placeId,
-                    raceType: e.raceType,
-                    datetime: e.datetime,
-                    placeName: e.placeName,
-                    raceNumber: e.raceNumber,
-                    placeHeldDays: e.placeHeldDays,
-                }));
+            const races = RaceDtoMapper.toFilteredDisplayDtoList(
+                data,
+                locationList,
+            );
             return Response.json(
                 {
                     count: races.length,
