@@ -61,7 +61,7 @@ export class RaceRepository implements IRaceRepository {
         ];
 
         // JRAの場合 place_held_day を取得
-        const isJRA = params.raceTypeList.some((rt) => rt === 'JRA');
+        const isJRA = params.raceTypeList.includes('JRA');
         if (isJRA) {
             selectColumns.push('h.held_times', 'h.held_day_times');
             joinClauses.push(
