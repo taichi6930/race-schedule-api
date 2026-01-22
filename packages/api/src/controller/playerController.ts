@@ -3,11 +3,14 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 import { z } from 'zod';
 
-import { SearchPlayerFilterEntity } from '../repository/entity/filter/searchPlayerFilterEntity';
-import { PlayerEntity } from '../repository/entity/playerEntity';
-import { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
+import { SearchPlayerFilterEntity } from '../domain/entity/filter/searchPlayerFilterEntity';
+import { PlayerEntity } from '../domain/entity/playerEntity';
+import type { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
 import { corsHeaders } from '../utility/cors';
-import { parseRaceTypeListFromSearch, ValidationError } from './requestParser';
+import {
+    parseRaceTypeListFromSearch,
+    ValidationError,
+} from '../utility/validation';
 
 const playerUpsertSchema = z
     .object({

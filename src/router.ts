@@ -1,6 +1,5 @@
 import { CalendarController } from './controller/calendarController';
 import { PlaceController } from './controller/placeController';
-import { PlayerController } from './controller/playerController';
 import { RaceController } from './controller/raceController';
 import { container } from './di';
 import { corsHeaders, withCorsHeaders } from './utility/cors';
@@ -42,17 +41,6 @@ const responseError = (error: any): Response => {
 };
 
 const routes = new Map<string, Partial<Record<HttpMethod, RouteHandler>>>([
-    [
-        '/player',
-        {
-            GET: async (_request, searchParams): Promise<Response> =>
-                container
-                    .resolve(PlayerController)
-                    .getPlayerEntityList(searchParams),
-            POST: async (request): Promise<Response> =>
-                container.resolve(PlayerController).postUpsertPlayer(request),
-        },
-    ],
     [
         '/race',
         {

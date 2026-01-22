@@ -9,20 +9,16 @@ import type { IRaceRepository } from '../../src/repository/interface/IRaceReposi
 import type { IOldCalendarService } from '../../src/service/interface/IOldCalendarService';
 import type { IOldPlaceService } from '../../src/service/interface/IOldPlaceService';
 import type { IOldRaceService } from '../../src/service/interface/IOldRaceService';
-import type { IPlayerService } from '../../src/service/interface/IPlayerService';
 import type { IOldPlaceUseCase } from '../../src/usecase/interface/IOldPlaceUsecase';
 import type { IOldRaceUseCase } from '../../src/usecase/interface/IOldRaceUsecase';
-import type { IPlayerUseCase } from '../../src/usecase/interface/IPlayerUsecase';
 import { mockGoogleCalendarGateway } from '../unittest/src/mock/gateway/mockGoogleCalendarGateway';
 import { mockCalendarRepository } from '../unittest/src/mock/repository/mockCalendarRepository';
 import { mockPlaceRepository } from '../unittest/src/mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../unittest/src/mock/repository/mockRaceRepository';
 import { calendarServiceMock } from '../unittest/src/mock/service/calendarServiceMock';
 import { placeServiceMock } from '../unittest/src/mock/service/placeServiceMock';
-import { playerServiceMock } from '../unittest/src/mock/service/playerServiceMock';
 import { raceServiceMock } from '../unittest/src/mock/service/raceServiceMock';
 import { placeUsecaseMock } from '../unittest/src/mock/usecase/placeUsecaseMock';
-import { playerUsecaseMock } from '../unittest/src/mock/usecase/playerUsecaseMock';
 import { raceUsecaseMock } from '../unittest/src/mock/usecase/raceUsecaseMock';
 
 /**
@@ -54,13 +50,11 @@ export interface TestServiceSetup {
     calendarService: jest.Mocked<IOldCalendarService>;
     raceService: jest.Mocked<IOldRaceService>;
     placeService: jest.Mocked<IOldPlaceService>;
-    playerService: jest.Mocked<IPlayerService>;
 }
 
 export interface TestUsecaseSetup {
     placeUsecase: jest.Mocked<IOldPlaceUseCase>;
     raceUsecase: jest.Mocked<IOldRaceUseCase>;
-    playerUsecase: jest.Mocked<IPlayerUseCase>;
 }
 
 /**
@@ -127,14 +121,11 @@ export const setupTestServiceMock = (): TestServiceSetup => {
     container.registerInstance<IOldRaceService>('RaceService', raceService);
     const placeService = placeServiceMock();
     container.registerInstance<IOldPlaceService>('PlaceService', placeService);
-    const playerService = playerServiceMock();
-    container.registerInstance<IPlayerService>('PlayerService', playerService);
 
     return {
         calendarService,
         raceService,
         placeService,
-        playerService,
     };
 };
 
@@ -149,12 +140,8 @@ export const setupTestUsecaseMock = (): TestUsecaseSetup => {
     const raceUsecase = raceUsecaseMock();
     container.registerInstance<IOldRaceUseCase>('RaceUsecase', raceUsecase);
 
-    const playerUsecase = playerUsecaseMock();
-    container.registerInstance<IPlayerUseCase>('PlayerUsecase', playerUsecase);
-
     return {
         raceUsecase,
         placeUsecase,
-        playerUsecase,
     };
 };
