@@ -1,4 +1,4 @@
-import type { D1Database } from '@cloudflare/workers-types';
+import type { D1Database, R2Bucket } from '@cloudflare/workers-types';
 
 /**
  * CloudFlare Workers 環境変数の型定義
@@ -17,4 +17,5 @@ export interface CloudFlareEnv {
     R2_SECRET_ACCESS_KEY: string; // R2用シークレットアクセスキー
     R2_ENDPOINT: string; // R2用エンドポイント
     R2_BUCKET_NAME: string; // R2用バケット名
+    R2_BUCKET: R2Bucket; // Cloudflare WorkersからバインドされるR2バケット
 }
