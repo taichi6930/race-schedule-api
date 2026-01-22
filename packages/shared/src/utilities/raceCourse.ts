@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
-import type { CourseCodeType } from '../../../packages/shared/src/types/courseCodeType';
-import type { RaceType } from '../../../packages/shared/src/types/raceType';
-import { RaceCourseMasterList } from '../../../packages/shared/src/utilities/course';
-import { isIncludedRaceType } from '../raceType';
+import { isIncludedRaceType } from '../../../../src/utility/raceType';
+import type { CourseCodeType } from '../types/courseCodeType';
+import type { RaceType } from '../types/raceType';
+import { RaceCourseMasterList } from './course';
 
 /**
  * 場リスト

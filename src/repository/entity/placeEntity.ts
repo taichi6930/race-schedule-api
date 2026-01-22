@@ -1,4 +1,5 @@
 import { RaceType } from '../../../packages/shared/src/types/raceType';
+import type { GradeType } from '../../../packages/shared/src/utilities/gradeType';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { PlaceData } from '../../domain/placeData';
 import {
@@ -6,7 +7,6 @@ import {
     RACE_TYPE_LIST_HORSE_RACING,
     RACE_TYPE_LIST_MECHANICAL_RACING,
 } from '../../utility/raceType';
-import type { GradeType } from '../../utility/validateAndType/gradeType';
 import type { PublicGamblingId } from '../../utility/validateAndType/idUtility';
 import {
     generateId,

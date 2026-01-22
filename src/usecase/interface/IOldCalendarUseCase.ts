@@ -1,7 +1,7 @@
 import type { CalendarDataDto } from '../../../packages/api/src/domain/calendarData';
 import type { RaceType } from '../../../packages/shared/src/types/raceType';
+import type { GradeType } from '../../../packages/shared/src/utilities/gradeType';
 import type { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
-import type { GradeType } from '../../utility/validateAndType/gradeType';
 
 export interface IOldCalendarUseCase {
     /**

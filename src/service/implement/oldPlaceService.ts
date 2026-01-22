@@ -5,7 +5,7 @@ import { UpsertResult } from '../../../packages/shared/src/utilities/upsertResul
 import type { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
 import { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
-import { DataLocation, DataLocationType } from '../../utility/dataType';
+import { DataLocation, DataLocationType } from '../../utility/oldDataType';
 import { IOldPlaceService } from '../interface/IOldPlaceService';
 
 @injectable()

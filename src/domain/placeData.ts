@@ -3,8 +3,8 @@ import {
     validateRaceDateTime,
 } from '../../packages/shared/src/types/raceDateTime';
 import type { RaceType } from '../../packages/shared/src/types/raceType';
-import type { RaceCourse } from '../utility/validateAndType/raceCourse';
-import { validateRaceCourse } from '../utility/validateAndType/raceCourse';
+import type { RaceCourse } from '../../packages/shared/src/utilities/raceCourse';
+import { validateRaceCourse } from '../../packages/shared/src/utilities/raceCourse';
 
 /**
  * 開催場所データ
