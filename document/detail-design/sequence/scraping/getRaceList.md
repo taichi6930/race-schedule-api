@@ -101,68 +101,78 @@ sequenceDiagram
 ## 主要な処理フロー
 
 ### 1. パラメータバリデーション（RaceController）
+
 - `startDate`, `finishDate`, `raceTypeList` の必須チェック
 - `gradeList`, `locationList` のオプショナルパース
 - 日付の妥当性チェック
 
 ### 2. PlaceEntity取得（事前処理）
+
 - レース取得前に、対象期間の開催場情報を取得
 - `gradeList` によるフィルタリング（JRA/NAR/OVERSEASは全グレード対象）
 
 ### 3. レースHTMLスクレイピング（RaceRepositoryFromHtml）
 
 #### **JRA（中央競馬）**
+
 - **URL生成**: `createRaceUrl(JRA, date, place, number)`
 - **HTMLパース**: `.hr-tableSchedule` クラスのテーブルを解析
 - **抽出データ**:
-  - レース番号、レース名、グレード
-  - 発走時刻、距離、馬場状態
-  - 競走条件（年齢制限、性別制限、重量条件）
+    - レース番号、レース名、グレード
+    - 発走時刻、距離、馬場状態
+    - 競走条件（年齢制限、性別制限、重量条件）
 
 #### **NAR（地方競馬）**
+
 - **URL生成**: `createRaceUrl(NAR, date, place)`
 - **HTMLパース**: `section.raceTable` を解析
 - **抽出データ**:
-  - レース番号、レース名
-  - 発走時刻、距離、トラック種別
-  - ダート/芝の区別
+    - レース番号、レース名
+    - 発走時刻、距離、トラック種別
+    - ダート/芝の区別
 
 #### **OVERSEAS（海外競馬）**
+
 - **URL生成**: `createRaceUrl(OVERSEAS, date)`
 - **HTMLパース**: `.racelist` クラスを解析
 - **抽出データ**:
-  - レース名、開催地、発走時刻
-  - 距離、トラック条件
+    - レース名、開催地、発走時刻
+    - 距離、トラック条件
 
 #### **KEIRIN（競輪）**
+
 - **URL生成**: `createRaceUrl(KEIRIN, date, place)`
 - **HTMLパース**: `#content` セクションを解析
 - **抽出データ**:
-  - レース番号、グレード
-  - 発走時刻、距離
-  - 競走種別（予選、決勝など）
+    - レース番号、グレード
+    - 発走時刻、距離
+    - 競走種別（予選、決勝など）
 
 #### **AUTORACE（オートレース）**
+
 - **URL生成**: `createRaceUrl(AUTORACE, date, place)`
 - **HTMLパース**: `.section` クラスを解析
 - **抽出データ**:
-  - レース番号、レース名
-  - 発走時刻、周回数
+    - レース番号、レース名
+    - 発走時刻、周回数
 
 #### **BOATRACE（ボートレース）**
+
 - **URL生成**: `createRaceUrl(BOATRACE, date, place)`
 - **HTMLパース**: `.heading2_titleName` クラスを解析
 - **抽出データ**:
-  - レース番号、レース名
-  - 発走時刻、距離
-  - グレード情報
+    - レース番号、レース名
+    - 発走時刻、距離
+    - グレード情報
 
 ### 4. 外部サイトアクセス（RaceDataHtmlGateway）
+
 - `createRaceUrl()` でレース種別ごとの適切なURLを生成
 - fetch APIで外部サイトから取得
 - エラーハンドリング（TypeError スロー）
 
 ### 5. データ変換
+
 - Cheerioでパースした生データから `RaceEntity` を生成
 - レース種別ごとに異なるパースロジック適用
 - バリデーション処理（距離、グレード、コースなど）
@@ -170,10 +180,12 @@ sequenceDiagram
 ## 現在の実装場所と移行計画
 
 ### 現在の実装
+
 - **場所**: `src/repository/implement/raceRepositoryFromHtml.ts` (1,212行)
 - **Gateway**: `src/gateway/implement/raceDataHtmlGateway.ts` (41行)
 
 ### 移行先（予定）
+
 - **Service**: `packages/scraping/src/service/raceService.ts` (新規作成)
 - **Repository**: `packages/scraping/src/repository/implement/raceHtmlRepository.ts` (新規作成)
 - **Gateway**: `packages/scraping/src/gateway/implement/raceDataHtmlGateway.ts` (新規作成)
@@ -181,6 +193,7 @@ sequenceDiagram
 - **Usecase**: `packages/scraping/src/usecase/raceUsecase.ts` (新規作成)
 
 ### 移行のメリット
+
 1. **R2キャッシング対応**: Place同様、HTMLをR2バケットにキャッシュ
 2. **開発環境対応**: `local_html/race/` にHTMLを物理保存してデバッグ容易化
 3. **クリーンアーキテクチャ**: 層分離による保守性向上
@@ -197,20 +210,20 @@ sequenceDiagram
 
 ```json
 {
-  "count": 48,
-  "races": [
-    {
-      "raceId": "2026010101",
-      "raceType": "JRA",
-      "datetime": "2026-01-01T10:00:00.000Z",
-      "raceName": "ホープフルS",
-      "placeId": "05",
-      "placeName": "中山",
-      "grade": "G1",
-      "distance": 2000,
-      "surfaceType": "芝",
-      "raceNumber": 11
-    }
-  ]
+    "count": 48,
+    "races": [
+        {
+            "raceId": "2026010101",
+            "raceType": "JRA",
+            "datetime": "2026-01-01T10:00:00.000Z",
+            "raceName": "ホープフルS",
+            "placeId": "05",
+            "placeName": "中山",
+            "grade": "G1",
+            "distance": 2000,
+            "surfaceType": "芝",
+            "raceNumber": 11
+        }
+    ]
 }
 ```
