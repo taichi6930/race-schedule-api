@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 
+import type { PlaceDisplayDto } from '@race-schedule/shared/src/dto/placeDisplayDto';
 import type { PlaceEntity } from '@race-schedule/shared/src/entity/placeEntity';
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { Logger } from '@race-schedule/shared/src/utilities/logger';
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceDtoMapper } from '../mappers/placeMapper';
 import type { SearchPlaceFilterParams } from '../types/searchPlaceFilter';
 import type { IPlaceUsecase } from '../usecase/interface/IPlaceUsecase';
 
@@ -112,11 +112,23 @@ export class PlaceController {
                         : isDisplayPlaceGradeRaw === 'true',
             };
             const data = await this.usecase.fetch(filter);
-            // Entity→DTO変換
-            const places = PlaceDtoMapper.toFilteredDisplayDtoList(
-                data,
-                locationList,
-            );
+            // Entity→DTO変換（locationCodeを除外）
+            const places: PlaceDisplayDto[] = data
+                .filter(
+                    (e: PlaceEntity) =>
+                        !locationList ||
+                        (e.locationCode &&
+                            locationList.includes(e.locationCode)),
+                )
+                .map((e: PlaceEntity) => ({
+                    placeId: e.placeId,
+                    raceType: e.raceType,
+                    datetime: e.datetime,
+                    placeName: e.placeName,
+                    locationName: (e as any).locationName ?? e.placeName,
+                    placeGrade: (e as any).placeGrade,
+                    placeHeldDays: e.placeHeldDays,
+                }));
             return Response.json(
                 {
                     count: places.length,
