@@ -50,6 +50,7 @@ export default [
             '@typescript-eslint/max-params': 'off', // ✅ 関数のパラメータ数の最大値を許可
             '@typescript-eslint/member-ordering': 'off', // ✅ クラスメンバーの順序を許可
             '@typescript-eslint/naming-convention': 'off', // 命名規則を強制
+            '@typescript-eslint/switch-exhaustiveness-check': 'off', // ✅ switch文の網羅性チェックを許可
             '@typescript-eslint/no-magic-numbers': 'off', // ✅ マジックナンバーを禁止
             '@typescript-eslint/parameter-properties': 'off', // ✅ パラメータプロパティを許可
             '@typescript-eslint/prefer-readonly-parameter-types': 'off', // ✅ readonlyパラメータを推奨
