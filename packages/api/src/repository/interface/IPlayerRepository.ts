@@ -1,5 +1,5 @@
-import type { SearchPlayerFilterEntity } from '../entity/filter/searchPlayerFilterEntity';
-import type { PlayerEntity } from '../entity/playerEntity';
+import type { SearchPlayerFilterEntity } from '../../domain/entity/filter/searchPlayerFilterEntity';
+import type { PlayerEntity } from '../../domain/entity/playerEntity';
 
 export interface IPlayerRepository {
     fetchPlayerEntityList: (

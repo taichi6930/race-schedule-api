@@ -1,9 +1,9 @@
+import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
-import { IDBGateway } from '../../../packages/api/src/gateway/interface/IDBGateway';
-import { Logger } from '../../../packages/shared/src/utilities/logger';
-import { SearchPlayerFilterEntity } from '../entity/filter/searchPlayerFilterEntity';
-import { PlayerEntity } from '../entity/playerEntity';
+import { SearchPlayerFilterEntity } from '../../domain/entity/filter/searchPlayerFilterEntity';
+import { PlayerEntity } from '../../domain/entity/playerEntity';
+import { IDBGateway } from '../../gateway/interface/IDBGateway';
 import type { IPlayerRepository } from '../interface/IPlayerRepository';
 
 @injectable()
@@ -13,7 +13,6 @@ export class PlayerRepository implements IPlayerRepository {
         private readonly dbGateway: IDBGateway,
     ) {}
 
-    @Logger
     public async fetchPlayerEntityList(
         searchPlayerFilter: SearchPlayerFilterEntity,
     ): Promise<PlayerEntity[]> {
@@ -33,31 +32,20 @@ export class PlayerRepository implements IPlayerRepository {
             queryParams,
         );
 
-        // results is provided by the DB gateway and is untyped (any[]).
-        // Allow a controlled usage here with explicit conversions.
-
-        const rows: any[] = results;
-
-        // The DB gateway returns untyped results; explicit conversions are used
-        // before constructing entities. Disable unsafe-return for this line.
-
-        return rows.map(
-            (row: any): PlayerEntity =>
-                PlayerEntity.create(
-                    String(row.race_type),
-                    String(row.player_no),
-                    String(row.player_name),
-                    Number(row.priority),
-                ),
-        );
+        return results.map((row: any): PlayerEntity => {
+            return PlayerEntity.create(
+                String(row.race_type) as RaceType,
+                String(row.player_no),
+                String(row.player_name),
+                Number(row.priority),
+            );
+        });
     }
 
-    @Logger
     public async upsertPlayerEntityList(
         entityList: PlayerEntity[],
     ): Promise<void> {
         if (entityList.length === 0) return;
-        // SQL生成
         const valuesSql = entityList
             .map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)')
             .join(', ');
@@ -67,7 +55,6 @@ export class PlayerRepository implements IPlayerRepository {
                 player_name=excluded.player_name,
                 priority=excluded.priority,
                 updated_at=CURRENT_TIMESTAMP;`;
-        // bindパラメータ
         const bindParams = entityList.flatMap((e) => [
             e.raceType,
             e.playerNo,

@@ -1,6 +1,7 @@
 import { calendarController } from './di.calendar';
 import { courseController } from './di.course';
 import { placeController } from './di.place';
+import { playerController } from './di.player';
 import { raceController } from './di.race';
 
 export const router = async (request: Request): Promise<Response> => {
@@ -25,6 +26,14 @@ export const router = async (request: Request): Promise<Response> => {
         }
         if (request.method === 'POST') {
             return raceController.upsert(request);
+        }
+    }
+    if (url.pathname === '/player') {
+        if (request.method === 'GET') {
+            return playerController.get(url.searchParams);
+        }
+        if (request.method === 'POST') {
+            return playerController.upsert(request);
         }
     }
     if (request.method === 'GET' && url.pathname === '/health') {
