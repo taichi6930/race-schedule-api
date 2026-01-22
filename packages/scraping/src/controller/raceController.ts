@@ -2,28 +2,16 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceUsecase } from '../usecase/placeUsecase';
-
-// 必要に応じて型を定義（apiのものを流用する場合はimportに修正）
-interface PlaceEntity {
-    placeId: string;
-    raceType: string;
-    datetime: Date;
-    placeName: string;
-    placeHeldDays: any;
-    locationCode?: string;
-    placeGrade?: string;
-    locationName?: string;
-}
+import { RaceUsecase } from '../usecase/raceUsecase';
 
 @injectable()
-export class PlaceController {
+export class RaceController {
     public constructor(
-        @inject('PlaceUsecase') private readonly usecase: PlaceUsecase, // scraping用のusecase型に合わせて修正
+        @inject('RaceUsecase') private readonly usecase: RaceUsecase,
     ) {}
 
     /**
-     * GET /scraping/place?startDate=2026-01-01&finishDate=2026-01-02&raceTypeList=JRA
+     * GET /scraping/race?startDate=2026-01-01&finishDate=2026-01-02&raceTypeList=JRA&locationList=東京
      */
     public async get(searchParams: URLSearchParams): Promise<Response> {
         try {
@@ -31,6 +19,7 @@ export class PlaceController {
             const finishDate = searchParams.get('finishDate');
             const raceTypeListRaw = searchParams.get('raceTypeList');
             const locationListRaw = searchParams.get('locationList');
+            const gradeListRaw = searchParams.get('gradeList');
 
             // 必須パラメータチェック
             if (!startDate || !finishDate) {
@@ -94,35 +83,42 @@ export class PlaceController {
                     .filter((v) => v.length > 0);
             }
 
-            // usecase呼び出し（scraping用に適宜修正）
+            // gradeList（カンマ区切り or undefined）
+            let gradeList: string[] | undefined = undefined;
+            if (gradeListRaw) {
+                gradeList = gradeListRaw
+                    .split(',')
+                    .map((v) => v.trim())
+                    .filter((v) => v.length > 0);
+            }
+
+            // usecase呼び出し
             const filter = {
                 startDate: startDateObj,
                 finishDate: finishDateObj,
                 raceTypeList,
                 locationList,
+                gradeList,
             };
             const data = await this.usecase.fetch(filter);
-            // Entity→DTO変換（locationCodeを除外）
-            const places = data
-                .filter(
-                    (e: PlaceEntity) =>
-                        !locationList ||
-                        (e.locationCode &&
-                            locationList.includes(e.locationCode)),
-                )
-                .map((e: PlaceEntity) => ({
-                    placeId: e.placeId,
-                    raceType: e.raceType,
-                    datetime: e.datetime,
-                    placeName: e.placeName,
-                    locationName: e.locationName ?? e.placeName,
-                    placeGrade: e.placeGrade,
-                    placeHeldDays: e.placeHeldDays,
-                }));
+
+            // Entity→DTO変換
+            const races = data.map((e: any) => ({
+                raceType: e.raceType,
+                datetime: e.datetime,
+                location: e.location,
+                raceNumber: e.raceNumber,
+                raceName: e.raceName,
+                grade: e.grade,
+                distance: e.distance,
+                surfaceType: e.surfaceType,
+                stage: e.stage,
+            }));
+
             return Response.json(
                 {
-                    count: places.length,
-                    places,
+                    count: races.length,
+                    races,
                 },
                 {
                     headers: {
@@ -131,7 +127,7 @@ export class PlaceController {
                 },
             );
         } catch (error) {
-            console.error('Error in getPlaceList:', error);
+            console.error('Error in getRaceList:', error);
             return new Response('Internal Server Error', { status: 500 });
         }
     }

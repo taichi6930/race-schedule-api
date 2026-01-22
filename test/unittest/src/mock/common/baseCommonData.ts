@@ -10,7 +10,6 @@ import { RacePlayerData } from '../../../../../src/domain/racePlayerData';
 import { OldPlaceEntity } from '../../../../../src/repository/entity/placeEntity';
 import { PlayerEntity } from '../../../../../src/repository/entity/playerEntity';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
-import { IS_SHORT_TEST } from '../../../../../src/utility/env';
 import {
     isIncludedRaceType,
     RACE_TYPE_LIST_ALL,
@@ -463,6 +462,8 @@ const defaultStageList = {
  * IS_SHORT_TEST が true の場合は JRA のみを返し、false の場合は全レースタイプを返します。
  * TODO: 出来ればこの関数をリファクタリングして、いろんなRaceTypeに対応できるようにしたいです。
  */
+const IS_SHORT_TEST = process.env.IS_SHORT_TEST === 'TRUE';
+
 export const testRaceTypeListAll = IS_SHORT_TEST
     ? [RaceType.JRA]
     : RACE_TYPE_LIST_ALL;

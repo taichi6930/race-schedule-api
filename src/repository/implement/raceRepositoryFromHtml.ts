@@ -6,7 +6,19 @@ import { validateRaceDistance } from '../../../packages/shared/src/types/raceDis
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { RaceSurfaceType } from '../../../packages/shared/src/types/surfaceType';
 import { replaceFromCodePoint } from '../../../packages/shared/src/utilities/format';
+import {
+    GradeType,
+    validateGradeType,
+} from '../../../packages/shared/src/utilities/gradeType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
+import {
+    RaceCourse,
+    validateRaceCourse,
+} from '../../../packages/shared/src/utilities/raceCourse';
+import {
+    RaceStage,
+    StageMap,
+} from '../../../packages/shared/src/utilities/raceStage';
 import type { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import { PlaceData } from '../../domain/placeData';
@@ -23,15 +35,6 @@ import {
     isIncludedRaceType,
     RACE_TYPE_LIST_HORSE_RACING,
 } from '../../utility/raceType';
-import {
-    GradeType,
-    validateGradeType,
-} from '../../utility/validateAndType/gradeType';
-import {
-    RaceCourse,
-    validateRaceCourse,
-} from '../../utility/validateAndType/raceCourse';
-import { RaceStage, StageMap } from '../../utility/validateAndType/raceStage';
 import { SearchRaceFilterEntity } from '../entity/filter/searchRaceFilterEntity';
 import { OldPlaceEntity } from '../entity/placeEntity';
 import { RaceEntity } from '../entity/raceEntity';

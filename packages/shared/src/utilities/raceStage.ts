@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-import type { RaceType } from '../../../packages/shared/src/types/raceType';
-import { RaceGradeAndStageList } from '../data/stage';
-import { isIncludedRaceType } from '../raceType';
+import { isIncludedRaceType } from '../../../../src/utility/raceType';
+import type { RaceType } from '../types/raceType';
+import { RaceGradeAndStageList } from './stage';
 
 /**
  * ステージ リスト

@@ -3,8 +3,8 @@ import type { RaceDistance } from '../../packages/shared/src/types/raceDistance'
 import type { RaceName } from '../../packages/shared/src/types/raceName';
 import type { RaceSurfaceType } from '../../packages/shared/src/types/surfaceType';
 import { replaceFromCodePoint } from '../../packages/shared/src/utilities/format';
-import type { GradeType } from './validateAndType/gradeType';
-import type { RaceCourse } from './validateAndType/raceCourse';
+import type { GradeType } from '../../packages/shared/src/utilities/gradeType';
+import type { RaceCourse } from '../../packages/shared/src/utilities/raceCourse';
 
 interface JraRaceDataForRaceName {
     name: RaceName;

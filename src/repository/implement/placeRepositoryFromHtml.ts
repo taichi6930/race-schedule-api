@@ -7,17 +7,17 @@ import { inject, injectable } from 'tsyringe';
 
 import { IPlaceDataHtmlGateway } from '../../../packages/scraping/src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
+import { GradeType } from '../../../packages/shared/src/utilities/gradeType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
+import {
+    RaceCourse,
+    validateRaceCourse,
+} from '../../../packages/shared/src/utilities/raceCourse';
 import { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
 import { OldEnvStore } from '../../utility/oldEnvStore';
 import { isIncludedRaceType } from '../../utility/raceType';
-import { GradeType } from '../../utility/validateAndType/gradeType';
-import {
-    RaceCourse,
-    validateRaceCourse,
-} from '../../utility/validateAndType/raceCourse';
 import { OldSearchPlaceFilterEntity } from '../entity/filter/oldSearchPlaceFilterEntity';
 import { OldPlaceEntity } from '../entity/placeEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';

@@ -2,7 +2,7 @@ import type { UpsertResult } from '../../../packages/shared/src/utilities/upsert
 import type { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import type { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import type { RaceEntity } from '../../repository/entity/raceEntity';
-import type { DataLocationType } from '../../utility/dataType';
+import type { DataLocationType } from '../../utility/oldDataType';
 
 export interface IOldRaceService {
     /**

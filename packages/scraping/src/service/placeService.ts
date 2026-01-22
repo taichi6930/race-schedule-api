@@ -1,5 +1,6 @@
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
-import cheerio from 'cheerio';
+import { Logger } from '@race-schedule/shared/src/utilities/logger';
+import { load } from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { PlaceHtmlEntity } from '../entity/placeHtmlEntity';
@@ -8,30 +9,38 @@ import { IPlaceHtmlRepository } from '../repository/interface/IPlaceHtmlReposito
 export class PlaceService {
     public constructor(
         @inject('PlaceHtmlRepository')
-        private readonly placeHtmlRepository?: IPlaceHtmlRepository,
+        private readonly placeHtmlRepository: IPlaceHtmlRepository,
     ) {}
 
+    @Logger
     public async fetch(
         raceType: RaceType,
         date: Date,
     ): Promise<PlaceHtmlEntity[]> {
-        if (!this.placeHtmlRepository)
-            throw new Error('Repository not provided');
-        // HTMLを取得
+        // JRAは年単位で取得
         const html: string =
-            (await this.placeHtmlRepository.loadPlaceHtml(raceType, date)) ??
-            (await this.placeHtmlRepository.fetchPlaceHtml(raceType, date));
-        const $ = cheerio.load(html);
-        // <div class="chartWrapprer">を取得
+            raceType === 'JRA'
+                ? ((await this.placeHtmlRepository.loadPlaceHtml(
+                      raceType,
+                      date,
+                  )) ??
+                  (await this.placeHtmlRepository.fetchPlaceHtml(
+                      raceType,
+                      date,
+                  )))
+                : ((await this.placeHtmlRepository.loadPlaceHtml(
+                      raceType,
+                      date,
+                  )) ??
+                  (await this.placeHtmlRepository.fetchPlaceHtml(
+                      raceType,
+                      date,
+                  )));
+        const $ = load(html);
+        // ...existing code...
         const chartWrapprer = $('.chartWrapprer');
-        // <div class="chartWrapprer">内のテーブルを取得
         const table = chartWrapprer.find('table');
-        // その中のtbodyを取得
         const tbody = table.find('tbody');
-        // tbody内のtrたちを取得
-        // 1行目のtrはヘッダーとして取得
-        // 2行目のtrは曜日
-        // ３行目のtr以降はレース情報
         const trs = tbody.find('tr');
         const placeDataDict: Record<string, number[]> = {};
         trs.each((index: number, element) => {

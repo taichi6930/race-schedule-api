@@ -6,7 +6,7 @@ applyTo: '**'
 
 1. **ブランチ作成**
     - 作業用の新しいブランチを作成してください。
-    - **必ず `feature/xxxx` で始まるブランチ名のみ許可します（例: `feature/your-task`）。**
+    - **必ず `copilot/xxxx` で始まるブランチ名のみ許可します（例: `copilot/your-task`）。**
     - `fix/xxxx` など他のprefixは原則禁止です。
     - 内容が分かるブランチ名を付けてください。
 
@@ -37,7 +37,7 @@ applyTo: '**'
 
 ```sh
 # ブランチ作成
-git checkout -b feature/your-task
+git checkout -b copilot/your-task
 
 # Lintチェック
 pnpm run lint
@@ -46,7 +46,7 @@ pnpm run lint
 git add .
 git commit -m "作業内容を記載"
 
-git push origin feature/your-task
+git push origin copilot/your-task
 ```
 
 ---
