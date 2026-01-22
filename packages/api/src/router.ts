@@ -30,10 +30,10 @@ export const router = async (request: Request): Promise<Response> => {
     }
     if (url.pathname === '/player') {
         if (request.method === 'GET') {
-            return playerController.get(url.searchParams);
+            return playerController.getPlayerEntityList(url.searchParams);
         }
         if (request.method === 'POST') {
-            return playerController.upsert(request);
+            return playerController.postUpsertPlayer(request);
         }
     }
     if (request.method === 'GET' && url.pathname === '/health') {

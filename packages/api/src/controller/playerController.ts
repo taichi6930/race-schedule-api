@@ -1,68 +1,66 @@
 import 'reflect-metadata';
 
-import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
+import { z } from 'zod';
 
 import { SearchPlayerFilterEntity } from '../domain/entity/filter/searchPlayerFilterEntity';
 import { PlayerEntity } from '../domain/entity/playerEntity';
+import type { IPlayerUseCase } from '../usecase/interface/IPlayerUsecase';
+import { corsHeaders } from '../utility/cors';
 import {
-    parsePlayerUpsertPayload,
+    parseRaceTypeListFromSearch,
     ValidationError,
-} from '../domain/validation/playerValidation';
-import { IPlayerUsecase } from '../usecase/interface/IPlayerUsecase';
+} from '../utility/validation';
 
-const corsHeaders = (): Record<string, string> => ({
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-});
+const playerUpsertSchema = z
+    .object({
+        race_type: z.string().min(1, 'race_type is required'),
+        player_no: z
+            .union([z.string(), z.number()])
+            .transform((value) => value.toString())
+            .refine((value) => value.length > 0, 'player_no is required'),
+        player_name: z.string().min(1, 'player_name is required'),
+        priority: z.coerce.number().int('priority must be an integer'),
+    })
+    .strict();
 
-const parseRaceTypeListFromSearch = (
-    searchParams: URLSearchParams,
-): RaceType[] => {
-    const raceTypeList = searchParams.getAll('raceType');
-    return raceTypeList.filter((type): type is RaceType =>
-        ['JRA', 'NAR', 'OVERSEAS', 'KEIRIN', 'AUTORACE', 'BOATRACE'].includes(
-            type.toUpperCase(),
-        ),
-    ) as RaceType[];
-};
+type PlayerUpsertSchema = z.infer<typeof playerUpsertSchema>;
 
-const validateRaceType = (value: string): RaceType => {
-    const upperValue = value.toUpperCase();
-    if (
-        ['JRA', 'NAR', 'OVERSEAS', 'KEIRIN', 'AUTORACE', 'BOATRACE'].includes(
-            upperValue,
-        )
-    ) {
-        return upperValue as RaceType;
+const playerUpsertPayloadSchema = z.union([
+    playerUpsertSchema,
+    z.array(playerUpsertSchema),
+]);
+
+const parsePlayerUpsertPayload = (body: unknown): PlayerUpsertSchema[] => {
+    const result = playerUpsertPayloadSchema.safeParse(body);
+    if (!result.success) {
+        const issueMessages = result.error.issues.map((issue) => issue.message);
+        const message =
+            issueMessages.length > 0
+                ? `Invalid request body: ${issueMessages.join(', ')}`
+                : 'Invalid request body';
+        throw new ValidationError(message);
     }
-    throw new Error(`Invalid race type: ${value}`);
+
+    return Array.isArray(result.data) ? result.data : [result.data];
 };
 
 @injectable()
 export class PlayerController {
     public constructor(
         @inject('PlayerUsecase')
-        private readonly usecase: IPlayerUsecase,
+        private readonly usecase: IPlayerUseCase,
     ) {}
 
     /**
      * 選手データを取得する
      * @param searchParams
      */
-    public async get(searchParams: URLSearchParams): Promise<Response> {
+    public async getPlayerEntityList(
+        searchParams: URLSearchParams,
+    ): Promise<Response> {
         try {
             const raceTypeList = parseRaceTypeListFromSearch(searchParams);
-            if (raceTypeList.length === 0) {
-                return Response.json(
-                    { error: 'raceType を1つ以上指定してください' },
-                    {
-                        status: 400,
-                        headers: corsHeaders(),
-                    },
-                );
-            }
             const searchPlayerFilter = new SearchPlayerFilterEntity(
                 raceTypeList,
             );
@@ -84,7 +82,7 @@ export class PlayerController {
                     headers: corsHeaders(),
                 });
             }
-            console.error('Error in get:', error);
+            console.error('Error in getPlayerEntityList:', error);
             return new Response('Internal Server Error', {
                 status: 500,
                 headers: corsHeaders(),
@@ -96,14 +94,14 @@ export class PlayerController {
      * 選手登録/更新
      * @param request - POSTリクエスト
      */
-    public async upsert(request: Request): Promise<Response> {
+    public async postUpsertPlayer(request: Request): Promise<Response> {
         try {
             const body: unknown = await request.json();
             const playerPayloads = parsePlayerUpsertPayload(body);
             const playerEntityList = playerPayloads.map((item) => {
                 try {
                     return PlayerEntity.create(
-                        validateRaceType(item.race_type),
+                        item.race_type,
                         item.player_no,
                         item.player_name,
                         item.priority,
@@ -131,7 +129,7 @@ export class PlayerController {
                     headers: corsHeaders(),
                 });
             }
-            console.error('Error in upsert:', error);
+            console.error('Error in postUpsertPlayer:', error);
             return new Response('Internal Server Error', {
                 status: 500,
                 headers: corsHeaders(),

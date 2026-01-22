@@ -13,39 +13,24 @@ import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGate
 import { OldGoogleCalendarRepository } from './repository/implement/oldGoogleCalendarRepository';
 import { PlaceRepositoryFromHtml } from './repository/implement/placeRepositoryFromHtml';
 import { PlaceRepositoryFromStorage } from './repository/implement/placeRepositoryFromStorage';
-import { PlayerRepository } from './repository/implement/playerRepository';
 import { RaceRepositoryFromHtml } from './repository/implement/raceRepositoryFromHtml';
 import { RaceRepositoryFromStorage } from './repository/implement/raceRepositoryFromStorage';
 import type { ICalendarRepository } from './repository/interface/ICalendarRepository';
 import type { IPlaceRepository } from './repository/interface/IPlaceRepository';
-import type { IPlayerRepository } from './repository/interface/IPlayerRepository';
 import type { IRaceRepository } from './repository/interface/IRaceRepository';
 import { OldCalendarService } from './service/implement/oldCalendarService';
 import { OldPlaceService } from './service/implement/oldPlaceService';
 import { OldRaceService } from './service/implement/oldRaceService';
-import { PlayerService } from './service/implement/playerService';
 import type { IOldCalendarService } from './service/interface/IOldCalendarService';
 import type { IOldPlaceService } from './service/interface/IOldPlaceService';
 import type { IOldRaceService } from './service/interface/IOldRaceService';
-import type { IPlayerService } from './service/interface/IPlayerService';
 import { OldCalendarUseCase } from './usecase/implement/oldCalendarUseCase';
 import { OldPlaceUseCase } from './usecase/implement/oldPlaceUsecase';
 import { OldRaceUseCase } from './usecase/implement/oldRaceUsecase';
-import { PlayerUseCase } from './usecase/implement/playerUsecase';
 import type { IOldCalendarUseCase } from './usecase/interface/IOldCalendarUseCase';
 import type { IOldPlaceUseCase } from './usecase/interface/IOldPlaceUsecase';
 import type { IOldRaceUseCase } from './usecase/interface/IOldRaceUsecase';
-import type { IPlayerUseCase } from './usecase/interface/IPlayerUsecase';
 
-container.register<IPlayerRepository>('PlayerRepository', {
-    useClass: PlayerRepository,
-});
-container.register<IPlayerService>('PlayerService', {
-    useClass: PlayerService,
-});
-container.register<IPlayerUseCase>('PlayerUsecase', {
-    useClass: PlayerUseCase,
-});
 container.register<IDBGateway>('DBGateway', { useClass: DBGateway });
 container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
     useClass: RaceDataHtmlGateway,

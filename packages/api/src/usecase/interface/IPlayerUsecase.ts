@@ -2,21 +2,12 @@ import type { SearchPlayerFilterEntity } from '../../domain/entity/filter/search
 import type { PlayerEntity } from '../../domain/entity/playerEntity';
 
 /**
- * Player に関する業務ロジック（Usecase）のインターフェース定義
+ * Player UseCase Interface
  */
-export interface IPlayerUsecase {
-    /**
-     * 選手データを取得する
-     * @param searchPlayerFilter - 選手検索フィルター
-     * @return 選手エンティティリスト
-     */
+export interface IPlayerUseCase {
     fetchPlayerEntityList: (
         searchPlayerFilter: SearchPlayerFilterEntity,
     ) => Promise<PlayerEntity[]>;
 
-    /**
-     * 選手データを登録/更新する
-     * @param entityList - 選手エンティティリスト
-     */
     upsertPlayerEntityList: (entityList: PlayerEntity[]) => Promise<void>;
 }

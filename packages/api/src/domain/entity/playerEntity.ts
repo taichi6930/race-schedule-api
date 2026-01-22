@@ -1,7 +1,18 @@
 import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 
 /**
- * Repository層のEntity
+ * race_type文字列をRaceTypeに変換する
+ */
+const validateRaceType = (raceType: string): RaceType => {
+    const validRaceTypes = ['JRA', 'NAR', 'KEIRIN', 'AUTORACE', 'BOATRACE'];
+    if (!validRaceTypes.includes(raceType)) {
+        throw new Error(`Invalid race_type: ${raceType}`);
+    }
+    return raceType as RaceType;
+};
+
+/**
+ * Player Entity (選手エンティティ)
  */
 export class PlayerEntity {
     /**
@@ -11,8 +22,9 @@ export class PlayerEntity {
      * @param playerName - プレイヤー名
      * @param priority - 優先度
      * @remarks
-     * プレイヤーデータを生成する
+     * 選手データを生成する
      */
+
     private constructor(
         public readonly raceType: RaceType,
         public readonly playerNo: string,
@@ -28,11 +40,21 @@ export class PlayerEntity {
      * @param priority - 優先度
      */
     public static create(
-        raceType: RaceType,
+        raceType: string,
         playerNo: string,
         playerName: string,
         priority: number,
     ): PlayerEntity {
-        return new PlayerEntity(raceType, playerNo, playerName, priority);
+        try {
+            return new PlayerEntity(
+                validateRaceType(raceType),
+                playerNo,
+                playerName,
+                priority,
+            );
+        } catch (error) {
+            console.error('Error creating PlayerEntity:', error);
+            throw error;
+        }
     }
 }
