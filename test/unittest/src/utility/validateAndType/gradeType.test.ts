@@ -1,4 +1,4 @@
-import { validateGradeType } from '../../../../../src/utility/validateAndType/gradeType';
+import { validateGradeType } from '../../../../../packages/shared/src/utilities/gradeType';
 import { testRaceTypeListAll } from '../../mock/common/baseCommonData';
 
 /**

@@ -1,4 +1,5 @@
 import { RaceType } from '../../../packages/shared/src/types/raceType';
+import type { RaceStage } from '../../../packages/shared/src/utilities/raceStage';
 import type { HeldDayData } from '../../domain/heldDayData';
 import type { HorseRaceConditionData } from '../../domain/houseRaceConditionData';
 import type { RaceData } from '../../domain/raceData';
@@ -14,7 +15,6 @@ import {
     IdType,
     validateId,
 } from '../../utility/validateAndType/idUtility';
-import type { RaceStage } from '../../utility/validateAndType/raceStage';
 
 /**
  * レース開催データ

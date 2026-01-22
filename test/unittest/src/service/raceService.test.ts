@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import { SearchRaceFilterEntity } from '../../../../src/repository/entity/filter/searchRaceFilterEntity';
 import { OldRaceService } from '../../../../src/service/implement/oldRaceService';
 import type { IOldRaceService } from '../../../../src/service/interface/IOldRaceService';
-import { DataLocation } from '../../../../src/utility/dataType';
+import { DataLocation } from '../../../../src/utility/oldDataType';
 import type { TestRepositorySetup } from '../../../utility/testSetupHelper';
 import {
     clearMocks,

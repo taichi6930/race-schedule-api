@@ -4,16 +4,16 @@ import { inject, injectable } from 'tsyringe';
 
 import type { CalendarDataDto } from '../../../packages/api/src/domain/calendarData';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
+import { GradeType } from '../../../packages/shared/src/utilities/gradeType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
+import { RaceGradeAndStageList } from '../../../packages/shared/src/utilities/stage';
 import { OldSearchCalendarFilterEntity } from '../../repository/entity/filter/oldSearchCalendarFilterEntity';
 import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRaceFilterEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IOldCalendarService } from '../../service/interface/IOldCalendarService';
 import { IOldRaceService } from '../../service/interface/IOldRaceService';
-import { RaceGradeAndStageList } from '../../utility/data/stage';
-import { DataLocation } from '../../utility/dataType';
+import { DataLocation } from '../../utility/oldDataType';
 import { isIncludedRaceType, RACE_TYPE_LIST_ALL } from '../../utility/raceType';
-import { GradeType } from '../../utility/validateAndType/gradeType';
 import { IOldCalendarUseCase } from '../interface/IOldCalendarUseCase';
 
 /**

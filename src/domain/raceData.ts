@@ -9,12 +9,12 @@ import {
 import type { RaceNumber } from '../../packages/shared/src/types/raceNumber';
 import { validateRaceNumber } from '../../packages/shared/src/types/raceNumber';
 import type { RaceType } from '../../packages/shared/src/types/raceType';
-import type { GradeType } from '../utility/validateAndType/gradeType';
-import { validateGradeType } from '../utility/validateAndType/gradeType';
+import type { GradeType } from '../../packages/shared/src/utilities/gradeType';
+import { validateGradeType } from '../../packages/shared/src/utilities/gradeType';
 import {
     type RaceCourse,
     validateRaceCourse,
-} from '../utility/validateAndType/raceCourse';
+} from '../../packages/shared/src/utilities/raceCourse';
 
 /**
  * 競馬のレース開催データ

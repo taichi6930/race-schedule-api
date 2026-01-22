@@ -229,7 +229,7 @@ MIT License
 - 本プロジェクトはGitHub Flowに準拠したブランチ運用を行います。
 - 運用フローの要点：
     1. mainブランチは常にデプロイ可能な状態を保つ
-    2. 機能追加・修正は必ず `feature/xxxx` や `fix/xxxx` などのブランチを作成
+    2. 機能追加・修正は必ず `copilot/xxxx` や`feature/xxxx`, `claude/xxxx`, `fix/xxxx` などのブランチを作成
     3. 作業ブランチで開発し、こまめにコミット
     4. コミット前に `pnpm run lint` を実行し、エラーが出ないことを確認
     5. 作業ブランチをリモートにpush

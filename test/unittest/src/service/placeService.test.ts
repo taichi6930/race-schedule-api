@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 import { OldSearchPlaceFilterEntity } from '../../../../src/repository/entity/filter/oldSearchPlaceFilterEntity';
 import { OldPlaceService } from '../../../../src/service/implement/oldPlaceService';
 import type { IOldPlaceService } from '../../../../src/service/interface/IOldPlaceService';
-import { DataLocation } from '../../../../src/utility/dataType';
+import { DataLocation } from '../../../../src/utility/oldDataType';
 import type { TestRepositorySetup } from '../../../utility/testSetupHelper';
 import {
     clearMocks,

@@ -6,7 +6,7 @@ import { SearchRaceFilterEntity } from '../../repository/entity/filter/searchRac
 import { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import { RaceEntity } from '../../repository/entity/raceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
-import { DataLocation, DataLocationType } from '../../utility/dataType';
+import { DataLocation, DataLocationType } from '../../utility/oldDataType';
 import { IOldRaceService } from '../interface/IOldRaceService';
 
 @injectable()
