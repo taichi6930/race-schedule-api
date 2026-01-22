@@ -1,12 +1,13 @@
-import express from 'express';
+import 'reflect-metadata';
 
-import apiRouter from './router/apiRouter';
+import type { CloudFlareEnv } from '@race-schedule/shared/src/utilities/cloudFlareEnv';
+import { EnvStore } from '@race-schedule/shared/src/utilities/envStore';
 
-const app = express();
-app.use(express.json());
-app.use(apiRouter);
+import { router } from './router';
 
-const PORT = process.env.PORT ?? 3001;
-app.listen(PORT, () => {
-    console.log(`Scraping API server running on port ${PORT}`);
-});
+export default {
+    async fetch(request: Request, env: CloudFlareEnv): Promise<Response> {
+        EnvStore.setEnv(env);
+        return router(request);
+    },
+};
