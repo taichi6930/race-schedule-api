@@ -1,5 +1,5 @@
 import { RaceType } from '../../../../../packages/shared/src/types/raceType';
-import { validateRaceCourse } from '../../../../../src/utility/validateAndType/raceCourse';
+import { validateRaceCourse } from '../../../../../packages/shared/src/utilities/raceCourse';
 
 /**
  * RaceCourseのテスト

@@ -1,6 +1,6 @@
-import { RaceType } from '../../../packages/shared/src/types/raceType';
-import type { GradeType } from '../validateAndType/gradeType';
-import type { RaceStage } from '../validateAndType/raceStage';
+import { RaceType } from '../types/raceType';
+import type { GradeType } from './gradeType';
+import type { RaceStage } from './raceStage';
 
 /**
  * 指定グレード・ステージリスト

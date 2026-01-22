@@ -5,7 +5,7 @@ import { UpsertResult } from '../../../packages/shared/src/utilities/upsertResul
 import { OldSearchPlaceFilterEntity } from '../../repository/entity/filter/oldSearchPlaceFilterEntity';
 import { OldPlaceEntity } from '../../repository/entity/placeEntity';
 import { IOldPlaceService } from '../../service/interface/IOldPlaceService';
-import { DataLocation } from '../../utility/dataType';
+import { DataLocation } from '../../utility/oldDataType';
 import { IOldPlaceUseCase } from '../interface/IOldPlaceUsecase';
 
 /**

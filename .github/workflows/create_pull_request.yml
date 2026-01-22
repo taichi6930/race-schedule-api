@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - 'feature/**'
+      - 'claude/**'
+      - 'copilot/**'
 
 permissions:
   contents: write
