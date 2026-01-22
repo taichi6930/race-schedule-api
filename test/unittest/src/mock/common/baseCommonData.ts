@@ -1,5 +1,6 @@
 import type { CalendarDataDto } from '../../../../../packages/api/src/domain/calendarData';
 import { validateCalendarData } from '../../../../../packages/api/src/domain/calendarData';
+import { PlayerEntity } from '../../../../../packages/api/src/domain/entity/playerEntity';
 import { maxFrameNumber } from '../../../../../packages/shared/src/types/positionNumber';
 import { RaceType } from '../../../../../packages/shared/src/types/raceType';
 import { HeldDayData } from '../../../../../src/domain/heldDayData';
@@ -8,7 +9,6 @@ import { PlaceData } from '../../../../../src/domain/placeData';
 import { RaceData } from '../../../../../src/domain/raceData';
 import { RacePlayerData } from '../../../../../src/domain/racePlayerData';
 import { OldPlaceEntity } from '../../../../../src/repository/entity/placeEntity';
-import { PlayerEntity } from '../../../../../src/repository/entity/playerEntity';
 import { RaceEntity } from '../../../../../src/repository/entity/raceEntity';
 import { IS_SHORT_TEST } from '../../../../../src/utility/env';
 import {

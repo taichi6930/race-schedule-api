@@ -1,9 +1,9 @@
+import { Logger } from '@race-schedule/shared/src/utilities/logger';
 import { inject, injectable } from 'tsyringe';
 
-import { IDBGateway } from '../../../packages/api/src/gateway/interface/IDBGateway';
-import { Logger } from '../../../packages/shared/src/utilities/logger';
-import { SearchPlayerFilterEntity } from '../entity/filter/searchPlayerFilterEntity';
-import { PlayerEntity } from '../entity/playerEntity';
+import type { SearchPlayerFilterEntity } from '../../domain/entity/filter/searchPlayerFilterEntity';
+import { PlayerEntity } from '../../domain/entity/playerEntity';
+import type { IDBGateway } from '../../gateway/interface/IDBGateway';
 import type { IPlayerRepository } from '../interface/IPlayerRepository';
 
 @injectable()

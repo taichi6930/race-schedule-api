@@ -1,7 +1,9 @@
-import type { SearchPlayerFilterEntity } from '../../repository/entity/filter/searchPlayerFilterEntity';
-import type { PlayerEntity } from '../../repository/entity/playerEntity';
+import type { SearchPlayerFilterEntity } from '../../domain/entity/filter/searchPlayerFilterEntity';
+import type { PlayerEntity } from '../../domain/entity/playerEntity';
 
-// UseCase層
+/**
+ * Player UseCase Interface
+ */
 export interface IPlayerUseCase {
     fetchPlayerEntityList: (
         searchPlayerFilter: SearchPlayerFilterEntity,

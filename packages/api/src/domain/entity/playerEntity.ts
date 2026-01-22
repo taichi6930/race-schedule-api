@@ -1,8 +1,18 @@
-import type { RaceType } from '../../../packages/shared/src/types/raceType';
-import { validateRaceType } from '../../utility/raceType';
+import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 
 /**
- * Repository層のEntity
+ * race_type文字列をRaceTypeに変換する
+ */
+const validateRaceType = (raceType: string): RaceType => {
+    const validRaceTypes = ['JRA', 'NAR', 'KEIRIN', 'AUTORACE', 'BOATRACE'];
+    if (!validRaceTypes.includes(raceType)) {
+        throw new Error(`Invalid race_type: ${raceType}`);
+    }
+    return raceType as RaceType;
+};
+
+/**
+ * Player Entity (選手エンティティ)
  */
 export class PlayerEntity {
     /**
@@ -12,7 +22,7 @@ export class PlayerEntity {
      * @param playerName - プレイヤー名
      * @param priority - 優先度
      * @remarks
-     * レース開催場所データを生成する
+     * 選手データを生成する
      */
 
     private constructor(
