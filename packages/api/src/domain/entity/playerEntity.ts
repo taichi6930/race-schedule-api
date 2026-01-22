@@ -1,5 +1,4 @@
-import type { RaceType } from '../../../packages/shared/src/types/raceType';
-import { validateRaceType } from '../../utility/raceType';
+import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 
 /**
  * Repository層のEntity
@@ -12,9 +11,8 @@ export class PlayerEntity {
      * @param playerName - プレイヤー名
      * @param priority - 優先度
      * @remarks
-     * レース開催場所データを生成する
+     * プレイヤーデータを生成する
      */
-
     private constructor(
         public readonly raceType: RaceType,
         public readonly playerNo: string,
@@ -30,21 +28,11 @@ export class PlayerEntity {
      * @param priority - 優先度
      */
     public static create(
-        raceType: string,
+        raceType: RaceType,
         playerNo: string,
         playerName: string,
         priority: number,
     ): PlayerEntity {
-        try {
-            return new PlayerEntity(
-                validateRaceType(raceType),
-                playerNo,
-                playerName,
-                priority,
-            );
-        } catch (error) {
-            console.error('Error creating PlayerEntity:', error);
-            throw error;
-        }
+        return new PlayerEntity(raceType, playerNo, playerName, priority);
     }
 }
