@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 
+import type { RaceEntity } from '@race-schedule/shared/src/entity/raceEntity';
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { inject, injectable } from 'tsyringe';
 
