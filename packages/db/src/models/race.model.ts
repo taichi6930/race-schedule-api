@@ -3,7 +3,7 @@
  * レース情報に関するデータベース操作のヘルパー関数
  */
 
-import type { RaceRow, RaceInsert, RaceUpdate } from '../types/schemas';
+import type { RaceInsert, RaceRow } from '../types/schemas';
 
 /**
  * レースIDを生成
@@ -11,17 +11,17 @@ import type { RaceRow, RaceInsert, RaceUpdate } from '../types/schemas';
  * @param dateTime 開催日時（YYYY-MM-DD HH:MM:SS）
  * @param locationCode 開催場コード
  * @param raceNumber レース番号
- * @returns レースID
+ * @returns レースID（RaceType + YYYYMMDD + location_code + race_number）
  */
 export function generateRaceId(
-  raceType: string,
-  dateTime: string,
-  locationCode: string,
-  raceNumber: number,
+    raceType: string,
+    dateTime: string,
+    locationCode: string,
+    raceNumber: number,
 ): string {
-  const dateOnly = dateTime.split(' ')[0].replace(/-/g, '');
-  const paddedNumber = String(raceNumber).padStart(2, '0');
-  return `${raceType}${dateOnly}${locationCode}${paddedNumber}`;
+    const dateOnly = dateTime.split(' ')[0].replace(/-/g, '');
+    const paddedRaceNumber = String(raceNumber).padStart(2, '0');
+    return `${raceType}${dateOnly}${locationCode}${paddedRaceNumber}`;
 }
 
 /**
@@ -29,19 +29,19 @@ export function generateRaceId(
  * @param row データベースから取得した行
  * @returns バリデーション結果
  */
-export function isValidRaceRow(row: any): row is RaceRow {
-  return (
-    typeof row === 'object' &&
-    row !== null &&
-    typeof row.race_id === 'string' &&
-    typeof row.place_id === 'string' &&
-    typeof row.race_type === 'string' &&
-    typeof row.date_time === 'string' &&
-    typeof row.location_code === 'string' &&
-    typeof row.race_number === 'number' &&
-    typeof row.created_at === 'string' &&
-    typeof row.updated_at === 'string'
-  );
+export function isValidRaceRow(row: unknown): row is RaceRow {
+    return (
+        typeof row === 'object' &&
+        row !== null &&
+        typeof (row as RaceRow).race_id === 'string' &&
+        typeof (row as RaceRow).place_id === 'string' &&
+        typeof (row as RaceRow).race_type === 'string' &&
+        typeof (row as RaceRow).date_time === 'string' &&
+        typeof (row as RaceRow).location_code === 'string' &&
+        typeof (row as RaceRow).race_number === 'number' &&
+        typeof (row as RaceRow).created_at === 'string' &&
+        typeof (row as RaceRow).updated_at === 'string'
+    );
 }
 
 /**
@@ -49,15 +49,15 @@ export function isValidRaceRow(row: any): row is RaceRow {
  * @param data 挿入データ
  * @returns バリデーション結果
  */
-export function isValidRaceInsert(data: any): data is RaceInsert {
-  return (
-    typeof data === 'object' &&
-    data !== null &&
-    typeof data.race_id === 'string' &&
-    typeof data.place_id === 'string' &&
-    typeof data.race_type === 'string' &&
-    typeof data.date_time === 'string' &&
-    typeof data.location_code === 'string' &&
-    typeof data.race_number === 'number'
-  );
+export function isValidRaceInsert(data: unknown): data is RaceInsert {
+    return (
+        typeof data === 'object' &&
+        data !== null &&
+        typeof (data as RaceInsert).race_id === 'string' &&
+        typeof (data as RaceInsert).place_id === 'string' &&
+        typeof (data as RaceInsert).race_type === 'string' &&
+        typeof (data as RaceInsert).date_time === 'string' &&
+        typeof (data as RaceInsert).location_code === 'string' &&
+        typeof (data as RaceInsert).race_number === 'number'
+    );
 }
