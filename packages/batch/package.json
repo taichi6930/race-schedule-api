@@ -11,13 +11,13 @@
     "dependencies": {
         "@race-schedule/shared": "workspace:*",
         "@race-schedule/db": "workspace:*",
-        "better-sqlite3": "12.6.0",
+        "better-sqlite3": "12.6.2",
         "dotenv": "^17.2.3",
         "googleapis": "^170.1.0"
     },
     "devDependencies": {
         "@types/better-sqlite3": "^7.6.11",
-        "@types/node": "^25.0.9",
+        "@types/node": "^25.0.10",
         "typescript": "~5.9.3"
     }
 }
