@@ -45,8 +45,8 @@
     },
     "dependencies": {
         "@types/express": "^5.0.6",
-        "better-sqlite3": "12.6.0",
-        "cheerio": "^1.1.2",
+        "better-sqlite3": "12.6.2",
+        "cheerio": "^1.2.0",
         "date-fns": "^4.1.0",
         "dotenv": "^17.2.3",
         "drizzle-orm": "^0.45.1",
@@ -54,19 +54,19 @@
         "googleapis": "^170.1.0",
         "reflect-metadata": "^0.2.2",
         "tsyringe": "^4.10.0",
-        "zod": "^4.3.5"
+        "zod": "^4.3.6"
     },
     "devDependencies": {
-        "@cloudflare/workers-types": "^4.20260116.0",
+        "@cloudflare/workers-types": "^4.20260123.0",
         "@eslint/js": "^9.39.2",
-        "@swc/core": "^1.15.8",
+        "@swc/core": "^1.15.10",
         "@swc/jest": "^0.2.39",
         "@types/better-sqlite3": "^7.6.13",
         "@types/jest": "^30.0.0",
-        "@types/node": "25.0.9",
+        "@types/node": "25.0.10",
         "eslint": "^9.39.2",
         "eslint-config-prettier": "^10.1.8",
-        "eslint-plugin-jsdoc": "^62.0.0",
+        "eslint-plugin-jsdoc": "^62.4.0",
         "eslint-plugin-prettier": "^5.5.5",
         "eslint-plugin-promise": "^7.2.1",
         "eslint-plugin-simple-import-sort": "^12.1.1",
@@ -77,12 +77,12 @@
         "jest-html-reporters": "^3.1.7",
         "lint-staged": "^16.2.7",
         "only-allow": "^1.2.2",
-        "prettier": "^3.8.0",
+        "prettier": "^3.8.1",
         "ts-node": "^10.9.2",
         "typedoc": "^0.28.16",
         "typescript": "~5.9.3",
-        "typescript-eslint": "^8.53.0",
-        "wrangler": "^4.59.2"
+        "typescript-eslint": "^8.53.1",
+        "wrangler": "^4.60.0"
     },
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
