@@ -45,5 +45,6 @@ export function isValidPlayerInsert(data: unknown): data is PlayerInsert {
  * @returns ソート済み選手リスト
  */
 export function sortPlayersByPriority(players: PlayerRow[]): PlayerRow[] {
-    return [...players].toSorted((a, b) => a.priority - b.priority);
+    // eslint-disable-next-line unicorn/no-array-sort
+    return [...players].sort((a, b) => a.priority - b.priority);
 }
