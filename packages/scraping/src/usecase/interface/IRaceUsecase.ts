@@ -1,4 +1,4 @@
-import type { RaceHtmlEntity } from '../entity/raceHtmlEntity';
+import type { RaceHtmlEntity } from '../../entity/raceHtmlEntity';
 
 /**
  * RaceUsecaseのインターフェース

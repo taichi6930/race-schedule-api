@@ -1,6 +1,6 @@
 import type { RaceType } from '@race-schedule/shared/src/types/raceType';
 
-import type { RaceHtmlEntity } from '../entity/raceHtmlEntity';
+import type { RaceHtmlEntity } from '../../entity/raceHtmlEntity';
 
 /**
  * RaceServiceのインターフェース

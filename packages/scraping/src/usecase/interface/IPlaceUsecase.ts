@@ -1,4 +1,4 @@
-import type { PlaceHtmlEntity } from '../entity/placeHtmlEntity';
+import type { PlaceHtmlEntity } from '../../entity/placeHtmlEntity';
 
 /**
  * PlaceUsecaseのインターフェース
