@@ -71,24 +71,30 @@ jobs:
 
       - name: Run packages/api tests
         if: steps.detect.outputs.run_api == 'true'
-        run: bun run --filter ./packages/api test
+        working-directory: packages/api
+        run: bun test
 
       - name: Run packages/batch tests
         if: steps.detect.outputs.run_batch == 'true'
-        run: bun run --filter ./packages/batch test
+        working-directory: packages/batch
+        run: bun test
 
       - name: Run packages/db tests
         if: steps.detect.outputs.run_db == 'true'
-        run: bun run --filter ./packages/db test
+        working-directory: packages/db
+        run: bun test
 
       - name: Run packages/front tests
         if: steps.detect.outputs.run_front == 'true'
-        run: bun run --filter ./packages/front test
+        working-directory: packages/front
+        run: bun test
 
       - name: Run packages/shared tests
         if: steps.detect.outputs.run_shared == 'true'
-        run: bun run --filter ./packages/shared test
+        working-directory: packages/shared
+        run: bun test
 
       - name: Run packages/scraping tests
         if: steps.detect.outputs.run_scraping == 'true'
-        run: bun run --filter ./packages/scraping test
+        working-directory: packages/scraping
+        run: bun test
