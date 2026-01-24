@@ -5,7 +5,7 @@
     "main": "./dist/index.js",
     "scripts": {
         "dev": "wrangler dev --local",
-        "migrations:apply:local": "npx wrangler d1 migrations apply race-schedule-db --local --config packages/api/wrangler.toml",
+        "migrations:apply:local": "bunx wrangler d1 migrations apply race-schedule-db --local --config packages/api/wrangler.toml",
         "deploy:local": "TZ=Asia/Tokyo wrangler dev --local --persist-to ../db",
         "deploy:test": "TZ=Asia/Tokyo wrangler deploy --env test",
         "deploy:production": "TZ=Asia/Tokyo wrangler deploy --env production",

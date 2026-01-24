@@ -68,19 +68,19 @@ echo "24.3.0" > .nvmrc
 nvm use
 
 # 依存関係を再インストール
-pnpm install
+bun install
 
 # テストを実行
-pnpm test
+bun test
 
 # Lintとtype-checkを実行
-pnpm run pre-commit
+bun run pre-commit
 ```
 
 ### 4. コミットとプッシュ
 
 ```bash
-git add .nvmrc package.json pnpm-lock.yaml
+git add .nvmrc package.json bun.lockb
 git commit -m "chore: Update Node.js to $(cat .nvmrc)"
 git push
 ```

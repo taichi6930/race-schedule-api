@@ -27,16 +27,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version-file: '.nvmrc'
-
-      - name: Enable pnpm via corepack
-        run: corepack enable && corepack prepare pnpm@latest --activate
+          bun-version: latest
 
       - name: Install dependencies
-        run: pnpm install
+        run: bun install
 
       - name: Deploy to Cloudflare Workers (test env)
         env:
@@ -47,7 +44,7 @@ jobs:
           ENV: ${{ secrets.ENV }}
         run: |
           envsubst < wrangler.toml > wrangler.resolved.toml && mv wrangler.resolved.toml wrangler.toml
-          pnpm run deploy:test
+          bun run deploy:test
 
       # ラベル付与イベントで起動した場合のみ、ラベルを削除
       - name: Remove 'deploy-test' label
