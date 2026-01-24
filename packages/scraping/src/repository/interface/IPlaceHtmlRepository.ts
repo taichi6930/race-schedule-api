@@ -15,7 +15,7 @@ export interface IPlaceHtmlRepository {
      * 取得したHTMLをR2やローカルに保存する
      */
     savePlaceHtml: (
-        aceType: RaceType,
+        raceType: RaceType,
         date: Date,
         html: string,
     ) => Promise<void>;
