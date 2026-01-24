@@ -21,6 +21,13 @@ export class RaceDataHtmlGateway implements IRaceDataHtmlGateway {
         location?: string,
         number?: number,
     ): Promise<string> {
+        // ローカル環境では外部アクセスを禁止
+        if (process.env.NODE_ENV === 'development') {
+            throw new Error(
+                'ローカル環境では外部HTMLの取得はできません。R2キャッシュのみ使用してください。',
+            );
+        }
+
         const url = createRaceUrl(raceType, date, location, number);
         console.debug('HTML取得URL:', url);
         // 1秒待機（過負荷防止）
