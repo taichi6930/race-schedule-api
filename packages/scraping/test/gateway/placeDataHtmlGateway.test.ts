@@ -74,7 +74,9 @@ describe('PlaceDataHtmlGateway', () => {
             await gateway.fetch(RaceType.NAR, date);
 
             const calledUrl = mockFetch.mock.calls[0][0];
-            expect(calledUrl).toContain('202406');
+            // URLはクエリパラメータ形式（k_year=2024&k_month=06）
+            expect(calledUrl).toContain('2024');
+            expect(calledUrl).toContain('06');
         });
     });
 });
