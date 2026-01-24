@@ -1,3 +1,4 @@
+import { EnvStore } from '@race-schedule/shared/src/utilities/envStore';
 import { injectable } from 'tsyringe';
 
 import type { IR2Gateway } from '../interface/IR2Gateway';
@@ -14,10 +15,17 @@ interface R2Bucket {
 
 @injectable()
 export class R2Gateway implements IR2Gateway {
-    private bucket?: R2Bucket;
-
-    public setBucket(bucket: R2Bucket): void {
-        this.bucket = bucket;
+    /**
+     * EnvStoreからR2バケットを取得
+     * EnvStoreが初期化されていない、またはR2_BUCKETが存在しない場合はundefinedを返す
+     */
+    private getBucket(): R2Bucket | undefined {
+        try {
+            return EnvStore.env.R2_BUCKET as unknown as R2Bucket;
+        } catch {
+            // EnvStoreが初期化されていない場合
+            return undefined;
+        }
     }
 
     public async putObject(
@@ -25,8 +33,9 @@ export class R2Gateway implements IR2Gateway {
         body: string | ArrayBuffer,
         contentType?: string,
     ): Promise<void> {
-        if (!this.bucket) return; // キャッシュが無い場合はスキップ
-        await this.bucket.put(key, body, {
+        const bucket = this.getBucket();
+        if (!bucket) return; // キャッシュが無い場合はスキップ
+        await bucket.put(key, body, {
             httpMetadata: {
                 contentType: contentType ?? 'application/octet-stream',
             },
@@ -34,14 +43,16 @@ export class R2Gateway implements IR2Gateway {
     }
 
     public async getObject(key: string): Promise<string | null> {
-        if (!this.bucket) return null; // キャッシュが無い場合はnull
-        const obj = await this.bucket.get(key);
+        const bucket = this.getBucket();
+        if (!bucket) return null; // キャッシュが無い場合はnull
+        const obj = await bucket.get(key);
         if (!obj) return null;
         return obj.text();
     }
 
     public async deleteObject(key: string): Promise<void> {
-        if (!this.bucket) return; // キャッシュが無い場合はスキップ
-        await this.bucket.delete(key);
+        const bucket = this.getBucket();
+        if (!bucket) return; // キャッシュが無い場合はスキップ
+        await bucket.delete(key);
     }
 }
