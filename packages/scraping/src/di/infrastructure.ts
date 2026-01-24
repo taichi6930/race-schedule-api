@@ -2,16 +2,16 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { PlaceDataHtmlGateway } from './gateway/implement/placeDataHtmlGateway';
-import { R2Gateway } from './gateway/implement/R2Gateway';
-import { RaceDataHtmlGateway } from './gateway/implement/raceDataHtmlGateway';
-import type { IPlaceDataHtmlGateway } from './gateway/interface/iPlaceDataHtmlGateway';
-import type { IR2Gateway } from './gateway/interface/IR2Gateway';
-import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
-import { PlaceHtmlR2Repository } from './repository/implement/placeHtmlRepository';
-import { RaceHtmlR2Repository } from './repository/implement/raceHtmlRepository';
-import type { IPlaceHtmlRepository } from './repository/interface/IPlaceHtmlRepository';
-import type { IRaceHtmlRepository } from './repository/interface/IRaceHtmlRepository';
+import { PlaceDataHtmlGateway } from '../gateway/implement/placeDataHtmlGateway';
+import { R2Gateway } from '../gateway/implement/R2Gateway';
+import { RaceDataHtmlGateway } from '../gateway/implement/raceDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../gateway/interface/iPlaceDataHtmlGateway';
+import type { IR2Gateway } from '../gateway/interface/IR2Gateway';
+import type { IRaceDataHtmlGateway } from '../gateway/interface/iRaceDataHtmlGateway';
+import { PlaceHtmlR2Repository } from '../repository/implement/placeHtmlRepository';
+import { RaceHtmlR2Repository } from '../repository/implement/raceHtmlRepository';
+import type { IPlaceHtmlRepository } from '../repository/interface/IPlaceHtmlRepository';
+import type { IRaceHtmlRepository } from '../repository/interface/IRaceHtmlRepository';
 
 /**
  * Gateway層とRepository層のDI登録
