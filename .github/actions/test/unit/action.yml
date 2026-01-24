@@ -7,29 +7,18 @@ runs:
     - name: Check out the repository
       uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
       with:
-        node-version-file: '.nvmrc'
+        bun-version: latest
 
-    - name: Set up pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: '9.10.0'
-
-    - name: Setup pnpm store directory
-      shell: bash
-      run: |
-        mkdir -p ~/.pnpm-store
-        echo "STORE_PATH=$HOME/.pnpm-store" >> $GITHUB_ENV
-
-    - name: Setup pnpm cache
+    - name: Setup Bun cache
       uses: actions/cache@v4
       with:
-        path: ${{ env.STORE_PATH }}
-        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        path: ~/.bun/install/cache
+        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
         restore-keys: |
-          ${{ runner.os }}-pnpm-store-
+          ${{ runner.os }}-bun-
 
     - name: Setup Jest cache
       uses: actions/cache@v4
@@ -37,12 +26,12 @@ runs:
         path: |
           node_modules/.cache/jest
           coverage
-        key: ${{ runner.os }}-jest-${{ hashFiles('**/jest.config.js', '**/pnpm-lock.yaml') }}
+        key: ${{ runner.os }}-jest-${{ hashFiles('**/jest.config.js', '**/bun.lockb') }}
         restore-keys: |
           ${{ runner.os }}-jest-
 
     - name: Install dependencies
-      run: pnpm install
+      run: bun install
       shell: bash
 
     - name: Run unit tests
@@ -50,4 +39,4 @@ runs:
       env:
         ENV: GITHUB_ACTIONS_CI
         CI: true
-      run: pnpm run test:silent
+      run: bun run test:silent

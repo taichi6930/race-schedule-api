@@ -21,8 +21,8 @@
     "jest.nodeEnv": {
         "TZ": "Asia/Tokyo"
     },
-    // Run the same script the terminal uses so extension uses pnpm test script
-    "jest.jestCommandLine": "pnpm run test --",
+    // Run the same script the terminal uses so extension uses bun test script
+    "jest.jestCommandLine": "bun run test --",
     // Use login shell so user's shell init files are sourced (macOS zsh)
     "jest.shell": {
         "path": "/bin/zsh",

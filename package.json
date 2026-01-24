@@ -4,44 +4,44 @@
     "bin": {
         "cdk-race-schedule-app": "bin/cdk-race-schedule-app.js"
     },
+    "workspaces": [
+        "packages/*"
+    ],
     "scripts": {
-        "preinstall": "npx only-allow pnpm",
-        "wrangler:deploy:production": "pnpm up wrangler@latest && wrangler deploy --env production",
+        "wrangler:deploy:production": "bun update wrangler && wrangler deploy --env production",
         "dev:cloudflare:local": "TZ=Asia/Tokyo wrangler dev --env development --local",
         "wrangler:d1:migrations:apply:local": "wrangler d1 migrations apply my-database --local",
         "wrangler:d1:migrations:apply:remote": "wrangler d1 migrations apply my-database --remote",
         "build": "tsc",
         "watch": "tsc -w",
         "s3-data-update": "aws s3 cp s3://race-schedule-bucket/ ./src/gateway/mockData/csv --recursive",
-        "test:base-cmd": "sh -c 'if [ \"$1\" = \"--\" ]; then shift; fi; pnpm exec jest --coverage --maxWorkers=6 \"$@\"' --",
-        "test": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd",
-        "test:silent": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd -- --silent",
-        "test:watch": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd -- --watchAll",
-        "test:watch:silent": "TZ=jst HTML_FETCH_DELAY_MS=0 pnpm run test:base-cmd -- --watchAll --silent",
-        "test:watch:silent:short": "TZ=jst HTML_FETCH_DELAY_MS=0 IS_SHORT_TEST=TRUE pnpm run test:base-cmd -- --watchAll --silent",
-        "test:watch:silent:largeData": "TZ=jst HTML_FETCH_DELAY_MS=0 IS_LARGE_AMOUNT_DATA_TEST=TRUE pnpm run test:base-cmd -- --watchAll --silent",
+        "test:base-cmd": "sh -c 'if [ \"$1\" = \"--\" ]; then shift; fi; bun x jest --coverage --maxWorkers=6 \"$@\"' --",
+        "test": "TZ=jst HTML_FETCH_DELAY_MS=0 bun run test:base-cmd",
+        "test:silent": "TZ=jst HTML_FETCH_DELAY_MS=0 bun run test:base-cmd -- --silent",
+        "test:watch": "TZ=jst HTML_FETCH_DELAY_MS=0 bun run test:base-cmd -- --watchAll",
+        "test:watch:silent": "TZ=jst HTML_FETCH_DELAY_MS=0 bun run test:base-cmd -- --watchAll --silent",
+        "test:watch:silent:short": "TZ=jst HTML_FETCH_DELAY_MS=0 IS_SHORT_TEST=TRUE bun run test:base-cmd -- --watchAll --silent",
+        "test:watch:silent:largeData": "TZ=jst HTML_FETCH_DELAY_MS=0 IS_LARGE_AMOUNT_DATA_TEST=TRUE bun run test:base-cmd -- --watchAll --silent",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
-        "lint": "npx eslint './test/**/*.ts' './src/**/*.ts' './packages/**/src/**/*.ts'",
-        "lint:fix": "npx eslint --fix './test/**/*.ts' './src/**/*.ts' './packages/**/src/**/*.ts' --ignore-pattern '**/*.d.ts' && prettier --write .",
-        "lint:check": "npx eslint --quiet './test/**/*.ts' './src/**/*.ts' './packages/**/src/**/*.ts'",
+        "lint": "bunx eslint './test/**/*.ts' './src/**/*.ts' './packages/**/src/**/*.ts'",
+        "lint:fix": "bunx eslint --fix './test/**/*.ts' './src/**/*.ts' './packages/**/src/**/*.ts' --ignore-pattern '**/*.d.ts' && prettier --write .",
+        "lint:check": "bunx eslint --quiet './test/**/*.ts' './src/**/*.ts' './packages/**/src/**/*.ts'",
         "type-check": "tsc --noEmit",
-        "typedoc": "npx typedoc --out ./docs ./src",
-        "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check",
+        "typedoc": "bunx typedoc --out ./docs ./src",
+        "pre-commit": "bun run type-check && bun run lint:check && bun run format:check",
         "copy:mock-html": "rm -rf src/gateway/mockData/html && cp -r ./../race-schedule-data/html src/gateway/mockData/html",
         "clean:branches": "git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D",
-        "dev:scraping": "pnpm --filter @race-schedule/scraping exec npx wrangler dev"
+        "dev:scraping": "bun run --filter @race-schedule/scraping bunx wrangler dev"
     },
     "engines": {
         "node": ">=24.0.0 <25.0.0"
     },
-    "pnpm": {
-        "overrides": {
-            "qs": "6.14.1",
-            "esbuild": "0.25.0",
-            "undici": ">=5.28.4",
-            "diff": ">=5.2.0"
-        }
+    "overrides": {
+        "qs": "6.14.1",
+        "esbuild": "0.25.0",
+        "undici": ">=5.28.4",
+        "diff": ">=5.2.0"
     },
     "dependencies": {
         "@types/express": "^5.0.6",
@@ -76,7 +76,6 @@
         "jest": "^30.2.0",
         "jest-html-reporters": "^3.1.7",
         "lint-staged": "^16.2.7",
-        "only-allow": "^1.2.2",
         "prettier": "^3.8.1",
         "ts-node": "^10.9.2",
         "typedoc": "^0.28.16",
@@ -86,7 +85,7 @@
     },
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
-            "pnpm run lint:fix"
+            "bun run lint:fix"
         ]
     }
 }

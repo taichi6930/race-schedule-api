@@ -7,23 +7,21 @@ runs:
     - name: Check out the repository
       uses: actions/checkout@v4
 
-    - name: Set up pnpm
-      uses: pnpm/action-setup@v2
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
       with:
-        version: '9.10.0'
+        bun-version: latest
 
-    - name: Cache pnpm store
+    - name: Cache Bun store
       uses: actions/cache@v4
       with:
-        path: |
-          ~/.pnpm-store
-          .pnpm-store
-        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        path: ~/.bun/install/cache
+        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
         restore-keys: |
-          ${{ runner.os }}-pnpm-
+          ${{ runner.os }}-bun-
 
     - name: Install dependencies
-      run: pnpm install --frozen-lockfile --reporter=silent
+      run: bun install
       shell: bash
 
     # サーバーが起動したらcurlを叩く
@@ -32,7 +30,7 @@ runs:
         # measure server start time
         start_ts=$(date +%s%3N)
         # start server quietly in background; redirect stdout/stderr
-        pnpm --silent run start:local:no_data > /dev/null 2>&1 &
+        bun run start:local:no_data > /dev/null 2>&1 &
         # wait for health endpoint with shorter intervals (max ~30s)
         for i in {1..60}; do
           if curl --silent --fail --head http://localhost:3000/health >/dev/null 2>&1; then
