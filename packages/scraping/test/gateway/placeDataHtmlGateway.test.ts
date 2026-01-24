@@ -1,3 +1,26 @@
+/**
+ * PlaceDataHtmlGateway テスト
+ *
+ * ## デシジョンテーブル
+ *
+ * | No | 環境        | レースタイプ | 期待される動作 |
+ * |----|-----------|------------|---------------|
+ * | 1  | development | -          | エラーをスロー（外部アクセス禁止） |
+ * | 2  | production  | JRA        | fetch実行（年単位URL） |
+ * | 3  | production  | NAR        | fetch実行（月単位URL） |
+ * | 4  | production  | KEIRIN     | fetch実行（月単位URL） |
+ * | 5  | production  | AUTORACE   | fetch実行（月単位URL） |
+ *
+ * ### URL生成ルール
+ * - JRA: 年単位（date.getFullYear()使用）
+ * - その他: 月単位（date.getFullYear() + date.getMonth()使用）
+ * - createPlaceUrl関数でURL生成
+ *
+ * ### セキュリティ
+ * - 開発環境では外部HTMLアクセスを禁止
+ * - R2キャッシュのみ使用を強制
+ * - 本番環境でも1秒のwait実装（過負荷防止）
+ */
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import 'reflect-metadata';
 import { beforeEach, describe, expect, it, vi } from 'vitest';

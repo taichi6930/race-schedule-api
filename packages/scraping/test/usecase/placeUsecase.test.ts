@@ -1,3 +1,26 @@
+/**
+ * PlaceUsecase テスト
+ *
+ * ## デシジョンテーブル
+ *
+ * | No | レースタイプ | 期間         | 取得単位 | 期待される動作 |
+ * |----|------------|-------------|---------|---------------|
+ * | 1  | JRA        | 1年         | 年      | Service 1回呼び出し |
+ * | 2  | JRA        | 2年         | 年      | Service 2回呼び出し |
+ * | 3  | NAR        | 3ヶ月       | 月      | Service 3回呼び出し |
+ * | 4  | KEIRIN     | 1ヶ月       | 月      | Service 1回呼び出し |
+ * | 5  | JRA+NAR    | 1年1ヶ月    | 混在    | Service複数回呼び出し |
+ *
+ * ### 取得ロジック
+ * - **JRA**: 年単位で取得（startDate～finishDateの年ごと）
+ * - **NAR/KEIRIN/AUTORACE/OVERSEAS/BOATRACE**: 月単位で取得
+ * - 複数レースタイプ指定時は順次処理
+ *
+ * ### フィルタリング
+ * - startDate/finishDateで期間指定
+ * - raceTypeListで対象レースタイプ指定
+ * - locationListは将来の拡張用（現在は未実装）
+ */
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import 'reflect-metadata';
 import { describe, expect, it, vi } from 'vitest';

@@ -1,3 +1,28 @@
+/**
+ * RaceDataHtmlGateway テスト
+ *
+ * ## デシジョンテーブル
+ *
+ * | No | 環境        | レースタイプ | レース番号 | fetch結果 | 期待される動作 |
+ * |----|-----------|------------|----------|---------|---------------|
+ * | 1  | development | -          | -        | -       | エラーをスロー（外部アクセス禁止） |
+ * | 2  | production  | JRA        | なし      | 成功    | HTML取得 |
+ * | 3  | production  | JRA        | 10       | 成功    | HTML取得（レース番号付き） |
+ * | 4  | production  | NAR        | なし      | 成功    | HTML取得 |
+ * | 5  | production  | -          | -        | 失敗    | エラーをスロー |
+ *
+ * ### URL生成
+ * - createRaceUrl関数でURL生成
+ * - レースタイプ、日付、開催場、レース番号を渡す
+ *
+ * ### セキュリティ
+ * - 開発環境では外部HTMLアクセスを禁止
+ * - R2キャッシュのみ使用を強制
+ * - 本番環境でも1秒のwait実装（過負荷防止）
+ *
+ * ### エラーハンドリング
+ * - fetch失敗時は「HTMLの取得に失敗しました」エラー
+ */
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import 'reflect-metadata';
 import { beforeEach, describe, expect, it, vi } from 'vitest';

@@ -1,3 +1,28 @@
+/**
+ * RaceService テスト
+ *
+ * ## デシジョンテーブル
+ *
+ * | No | レースタイプ | HTMLソース | CI環境 | レース番号 | 期待される動作 |
+ * |----|------------|-----------|--------|----------|---------------|
+ * | 1  | JRA        | モックHTML | No     | -        | レース配列取得、構造検証、馬場タイプ検証 |
+ * | 2  | JRA        | モックHTML | Yes    | -        | テストスキップ |
+ * | 3  | JRA        | モックHTML | No     | -        | グレード情報抽出検証 |
+ * | 4  | NAR        | モックHTML | No     | -        | レース配列取得、構造検証 |
+ * | 5  | NAR        | モックHTML | Yes    | -        | テストスキップ |
+ * | 6  | NAR        | 空HTML     | -      | -        | 空配列、repository呼び出し検証 |
+ * | 7  | KEIRIN     | モックHTML | No     | -        | レース配列取得、構造検証 |
+ * | 8  | KEIRIN     | モックHTML | Yes    | -        | テストスキップ |
+ * | 9  | KEIRIN     | 空HTML     | -      | -        | 空配列、repository呼び出し検証 |
+ * | 10 | AUTORACE   | モックHTML | No     | -        | レース配列取得、構造検証 |
+ * | 11 | AUTORACE   | モックHTML | Yes    | -        | テストスキップ |
+ * | 12 | AUTORACE   | 空HTML     | -      | -        | 空配列、repository呼び出し検証 |
+ * | 13 | OVERSEAS   | 空HTML     | -      | -        | 空配列、repository呼び出し検証 |
+ * | 14 | BOATRACE   | 空HTML     | -      | -        | 空配列、repository呼び出し検証 |
+ * | 15 | キャッシュ  | あり       | -      | -        | fetchRaceHtml未呼び出し |
+ * | 16 | キャッシュ  | なし       | -      | -        | fetchRaceHtml呼び出し |
+ * | 17 | エラー     | 空HTML     | -      | -        | 空配列返却 |
+ */
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { readFileSync } from 'fs';
 import { join } from 'path';

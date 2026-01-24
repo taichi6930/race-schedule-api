@@ -1,3 +1,26 @@
+/**
+ * PlaceService テスト
+ *
+ * ## デシジョンテーブル
+ *
+ * | No | レースタイプ | HTMLソース | CI環境 | 期待される動作 |
+ * |----|------------|-----------|--------|---------------|
+ * | 1  | JRA        | モックHTML | No     | 288件のplace取得、JST 00:00:00検証 |
+ * | 2  | JRA        | モックHTML | Yes    | テストスキップ |
+ * | 3  | NAR        | モックHTML | No     | place配列取得、JST時刻検証 |
+ * | 4  | NAR        | モックHTML | Yes    | テストスキップ |
+ * | 5  | NAR        | 空HTML     | -      | 空配列、repository呼び出し検証 |
+ * | 6  | KEIRIN     | モックHTML | No     | place配列取得、グレード情報検証 |
+ * | 7  | KEIRIN     | モックHTML | Yes    | テストスキップ |
+ * | 8  | KEIRIN     | 空HTML     | -      | 空配列、repository呼び出し検証 |
+ * | 9  | AUTORACE   | モックHTML | No     | place配列取得、グレード情報検証 |
+ * | 10 | AUTORACE   | モックHTML | Yes    | テストスキップ |
+ * | 11 | AUTORACE   | 空HTML     | -      | 空配列、repository呼び出し検証 |
+ * | 12 | OVERSEAS   | 空HTML     | -      | 空配列、repository呼び出し検証 |
+ * | 13 | BOATRACE   | 空HTML     | -      | 空配列、repository呼び出し検証 |
+ * | 14 | キャッシュ  | あり       | -      | fetchPlaceHtml未呼び出し |
+ * | 15 | キャッシュ  | なし       | -      | fetchPlaceHtml呼び出し |
+ */
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import {
     formatJstDate,

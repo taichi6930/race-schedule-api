@@ -1,3 +1,30 @@
+/**
+ * RaceUsecase テスト
+ *
+ * ## デシジョンテーブル
+ *
+ * | No | レースタイプ | 期間    | 開催場数 | locationList | エラー | 期待される動作 |
+ * |----|------------|--------|---------|-------------|--------|---------------|
+ * | 1  | JRA        | 1日    | 1       | あり        | なし   | Service 1回呼び出し |
+ * | 2  | JRA        | 3日    | 1       | あり        | なし   | Service 3回呼び出し |
+ * | 3  | JRA        | 1日    | 2       | あり        | なし   | Service 2回呼び出し |
+ * | 4  | JRA+NAR    | 1日    | 2       | あり        | なし   | Service 4回呼び出し |
+ * | 5  | JRA        | 1日    | -       | なし/空     | なし   | 空配列返却、Service未呼び出し |
+ * | 6  | JRA        | 2日    | 1       | あり        | 1回発生 | エラースキップして続行 |
+ *
+ * ### 取得ロジック
+ * - **必須**: locationList指定が必要
+ * - **日付範囲**: startDate～finishDateで日ごとにループ
+ * - **開催場**: locationListの各開催場ごとに取得
+ * - **レースタイプ**: raceTypeListの各タイプごとに処理
+ *
+ * ### エラーハンドリング
+ * - locationList未指定時: 警告ログ出力、空配列返却
+ * - fetch失敗時: エラーをキャッチして次の処理へ継続
+ *
+ * ### 呼び出し回数計算
+ * - 回数 = 日数 × レースタイプ数 × 開催場数
+ */
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import 'reflect-metadata';
 import { describe, expect, it, vi } from 'vitest';

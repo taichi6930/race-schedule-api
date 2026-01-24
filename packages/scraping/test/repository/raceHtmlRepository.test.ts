@@ -1,3 +1,21 @@
+/**
+ * RaceHtmlR2Repository テスト
+ *
+ * ## デシジョンテーブル
+ *
+ * | No | 操作   | レースタイプ | レース番号 | キャッシュ有無 | 期待される動作 |
+ * |----|--------|------------|----------|--------------|---------------|
+ * | 1  | fetch  | JRA        | なし      | -            | Gateway呼び出し→R2保存 |
+ * | 2  | fetch  | JRA        | 10        | -            | Gateway呼び出し（番号指定）→R2保存 |
+ * | 3  | load   | JRA        | なし      | あり         | R2から読み込み |
+ * | 4  | load   | -          | -         | なし         | null返却 |
+ * | 5  | save   | JRA        | なし      | -            | R2に保存 |
+ * | 6  | save   | JRA        | 10        | -            | R2に保存（番号付き） |
+ *
+ * ### キー生成
+ * - レースタイプ、日付、開催場、レース番号からキーを生成
+ * - generateCacheKeyメソッドで処理
+ */
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import 'reflect-metadata';
 import { describe, expect, it, vi } from 'vitest';

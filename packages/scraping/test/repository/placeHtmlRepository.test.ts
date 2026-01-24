@@ -1,3 +1,22 @@
+/**
+ * PlaceHtmlR2Repository テスト
+ *
+ * ## デシジョンテーブル
+ *
+ * | No | 操作          | レースタイプ | キャッシュ有無 | 期待される動作 |
+ * |----|--------------|------------|--------------|---------------|
+ * | 1  | fetch        | JRA        | -            | Gateway呼び出し→R2保存 |
+ * | 2  | fetch        | NAR/他     | -            | Gateway呼び出し→R2保存 |
+ * | 3  | load         | JRA        | あり         | R2から読み込み（年単位キー） |
+ * | 4  | load         | NAR/他     | あり         | R2から読み込み（月単位キー） |
+ * | 5  | load         | -          | なし         | null返却 |
+ * | 6  | save         | JRA        | -            | R2に保存（年単位キー） |
+ * | 7  | save         | NAR/他     | -            | R2に保存（月単位キー） |
+ *
+ * ### キー生成ルール
+ * - JRA: `place/JRA{year}.html` (例: place/JRA2024.html)
+ * - その他: `place/{raceType}{yyyyMM}.html` (例: place/NAR202406.html)
+ */
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import 'reflect-metadata';
 import { describe, expect, it, vi } from 'vitest';
