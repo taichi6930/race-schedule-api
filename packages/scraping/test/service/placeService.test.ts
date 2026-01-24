@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import {
     formatJstDate,
@@ -8,6 +7,7 @@ import {
 } from '@race-schedule/shared/src/utilities/dateJst';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import 'reflect-metadata';
 import { describe, expect, it, vi } from 'vitest';
 
 import { PlaceService } from '../../src/service/placeService';

@@ -1,7 +1,7 @@
-import 'reflect-metadata';
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import 'reflect-metadata';
 import { describe, expect, it, vi } from 'vitest';
 
 import { RaceService } from '../../src/service/raceService';
