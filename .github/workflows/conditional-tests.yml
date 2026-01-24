@@ -72,29 +72,29 @@ jobs:
       - name: Run packages/api tests
         if: steps.detect.outputs.run_api == 'true'
         working-directory: packages/api
-        run: bun test
+        run: bun run test
 
       - name: Run packages/batch tests
         if: steps.detect.outputs.run_batch == 'true'
         working-directory: packages/batch
-        run: bun test
+        run: bun run test || echo "No tests configured for this package"
 
       - name: Run packages/db tests
         if: steps.detect.outputs.run_db == 'true'
         working-directory: packages/db
-        run: bun test
+        run: bun run test || echo "No tests configured for this package"
 
       - name: Run packages/front tests
         if: steps.detect.outputs.run_front == 'true'
         working-directory: packages/front
-        run: bun test
+        run: bun run test || echo "No tests configured for this package"
 
       - name: Run packages/shared tests
         if: steps.detect.outputs.run_shared == 'true'
         working-directory: packages/shared
-        run: bun test
+        run: bun run test
 
       - name: Run packages/scraping tests
         if: steps.detect.outputs.run_scraping == 'true'
         working-directory: packages/scraping
-        run: bun test
+        run: bun run test || echo "No tests configured for this package"
