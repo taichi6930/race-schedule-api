@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -21,8 +22,7 @@ describe('RaceService', () => {
     });
 
     describe('JRA Race parsing', () => {
-        it.skipIf(
-            process.env.CI === 'true',
+        it.skipIf(process.env.CI === 'true')(
             'JRA 2024年5月26日東京のレースデータを正しくパースできること',
             async () => {
                 // モックHTMLを読み込み
@@ -82,8 +82,7 @@ describe('RaceService', () => {
             },
         );
 
-        it.skipIf(
-            process.env.CI === 'true',
+        it.skipIf(process.env.CI === 'true')(
             'JRA 2024年5月1日のレースデータを正しくパースできること',
             async () => {
                 const jraHtml = readFileSync(
@@ -108,8 +107,7 @@ describe('RaceService', () => {
             },
         );
 
-        it.skipIf(
-            process.env.CI === 'true',
+        it.skipIf(process.env.CI === 'true')(
             'レースにグレード情報が含まれている場合、正しく抽出できること',
             async () => {
                 const jraHtml = readFileSync(
@@ -139,6 +137,36 @@ describe('RaceService', () => {
     });
 
     describe('NAR Race parsing', () => {
+        it.skipIf(process.env.CI === 'true')(
+            'NAR 2024年10月2日大井のレースデータを正しくパースできること',
+            async () => {
+                const narHtml = readFileSync(
+                    join(mockHtmlBasePath, 'nar/race/2024100220.html'),
+                    'utf-8',
+                );
+
+                const mockRepository = createMockRepository(narHtml);
+                const service = new RaceService(mockRepository as any);
+
+                const date = new Date(2024, 9, 2);
+                const location = '大井';
+                const result = await service.fetch(
+                    RaceType.NAR,
+                    date,
+                    location,
+                );
+
+                expect(result).toBeDefined();
+                expect(Array.isArray(result)).toBe(true);
+                expect(result.length).toBeGreaterThan(0);
+
+                const firstRace = result[0];
+                expect(firstRace.raceType).toBe(RaceType.NAR);
+                expect(firstRace.datetime).toBeInstanceOf(Date);
+                expect(typeof firstRace.raceNumber).toBe('number');
+            },
+        );
+
         it('NAR レースデータのパース処理が呼ばれること', async () => {
             const mockHtml = '<html><body></body></html>';
             const mockRepository = createMockRepository(mockHtml);
@@ -178,6 +206,36 @@ describe('RaceService', () => {
     });
 
     describe('KEIRIN Race parsing', () => {
+        it.skipIf(process.env.CI === 'true')(
+            'KEIRIN 2024年10月20日のレースデータを正しくパースできること',
+            async () => {
+                const keirinHtml = readFileSync(
+                    join(mockHtmlBasePath, 'keirin/race/2024102021.html'),
+                    'utf-8',
+                );
+
+                const mockRepository = createMockRepository(keirinHtml);
+                const service = new RaceService(mockRepository as any);
+
+                const date = new Date(2024, 9, 20);
+                const location = '京王閣';
+                const result = await service.fetch(
+                    RaceType.KEIRIN,
+                    date,
+                    location,
+                );
+
+                expect(result).toBeDefined();
+                expect(Array.isArray(result)).toBe(true);
+                expect(result.length).toBeGreaterThan(0);
+
+                const firstRace = result[0];
+                expect(firstRace.raceType).toBe(RaceType.KEIRIN);
+                expect(firstRace.datetime).toBeInstanceOf(Date);
+                expect(typeof firstRace.raceNumber).toBe('number');
+            },
+        );
+
         it('KEIRIN レースデータのパース処理が呼ばれること', async () => {
             const mockHtml = '<html><body></body></html>';
             const mockRepository = createMockRepository(mockHtml);
@@ -198,6 +256,36 @@ describe('RaceService', () => {
     });
 
     describe('AUTORACE Race parsing', () => {
+        it.skipIf(process.env.CI === 'true')(
+            'AUTORACE 2024年11月4日のレースデータを正しくパースできること',
+            async () => {
+                const autoraceHtml = readFileSync(
+                    join(mockHtmlBasePath, 'autorace/race/2024110402.html'),
+                    'utf-8',
+                );
+
+                const mockRepository = createMockRepository(autoraceHtml);
+                const service = new RaceService(mockRepository as any);
+
+                const date = new Date(2024, 10, 4);
+                const location = '川口';
+                const result = await service.fetch(
+                    RaceType.AUTORACE,
+                    date,
+                    location,
+                );
+
+                expect(result).toBeDefined();
+                expect(Array.isArray(result)).toBe(true);
+                expect(result.length).toBeGreaterThan(0);
+
+                const firstRace = result[0];
+                expect(firstRace.raceType).toBe(RaceType.AUTORACE);
+                expect(firstRace.datetime).toBeInstanceOf(Date);
+                expect(typeof firstRace.raceNumber).toBe('number');
+            },
+        );
+
         it('AUTORACE レースデータのパース処理が呼ばれること', async () => {
             const mockHtml = '<html><body></body></html>';
             const mockRepository = createMockRepository(mockHtml);

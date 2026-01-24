@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import {
     formatJstDate,
@@ -27,8 +28,7 @@ describe('PlaceService', () => {
     });
 
     describe('JRA Place parsing', () => {
-        it.skipIf(
-            process.env.CI === 'true',
+        it.skipIf(process.env.CI === 'true')(
             'JRA 2024年の開催場データを正しくパースできること',
             async () => {
                 // モックHTMLを読み込み
@@ -89,8 +89,7 @@ describe('PlaceService', () => {
             },
         );
 
-        it.skipIf(
-            process.env.CI === 'true',
+        it.skipIf(process.env.CI === 'true')(
             'JRA 2023年の開催場データを正しくパースできること',
             async () => {
                 const jraHtml = readFileSync(
@@ -111,6 +110,36 @@ describe('PlaceService', () => {
     });
 
     describe('NAR Place parsing', () => {
+        it.skipIf(process.env.CI === 'true')(
+            'NAR 2020年1月の開催場データを正しくパースできること',
+            async () => {
+                const narHtml = readFileSync(
+                    join(mockHtmlBasePath, 'nar/place/202001.html'),
+                    'utf-8',
+                );
+
+                const mockRepository = createMockRepository(narHtml);
+                const service = new PlaceService(mockRepository as any);
+
+                const date = new Date(2020, 0, 1);
+                const result = await service.fetch(RaceType.NAR, date);
+
+                expect(result).toBeDefined();
+                expect(Array.isArray(result)).toBe(true);
+                expect(result.length).toBeGreaterThan(0);
+
+                const firstPlace = result[0];
+                expect(firstPlace.raceType).toBe(RaceType.NAR);
+                expect(firstPlace.datetime).toBeInstanceOf(Date);
+                expect(typeof firstPlace.placeName).toBe('string');
+
+                // 日付の時刻部分がJST 00:00:00であることを確認
+                expect(getJstHours(firstPlace.datetime)).toBe(0);
+                expect(getJstMinutes(firstPlace.datetime)).toBe(0);
+                expect(getJstSeconds(firstPlace.datetime)).toBe(0);
+            },
+        );
+
         it('NAR開催場データのパース処理が呼ばれること', async () => {
             // シンプルなHTMLでテスト（parseNarメソッドが呼ばれることを確認）
             const mockHtml = '<html><body></body></html>';
@@ -148,6 +177,33 @@ describe('PlaceService', () => {
     });
 
     describe('KEIRIN Place parsing', () => {
+        it.skipIf(process.env.CI === 'true')(
+            'KEIRIN 2020年1月の開催場データを正しくパースできること',
+            async () => {
+                const keirinHtml = readFileSync(
+                    join(mockHtmlBasePath, 'keirin/place/202001.html'),
+                    'utf-8',
+                );
+
+                const mockRepository = createMockRepository(keirinHtml);
+                const service = new PlaceService(mockRepository as any);
+
+                const date = new Date(2020, 0, 1);
+                const result = await service.fetch(RaceType.KEIRIN, date);
+
+                expect(result).toBeDefined();
+                expect(Array.isArray(result)).toBe(true);
+                expect(result.length).toBeGreaterThan(0);
+
+                const firstPlace = result[0];
+                expect(firstPlace.raceType).toBe(RaceType.KEIRIN);
+                expect(firstPlace.datetime).toBeInstanceOf(Date);
+                expect(typeof firstPlace.placeName).toBe('string');
+                // KEIRINはグレード情報が場所名に含まれる（例: 場所名GⅠ）
+                expect(firstPlace.placeName.length).toBeGreaterThan(0);
+            },
+        );
+
         it('KEIRIN開催場データのパース処理が呼ばれること', async () => {
             const mockHtml = '<html><body></body></html>';
             const mockRepository = createMockRepository(mockHtml);
@@ -165,6 +221,33 @@ describe('PlaceService', () => {
     });
 
     describe('AUTORACE Place parsing', () => {
+        it.skipIf(process.env.CI === 'true')(
+            'AUTORACE 2024年11月の開催場データを正しくパースできること',
+            async () => {
+                const autoraceHtml = readFileSync(
+                    join(mockHtmlBasePath, 'autorace/place/202411.html'),
+                    'utf-8',
+                );
+
+                const mockRepository = createMockRepository(autoraceHtml);
+                const service = new PlaceService(mockRepository as any);
+
+                const date = new Date(2024, 10, 1);
+                const result = await service.fetch(RaceType.AUTORACE, date);
+
+                expect(result).toBeDefined();
+                expect(Array.isArray(result)).toBe(true);
+                expect(result.length).toBeGreaterThan(0);
+
+                const firstPlace = result[0];
+                expect(firstPlace.raceType).toBe(RaceType.AUTORACE);
+                expect(firstPlace.datetime).toBeInstanceOf(Date);
+                expect(typeof firstPlace.placeName).toBe('string');
+                // AUTORACEはグレード情報が場所名に含まれる（例: 場所名SG）
+                expect(firstPlace.placeName.length).toBeGreaterThan(0);
+            },
+        );
+
         it('AUTORACE開催場データのパース処理が呼ばれること', async () => {
             const mockHtml = '<html><body></body></html>';
             const mockRepository = createMockRepository(mockHtml);
