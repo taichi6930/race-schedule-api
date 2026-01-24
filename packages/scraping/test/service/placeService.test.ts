@@ -1,4 +1,10 @@
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
+import {
+    formatJstDate,
+    getJstHours,
+    getJstMinutes,
+    getJstSeconds,
+} from '@race-schedule/shared/src/utilities/dateJst';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { describe, expect, it, vi } from 'vitest';
@@ -37,7 +43,13 @@ describe('PlaceService', () => {
             // 結果の検証
             expect(result).toBeDefined();
             expect(Array.isArray(result)).toBe(true);
-            expect(result.length).toBeGreaterThan(0);
+            console.log(
+                result.map((r) => ({
+                    ...r,
+                    datetime: formatJstDate(r.datetime),
+                })),
+            );
+            expect(result.length).toBe(288);
 
             // 最初の要素の構造を検証
             const firstPlace = result[0];
@@ -47,6 +59,11 @@ describe('PlaceService', () => {
             expect(firstPlace.raceType).toBe(RaceType.JRA);
             expect(firstPlace.datetime).toBeInstanceOf(Date);
             expect(typeof firstPlace.placeName).toBe('string');
+
+            // 日付の時刻部分がJST 00:00:00であることを確認
+            expect(getJstHours(firstPlace.datetime)).toBe(0);
+            expect(getJstMinutes(firstPlace.datetime)).toBe(0);
+            expect(getJstSeconds(firstPlace.datetime)).toBe(0);
 
             // 競馬場名が正しいことを検証
             const placeNames = result.map((p) => p.placeName);
