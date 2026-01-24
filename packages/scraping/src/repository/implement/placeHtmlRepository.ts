@@ -6,9 +6,9 @@ import { Logger } from '@race-schedule/shared/src/utilities/logger';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
+import type { IPlaceDataHtmlGateway } from '../../gateway/interface/iPlaceDataHtmlGateway';
 import type { IR2Gateway } from '../../gateway/interface/IR2Gateway';
-import { IPlaceHtmlRepository } from '../interface/IPlaceHtmlRepository';
+import type { IPlaceHtmlRepository } from '../interface/IPlaceHtmlRepository';
 
 /**
  * place HTMLリポジトリ

@@ -140,6 +140,7 @@ describe('PlaceHtmlR2Repository', () => {
             expect(mocks.r2Gateway.putObject).toHaveBeenCalledWith(
                 'place/JRA2024.html',
                 mockHtml,
+                'text/html',
             );
         });
     });

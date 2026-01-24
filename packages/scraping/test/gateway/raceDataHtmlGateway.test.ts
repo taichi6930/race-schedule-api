@@ -25,7 +25,7 @@
  */
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import 'reflect-metadata';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { RaceDataHtmlGateway } from '../../src/gateway/implement/raceDataHtmlGateway';
 
@@ -68,7 +68,13 @@ describe('RaceDataHtmlGateway', () => {
 
             const date = new Date(2024, 4, 26);
             const location = '東京';
-            const result = await gateway.fetch(RaceType.JRA, date, location);
+            const number = 10;
+            const result = await gateway.fetch(
+                RaceType.JRA,
+                date,
+                location,
+                number,
+            );
 
             expect(result).toBe(mockHtml);
             expect(mockFetch).toHaveBeenCalled();
@@ -109,9 +115,10 @@ describe('RaceDataHtmlGateway', () => {
 
             const date = new Date(2024, 4, 26);
             const location = '東京';
+            const number = 11;
 
             await expect(
-                gateway.fetch(RaceType.JRA, date, location),
+                gateway.fetch(RaceType.JRA, date, location, number),
             ).rejects.toThrow('HTMLの取得に失敗しました');
         });
     });
