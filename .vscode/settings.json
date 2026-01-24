@@ -16,6 +16,10 @@
     "[yaml]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml",
+        "https://json.schemastore.org/github-action.json": ".github/actions/**/action.yml"
+    },
     "spellright.language": ["en", "ja"],
     "spellright.documentTypes": ["markdown", "latex", "plaintext"],
     "jest.nodeEnv": {
