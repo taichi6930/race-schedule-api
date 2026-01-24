@@ -20,33 +20,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Enable Corepack and prepare pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@8 --activate
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-
-      - name: Ensure pnpm is available (fallback)
-        run: |
-          if ! command -v pnpm >/dev/null 2>&1; then
-            echo "pnpm not found; installing pnpm@8 globally as fallback"
-            npm install -g pnpm@8
-            # Ensure the npm global bin is on PATH for subsequent steps
-            echo "PATH=$(npm bin -g):$PATH" >> $GITHUB_ENV
-          else
-            echo "pnpm found: $(pnpm --version)"
-          fi
-          pnpm --version
+          bun-version: latest
 
       - name: Install dependencies
-        # Allow install without frozen lockfile in CI to avoid failures when lockfile
-        # is not checked in or not compatible with runner environment.
-        run: pnpm install --no-frozen-lockfile
+        run: bun install
 
       - name: Detect changed packages
         id: detect
@@ -91,24 +71,24 @@ jobs:
 
       - name: Run packages/api tests
         if: steps.detect.outputs.run_api == 'true'
-        run: pnpm --filter ./packages/api test
+        run: bun run --filter ./packages/api test
 
       - name: Run packages/batch tests
         if: steps.detect.outputs.run_batch == 'true'
-        run: pnpm --filter ./packages/batch test
+        run: bun run --filter ./packages/batch test
 
       - name: Run packages/db tests
         if: steps.detect.outputs.run_db == 'true'
-        run: pnpm --filter ./packages/db test
+        run: bun run --filter ./packages/db test
 
       - name: Run packages/front tests
         if: steps.detect.outputs.run_front == 'true'
-        run: pnpm --filter ./packages/front test
+        run: bun run --filter ./packages/front test
 
       - name: Run packages/shared tests
         if: steps.detect.outputs.run_shared == 'true'
-        run: pnpm --filter ./packages/shared test
+        run: bun run --filter ./packages/shared test
 
       - name: Run packages/scraping tests
         if: steps.detect.outputs.run_scraping == 'true'
-        run: pnpm --filter ./packages/scraping test
+        run: bun run --filter ./packages/scraping test
