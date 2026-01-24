@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceUsecase } from '../usecase/placeUsecase';
+import type { IPlaceUsecase } from '../usecase/interface/IPlaceUsecase';
 
 // 必要に応じて型を定義（apiのものを流用する場合はimportに修正）
 interface PlaceEntity {
@@ -19,7 +19,7 @@ interface PlaceEntity {
 @injectable()
 export class PlaceController {
     public constructor(
-        @inject('PlaceUsecase') private readonly usecase: PlaceUsecase, // scraping用のusecase型に合わせて修正
+        @inject('PlaceUsecase') private readonly usecase: IPlaceUsecase, // scraping用のusecase型に合わせて修正
     ) {}
 
     /**

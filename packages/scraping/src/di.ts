@@ -14,8 +14,12 @@ import { PlaceHtmlR2Repository } from './repository/implement/placeHtmlRepositor
 import { RaceHtmlR2Repository } from './repository/implement/raceHtmlRepository';
 import type { IPlaceHtmlRepository } from './repository/interface/IPlaceHtmlRepository';
 import type { IRaceHtmlRepository } from './repository/interface/IRaceHtmlRepository';
+import type { IPlaceService } from './service/interface/IPlaceService';
+import type { IRaceService } from './service/interface/IRaceService';
 import { PlaceService } from './service/placeService';
 import { RaceService } from './service/raceService';
+import type { IPlaceUsecase } from './usecase/interface/IPlaceUsecase';
+import type { IRaceUsecase } from './usecase/interface/IRaceUsecase';
 import { PlaceUsecase } from './usecase/placeUsecase';
 import { RaceUsecase } from './usecase/raceUsecase';
 
@@ -32,12 +36,12 @@ container.register<IPlaceHtmlRepository>('PlaceHtmlRepository', {
 });
 
 // Service
-container.register<PlaceService>('PlaceService', {
+container.register<IPlaceService>('PlaceService', {
     useClass: PlaceService,
 });
 
 // PlaceUsecaseのDI登録
-container.register<PlaceUsecase>('PlaceUsecase', {
+container.register<IPlaceUsecase>('PlaceUsecase', {
     useClass: PlaceUsecase,
 });
 
@@ -53,10 +57,10 @@ container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
 container.register<IRaceHtmlRepository>('RaceHtmlRepository', {
     useClass: RaceHtmlR2Repository,
 });
-container.register<RaceService>('RaceService', {
+container.register<IRaceService>('RaceService', {
     useClass: RaceService,
 });
-container.register<RaceUsecase>('RaceUsecase', {
+container.register<IRaceUsecase>('RaceUsecase', {
     useClass: RaceUsecase,
 });
 container.register<RaceController>(RaceController, {

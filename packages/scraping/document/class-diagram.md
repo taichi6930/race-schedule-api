@@ -23,7 +23,7 @@ classDiagram
         -placeUsecase: PlaceUsecase
         +get(searchParams: URLSearchParams): Promise~Response~
     }
-    
+
     class RaceController {
         -raceUsecase: RaceUsecase
         +get(searchParams: URLSearchParams): Promise~Response~
@@ -35,7 +35,7 @@ classDiagram
         +fetch(filter): Promise~PlaceHtmlEntity[]~
         +getAllPlaces(raceType, date): Promise~PlaceHtmlEntity[]~
     }
-    
+
     class RaceUsecase {
         -raceService: RaceService
         +fetch(filter): Promise~RaceHtmlEntity[]~
@@ -46,7 +46,7 @@ classDiagram
         -placeHtmlRepository: IPlaceHtmlRepository
         +fetch(raceType, date): Promise~PlaceHtmlEntity[]~
     }
-    
+
     class RaceService {
         -raceHtmlRepository: IRaceHtmlRepository
         +fetch(raceType, date, location?, number?): Promise~RaceHtmlEntity[]~
@@ -65,7 +65,7 @@ classDiagram
         +loadPlaceHtml(raceType, date): Promise~string | null~
         +savePlaceHtml(raceType, date, html): Promise~void~
     }
-    
+
     class PlaceHtmlR2Repository {
         -r2Gateway: IR2Gateway
         -placeDataHtmlGateway: IPlaceDataHtmlGateway
@@ -73,14 +73,14 @@ classDiagram
         +loadPlaceHtml(raceType, date): Promise~string | null~
         +savePlaceHtml(raceType, date, html): Promise~void~
     }
-    
+
     class IRaceHtmlRepository {
         <<interface>>
         +fetchRaceHtml(raceType, date, location?, number?): Promise~string~
         +loadRaceHtml(raceType, date, location?, number?): Promise~string | null~
         +saveRaceHtml(raceType, date, html, location?, number?): Promise~void~
     }
-    
+
     class RaceHtmlR2Repository {
         -r2Gateway: IR2Gateway
         -raceDataHtmlGateway: IRaceDataHtmlGateway
@@ -97,7 +97,7 @@ classDiagram
         +getObject(key): Promise~string | null~
         +deleteObject(key): Promise~void~
     }
-    
+
     class R2Gateway {
         -bucket?: R2Bucket
         +setBucket(bucket): void
@@ -105,22 +105,22 @@ classDiagram
         +getObject(key): Promise~string | null~
         +deleteObject(key): Promise~void~
     }
-    
+
     class IPlaceDataHtmlGateway {
         <<interface>>
         +fetch(raceType, date): Promise~string~
     }
-    
+
     class PlaceDataHtmlGateway {
         +fetch(raceType, date): Promise~string~
         -getPlaceUrlByType(raceType, date): string
     }
-    
+
     class IRaceDataHtmlGateway {
         <<interface>>
         +fetch(raceType, date, location?, number?): Promise~string~
     }
-    
+
     class RaceDataHtmlGateway {
         +fetch(raceType, date, location?, number?): Promise~string~
     }
@@ -132,7 +132,7 @@ classDiagram
         +placeName: string
         +placeHeldDays: PlaceHeldDays | undefined
     }
-    
+
     class RaceHtmlEntity {
         +raceType: RaceType
         +datetime: Date
@@ -149,24 +149,24 @@ classDiagram
     %% Relationships
     PlaceController --> PlaceUsecase
     RaceController --> RaceUsecase
-    
+
     PlaceUsecase --> PlaceService
     RaceUsecase --> RaceService
-    
+
     PlaceService --> IPlaceHtmlRepository
     RaceService --> IRaceHtmlRepository
-    
+
     PlaceService ..> PlaceHtmlEntity : creates
     RaceService ..> RaceHtmlEntity : creates
-    
+
     IPlaceHtmlRepository <|.. PlaceHtmlR2Repository
     IRaceHtmlRepository <|.. RaceHtmlR2Repository
-    
+
     PlaceHtmlR2Repository --> IR2Gateway
     PlaceHtmlR2Repository --> IPlaceDataHtmlGateway
     RaceHtmlR2Repository --> IR2Gateway
     RaceHtmlR2Repository --> IRaceDataHtmlGateway
-    
+
     IR2Gateway <|.. R2Gateway
     IPlaceDataHtmlGateway <|.. PlaceDataHtmlGateway
     IRaceDataHtmlGateway <|.. RaceDataHtmlGateway
@@ -176,31 +176,37 @@ classDiagram
 ## 各層の責務
 
 ### Controller層
+
 - HTTPリクエストのパラメータを解析
 - バリデーション
 - Usecaseの呼び出し
 - レスポンスのフォーマット
 
 ### Usecase層
+
 - 複数のServiceを統合して処理を実行
 - 日付範囲のループ処理
 - 複数のレースタイプの統合処理
 
 ### Service層
+
 - HTMLの取得とパース処理
 - レースタイプごとの専用パース処理
 - Entityの生成
 
 ### Repository層
+
 - R2キャッシュからのHTML読み込み
 - R2キャッシュへのHTML保存
 - Webからの新規HTML取得
 
 ### Gateway層
+
 - 外部WebサイトからのHTML取得
 - R2ストレージへの読み書き
 
 ### Entity層
+
 - スクレイピングで取得したデータの型定義
 
 ## 依存性注入

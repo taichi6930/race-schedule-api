@@ -5,8 +5,10 @@ import { inject, injectable } from 'tsyringe';
 
 import { PlaceHtmlEntity } from '../entity/placeHtmlEntity';
 import { IPlaceHtmlRepository } from '../repository/interface/IPlaceHtmlRepository';
+import type { IPlaceService } from './interface/IPlaceService';
+
 @injectable()
-export class PlaceService {
+export class PlaceService implements IPlaceService {
     public constructor(
         @inject('PlaceHtmlRepository')
         private readonly placeHtmlRepository: IPlaceHtmlRepository,

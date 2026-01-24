@@ -5,9 +5,10 @@ import { inject, injectable } from 'tsyringe';
 
 import { RaceHtmlEntity } from '../entity/raceHtmlEntity';
 import { IRaceHtmlRepository } from '../repository/interface/IRaceHtmlRepository';
+import type { IRaceService } from './interface/IRaceService';
 
 @injectable()
-export class RaceService {
+export class RaceService implements IRaceService {
     public constructor(
         @inject('RaceHtmlRepository')
         private readonly raceHtmlRepository: IRaceHtmlRepository,
