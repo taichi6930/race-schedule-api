@@ -18,6 +18,7 @@ import type { IRaceHtmlRepository } from '../repository/interface/IRaceHtmlRepos
  */
 export const registerInfrastructure = (): void => {
     // R2Gateway
+    // wrangler dev環境ではfsが使えないため、常にR2Gatewayを使用
     container.register<IR2Gateway>('R2Gateway', {
         useClass: R2Gateway,
     });

@@ -35,6 +35,7 @@
     // Enable debug logging to inspect spawned env if needed
     "jest.debugMode": true,
     "chat.tools.terminal.autoApprove": {
-        "wrangler": true
+        "wrangler": true,
+        "bun": true
     }
 }
