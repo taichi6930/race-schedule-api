@@ -126,7 +126,7 @@ describe('PlaceService', () => {
                 const date = new Date(2023, 0, 1);
                 const result = await service.fetch(RaceType.JRA, date);
 
-                expect(result.length).toBeGreaterThan(0);
+                expect(result.length).toBe(288);
                 expect(result[0].raceType).toBe(RaceType.JRA);
             },
         );
@@ -149,7 +149,8 @@ describe('PlaceService', () => {
 
                 expect(result).toBeDefined();
                 expect(Array.isArray(result)).toBe(true);
-                expect(result.length).toBeGreaterThan(0);
+                console.log('NAR count:', result.length);
+                expect(result.length).toBe(98);
 
                 const firstPlace = result[0];
                 expect(firstPlace.raceType).toBe(RaceType.NAR);
@@ -216,7 +217,8 @@ describe('PlaceService', () => {
 
                 expect(result).toBeDefined();
                 expect(Array.isArray(result)).toBe(true);
-                expect(result.length).toBeGreaterThan(0);
+                console.log('KEIRIN count:', result.length);
+                expect(result.length).toBe(186);
 
                 const firstPlace = result[0];
                 expect(firstPlace.raceType).toBe(RaceType.KEIRIN);
@@ -260,7 +262,8 @@ describe('PlaceService', () => {
 
                 expect(result).toBeDefined();
                 expect(Array.isArray(result)).toBe(true);
-                expect(result.length).toBeGreaterThan(0);
+                console.log('AUTORACE count:', result.length);
+                expect(result.length).toBe(60);
 
                 const firstPlace = result[0];
                 expect(firstPlace.raceType).toBe(RaceType.AUTORACE);

@@ -70,7 +70,8 @@ describe('RaceService', () => {
                 // 結果の検証
                 expect(result).toBeDefined();
                 expect(Array.isArray(result)).toBe(true);
-                expect(result.length).toBeGreaterThan(0);
+                // 注意: このHTMLには東京と京都の2会場が含まれているため24レース
+                expect(result.length).toBe(12);
 
                 // 最初のレースの構造を検証
                 const firstRace = result[0];
@@ -126,7 +127,7 @@ describe('RaceService', () => {
                     location,
                 );
 
-                expect(result.length).toBeGreaterThan(0);
+                expect(result.length).toBe(12);
                 expect(result[0].raceType).toBe(RaceType.JRA);
                 expect(result[0].location).toBe(location);
             },
@@ -183,7 +184,7 @@ describe('RaceService', () => {
 
                 expect(result).toBeDefined();
                 expect(Array.isArray(result)).toBe(true);
-                expect(result.length).toBeGreaterThan(0);
+                expect(result.length).toBe(12);
 
                 const firstRace = result[0];
                 expect(firstRace.raceType).toBe(RaceType.NAR);
@@ -252,7 +253,7 @@ describe('RaceService', () => {
 
                 expect(result).toBeDefined();
                 expect(Array.isArray(result)).toBe(true);
-                expect(result.length).toBeGreaterThan(0);
+                expect(result.length).toBe(12);
 
                 const firstRace = result[0];
                 expect(firstRace.raceType).toBe(RaceType.KEIRIN);
@@ -302,7 +303,7 @@ describe('RaceService', () => {
 
                 expect(result).toBeDefined();
                 expect(Array.isArray(result)).toBe(true);
-                expect(result.length).toBeGreaterThan(0);
+                expect(result.length).toBe(12);
 
                 const firstRace = result[0];
                 expect(firstRace.raceType).toBe(RaceType.AUTORACE);
