@@ -1,6 +1,3 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
 import { Logger } from '@race-schedule/shared/src/utilities/logger';
 import { format } from 'date-fns';
@@ -59,14 +56,6 @@ export class RaceHtmlR2Repository implements IRaceHtmlRepository {
         number?: number,
     ): Promise<void> {
         const key = this.generateCacheKey(raceType, date, location, number);
-
-        // 開発環境ならローカルにも保存
-        if (process.env.NODE_ENV === 'development') {
-            const localDir = path.resolve(process.cwd(), 'local_html', 'race');
-            await fs.mkdir(localDir, { recursive: true });
-            const localPath = path.join(localDir, path.basename(key));
-            await fs.writeFile(localPath, html, 'utf8');
-        }
 
         await this.r2Gateway.putObject(key, html, 'text/html');
     }

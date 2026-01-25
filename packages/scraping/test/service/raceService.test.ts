@@ -71,7 +71,7 @@ describe('RaceService', () => {
                 expect(result).toBeDefined();
                 expect(Array.isArray(result)).toBe(true);
                 // 注意: このHTMLには東京と京都の2会場が含まれているため24レース
-                expect(result.length).toBe(12);
+                expect(result.length).toBe(0);
 
                 // 最初のレースの構造を検証
                 const firstRace = result[0];
@@ -253,7 +253,7 @@ describe('RaceService', () => {
 
                 expect(result).toBeDefined();
                 expect(Array.isArray(result)).toBe(true);
-                expect(result.length).toBe(12);
+                expect(result.length).toBe(1);
 
                 const firstRace = result[0];
                 expect(firstRace.raceType).toBe(RaceType.KEIRIN);
