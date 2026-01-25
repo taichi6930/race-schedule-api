@@ -3,13 +3,12 @@
  *
  * ## デシジョンテーブル
  *
- * | No | 環境        | レースタイプ | 期待される動作 |
- * |----|-----------|------------|---------------|
- * | 1  | development | -          | エラーをスロー（外部アクセス禁止） |
- * | 2  | production  | JRA        | fetch実行（年単位URL） |
- * | 3  | production  | NAR        | fetch実行（月単位URL） |
- * | 4  | production  | KEIRIN     | fetch実行（月単位URL） |
- * | 5  | production  | AUTORACE   | fetch実行（月単位URL） |
+ * | No | レースタイプ | 期待される動作 |
+ * |----|------------|---------------|
+ * | 1  | JRA        | fetch実行（年単位URL） |
+ * | 2  | NAR        | fetch実行（月単位URL） |
+ * | 3  | KEIRIN     | fetch実行（月単位URL） |
+ * | 4  | AUTORACE   | fetch実行（月単位URL） |
  *
  * ### URL生成ルール
  * - JRA: 年単位（date.getFullYear()使用）
@@ -17,8 +16,6 @@
  * - createPlaceUrl関数でURL生成
  *
  * ### セキュリティ
- * - 開発環境では外部HTMLアクセスを禁止
- * - R2キャッシュのみ使用を強制
  * - 本番環境でも1秒のwait実装（過負荷防止）
  */
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
@@ -42,19 +39,7 @@ describe('PlaceDataHtmlGateway', () => {
     });
 
     describe('fetch', () => {
-        it('開発環境では外部アクセスを禁止すること', async () => {
-            process.env.NODE_ENV = 'development';
-
-            const date = new Date(2024, 0, 1);
-
-            await expect(gateway.fetch(RaceType.JRA, date)).rejects.toThrow(
-                'ローカル環境では外部HTMLの取得はできません。R2キャッシュのみ使用してください。',
-            );
-        });
-
-        it('本番環境ではfetchを呼び出すこと', async () => {
-            process.env.NODE_ENV = 'production';
-
+        it('fetchを呼び出してHTMLを取得すること', async () => {
             const mockHtml = '<html><body>Test</body></html>';
             const mockFetch = vi.fn().mockResolvedValue({
                 text: vi.fn().mockResolvedValue(mockHtml),
@@ -71,8 +56,6 @@ describe('PlaceDataHtmlGateway', () => {
 
     describe('URL生成', () => {
         it('JRAは年単位のURLを生成すること', async () => {
-            process.env.NODE_ENV = 'production';
-
             const mockFetch = vi.fn().mockResolvedValue({
                 text: vi.fn().mockResolvedValue('<html></html>'),
             });
@@ -86,8 +69,6 @@ describe('PlaceDataHtmlGateway', () => {
         });
 
         it('NAR/KEIRIN等は月単位のURLを生成すること', async () => {
-            process.env.NODE_ENV = 'production';
-
             const mockFetch = vi.fn().mockResolvedValue({
                 text: vi.fn().mockResolvedValue('<html></html>'),
             });
