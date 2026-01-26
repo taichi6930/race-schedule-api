@@ -105,10 +105,10 @@ cd packages/db
 pnpm run migrations:apply:local
 
 # マイグレーション一覧確認
-pnpm run migrations:list:local
+bun run migrations:list:local
 
 # DBシェルにアクセス
-pnpm run db:shell:local
+bun run db:shell:local
 ```
 
 > 補足: これらのローカルコマンドは `packages/api/wrangler.toml` を参照して実行されます。API の開発サーバーと同じ D1 ストレージを更新するため、`wrangler dev` 実行時にテーブルが存在しないという問題を避けられます。
@@ -121,13 +121,13 @@ pnpm run db:shell:local
 
 ```bash
 # ローカル環境
-pnpm run migrations:apply:local
+bun run migrations:apply:local
 
 # テスト環境
-pnpm run migrations:apply:test
+bun run migrations:apply:test
 
 # 本番環境
-pnpm run migrations:apply:production
+bun run migrations:apply:production
 ```
 
 ## デプロイフロー

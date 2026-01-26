@@ -10,7 +10,7 @@ echo "🚀 ローカルDB環境のセットアップを開始します..."
 # 1. Wranglerがインストールされているか確認
 if ! command -v wrangler &> /dev/null; then
     echo "❌ Wranglerがインストールされていません"
-    echo "📦 pnpm install を実行してください"
+    echo "📦 bun install を実行してください"
     exit 1
 fi
 
@@ -31,16 +31,16 @@ fi
 
 # 3. ローカルDBにマイグレーションを適用
 echo "📊 ローカルDBにマイグレーションを適用中..."
-pnpm run migrations:apply:local
+bun run migrations:apply:local
 
 echo "✅ マイグレーション適用完了"
 
 # 4. マイグレーション一覧を表示
 echo "📋 適用済みマイグレーション一覧:"
-pnpm run migrations:list:local
+bun run migrations:list:local
 
 echo ""
 echo "🎉 ローカルDB環境のセットアップが完了しました！"
 echo ""
 echo "💡 次のコマンドでDBシェルにアクセスできます:"
-echo "   pnpm run db:shell:local"
+echo "   bun run db:shell:local"

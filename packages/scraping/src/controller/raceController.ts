@@ -2,12 +2,12 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { RaceUsecase } from '../usecase/raceUsecase';
+import type { IRaceUsecase } from '../usecase/interface/IRaceUsecase';
 
 @injectable()
 export class RaceController {
     public constructor(
-        @inject('RaceUsecase') private readonly usecase: RaceUsecase,
+        @inject('RaceUsecase') private readonly usecase: IRaceUsecase,
     ) {}
 
     /**

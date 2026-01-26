@@ -16,13 +16,17 @@
     "[yaml]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml",
+        "https://json.schemastore.org/github-action.json": ".github/actions/**/action.yml"
+    },
     "spellright.language": ["en", "ja"],
     "spellright.documentTypes": ["markdown", "latex", "plaintext"],
     "jest.nodeEnv": {
         "TZ": "Asia/Tokyo"
     },
-    // Run the same script the terminal uses so extension uses pnpm test script
-    "jest.jestCommandLine": "pnpm run test --",
+    // Run the same script the terminal uses so extension uses bun test script
+    "jest.jestCommandLine": "bun run test --",
     // Use login shell so user's shell init files are sourced (macOS zsh)
     "jest.shell": {
         "path": "/bin/zsh",
@@ -31,6 +35,7 @@
     // Enable debug logging to inspect spawned env if needed
     "jest.debugMode": true,
     "chat.tools.terminal.autoApprove": {
-        "wrangler": true
+        "wrangler": true,
+        "bun": true
     }
 }

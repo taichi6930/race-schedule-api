@@ -1,12 +1,14 @@
+import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import type { RaceService } from '../service/raceService';
+import type { IRaceService } from '../service/interface/IRaceService';
+import type { IRaceUsecase } from './interface/IRaceUsecase';
 
 @injectable()
-export class RaceUsecase {
+export class RaceUsecase implements IRaceUsecase {
     public constructor(
         @inject('RaceService')
-        private readonly raceService: RaceService,
+        private readonly raceService: IRaceService,
     ) {}
 
     /**
@@ -28,7 +30,7 @@ export class RaceUsecase {
         // 指定されていない場合は、全開催場を対象とする（実装によって異なる）
         // ここでは、locationListが必須と仮定
 
-        if (!locationList || locationList.length === 0) {
+        if (locationList === undefined || locationList.length === 0) {
             console.warn(
                 'locationListが指定されていません。レース取得には開催場情報が必要です。',
             );
@@ -56,7 +58,7 @@ export class RaceUsecase {
                         }
                     } catch (error) {
                         console.error(
-                            `Failed to fetch race: ${raceType} ${location} ${String(d)}`,
+                            `Failed to fetch race: ${raceType} ${location} ${format(new Date(d), 'yyyy-MM-dd')}`,
                             error,
                         );
                         // エラーが発生しても処理を継続

@@ -1,15 +1,16 @@
 import { inject, injectable } from 'tsyringe';
 
-import type { PlaceService } from '../service/placeService';
+import type { IPlaceService } from '../service/interface/IPlaceService';
+import type { IPlaceUsecase } from './interface/IPlaceUsecase';
 
 @injectable()
-export class PlaceUsecase {
+export class PlaceUsecase implements IPlaceUsecase {
     public constructor(
         @inject('PlaceService')
-        private readonly placeService: PlaceService,
+        private readonly placeService: IPlaceService,
     ) {}
 
-    public async getAllPlaces(raceType: string, date: Date): Promise<unknown> {
+    public async getAllPlaces(raceType: string, date: Date): Promise<any[]> {
         // raceTypeは本来enum型だが、ここではstringで受けてserviceで変換する想定
         return this.placeService.fetch(raceType as any, date);
     }
@@ -31,11 +32,7 @@ export class PlaceUsecase {
                 for (let year = startYear; year <= endYear; year++) {
                     const d = new Date(year, 0, 1);
                     const res = await this.getAllPlaces(raceType, d);
-                    if (Array.isArray(res)) {
-                        results.push(...res);
-                    } else if (res) {
-                        results.push(res);
-                    }
+                    results.push(...res);
                 }
             } else if (
                 raceType === 'NAR' ||
@@ -57,11 +54,7 @@ export class PlaceUsecase {
                 );
                 while (d <= end) {
                     const res = await this.getAllPlaces(raceType, new Date(d));
-                    if (Array.isArray(res)) {
-                        results.push(...res);
-                    } else if (res) {
-                        results.push(res);
-                    }
+                    results.push(...res);
                     d.setMonth(d.getMonth() + 1);
                 }
             } else {
@@ -72,11 +65,7 @@ export class PlaceUsecase {
                     d.setDate(d.getDate() + 1)
                 ) {
                     const res = await this.getAllPlaces(raceType, new Date(d));
-                    if (Array.isArray(res)) {
-                        results.push(...res);
-                    } else if (res) {
-                        results.push(res);
-                    }
+                    results.push(...res);
                 }
             }
         }

@@ -6,7 +6,7 @@
 
 - Cloudflareアカウント
 - GitHub リポジトリ
-- pnpm がインストールされていること
+- Bun がインストールされていること
 
 ## 1. Cloudflare D1 データベースの作成
 
@@ -89,7 +89,7 @@ cd packages/db
 
 ```bash
 cd packages/db
-pnpm run migrations:apply:local
+bun run migrations:apply:local
 ```
 
 ## 5. デプロイフローの確認
@@ -113,7 +113,7 @@ pnpm run migrations:apply:local
 
 ```bash
 cd packages/db
-pnpm run db:shell:local
+bun run db:shell:local
 # SQLiteシェルが開きます
 ```
 
@@ -121,14 +121,14 @@ pnpm run db:shell:local
 
 ```bash
 cd packages/db
-pnpm run migrations:list:test
+bun run migrations:list:test
 ```
 
 ### 本番環境
 
 ```bash
 cd packages/db
-pnpm run migrations:list:production
+bun run migrations:list:production
 ```
 
 ## トラブルシューティング
@@ -146,7 +146,7 @@ pnpm run migrations:list:production
 ### ローカルでマイグレーションが実行できない
 
 - Wranglerがインストールされているか確認: `wrangler --version`
-- `pnpm install` を実行
+- `bun install` を実行
 
 ## 参考リンク
 

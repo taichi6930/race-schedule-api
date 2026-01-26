@@ -6,16 +6,21 @@
         "build": "tsc",
         "watch": "tsc -w",
         "dev": "wrangler dev",
+        "test": "vitest run",
+        "test:watch": "vitest",
         "lint": "eslint './src/**/*.ts'",
         "lint:fix": "eslint --fix './src/**/*.ts'"
     },
     "dependencies": {
         "@race-schedule/shared": "workspace:*",
-        "cheerio": "^1.1.2",
+        "cheerio": "^1.2.0",
         "date-fns": "^4.1.0"
     },
     "devDependencies": {
-        "@types/node": "^25.0.9",
-        "typescript": "~5.9.3"
+        "@types/node": "^25.0.10",
+        "@vitest/ui": "^3.0.0",
+        "typescript": "~5.9.3",
+        "vite-tsconfig-paths": "^5.1.4",
+        "vitest": "^3.0.0"
     }
 }

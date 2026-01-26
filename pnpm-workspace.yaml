@@ -1,8 +1,0 @@
-packages:
-  - packages/*
-
-ignoredBuiltDependencies:
-  - sqlite3
-
-onlyBuiltDependencies:
-  - better-sqlite3
