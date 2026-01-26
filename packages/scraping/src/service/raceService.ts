@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { RaceHtmlEntity } from '../entity/raceHtmlEntity';
-import { IRaceHtmlRepository } from '../repository/interface/IRaceHtmlRepository';
+import type { IRaceHtmlRepository } from '../repository/interface/IRaceHtmlRepository';
 import type { IRaceService } from './interface/IRaceService';
 
 @injectable()
