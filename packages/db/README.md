@@ -43,9 +43,9 @@ packages/db/
 
 ```json
 {
-  "dependencies": {
-    "@race-schedule/db": "workspace:*"
-  }
+    "dependencies": {
+        "@race-schedule/db": "workspace:*"
+    }
 }
 ```
 
@@ -55,7 +55,10 @@ packages/db/
 import { PlaceRow, RaceRow, PlayerRow } from '@race-schedule/db';
 
 // データベースから取得した行の型として使用
-const place: PlaceRow = await db.query('SELECT * FROM place WHERE place_id = ?', [id]);
+const place: PlaceRow = await db.query(
+    'SELECT * FROM place WHERE place_id = ?',
+    [id],
+);
 ```
 
 ### クエリの使用
@@ -77,7 +80,7 @@ const placeId = generatePlaceId('JRA', '2024-01-01 10:00:00', '01');
 
 // バリデーション
 if (isValidPlaceRow(row)) {
-  // rowはPlaceRow型として扱える
+    // rowはPlaceRow型として扱える
 }
 ```
 
