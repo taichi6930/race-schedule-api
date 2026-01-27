@@ -13,4 +13,5 @@ export interface OldCloudFlareEnv {
     GOOGLE_PRIVATE_KEY: string;
     IS_HTML_FETCH_ENABLED: string;
     HTML_FETCH_DELAY_MS: string;
+    SCRAPING_API_BASE_URL: string;
 }

@@ -4,12 +4,10 @@ import { container } from 'tsyringe';
 
 import type { IDBGateway } from '../packages/api/src/gateway/interface/IDBGateway';
 import type { IGoogleCalendarGateway } from '../packages/api/src/gateway/interface/iGoogleCalendarGateway';
-import { PlaceDataHtmlGateway } from '../packages/scraping/src/gateway/implement/placeDataHtmlGateway';
-import type { IPlaceDataHtmlGateway } from '../packages/scraping/src/gateway/interface/iPlaceDataHtmlGateway';
 import { DBGateway } from './gateway/implement/dbGateway';
 import { OldGoogleCalendarGateway } from './gateway/implement/oldGoogleCalendarGateway';
-import { RaceDataHtmlGateway } from './gateway/implement/raceDataHtmlGateway';
-import type { IRaceDataHtmlGateway } from './gateway/interface/iRaceDataHtmlGateway';
+import { ScrapingApiGateway } from './gateway/implement/scrapingApiGateway';
+import type { IScrapingApiGateway } from './gateway/interface/iScrapingApiGateway';
 import { OldGoogleCalendarRepository } from './repository/implement/oldGoogleCalendarRepository';
 import { PlaceRepositoryFromHtml } from './repository/implement/placeRepositoryFromHtml';
 import { PlaceRepositoryFromStorage } from './repository/implement/placeRepositoryFromStorage';
@@ -32,8 +30,10 @@ import type { IOldPlaceUseCase } from './usecase/interface/IOldPlaceUsecase';
 import type { IOldRaceUseCase } from './usecase/interface/IOldRaceUsecase';
 
 container.register<IDBGateway>('DBGateway', { useClass: DBGateway });
-container.register<IRaceDataHtmlGateway>('RaceDataHtmlGateway', {
-    useClass: RaceDataHtmlGateway,
+
+// ScrapingApiGatewayを登録
+container.register<IScrapingApiGateway>('ScrapingApiGateway', {
+    useClass: ScrapingApiGateway,
 });
 container.register<IRaceRepository>('RaceRepositoryFromStorage', {
     useClass: RaceRepositoryFromStorage,
@@ -47,9 +47,8 @@ container.register<IOldRaceService>('RaceService', {
 container.register<IOldRaceUseCase>('RaceUsecase', {
     useClass: OldRaceUseCase,
 });
-container.register<IPlaceDataHtmlGateway>('PlaceDataHtmlGateway', {
-    useClass: PlaceDataHtmlGateway,
-});
+
+// PlaceRepositoryとServiceの登録
 container.register<IPlaceRepository>('PlaceRepositoryFromStorage', {
     useClass: PlaceRepositoryFromStorage,
 });
