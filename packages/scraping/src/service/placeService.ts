@@ -1,5 +1,4 @@
 import { RaceType } from '@race-schedule/shared/src/types/raceType';
-import { createJstDate } from '@race-schedule/shared/src/utilities/dateJst';
 import { Logger } from '@race-schedule/shared/src/utilities/logger';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
@@ -117,9 +116,9 @@ export class PlaceService implements IPlaceService {
 
                         placeEntityList.push({
                             raceType: RaceType.JRA,
-                            datetime: createJstDate(
+                            datetime: new Date(
                                 date.getFullYear(),
-                                month,
+                                month - 1,
                                 day,
                             ),
                             placeName: place,
@@ -194,11 +193,7 @@ export class PlaceService implements IPlaceService {
         return [
             {
                 raceType: RaceType.OVERSEAS,
-                datetime: createJstDate(
-                    date.getFullYear(),
-                    date.getMonth() + 1,
-                    1,
-                ),
+                datetime: new Date(date.getFullYear(), date.getMonth(), 1),
                 placeName: 'ロンシャン', // TODO: 適切な開催地を設定する
                 placeHeldDays: undefined,
             },
