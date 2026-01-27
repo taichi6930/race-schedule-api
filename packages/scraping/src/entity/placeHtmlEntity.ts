@@ -8,6 +8,8 @@ export interface PlaceHtmlEntity {
     datetime: Date;
     /** 開催場名（place_master等から取得） */
     placeName: string;
+    /** 開催グレード（KEIRIN/AUTORACEなどで使用、省略可） */
+    placeGrade?: string;
     /** 開催回数・日数情報（省略可） */
     placeHeldDays: PlaceHeldDays | undefined;
 }
