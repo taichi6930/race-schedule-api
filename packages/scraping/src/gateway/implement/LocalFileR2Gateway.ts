@@ -63,6 +63,24 @@ export class LocalFileR2Gateway implements IR2Gateway {
         }
     }
 
+    public async getObjectWithMetadata(
+        key: string,
+    ): Promise<{ body: string; uploaded: Date } | null> {
+        const filePath = this.getFilePath(key);
+        try {
+            const [content, stat] = await Promise.all([
+                fs.readFile(filePath, 'utf8'),
+                fs.stat(filePath),
+            ]);
+            return { body: content, uploaded: stat.mtime };
+        } catch (error: any) {
+            if (error.code === 'ENOENT') {
+                return null;
+            }
+            throw error;
+        }
+    }
+
     public async deleteObject(key: string): Promise<void> {
         const filePath = this.getFilePath(key);
         try {

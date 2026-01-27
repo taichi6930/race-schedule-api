@@ -9,7 +9,12 @@ interface R2Bucket {
         value: string | ArrayBuffer,
         options?: any,
     ) => Promise<void>;
-    get: (key: string) => Promise<{ text: () => Promise<string> } | null>;
+    get: (
+        key: string,
+    ) => Promise<{
+        text: () => Promise<string>;
+        uploaded: Date;
+    } | null>;
     delete: (key: string) => Promise<void>;
 }
 
@@ -48,6 +53,17 @@ export class R2Gateway implements IR2Gateway {
         const obj = await bucket.get(key);
         if (!obj) return null;
         return obj.text();
+    }
+
+    public async getObjectWithMetadata(
+        key: string,
+    ): Promise<{ body: string; uploaded: Date } | null> {
+        const bucket = this.getBucket();
+        if (!bucket) return null;
+        const obj = await bucket.get(key);
+        if (!obj) return null;
+        const body = await obj.text();
+        return { body, uploaded: obj.uploaded };
     }
 
     public async deleteObject(key: string): Promise<void> {
