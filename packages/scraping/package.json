@@ -6,6 +6,8 @@
         "build": "tsc",
         "watch": "tsc -w",
         "dev": "wrangler dev",
+        "deploy:test": "wrangler deploy --env test",
+        "deploy:production": "wrangler deploy --env production",
         "test": "vitest run",
         "test:watch": "vitest",
         "lint": "eslint './src/**/*.ts'",
