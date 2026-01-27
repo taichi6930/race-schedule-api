@@ -5,6 +5,12 @@ interface Env {
     API_URL: string;
 }
 
+// Cloudflare Workers types
+declare interface ExecutionContext {
+    waitUntil: (promise: Promise<unknown>) => void;
+    passThroughOnException: () => void;
+}
+
 interface ScheduledEvent {
     cron: string;
     scheduledTime: number;
