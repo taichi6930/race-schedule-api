@@ -21,6 +21,7 @@ export default [
                     './tsconfig.json',
                     './packages/api/tsconfig.eslint.json',
                     './packages/batch/tsconfig.json',
+                    './packages/db/tsconfig.json',
                     './packages/scraping/tsconfig.json',
                     './packages/shared/tsconfig.json',
                 ],

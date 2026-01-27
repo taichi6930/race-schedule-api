@@ -2,7 +2,11 @@
     "name": "@race-schedule/db",
     "version": "0.1.0",
     "description": "Database migrations and schemas",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
     "scripts": {
+        "build": "tsc",
+        "clean": "rm -rf dist",
         "migrations:apply:local": "wrangler d1 migrations apply race-schedule-db --local --config ./wrangler.toml",
         "migrations:apply:test": "wrangler d1 migrations apply race_schedule_db_test --remote --env test --config ./wrangler.toml",
         "migrations:apply:production": "wrangler d1 migrations apply race_schedule_db_prod --remote --env production --config ./wrangler.toml",
@@ -17,6 +21,7 @@
         "better-sqlite3": "12.6.2"
     },
     "devDependencies": {
+        "typescript": "^5.7.3",
         "wrangler": "^4.60.0"
     }
 }
