@@ -4,8 +4,8 @@
 
 ## デプロイされるURL
 
-- **テスト環境**: `https://race-schedule-scraping-test.race-schedule-api.workers.dev`
-- **本番環境**: `https://race-schedule-scraping-prod.race-schedule-api.workers.dev`
+- **テスト環境**: `https://race-schedule-scraping-test.race-schedule.workers.dev`
+- **本番環境**: `https://race-schedule-scraping-prod.race-schedule.workers.dev`
 
 ## エンドポイント
 
@@ -14,7 +14,7 @@
 ヘルスチェック用エンドポイント
 
 ```bash
-curl https://race-schedule-scraping-test.race-schedule-api.workers.dev/health
+curl https://race-schedule-scraping-test.race-schedule.workers.dev/health
 ```
 
 ### GET /scraping/place
@@ -28,7 +28,7 @@ curl https://race-schedule-scraping-test.race-schedule-api.workers.dev/health
 - `raceTypeList`: レース種別 (カンマ区切り、例: JRA,NAR)
 
 ```bash
-curl "https://race-schedule-scraping-test.race-schedule-api.workers.dev/scraping/place?startDate=2026-01-01&finishDate=2026-12-31&raceTypeList=JRA"
+curl "https://race-schedule-scraping-test.race-schedule.workers.dev/scraping/place?startDate=2026-01-01&finishDate=2026-12-31&raceTypeList=JRA"
 ```
 
 ### GET /scraping/race
@@ -43,7 +43,7 @@ curl "https://race-schedule-scraping-test.race-schedule-api.workers.dev/scraping
 - `location`: 開催場所 (オプション)
 
 ```bash
-curl "https://race-schedule-scraping-test.race-schedule-api.workers.dev/scraping/race?startDate=2026-01-27&finishDate=2026-01-29&raceTypeList=JRA&location=東京"
+curl "https://race-schedule-scraping-test.race-schedule.workers.dev/scraping/race?startDate=2026-01-27&finishDate=2026-01-29&raceTypeList=JRA&location=東京"
 ```
 
 ## ローカル開発
