@@ -95,6 +95,7 @@ export class PlaceController {
                 raceType: e.raceType,
                 datetime: e.datetime,
                 placeName: e.placeName,
+                placeGrade: e.placeGrade,
                 placeHeldDays: e.placeHeldDays,
             }));
             return Response.json(

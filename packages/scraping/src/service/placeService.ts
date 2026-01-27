@@ -248,7 +248,8 @@ export class PlaceService implements IPlaceService {
                             placeEntityList.push({
                                 raceType: RaceType.KEIRIN,
                                 datetime,
-                                placeName: `${place}${grade}`,
+                                placeName: place,
+                                placeGrade: grade,
                                 placeHeldDays: undefined,
                             });
                         }
@@ -317,7 +318,8 @@ export class PlaceService implements IPlaceService {
                         placeEntityList.push({
                             raceType: RaceType.AUTORACE,
                             datetime,
-                            placeName: `${place}${grade}`,
+                            placeName: place,
+                            placeGrade: grade,
                             placeHeldDays: undefined,
                         });
                     }
