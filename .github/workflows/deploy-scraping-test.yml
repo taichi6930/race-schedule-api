@@ -1,0 +1,54 @@
+name: Deploy Scraping Worker (Test)
+
+permissions:
+  contents: read
+  id-token: write
+  issues: write
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/scraping/**'
+      - 'packages/shared/**'
+  issues:
+    types: [labeled]
+  pull_request:
+    types: [labeled]
+
+jobs:
+  deploy-scraping-test:
+    if: github.event_name == 'push' || github.event.label.name == 'deploy-scraping-test'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/scraping
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Deploy to Cloudflare Workers (test env)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          envsubst < wrangler.toml > wrangler.resolved.toml && mv wrangler.resolved.toml wrangler.toml
+          bun run deploy:test
+
+      # ラベル付与イベントで起動した場合のみ、ラベルを削除
+      - name: Remove 'deploy-scraping-test' label
+        if: github.event.label.name == 'deploy-scraping-test'
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: deploy-scraping-test
+          number: ${{ github.event.issue.number }}
