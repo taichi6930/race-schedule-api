@@ -1,0 +1,28 @@
+name = "race-schedule-batch"
+account_id = "${CLOUDFLARE_ACCOUNT_ID}"
+workers_dev = true
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# 毎週土曜日の午前9時（JST）= 毎週土曜日の午前0時（UTC）
+[triggers]
+crons = ["0 0 * * 6"]
+
+[vars]
+SCRAPING_API_URL = "https://race-schedule-scraping.workers.dev"
+API_URL = "https://my-d1-project.workers.dev"
+
+[env.test]
+name = "race-schedule-batch-test"
+
+[env.test.vars]
+SCRAPING_API_URL = "https://race-schedule-scraping-test.workers.dev"
+API_URL = "https://my-d1-project-test.workers.dev"
+
+[env.production]
+name = "race-schedule-batch-prod"
+
+[env.production.vars]
+SCRAPING_API_URL = "https://race-schedule-scraping-prod.workers.dev"
+API_URL = "https://my-d1-project-prod.workers.dev"
