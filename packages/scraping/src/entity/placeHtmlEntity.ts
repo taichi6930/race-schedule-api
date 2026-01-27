@@ -11,5 +11,5 @@ export interface PlaceHtmlEntity {
     /** 開催グレード（KEIRIN/AUTORACEなどで使用、省略可） */
     placeGrade?: string;
     /** 開催回数・日数情報（省略可） */
-    placeHeldDays: PlaceHeldDays | undefined;
+    placeHeldDays?: PlaceHeldDays;
 }
