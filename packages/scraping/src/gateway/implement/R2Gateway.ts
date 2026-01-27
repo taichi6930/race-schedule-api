@@ -1,7 +1,15 @@
 import { EnvStore } from '@race-schedule/shared/src/utilities/envStore';
 import { injectable } from 'tsyringe';
 
-import type { IR2Gateway } from '../interface/IR2Gateway';
+import type {
+    IR2Gateway,
+    R2ObjectWithMetadata,
+} from '../interface/IR2Gateway';
+
+interface R2Object {
+    text: () => Promise<string>;
+    uploaded: Date;
+}
 
 interface R2Bucket {
     put: (
@@ -9,7 +17,7 @@ interface R2Bucket {
         value: string | ArrayBuffer,
         options?: any,
     ) => Promise<void>;
-    get: (key: string) => Promise<{ text: () => Promise<string> } | null>;
+    get: (key: string) => Promise<R2Object | null>;
     delete: (key: string) => Promise<void>;
 }
 
@@ -48,6 +56,19 @@ export class R2Gateway implements IR2Gateway {
         const obj = await bucket.get(key);
         if (!obj) return null;
         return obj.text();
+    }
+
+    public async getObjectWithMetadata(
+        key: string,
+    ): Promise<R2ObjectWithMetadata | null> {
+        const bucket = this.getBucket();
+        if (!bucket) return null;
+        const obj = await bucket.get(key);
+        if (!obj) return null;
+        return {
+            body: await obj.text(),
+            uploaded: obj.uploaded,
+        };
     }
 
     public async deleteObject(key: string): Promise<void> {

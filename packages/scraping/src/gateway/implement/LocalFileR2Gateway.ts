@@ -3,7 +3,10 @@ import path from 'node:path';
 
 import { injectable } from 'tsyringe';
 
-import type { IR2Gateway } from '../interface/IR2Gateway';
+import type {
+    IR2Gateway,
+    R2ObjectWithMetadata,
+} from '../interface/IR2Gateway';
 
 /**
  * ローカル開発環境用のR2Gateway実装
@@ -55,6 +58,27 @@ export class LocalFileR2Gateway implements IR2Gateway {
         try {
             const content = await fs.readFile(filePath, 'utf8');
             return content;
+        } catch (error: any) {
+            if (error.code === 'ENOENT') {
+                return null;
+            }
+            throw error;
+        }
+    }
+
+    public async getObjectWithMetadata(
+        key: string,
+    ): Promise<R2ObjectWithMetadata | null> {
+        const filePath = this.getFilePath(key);
+        try {
+            const [content, stat] = await Promise.all([
+                fs.readFile(filePath, 'utf8'),
+                fs.stat(filePath),
+            ]);
+            return {
+                body: content,
+                uploaded: stat.mtime,
+            };
         } catch (error: any) {
             if (error.code === 'ENOENT') {
                 return null;

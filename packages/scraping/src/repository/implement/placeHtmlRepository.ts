@@ -9,9 +9,13 @@ import type { IPlaceHtmlRepository } from '../interface/IPlaceHtmlRepository';
 
 /**
  * place HTMLリポジトリ
+ * キャッシュ有効期限: 1週間
  */
 @injectable()
 export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
+    private static readonly CACHE_EXPIRATION_MS =
+        7 * 24 * 60 * 60 * 1000; // 1週間
+
     public constructor(
         @inject('R2Gateway') private readonly r2Gateway: IR2Gateway,
         @inject('PlaceDataHtmlGateway')
@@ -37,8 +41,15 @@ export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
             raceType === 'JRA'
                 ? `place/${raceType as string}${date.getFullYear()}.html`
                 : `place/${raceType as string}${format(date, 'yyyyMM')}.html`;
-        const html = await this.r2Gateway.getObject(key);
-        return html;
+        const result = await this.r2Gateway.getObjectWithMetadata(key);
+        if (!result) return null;
+
+        // キャッシュが有効期限切れの場合はnullを返す
+        const age = Date.now() - result.uploaded.getTime();
+        if (age > PlaceHtmlR2Repository.CACHE_EXPIRATION_MS) {
+            return null;
+        }
+        return result.body;
     }
 
     @Logger

@@ -1,3 +1,11 @@
+/**
+ * R2オブジェクトのメタデータ付きレスポンス
+ */
+export interface R2ObjectWithMetadata {
+    body: string;
+    uploaded: Date;
+}
+
 export interface IR2Gateway {
     /**
      * R2バケットにオブジェクトを保存
@@ -13,6 +21,13 @@ export interface IR2Gateway {
      * R2バケットからオブジェクトを取得
      */
     getObject: (key: string) => Promise<string | null>;
+
+    /**
+     * R2バケットからオブジェクトをメタデータ付きで取得
+     */
+    getObjectWithMetadata: (
+        key: string,
+    ) => Promise<R2ObjectWithMetadata | null>;
 
     /**
      * R2バケットからオブジェクトを削除

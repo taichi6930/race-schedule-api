@@ -9,9 +9,13 @@ import { IRaceHtmlRepository } from '../interface/IRaceHtmlRepository';
 
 /**
  * race HTMLリポジトリ
+ * キャッシュ有効期限: 1日
  */
 @injectable()
 export class RaceHtmlR2Repository implements IRaceHtmlRepository {
+    private static readonly CACHE_EXPIRATION_MS =
+        24 * 60 * 60 * 1000; // 1日
+
     public constructor(
         @inject('R2Gateway') private readonly r2Gateway: IR2Gateway,
         @inject('RaceDataHtmlGateway')
@@ -43,8 +47,15 @@ export class RaceHtmlR2Repository implements IRaceHtmlRepository {
         number?: number,
     ): Promise<string | null> {
         const key = this.generateCacheKey(raceType, date, location, number);
-        const html = await this.r2Gateway.getObject(key);
-        return html;
+        const result = await this.r2Gateway.getObjectWithMetadata(key);
+        if (!result) return null;
+
+        // キャッシュが有効期限切れの場合はnullを返す
+        const age = Date.now() - result.uploaded.getTime();
+        if (age > RaceHtmlR2Repository.CACHE_EXPIRATION_MS) {
+            return null;
+        }
+        return result.body;
     }
 
     @Logger
