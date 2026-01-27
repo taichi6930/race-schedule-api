@@ -12,6 +12,9 @@ import type { IPlaceHtmlRepository } from '../interface/IPlaceHtmlRepository';
  */
 @injectable()
 export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
+    /** キャッシュ有効期限: 1週間（ミリ秒） */
+    private static readonly CACHE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+
     public constructor(
         @inject('R2Gateway') private readonly r2Gateway: IR2Gateway,
         @inject('PlaceDataHtmlGateway')
@@ -33,12 +36,16 @@ export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
         raceType: RaceType,
         date: Date,
     ): Promise<string | null> {
-        const key: string =
-            raceType === 'JRA'
-                ? `place/${raceType as string}${date.getFullYear()}.html`
-                : `place/${raceType as string}${format(date, 'yyyyMM')}.html`;
-        const html = await this.r2Gateway.getObject(key);
-        return html;
+        const key = this.generateCacheKey(raceType, date);
+        const result = await this.r2Gateway.getObjectWithMetadata(key);
+        if (!result) return null;
+
+        // キャッシュが1週間以上前のものであれば期限切れとしてnullを返す
+        const age = Date.now() - result.uploaded.getTime();
+        if (age > PlaceHtmlR2Repository.CACHE_MAX_AGE_MS) {
+            return null;
+        }
+        return result.body;
     }
 
     @Logger
@@ -47,11 +54,13 @@ export class PlaceHtmlR2Repository implements IPlaceHtmlRepository {
         date: Date,
         html: string,
     ): Promise<void> {
-        const key: string =
-            raceType === 'JRA'
-                ? `place/${raceType as string}${date.getFullYear()}.html`
-                : `place/${raceType as string}${format(date, 'yyyyMM')}.html`;
-
+        const key = this.generateCacheKey(raceType, date);
         await this.r2Gateway.putObject(key, html, 'text/html');
+    }
+
+    private generateCacheKey(raceType: RaceType, date: Date): string {
+        return raceType === 'JRA'
+            ? `place/${raceType as string}${date.getFullYear()}.html`
+            : `place/${raceType as string}${format(date, 'yyyyMM')}.html`;
     }
 }
