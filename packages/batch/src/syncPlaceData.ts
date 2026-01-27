@@ -58,7 +58,9 @@ async function fetchPlaceData(
     }
 
     const data = await response.json();
-    const places = Array.isArray(data) ? data : (data.places ?? []);
+    const places = Array.isArray(data)
+        ? data
+        : ((data as { places?: unknown[] }).places ?? []);
     console.log(`Fetched ${places.length} places for ${raceType}`);
     return places;
 }
