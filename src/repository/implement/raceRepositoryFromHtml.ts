@@ -2,10 +2,8 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { validateRaceDistance } from '../../../packages/shared/src/types/raceDistance';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { RaceSurfaceType } from '../../../packages/shared/src/types/surfaceType';
-import { validateGradeType } from '../../../packages/shared/src/utilities/gradeType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import {
     RaceCourse,
@@ -174,13 +172,11 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
 
             const raceData = RaceData.create(
                 htmlEntity.raceType,
+                htmlEntity.raceName,
                 htmlEntity.datetime,
                 placeName,
+                htmlEntity.grade ?? '',
                 htmlEntity.raceNumber,
-                htmlEntity.raceName,
-                htmlEntity.grade
-                    ? validateGradeType(htmlEntity.raceType, htmlEntity.grade)
-                    : undefined,
             );
 
             // HorseRaceConditionData の構築
@@ -193,23 +189,19 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                 htmlEntity.distance &&
                 htmlEntity.surfaceType
             ) {
-                const distance = validateRaceDistance(
-                    htmlEntity.raceType,
-                    htmlEntity.distance,
-                );
                 const surfaceType = htmlEntity.surfaceType as RaceSurfaceType;
 
                 conditionData = HorseRaceConditionData.create(
-                    distance,
                     surfaceType,
+                    htmlEntity.distance,
                 );
             }
 
             // Stage の構築
             let stage: RaceStage | undefined;
             if (htmlEntity.stage) {
-                const stageMap = new StageMap();
-                stage = stageMap.get(htmlEntity.raceType, htmlEntity.stage);
+                const stageMap = StageMap(htmlEntity.raceType);
+                stage = stageMap[htmlEntity.stage];
             }
 
             // RacePlayerData は空配列（機械系レース用）
@@ -224,7 +216,6 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
             }
 
             return RaceEntity.createWithoutId(
-                placeEntity.id || '',
                 raceData,
                 placeEntity.heldDayData,
                 conditionData,
@@ -246,7 +237,7 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
      * HTMLにはデータを登録しない
      */
     @Logger
-    public async upsertRaceList(
+    public async upsertRaceEntityList(
         _raceEntityList: RaceEntity[],
     ): Promise<UpsertResult> {
         void _raceEntityList;

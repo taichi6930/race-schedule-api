@@ -24,5 +24,6 @@ export const cloudFlareEnvMock = (): OldCloudFlareEnv => {
         GOOGLE_PRIVATE_KEY: 'GOOGLE_PRIVATE_KEY_dummy',
         IS_HTML_FETCH_ENABLED: 'false',
         HTML_FETCH_DELAY_MS: '0',
+        SCRAPING_API_BASE_URL: 'http://localhost:8787',
     };
 };
