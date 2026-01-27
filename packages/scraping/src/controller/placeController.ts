@@ -2,24 +2,12 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { PlaceUsecase } from '../usecase/placeUsecase';
-
-// 必要に応じて型を定義（apiのものを流用する場合はimportに修正）
-interface PlaceEntity {
-    placeId: string;
-    raceType: string;
-    datetime: Date;
-    placeName: string;
-    placeHeldDays: any;
-    locationCode?: string;
-    placeGrade?: string;
-    locationName?: string;
-}
+import type { IPlaceUsecase } from '../usecase/interface/IPlaceUsecase';
 
 @injectable()
 export class PlaceController {
     public constructor(
-        @inject('PlaceUsecase') private readonly usecase: PlaceUsecase, // scraping用のusecase型に合わせて修正
+        @inject('PlaceUsecase') private readonly usecase: IPlaceUsecase,
     ) {}
 
     /**
@@ -102,23 +90,13 @@ export class PlaceController {
                 locationList,
             };
             const data = await this.usecase.fetch(filter);
-            // Entity→DTO変換（locationCodeを除外）
-            const places = data
-                .filter(
-                    (e: PlaceEntity) =>
-                        !locationList ||
-                        (e.locationCode &&
-                            locationList.includes(e.locationCode)),
-                )
-                .map((e: PlaceEntity) => ({
-                    placeId: e.placeId,
-                    raceType: e.raceType,
-                    datetime: e.datetime,
-                    placeName: e.placeName,
-                    locationName: e.locationName ?? e.placeName,
-                    placeGrade: e.placeGrade,
-                    placeHeldDays: e.placeHeldDays,
-                }));
+            // Entity→DTO変換
+            const places = data.map((e) => ({
+                raceType: e.raceType,
+                datetime: e.datetime,
+                placeName: e.placeName,
+                placeHeldDays: e.placeHeldDays,
+            }));
             return Response.json(
                 {
                     count: places.length,

@@ -17,9 +17,9 @@ applyTo: '**'
     - 作業の区切りごとにコミットしてください。
     - 直接 `main` ブランチにコミットしないでください。
     - **コミット前に必ず以下を実施：**
-        - `pnpm run lint` を実行。
-        - エラーが出た場合は`pnpm run lint:fix` を実行し、再度 `pnpm run lint` を実行。
-        - それでもエラーが出る場合は、エラー内容を確認し、修正してください。再度 `pnpm run lint` を実行し、エラーが出ないことを確認してください。
+        - `bun run lint` を実行。
+        - エラーが出た場合は`bun run lint:fix` を実行し、再度 `bun run lint` を実行。
+        - それでもエラーが出る場合は、エラー内容を確認し、修正してください。再度 `bun run lint` を実行し、エラーが出ないことを確認してください。
 
 4. **push**
     - 作業ブランチをリモートにpushしてください。
@@ -40,7 +40,7 @@ applyTo: '**'
 git checkout -b copilot/your-task
 
 # Lintチェック
-pnpm run lint
+bun run lint
 
 # コミット
 git add .

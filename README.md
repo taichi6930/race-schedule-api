@@ -22,7 +22,7 @@
 ## 前提条件
 
 - Node.js 24.x（`.nvmrc`で管理）
-- pnpm
+- Bun
 
 ### Node.jsバージョン管理
 
@@ -47,7 +47,7 @@ cat .nvmrc
 1. 依存関係のインストール
 
 ```bash
-pnpm install
+bun install
 ```
 
 2. 環境変数の設定
@@ -71,7 +71,7 @@ GOOGLE_OAUTH_REDIRECT_URL="your-redirect-url"
 1. ローカルサーバーの起動
 
 ```bash
-pnpm run dev:local
+bun run dev:local
 ```
 
 2. APIリクエストの例
@@ -214,7 +214,7 @@ curl -X POST "http://localhost:3000/api/races/all/place" \
 
 ```bash
 # ユニットテストの実行
-pnpm run test
+bun run test
 
 ```
 
@@ -231,7 +231,7 @@ MIT License
     1. mainブランチは常にデプロイ可能な状態を保つ
     2. 機能追加・修正は必ず `copilot/xxxx` や`feature/xxxx`, `claude/xxxx`, `fix/xxxx` などのブランチを作成
     3. 作業ブランチで開発し、こまめにコミット
-    4. コミット前に `pnpm run lint` を実行し、エラーが出ないことを確認
+    4. コミット前に `bun run lint` を実行し、エラーが出ないことを確認
     5. 作業ブランチをリモートにpush
     6. Pull Request（PR）を作成し、レビュー・CIを通過後にmainへマージ
     7. mainブランチへの直接pushは禁止（ブランチ保護ルールで強制）

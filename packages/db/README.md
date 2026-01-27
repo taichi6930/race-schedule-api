@@ -43,9 +43,9 @@ packages/db/
 
 ```json
 {
-  "dependencies": {
-    "@race-schedule/db": "workspace:*"
-  }
+    "dependencies": {
+        "@race-schedule/db": "workspace:*"
+    }
 }
 ```
 
@@ -55,7 +55,10 @@ packages/db/
 import { PlaceRow, RaceRow, PlayerRow } from '@race-schedule/db';
 
 // データベースから取得した行の型として使用
-const place: PlaceRow = await db.query('SELECT * FROM place WHERE place_id = ?', [id]);
+const place: PlaceRow = await db.query(
+    'SELECT * FROM place WHERE place_id = ?',
+    [id],
+);
 ```
 
 ### クエリの使用
@@ -77,7 +80,7 @@ const placeId = generatePlaceId('JRA', '2024-01-01 10:00:00', '01');
 
 // バリデーション
 if (isValidPlaceRow(row)) {
-  // rowはPlaceRow型として扱える
+    // rowはPlaceRow型として扱える
 }
 ```
 
@@ -105,10 +108,10 @@ cd packages/db
 pnpm run migrations:apply:local
 
 # マイグレーション一覧確認
-pnpm run migrations:list:local
+bun run migrations:list:local
 
 # DBシェルにアクセス
-pnpm run db:shell:local
+bun run db:shell:local
 ```
 
 > 補足: これらのローカルコマンドは `packages/api/wrangler.toml` を参照して実行されます。API の開発サーバーと同じ D1 ストレージを更新するため、`wrangler dev` 実行時にテーブルが存在しないという問題を避けられます。
@@ -121,13 +124,13 @@ pnpm run db:shell:local
 
 ```bash
 # ローカル環境
-pnpm run migrations:apply:local
+bun run migrations:apply:local
 
 # テスト環境
-pnpm run migrations:apply:test
+bun run migrations:apply:test
 
 # 本番環境
-pnpm run migrations:apply:production
+bun run migrations:apply:production
 ```
 
 ## デプロイフロー

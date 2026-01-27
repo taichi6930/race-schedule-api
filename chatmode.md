@@ -3,17 +3,17 @@
 "other": "off"
 },
 "roo-cline.allowedCommands": [
-"npm test",
-"npm install",
+"bun test",
+"bun install",
 "tsc",
 "git log",
 "git diff",
 "git show",
-"pnpm run",
-"npm run",
-"pnpm add",
-"pnpm install",
-"pnpm update",
+"bun run",
+"bun run",
+"bun add",
+"bun install",
+"bun update",
 "aws logs"
 ],
 "files.autoSave": "onFocusChange",
@@ -107,7 +107,7 @@
 "scminput": false
 },
 "github.copilot.chat.agent.terminal.allowList": {
-"pnpm": true,
+"typedoc": true
 "git": true,
 "docker-compose": true,
 "ls": true,
