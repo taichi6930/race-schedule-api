@@ -127,9 +127,7 @@ describe('RaceHtmlR2Repository', () => {
             );
 
             expect(result).toBe(mockHtml);
-            expect(
-                mocks.r2Gateway.getObjectWithMetadata,
-            ).toHaveBeenCalled();
+            expect(mocks.r2Gateway.getObjectWithMetadata).toHaveBeenCalled();
         });
 
         it('HTMLが存在しない場合はnullを返すこと', async () => {
@@ -157,9 +155,7 @@ describe('RaceHtmlR2Repository', () => {
         it('キャッシュが1日以上前の場合はnullを返すこと', async () => {
             const mockHtml = '<html><body>Expired Race HTML</body></html>';
             // 2日前に保存されたキャッシュ（期限切れ）
-            const uploaded = new Date(
-                Date.now() - 2 * 24 * 60 * 60 * 1000,
-            );
+            const uploaded = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
             const mocks = createMockGateways(mockHtml, uploaded);
             const repository = new RaceHtmlR2Repository(
                 mocks.r2Gateway as any,
@@ -180,9 +176,7 @@ describe('RaceHtmlR2Repository', () => {
         it('キャッシュが1日以内の場合はHTMLを返すこと', async () => {
             const mockHtml = '<html><body>Valid Race HTML</body></html>';
             // 12時間前に保存されたキャッシュ（有効期限内）
-            const uploaded = new Date(
-                Date.now() - 12 * 60 * 60 * 1000,
-            );
+            const uploaded = new Date(Date.now() - 12 * 60 * 60 * 1000);
             const mocks = createMockGateways(mockHtml, uploaded);
             const repository = new RaceHtmlR2Repository(
                 mocks.r2Gateway as any,

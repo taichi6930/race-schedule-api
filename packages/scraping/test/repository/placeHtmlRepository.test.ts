@@ -107,9 +107,9 @@ describe('PlaceHtmlR2Repository', () => {
             const result = await repository.loadPlaceHtml(RaceType.JRA, date);
 
             expect(result).toBe(mockHtml);
-            expect(
-                mocks.r2Gateway.getObjectWithMetadata,
-            ).toHaveBeenCalledWith('place/JRA2024.html');
+            expect(mocks.r2Gateway.getObjectWithMetadata).toHaveBeenCalledWith(
+                'place/JRA2024.html',
+            );
         });
 
         it('R2からNARのHTMLを読み込むこと（月単位）', async () => {
@@ -125,9 +125,9 @@ describe('PlaceHtmlR2Repository', () => {
             const result = await repository.loadPlaceHtml(RaceType.NAR, date);
 
             expect(result).toBe(mockHtml);
-            expect(
-                mocks.r2Gateway.getObjectWithMetadata,
-            ).toHaveBeenCalledWith('place/NAR202406.html');
+            expect(mocks.r2Gateway.getObjectWithMetadata).toHaveBeenCalledWith(
+                'place/NAR202406.html',
+            );
         });
 
         it('HTMLが存在しない場合はnullを返すこと', async () => {
@@ -150,9 +150,7 @@ describe('PlaceHtmlR2Repository', () => {
         it('キャッシュが1週間以上前の場合はnullを返すこと', async () => {
             const mockHtml = '<html><body>Expired HTML</body></html>';
             // 8日前に保存されたキャッシュ（期限切れ）
-            const uploaded = new Date(
-                Date.now() - 8 * 24 * 60 * 60 * 1000,
-            );
+            const uploaded = new Date(Date.now() - 8 * 24 * 60 * 60 * 1000);
             const mocks = createMockGateways(mockHtml, uploaded);
             const repository = new PlaceHtmlR2Repository(
                 mocks.r2Gateway as any,
@@ -168,9 +166,7 @@ describe('PlaceHtmlR2Repository', () => {
         it('キャッシュが1週間以内の場合はHTMLを返すこと', async () => {
             const mockHtml = '<html><body>Valid HTML</body></html>';
             // 6日前に保存されたキャッシュ（有効期限内）
-            const uploaded = new Date(
-                Date.now() - 6 * 24 * 60 * 60 * 1000,
-            );
+            const uploaded = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000);
             const mocks = createMockGateways(mockHtml, uploaded);
             const repository = new PlaceHtmlR2Repository(
                 mocks.r2Gateway as any,

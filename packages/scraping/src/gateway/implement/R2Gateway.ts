@@ -9,9 +9,7 @@ interface R2Bucket {
         value: string | ArrayBuffer,
         options?: any,
     ) => Promise<void>;
-    get: (
-        key: string,
-    ) => Promise<{
+    get: (key: string) => Promise<{
         text: () => Promise<string>;
         uploaded: Date;
     } | null>;
