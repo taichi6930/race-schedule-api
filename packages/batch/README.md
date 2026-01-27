@@ -50,7 +50,25 @@ bun run deploy:prod
 ## エンドポイント
 
 - `GET /health` - ヘルスチェック
-- `GET /sync-place` - Place同期の手動実行
+- `GET /sync-place` - Place同期の手動実行（デフォルト動作）
+- `GET /sync-place?startDate=YYYY-MM-DD&finishDate=YYYY-MM-DD` - 日付範囲を指定して実行
+- `GET /sync-place?startDate=YYYY-MM-DD&finishDate=YYYY-MM-DD&raceTypes=JRA,NAR` - 日付範囲とraceTypeを指定して実行
+
+### 使用例
+
+```bash
+# デフォルト実行（JRA: 1年分、NAR/KEIRIN/AUTORACE: 先月・今月・来月）
+curl http://localhost:8787/sync-place
+
+# 1ヶ月だけ取得（全raceType）
+curl "http://localhost:8787/sync-place?startDate=2026-01-01&finishDate=2026-01-31"
+
+# 特定の期間と特定のraceTypeのみ取得
+curl "http://localhost:8787/sync-place?startDate=2026-01-01&finishDate=2026-01-31&raceTypes=JRA,NAR"
+
+# 特定の1日だけ取得
+curl "http://localhost:8787/sync-place?startDate=2026-01-27&finishDate=2026-01-27&raceTypes=JRA"
+```
 
 ## cron設定
 

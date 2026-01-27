@@ -49,7 +49,23 @@ export default {
 
         if (url.pathname === '/sync-place') {
             try {
-                await syncPlaceData(env);
+                // クエリパラメータから日付範囲とraceTypeを取得
+                const startDate = url.searchParams.get('startDate');
+                const finishDate = url.searchParams.get('finishDate');
+                const raceTypesParam = url.searchParams.get('raceTypes');
+
+                const options =
+                    startDate && finishDate
+                        ? {
+                              startDate,
+                              finishDate,
+                              raceTypes: raceTypesParam
+                                  ? raceTypesParam.split(',')
+                                  : undefined,
+                          }
+                        : undefined;
+
+                await syncPlaceData(env, options);
                 return new Response('Place data synchronization completed', {
                     status: 200,
                 });

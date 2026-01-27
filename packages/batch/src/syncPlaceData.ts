@@ -8,6 +8,12 @@ interface Env {
     API_URL: string;
 }
 
+interface SyncOptions {
+    startDate?: string; // YYYY-MM-DD形式
+    finishDate?: string; // YYYY-MM-DD形式
+    raceTypes?: string[]; // 取得対象のraceTypeリスト（指定がない場合は全て）
+}
+
 /**
  * 日付をYYYY-MM-DD形式にフォーマット
  */
@@ -90,66 +96,100 @@ async function upsertPlaceData(env: Env, places: any[]): Promise<void> {
 /**
  * Place データ同期のメイン処理
  */
-export async function syncPlaceData(env: Env): Promise<void> {
+export async function syncPlaceData(
+    env: Env,
+    options?: SyncOptions,
+): Promise<void> {
     console.log('Starting place data synchronization...');
 
     const now = new Date();
     const allPlaces: any[] = [];
 
     try {
-        // JRA: その年1年分
-        const jraYear = now.getFullYear();
-        const jraStart = `${jraYear}-01-01`;
-        const jraEnd = `${jraYear}-12-31`;
-        console.log(`Fetching JRA data for year ${jraYear}`);
-        const jraPlaces = await fetchPlaceData(env, 'JRA', jraStart, jraEnd);
-        allPlaces.push(...jraPlaces);
-
-        // NAR, KEIRIN, AUTORACE: 先月、今月、来月の3ヶ月
-        const raceTypes = ['NAR', 'KEIRIN', 'AUTORACE'];
-
-        for (const raceType of raceTypes) {
-            console.log(`Fetching ${raceType} data for 3 months`);
-
-            // 先月
-            const lastMonth = new Date(
-                now.getFullYear(),
-                now.getMonth() - 1,
-                1,
+        // オプションで日付範囲が指定されている場合は、それを使用
+        if (options?.startDate && options.finishDate) {
+            console.log(
+                `Using custom date range: ${options.startDate} to ${options.finishDate}`,
             );
-            const lastMonthRange = getMonthRange(lastMonth);
-            const lastMonthPlaces = await fetchPlaceData(
+            const targetRaceTypes = options.raceTypes ?? [
+                'JRA',
+                'NAR',
+                'KEIRIN',
+                'AUTORACE',
+            ];
+
+            for (const raceType of targetRaceTypes) {
+                console.log(
+                    `Fetching ${raceType} data for ${options.startDate} to ${options.finishDate}`,
+                );
+                const places = await fetchPlaceData(
+                    env,
+                    raceType,
+                    options.startDate,
+                    options.finishDate,
+                );
+                allPlaces.push(...places);
+            }
+        } else {
+            // デフォルトロジック: JRA: その年1年分
+            const jraYear = now.getFullYear();
+            const jraStart = `${jraYear}-01-01`;
+            const jraEnd = `${jraYear}-12-31`;
+            console.log(`Fetching JRA data for year ${jraYear}`);
+            const jraPlaces = await fetchPlaceData(
                 env,
-                raceType,
-                lastMonthRange.start,
-                lastMonthRange.end,
+                'JRA',
+                jraStart,
+                jraEnd,
             );
-            allPlaces.push(...lastMonthPlaces);
+            allPlaces.push(...jraPlaces);
 
-            // 今月
-            const thisMonthRange = getMonthRange(now);
-            const thisMonthPlaces = await fetchPlaceData(
-                env,
-                raceType,
-                thisMonthRange.start,
-                thisMonthRange.end,
-            );
-            allPlaces.push(...thisMonthPlaces);
+            // NAR, KEIRIN, AUTORACE: 先月、今月、来月の3ヶ月
+            const raceTypes = ['NAR', 'KEIRIN', 'AUTORACE'];
 
-            // 来月
-            const nextMonth = new Date(
-                now.getFullYear(),
-                now.getMonth() + 1,
-                1,
-            );
-            const nextMonthRange = getMonthRange(nextMonth);
-            const nextMonthPlaces = await fetchPlaceData(
-                env,
-                raceType,
-                nextMonthRange.start,
-                nextMonthRange.end,
-            );
-            allPlaces.push(...nextMonthPlaces);
+            for (const raceType of raceTypes) {
+                console.log(`Fetching ${raceType} data for 3 months`);
+
+                // 先月
+                const lastMonth = new Date(
+                    now.getFullYear(),
+                    now.getMonth() - 1,
+                    1,
+                );
+                const lastMonthRange = getMonthRange(lastMonth);
+                const lastMonthPlaces = await fetchPlaceData(
+                    env,
+                    raceType,
+                    lastMonthRange.start,
+                    lastMonthRange.end,
+                );
+                allPlaces.push(...lastMonthPlaces);
+
+                // 今月
+                const thisMonthRange = getMonthRange(now);
+                const thisMonthPlaces = await fetchPlaceData(
+                    env,
+                    raceType,
+                    thisMonthRange.start,
+                    thisMonthRange.end,
+                );
+                allPlaces.push(...thisMonthPlaces);
+
+                // 来月
+                const nextMonth = new Date(
+                    now.getFullYear(),
+                    now.getMonth() + 1,
+                    1,
+                );
+                const nextMonthRange = getMonthRange(nextMonth);
+                const nextMonthPlaces = await fetchPlaceData(
+                    env,
+                    raceType,
+                    nextMonthRange.start,
+                    nextMonthRange.end,
+                );
+                allPlaces.push(...nextMonthPlaces);
+            }
         }
 
         // 重複排除（placeIdで）
