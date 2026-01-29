@@ -203,7 +203,24 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         raceType: RaceType,
         date: Date,
     ): Promise<OldPlaceEntity[]> {
-        // レースHTMLを取得
+        // If a scraping base URL is configured, fetch via scraping API per month for the year
+        const scrapingBase = OldEnvStore.env.SCRAPING_BASE_URL;
+        if (scrapingBase) {
+            const results: OldPlaceEntity[] = [];
+            for (let month = 0; month < 12; month++) {
+                const monthDate = new Date(date.getFullYear(), month, 1);
+                const monthPlaces =
+                    await this.fetchMonthPlaceEntityListFromScrapingApi(
+                        raceType,
+                        monthDate,
+                        false,
+                    );
+                results.push(...monthPlaces);
+            }
+            return results;
+        }
+
+        // Fallback to HTML parsing when scraping is not configured
         const htmlText: string = await this.placeDataHtmlGateway.fetch(
             raceType,
             date,
