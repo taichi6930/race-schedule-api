@@ -346,14 +346,17 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                 return [];
             }
             const body: any = await res.json();
-            const places = body?.places ?? body ?? [];
+            const placeListFromScraping = body?.places ?? body ?? [];
 
             const placeEntityList: OldPlaceEntity[] = [];
-            for (const p of places) {
+            for (const placeFromScraping of placeListFromScraping) {
                 try {
-                    const datetimeRaw = (p as any)?.datetime;
+                    const datetimeRaw = (placeFromScraping as any)?.datetime;
                     if (!datetimeRaw) {
-                        console.warn('place without datetime', p);
+                        console.warn(
+                            'place without datetime',
+                            placeFromScraping,
+                        );
                         continue;
                     }
                     const datePart = datetimeRaw.split('T')[0];
@@ -362,24 +365,32 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                     const d = Number(datePart.slice(8, 10));
                     const placeDate = new Date(y, m - 1, d);
 
-                    const placeName: string = (p?.placeName ?? '').trim();
+                    const placeName: string = (
+                        placeFromScraping?.placeName ?? ''
+                    ).trim();
                     if (!placeName) {
-                        console.warn('place without name', p);
+                        console.warn('place without name', placeFromScraping);
                         continue;
                     }
 
-                    const pd = PlaceData.create(raceType, placeDate, placeName);
+                    const placeData = PlaceData.create(
+                        raceType,
+                        placeDate,
+                        placeName,
+                    );
                     placeEntityList.push(
                         OldPlaceEntity.createWithoutId(
-                            pd,
+                            placeData,
                             undefined,
-                            useGrade ? p?.placeGrade : undefined,
+                            useGrade
+                                ? placeFromScraping?.placeGrade
+                                : undefined,
                         ),
                     );
                 } catch (error) {
                     console.error(
                         `failed to map scraping place (${raceType})`,
-                        p,
+                        placeFromScraping,
                         error,
                     );
                 }
