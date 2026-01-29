@@ -353,11 +353,14 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                 try {
                     // datetime/dateTime can exist in different shapes
                     const datetimeRaw =
-                        (placeFromScraping as any)?.datetime ||
-                        (placeFromScraping as any)?.dateTime ||
+                        (placeFromScraping as any)?.datetime ??
+                        (placeFromScraping as any)?.dateTime ??
                         (placeFromScraping as any)?.placeData?.dateTime;
                     if (!datetimeRaw) {
-                        console.warn('place without datetime', placeFromScraping);
+                        console.warn(
+                            'place without datetime',
+                            placeFromScraping,
+                        );
                         continue;
                     }
                     const datePart = String(datetimeRaw).split('T')[0];
@@ -368,9 +371,9 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
 
                     // place name can come from different keys
                     const placeName: string = (
-                        (placeFromScraping as any)?.placeName ||
-                        (placeFromScraping as any)?.placeData?.location ||
-                        (placeFromScraping as any)?.placeData?.placeName ||
+                        (placeFromScraping as any)?.placeName ??
+                        (placeFromScraping as any)?.placeData?.location ??
+                        (placeFromScraping as any)?.placeData?.placeName ??
                         ''
                     ).trim();
                     if (!placeName) {
@@ -380,31 +383,59 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
 
                     // held day info may be provided under several keys
                     const heldRaw =
-                        (placeFromScraping as any)?.placeHeldDays ||
-                        (placeFromScraping as any)?._heldDayData ||
-                        (placeFromScraping as any)?.placeData?.placeHeldDays ||
-                        (placeFromScraping as any)?.placeData?._heldDayData ||
+                        (placeFromScraping as any)?.placeHeldDays ??
+                        (placeFromScraping as any)?._heldDayData ??
+                        (placeFromScraping as any)?.placeData?.placeHeldDays ??
+                        (placeFromScraping as any)?.placeData?._heldDayData ??
                         undefined;
                     let heldDayDataArg = undefined as undefined | HeldDayData;
                     if (heldRaw && typeof heldRaw === 'object') {
-                        const heldTimes = Number(heldRaw.heldTimes ?? heldRaw.held_times ?? heldRaw.held_times_count ?? heldRaw.heldTimesCount ?? undefined);
-                        const heldDayTimes = Number(heldRaw.heldDayTimes ?? heldRaw.held_day_times ?? heldRaw.heldDayTimesCount ?? heldRaw.heldDayTimesCount ?? undefined);
-                        if (!Number.isNaN(heldTimes) && !Number.isNaN(heldDayTimes)) {
+                        const heldTimes = Number(
+                            heldRaw.heldTimes ??
+                                heldRaw.held_times ??
+                                heldRaw.held_times_count ??
+                                heldRaw.heldTimesCount ??
+                                undefined,
+                        );
+                        const heldDayTimes = Number(
+                            heldRaw.heldDayTimes ??
+                                heldRaw.held_day_times ??
+                                heldRaw.heldDayTimesCount ??
+                                heldRaw.heldDayTimesCount ??
+                                undefined,
+                        );
+                        if (
+                            !Number.isNaN(heldTimes) &&
+                            !Number.isNaN(heldDayTimes)
+                        ) {
                             try {
-                                heldDayDataArg = HeldDayData.create(heldTimes, heldDayTimes);
-                            } catch (e) {
-                                console.warn('invalid heldDayData from scraping', heldRaw, e);
+                                heldDayDataArg = HeldDayData.create(
+                                    heldTimes,
+                                    heldDayTimes,
+                                );
+                            } catch (error) {
+                                console.warn(
+                                    'invalid heldDayData from scraping',
+                                    heldRaw,
+                                    error,
+                                );
                                 heldDayDataArg = undefined;
                             }
                         }
                     }
 
-                    const placeData = PlaceData.create(raceType, placeDate, placeName);
+                    const placeData = PlaceData.create(
+                        raceType,
+                        placeDate,
+                        placeName,
+                    );
                     placeEntityList.push(
                         OldPlaceEntity.createWithoutId(
                             placeData,
                             heldDayDataArg,
-                            useGrade ? (placeFromScraping as any)?.placeGrade : undefined,
+                            useGrade
+                                ? (placeFromScraping as any)?.placeGrade
+                                : undefined,
                         ),
                     );
                 } catch (error) {
