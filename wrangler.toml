@@ -13,7 +13,7 @@ database_id = "${DB_ID}"
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "my-database"
-database_id = "${DB_ID}"
+database_id = "adacd8e1-0314-44ac-a403-1cbdb46978b7"
 
 [env.development]
 
