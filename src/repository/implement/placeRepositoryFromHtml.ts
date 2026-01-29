@@ -241,16 +241,31 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
             let heldDayDataArg: HeldDayData | undefined = undefined;
             if (heldRaw && typeof heldRaw === 'object') {
                 const heldTimes = Number(
-                    heldRaw.heldTimes ?? heldRaw.held_times ?? heldRaw.held_times_count ?? heldRaw.heldTimesCount ?? undefined,
+                    heldRaw.heldTimes ??
+                        heldRaw.held_times ??
+                        heldRaw.held_times_count ??
+                        heldRaw.heldTimesCount ??
+                        undefined,
                 );
                 const heldDayTimes = Number(
-                    heldRaw.heldDayTimes ?? heldRaw.held_day_times ?? heldRaw.heldDayTimesCount ?? heldRaw.heldDayTimesCount ?? undefined,
+                    heldRaw.heldDayTimes ??
+                        heldRaw.held_day_times ??
+                        heldRaw.heldDayTimesCount ??
+                        heldRaw.heldDayTimesCount ??
+                        undefined,
                 );
                 if (!Number.isNaN(heldTimes) && !Number.isNaN(heldDayTimes)) {
                     try {
-                        heldDayDataArg = HeldDayData.create(heldTimes, heldDayTimes);
-                    } catch (e) {
-                        console.warn('invalid heldDayData from scraping', heldRaw, e);
+                        heldDayDataArg = HeldDayData.create(
+                            heldTimes,
+                            heldDayTimes,
+                        );
+                    } catch (error) {
+                        console.warn(
+                            'invalid heldDayData from scraping',
+                            heldRaw,
+                            error,
+                        );
                         heldDayDataArg = undefined;
                     }
                 }
@@ -451,7 +466,11 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
 
             const placeEntityList: OldPlaceEntity[] = [];
             for (const placeFromScraping of placeListFromScraping) {
-                const ent = this.mapScrapingPlace(raceType, placeFromScraping, useGrade);
+                const ent = this.mapScrapingPlace(
+                    raceType,
+                    placeFromScraping,
+                    useGrade,
+                );
                 if (ent) placeEntityList.push(ent);
             }
             return placeEntityList;
