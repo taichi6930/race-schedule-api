@@ -278,7 +278,11 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                 useGrade ? placeFromScraping?.placeGrade : undefined,
             );
         } catch (error) {
-            console.error('failed to map scraping place', placeFromScraping, error);
+            console.error(
+                'failed to map scraping place',
+                placeFromScraping,
+                error,
+            );
             return null;
         }
     }
