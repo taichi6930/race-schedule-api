@@ -351,40 +351,60 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
             const placeEntityList: OldPlaceEntity[] = [];
             for (const placeFromScraping of placeListFromScraping) {
                 try {
-                    const datetimeRaw = (placeFromScraping as any)?.datetime;
+                    // datetime/dateTime can exist in different shapes
+                    const datetimeRaw =
+                        (placeFromScraping as any)?.datetime ||
+                        (placeFromScraping as any)?.dateTime ||
+                        (placeFromScraping as any)?.placeData?.dateTime;
                     if (!datetimeRaw) {
-                        console.warn(
-                            'place without datetime',
-                            placeFromScraping,
-                        );
+                        console.warn('place without datetime', placeFromScraping);
                         continue;
                     }
-                    const datePart = datetimeRaw.split('T')[0];
+                    const datePart = String(datetimeRaw).split('T')[0];
                     const y = Number(datePart.slice(0, 4));
                     const m = Number(datePart.slice(5, 7));
                     const d = Number(datePart.slice(8, 10));
                     const placeDate = new Date(y, m - 1, d);
 
+                    // place name can come from different keys
                     const placeName: string = (
-                        placeFromScraping?.placeName ?? ''
+                        (placeFromScraping as any)?.placeName ||
+                        (placeFromScraping as any)?.placeData?.location ||
+                        (placeFromScraping as any)?.placeData?.placeName ||
+                        ''
                     ).trim();
                     if (!placeName) {
                         console.warn('place without name', placeFromScraping);
                         continue;
                     }
 
-                    const placeData = PlaceData.create(
-                        raceType,
-                        placeDate,
-                        placeName,
-                    );
+                    // held day info may be provided under several keys
+                    const heldRaw =
+                        (placeFromScraping as any)?.placeHeldDays ||
+                        (placeFromScraping as any)?._heldDayData ||
+                        (placeFromScraping as any)?.placeData?.placeHeldDays ||
+                        (placeFromScraping as any)?.placeData?._heldDayData ||
+                        undefined;
+                    let heldDayDataArg = undefined as undefined | HeldDayData;
+                    if (heldRaw && typeof heldRaw === 'object') {
+                        const heldTimes = Number(heldRaw.heldTimes ?? heldRaw.held_times ?? heldRaw.held_times_count ?? heldRaw.heldTimesCount ?? undefined);
+                        const heldDayTimes = Number(heldRaw.heldDayTimes ?? heldRaw.held_day_times ?? heldRaw.heldDayTimesCount ?? heldRaw.heldDayTimesCount ?? undefined);
+                        if (!Number.isNaN(heldTimes) && !Number.isNaN(heldDayTimes)) {
+                            try {
+                                heldDayDataArg = HeldDayData.create(heldTimes, heldDayTimes);
+                            } catch (e) {
+                                console.warn('invalid heldDayData from scraping', heldRaw, e);
+                                heldDayDataArg = undefined;
+                            }
+                        }
+                    }
+
+                    const placeData = PlaceData.create(raceType, placeDate, placeName);
                     placeEntityList.push(
                         OldPlaceEntity.createWithoutId(
                             placeData,
-                            undefined,
-                            useGrade
-                                ? placeFromScraping?.placeGrade
-                                : undefined,
+                            heldDayDataArg,
+                            useGrade ? (placeFromScraping as any)?.placeGrade : undefined,
                         ),
                     );
                 } catch (error) {
