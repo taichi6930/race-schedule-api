@@ -8,7 +8,7 @@
         "packages/*"
     ],
     "scripts": {
-        "wrangler:deploy:production": "bun update wrangler && wrangler deploy --env production",
+        "wrangler:deploy:production": "wrangler deploy --env production --env-file .env.production",
         "dev:cloudflare:local": "TZ=Asia/Tokyo wrangler dev --env development --local",
         "wrangler:d1:migrations:apply:local": "wrangler d1 migrations apply my-database --local",
         "wrangler:d1:migrations:apply:remote": "wrangler d1 migrations apply my-database --remote",
@@ -81,7 +81,7 @@
         "typedoc": "^0.28.16",
         "typescript": "~5.9.3",
         "typescript-eslint": "^8.53.1",
-        "wrangler": "^4.60.0"
+        "wrangler": "^4.61.1"
     },
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
