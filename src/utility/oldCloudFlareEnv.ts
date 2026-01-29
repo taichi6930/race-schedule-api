@@ -13,4 +13,6 @@ export interface OldCloudFlareEnv {
     GOOGLE_PRIVATE_KEY: string;
     IS_HTML_FETCH_ENABLED: string;
     HTML_FETCH_DELAY_MS: string;
+    /** スクレイピングサービスのベースURL（環境ごとに切り替えて設定する） */
+    SCRAPING_BASE_URL: string;
 }

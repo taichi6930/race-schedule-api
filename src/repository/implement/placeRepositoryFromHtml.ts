@@ -5,6 +5,7 @@ import console from 'node:console';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+/* eslint-disable @typescript-eslint/prefer-destructuring */
 import { IPlaceDataHtmlGateway } from '../../../packages/scraping/src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
 import { GradeType } from '../../../packages/shared/src/utilities/gradeType';
@@ -308,70 +309,73 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         raceType: RaceType,
         date: Date,
     ): Promise<OldPlaceEntity[]> {
-        // レース情報を取得
-        const htmlText: string = await this.placeDataHtmlGateway.fetch(
-            raceType,
-            date,
-        );
+        // scraping API 経由で NAR の開催情報を取得する実装
+        const startDate = new Date(date.getFullYear(), date.getMonth(), 1);
+        const finishDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        const formatYMD = (d: Date): string => {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        };
 
-        const $ = cheerio.load(htmlText);
-        // <div class="chartWrapprer">を取得
-        const chartWrapprer = $('.chartWrapprer');
-        // <div class="chartWrapprer">内のテーブルを取得
-        const table = chartWrapprer.find('table');
-        // その中のtbodyを取得
-        const tbody = table.find('tbody');
-        // tbody内のtrたちを取得
-        // 1行目のtrはヘッダーとして取得
-        // 2行目のtrは曜日
-        // ３行目のtr以降はレース情報
-        const trs = tbody.find('tr');
-        const placeDataDict: Record<string, number[]> = {};
+        const startStr = formatYMD(startDate);
+        const finishStr = formatYMD(finishDate);
 
-        trs.each((index: number, element) => {
-            if (index < 2) {
-                return;
+        const baseUrl = OldEnvStore.env.SCRAPING_BASE_URL;
+
+        const url = `${baseUrl}/scraping/place?raceTypeList=NAR&startDate=${startStr}&finishDate=${finishStr}`;
+        console.debug('fetching scraping API', url);
+
+        try {
+            const res = await fetch(url);
+            if (!res.ok) {
+                console.error('scraping API error', res.status, url);
+                return [];
             }
-            const tds = $(element).find('td');
-            const placeData = $(tds[0]).text();
-            tds.each((tdIndex: number, tdElement) => {
-                if (tdIndex === 0) {
-                    if (!(placeData in placeDataDict)) {
-                        placeDataDict[placeData] = [];
+            const body: any = await res.json();
+            const places = body?.places ?? body ?? [];
+
+            const placeEntityList: OldPlaceEntity[] = [];
+            for (const p of places) {
+                try {
+                    const datetimeRaw = (p as any)?.datetime;
+                    if (!datetimeRaw) {
+                        console.warn('place without datetime', p);
+                        continue;
                     }
-                    return;
-                }
-                if (
-                    $(tdElement).text().includes('●') ||
-                    $(tdElement).text().includes('☆') ||
-                    $(tdElement).text().includes('Ｄ')
-                ) {
-                    placeDataDict[placeData].push(tdIndex);
-                }
-            });
-        });
 
-        const placeDataList: OldPlaceEntity[] = [];
-        for (const [place, raceDays] of Object.entries(placeDataDict)) {
-            for (const raceDay of raceDays) {
-                placeDataList.push(
-                    OldPlaceEntity.createWithoutId(
-                        PlaceData.create(
-                            raceType,
-                            new Date(
-                                date.getFullYear(),
-                                date.getMonth(),
-                                raceDay,
-                            ),
-                            place,
+                    // 日付は YYYY-MM-DD の部分のみを使ってローカル日付にする
+                    const datePart = datetimeRaw.split('T')[0];
+                    const y = Number(datePart.slice(0, 4));
+                    const m = Number(datePart.slice(5, 7));
+                    const d = Number(datePart.slice(8, 10));
+                    const placeDate = new Date(y, m - 1, d);
+
+                    const placeName: string = (p?.placeName ?? '').trim();
+                    if (!placeName) {
+                        console.warn('place without name', p);
+                        continue;
+                    }
+
+                    // PlaceData.create がバリデーションを行うので例外を捕まえてスキップ
+                    const pd = PlaceData.create(raceType, placeDate, placeName);
+                    placeEntityList.push(
+                        OldPlaceEntity.createWithoutId(
+                            pd,
+                            undefined,
+                            undefined,
                         ),
-                        undefined, // heldDayData は地方競馬では不要
-                        undefined, // grade は地方競馬では不要
-                    ),
-                );
+                    );
+                } catch (error) {
+                    console.error('failed to map scraping place', p, error);
+                }
             }
+            return placeEntityList;
+        } catch (error) {
+            console.error('failed to fetch scraping API', error);
+            return [];
         }
-        return placeDataList;
     }
 
     /**
