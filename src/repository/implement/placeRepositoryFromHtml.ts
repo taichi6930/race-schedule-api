@@ -8,12 +8,8 @@ import { inject, injectable } from 'tsyringe';
 /* eslint-disable @typescript-eslint/prefer-destructuring */
 import { IPlaceDataHtmlGateway } from '../../../packages/scraping/src/gateway/interface/iPlaceDataHtmlGateway';
 import { RaceType } from '../../../packages/shared/src/types/raceType';
-import { GradeType } from '../../../packages/shared/src/utilities/gradeType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
-import {
-    RaceCourse,
-    validateRaceCourse,
-} from '../../../packages/shared/src/utilities/raceCourse';
+import { RaceCourse } from '../../../packages/shared/src/utilities/raceCourse';
 import { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import { HeldDayData } from '../../domain/heldDayData';
 import { PlaceData } from '../../domain/placeData';
@@ -309,7 +305,24 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         raceType: RaceType,
         date: Date,
     ): Promise<OldPlaceEntity[]> {
-        // scraping API 経由で NAR の開催情報を取得する実装
+        return this.fetchMonthPlaceEntityListFromScrapingApi(
+            raceType,
+            date,
+            false,
+        );
+    }
+
+    /**
+     * scraping APIからplaceデータを取得しOldPlaceEntity[]に変換（NAR/KEIRIN/AUTORACE共通）
+     * @param raceType - レース種別
+     * @param date - 取得対象の月
+     * @param useGrade - placeGradeをgradeにセットするか
+     */
+    private async fetchMonthPlaceEntityListFromScrapingApi(
+        raceType: RaceType,
+        date: Date,
+        useGrade = false,
+    ): Promise<OldPlaceEntity[]> {
         const startDate = new Date(date.getFullYear(), date.getMonth(), 1);
         const finishDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
         const formatYMD = (d: Date): string => {
@@ -323,8 +336,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         const finishStr = formatYMD(finishDate);
 
         const baseUrl = OldEnvStore.env.SCRAPING_BASE_URL;
-
-        const url = `${baseUrl}/scraping/place?raceTypeList=NAR&startDate=${startStr}&finishDate=${finishStr}`;
+        const url = `${baseUrl}/scraping/place?raceTypeList=${raceType}&startDate=${startStr}&finishDate=${finishStr}`;
         console.debug('fetching scraping API', url);
 
         try {
@@ -344,8 +356,6 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                         console.warn('place without datetime', p);
                         continue;
                     }
-
-                    // 日付は YYYY-MM-DD の部分のみを使ってローカル日付にする
                     const datePart = datetimeRaw.split('T')[0];
                     const y = Number(datePart.slice(0, 4));
                     const m = Number(datePart.slice(5, 7));
@@ -358,22 +368,25 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                         continue;
                     }
 
-                    // PlaceData.create がバリデーションを行うので例外を捕まえてスキップ
                     const pd = PlaceData.create(raceType, placeDate, placeName);
                     placeEntityList.push(
                         OldPlaceEntity.createWithoutId(
                             pd,
                             undefined,
-                            undefined,
+                            useGrade ? p?.placeGrade : undefined,
                         ),
                     );
                 } catch (error) {
-                    console.error('failed to map scraping place', p, error);
+                    console.error(
+                        `failed to map scraping place (${raceType})`,
+                        p,
+                        error,
+                    );
                 }
             }
             return placeEntityList;
         } catch (error) {
-            console.error('failed to fetch scraping API', error);
+            console.error(`failed to fetch scraping API (${raceType})`, error);
             return [];
         }
     }
@@ -412,80 +425,11 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         raceType: RaceType,
         date: Date,
     ): Promise<OldPlaceEntity[]> {
-        const placeEntityList: OldPlaceEntity[] = [];
-        // レース情報を取得
-        const htmlText: string = await this.placeDataHtmlGateway.fetch(
+        return this.fetchMonthPlaceEntityListFromScrapingApi(
             raceType,
             date,
+            true,
         );
-
-        const $ = cheerio.load(htmlText);
-
-        const chartWrapper = $('#content');
-
-        // tableタグが複数あるので、全て取得
-        const tables = chartWrapper.find('table');
-
-        tables.each((_: number, element) => {
-            // その中のtbodyを取得
-            const tbody = $(element).find('tbody');
-            // tr class="ref_sche"を取得
-            const trs = tbody.find('tr');
-            trs.each((__: number, trElement) => {
-                try {
-                    // thを取得
-                    const th = $(trElement).find('th');
-
-                    const rowPlace = th.text().replace(' ', '');
-                    // thのテキストが RaceCourseに含まれているか
-                    if (!rowPlace) {
-                        return;
-                    }
-                    // rowPlaceが10文字以上にはならないので、SKIP
-                    if (rowPlace.length > 10) {
-                        return;
-                    }
-
-                    const place: RaceCourse = validateRaceCourse(
-                        raceType,
-                        th.text(),
-                    );
-
-                    const tds = $(trElement).find('td');
-                    tds.each((index: number, tdElement) => {
-                        const imgs = $(tdElement).find('img');
-                        let grade: GradeType | undefined;
-                        imgs.each((___, img) => {
-                            const alt = $(img).attr('alt');
-                            if (alt !== undefined && alt.trim() !== '') {
-                                grade = alt
-                                    .replace('1', 'Ⅰ')
-                                    .replace('2', 'Ⅱ')
-                                    .replace('3', 'Ⅲ');
-                            }
-                        });
-                        const datetime = new Date(
-                            date.getFullYear(),
-                            date.getMonth(),
-                            index + 1,
-                        );
-                        // alt属性を出力
-                        if (grade) {
-                            placeEntityList.push(
-                                OldPlaceEntity.createWithoutId(
-                                    PlaceData.create(raceType, datetime, place),
-                                    undefined,
-                                    grade,
-                                ),
-                            );
-                        }
-                    });
-                } catch (error) {
-                    console.error(error);
-                }
-            });
-        });
-        return placeEntityList;
     }
 
     /**
@@ -498,82 +442,11 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         raceType: RaceType,
         date: Date,
     ): Promise<OldPlaceEntity[]> {
-        const placeEntityList: OldPlaceEntity[] = [];
-        // レース情報を取得
-        const htmlText: string = await this.placeDataHtmlGateway.fetch(
+        return this.fetchMonthPlaceEntityListFromScrapingApi(
             raceType,
             date,
+            true,
         );
-
-        const $ = cheerio.load(htmlText);
-
-        const chartWrapprer = $('#content');
-
-        // tableタグが複数あるので、全て取得
-        const tables = chartWrapprer.find('table');
-
-        tables.each((_: number, element) => {
-            // その中のtbodyを取得
-            const tbody = $(element).find('tbody');
-            // tr class="ref_sche"を取得
-            tbody.find('tr').each((__: number, trElement) => {
-                // thを取得
-                const th = $(trElement).find('th');
-
-                // thのテキストが RaceCourseに含まれているか
-                if (!th.text()) {
-                    return;
-                }
-
-                // 川口２を川口に変換して、placeに代入
-                // TODO: どこかのタイミングで処理をリファクタリングする
-                const place: RaceCourse = th.text().replace('２', '');
-
-                const tds = $(trElement).find('td');
-                tds.each((index: number, tdElement) => {
-                    const div = $(tdElement).find('div');
-                    let grade: GradeType | undefined;
-                    // divのclassを取得
-                    switch (div.attr('class')) {
-                        case 'ico-kaisai': {
-                            grade = '開催';
-                            break;
-                        }
-                        case 'ico-sg': {
-                            grade = 'SG';
-                            break;
-                        }
-                        case 'ico-g1': {
-                            grade = 'GⅠ';
-                            break;
-                        }
-                        case 'ico-g2': {
-                            grade = 'GⅡ';
-                            break;
-                        }
-                        case undefined: {
-                            break;
-                        }
-                    }
-                    const datetime = new Date(
-                        date.getFullYear(),
-                        date.getMonth(),
-                        index + 1,
-                    );
-                    // alt属性を出力
-                    if (grade) {
-                        placeEntityList.push(
-                            OldPlaceEntity.createWithoutId(
-                                PlaceData.create(raceType, datetime, place),
-                                undefined,
-                                grade,
-                            ),
-                        );
-                    }
-                });
-            });
-        });
-        return placeEntityList;
     }
 
     /**
