@@ -352,12 +352,12 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         const startDate = new Date(
             _startDate.getFullYear(),
             _startDate.getMonth(),
-            1,
+            _startDate.getDate(),
         );
         const finishDate = new Date(
             _finishDate.getFullYear(),
             _finishDate.getMonth(),
-            1,
+            _finishDate.getDate(),
         );
         const formatYMD = (d: Date): string => {
             const y = d.getFullYear();
@@ -371,7 +371,7 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
 
         const baseUrl = OldEnvStore.env.SCRAPING_BASE_URL;
         const url = `${baseUrl}/scraping/place?raceTypeList=${raceType}&startDate=${startStr}&finishDate=${finishStr}`;
-        console.debug('fetching scraping API', url);
+        console.log('fetching scraping API', url);
 
         try {
             const res = await fetch(url);
