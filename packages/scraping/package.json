@@ -20,7 +20,7 @@
     },
     "devDependencies": {
         "@types/node": "^25.1.0",
-        "@vitest/ui": "^3.0.0",
+        "@vitest/ui": "^4.0.18",
         "typescript": "~5.9.3",
         "vite-tsconfig-paths": "^5.1.4",
         "vitest": "^3.0.0"
