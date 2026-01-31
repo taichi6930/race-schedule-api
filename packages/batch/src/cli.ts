@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable unicorn/prefer-top-level-await */
 /**
  * Batch CLI Entry Point
  * スクレイピングAPIからデータを取得し、メインAPIに流し込むバッチ処理のCLI
@@ -9,55 +10,54 @@
  *   npx tsx src/cli.ts JRA 2026-01-01 2026-01-31 all
  */
 
-// --- Cloud/SSM優先の環境変数ロード ---
-import { GetParametersCommand, SSMClient } from '@aws-sdk/client-ssm';
+// --- Cloud優先の環境変数ロード（簡易: 環境変数プレフィックスを参照） ---
 import * as dotenv from 'dotenv';
 
 /**
- * SSMから環境変数を取得しprocess.envにセットする
+ * 簡易的に Cloudflare 等の外部ストアを参照する代わりに
+ * 実行時に渡されたプレフィックス付きの環境変数を読み取る。
+ * 例: prefix='CF_' の場合、`CF_SCRAPING_API_URL` を探す。
  * @param keys 取得したいパラメータ名配列
- * @param prefix SSMのパスprefix（例: /myapp/dev/）
+ * @param prefix 環境変数プレフィックス（例: CF_）
  */
-async function loadEnvFromSSM(keys: string[], prefix = ''): Promise<void> {
+async function loadEnvFromCloudPrefix(
+    keys: string[],
+    prefix = '',
+): Promise<void> {
     try {
-        const ssm = new SSMClient({});
-        const names = keys.map((k) => (prefix ? `${prefix}${k}` : k));
-        const cmd = new GetParametersCommand({
-            Names: names,
-            WithDecryption: true,
-        });
-        const res = await ssm.send(cmd);
-        if (res.Parameters) {
-            for (const p of res.Parameters) {
-                if (p.Name && p.Value) {
-                    // SSMのパスprefixを除去して環境変数名に
-                    const key = prefix ? p.Name.replace(prefix, '') : p.Name;
-                    process.env[key] ??= p.Value;
-                }
+        for (const k of keys) {
+            const prefixed = prefix ? `${prefix}${k}` : k;
+            const value = process.env[prefixed] ?? process.env[k];
+            if (value) {
+                process.env[k] ??= value;
             }
         }
     } catch (error) {
-        console.warn('SSMからの環境変数取得に失敗:', error);
+        console.warn('環境変数プレフィックスからの取得に失敗:', error);
     }
 }
 
-// ここで必要な環境変数名を列挙
-const keys = ['SCRAPING_API_URL', 'MAIN_API_URL'];
-// prefixは必要に応じて変更（例: /race-schedule/dev/）
-const ssmPrefix = process.env.SSM_PREFIX ?? '';
-await loadEnvFromSSM(keys, ssmPrefix);
+// bootstrap で初期化とメイン実行を行う（トップレベル await を避ける）
+async function bootstrap(): Promise<void> {
+    // ここで必要な環境変数名を列挙
+    const keys = ['SCRAPING_API_URL', 'MAIN_API_URL'];
+    // prefixは必要に応じて変更（例: CF_）
+    const cfPrefix = process.env.CF_PREFIX ?? process.env.SSM_PREFIX ?? '';
+    await loadEnvFromCloudPrefix(keys, cfPrefix);
 
-// dotenvはSSMで取得できなかったものだけ上書き
-const envFile = process.env.BATCH_USE_TEST === 'true' ? '.env.test' : '.env';
-dotenv.config({ path: envFile });
+    // dotenvはプレフィックスで取得できなかったものだけ上書き
+    const envFile =
+        process.env.BATCH_USE_TEST === 'true' ? '.env.test' : '.env';
+    dotenv.config({ path: envFile });
 
-// TEST_* 環境変数があれば SCRAPING_API_URL / MAIN_API_URL にマップ
-if (process.env.BATCH_USE_TEST === 'true') {
-    if (process.env.TEST_SCRAPING_API_URL) {
-        process.env.SCRAPING_API_URL = process.env.TEST_SCRAPING_API_URL;
-    }
-    if (process.env.TEST_MAIN_API_URL) {
-        process.env.MAIN_API_URL = process.env.TEST_MAIN_API_URL;
+    // TEST_* 環境変数があれば SCRAPING_API_URL / MAIN_API_URL にマップ
+    if (process.env.BATCH_USE_TEST === 'true') {
+        if (process.env.TEST_SCRAPING_API_URL) {
+            process.env.SCRAPING_API_URL = process.env.TEST_SCRAPING_API_URL;
+        }
+        if (process.env.TEST_MAIN_API_URL) {
+            process.env.MAIN_API_URL = process.env.TEST_MAIN_API_URL;
+        }
     }
 }
 
@@ -166,11 +166,11 @@ const main = async (): Promise<void> => {
     }
 };
 
-// メイン関数実行（top-level await を使用してエラー処理）
-try {
-    await main();
-} catch (error: unknown) {
-    console.error('Batch processing failed:', error);
+// bootstrap 実行後に main を実行（トップレベル await を避ける）
 
-    process.exit(1);
-}
+bootstrap()
+    .then(async () => main())
+    .catch((error: unknown) => {
+        console.error('Batch processing failed:', error);
+        process.exit(1);
+    });
