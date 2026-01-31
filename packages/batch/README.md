@@ -11,7 +11,6 @@
 - Node.js (このリポジトリはワークスペース管理されています)
 - ルートワークスペースの依存関係がインストール済みであること
 
-
 ## 環境設定（Cloud優先）
 
 このバッチは「CloudflareやAWS SSM（Parameter Store）などクラウド上の環境変数」を最優先で利用します。
@@ -19,16 +18,23 @@
 ### 優先順位
 
 1. **AWS SSM Parameter Store**
-  - `SCRAPING_API_URL` `MAIN_API_URL` などを SSM から取得し、process.env にセットします。
-  - SSMのパスprefixは `SSM_PREFIX` 環境変数で指定できます（例: `/race-schedule/dev/`）。
-  - 例: SSMに `/race-schedule/dev/SCRAPING_API_URL` というパラメータがあれば自動で取得します。
+
+- `SCRAPING_API_URL` `MAIN_API_URL` などを SSM から取得し、process.env にセットします。
+- SSMのパスprefixは `SSM_PREFIX` 環境変数で指定できます（例: `/race-schedule/dev/`）。
+- 例: SSMに `/race-schedule/dev/SCRAPING_API_URL` というパラメータがあれば自動で取得します。
+
 2. **OS環境変数**
-  - コマンド実行時に `SCRAPING_API_URL=... npx tsx ...` のように明示的に指定した場合、それが最優先されます。
+
+- コマンド実行時に `SCRAPING_API_URL=... npx tsx ...` のように明示的に指定した場合、それが最優先されます。
+
 3. **dotenvファイル**
-  - SSMやOS環境変数で取得できなかったものだけ `.env` または `.env.test` から読み込みます。
-  - `BATCH_USE_TEST=true` の場合は `.env.test` を、それ以外は `.env` を読み込みます。
-4. **TEST_* 変数**
-  - `BATCH_USE_TEST=true` の場合、`TEST_SCRAPING_API_URL` / `TEST_MAIN_API_URL` で上書きできます。
+
+- SSMやOS環境変数で取得できなかったものだけ `.env` または `.env.test` から読み込みます。
+- `BATCH_USE_TEST=true` の場合は `.env.test` を、それ以外は `.env` を読み込みます。
+
+4. **TEST\_\* 変数**
+
+- `BATCH_USE_TEST=true` の場合、`TEST_SCRAPING_API_URL` / `TEST_MAIN_API_URL` で上書きできます。
 
 ### SSM利用例
 
