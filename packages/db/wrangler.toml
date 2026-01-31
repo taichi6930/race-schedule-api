@@ -12,6 +12,15 @@ database_name = "race-schedule-db"
 database_id = "preview"
 migrations_dir = "./migrations"
 
+[env.development]
+name = "race-schedule-db-dev"
+
+[[env.development.d1_databases]]
+binding = "DB"
+database_name = "race-schedule-db-dev"
+database_id = "development"
+migrations_dir = "./migrations"
+
 [env.production]
 name = "race-schedule-db-prod"
 

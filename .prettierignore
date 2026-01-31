@@ -1,3 +1,6 @@
+# Claude Code設定ディレクトリを除外
+.claude/
+
 # YAMLファイルをすべて除外
 *.yaml
 *.yml
