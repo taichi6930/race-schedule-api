@@ -77,48 +77,66 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
                 return searchRaceFilter.gradeList.includes(placeEntity.grade);
             });
         for (const placeEntity of filteredPlaceEntityList) {
-            switch (placeEntity.placeData.raceType) {
-                case RaceType.JRA: {
-                    const entityList =
-                        await this.fetchRaceListFromHtmlForJra(placeEntity);
-                    raceEntityList.push(...entityList);
-                    break;
+            // スクレイピングAPIを利用する種別は共通処理へ委譲
+            if (this.useScrapingApiForRace(placeEntity.placeData.raceType)) {
+                let entityList = await this.fetchRaceListFromScrapingApi(
+                    placeEntity.placeData.raceType,
+                    placeEntity.placeData.dateTime,
+                    placeEntity.placeData.dateTime,
+                    placeEntity.placeData.location,
+                    placeEntity,
+                );
+                // スクレイピングAPIが空の場合は既存のHTMLパースにフォールバック
+                if (entityList.length === 0) {
+                    switch (placeEntity.placeData.raceType) {
+                        case RaceType.NAR: {
+                            entityList =
+                                await this.fetchRaceListFromHtmlForNar(
+                                    placeEntity,
+                                );
+                            break;
+                        }
+                        case RaceType.KEIRIN: {
+                            entityList =
+                                await this.fetchRaceListFromHtmlForKeirin(
+                                    placeEntity,
+                                );
+                            break;
+                        }
+                        case RaceType.AUTORACE: {
+                            entityList =
+                                await this.fetchRaceListFromHtmlForAutorace(
+                                    placeEntity,
+                                );
+                            break;
+                        }
+                    }
                 }
-                case RaceType.NAR: {
-                    const entityList =
-                        await this.fetchRaceListFromHtmlForNar(placeEntity);
-                    raceEntityList.push(...entityList);
-                    break;
-                }
-                case RaceType.OVERSEAS: {
-                    const entityList =
-                        await this.fetchRaceListFromHtmlForOverseas(
-                            placeEntity,
-                        );
-                    raceEntityList.push(...entityList);
-                    break;
-                }
-                case RaceType.KEIRIN: {
-                    const entityList =
-                        await this.fetchRaceListFromHtmlForKeirin(placeEntity);
-                    raceEntityList.push(...entityList);
-                    break;
-                }
-                case RaceType.AUTORACE: {
-                    const entityList =
-                        await this.fetchRaceListFromHtmlForAutorace(
-                            placeEntity,
-                        );
-                    raceEntityList.push(...entityList);
-                    break;
-                }
-                case RaceType.BOATRACE: {
-                    const entityList =
-                        await this.fetchRaceListFromHtmlForBoatrace(
-                            placeEntity,
-                        );
-                    raceEntityList.push(...entityList);
-                    break;
+                raceEntityList.push(...entityList);
+            } else {
+                switch (placeEntity.placeData.raceType) {
+                    case RaceType.JRA: {
+                        const entityList =
+                            await this.fetchRaceListFromHtmlForJra(placeEntity);
+                        raceEntityList.push(...entityList);
+                        break;
+                    }
+                    case RaceType.OVERSEAS: {
+                        const entityList =
+                            await this.fetchRaceListFromHtmlForOverseas(
+                                placeEntity,
+                            );
+                        raceEntityList.push(...entityList);
+                        break;
+                    }
+                    case RaceType.BOATRACE: {
+                        const entityList =
+                            await this.fetchRaceListFromHtmlForBoatrace(
+                                placeEntity,
+                            );
+                        raceEntityList.push(...entityList);
+                        break;
+                    }
                 }
             }
             // HTML_FETCH_DELAY_MSの環境変数から遅延時間を取得
@@ -131,6 +149,185 @@ export class RaceRepositoryFromHtml implements IRaceRepository {
             console.log('raceEntityList:', raceEntityList.length);
         }
         return raceEntityList;
+    }
+
+    /**
+     * スクレイピングAPIを利用するレースタイプかどうか
+     */
+    private useScrapingApiForRace(raceType: RaceType): boolean {
+        switch (raceType) {
+            case RaceType.NAR:
+            case RaceType.KEIRIN:
+            case RaceType.AUTORACE: {
+                return true;
+            }
+            default: {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * Date -> YYYY-MM-DD
+     */
+    private formatYMD(d: Date): string {
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
+    }
+
+    /**
+     * scraping APIからraceデータを取得してRaceEntity[]へ変換
+     */
+    private async fetchRaceListFromScrapingApi(
+        raceType: RaceType,
+        _startDate: Date,
+        _finishDate: Date,
+        location?: string,
+        placeEntity?: OldPlaceEntity,
+    ): Promise<RaceEntity[]> {
+        const startDate = new Date(
+            _startDate.getFullYear(),
+            _startDate.getMonth(),
+            _startDate.getDate(),
+        );
+        const finishDate = new Date(
+            _finishDate.getFullYear(),
+            _finishDate.getMonth(),
+            _finishDate.getDate(),
+        );
+        const startStr = this.formatYMD(startDate);
+        const finishStr = this.formatYMD(finishDate);
+
+        const baseUrl = OldEnvStore.env.SCRAPING_BASE_URL;
+        let path = `/scraping/race?raceTypeList=${raceType}&startDate=${startStr}&finishDate=${finishStr}`;
+        if (location) {
+            path += `&locationList=${encodeURIComponent(location)}`;
+        }
+        const resolvedUrlForLog = `${baseUrl}${path}`;
+        console.debug('fetching scraping API', resolvedUrlForLog);
+
+        const performScraperFetch = async (p: string): Promise<Response> => {
+            const envAny = OldEnvStore.env as any;
+            const fullUrl = `${baseUrl}${p}`;
+            if (envAny?.SCRAPER && typeof envAny.SCRAPER.fetch === 'function') {
+                const internalUrl = `https://internal${p}`;
+                return envAny.SCRAPER.fetch(internalUrl);
+            }
+            return fetch(fullUrl);
+        };
+
+        try {
+            const res = await performScraperFetch(path);
+            if (!res.ok) {
+                let errBody: string | undefined = undefined;
+                try {
+                    errBody = await res.text();
+                } catch {
+                    errBody = '<failed to read body>';
+                }
+                console.error(
+                    'scraping API error',
+                    res.status,
+                    res.statusText,
+                    resolvedUrlForLog,
+                    errBody,
+                );
+                return [];
+            }
+            const body: any = await res.json();
+            const raceListFromScraping = body?.races ?? body ?? [];
+
+            const raceEntityList: RaceEntity[] = [];
+            for (const raceFromScraping of raceListFromScraping) {
+                const ent = this.mapScrapingRace(placeEntity, raceFromScraping);
+                if (ent) raceEntityList.push(ent);
+            }
+            return raceEntityList;
+        } catch (error) {
+            console.error(`failed to fetch scraping API (${raceType})`, error);
+            return [];
+        }
+    }
+
+    private mapScrapingRace(
+        placeEntity: OldPlaceEntity | undefined,
+        raceFromScraping: any,
+    ): RaceEntity | null {
+        try {
+            const datetimeRaw =
+                raceFromScraping?.datetime ??
+                raceFromScraping?.dateTime ??
+                raceFromScraping?.race?.datetime ??
+                raceFromScraping?.raceDate;
+            if (!datetimeRaw) return null;
+            const raceDate = new Date(datetimeRaw);
+            let raceType: RaceType | undefined =
+                placeEntity?.placeData.raceType;
+            if (raceFromScraping?.raceType) {
+                raceType = raceFromScraping.raceType as RaceType;
+            }
+            if (!raceType) return null;
+
+            const raceName: string =
+                raceFromScraping?.raceName ?? raceFromScraping?.name ?? '';
+            if (!raceName) return null;
+            const location: string =
+                raceFromScraping?.location ??
+                placeEntity?.placeData.location ??
+                '';
+            if (!location) return null;
+
+            const raceNumber = Number(
+                raceFromScraping?.raceNumber ??
+                    raceFromScraping?.raceNumberRaw ??
+                    0,
+            );
+
+            const gradeValue = raceFromScraping?.grade
+                ? String(raceFromScraping.grade)
+                : '格付けなし';
+
+            const rawDistance = raceFromScraping?.distance;
+            const distance = validateRaceDistance(Number(rawDistance ?? -1));
+
+            const surfaceType = raceFromScraping?.surfaceType
+                ? (raceFromScraping.surfaceType as RaceSurfaceType)
+                : raceFromScraping?.surface
+                  ? (raceFromScraping.surface as RaceSurfaceType)
+                  : '不明';
+
+            const raceData = RaceData.create(
+                raceType,
+                raceName,
+                raceDate,
+                location,
+                validateGradeType(raceType, gradeValue),
+                raceNumber,
+            );
+
+            const condition = Number.isNaN(distance)
+                ? undefined
+                : HorseRaceConditionData.create(surfaceType, distance);
+
+            const stage = raceFromScraping?.stage as RaceStage | undefined;
+
+            return RaceEntity.createWithoutId(
+                raceData,
+                placeEntity?.heldDayData,
+                condition,
+                stage,
+                undefined,
+            );
+        } catch (error) {
+            console.error(
+                'failed to map scraping race',
+                raceFromScraping,
+                error,
+            );
+            return null;
+        }
     }
 
     @Logger
