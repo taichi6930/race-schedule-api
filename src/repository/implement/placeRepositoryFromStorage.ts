@@ -74,6 +74,37 @@ export class PlaceRepositoryFromStorage implements IPlaceRepository {
         return results
             .map((row: any): OldPlaceEntity | undefined => {
                 try {
+                    // Skip mechanical races (KEIRIN/AUTORACE/BOATRACE) without grade
+                    const isMechanical = isIncludedRaceType(
+                        row.race_type,
+                        RACE_TYPE_LIST_MECHANICAL_RACING,
+                    );
+                    if (
+                        isMechanical &&
+                        (row.grade === null || row.grade === undefined)
+                    ) {
+                        console.debug(
+                            'skipping mechanical place without grade',
+                            row.id,
+                        );
+                        return undefined;
+                    }
+
+                    // Skip JRA rows without held day data
+                    const isJra = isIncludedRaceType(row.race_type, [
+                        RaceType.JRA,
+                    ]);
+                    if (
+                        isJra &&
+                        (row.held_times === null || row.held_day_times === null)
+                    ) {
+                        console.debug(
+                            'skipping JRA place without held day data',
+                            row.id,
+                        );
+                        return undefined;
+                    }
+
                     const dateJST = new Date(new Date(row.date_time));
                     const heldDayData =
                         row.held_times !== null && row.held_day_times !== null

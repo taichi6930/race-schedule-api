@@ -1,0 +1,49 @@
+name = "my-d1-project"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "my-database"
+database_id = "${DB_ID}"
+
+# D1データベースバインディング
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "my-database"
+database_id = "${DB_ID}"
+
+[env.production.vars]
+SCRAPING_BASE_URL = "${SCRAPING_BASE_URL}"
+ENV = "${ENV}"
+JRA_CALENDAR_ID = "${JRA_CALENDAR_ID}"
+NAR_CALENDAR_ID = "${NAR_CALENDAR_ID}"
+WORLD_CALENDAR_ID = "${WORLD_CALENDAR_ID}"
+KEIRIN_CALENDAR_ID = "${KEIRIN_CALENDAR_ID}"
+AUTORACE_CALENDAR_ID = "${AUTORACE_CALENDAR_ID}"
+BOATRACE_CALENDAR_ID = "${BOATRACE_CALENDAR_ID}"
+TEST_CALENDAR_ID = "${TEST_CALENDAR_ID}"
+GOOGLE_CLIENT_EMAIL = "${GOOGLE_CLIENT_EMAIL}"
+GOOGLE_PRIVATE_KEY = "${GOOGLE_PRIVATE_KEY}"
+IS_HTML_FETCH_ENABLED = "${IS_HTML_FETCH_ENABLED}"
+HTML_FETCH_DELAY_MS = "${HTML_FETCH_DELAY_MS}"
+
+[[env.production.services]]
+binding = "SCRAPER"
+service = "${SCRAPER_SERVICE_NAME}"
+
+[env.development]
+
+[[env.development.d1_databases]]
+binding = "DB"
+database_name = "my-database"
+database_id = "${DB_ID}"
+
+[env.test]
+
+[[env.test.d1_databases]]
+binding = "DB"
+database_name = "my-database"
+database_id = "${DB_ID}"

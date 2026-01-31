@@ -7,6 +7,7 @@ import { injectable } from 'tsyringe';
 
 /* eslint-disable @typescript-eslint/prefer-destructuring */
 import { RaceType } from '../../../packages/shared/src/types/raceType';
+import { validateGradeType } from '../../../packages/shared/src/utilities/gradeType';
 import { Logger } from '../../../packages/shared/src/utilities/logger';
 import { UpsertResult } from '../../../packages/shared/src/utilities/upsertResult';
 import { HeldDayData } from '../../domain/heldDayData';
@@ -272,10 +273,33 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
             }
 
             const placeData = PlaceData.create(raceType, placeDate, placeName);
+            let gradeValue: any = undefined;
+            if (useGrade) {
+                const rawGrade =
+                    placeFromScraping?.placeGrade ??
+                    placeFromScraping?.placeData?.placeGrade ??
+                    undefined;
+                if (rawGrade) {
+                    try {
+                        gradeValue = validateGradeType(
+                            raceType,
+                            String(rawGrade),
+                        );
+                    } catch (error) {
+                        console.warn(
+                            'invalid grade from scraping',
+                            rawGrade,
+                            error,
+                        );
+                        gradeValue = undefined;
+                    }
+                }
+            }
+
             return OldPlaceEntity.createWithoutId(
                 placeData,
                 heldDayDataArg,
-                useGrade ? placeFromScraping?.placeGrade : undefined,
+                gradeValue,
             );
         } catch (error) {
             console.error(
@@ -306,7 +330,19 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         try {
             const res = await fetch(url);
             if (!res.ok) {
-                console.error('scraping API error', res.status, url);
+                let errBody: string | undefined = undefined;
+                try {
+                    errBody = await res.text();
+                } catch {
+                    errBody = '<failed to read body>';
+                }
+                console.error(
+                    'scraping API error',
+                    res.status,
+                    res.statusText,
+                    url,
+                    errBody,
+                );
                 return [];
             }
             const body: any = await res.json();
@@ -456,13 +492,37 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         const finishStr = this.formatYMD(finishDate);
 
         const baseUrl = OldEnvStore.env.SCRAPING_BASE_URL;
-        const url = `${baseUrl}/scraping/place?raceTypeList=${raceType}&startDate=${startStr}&finishDate=${finishStr}`;
-        console.debug('fetching scraping API', url);
+        const path = `/scraping/place?raceTypeList=${raceType}&startDate=${startStr}&finishDate=${finishStr}`;
+        const resolvedUrlForLog = `${baseUrl}${path}`;
+        console.debug('fetching scraping API', resolvedUrlForLog);
+
+        // Prefer service binding (env.SCRAPER.fetch) when available to avoid Cloudflare 1042 restriction
+        const performScraperFetch = async (p: string): Promise<Response> => {
+            const envAny = OldEnvStore.env as any;
+            const fullUrl = `${baseUrl}${p}`;
+            if (envAny?.SCRAPER && typeof envAny.SCRAPER.fetch === 'function') {
+                const internalUrl = `https://internal${p}`;
+                return envAny.SCRAPER.fetch(internalUrl);
+            }
+            return fetch(fullUrl);
+        };
 
         try {
-            const res = await fetch(url);
+            const res = await performScraperFetch(path);
             if (!res.ok) {
-                console.error('scraping API error', res.status, url);
+                let errBody: string | undefined = undefined;
+                try {
+                    errBody = await res.text();
+                } catch {
+                    errBody = '<failed to read body>';
+                }
+                console.error(
+                    'scraping API error',
+                    res.status,
+                    res.statusText,
+                    resolvedUrlForLog,
+                    errBody,
+                );
                 return [];
             }
             const body: any = await res.json();

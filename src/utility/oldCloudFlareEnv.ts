@@ -15,4 +15,8 @@ export interface OldCloudFlareEnv {
     HTML_FETCH_DELAY_MS: string;
     /** スクレイピングサービスのベースURL（環境ごとに切り替えて設定する） */
     SCRAPING_BASE_URL: string;
+    /** サービスバインディングで注入されるスクレイピングWorkerへの参照（wranglerのservicesで設定） */
+    SCRAPER?: {
+        fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+    };
 }
