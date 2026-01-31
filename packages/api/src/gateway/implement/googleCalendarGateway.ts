@@ -27,9 +27,22 @@ export class GoogleCalendarGateway implements IGoogleCalendarGateway {
                 'GOOGLE_PRIVATE_KEY is not set in environment variables',
             );
         }
+        // デバッグ: 置換前の状態を確認
+        console.log(
+            `Raw GOOGLE_PRIVATE_KEY (first 60 chars): ${rawPrivateKey.slice(0, 60)}`,
+        );
+        console.log(
+            String.raw`Raw key contains \n (backslash+n): ${rawPrivateKey.includes(String.raw`\n`)}`,
+        );
+        console.log(
+            `Raw key contains actual newline: ${rawPrivateKey.includes('\n')}`,
+        );
+
         const private_key = rawPrivateKey.replace(/\\n/g, '\n');
         // 最初の50文字をログに出力（デバッグ用）
-        console.log(`Using GOOGLE_PRIVATE_KEY: ${private_key.slice(0, 50)}...`);
+        console.log(
+            `After replace GOOGLE_PRIVATE_KEY: ${private_key.slice(0, 50)}...`,
+        );
         const auth = new google.auth.GoogleAuth({
             credentials: {
                 client_email,
