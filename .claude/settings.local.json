@@ -10,7 +10,10 @@
             "Bash(git push:*)",
             "Bash(git fetch:*)",
             "Bash(git merge:*)",
-            "Bash(printf:*)"
+            "Bash(printf:*)",
+            "Bash(git pull:*)",
+            "Bash(git stash:*)",
+            "Bash(git stash pop:*)"
         ]
     }
 }
