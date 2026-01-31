@@ -13,6 +13,7 @@ import { IGoogleCalendarGateway } from '../interface/iGoogleCalendarGateway';
 export class GoogleCalendarGateway implements IGoogleCalendarGateway {
     private calendar: calendar_v3.Calendar | null = null;
 
+    @Logger
     private ensureInitialized(): void {
         if (this.calendar !== null) {
             return;
