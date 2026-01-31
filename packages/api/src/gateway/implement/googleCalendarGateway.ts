@@ -13,11 +13,13 @@ import { IGoogleCalendarGateway } from '../interface/iGoogleCalendarGateway';
 export class GoogleCalendarGateway implements IGoogleCalendarGateway {
     private calendar: calendar_v3.Calendar | null = null;
 
+    @Logger
     private ensureInitialized(): void {
         if (this.calendar !== null) {
             return;
         }
         const client_email = EnvStore.env.GOOGLE_CLIENT_EMAIL;
+        console.log(`Using GOOGLE_CLIENT_EMAIL: ${client_email}`);
         // Cloudflare環境変数は\nで渡されることが多いので、\n→\n変換
         const rawPrivateKey = EnvStore.env.GOOGLE_PRIVATE_KEY;
         if (!rawPrivateKey) {
@@ -26,6 +28,8 @@ export class GoogleCalendarGateway implements IGoogleCalendarGateway {
             );
         }
         const private_key = rawPrivateKey.replace(/\\n/g, '\n');
+        // 最初の50文字をログに出力（デバッグ用）
+        console.log(`Using GOOGLE_PRIVATE_KEY: ${private_key.slice(0, 50)}...`);
         const auth = new google.auth.GoogleAuth({
             credentials: {
                 client_email,

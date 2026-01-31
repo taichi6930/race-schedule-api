@@ -53,7 +53,8 @@ for SECRET_NAME in "${SECRETS[@]}"; do
     fi
 
     echo "Setting $SECRET_NAME..."
-    echo "$SECRET_VALUE" | wrangler secret put "$SECRET_NAME" --env "$ENV"
+    # printf '%s' を使用して \n などのエスケープシーケンスをそのまま保持
+    printf '%s' "$SECRET_VALUE" | wrangler secret put "$SECRET_NAME" --env "$ENV"
 done
 
 echo ""
