@@ -6,6 +6,7 @@
         "build": "tsc",
         "watch": "tsc -w",
         "dev": "wrangler dev",
+        "deploy:development": "wrangler deploy --env development",
         "deploy:test": "wrangler deploy --env test",
         "deploy:production": "wrangler deploy --env production",
         "test": "vitest run",

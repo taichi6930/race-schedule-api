@@ -23,6 +23,15 @@ database_name = "race-schedule-db-prod"
 database_id = "${CF_D1_PROD_DB_ID}"
 migrations_dir = "../db/migrations"
 
+[env.development]
+name = "race-schedule-dev"
+
+[[env.development.d1_databases]]
+binding = "DB"
+database_name = "race-schedule-db-dev"
+database_id = "${CF_D1_DEV_DB_ID}"
+migrations_dir = "../db/migrations"
+
 [env.test]
 name = "race-schedule-test"
 
