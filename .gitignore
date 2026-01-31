@@ -55,3 +55,6 @@ volume/*
 packages/db/script/*
 packages/db/v3/
 scripts/*.sql
+
+# Ignore generated wrangler config (will be created from wrangler.template.toml)
+wrangler.toml
