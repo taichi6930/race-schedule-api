@@ -1,16 +1,18 @@
 {
     "name": "@race-schedule/batch",
     "version": "0.1.0",
-    "description": "Batch processing scripts",
+    "description": "Batch processing scripts - スクレイピング結果をAPIに流し込むバッチ処理",
+    "main": "dist/index.js",
     "scripts": {
         "build": "tsc",
         "watch": "tsc -w",
         "lint": "eslint './src/**/*.ts'",
-        "lint:fix": "eslint --fix './src/**/*.ts'"
+        "lint:fix": "eslint --fix './src/**/*.ts'",
+        "batch": "tsx src/cli.ts"
     },
     "dependencies": {
-        "@race-schedule/shared": "workspace:*",
         "@race-schedule/db": "workspace:*",
+        "@race-schedule/shared": "workspace:*",
         "better-sqlite3": "12.6.2",
         "dotenv": "^17.2.3",
         "googleapis": "^171.0.0"
@@ -18,6 +20,7 @@
     "devDependencies": {
         "@types/better-sqlite3": "^7.6.11",
         "@types/node": "^25.1.0",
+        "tsx": "^4.7.0",
         "typescript": "~5.9.3"
     }
 }

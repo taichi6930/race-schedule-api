@@ -1,19 +1,24 @@
 {
-    "permissions": {
-        "allow": [
-            "Bash(wrangler secret list:*)",
-            "Bash(wrangler secret put:*)",
-            "Bash(bun run:*)",
-            "Bash(npx prettier:*)",
-            "Bash(git add:*)",
-            "Bash(git commit:*)",
-            "Bash(git push:*)",
-            "Bash(git fetch:*)",
-            "Bash(git merge:*)",
-            "Bash(printf:*)",
-            "Bash(git pull:*)",
-            "Bash(git stash:*)",
-            "Bash(git stash pop:*)"
-        ]
-    }
+  "permissions": {
+    "allow": [
+      "Bash(wrangler secret list:*)",
+      "Bash(wrangler secret put:*)",
+      "Bash(bun run:*)",
+      "Bash(npx prettier:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)",
+      "Bash(printf:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(git stash pop:*)",
+      "Bash(pnpm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(pnpm build:*)",
+      "Bash(npx tsx:*)",
+      "Bash(find:*)"
+    ]
+  }
 }
